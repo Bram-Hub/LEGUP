@@ -114,6 +114,7 @@ public class LegupUI extends JFrame implements WindowListener
 
     public void repaintBoard()
     {
+        boardView.updateBoard(GameBoardFacade.getInstance().getBoard());
         boardView.revalidate();
         boardView.repaint();
     }
@@ -290,10 +291,10 @@ public class LegupUI extends JFrame implements WindowListener
         justificationFrame = new RuleFrame(null);
         ruleBox.add( justificationFrame, BorderLayout.WEST );
 
-        boardView = new SudokuView(new BoardController(), new Dimension(9,9),new Dimension(9,9));
-        boardView.setPreferredSize(new Dimension(600, 400));
-        boardView.updateBoard(GameBoardFacade.getInstance().getPuzzleModule().getCurrentBoard());
-        boardView.setBorder(boardBorder);
+        //boardView = new SudokuView(new BoardController(), new Dimension(9,9),new Dimension(9,9));
+        //boardView.setPreferredSize(new Dimension(600, 400));
+        //boardView.updateBoard(GameBoardFacade.getInstance().getPuzzleModule().getCurrentBoard());
+        //boardView.setBorder(boardBorder);
 
         treePanel = new TreePanel(this);
 
@@ -692,6 +693,8 @@ public class LegupUI extends JFrame implements WindowListener
     {
         this.boardView = boardView;
         this.topHalfPanel.setRightComponent(boardView);
+        topHalfPanel.setVisible(true);
+        //boardView.setSize(new Dimension(100, 100));
         repaintBoard();
     }
 }

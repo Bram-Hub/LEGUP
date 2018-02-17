@@ -11,10 +11,10 @@ public class SudokuView extends GridBoardView
     {
         super(boardController, gridDimension, elementDimension);
     }
-
+    /*
     @Override
     public void draw(Graphics2D graphics2D)
     {
         graphics2D.drawString("Hello", 50, 50);
-    }
+    }*/
 }

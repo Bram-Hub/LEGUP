@@ -28,6 +28,7 @@ public class ZoomablePane extends JComponent
     {
         Graphics2D graphics2D = (Graphics2D)graphics;
         graphics2D.scale(viewer.getScale(), viewer.getScale());
+        graphics2D.drawString("Hello World", 100,100);
         viewer.draw(graphics2D);
     }
 

@@ -1,6 +1,7 @@
 package ui.boardview;
 
 import app.BoardController;
+import model.Puzzle;
 import model.gameboard.Board;
 import ui.DynamicViewer;
 
@@ -36,6 +37,11 @@ public abstract class BoardView extends DynamicViewer
      * @return PuzzleElement at the specified index
      */
     public abstract PuzzleElement getElement(int index);
+
+    public void setPuzzleElements(ArrayList<PuzzleElement> elements)
+    {
+        puzzleElements = elements;
+    }
 
     /**
      * Gets the PuzzleElement from the location specified or
