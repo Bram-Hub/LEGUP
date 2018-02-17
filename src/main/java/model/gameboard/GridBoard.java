@@ -2,7 +2,6 @@ package model.gameboard;
 
 public class GridBoard extends Board
 {
-    private GridCell[][] gridCells;
     private int width;
     private int height;
 
@@ -14,7 +13,6 @@ public class GridBoard extends Board
      */
     public GridBoard(int width, int height)
     {
-        gridCells = new GridCell[width][height];
         this.width = width;
         this.height = height;
     }
@@ -28,7 +26,7 @@ public class GridBoard extends Board
      */
     public GridCell getCell(int x, int y)
     {
-        return gridCells[x][y];
+        return (GridCell)elementData.get(x * width + y);
     }
 
     /**
@@ -40,7 +38,7 @@ public class GridBoard extends Board
      */
     public void setCell(int x, int y, GridCell cell)
     {
-        gridCells[x][y] = cell;
+        elementData.set(x * width + y, cell);
     }
 
     /**

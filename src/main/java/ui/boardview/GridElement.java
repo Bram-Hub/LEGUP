@@ -36,8 +36,8 @@ public class GridElement extends PuzzleElement
     {
         GridCell cell = (GridCell)data;
         graphics2D.setColor(Color.BLACK);
-        graphics2D.drawRect(x, y, size.width, size.height);
-        graphics2D.drawString(cell.getValueString(), x, y);
+        graphics2D.drawRect(x * size.width, y * size.height, size.width, size.height);
+        graphics2D.drawString(String.valueOf(cell.getValueInt()), x * size.width, y * size.height + size.height / 2);
     }
 
 }

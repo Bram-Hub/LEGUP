@@ -8,6 +8,7 @@ import model.gameboard.ElementData;
 import model.gameboard.GridCell;
 import ui.Selection;
 import ui.boardview.BoardView;
+import ui.boardview.GridElement;
 
 import java.awt.*;
 import java.io.FileInputStream;
@@ -27,7 +28,7 @@ public class Sudoku extends Puzzle
         boardView = new SudokuView(new BoardController(),
                 new Dimension(9, 9),
                 new Dimension(30,30));
-
+        initializeBoard();
     }
 
     public BoardView getBoardView()
@@ -43,17 +44,19 @@ public class Sudoku extends Puzzle
     {
         currentBoard = new SudokuBoard();
         ArrayList<ElementData> data = new ArrayList<>();
+        ArrayList<GridElement> cellViews = new ArrayList<>();
         for(int i = 0; i < 81; i++)
         {
-            GridCell cell = new GridCell(0, new Point(i / 9, i % 9))
+            GridCell cell = new GridCell(i, new Point(i / 9, i % 9))
             {
                 @Override
                 public GridCell copy()
                 {
-                    return null;
+                    return this;
                 }
             };
-            cell.setValueInt(4);
+            GridElement cellView = new GridElement(cell);
+            cellViews.add(cellView);
             data.add(cell);
         }
         currentBoard.setElementData(data);

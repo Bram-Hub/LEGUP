@@ -29,6 +29,7 @@ public class GridBoardView extends BoardView
         this.gridDimension = gridDimension;
         this.elementDimension = elementDimension;
         setBackground( new Color(0xE0E0E0) );
+        initSize();
     }
 
     /**
@@ -96,7 +97,7 @@ public class GridBoardView extends BoardView
     private Dimension getProperSize()
     {
         Dimension boardViewSize = new Dimension();
-        boardViewSize.width = gridDimension.width * (elementDimension.width+ 2);
+        boardViewSize.width = gridDimension.width * (elementDimension.width + 2);
         boardViewSize.height = gridDimension.height * (elementDimension.height + 2);
         return boardViewSize;
     }
@@ -127,7 +128,10 @@ public class GridBoardView extends BoardView
         {
             for(int k = 0; k < gridBoard.getHeight(); k++)
             {
-                puzzleElements.add(new GridElement(gridBoard.getCell(i, k)));
+                GridElement element = new GridElement(gridBoard.getCell(i, k));
+                element.cell = gridBoard.getCell(i, k);
+                element.size = elementDimension;
+                puzzleElements.add(element);
             }
         }
         revalidate();

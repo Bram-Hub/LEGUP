@@ -73,6 +73,7 @@ public class GameBoardFacade
     public void setPuzzle(Puzzle puzzle)
     {
         this.puzzle = puzzle;
+        this.board = puzzle.getCurrentBoard();
         this.tree = new Tree(puzzle.getCurrentBoard());
         this.legupUI.setBoardView(((Sudoku)puzzle).getBoardView());
     }

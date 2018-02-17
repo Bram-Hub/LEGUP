@@ -50,11 +50,13 @@ public abstract class DynamicViewer extends JScrollPane
         size = new Dimension();
         zoomSize = new Dimension();
         scale = 1.0;
-
+        setVisible(true);
         // setup viewport
         this.canvas = new ZoomablePane(this);
+        canvas.setVisible(true);
 
         viewport.setView(canvas);
+        viewport.setVisible(true);
 
         // setup zoom levels
         zoomLevels = new TreeSet<>();
@@ -360,5 +362,6 @@ public abstract class DynamicViewer extends JScrollPane
     protected void draw(Graphics2D graphics2D)
     {
         canvas.paint(graphics2D);
+        graphics2D.drawString("Hello World", 100, 100);
     }
 }

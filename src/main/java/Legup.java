@@ -13,5 +13,6 @@ public class Legup
     {
         GameBoardFacade.getInstance();
         GameBoardFacade.getInstance().setPuzzle(new Sudoku());
+        GameBoardFacade.getInstance().getLegupUI().repaintBoard();
     }
 }
