@@ -47,13 +47,6 @@ public abstract class BoardView extends DynamicViewer
     public abstract PuzzleElement getElement(Point point);
 
     /**
-     * Draws the board
-     *
-     * @param graphics2D graphics2D object used to draw
-     */
-    protected abstract void draw(Graphics2D graphics2D);
-
-    /**
      * Board data has changed
      *
      * @param board board to update the BoardView

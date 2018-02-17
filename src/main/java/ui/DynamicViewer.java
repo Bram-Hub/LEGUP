@@ -7,12 +7,10 @@ import java.lang.Double;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 
-import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Graphics;
 import java.awt.LayoutManager;
 import java.awt.Point;
 
@@ -25,35 +23,17 @@ public abstract class DynamicViewer extends JScrollPane
 {
     private final static Logger LOGGER = Logger.getLogger(DynamicViewer.class.getName());
 
-    // customized JComponent provides a scalable canvas for drawing
-    private DynamicViewer outerThis = this;
-    private Dimension size = new Dimension();
-    private Dimension zoomSize = new Dimension();
-    private double levels[] = {0.25, 1.0 / 3.0, 0.50, 2.0 / 3.0, 1.0, 2.0, 3.0, 4.0};
-    private TreeSet<Double> zoomLevels = new TreeSet<>();
-    private double minScale = 0.25;
-    private double maxScale = 4.0;
-    private double scale = 1.0;
+    private static final double minScale = 0.25;
+    private static final double maxScale = 4.0;
+    private static final double levels[] = {0.25, 1.0 / 3.0, 0.50, 2.0 / 3.0, 1.0, 2.0, 3.0, 4.0};
+
+    private Dimension size;
+    private Dimension zoomSize;
+    private TreeSet<Double> zoomLevels;
+    private double scale;
+
     private Controller controller;
-
-    private JComponent canvas = new JComponent()
-    {
-        public void paint(Graphics g)
-        {
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.scale(scale, scale);
-            DynamicViewer.draw(outerThis, g2d);
-        }
-
-        protected void processEvent(AWTEvent e)
-        {
-            // delegate events to the dynamic viewer first
-            outerThis.dispatchEvent(e);
-            // fall back to the normal processing, if the event wasn't processed
-            super.processEvent(e);
-        }
-    };
-
+    private ZoomablePane canvas;
     private ZoomWidget widget;
 
     /**
@@ -64,48 +44,38 @@ public abstract class DynamicViewer extends JScrollPane
      */
     public DynamicViewer(Controller controller)
     {
-        this(false);
-        this.controller = controller;
-        controller.setViewer(this);
-        canvas.addMouseMotionListener(controller);
-        canvas.addMouseListener(controller);
-        viewport.addMouseWheelListener(controller);
-    }
-
-    private DynamicViewer(boolean useWidget)
-    {
         // construct JScrollPane
         super(VERTICAL_SCROLLBAR_ALWAYS, HORIZONTAL_SCROLLBAR_ALWAYS);
 
+        size = new Dimension();
+        zoomSize = new Dimension();
+        scale = 1.0;
+
         // setup viewport
+        this.canvas = new ZoomablePane(this);
+
         viewport.setView(canvas);
 
         // setup zoom levels
+        zoomLevels = new TreeSet<>();
         for(Double level : levels)
         {
             zoomLevels.add(level);
         }
 
         // setup the zoom widget
-        if(useWidget)
-        {
-            widget = new ZoomWidget(this);
-            setCorner(JScrollPane.LOWER_RIGHT_CORNER, widget);
-        }
+        widget = new ZoomWidget(this);
+        setCorner(JScrollPane.LOWER_RIGHT_CORNER, widget);
 
         // setup mouse events
         setWheelScrollingEnabled(false);
-    }
 
-    /**
-     * Draws the viewer object on the screen
-     *
-     * @param dynamicViewer
-     * @param graphics2D
-     */
-    protected static void draw(DynamicViewer dynamicViewer, Graphics2D graphics2D)
-    {
-        dynamicViewer.draw(graphics2D);
+        // setup controllers and listeners
+        this.controller = controller;
+        controller.setViewer(this);
+        canvas.addMouseMotionListener(controller);
+        canvas.addMouseListener(controller);
+        viewport.addMouseWheelListener(controller);
     }
 
     /*** LAYOUT MANAGER ***/
@@ -342,6 +312,16 @@ public abstract class DynamicViewer extends JScrollPane
     }
 
     /**
+     * Gets the scale for the dynamic viewer
+     *
+     * @return scale of the dynamic viewer
+     */
+    public double getScale()
+    {
+        return scale;
+    }
+
+    /**
      * Sets the background of the viewport
      *
      * @param c color of the background
@@ -377,5 +357,8 @@ public abstract class DynamicViewer extends JScrollPane
      *
      * @param graphics2D Graphics2D object used for drawing
      */
-    protected abstract void draw(Graphics2D graphics2D);
+    protected void draw(Graphics2D graphics2D)
+    {
+        canvas.paint(graphics2D);
+    }
 }

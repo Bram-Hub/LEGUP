@@ -1,7 +1,6 @@
 package ui;
 
-import java.awt.BorderLayout;
-import java.awt.FileDialog;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -15,10 +14,14 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
+import app.BoardController;
 import app.GameBoardFacade;
 import model.Puzzle;
 import model.gameboard.Board;
+import puzzles.sudoku.SudokuView;
 import ui.boardview.BoardView;
+import ui.rulesview.RuleFrame;
+import ui.treeview.TreePanel;
 import user.Submission;
 import utility.ProofFilter;
 
@@ -75,6 +78,9 @@ public class LegupUI extends JFrame implements WindowListener
     protected JToolBar toolBar;
 
     protected BoardView boardView;
+    private RuleFrame justificationFrame;
+    private TreePanel treePanel;
+
     protected TitledBorder boardBorder;
     protected JSplitPane topHalfPanel, mainPanel;
 
@@ -89,7 +95,7 @@ public class LegupUI extends JFrame implements WindowListener
 
         setupMenu();
         setupToolBar();
-        pack();
+        setupContent();
 
         setVisible(true);
 
@@ -108,7 +114,8 @@ public class LegupUI extends JFrame implements WindowListener
 
     public void repaintBoard()
     {
-
+        boardView.revalidate();
+        boardView.repaint();
     }
 
     public boolean checkAllowDefault()
@@ -227,7 +234,7 @@ public class LegupUI extends JFrame implements WindowListener
         for(int i = 0; i < ToolbarName.values().length; i++)
         {
             String toolBarName = ToolbarName.values()[i].toString();
-            getToolBarButtons()[i] = new JButton(toolBarName, new ImageIcon("images/" + toolBarName + ".png"));
+            getToolBarButtons()[i] = new JButton(toolBarName, new ImageIcon("images/Legup/" + toolBarName + ".png"));
         }
 
         toolBar = new JToolBar();
@@ -274,7 +281,39 @@ public class LegupUI extends JFrame implements WindowListener
      */
     protected void setupContent()
     {
+        JPanel consoleBox = new JPanel(new BorderLayout());
+        JPanel treeBox = new JPanel(new BorderLayout());
+        JPanel ruleBox = new JPanel(new BorderLayout());
 
+        //console = new Console();
+
+        justificationFrame = new RuleFrame(null);
+        ruleBox.add( justificationFrame, BorderLayout.WEST );
+
+        boardView = new SudokuView(new BoardController(), new Dimension(9,9),new Dimension(9,9));
+        boardView.setPreferredSize(new Dimension(600, 400));
+        boardView.updateBoard(GameBoardFacade.getInstance().getPuzzleModule().getCurrentBoard());
+        boardView.setBorder(boardBorder);
+
+        treePanel = new TreePanel(this);
+
+        JPanel boardPanel = new JPanel(new BorderLayout());
+        topHalfPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, justificationFrame, boardView);
+        mainPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, topHalfPanel, treePanel);
+        topHalfPanel.setPreferredSize(new Dimension(600, 400));
+        mainPanel.setPreferredSize(new Dimension(600, 600));
+        boardPanel.add(mainPanel);
+        boardBorder = BorderFactory.createTitledBorder("Board");
+        boardBorder.setTitleJustification(TitledBorder.CENTER);
+
+        ruleBox.add(boardPanel);
+        treeBox.add(ruleBox);
+        consoleBox.add(treeBox);
+        add(consoleBox);
+
+        mainPanel.setDividerLocation(mainPanel.getMaximumDividerLocation() + 100);
+        pack();
+        invalidate();
     }
 
     /**
@@ -521,7 +560,8 @@ public class LegupUI extends JFrame implements WindowListener
 
     private void repaintAll()
     {
-
+        boardView.repaint();
+        treePanel.repaint();
     }
 
     public void showStatus(String status, boolean error)
@@ -641,5 +681,17 @@ public class LegupUI extends JFrame implements WindowListener
     public void setToolBarButtons(JButton[] toolBarButtons)
     {
         this.toolBarButtons = toolBarButtons;
+    }
+
+    /**
+     * Sets the board view associated with the puzzle
+     *
+     * @param boardView board view
+     */
+    public void setBoardView(BoardView boardView)
+    {
+        this.boardView = boardView;
+        this.topHalfPanel.setRightComponent(boardView);
+        repaintBoard();
     }
 }

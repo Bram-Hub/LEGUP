@@ -6,10 +6,12 @@ import java.awt.*;
 
 public class GridElement extends PuzzleElement
 {
+    protected GridCell cell;
 
     public GridElement(GridCell cell)
     {
         super(cell);
+        this.cell = cell;
     }
 
     /**
@@ -20,7 +22,7 @@ public class GridElement extends PuzzleElement
     @Override
     public void draw(Graphics2D graphics2D)
     {
-
+        draw(graphics2D, cell.getLocation().x, cell.getLocation().y);
     }
 
     /**

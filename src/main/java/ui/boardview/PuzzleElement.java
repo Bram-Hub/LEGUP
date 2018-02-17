@@ -2,15 +2,23 @@ package ui.boardview;
 
 import model.gameboard.ElementData;
 
-import java.awt.*;
+import javax.swing.*;
+import java.awt.Point;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
 
-public abstract class PuzzleElement
+public abstract class PuzzleElement extends JComponent
 {
     protected int index;
     protected Point location;
     protected Dimension size;
     protected ElementData data;
 
+    /**
+     * PuzzleElement Constructor - creates a puzzle element view
+     *
+     * @param data element data to which the puzzle element uses to draw
+     */
     public PuzzleElement(ElementData data)
     {
         this.data = data;
@@ -24,12 +32,8 @@ public abstract class PuzzleElement
      */
     public boolean isWithinBounds(Point point)
     {
-        if(point.x >= location.x && point.x <= location.x + size.width &&
-                point.y >= location.y && point.y <= location.y + size.height)
-        {
-            return true;
-        }
-        return false;
+        return point.x >= location.x && point.x <= location.x + size.width &&
+                point.y >= location.y && point.y <= location.y + size.height;
     }
 
     /**
@@ -42,7 +46,7 @@ public abstract class PuzzleElement
     /**
      * Gets the index of the PuzzleElement
      *
-     * @return
+     * @return index of the PuzzleElement
      */
     public int getIndex()
     {
@@ -99,11 +103,21 @@ public abstract class PuzzleElement
         this.size = size;
     }
 
+    /**
+     * Gets the ElementData associated with this view
+     *
+     * @return ElementData associated with this view
+     */
     public ElementData getData()
     {
         return data;
     }
 
+    /**
+     * Sets the ElementData associated with this view
+     *
+     * @param data ElementData associated with this view
+     */
     public void setData(ElementData data)
     {
         this.data = data;

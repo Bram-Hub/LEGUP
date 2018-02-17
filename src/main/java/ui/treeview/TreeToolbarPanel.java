@@ -19,15 +19,15 @@ public class TreeToolbarPanel extends JPanel implements ActionListener
 
         this.setLayout(new GridLayout(4, 2));
 
-        addChild = new JButton(new ImageIcon("images/AddChild.png"));
-        delChild = new JButton(new ImageIcon("images/DelChild.png"));
-        merge = new JButton(new ImageIcon("images/Merge.png"));
-        collapse = new JButton(new ImageIcon("images/Collapse.png"));
+        addChild = new JButton(new ImageIcon("images/Legup/AddChild.png"));
+        delChild = new JButton(new ImageIcon("images/Legup/DelChild.png"));
+        merge = new JButton(new ImageIcon("images/Legup/Merge.png"));
+        collapse = new JButton(new ImageIcon("images/Legup/Collapse.png"));
 
-        zoomIn = new JButton(new ImageIcon("images/Zoom In.png"));
-        zoomOut = new JButton(new ImageIcon("images/Zoom Out.png"));
-        zoomReset = new JButton(new ImageIcon("images/Normal Zoom.png"));
-        zoomFit = new JButton(new ImageIcon("images/Best Fit.png"));
+        zoomIn = new JButton(new ImageIcon("images/Legup/Zoom In.png"));
+        zoomOut = new JButton(new ImageIcon("images/Legup/Zoom Out.png"));
+        zoomReset = new JButton(new ImageIcon("images/Legup/Normal Zoom.png"));
+        zoomFit = new JButton(new ImageIcon("images/Legup/Best Fit.png"));
 
         add(addChild);
         addChild.addActionListener(this);

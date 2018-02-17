@@ -1,6 +1,7 @@
 package model;
 
 import model.gameboard.Board;
+import model.gameboard.ElementFactory;
 import model.rules.BasicRule;
 import model.rules.CaseRule;
 import model.rules.ContradictionRule;
@@ -12,8 +13,8 @@ import java.util.ArrayList;
 public abstract class Puzzle
 {
     protected String name;
-
     protected Board currentBoard;
+    protected ElementFactory factory;
 
     protected ArrayList<BasicRule> basicRules;
     protected ArrayList<ContradictionRule> contradictionRules;
@@ -27,7 +28,6 @@ public abstract class Puzzle
         this.basicRules = new ArrayList<>();
         this.contradictionRules = new ArrayList<>();
         this.caseRules = new ArrayList<>();
-        initializeBoard();
     }
 
     /**
@@ -230,4 +230,23 @@ public abstract class Puzzle
         this.currentBoard = currentBoard;
     }
 
+    /**
+     * Gets the ElementFactory associated with this puzzle
+     *
+     * @return ElementFactory associated with this puzzle
+     */
+    public ElementFactory getFactory()
+    {
+        return factory;
+    }
+
+    /**
+     * Sets the ElementFactory associated with this puzzle
+     *
+     * @param factory ElementFactory associated with this puzzle
+     */
+    public void setFactory(ElementFactory factory)
+    {
+        this.factory = factory;
+    }
 }

@@ -26,13 +26,13 @@ public class TreeView extends DynamicViewer
     private static final int SMALL_NODE_RADIUS = 7;
     private static final int COLLAPSED_DRAW_DELTA_X = 10;
     private static final int COLLAPSED_DRAW_DELTA_Y = 10;
-    private static final float floater[] = new float[]{(float) (5.0), (float) (10.0)};
-    private static final float floater2[] = new float[]{(float) (2.0), (float) (3.0)};
+    private static final float floater[] = new float[]{(5.0f), (10.0f)};
+    private static final float floater2[] = new float[]{(2.0f), (3.0f)};
     private static final Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 10, floater, 0);
     private static final Stroke dotted = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 10, floater2, 0);
     private static final Stroke medium = new BasicStroke(2);
     private static final Stroke thin = new BasicStroke(1);
-    private static final String NodeImgs = "images/tree/smiley/";
+    private static final String NodeImgs = "images/Legup/tree/smiley/";
     private static Selection mouseOver;
 
     private TreeNodeElement nodeHover;
@@ -116,8 +116,7 @@ public class TreeView extends DynamicViewer
         b.grow(2 * NODE_RADIUS, 2 * NODE_RADIUS);
         // Adjust the rectangle so that rule popups aren't cut off
         float scale = (100 / (float) getZoom());
-        b.setBounds((int) b.getX() - (int) (100 * scale), (int) b.getY(),
-                (int) b.getWidth() + (int) (400 * scale), (int) b.getHeight() + (int) (200 * scale));
+        b.setBounds((int) b.getX() - (int) (100 * scale), (int) b.getY(), (int) b.getWidth() + (int) (400 * scale), (int) b.getHeight() + (int) (200 * scale));
         // get the relevant child nodes
         ArrayList<TreeNode> children = treeNode.isCollapsed() ? getLastCollapsed(treeNode).getChildren() : treeNode.getChildren();
         // compute the union of the child bounding boxes recursively
@@ -191,7 +190,7 @@ public class TreeView extends DynamicViewer
         viewport.setViewPosition(new Point(0, 0));
     }
 
-        protected void mouseDraggedAt(Point point, MouseEvent e)
+    protected void mouseDraggedAt(Point point, MouseEvent e)
     {
         if(lastMovePoint == null)
         {
@@ -425,7 +424,7 @@ public class TreeView extends DynamicViewer
      * Recursively renders the tree below <code>state</code>.
      * Passing in the root node will effectively draw the entire tree.
      *
-     * @param g     the Graphics to draw on
+     * @param g        the Graphics to draw on
      * @param treeNode the state we're drawing
      */
     private void drawTree(Graphics g, TreeNode treeNode)
@@ -439,7 +438,7 @@ public class TreeView extends DynamicViewer
         Point draw;
 
         g.setColor(Color.black);
-        draw = new Point(0,0);//Point)treeNode.getLocation().clone();
+        draw = new Point(0, 0);//Point)treeNode.getLocation().clone();
         if(!isCollapsed)
         {
             children = treeNode.getChildren();

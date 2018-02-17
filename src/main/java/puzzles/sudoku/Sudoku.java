@@ -1,10 +1,13 @@
 package puzzles.sudoku;
 
+import app.BoardController;
+import app.GameBoardFacade;
 import model.gameboard.Board;
 import model.Puzzle;
 import model.gameboard.ElementData;
 import model.gameboard.GridCell;
 import ui.Selection;
+import ui.boardview.BoardView;
 
 import java.awt.*;
 import java.io.FileInputStream;
@@ -13,12 +16,23 @@ import java.util.ArrayList;
 public class Sudoku extends Puzzle
 {
 
+    private BoardView boardView;
+
     /**
      * Sudoku Constructor
      */
     public Sudoku()
     {
         super();
+        boardView = new SudokuView(new BoardController(),
+                new Dimension(9, 9),
+                new Dimension(30,30));
+
+    }
+
+    public BoardView getBoardView()
+    {
+        return boardView;
     }
 
     /**
@@ -31,15 +45,18 @@ public class Sudoku extends Puzzle
         ArrayList<ElementData> data = new ArrayList<>();
         for(int i = 0; i < 81; i++)
         {
-            data.add(new GridCell(0, new Point(i / 9, i % 9))
+            GridCell cell = new GridCell(0, new Point(i / 9, i % 9))
             {
                 @Override
                 public GridCell copy()
                 {
                     return null;
                 }
-            });
+            };
+            cell.setValueInt(4);
+            data.add(cell);
         }
+        currentBoard.setElementData(data);
     }
 
     /**

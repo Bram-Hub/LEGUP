@@ -4,9 +4,9 @@ import model.gameboard.Board;
 import model.Puzzle;
 import model.rules.Tree;
 import puzzles.sudoku.Sudoku;
-import ui.GridUI;
 import ui.LegupUI;
 import ui.Selection;
+import ui.boardview.BoardView;
 import ui.boardview.IBoardListener;
 import ui.rulesview.ITransitionListener;
 import ui.rulesview.ITreeSelectionListener;
@@ -18,7 +18,7 @@ public class GameBoardFacade
 {
     private final static Logger LOGGER = Logger.getLogger(GameBoardFacade.class.getName());
 
-    private static GameBoardFacade instance;
+    private volatile static GameBoardFacade instance;
 
     private Config config;
 
@@ -46,13 +46,9 @@ public class GameBoardFacade
         transitionListener = new ArrayList<>();
         selectionListeners = new ArrayList<>();
 
-        legupUI = new GridUI();
+        legupUI = new LegupUI();
 
         selections = new ArrayList<>();
-
-        puzzle = new Sudoku();
-
-        tree = new Tree(puzzle.getCurrentBoard());
     }
 
     /**
@@ -60,13 +56,25 @@ public class GameBoardFacade
      *
      * @return single instance of GameBoardFacade
      */
-    public static GameBoardFacade getInstance()
+    public synchronized static GameBoardFacade getInstance()
     {
         if(instance == null)
         {
             instance = new GameBoardFacade();
         }
         return instance;
+    }
+
+    public void setBoardView(BoardView boardView)
+    {
+        legupUI.setBoardView(boardView);
+    }
+
+    public void setPuzzle(Puzzle puzzle)
+    {
+        this.puzzle = puzzle;
+        this.tree = new Tree(puzzle.getCurrentBoard());
+        this.legupUI.setBoardView(((Sudoku)puzzle).getBoardView());
     }
 
     /**

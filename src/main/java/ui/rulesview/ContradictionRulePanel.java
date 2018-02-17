@@ -13,7 +13,7 @@ public class ContradictionRulePanel extends RulePanel
     public ContradictionRulePanel(RuleFrame ruleFrame)
     {
         super(ruleFrame);
-        this.icon = new ImageIcon("images/Contradiction Rules.gif");
+        this.icon = new ImageIcon("images/Legup/Contradictions.gif");
         this.name = "Contradiction Rules";
         this.toolTip = "Contradiction Rules";
     }

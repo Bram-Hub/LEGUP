@@ -44,35 +44,35 @@ public class GridBoardView extends BoardView
     }
 
     /**
-     * Gets the PuzzleElement from the element index or
+     * Gets the GridElement from the element index or
      * null if out of bounds
      *
      * @param index index of the PuzzleElement
-     * @return PuzzleElement at the specified index
+     * @return GridElement at the specified index
      */
-    public PuzzleElement getElement(int index)
+    public GridElement getElement(int index)
     {
         if(index < puzzleElements.size())
         {
-            return puzzleElements.get(index);
+            return (GridElement)puzzleElements.get(index);
         }
         return null;
     }
 
     /**
-     * Gets the PuzzleElement from the location specified or
+     * Gets the GridElement from the location specified or
      * null if one does not exists at that location
      *
      * @param point location on the viewport
-     * @return PuzzleElement at the specified location
+     * @return GridElement at the specified location
      */
-    public PuzzleElement getElement(Point point)
+    public GridElement getElement(Point point)
     {
         for(PuzzleElement element: puzzleElements)
         {
             if(element.isWithinBounds(point))
             {
-                return element;
+                return (GridElement) element;
             }
         }
         return null;
@@ -131,6 +131,7 @@ public class GridBoardView extends BoardView
             }
         }
         revalidate();
+        repaint();
     }
 }
 
