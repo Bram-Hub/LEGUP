@@ -243,7 +243,6 @@ public class LegupUI extends JFrame implements WindowListener
 
         for(int i = 0; i < getToolBarButtons().length; i++)
         {
-
             for(int s = 0; s < TOOLBAR_SEPARATOR_BEFORE.length; s++)
             {
                 if(i == TOOLBAR_SEPARATOR_BEFORE[s])
@@ -254,15 +253,27 @@ public class LegupUI extends JFrame implements WindowListener
             String toolBarName = ToolbarName.values()[i].toString();
 
             toolBar.add(getToolBarButtons()[i]);
-            getToolBarButtons()[i].addActionListener((ActionEvent) ->
-            {
-
-            });
             getToolBarButtons()[i].setToolTipText(toolBarName);
 
             getToolBarButtons()[i].setVerticalTextPosition(SwingConstants.BOTTOM);
             getToolBarButtons()[i].setHorizontalTextPosition(SwingConstants.CENTER);
         }
+
+        getToolBarButtons()[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent e)  -> promptPuzzle());
+        getToolBarButtons()[ToolbarName.OPEN_PROOF.ordinal()].addActionListener((ActionEvent e)  -> openProof());
+        getToolBarButtons()[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e)  -> saveProof());
+        getToolBarButtons()[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e)  -> {});
+        getToolBarButtons()[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e)  -> {});
+        getToolBarButtons()[ToolbarName.CONSOLE.ordinal()].addActionListener((ActionEvent e)  -> {});
+        getToolBarButtons()[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e)  -> {});
+        getToolBarButtons()[ToolbarName.CHECK.ordinal()].addActionListener((ActionEvent e)  -> {});
+        getToolBarButtons()[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e)  -> {});
+        getToolBarButtons()[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e)  -> {});
+        getToolBarButtons()[ToolbarName.ZOOM_IN.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomIn());
+        getToolBarButtons()[ToolbarName.ZOOM_OUT.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomOut());
+        getToolBarButtons()[ToolbarName.NORMAL_ZOOM.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomTo(1.0) );
+        getToolBarButtons()[ToolbarName.BEST_FIT.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomFit());
+        getToolBarButtons()[ToolbarName.ANNOTATIONS.ordinal()].addActionListener((ActionEvent e)  -> {  });
 
         getToolBarButtons()[ToolbarName.SAVE.ordinal()].setEnabled(false);
         getToolBarButtons()[ToolbarName.UNDO.ordinal()].setEnabled(false);
@@ -290,10 +301,10 @@ public class LegupUI extends JFrame implements WindowListener
         justificationFrame = new RuleFrame(null);
         ruleBox.add( justificationFrame, BorderLayout.WEST );
 
-        boardView = new SudokuView(new BoardController(), new Dimension(9,9),new Dimension(9,9));
-        boardView.setPreferredSize(new Dimension(600, 400));
-        boardView.updateBoard(GameBoardFacade.getInstance().getPuzzleModule().getCurrentBoard());
-        boardView.setBorder(boardBorder);
+        //boardView = new SudokuView(new BoardController(), new Dimension(9,9),new Dimension(9,9));
+        //boardView.setPreferredSize(new Dimension(600, 400));
+        //boardView.updateBoard(GameBoardFacade.getInstance().getPuzzleModule().getCurrentBoard());
+        //boardView.setBorder(boardBorder);
 
         treePanel = new TreePanel(this);
 
@@ -640,7 +651,7 @@ public class LegupUI extends JFrame implements WindowListener
 
     public void windowClosed(WindowEvent e)
     {
-
+        System.exit(0);
     }
 
     public void windowIconified(WindowEvent e)
