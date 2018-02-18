@@ -37,10 +37,7 @@ public class LegupUI extends JFrame implements WindowListener
     public static final int AUTO_JUST = 128;
 
     final static int[] TOOLBAR_SEPARATOR_BEFORE = {3, 5, 9, 10};
-    private static final String[] PROFILES = {"No Assistance", "Rigorous Proof", "Casual Proof", "Assisted Proof", "Guided Proof", "Training-Wheels Proof", "No Restrictions"};
     private static final int[] PROF_FLAGS = {0, ALLOW_JUST | REQ_STEP_JUST, ALLOW_JUST, ALLOW_HINTS | ALLOW_JUST | AUTO_JUST, ALLOW_HINTS | ALLOW_JUST | REQ_STEP_JUST, ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_JUST | IMD_FEEDBACK | INTERN_RO, ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_FULLAI | ALLOW_JUST};
-
-    private static int CONFIG_INDEX = 0;
 
     protected FileDialog fileChooser;
     protected PickGameDialog pickGameDialog;
@@ -94,7 +91,7 @@ public class LegupUI extends JFrame implements WindowListener
 
         setVisible(true);
 
-        setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        //setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
         setLocationRelativeTo(null);
 
@@ -102,26 +99,11 @@ public class LegupUI extends JFrame implements WindowListener
 
     }
 
-    public static boolean profFlag(int flag)
-    {
-        return !((PROF_FLAGS[CONFIG_INDEX] & flag) == 0);
-    }
-
     public void repaintBoard()
     {
         boardView.updateBoard(GameBoardFacade.getInstance().getBoard());
         boardView.revalidate();
         boardView.repaint();
-    }
-
-    public boolean checkAllowDefault()
-    {
-        return allowDefault.getState();
-    }
-
-    public boolean checkImmediateFeedback()
-    {
-        return imdFeedback.getState();
     }
 
     /**
@@ -405,46 +387,46 @@ public class LegupUI extends JFrame implements WindowListener
      */
     private void checkProof()
     {
-        GameBoardFacade facade = GameBoardFacade.getInstance();
-        Board board = facade.getBoard();
-        Board finalBoard = null;
-        boolean delayStatus = true; //board.evalDelayStatus();
-
-        repaintAll();
-
-        Puzzle puzzle = facade.getPuzzleModule();
-
-        if(puzzle.isPuzzleComplete() && delayStatus)
-        {
-            int confirm = JOptionPane.showConfirmDialog(null, "Congratulations! Your proof is correct. Would you like to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
-            if(confirm == 0)
-            {
-                Submission submit = new Submission(board);
-            }
-            showStatus("Your proof is correct.", false);
-        }
-        else
-        {
-            String message = "";
-            if(finalBoard != null)
-            {
-                if(!delayStatus)
-                {
-                    message += "\nThere are invalid steps, which have been colored red.";
-                }
-                if(!puzzle.isPuzzleComplete())
-                {
-                    message += "\nThe game board is not solved.";
-                }
-            }
-            else
-            {
-                message += "There is not a unique non-contradictory leaf state. Incomplete case rules are pale green.";
-            }
-            JOptionPane.showMessageDialog(null, message, "Invalid proof.", JOptionPane.ERROR_MESSAGE);
-
-            showStatus(message, true);
-        }
+//        GameBoardFacade facade = GameBoardFacade.getInstance();
+//        Board board = facade.getBoard();
+//        Board finalBoard = null;
+//        boolean delayStatus = true; //board.evalDelayStatus();
+//
+//        repaintAll();
+//
+//        Puzzle puzzle = facade.getPuzzleModule();
+//
+//        if(puzzle.isPuzzleComplete() && delayStatus)
+//        {
+//            int confirm = JOptionPane.showConfirmDialog(null, "Congratulations! Your proof is correct. Would you like to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
+//            if(confirm == 0)
+//            {
+//                Submission submit = new Submission(board);
+//            }
+//            showStatus("Your proof is correct.", false);
+//        }
+//        else
+//        {
+//            String message = "";
+//            if(finalBoard != null)
+//            {
+//                if(!delayStatus)
+//                {
+//                    message += "\nThere are invalid steps, which have been colored red.";
+//                }
+//                if(!puzzle.isPuzzleComplete())
+//                {
+//                    message += "\nThe game board is not solved.";
+//                }
+//            }
+//            else
+//            {
+//                message += "There is not a unique non-contradictory leaf state. Incomplete case rules are pale green.";
+//            }
+//            JOptionPane.showMessageDialog(null, message, "Invalid proof.", JOptionPane.ERROR_MESSAGE);
+//
+//            showStatus(message, true);
+//        }
     }
 
     private boolean basicCheckProof(int[][] origCells)
@@ -517,39 +499,6 @@ public class LegupUI extends JFrame implements WindowListener
         }
     }
 
-    /**
-     * Submits the proof file
-     */
-    private void submit()
-    {
-        GameBoardFacade facade = GameBoardFacade.getInstance();
-        Board board = facade.getBoard();
-        boolean delayStatus = true; //board.evalDelayStatus();
-        repaintAll();
-
-        Puzzle pm = facade.getPuzzleModule();
-        if(pm.isPuzzleComplete() && delayStatus)
-        {
-            // 0 means yes, 1 means no (Java's fault...)
-            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you wish to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
-            if(confirm == 0)
-            {
-                Submission submission = new Submission(board);
-                submission.submit();
-            }
-        }
-        else
-        {
-            JOptionPane.showConfirmDialog(null, "Your proof is incorrect! Are you sure you wish to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
-            Submission submit = new Submission(board);
-        }
-    }
-
-    private void directions()
-    {
-        JOptionPane.showMessageDialog(null, "For ever move you make, you must provide a rules for it (located in the Rules panel).\n" + "While working on the puzzle, you may click on the \"Check\" button to test your proof for correctness.", "Directions", JOptionPane.PLAIN_MESSAGE);
-    }
-
     private void showAll()
     {
         getToolBarButtons()[ToolbarName.SAVE.ordinal()].setEnabled(true);
@@ -573,11 +522,6 @@ public class LegupUI extends JFrame implements WindowListener
     public void showStatus(String status, boolean error)
     {
         showStatus(status, error, 1);
-    }
-
-    public void errorEncountered(String error)
-    {
-        JOptionPane.showMessageDialog(null, error);
     }
 
     public void reloadGui()
