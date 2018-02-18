@@ -5,8 +5,7 @@
       <GradleProjectSettings>
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="C:/Program Files/gradle-4.5.1" />
-        <option name="gradleJvm" value="9.0" />
+        <option name="gradleHome" value="/usr/local/Cellar/gradle/4.5.1" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
