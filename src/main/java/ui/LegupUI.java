@@ -1,9 +1,7 @@
 package ui;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -17,8 +15,6 @@ import model.gameboard.Board;
 import ui.boardview.BoardView;
 import ui.rulesview.RuleFrame;
 import ui.treeview.TreePanel;
-import user.Submission;
-import utility.ProofFilter;
 
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -27,19 +23,19 @@ public class LegupUI extends JFrame implements WindowListener
 {
     private final static Logger LOGGER = Logger.getLogger(LegupUI.class.getName());
 
-    public static final int ALLOW_HINTS = 1;
-    public static final int ALLOW_DEFAPP = 2;
-    public static final int ALLOW_FULLAI = 4;
-    public static final int ALLOW_JUST = 8;
-    public static final int REQ_STEP_JUST = 16;
-    public static final int IMD_FEEDBACK = 32;
-    public static final int INTERN_RO = 64;
-    public static final int AUTO_JUST = 128;
+    private static final int ALLOW_HINTS = 1;
+    private static final int ALLOW_DEFAPP = 2;
+    private static final int ALLOW_FULLAI = 4;
+    private static final int ALLOW_JUST = 8;
+    private static final int REQ_STEP_JUST = 16;
+    private static final int IMD_FEEDBACK = 32;
+    private static final int INTERN_RO = 64;
+    private static final int AUTO_JUST = 128;
 
     final static int[] TOOLBAR_SEPARATOR_BEFORE = {3, 5, 9, 10};
     private static final int[] PROF_FLAGS = {0, ALLOW_JUST | REQ_STEP_JUST, ALLOW_JUST, ALLOW_HINTS | ALLOW_JUST | AUTO_JUST, ALLOW_HINTS | ALLOW_JUST | REQ_STEP_JUST, ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_JUST | IMD_FEEDBACK | INTERN_RO, ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_FULLAI | ALLOW_JUST};
 
-    protected FileDialog fileChooser;
+   // protected FileDialog fileChooser;
     protected PickGameDialog pickGameDialog;
     protected JButton[] toolBarButtons;
 
@@ -76,6 +72,8 @@ public class LegupUI extends JFrame implements WindowListener
     protected TitledBorder boardBorder;
     protected JSplitPane topHalfPanel, mainPanel;
 
+    protected FileDialog fileChooser = new FileDialog(this);
+
     /**
      * LegupUI Constructor - creates a new LegupUI to setup the menu and toolbar
      */
@@ -93,10 +91,7 @@ public class LegupUI extends JFrame implements WindowListener
 
         //setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
-        setLocationRelativeTo(null);
-
-        fileChooser = new FileDialog(this);
-
+        //setLocationRelativeTo(null);
     }
 
     public void repaintBoard()
@@ -136,7 +131,7 @@ public class LegupUI extends JFrame implements WindowListener
 
         mBar.add(file);
         file.add(newPuzzle);
-        newPuzzle.addActionListener((ActionEvent) -> promptPuzzle());
+        newPuzzle.addActionListener((ActionEvent) -> openPuzzle());
         newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', 2));
 
         file.add(genPuzzle);
@@ -236,8 +231,8 @@ public class LegupUI extends JFrame implements WindowListener
             getToolBarButtons()[i].setHorizontalTextPosition(SwingConstants.CENTER);
         }
 
-        getToolBarButtons()[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent e)  -> promptPuzzle());
-        getToolBarButtons()[ToolbarName.OPEN_PROOF.ordinal()].addActionListener((ActionEvent e)  -> openProof());
+        getToolBarButtons()[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent e)  -> openPuzzle());
+        getToolBarButtons()[ToolbarName.OPEN_PROOF.ordinal()].addActionListener((ActionEvent e) -> openProof());
         getToolBarButtons()[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e)  -> saveProof());
         getToolBarButtons()[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e)  -> {});
         getToolBarButtons()[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e)  -> {});
@@ -318,10 +313,11 @@ public class LegupUI extends JFrame implements WindowListener
         }
         fileChooser.setMode(FileDialog.LOAD);
         fileChooser.setTitle("Select Proof");
+        file
         fileChooser.setVisible(true);
 
-        ProofFilter filter = new ProofFilter();
-        fileChooser.setFilenameFilter(filter);
+//        ProofFilter filter = new ProofFilter();
+//        fileChooser.setFilenameFilter(filter);
 
         String filename = fileChooser.getFile();
 
@@ -351,10 +347,10 @@ public class LegupUI extends JFrame implements WindowListener
 
         fileChooser.setMode(FileDialog.SAVE);
         fileChooser.setTitle("Select Proof");
+        fileChooser.setFilenameFilter((dir, name) -> name.endsWith(".proof")); // macOS / Linux
+        fileChooser.setFile("*.proof"); // Windows
         fileChooser.setVisible(true);
 
-        ProofFilter filter = new ProofFilter();
-        fileChooser.setFilenameFilter(filter);
         String filename = fileChooser.getFile();
 
         if(filename != null)
@@ -439,7 +435,7 @@ public class LegupUI extends JFrame implements WindowListener
      */
     private void instructorCheck()
     {
-        promptPuzzle();
+        openPuzzle();
         GameBoardFacade facade = GameBoardFacade.getInstance();
         Board board = facade.getInstance().getBoard();
 
@@ -529,7 +525,7 @@ public class LegupUI extends JFrame implements WindowListener
 
     }
 
-    public void promptPuzzle()
+    public void openPuzzle()
     {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if(facade.getBoard() != null)
