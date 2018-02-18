@@ -2,7 +2,6 @@ package ui.boardview;
 
 import app.BoardController;
 import model.gameboard.Board;
-import model.gameboard.ElementData;
 import model.gameboard.GridBoard;
 
 import java.awt.Color;
@@ -12,22 +11,22 @@ import java.awt.Point;
 
 public class GridBoardView extends BoardView
 {
-    protected Dimension gridDimension;
-    protected Dimension elementDimension;
+    protected Dimension gridSize;
+    protected Dimension elementSize;
 
     /**
      * GridBoardView Constructor - creates a GridBoardView object using
      * the controller handle the ui events
      *
      * @param boardController controller that handles the ui events
-     * @param gridDimension dimension of the grid
-     * @param elementDimension dimension of the elements
+     * @param gridSize dimension of the grid
+     * @param elementSize dimension of the elements
      */
-    public GridBoardView(BoardController boardController, Dimension gridDimension, Dimension elementDimension)
+    public GridBoardView(BoardController boardController, Dimension gridSize, Dimension elementSize)
     {
         this(boardController);
-        this.gridDimension = gridDimension;
-        this.elementDimension = elementDimension;
+        this.gridSize = gridSize;
+        this.elementSize = elementSize;
         setBackground( new Color(0xE0E0E0) );
         initSize();
     }
@@ -97,8 +96,8 @@ public class GridBoardView extends BoardView
     private Dimension getProperSize()
     {
         Dimension boardViewSize = new Dimension();
-        boardViewSize.width = gridDimension.width * (elementDimension.width + 2);
-        boardViewSize.height = gridDimension.height * (elementDimension.height + 2);
+        boardViewSize.width = gridSize.width * (elementSize.width + 2);
+        boardViewSize.height = gridSize.height * (elementSize.height + 2);
         return boardViewSize;
     }
 
@@ -130,7 +129,7 @@ public class GridBoardView extends BoardView
             {
                 GridElement element = new GridElement(gridBoard.getCell(i, k));
                 element.cell = gridBoard.getCell(i, k);
-                element.size = elementDimension;
+                element.size = elementSize;
                 puzzleElements.add(element);
             }
         }

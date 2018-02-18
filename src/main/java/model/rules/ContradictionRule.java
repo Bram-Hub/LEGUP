@@ -10,12 +10,12 @@ public abstract class ContradictionRule extends Rule
      * ContradictionRule Constructor - creates a new contradiction rule
      *
      * @param ruleName name of the rule
-     * @param imageName file name of the image
      * @param description description of the rule
+     * @param imageName file name of the image
      */
-    public ContradictionRule(String ruleName, String imageName, String description)
+    public ContradictionRule(String ruleName, String description, String imageName)
     {
-        super(ruleName, imageName, description);
+        super(ruleName, description, imageName);
         ruleType = CONTRADICTION;
     }
 

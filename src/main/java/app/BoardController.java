@@ -47,65 +47,65 @@ public class BoardController extends Controller
     public void mousePressed(MouseEvent e)
     {
         super.mousePressed(e);
-        Point point = viewer.toDrawCoordinates(e.getPoint());
-
-        GameBoardFacade facade = GameBoardFacade.getInstance();
-        LegupUI legupUI = facade.getLegupUI();
-        Selection selection = facade.getSelections().get(0);
-        Puzzle puzzle = facade.getPuzzleModule();
-
-        if(selection.isTransition())
-        {
-            legupUI.showStatus("You can not modify transitions", true);
-            return;
-        }
-        else if(puzzle == null)
-        {
-            return;
-        }
-
-        Board board = selection.getState();
-        BoardView boardView = null;
-        PuzzleElement puzzleElement = boardView.getElement(point);
-        int elementIndex = puzzleElement.getIndex();
-
-        switch(e.getButton())
-        {
-            case MouseEvent.BUTTON1:
-                Dimension elementSize = null;
-
-                lastLeftMousePoint = null;
-
-                if(false)
-                {
-
-                }
-                else if(false)
-                {
-
-                }
-                else
-                {
-                    lastLeftMousePoint = point;
-                    if(board.getElementData(elementIndex).isModifiable())
-                    {
-
-                    }
-                    else
-                    {
-                        legupUI.showStatus("You are not allowed to change that cell.", true);
-                    }
-                }
-
-
-                break;
-            case MouseEvent.BUTTON2:
-                break;
-            case MouseEvent.BUTTON3:
-                break;
-            default:
-                return;
-        }
+//        Point point = viewer.toDrawCoordinates(e.getPoint());
+//
+//        GameBoardFacade facade = GameBoardFacade.getInstance();
+//        LegupUI legupUI = facade.getLegupUI();
+//        Selection selection = facade.getSelections().get(0);
+//        Puzzle puzzle = facade.getPuzzleModule();
+//
+//        if(selection.isTransition())
+//        {
+//            legupUI.showStatus("You can not modify transitions", true);
+//            return;
+//        }
+//        else if(puzzle == null)
+//        {
+//            return;
+//        }
+//
+//        Board board = selection.getState();
+//        BoardView boardView = null;
+//        PuzzleElement puzzleElement = boardView.getElement(point);
+//        int elementIndex = puzzleElement.getIndex();
+//
+//        switch(e.getButton())
+//        {
+//            case MouseEvent.BUTTON1:
+//                Dimension elementSize = null;
+//
+//                lastLeftMousePoint = null;
+//
+//                if(false)
+//                {
+//
+//                }
+//                else if(false)
+//                {
+//
+//                }
+//                else
+//                {
+//                    lastLeftMousePoint = point;
+//                    if(board.getElementData(elementIndex).isModifiable())
+//                    {
+//
+//                    }
+//                    else
+//                    {
+//                        legupUI.showStatus("You are not allowed to change that cell.", true);
+//                    }
+//                }
+//
+//
+//                break;
+//            case MouseEvent.BUTTON2:
+//                break;
+//            case MouseEvent.BUTTON3:
+//                break;
+//            default:
+//                return;
+//        }
     }
 
     /**

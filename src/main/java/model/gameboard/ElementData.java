@@ -2,6 +2,7 @@ package model.gameboard;
 
 public abstract class ElementData
 {
+    private int index;
     private String valueString;
     private int valueInt;
     private boolean isModifiable;
@@ -96,6 +97,26 @@ public abstract class ElementData
     public void setModifiable(boolean isModifiable)
     {
         this.isModifiable = isModifiable;
+    }
+
+    /**
+     * Gets the index of this ElementData
+     *
+     * @return index of this ElementData
+     */
+    public int getIndex()
+    {
+        return index;
+    }
+
+    /**
+     * Sets the index of this ElementData
+     *
+     * @param index index of this ElementData
+     */
+    public void setIndex(int index)
+    {
+        this.index = index;
     }
 
     /**

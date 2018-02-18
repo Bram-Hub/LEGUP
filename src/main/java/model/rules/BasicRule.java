@@ -8,12 +8,12 @@ public abstract class BasicRule extends Rule
      * BasicRule Constructor - creates a new basic rule
      *
      * @param ruleName name of the rule
-     * @param imageName file name of the image
      * @param description description of the rule
+     * @param imageName file name of the image
      */
-    public BasicRule(String ruleName, String imageName, String description)
+    public BasicRule(String ruleName, String description, String imageName)
     {
-        super(ruleName, imageName, description);
+        super(ruleName, description, imageName);
         ruleType = BASIC;
     }
 }

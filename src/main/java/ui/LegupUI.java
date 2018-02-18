@@ -2,23 +2,18 @@ package ui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.*;
 
-import app.BoardController;
 import app.GameBoardFacade;
 import model.Puzzle;
 import model.gameboard.Board;
-import puzzles.sudoku.SudokuView;
 import ui.boardview.BoardView;
 import ui.rulesview.RuleFrame;
 import ui.treeview.TreePanel;
@@ -78,7 +73,7 @@ public class LegupUI extends JFrame implements WindowListener
     protected JToolBar toolBar;
 
     protected BoardView boardView;
-    private RuleFrame justificationFrame;
+    private RuleFrame ruleFrame;
     private TreePanel treePanel;
 
     protected TitledBorder boardBorder;
@@ -225,7 +220,6 @@ public class LegupUI extends JFrame implements WindowListener
 
         setJMenuBar(mBar);
         this.addWindowListener(this);
-        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     }
 
     // contains all the code to setup the toolbar
@@ -299,8 +293,8 @@ public class LegupUI extends JFrame implements WindowListener
 
         //console = new Console();
 
-        justificationFrame = new RuleFrame(null);
-        ruleBox.add( justificationFrame, BorderLayout.WEST );
+        ruleFrame = new RuleFrame(null);
+        ruleBox.add(ruleFrame, BorderLayout.WEST );
 
         //boardView = new SudokuView(new BoardController(), new Dimension(9,9),new Dimension(9,9));
         //boardView.setPreferredSize(new Dimension(600, 400));
@@ -310,7 +304,7 @@ public class LegupUI extends JFrame implements WindowListener
         treePanel = new TreePanel(this);
 
         JPanel boardPanel = new JPanel(new BorderLayout());
-        topHalfPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, justificationFrame, boardView);
+        topHalfPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, ruleFrame, boardView);
         mainPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, topHalfPanel, treePanel);
         topHalfPanel.setPreferredSize(new Dimension(600, 400));
         mainPanel.setPreferredSize(new Dimension(600, 600));
@@ -705,7 +699,14 @@ public class LegupUI extends JFrame implements WindowListener
         this.boardView = boardView;
         this.topHalfPanel.setRightComponent(boardView);
         topHalfPanel.setVisible(true);
-        //boardView.setSize(new Dimension(100, 100));
+        ruleFrame.getBasicRulePanel().setRules(GameBoardFacade.getInstance().getPuzzleModule().getBasicRules());
+        ruleFrame.getCasePanel().setRules(GameBoardFacade.getInstance().getPuzzleModule().getCaseRules());
+        ruleFrame.getContradictionPanel().setRules(GameBoardFacade.getInstance().getPuzzleModule().getContradictionRules());
         repaintBoard();
+    }
+
+    public BoardView getBoardView()
+    {
+        return boardView;
     }
 }

@@ -174,7 +174,7 @@ public class TreeView extends DynamicViewer
             graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-            //drawTree(graphics2D, tree.getRootNode());
+            drawTree(graphics2D, tree.getRootNode());
             drawCurrentStateBoxes(graphics2D);
 
             if(mouseOver != null)

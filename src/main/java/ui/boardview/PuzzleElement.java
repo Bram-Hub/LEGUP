@@ -7,7 +7,7 @@ import java.awt.Point;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 
-public abstract class PuzzleElement
+public abstract class PuzzleElement extends JComponent
 {
     protected int index;
     protected Point location;

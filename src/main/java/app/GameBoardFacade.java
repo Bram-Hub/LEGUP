@@ -68,6 +68,7 @@ public class GameBoardFacade
     public void setBoardView(BoardView boardView)
     {
         legupUI.setBoardView(boardView);
+        boardView.zoomFit();
     }
 
     public void setPuzzle(Puzzle puzzle)

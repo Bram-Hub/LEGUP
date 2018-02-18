@@ -1,7 +1,6 @@
 package puzzles.sudoku;
 
 import app.BoardController;
-import app.GameBoardFacade;
 import model.gameboard.Board;
 import model.Puzzle;
 import model.gameboard.ElementData;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 
 public class Sudoku extends Puzzle
 {
-
     private BoardView boardView;
 
     /**
@@ -29,6 +27,16 @@ public class Sudoku extends Puzzle
                 new Dimension(9, 9),
                 new Dimension(30,30));
         initializeBoard();
+
+        basicRules.add(new AdvancedDeductionBasicRule());
+        basicRules.add(new LastCellForNumberBasicRule());
+        basicRules.add(new LastNumberForCellBasicRule());
+
+        caseRules.add(new PossibleCellCaseRule());
+        caseRules.add(new PossibleNumberCaseRule());
+
+        contradictionRules.add(new NoSolutionContradictionRule());
+        contradictionRules.add(new RepeatedNumberContradictionRule());
     }
 
     public BoardView getBoardView()
@@ -55,7 +63,7 @@ public class Sudoku extends Puzzle
                     return this;
                 }
             };
-            GridElement cellView = new GridElement(cell);
+            SudokuElement cellView = new SudokuElement(cell);
             cellViews.add(cellView);
             data.add(cell);
         }

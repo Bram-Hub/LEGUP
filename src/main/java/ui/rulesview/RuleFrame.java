@@ -3,6 +3,7 @@ package ui.rulesview;
 import app.RuleController;
 import model.Puzzle;
 import model.gameboard.Board;
+import model.rules.BasicRule;
 import model.rules.Rule;
 
 import java.awt.BorderLayout;
@@ -145,5 +146,20 @@ public class RuleFrame extends JPanel
     public RuleController getController()
     {
         return controller;
+    }
+
+    public BasicRulePanel getBasicRulePanel()
+    {
+        return basicRulePanel;
+    }
+
+    public CaseRulePanel getCasePanel()
+    {
+        return casePanel;
+    }
+
+    public ContradictionRulePanel getContradictionPanel()
+    {
+        return contradictionPanel;
     }
 }

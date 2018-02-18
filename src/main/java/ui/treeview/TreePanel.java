@@ -22,17 +22,11 @@ public class TreePanel extends JPanel
     public boolean modifiedSinceUndoPush = false;
     public int updateStatusTimer = 0;
     private TreeView treeView;
-    private byte[] origInitState;
-    private Stack<byte[]> undoStack;
-    private Stack<ArrayList<Integer>> undoStackState;
-    private Stack<byte[]> redoStack;
-    private Stack<ArrayList<Integer>> redoStackState;
-    private boolean tempSuppressUndoPushing;
     private TreeToolbarPanel toolbar;
     private LegupUI legupUI;
 
     private JLabel status = new JLabel();
-    private Rule currentJustificationApplied = null;
+    private Rule curRuleApplied = null;
 
     public TreePanel(LegupUI legupUI)
     {
@@ -62,12 +56,6 @@ public class TreePanel extends JPanel
 //        JustificationFrame.addJustificationAppliedListener(this);
 //        legupUI.legupMain.getSelections().addTreeSelectionListener(this);
 //        BoardState.addCellChangeListener(this);
-        undoStack = new Stack<>();
-        undoStackState = new Stack<>();
-        redoStack = new Stack<>();
-        redoStackState = new Stack<>();
-        tempSuppressUndoPushing = false;
-        origInitState = null;
 
         updateStatusTimer = 0;
     }
@@ -144,13 +132,13 @@ public class TreePanel extends JPanel
 //     */
 //    public void addChildAtCurrentState()
 //    {
-//		/*if (currentJustificationApplied instanceof CaseRule){
+//		/*if (curRuleApplied instanceof CaseRule){
 //			toolbar.addChild.setEnabled(true);
 //		} else {
 //			toolbar.addChild.setEnabled(false);
 //		}*/
-//        treeView.addChildAtCurrentState(currentJustificationApplied);
-//        currentJustificationApplied = null;
+//        treeView.addChildAtCurrentState(curRuleApplied);
+//        curRuleApplied = null;
 //    }
 //
 //    /**
@@ -192,14 +180,14 @@ public class TreePanel extends JPanel
 //		} else {
 //			toolbar.addChild.setEnabled(false);
 //		}*/
-//        currentJustificationApplied = justification;
+//        curRuleApplied = justification;
 //        justification = null;
 //        repaint();
 //    }
 
 //    public Justification getCurrentJustificationApplied()
 //    {
-//        return currentJustificationApplied;
+//        return curRuleApplied;
 //    }
 
     /*
