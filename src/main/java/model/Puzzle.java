@@ -5,6 +5,7 @@ import model.gameboard.ElementFactory;
 import model.rules.BasicRule;
 import model.rules.CaseRule;
 import model.rules.ContradictionRule;
+import model.rules.Tree;
 import ui.Selection;
 
 import java.io.FileInputStream;
@@ -14,6 +15,7 @@ public abstract class Puzzle
 {
     protected String name;
     protected Board currentBoard;
+    protected Tree tree;
     protected ElementFactory factory;
 
     protected ArrayList<BasicRule> basicRules;
@@ -217,7 +219,7 @@ public abstract class Puzzle
      */
     public Board getCurrentBoard()
     {
-        return currentBoard;
+        return tree.getFirstSelected().getBoard();
     }
 
     /**
@@ -228,6 +230,26 @@ public abstract class Puzzle
     public void setCurrentBoard(Board currentBoard)
     {
         this.currentBoard = currentBoard;
+    }
+
+    /**
+     * Gets the Tree for keeping the board states
+     *
+     * @return Tree
+     */
+    public Tree getTree()
+    {
+        return tree;
+    }
+
+    /**
+     * Sets the Tree for keeping the board states
+     *
+     * @param tree
+     */
+    public void setTree(Tree tree)
+    {
+        this.tree = tree;
     }
 
     /**

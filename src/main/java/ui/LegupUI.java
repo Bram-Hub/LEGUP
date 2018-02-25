@@ -1,7 +1,9 @@
 package ui;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -10,13 +12,15 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 import app.GameBoardFacade;
+import app.RuleController;
 import model.Puzzle;
 import model.gameboard.Board;
 import model.rules.Tree;
 import ui.boardview.BoardView;
 import ui.rulesview.RuleFrame;
 import ui.treeview.TreePanel;
-import ui.treeview.TreeView;
+import user.Submission;
+import utility.ProofFilter;
 
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -25,19 +29,22 @@ public class LegupUI extends JFrame implements WindowListener
 {
     private final static Logger LOGGER = Logger.getLogger(LegupUI.class.getName());
 
-    private static final int ALLOW_HINTS = 1;
-    private static final int ALLOW_DEFAPP = 2;
-    private static final int ALLOW_FULLAI = 4;
-    private static final int ALLOW_JUST = 8;
-    private static final int REQ_STEP_JUST = 16;
-    private static final int IMD_FEEDBACK = 32;
-    private static final int INTERN_RO = 64;
-    private static final int AUTO_JUST = 128;
+    public static final int ALLOW_HINTS = 1;
+    public static final int ALLOW_DEFAPP = 2;
+    public static final int ALLOW_FULLAI = 4;
+    public static final int ALLOW_JUST = 8;
+    public static final int REQ_STEP_JUST = 16;
+    public static final int IMD_FEEDBACK = 32;
+    public static final int INTERN_RO = 64;
+    public static final int AUTO_JUST = 128;
 
     final static int[] TOOLBAR_SEPARATOR_BEFORE = {3, 5, 9, 10};
+    private static final String[] PROFILES = {"No Assistance", "Rigorous Proof", "Casual Proof", "Assisted Proof", "Guided Proof", "Training-Wheels Proof", "No Restrictions"};
     private static final int[] PROF_FLAGS = {0, ALLOW_JUST | REQ_STEP_JUST, ALLOW_JUST, ALLOW_HINTS | ALLOW_JUST | AUTO_JUST, ALLOW_HINTS | ALLOW_JUST | REQ_STEP_JUST, ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_JUST | IMD_FEEDBACK | INTERN_RO, ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_FULLAI | ALLOW_JUST};
 
-   // protected FileDialog fileChooser;
+    private static int CONFIG_INDEX = 0;
+
+    protected FileDialog fileChooser;
     protected PickGameDialog pickGameDialog;
     protected JButton[] toolBarButtons;
 
@@ -68,14 +75,11 @@ public class LegupUI extends JFrame implements WindowListener
     protected JToolBar toolBar;
 
     protected BoardView boardView;
-    protected TreeView treeView;
     private RuleFrame ruleFrame;
     private TreePanel treePanel;
 
     protected TitledBorder boardBorder;
     protected JSplitPane topHalfPanel, mainPanel;
-
-    protected FileDialog fileChooser = new FileDialog(this);
 
     /**
      * LegupUI Constructor - creates a new LegupUI to setup the menu and toolbar
@@ -90,21 +94,39 @@ public class LegupUI extends JFrame implements WindowListener
         setupToolBar();
         setupContent();
 
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
 
-        //setLocationRelativeTo(null);
+        //setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+
+        setLocationRelativeTo(null);
+
+        fileChooser = new FileDialog(this);
+
+    }
+
+    public static boolean profFlag(int flag)
+    {
+        return !((PROF_FLAGS[CONFIG_INDEX] & flag) == 0);
     }
 
     public void repaintBoard()
     {
         boardView.updateBoard(GameBoardFacade.getInstance().getBoard());
-        boardView.revalidate();
-        boardView.repaint();
     }
 
-    public void updateTreeView(Tree tree) {
-        treeView.repaint();
+    public void repaintTree()
+    {
+        treePanel.repaintTreeView(GameBoardFacade.getInstance().getTree());
+    }
+
+    public boolean checkAllowDefault()
+    {
+        return allowDefault.getState();
+    }
+
+    public boolean checkImmediateFeedback()
+    {
+        return imdFeedback.getState();
     }
 
     /**
@@ -137,7 +159,7 @@ public class LegupUI extends JFrame implements WindowListener
 
         mBar.add(file);
         file.add(newPuzzle);
-        newPuzzle.addActionListener((ActionEvent) -> openPuzzle());
+        newPuzzle.addActionListener((ActionEvent) -> promptPuzzle());
         newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', 2));
 
         file.add(genPuzzle);
@@ -237,21 +259,21 @@ public class LegupUI extends JFrame implements WindowListener
             getToolBarButtons()[i].setHorizontalTextPosition(SwingConstants.CENTER);
         }
 
-        getToolBarButtons()[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent)  -> openPuzzle());
-        getToolBarButtons()[ToolbarName.OPEN_PROOF.ordinal()].addActionListener((ActionEvent) -> openProof());
-        getToolBarButtons()[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent)  -> saveProof());
-        getToolBarButtons()[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent)  -> {});
-        getToolBarButtons()[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent)  -> {});
-        getToolBarButtons()[ToolbarName.CONSOLE.ordinal()].addActionListener((ActionEvent)  -> {});
-        getToolBarButtons()[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent)  -> {});
-        getToolBarButtons()[ToolbarName.CHECK.ordinal()].addActionListener((ActionEvent)  -> {});
-        getToolBarButtons()[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent)  -> {});
-        getToolBarButtons()[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent)  -> {});
-        getToolBarButtons()[ToolbarName.ZOOM_IN.ordinal()].addActionListener((ActionEvent)  -> boardView.zoomIn());
-        getToolBarButtons()[ToolbarName.ZOOM_OUT.ordinal()].addActionListener((ActionEvent)  -> boardView.zoomOut());
-        getToolBarButtons()[ToolbarName.NORMAL_ZOOM.ordinal()].addActionListener((ActionEvent)  -> boardView.zoomTo(1.0) );
-        getToolBarButtons()[ToolbarName.BEST_FIT.ordinal()].addActionListener((ActionEvent)  -> boardView.zoomFit());
-        getToolBarButtons()[ToolbarName.ANNOTATIONS.ordinal()].addActionListener((ActionEvent)  -> {  });
+        getToolBarButtons()[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent e)  -> promptPuzzle());
+        getToolBarButtons()[ToolbarName.OPEN_PROOF.ordinal()].addActionListener((ActionEvent e)  -> openProof());
+        getToolBarButtons()[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e)  -> saveProof());
+        getToolBarButtons()[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e)  -> {});
+        getToolBarButtons()[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e)  -> {});
+        getToolBarButtons()[ToolbarName.CONSOLE.ordinal()].addActionListener((ActionEvent e)  -> {});
+        getToolBarButtons()[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e)  -> {});
+        getToolBarButtons()[ToolbarName.CHECK.ordinal()].addActionListener((ActionEvent e)  -> {});
+        getToolBarButtons()[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e)  -> {});
+        getToolBarButtons()[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e)  -> {});
+        getToolBarButtons()[ToolbarName.ZOOM_IN.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomIn());
+        getToolBarButtons()[ToolbarName.ZOOM_OUT.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomOut());
+        getToolBarButtons()[ToolbarName.NORMAL_ZOOM.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomTo(1.0) );
+        getToolBarButtons()[ToolbarName.BEST_FIT.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomFit());
+        getToolBarButtons()[ToolbarName.ANNOTATIONS.ordinal()].addActionListener((ActionEvent e)  -> {  });
 
         getToolBarButtons()[ToolbarName.SAVE.ordinal()].setEnabled(false);
         getToolBarButtons()[ToolbarName.UNDO.ordinal()].setEnabled(false);
@@ -276,13 +298,16 @@ public class LegupUI extends JFrame implements WindowListener
 
         //console = new Console();
 
-        ruleFrame = new RuleFrame(null);
+        RuleController ruleController = new RuleController();
+        ruleFrame = new RuleFrame(ruleController);
         ruleBox.add(ruleFrame, BorderLayout.WEST );
 
-        treePanel = new TreePanel(this);
-        treePanel.setPreferredSize(new Dimension(600, 300));
-        consoleBox.setSize(600,300);
+        //boardView = new SudokuView(new BoardController(), new Dimension(9,9),new Dimension(9,9));
+        //boardView.setPreferredSize(new Dimension(600, 400));
+        //boardView.updateBoard(GameBoardFacade.getInstance().getPuzzleModule().getCurrentBoard());
+        //boardView.setBorder(boardBorder);
 
+        treePanel = new TreePanel(this);
 
         JPanel boardPanel = new JPanel(new BorderLayout());
         topHalfPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, ruleFrame, boardView);
@@ -319,8 +344,8 @@ public class LegupUI extends JFrame implements WindowListener
         fileChooser.setTitle("Select Proof");
         fileChooser.setVisible(true);
 
-//        ProofFilter filter = new ProofFilter();
-//        fileChooser.setFilenameFilter(filter);
+        ProofFilter filter = new ProofFilter();
+        fileChooser.setFilenameFilter(filter);
 
         String filename = fileChooser.getFile();
 
@@ -350,10 +375,10 @@ public class LegupUI extends JFrame implements WindowListener
 
         fileChooser.setMode(FileDialog.SAVE);
         fileChooser.setTitle("Select Proof");
-        fileChooser.setFilenameFilter((dir, name) -> name.endsWith(".proof")); // macOS / Linux
-        fileChooser.setFile("*.proof"); // Windows
         fileChooser.setVisible(true);
 
+        ProofFilter filter = new ProofFilter();
+        fileChooser.setFilenameFilter(filter);
         String filename = fileChooser.getFile();
 
         if(filename != null)
@@ -386,46 +411,46 @@ public class LegupUI extends JFrame implements WindowListener
      */
     private void checkProof()
     {
-//        GameBoardFacade facade = GameBoardFacade.getInstance();
-//        Board board = facade.getBoard();
-//        Board finalBoard = null;
-//        boolean delayStatus = true; //board.evalDelayStatus();
-//
-//        repaintAll();
-//
-//        Puzzle puzzle = facade.getPuzzleModule();
-//
-//        if(puzzle.isPuzzleComplete() && delayStatus)
-//        {
-//            int confirm = JOptionPane.showConfirmDialog(null, "Congratulations! Your proof is correct. Would you like to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
-//            if(confirm == 0)
-//            {
-//                Submission submit = new Submission(board);
-//            }
-//            showStatus("Your proof is correct.", false);
-//        }
-//        else
-//        {
-//            String message = "";
-//            if(finalBoard != null)
-//            {
-//                if(!delayStatus)
-//                {
-//                    message += "\nThere are invalid steps, which have been colored red.";
-//                }
-//                if(!puzzle.isPuzzleComplete())
-//                {
-//                    message += "\nThe game board is not solved.";
-//                }
-//            }
-//            else
-//            {
-//                message += "There is not a unique non-contradictory leaf state. Incomplete case rules are pale green.";
-//            }
-//            JOptionPane.showMessageDialog(null, message, "Invalid proof.", JOptionPane.ERROR_MESSAGE);
-//
-//            showStatus(message, true);
-//        }
+        GameBoardFacade facade = GameBoardFacade.getInstance();
+        Board board = facade.getBoard();
+        Board finalBoard = null;
+        boolean delayStatus = true; //board.evalDelayStatus();
+
+        repaintAll();
+
+        Puzzle puzzle = facade.getPuzzleModule();
+
+        if(puzzle.isPuzzleComplete() && delayStatus)
+        {
+            int confirm = JOptionPane.showConfirmDialog(null, "Congratulations! Your proof is correct. Would you like to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
+            if(confirm == 0)
+            {
+                Submission submit = new Submission(board);
+            }
+            showStatus("Your proof is correct.", false);
+        }
+        else
+        {
+            String message = "";
+            if(finalBoard != null)
+            {
+                if(!delayStatus)
+                {
+                    message += "\nThere are invalid steps, which have been colored red.";
+                }
+                if(!puzzle.isPuzzleComplete())
+                {
+                    message += "\nThe game board is not solved.";
+                }
+            }
+            else
+            {
+                message += "There is not a unique non-contradictory leaf state. Incomplete case rules are pale green.";
+            }
+            JOptionPane.showMessageDialog(null, message, "Invalid proof.", JOptionPane.ERROR_MESSAGE);
+
+            showStatus(message, true);
+        }
     }
 
     private boolean basicCheckProof(int[][] origCells)
@@ -438,7 +463,7 @@ public class LegupUI extends JFrame implements WindowListener
      */
     private void instructorCheck()
     {
-        openPuzzle();
+        promptPuzzle();
         GameBoardFacade facade = GameBoardFacade.getInstance();
         Board board = facade.getInstance().getBoard();
 
@@ -498,6 +523,39 @@ public class LegupUI extends JFrame implements WindowListener
         }
     }
 
+    /**
+     * Submits the proof file
+     */
+    private void submit()
+    {
+        GameBoardFacade facade = GameBoardFacade.getInstance();
+        Board board = facade.getBoard();
+        boolean delayStatus = true; //board.evalDelayStatus();
+        repaintAll();
+
+        Puzzle pm = facade.getPuzzleModule();
+        if(pm.isPuzzleComplete() && delayStatus)
+        {
+            // 0 means yes, 1 means no (Java's fault...)
+            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you wish to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
+            if(confirm == 0)
+            {
+                Submission submission = new Submission(board);
+                submission.submit();
+            }
+        }
+        else
+        {
+            JOptionPane.showConfirmDialog(null, "Your proof is incorrect! Are you sure you wish to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
+            Submission submit = new Submission(board);
+        }
+    }
+
+    private void directions()
+    {
+        JOptionPane.showMessageDialog(null, "For ever move you make, you must provide a rules for it (located in the Rules panel).\n" + "While working on the puzzle, you may click on the \"Check\" button to test your proof for correctness.", "Directions", JOptionPane.PLAIN_MESSAGE);
+    }
+
     private void showAll()
     {
         getToolBarButtons()[ToolbarName.SAVE.ordinal()].setEnabled(true);
@@ -523,12 +581,18 @@ public class LegupUI extends JFrame implements WindowListener
         showStatus(status, error, 1);
     }
 
-    public void reloadGui()
+    public void errorEncountered(String error)
     {
-
+        JOptionPane.showMessageDialog(null, error);
     }
 
-    public void openPuzzle()
+    public void reloadGui()
+    {
+        repaintBoard();
+        repaintTree();
+    }
+
+    public void promptPuzzle()
     {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if(facade.getBoard() != null)

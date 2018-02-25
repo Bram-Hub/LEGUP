@@ -4,10 +4,13 @@ import app.GameBoardFacade;
 import model.rules.ContradictionRule;
 import model.rules.TreeNode;
 
-import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
-public class TransitionElement extends JPanel
+public class TransitionElement implements Shape
 {
     private static final int RADIUS = 10;
     private static final int DIAMETER = 2 * RADIUS;
@@ -67,5 +70,65 @@ public class TransitionElement extends JPanel
             graphics2D.drawLine(location.x + RADIUS + 3 * RADIUS,location.y - RADIUS,
                     location.x - RADIUS + 3 * RADIUS,location.y + RADIUS);
         }
+    }
+
+    @Override
+    public Rectangle getBounds()
+    {
+        return null;
+    }
+
+    @Override
+    public Rectangle2D getBounds2D()
+    {
+        return null;
+    }
+
+    @Override
+    public boolean contains(double x, double y)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean contains(Point2D p)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean intersects(double x, double y, double w, double h)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean intersects(Rectangle2D r)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean contains(double x, double y, double w, double h)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean contains(Rectangle2D r)
+    {
+        return false;
+    }
+
+    @Override
+    public PathIterator getPathIterator(AffineTransform at)
+    {
+        return null;
+    }
+
+    @Override
+    public PathIterator getPathIterator(AffineTransform at, double flatness)
+    {
+        return null;
     }
 }

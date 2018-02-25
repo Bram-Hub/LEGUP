@@ -1,6 +1,7 @@
 package ui.boardview;
 
 import app.BoardController;
+import app.ElementController;
 import model.Puzzle;
 import model.gameboard.Board;
 import ui.DynamicViewer;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 public abstract class BoardView extends DynamicViewer
 {
     protected ArrayList<PuzzleElement> puzzleElements;
+    protected ElementController elementController;
 
     /**
      * BoardView Constructor - creates a BoardView object using
@@ -22,6 +24,7 @@ public abstract class BoardView extends DynamicViewer
     {
         super(boardController);
         puzzleElements = new ArrayList<>();
+        this.elementController = new ElementController(this);
     }
 
     /**
@@ -67,5 +70,15 @@ public abstract class BoardView extends DynamicViewer
     public int getElementCount()
     {
         return puzzleElements.size();
+    }
+
+    /**
+     * Gets the PuzzleElements associated with the BoardView
+     *
+     * @return list of PuzzleElements
+     */
+    public ArrayList<PuzzleElement> getPuzzleElements()
+    {
+        return puzzleElements;
     }
 }

@@ -22,9 +22,7 @@ public class GameBoardFacade
 
     private Config config;
 
-    private Board board;
     private Puzzle puzzle;
-    private Tree tree;
 
     private ArrayList<IBoardListener> boardListeners;
     private ArrayList<ITransitionListener> transitionListener;
@@ -74,8 +72,7 @@ public class GameBoardFacade
     public void setPuzzle(Puzzle puzzle)
     {
         this.puzzle = puzzle;
-        this.board = puzzle.getCurrentBoard();
-        this.tree = new Tree(puzzle.getCurrentBoard());
+        puzzle.setTree(new Tree(puzzle.getCurrentBoard()));
         this.legupUI.setBoardView(((Sudoku)puzzle).getBoardView());
         this.legupUI.updateTreeView(tree);
     }
@@ -158,7 +155,7 @@ public class GameBoardFacade
      */
     public Board getBoard()
     {
-        return board;
+        return puzzle.getCurrentBoard();
     }
 
     /**
@@ -168,8 +165,7 @@ public class GameBoardFacade
      */
     public void setBoard(Board board)
     {
-        this.board = board;
-        this.tree = new Tree(board);
+        puzzle.setCurrentBoard(board);
     }
 
     /**
@@ -179,7 +175,7 @@ public class GameBoardFacade
      */
     public Tree getTree()
     {
-        return tree;
+        return puzzle == null ? null : puzzle.getTree();
     }
 
     /**

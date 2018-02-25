@@ -24,18 +24,29 @@ public class SudokuElement extends GridElement
      */
     public void draw(Graphics2D graphics2D, Point location)
     {
-        GridCell cell = (GridCell) data;
         graphics2D.setColor(BORDER_COLOR);
-        graphics2D.drawRect(location.x * size.width, location.y * size.height, size.width, size.height);
+        if(isHover())
+        {
+            graphics2D.setColor(new Color(63,101,244));
+            graphics2D.setStroke(new BasicStroke(3));
+            graphics2D.drawRect(location.x * size.width, location.y * size.height, size.width, size.height);
+        }
+        else
+        {
+            graphics2D.setStroke(new BasicStroke(1));
+            graphics2D.setColor(Color.BLACK);
+            graphics2D.drawRect(location.x * size.width, location.y * size.height, size.width, size.height);
+        }
 
-        graphics2D.setColor(FONT_COLOR);
-        graphics2D.setFont(FONT);
-        FontMetrics metrics = graphics2D.getFontMetrics(FONT);
-        String value = String.valueOf(cell.getValueInt());
-        int xText = (location.x * size.width) + (size.width - metrics.stringWidth(value)) / 2;
-        int yText = (location.y * size.width) + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-        graphics2D.drawString(String.valueOf(cell.getValueInt()),
-                xText, yText);
-
+        if(data.getValueInt() != 0)
+        {
+            graphics2D.setColor(FONT_COLOR);
+            graphics2D.setFont(FONT);
+            FontMetrics metrics = graphics2D.getFontMetrics(FONT);
+            String value = String.valueOf(data.getValueInt());
+            int xText = (location.x * size.width) + (size.width - metrics.stringWidth(value)) / 2;
+            int yText = (location.y * size.width) + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
+            graphics2D.drawString(String.valueOf(data.getValueInt()), xText, yText);
+        }
     }
 }

@@ -2,10 +2,10 @@ package model.gameboard;
 
 public abstract class ElementData
 {
-    private int index;
-    private String valueString;
-    private int valueInt;
-    private boolean isModifiable;
+    protected int index;
+    protected String valueString;
+    protected int valueInt;
+    protected boolean isModifiable;
 
     /**
      * ElementData Constructor - creates a new ElementData
@@ -129,4 +129,6 @@ public abstract class ElementData
     {
         return valueInt == data.valueInt && valueString.equals(data.valueString);
     }
+
+    public abstract ElementData copy();
 }

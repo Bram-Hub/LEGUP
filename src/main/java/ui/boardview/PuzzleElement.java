@@ -2,17 +2,22 @@ package ui.boardview;
 
 import model.gameboard.ElementData;
 
-import javax.swing.*;
-import java.awt.Point;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
-public abstract class PuzzleElement extends JComponent
+public abstract class PuzzleElement implements Shape
 {
     protected int index;
     protected Point location;
     protected Dimension size;
     protected ElementData data;
+    private Color highLightColor;
+    private Color hoverColor;
+    private boolean isHover;
+    private boolean isSelected;
 
     /**
      * PuzzleElement Constructor - creates a puzzle element view
@@ -22,6 +27,10 @@ public abstract class PuzzleElement extends JComponent
     public PuzzleElement(ElementData data)
     {
         this.data = data;
+        highLightColor = new Color(0,0,128,128);
+        hoverColor = new Color(0,0,255,128);
+        isHover = false;
+        isSelected = false;
     }
 
     /**
@@ -121,5 +130,129 @@ public abstract class PuzzleElement extends JComponent
     public void setData(ElementData data)
     {
         this.data = data;
+    }
+
+    /**
+     * Gets the high-light color
+     *
+     * @return high-light color
+     */
+    public Color getHighLightColor()
+    {
+        return highLightColor;
+    }
+
+    /**
+     * Sets the high-light color
+     *
+     * @param highLightColor high-light color
+     */
+    public void setHighLightColor(Color highLightColor)
+    {
+        this.highLightColor = highLightColor;
+    }
+
+
+    /**
+     * Gets whether the element is currently being hovered over
+     *
+     * @return true if the element is currently being hover over, false otherwise
+     */
+    public boolean isHover()
+    {
+        return isHover;
+    }
+
+    /**
+     * Sets whether the element is being hover over
+     *
+     * @param hover true if the element is correctly being hover over, false otherwise
+     */
+    public void setHover(boolean hover)
+    {
+        isHover = hover;
+    }
+
+    /**
+     * Gets whether the element is being selected
+     *
+     * @return tue if the element is currently selected, false otherwise
+     */
+    public boolean isSelected()
+    {
+        return isSelected;
+    }
+
+    /**
+     * Sets whether the element is being selected
+     *
+     * @param selected tue if the element is currently selected, false otherwise
+     */
+    public void setSelected(boolean selected)
+    {
+        isSelected = selected;
+    }
+
+    @Override
+    public boolean contains(double x, double y)
+    {
+        return x >= location.x && x <= location.x + size.width &&
+                y >= location.y && y <= location.y + size.height;
+    }
+
+    @Override
+    public boolean contains(Point2D point)
+    {
+        return contains(point.getX(), point.getY());
+    }
+
+    @Override
+    public boolean intersects(double x, double y, double width, double height)
+    {
+        return (x + width >= location.x && x <= location.x + size.width) ||
+                (y + height >= location.y && y <= location.y + size.height);
+    }
+
+    @Override
+    public boolean intersects(Rectangle2D rectangle2D)
+    {
+        return intersects(rectangle2D.getX(), rectangle2D.getY(), rectangle2D.getWidth(), rectangle2D.getHeight());
+    }
+
+    @Override
+    public boolean contains(double x, double y, double width, double height)
+    {
+        return (x + width >= location.x && x <= location.x + size.width) &&
+                (y + height >= location.y && y <= location.y + size.height);
+    }
+
+    @Override
+    public boolean contains(Rectangle2D rectangle2D)
+    {
+        return contains(rectangle2D.getX(), rectangle2D.getY(), rectangle2D.getWidth(), rectangle2D.getHeight());
+    }
+
+    @Override
+    public PathIterator getPathIterator(AffineTransform at)
+    {
+        return new Rectangle(location.x, location.y, size.width, size.height).getPathIterator(at);
+    }
+
+    @Override
+    public PathIterator getPathIterator(AffineTransform at, double flatness)
+    {
+        return new Rectangle(location.x, location.y, size.width, size.height).getPathIterator(at, flatness);
+    }
+
+    @Override
+    public Rectangle getBounds()
+    {
+        return new Rectangle(location.x, location.y, size.width, size.height);
+    }
+
+    @Override
+    public Rectangle2D getBounds2D()
+    {
+        return new Rectangle(location.x, location.y, size.width, size.height);
     }
 }

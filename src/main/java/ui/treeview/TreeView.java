@@ -1,9 +1,7 @@
 package ui.treeview;
 
 import app.GameBoardFacade;
-import app.SelectionController;
 import app.TreeController;
-import model.rules.RuleType;
 import model.rules.Tree;
 import model.rules.TreeNode;
 import ui.DynamicViewer;
@@ -26,6 +24,10 @@ public class TreeView extends DynamicViewer
     private static final int SMALL_NODE_RADIUS = 7;
     private static final int COLLAPSED_DRAW_DELTA_X = 10;
     private static final int COLLAPSED_DRAW_DELTA_Y = 10;
+
+    private static final int NODE_GAP_WIDTH = 50;
+    private static final int NODE_GAP_HEIGHT = 50;
+
     private static final float floater[] = new float[]{(5.0f), (10.0f)};
     private static final float floater2[] = new float[]{(2.0f), (3.0f)};
     private static final Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 10, floater, 0);
@@ -35,7 +37,7 @@ public class TreeView extends DynamicViewer
     private static final String NodeImgs = "images/Legup/tree/smiley/";
     private static Selection mouseOver;
 
-    private TreeNodeElement nodeHover;
+    private TreeNodeView nodeHover;
 
     private ArrayList<Rectangle> currentStateBoxes;
     private Point selectionOffset = null;
@@ -45,6 +47,9 @@ public class TreeView extends DynamicViewer
     private int yOffset = 0;
     private Point mousePoint;
     private Map<TreeNode, Color> collapseColorHash;
+    private Tree tree;
+    private TreeNodeView rootNodeView;
+    private Dimension dimension;
 
     public TreeView(TreeController treeController)
     {
@@ -52,8 +57,8 @@ public class TreeView extends DynamicViewer
         currentStateBoxes = new ArrayList<>();
         collapseColorHash = new HashMap<>();
         nodeHover = null;
-        setSize(new Dimension(640, 300)); // was 100, 200 before
-        setPreferredSize(new Dimension(640, 300));
+        setSize(dimension = new Dimension(100, 200));
+        setPreferredSize(new Dimension(640, 160));
     }
 
     /**
@@ -61,7 +66,7 @@ public class TreeView extends DynamicViewer
      *
      * @return tree node element that the mouse is hovering over
      */
-    public TreeNodeElement getNodeHover()
+    public TreeNodeView getNodeHover()
     {
         return nodeHover;
     }
@@ -71,7 +76,7 @@ public class TreeView extends DynamicViewer
      *
      * @param nodeHover tree node element the mouse is hovering over
      */
-    public void setNodeHover(TreeNodeElement nodeHover)
+    public void setNodeHover(TreeNodeView nodeHover)
     {
         this.nodeHover = nodeHover;
     }
@@ -81,50 +86,82 @@ public class TreeView extends DynamicViewer
         // System.out.println("actionPerformed");
     }
 
-    private TreeNode getLastCollapsed(TreeNode treeNode)
+    private TreeNodeView getLastCollapsed(TreeNodeView nodeView)
     {
-        return getLastCollapsed(treeNode, null);
+        return getLastCollapsed(nodeView, null);
     }
 
-    private TreeNode getLastCollapsed(TreeNode treeNode, int[] outptrNumTransitions)
+    private TreeNodeView getLastCollapsed(TreeNodeView nodeView, int[] outptrNumTransitions)
     {
-        ArrayList<TreeNode> children = treeNode.getChildren();
+        ArrayList<TreeNodeView> children = nodeView.getChildrenViews();
         int numTransitions = 0;
 
         if(children.size() == 1)
         {
-            TreeNode child = children.get(0);
+            TreeNodeView childView = children.get(0);
 
-            if(child.isCollapsed())
+            if(childView.isCollapsed())
             {
                 numTransitions++;
-                treeNode = getLastCollapsed(child);
+                nodeView = getLastCollapsed(childView);
             }
         }
         if(outptrNumTransitions != null)
         {
             outptrNumTransitions[0] = numTransitions;
         }
-        return treeNode;
+        return nodeView;
+    }
+
+    public TreeNodeView getTreeNodeView(Point point)
+    {
+        return getTreeNodeView(point, rootNodeView);
+    }
+
+    private TreeNodeView getTreeNodeView(Point point, TreeNodeView nodeView)
+    {
+        if(nodeView.contains(point))
+        {
+            return nodeView;
+        }
+        else
+        {
+            TreeNodeView treeNodeView = null;
+            for(TreeNodeView view: nodeView.getChildrenViews())
+            {
+                treeNodeView = getTreeNodeView(point, view);
+                if(treeNodeView != null)
+                {
+                    return treeNodeView;
+                }
+            }
+            return treeNodeView;
+        }
     }
 
     // recursively computes the bounding rectangle of the tree
-    private Rectangle getTreeBounds(TreeNode treeNode)
+    private Rectangle getTreeBounds(TreeNodeView nodeView)
     {
         // get the position of the current node and add padding
-        Rectangle b = new Rectangle(treeNode.getLocation());
+        Rectangle b = new Rectangle(nodeView.getLocation());
         b.grow(2 * NODE_RADIUS, 2 * NODE_RADIUS);
         // Adjust the rectangle so that rule popups aren't cut off
         float scale = (100 / (float) getZoom());
         b.setBounds((int) b.getX() - (int) (100 * scale), (int) b.getY(), (int) b.getWidth() + (int) (400 * scale), (int) b.getHeight() + (int) (200 * scale));
         // get the relevant child nodes
-        ArrayList<TreeNode> children = treeNode.isCollapsed() ? getLastCollapsed(treeNode).getChildren() : treeNode.getChildren();
+        ArrayList<TreeNodeView> childrenViews = nodeView.isCollapsed() ? getLastCollapsed(nodeView).getChildrenViews() : nodeView.getChildrenViews();
         // compute the union of the child bounding boxes recursively
-        for(int c = 0; c < children.size(); c++)
+        for(int c = 0; c < childrenViews.size(); c++)
         {
-            b = b.union(getTreeBounds(children.get(c)));
+            b = b.union(getTreeBounds(childrenViews.get(c)));
         }
         return b;
+    }
+
+    public void updateTreeView(Tree tree)
+    {
+        this.tree = tree;
+        repaint();
     }
 
     public void updateTreeSize()
@@ -133,9 +170,8 @@ public class TreeView extends DynamicViewer
         {
             return;
         }
-        bounds = getTreeBounds(GameBoardFacade.getInstance().getTree().getRootNode());
-        // setSize(bounds.getSize());
-        setSize(600,300);// often the problem with visibility, fix this value later
+        //bounds = getTreeBounds(GameBoardFacade.getInstance().getTree().getRootNode());
+        setSize(bounds.getSize());
         TreeNode treeNode = GameBoardFacade.getInstance().getTree().getRootNode();
         if(bounds.y != 60)
         {
@@ -169,25 +205,15 @@ public class TreeView extends DynamicViewer
     {
         currentStateBoxes.clear();
         Tree tree = GameBoardFacade.getInstance().getTree();
-
-
-        //*****REMOVE****FOR*TESTING*PURPOSES*ONLY**********//
-        graphics2D.setColor(Color.GREEN);
-        graphics2D.drawOval(40,100,80,80);
-
-
-        //////////////////////////////////////////////////////
-
-
         if(tree != null)
         {
-            // setSize(bounds.getSize());
-            setSize(600, 300);// often the problem with visibility, fiz later
+            //setSize(bounds.getSize());
+            //setSize(dimension);
             graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-            drawTree(graphics2D, tree.getRootNode());
-            drawCurrentStateBoxes(graphics2D);
+            drawTree(graphics2D, tree.getRootNode(), 0);
+            //drawCurrentStateBoxes(graphics2D);
 
             if(mouseOver != null)
             {
@@ -294,89 +320,6 @@ public class TreeView extends DynamicViewer
         //parent0.toggleCollapseRecursiveMerge(parent0.getLocation().x, parent0.getLocation().y, true);
         //parent1.toggleCollapseRecursiveMerge(parent1.getLocation().x, parent1.getLocation().y, true);
     }
-    /*
-    public void syncCollapse(TreeNode treeNode, int numBranches)
-    {
-        //first determine if all the branches are collapsed
-        boolean allCollapsed = true;
-        for(int i = 0; i < numBranches; i++)
-        {
-            TreeNode child = treeNode.getChildren().get(i);
-            TreeNode childFirstNode = child.getChildren().get(0);
-            if(childFirstNode.getChildren().size() < 1)
-            {
-                continue;
-            }
-
-            TreeNode childFirstTransition = childFirstNode.getChildren().get(0);
-
-            allCollapsed &= childFirstTransition.isCollapsed();
-        }
-
-        //then handle collapsing for each branch
-        for(int i = 0; i < numBranches; i++)
-        {
-            TreeNode child = treeNode.getChildren().get(i);
-            TreeNode childFirstNode = child.getChildren().get(0);
-            if(childFirstNode.getChildren().size() < 1)
-            {
-                continue;
-            }
-
-            TreeNode childNextTransition = childFirstNode.getChildren().get(0);
-
-            //if all collapsed, then undo collapse
-            if(allCollapsed)
-            {
-                childNextTransition.toggleCollapse();
-            }
-            //otherwise collapse if not already collapsed
-            else if(!childNextTransition.isCollapsed())
-            {
-                childNextTransition.toggleCollapse();
-            }
-        }
-    }
-
-    public void collapseCurrentState()
-    {
-        Selection s = GameBoardFacade.getInstance().getSelections().getFirstSelection();
-
-        TreeNode state = s.getState();
-
-        //toggle collapse for the collapse ICON or for nodes before it
-        if(state.isCollapsed())
-        {
-            state.toggleCollapse();
-        }
-        else
-        {
-            //Collapse all branches into one if all branches lead to contradiction
-            if(!state.isModifiable() && state.getChildren().size() >= 2)
-            {
-                handleAllBranchesContra(state);
-
-                syncCollapse(state, state.getChildren().size());
-            }
-
-            //collapse if this is the convergence of multiple branches
-            //meaning you clicked on a converged transition node
-            if(state.isModifiable() && state.getParents().size() > 1)
-            {
-                handleAllBranchesMerged(state);
-            }
-
-            //if the state is a transition then collapse everything to the right of it
-            if(state.isModifiable() && state.getChildren().size() == 1 && state.getParents().get(0).getChildren().size() < 2)
-            {
-                state.toggleCollapse();
-            }
-        }
-        getCollapseColor(state);
-
-        updateTreeSize();
-        repaint();
-    }*/
 
     /**
      * Gets the color of a collapsed tree node.
@@ -416,7 +359,7 @@ public class TreeView extends DynamicViewer
         HashSet<TreeNode> selected = tree.getSelected();
         ArrayList<TreeNode> selectedList = new ArrayList<>(selected);
 
-        updateTreeSize();
+        //updateTreeSize();
     }
 
     /**
@@ -432,166 +375,56 @@ public class TreeView extends DynamicViewer
         updateTreeSize();
     }
 
-    /**
-     * Recursively renders the tree below <code>state</code>.
-     * Passing in the root node will effectively draw the entire tree.
-     *
-     * @param g        the Graphics to draw on
-     * @param treeNode the state we're drawing
-     */
-    private void drawTree(Graphics g, TreeNode treeNode)
+    private void drawTree(Graphics2D graphics2D, TreeNode root, int v)
     {
-        Graphics2D graphics2D = (Graphics2D) g;
+        TreeNodeView rootView = new TreeNodeView(root);
+        dimension = new Dimension();
+        rootNodeView = rootView;
+        int span = drawTree(graphics2D, rootView, 0, TreeNodeView.DIAMETER);
+        dimension.height = span;
+        ArrayList<TreeNodeView> children = rootView.getChildrenViews();
+        rootView.setY(TreeNodeView.DIAMETER + span / 2);
+        dimension.height = dimension.height + 2 * TreeNodeView.DIAMETER;
+        dimension.width = dimension.width + TreeNodeView.DIAMETER;
+        System.out.println("Dimension: " + dimension);
+        setSize(dimension);
+        rootView.draw(graphics2D);
+    }
 
-        boolean isCollapsed = treeNode.isCollapsed();
-        TreeNode lastCollapsed = null;
-
-        ArrayList<TreeNode> children;
-        Point draw;
-
-        g.setColor(Color.black);
-        draw = new Point(0, 0);//Point)treeNode.getLocation().clone();
-        if(!isCollapsed)
+    private int drawTree(Graphics2D graphics2D, TreeNodeView nodeView, int depth, int rspan)
+    {
+        TreeNode node = nodeView.getTreeNode();
+        int xLoc = (NODE_GAP_WIDTH + TreeNodeView.DIAMETER) * depth + TreeNodeView.DIAMETER;
+        nodeView.setX(xLoc);
+        dimension.width = Math.max(dimension.width, xLoc);
+        if(node.getChildren().isEmpty())
         {
-            children = treeNode.getChildren();
+            nodeView.setY(rspan + TreeNodeView.RADIUS);
+            graphics2D.drawString(nodeView.getLocation() + ": " + (TreeNodeView.DIAMETER + NODE_GAP_HEIGHT), nodeView.getX(), nodeView.getY());
+            return TreeNodeView.DIAMETER;
         }
         else
         {
-            int[] ptrNumTransitions = new int[1];
-            lastCollapsed = getLastCollapsed(treeNode, ptrNumTransitions);
-            Point nextPoint = (Point) lastCollapsed.getLocation().clone();
-            draw.x = (draw.x + nextPoint.x) / 2;
-
-            children = lastCollapsed.getChildren();
-        }
-
-        for(int c = 0; c < children.size(); c++)
-        {
-            TreeNode child = children.get(c);
-            Point childPoint = (Point) child.getLocation().clone();
-            if(child.isCollapsed())
+            ArrayList<TreeNode> children = node.getChildren();
+            int size = children.size();
+            int tspan = 0;
+            for(int i = 0; i < size; i++)
             {
-                childPoint.x = (childPoint.x + getLastCollapsed(treeNode).getLocation().x) / 2;
+                TreeNode child = children.get(i);
+                TreeNodeView childView = new TreeNodeView(child);
+
+                int cspan = drawTree(graphics2D, childView, depth + 1, rspan + tspan);
+
+                System.out.println(childView.getLocation());
+                nodeView.addChildrenView(childView);
+                childView.draw(graphics2D);
+                tspan += i == size - 1 ? cspan : cspan + NODE_GAP_HEIGHT;
             }
+            ArrayList<TreeNodeView> childrenViews = nodeView.getChildrenViews();
+            nodeView.setY(rspan + tspan / 2);
+            graphics2D.drawString(nodeView.getLocation() + ": " + tspan, nodeView.getX(), nodeView.getY());
 
-            if(children.size() == 1)
-            {
-                if(child.isCorrect())
-                {
-                    g.setColor(TRANS_CORRECT_COLOR);
-                    graphics2D.setStroke(medium);
-                }
-                else
-                {
-                    g.setColor(TRANS_INCORRECT_COLOR);
-                    graphics2D.setStroke(medium);
-                }
-
-                drawTransition(new Line2D.Float(draw.x, draw.y, childPoint.x - NODE_RADIUS, childPoint.y), g, treeNode, child.isCollapsed());
-                graphics2D.setStroke(thin);
-            }
-            else
-            {
-                if(treeNode.getRule().getRuleType() != RuleType.CASE)
-                {
-                    g.setColor(Color.BLACK);
-                }
-                else if(!treeNode.isCorrect())
-                {
-                    g.setColor(Color.RED);
-                }
-                else
-                {
-                    g.setColor(Color.green);
-                }
-
-                // set the stroke depending on whether it leads to a contradiction or is the last state
-                if(treeNode.getRule().getRuleType() != RuleType.CASE)
-                {
-                    graphics2D.setStroke(thin);
-                }
-                else if(false)//b.leadsToContradiction())
-                {
-                    graphics2D.setStroke(medium);
-                }
-                else
-                {
-                    // maybe all the other ones are contradictions (proof by contradiction)
-                    boolean allOthersLeadToContradiction = true;
-
-                    for(int index = 0; index < children.size(); index++)
-                    {
-                        if(c == index) // skip ourselves
-                        {
-                            continue;
-                        }
-
-                        TreeNode sibling = children.get(index);
-
-                        if(!false)//sibling.leadsToContradiction())
-                        {
-                            allOthersLeadToContradiction = false;
-                            break;
-                        }
-                    }
-
-                    if(allOthersLeadToContradiction)
-                    {
-                        graphics2D.setStroke(medium);
-                    }
-                    else
-                    {
-                        graphics2D.setStroke(dotted);
-                    }
-                }
-
-                drawTransition(new Line2D.Float(draw.x, draw.y, childPoint.x - NODE_RADIUS, childPoint.y), g, treeNode, child.isCollapsed());
-
-                graphics2D.setStroke(thin);
-            }
-
-            drawTree(g, child);
-        }
-
-
-        if(GameBoardFacade.getInstance().getTree().isSelected(treeNode))
-        { // handle updating the selection information
-            int deltaY = 0;
-            int yRad = 36;
-
-            if(isCollapsed)
-            {
-                deltaY = -2 * COLLAPSED_DRAW_DELTA_Y; // times 2 because draw.y is already adjusted
-                yRad += 2 * COLLAPSED_DRAW_DELTA_Y;
-            }
-
-        }
-
-        if(!isCollapsed)
-        {
-            drawNode(g, draw.x, draw.y, treeNode);
-        }
-        else
-        {
-            drawCollapsedNode(g, draw.x, draw.y, lastCollapsed);
-        }
-
-        if(isCollapsed && GameBoardFacade.getInstance().getTree().isSelected(treeNode))
-        {
-            g.setColor(Color.green);
-            graphics2D.setStroke(medium);
-            final int diam = NODE_RADIUS + NODE_RADIUS;
-            g.drawRect(draw.x - diam, draw.y - diam, diam * 2, diam * 2);
-        }
-
-        // to prevent the drawing of contradictions from taking over the CPU
-        try
-        {
-            Thread.sleep(1);
-        }
-        catch(Exception e)
-        {
-            System.err.println("zzz...");
+            return tspan;
         }
     }
 
@@ -651,40 +484,6 @@ public class TreeView extends DynamicViewer
     }
 
     /**
-     * Creates a triangle with specified x, y, and radius.
-     *
-     * @param x      of center of triangle
-     * @param y      of center of triangle
-     * @param radius of circumscribing circle of triangle
-     *
-     * @returns a Polygon with the points of the requested triangle.
-     **/
-    private Polygon makeTriangle(int x, int y, double radius)
-    {
-        Polygon triangle = new Polygon();
-        for(double c1 = 0; c1 < 360; c1 += 120)
-        {
-            triangle.addPoint((int) (x + radius * Math.cos(Math.toRadians(c1))), (int) (y + radius * Math.sin(Math.toRadians(c1))));
-        }
-        return triangle;
-    }
-
-    /**
-     * Draw a node at a given location
-     *
-     * @param g     the graphics to draw it with
-     * @param x     the x location of the center of the node
-     * @param y     the y location of the center of the node
-     * @param state the state to draw
-     */
-    private void drawNode(Graphics g, int x, int y, TreeNode state)
-    {
-        TreeNodeElement element = new TreeNodeElement(state, new Point(x, y));
-        element.addMouseListener(new SelectionController(element, this));
-        element.draw((Graphics2D) g);
-    }
-
-    /**
      * When the user collapses the nodes, find out which gameboard state was collapsed. The gameboard state can then be used to find out
      * the overall color for the collapsed transition(s)
      *
@@ -734,11 +533,11 @@ public class TreeView extends DynamicViewer
         g2D.setColor(Color.black);
         for(int c = 0; c < 3; ++c)
         {
-            Polygon tri = makeTriangle(x - rad + (c - 1) * deltaX, y, diam / 2);
-            g.setColor(transitionColor);
-            g.fillPolygon(tri);
-            g.setColor(Color.black);
-            g.drawPolygon(tri);
+            //Polygon tri = makeTriangle(x - rad + (c - 1) * deltaX, y, diam / 2);
+//            g.setColor(transitionColor);
+//            g.fillPolygon(tri);
+//            g.setColor(Color.black);
+//            g.drawPolygon(tri);
         }
     }
 

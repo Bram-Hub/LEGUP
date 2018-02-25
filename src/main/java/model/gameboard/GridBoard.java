@@ -1,9 +1,14 @@
 package model.gameboard;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class GridBoard extends Board
 {
-    private int width;
-    private int height;
+    private final static Logger LOGGER = Logger.getLogger(GridBoard.class.getName());
+
+    protected int width;
+    protected int height;
 
     /**
      * GridBoard Constructor - models a GridBoard
@@ -15,6 +20,11 @@ public class GridBoard extends Board
     {
         this.width = width;
         this.height = height;
+
+        for(int i = 0; i < width * height; i++)
+        {
+            elementData.add(null);
+        }
     }
 
     /**
@@ -26,7 +36,13 @@ public class GridBoard extends Board
      */
     public GridCell getCell(int x, int y)
     {
-        return (GridCell)elementData.get(x * width + y);
+        if(x * width + y >= elementData.size() || x >= width || y >= height || x < 0 || y < 0)
+        {
+            LOGGER.log(Level.SEVERE, "Trying to call getCell with index values - " +
+                    "(" + x + ", " + y + "), which are out of range");
+            return null;
+        }
+        return (GridCell)elementData.get(y * width + x);
     }
 
     /**
@@ -38,7 +54,13 @@ public class GridBoard extends Board
      */
     public void setCell(int x, int y, GridCell cell)
     {
-        elementData.set(x * width + y, cell);
+        if(x * width + y >= elementData.size() && x < width && y < height && x >= 0 && y >= 0)
+        {
+            LOGGER.log(Level.SEVERE, "Trying to call setCell with index values - " +
+                    "(" + x + ", " + y + "), which are out of range");
+            return;
+        }
+        elementData.set(y * width + x, cell);
     }
 
     /**
