@@ -32,7 +32,7 @@ public class ZoomablePane extends JComponent
     }
 
     /**
-     * Processes the event
+     * Processes an event and sends it to the viewer
      *
      * @param e AWTEvent to process
      */

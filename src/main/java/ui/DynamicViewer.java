@@ -33,7 +33,7 @@ public abstract class DynamicViewer extends JScrollPane
     private double scale;
 
     private Controller controller;
-    private ZoomablePane canvas;
+    protected ZoomablePane canvas;
     private ZoomWidget widget;
 
     /**
@@ -298,9 +298,9 @@ public abstract class DynamicViewer extends JScrollPane
      * @param point canvas coordinate
      * @return draw coordinate as Point
      */
-    public Point toDrawCoordinates(Point point)
+    public Point getActualPoint(Point point)
     {
-        return new Point((int) (point.x / scale), (int) (point.y / scale));
+        return new Point((int)(point.x / scale), (int)(point.y / scale));
     }
 
     /**
@@ -362,6 +362,5 @@ public abstract class DynamicViewer extends JScrollPane
     protected void draw(Graphics2D graphics2D)
     {
         canvas.paint(graphics2D);
-        graphics2D.drawString("Hello World", 100, 100);
     }
 }

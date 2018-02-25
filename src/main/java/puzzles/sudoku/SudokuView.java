@@ -1,6 +1,7 @@
 package puzzles.sudoku;
 
 import app.BoardController;
+import app.ElementController;
 import model.Puzzle;
 import model.gameboard.Board;
 import model.gameboard.GridBoard;
@@ -9,9 +10,6 @@ import ui.boardview.GridElement;
 import ui.boardview.PuzzleElement;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
 
 public class SudokuView extends GridBoardView
 {
@@ -20,15 +18,17 @@ public class SudokuView extends GridBoardView
     public SudokuView(BoardController boardController, Dimension gridSize, Dimension elementSize)
     {
         super(boardController, gridSize, elementSize);
-        sudokuCellController = new SudokuCellController(this);
+        addMouseListener(elementController);
+        addMouseMotionListener(elementController);
         for(int i = 0; i < gridSize.height; i++)
         {
             for(int k = 0; k < gridSize.width; k++)
             {
-                SudokuElement element = new SudokuElement(new SudokuCell(0, new Point(i, k)));
-                element.addMouseListener(new SudokuCellController(this));
+                Point location = new Point(k * elementSize.width, i * elementSize.height);
+                SudokuElement element = new SudokuElement(new SudokuCell(0, location));
+                element.setIndex(i * gridSize.width + k);
                 element.setSize(elementSize);
-                element.addMouseListener(sudokuCellController);
+                element.setLocation(location);
                 puzzleElements.add(element);
             }
         }
@@ -44,6 +44,8 @@ public class SudokuView extends GridBoardView
                 gridSize.height * elementSize.height);
 
         int regions = (int)Math.sqrt(gridSize.width);
+        elementSize = new Dimension(canvas.getWidth() / gridSize.width, canvas.getHeight() / gridSize.height);
+        canvas.setSize(elementSize.width * gridSize.width, elementSize.height * gridSize.height);
         for(int i = 0; i < regions; i++)
         {
             for(int k = 0; k < regions; k++)
@@ -52,12 +54,25 @@ public class SudokuView extends GridBoardView
                         regions * elementSize.width, regions * elementSize.height);
             }
         }
-
         graphics2D.setStroke(new BasicStroke(1));
-        for(PuzzleElement element: puzzleElements)
+        PuzzleElement hover = null;
+        for(int i = 0; i < gridSize.height; i++)
         {
-            element.draw(graphics2D);
+            for(int k = 0; k < gridSize.width; k++)
+            {
+                PuzzleElement element = puzzleElements.get(i * gridSize.height + k);
+                element.setLocation(new Point(k * elementSize.width, i * elementSize.height));
+                element.setSize(elementSize);
+                if(!element.isHover())
+                    element.draw(graphics2D);
+                else
+                    hover = element;
+            }
         }
+        if(hover != null)
+            hover.draw(graphics2D);
+
+        //System.out.println("Canvas: " + canvas.getBounds());
     }
 
     /**
@@ -72,7 +87,6 @@ public class SudokuView extends GridBoardView
         {
             element.setData(gridBoard.getElementData(element.getIndex()));
         }
-        revalidate();
         repaint();
     }
 }

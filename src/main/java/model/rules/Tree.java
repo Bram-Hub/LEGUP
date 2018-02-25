@@ -20,6 +20,17 @@ public class Tree
     {
         this.rootNode = new TreeNode(initBoard, null);
         this.selected = new HashSet<>();
+        selected.add(rootNode);
+    }
+
+    /**
+     * Gets the first selected TreeNode
+     *
+     * @return first selected TreeNode
+     */
+    public TreeNode getFirstSelected()
+    {
+        return selected.iterator().next();
     }
 
     /**
@@ -30,12 +41,13 @@ public class Tree
     {
         if(selected.size() == 1)
         {
-            TreeNode treeNode = new ArrayList<>(selected).get(0);
+            TreeNode treeNode = getFirstSelected();
             if(treeNode.getChildren().size() == 0)
             {
                 TreeNode newNode = new TreeNode(treeNode.getBoard().copy(), null);
                 newNode.addParent(treeNode);
-                treeNode.addChild(treeNode);
+                treeNode.addChild(newNode);
+                newTreeNodeSelection(newNode);
             }
         }
     }
@@ -50,13 +62,18 @@ public class Tree
     {
         if(selected.size() == 1)
         {
-            TreeNode treeNode = new ArrayList<>(selected).get(0);
+            TreeNode treeNode = getFirstSelected();
             if(treeNode.getParents().size() == 1)
             {
                 TreeNode parent = treeNode.getParents().get(0);
+                treeNode.setRule(rule);
                 if(rule.checkRule(parent.getBoard(), treeNode.getBoard()) == null)
                 {
-                    treeNode.setRule(rule);
+                    treeNode.setCorrect(true);
+                }
+                else
+                {
+                    treeNode.setCorrect(false);
                 }
             }
         }

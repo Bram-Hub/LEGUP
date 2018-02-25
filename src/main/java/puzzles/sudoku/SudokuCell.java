@@ -9,17 +9,19 @@ public class SudokuCell extends GridCell
     public SudokuCell(int value, Point location)
     {
         super(value, location);
-
     }
 
     /**
-     * Performs a deep copy on the GridCell
+     * Performs a deep copy on the SudokuCell
      *
-     * @return a new copy of the GridCell that is independent of this one
+     * @return a new copy of the SudokuCell that is independent of this one
      */
     @Override
-    public GridCell copy()
+    public SudokuCell copy()
     {
-        return null;
+        SudokuCell cell = new SudokuCell(valueInt, (Point)location.clone());
+        cell.setIndex(index);
+        cell.setModifiable(isModifiable);
+        return cell;
     }
 }

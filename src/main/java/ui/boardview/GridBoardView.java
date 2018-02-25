@@ -68,14 +68,15 @@ public class GridBoardView extends BoardView
      */
     public GridElement getElement(Point point)
     {
-        for(PuzzleElement element: puzzleElements)
+        /*for(PuzzleElement element: puzzleElements)
         {
             if(element.isWithinBounds(point))
             {
                 return (GridElement) element;
             }
-        }
-        return null;
+        }*/
+        return getElement(((int)(point.y / getScale() / elementSize.height) * gridSize.width) +
+                ((int)(point.x / getScale() / elementSize.width)));
     }
 
     /**
@@ -128,12 +129,11 @@ public class GridBoardView extends BoardView
             for(int k = 0; k < gridBoard.getHeight(); k++)
             {
                 GridElement element = new GridElement(gridBoard.getCell(i, k));
-                element.cell = gridBoard.getCell(i, k);
-                element.size = elementSize;
+                element.setIndex(gridBoard.getCell(i, k).getIndex());
+                element.setSize(elementSize);
                 puzzleElements.add(element);
             }
         }
-        revalidate();
         repaint();
     }
 }

@@ -12,8 +12,6 @@ public class TreeNode
     private ArrayList<TreeNode> children;
     private Rule rule;
     private boolean isCorrect;
-    private Point location;
-    private boolean isCollapsed;
     private boolean isStateSelected;
 
     /**
@@ -29,8 +27,6 @@ public class TreeNode
         this.children = new ArrayList<>();
         this.rule = rule;
         this.isCorrect = false;
-        this.location = null;
-        this.isCollapsed = false;
         this.isStateSelected = false;
     }
 
@@ -220,43 +216,14 @@ public class TreeNode
     }
 
     /**
-     * Gets the location of the tree node
+     * Determines if this TreeNode is justified by testing to see if there
+     * has been a Rule applied to this TreeNode
      *
-     * @return location of the tree node
+     * @return
      */
-    public Point getLocation()
+    public boolean isJustified()
     {
-        return location;
-    }
-
-    /**
-     * Sets the location of the tree node
-     *
-     * @param location location of the tree node
-     */
-    public void setLocation(Point location)
-    {
-        this.location = location;
-    }
-
-    /**
-     * Is this tree node collapsed in the view
-     *
-     * @return true if the node is collapsed in the view, false otherwise
-     */
-    public boolean isCollapsed()
-    {
-        return isCollapsed;
-    }
-
-    /**
-     * Sets the tree node collapsed field
-     *
-     * @param isCollapsed true if the node is collapsed in the view, false otherwise
-     */
-    public void setCollapsed(boolean isCollapsed)
-    {
-        this.isCollapsed = isCollapsed;
+        return rule != null;
     }
 
     /**

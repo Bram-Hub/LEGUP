@@ -5,17 +5,29 @@ import model.gameboard.Board;
 import model.Puzzle;
 import model.gameboard.ElementData;
 import model.gameboard.GridCell;
+import model.rules.Tree;
 import ui.Selection;
 import ui.boardview.BoardView;
 import ui.boardview.GridElement;
+import ui.boardview.PuzzleElement;
 
 import java.awt.*;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Sudoku extends Puzzle
 {
-    private BoardView boardView;
+    private SudokuView boardView;
+    private int[][] testBoard = new int[][]{{0, 0, 0, 0, 0, 3, 0, 2, 0},
+                                            {1, 4, 0, 6, 2, 8, 0, 0, 0},
+                                            {6, 8, 2, 0, 0, 0, 3, 4, 0},
+                                            {5, 9, 0, 8, 0, 0, 0, 1, 0},
+                                            {0, 0, 0, 7, 9, 1, 0, 0, 0},
+                                            {0, 1, 0, 0, 0, 2, 0, 3, 8},
+                                            {0, 5, 1, 0, 0, 0, 6, 7, 2},
+                                            {0, 0, 0, 2, 7, 5, 0, 8, 9},
+                                            {0, 2, 0, 1, 0, 0, 0, 0, 0}};
 
     /**
      * Sudoku Constructor
@@ -25,7 +37,7 @@ public class Sudoku extends Puzzle
         super();
         boardView = new SudokuView(new BoardController(),
                 new Dimension(9, 9),
-                new Dimension(30,30));
+                new Dimension(36,36));
         initializeBoard();
 
         basicRules.add(new AdvancedDeductionBasicRule());
@@ -50,21 +62,22 @@ public class Sudoku extends Puzzle
     @Override
     public void initializeBoard()
     {
-        currentBoard = new SudokuBoard();
+        currentBoard = new SudokuBoard(9, 9);
+        tree = new Tree(currentBoard);
+        int width = ((SudokuBoard)currentBoard).getWidth();
+        int height = ((SudokuBoard)currentBoard).getHeight();
         ArrayList<ElementData> data = new ArrayList<>();
-        ArrayList<GridElement> cellViews = new ArrayList<>();
-        for(int i = 0; i < 81; i++)
+        Random rand = new Random();
+        for(PuzzleElement element: boardView.getPuzzleElements())
         {
-            GridCell cell = new GridCell(i, new Point(i / 9, i % 9))
-            {
-                @Override
-                public GridCell copy()
-                {
-                    return this;
-                }
-            };
-            SudokuElement cellView = new SudokuElement(cell);
-            cellViews.add(cellView);
+            int index = element.getIndex();
+            SudokuCell cell = new SudokuCell(testBoard[index / width][index % width], new Point(index % width, index / height));
+            if(cell.getValueInt() > 0)
+                cell.setModifiable(false);
+            else
+                cell.setModifiable(true);
+            cell.setIndex(index);
+            element.setData(cell);
             data.add(cell);
         }
         currentBoard.setElementData(data);

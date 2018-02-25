@@ -12,8 +12,10 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 import app.GameBoardFacade;
+import app.RuleController;
 import model.Puzzle;
 import model.gameboard.Board;
+import model.rules.Tree;
 import ui.boardview.BoardView;
 import ui.rulesview.RuleFrame;
 import ui.treeview.TreePanel;
@@ -94,7 +96,7 @@ public class LegupUI extends JFrame implements WindowListener
 
         setVisible(true);
 
-        setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        //setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
         setLocationRelativeTo(null);
 
@@ -110,8 +112,11 @@ public class LegupUI extends JFrame implements WindowListener
     public void repaintBoard()
     {
         boardView.updateBoard(GameBoardFacade.getInstance().getBoard());
-        boardView.revalidate();
-        boardView.repaint();
+    }
+
+    public void repaintTree()
+    {
+        treePanel.repaintTreeView(GameBoardFacade.getInstance().getTree());
     }
 
     public boolean checkAllowDefault()
@@ -293,7 +298,8 @@ public class LegupUI extends JFrame implements WindowListener
 
         //console = new Console();
 
-        ruleFrame = new RuleFrame(null);
+        RuleController ruleController = new RuleController();
+        ruleFrame = new RuleFrame(ruleController);
         ruleBox.add(ruleFrame, BorderLayout.WEST );
 
         //boardView = new SudokuView(new BoardController(), new Dimension(9,9),new Dimension(9,9));
@@ -582,7 +588,8 @@ public class LegupUI extends JFrame implements WindowListener
 
     public void reloadGui()
     {
-
+        repaintBoard();
+        repaintTree();
     }
 
     public void promptPuzzle()

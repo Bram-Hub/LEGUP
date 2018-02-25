@@ -1,15 +1,20 @@
 package app;
 
-import ui.treeview.TreePanel;
+import model.rules.Tree;
+import model.rules.TreeNode;
+import ui.boardview.BoardView;
+import ui.treeview.TreeNodeView;
 import ui.treeview.TreeView;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
+import static app.GameBoardFacade.getInstance;
+
 public class TreeController extends Controller
 {
-    protected Point lastMovedPoint;
+    private TreeView treeView;
 
     /**
      * TreeController Constructor - creates a controller object to listen
@@ -17,7 +22,7 @@ public class TreeController extends Controller
      */
     public TreeController()
     {
-        super();
+
     }
 
     /**
@@ -28,7 +33,18 @@ public class TreeController extends Controller
     @Override
     public void mouseClicked(MouseEvent e)
     {
-
+        TreeView treeView = (TreeView)viewer;
+        Point point = treeView.getActualPoint(e.getPoint());
+        Tree tree = getInstance().getTree();
+        BoardView boardView = getInstance().getLegupUI().getBoardView();
+        TreeNodeView nodeView = treeView.getTreeNodeView(point);
+        if(nodeView != null)
+        {
+            tree.newTreeNodeSelection(nodeView.getTreeNode());
+            treeView.repaint();
+            getInstance().getLegupUI().repaintBoard();
+            System.err.println("Location: " + nodeView.getLocation());
+        }
     }
 
     /**
@@ -56,7 +72,6 @@ public class TreeController extends Controller
 
         if(e.getButton() == MouseEvent.BUTTON1)
         {
-            lastMovedPoint = e.getPoint();
             if(e.isControlDown())
             {
                 //((TreeView)viewer).toggleSelection();

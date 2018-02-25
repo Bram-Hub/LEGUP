@@ -13,9 +13,9 @@ public class Legup
     {
         GameBoardFacade.getInstance();
         GameBoardFacade.getInstance().setPuzzle(new Sudoku());
-        GameBoardFacade.getInstance().getLegupUI().repaintBoard();
         Thread.sleep(100);
         GameBoardFacade.getInstance().getLegupUI().getBoardView().zoomFit();
+        GameBoardFacade.getInstance().getLegupUI().repaintTree();
 
     }
 }

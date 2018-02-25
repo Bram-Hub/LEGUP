@@ -1,7 +1,10 @@
 package puzzles.sudoku;
 
 import model.gameboard.Board;
+import model.gameboard.ElementData;
 import model.rules.BasicRule;
+
+import java.util.HashSet;
 
 public class AdvancedDeductionBasicRule extends BasicRule
 {
@@ -9,7 +12,7 @@ public class AdvancedDeductionBasicRule extends BasicRule
     public AdvancedDeductionBasicRule()
     {
         super("Proved by Advanced Deduction",
-                "Use of group logic deduces more answers by means of Forced by Location and Forced by Deduction",
+                "Use of group logic deduces more answers by means of forced by Location and forced by Deduction",
                 "images/sudoku/AdvancedDeduction.png");
     }
 
@@ -24,6 +27,12 @@ public class AdvancedDeductionBasicRule extends BasicRule
     @Override
     public String checkRule(Board initialBoard, Board finalBoard)
     {
+        for(ElementData data: initialBoard.getElementData())
+        {
+            String checkStr = checkRuleAt(initialBoard, finalBoard, data.getIndex());
+            if(checkStr != null)
+                return checkStr;
+        }
         return null;
     }
 
@@ -41,6 +50,70 @@ public class AdvancedDeductionBasicRule extends BasicRule
     @Override
     public String checkRuleAt(Board initialBoard, Board finalBoard, int elementIndex)
     {
+        if(initialBoard.getElementData(elementIndex).getValueInt() == finalBoard.getElementData(elementIndex).getValueInt())
+        {
+            return null;
+        }
+
+        SudokuBoard sudokuBoard = (SudokuBoard)initialBoard;
+        SudokuCell cell = (SudokuCell) finalBoard.getElementData(elementIndex);
+        int groupSize = sudokuBoard.getWidth();
+        int groupDim = (int)Math.sqrt(groupSize);
+        int rowIndex = elementIndex / groupSize;
+        int colIndex = elementIndex % groupSize;
+        int relX = rowIndex / groupDim;
+        int relY = colIndex % groupDim;
+        int groupNum = rowIndex / groupDim * groupDim + colIndex % groupDim;
+        boolean[][] possible = new boolean[groupDim][groupDim];
+        for(int y = 0; y < groupDim; y++)
+        {
+            for(int x = 0; x < groupDim; x++)
+            {
+                SudokuCell c = sudokuBoard.getCell(groupNum, x, y);
+                if(c.getValueInt() == cell.getValueInt() && x != relX && y != relY )
+                {
+                    return "Duplicate value in sub region";
+                }
+                possible[y][x] = c.getValueInt() == 0;
+            }
+        }
+        for(int y = 0; y < groupDim; y++)
+        {
+            for(int x = 0; x < groupSize; x++)
+            {
+                SudokuCell r = (SudokuCell) sudokuBoard.getCell(x, (groupNum / groupDim) * groupDim + y);
+                SudokuCell c = (SudokuCell) sudokuBoard.getCell((groupNum % groupDim) * groupDim + y, x);
+                if(r.getValueInt() == cell.getValueInt())
+                {
+                    for(int i = 0; i < groupDim; i++)
+                    {
+                        possible[y][i] = false;
+                    }
+                }
+                if(c.getValueInt() == cell.getValueInt())
+                {
+                    for(int i = 0; i < groupDim; i++)
+                    {
+                        possible[i][y] = false;
+                    }
+                }
+            }
+        }
+        boolean isForced = false;
+        for(int y = 0; y < groupDim; y++)
+        {
+            for(int x = 0; x < groupDim; x++)
+            {
+                if(possible[y][x] && !isForced)
+                {
+                    isForced = true;
+                }
+                else if(possible[y][x])
+                {
+                    return "Not forced";
+                }
+            }
+        }
         return null;
     }
 

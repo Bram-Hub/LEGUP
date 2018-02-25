@@ -1,7 +1,10 @@
 package puzzles.sudoku;
 
 import model.gameboard.Board;
+import model.gameboard.ElementData;
 import model.rules.ContradictionRule;
+
+import java.util.HashSet;
 
 public class RepeatedNumberContradictionRule extends ContradictionRule
 {
@@ -23,7 +26,26 @@ public class RepeatedNumberContradictionRule extends ContradictionRule
     @Override
     public String checkContradiction(Board board)
     {
-        return null;
+        SudokuBoard sudokuBoard = (SudokuBoard)board;
+        int groupSize = sudokuBoard.getWidth();
+        int groupDim = (int)Math.sqrt(groupSize);
+        for(int g = 0; g < groupSize; g++)
+        {
+            HashSet<Integer> numbers = new HashSet<>();
+            for(int i = 0; i < groupSize; i++)
+            {
+                SudokuCell cell = sudokuBoard.getCell(g, i % groupDim, i / groupDim);
+                if(cell.getValueInt() != 0)
+                {
+                    if(numbers.contains(cell.getValueInt()))
+                    {
+                        return null;
+                    }
+                    numbers.add(cell.getValueInt());
+                }
+            }
+        }
+        return "Board does not contain a contradiction";
     }
 
     /**
@@ -38,7 +60,23 @@ public class RepeatedNumberContradictionRule extends ContradictionRule
     @Override
     public String checkContradictionAt(Board board, int elementIndex)
     {
-        return null;
+        SudokuBoard sudokuBoard = (SudokuBoard)board;
+        int groupSize = sudokuBoard.getWidth();
+        int groupDim = (int)Math.sqrt(groupSize);
+        int groupNum = (elementIndex / groupSize) / groupDim * groupDim + (elementIndex % groupSize) % groupDim * groupDim;
+        HashSet<Integer> numbers = new HashSet<>();
+        for(int i = 0; i < groupSize; i++)
+        {
+            numbers.add(sudokuBoard.getCell(groupNum, i % groupDim, i / groupDim).getValueInt());
+        }
+        if(numbers.contains(sudokuBoard.getElementData(elementIndex).getValueInt()))
+        {
+            return null;
+        }
+        else
+        {
+            return "Board does not contain a contradiction at index: " + elementIndex;
+        }
     }
 
     /**
@@ -52,7 +90,7 @@ public class RepeatedNumberContradictionRule extends ContradictionRule
     @Override
     public String checkRule(Board initialBoard, Board finalBoard)
     {
-        return null;
+        return checkContradiction(finalBoard);
     }
 
     /**
@@ -69,7 +107,7 @@ public class RepeatedNumberContradictionRule extends ContradictionRule
     @Override
     public String checkRuleAt(Board initialBoard, Board finalBoard, int elementIndex)
     {
-        return null;
+        return checkContradictionAt(finalBoard, elementIndex);
     }
 
     /**
