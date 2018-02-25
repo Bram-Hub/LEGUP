@@ -16,6 +16,5 @@ public class Legup
         GameBoardFacade.getInstance().getLegupUI().repaintBoard();
         Thread.sleep(100);
         GameBoardFacade.getInstance().getLegupUI().getBoardView().zoomFit();
-
     }
 }

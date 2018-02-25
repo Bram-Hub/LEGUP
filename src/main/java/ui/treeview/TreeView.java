@@ -52,8 +52,8 @@ public class TreeView extends DynamicViewer
         currentStateBoxes = new ArrayList<>();
         collapseColorHash = new HashMap<>();
         nodeHover = null;
-        setSize(new Dimension(100, 200));
-        setPreferredSize(new Dimension(640, 160));
+        setSize(new Dimension(640, 300)); // was 100, 200 before
+        setPreferredSize(new Dimension(640, 300));
     }
 
     /**
@@ -134,7 +134,8 @@ public class TreeView extends DynamicViewer
             return;
         }
         bounds = getTreeBounds(GameBoardFacade.getInstance().getTree().getRootNode());
-        setSize(bounds.getSize());
+        // setSize(bounds.getSize());
+        setSize(600,300);// often the problem with visibility, fix this value later
         TreeNode treeNode = GameBoardFacade.getInstance().getTree().getRootNode();
         if(bounds.y != 60)
         {
@@ -168,9 +169,20 @@ public class TreeView extends DynamicViewer
     {
         currentStateBoxes.clear();
         Tree tree = GameBoardFacade.getInstance().getTree();
+
+
+        //*****REMOVE****FOR*TESTING*PURPOSES*ONLY**********//
+        graphics2D.setColor(Color.GREEN);
+        graphics2D.drawOval(40,100,80,80);
+
+
+        //////////////////////////////////////////////////////
+
+
         if(tree != null)
         {
-            setSize(bounds.getSize());
+            // setSize(bounds.getSize());
+            setSize(600, 300);// often the problem with visibility, fiz later
             graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 

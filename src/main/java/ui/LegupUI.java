@@ -12,9 +12,11 @@ import javax.swing.*;
 import app.GameBoardFacade;
 import model.Puzzle;
 import model.gameboard.Board;
+import model.rules.Tree;
 import ui.boardview.BoardView;
 import ui.rulesview.RuleFrame;
 import ui.treeview.TreePanel;
+import ui.treeview.TreeView;
 
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -66,6 +68,7 @@ public class LegupUI extends JFrame implements WindowListener
     protected JToolBar toolBar;
 
     protected BoardView boardView;
+    protected TreeView treeView;
     private RuleFrame ruleFrame;
     private TreePanel treePanel;
 
@@ -87,9 +90,8 @@ public class LegupUI extends JFrame implements WindowListener
         setupToolBar();
         setupContent();
 
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
-
-        //setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
         //setLocationRelativeTo(null);
     }
@@ -99,6 +101,10 @@ public class LegupUI extends JFrame implements WindowListener
         boardView.updateBoard(GameBoardFacade.getInstance().getBoard());
         boardView.revalidate();
         boardView.repaint();
+    }
+
+    public void updateTreeView(Tree tree) {
+        treeView.repaint();
     }
 
     /**
@@ -231,21 +237,21 @@ public class LegupUI extends JFrame implements WindowListener
             getToolBarButtons()[i].setHorizontalTextPosition(SwingConstants.CENTER);
         }
 
-        getToolBarButtons()[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent e)  -> openPuzzle());
-        getToolBarButtons()[ToolbarName.OPEN_PROOF.ordinal()].addActionListener((ActionEvent e) -> openProof());
-        getToolBarButtons()[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e)  -> saveProof());
-        getToolBarButtons()[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e)  -> {});
-        getToolBarButtons()[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e)  -> {});
-        getToolBarButtons()[ToolbarName.CONSOLE.ordinal()].addActionListener((ActionEvent e)  -> {});
-        getToolBarButtons()[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e)  -> {});
-        getToolBarButtons()[ToolbarName.CHECK.ordinal()].addActionListener((ActionEvent e)  -> {});
-        getToolBarButtons()[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e)  -> {});
-        getToolBarButtons()[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e)  -> {});
-        getToolBarButtons()[ToolbarName.ZOOM_IN.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomIn());
-        getToolBarButtons()[ToolbarName.ZOOM_OUT.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomOut());
-        getToolBarButtons()[ToolbarName.NORMAL_ZOOM.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomTo(1.0) );
-        getToolBarButtons()[ToolbarName.BEST_FIT.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomFit());
-        getToolBarButtons()[ToolbarName.ANNOTATIONS.ordinal()].addActionListener((ActionEvent e)  -> {  });
+        getToolBarButtons()[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent)  -> openPuzzle());
+        getToolBarButtons()[ToolbarName.OPEN_PROOF.ordinal()].addActionListener((ActionEvent) -> openProof());
+        getToolBarButtons()[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent)  -> saveProof());
+        getToolBarButtons()[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent)  -> {});
+        getToolBarButtons()[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent)  -> {});
+        getToolBarButtons()[ToolbarName.CONSOLE.ordinal()].addActionListener((ActionEvent)  -> {});
+        getToolBarButtons()[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent)  -> {});
+        getToolBarButtons()[ToolbarName.CHECK.ordinal()].addActionListener((ActionEvent)  -> {});
+        getToolBarButtons()[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent)  -> {});
+        getToolBarButtons()[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent)  -> {});
+        getToolBarButtons()[ToolbarName.ZOOM_IN.ordinal()].addActionListener((ActionEvent)  -> boardView.zoomIn());
+        getToolBarButtons()[ToolbarName.ZOOM_OUT.ordinal()].addActionListener((ActionEvent)  -> boardView.zoomOut());
+        getToolBarButtons()[ToolbarName.NORMAL_ZOOM.ordinal()].addActionListener((ActionEvent)  -> boardView.zoomTo(1.0) );
+        getToolBarButtons()[ToolbarName.BEST_FIT.ordinal()].addActionListener((ActionEvent)  -> boardView.zoomFit());
+        getToolBarButtons()[ToolbarName.ANNOTATIONS.ordinal()].addActionListener((ActionEvent)  -> {  });
 
         getToolBarButtons()[ToolbarName.SAVE.ordinal()].setEnabled(false);
         getToolBarButtons()[ToolbarName.UNDO.ordinal()].setEnabled(false);
@@ -273,12 +279,10 @@ public class LegupUI extends JFrame implements WindowListener
         ruleFrame = new RuleFrame(null);
         ruleBox.add(ruleFrame, BorderLayout.WEST );
 
-        //boardView = new SudokuView(new BoardController(), new Dimension(9,9),new Dimension(9,9));
-        //boardView.setPreferredSize(new Dimension(600, 400));
-        //boardView.updateBoard(GameBoardFacade.getInstance().getPuzzleModule().getCurrentBoard());
-        //boardView.setBorder(boardBorder);
-
         treePanel = new TreePanel(this);
+        treePanel.setPreferredSize(new Dimension(600, 300));
+        consoleBox.setSize(600,300);
+
 
         JPanel boardPanel = new JPanel(new BorderLayout());
         topHalfPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, ruleFrame, boardView);
@@ -313,7 +317,6 @@ public class LegupUI extends JFrame implements WindowListener
         }
         fileChooser.setMode(FileDialog.LOAD);
         fileChooser.setTitle("Select Proof");
-        file
         fileChooser.setVisible(true);
 
 //        ProofFilter filter = new ProofFilter();
