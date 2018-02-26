@@ -247,13 +247,13 @@ public class TreeNodeView implements Shape
     }
 
     /**
-     * Sets the y location of the tree node
+     * Gets the y location of the tree node
      *
      * @return y location
      */
     public int getY()
     {
-        return location.x;
+        return location.y;
     }
 
     /**
@@ -265,6 +265,13 @@ public class TreeNodeView implements Shape
     {
         location.y = y;
     }
+
+    /**
+     * Gets the radius of the tree node
+     *
+     * @return radius
+     */
+    public int getRadius() {return RADIUS; }
 
     /**
      * Is this tree node view collapsed in the view
