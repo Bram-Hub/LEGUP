@@ -117,6 +117,31 @@ public class TreeNodeView implements Shape
     }
 
     /**
+     * Gets the color of the tree node and whether or not it is justified.
+     *
+     * @return the color of the tree node
+     */
+    public Color getJustificationColor() {
+        Color justificationColor;
+        if(treeNode.isJustified())
+        {
+            if(treeNode.isCorrect())
+            {
+                justificationColor = NODE_COLOR_CORRECT;
+            }
+            else
+            {
+                justificationColor = NODE_COLOR_INCORRECT;
+            }
+        }
+        else
+        {
+            justificationColor = NODE_COLOR_DEFAULT;
+        }
+        return justificationColor;
+    }
+
+    /**
      * Gets the list of children views associated with this tree node
      *
      * @return list of children views for this tree node
