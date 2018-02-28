@@ -92,9 +92,8 @@ public class LegupUI extends JFrame implements WindowListener
         setupToolBar();
         setupContent();
 
+        setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
         setVisible(true);
-
-        //setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
         setLocationRelativeTo(null);
 
@@ -595,7 +594,7 @@ public class LegupUI extends JFrame implements WindowListener
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if(facade.getBoard() != null)
         {
-            if(!noquit("opening a new puzzle?"))
+            if(noquit("opening a new puzzle?")) // !noquit or noquit?
             {
                 return;
             }
