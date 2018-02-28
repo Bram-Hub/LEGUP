@@ -343,6 +343,8 @@ public class LegupUI extends JFrame implements WindowListener
         fileChooser.setTitle("Select Proof");
         fileChooser.setVisible(true);
 
+        // ProofFilter filter = new ProofFilter();
+        // fileChooser.setFilenameFilter(filter);
 //        ProofFilter filter = new ProofFilter();
 //        fileChooser.setFilenameFilter(filter);
 
@@ -376,8 +378,6 @@ public class LegupUI extends JFrame implements WindowListener
         fileChooser.setTitle("Select Proof");
         fileChooser.setVisible(true);
 
-//        ProofFilter filter = new ProofFilter();
-//        fileChooser.setFilenameFilter(filter);
         String filename = fileChooser.getFile();
 
         if(filename != null)

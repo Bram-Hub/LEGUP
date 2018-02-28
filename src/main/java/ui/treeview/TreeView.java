@@ -158,6 +158,17 @@ public class TreeView extends DynamicViewer
         return b;
     }
 
+    public void addTransitions(TreeNodeView nodeView, Graphics2D graphics2D) {
+        if (nodeView.getChildrenViews() != null) {
+            for (int i = 0; i < nodeView.getChildrenViews().size(); i++) {
+                TreeNodeView childNodeView = nodeView.getChildrenViews().get(i);
+                addTransitions(childNodeView, graphics2D);
+                TransitionElement transition = new TransitionElement(childNodeView, nodeView);
+                transition.draw(graphics2D);
+            }
+        }
+    }
+
     public void updateTreeView(Tree tree)
     {
         this.tree = tree;
@@ -213,6 +224,7 @@ public class TreeView extends DynamicViewer
             graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
             drawTree(graphics2D, tree.getRootNode(), 0);
+            addTransitions(rootNodeView, graphics2D);
             //drawCurrentStateBoxes(graphics2D);
 
             if(mouseOver != null)
@@ -417,6 +429,7 @@ public class TreeView extends DynamicViewer
 
                 System.out.println(childView.getLocation());
                 nodeView.addChildrenView(childView);
+                childView.addParentView(nodeView);
                 childView.draw(graphics2D);
                 tspan += i == size - 1 ? cspan : cspan + NODE_GAP_HEIGHT;
             }
