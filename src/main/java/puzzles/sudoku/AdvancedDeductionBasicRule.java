@@ -63,7 +63,7 @@ public class AdvancedDeductionBasicRule extends BasicRule
         int colIndex = elementIndex % groupSize;
         int relX = rowIndex / groupDim;
         int relY = colIndex % groupDim;
-        int groupNum = rowIndex / groupDim * groupDim + colIndex % groupDim;
+        int groupNum = rowIndex / groupDim * groupDim + colIndex / groupDim;
         boolean[][] possible = new boolean[groupDim][groupDim];
         for(int y = 0; y < groupDim; y++)
         {
@@ -113,6 +113,10 @@ public class AdvancedDeductionBasicRule extends BasicRule
                     return "Not forced";
                 }
             }
+        }
+        if(!isForced)
+        {
+            return "Not forced";
         }
         return null;
     }

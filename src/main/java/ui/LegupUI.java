@@ -20,7 +20,6 @@ import ui.boardview.BoardView;
 import ui.rulesview.RuleFrame;
 import ui.treeview.TreePanel;
 import user.Submission;
-import utility.ProofFilter;
 
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -344,8 +343,8 @@ public class LegupUI extends JFrame implements WindowListener
         fileChooser.setTitle("Select Proof");
         fileChooser.setVisible(true);
 
-        ProofFilter filter = new ProofFilter();
-        fileChooser.setFilenameFilter(filter);
+//        ProofFilter filter = new ProofFilter();
+//        fileChooser.setFilenameFilter(filter);
 
         String filename = fileChooser.getFile();
 
@@ -377,8 +376,8 @@ public class LegupUI extends JFrame implements WindowListener
         fileChooser.setTitle("Select Proof");
         fileChooser.setVisible(true);
 
-        ProofFilter filter = new ProofFilter();
-        fileChooser.setFilenameFilter(filter);
+//        ProofFilter filter = new ProofFilter();
+//        fileChooser.setFilenameFilter(filter);
         String filename = fileChooser.getFile();
 
         if(filename != null)
