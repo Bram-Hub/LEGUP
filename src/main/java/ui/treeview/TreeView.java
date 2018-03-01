@@ -412,7 +412,7 @@ public class TreeView extends DynamicViewer
         if(node.getChildren().isEmpty())
         {
             nodeView.setY(rspan + TreeNodeView.RADIUS);
-            graphics2D.drawString(nodeView.getLocation() + ": " + (TreeNodeView.DIAMETER + NODE_GAP_HEIGHT), nodeView.getX(), nodeView.getY());
+            //graphics2D.drawString(nodeView.getLocation() + ": " + (TreeNodeView.DIAMETER + NODE_GAP_HEIGHT), nodeView.getX(), nodeView.getY());
             return TreeNodeView.DIAMETER;
         }
         else
@@ -435,7 +435,7 @@ public class TreeView extends DynamicViewer
             }
             ArrayList<TreeNodeView> childrenViews = nodeView.getChildrenViews();
             nodeView.setY(rspan + tspan / 2);
-            graphics2D.drawString(nodeView.getLocation() + ": " + tspan, nodeView.getX(), nodeView.getY());
+            //graphics2D.drawString(nodeView.getLocation() + ": " + tspan, nodeView.getX(), nodeView.getY());
 
             return tspan;
         }

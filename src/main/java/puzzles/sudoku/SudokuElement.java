@@ -24,6 +24,12 @@ public class SudokuElement extends GridElement
      */
     public void draw(Graphics2D graphics2D, Point location)
     {
+        SudokuCell cell = (SudokuCell)data;
+        if(cell.isGiven())
+        {
+            graphics2D.setColor(new Color(200,200,200));
+            graphics2D.fillRect(location.x * size.width, location.y * size.height, size.width, size.height);
+        }
         graphics2D.setColor(BORDER_COLOR);
         if(isHover())
         {
@@ -40,6 +46,7 @@ public class SudokuElement extends GridElement
 
         if(data.getValueInt() != 0)
         {
+
             graphics2D.setColor(FONT_COLOR);
             graphics2D.setFont(FONT);
             FontMetrics metrics = graphics2D.getFontMetrics(FONT);

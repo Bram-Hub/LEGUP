@@ -10,6 +10,7 @@ import ui.boardview.BoardView;
 import ui.boardview.IBoardListener;
 import ui.rulesview.ITransitionListener;
 import ui.rulesview.ITreeSelectionListener;
+import utility.History;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -32,6 +33,7 @@ public class GameBoardFacade
 
     private ArrayList<Selection> selections;
 
+    private History history;
 
     /**
      * Private GameBoardFacade Constructor - creates a game board facade
@@ -47,6 +49,8 @@ public class GameBoardFacade
         legupUI = new LegupUI();
 
         selections = new ArrayList<>();
+
+        history = new History();
     }
 
     /**

@@ -47,7 +47,7 @@ public class ElementController implements MouseListener, MouseMotionListener
         {
             int index = element.getIndex();
             ElementData data = board.getElementData(index);
-            if(!data.isModifiable())
+            if(!data.isModifiable() || (node == tree.getRootNode() && node.getChildren().size() > 0))
                 return;
             if(node.getRule() != null || node == tree.getRootNode())
             {
@@ -61,6 +61,8 @@ public class ElementController implements MouseListener, MouseMotionListener
                 data.setValueInt((data.getValueInt() + 1) % 10);
             else if(e.getButton() == MouseEvent.BUTTON3)
                 data.setValueInt((data.getValueInt() + 9) % 10);
+
+            node.propagateChanges(index);
 
             getInstance().getLegupUI().repaintBoard();
         }

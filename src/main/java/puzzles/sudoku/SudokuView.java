@@ -37,6 +37,22 @@ public class SudokuView extends GridBoardView
     @Override
     public void draw(Graphics2D graphics2D)
     {
+        graphics2D.setStroke(new BasicStroke(1));
+        PuzzleElement hover = null;
+        for(int i = 0; i < gridSize.height; i++)
+        {
+            for(int k = 0; k < gridSize.width; k++)
+            {
+                PuzzleElement element = puzzleElements.get(i * gridSize.height + k);
+                element.setLocation(new Point(k * elementSize.width, i * elementSize.height));
+                element.setSize(elementSize);
+                if(!element.isHover())
+                    element.draw(graphics2D);
+                else
+                    hover = element;
+            }
+        }
+
         graphics2D.setColor(Color.BLACK);
         graphics2D.setStroke(new BasicStroke(3));
         graphics2D.drawRect(0,0,
@@ -54,21 +70,7 @@ public class SudokuView extends GridBoardView
                         regions * elementSize.width, regions * elementSize.height);
             }
         }
-        graphics2D.setStroke(new BasicStroke(1));
-        PuzzleElement hover = null;
-        for(int i = 0; i < gridSize.height; i++)
-        {
-            for(int k = 0; k < gridSize.width; k++)
-            {
-                PuzzleElement element = puzzleElements.get(i * gridSize.height + k);
-                element.setLocation(new Point(k * elementSize.width, i * elementSize.height));
-                element.setSize(elementSize);
-                if(!element.isHover())
-                    element.draw(graphics2D);
-                else
-                    hover = element;
-            }
-        }
+
         if(hover != null)
             hover.draw(graphics2D);
 

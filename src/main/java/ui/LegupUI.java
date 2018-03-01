@@ -596,7 +596,7 @@ public class LegupUI extends JFrame implements WindowListener
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if(facade.getBoard() != null)
         {
-            if(!noquit("opening a new puzzle?"))
+            if(noquit("opening a new puzzle?"))
             {
                 return;
             }

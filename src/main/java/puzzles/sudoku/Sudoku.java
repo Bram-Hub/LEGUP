@@ -73,7 +73,10 @@ public class Sudoku extends Puzzle
             int index = element.getIndex();
             SudokuCell cell = new SudokuCell(testBoard[index / width][index % width], new Point(index % width, index / height));
             if(cell.getValueInt() > 0)
+            {
                 cell.setModifiable(false);
+                cell.setGiven(true);
+            }
             else
                 cell.setModifiable(true);
             cell.setIndex(index);

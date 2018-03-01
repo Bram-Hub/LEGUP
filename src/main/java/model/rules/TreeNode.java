@@ -1,6 +1,7 @@
 package model.rules;
 
 import model.gameboard.Board;
+import model.gameboard.ElementData;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -28,6 +29,27 @@ public class TreeNode
         this.rule = rule;
         this.isCorrect = false;
         this.isStateSelected = false;
+    }
+
+    /**
+     * Propagates the changes of data into the children boards
+     *
+     * @param index index of the data to propagate changes
+     */
+    public void propagateChanges(int index)
+    {
+        propagateChanges(board.getElementData(index));
+    }
+
+    private void propagateChanges(ElementData data)
+    {
+        for(TreeNode child: children)
+        {
+            child.propagateChanges(data);
+            child.getBoard().setElementData(data.getIndex(), data.copy());
+            if(child.getRule() != null)
+                child.setCorrect(child.getRule().checkRule(board, child.getBoard()) == null);
+        }
     }
 
     /**
