@@ -20,7 +20,6 @@ public class TransitionElement implements Shape
 
     private static final Stroke THIN_STROKE = new BasicStroke(1);
     private static final Stroke MEDIUM_STROKE = new BasicStroke(2);
-    private static final Stroke THICK_STROKE = new BasicStroke(3);
 
     private static final Color OUTLINE_COLOR = Color.BLACK;
     private static final Color SELECTION_COLOR = Color.GREEN;
@@ -46,8 +45,6 @@ public class TransitionElement implements Shape
 
         constructArrowtail();
         constructArrowhead();
-
-        // System.err.println("Parent: ("+parentView.getX()+", "+parentView.getY()+")   Child: ("+nodeView.getX()+", "+nodeView.getY()+")");
     }
 
     private void constructArrowtail() {
@@ -104,38 +101,12 @@ public class TransitionElement implements Shape
     public void draw(Graphics2D graphics2D)
     {
         graphics2D.setStroke(THIN_STROKE);
-        /*
-        Polygon transition = new Polygon();
-        transition.addPoint(location.x + RADIUS, location.y);
-        transition.addPoint((int)(location.x + RADIUS * Math.cos(2 * Math.PI / 3)), (int)(location.y * Math.sin(2 * Math.PI / 3)));
-        transition.addPoint((int)(location.x + RADIUS * Math.cos(4 * Math.PI / 3)), (int)(location.y * Math.sin(4 * Math.PI / 3)));
 
-        graphics2D.fill(transition);
-
-        graphics2D.setColor(OUTLINE_COLOR);
-        graphics2D.drawPolygon(transition);
-
-        if(GameBoardFacade.getInstance().getTree().isSelected(treeNode))
-        {
-            graphics2D.setColor(SELECTION_COLOR);
-            graphics2D.setStroke(MEDIUM_STROKE);
-            graphics2D.drawRect(location.x - DIAMETER, location.y - DIAMETER, DIAMETER * 2, DIAMETER * 2);
-        }
-
-        if(treeNode.getRule() instanceof ContradictionRule)
-        {
-            graphics2D.setColor(X_COLOR);
-            graphics2D.drawLine(location.x - RADIUS + 3 * RADIUS,location.y - RADIUS,
-                    location.x + RADIUS + 3 * RADIUS,location.y + RADIUS);
-            graphics2D.drawLine(location.x + RADIUS + 3 * RADIUS,location.y - RADIUS,
-                    location.x - RADIUS + 3 * RADIUS,location.y + RADIUS);
-        }
-        */
         graphics2D.setColor(OUTLINE_COLOR);
         graphics2D.setStroke(MEDIUM_STROKE);
         graphics2D.drawLine(tailStartPoint.x, tailStartPoint.y, tailEndPoint.x, tailEndPoint.y);
 
-        graphics2D.setColor(SELECTION_COLOR);
+        graphics2D.setColor(nodeView.getJustificationColor());
         graphics2D.fillPolygon(arrowhead);
 
         graphics2D.setColor(OUTLINE_COLOR);
