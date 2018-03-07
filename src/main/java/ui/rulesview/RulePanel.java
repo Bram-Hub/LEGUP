@@ -1,11 +1,9 @@
 package ui.rulesview;
 
-import model.gameboard.Board;
 import model.rules.Rule;
 import ui.WrapLayout;
 
 import javax.swing.ImageIcon;
-import javax.swing.JToggleButton;
 import javax.swing.JPanel;
 import java.util.ArrayList;
 
@@ -27,7 +25,7 @@ public abstract class RulePanel extends JPanel
     public RulePanel(RuleFrame ruleFrame)
     {
         this.ruleFrame = ruleFrame;
-        rules = new ArrayList<>();
+        this.rules = new ArrayList<>();
         setLayout(new WrapLayout());
     }
 

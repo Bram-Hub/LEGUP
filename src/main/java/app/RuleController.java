@@ -1,6 +1,8 @@
 package app;
 
+import model.rules.CaseRule;
 import model.rules.Rule;
+import model.rules.RuleType;
 import model.rules.Tree;
 import ui.rulesview.RuleButton;
 import ui.rulesview.RuleFrame;
@@ -35,8 +37,25 @@ public class RuleController implements ActionListener
     public void buttonPressed(Rule rule)
     {
         Tree tree = GameBoardFacade.getInstance().getTree();
-        tree.verifySelected(rule);
+        if(rule.getRuleType() == RuleType.CASE)
+        {
+            handleCaseRule((CaseRule)rule);
+        }
+        else
+        {
+            tree.verifySelected(rule);
+        }
         GameBoardFacade.getInstance().getLegupUI().repaintTree();
+    }
+
+    /**
+     * Handles the logic when a case rule has been pressed.
+     *
+     * @param caseRule case rule that is associated with the case rule button pressed
+     */
+    public void handleCaseRule(CaseRule caseRule)
+    {
+
     }
 
     /**

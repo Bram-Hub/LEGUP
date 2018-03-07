@@ -16,6 +16,7 @@ public abstract class PuzzleElement implements Shape
     protected ElementData data;
     private Color highLightColor;
     private Color hoverColor;
+    private boolean isCaseRulePickable;
     private boolean isHover;
     private boolean isSelected;
 
@@ -27,10 +28,11 @@ public abstract class PuzzleElement implements Shape
     public PuzzleElement(ElementData data)
     {
         this.data = data;
-        highLightColor = new Color(0,0,128,128);
-        hoverColor = new Color(0,0,255,128);
-        isHover = false;
-        isSelected = false;
+        this.highLightColor = new Color(0,0,128,128);
+        this.hoverColor = new Color(0,0,255,128);
+        this.isHover = false;
+        this.isSelected = false;
+        this.isCaseRulePickable = false;
     }
 
     /**
@@ -133,6 +135,30 @@ public abstract class PuzzleElement implements Shape
     }
 
     /**
+     * Gets the isCaseRulePickable field to determine if this PuzzleElement
+     * should be highlighted in some way to indicate if it can be chosen by
+     * the CaseRule
+     *
+     * @return true if the PuzzleElement can be chosen for the CaseRule, false otherwise
+     */
+    public boolean isCaseRulePickable()
+    {
+        return isCaseRulePickable;
+    }
+
+    /**
+     * Sets the isCaseRulePickable field to determine if this PuzzleElement
+     * should be highlighted in some way to indicate if it can be chosen by
+     * the CaseRule
+     *
+     * @param isCaseRulePickable true if the PuzzleElement can be chosen for the CaseRule, false otherwise
+     */
+    public void setCaseRulePickable(boolean isCaseRulePickable)
+    {
+        this.isCaseRulePickable = isCaseRulePickable;
+    }
+
+    /**
      * Gets the high-light color
      *
      * @return high-light color
@@ -151,7 +177,6 @@ public abstract class PuzzleElement implements Shape
     {
         this.highLightColor = highLightColor;
     }
-
 
     /**
      * Gets whether the element is currently being hovered over
