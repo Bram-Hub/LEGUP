@@ -106,7 +106,7 @@ public class ElementController implements MouseListener, MouseMotionListener
             int index = element.getIndex();
             ElementData data = board.getElementData(index);
 
-            hover = element;
+            //hover = element;
             element.setHover(true);
 
             getInstance().getLegupUI().repaintBoard();
@@ -130,9 +130,10 @@ public class ElementController implements MouseListener, MouseMotionListener
 
             ElementData data = board.getElementData(index);
 
-            if(hover != null)
+            if(hover != null) {
                 hover.setHover(false);
-            hover = null;
+            }
+
 
             getInstance().getLegupUI().repaintBoard();
         }

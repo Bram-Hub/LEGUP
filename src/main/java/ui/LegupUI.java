@@ -16,6 +16,7 @@ import app.RuleController;
 import model.Puzzle;
 import model.gameboard.Board;
 import model.rules.Tree;
+import puzzles.sudoku.Sudoku;
 import ui.boardview.BoardView;
 import ui.rulesview.RuleFrame;
 import ui.treeview.TreePanel;
@@ -335,7 +336,7 @@ public class LegupUI extends JFrame implements WindowListener
     {
         if(GameBoardFacade.getInstance().getBoard() != null)
         {
-            if(noquit("opening a new proof?"))
+            if(noquit("Opening a new proof?"))
             {
                 return;
             }
@@ -602,7 +603,20 @@ public class LegupUI extends JFrame implements WindowListener
                 return;
             }
         }
-        JFileChooser newPuzzle = new JFileChooser("boards");
+
+        fileChooser.setMode(FileDialog.LOAD);
+        fileChooser.setTitle("Select Puzzle");
+        fileChooser.setVisible(true);
+        String filename = fileChooser.getFile();
+
+        if (filename != null)
+        {
+            filename = fileChooser.getDirectory() + filename;
+            GameBoardFacade.getInstance().setPuzzle(new Sudoku());
+        }
+
+
+        /*JFileChooser newPuzzle = new JFileChooser("boards");
         FileNameExtensionFilter fileType = new FileNameExtensionFilter("LEGUP Puzzles", "xml");
         newPuzzle.setFileFilter(fileType);
         if(newPuzzle.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
@@ -622,6 +636,7 @@ public class LegupUI extends JFrame implements WindowListener
         {
             //System.out.println("Cancel Pressed");
         }
+        */
     }
 
     public void showStatus(String status, boolean error, int timer)
@@ -632,7 +647,12 @@ public class LegupUI extends JFrame implements WindowListener
     //ask to save current proof
     public boolean noquit(String instr)
     {
-        return false;
+        int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
+        if (n == 0)
+        {
+            return false;
+        }
+        return true;
     }
 
     public void resetUndoRedo()
