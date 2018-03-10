@@ -108,4 +108,9 @@ public class TreePanel extends JPanel
         }
         this.status.setText("");
     }
+
+    public TreeView getTreeView()
+    {
+        return treeView;
+    }
 }

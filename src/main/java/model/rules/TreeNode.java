@@ -1,55 +1,27 @@
 package model.rules;
 
 import model.gameboard.Board;
-import model.gameboard.ElementData;
 
-import java.awt.*;
 import java.util.ArrayList;
 
-public class TreeNode
+public class TreeNode extends TreeElement
 {
-    private Board board;
-    private ArrayList<TreeNode> parents;
-    private ArrayList<TreeNode> children;
-    private Rule rule;
-    private boolean isCorrect;
-    private boolean isStateSelected;
+    private ArrayList<TreeTransition> parents;
+    private ArrayList<TreeTransition> children;
+    private boolean isRoot;
 
     /**
      * TreeNode Constructor - Creates a tree node whenever a rule has been made
      *
      * @param board board associated with this tree node
-     * @param rule rule that was used to get from the parent(s) to this tree node
      */
-    public TreeNode(Board board, Rule rule)
+    public TreeNode(Board board)
     {
+        super(TreeElementType.NODE);
         this.board = board;
         this.parents = new ArrayList<>();
         this.children = new ArrayList<>();
-        this.rule = rule;
-        this.isCorrect = false;
-        this.isStateSelected = false;
-    }
-
-    /**
-     * Propagates the changes of data into the children boards
-     *
-     * @param index index of the data to propagate changes
-     */
-    public void propagateChanges(int index)
-    {
-        propagateChanges(board.getElementData(index));
-    }
-
-    private void propagateChanges(ElementData data)
-    {
-        for(TreeNode child: children)
-        {
-            child.propagateChanges(data);
-            child.getBoard().setElementData(data.getIndex(), data.copy());
-            if(child.getRule() != null)
-                child.setCorrect(child.getRule().checkRule(board, child.getBoard()) == null);
-        }
+        this.isRoot = false;
     }
 
     /**
@@ -60,39 +32,26 @@ public class TreeNode
      */
     public boolean leadsToContradiction()
     {
-        if(rule.getRuleType() == RuleType.CONTRADICTION && isCorrect)
+        if(children.size() == 0)
         {
-            return true;
+            return false;
         }
         else
         {
             boolean leadsToContra = true;
-            for(TreeNode child: children)
+            for(TreeTransition child: children)
             {
-                leadsToContra &= child.leadsToContradiction();
+                if(child.getChildNode() == null)
+                {
+                    leadsToContra &= child.getRule() != null && child.getRule().getRuleType() == RuleType.CONTRADICTION && child.isCorrect();
+                }
+                else
+                {
+                    leadsToContra &= child.getChildNode().leadsToContradiction();
+                }
             }
             return leadsToContra;
         }
-    }
-
-    /**
-     * Gets the board at this TreeNode
-     *
-     * @return the board at this TreeNode
-     */
-    public Board getBoard()
-    {
-        return board;
-    }
-
-    /**
-     * Sets the board at this TreeNOde
-     *
-     * @param board the board at this TreeNode
-     */
-    public void setBoard(Board board)
-    {
-        this.board = board;
     }
 
     /**
@@ -100,7 +59,7 @@ public class TreeNode
      *
      * @param parent parent to add
      */
-    public void addParent(TreeNode parent)
+    public void addParent(TreeTransition parent)
     {
         parents.add(parent);
     }
@@ -110,7 +69,7 @@ public class TreeNode
      *
      * @param parent parent to remove
      */
-    public void removeParent(TreeNode parent)
+    public void removeParent(TreeTransition parent)
     {
         parents.remove(parent);
     }
@@ -119,7 +78,7 @@ public class TreeNode
      * Determines if the specified tree node is a parent of this node
      *
      * @param parent tree node that could be a parent
-     * @return true if the specified tree node is a panrent of this node, false otherwise
+     * @return true if the specified tree node is a parent of this node, false otherwise
      */
     public boolean isParent(TreeNode parent)
     {
@@ -131,7 +90,7 @@ public class TreeNode
      *
      * @param child child to add
      */
-    public void addChild(TreeNode child)
+    public void addChild(TreeTransition child)
     {
         children.add(child);
     }
@@ -141,7 +100,7 @@ public class TreeNode
      *
      * @param child child to remove
      */
-    public void removeChild(TreeNode child)
+    public void removeChild(TreeTransition child)
     {
         children.remove(child);
     }
@@ -162,7 +121,7 @@ public class TreeNode
      *
      * @return the TreeNode's parents
      */
-    public ArrayList<TreeNode> getParents()
+    public ArrayList<TreeTransition> getParents()
     {
         return parents;
     }
@@ -172,7 +131,7 @@ public class TreeNode
      *
      * @param parent the TreeNode's parents
      */
-    public void setParents(ArrayList<TreeNode> parent)
+    public void setParents(ArrayList<TreeTransition> parent)
     {
         this.parents = parent;
     }
@@ -182,7 +141,7 @@ public class TreeNode
      *
      * @return the TreeNode's children
      */
-    public ArrayList<TreeNode> getChildren()
+    public ArrayList<TreeTransition> getChildren()
     {
         return children;
     }
@@ -192,80 +151,29 @@ public class TreeNode
      *
      * @param children the TreeNode's children
      */
-    public void setChildren(ArrayList<TreeNode> children)
+    public void setChildren(ArrayList<TreeTransition> children)
     {
         this.children = children;
     }
 
     /**
-     * Gets the TreeNode's rule
+     * Is this node the root of the tree
      *
-     * @return the TreeNode's rule
+     * @return true if this node is the root of the tree, false otherwise
      */
-    public Rule getRule()
+    public boolean isRoot()
     {
-        return rule;
+        return isRoot;
     }
 
     /**
-     * Sets the TreeNode's rule
+     * Sets the root of the tree
      *
-     * @param rule the TreeNode's rule
+     * @param isRoot true if this node is the root of the tree, false otherwise
      */
-    public void setRule(Rule rule)
+    public void setRoot(boolean isRoot)
     {
-        this.rule = rule;
-    }
-
-    /**
-     * Is the rule correctly applied
-     *
-     * @return true if the rule was correctly applied, false otherwise
-     */
-    public boolean isCorrect()
-    {
-        return isCorrect;
-    }
-
-    /**
-     * Sets if the rule was correctly applied
-     *
-     * @param isCorrect true if the rule was correctly applied, false otherwise
-     */
-    public void setCorrect(boolean isCorrect)
-    {
-        this.isCorrect = isCorrect;
-    }
-
-    /**
-     * Determines if this TreeNode is justified by testing to see if there
-     * has been a Rule applied to this TreeNode
-     *
-     * @return
-     */
-    public boolean isJustified()
-    {
-        return rule != null;
-    }
-
-    /**
-     * Is the board state selected
-     *
-     * @return true if the board state is selected, false otherwise
-     */
-    public boolean isStateSelected()
-    {
-        return isStateSelected;
-    }
-
-    /**
-     * Sets the board state selected field
-     *
-     * @param isStateSelected true if the board state is selected, false otherwise
-     */
-    public void setStateSelected(boolean isStateSelected)
-    {
-        this.isStateSelected = isStateSelected;
+        this.isRoot = isRoot;
     }
 }
 

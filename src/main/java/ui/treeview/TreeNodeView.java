@@ -1,13 +1,14 @@
 package ui.treeview;
 
-import app.GameBoardFacade;
+import model.rules.TreeElementType;
 import model.rules.TreeNode;
+import model.rules.TreeTransition;
 
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.ArrayList;
 
-public class TreeNodeView implements Shape
+public class TreeNodeView extends TreeElementView
 {
     static final int RADIUS = 25;
     static final int DIAMETER = 2 * RADIUS;
@@ -15,34 +16,35 @@ public class TreeNodeView implements Shape
     private static final Stroke THIN_STROKE = new BasicStroke(1);
     private static final Stroke MEDIUM_STROKE = new BasicStroke(2);
 
-    private static final Color NODE_COLOR_DEFAULT = new Color(100, 100, 100);
-    private static final Color NODE_MINOR_COLOR_DEFAULT = new Color(75, 75, 75);
+    private static final Color NODE_COLOR_ROOT = new Color(100, 100, 100);
+    private static final Color NODE_MINOR_COLOR_ROOT = new Color(75, 75, 75);
 
-    private static final Color NODE_COLOR_CORRECT = new Color(10, 178, 16);
-    private static final Color NODE_MINOR_COLOR_CORRECT = new Color(13, 119, 16);
+    private static final Color NODE_COLOR_DEFAULT = new Color(244, 223, 66);
+    private static final Color NODE_MINOR_COLOR_DEFAULT = new Color(216, 197, 52);
 
-    private static final Color NODE_COLOR_INCORRECT = new Color(178, 10, 16);
-    private static final Color NODE_MINOR_COLOR_INCORRECT = new Color(119, 13, 16);
+    private static final Color NODE_COLOR_CONTRADICTION = new Color(178, 10, 16);
+    private static final Color NODE_MINOR_COLOR_CONTRADICTION = new Color(119, 13, 16);
 
     private static final Color OUTLINE_COLOR = Color.BLACK;
     private static final Color SELECTION_COLOR = Color.GREEN;
 
-    private TreeNode treeNode;
     private Point location;
 
-    private ArrayList<TreeNodeView> parentViews;
-    private ArrayList<TreeNodeView> childrenViews;
+    private ArrayList<TreeTransitionView> parentViews;
+    private ArrayList<TreeTransitionView> childrenViews;
+    private TreeTransitionView transitionView;
 
     private boolean isCollapsed;
 
     /**
      * TreeNodeView Constructor - creates a node for display
      *
-     * @param treeNode treeNode associated with this transition
+     * @param treeNode treeElement associated with this transition
      */
     public TreeNodeView(TreeNode treeNode)
     {
-        this.treeNode = treeNode;
+        super(TreeElementType.NODE, treeNode);
+        this.treeElement = treeNode;
         this.location = new Point();
         this.parentViews = new ArrayList<>();
         this.childrenViews = new ArrayList<>();
@@ -56,46 +58,18 @@ public class TreeNodeView implements Shape
      */
     public void draw(Graphics2D graphics2D)
     {
-        graphics2D.setStroke(THIN_STROKE);
-        if(treeNode.getBoard().isModifiable())
+        if(isVisible() && treeElement != null)
         {
-            if(treeNode.isJustified())
-            {
-                if(treeNode.isCorrect())
-                {
-                    graphics2D.setColor(NODE_COLOR_CORRECT);
-                }
-                else
-                {
-                    graphics2D.setColor(NODE_COLOR_INCORRECT);
-                }
-            }
-            else
-            {
-                graphics2D.setColor(NODE_COLOR_DEFAULT);
-            }
+            graphics2D.setStroke(THIN_STROKE);
+            boolean isContraBranch = ((TreeNode) treeElement).leadsToContradiction();
 
-
+            graphics2D.setColor(isContraBranch ? NODE_COLOR_CONTRADICTION : NODE_COLOR_DEFAULT);
             graphics2D.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
 
             graphics2D.setColor(OUTLINE_COLOR);
             graphics2D.drawOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
 
-            if(treeNode.isJustified())
-            {
-                if(treeNode.isCorrect())
-                {
-                    graphics2D.setColor(NODE_MINOR_COLOR_CORRECT);
-                }
-                else
-                {
-                    graphics2D.setColor(NODE_MINOR_COLOR_INCORRECT);
-                }
-            }
-            else
-            {
-                graphics2D.setColor(NODE_MINOR_COLOR_DEFAULT);
-            }
+            graphics2D.setColor(isContraBranch ? NODE_MINOR_COLOR_CONTRADICTION : NODE_MINOR_COLOR_DEFAULT);
             graphics2D.fillOval(location.x - RADIUS + 5, location.y - RADIUS + 5, DIAMETER - 10, DIAMETER - 10);
 
             graphics2D.setColor(OUTLINE_COLOR);
@@ -103,16 +77,12 @@ public class TreeNodeView implements Shape
 
             //graphics2D.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
 
-            if(GameBoardFacade.getInstance().getTree().isSelected(treeNode))
+            if(isSelected)
             {
                 graphics2D.setColor(SELECTION_COLOR);
                 graphics2D.setStroke(MEDIUM_STROKE);
-                graphics2D.drawRect(location.x - (int)(DIAMETER * 0.75), location.y - (int)(DIAMETER * 0.75), (int)(DIAMETER * 1.5), (int)(DIAMETER * 1.5));
+                graphics2D.drawRect(location.x - (int) (DIAMETER * 0.75), location.y - (int) (DIAMETER * 0.75), (int) (DIAMETER * 1.5), (int) (DIAMETER * 1.5));
             }
-        }
-        else
-        {
-
         }
     }
 
@@ -122,22 +92,22 @@ public class TreeNodeView implements Shape
      * @return the color of the tree node
      */
     public Color getJustificationColor() {
-        Color justificationColor;
-        if(treeNode.isJustified())
-        {
-            if(treeNode.isCorrect())
-            {
-                justificationColor = NODE_COLOR_CORRECT;
-            }
-            else
-            {
-                justificationColor = NODE_COLOR_INCORRECT;
-            }
-        }
-        else
-        {
-            justificationColor = NODE_COLOR_DEFAULT;
-        }
+        Color justificationColor = null;
+//        if(treeElement.isJustified())
+//        {
+//            if(treeElement.isCorrect())
+//            {
+//                justificationColor = NODE_COLOR_DEFAULT;
+//            }
+//            else
+//            {
+//                justificationColor = NODE_COLOR_CONTRADICTION;
+//            }
+//        }
+//        else
+//        {
+//            justificationColor = NODE_COLOR_ROOT;
+//        }
         return justificationColor;
     }
 
@@ -146,7 +116,7 @@ public class TreeNodeView implements Shape
      *
      * @return list of children views for this tree node
      */
-    public ArrayList<TreeNodeView> getChildrenViews()
+    public ArrayList<TreeTransitionView> getChildrenViews()
     {
         return childrenViews;
     }
@@ -156,27 +126,27 @@ public class TreeNodeView implements Shape
      *
      * @param childrenViews list of children views for this tree node
      */
-    public void setChildrenViews(ArrayList<TreeNodeView> childrenViews)
+    public void setChildrenViews(ArrayList<TreeTransitionView> childrenViews)
     {
         this.childrenViews = childrenViews;
     }
 
     /**
-     * Adds a TreeNodeView to the list of children views
+     * Adds a TreeTransitionView to the list of children views
      *
-     * @param nodeView TreeNodeView to add to the list of children views
+     * @param nodeView TreeTransitionView to add to the list of children views
      */
-    public void addChildrenView(TreeNodeView nodeView)
+    public void addChildrenView(TreeTransitionView nodeView)
     {
         childrenViews.add(nodeView);
     }
 
     /**
-     * Removes a TreeNodeView from the list of children views
+     * Removes a TreeTransitionView from the list of children views
      *
-     * @param nodeView TreeNodeView to remove from the list of children views
+     * @param nodeView TreeTransitionView to remove from the list of children views
      */
-    public void removeChildrenView(TreeNodeView nodeView)
+    public void removeChildrenView(TreeTransitionView nodeView)
     {
         childrenViews.remove(nodeView);
     }
@@ -186,7 +156,7 @@ public class TreeNodeView implements Shape
      *
      * @return list of parent views for this tree node
      */
-    public ArrayList<TreeNodeView> getParentViews()
+    public ArrayList<TreeTransitionView> getParentViews()
     {
         return parentViews;
     }
@@ -196,27 +166,27 @@ public class TreeNodeView implements Shape
      *
      * @param parentViews list of parent views for this tree node
      */
-    public void setParentViews(ArrayList<TreeNodeView> parentViews)
+    public void setParentViews(ArrayList<TreeTransitionView> parentViews)
     {
         this.parentViews = parentViews;
     }
 
     /**
-     * Adds a TreeNodeView to the list of parent views
+     * Adds a TreeTransitionView to the list of parent views
      *
-     * @param nodeView TreeNodeView to add to the list of parent views
+     * @param nodeView TreeTransitionView to add to the list of parent views
      */
-    public void addParentView(TreeNodeView nodeView)
+    public void addParentView(TreeTransitionView nodeView)
     {
         parentViews.add(nodeView);
     }
 
     /**
-     * Removes a TreeNodeView from the list of parent views
+     * Removes a TreeTransitionView from the list of parent views
      *
-     * @param nodeView TreeNodeView to remove from the list of parent views
+     * @param nodeView TreeTransitionView to remove from the list of parent views
      */
-    public void removeParentView(TreeNodeView nodeView)
+    public void removeParentView(TreeTransitionView nodeView)
     {
         parentViews.remove(nodeView);
     }
@@ -226,9 +196,9 @@ public class TreeNodeView implements Shape
      *
      * @return tree node
      */
-    public TreeNode getTreeNode()
+    public TreeNode getTreeElement()
     {
-        return treeNode;
+        return (TreeNode)treeElement;
     }
 
     /**

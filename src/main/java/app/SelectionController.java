@@ -30,11 +30,11 @@ public class SelectionController implements MouseListener, MouseMotionListener
     {
         if(e.isControlDown())
         {
-            GameBoardFacade.getInstance().getTree().toggleTreeNodeSelection(treeNodeView.getTreeNode());
+//            GameBoardFacade.getInstance().getTree().toggleTreeNodeSelection(treeNodeView.getTreeElement());
         }
         else
         {
-            GameBoardFacade.getInstance().getTree().newTreeNodeSelection(treeNodeView.getTreeNode());
+//            GameBoardFacade.getInstance().getTree().newTreeNodeSelection(treeNodeView.getTreeElement());
         }
     }
 

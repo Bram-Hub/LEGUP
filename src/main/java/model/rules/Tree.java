@@ -1,15 +1,12 @@
 package model.rules;
 
-import app.GameBoardFacade;
 import model.gameboard.Board;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class Tree
 {
     private TreeNode rootNode;
-    private HashSet<TreeNode> selected;
 
     /**
      * Tree Constructor - creates the tree structure from the initial board
@@ -18,19 +15,28 @@ public class Tree
      */
     public Tree(Board initBoard)
     {
-        this.rootNode = new TreeNode(initBoard, null);
-        this.selected = new HashSet<>();
-        selected.add(rootNode);
+        this.rootNode = new TreeNode(initBoard);
+        this.rootNode.setRoot(true);
     }
 
-    /**
-     * Gets the first selected TreeNode
-     *
-     * @return first selected TreeNode
-     */
-    public TreeNode getFirstSelected()
+    public TreeTransition addNewTransition(TreeNode treeNode)
     {
-        return selected.iterator().next();
+        if(treeNode.getChildren().size() == 0)
+        {
+            TreeTransition transition = new TreeTransition(treeNode, treeNode.getBoard().copy());
+            treeNode.getChildren().add(transition);
+            return transition;
+        }
+        return null;
+    }
+
+    public void addNode(TreeTransition transition)
+    {
+        if(transition.getChildNode() == null)
+        {
+            TreeNode treeNode = new TreeNode(transition.getBoard().copy());
+            transition.setChildNode(treeNode);
+        }
     }
 
     /**
@@ -39,17 +45,17 @@ public class Tree
      */
     public void addToSelected()
     {
-        if(selected.size() == 1)
-        {
-            TreeNode treeNode = getFirstSelected();
-            if(treeNode.getChildren().size() == 0)
-            {
-                TreeNode newNode = new TreeNode(treeNode.getBoard().copy(), null);
-                newNode.addParent(treeNode);
-                treeNode.addChild(newNode);
-                newTreeNodeSelection(newNode);
-            }
-        }
+//        if(selected.size() == 1)
+//        {
+//            TreeNode treeElement = getFirstSelected();
+//            if(treeElement.getChildren().size() == 0)
+//            {
+//                TreeNode newNode = new TreeNode(treeElement.getBoard().copy(), null);
+//                newNode.addParent(treeElement);
+//                treeElement.addChild(newNode);
+//                newTreeNodeSelection(newNode);
+//            }
+//        }
     }
 
     /**
@@ -60,23 +66,23 @@ public class Tree
      */
     public void verifySelected(Rule rule)
     {
-        if(selected.size() == 1)
-        {
-            TreeNode treeNode = getFirstSelected();
-            if(treeNode.getParents().size() == 1)
-            {
-                TreeNode parent = treeNode.getParents().get(0);
-                treeNode.setRule(rule);
-                if(rule.checkRule(parent.getBoard(), treeNode.getBoard()) == null)
-                {
-                    treeNode.setCorrect(true);
-                }
-                else
-                {
-                    treeNode.setCorrect(false);
-                }
-            }
-        }
+//        if(selected.size() == 1)
+//        {
+//            TreeNode treeElement = getFirstSelected();
+//            if(treeElement.getParents().size() == 1)
+//            {
+//                TreeNode parent = treeElement.getParents().get(0);
+//                treeElement.setRule(rule);
+//                if(rule.checkRule(parent.getBoard(), treeElement.getBoard()) == null)
+//                {
+//                    treeElement.setCorrect(true);
+//                }
+//                else
+//                {
+//                    treeElement.setCorrect(false);
+//                }
+//            }
+//        }
     }
 
     /**
@@ -86,15 +92,15 @@ public class Tree
      */
     public void deleteSelected()
     {
-        TreeNode newSelected = getLowestCommonAncestor(new ArrayList<>(selected));
-        for(TreeNode treeNode: selected)
-        {
-            for(TreeNode parent : treeNode.getParents())
-            {
-                parent.getChildren().remove(treeNode);
-            }
-        }
-        newTreeNodeSelection(newSelected);
+//        TreeNode newSelected = getLowestCommonAncestor(new ArrayList<>(selected));
+//        for(TreeNode treeElement: selected)
+//        {
+//            for(TreeNode parent : treeElement.getParents())
+//            {
+//                parent.getChildren().remove(treeElement);
+//            }
+//        }
+//        newTreeNodeSelection(newSelected);
     }
 
     /**
@@ -144,72 +150,24 @@ public class Tree
     public boolean isAncestor(TreeNode ancestor, TreeNode descendant)
     {
         //If either the ancestor or the descendant is null, return false
-        if(ancestor == null || descendant == null)
-        {
-            return false;
-        }
-        else
-        {
-            TreeNode node = descendant.getParents().get(0);
-            while(node != null)
-            {
-                if(node == ancestor)
-                {
-                    return true;
-                }
-                node = node.getParents().get(0);
-            }
-            return false;
-        }
-    }
-
-    /**
-     * Determines if the TreeNode specified is currently selected
-     *
-     * @param treeNode tree node
-     * @return true if the TreeNode is currently selected, false otherwise
-     */
-    public boolean isSelected(TreeNode treeNode)
-    {
-        return selected.contains(treeNode);
-    }
-
-    /**
-     * Toggles a tree node selection
-     *
-     * @param treeNode the tree node selection to toggle
-     */
-    public void toggleTreeNodeSelection(TreeNode treeNode)
-    {
-        if(selected.contains(treeNode))
-        {
-            selected.remove(treeNode);
-        }
-        else
-        {
-            selected.add(treeNode);
-        }
-    }
-
-    /**
-     * Adds a new tree node selection and clears the old selection
-     *
-     * @param treeNode tree node that was selected
-     */
-    public void newTreeNodeSelection(TreeNode treeNode)
-    {
-        selected.clear();
-        selected.add(treeNode);
-    }
-
-    /**
-     * Gets the set of selected tree nodes
-     *
-     * @return set of selected tree nodes
-     */
-    public HashSet<TreeNode> getSelected()
-    {
-        return selected;
+//        if(ancestor == null || descendant == null)
+//        {
+//            return false;
+//        }
+//        else
+//        {
+//            TreeNode node = descendant.getParents().get(0);
+//            while(node != null)
+//            {
+//                if(node == ancestor)
+//                {
+//                    return true;
+//                }
+//                node = node.getParents().get(0);
+//            }
+//            return false;
+//        }
+        return false;
     }
 
     /**

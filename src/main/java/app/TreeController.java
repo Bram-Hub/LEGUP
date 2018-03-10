@@ -1,10 +1,10 @@
 package app;
 
+import model.Puzzle;
 import model.rules.Tree;
-import model.rules.TreeNode;
+import model.rules.TreeElementType;
 import ui.boardview.BoardView;
-import ui.treeview.TreeNodeView;
-import ui.treeview.TreeView;
+import ui.treeview.*;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -15,6 +15,7 @@ import static app.GameBoardFacade.getInstance;
 public class TreeController extends Controller
 {
     private TreeView treeView;
+    private TreeElementView hover;
 
     /**
      * TreeController Constructor - creates a controller object to listen
@@ -22,7 +23,7 @@ public class TreeController extends Controller
      */
     public TreeController()
     {
-
+        hover = null;
     }
 
     /**
@@ -37,13 +38,15 @@ public class TreeController extends Controller
         Point point = treeView.getActualPoint(e.getPoint());
         Tree tree = getInstance().getTree();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
-        TreeNodeView nodeView = treeView.getTreeNodeView(point);
-        if(nodeView != null)
+        TreeElementView treeNodeView = treeView.getTreeElementView(point);
+        Puzzle puzzle = getInstance().getPuzzleModule();
+        if(treeNodeView != null)
         {
-            tree.newTreeNodeSelection(nodeView.getTreeNode());
+            treeView.getTreeSelection().newSelection(treeNodeView);
             treeView.repaint();
+            puzzle.setCurrentBoard(treeNodeView.getTreeElement().getBoard());
             getInstance().getLegupUI().repaintBoard();
-            System.err.println("Location: " + nodeView.getLocation());
+            //System.err.println("Location: " + nodeView.getLocation());
         }
     }
 
@@ -87,7 +90,18 @@ public class TreeController extends Controller
     @Override
     public void mouseEntered(MouseEvent e)
     {
-
+        TreeView treeView = (TreeView)viewer;
+        Point point = treeView.getActualPoint(e.getPoint());
+        Tree tree = getInstance().getTree();
+        BoardView boardView = getInstance().getLegupUI().getBoardView();
+        TreeElementView treeNodeView = treeView.getTreeElementView(point);
+        Puzzle puzzle = getInstance().getPuzzleModule();
+        if(treeNodeView != null)
+        {
+            //treeView.repaint();
+            puzzle.setCurrentBoard(treeNodeView.getTreeElement().getBoard());
+            getInstance().getLegupUI().repaintBoard();
+        }
     }
 
     /**
@@ -98,7 +112,20 @@ public class TreeController extends Controller
     @Override
     public void mouseExited(MouseEvent e)
     {
-
+        TreeView treeView = (TreeView)viewer;
+        Point point = treeView.getActualPoint(e.getPoint());
+        Tree tree = getInstance().getTree();
+        BoardView boardView = getInstance().getLegupUI().getBoardView();
+        TreeElementView treeNodeView = treeView.getTreeElementView(point);
+        Puzzle puzzle = getInstance().getPuzzleModule();
+        TreeSelection selection = treeView.getTreeSelection();
+        if(treeNodeView != null)
+        {
+            //treeView.repaint();
+            TreeElementView elementView = selection.getFirstSelection();
+            puzzle.setCurrentBoard(elementView.getTreeElement().getBoard());
+            getInstance().getLegupUI().repaintBoard();
+        }
     }
 
     /**
@@ -120,7 +147,27 @@ public class TreeController extends Controller
     @Override
     public void mouseMoved(MouseEvent e)
     {
-
+        TreeView treeView = (TreeView)viewer;
+        Point point = treeView.getActualPoint(e.getPoint());
+        TreeElementView treeNodeView = treeView.getTreeElementView(point);
+        Puzzle puzzle = getInstance().getPuzzleModule();
+        TreeSelection selection = treeView.getTreeSelection();
+        if(treeNodeView != null)
+        {
+            //treeView.repaint();
+            if(treeNodeView != hover)
+            {
+                puzzle.setCurrentBoard(treeNodeView.getTreeElement().getBoard());
+                getInstance().getLegupUI().repaintBoard();
+                hover = treeNodeView;
+            }
+        }
+        else
+        {
+            puzzle.setCurrentBoard(selection.getFirstSelection().getTreeElement().getBoard());
+            getInstance().getLegupUI().repaintBoard();
+            hover = null;
+        }
     }
 
     /**
@@ -132,5 +179,24 @@ public class TreeController extends Controller
     public void mouseWheelMoved(MouseWheelEvent e)
     {
         super.mouseWheelMoved(e);
+    }
+
+    private void addChildElement()
+    {
+        TreeView treeView = (TreeView)viewer;
+        Tree tree = getInstance().getTree();
+        BoardView boardView = getInstance().getLegupUI().getBoardView();
+        TreeElementView elementView = treeView.getTreeSelection().getFirstSelection();
+        Puzzle puzzle = getInstance().getPuzzleModule();
+        if(elementView.getType() == TreeElementType.NODE)
+        {
+            TreeNodeView nodeView = (TreeNodeView)elementView;
+
+        }
+        else
+        {
+            TreeTransitionView nodeView = (TreeTransitionView)elementView;
+
+        }
     }
 }

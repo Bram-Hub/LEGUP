@@ -19,7 +19,7 @@ public class GridElement extends PuzzleElement
     @Override
     public void draw(Graphics2D graphics2D)
     {
-        draw(graphics2D, ((GridCell)data).getLocation());
+        draw(graphics2D, location);
     }
 
     /**

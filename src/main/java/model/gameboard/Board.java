@@ -6,14 +6,16 @@ public abstract class Board
 {
     protected ArrayList<ElementData> elementData;
     protected boolean isModifiable;
+    protected boolean isModified;
 
     /**
      * Board Constructor - creates an empty board
      */
     public Board()
     {
-        elementData = new ArrayList<>();
-        isModifiable = true;
+        this.elementData = new ArrayList<>();
+        this.isModifiable = true;
+        this.isModified = false;
     }
 
     /**
@@ -86,6 +88,26 @@ public abstract class Board
     public void setModifiable(boolean isModifiable)
     {
         this.isModifiable = isModifiable;
+    }
+
+    /**
+     * Gets whether the data of this board has been modified by the user
+     *
+     * @return true if the board has been modified, false otherwise
+     */
+    public boolean isModified()
+    {
+        return isModified;
+    }
+
+    /**
+     * Sets whether the data of this board has been modified by the user
+     *
+     * @param isModified true if the board has been modified, false otherwise
+     */
+    public void setModified(boolean isModified)
+    {
+        this.isModified = isModified;
     }
 
     /**

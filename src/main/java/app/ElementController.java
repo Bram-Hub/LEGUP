@@ -1,11 +1,12 @@
 package app;
 
+import model.Puzzle;
 import model.gameboard.Board;
 import model.gameboard.ElementData;
-import model.rules.Tree;
-import model.rules.TreeNode;
+import model.rules.*;
 import ui.boardview.BoardView;
 import ui.boardview.PuzzleElement;
+import ui.treeview.*;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -40,29 +41,50 @@ public class ElementController implements MouseListener, MouseMotionListener
     {
         Board board = getInstance().getBoard();
         Tree tree = getInstance().getTree();
-        TreeNode node = tree.getFirstSelected();
+        TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         BoardView view = getInstance().getLegupUI().getBoardView();
         PuzzleElement element = view.getElement(e.getPoint());
+        TreeSelection selection = treeView.getTreeSelection();
+        TreeElementView selectedView = selection.getFirstSelection();
         if(element != null)
         {
             int index = element.getIndex();
             ElementData data = board.getElementData(index);
-            if(!data.isModifiable() || (node == tree.getRootNode() && node.getChildren().size() > 0))
+            if(!data.isModifiable())
                 return;
-            if(node.getRule() != null || node == tree.getRootNode())
+            if(selectedView.getType() == TreeElementType.NODE)
             {
-                getInstance().getTree().addToSelected();
+                TreeNodeView nodeView = (TreeNodeView)selectedView;
+                TreeNode treeNode = (TreeNode)selectedView.getTreeElement();
+                if(treeNode.getChildren().size() > 0)
+                {
+                    return;
+                }
+                TreeTransition transition = tree.addNewTransition(treeNode);
+                TreeTransitionView transitionView = treeView.addNewTransitionView(nodeView, transition);
+
+                selection.newSelection(transitionView);
+                selectedView = transitionView;
                 getInstance().getLegupUI().repaintTree();
-                board = getInstance().getBoard();
+                board = transition.getBoard();
+                getInstance().getPuzzleModule().setCurrentBoard(board);
                 data = board.getElementData(index);
             }
 
+            TreeTransitionView transitionView = (TreeTransitionView) selectedView;
             if(e.getButton() == MouseEvent.BUTTON1)
                 data.setValueInt((data.getValueInt() + 1) % 10);
             else if(e.getButton() == MouseEvent.BUTTON3)
                 data.setValueInt((data.getValueInt() + 9) % 10);
 
-            node.propagateChanges(index);
+            Board prevBord = transitionView.getTreeElement().getParentNode().getBoard();
+
+            if(data.getValueInt() != prevBord.getElementData(data.getIndex()).getValueInt())
+                data.setModified(true);
+            else
+                data.setModified(false);
+
+            transitionView.getTreeElement().propagateChanges(index);
 
             getInstance().getLegupUI().repaintBoard();
         }

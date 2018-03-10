@@ -152,6 +152,7 @@ public abstract class DynamicViewer extends JScrollPane
     {
         zoomSize.setSize((int) (size.width * scale), (int) (size.height * scale));
         viewport.setViewSize(zoomSize);
+        System.out.println("Zoom size: " + zoomSize + ", Viewport size: " + size);
     }
 
     // updates view position to user for zooming

@@ -736,4 +736,9 @@ public class LegupUI extends JFrame implements WindowListener
     {
         return boardView;
     }
+
+    public TreePanel getTreePanel()
+    {
+        return treePanel;
+    }
 }

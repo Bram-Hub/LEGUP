@@ -33,6 +33,13 @@ public abstract class BoardView extends DynamicViewer
     public abstract void initSize();
 
     /**
+     * Gets the dimension of the board view
+     *
+     * @return dimension of the board view
+     */
+    protected abstract Dimension getProperSize();
+
+    /**
      * Gets the PuzzleElement from the element index or
      * null if out of bounds
      *

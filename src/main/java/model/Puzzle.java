@@ -219,7 +219,7 @@ public abstract class Puzzle
      */
     public Board getCurrentBoard()
     {
-        return tree.getFirstSelected().getBoard();
+        return currentBoard;
     }
 
     /**

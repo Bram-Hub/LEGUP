@@ -6,6 +6,7 @@ public abstract class ElementData
     protected String valueString;
     protected int valueInt;
     protected boolean isModifiable;
+    protected boolean isModified;
 
     /**
      * ElementData Constructor - creates a new ElementData
@@ -14,7 +15,8 @@ public abstract class ElementData
     {
         this.valueString = null;
         this.valueInt = -1;
-        isModifiable = true;
+        this.isModifiable = true;
+        this.isModified = false;
     }
 
     /**
@@ -31,7 +33,7 @@ public abstract class ElementData
     /**
      * ElementData Constructor - creates a new ElementData from the int value
      *
-     * @param valueInt
+     * @param valueInt int value that represents this element
      */
     public ElementData(int valueInt)
     {
@@ -100,6 +102,26 @@ public abstract class ElementData
     }
 
     /**
+     * Gets whether the data of this element has been modified by the user
+     *
+     * @return true if the data has been modified, false otherwise
+     */
+    public boolean isModified()
+    {
+        return isModified;
+    }
+
+    /**
+     * Sets whether the data of this element has been modified by the user
+     *
+     * @param isModified true if the data has been modified, false otherwise
+     */
+    public void setModified(boolean isModified)
+    {
+        this.isModified = isModified;
+    }
+
+    /**
      * Gets the index of this ElementData
      *
      * @return index of this ElementData
@@ -130,5 +152,10 @@ public abstract class ElementData
         return valueInt == data.valueInt && valueString.equals(data.valueString);
     }
 
+    /**
+     * Copies this elements data to a new ElementData object
+     *
+     * @return copied ElementData object
+     */
     public abstract ElementData copy();
 }

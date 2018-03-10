@@ -28,31 +28,36 @@ public class SudokuElement extends GridElement
         if(cell.isGiven())
         {
             graphics2D.setColor(new Color(200,200,200));
-            graphics2D.fillRect(location.x * size.width, location.y * size.height, size.width, size.height);
+            graphics2D.fillRect(location.x, location.y, size.width, size.height);
         }
         graphics2D.setColor(BORDER_COLOR);
         if(isHover())
         {
             graphics2D.setColor(new Color(63,101,244));
             graphics2D.setStroke(new BasicStroke(3));
-            graphics2D.drawRect(location.x * size.width, location.y * size.height, size.width, size.height);
+            graphics2D.drawRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
         }
         else
         {
             graphics2D.setStroke(new BasicStroke(1));
             graphics2D.setColor(Color.BLACK);
-            graphics2D.drawRect(location.x * size.width, location.y * size.height, size.width, size.height);
+            graphics2D.drawRect(location.x, location.y, size.width, size.height);
+            if(data.isModified())
+            {
+                graphics2D.setStroke(new BasicStroke(2));
+                graphics2D.setColor(Color.GREEN);
+                graphics2D.drawRect(location.x + 2, location.y + 2, size.width - 4, size.height - 4);
+            }
         }
 
         if(data.getValueInt() != 0)
         {
-
             graphics2D.setColor(FONT_COLOR);
             graphics2D.setFont(FONT);
             FontMetrics metrics = graphics2D.getFontMetrics(FONT);
             String value = String.valueOf(data.getValueInt());
-            int xText = (location.x * size.width) + (size.width - metrics.stringWidth(value)) / 2;
-            int yText = (location.y * size.width) + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
+            int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
+            int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
             graphics2D.drawString(String.valueOf(data.getValueInt()), xText, yText);
         }
     }

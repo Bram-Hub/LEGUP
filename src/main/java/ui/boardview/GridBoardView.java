@@ -94,11 +94,11 @@ public class GridBoardView extends BoardView
      *
      * @return proper size of the grid view
      */
-    private Dimension getProperSize()
+    protected Dimension getProperSize()
     {
         Dimension boardViewSize = new Dimension();
-        boardViewSize.width = gridSize.width * (elementSize.width + 2);
-        boardViewSize.height = gridSize.height * (elementSize.height + 2);
+        boardViewSize.width = gridSize.width * elementSize.width;
+        boardViewSize.height = gridSize.height * elementSize.height;
         return boardViewSize;
     }
 
