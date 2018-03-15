@@ -1,7 +1,7 @@
 package ui.treeview;
 
-import model.rules.TreeElementType;
-import model.rules.TreeTransition;
+import model.tree.TreeElementType;
+import model.tree.TreeTransition;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -33,6 +33,8 @@ public class TreeTransitionView extends TreeElementView
     private Point startPoint;
     private Point endPoint;
 
+    private boolean isCollapsed;
+
     /**
      * TreeTransitionView Constructor - creates a transition arrow for display
      *
@@ -44,34 +46,47 @@ public class TreeTransitionView extends TreeElementView
         super(TreeElementType.TRANSITION, transition.getChildNode());
         this.treeElement = transition;
         this.parentView = parentView;
+        this.isCollapsed = false;
     }
 
-    private void constructArrowhead() {
-
-        Point topPoint = endPoint;
+    private void constructArrowhead()
+    {
         int radius = childView.getRadius();
-        double theta = Math.toRadians(30);
+        double ratio = (childView.getY() - parentView.getY()) / (childView.getX() - parentView.getX());
+        double denom = Math.sqrt(Math.pow(ratio, 2) + 1);
+        int cosTheta = (int)Math.round((radius + GAP) / denom);
+        int sinTheta = (int)Math.round((radius + GAP) * ratio / denom);
 
-        int rightPointX = topPoint.x - radius;
-        int rightPointY = topPoint.y + (int)(radius/(2*cos(theta)));
+        startPoint.x = parentView.getX() + cosTheta;
+        startPoint.y = parentView.getY() + sinTheta;
 
-        int leftPointX = topPoint.x - radius;
-        int leftPointY = topPoint.y - (int)(radius/(2*cos(theta)));
+        endPoint.x = childView.getX() - cosTheta;
+        endPoint.y = childView.getY() + (childView.getY() >= parentView.getY() ? -sinTheta : -sinTheta);
 
-        double phi = 0;
-        if (childView.getY()-parentView.getY() != 0) {
-            phi = atan((childView.getX()-parentView.getX())/(childView.getY()-parentView.getY()));
-        }
+        double thetaArrow = Math.toRadians(30);
+
+        int point1X = endPoint.x;
+        int point1Y = endPoint.y;
+
+        int point2X = point1X - radius;
+        int point2Y = point1Y + (int)Math.round(radius / (2 * cos(thetaArrow)));
+
+        int point3X = point1X - radius;
+        int point3Y = point1Y - (int)Math.round(radius / (2 * cos(thetaArrow)));
+
+        double theta = Math.atan(ratio);
 
         AffineTransform rotation = new AffineTransform();
-        rotation.rotate(phi, endPoint.x, endPoint.y);
+        rotation.rotate(theta, endPoint.x, endPoint.y);
         Point rightPoint = new Point();
-        rotation.transform(new Point(rightPointX, rightPointY), rightPoint);
+        rotation.transform(new Point(point2X, point2Y), rightPoint);
         Point leftPoint = new Point();
-        rotation.transform(new Point(leftPointX, leftPointY), leftPoint);
+        rotation.transform(new Point(point3X, point3Y), leftPoint);
+
+        Point topPoint = new Point(point1X, point1Y);
 
         arrowhead = new Polygon();
-        arrowhead.addPoint(endPoint.x, endPoint.y);
+        arrowhead.addPoint(topPoint.x, topPoint.y);
         arrowhead.addPoint(rightPoint.x, rightPoint.y);
         arrowhead.addPoint(leftPoint.x, leftPoint.y);
     }
@@ -188,6 +203,16 @@ public class TreeTransitionView extends TreeElementView
     public void setEndY(int y)
     {
         this.endPoint.y = y;
+    }
+
+    public boolean isCollapsed()
+    {
+        return isCollapsed;
+    }
+
+    public void setCollapsed(boolean isCollapsed)
+    {
+        this.isCollapsed = isCollapsed;
     }
 
     @Override

@@ -2,23 +2,25 @@ package ui.treeview;
 
 import app.GameBoardFacade;
 import app.TreeController;
-import model.rules.Tree;
-import model.rules.TreeNode;
-import model.rules.TreeTransition;
-import org.omg.PortableInterceptor.DISCARDING;
+import model.rules.Rule;
+import model.tree.Tree;
+import model.tree.TreeNode;
+import model.tree.TreeTransition;
 import ui.DynamicViewer;
 import ui.Selection;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import static java.lang.Math.round;
 import static java.lang.Math.sqrt;
-import static model.rules.TreeElementType.NODE;
+import static model.tree.TreeElementType.NODE;
+import static model.tree.TreeElementType.TRANSITION;
 import static ui.treeview.TreeNodeView.DIAMETER;
 import static ui.treeview.TreeNodeView.RADIUS;
 
@@ -53,7 +55,6 @@ public class TreeView extends DynamicViewer
     private Rectangle bounds = new Rectangle(0, 0, 0, 0);
     private int xOffset = 0;
     private int yOffset = 0;
-    private Point mousePoint;
     private Map<TreeNode, Color> collapseColorHash;
     private Tree tree;
     private TreeNodeView rootNodeView;
@@ -66,7 +67,6 @@ public class TreeView extends DynamicViewer
         super(treeController);
         currentStateBoxes = new ArrayList<>();
         collapseColorHash = new HashMap<>();
-        nodeHover = null;
         setSize(dimension = new Dimension(100, 200));
         setPreferredSize(new Dimension(640, 160));
 
@@ -133,12 +133,12 @@ public class TreeView extends DynamicViewer
 
     public TreeElementView getTreeElementView(Point point)
     {
-        return getTreeElementView(point, rootNodeView);
+        return rootNodeView == null ? null : getTreeElementView(point, rootNodeView);
     }
 
     private TreeElementView getTreeElementView(Point point, TreeElementView elementView)
     {
-        if(elementView.contains(point))
+        if(elementView.contains(point) && elementView.isVisible())
         {
             return elementView;
         }
@@ -194,6 +194,11 @@ public class TreeView extends DynamicViewer
         repaint();
     }
 
+    public void setTree(Tree tree)
+    {
+        this.tree = tree;
+    }
+
     public void updateTreeSize()
     {
         if(GameBoardFacade.getInstance().getTree() == null)
@@ -244,11 +249,11 @@ public class TreeView extends DynamicViewer
             drawTree(graphics2D, tree);
             setSize(dimension);
 
-            //drawCurrentStateBoxes(graphics2D);
+            graphics2D.drawRect(0,0, dimension.width, dimension.height);
 
-            if(mouseOver != null)
+            if(treeSelection.getHover() != null)
             {
-                //drawMouseOver(graphics2D);
+                drawMouseOver(graphics2D);
             }
         }
     }
@@ -598,62 +603,13 @@ public class TreeView extends DynamicViewer
 
         transitionView.setChildView(newNodeView);
         newNodeView.addParentView(transitionView);
+        newNodeView.setVisible(false);
         return transitionView;
     }
 
-    /**
-     * Draw the current transition (will make it blue if it's part of the selection)
-     *
-     * @param trans          the line of the transition we're drawing, starting at the source
-     * @param g              the graphics to use
-     * @param parent         the parent gameboard state of the transition we're drawing
-     * @param collapsedChild is the child we're connecting to a collapsed state
-     */
-    private void drawTransition(Line2D.Float trans, Graphics g, TreeNode parent, boolean collapsedChild)
+    public void removeTreeElement()
     {
-        Graphics2D g2d = (Graphics2D) g;
-        int nodeRadius = collapsedChild ? SMALL_NODE_RADIUS : NODE_RADIUS;
 
-        g2d.setStroke(medium);
-        //g.setColor(((sel.contains(theSelection)) ? Color.blue : Color.gray));
-
-        g2d.draw(trans);
-
-        // we also want to draw the arrowhead
-        final int ARROW_SIZE = 8;
-
-        // find the tip of the arrow, the point NODE_RADIUS away from the destination endpoint
-        double theta = Math.atan2(trans.y2 - trans.y1, trans.x2 - trans.x1);
-
-        double nx = nodeRadius * Math.cos(theta);
-        double ny = nodeRadius * Math.sin(theta);
-
-        int px = Math.round(trans.x2);
-        int py = Math.round(trans.y2);
-
-        Polygon arrowhead = new Polygon();
-        arrowhead.addPoint(px, py);
-
-        nx = (ARROW_SIZE) * Math.cos(theta);
-        ny = (ARROW_SIZE) * Math.sin(theta);
-
-        px = (int) Math.round(trans.x2 - nx);
-        py = (int) Math.round(trans.y2 - ny);
-        // px and py are now the "base" of the arrowhead
-
-        theta += Math.PI / 2.0;
-        double dx = (ARROW_SIZE / 2) * Math.cos(theta);
-        double dy = (ARROW_SIZE / 2) * Math.sin(theta);
-
-        arrowhead.addPoint((int) Math.round(px + dx), (int) Math.round(py + dy));
-
-        theta -= Math.PI;
-        dx = (ARROW_SIZE / 2) * Math.cos(theta);
-        dy = (ARROW_SIZE / 2) * Math.sin(theta);
-
-        arrowhead.addPoint((int) Math.round(px + dx), (int) Math.round(py + dy));
-
-        g2d.fill(arrowhead);
     }
 
     /**
@@ -739,52 +695,56 @@ public class TreeView extends DynamicViewer
      * When the user hovers over the transition, draws the corresponding rules image
      *
      * @param g the graphics to use to draw
-     *//*
+     */
     public void drawMouseOver(Graphics2D g)
     {
-        TreeNode B = mouseOver.getState();
-        //J contains both basic rules and contradictions
-        Rule rule = B.getJustification();
-        int w, h;
-        g.setStroke(thin);
-
-        w = (int) (100 * (100 / (float) getZoom()));
-        h = (int) (100 * (100 / (float) getZoom()));
-        float scale = (100 / (float) getZoom());
-        int offset = (int) (scale * 30);
-
-        JViewport vp = getViewport();
-        BufferedImage image = new BufferedImage(vp.getWidth(), vp.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g_tmp = image.createGraphics();
-        int v_offset = 0;
-
-        if((mouseOver.getState().getJustification() != null) || (mouseOver.getState().getCaseRuleJustification() != null))
+        if(treeSelection.getHover().getType() == TRANSITION)
         {
-            if((mouseOver.getState().justificationText != null) && (mouseOver.getState().getColor() != TreeView.NODE_COLOR))
+            TreeTransitionView transitionView = (TreeTransitionView) treeSelection.getHover();
+            TreeTransition transition = transitionView.getTreeElement();
+            Rule rule = transitionView.getTreeElement().getRule();
+            int w, h;
+            g.setStroke(thin);
+
+            w = (int) (100 * (100 / (float) getZoom()));
+            h = (int) (100 * (100 / (float) getZoom()));
+            float scale = (100 / (float) getZoom());
+            int offset = (int) (scale * 30);
+
+            JViewport vp = getViewport();
+            BufferedImage image = new BufferedImage(vp.getWidth(), vp.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g_tmp = image.createGraphics();
+            int v_offset = 0;
+
+            if(transition.isJustified())
             {
                 g_tmp.setColor(Color.black);
-                String[] tmp = mouseOver.getState().justificationText.split("\n");
+                String[] tmp = {"Hello"};
                 v_offset = 10 + tmp.length * 14;
                 for(int c1 = 0; c1 < tmp.length; c1++)
                 {
                     g_tmp.drawString(tmp[c1], 0, (14 * c1) + 10);
                 }
+                g_tmp.setColor(Color.gray);
+                g_tmp.drawRect(0, v_offset, 100, 100);
             }
-            g_tmp.setColor(Color.gray);
-            g_tmp.drawRect(0, v_offset, 100, 100);
-        }
 
-        if(rule != null)
-        {
-            g_tmp.drawImage(rule.getImageIcon().getImage(), 0, v_offset, null);
+            if(rule != null)
+            {
+                g_tmp.drawImage(rule.getImageIcon().getImage(), 0, v_offset, null);
+            }
+            Point mousePoint = treeSelection.getMousePoint();
+            int scaledWidth = (int) (scale * vp.getWidth());
+            int scaledHeight = (int) (scale * vp.getHeight());
+            g.drawImage(image, mousePoint.x, mousePoint.y, scaledWidth, scaledHeight, null);
         }
-        CaseRule CR = B.getCaseSplitJustification();
-        if(CR != null)
-        {
-            g_tmp.drawImage(CR.getImageIcon().getImage(), 0, v_offset, null);
-            return;
-        }
+    }
 
-        g.drawImage(image, mousePoint.x + (int) (scale * 30), mousePoint.y - (int) (scale * 30), (int) (scale * vp.getWidth()), (int) (scale * vp.getHeight()), null);
-    }*/
+    public void resetView()
+    {
+        this.tree = null;
+        this.rootNodeView = null;
+        this.treeSelection.clearSelection();
+        this.treeSelection.clearHover();
+    }
 }

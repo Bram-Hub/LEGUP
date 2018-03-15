@@ -1,23 +1,28 @@
 package app;
 
-import model.Puzzle;
 import model.gameboard.Board;
 import model.gameboard.ElementData;
-import model.rules.*;
+import model.tree.Tree;
+import model.tree.TreeElementType;
+import model.tree.TreeNode;
+import model.tree.TreeTransition;
 import ui.boardview.BoardView;
+import ui.boardview.DataSelectionView;
 import ui.boardview.PuzzleElement;
+import ui.boardview.SelectionItemView;
 import ui.treeview.*;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.ArrayList;
 
 import static app.GameBoardFacade.*;
 
-public class ElementController implements MouseListener, MouseMotionListener
+public class ElementController implements MouseListener, MouseMotionListener, ActionListener
 {
     private BoardView boardView;
     private PuzzleElement hover;
+    private ArrayList<PuzzleElement> selected;
 
     /**
      * ElementController - creates and element controller to handles ui events
@@ -28,6 +33,7 @@ public class ElementController implements MouseListener, MouseMotionListener
     public ElementController(BoardView boardView)
     {
         this.boardView = boardView;
+        this.selected = new ArrayList<>();
     }
 
     /**
@@ -38,6 +44,28 @@ public class ElementController implements MouseListener, MouseMotionListener
      */
     @Override
     public void mouseClicked(MouseEvent e)
+    {
+
+    }
+
+    /**
+     * Invoked when a mouse button has been pressed on a component.
+     *
+     * @param e the event to be processed
+     */
+    @Override
+    public void mousePressed(MouseEvent e)
+    {
+        
+    }
+
+    /**
+     * Invoked when a mouse button has been released on a component.
+     *
+     * @param e the event to be processed
+     */
+    @Override
+    public void mouseReleased(MouseEvent e)
     {
         Board board = getInstance().getBoard();
         Tree tree = getInstance().getTree();
@@ -73,9 +101,21 @@ public class ElementController implements MouseListener, MouseMotionListener
 
             TreeTransitionView transitionView = (TreeTransitionView) selectedView;
             if(e.getButton() == MouseEvent.BUTTON1)
-                data.setValueInt((data.getValueInt() + 1) % 10);
+            {
+                if(e.isControlDown())
+                {
+                    boardView.getSelectionPopupMenu().show(view, boardView.getCanvas().getX() + e.getX(),boardView.getCanvas().getY() + e.getY());
+                    selected.add(element);
+                }
+                else
+                {
+                    data.setValueInt((data.getValueInt() + 1) % 10);
+                }
+            }
             else if(e.getButton() == MouseEvent.BUTTON3)
+            {
                 data.setValueInt((data.getValueInt() + 9) % 10);
+            }
 
             Board prevBord = transitionView.getTreeElement().getParentNode().getBoard();
 
@@ -88,28 +128,6 @@ public class ElementController implements MouseListener, MouseMotionListener
 
             getInstance().getLegupUI().repaintBoard();
         }
-    }
-
-    /**
-     * Invoked when a mouse button has been pressed on a component.
-     *
-     * @param e the event to be processed
-     */
-    @Override
-    public void mousePressed(MouseEvent e)
-    {
-        
-    }
-
-    /**
-     * Invoked when a mouse button has been released on a component.
-     *
-     * @param e the event to be processed
-     */
-    @Override
-    public void mouseReleased(MouseEvent e)
-    {
-
     }
 
     /**
@@ -184,5 +202,40 @@ public class ElementController implements MouseListener, MouseMotionListener
 
             getInstance().getLegupUI().repaintBoard();
         }
+    }
+
+    /**
+     * Invoked when an action occurs.
+     *
+     * @param e the event to be processed
+     */
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        System.err.println("aas");
+        PuzzleElement sel = selected.get(0);
+        ElementData data = sel.getData();
+        int index = sel.getIndex();
+
+        TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
+        TreeSelection selection = treeView.getTreeSelection();
+        TreeElementView selectedView = selection.getFirstSelection();
+        TreeTransitionView transitionView = (TreeTransitionView)selectedView;
+
+        Board prevBord = transitionView.getTreeElement().getParentNode().getBoard();
+
+        int value = ((SelectionItemView)e.getSource()).getData().getValueInt();
+
+        data.setValueInt(value);
+
+        if(data.getValueInt() != prevBord.getElementData(data.getIndex()).getValueInt())
+            data.setModified(true);
+        else
+            data.setModified(false);
+
+        transitionView.getTreeElement().propagateChanges(index);
+
+        getInstance().getLegupUI().repaintBoard();
+        selected.clear();
     }
 }

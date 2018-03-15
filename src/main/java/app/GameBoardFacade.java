@@ -2,7 +2,12 @@ package app;
 
 import model.gameboard.Board;
 import model.Puzzle;
-import model.rules.Tree;
+import model.tree.Tree;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 import puzzles.sudoku.Sudoku;
 import ui.LegupUI;
 import ui.Selection;
@@ -12,7 +17,16 @@ import ui.rulesview.ITransitionListener;
 import ui.rulesview.ITreeSelectionListener;
 import utility.History;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GameBoardFacade
@@ -67,17 +81,11 @@ public class GameBoardFacade
         return instance;
     }
 
-    public void setBoardView(BoardView boardView)
-    {
-        legupUI.setBoardView(boardView);
-        boardView.zoomFit();
-    }
-
     public void setPuzzle(Puzzle puzzle)
     {
         this.puzzle = puzzle;
-        puzzle.setTree(new Tree(puzzle.getCurrentBoard()));
-        this.legupUI.setBoardView(((Sudoku)puzzle).getBoardView());
+        this.puzzle.setTree(new Tree(puzzle.getCurrentBoard()));
+        this.legupUI.setPuzzleView(puzzle);
     }
 
     /**
@@ -87,7 +95,75 @@ public class GameBoardFacade
      */
     public void loadBoardFile(String fileName)
     {
+        Document document = null;
+        try
+        {
+            InputStream inputStream = new FileInputStream(fileName);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            document = builder.parse(inputStream);
+        }
+        catch(IOException e)
+        {
+            LOGGER.log(Level.ALL, "Invalid file");
+        }
+        catch(SAXException e)
+        {
+            LOGGER.log(Level.ALL, "Invalid file");
+        }
+        catch(ParserConfigurationException e)
+        {
+            LOGGER.log(Level.ALL, "Invalid file");
+        }
 
+        Element rootNode = document.getDocumentElement();
+        if(rootNode.getTagName().equals("Legup"))
+        {
+            try
+            {
+                Node node = rootNode.getElementsByTagName("puzzle").item(0);
+                System.err.println(node.getNodeValue());
+                System.err.println(node.getAttributes().getNamedItem("qualifiedClassName").getNodeValue());
+                Class<?> c = Class.forName(node.getAttributes().getNamedItem("qualifiedClassName").getNodeValue());
+                Constructor<?> cons = c.getConstructor();
+                Puzzle puzzle = (Puzzle)cons.newInstance();
+                try
+                {
+                    puzzle.importPuzzle(fileName);
+                    puzzle.initializeBoard();
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                    System.err.println(e.getMessage());
+                }
+                setPuzzle(puzzle);
+            }
+            catch(ClassNotFoundException e)
+            {
+
+            }
+            catch(NoSuchMethodException e)
+            {
+
+            }
+            catch(InvocationTargetException e)
+            {
+
+            }
+            catch(IllegalAccessException e)
+            {
+
+            }
+            catch(InstantiationException e)
+            {
+
+            }
+        }
+        else
+        {
+            LOGGER.log(Level.ALL, "Invalid file");
+        }
     }
 
     /**
@@ -158,7 +234,7 @@ public class GameBoardFacade
      */
     public Board getBoard()
     {
-        return puzzle.getCurrentBoard();
+        return puzzle == null ? null : puzzle.getCurrentBoard();
     }
 
     /**

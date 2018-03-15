@@ -89,7 +89,7 @@ public class Config
     @SuppressWarnings("unchecked")
     public Vector<String> getBoardsForPuzzle(String puzzleName)
     {
-        Vector<String> boards = (Vector<String>) puzzles.get(puzzleName).get("boards");
+        Vector<String> boards = (Vector<String>) puzzles.get(puzzleName).get("puzzlefiles");
         if(boards == null)
         {
             boards = new Vector<String>();
@@ -194,8 +194,8 @@ public class Config
 
                 Vector<String> boards = new Vector<String>();
 
-                // grab all boards from directory
-                File f = new File("boards" + File.separator + name.toLowerCase() + File.separator);
+                // grab all puzzlefiles from directory
+                File f = new File("puzzlefiles" + File.separator + name.toLowerCase() + File.separator);
                 if(f.exists() && f.isDirectory())
                 {
                     File[] files = f.listFiles();
@@ -211,7 +211,7 @@ public class Config
                     }
                 }
 
-                puzzle.put("boards", boards);
+                puzzle.put("puzzlefiles", boards);
 
                 puzzles.put(name, puzzle);
             }

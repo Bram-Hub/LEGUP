@@ -1,12 +1,12 @@
 package app;
 
 import model.rules.*;
+import model.tree.*;
+import ui.rulesview.CaseRuleSelectionView;
 import ui.rulesview.RuleButton;
-import ui.treeview.TreeElementView;
-import ui.treeview.TreeSelection;
-import ui.treeview.TreeTransitionView;
-import ui.treeview.TreeView;
+import ui.treeview.*;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -56,14 +56,29 @@ public class RuleController implements ActionListener
                         transitionView.getChildView().setTreeElement(treeNode);
                         transitionView.getChildView().setVisible(true);
                     }
+                    treeSelection.newSelection(transitionView.getChildView());
                 }
                 else
                 {
                     TreeNode node = (TreeNode)element;
-                    //TODO Write node stuff
+                    TreeNodeView nodeView = (TreeNodeView)elementView;
+                    if(node.getChildren().size() == 1)
+                    {
+                        TreeTransitionView transitionView = nodeView.getChildrenViews().get(0);
+                        TreeTransition transition = transitionView.getTreeElement();
+                        transition.setRule(rule);
+                        if(transition.getChildNode() == null)
+                        {
+                            TreeNode treeNode = new TreeNode(transition.getBoard().copy());
+                            transitionView.getChildView().setTreeElement(treeNode);
+                            transitionView.getChildView().setVisible(true);
+                        }
+                        treeSelection.newSelection(transitionView.getChildView());
+                    }
                 }
             }
         }
+        GameBoardFacade.getInstance().getLegupUI().repaintBoard();
         GameBoardFacade.getInstance().getLegupUI().repaintTree();
     }
 
@@ -74,7 +89,33 @@ public class RuleController implements ActionListener
      */
     public void handleCaseRule(CaseRule caseRule)
     {
+        Tree tree = GameBoardFacade.getInstance().getTree();
+        TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
+        TreeSelection treeSelection = treeView.getTreeSelection();
+        ArrayList<TreeElementView> selection = treeSelection.getSelection();
+        if(selection.size() == 1)
+        {
+            TreeElementView elementView = treeSelection.getFirstSelection();
+            TreeElement element = elementView.getTreeElement();
+            if(element.getType() == TreeElementType.TRANSITION)
+            {
 
+            }
+            else
+            {
+                TreeNode node = (TreeNode)element;
+                TreeNodeView nodeView = (TreeNodeView)elementView;
+                //ArrayList<Board> cases = caseRule.getCases(node.getBoard(), e);
+
+                for(int i = 0; i < 9; i++)
+                {
+                    TreeTransition transition = tree.addNewTransition(node);
+                    transition.setRule(caseRule);
+                    TreeTransitionView transitionView = treeView.addNewTransitionView(nodeView, transition);
+                }
+                GameBoardFacade.getInstance().getLegupUI().repaintTree();
+            }
+        }
     }
 
     /**
@@ -87,6 +128,8 @@ public class RuleController implements ActionListener
     {
         lastSource = e.getSource();
         RuleButton button = (RuleButton) lastSource;
+        GameBoardFacade.getInstance().getLegupUI().getRuleFrame().add(new CaseRuleSelectionView(button) ,BorderLayout.EAST);
+        GameBoardFacade.getInstance().getLegupUI().getRuleFrame().revalidate();
         buttonPressed(button.getRule());
     }
 

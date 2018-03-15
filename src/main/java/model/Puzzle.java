@@ -5,10 +5,14 @@ import model.gameboard.ElementFactory;
 import model.rules.BasicRule;
 import model.rules.CaseRule;
 import model.rules.ContradictionRule;
-import model.rules.Tree;
+import model.tree.Tree;
+import org.xml.sax.SAXException;
 import ui.Selection;
+import ui.boardview.BoardView;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public abstract class Puzzle
@@ -16,6 +20,7 @@ public abstract class Puzzle
     protected String name;
     protected Board currentBoard;
     protected Tree tree;
+    protected BoardView boardView;
     protected ElementFactory factory;
 
     protected ArrayList<BasicRule> basicRules;
@@ -77,10 +82,10 @@ public abstract class Puzzle
     /**
      * Imports the board using the file stream
      *
-     * @param fileStream
+     * @param fileName
      * @return
      */
-    public abstract Board importPuzzle(FileInputStream fileStream);
+    public abstract void importPuzzle(String fileName) throws IOException, ParserConfigurationException, SAXException;
 
     /**
      * Gets the name of the puzzle
@@ -250,6 +255,16 @@ public abstract class Puzzle
     public void setTree(Tree tree)
     {
         this.tree = tree;
+    }
+
+    public BoardView getBoardView()
+    {
+        return boardView;
+    }
+
+    public void setBoardView(BoardView boardView)
+    {
+        this.boardView = boardView;
     }
 
     /**

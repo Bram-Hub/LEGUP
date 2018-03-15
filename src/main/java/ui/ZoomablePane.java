@@ -1,11 +1,11 @@
 package ui;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.AWTEvent;
 
-public class ZoomablePane extends JComponent
+public class ZoomablePane extends JLayeredPane
 {
     private DynamicViewer viewer;
 

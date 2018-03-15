@@ -1,7 +1,7 @@
 package ui.treeview;
 
-import model.rules.TreeElement;
-import model.rules.TreeElementType;
+import model.tree.TreeElement;
+import model.tree.TreeElementType;
 ;
 
 import java.awt.*;
@@ -10,14 +10,16 @@ public abstract class TreeElementView implements Shape
 {
     protected TreeElement treeElement;
     protected boolean isSelected;
+    protected boolean isHovered;
     private TreeElementType type;
     private boolean isVisible;
 
     protected TreeElementView(TreeElementType type, TreeElement treeElement)
     {
         this.type = type;
-        this.isSelected = false;
         this.treeElement = treeElement;
+        this.isSelected = false;
+        this.isHovered = false;
         this.isVisible = true;
     }
 
@@ -46,6 +48,16 @@ public abstract class TreeElementView implements Shape
     public void setSelected(boolean isSelected)
     {
         this.isSelected = isSelected;
+    }
+
+    public boolean isHovered()
+    {
+        return isHovered;
+    }
+
+    public void setHovered(boolean isHovered)
+    {
+        this.isHovered = isHovered;
     }
 
     public boolean isVisible()

@@ -4,8 +4,11 @@ import app.BoardController;
 import app.ElementController;
 import model.Puzzle;
 import model.gameboard.Board;
+import puzzles.sudoku.SudokuCell;
+import puzzles.sudoku.SudokuElement;
 import ui.DynamicViewer;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -88,4 +91,6 @@ public abstract class BoardView extends DynamicViewer
     {
         return puzzleElements;
     }
+
+    public abstract DataSelectionView getSelectionPopupMenu();
 }

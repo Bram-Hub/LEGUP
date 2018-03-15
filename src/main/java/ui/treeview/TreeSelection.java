@@ -1,16 +1,19 @@
 package ui.treeview;
 
-import model.rules.TreeElementType;
-
+import java.awt.*;
 import java.util.ArrayList;
 
 public class TreeSelection
 {
     private ArrayList<TreeElementView> selection;
+    private TreeElementView hover;
+    private Point mousePoint;
 
     public TreeSelection()
     {
-        selection = new ArrayList<>();
+        this.selection = new ArrayList<>();
+        this.hover = null;
+        this.mousePoint = null;
     }
 
     public ArrayList<TreeElementView> getSelection()
@@ -51,5 +54,39 @@ public class TreeSelection
             treeElementView.setSelected(false);
         }
         selection.clear();
+    }
+
+    public TreeElementView getHover()
+    {
+        return hover;
+    }
+
+    public void newHover(TreeElementView newHovered)
+    {
+        newHovered.setHovered(true);
+        if(hover != null)
+        {
+            hover.setHovered(false);
+        }
+        hover = newHovered;
+    }
+
+    public void clearHover()
+    {
+        if(hover != null)
+        {
+            hover.setHovered(false);
+            hover = null;
+        }
+    }
+
+    public Point getMousePoint()
+    {
+        return mousePoint;
+    }
+
+    public void setMousePoint(Point point)
+    {
+        this.mousePoint = point;
     }
 }

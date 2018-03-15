@@ -30,25 +30,23 @@ public class SudokuElement extends GridElement
             graphics2D.setColor(new Color(200,200,200));
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
         }
-        graphics2D.setColor(BORDER_COLOR);
+
         if(isHover())
         {
             graphics2D.setColor(new Color(63,101,244));
-            graphics2D.setStroke(new BasicStroke(3));
+            graphics2D.setStroke(new BasicStroke(2));
             graphics2D.drawRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
         }
-        else
+        if(data.isModified())
         {
-            graphics2D.setStroke(new BasicStroke(1));
-            graphics2D.setColor(Color.BLACK);
-            graphics2D.drawRect(location.x, location.y, size.width, size.height);
-            if(data.isModified())
-            {
-                graphics2D.setStroke(new BasicStroke(2));
-                graphics2D.setColor(Color.GREEN);
-                graphics2D.drawRect(location.x + 2, location.y + 2, size.width - 4, size.height - 4);
-            }
+            graphics2D.setStroke(new BasicStroke(2));
+            graphics2D.setColor(Color.GREEN);
+            graphics2D.drawRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
         }
+
+        graphics2D.setStroke(new BasicStroke(1));
+        graphics2D.setColor(Color.BLACK);
+        graphics2D.drawRect(location.x, location.y, size.width, size.height);
 
         if(data.getValueInt() != 0)
         {

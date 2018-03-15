@@ -14,10 +14,7 @@ import java.awt.Graphics2D;
 import java.awt.LayoutManager;
 import java.awt.Point;
 
-import javax.swing.JComponent;
-import javax.swing.JScrollPane;
-import javax.swing.JViewport;
-import javax.swing.ViewportLayout;
+import javax.swing.*;
 
 public abstract class DynamicViewer extends JScrollPane
 {
@@ -27,13 +24,13 @@ public abstract class DynamicViewer extends JScrollPane
     private static final double maxScale = 4.0;
     private static final double levels[] = {0.25, 1.0 / 3.0, 0.50, 2.0 / 3.0, 1.0, 2.0, 3.0, 4.0};
 
-    private Dimension size;
+    private Dimension viewSize;
     private Dimension zoomSize;
     private TreeSet<Double> zoomLevels;
     private double scale;
 
     private Controller controller;
-    protected ZoomablePane canvas;
+    private ZoomablePane canvas;
     private ZoomWidget widget;
 
     /**
@@ -44,35 +41,26 @@ public abstract class DynamicViewer extends JScrollPane
      */
     public DynamicViewer(Controller controller)
     {
-        // construct JScrollPane
         super(VERTICAL_SCROLLBAR_ALWAYS, HORIZONTAL_SCROLLBAR_ALWAYS);
 
-        size = new Dimension();
+        viewSize = new Dimension();
         zoomSize = new Dimension();
         scale = 1.0;
-        setVisible(true);
-        // setup viewport
+
         this.canvas = new ZoomablePane(this);
-        canvas.setVisible(true);
-
         viewport.setView(canvas);
-        viewport.setVisible(true);
 
-        // setup zoom levels
         zoomLevels = new TreeSet<>();
         for(Double level : levels)
         {
             zoomLevels.add(level);
         }
 
-        // setup the zoom widget
         widget = new ZoomWidget(this);
         setCorner(JScrollPane.LOWER_RIGHT_CORNER, widget);
 
-        // setup mouse events
         setWheelScrollingEnabled(false);
 
-        // setup controllers and listeners
         this.controller = controller;
         controller.setViewer(this);
         canvas.addMouseMotionListener(controller);
@@ -80,22 +68,22 @@ public abstract class DynamicViewer extends JScrollPane
         viewport.addMouseWheelListener(controller);
     }
 
-    /*** LAYOUT MANAGER ***/
-    // override to return a customized viewport
+    /**
+     * Creates a customized viewport for the scroll pane
+     *
+     * @return viewport for the scroll pane
+     */
+    @Override
     protected JViewport createViewport()
     {
-        // customized viewport
         return new JViewport()
         {
-            // override to return a customized layoutmanager
-
+            @Override
             protected LayoutManager createLayoutManager()
             {
-                // customized layoutmanager
                 return new ViewportLayout()
                 {
-                    // positions the view within viewport
-
+                    @Override
                     public void layoutContainer(Container parent)
                     {
                         Point point = viewport.getViewPosition();
@@ -136,26 +124,13 @@ public abstract class DynamicViewer extends JScrollPane
     }
 
     /**
-     * Gets the viewport for this DynamicViewer
-     *
-     * @return viewport for this DynamicViewer
-     */
-    public JViewport getViewport()
-    {
-        return viewport;
-    }
-
-    /**
-     * Updates zoomSize and view size with the new scale
+     * Updates zoomSize and view viewSize with the new scale
      */
     private void updateSize()
     {
-        zoomSize.setSize((int) (size.width * scale), (int) (size.height * scale));
+        zoomSize.setSize((int) (viewSize.width * scale), (int) (viewSize.height * scale));
         viewport.setViewSize(zoomSize);
-        System.out.println("Zoom size: " + zoomSize + ", Viewport size: " + size);
     }
-
-    // updates view position to user for zooming
 
     /**
      * Updates the viewport position
@@ -256,15 +231,17 @@ public abstract class DynamicViewer extends JScrollPane
     }
 
     /**
-     * Get the ideal zoom based on the size
+     * Get the ideal zoom based on the viewSize
      */
     public void zoomFit()
     {
-        // find the ideal width and height scale
-        double fitWidth = (viewport.getWidth() - 8.0) / size.width;
-        double fitHeight = (viewport.getHeight() - 8.0) / size.height;
-        // choose the smaller of the two and zoom
-        zoomTo((fitWidth < fitHeight) ? fitWidth : fitHeight);
+        if(viewport.getWidth() != 0 && viewport.getHeight() != 0)
+        {
+            double fitWidth = (viewport.getWidth() - 8.0) / viewSize.width;
+            double fitHeight = (viewport.getHeight() - 8.0) / viewSize.height;
+
+            zoomTo((fitWidth < fitHeight) ? fitWidth : fitHeight);
+        }
     }
 
     /**
@@ -341,7 +318,7 @@ public abstract class DynamicViewer extends JScrollPane
      */
     public Dimension getSize()
     {
-        return size;
+        return viewSize;
     }
 
     /**
@@ -351,8 +328,13 @@ public abstract class DynamicViewer extends JScrollPane
      */
     public void setSize(Dimension size)
     {
-        this.size = size;
+        this.viewSize = size;
         updateSize();
+    }
+
+    public ZoomablePane getCanvas()
+    {
+        return canvas;
     }
 
     /**
