@@ -1,11 +1,12 @@
 package app;
 
 import model.Puzzle;
-import model.rules.Tree;
-import model.rules.TreeElementType;
+import model.tree.Tree;
+import model.tree.TreeElementType;
 import ui.boardview.BoardView;
 import ui.treeview.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -14,16 +15,13 @@ import static app.GameBoardFacade.getInstance;
 
 public class TreeController extends Controller
 {
-    private TreeView treeView;
-    private TreeElementView hover;
-
     /**
      * TreeController Constructor - creates a controller object to listen
      * to ui events from a TreePanel
      */
     public TreeController()
     {
-        hover = null;
+
     }
 
     /**
@@ -119,6 +117,8 @@ public class TreeController extends Controller
         TreeElementView treeNodeView = treeView.getTreeElementView(point);
         Puzzle puzzle = getInstance().getPuzzleModule();
         TreeSelection selection = treeView.getTreeSelection();
+
+        selection.setMousePoint(null);
         if(treeNodeView != null)
         {
             //treeView.repaint();
@@ -151,22 +151,31 @@ public class TreeController extends Controller
         Point point = treeView.getActualPoint(e.getPoint());
         TreeElementView treeNodeView = treeView.getTreeElementView(point);
         Puzzle puzzle = getInstance().getPuzzleModule();
-        TreeSelection selection = treeView.getTreeSelection();
-        if(treeNodeView != null)
+        if(puzzle != null)
         {
-            //treeView.repaint();
-            if(treeNodeView != hover)
+            TreeSelection selection = treeView.getTreeSelection();
+            selection.setMousePoint(treeView.getActualPoint(e.getPoint()));
+            if(treeNodeView != null)
             {
-                puzzle.setCurrentBoard(treeNodeView.getTreeElement().getBoard());
-                getInstance().getLegupUI().repaintBoard();
-                hover = treeNodeView;
+                if(treeNodeView != selection.getHover())
+                {
+                    puzzle.setCurrentBoard(treeNodeView.getTreeElement().getBoard());
+                    treeView.repaint();
+                    getInstance().getLegupUI().repaintBoard();
+                    selection.newHover(treeNodeView);
+                }
+                else
+                {
+                    treeView.repaint();
+                }
             }
-        }
-        else
-        {
-            puzzle.setCurrentBoard(selection.getFirstSelection().getTreeElement().getBoard());
-            getInstance().getLegupUI().repaintBoard();
-            hover = null;
+            else
+            {
+                puzzle.setCurrentBoard(selection.getFirstSelection().getTreeElement().getBoard());
+                treeView.repaint();
+                getInstance().getLegupUI().repaintBoard();
+                selection.clearHover();
+            }
         }
     }
 
@@ -179,6 +188,15 @@ public class TreeController extends Controller
     public void mouseWheelMoved(MouseWheelEvent e)
     {
         super.mouseWheelMoved(e);
+//        TreeView treeView = (TreeView)viewer;
+//        TreeSelection selection = treeView.getTreeSelection();
+//        Point newPoint = new Point(e.getX() + treeView.getViewport().getX(), e.getY() + treeView.getViewport().getY());
+//
+//        PointerInfo a = MouseInfo.getPointerInfo();
+//        Point b = a.getLocation();
+//        SwingUtilities.convertPointFromScreen(b, treeView.getCanvas());
+//
+//        selection.setMousePoint(b);
     }
 
     private void addChildElement()

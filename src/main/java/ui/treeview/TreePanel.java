@@ -3,13 +3,10 @@ package ui.treeview;
 import app.TreeController;
 import model.gameboard.Board;
 import model.rules.Rule;
-import model.rules.Tree;
+import model.tree.Tree;
 import ui.LegupUI;
 
 import java.awt.*;
-
-import java.util.ArrayList;
-import java.util.Stack;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;

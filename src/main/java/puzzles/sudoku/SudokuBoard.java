@@ -9,14 +9,14 @@ public class SudokuBoard extends GridBoard
 {
     private final static Logger LOGGER = Logger.getLogger(SudokuBoard.class.getName());
 
-    private int groupWidth;
-    private int groupHeight;
+    private int size;
+    private int groupSize;
 
-    public SudokuBoard(int width, int height)
+    public SudokuBoard(int size)
     {
-        super(width, height);
-        groupWidth = (int)Math.sqrt(width);
-        groupHeight = (int)Math.sqrt(height);
+        super(size, size);
+        this.size = size;
+        this.groupSize = (int)Math.sqrt(width);
     }
 
     /**
@@ -32,7 +32,7 @@ public class SudokuBoard extends GridBoard
      */
     public SudokuCell getCell(int groupIndex, int x, int y)
     {
-        if(groupIndex >= width || x >= groupWidth || y >= groupHeight)
+        if(groupIndex >= width || x >= groupSize || y >= groupSize)
         {
             LOGGER.log(Level.SEVERE, "Sudoku: Attempting to access an out of bounds cell: Group Index: " +
                     groupIndex + ", x: " + x + ", y: " + y);
@@ -40,8 +40,18 @@ public class SudokuBoard extends GridBoard
         }
         else
         {
-            return (SudokuCell) getCell(x + (groupIndex % groupWidth) * groupWidth, y + (groupIndex / groupHeight) * groupHeight);
+            return (SudokuCell) getCell(x + (groupIndex % groupSize) * groupSize, y + (groupIndex / groupSize) * groupSize);
         }
+    }
+
+    public int getSize()
+    {
+        return size;
+    }
+
+    public int getGroupSize()
+    {
+        return groupSize;
     }
 
     /**
@@ -52,7 +62,7 @@ public class SudokuBoard extends GridBoard
     @Override
     public SudokuBoard copy()
     {
-        SudokuBoard newGridBoard = new SudokuBoard(this.width, this.height);
+        SudokuBoard newGridBoard = new SudokuBoard(size);
         for(int x = 0; x < this.width; x++)
         {
             for(int y = 0; y < this.height; y++)

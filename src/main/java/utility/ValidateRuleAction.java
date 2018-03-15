@@ -1,6 +1,6 @@
 package utility;
 
-import model.rules.TreeNode;
+import model.tree.TreeNode;
 
 public class ValidateRuleAction implements Action
 {

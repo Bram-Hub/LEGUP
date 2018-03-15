@@ -2,6 +2,7 @@ package ui.boardview;
 
 import model.gameboard.ElementData;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
@@ -216,6 +217,12 @@ public abstract class PuzzleElement implements Shape
     public void setSelected(boolean selected)
     {
         isSelected = selected;
+    }
+
+    public JMenuItem getSelectionMenuItem()
+    {
+        JMenuItem item = new JMenuItem(data.getValueInt() + "");
+        return item;
     }
 
     @Override

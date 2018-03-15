@@ -29,15 +29,19 @@ public class RuleFrame extends JPanel
     private ContradictionRulePanel contradictionPanel;
     private CaseRulePanel casePanel;
 
-    private JTabbedPane tabbedPane = new JTabbedPane();
-    private JLabel status = new JLabel();
-    private ButtonGroup buttonGroup = new ButtonGroup();
+    private JTabbedPane tabbedPane;
+    private JLabel status;
+    private ButtonGroup buttonGroup;
 
     private RuleController controller;
 
     public RuleFrame(RuleController controller)
     {
         this.controller = controller;
+
+        this.tabbedPane = new JTabbedPane();
+        this.status = new JLabel();
+        this.buttonGroup = new ButtonGroup();
 
         basicRulePanel = new BasicRulePanel(this);
 
@@ -52,6 +56,8 @@ public class RuleFrame extends JPanel
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(250, 256));
         setPreferredSize(new Dimension(330, 256));
+
+        status.setText("This is a test of the status bar of rule panel.");
 
         add(tabbedPane);
         add(status, BorderLayout.SOUTH);
@@ -146,6 +152,11 @@ public class RuleFrame extends JPanel
     public RuleController getController()
     {
         return controller;
+    }
+
+    public JTabbedPane getTabbedPane()
+    {
+        return tabbedPane;
     }
 
     public BasicRulePanel getBasicRulePanel()

@@ -2,6 +2,7 @@ package model.rules;
 
 import model.gameboard.Board;
 import model.gameboard.ElementData;
+import model.gameboard.PuzzlePiece;
 
 import java.util.ArrayList;
 
@@ -19,8 +20,12 @@ public abstract class CaseRule extends Rule
     public CaseRule(String ruleName, String description, String imageName)
     {
         super(ruleName, description, imageName);
-        ruleType = CASE;
+        this.ruleType = CASE;
     }
+
+    public abstract Board getCaseBoard(Board board);
+
+    //public abstract ArrayList<PuzzlePiece> getPuzzlePieces();
 
     /**
      * Gets the possible cases at a specific location based on this case rule
@@ -29,7 +34,7 @@ public abstract class CaseRule extends Rule
      * @param elementIndex element to determine the possible cases for
      * @return a list of elements the specified could be
      */
-    public abstract ArrayList<ElementData> getCases(Board board, int elementIndex);
+    public abstract ArrayList<Board> getCases(Board board, int elementIndex);
 }
 
 

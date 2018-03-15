@@ -33,34 +33,42 @@ public class TreeToolbarPanel extends JPanel implements ActionListener
         addChild.addActionListener(this);
         addChild.setEnabled(false);
         addChild.setToolTipText("Finalize CaseRule");
+        addChild.setBackground(Color.LIGHT_GRAY);
 
         add(delChild);
         delChild.addActionListener(this);
         delChild.setToolTipText("Remove currently selected node");
+        delChild.setBackground(Color.LIGHT_GRAY);
 
         add(merge);
         merge.addActionListener(this);
         merge.setToolTipText("Merge nodes");
+        merge.setBackground(Color.LIGHT_GRAY);
 
         add(collapse);
         collapse.addActionListener(this);
         collapse.setToolTipText("Collapse nodes");
+        collapse.setBackground(Color.LIGHT_GRAY);
 
         add(zoomIn);
         zoomIn.addActionListener(this);
         zoomIn.setToolTipText("Zoom In");
+        zoomIn.setBackground(Color.LIGHT_GRAY);
 
         add(zoomOut);
         zoomOut.addActionListener(this);
         zoomOut.setToolTipText("Zoom Out");
+        zoomOut.setBackground(Color.LIGHT_GRAY);
 
         add(zoomReset);
         zoomReset.addActionListener(this);
         zoomReset.setToolTipText("Reset Zoom");
+        zoomReset.setBackground(Color.LIGHT_GRAY);
 
         add(zoomFit);
         zoomFit.addActionListener(this);
         zoomFit.setToolTipText("Best Fit");
+        zoomFit.setBackground(Color.LIGHT_GRAY);
     }
 
     public void actionPerformed(ActionEvent e)
@@ -73,11 +81,11 @@ public class TreeToolbarPanel extends JPanel implements ActionListener
         }
         else if(e.getSource() == delChild)
         {
-            treePanel.delChildAtCurrentState();
+            //treePanel.delChildAtCurrentState();
         }
         else if(e.getSource() == merge)
         {
-            treePanel.mergeStates();
+            //treePanel.mergeStates();
         }
         else if(e.getSource() == collapse)
         {
@@ -85,19 +93,19 @@ public class TreeToolbarPanel extends JPanel implements ActionListener
         }
         else if(e.getSource() == zoomIn)
         {
-            //zoomIn();
+            treePanel.getTreeView().zoomIn();
         }
         else if(e.getSource() == zoomOut)
         {
-            //treeView.zoomOut();
+            treePanel.getTreeView().zoomOut();
         }
         else if(e.getSource() == zoomReset)
         {
-            //treeView.zoomReset();
+            treePanel.getTreeView().zoomReset();
         }
         else if(e.getSource() == zoomFit)
         {
-            //treeView.zoomFit();
+            treePanel.getTreeView().zoomFit();
         }
     }
 }

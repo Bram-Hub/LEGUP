@@ -173,7 +173,7 @@ public class PickGameDialog extends JDialog implements ActionListener
         }
         else if(e.getSource() == puzzleButton)
         {
-            File f = new File("boards" + File.separator + gameBox.getSelectedItem().toString().toLowerCase() + File.separator);
+            File f = new File("puzzlefiles" + File.separator + gameBox.getSelectedItem().toString().toLowerCase() + File.separator);
             if (f.exists() && f.isDirectory())
                 puzzleChooser = new JFileChooser(f);
             else

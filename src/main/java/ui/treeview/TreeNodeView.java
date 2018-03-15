@@ -1,8 +1,7 @@
 package ui.treeview;
 
-import model.rules.TreeElementType;
-import model.rules.TreeNode;
-import model.rules.TreeTransition;
+import model.tree.TreeElementType;
+import model.tree.TreeNode;
 
 import java.awt.*;
 import java.awt.geom.*;

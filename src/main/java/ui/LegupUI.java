@@ -1,9 +1,7 @@
 package ui;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -15,15 +13,13 @@ import app.GameBoardFacade;
 import app.RuleController;
 import model.Puzzle;
 import model.gameboard.Board;
-import model.rules.Tree;
-import puzzles.sudoku.Sudoku;
 import ui.boardview.BoardView;
+import ui.rulesview.BasicRulePanel;
 import ui.rulesview.RuleFrame;
 import ui.treeview.TreePanel;
 import user.Submission;
 
 import javax.swing.border.TitledBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class LegupUI extends JFrame implements WindowListener
 {
@@ -79,6 +75,7 @@ public class LegupUI extends JFrame implements WindowListener
     private TreePanel treePanel;
 
     protected TitledBorder boardBorder;
+
     protected JSplitPane topHalfPanel, mainPanel;
 
     /**
@@ -95,6 +92,7 @@ public class LegupUI extends JFrame implements WindowListener
         setupContent();
 
         setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+
         setVisible(true);
 
         //setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
@@ -283,7 +281,7 @@ public class LegupUI extends JFrame implements WindowListener
         getToolBarButtons()[ToolbarName.CHECK.ordinal()].setEnabled(false);
         getToolBarButtons()[ToolbarName.SUBMIT.ordinal()].setEnabled(false);
         getToolBarButtons()[ToolbarName.DIRECTIONS.ordinal()].setEnabled(false);
-        getToolBarButtons()[ToolbarName.ANNOTATIONS.ordinal()].setEnabled(false);
+        //getToolBarButtons()[ToolbarName.ANNOTATIONS.ordinal()].setEnabled(false);
 
         add(toolBar, BorderLayout.NORTH);
     }
@@ -297,24 +295,23 @@ public class LegupUI extends JFrame implements WindowListener
         JPanel treeBox = new JPanel(new BorderLayout());
         JPanel ruleBox = new JPanel(new BorderLayout());
 
-        //console = new Console();
-
         RuleController ruleController = new RuleController();
         ruleFrame = new RuleFrame(ruleController);
         ruleBox.add(ruleFrame, BorderLayout.WEST );
 
-        //boardView = new SudokuView(new BoardController(), new Dimension(9,9),new Dimension(9,9));
-        //boardView.setPreferredSize(new Dimension(600, 400));
-        //boardView.updateBoard(GameBoardFacade.getInstance().getPuzzleModule().getCurrentBoard());
-        //boardView.setBorder(boardBorder);
-
         treePanel = new TreePanel(this);
 
+        JScrollPane emptyBoard = new JScrollPane();
+        TitledBorder titleBoard = BorderFactory.createTitledBorder("Board");
+        titleBoard.setTitleJustification(TitledBorder.CENTER);
+        emptyBoard.setBorder(titleBoard);
+
         JPanel boardPanel = new JPanel(new BorderLayout());
-        topHalfPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, ruleFrame, boardView);
+        topHalfPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, ruleFrame, emptyBoard);
         mainPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, topHalfPanel, treePanel);
         topHalfPanel.setPreferredSize(new Dimension(600, 400));
         mainPanel.setPreferredSize(new Dimension(600, 600));
+
         boardPanel.add(mainPanel);
         boardBorder = BorderFactory.createTitledBorder("Board");
         boardBorder.setTitleJustification(TitledBorder.CENTER);
@@ -322,11 +319,16 @@ public class LegupUI extends JFrame implements WindowListener
         ruleBox.add(boardPanel);
         treeBox.add(ruleBox);
         consoleBox.add(treeBox);
-        add(consoleBox);
+
+        getContentPane().add(consoleBox);
+
+        JPopupPanel popupPanel = new JPopupPanel();
+        setGlassPane(popupPanel);
+        popupPanel.setVisible(true);
 
         mainPanel.setDividerLocation(mainPanel.getMaximumDividerLocation() + 100);
         pack();
-        invalidate();
+        revalidate();
     }
 
     /**
@@ -344,11 +346,6 @@ public class LegupUI extends JFrame implements WindowListener
         fileChooser.setMode(FileDialog.LOAD);
         fileChooser.setTitle("Select Proof");
         fileChooser.setVisible(true);
-
-        // ProofFilter filter = new ProofFilter();
-        // fileChooser.setFilenameFilter(filter);
-//        ProofFilter filter = new ProofFilter();
-//        fileChooser.setFilenameFilter(filter);
 
         String filename = fileChooser.getFile();
 
@@ -612,11 +609,12 @@ public class LegupUI extends JFrame implements WindowListener
         if (filename != null)
         {
             filename = fileChooser.getDirectory() + filename;
-            GameBoardFacade.getInstance().setPuzzle(new Sudoku());
+            GameBoardFacade.getInstance().loadBoardFile(filename);
+            //GameBoardFacade.getInstance().setPuzzle(new Sudoku());
         }
 
 
-        /*JFileChooser newPuzzle = new JFileChooser("boards");
+        /*JFileChooser newPuzzle = new JFileChooser("puzzlefiles");
         FileNameExtensionFilter fileType = new FileNameExtensionFilter("LEGUP Puzzles", "xml");
         newPuzzle.setFileFilter(fileType);
         if(newPuzzle.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
@@ -716,20 +714,20 @@ public class LegupUI extends JFrame implements WindowListener
         this.toolBarButtons = toolBarButtons;
     }
 
-    /**
-     * Sets the board view associated with the puzzle
-     *
-     * @param boardView board view
-     */
-    public void setBoardView(BoardView boardView)
+    public void setPuzzleView(Puzzle puzzle)
     {
-        this.boardView = boardView;
+        this.boardView = puzzle.getBoardView();
         this.topHalfPanel.setRightComponent(boardView);
-        topHalfPanel.setVisible(true);
-        ruleFrame.getBasicRulePanel().setRules(GameBoardFacade.getInstance().getPuzzleModule().getBasicRules());
-        ruleFrame.getCasePanel().setRules(GameBoardFacade.getInstance().getPuzzleModule().getCaseRules());
-        ruleFrame.getContradictionPanel().setRules(GameBoardFacade.getInstance().getPuzzleModule().getContradictionRules());
-        repaintBoard();
+        this.topHalfPanel.setVisible(true);
+
+        this.treePanel.getTreeView().resetView();
+        this.treePanel.getTreeView().setTree(puzzle.getTree());
+
+        ruleFrame.getBasicRulePanel().setRules(puzzle.getBasicRules());
+        ruleFrame.getCasePanel().setRules(puzzle.getCaseRules());
+        ruleFrame.getContradictionPanel().setRules(puzzle.getContradictionRules());
+
+        reloadGui();
     }
 
     public BoardView getBoardView()
@@ -740,5 +738,20 @@ public class LegupUI extends JFrame implements WindowListener
     public TreePanel getTreePanel()
     {
         return treePanel;
+    }
+
+    public RuleFrame getRuleFrame()
+    {
+        return ruleFrame;
+    }
+
+    public JMenuBar getmBar()
+    {
+        return mBar;
+    }
+
+    public JToolBar getToolBar()
+    {
+        return toolBar;
     }
 }

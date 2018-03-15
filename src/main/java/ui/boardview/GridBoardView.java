@@ -68,15 +68,15 @@ public class GridBoardView extends BoardView
      */
     public GridElement getElement(Point point)
     {
-        /*for(PuzzleElement element: puzzleElements)
+        Point scaledPoint = new Point((int)Math.round(point.x / getScale()), (int)Math.round(point.y / getScale()));
+        for(PuzzleElement element: puzzleElements)
         {
-            if(element.isWithinBounds(point))
+            if(element.isWithinBounds(scaledPoint))
             {
                 return (GridElement) element;
             }
-        }*/
-        return getElement(((int)(point.y / getScale() / elementSize.height) * gridSize.width) +
-                ((int)(point.x / getScale() / elementSize.width)));
+        }
+        return null;
     }
 
     /**
@@ -135,6 +135,11 @@ public class GridBoardView extends BoardView
             }
         }
         repaint();
+    }
+
+    public DataSelectionView getSelectionPopupMenu()
+    {
+        return null;
     }
 }
 
