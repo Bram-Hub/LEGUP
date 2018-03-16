@@ -82,7 +82,7 @@ public class RepeatedNumberContradictionRule extends ContradictionRule
     }
 
     /**
-     * Checks whether the finalBoard logically follows from the initializeBoard using this rule
+     * Checks whether the finalBoard logically follows from the initialBoard using this rule
      *
      * @param initialBoard initial state of the board
      * @param finalBoard   final state of the board
