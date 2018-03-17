@@ -1,5 +1,6 @@
 package ui.treeview;
 
+import model.rules.RuleType;
 import model.tree.TreeElementType;
 import model.tree.TreeNode;
 
@@ -59,55 +60,42 @@ public class TreeNodeView extends TreeElementView
     {
         if(isVisible() && treeElement != null)
         {
-            graphics2D.setStroke(THIN_STROKE);
-            boolean isContraBranch = ((TreeNode) treeElement).leadsToContradiction();
-
-            graphics2D.setColor(isContraBranch ? NODE_COLOR_CONTRADICTION : NODE_COLOR_DEFAULT);
-            graphics2D.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
-
-            graphics2D.setColor(OUTLINE_COLOR);
-            graphics2D.drawOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
-
-            graphics2D.setColor(isContraBranch ? NODE_MINOR_COLOR_CONTRADICTION : NODE_MINOR_COLOR_DEFAULT);
-            graphics2D.fillOval(location.x - RADIUS + 5, location.y - RADIUS + 5, DIAMETER - 10, DIAMETER - 10);
-
-            graphics2D.setColor(OUTLINE_COLOR);
-            graphics2D.drawOval(location.x - RADIUS + 5, location.y - RADIUS + 5, DIAMETER - 10, DIAMETER - 10);
-
-            //graphics2D.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
-
-            if(isSelected)
+            if(getTreeElement().getParents().size() == 1 &&
+                    getTreeElement().getParents().get(0).isJustified() &&
+                    getTreeElement().getParents().get(0).getRule().getRuleType() == RuleType.CONTRADICTION)
             {
-                graphics2D.setColor(SELECTION_COLOR);
-                graphics2D.setStroke(MEDIUM_STROKE);
-                graphics2D.drawRect(location.x - (int) (DIAMETER * 0.75), location.y - (int) (DIAMETER * 0.75), (int) (DIAMETER * 1.5), (int) (DIAMETER * 1.5));
+
+                graphics2D.setColor(NODE_COLOR_CONTRADICTION);
+                graphics2D.drawLine(location.x - RADIUS, location.y - RADIUS, location.x + RADIUS, location.y + RADIUS);
+                graphics2D.drawLine(location.x + RADIUS, location.y - RADIUS, location.x - RADIUS, location.y + RADIUS);
+            }
+            else
+            {
+                graphics2D.setStroke(THIN_STROKE);
+                boolean isContraBranch = getTreeElement().leadsToContradiction();
+
+                graphics2D.setColor(isContraBranch ? NODE_COLOR_CONTRADICTION : NODE_COLOR_DEFAULT);
+                graphics2D.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
+
+                graphics2D.setColor(OUTLINE_COLOR);
+                graphics2D.drawOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
+
+                graphics2D.setColor(isContraBranch ? NODE_MINOR_COLOR_CONTRADICTION : NODE_MINOR_COLOR_DEFAULT);
+                graphics2D.fillOval(location.x - RADIUS + 5, location.y - RADIUS + 5, DIAMETER - 10, DIAMETER - 10);
+
+                graphics2D.setColor(OUTLINE_COLOR);
+                graphics2D.drawOval(location.x - RADIUS + 5, location.y - RADIUS + 5, DIAMETER - 10, DIAMETER - 10);
+
+                //graphics2D.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
+
+                if(isSelected)
+                {
+                    graphics2D.setColor(SELECTION_COLOR);
+                    graphics2D.setStroke(MEDIUM_STROKE);
+                    graphics2D.drawRect(location.x - (int) (DIAMETER * 0.75), location.y - (int) (DIAMETER * 0.75), (int) (DIAMETER * 1.5), (int) (DIAMETER * 1.5));
+                }
             }
         }
-    }
-
-    /**
-     * Gets the color of the tree node and whether or not it is justified.
-     *
-     * @return the color of the tree node
-     */
-    public Color getJustificationColor() {
-        Color justificationColor = null;
-//        if(treeElement.isJustified())
-//        {
-//            if(treeElement.isCorrect())
-//            {
-//                justificationColor = NODE_COLOR_DEFAULT;
-//            }
-//            else
-//            {
-//                justificationColor = NODE_COLOR_CONTRADICTION;
-//            }
-//        }
-//        else
-//        {
-//            justificationColor = NODE_COLOR_ROOT;
-//        }
-        return justificationColor;
     }
 
     /**

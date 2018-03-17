@@ -1,7 +1,7 @@
 package ui.treeview;
 
 import app.GameBoardFacade;
-import app.TreeController;
+import controller.TreeController;
 import model.rules.Rule;
 import model.tree.Tree;
 import model.tree.TreeNode;
@@ -45,7 +45,6 @@ public class TreeView extends DynamicViewer
     private static final Stroke medium = new BasicStroke(2);
     private static final Stroke thin = new BasicStroke(1);
     private static final String NodeImgs = "images/Legup/tree/smiley/";
-    private static Selection mouseOver;
 
     private TreeNodeView nodeHover;
 
@@ -113,7 +112,7 @@ public class TreeView extends DynamicViewer
 //        ArrayList<TreeTransitionView> children = nodeView.getChildrenViews();
 //        int numTransitions = 0;
 //
-//        if(children.size() == 1)
+//        if(children.dimension() == 1)
 //        {
 //            TreeTransitionView childView = children.get(0);
 //
@@ -242,7 +241,7 @@ public class TreeView extends DynamicViewer
         Tree tree = GameBoardFacade.getInstance().getTree();
         if(tree != null)
         {
-            //setSize(bounds.getSize());
+            //setSize(bounds.getDimension());
             graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
@@ -291,7 +290,7 @@ public class TreeView extends DynamicViewer
     {
         Selection selection = GameBoardFacade.getInstance().getSelections().getFirstSelection();
         TreeNode cur = selection.getState();
-        if((cur.getChangedCells().size() > 0) || (cur.extraDataChanged()))
+        if((cur.getChangedCells().dimension() > 0) || (cur.extraDataChanged()))
         {
             if(cur.isModifiable() && selection.isState())
             {
@@ -375,15 +374,6 @@ public class TreeView extends DynamicViewer
         {
             this.collapseColorHash.put(treeNode, Color.RED);
         }
-    }
-
-    /**
-     * Delete the current state and associated transition then fix the children
-     */
-    public void delCurrentState()
-    {
-        GameBoardFacade.getInstance().getTree().deleteSelected();
-        updateTreeSize();
     }
 
     /**
@@ -607,9 +597,24 @@ public class TreeView extends DynamicViewer
         return transitionView;
     }
 
-    public void removeTreeElement()
+    public void removeTreeElement(TreeElementView view)
     {
-
+        if(view.getType() == NODE)
+        {
+            TreeNodeView nodeView = (TreeNodeView)view;
+            for(TreeTransitionView transitionView : nodeView.getParentViews())
+            {
+                TreeNodeView newNodeView = new TreeNodeView(null);
+                newNodeView.setVisible(false);
+                newNodeView.addParentView(transitionView);
+                transitionView.setChildView(newNodeView);
+            }
+        }
+        else
+        {
+            TreeTransitionView transitionView = (TreeTransitionView)view;
+            transitionView.getParentView().removeChildrenView(transitionView);
+        }
     }
 
     /**
@@ -626,7 +631,7 @@ public class TreeView extends DynamicViewer
 
         //get last node
         TreeNode iterBoard = lastCollapsed;
-//        while(iterBoard.getChildren().size() == 1 && iterBoard.getChildren().get(0).getParents().size() < 2)
+//        while(iterBoard.getChildren().dimension() == 1 && iterBoard.getChildren().get(0).getParents().dimension() < 2)
 //        {
 //            //iterBoard = iterBoard.getChildren().get(0);
 //        }
@@ -698,7 +703,7 @@ public class TreeView extends DynamicViewer
      */
     public void drawMouseOver(Graphics2D g)
     {
-        if(treeSelection.getHover().getType() == TRANSITION)
+        if(treeSelection.getHover().getType() == TRANSITION && ((TreeTransitionView)treeSelection.getHover()).getTreeElement().isJustified())
         {
             TreeTransitionView transitionView = (TreeTransitionView) treeSelection.getHover();
             TreeTransition transition = transitionView.getTreeElement();

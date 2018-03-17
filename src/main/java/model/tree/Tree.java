@@ -4,6 +4,8 @@ import model.gameboard.Board;
 import model.rules.Rule;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 
 public class Tree
 {
@@ -22,86 +24,39 @@ public class Tree
 
     public TreeTransition addNewTransition(TreeNode treeNode)
     {
-//        if(treeNode.getChildren().size() == 0)
-//        {
-            TreeTransition transition = new TreeTransition(treeNode, treeNode.getBoard().copy());
-            treeNode.getChildren().add(transition);
-            return transition;
-//        }
-//        return null;
+        TreeTransition transition = new TreeTransition(treeNode, treeNode.getBoard().copy());
+        treeNode.getChildren().add(transition);
+        return transition;
     }
 
-    public void addNode(TreeTransition transition)
+    public TreeNode addNode(TreeTransition transition)
     {
-        if(transition.getChildNode() == null)
+        TreeNode treeNode = new TreeNode(transition.getBoard().copy());
+        transition.setChildNode(treeNode);
+        treeNode.addParent(transition);
+        return treeNode;
+    }
+
+    public void removeTreeElement(TreeElement element)
+    {
+        if(element.getType() == TreeElementType.NODE)
         {
-            TreeNode treeNode = new TreeNode(transition.getBoard().copy());
-            transition.setChildNode(treeNode);
+            TreeNode node = (TreeNode)element;
+            for(TreeTransition transition: node.getParents())
+            {
+                transition.setChildNode(null);
+            }
+        }
+        else
+        {
+            TreeTransition transition = (TreeTransition)element;
+            transition.getParentNode().removeChild(transition);
         }
     }
 
-    /**
-     * Adds a tree node to the currently selected node. There must only be
-     * one node currently selected and it must be a leaf node (no children)
-     */
-    public void addToSelected()
+    public boolean isValid()
     {
-//        if(selected.size() == 1)
-//        {
-//            TreeNode treeElement = getFirstSelected();
-//            if(treeElement.getChildren().size() == 0)
-//            {
-//                TreeNode newNode = new TreeNode(treeElement.getBoard().copy(), null);
-//                newNode.addParent(treeElement);
-//                treeElement.addChild(newNode);
-//                newTreeNodeSelection(newNode);
-//            }
-//        }
-    }
-
-    /**
-     * Verifies that the selected tree node correctly uses the rule applied to it
-     * This is called when a user presses a rule button on a selected node
-     *
-     * @param rule the rule to verify the selected node
-     */
-    public void verifySelected(Rule rule)
-    {
-//        if(selected.size() == 1)
-//        {
-//            TreeNode treeElement = getFirstSelected();
-//            if(treeElement.getParents().size() == 1)
-//            {
-//                TreeNode parent = treeElement.getParents().get(0);
-//                treeElement.setRule(rule);
-//                if(rule.checkRule(parent.getBoard(), treeElement.getBoard()) == null)
-//                {
-//                    treeElement.setCorrect(true);
-//                }
-//                else
-//                {
-//                    treeElement.setCorrect(false);
-//                }
-//            }
-//        }
-    }
-
-    /**
-     * Deletes the selected tree nodes and its branch from the tree
-     * and makes the currently selected node the lowest common ancestor
-     * among all the selected nodes
-     */
-    public void deleteSelected()
-    {
-//        TreeNode newSelected = getLowestCommonAncestor(new ArrayList<>(selected));
-//        for(TreeNode treeElement: selected)
-//        {
-//            for(TreeNode parent : treeElement.getParents())
-//            {
-//                parent.getChildren().remove(treeElement);
-//            }
-//        }
-//        newTreeNodeSelection(newSelected);
+        return true;
     }
 
     /**
@@ -139,6 +94,30 @@ public class Tree
     public TreeNode getLowestCommonAncestor(ArrayList<TreeNode> nodes)
     {
         return null;
+    }
+
+    private ArrayList<TreeNode> getPathToRoot(TreeNode node)
+    {
+        ArrayList<TreeNode> path = new ArrayList<>();
+        HashSet<TreeNode> it = new HashSet<>();
+        it.add(node);
+
+        path.add(node);
+        while(!it.isEmpty())
+        {
+            Iterator<TreeNode> i = it.iterator();
+            while(i.hasNext())
+            {
+                TreeNode next = i.next();
+                for(TreeTransition transition : next.getParents())
+                {
+                    it.add(transition.getParentNode());
+                }
+                it.remove(next);
+
+            }
+        }
+        return path;
     }
 
     /**

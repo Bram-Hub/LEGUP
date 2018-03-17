@@ -1,6 +1,6 @@
 package ui.boardview;
 
-import app.ElementController;
+import controller.ElementController;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;

@@ -1,5 +1,5 @@
 <Legup>
-    <puzzle qualifiedClassName="puzzles.sudoku.Sudoku">
+    <puzzle qualifiedClassName="puzzle.sudoku.Sudoku">
         <board size="9">
             <data>
                 <element value="3" x="5" y="0"/>

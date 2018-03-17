@@ -1,6 +1,6 @@
 package ui.treeview;
 
-import app.TreeController;
+import controller.TreeController;
 import model.gameboard.Board;
 import model.rules.Rule;
 import model.tree.Tree;
@@ -80,14 +80,7 @@ public class TreePanel extends JPanel
         treeView.delChildAtCurrentState();
     }
 
-    /**
-     * Delete the current state and reposition the children
-     */
-    public void delCurrentState()
-    {
-        treeView.delCurrentState();
-    }
-
+ 
     public void boardDataChanged(Board board)
     {
         modifiedSinceSave = true;

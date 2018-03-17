@@ -165,11 +165,11 @@ public class Config
             if(configNode.getElementsByTagName("puzzles").getLength() != 1)
             {
                 System.out.println("config is not formatted correctly!");
-                System.out.println("ERROR: No puzzles entry");
+                System.out.println("ERROR: No puzzle entry");
                 return;
             }
 
-            // Load the puzzles
+            // Load the puzzle
             Hashtable<String, Hashtable<String, Object>> puzzles = new Hashtable<String, Hashtable<String, Object>>();
             NodeList puzzlesList = ((Element) (configNode.getElementsByTagName("puzzles").item(0))).getElementsByTagName("puzzle");
             for(int i = 0; i < puzzlesList.getLength(); i++)

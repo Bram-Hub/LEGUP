@@ -2,7 +2,7 @@ package model.gameboard;
 
 import java.awt.*;
 
-public abstract class GridCell extends ElementData
+public class GridCell extends ElementData
 {
     protected Point location;
 
@@ -55,6 +55,15 @@ public abstract class GridCell extends ElementData
     }
 
     /**
+     * Protect GridCell Constructor - creates a new GridCell with default values
+     */
+    protected GridCell()
+    {
+        super();
+        this.location = new Point(-1,-1);
+    }
+
+    /**
      * Gets the location of the GridCell on the grid
      *
      * @return location of the GridCell
@@ -79,6 +88,17 @@ public abstract class GridCell extends ElementData
      *
      * @return a new copy of the GridCell that is independent of this one
      */
-    public abstract GridCell copy();
+    public GridCell copy()
+    {
+        GridCell copy = new GridCell();
+        copy.setIndex(index);
+        copy.setValueInt(valueInt);
+        copy.setValueString(valueString);
+        copy.setModifiable(isModifiable);
+        copy.setModified(isModified);
+        copy.setGiven(isGiven);
+        copy.setLocation((Point)location.clone());
+        return copy;
+    }
 }
 

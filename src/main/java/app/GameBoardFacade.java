@@ -8,7 +8,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import puzzles.sudoku.Sudoku;
+import puzzle.sudoku.Sudoku;
 import ui.LegupUI;
 import ui.Selection;
 import ui.boardview.BoardView;
@@ -45,8 +45,6 @@ public class GameBoardFacade
 
     private LegupUI legupUI;
 
-    private ArrayList<Selection> selections;
-
     private History history;
 
     /**
@@ -61,8 +59,6 @@ public class GameBoardFacade
         selectionListeners = new ArrayList<>();
 
         legupUI = new LegupUI();
-
-        selections = new ArrayList<>();
 
         history = new History();
     }
@@ -122,7 +118,6 @@ public class GameBoardFacade
             try
             {
                 Node node = rootNode.getElementsByTagName("puzzle").item(0);
-                System.err.println(node.getNodeValue());
                 System.err.println(node.getAttributes().getNamedItem("qualifiedClassName").getNodeValue());
                 Class<?> c = Class.forName(node.getAttributes().getNamedItem("qualifiedClassName").getNodeValue());
                 Constructor<?> cons = c.getConstructor();
@@ -275,26 +270,6 @@ public class GameBoardFacade
     public void setPuzzleModule(Puzzle puzzle)
     {
         this.puzzle = puzzle;
-    }
-
-    /**
-     * Gets the currently selected ui elements
-     *
-     * @return list of the currently selected ui elements
-     */
-    public ArrayList<Selection> getSelections()
-    {
-        return selections;
-    }
-
-    /**
-     * Sets the currently selected ui elements
-     *
-     * @param selections the list of the currently selected ui elements
-     */
-    public void setSelections(ArrayList<Selection> selections)
-    {
-        this.selections = selections;
     }
 
     /**

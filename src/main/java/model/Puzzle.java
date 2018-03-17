@@ -38,7 +38,7 @@ public abstract class Puzzle
     }
 
     /**
-     * Initializes the game board
+     * Initializes the game board. Called by the invoker of the class
      */
     public abstract void initializeBoard();
 

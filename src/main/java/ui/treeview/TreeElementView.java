@@ -10,7 +10,7 @@ public abstract class TreeElementView implements Shape
 {
     protected TreeElement treeElement;
     protected boolean isSelected;
-    protected boolean isHovered;
+    protected boolean isHover;
     private TreeElementType type;
     private boolean isVisible;
 
@@ -19,7 +19,7 @@ public abstract class TreeElementView implements Shape
         this.type = type;
         this.treeElement = treeElement;
         this.isSelected = false;
-        this.isHovered = false;
+        this.isHover = false;
         this.isVisible = true;
     }
 
@@ -50,14 +50,14 @@ public abstract class TreeElementView implements Shape
         this.isSelected = isSelected;
     }
 
-    public boolean isHovered()
+    public boolean isHover()
     {
-        return isHovered;
+        return isHover;
     }
 
-    public void setHovered(boolean isHovered)
+    public void setHover(boolean isHovered)
     {
-        this.isHovered = isHovered;
+        this.isHover = isHovered;
     }
 
     public boolean isVisible()

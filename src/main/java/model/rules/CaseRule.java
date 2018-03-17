@@ -25,8 +25,6 @@ public abstract class CaseRule extends Rule
 
     public abstract Board getCaseBoard(Board board);
 
-    //public abstract ArrayList<PuzzlePiece> getPuzzlePieces();
-
     /**
      * Gets the possible cases at a specific location based on this case rule
      *

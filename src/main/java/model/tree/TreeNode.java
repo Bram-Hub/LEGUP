@@ -33,26 +33,12 @@ public class TreeNode extends TreeElement
      */
     public boolean leadsToContradiction()
     {
-        if(children.size() == 0)
+        boolean leadsToContra = true;
+        for(TreeTransition child: children)
         {
-            return false;
+            leadsToContra &= child.leadsToContradiction();
         }
-        else
-        {
-            boolean leadsToContra = true;
-            for(TreeTransition child: children)
-            {
-                if(child.getChildNode() == null)
-                {
-                    leadsToContra &= child.getRule() != null && child.getRule().getRuleType() == RuleType.CONTRADICTION && child.isCorrect();
-                }
-                else
-                {
-                    leadsToContra &= child.getChildNode().leadsToContradiction();
-                }
-            }
-            return leadsToContra;
-        }
+        return leadsToContra && !children.isEmpty();
     }
 
     /**

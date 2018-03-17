@@ -1,6 +1,6 @@
 package ui;
 
-import app.Controller;
+import controller.Controller;
 
 import java.lang.Double;
 

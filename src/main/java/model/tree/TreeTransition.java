@@ -3,6 +3,7 @@ package model.tree;
 import model.gameboard.Board;
 import model.gameboard.ElementData;
 import model.rules.Rule;
+import model.rules.RuleType;
 
 public class TreeTransition extends TreeElement
 {
@@ -50,6 +51,28 @@ public class TreeTransition extends TreeElement
                 child.getBoard().setElementData(data.getIndex(), data.copy());
                 child.propagateChanges(data);
             }
+        }
+    }
+
+    /**
+     * Determines if this tree node leads to a contradiction. Every path from this tree node
+     * must lead to a contradiction including all of its children
+     *
+     * @return true if this tree node leads to a contradiction, false otherwise
+     */
+    public boolean leadsToContradiction()
+    {
+        if(isJustified() && isCorrect() && rule.getRuleType() == RuleType.CONTRADICTION)
+        {
+            return true;
+        }
+        else if(childNode == null)
+        {
+            return false;
+        }
+        else
+        {
+            return childNode.leadsToContradiction() && isJustified() && isCorrect();
         }
     }
 
@@ -120,7 +143,7 @@ public class TreeTransition extends TreeElement
      */
     public boolean isCorrect()
     {
-        return isJustified() && rule.checkRule(parentNode.getBoard(), board) == null;
+        return isJustified() && rule.checkRule(this) == null;
     }
 
     /**

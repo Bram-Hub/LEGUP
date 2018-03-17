@@ -82,8 +82,8 @@ public class WrapLayout extends FlowLayout
      * Returns the minimum or preferred dimension needed to layout the target
      * container.
      *
-     * @param target target to get layout size for
-     * @param preferred should preferred size be calculated
+     * @param target target to get layout dimension for
+     * @param preferred should preferred dimension be calculated
      * @return the dimension to layout the target container
      */
     private Dimension layoutSize(Container target, boolean preferred)
@@ -148,8 +148,8 @@ public class WrapLayout extends FlowLayout
             dim.height += insets.top + insets.bottom + vgap * 2;
 
             //	When using a scroll pane or the DecoratedLookAndFeel we need to
-            //  make sure the preferred size is less than the size of the
-            //  target containter so shrinking the container size works
+            //  make sure the preferred dimension is less than the dimension of the
+            //  target containter so shrinking the container dimension works
             //  correctly. Removing the horizontal gap is an easy way to do this.
 
             Container scrollPane = SwingUtilities.getAncestorOfClass(JScrollPane.class, target);
@@ -165,7 +165,7 @@ public class WrapLayout extends FlowLayout
 
     /*
      *  A new row has been completed. Use the dimensions of this row
-     *  to update the preferred size for the container.
+     *  to update the preferred dimension for the container.
      *
      *  @param dim update the width and height when appropriate
      *  @param rowWidth the width of the row to add

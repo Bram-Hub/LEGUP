@@ -1,6 +1,7 @@
 package ui.boardview;
 
-import app.BoardController;
+import controller.BoardController;
+import controller.ElementController;
 import model.gameboard.Board;
 import model.gameboard.GridBoard;
 
@@ -20,14 +21,12 @@ public class GridBoardView extends BoardView
      *
      * @param boardController controller that handles the ui events
      * @param gridSize dimension of the grid
-     * @param elementSize dimension of the elements
      */
-    public GridBoardView(BoardController boardController, Dimension gridSize, Dimension elementSize)
+    public GridBoardView(BoardController boardController, ElementController elementController, Dimension gridSize)
     {
-        this(boardController);
+        this(boardController, elementController);
         this.gridSize = gridSize;
-        this.elementSize = elementSize;
-        setBackground( new Color(0xE0E0E0) );
+        this.elementSize = new Dimension(30,30);
         initSize();
     }
 
@@ -37,9 +36,9 @@ public class GridBoardView extends BoardView
      *
      * @param boardController controller that handles the ui events
      */
-    private GridBoardView(BoardController boardController)
+    private GridBoardView(BoardController boardController, ElementController elementController)
     {
-        super(boardController);
+        super(boardController, elementController);
         setBackground( new Color(0xE0E0E0) );
     }
 
@@ -90,9 +89,9 @@ public class GridBoardView extends BoardView
     }
 
     /**
-     * Helper method to determine the proper size of the grid view
+     * Helper method to determine the proper dimension of the grid view
      *
-     * @return proper size of the grid view
+     * @return proper dimension of the grid view
      */
     protected Dimension getProperSize()
     {
@@ -103,19 +102,6 @@ public class GridBoardView extends BoardView
     }
 
     /**
-     * Draws the GridBoardView on the screen
-     *
-     * @param graphics2D graphics2D object used to draw
-     */
-    protected void draw(Graphics2D graphics2D)
-    {
-        for(PuzzleElement element: puzzleElements)
-        {
-            element.draw(graphics2D);
-        }
-    }
-
-    /**
      * Board Data changed
      *
      * @param board board to update the BoardView
@@ -123,16 +109,9 @@ public class GridBoardView extends BoardView
     public void updateBoard(Board board)
     {
         GridBoard gridBoard = (GridBoard)board;
-        puzzleElements.clear();
-        for(int i = 0; i < gridBoard.getWidth(); i++)
+        for(PuzzleElement element: puzzleElements)
         {
-            for(int k = 0; k < gridBoard.getHeight(); k++)
-            {
-                GridElement element = new GridElement(gridBoard.getCell(i, k));
-                element.setIndex(gridBoard.getCell(i, k).getIndex());
-                element.setSize(elementSize);
-                puzzleElements.add(element);
-            }
+            element.setData(gridBoard.getElementData(element.getIndex()));
         }
         repaint();
     }

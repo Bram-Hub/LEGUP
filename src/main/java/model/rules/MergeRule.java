@@ -1,6 +1,11 @@
 package model.rules;
 
 import model.gameboard.Board;
+import model.gameboard.ElementData;
+import model.tree.TreeNode;
+import model.tree.TreeTransition;
+
+import java.util.ArrayList;
 
 import static model.rules.RuleType.MERGE;
 
@@ -12,69 +17,105 @@ public class MergeRule extends Rule
     public MergeRule()
     {
         super(null, null, null);
-        ruleType = MERGE;
+        this.ruleType = MERGE;
+    }
+
+    public Board getMergedBoard(ArrayList<TreeNode> nodes)
+    {
+        if(nodes.isEmpty())
+        {
+            return null;
+        }
+        else if(nodes.size() == 1)
+        {
+            return nodes.get(0).getBoard().copy();
+        }
+        Board mergeBoard = nodes.get(0).getBoard().copy();
+        for(ElementData data : mergeBoard.getElementData())
+        {
+            boolean allSame = true;
+            for(TreeNode n : nodes)
+            {
+                allSame &= data.equals(n.getBoard().getElementData(data.getIndex()));
+            }
+            if(!allSame)
+            {
+
+            }
+        }
+        return mergeBoard;
+    }
+
+    public String canMergeNodes(ArrayList<TreeNode> nodes)
+    {
+        boolean allLeafNode = true;
+        for(TreeNode n : nodes)
+        {
+            allLeafNode &= n.getChildren().isEmpty();
+        }
+        if(!allLeafNode)
+        {
+            return "All nodes must be leaf nodes";
+        }
+        return null;
     }
 
     /**
-     * Checks whether the finalBoard logically follows from the initializeBoard using this rule
+     * Checks whether the transition logically follows from the parent node using this rule
      *
-     * @param initialBoard initial state of the board
-     * @param finalBoard   final state of the board
+     * @param transition transition to check
      *
-     * @return null if the finalBoard logically follow from the initializeBoard, otherwise error message
+     * @return null if the child node logically follow from the parent node, otherwise error message
      */
     @Override
-    public String checkRule(Board initialBoard, Board finalBoard)
+    public String checkRule(TreeTransition transition)
     {
         return null;
     }
 
     /**
-     * Checks whether the finalBoard logically follows from the initializeBoard
+     * Checks whether the child node logically follows from the parent node
      * at the specific element index using this rule
      *
-     * @param initialBoard initial state of the board
-     * @param finalBoard   final state of the board
+     * @param transition   transition to check
      * @param elementIndex index of the element
      *
-     * @return null if the finalBoard logically follow from the initializeBoard at the specified element,
+     * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
     @Override
-    public String checkRuleAt(Board initialBoard, Board finalBoard, int elementIndex)
+    public String checkRuleAt(TreeTransition transition, int elementIndex)
     {
         return null;
     }
 
     /**
-     * Checks whether the finalBoard logically follows from the initializeBoard using this rule
+     * Checks whether the child node logically follows from the parent node using this rule
      * and if so will perform the default application of the rule
      *
-     * @param initialBoard initial state of the board
-     * @param finalBoard   final state of the board
+     * @param transition transition to apply default application
      *
-     * @return true if the finalBoard logically follow from the initializeBoard and accepts the changes
+     * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
     @Override
-    public boolean doDefaultApplication(Board initialBoard, Board finalBoard)
+    public boolean doDefaultApplication(TreeTransition transition)
     {
         return false;
     }
 
     /**
-     * Checks whether the finalBoard logically follows from the initializeBoard at the
+     * Checks whether the child node logically follows from the parent node at the
      * specific element index using this rule and if so will perform the default application of the rule
      *
-     * @param initialBoard initial state of the board
-     * @param finalBoard   final state of the board
+     * @param transition   transition to apply default application
      * @param elementIndex
      *
-     * @return true if the finalBoard logically follow from the initializeBoard and accepts the changes
+     * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
     @Override
-    public boolean doDefaultApplicationAt(Board initialBoard, Board finalBoard, int elementIndex)
+    public boolean doDefaultApplicationAt(TreeTransition transition, int elementIndex)
     {
         return false;
     }

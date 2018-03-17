@@ -10,11 +10,10 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 import app.GameBoardFacade;
-import app.RuleController;
+import controller.RuleController;
 import model.Puzzle;
 import model.gameboard.Board;
 import ui.boardview.BoardView;
-import ui.rulesview.BasicRulePanel;
 import ui.rulesview.RuleFrame;
 import ui.treeview.TreePanel;
 import user.Submission;
@@ -94,8 +93,6 @@ public class LegupUI extends JFrame implements WindowListener
         setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
         setVisible(true);
-
-        //setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
         setLocationRelativeTo(null);
 
@@ -258,30 +255,30 @@ public class LegupUI extends JFrame implements WindowListener
             getToolBarButtons()[i].setHorizontalTextPosition(SwingConstants.CENTER);
         }
 
-        getToolBarButtons()[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent e)  -> promptPuzzle());
-        getToolBarButtons()[ToolbarName.OPEN_PROOF.ordinal()].addActionListener((ActionEvent e)  -> openProof());
-        getToolBarButtons()[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e)  -> saveProof());
-        getToolBarButtons()[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e)  -> {});
-        getToolBarButtons()[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e)  -> {});
-        getToolBarButtons()[ToolbarName.CONSOLE.ordinal()].addActionListener((ActionEvent e)  -> {});
-        getToolBarButtons()[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e)  -> {});
-        getToolBarButtons()[ToolbarName.CHECK.ordinal()].addActionListener((ActionEvent e)  -> {});
-        getToolBarButtons()[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e)  -> {});
-        getToolBarButtons()[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e)  -> {});
-        getToolBarButtons()[ToolbarName.ZOOM_IN.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomIn());
-        getToolBarButtons()[ToolbarName.ZOOM_OUT.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomOut());
-        getToolBarButtons()[ToolbarName.NORMAL_ZOOM.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomTo(1.0) );
-        getToolBarButtons()[ToolbarName.BEST_FIT.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomFit());
-        getToolBarButtons()[ToolbarName.ANNOTATIONS.ordinal()].addActionListener((ActionEvent e)  -> {  });
+        toolBarButtons[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent e)  -> promptPuzzle());
+        toolBarButtons[ToolbarName.OPEN_PROOF.ordinal()].addActionListener((ActionEvent e)  -> openProof());
+        toolBarButtons[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e)  -> saveProof());
+        toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e)  -> {});
+        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e)  -> {});
+        toolBarButtons[ToolbarName.CONSOLE.ordinal()].addActionListener((ActionEvent e)  -> {});
+        toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e)  -> {});
+        toolBarButtons[ToolbarName.CHECK.ordinal()].addActionListener((ActionEvent e)  -> {});
+        toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e)  -> {});
+        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e)  -> {});
+        toolBarButtons[ToolbarName.ZOOM_IN.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomIn());
+        toolBarButtons[ToolbarName.ZOOM_OUT.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomOut());
+        toolBarButtons[ToolbarName.NORMAL_ZOOM.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomTo(1.0) );
+        toolBarButtons[ToolbarName.BEST_FIT.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomFit());
+        toolBarButtons[ToolbarName.ANNOTATIONS.ordinal()].addActionListener((ActionEvent e)  -> {  });
 
-        getToolBarButtons()[ToolbarName.SAVE.ordinal()].setEnabled(false);
-        getToolBarButtons()[ToolbarName.UNDO.ordinal()].setEnabled(false);
-        getToolBarButtons()[ToolbarName.REDO.ordinal()].setEnabled(false);
-        getToolBarButtons()[ToolbarName.HINT.ordinal()].setEnabled(false);
-        getToolBarButtons()[ToolbarName.CHECK.ordinal()].setEnabled(false);
-        getToolBarButtons()[ToolbarName.SUBMIT.ordinal()].setEnabled(false);
-        getToolBarButtons()[ToolbarName.DIRECTIONS.ordinal()].setEnabled(false);
-        //getToolBarButtons()[ToolbarName.ANNOTATIONS.ordinal()].setEnabled(false);
+        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
+        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
+        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
+        toolBarButtons[ToolbarName.HINT.ordinal()].setEnabled(false);
+        toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(false);
+        toolBarButtons[ToolbarName.SUBMIT.ordinal()].setEnabled(false);
+        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].setEnabled(false);
+        getToolBarButtons()[ToolbarName.ANNOTATIONS.ordinal()].setEnabled(false);
 
         add(toolBar, BorderLayout.NORTH);
     }
@@ -726,6 +723,8 @@ public class LegupUI extends JFrame implements WindowListener
         ruleFrame.getBasicRulePanel().setRules(puzzle.getBasicRules());
         ruleFrame.getCasePanel().setRules(puzzle.getCaseRules());
         ruleFrame.getContradictionPanel().setRules(puzzle.getContradictionRules());
+
+        toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
 
         reloadGui();
     }

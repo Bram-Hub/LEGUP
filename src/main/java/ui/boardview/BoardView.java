@@ -1,14 +1,10 @@
 package ui.boardview;
 
-import app.BoardController;
-import app.ElementController;
-import model.Puzzle;
+import controller.BoardController;
+import controller.ElementController;
 import model.gameboard.Board;
-import puzzles.sudoku.SudokuCell;
-import puzzles.sudoku.SudokuElement;
 import ui.DynamicViewer;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -16,6 +12,7 @@ public abstract class BoardView extends DynamicViewer
 {
     protected ArrayList<PuzzleElement> puzzleElements;
     protected ElementController elementController;
+    protected ElementSelection selection;
 
     /**
      * BoardView Constructor - creates a BoardView object using
@@ -23,11 +20,16 @@ public abstract class BoardView extends DynamicViewer
      *
      * @param boardController controller that handles the ui events
      */
-    public BoardView(BoardController boardController)
+    public BoardView(BoardController boardController, ElementController elementController)
     {
         super(boardController);
-        puzzleElements = new ArrayList<>();
-        this.elementController = new ElementController(this);
+        this.puzzleElements = new ArrayList<>();
+        this.elementController = elementController;
+        this.selection = new ElementSelection();
+
+        elementController.setBoardView(this);
+        addMouseListener(elementController);
+        addMouseMotionListener(elementController);
     }
 
     /**
@@ -51,6 +53,11 @@ public abstract class BoardView extends DynamicViewer
      */
     public abstract PuzzleElement getElement(int index);
 
+    /**
+     * Sets the PuzzleElement list
+     *
+     * @param elements PuzzleElement list
+     */
     public void setPuzzleElements(ArrayList<PuzzleElement> elements)
     {
         puzzleElements = elements;
@@ -64,6 +71,16 @@ public abstract class BoardView extends DynamicViewer
      * @return PuzzleElement at the specified location
      */
     public abstract PuzzleElement getElement(Point point);
+
+    /**
+     * Gets the ElementSelection for this BoardView
+     *
+     * @return the ElementSelection
+     */
+    public ElementSelection getSelection()
+    {
+        return selection;
+    }
 
     /**
      * Board data has changed
@@ -90,6 +107,20 @@ public abstract class BoardView extends DynamicViewer
     public ArrayList<PuzzleElement> getPuzzleElements()
     {
         return puzzleElements;
+    }
+
+    @Override
+    public void draw(Graphics2D graphics2D)
+    {
+        drawBoard(graphics2D);
+    }
+
+    public void drawBoard(Graphics2D graphics2D)
+    {
+        for(PuzzleElement element: puzzleElements)
+        {
+            element.draw(graphics2D);
+        }
     }
 
     public abstract DataSelectionView getSelectionPopupMenu();

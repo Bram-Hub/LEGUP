@@ -17,6 +17,8 @@ public abstract class PuzzleElement implements Shape
     protected ElementData data;
     private Color highLightColor;
     private Color hoverColor;
+    private Color modifiedColor;
+    private Color caseColor;
     private boolean isCaseRulePickable;
     private boolean isHover;
     private boolean isSelected;
@@ -29,8 +31,10 @@ public abstract class PuzzleElement implements Shape
     public PuzzleElement(ElementData data)
     {
         this.data = data;
-        this.highLightColor = new Color(0,0,128,128);
-        this.hoverColor = new Color(0,0,255,128);
+        this.highLightColor = new Color(0,0,128,255);
+        this.hoverColor = new Color(0,0,255,255);
+        this.modifiedColor = new Color(0, 255,0,255);
+        this.caseColor = new Color(0, 0,140,100);
         this.isHover = false;
         this.isSelected = false;
         this.isCaseRulePickable = false;
@@ -53,7 +57,66 @@ public abstract class PuzzleElement implements Shape
      *
      * @param graphics2D graphics2D object used for drawing
      */
-    public abstract void draw(Graphics2D graphics2D);
+    public void draw(Graphics2D graphics2D)
+    {
+        drawElement(graphics2D);
+        if(data.isGiven())
+        {
+            drawGiven(graphics2D);
+        }
+        if(isHover)
+        {
+            drawHover(graphics2D);
+        }
+        if(data.isModified())
+        {
+            drawModified(graphics2D);
+        }
+        if(data.isCaseApplicable())
+        {
+            drawCase(graphics2D);
+        }
+    }
+
+    public void drawElement(Graphics2D graphics2D)
+    {
+        graphics2D.setStroke(new BasicStroke(1));
+        graphics2D.setColor(Color.BLACK);
+        graphics2D.drawRect(location.x, location.y, size.width, size.height);
+
+        graphics2D.setColor(Color.BLACK);
+        FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
+        String value = String.valueOf(data.getValueInt());
+        int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
+        int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
+        graphics2D.drawString(String.valueOf(data.getValueInt()), xText, yText);
+    }
+
+    public void drawGiven(Graphics2D graphics2D)
+    {
+//        graphics2D.setColor(new Color(200,200,200));
+//        graphics2D.fillRect(location.x, location.y, size.width, size.height);
+    }
+
+    public void drawHover(Graphics2D graphics2D)
+    {
+        graphics2D.setColor(highLightColor);
+        graphics2D.setStroke(new BasicStroke(2));
+        graphics2D.drawRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
+    }
+
+    public void drawModified(Graphics2D graphics2D)
+    {
+        graphics2D.setColor(modifiedColor);
+        graphics2D.setStroke(new BasicStroke(2));
+        graphics2D.drawRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
+    }
+
+    public void drawCase(Graphics2D graphics2D)
+    {
+        graphics2D.setColor(caseColor);
+        graphics2D.fillRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
+    }
 
     /**
      * Gets the index of the PuzzleElement
@@ -96,9 +159,9 @@ public abstract class PuzzleElement implements Shape
     }
 
     /**
-     * Gets the size of the PuzzleElement
+     * Gets the dimension of the PuzzleElement
      *
-     * @return size of the PuzzleElement
+     * @return dimension of the PuzzleElement
      */
     public Dimension getSize()
     {
@@ -106,9 +169,9 @@ public abstract class PuzzleElement implements Shape
     }
 
     /**
-     * Sets the size of the PuzzleElement
+     * Sets the dimension of the PuzzleElement
      *
-     * @param size size of the PuzzleElement
+     * @param size dimension of the PuzzleElement
      */
     public void setSize(Dimension size)
     {

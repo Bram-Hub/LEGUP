@@ -1,9 +1,8 @@
 package ui.rulesview;
 
-import app.RuleController;
+import controller.RuleController;
 import model.Puzzle;
 import model.gameboard.Board;
-import model.rules.BasicRule;
 import model.rules.Rule;
 
 import java.awt.BorderLayout;
@@ -101,7 +100,7 @@ public class RuleFrame extends JPanel
     }
 
     /**
-     * Resets the size of the rule frame
+     * Resets the dimension of the rule frame
      */
     public void resetSize()
     {

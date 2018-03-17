@@ -1,12 +1,15 @@
 package model.gameboard;
 
+import model.rules.CaseRule;
+
 import java.util.ArrayList;
 
 public abstract class Board
 {
     protected ArrayList<ElementData> elementData;
+    protected ArrayList<ElementData> modifiedData;
     protected boolean isModifiable;
-    protected boolean isModified;
+    protected CaseRule caseRule;
 
     /**
      * Board Constructor - creates an empty board
@@ -14,8 +17,9 @@ public abstract class Board
     public Board()
     {
         this.elementData = new ArrayList<>();
+        this.modifiedData = new ArrayList<>();
         this.isModifiable = true;
-        this.isModified = false;
+        this.caseRule = null;
     }
 
     /**
@@ -97,17 +101,35 @@ public abstract class Board
      */
     public boolean isModified()
     {
-        return isModified;
+        return !modifiedData.isEmpty();
     }
 
-    /**
-     * Sets whether the data of this board has been modified by the user
-     *
-     * @param isModified true if the board has been modified, false otherwise
-     */
-    public void setModified(boolean isModified)
+    public ArrayList<ElementData> getModifiedData()
     {
-        this.isModified = isModified;
+        return modifiedData;
+    }
+
+    public void addModifiedData(ElementData data)
+    {
+        if(!modifiedData.contains(data))
+        {
+            modifiedData.add(data);
+        }
+    }
+
+    public void removeModifiedData(ElementData data)
+    {
+        modifiedData.remove(data);
+    }
+
+    public CaseRule getCaseRule()
+    {
+        return caseRule;
+    }
+
+    public void setCaseRule(CaseRule caseRule)
+    {
+        this.caseRule = caseRule;
     }
 
     /**

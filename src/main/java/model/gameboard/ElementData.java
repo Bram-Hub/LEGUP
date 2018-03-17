@@ -7,16 +7,21 @@ public abstract class ElementData
     protected int valueInt;
     protected boolean isModifiable;
     protected boolean isModified;
+    protected boolean isGiven;
+    protected boolean isCaseApplicable;
 
     /**
      * ElementData Constructor - creates a new ElementData
      */
     public ElementData()
     {
+        this.index = -1;
         this.valueString = null;
         this.valueInt = -1;
         this.isModifiable = true;
         this.isModified = false;
+        this.isGiven = false;
+        this.isCaseApplicable = false;
     }
 
     /**
@@ -26,7 +31,7 @@ public abstract class ElementData
      */
     public ElementData(String valueString)
     {
-        super();
+        this();
         this.valueString = valueString;
     }
 
@@ -37,7 +42,7 @@ public abstract class ElementData
      */
     public ElementData(int valueInt)
     {
-        super();
+        this();
         this.valueInt = valueInt;
     }
 
@@ -142,6 +147,36 @@ public abstract class ElementData
     }
 
     /**
+     * Gets whether this data is given
+     *
+     * @return true if the data is given, false otherwise
+     */
+    public boolean isGiven()
+    {
+        return isGiven;
+    }
+
+    /**
+     * Sets whether this data is given
+     *
+     * @param given true if the data is given, false otherwise
+     */
+    public void setGiven(boolean given)
+    {
+        isGiven = given;
+    }
+
+    public boolean isCaseApplicable()
+    {
+        return isCaseApplicable;
+    }
+
+    public void setCaseApplicable(boolean caseApplicable)
+    {
+        isCaseApplicable = caseApplicable;
+    }
+
+    /**
      * Tests whether two ElementData objects have the same data
      *
      * @param data element data to check for equality
@@ -149,7 +184,9 @@ public abstract class ElementData
      */
     public boolean equals(ElementData data)
     {
-        return valueInt == data.valueInt && valueString.equals(data.valueString);
+        return valueInt == data.valueInt &&
+                (valueString == null || data.valueString == null ||
+                valueString.equals(data.valueString));
     }
 
     /**

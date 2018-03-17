@@ -1,5 +1,5 @@
 import app.GameBoardFacade;
-import puzzles.sudoku.Sudoku;
+import puzzle.sudoku.Sudoku;
 
 public class Legup
 {
@@ -12,7 +12,5 @@ public class Legup
     public static void main(String[] args) throws Exception
     {
         GameBoardFacade.getInstance();
-        //GameBoardFacade.getInstance().setPuzzle(new Sudoku());
-        //GameBoardFacade.getInstance().getLegupUI().repaintTree();
     }
 }

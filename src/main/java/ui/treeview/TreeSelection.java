@@ -63,10 +63,10 @@ public class TreeSelection
 
     public void newHover(TreeElementView newHovered)
     {
-        newHovered.setHovered(true);
+        newHovered.setHover(true);
         if(hover != null)
         {
-            hover.setHovered(false);
+            hover.setHover(false);
         }
         hover = newHovered;
     }
@@ -75,7 +75,7 @@ public class TreeSelection
     {
         if(hover != null)
         {
-            hover.setHovered(false);
+            hover.setHover(false);
             hover = null;
         }
     }

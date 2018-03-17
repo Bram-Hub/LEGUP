@@ -1,5 +1,6 @@
 package model.gameboard;
 
+import java.awt.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -7,8 +8,7 @@ public class GridBoard extends Board
 {
     private final static Logger LOGGER = Logger.getLogger(GridBoard.class.getName());
 
-    protected int width;
-    protected int height;
+    protected Dimension dimension;
 
     /**
      * GridBoard Constructor - models a GridBoard
@@ -18,8 +18,7 @@ public class GridBoard extends Board
      */
     public GridBoard(int width, int height)
     {
-        this.width = width;
-        this.height = height;
+        this.dimension = new Dimension(width, height);
 
         for(int i = 0; i < width * height; i++)
         {
@@ -36,13 +35,11 @@ public class GridBoard extends Board
      */
     public GridCell getCell(int x, int y)
     {
-        if(x * width + y >= elementData.size() || x >= width || y >= height || x < 0 || y < 0)
+        if(x * dimension.width + y >= elementData.size() || x >= dimension.width || y >= dimension.height || x < 0 || y < 0)
         {
-            LOGGER.log(Level.SEVERE, "Trying to call getCell with index values - " +
-                    "(" + x + ", " + y + "), which are out of range");
             return null;
         }
-        return (GridCell)elementData.get(y * width + x);
+        return (GridCell)elementData.get(y * dimension.width + x);
     }
 
     /**
@@ -54,13 +51,13 @@ public class GridBoard extends Board
      */
     public void setCell(int x, int y, GridCell cell)
     {
-        if(x * width + y >= elementData.size() && x < width && y < height && x >= 0 && y >= 0)
+        if(x * dimension.width + y >= elementData.size() && x < dimension.width && y < dimension.height && x >= 0 && y >= 0)
         {
             LOGGER.log(Level.SEVERE, "Trying to call setCell with index values - " +
                     "(" + x + ", " + y + "), which are out of range");
             return;
         }
-        elementData.set(y * width + x, cell);
+        elementData.set(y * dimension.width + x, cell);
     }
 
     /**
@@ -70,7 +67,7 @@ public class GridBoard extends Board
      */
     public int getWidth()
     {
-        return width;
+        return dimension.width;
     }
 
     /**
@@ -80,7 +77,17 @@ public class GridBoard extends Board
      */
     public int getHeight()
     {
-        return height;
+        return dimension.height;
+    }
+
+    /**
+     * Gets the dimension of the grid board
+     *
+     * @return the dimension of the grid board
+     */
+    public Dimension getDimension()
+    {
+        return dimension;
     }
 
     /**
@@ -90,10 +97,10 @@ public class GridBoard extends Board
      */
     public GridBoard copy()
     {
-        GridBoard newGridBoard = new GridBoard(this.width, this.height);
-        for(int x = 0; x < this.width; x++)
+        GridBoard newGridBoard = new GridBoard(this.dimension.width, this.dimension.height);
+        for(int x = 0; x < this.dimension.width; x++)
         {
-            for(int y = 0; y < this.height; y++)
+            for(int y = 0; y < this.dimension.height; y++)
             {
                 newGridBoard.setCell(x, y, getCell(x, y).copy());
             }

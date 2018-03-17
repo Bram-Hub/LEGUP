@@ -1,6 +1,9 @@
 package model.rules;
 
 import model.gameboard.Board;
+import model.gameboard.ElementData;
+import model.tree.TreeNode;
+import model.tree.TreeTransition;
 
 import javax.swing.ImageIcon;
 
@@ -32,47 +35,43 @@ public abstract class Rule
     }
 
     /**
-     * Checks whether the finalBoard logically follows from the initializeBoard using this rule
+     * Checks whether the transition logically follows from the parent node using this rule
      *
-     * @param initialBoard initial state of the board
-     * @param finalBoard final state of the board
-     * @return null if the finalBoard logically follow from the initializeBoard, otherwise error message
+     * @param transition transition to check
+     * @return null if the child node logically follow from the parent node, otherwise error message
      */
-    public abstract String checkRule(Board initialBoard, Board finalBoard);
+    public abstract String checkRule(TreeTransition transition);
 
     /**
-     * Checks whether the finalBoard logically follows from the initializeBoard
+     * Checks whether the child node logically follows from the parent node
      * at the specific element index using this rule
      *
-     * @param initialBoard initial state of the board
-     * @param finalBoard final state of the board
+     * @param transition transition to check
      * @param elementIndex index of the element
-     * @return null if the finalBoard logically follow from the initializeBoard at the specified element,
+     * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
-    public abstract String checkRuleAt(Board initialBoard, Board finalBoard, int elementIndex);
+    public abstract String checkRuleAt(TreeTransition transition, int elementIndex);
 
     /**
-     * Checks whether the finalBoard logically follows from the initializeBoard using this rule
+     * Checks whether the child node logically follows from the parent node using this rule
      * and if so will perform the default application of the rule
      *
-     * @param initialBoard initial state of the board
-     * @param finalBoard final state of the board
-     * @return true if the finalBoard logically follow from the initializeBoard and accepts the changes
+     * @param transition transition to apply default application
+     * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
-    public abstract boolean doDefaultApplication(Board initialBoard, Board finalBoard);
+    public abstract boolean doDefaultApplication(TreeTransition transition);
 
     /**
-     * Checks whether the finalBoard logically follows from the initializeBoard at the
+     * Checks whether the child node logically follows from the parent node at the
      * specific element index using this rule and if so will perform the default application of the rule
      *
-     * @param initialBoard initial state of the board
-     * @param finalBoard final state of the board
-     * @return true if the finalBoard logically follow from the initializeBoard and accepts the changes
+     * @param transition transition to apply default application
+     * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
-    public abstract boolean doDefaultApplicationAt(Board initialBoard, Board finalBoard, int elementIndex);
+    public abstract boolean doDefaultApplicationAt(TreeTransition transition, int elementIndex);
 
     /**
      * Loads the image file
