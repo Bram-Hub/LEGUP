@@ -1,6 +1,6 @@
 <Legup>
-    <puzzle qualifiedClassName="puzzle.fillapix.Fillapix">
-        <board size="10">
+    <puzzle qualifiedClassName="puzzles.fillapix.Fillapix">
+        <board width="10" height="10">
             <data>
                 <element value="2" x="1" y="0"/>
                 <element value="3" x="2" y="0"/>
