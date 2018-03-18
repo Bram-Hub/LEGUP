@@ -1,10 +1,9 @@
-package puzzles.fillapix.rules;
+package puzzle.fillapix.rules;
 
-import model.gameboard.Board;
 import model.rules.ContradictionRule;
-import puzzles.fillapix.CellState;
-import puzzles.fillapix.FillapixBoard;
-import puzzles.fillapix.FillapixCell;
+import model.tree.TreeTransition;
+import puzzle.fillapix.FillapixBoard;
+import puzzle.fillapix.FillapixCell;
 
 public class TooManyBlackCellsContradictionRule extends ContradictionRule
 {
@@ -17,16 +16,16 @@ public class TooManyBlackCellsContradictionRule extends ContradictionRule
     }
 
     @Override
-    public String checkContradiction(Board board)
+    public String checkContradiction(TreeTransition transition)
     {
-        FillapixBoard fillapixBoard = (FillapixBoard) board;
+        FillapixBoard fillapixBoard = (FillapixBoard) transition.getBoard();
         int rowSize = fillapixBoard.getWidth();
         int colSize = fillapixBoard.getHeight();
         for (int i = 0; i < rowSize; i++) {
             for (int j = 0; j < colSize; j++) {
                 FillapixCell cell = fillapixBoard.getCell(i,j);
                 if (cell.getValueInt() != -1) {
-                    int numBlackCells = ((FillapixBoard) board).getNumCells(cell, CellState.BLACK);
+                    int numBlackCells = fillapixBoard.getNumCells(cell, FillapixCell.BLACK);
                     if (numBlackCells > cell.getValueInt()) {
                         return null;
                     }
@@ -37,13 +36,13 @@ public class TooManyBlackCellsContradictionRule extends ContradictionRule
     }
 
     @Override
-    public String checkContradictionAt(Board board, int elementIndex)
+    public String checkContradictionAt(TreeTransition transition, int elementIndex)
     {
-        FillapixBoard fillapixBoard = (FillapixBoard) board;
+        FillapixBoard fillapixBoard = (FillapixBoard) transition.getBoard();
         int width = fillapixBoard.getWidth();
         FillapixCell cell = fillapixBoard.getCell(elementIndex%width,elementIndex/width);
         if (cell.getValueInt() != -1) {
-            int numBlackCells = ((FillapixBoard) board).getNumCells(cell, CellState.BLACK);
+            int numBlackCells = fillapixBoard.getNumCells(cell, FillapixCell.BLACK);
             if (numBlackCells > cell.getValueInt()) {
                 return null;
             }
@@ -52,25 +51,13 @@ public class TooManyBlackCellsContradictionRule extends ContradictionRule
     }
 
     @Override
-    public String checkRule(Board initialBoard, Board finalBoard)
-    {
-        return checkContradiction(finalBoard);
-    }
-
-    @Override
-    public String checkRuleAt(Board initialBoard, Board finalBoard, int elementIndex)
-    {
-        return checkContradictionAt(finalBoard, elementIndex);
-    }
-
-    @Override
-    public boolean doDefaultApplication(Board initialBoard, Board finalBoard)
+    public boolean doDefaultApplication(TreeTransition transition)
     {
         return false;
     }
 
     @Override
-    public boolean doDefaultApplicationAt(Board initialBoard, Board finalBoard, int elementIndex)
+    public boolean doDefaultApplicationAt(TreeTransition transition, int elementIndex)
     {
         return false;
     }

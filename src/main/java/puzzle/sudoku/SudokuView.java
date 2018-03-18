@@ -11,7 +11,6 @@ import java.awt.*;
 
 public class SudokuView extends GridBoardView
 {
-    private SudokuCellController sudokuCellController;
     private static final Color STROKE_COLOR = new Color(0,0,0);
     private static final Stroke MINOR_STOKE = new BasicStroke(1);
     private static final Stroke MAJOR_STOKE = new BasicStroke(4);

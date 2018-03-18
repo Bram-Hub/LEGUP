@@ -19,18 +19,18 @@ public class FillapixElement extends GridElement
      * Draws the fillapix element to the screen
      *
      * @param graphics2D graphics object
-     * @param location position on the board
      */
-    public void draw(Graphics2D graphics2D, Point location) {
+    @Override
+    public void drawElement(Graphics2D graphics2D) {
         FillapixCell cell = (FillapixCell) data;
         Color cellColor = null;
-        if (cell.getState()==CellState.UNKNOWN) {
+        if (cell.getState()==FillapixCell.UNKNOWN) {
             graphics2D.setColor(new Color(200,200,200));
             cellColor = new Color(200,200,200);
-        } else if (cell.getState()==CellState.BLACK) {
+        } else if (cell.getState()==FillapixCell.BLACK) {
             graphics2D.setColor(Color.black);
             cellColor = Color.BLACK;
-        } else if (cell.getState()==CellState.WHITE) {
+        } else if (cell.getState()==FillapixCell.WHITE) {
             graphics2D.setColor(Color.white);
             cellColor = Color.WHITE;
         }

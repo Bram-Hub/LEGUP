@@ -1,6 +1,6 @@
 package puzzle.fillapix;
 
-import app.BoardController;
+import controller.BoardController;
 import model.Puzzle;
 import model.gameboard.Board;
 import model.gameboard.ElementData;
@@ -10,8 +10,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import puzzles.fillapix.rules.TooFewBlackCellsContradictionRule;
-import puzzles.fillapix.rules.TooManyBlackCellsContradictionRule;
+import puzzle.fillapix.rules.TooFewBlackCellsContradictionRule;
+import puzzle.fillapix.rules.TooManyBlackCellsContradictionRule;
 import ui.Selection;
 import ui.boardview.BoardView;
 import ui.boardview.PuzzleElement;
@@ -35,9 +35,8 @@ public class Fillapix extends Puzzle
     public Fillapix()
     {
         super();
-        boardView = new FillapixView(new BoardController(),
-                new Dimension(9, 9),
-                new Dimension(32,32));
+
+        boardView = new FillapixView(new Dimension(9, 9));
 
         //basicRules.add(new AdvancedDeductionBasicRule());
         //basicRules.add(new LastCellForNumberBasicRule());
@@ -107,8 +106,6 @@ public class Fillapix extends Puzzle
      * Imports the board using the file stream
      *
      * @param fileName
-     *
-     * @return
      */
     @Override
     public void importPuzzle(String fileName) throws IOException, ParserConfigurationException, SAXException
@@ -142,8 +139,8 @@ public class Fillapix extends Puzzle
             {
                 NamedNodeMap attributeList = elementDataList.item(i).getAttributes();
                 int value = Integer.valueOf(attributeList.getNamedItem("value").getNodeValue());
-                int x = Integer.valueOf(attributeList.getNamedItem("x").getNodeValue());;
-                int y = Integer.valueOf(attributeList.getNamedItem("y").getNodeValue());;
+                int x = Integer.valueOf(attributeList.getNamedItem("x").getNodeValue());
+                int y = Integer.valueOf(attributeList.getNamedItem("y").getNodeValue());
                 FillapixCell cell = new FillapixCell(value, new Point(x, y));
                 cell.setModifiable(true);
                 fillapixBoard.setCell(x, y, cell);

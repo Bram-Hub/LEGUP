@@ -42,7 +42,7 @@ public class FillapixBoard extends GridBoard
      * @param  state the CellState whether it's black, white, or unknown
      * @return integer number of cells that match specified state
      */
-    public int getNumCells(FillapixCell cell, CellState state) {
+    public int getNumCells(FillapixCell cell, int state) {
         int numCells = 0;
         for(int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
