@@ -9,9 +9,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import puzzle.fillapix.rules.BlackOrWhiteCaseRule;
-import puzzle.fillapix.rules.TooFewBlackCellsContradictionRule;
-import puzzle.fillapix.rules.TooManyBlackCellsContradictionRule;
+import puzzle.fillapix.rules.*;
 import ui.Selection;
 import ui.boardview.BoardView;
 import ui.boardview.PuzzleElement;
@@ -39,8 +37,8 @@ public class Fillapix extends Puzzle
         boardView = new FillapixView(new Dimension(9, 9));
 
         //basicRules.add(new AdvancedDeductionBasicRule());
-        //basicRules.add(new LastCellForNumberBasicRule());
-        //basicRules.add(new LastNumberForCellBasicRule());
+        basicRules.add(new FinishWithBlackBasicRule());
+        basicRules.add(new FinishWithWhiteBasicRule());
 
         caseRules.add(new BlackOrWhiteCaseRule());
 

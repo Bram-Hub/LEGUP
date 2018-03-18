@@ -48,6 +48,12 @@ public class FillapixCell extends GridCell
     public boolean isBlack() { return isBlack(getState()); }
     public boolean isWhite() { return isWhite(getState()); }
 
+    public boolean hasSameState(FillapixCell cell) {
+        return ((this.isUnknown() && cell.isUnknown()) ||
+                (this.isBlack() && cell.isBlack()) ||
+                (this.isWhite() && cell.isWhite()));
+    }
+
     /**
      * Sets flag to indicate if this is part of the original board
      *
