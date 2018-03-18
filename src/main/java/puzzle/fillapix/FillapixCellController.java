@@ -3,6 +3,7 @@ package puzzle.fillapix;
 import controller.ElementController;
 import model.gameboard.ElementData;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class FillapixCellController extends ElementController {
@@ -12,15 +13,14 @@ public class FillapixCellController extends ElementController {
             if (e.isControlDown()) {
                 this.boardView.getSelectionPopupMenu().show(boardView, this.boardView.getCanvas().getX() + e.getX(), this.boardView.getCanvas().getY() + e.getY());
             } else {
-                int value = data.getValueInt();
-                if (FillapixCell.isUnknown(value)) {
-                    data.setValueInt(value+FillapixCell.BLACK);
-                } else if (FillapixCell.isBlack(value)) {
-                    data.setValueInt(value+FillapixCell.WHITE);
-                } else if (FillapixCell.isWhite(value)) {
-                    data.setValueInt(value+FillapixCell.UNKNOWN);
-                } else {
-                    // there must be an error, this block should never be entered because all cells have a state
+                Point location = new Point(data.getIndex()/boardView.getWidth(), data.getIndex()%boardView.getWidth());
+                FillapixCell cell = new FillapixCell(data.getValueInt(), location);
+                if (cell.isUnknown()) {
+                    data.setValueInt(cell.getValueInt()+FillapixCell.BLACK);
+                } else if (cell.isBlack()) {
+                    data.setValueInt(cell.getValueInt()+FillapixCell.WHITE);
+                } else if (cell.isWhite()) {
+                    data.setValueInt(cell.getValueInt()+FillapixCell.UNKNOWN);
                 }
             }
         }

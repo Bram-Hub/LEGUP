@@ -49,7 +49,9 @@ public class FillapixBoard extends GridBoard
                 int x = cell.getLocation().x + i;
                 int y = cell.getLocation().y + j;
                 if (x > -1 && x < width && y > -1 && y < height) {
-                    if (getCell(x,y).getState()==state) {
+                    if ((getCell(x,y).isUnknown() && state==FillapixCell.UNKNOWN)
+                            || (getCell(x,y).isBlack() && state==FillapixCell.BLACK)
+                            || (getCell(x,y).isWhite() && state==FillapixCell.WHITE)) {
                         numCells++;
                     }
                 }

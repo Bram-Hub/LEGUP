@@ -52,6 +52,20 @@ public class TooFewBlackCellsContradictionRule extends ContradictionRule
         return "Board does not contain a contradiction";
     }
 
+    public String checkContradictionAt(FillapixBoard fillapixBoard, int elementIndex)
+    {
+        int width = fillapixBoard.getWidth();
+        FillapixCell cell = fillapixBoard.getCell(elementIndex%width,elementIndex/width);
+        if (cell.getValueInt() != -1) {
+            int numBlackCells = fillapixBoard.getNumCells(cell, FillapixCell.BLACK);
+            int numUnknownCells = fillapixBoard.getNumCells(cell, FillapixCell.UNKNOWN);
+            if (numBlackCells+numUnknownCells < cell.getValueInt()) {
+                return null;
+            }
+        }
+        return "Board does not contain a contradiction";
+    }
+
     @Override
     public boolean doDefaultApplication(TreeTransition transition)
     {
