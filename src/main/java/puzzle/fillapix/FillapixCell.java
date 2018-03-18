@@ -15,9 +15,21 @@ public class FillapixCell extends GridCell
     public FillapixCell(int value, Point location) {
         super(value, location);
         state = (value/10)*10;
-        clue = value%10;
+        clue = -1;
+        if (FillapixCell.isGiven(value)) {
+            clue = value%10;
+            setGiven(true);
+        }
     }
 
+    public int getClue() { return clue; }
+    public static boolean isGiven(int value) {return value!=-1 && value!=19 && value!=49; }
+    public boolean isGiven() { return isGiven; }
+
+    public static int getState(int value)
+    {
+        return (value/10)*10;
+    }
     /**
      * Gets flag to indicate if this the state is black, white, or unknown
      *
@@ -27,20 +39,14 @@ public class FillapixCell extends GridCell
     {
         return state;
     }
-    public static int getState(int value)
-    {
-        return (value/10)*10;
-    }
 
-    public int getClue() { return clue; }
+    public static boolean isUnknown(int valueInt) { return (getState(valueInt)==0); }
+    public static boolean isBlack(int valueInt) { return getState(valueInt)==20 || getState(valueInt)==10; }
+    public static boolean isWhite(int valueInt) { return getState(valueInt)==50 || getState(valueInt)==40; }
 
-    public boolean isUnknown() { return getState()==UNKNOWN; }
-    public boolean isBlack() { return getState()==BLACK; }
-    public boolean isWhite() { return getState()==WHITE; }
-
-    public static boolean isUnknown(int valueInt) { return (getState(valueInt)==UNKNOWN); }
-    public static boolean isBlack(int valueInt) { return getState(valueInt)==BLACK; }
-    public static boolean isWhite(int valueInt) { return getState(valueInt)==WHITE; }
+    public boolean isUnknown() { return isUnknown(getState()); }
+    public boolean isBlack() { return isBlack(getState()); }
+    public boolean isWhite() { return isWhite(getState()); }
 
     /**
      * Sets flag to indicate if this is part of the original board

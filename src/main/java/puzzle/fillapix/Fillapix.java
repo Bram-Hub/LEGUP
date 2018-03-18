@@ -1,6 +1,5 @@
 package puzzle.fillapix;
 
-import controller.BoardController;
 import model.Puzzle;
 import model.gameboard.Board;
 import model.gameboard.ElementData;
@@ -10,6 +9,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import puzzle.fillapix.rules.BlackOrWhiteCaseRule;
 import puzzle.fillapix.rules.TooFewBlackCellsContradictionRule;
 import puzzle.fillapix.rules.TooManyBlackCellsContradictionRule;
 import ui.Selection;
@@ -42,13 +42,10 @@ public class Fillapix extends Puzzle
         //basicRules.add(new LastCellForNumberBasicRule());
         //basicRules.add(new LastNumberForCellBasicRule());
 
-        //caseRules.add(new PossibleCellCaseRule());
-        //caseRules.add(new PossibleNumberCaseRule());
+        caseRules.add(new BlackOrWhiteCaseRule());
 
         contradictionRules.add(new TooFewBlackCellsContradictionRule());
         contradictionRules.add(new TooManyBlackCellsContradictionRule());
-
-        //initializeBoard();
     }
 
     public BoardView getBoardView()
