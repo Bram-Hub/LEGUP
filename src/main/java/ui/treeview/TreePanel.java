@@ -80,7 +80,7 @@ public class TreePanel extends JPanel
         treeView.delChildAtCurrentState();
     }
 
- 
+
     public void boardDataChanged(Board board)
     {
         modifiedSinceSave = true;

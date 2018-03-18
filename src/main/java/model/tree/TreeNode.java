@@ -4,6 +4,8 @@ import model.gameboard.Board;
 import model.rules.RuleType;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 
 public class TreeNode extends TreeElement
 {
@@ -39,6 +41,46 @@ public class TreeNode extends TreeElement
             leadsToContra &= child.leadsToContradiction();
         }
         return leadsToContra && !children.isEmpty();
+    }
+
+    public boolean isValid()
+    {
+        for(TreeTransition transition : children)
+        {
+            if(transition.isValid())
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Gets all of the ancestors of the this node
+     *
+     * @return list of all of the ancestors for this node
+     */
+    public ArrayList<TreeNode> getAncestors()
+    {
+        ArrayList<TreeNode> ancestors = new ArrayList<>();
+        HashSet<TreeNode> it = new HashSet<>();
+        it.add(this);
+
+        while(!it.isEmpty())
+        {
+            Iterator<TreeNode> i = it.iterator();
+            while(i.hasNext())
+            {
+                TreeNode next = i.next();
+                for(TreeTransition transition : next.getParents())
+                {
+                    it.add(transition.getParentNode());
+                }
+                ancestors.add(next);
+                it.remove(next);
+            }
+        }
+        return ancestors;
     }
 
     /**

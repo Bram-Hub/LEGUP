@@ -13,6 +13,7 @@ import app.GameBoardFacade;
 import controller.RuleController;
 import model.Puzzle;
 import model.gameboard.Board;
+import model.tree.Tree;
 import ui.boardview.BoardView;
 import ui.rulesview.RuleFrame;
 import ui.treeview.TreePanel;
@@ -262,7 +263,7 @@ public class LegupUI extends JFrame implements WindowListener
         toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e)  -> {});
         toolBarButtons[ToolbarName.CONSOLE.ordinal()].addActionListener((ActionEvent e)  -> {});
         toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e)  -> {});
-        toolBarButtons[ToolbarName.CHECK.ordinal()].addActionListener((ActionEvent e)  -> {});
+        toolBarButtons[ToolbarName.CHECK.ordinal()].addActionListener((ActionEvent e)  -> checkProof());
         toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e)  -> {});
         toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e)  -> {});
         toolBarButtons[ToolbarName.ZOOM_IN.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomIn());
@@ -407,6 +408,7 @@ public class LegupUI extends JFrame implements WindowListener
     private void checkProof()
     {
         GameBoardFacade facade = GameBoardFacade.getInstance();
+        Tree tree = GameBoardFacade.getInstance().getTree();
         Board board = facade.getBoard();
         Board finalBoard = null;
         boolean delayStatus = true; //board.evalDelayStatus();
@@ -418,16 +420,17 @@ public class LegupUI extends JFrame implements WindowListener
         if(puzzle.isPuzzleComplete() && delayStatus)
         {
             int confirm = JOptionPane.showConfirmDialog(null, "Congratulations! Your proof is correct. Would you like to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
-            if(confirm == 0)
+            if(confirm == JOptionPane.YES_OPTION)
             {
-                Submission submit = new Submission(board);
+                Submission submission = new Submission(board);
+                submission.submit();
             }
             showStatus("Your proof is correct.", false);
         }
         else
         {
             String message = "";
-            if(finalBoard != null)
+            if(!tree.isValid())
             {
                 if(!delayStatus)
                 {

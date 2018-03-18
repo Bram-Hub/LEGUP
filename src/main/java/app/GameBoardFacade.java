@@ -80,7 +80,6 @@ public class GameBoardFacade
     public void setPuzzle(Puzzle puzzle)
     {
         this.puzzle = puzzle;
-        this.puzzle.setTree(new Tree(puzzle.getCurrentBoard()));
         this.legupUI.setPuzzleView(puzzle);
     }
 
