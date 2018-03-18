@@ -1,33 +1,34 @@
-package puzzle.sudoku;
+package puzzle.fillapix;
 
 import controller.BoardController;
-import controller.ElementController;
 import model.gameboard.Board;
 import model.gameboard.GridBoard;
-import ui.boardview.*;
+import ui.boardview.DataSelectionView;
+import ui.boardview.GridBoardView;
+import ui.boardview.PuzzleElement;
+import ui.boardview.SelectionItemView;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class SudokuView extends GridBoardView
+public class FillapixView extends GridBoardView
 {
     private static final Color STROKE_COLOR = new Color(0,0,0);
     private static final Stroke MINOR_STOKE = new BasicStroke(1);
-    private static final Stroke MAJOR_STOKE = new BasicStroke(4);
 
-    public SudokuView(Dimension gridSize)
+    public FillapixView(Dimension gridSize)
     {
-        super(new BoardController(), new ElementController(), gridSize);
+        super(new BoardController(), new FillapixCellController(), gridSize);
+        addMouseListener(elementController);
+        addMouseMotionListener(elementController);
 
-        int minorSize = (int)Math.sqrt(gridSize.width);
         for(int i = 0; i < gridSize.height; i++)
         {
-            for(int k = 0; k < gridSize.width; k++)
+            for(int j = 0; j < gridSize.width; j++)
             {
-                Point location = new Point(k * elementSize.width + (k / minorSize) * 4 + 5,
-                        i * elementSize.height + (i / minorSize) * 4 + 5);
-                SudokuElement element = new SudokuElement(new SudokuCell(0, null));
-                element.setIndex(i * gridSize.width + k);
+                Point location = new Point(j * elementSize.width, i * elementSize.height);
+                FillapixElement element = new FillapixElement(new FillapixCell(-1, null));
+                element.setIndex(i * gridSize.width + j);
                 element.setSize(elementSize);
                 element.setLocation(location);
                 puzzleElements.add(element);
@@ -38,27 +39,6 @@ public class SudokuView extends GridBoardView
     @Override
     public void draw(Graphics2D graphics2D)
     {
-        int minorSize = (int)Math.sqrt(gridSize.width);
-        graphics2D.setColor(STROKE_COLOR);
-        graphics2D.setStroke(MAJOR_STOKE);
-        graphics2D.drawRect(3,3,
-                gridSize.width * (elementSize.width + 1) + 3,
-                gridSize.height * (elementSize.height + 1) + 3);
-
-        graphics2D.setColor(STROKE_COLOR);
-        graphics2D.setStroke(MAJOR_STOKE);
-        for(int i = 1; i < minorSize; i++)
-        {
-            int x = i * minorSize * elementSize.width + i * ((minorSize + 1)) + 3;
-            graphics2D.drawLine(x, 3, x, gridSize.height * (elementSize.height + 1) + 6);
-        }
-        for(int i = 1; i < minorSize; i++)
-        {
-            int y = i * minorSize * elementSize.height + i * ((minorSize + 1)) + 3;
-            graphics2D.drawLine(3, y, gridSize.width * (elementSize.width + 1) + 6, y);
-        }
-
-
         graphics2D.setColor(STROKE_COLOR);
         graphics2D.setStroke(MINOR_STOKE);
         PuzzleElement hover = null;
@@ -86,6 +66,21 @@ public class SudokuView extends GridBoardView
         return boardViewSize;
     }
 
+    /**
+     * Board Data changed
+     *
+     * @param board board to update the BoardView
+     */
+    public void updateBoard(Board board)
+    {
+        GridBoard gridBoard = (GridBoard)board;
+        for(PuzzleElement element: puzzleElements)
+        {
+            element.setData(gridBoard.getElementData(element.getIndex()));
+        }
+        repaint();
+    }
+
     public DataSelectionView getSelectionPopupMenu()
     {
         DataSelectionView selectionView = new DataSelectionView(elementController);
@@ -95,7 +90,7 @@ public class SudokuView extends GridBoardView
         {
             for (int c = 1; c <= 3; c++)
             {
-                SelectionItemView item = new SelectionItemView(new SudokuCell((r - 1) * 3 + c, null));
+                SelectionItemView item = new SelectionItemView(new FillapixCell((r - 1) * 3 + c, null));
                 item.addActionListener(elementController);
                 item.setHorizontalTextPosition(SwingConstants.CENTER);
                 selectionView.add(item);
