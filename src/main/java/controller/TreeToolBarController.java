@@ -28,9 +28,7 @@ public class TreeToolBarController implements ActionListener
         TreeToolBarButton button = (TreeToolBarButton)e.getSource();
         if(button.getToolBarName() == TreeToolBarName.ADD_CHILD)
         {
-//            BoardState cur = Legup.getCurrentState();
-//            cur.setCaseRuleJustification(cur.getSingleParentState().getFirstChild().getCaseRuleJustification());
-//            addChildAtCurrentState();
+
         }
         else if(button.getToolBarName() == TreeToolBarName.DEL_CHILD)
         {
@@ -43,6 +41,10 @@ public class TreeToolBarController implements ActionListener
             if(selectedView.getType() == TreeElementType.NODE)
             {
                 TreeNodeView nodeView = (TreeNodeView)selectedView;
+                if(nodeView.getTreeElement().isRoot())
+                {
+                    return;
+                }
                 newSelectedView = nodeView.getParentViews().get(0);
             }
             else

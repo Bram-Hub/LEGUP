@@ -1,0 +1,7 @@
+package puzzle.masyu;
+
+public enum MasyuType
+{
+    UNKNOWN, BLACK, WHITE, NORTH, SOUTH, EAST, WEST, NORTH_SOUTH,
+    EAST_WEST, NORTH_EAST, SOUTH_EAST, SOUTH_WEST, NORTH_WEST
+}

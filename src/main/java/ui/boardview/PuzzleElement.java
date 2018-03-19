@@ -8,6 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 public abstract class PuzzleElement implements Shape
 {
@@ -34,7 +35,7 @@ public abstract class PuzzleElement implements Shape
         this.highLightColor = new Color(0,0,128,255);
         this.hoverColor = new Color(0,0,255,255);
         this.modifiedColor = new Color(0, 255,0,255);
-        this.caseColor = new Color(0, 0,140,100);
+        this.caseColor = new Color(0, 0,180,150);
         this.isHover = false;
         this.isSelected = false;
         this.isCaseRulePickable = false;
@@ -64,10 +65,6 @@ public abstract class PuzzleElement implements Shape
         {
             drawGiven(graphics2D);
         }
-        if(isHover)
-        {
-            drawHover(graphics2D);
-        }
         if(data.isModified())
         {
             drawModified(graphics2D);
@@ -75,6 +72,10 @@ public abstract class PuzzleElement implements Shape
         if(data.isCaseApplicable())
         {
             drawCase(graphics2D);
+        }
+        if(isHover)
+        {
+            drawHover(graphics2D);
         }
     }
 
@@ -94,8 +95,7 @@ public abstract class PuzzleElement implements Shape
 
     public void drawGiven(Graphics2D graphics2D)
     {
-//        graphics2D.setColor(new Color(200,200,200));
-//        graphics2D.fillRect(location.x, location.y, size.width, size.height);
+
     }
 
     public void drawHover(Graphics2D graphics2D)
@@ -116,6 +116,15 @@ public abstract class PuzzleElement implements Shape
     {
         graphics2D.setColor(caseColor);
         graphics2D.fillRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
+    }
+
+    public BufferedImage getImage()
+    {
+        BufferedImage image = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics2D = image.createGraphics();
+        drawElement(graphics2D);
+        graphics2D.dispose();
+        return image;
     }
 
     /**

@@ -95,7 +95,10 @@ public class SudokuView extends GridBoardView
         {
             for (int c = 1; c <= 3; c++)
             {
-                SelectionItemView item = new SelectionItemView(new SudokuCell((r - 1) * 3 + c, null));
+                SudokuElement element = new SudokuElement(new SudokuCell((r - 1) * 3 + c, null));
+                element.setSize(new Dimension(32, 32));
+                element.setLocation(new Point(0, 0));
+                SelectionItemView item = new SelectionItemView(element.getData(), new ImageIcon(element.getImage()));
                 item.addActionListener(elementController);
                 item.setHorizontalTextPosition(SwingConstants.CENTER);
                 selectionView.add(item);

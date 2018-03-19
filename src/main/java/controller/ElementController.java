@@ -182,17 +182,11 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     @Override
     public void mouseExited(MouseEvent e)
     {
-        Board board = getInstance().getBoard();
         BoardView view = getInstance().getLegupUI().getBoardView();
         PuzzleElement element = view.getElement(e.getPoint());
         if(element != null)
         {
-            int index = element.getIndex();
-
-            ElementData data = board.getElementData(index);
-
             view.getSelection().clearHover();
-
             getInstance().getLegupUI().repaintBoard();
         }
     }
@@ -255,7 +249,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     {
         if(e.getButton() == MouseEvent.BUTTON1)
         {
-            if(e.isControlDown())
+            if(e.isControlDown() && this.boardView.getSelectionPopupMenu() != null)
             {
                 this.boardView.getSelectionPopupMenu().show(boardView, this.boardView.getCanvas().getX() + e.getX(), this.boardView.getCanvas().getY() + e.getY());
             }

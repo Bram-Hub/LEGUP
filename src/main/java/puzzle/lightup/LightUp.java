@@ -1,6 +1,5 @@
 package puzzle.lightup;
 
-import controller.BoardController;
 import model.Puzzle;
 import model.gameboard.Board;
 import model.gameboard.ElementData;

@@ -1,6 +1,5 @@
 package puzzle.fillapix;
 
-import javafx.scene.control.Cell;
 import model.gameboard.GridCell;
 import ui.boardview.GridElement;
 

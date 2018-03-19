@@ -59,16 +59,11 @@ public class LightUpElement extends GridElement
         }
         else if(type == LightUpCellType.BULB)
         {
+            graphics2D.setColor(Color.LIGHT_GRAY);
+            graphics2D.fillRect(location.x, location.y, size.width, size.height);
             graphics2D.drawImage(LightUpView.lightImage, location.x, location.y, size.width, size.height, LITE, null);
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
         }
-
-//        if(data.isModified())
-//        {
-//            graphics2D.setColor(Color.GREEN);
-//            graphics2D.setStroke(new BasicStroke(2));
-//            graphics2D.drawRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
-//        }
     }
 }

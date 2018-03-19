@@ -35,7 +35,7 @@ public class TreeView extends DynamicViewer
     private static final int COLLAPSED_DRAW_DELTA_Y = 10;
     private static final int TRANS_GAP = 5;
 
-    private static final int NODE_GAP_WIDTH = 50;
+    private static final int NODE_GAP_WIDTH = 70;
     private static final int NODE_GAP_HEIGHT = 10;
 
     private static final float floater[] = new float[]{(5.0f), (10.0f)};

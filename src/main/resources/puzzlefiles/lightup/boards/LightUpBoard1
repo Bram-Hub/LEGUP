@@ -24,14 +24,5 @@
                 <element value="2" x="7" y="9"/>
             </data>
         </board>
-        <proof>
-            <tree>
-                <node id="0">
-                    <transition>
-                        
-                    </transition>
-                </node>
-            </tree>
-        </proof>
     </puzzle>
 </Legup>

@@ -34,7 +34,7 @@ public class LegupUI extends JFrame implements WindowListener
     public static final int INTERN_RO = 64;
     public static final int AUTO_JUST = 128;
 
-    final static int[] TOOLBAR_SEPARATOR_BEFORE = {3, 5, 9, 10};
+    final static int[] TOOLBAR_SEPARATOR_BEFORE = {3, 5, 9, 13};
     private static final String[] PROFILES = {"No Assistance", "Rigorous Proof", "Casual Proof", "Assisted Proof", "Guided Proof", "Training-Wheels Proof", "No Restrictions"};
     private static final int[] PROF_FLAGS = {0, ALLOW_JUST | REQ_STEP_JUST, ALLOW_JUST, ALLOW_HINTS | ALLOW_JUST | AUTO_JUST, ALLOW_HINTS | ALLOW_JUST | REQ_STEP_JUST, ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_JUST | IMD_FEEDBACK | INTERN_RO, ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_FULLAI | ALLOW_JUST};
 
@@ -261,7 +261,6 @@ public class LegupUI extends JFrame implements WindowListener
         toolBarButtons[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e)  -> saveProof());
         toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e)  -> {});
         toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e)  -> {});
-        toolBarButtons[ToolbarName.CONSOLE.ordinal()].addActionListener((ActionEvent e)  -> {});
         toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e)  -> {});
         toolBarButtons[ToolbarName.CHECK.ordinal()].addActionListener((ActionEvent e)  -> checkProof());
         toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e)  -> {});

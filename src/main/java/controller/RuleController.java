@@ -82,6 +82,7 @@ public class RuleController implements ActionListener
                         treeSelection.newSelection(transitionView.getChildView());
                     }
                 }
+                GameBoardFacade.getInstance().setBoard(treeSelection.getFirstSelection().getTreeElement().getBoard());
             }
         }
         GameBoardFacade.getInstance().getLegupUI().repaintBoard();

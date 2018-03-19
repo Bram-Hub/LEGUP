@@ -51,44 +51,29 @@ public class TreeTransitionView extends TreeElementView
 
     private void constructArrowhead()
     {
-        int radius = childView.getRadius();
-        double ratio = (childView.getY() - parentView.getY()) / (childView.getX() - parentView.getX());
-        double denom = Math.sqrt(Math.pow(ratio, 2) + 1);
-        int cosTheta = (int)Math.round((radius + GAP) / denom);
-        int sinTheta = (int)Math.round((radius + GAP) * ratio / denom);
+        int nodeRadii = childView.getRadius();
 
-        startPoint.x = parentView.getX() + cosTheta;
-        startPoint.y = parentView.getY() + sinTheta;
-
-        endPoint.x = childView.getX() - cosTheta;
-        endPoint.y = childView.getY() + (childView.getY() >= parentView.getY() ? -sinTheta : -sinTheta);
+        startPoint.x = parentView.getX() + nodeRadii + GAP / 2;
+        startPoint.y = parentView.getY();
 
         double thetaArrow = Math.toRadians(30);
 
-        int point1X = endPoint.x;
-        int point1Y = endPoint.y;
+        int point1X = childView.getX() - GAP - nodeRadii;
+        int point1Y = childView.getY();
 
-        int point2X = point1X - radius;
-        int point2Y = point1Y + (int)Math.round(radius / (2 * cos(thetaArrow)));
+        int point2X = point1X - nodeRadii;
+        int point2Y = point1Y + (int)Math.round(nodeRadii / (2 * cos(thetaArrow)));
 
-        int point3X = point1X - radius;
-        int point3Y = point1Y - (int)Math.round(radius / (2 * cos(thetaArrow)));
+        int point3X = point1X - nodeRadii;
+        int point3Y = point1Y - (int)Math.round(nodeRadii / (2 * cos(thetaArrow)));
 
-        double theta = Math.atan(ratio);
-
-        AffineTransform rotation = new AffineTransform();
-        rotation.rotate(theta, endPoint.x, endPoint.y);
-        Point rightPoint = new Point();
-        rotation.transform(new Point(point2X, point2Y), rightPoint);
-        Point leftPoint = new Point();
-        rotation.transform(new Point(point3X, point3Y), leftPoint);
-
-        Point topPoint = new Point(point1X, point1Y);
+        endPoint.x = point2X;
+        endPoint.y = (point3Y - point2Y) / 2 + point2Y;
 
         arrowhead = new Polygon();
-        arrowhead.addPoint(topPoint.x, topPoint.y);
-        arrowhead.addPoint(rightPoint.x, rightPoint.y);
-        arrowhead.addPoint(leftPoint.x, leftPoint.y);
+        arrowhead.addPoint(point1X, point1Y);
+        arrowhead.addPoint(point2X, point2Y);
+        arrowhead.addPoint(point3X, point3Y);
     }
 
     /**

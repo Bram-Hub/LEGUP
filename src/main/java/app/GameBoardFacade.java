@@ -100,15 +100,15 @@ public class GameBoardFacade
         }
         catch(IOException e)
         {
-            LOGGER.log(Level.ALL, "Invalid file");
+            LOGGER.log(Level.SEVERE, "Invalid file");
         }
         catch(SAXException e)
         {
-            LOGGER.log(Level.ALL, "Invalid file");
+            LOGGER.log(Level.SEVERE, "Invalid file");
         }
         catch(ParserConfigurationException e)
         {
-            LOGGER.log(Level.ALL, "Invalid file");
+            LOGGER.log(Level.SEVERE, "Invalid file");
         }
 
         Element rootNode = document.getDocumentElement();
@@ -128,30 +128,29 @@ public class GameBoardFacade
                 }
                 catch(Exception e)
                 {
-                    e.printStackTrace();
-                    System.err.println(e.getMessage());
+                    LOGGER.log(Level.SEVERE, e.getMessage());
                 }
                 setPuzzle(puzzle);
             }
             catch(ClassNotFoundException e)
             {
-
+                LOGGER.log(Level.SEVERE, e.getMessage());
             }
             catch(NoSuchMethodException e)
             {
-
+                LOGGER.log(Level.SEVERE, e.getMessage());
             }
             catch(InvocationTargetException e)
             {
-
+                LOGGER.log(Level.SEVERE, e.getMessage());
             }
             catch(IllegalAccessException e)
             {
-
+                LOGGER.log(Level.SEVERE, e.getMessage());
             }
             catch(InstantiationException e)
             {
-
+                LOGGER.log(Level.SEVERE, e.getMessage());
             }
         }
         else
