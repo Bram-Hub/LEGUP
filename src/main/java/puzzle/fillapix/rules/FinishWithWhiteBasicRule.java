@@ -32,6 +32,11 @@ public class FinishWithWhiteBasicRule extends BasicRule {
                 int x = cell.getLocation().x + i;
                 int y = cell.getLocation().y + j;
                 if (x > -1 && x < width && y > -1 && y < height) {
+                    // boolean parentCellUnknown = ((FillapixBoard) transition.getParentNode().getBoard()).getCell(x,y).isUnknown();
+                    // if (parentCellUnknown && !fillapixBoard.getCell(x,y).isWhite()) {
+                    //     return "All the changes you made must be white to apply this rule.";
+                    // }
+
                     ArrayList<Board> cases = blackOrWhite.getCases(currentBoard, x*width+y);
                     for (Board caseBoard: cases) {
                         String contradiction = tooManyBlackCells.checkContradictionAt((FillapixBoard) caseBoard,x*width+y);
