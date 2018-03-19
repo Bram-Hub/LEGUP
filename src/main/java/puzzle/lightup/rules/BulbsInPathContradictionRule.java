@@ -29,18 +29,17 @@ public class BulbsInPathContradictionRule extends ContradictionRule
     @Override
     public String checkContradictionAt(TreeTransition transition, int elementIndex)
     {
-        LightUpBoard initialBoard = (LightUpBoard)transition.getParentNode().getBoard();
-        LightUpBoard finalBoard = (LightUpBoard)transition.getBoard();
-        LightUpCell cell = (LightUpCell)finalBoard.getElementData(elementIndex);
+        LightUpBoard board = (LightUpBoard)transition.getBoard();
+        LightUpCell cell = (LightUpCell)board.getElementData(elementIndex);
         if(cell.getType() != LightUpCellType.BULB)
         {
             return "Does not contain a contradiction at this index";
         }
 
         Point location = cell.getLocation();
-        for(int i = location.x + 1; i < initialBoard.getWidth(); i++)
+        for(int i = location.x + 1; i < board.getWidth(); i++)
         {
-            LightUpCell c = initialBoard.getCell(i, location.y);
+            LightUpCell c = board.getCell(i, location.y);
             if(c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER)
             {
                 break;
@@ -52,7 +51,7 @@ public class BulbsInPathContradictionRule extends ContradictionRule
         }
         for(int i = location.x - 1; i >= 0; i--)
         {
-            LightUpCell c = initialBoard.getCell(i, location.y);
+            LightUpCell c = board.getCell(i, location.y);
             if(c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER)
             {
                 break;
@@ -62,9 +61,9 @@ public class BulbsInPathContradictionRule extends ContradictionRule
                 return null;
             }
         }
-        for(int i = location.y + 1; i < initialBoard.getHeight(); i++)
+        for(int i = location.y + 1; i < board.getHeight(); i++)
         {
-            LightUpCell c = initialBoard.getCell(i, location.y);
+            LightUpCell c = board.getCell(i, location.y);
             if(c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER)
             {
                 break;
@@ -76,7 +75,7 @@ public class BulbsInPathContradictionRule extends ContradictionRule
         }
         for(int i = location.x - 1; i >= 0; i--)
         {
-            LightUpCell c = initialBoard.getCell(i, location.y);
+            LightUpCell c = board.getCell(i, location.y);
             if(c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER)
             {
                 break;

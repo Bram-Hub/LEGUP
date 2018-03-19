@@ -77,17 +77,6 @@ public class LightUp extends Puzzle
     }
 
     /**
-     * Determines if the puzzle was solves correctly
-     *
-     * @return true if the board was solved correctly, false otherwise
-     */
-    @Override
-    public boolean isPuzzleComplete()
-    {
-        return false;
-    }
-
-    /**
      * Determines if the current board is a valid state
      *
      * @param board board to check for validity
@@ -183,7 +172,6 @@ public class LightUp extends Puzzle
                     }
                 }
             }
-
             this.currentBoard = lightUpBoard;
             this.tree = new Tree(currentBoard);
         }

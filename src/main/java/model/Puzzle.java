@@ -6,12 +6,12 @@ import model.rules.BasicRule;
 import model.rules.CaseRule;
 import model.rules.ContradictionRule;
 import model.tree.Tree;
+import model.tree.TreeTransition;
 import org.xml.sax.SAXException;
 import ui.Selection;
 import ui.boardview.BoardView;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -55,7 +55,24 @@ public abstract class Puzzle
      *
      * @return true if the board was solved correctly, false otherwise
      */
-    public abstract boolean isPuzzleComplete();
+    public boolean isPuzzleComplete()
+    {
+        boolean isComplete = tree.isValid();
+        if(isComplete)
+        {
+            Board board = tree.getLeafNodes().iterator().next().getBoard();
+            TreeTransition transition = new TreeTransition(null, board.copy());
+            for(ContradictionRule rule : contradictionRules)
+            {
+                if(rule.checkContradiction(transition) != null)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Determines if the current board is a valid state
@@ -83,9 +100,25 @@ public abstract class Puzzle
      * Imports the board using the file stream
      *
      * @param fileName
-     * @return
+     * @throws IOException
+     * @throws ParserConfigurationException
+     * @throws SAXException
      */
     public abstract void importPuzzle(String fileName) throws IOException, ParserConfigurationException, SAXException;
+
+    /**
+     *
+     *
+     * @param fileName
+     * @throws IOException
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     */
+    public void importProof(String fileName) throws IOException, ParserConfigurationException, SAXException
+    {
+        importPuzzle(fileName);
+
+    }
 
     /**
      * Gets the name of the puzzle

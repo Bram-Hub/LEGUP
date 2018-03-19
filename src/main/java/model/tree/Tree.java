@@ -56,7 +56,46 @@ public class Tree
 
     public boolean isValid()
     {
-        return true;
+        boolean isValid = rootNode.isValid();
+
+        HashSet<TreeNode> leafNodes = getLeafNodes();
+
+        int nonContradictoryLeafs = 0;
+        for(TreeNode node : leafNodes)
+        {
+            if(node.getParents().size() != 1 || !node.getParents().get(0).leadsToContradiction())
+            {
+                nonContradictoryLeafs++;
+            }
+        }
+
+        return isValid && nonContradictoryLeafs == 1;
+    }
+
+    public HashSet<TreeNode> getLeafNodes()
+    {
+        HashSet<TreeNode> leafs = new HashSet<>();
+        getLeafNodes(leafs, rootNode);
+        return leafs;
+    }
+
+    private void getLeafNodes(HashSet<TreeNode> leafs, TreeNode node)
+    {
+        if(node == null)
+        {
+            return;
+        }
+        if(node.getChildren().isEmpty())
+        {
+            leafs.add(node);
+        }
+        else
+        {
+            for(TreeTransition transition : node.getChildren())
+            {
+                getLeafNodes(leafs, transition.getChildNode());
+            }
+        }
     }
 
     /**
@@ -93,31 +132,39 @@ public class Tree
      */
     public TreeNode getLowestCommonAncestor(ArrayList<TreeNode> nodes)
     {
-        return null;
-    }
-
-    private ArrayList<TreeNode> getPathToRoot(TreeNode node)
-    {
-        ArrayList<TreeNode> path = new ArrayList<>();
-        HashSet<TreeNode> it = new HashSet<>();
-        it.add(node);
-
-        path.add(node);
-        while(!it.isEmpty())
+        if(nodes.isEmpty())
         {
-            Iterator<TreeNode> i = it.iterator();
-            while(i.hasNext())
+            return null;
+        }
+        else if(nodes.size() == 1)
+        {
+            return nodes.get(0);
+        }
+        else
+        {
+            ArrayList<ArrayList<TreeNode>> ancestors = new ArrayList<>();
+            for(TreeNode node : nodes)
             {
-                TreeNode next = i.next();
-                for(TreeTransition transition : next.getParents())
-                {
-                    it.add(transition.getParentNode());
-                }
-                it.remove(next);
+                ancestors.add(node.getAncestors());
+            }
 
+            ArrayList<TreeNode> first = ancestors.get(0);
+
+            for(TreeNode node : first)
+            {
+                boolean isCommon = true;
+                for(ArrayList<TreeNode> nList: ancestors)
+                {
+                    isCommon &= nList.contains(node);
+                }
+
+                if(isCommon)
+                {
+                    return node;
+                }
             }
         }
-        return path;
+        return null;
     }
 
     /**

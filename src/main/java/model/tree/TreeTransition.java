@@ -76,6 +76,11 @@ public class TreeTransition extends TreeElement
         }
     }
 
+    public boolean isValid()
+    {
+        return isJustified() && isCorrect() && childNode != null && childNode.isValid();
+    }
+
     /**
      * Gets the parentNode tree node of this transition
      *
