@@ -95,9 +95,9 @@ public class LegupUI extends JFrame implements WindowListener
 
         setVisible(true);
 
-        setLocationRelativeTo(null);
+//        setLocationRelativeTo(null);
 
-        fileChooser = new FileDialog(this);
+//        fileChooser = new FileDialog(this);
 
     }
 
@@ -599,6 +599,8 @@ public class LegupUI extends JFrame implements WindowListener
                 return;
             }
         }
+
+        fileChooser = new FileDialog(this);
 
         fileChooser.setMode(FileDialog.LOAD);
         fileChooser.setTitle("Select Puzzle");
