@@ -42,3 +42,4 @@ An example for the Battleship puzzle demonstrates the proper format for XML file
     </puzzle>
 </Legup>
 ```
+Element values are dependent on the type of puzzle. This is specified in each puzzle's documentation.
