@@ -24,7 +24,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     protected BoardView boardView;
 
     /**
-     * ElementController - creates and element controller to handles ui events
+     * ElementController - element controller to handles ui events
      * associated interacting with a PuzzleElement
      */
     public ElementController()
@@ -149,7 +149,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                     board.addModifiedData(data);
                 }
 
-                transitionView.getTreeElement().propagateChanges(index);
+                transitionView.getTreeElement().propagateChanges(data);
             }
             getInstance().getLegupUI().repaintBoard();
         }
@@ -239,7 +239,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         else
             data.setModified(false);
 
-        transitionView.getTreeElement().propagateChanges(index);
+        transitionView.getTreeElement().propagateChanges(data);
 
         getInstance().getLegupUI().repaintBoard();
         boardView.getSelection().clearSelection();

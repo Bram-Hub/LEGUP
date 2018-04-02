@@ -22,6 +22,11 @@ public class Tree
         this.rootNode.setRoot(true);
     }
 
+    public Tree()
+    {
+        this.rootNode = null;
+    }
+
     public TreeTransition addNewTransition(TreeNode treeNode)
     {
         TreeTransition transition = new TreeTransition(treeNode, treeNode.getBoard().copy());
@@ -56,20 +61,7 @@ public class Tree
 
     public boolean isValid()
     {
-        boolean isValid = rootNode.isValid();
-
-        HashSet<TreeNode> leafNodes = getLeafNodes();
-
-        int nonContradictoryLeafs = 0;
-        for(TreeNode node : leafNodes)
-        {
-            if(node.getParents().size() != 1 || !node.getParents().get(0).leadsToContradiction())
-            {
-                nonContradictoryLeafs++;
-            }
-        }
-
-        return isValid && nonContradictoryLeafs == 1;
+        return rootNode.isValid();
     }
 
     public HashSet<TreeNode> getLeafNodes()

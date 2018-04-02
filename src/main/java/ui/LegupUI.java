@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.*;
@@ -14,6 +15,8 @@ import controller.RuleController;
 import model.Puzzle;
 import model.gameboard.Board;
 import model.tree.Tree;
+import save.ExportFileException;
+import save.InvalidFileFormatException;
 import ui.boardview.BoardView;
 import ui.rulesview.RuleFrame;
 import ui.treeview.TreePanel;
@@ -87,10 +90,32 @@ public class LegupUI extends JFrame implements WindowListener
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        setIconImage(new ImageIcon("images/Legup/Basic Rules.gif").getImage());
+
+        final SplashScreen splash = SplashScreen.getSplashScreen();
+        if (splash == null) {
+            System.out.println("SplashScreen.getSplashScreen() returned null");
+            return;
+        }
+        Graphics2D g = splash.createGraphics();
+        if (g == null) {
+            System.out.println("g is null");
+            return;
+        }
+        for(int i=0; i<100; i++) {
+            renderSplashFrame(g, i);
+            splash.update();
+            try {
+                Thread.sleep(90);
+            }
+            catch(InterruptedException e) {
+            }
+        }
+        splash.close();
+
         setupMenu();
         setupToolBar();
         setupContent();
-
         setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
         setVisible(true);
@@ -98,7 +123,16 @@ public class LegupUI extends JFrame implements WindowListener
         setLocationRelativeTo(null);
 
         fileChooser = new FileDialog(this);
+    }
 
+    static void renderSplashFrame(Graphics2D g, int frame)
+    {
+        final String[] comps = {"foo", "bar", "baz"};
+        g.setComposite(AlphaComposite.Clear);
+        g.fillRect(120,140,200,40);
+        g.setPaintMode();
+        g.setColor(Color.BLACK);
+        g.drawString("Loading "+comps[(frame/5)%3]+"...", 120, 150);
     }
 
     public static boolean profFlag(int flag)
@@ -380,24 +414,16 @@ public class LegupUI extends JFrame implements WindowListener
         {
             filename = fileChooser.getDirectory() + filename;
 
-            if(!filename.toLowerCase().endsWith(".proof"))
-            {
-                facade.setWindowTitle(filename, facade.getPuzzleModule().getName());
-                filename = filename + ".proof";
-            }
-            facade.setWindowTitle(filename.substring(0, filename.length() - 6), facade.getPuzzleModule().getName());
-
-            Board curr = facade.getBoard();
-            /*
+            //facade.setWindowTitle(filename.substring(0, filename.length() - 6), facade.getPuzzleModule().getName());
             try
             {
-                SavableProof.saveProof(board, curr, filename);
-                getTree().modifiedSinceSave = false;
+                System.err.println("Export");
+                facade.getPuzzleModule().getExporter().exportPuzzle(filename);
             }
-            catch(IOException e)
+            catch(ExportFileException e)
             {
-                LOGGER.log(Level.SEVERE, e.toString());
-            }*/
+                e.printStackTrace();
+            }
         }
     }
 
@@ -416,7 +442,7 @@ public class LegupUI extends JFrame implements WindowListener
 
         Puzzle puzzle = facade.getPuzzleModule();
 
-        if(puzzle.isPuzzleComplete() && delayStatus)
+        if(puzzle.isPuzzleComplete())
         {
             int confirm = JOptionPane.showConfirmDialog(null, "Congratulations! Your proof is correct. Would you like to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
             if(confirm == JOptionPane.YES_OPTION)
@@ -428,22 +454,7 @@ public class LegupUI extends JFrame implements WindowListener
         }
         else
         {
-            String message = "";
-            if(!tree.isValid())
-            {
-                if(!delayStatus)
-                {
-                    message += "\nThere are invalid steps, which have been colored red.";
-                }
-                if(!puzzle.isPuzzleComplete())
-                {
-                    message += "\nThe game board is not solved.";
-                }
-            }
-            else
-            {
-                message += "There is not a unique non-contradictory leaf state. Incomplete case rules are pale green.";
-            }
+            String message = "\nThe game board is not solved.";
             JOptionPane.showMessageDialog(null, message, "Invalid proof.", JOptionPane.ERROR_MESSAGE);
 
             showStatus(message, true);
@@ -608,7 +619,14 @@ public class LegupUI extends JFrame implements WindowListener
         if (filename != null)
         {
             filename = fileChooser.getDirectory() + filename;
-            GameBoardFacade.getInstance().loadBoardFile(filename);
+            try
+            {
+                GameBoardFacade.getInstance().loadBoardFile(filename);
+            }
+            catch(InvalidFileFormatException e)
+            {
+                LOGGER.log(Level.SEVERE, e.getMessage());
+            }
             //GameBoardFacade.getInstance().setPuzzle(new Sudoku());
         }
 
@@ -727,6 +745,7 @@ public class LegupUI extends JFrame implements WindowListener
         ruleFrame.getContradictionPanel().setRules(puzzle.getContradictionRules());
 
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
+        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
 
         reloadGui();
     }

@@ -80,7 +80,7 @@ public class Fillapix extends Puzzle
     }
 
     @Override
-    public boolean isValidBoardState(Board board)
+    public boolean isBoardComplete(Board board)
     {
         return false;
     }

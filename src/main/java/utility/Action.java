@@ -3,12 +3,12 @@ package utility;
 public interface Action
 {
     /**
-     * Undoes an action on the board
+     * Undoes an action
      */
     void undo();
 
     /**
-     * Redoes an action on the board
+     * Redoes an action
      */
     void redo();
 }

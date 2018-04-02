@@ -1,10 +1,12 @@
 package model.gameboard;
 
 import model.rules.CaseRule;
+import utility.IBoardListener;
 
 import java.util.ArrayList;
+import java.util.function.IntBinaryOperator;
 
-public abstract class Board
+public abstract class Board implements IBoardListener
 {
     protected ArrayList<ElementData> elementData;
     protected ArrayList<ElementData> modifiedData;
@@ -23,6 +25,20 @@ public abstract class Board
     }
 
     /**
+     * Board Constructor - creates a board with null data
+     *
+     * @param size
+     */
+    public Board(int size)
+    {
+        this();
+        for(int i = 0; i < size; i++)
+        {
+            elementData.add(null);
+        }
+    }
+
+    /**
      * Gets a specific Element on the board
      *
      * @param index index of the element
@@ -30,18 +46,21 @@ public abstract class Board
      */
     public ElementData getElementData(int index)
     {
-        return elementData.get(index);
+        return index < elementData.size() ? elementData.get(index) : null;
     }
 
     /**
      * Sets a specific Element on the board
      *
      * @param index index of the element
-     * @param element new element at the index
+     * @param data new element at the index
      */
-    public void setElementData(int index, ElementData element)
+    public void setElementData(int index, ElementData data)
     {
-        elementData.set(index, element);
+        if(index < elementData.size())
+        {
+            elementData.set(index, data);
+        }
     }
 
     /**
@@ -104,29 +123,67 @@ public abstract class Board
         return !modifiedData.isEmpty();
     }
 
+    /**
+     * Gets the list of modified data of the board
+     *
+     * @return list of modified data of the board
+     */
     public ArrayList<ElementData> getModifiedData()
     {
         return modifiedData;
     }
 
+    /**
+     * Adds a data that has been modified to the list
+     *
+     * @param data data that has been modified
+     */
     public void addModifiedData(ElementData data)
     {
         if(!modifiedData.contains(data))
         {
             modifiedData.add(data);
+            data.setModified(true);
         }
     }
 
+    /**
+     * Removes a data that is no longer modified
+     *
+     * @param data data that is no longer modified
+     */
     public void removeModifiedData(ElementData data)
     {
         modifiedData.remove(data);
+        data.setModified(false);
     }
 
+    /**
+     * Called when a change to the board's data has occurred
+     *
+     * @param data data of the change to the board
+     */
+    @Override
+    public void notifyChange(ElementData data)
+    {
+        elementData.get(data.getIndex()).setValueInt(data.getValueInt());
+    }
+
+    /**
+     *
+     *
+     * @return
+     */
     public CaseRule getCaseRule()
     {
         return caseRule;
     }
 
+    /**
+     *
+     *
+     * @param caseRule
+     */
     public void setCaseRule(CaseRule caseRule)
     {
         this.caseRule = caseRule;

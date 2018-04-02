@@ -6,12 +6,9 @@ import model.tree.Tree;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import puzzle.sudoku.Sudoku;
+import save.InvalidFileFormatException;
 import ui.LegupUI;
-import ui.Selection;
-import ui.boardview.BoardView;
 import ui.boardview.IBoardListener;
 import ui.rulesview.ITransitionListener;
 import ui.rulesview.ITreeSelectionListener;
@@ -20,6 +17,7 @@ import utility.History;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,8 +50,6 @@ public class GameBoardFacade
      */
     private GameBoardFacade()
     {
-        config = new Config();
-
         boardListeners = new ArrayList<>();
         transitionListener = new ArrayList<>();
         selectionListeners = new ArrayList<>();
@@ -83,14 +79,19 @@ public class GameBoardFacade
         this.legupUI.setPuzzleView(puzzle);
     }
 
+    public void setConfig(Config config)
+    {
+        this.config = config;
+    }
+
     /**
      * Loads a board file
      *
      * @param fileName file name of the board file
      */
-    public void loadBoardFile(String fileName)
+    public void loadBoardFile(String fileName) throws InvalidFileFormatException
     {
-        Document document = null;
+        Document document;
         try
         {
             InputStream inputStream = new FileInputStream(fileName);
@@ -98,17 +99,10 @@ public class GameBoardFacade
             DocumentBuilder builder = factory.newDocumentBuilder();
             document = builder.parse(inputStream);
         }
-        catch(IOException e)
+        catch(IOException | SAXException | ParserConfigurationException e)
         {
             LOGGER.log(Level.SEVERE, "Invalid file");
-        }
-        catch(SAXException e)
-        {
-            LOGGER.log(Level.SEVERE, "Invalid file");
-        }
-        catch(ParserConfigurationException e)
-        {
-            LOGGER.log(Level.SEVERE, "Invalid file");
+            throw new InvalidFileFormatException("Could not find file");
         }
 
         Element rootNode = document.getDocumentElement();
@@ -117,46 +111,29 @@ public class GameBoardFacade
             try
             {
                 Node node = rootNode.getElementsByTagName("puzzle").item(0);
-                System.err.println(node.getAttributes().getNamedItem("qualifiedClassName").getNodeValue());
-                Class<?> c = Class.forName(node.getAttributes().getNamedItem("qualifiedClassName").getNodeValue());
+                String qualifiedClassName = config.getPuzzleClassForName(node.getAttributes().getNamedItem("name").getNodeValue());
+                System.err.println(qualifiedClassName);
+                Class<?> c = Class.forName(qualifiedClassName);
                 Constructor<?> cons = c.getConstructor();
                 Puzzle puzzle = (Puzzle)cons.newInstance();
-                try
-                {
-                    puzzle.importPuzzle(fileName);
-                    puzzle.initializeBoard();
-                }
-                catch(Exception e)
-                {
-                    LOGGER.log(Level.SEVERE, e.getMessage());
-                }
+
+                puzzle.getImporter().initializePuzzle(node);
+                puzzle.initializeBoard();
                 setPuzzle(puzzle);
             }
-            catch(ClassNotFoundException e)
+            catch(ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+                    IllegalAccessException | InstantiationException e)
             {
                 LOGGER.log(Level.SEVERE, e.getMessage());
-            }
-            catch(NoSuchMethodException e)
-            {
-                LOGGER.log(Level.SEVERE, e.getMessage());
-            }
-            catch(InvocationTargetException e)
-            {
-                LOGGER.log(Level.SEVERE, e.getMessage());
-            }
-            catch(IllegalAccessException e)
-            {
-                LOGGER.log(Level.SEVERE, e.getMessage());
-            }
-            catch(InstantiationException e)
-            {
-                LOGGER.log(Level.SEVERE, e.getMessage());
+                throw new InvalidFileFormatException("Puzzle creation error");
             }
         }
         else
         {
             LOGGER.log(Level.ALL, "Invalid file");
+            throw new InvalidFileFormatException("Invalid file: must be a Legup file");
         }
+        setWindowTitle(puzzle.getName(), fileName);
     }
 
     /**
@@ -173,22 +150,13 @@ public class GameBoardFacade
      * Sets the window title to 'PuzzleName - FileName'
      * Removes the extension
      *
-     * @param fileName file name of the puzzle
      * @param puzzleName puzzle name for the file
+     * @param fileName file name of the puzzle
      */
-    public void setWindowTitle(String fileName, String puzzleName)
+    public void setWindowTitle(String puzzleName, String fileName)
     {
-        String fileNameNoExt = fileName;
-        if(fileName.substring(fileName.length() - 4).equals(".xml"))
-        {
-            fileNameNoExt = fileName.substring(0, fileName.length() - 4);
-        }
-        else if(fileName.substring(fileName.length() - 6).equals(".proof"))
-        {
-            fileNameNoExt = fileName.substring(0, fileName.length() - 6);
-        }
-        String[] filePath = fileNameNoExt.split("/");
-        legupUI.setTitle(puzzleName + " - " + filePath[filePath.length - 1]);
+        File file = new File(fileName);
+        legupUI.setTitle(puzzleName + " - " + file.getName());
     }
 
     /**
@@ -208,7 +176,6 @@ public class GameBoardFacade
     {
         return config;
     }
-
 
     /**
      * Gets the LegupUI

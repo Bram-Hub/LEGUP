@@ -31,7 +31,7 @@ public class CannotLightACellContradictionRule extends ContradictionRule
     {
         LightUpBoard board = (LightUpBoard)transition.getBoard();
         LightUpCell cell = (LightUpCell)board.getElementData(elementIndex);
-        if(cell.getType() == LightUpCellType.BLACK || cell.getType() != LightUpCellType.NUMBER || cell.isLite())
+        if(cell.getType() == LightUpCellType.BLACK || cell.getType() == LightUpCellType.NUMBER || cell.isLite())
         {
             return "Does not contain a contradiction at this index";
         }
@@ -63,7 +63,7 @@ public class CannotLightACellContradictionRule extends ContradictionRule
         }
         for(int i = location.y + 1; i < board.getHeight(); i++)
         {
-            LightUpCell c = board.getCell(i, location.y);
+            LightUpCell c = board.getCell(location.x, i);
             if(c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER)
             {
                 break;
@@ -73,9 +73,9 @@ public class CannotLightACellContradictionRule extends ContradictionRule
                 return "Does not contain a contradiction at this index";
             }
         }
-        for(int i = location.x - 1; i >= 0; i--)
+        for(int i = location.y - 1; i >= 0; i--)
         {
-            LightUpCell c = board.getCell(i, location.y);
+            LightUpCell c = board.getCell(location.x, i);
             if(c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER)
             {
                 break;

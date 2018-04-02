@@ -248,7 +248,7 @@ public class TreeView extends DynamicViewer
             drawTree(graphics2D, tree);
             setSize(dimension);
 
-            graphics2D.drawRect(0,0, dimension.width, dimension.height);
+            //graphics2D.drawRect(0,0, dimension.width, dimension.height);
 
             if(treeSelection.getHover() != null)
             {
@@ -490,6 +490,7 @@ public class TreeView extends DynamicViewer
     {
         TreeNodeView childView = transitionView.getChildView();
         TreeNodeView parentView = transitionView.getParentView();
+
         double ratio = (childView.getY() - parentView.getY())/(childView.getX() - parentView.getX());
         double radius = childView.getRadius();
         double denominator = sqrt((ratio*ratio)+1);
@@ -573,11 +574,12 @@ public class TreeView extends DynamicViewer
                 TreeTransition child = children.get(i);
                 TreeTransitionView transitionView = new TreeTransitionView(child, nodeView);
                 TreeNodeView childView = new TreeNodeView(child.getChildNode());
+                transitionView.setChildView(childView);
+                childView.addParentView(transitionView);
 
                 int cspan = createTreeViews(childView, depth + 1, rspan + tspan);
 
                 nodeView.addChildrenView(transitionView);
-                transitionView.setParentView(nodeView);
                 tspan += i == size - 1 ? cspan : cspan + NODE_GAP_HEIGHT;
             }
             nodeView.setY(rspan + tspan / 2);
@@ -724,7 +726,7 @@ public class TreeView extends DynamicViewer
             if(transition.isJustified())
             {
                 g_tmp.setColor(Color.black);
-                String[] tmp = {"Hello"};
+                String[] tmp = {rule.getRuleName()};
                 v_offset = 10 + tmp.length * 14;
                 for(int c1 = 0; c1 < tmp.length; c1++)
                 {

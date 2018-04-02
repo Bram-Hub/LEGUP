@@ -35,7 +35,7 @@ public abstract class PuzzleElement implements Shape
         this.highLightColor = new Color(0,0,128,255);
         this.hoverColor = new Color(0,0,255,255);
         this.modifiedColor = new Color(0, 255,0,255);
-        this.caseColor = new Color(0, 0,180,150);
+        this.caseColor = new Color(0, 0,180,200);
         this.isHover = false;
         this.isSelected = false;
         this.isCaseRulePickable = false;

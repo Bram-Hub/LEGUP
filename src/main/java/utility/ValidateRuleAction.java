@@ -1,13 +1,19 @@
 package utility;
 
-import model.tree.TreeNode;
+import model.rules.Rule;
+import model.tree.TreeTransition;
 
 public class ValidateRuleAction implements Action
 {
+    private TreeTransition transition;
+    private Rule oldRule;
+    private Rule newRule;
 
-    public ValidateRuleAction(TreeNode treeNode)
+    public ValidateRuleAction(TreeTransition transition, Rule oldRule, Rule newRule)
     {
-
+        this.transition = transition;
+        this.oldRule = oldRule;
+        this.newRule = newRule;
     }
 
     /**
@@ -16,7 +22,7 @@ public class ValidateRuleAction implements Action
     @Override
     public void undo()
     {
-
+        this.transition.setRule(oldRule);
     }
 
     /**
@@ -25,6 +31,6 @@ public class ValidateRuleAction implements Action
     @Override
     public void redo()
     {
-
+        this.transition.setRule(newRule);
     }
 }

@@ -1,16 +1,19 @@
 package utility;
 
 import model.gameboard.ElementData;
+import model.tree.TreeTransition;
 
 public class EditDataAction implements Action
 {
-    private ElementData data;
-    private ElementData dataCopy;
+    private TreeTransition transition;
+    private ElementData oldData;
+    private ElementData newData;
 
-    public EditDataAction(ElementData data)
+    public EditDataAction(TreeTransition transition, ElementData oldData, ElementData newData)
     {
-        this.data = data;
-        this.dataCopy = data.copy();
+        this.transition = transition;
+        this.oldData = oldData.copy();
+        this.newData = newData.copy();
     }
 
     /**
@@ -19,7 +22,8 @@ public class EditDataAction implements Action
     @Override
     public void undo()
     {
-
+        transition.getBoard().notifyChange(oldData);
+        transition.propagateChanges(oldData);
     }
 
     /**
@@ -28,6 +32,7 @@ public class EditDataAction implements Action
     @Override
     public void redo()
     {
-
+        transition.getBoard().notifyChange(newData);
+        transition.propagateChanges(newData);
     }
 }

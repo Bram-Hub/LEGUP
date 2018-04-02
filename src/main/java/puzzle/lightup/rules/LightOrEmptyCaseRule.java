@@ -47,13 +47,15 @@ public class LightOrEmptyCaseRule extends CaseRule
     {
         ArrayList<Board> cases = new ArrayList<>();
         Board case1 = board.copy();
-        case1.getElementData(elementIndex).setValueInt(-4);
-        case1.getElementData(elementIndex).setModified(true);
+        ElementData data1 = case1.getElementData(elementIndex);
+        data1.setValueInt(-4);
+        case1.addModifiedData(data1);
         cases.add(case1);
 
         Board case2 = board.copy();
-        case2.getElementData(elementIndex).setValueInt(-3);
-        case2.getElementData(elementIndex).setModified(true);
+        ElementData data2 = case2.getElementData(elementIndex);
+        data2.setValueInt(-3);
+        case2.addModifiedData(data2);
         cases.add(case2);
 
         return cases;

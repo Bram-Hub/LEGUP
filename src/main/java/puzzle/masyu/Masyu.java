@@ -67,7 +67,7 @@ public class Masyu extends Puzzle
      * @return true if board is valid, false otherwise
      */
     @Override
-    public boolean isValidBoardState(Board board)
+    public boolean isBoardComplete(Board board)
     {
         return false;
     }

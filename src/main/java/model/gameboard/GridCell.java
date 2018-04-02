@@ -47,7 +47,7 @@ public class GridCell extends ElementData
      *
      * @param valueInt value int that represents the GridCell
      * @param x x location of the GridCell in the grid
-     * @param x y location of the GridCell in the grid
+     * @param y y location of the GridCell in the grid
      */
     public GridCell(int valueInt, int x, int y)
     {
