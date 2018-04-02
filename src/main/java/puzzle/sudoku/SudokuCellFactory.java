@@ -1,4 +1,4 @@
-package puzzle.lightup;
+package puzzle.sudoku;
 
 import model.gameboard.Board;
 import model.gameboard.ElementData;
@@ -7,11 +7,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import puzzle.lightup.LightUpBoard;
+import puzzle.lightup.LightUpCell;
 import save.InvalidFileFormatException;
 
 import java.awt.*;
 
-public class LightUpCellFactory extends ElementFactory
+public class SudokuCellFactory extends ElementFactory
 {
     /**
      * Creates a element based on the xml document Node and adds it to the board
@@ -22,18 +24,18 @@ public class LightUpCellFactory extends ElementFactory
      * @throws InvalidFileFormatException
      */
     @Override
-    public LightUpCell importCell(Node node, Board board) throws InvalidFileFormatException
+    public SudokuCell importCell(Node node, Board board) throws InvalidFileFormatException
     {
         try
         {
             if(!node.getNodeName().equalsIgnoreCase("cell"))
             {
-                throw new InvalidFileFormatException("LightUp Factory: unknown data element");
+                throw new InvalidFileFormatException("Sudoku Factory: unknown data element");
             }
 
-            LightUpBoard lightUpBoard = (LightUpBoard)board;
-            int width = lightUpBoard.getWidth();
-            int height = lightUpBoard.getHeight();
+            SudokuBoard sudokuBoard = (SudokuBoard)board;
+            int width = sudokuBoard.getWidth();
+            int height = sudokuBoard.getHeight();
 
             NamedNodeMap attributeList = node.getAttributes();
             int value = Integer.valueOf(attributeList.getNamedItem("value").getNodeValue());
@@ -41,24 +43,24 @@ public class LightUpCellFactory extends ElementFactory
             int y = Integer.valueOf(attributeList.getNamedItem("y").getNodeValue());
             if(x >= width || y >= height)
             {
-                throw new InvalidFileFormatException("LightUp Factory: cell location out of bounds");
+                throw new InvalidFileFormatException("Sudoku Factory: cell location out of bounds");
             }
-            if(value < -4 || value > 4)
+            if(value < 0 || value > 9)
             {
-                throw new InvalidFileFormatException("LightUp Factory: cell unknown value");
+                throw new InvalidFileFormatException("Sudoku Factory: cell unknown value");
             }
 
-            LightUpCell cell = new LightUpCell(value, new Point(x, y));
+            SudokuCell cell = new SudokuCell(value, new Point(x, y));
             cell.setIndex(y * height + x);
             return cell;
         }
         catch(NumberFormatException e)
         {
-            throw new InvalidFileFormatException("LightUp Factory: unknown value where integer expected");
+            throw new InvalidFileFormatException("Sudoku Factory: unknown value where integer expected");
         }
         catch(NullPointerException e)
         {
-            throw new InvalidFileFormatException("LightUp Factory: could not find attribute(s)");
+            throw new InvalidFileFormatException("Sudoku Factory: could not find attribute(s)");
         }
     }
 
@@ -73,7 +75,7 @@ public class LightUpCellFactory extends ElementFactory
     {
         Element cellElement = document.createElement("cell");
 
-        LightUpCell cell = (LightUpCell)data;
+        SudokuCell cell = (SudokuCell)data;
         Point loc = cell.getLocation();
 
         cellElement.setAttribute("value", String.valueOf(cell.getValueInt()));

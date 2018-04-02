@@ -34,10 +34,10 @@ public class Sudoku extends Puzzle
 
         this.name = "Sudoku";
 
-        this.importer = null;
-        this.exporter = null;
+        this.importer = new SudokuImporter(this);
+        this.exporter = new SudokuExporter(this);
 
-        this.factory = null;
+        this.factory = new SudokuCellFactory();
 
         basicRules.add(new AdvancedDeductionBasicRule());
         basicRules.add(new LastCellForNumberBasicRule());

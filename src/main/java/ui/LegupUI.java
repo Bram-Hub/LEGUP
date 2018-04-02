@@ -93,7 +93,7 @@ public class LegupUI extends JFrame implements WindowListener
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setIconImage(new ImageIcon("images/Legup/Basic Rules.gif").getImage());
+        setIconImage(new ImageIcon(ClassLoader.getSystemClassLoader().getResource("images/Legup/Basic Rules.gif")).getImage());
 
         final SplashScreen splash = SplashScreen.getSplashScreen();
         if (splash!= null)
