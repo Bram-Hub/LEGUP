@@ -15,6 +15,7 @@ import javax.swing.*;
 import app.GameBoardFacade;
 import controller.RuleController;
 import model.Puzzle;
+import model.PuzzleExporter;
 import model.gameboard.Board;
 import model.tree.Tree;
 import save.ExportFileException;
@@ -394,9 +395,8 @@ public class LegupUI extends JFrame implements WindowListener
      */
     private void saveProof()
     {
-        GameBoardFacade facade = GameBoardFacade.getInstance();
-        Board board = facade.getBoard();
-        if(board == null)
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+        if(puzzle == null)
         {
             return;
         }
@@ -414,8 +414,12 @@ public class LegupUI extends JFrame implements WindowListener
             //facade.setWindowTitle(filename.substring(0, filename.length() - 6), facade.getPuzzleModule().getName());
             try
             {
-                System.err.println("Export");
-                facade.getPuzzleModule().getExporter().exportPuzzle(filename);
+                PuzzleExporter exporter = puzzle.getExporter();
+                if(exporter == null)
+                {
+                    throw new ExportFileException("Puzzle exporter null");
+                }
+                exporter.exportPuzzle(filename);
             }
             catch(ExportFileException e)
             {

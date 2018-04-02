@@ -46,8 +46,16 @@ public class BattleShip extends Puzzle {
         return null;
     }
 
+    /**
+     * Determines if the current board is a valid state
+     *
+     * @param board board to check for validity
+     *
+     * @return true if board is valid, false otherwise
+     */
     @Override
-    public boolean isValidBoardState(Board board) {
+    public boolean isBoardComplete(Board board)
+    {
         return false;
     }
 

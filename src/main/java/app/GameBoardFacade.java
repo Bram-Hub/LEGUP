@@ -1,5 +1,6 @@
 package app;
 
+import model.PuzzleImporter;
 import model.gameboard.Board;
 import model.Puzzle;
 import model.tree.Tree;
@@ -117,7 +118,12 @@ public class GameBoardFacade
                 Constructor<?> cons = c.getConstructor();
                 Puzzle puzzle = (Puzzle)cons.newInstance();
 
-                puzzle.getImporter().initializePuzzle(node);
+                PuzzleImporter importer = puzzle.getImporter();
+                if(importer == null)
+                {
+                    throw new InvalidFileFormatException("Puzzle importer null");
+                }
+                importer.initializePuzzle(node);
                 puzzle.initializeBoard();
                 setPuzzle(puzzle);
             }
