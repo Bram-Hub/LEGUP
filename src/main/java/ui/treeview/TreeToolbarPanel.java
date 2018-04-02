@@ -22,15 +22,15 @@ public class TreeToolbarPanel extends JPanel
         this.setLayout(new GridLayout(4, 2));
         this.controller = new TreeToolBarController(treePanel);
 
-        addChild = new TreeToolBarButton(new ImageIcon("images/Legup/AddChild.png"), TreeToolBarName.ADD_CHILD);
-        delChild = new TreeToolBarButton(new ImageIcon("images/Legup/DelChild.png"), TreeToolBarName.DEL_CHILD);
-        merge = new TreeToolBarButton(new ImageIcon("images/Legup/Merge.png"), TreeToolBarName.MERGE);
-        collapse = new TreeToolBarButton(new ImageIcon("images/Legup/Collapse.png"), TreeToolBarName.COLLAPSE);
+        addChild = new TreeToolBarButton(new ImageIcon(ClassLoader.getSystemResource("images/Legup/AddChild.png")), TreeToolBarName.ADD_CHILD);
+        delChild = new TreeToolBarButton(new ImageIcon(ClassLoader.getSystemResource("images/Legup/DelChild.png")), TreeToolBarName.DEL_CHILD);
+        merge = new TreeToolBarButton(new ImageIcon(ClassLoader.getSystemResource("images/Legup/Merge.png")), TreeToolBarName.MERGE);
+        collapse = new TreeToolBarButton(new ImageIcon(ClassLoader.getSystemResource("images/Legup/Collapse.png")), TreeToolBarName.COLLAPSE);
 
-        zoomIn = new TreeToolBarButton(new ImageIcon("images/Legup/Zoom In.png"), TreeToolBarName.ZOOM_IN);
-        zoomOut = new TreeToolBarButton(new ImageIcon("images/Legup/Zoom Out.png"), TreeToolBarName.ZOOM_OUT);
-        zoomReset = new TreeToolBarButton(new ImageIcon("images/Legup/Normal Zoom.png"), TreeToolBarName.ZOOM_RESET);
-        zoomFit = new TreeToolBarButton(new ImageIcon("images/Legup/Best Fit.png"), TreeToolBarName.ZOOM_FIT);
+        zoomIn = new TreeToolBarButton(new ImageIcon(ClassLoader.getSystemResource("images/Legup/Zoom In.png")), TreeToolBarName.ZOOM_IN);
+        zoomOut = new TreeToolBarButton(new ImageIcon(ClassLoader.getSystemResource("images/Legup/Zoom Out.png")), TreeToolBarName.ZOOM_OUT);
+        zoomReset = new TreeToolBarButton(new ImageIcon(ClassLoader.getSystemResource("images/Legup/Normal Zoom.png")), TreeToolBarName.ZOOM_RESET);
+        zoomFit = new TreeToolBarButton(new ImageIcon(ClassLoader.getSystemResource("images/Legup/Best Fit.png")), TreeToolBarName.ZOOM_FIT);
 
         add(addChild);
         addChild.addActionListener(controller);

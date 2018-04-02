@@ -1,7 +1,7 @@
+
 import app.Config;
 import app.GameBoardFacade;
 import app.InvalidConfigException;
-import puzzle.sudoku.Sudoku;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

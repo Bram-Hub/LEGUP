@@ -4,7 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.PrintStream;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -92,7 +94,7 @@ public class LegupUI extends JFrame implements WindowListener
 
         setIconImage(new ImageIcon("images/Legup/Basic Rules.gif").getImage());
 
-        final SplashScreen splash = SplashScreen.getSplashScreen();
+        /*final SplashScreen splash = SplashScreen.getSplashScreen();
         if (splash == null) {
             System.out.println("SplashScreen.getSplashScreen() returned null");
             return;
@@ -111,7 +113,7 @@ public class LegupUI extends JFrame implements WindowListener
             catch(InterruptedException e) {
             }
         }
-        splash.close();
+        splash.close();*/
 
         setupMenu();
         setupToolBar();
@@ -265,7 +267,8 @@ public class LegupUI extends JFrame implements WindowListener
         for(int i = 0; i < ToolbarName.values().length; i++)
         {
             String toolBarName = ToolbarName.values()[i].toString();
-            getToolBarButtons()[i] = new JButton(toolBarName, new ImageIcon("images/Legup/" + toolBarName + ".png"));
+            URL resourceLocation = ClassLoader.getSystemClassLoader().getResource("images/Legup/" + toolBarName + ".png");
+            getToolBarButtons()[i] = new JButton(toolBarName, new ImageIcon(resourceLocation));
         }
 
         toolBar = new JToolBar();

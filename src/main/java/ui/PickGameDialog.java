@@ -55,11 +55,6 @@ public class PickGameDialog extends JDialog implements ActionListener
     {
         super(parent, true);
 
-        //		 legupMain.getAvailableBoardsList(puzzle)
-        // legupMain.loadPuzzle(puzzle, puzzle)
-        // legupMain.getPuzzleNames()
-
-
         pickBoth = pickBothAtOnce;
         initPuzzles();
 

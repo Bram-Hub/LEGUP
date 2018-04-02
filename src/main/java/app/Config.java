@@ -1,9 +1,6 @@
 package app;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -20,13 +17,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import save.ExportFileException;
 
 public class Config
 {
     private final static Logger LOGGER = Logger.getLogger(Config.class.getName());
 
     private Hashtable<String, String> puzzles;
-    private static final String CONFIG_LOCATION = "legup/config";
+    private static final String CONFIG_LOCATION = "resources/legup/config";
 
     /**
      * Constructor
@@ -34,7 +32,7 @@ public class Config
     public Config() throws InvalidConfigException
     {
         puzzles = new Hashtable<>();
-        loadConfig(CONFIG_LOCATION);
+        loadConfig(this.getClass().getResourceAsStream("/legup/config"));
     }
 
     /**
@@ -69,18 +67,17 @@ public class Config
     }
 
     /**
-     * Loads the Config object from the config XML file
+     * Loads the Config object from the config xml file
      *
-     * @param fileName Location of the config XML file
+     * @param stream file stream for the config xml file
      */
-    private void loadConfig(String fileName) throws InvalidConfigException
+    private void loadConfig(InputStream stream) throws InvalidConfigException
     {
         try
         {
-            InputStream configFile = new FileInputStream(fileName);
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(configFile);
+            Document document = builder.parse(stream);
             Element configNode = document.getDocumentElement();
 
             if(!configNode.getNodeName().equals("Legup"))
@@ -99,11 +96,7 @@ public class Config
                 puzzles.put(name, className);
             }
         }
-        catch(InvalidConfigException e)
-        {
-            throw e;
-        }
-        catch(Exception e)
+        catch(ParserConfigurationException | SAXException | IOException e)
         {
             throw new InvalidConfigException(e.getMessage());
         }

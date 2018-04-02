@@ -38,7 +38,7 @@ public class LightUpView extends GridBoardView
         }
         try
         {
-            lightImage = ImageIO.read(new File("images/lightup/light.png"));
+            lightImage = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/lightup/light.png"));
         }
         catch(IOException e)
         {
