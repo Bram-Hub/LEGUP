@@ -30,10 +30,10 @@ public class Nurikabe extends Puzzle
 
         this.name = "Nurikabe";
 
-        this.importer = null;
-        this.exporter = null;
+        this.importer = new NurikabeImporter(this);
+        this.exporter = new NurikabeExporter(this);
 
-        this.factory = null;
+        this.factory = new NurikabeCellFactory();
 
         this.basicRules.add(new BlackBetweenRegionsBasicRule());
         this.basicRules.add(new BlackBottleNeckBasicRule());
