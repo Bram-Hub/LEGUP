@@ -9,7 +9,7 @@ jar {
         attributes('Implementation-Title': 'Legup',
                 'Implementation-Version': version,
                 'Main-Class': 'Legup',
-                'SplashScreen-Image': 'loader.gif')
+                'SplashScreen-Image': 'images/Legup/LegupSplash.png')
     }
 }
 

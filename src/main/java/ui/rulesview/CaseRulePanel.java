@@ -12,7 +12,7 @@ public class CaseRulePanel extends RulePanel
     public CaseRulePanel(RuleFrame ruleFrame)
     {
         super(ruleFrame);
-        this.icon = new ImageIcon("images/Legup/Case Rules.gif");
+        this.icon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("images/Legup/Case Rules.gif"));
         this.name = "Case Rules";
         this.toolTip = "Case Rules";
     }
