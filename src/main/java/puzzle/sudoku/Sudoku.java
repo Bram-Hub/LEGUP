@@ -162,8 +162,8 @@ public class Sudoku extends Puzzle
             {
                 NamedNodeMap attributeList = elementDataList.item(i).getAttributes();
                 int value = Integer.valueOf(attributeList.getNamedItem("value").getNodeValue());
-                int x = Integer.valueOf(attributeList.getNamedItem("x").getNodeValue());;
-                int y = Integer.valueOf(attributeList.getNamedItem("y").getNodeValue());;
+                int x = Integer.valueOf(attributeList.getNamedItem("x").getNodeValue());
+                int y = Integer.valueOf(attributeList.getNamedItem("y").getNodeValue());
                 SudokuCell cell = new SudokuCell(value, new Point(x, y));
                 sudokuBoard.setCell(x, y, cell);
                 if(cell.getValueInt() > 0)
