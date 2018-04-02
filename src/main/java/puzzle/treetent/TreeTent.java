@@ -27,6 +27,13 @@ public class TreeTent extends Puzzle
 
     public TreeTent()
     {
+        super();
+
+        this.importer = null;
+        this.exporter = null;
+
+        this.factory = null;
+
         this.basicRules.add(new EmptyFieldBasicRule());
         this.basicRules.add(new FinishWithGrassBasicRule());
         this.basicRules.add(new FinishWithTentsBasicRule());
@@ -50,10 +57,9 @@ public class TreeTent extends Puzzle
      * Initializes the game board. Called by the invoker of the class
      */
     @Override
-    public void initializeBoard()
+    public void initializeView()
     {
         boardView = new TreeTentView(((TreeTentBoard)currentBoard).getDimension());
-
         for(PuzzleElement element: boardView.getPuzzleElements())
         {
             int index = element.getIndex();

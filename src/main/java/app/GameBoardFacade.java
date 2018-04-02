@@ -124,7 +124,7 @@ public class GameBoardFacade
                     throw new InvalidFileFormatException("Puzzle importer null");
                 }
                 importer.initializePuzzle(node);
-                puzzle.initializeBoard();
+                puzzle.initializeView();
                 setPuzzle(puzzle);
             }
             catch(ClassNotFoundException | NoSuchMethodException | InvocationTargetException |

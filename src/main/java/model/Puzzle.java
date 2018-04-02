@@ -39,9 +39,9 @@ public abstract class Puzzle
     }
 
     /**
-     * Initializes the game board. Called by the invoker of the class
+     * Initializes the view. Called by the invoker of the class
      */
-    public abstract void initializeBoard();
+    public abstract void initializeView();
 
     /**
      * Generates a random puzzle based on the difficulty

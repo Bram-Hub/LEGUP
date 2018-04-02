@@ -34,7 +34,12 @@ public class Fillapix extends Puzzle
     {
         super();
 
-        boardView = new FillapixView(new Dimension(9, 9));
+        this.name = "Fillapix";
+
+        this.importer = null;
+        this.exporter = null;
+
+        this.factory = null;
 
         //basicRules.add(new AdvancedDeductionBasicRule());
         basicRules.add(new FinishWithBlackBasicRule());
@@ -55,8 +60,10 @@ public class Fillapix extends Puzzle
      * Initializes the game board
      */
     @Override
-    public void initializeBoard()
+    public void initializeView()
     {
+        FillapixBoard board = (FillapixBoard)currentBoard;
+        boardView = new FillapixView(new Dimension(board.getWidth(), board.getHeight()));
         for(PuzzleElement element: boardView.getPuzzleElements())
         {
             int index = element.getIndex();

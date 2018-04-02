@@ -26,14 +26,21 @@ public class Masyu extends Puzzle
 
     public Masyu()
     {
+        super();
 
+        this.name=  "Masyu";
+
+        this.importer = null;
+        this.exporter = null;
+
+        this.factory = null;
     }
 
     /**
      * Initializes the game board. Called by the invoker of the class
      */
     @Override
-    public void initializeBoard()
+    public void initializeView()
     {
         boardView = new MasyuView(((MasyuBoard)currentBoard).getDimension());
         for(PuzzleElement element: boardView.getPuzzleElements())

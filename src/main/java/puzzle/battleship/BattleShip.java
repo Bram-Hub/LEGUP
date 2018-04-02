@@ -21,18 +21,29 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class BattleShip extends Puzzle {
-    public BattleShip() {
+public class BattleShip extends Puzzle
+{
+    public BattleShip()
+    {
         super();
 
-        boardView = new BattleShipView(new Dimension(10, 10));
+        this.name = "BattleShip";
+
+        this.importer = null;
+        this.exporter = null;
+
+        this.factory = null;
 
         // ADD RULES ONCE THEY ARE CREATED
     }
 
     @Override
-    public void initializeBoard() {
-        for (PuzzleElement element : boardView.getPuzzleElements()) {
+    public void initializeView()
+    {
+        BattleShipBoard board = (BattleShipBoard) currentBoard;
+        boardView = new BattleShipView(new Dimension(board.getWidth(), board.getHeight()));
+        for(PuzzleElement element : boardView.getPuzzleElements())
+        {
             int index = element.getIndex();
             BattleShipCell cell = (BattleShipCell) currentBoard.getElementData(index);
 
@@ -42,7 +53,8 @@ public class BattleShip extends Puzzle {
     }
 
     @Override
-    public Board generatePuzzle(int difficulty) {
+    public Board generatePuzzle(int difficulty)
+    {
         return null;
     }
 
@@ -60,18 +72,22 @@ public class BattleShip extends Puzzle {
     }
 
     @Override
-    public void onBoardChange(Board board) {
+    public void onBoardChange(Board board)
+    {
 
     }
 
     @Override
-    public void onTreeSelectionChange(ArrayList<Selection> newSelection) {
+    public void onTreeSelectionChange(ArrayList<Selection> newSelection)
+    {
 
     }
 
     @Override
-    public void importPuzzle(String fileName) throws IOException, ParserConfigurationException, SAXException {
-        if (fileName != null) {
+    public void importPuzzle(String fileName) throws IOException, ParserConfigurationException, SAXException
+    {
+        if(fileName != null)
+        {
             InputStream inputStream = new FileInputStream(fileName);
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -89,11 +105,13 @@ public class BattleShip extends Puzzle {
             battleShipBoard = new BattleShipBoard(size);
 
             ArrayList<ElementData> battleShipData = new ArrayList<>();
-            for (int i = 0; i < size * size; i++) {
+            for(int i = 0; i < size * size; i++)
+            {
                 battleShipData.add(null);
             }
 
-            for (int i = 0; i < elementDataList.getLength(); i++) {
+            for(int i = 0; i < elementDataList.getLength(); i++)
+            {
                 NamedNodeMap attributeList = elementDataList.item(i).getAttributes();
                 int value = Integer.valueOf(attributeList.getNamedItem("value").getNodeValue());
                 int x = Integer.valueOf(attributeList.getNamedItem("x").getNodeValue());
@@ -105,9 +123,12 @@ public class BattleShip extends Puzzle {
                 cell.setGiven(true);
             }
 
-            for (int x = 0; x < size; x++) {
-                for (int y = 0; y < size; y++) {
-                    if (battleShipBoard.getCell(x, y) == null) {
+            for(int x = 0; x < size; x++)
+            {
+                for(int y = 0; y < size; y++)
+                {
+                    if(battleShipBoard.getCell(x, y) == null)
+                    {
                         BattleShipCell cell = new BattleShipCell(0, new Point(x, y));
                         cell.setModifiable(true);
                         battleShipBoard.setCell(x, y, cell);

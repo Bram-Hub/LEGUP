@@ -56,7 +56,7 @@ public class LightUp extends Puzzle
      * Initializes the game board. Called by the invoker of the class
      */
     @Override
-    public void initializeBoard()
+    public void initializeView()
     {
         LightUpBoard board = (LightUpBoard) currentBoard;
         boardView = new LightUpView(new Dimension(board.getWidth(), board.getHeight()));
