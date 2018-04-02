@@ -5,6 +5,7 @@ import model.gameboard.Board;
 import model.gameboard.GridBoard;
 import ui.boardview.GridBoardView;
 import ui.boardview.PuzzleElement;
+
 import java.awt.*;
 
 public class FillapixView extends GridBoardView
@@ -35,7 +36,7 @@ public class FillapixView extends GridBoardView
     public void updateBoard(Board board)
     {
         FillapixBoard fillapixBoard = (FillapixBoard) board;
-        for(PuzzleElement element: puzzleElements)
+        for(PuzzleElement element : puzzleElements)
         {
             element.setData(fillapixBoard.getElementData(element.getIndex()));
         }

@@ -1,7 +1,7 @@
 <Legup version="2.0">
     <puzzles>
         <puzzle name="BattleShip" qualifiedClassName="puzzle.battleship.BattleShip" fileType=".xml"/>
-        <puzzle name="Fillapiz" qualifiedClassName="puzzle.fillapix.Fillapix" fileType=".xml"/>
+        <puzzle name="Fillapix" qualifiedClassName="puzzle.fillapix.Fillapix" fileType=".xml"/>
         <puzzle name="Heyawake" qualifiedClassName="puzzle.heyawake.Heyawake" fileType=".xml"/>
         <puzzle name="LightUp" qualifiedClassName="puzzle.lightup.LightUp" fileType=".xml"/>
         <puzzle name="Masyu" qualifiedClassName="puzzle.masyu.Masyu" fileType=".xml"/>
