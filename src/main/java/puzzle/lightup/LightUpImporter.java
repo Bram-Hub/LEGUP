@@ -30,9 +30,13 @@ public class LightUpImporter extends PuzzleImporter
         {
             if(!node.getNodeName().equalsIgnoreCase("board"))
             {
-                throw new InvalidFileFormatException("Cannot find board element");
+                throw new InvalidFileFormatException("LightUp Importer: cannot find board element");
             }
             Element boardElement = (Element)node;
+            if(boardElement.getElementsByTagName("cells").getLength() == 0)
+            {
+                throw new InvalidFileFormatException("LightUp Importer: no data found for board");
+            }
             Element dataElement = (Element)boardElement.getElementsByTagName("cells").item(0);
             NodeList elementDataList = dataElement.getElementsByTagName("cell");
 
@@ -51,7 +55,7 @@ public class LightUpImporter extends PuzzleImporter
 
             if(lightUpBoard == null)
             {
-                throw new InvalidFileFormatException("Unknown board dimensions");
+                throw new InvalidFileFormatException("LightUp Importer: invalid board dimensions");
             }
 
             int width = lightUpBoard.getWidth();
@@ -84,14 +88,9 @@ public class LightUpImporter extends PuzzleImporter
             }
             puzzle.setCurrentBoard(lightUpBoard);
         }
-        catch(InvalidFileFormatException e)
+        catch(NumberFormatException e)
         {
-            throw e;
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            throw new InvalidFileFormatException(e.getMessage());
+            throw new InvalidFileFormatException("LightUp Importer: unknown value where integer expected");
         }
     }
 }

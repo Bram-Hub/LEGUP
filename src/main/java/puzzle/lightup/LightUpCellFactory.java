@@ -14,10 +14,11 @@ import java.awt.*;
 public class LightUpCellFactory extends ElementFactory
 {
     /**
-     * Creates a element based on the String value
+     * Creates a element based on the xml document Node and adds it to the board
      *
      * @param node node that represents the element
-     * @return ElementData that represents the value
+     * @param board board to add the newly created cell
+     * @return newly created cell from the xml document Node
      * @throws InvalidFileFormatException
      */
     @Override
@@ -27,7 +28,7 @@ public class LightUpCellFactory extends ElementFactory
         {
             if(!node.getNodeName().equalsIgnoreCase("cell"))
             {
-                throw new InvalidFileFormatException("LightUp cell unknown cell");
+                throw new InvalidFileFormatException("LightUp Factory: unknown data element");
             }
 
             LightUpBoard lightUpBoard = (LightUpBoard)board;
@@ -40,11 +41,11 @@ public class LightUpCellFactory extends ElementFactory
             int y = Integer.valueOf(attributeList.getNamedItem("y").getNodeValue());
             if(x >= width ||y >= height)
             {
-                throw new InvalidFileFormatException("LightUp cell out of bounds");
+                throw new InvalidFileFormatException("LightUp Factory: cell location out of bounds");
             }
             if(value < -4 || value > 4)
             {
-                throw new InvalidFileFormatException("LightUp cell unknown value");
+                throw new InvalidFileFormatException("LightUp Factory: cell unknown value");
             }
 
             LightUpCell cell = new LightUpCell(value, new Point(x, y));
@@ -53,11 +54,11 @@ public class LightUpCellFactory extends ElementFactory
         }
         catch(NumberFormatException e)
         {
-            throw new InvalidFileFormatException("LightUp cell number format error");
+            throw new InvalidFileFormatException("LightUp Factory: unknown value where integer expected");
         }
         catch(NullPointerException e)
         {
-            throw new InvalidFileFormatException("LightUp cell could not find attribute(s)");
+            throw new InvalidFileFormatException("LightUp Factory: could not find attribute(s)");
         }
     }
 
