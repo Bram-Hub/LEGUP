@@ -29,10 +29,10 @@ public class TreeTent extends Puzzle
     {
         super();
 
-        this.importer = null;
-        this.exporter = null;
+        this.importer = new TreeTentImporter(this);
+        this.exporter = new TreeTentExporter(this);
 
-        this.factory = null;
+        this.factory = new TreeTentCellFactory();
 
         this.basicRules.add(new EmptyFieldBasicRule());
         this.basicRules.add(new FinishWithGrassBasicRule());
@@ -59,14 +59,34 @@ public class TreeTent extends Puzzle
     @Override
     public void initializeView()
     {
-        boardView = new TreeTentView(((TreeTentBoard)currentBoard).getDimension());
+        TreeTentBoard board = (TreeTentBoard)currentBoard;
+        TreeTentView view = new TreeTentView(board.getDimension());
+        boardView = view;
         for(PuzzleElement element: boardView.getPuzzleElements())
         {
             int index = element.getIndex();
-            TreeTentCell cell = (TreeTentCell)currentBoard.getElementData(index);
+            TreeTentCell cell = (TreeTentCell)board.getElementData(index);
 
             cell.setIndex(index);
             element.setData(cell);
+        }
+
+        for(int i = 0; i < board.getHeight(); i++)
+        {
+            TreeTentClueView row = view.getWestClues().get(i);
+            TreeTentClueView clue = view.getEastClues().get(i);
+
+            row.setData(new TreeTentClue(i, i, TreeTentType.CLUE_WEST));
+            clue.setData(board.getEast().get(i));
+        }
+
+        for(int i = 0; i < board.getWidth(); i++)
+        {
+            TreeTentClueView col = view.getNorthClues().get(i);
+            TreeTentClueView clue = view.getSouthClues().get(i);
+
+            col.setData(new TreeTentClue(i, i, TreeTentType.CLUE_NORTH));
+            clue.setData(board.getSouth().get(i));
         }
     }
 

@@ -2,12 +2,28 @@ package puzzle.treetent;
 
 import model.gameboard.GridBoard;
 
+import java.util.ArrayList;
+
 public class TreeTentBoard extends GridBoard
 {
+
+    private ArrayList<TreeTentClue> east;
+    private ArrayList<TreeTentClue> south;
 
     public TreeTentBoard(int width, int height)
     {
         super(width, height);
+        this.east = new ArrayList();
+        this.south = new ArrayList<>();
+
+        for(int i = 0; i < height; i++)
+        {
+            east.add(null);
+        }
+        for(int i = 0; i < width; i++)
+        {
+            south.add(null);
+        }
     }
 
     public TreeTentBoard(int size)
@@ -15,10 +31,20 @@ public class TreeTentBoard extends GridBoard
         super(size, size);
     }
 
+    public ArrayList<TreeTentClue> getEast()
+    {
+        return east;
+    }
+
+    public ArrayList<TreeTentClue> getSouth()
+    {
+        return south;
+    }
+
     @Override
     public TreeTentCell getCell(int x, int y)
     {
-        return (TreeTentCell)super.getCell(x, y);
+        return (TreeTentCell) super.getCell(x, y);
     }
 
     @Override
