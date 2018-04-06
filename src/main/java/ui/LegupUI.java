@@ -96,7 +96,7 @@ public class LegupUI extends JFrame implements WindowListener
         setIconImage(new ImageIcon(ClassLoader.getSystemClassLoader().getResource("images/Legup/Basic Rules.gif")).getImage());
 
         final SplashScreen splash = SplashScreen.getSplashScreen();
-        if (splash!= null)
+        if (splash != null)
         {
             Graphics2D g = splash.createGraphics();
             if (g != null)
@@ -217,14 +217,14 @@ public class LegupUI extends JFrame implements WindowListener
         edit.add(undo);
         undo.addActionListener((ActionEvent) ->
         {
-
+            GameBoardFacade.getInstance().getHistory().undo();
         });
         undo.setAccelerator(KeyStroke.getKeyStroke('Z', 2));
 
         edit.add(redo);
         redo.addActionListener((ActionEvent) ->
         {
-
+            GameBoardFacade.getInstance().getHistory().redo();
         });
         redo.setAccelerator(KeyStroke.getKeyStroke('Y', 2));
 
@@ -291,8 +291,8 @@ public class LegupUI extends JFrame implements WindowListener
         toolBarButtons[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent e)  -> promptPuzzle());
         toolBarButtons[ToolbarName.OPEN_PROOF.ordinal()].addActionListener((ActionEvent e)  -> openProof());
         toolBarButtons[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e)  -> saveProof());
-        toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e)  -> {});
-        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e)  -> {});
+        toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e)  -> GameBoardFacade.getInstance().getHistory().undo());
+        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e)  -> GameBoardFacade.getInstance().getHistory().redo());
         toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e)  -> {});
         toolBarButtons[ToolbarName.CHECK.ordinal()].addActionListener((ActionEvent e)  -> checkProof());
         toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e)  -> {});
@@ -774,5 +774,25 @@ public class LegupUI extends JFrame implements WindowListener
     public JToolBar getToolBar()
     {
         return toolBar;
+    }
+
+    public JMenuItem getUndo()
+    {
+        return undo;
+    }
+
+    public JMenuItem getRedo()
+    {
+        return redo;
+    }
+
+    public JButton getUndoButton()
+    {
+        return toolBarButtons[ToolbarName.UNDO.ordinal()];
+    }
+
+    public JButton getRedoButton()
+    {
+        return toolBarButtons[ToolbarName.REDO.ordinal()];
     }
 }

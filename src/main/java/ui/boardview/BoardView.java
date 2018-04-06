@@ -109,6 +109,11 @@ public abstract class BoardView extends DynamicViewer
         return puzzleElements;
     }
 
+    public ElementController getElementController()
+    {
+        return elementController;
+    }
+
     @Override
     public void draw(Graphics2D graphics2D)
     {

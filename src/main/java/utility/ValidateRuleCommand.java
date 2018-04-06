@@ -3,13 +3,13 @@ package utility;
 import model.rules.Rule;
 import model.tree.TreeTransition;
 
-public class ValidateRuleAction implements Action
+public class ValidateRuleCommand extends PuzzleCommand
 {
     private TreeTransition transition;
     private Rule oldRule;
     private Rule newRule;
 
-    public ValidateRuleAction(TreeTransition transition, Rule oldRule, Rule newRule)
+    public ValidateRuleCommand(TreeTransition transition, Rule oldRule, Rule newRule)
     {
         this.transition = transition;
         this.oldRule = oldRule;
@@ -17,20 +17,20 @@ public class ValidateRuleAction implements Action
     }
 
     /**
-     * Undoes an action on the board
+     * Executes an command
+     */
+    @Override
+    public void execute()
+    {
+
+    }
+
+    /**
+     * Undoes an command
      */
     @Override
     public void undo()
     {
-        this.transition.setRule(oldRule);
-    }
 
-    /**
-     * Redoes an action on the board
-     */
-    @Override
-    public void redo()
-    {
-        this.transition.setRule(newRule);
     }
 }

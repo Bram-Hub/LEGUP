@@ -31,8 +31,40 @@ public class TreeTentExporter extends PuzzleExporter
                 cellsElement.appendChild(cellElement);
             }
         }
-
         boardElement.appendChild(cellsElement);
+
+        Element axisEast = newDocument.createElement("axis");
+        axisEast.setAttribute("side", "east");
+        for(TreeTentClue clue : board.getEast())
+        {
+            Element clueElement = newDocument.createElement("clue");
+            clueElement.setAttribute("value", String.valueOf(clue.getValueInt()));
+            clueElement.setAttribute("index", TreeTentClue.colNumToString(clue.getIndex()));
+            axisEast.appendChild(clueElement);
+        }
+        boardElement.appendChild(axisEast);
+
+        Element axisSouth = newDocument.createElement("axis");
+        axisSouth.setAttribute("side", "south");
+        for(TreeTentClue clue : board.getEast())
+        {
+            Element clueElement = newDocument.createElement("clue");
+            clueElement.setAttribute("value", String.valueOf(clue.getValueInt()));
+            clueElement.setAttribute("index", String.valueOf(clue.getIndex()));
+            axisSouth.appendChild(clueElement);
+        }
+        boardElement.appendChild(axisSouth);
+
+        if(!board.getLines().isEmpty())
+        {
+            Element linesElement = newDocument.createElement("lines");
+            for(ElementData data : board.getLines())
+            {
+                Element lineElement = puzzle.getFactory().exportCell(newDocument, data);
+                linesElement.appendChild(lineElement);
+            }
+            boardElement.appendChild(linesElement);
+        }
         return boardElement;
     }
 }

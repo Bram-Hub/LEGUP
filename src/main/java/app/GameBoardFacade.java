@@ -282,5 +282,10 @@ public class GameBoardFacade
     {
         transitionListener.remove(listener);
     }
+
+    public History getHistory()
+    {
+        return history;
+    }
 }
 

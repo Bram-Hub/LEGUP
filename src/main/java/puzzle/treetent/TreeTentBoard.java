@@ -3,9 +3,16 @@ package puzzle.treetent;
 import model.gameboard.GridBoard;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TreeTentBoard extends GridBoard
 {
+
+    private ArrayList<TreeTentLine> lines;
+
+    private HashSet<TreeTentLine> l;
 
     private ArrayList<TreeTentClue> east;
     private ArrayList<TreeTentClue> south;
@@ -13,7 +20,10 @@ public class TreeTentBoard extends GridBoard
     public TreeTentBoard(int width, int height)
     {
         super(width, height);
-        this.east = new ArrayList();
+
+        this.lines = new ArrayList<>();
+
+        this.east = new ArrayList<>();
         this.south = new ArrayList<>();
 
         for(int i = 0; i < height; i++)
@@ -29,6 +39,11 @@ public class TreeTentBoard extends GridBoard
     public TreeTentBoard(int size)
     {
         super(size, size);
+    }
+
+    public ArrayList<TreeTentLine> getLines()
+    {
+        return lines;
     }
 
     public ArrayList<TreeTentClue> getEast()
@@ -57,6 +72,10 @@ public class TreeTentBoard extends GridBoard
             {
                 copy.setCell(x, y, getCell(x, y).copy());
             }
+        }
+        for(TreeTentLine line : lines)
+        {
+            copy.getLines().add(line.copy());
         }
         return copy;
     }

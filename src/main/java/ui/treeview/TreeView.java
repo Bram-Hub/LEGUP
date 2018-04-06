@@ -139,6 +139,10 @@ public class TreeView extends DynamicViewer
     {
         if(elementView.contains(point) && elementView.isVisible())
         {
+            if(elementView.getType() == NODE && ((TreeNodeView)elementView).isContradictoryState())
+            {
+                return null;
+            }
             return elementView;
         }
         else
@@ -532,6 +536,7 @@ public class TreeView extends DynamicViewer
             }
             redrawTree(graphics2D, rootNodeView);
             treeSelection.newSelection(rootNodeView);
+            viewport.setViewPosition(new Point(0, dimension.height / 2 + viewport.getHeight() / 2 + rootNodeView.getRadius()));
         }
     }
 

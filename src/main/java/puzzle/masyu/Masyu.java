@@ -30,10 +30,10 @@ public class Masyu extends Puzzle
 
         this.name=  "Masyu";
 
-        this.importer = null;
-        this.exporter = null;
+        this.importer = new MasyuImporter(this);
+        this.exporter = new MasyuExporter(this);
 
-        this.factory = null;
+        this.factory = new MasyuCellFactory();
     }
 
     /**

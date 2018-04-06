@@ -13,6 +13,8 @@ import ui.boardview.ElementSelection;
 import ui.boardview.PuzzleElement;
 import ui.boardview.SelectionItemView;
 import ui.treeview.*;
+import utility.Command;
+import utility.EditDataCommand;
 
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -57,7 +59,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     @Override
     public void mousePressed(MouseEvent e)
     {
-        
+
     }
 
     /**
@@ -108,6 +110,11 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                 ElementData data = board.getElementData(index);
                 if(!data.isModifiable())
                     return;
+
+                Command edit = new EditDataCommand(elementView, selectedView, e);
+                getInstance().getHistory().pushChange(edit);
+                edit.execute();
+                /*
                 if(selectedView.getType() == TreeElementType.NODE)
                 {
                     TreeNodeView nodeView = (TreeNodeView) selectedView;
@@ -150,6 +157,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                 }
 
                 transitionView.getTreeElement().propagateChanges(data);
+                */
             }
             getInstance().getLegupUI().repaintBoard();
         }

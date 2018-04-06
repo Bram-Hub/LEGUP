@@ -24,4 +24,11 @@ public class MasyuView extends GridBoardView
             }
         }
     }
+
+    @Override
+    public void drawBoard(Graphics2D graphics2D)
+    {
+        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        super.drawBoard(graphics2D);
+    }
 }

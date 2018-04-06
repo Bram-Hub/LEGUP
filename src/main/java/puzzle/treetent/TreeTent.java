@@ -29,6 +29,8 @@ public class TreeTent extends Puzzle
     {
         super();
 
+        this.name = "TreeTent";
+
         this.importer = new TreeTentImporter(this);
         this.exporter = new TreeTentExporter(this);
 
@@ -69,6 +71,13 @@ public class TreeTent extends Puzzle
 
             cell.setIndex(index);
             element.setData(cell);
+        }
+
+        for(TreeTentLine line : board.getLines())
+        {
+            TreeTentLineView lineView = new TreeTentLineView(line);
+            lineView.setSize(view.getSize());
+            view.getLineViews().add(lineView);
         }
 
         for(int i = 0; i < board.getHeight(); i++)

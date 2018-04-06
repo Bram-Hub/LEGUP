@@ -22,35 +22,52 @@ public class TreeTentCellFactory extends ElementFactory
      * @throws InvalidFileFormatException
      */
     @Override
-    public TreeTentCell importCell(Node node, Board board) throws InvalidFileFormatException
+    public ElementData importCell(Node node, Board board) throws InvalidFileFormatException
     {
         try
         {
-            if(!node.getNodeName().equalsIgnoreCase("cell"))
+            TreeTentBoard treeTentBoard = (TreeTentBoard)board;
+            int width = treeTentBoard.getWidth();
+            int height = treeTentBoard.getHeight();
+            NamedNodeMap attributeList = node.getAttributes();
+            if(node.getNodeName().equalsIgnoreCase("cell"))
+            {
+
+                int value = Integer.valueOf(attributeList.getNamedItem("value").getNodeValue());
+                int x = Integer.valueOf(attributeList.getNamedItem("x").getNodeValue());
+                int y = Integer.valueOf(attributeList.getNamedItem("y").getNodeValue());
+                if(x >= width || y >= height)
+                {
+                    throw new InvalidFileFormatException("TreeTent Factory: cell location out of bounds");
+                }
+                if(value < 0 || value > 3)
+                {
+                    throw new InvalidFileFormatException("TreeTent Factory: cell unknown value");
+                }
+
+                TreeTentCell cell = new TreeTentCell(value, new Point(x, y));
+                cell.setIndex(y * height + x);
+                return cell;
+            }
+            else if(node.getNodeName().equalsIgnoreCase("line"))
+            {
+                int x1 = Integer.valueOf(attributeList.getNamedItem("x1").getNodeValue());
+                int y1 = Integer.valueOf(attributeList.getNamedItem("y1").getNodeValue());
+                int x2 = Integer.valueOf(attributeList.getNamedItem("x2").getNodeValue());
+                int y2 = Integer.valueOf(attributeList.getNamedItem("y2").getNodeValue());
+                if(x1 >= width || y1 >= height || x2 >= width || y2 >= height)
+                {
+                    throw new InvalidFileFormatException("TreeTent Factory: line location out of bounds");
+                }
+
+                TreeTentCell c1 = treeTentBoard.getCell(x1, y1);
+                TreeTentCell c2 = treeTentBoard.getCell(x2, y2);
+                return new TreeTentLine(c1, c2);
+            }
+            else
             {
                 throw new InvalidFileFormatException("TreeTent Factory: unknown data element");
             }
-
-            TreeTentBoard TreeTentBoard = (TreeTentBoard)board;
-            int width = TreeTentBoard.getWidth();
-            int height = TreeTentBoard.getHeight();
-
-            NamedNodeMap attributeList = node.getAttributes();
-            int value = Integer.valueOf(attributeList.getNamedItem("value").getNodeValue());
-            int x = Integer.valueOf(attributeList.getNamedItem("x").getNodeValue());
-            int y = Integer.valueOf(attributeList.getNamedItem("y").getNodeValue());
-            if(x >= width || y >= height)
-            {
-                throw new InvalidFileFormatException("TreeTent Factory: cell location out of bounds");
-            }
-            if(value < 0 || value > 3)
-            {
-                throw new InvalidFileFormatException("TreeTent Factory: cell unknown value");
-            }
-
-            TreeTentCell cell = new TreeTentCell(value, new Point(x, y));
-            cell.setIndex(y * height + x);
-            return cell;
         }
         catch(NumberFormatException e)
         {
@@ -71,15 +88,31 @@ public class TreeTentCellFactory extends ElementFactory
      */
     public Element exportCell(Document document, ElementData data)
     {
-        Element cellElement = document.createElement("cell");
+        if(data instanceof TreeTentCell)
+        {
+            Element cellElement = document.createElement("cell");
 
-        TreeTentCell cell = (TreeTentCell)data;
-        Point loc = cell.getLocation();
+            TreeTentCell cell = (TreeTentCell)data;
+            Point loc = cell.getLocation();
 
-        cellElement.setAttribute("value", String.valueOf(cell.getValueInt()));
-        cellElement.setAttribute("x", String.valueOf(loc.x));
-        cellElement.setAttribute("y", String.valueOf(loc.y));
+            cellElement.setAttribute("value", String.valueOf(cell.getValueInt()));
+            cellElement.setAttribute("x", String.valueOf(loc.x));
+            cellElement.setAttribute("y", String.valueOf(loc.y));
 
-        return cellElement;
+            return cellElement;
+        }
+        else
+        {
+            Element lineElement = document.createElement("line");
+
+            TreeTentLine line = (TreeTentLine)data;
+
+            lineElement.setAttribute("x1", String.valueOf(line.getC1().getLocation().x));
+            lineElement.setAttribute("y1", String.valueOf(line.getC1().getLocation().y));
+            lineElement.setAttribute("x2", String.valueOf(line.getC2().getLocation().x));
+            lineElement.setAttribute("y2", String.valueOf(line.getC2().getLocation().y));
+
+            return lineElement;
+        }
     }
 }

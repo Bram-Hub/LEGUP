@@ -149,6 +149,16 @@ public class TreeTentImporter extends PuzzleImporter
                 treeTentBoard.getSouth().set(index - 1, new TreeTentClue(value, index, TreeTentType.CLUE_SOUTH));
             }
 
+            if(boardElement.getElementsByTagName("lines").getLength() == 1)
+            {
+                Element linesElement = (Element)boardElement.getElementsByTagName("lines").item(0);
+                NodeList linesList = linesElement.getElementsByTagName("line");
+                for(int i = 0; i < linesList.getLength(); i++)
+                {
+                    treeTentBoard.getLines().add((TreeTentLine)puzzle.getFactory().importCell(linesList.item(i), treeTentBoard));
+                }
+            }
+
             puzzle.setCurrentBoard(treeTentBoard);
         }
         catch(NumberFormatException e)

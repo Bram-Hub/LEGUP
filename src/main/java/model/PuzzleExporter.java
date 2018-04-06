@@ -10,13 +10,13 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import save.ExportFileException;
+import save.InvalidFileFormatException;
 
 import javax.print.Doc;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
@@ -66,9 +66,18 @@ public abstract class PuzzleExporter
 
             transformer.transform(source, result);
         }
+        catch(ParserConfigurationException e)
+        {
+            throw new ExportFileException("Puzzle Exporter: parser configuration exception");
+        }
+        catch(TransformerException e)
+        {
+            throw new ExportFileException("Puzzle Exporter: parser configuration exception");
+        }
         catch(Exception e)
         {
-            throw new ExportFileException(e.getMessage());
+            throw e;
+            //throw new ExportFileException(e.getMessage());
         }
     }
 
@@ -106,10 +115,7 @@ public abstract class PuzzleExporter
                 }
 
                 nodesElement.appendChild(nodeElement);
-                for(TreeTransition trans : treeNode.getChildren())
-                {
-                    treeElements.add(trans);
-                }
+                treeElements.addAll(treeNode.getChildren());
             }
             else
             {

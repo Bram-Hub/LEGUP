@@ -162,7 +162,7 @@ public class RuleController implements ActionListener
     }
 
     /**
-     * Action Performed event - occurs when a rule button has been pressed
+     * Command Performed event - occurs when a rule button has been pressed
      *
      * @param e action event object
      */

@@ -1,10 +1,12 @@
 package utility;
 
+import app.GameBoardFacade;
+
 import java.util.ArrayList;
 
 public class History
 {
-    private ArrayList<Action> history;
+    private ArrayList<Command> history;
     private int curIndex;
 
     /**
@@ -24,13 +26,13 @@ public class History
      * If the current index does not point to the top of the stack, then at least
      * 1 undo operation was called and that information will be lost by the next change
      *
-     * @param action action to be pushed onto the stack
+     * @param command command to be pushed onto the stack
      */
-    public void pushChange(Action action)
+    public void pushChange(Command command)
     {
-        if(history.size() == curIndex - 1)
+        if(curIndex == history.size() - 1)
         {
-            history.add(action);
+            history.add(command);
         }
         else
         {
@@ -38,8 +40,13 @@ public class History
             {
                 history.remove(i);
             }
-            history.add(action);
+            history.add(command);
         }
+        System.err.println("Pushed Change!");
+        GameBoardFacade.getInstance().getLegupUI().getUndo().setEnabled(true);
+        GameBoardFacade.getInstance().getLegupUI().getUndoButton().setEnabled(true);
+        GameBoardFacade.getInstance().getLegupUI().getRedo().setEnabled(false);
+        GameBoardFacade.getInstance().getLegupUI().getRedoButton().setEnabled(false);
         curIndex++;
     }
 
@@ -49,15 +56,32 @@ public class History
         {
             history.get(curIndex).undo();
             curIndex--;
+            GameBoardFacade.getInstance().getLegupUI().getRedo().setEnabled(true);
+            GameBoardFacade.getInstance().getLegupUI().getRedoButton().setEnabled(true);
+        }
+        else
+        {
+            GameBoardFacade.getInstance().getLegupUI().getRedo().setEnabled(false);
+            GameBoardFacade.getInstance().getLegupUI().getRedoButton().setEnabled(false);
         }
     }
 
     public void redo()
     {
-        if(curIndex < history.size())
+        if(curIndex + 1 < history.size())
         {
-            history.get(curIndex).redo();
-            curIndex++;
+            history.get(++curIndex).redo();
+            if(curIndex == history.size() - 1)
+            {
+                GameBoardFacade.getInstance().getLegupUI().getRedo().setEnabled(false);
+                GameBoardFacade.getInstance().getLegupUI().getRedoButton().setEnabled(false);
+            }
         }
     }
+
+    public void clear()
+    {
+        history.clear();
+    }
+
 }
