@@ -9,7 +9,6 @@ import java.awt.*;
  */
 public class WrapLayout extends FlowLayout
 {
-    private static final long serialVersionUID = 558674947L;
     private Dimension preferredLayoutSize;
 
     /**

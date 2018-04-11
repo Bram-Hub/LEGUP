@@ -45,7 +45,7 @@ public class TreeToolBarController implements ActionListener
             }
             else
             {
-                treePanel.updateStatus(del.getExecutionError());
+                treePanel.updateError(del.getExecutionError());
             }
         }
         else if(button.getToolBarName() == TreeToolBarName.MERGE)

@@ -5,9 +5,7 @@ import model.gameboard.ElementFactory;
 import model.rules.*;
 import model.tree.Tree;
 import model.tree.TreeNode;
-import model.tree.TreeTransition;
 import org.xml.sax.SAXException;
-import ui.Selection;
 import ui.boardview.BoardView;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -90,13 +88,6 @@ public abstract class Puzzle
      * @param board the board that has changed
      */
     public abstract void onBoardChange(Board board);
-
-    /**
-     * Callback for when the tree selection changes
-     *
-     * @param newSelection
-     */
-    public abstract void onTreeSelectionChange(ArrayList<Selection> newSelection);
 
     /**
      * Imports the board using the file stream

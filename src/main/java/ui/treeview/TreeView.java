@@ -7,7 +7,6 @@ import model.tree.Tree;
 import model.tree.TreeNode;
 import model.tree.TreeTransition;
 import ui.DynamicViewer;
-import ui.Selection;
 
 import javax.swing.*;
 import java.awt.*;

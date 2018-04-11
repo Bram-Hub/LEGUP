@@ -112,8 +112,11 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                     return;
 
                 ICommand edit = new EditDataCommand(elementView, selectedView, e);
-                getInstance().getHistory().pushChange(edit);
-                edit.execute();
+                if(edit.canExecute())
+                {
+                    edit.execute();
+                    getInstance().getHistory().pushChange(edit);
+                }
                 /*
                 if(selectedView.getType() == TreeElementType.NODE)
                 {

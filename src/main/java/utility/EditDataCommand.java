@@ -167,7 +167,7 @@ public class EditDataCommand extends PuzzleCommand
         newData.setValueInt(oldData.getValueInt());
         board.notifyChange(newData);
 
-        //System.err.println(newData.getValueInt() + " : " + oldData.getValueInt());
+        System.err.println(newData.getValueInt() + " : " + oldData.getValueInt());
 
         if(prevBoard.getElementData(index).equals(newData))
         {

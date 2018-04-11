@@ -1,6 +1,5 @@
 package puzzle.sudoku;
 
-import controller.BoardController;
 import model.gameboard.Board;
 import model.Puzzle;
 import model.gameboard.ElementData;
@@ -8,7 +7,6 @@ import model.tree.Tree;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import puzzle.sudoku.rules.*;
-import ui.Selection;
 import ui.boardview.BoardView;
 import ui.boardview.PuzzleElement;
 
@@ -117,17 +115,6 @@ public class Sudoku extends Puzzle
      */
     @Override
     public void onBoardChange(Board board)
-    {
-
-    }
-
-    /**
-     * Callback for when the tree selection changes
-     *
-     * @param newSelection
-     */
-    @Override
-    public void onTreeSelectionChange(ArrayList<Selection> newSelection)
     {
 
     }

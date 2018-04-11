@@ -12,7 +12,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import puzzle.lightup.rules.*;
-import ui.Selection;
 import ui.boardview.PuzzleElement;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -122,17 +121,6 @@ public class LightUp extends Puzzle
      */
     @Override
     public void onBoardChange(Board board)
-    {
-
-    }
-
-    /**
-     * Callback for when the tree selection changes
-     *
-     * @param newSelection
-     */
-    @Override
-    public void onTreeSelectionChange(ArrayList<Selection> newSelection)
     {
 
     }

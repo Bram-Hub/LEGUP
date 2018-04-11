@@ -10,7 +10,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import puzzle.fillapix.rules.*;
-import ui.Selection;
 import ui.boardview.BoardView;
 import ui.boardview.PuzzleElement;
 
@@ -89,12 +88,6 @@ public class Fillapix extends Puzzle
 
     @Override
     public void onBoardChange(Board board)
-    {
-
-    }
-
-    @Override
-    public void onTreeSelectionChange(ArrayList<Selection> newSelection)
     {
 
     }

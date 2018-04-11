@@ -12,7 +12,6 @@ import save.InvalidFileFormatException;
 import ui.LegupUI;
 import ui.boardview.IBoardListener;
 import ui.rulesview.ITransitionListener;
-import ui.rulesview.ITreeSelectionListener;
 import utility.History;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -40,7 +39,6 @@ public class GameBoardFacade
 
     private ArrayList<IBoardListener> boardListeners;
     private ArrayList<ITransitionListener> transitionListener;
-    private ArrayList<ITreeSelectionListener> selectionListeners;
 
     private LegupUI legupUI;
 
@@ -53,7 +51,6 @@ public class GameBoardFacade
     {
         boardListeners = new ArrayList<>();
         transitionListener = new ArrayList<>();
-        selectionListeners = new ArrayList<>();
 
         legupUI = new LegupUI();
 
