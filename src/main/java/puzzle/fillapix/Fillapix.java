@@ -34,7 +34,12 @@ public class Fillapix extends Puzzle
     {
         super();
 
-        boardView = new FillapixView(new Dimension(9, 9));
+        this.name = "Fillapix";
+
+        this.importer = new FillapixImporter(this);
+        this.exporter = new FillapixExporter(this);
+
+        this.factory = new FillapixCellFactory();
 
         //basicRules.add(new AdvancedDeductionBasicRule());
         basicRules.add(new FinishWithBlackBasicRule());
@@ -46,18 +51,15 @@ public class Fillapix extends Puzzle
         contradictionRules.add(new TooManyBlackCellsContradictionRule());
     }
 
-    public BoardView getBoardView()
-    {
-        return boardView;
-    }
-
     /**
      * Initializes the game board
      */
     @Override
-    public void initializeBoard()
+    public void initializeView()
     {
-        for(PuzzleElement element: boardView.getPuzzleElements())
+        FillapixBoard board = (FillapixBoard) currentBoard;
+        boardView = new FillapixView(new Dimension(board.getWidth(), board.getHeight()));
+        for(PuzzleElement element : boardView.getPuzzleElements())
         {
             int index = element.getIndex();
             FillapixCell cell = (FillapixCell) currentBoard.getElementData(index);
@@ -80,7 +82,7 @@ public class Fillapix extends Puzzle
     }
 
     @Override
-    public boolean isValidBoardState(Board board)
+    public boolean isBoardComplete(Board board)
     {
         return false;
     }
@@ -115,9 +117,9 @@ public class Fillapix extends Puzzle
             FillapixBoard fillapixBoard;
 
             Element rootNode = document.getDocumentElement();
-            Element puzzleElement = (Element)rootNode.getElementsByTagName("puzzle").item(0);
-            Element boardElement = (Element)puzzleElement.getElementsByTagName("board").item(0);
-            Element dataElement = (Element)boardElement.getElementsByTagName("data").item(0);
+            Element puzzleElement = (Element) rootNode.getElementsByTagName("puzzle").item(0);
+            Element boardElement = (Element) puzzleElement.getElementsByTagName("board").item(0);
+            Element dataElement = (Element) boardElement.getElementsByTagName("data").item(0);
             NodeList elementDataList = dataElement.getElementsByTagName("element");
 
             int width = Integer.valueOf(boardElement.getAttribute("width"));
@@ -157,5 +159,10 @@ public class Fillapix extends Puzzle
             this.currentBoard = fillapixBoard;
             this.tree = new Tree(currentBoard);
         }
+    }
+
+    public BoardView getBoardView()
+    {
+        return boardView;
     }
 }

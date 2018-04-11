@@ -47,7 +47,7 @@ public class TreeNode extends TreeElement
     {
         for(TreeTransition transition : children)
         {
-            if(transition.isValid())
+            if(!transition.isValid())
             {
                 return false;
             }
@@ -205,4 +205,3 @@ public class TreeNode extends TreeElement
         this.isRoot = isRoot;
     }
 }
-

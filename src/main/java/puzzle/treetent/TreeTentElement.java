@@ -4,9 +4,9 @@ import ui.boardview.GridElement;
 
 import java.awt.*;
 
-public class TreetTentElement extends GridElement
+public class TreeTentElement extends GridElement
 {
-    public TreetTentElement(TreeTentCell cell)
+    public TreeTentElement(TreeTentCell cell)
     {
         super(cell);
     }

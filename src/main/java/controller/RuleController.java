@@ -4,14 +4,17 @@ import app.GameBoardFacade;
 import model.gameboard.Board;
 import model.rules.*;
 import model.tree.*;
-import ui.rulesview.CaseRuleSelectionView;
 import ui.rulesview.RuleButton;
 import ui.treeview.*;
+import utility.ICommand;
+import utility.ValidateBasicRuleCommand;
+import utility.ValidateContradictionRuleCommand;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import static app.GameBoardFacade.getInstance;
 
 public class RuleController implements ActionListener
 {
@@ -41,12 +44,29 @@ public class RuleController implements ActionListener
         }
         else if(rule.getRuleType() == RuleType.CONTRADICTION)
         {
-            handleContradictionRule((ContradictionRule)rule);
+            TreeSelection treeSelection = treeView.getTreeSelection();
+            ArrayList<TreeElementView> selection = treeSelection.getSelection();
+
+            ICommand validate = new ValidateContradictionRuleCommand(selection, rule);
+            if(validate.canExecute())
+            {
+                getInstance().getHistory().pushChange(validate);
+                validate.execute();
+            }
+            //handleContradictionRule((ContradictionRule)rule);
         }
         else
         {
             TreeSelection treeSelection = treeView.getTreeSelection();
             ArrayList<TreeElementView> selection = treeSelection.getSelection();
+
+            ICommand validate = new ValidateBasicRuleCommand(selection, rule);
+            if(validate.canExecute())
+            {
+                getInstance().getHistory().pushChange(validate);
+                validate.execute();
+            }
+            /*
             if(selection.size() == 1)
             {
                 TreeElementView elementView = treeSelection.getFirstSelection();
@@ -83,7 +103,7 @@ public class RuleController implements ActionListener
                     }
                 }
                 GameBoardFacade.getInstance().setBoard(treeSelection.getFirstSelection().getTreeElement().getBoard());
-            }
+            }*/
         }
         GameBoardFacade.getInstance().getLegupUI().repaintBoard();
         GameBoardFacade.getInstance().getLegupUI().repaintTree();
@@ -162,7 +182,7 @@ public class RuleController implements ActionListener
     }
 
     /**
-     * Action Performed event - occurs when a rule button has been pressed
+     * ICommand Performed event - occurs when a rule button has been pressed
      *
      * @param e action event object
      */

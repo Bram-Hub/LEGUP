@@ -59,15 +59,25 @@ public class TreeController extends Controller
 
         TreeView treeView = (TreeView)viewer;
         Point point = treeView.getActualPoint(e.getPoint());
-        Tree tree = getInstance().getTree();
-        BoardView boardView = getInstance().getLegupUI().getBoardView();
-        TreeElementView treeNodeView = treeView.getTreeElementView(point);
+        TreeElementView elementView = treeView.getTreeElementView(point);
         Puzzle puzzle = getInstance().getPuzzleModule();
-        if(treeNodeView != null)
+        TreeSelection selection = treeView.getTreeSelection();
+        if(elementView != null)
         {
-            treeView.getTreeSelection().newSelection(treeNodeView);
+            if(e.isShiftDown())
+            {
+                selection.addToSelection(elementView);
+            }
+            else if(e.isControlDown())
+            {
+                selection.toggleSelection(elementView);
+            }
+            else
+            {
+                selection.newSelection(elementView);
+            }
             treeView.repaint();
-            puzzle.setCurrentBoard(treeNodeView.getTreeElement().getBoard());
+            puzzle.setCurrentBoard(elementView.getTreeElement().getBoard());
             getInstance().getLegupUI().repaintBoard();
         }
     }

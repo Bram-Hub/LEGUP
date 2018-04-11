@@ -12,7 +12,7 @@ public class BasicRulePanel extends RulePanel
     public BasicRulePanel(RuleFrame ruleFrame)
     {
         super(ruleFrame);
-        this.icon = new ImageIcon("images/Legup/Basic Rules.gif");
+        this.icon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("images/Legup/Basic Rules.gif"));
         this.name = "Basic Rules";
         this.toolTip = "Basic Rules";
     }

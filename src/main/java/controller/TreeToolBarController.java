@@ -2,8 +2,11 @@ package controller;
 
 import app.GameBoardFacade;
 import model.tree.Tree;
+import model.tree.TreeElement;
 import model.tree.TreeElementType;
+import model.tree.TreeNode;
 import ui.treeview.*;
+import utility.DeleteTreeElementCommand;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,35 +35,18 @@ public class TreeToolBarController implements ActionListener
         }
         else if(button.getToolBarName() == TreeToolBarName.DEL_CHILD)
         {
-            Tree tree = GameBoardFacade.getInstance().getTree();
             TreeSelection selection = treePanel.getTreeView().getTreeSelection();
 
-            TreeElementView selectedView = selection.getFirstSelection();
-            TreeElementView newSelectedView = null;
-
-            if(selectedView.getType() == TreeElementType.NODE)
+            DeleteTreeElementCommand del = new DeleteTreeElementCommand(selection.getSelection());
+            if(del.canExecute())
             {
-                TreeNodeView nodeView = (TreeNodeView)selectedView;
-                if(nodeView.getTreeElement().isRoot())
-                {
-                    return;
-                }
-                newSelectedView = nodeView.getParentViews().get(0);
+                del.execute();
+                GameBoardFacade.getInstance().getHistory().pushChange(del);
             }
             else
             {
-                TreeTransitionView transitionView = (TreeTransitionView)selectedView;
-                newSelectedView = transitionView.getParentView();
+                treePanel.updateStatus(del.getExecutionError());
             }
-
-            treePanel.getTreeView().removeTreeElement(selectedView);
-            tree.removeTreeElement(selectedView.getTreeElement());
-
-            selection.newSelection(newSelectedView);
-            GameBoardFacade.getInstance().setBoard(newSelectedView.getTreeElement().getBoard());
-            GameBoardFacade.getInstance().getLegupUI().repaintBoard();
-            GameBoardFacade.getInstance().getLegupUI().repaintTree();
-
         }
         else if(button.getToolBarName() == TreeToolBarName.MERGE)
         {

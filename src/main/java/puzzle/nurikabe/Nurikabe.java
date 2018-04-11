@@ -28,7 +28,12 @@ public class Nurikabe extends Puzzle
     {
         super();
 
-        boardView = new NurikabeView(new Dimension(10,10));
+        this.name = "Nurikabe";
+
+        this.importer = new NurikabeImporter(this);
+        this.exporter = new NurikabeExporter(this);
+
+        this.factory = new NurikabeCellFactory();
 
         this.basicRules.add(new BlackBetweenRegionsBasicRule());
         this.basicRules.add(new BlackBottleNeckBasicRule());
@@ -53,8 +58,10 @@ public class Nurikabe extends Puzzle
      * Initializes the game board. Called by the invoker of the class
      */
     @Override
-    public void initializeBoard()
+    public void initializeView()
     {
+        NurikabeBoard board= (NurikabeBoard)currentBoard;
+        boardView = new NurikabeView(board.getDimension());
         for(PuzzleElement element: boardView.getPuzzleElements())
         {
             int index = element.getIndex();
@@ -86,7 +93,7 @@ public class Nurikabe extends Puzzle
      * @return true if board is valid, false otherwise
      */
     @Override
-    public boolean isValidBoardState(Board board)
+    public boolean isBoardComplete(Board board)
     {
         return false;
     }

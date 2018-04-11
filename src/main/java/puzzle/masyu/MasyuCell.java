@@ -30,8 +30,6 @@ public class MasyuCell extends GridCell
                 return MasyuType.BLACK;
             case 2:
                 return MasyuType.WHITE;
-            case 3:
-                return MasyuType.BLACK;
             default:
                 return null;
         }

@@ -1,5 +1,6 @@
 package puzzle.lightup;
 
+import model.gameboard.ElementData;
 import model.gameboard.GridBoard;
 
 public class LightUpBoard extends GridBoard
@@ -31,6 +32,7 @@ public class LightUpBoard extends GridBoard
                 LightUpCell cell = getCell(x, y);
                 if(cell.getType() == LightUpCellType.BULB)
                 {
+                    cell.setLite(true);
                     for(int i = x + 1; i < this.dimension.width; i++)
                     {
                         LightUpCell c = getCell(i, y);
@@ -72,29 +74,17 @@ public class LightUpBoard extends GridBoard
         }
     }
 
-    public boolean isCellLite(int x, int y)
-    {
-        for(int i = 0; i < getHeight(); i++)
-        {
-            if(getCell(x, i).getType() == LightUpCellType.BULB)
-            {
-                return true;
-            }
-        }
-        for(int i = 0; i < getWidth(); i++)
-        {
-            if(getCell(i, y).getType() == LightUpCellType.BULB)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public LightUpCell getCell(int x, int y)
     {
         return (LightUpCell)super.getCell(x, y);
+    }
+
+    @Override
+    public void notifyChange(ElementData data)
+    {
+        super.notifyChange(data);
+        fillWithLight();
     }
 
     @Override

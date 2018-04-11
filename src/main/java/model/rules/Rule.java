@@ -1,8 +1,5 @@
 package model.rules;
 
-import model.gameboard.Board;
-import model.gameboard.ElementData;
-import model.tree.TreeNode;
 import model.tree.TreeTransition;
 
 import javax.swing.ImageIcon;
@@ -80,12 +77,7 @@ public abstract class Rule
     {
         if(imageName != null)
         {
-            URL res = ClassLoader.getSystemResource(imageName);
-            if(res == null)
-            {
-                //throw new Error(String.format("Image \"%s\" does not exist (needed for \"%s\")", imageName, this.getClass()));
-            }
-            image = new ImageIcon(imageName);
+            image = new ImageIcon(ClassLoader.getSystemResource(imageName));
         }
     }
 

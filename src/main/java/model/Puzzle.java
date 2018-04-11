@@ -2,10 +2,9 @@ package model;
 
 import model.gameboard.Board;
 import model.gameboard.ElementFactory;
-import model.rules.BasicRule;
-import model.rules.CaseRule;
-import model.rules.ContradictionRule;
+import model.rules.*;
 import model.tree.Tree;
+import model.tree.TreeNode;
 import model.tree.TreeTransition;
 import org.xml.sax.SAXException;
 import ui.Selection;
@@ -21,6 +20,8 @@ public abstract class Puzzle
     protected Board currentBoard;
     protected Tree tree;
     protected BoardView boardView;
+    protected PuzzleImporter importer;
+    protected PuzzleExporter exporter;
     protected ElementFactory factory;
 
     protected ArrayList<BasicRule> basicRules;
@@ -38,9 +39,9 @@ public abstract class Puzzle
     }
 
     /**
-     * Initializes the game board. Called by the invoker of the class
+     * Initializes the view. Called by the invoker of the class
      */
-    public abstract void initializeBoard();
+    public abstract void initializeView();
 
     /**
      * Generates a random puzzle based on the difficulty
@@ -60,18 +61,19 @@ public abstract class Puzzle
         boolean isComplete = tree.isValid();
         if(isComplete)
         {
-            Board board = tree.getLeafNodes().iterator().next().getBoard();
-            TreeTransition transition = new TreeTransition(null, board.copy());
-            for(ContradictionRule rule : contradictionRules)
+            for(TreeNode leaf : tree.getLeafNodes())
             {
-                if(rule.checkContradiction(transition) != null)
+                if(!leaf.isRoot())
                 {
-                    return false;
+                    isComplete &= leaf.getParents().get(0).leadsToContradiction() || isBoardComplete(leaf.getBoard());
+                }
+                else
+                {
+                    isComplete &= isBoardComplete(leaf.getBoard());
                 }
             }
-            return true;
         }
-        return false;
+        return isComplete;
     }
 
     /**
@@ -80,7 +82,7 @@ public abstract class Puzzle
      * @param board board to check for validity
      * @return true if board is valid, false otherwise
      */
-    public abstract boolean isValidBoardState(Board board);
+    public abstract boolean isBoardComplete(Board board);
 
     /**
      * Callback for when the board data changes
@@ -107,7 +109,7 @@ public abstract class Puzzle
     public abstract void importPuzzle(String fileName) throws IOException, ParserConfigurationException, SAXException;
 
     /**
-     *
+     * Imports a proof file
      *
      * @param fileName
      * @throws IOException
@@ -118,6 +120,17 @@ public abstract class Puzzle
     {
         importPuzzle(fileName);
 
+
+    }
+
+    public PuzzleImporter getImporter()
+    {
+        return importer;
+    }
+
+    public PuzzleExporter getExporter()
+    {
+        return exporter;
     }
 
     /**
@@ -248,6 +261,43 @@ public abstract class Puzzle
     public void removeCaseRule(CaseRule rule)
     {
         caseRules.remove(rule);
+    }
+
+    /**
+     * Gets the rule using the specfied name
+     *
+     * @param name name of the rule
+     * @return Rule
+     */
+    public Rule getRuleByName(String name)
+    {
+        for(Rule rule : basicRules)
+        {
+            if(rule.getRuleName().equals(name))
+            {
+                return rule;
+            }
+        }
+        for(Rule rule : contradictionRules)
+        {
+            if(rule.getRuleName().equals(name))
+            {
+                return rule;
+            }
+        }
+        for(Rule rule : caseRules)
+        {
+            if(rule.getRuleName().equals(name))
+            {
+                return rule;
+            }
+        }
+        Rule mergeRule = new MergeRule();
+        if(mergeRule.getRuleName().equals(name))
+        {
+            return mergeRule;
+        }
+        return null;
     }
 
     /**

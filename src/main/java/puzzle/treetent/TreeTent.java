@@ -27,6 +27,15 @@ public class TreeTent extends Puzzle
 
     public TreeTent()
     {
+        super();
+
+        this.name = "TreeTent";
+
+        this.importer = new TreeTentImporter(this);
+        this.exporter = new TreeTentExporter(this);
+
+        this.factory = new TreeTentCellFactory();
+
         this.basicRules.add(new EmptyFieldBasicRule());
         this.basicRules.add(new FinishWithGrassBasicRule());
         this.basicRules.add(new FinishWithTentsBasicRule());
@@ -50,17 +59,43 @@ public class TreeTent extends Puzzle
      * Initializes the game board. Called by the invoker of the class
      */
     @Override
-    public void initializeBoard()
+    public void initializeView()
     {
-        boardView = new TreeTentView(((TreeTentBoard)currentBoard).getDimension());
-
+        TreeTentBoard board = (TreeTentBoard)currentBoard;
+        TreeTentView view = new TreeTentView(board.getDimension());
+        boardView = view;
         for(PuzzleElement element: boardView.getPuzzleElements())
         {
             int index = element.getIndex();
-            TreeTentCell cell = (TreeTentCell)currentBoard.getElementData(index);
+            TreeTentCell cell = (TreeTentCell)board.getElementData(index);
 
             cell.setIndex(index);
             element.setData(cell);
+        }
+
+        for(TreeTentLine line : board.getLines())
+        {
+            TreeTentLineView lineView = new TreeTentLineView(line);
+            lineView.setSize(view.getSize());
+            view.getLineViews().add(lineView);
+        }
+
+        for(int i = 0; i < board.getHeight(); i++)
+        {
+            TreeTentClueView row = view.getWestClues().get(i);
+            TreeTentClueView clue = view.getEastClues().get(i);
+
+            row.setData(new TreeTentClue(i, i, TreeTentType.CLUE_WEST));
+            clue.setData(board.getEast().get(i));
+        }
+
+        for(int i = 0; i < board.getWidth(); i++)
+        {
+            TreeTentClueView col = view.getNorthClues().get(i);
+            TreeTentClueView clue = view.getSouthClues().get(i);
+
+            col.setData(new TreeTentClue(i, i, TreeTentType.CLUE_NORTH));
+            clue.setData(board.getSouth().get(i));
         }
     }
 
@@ -85,7 +120,7 @@ public class TreeTent extends Puzzle
      * @return true if board is valid, false otherwise
      */
     @Override
-    public boolean isValidBoardState(Board board)
+    public boolean isBoardComplete(Board board)
     {
         return false;
     }

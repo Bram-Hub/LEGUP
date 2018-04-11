@@ -27,28 +27,18 @@ public class TreeTransition extends TreeElement
     }
 
     /**
-     * Propagates the changes of data into the children puzzlefiles
-     *
-     * @param index index of the data to propagate changes
-     */
-    public void propagateChanges(int index)
-    {
-        propagateChanges(board.getElementData(index));
-    }
-
-    /**
-     * Helper method for recursively propagating the changes down the tree
+     * Recursively propagates the change of data down the tree
      *
      * @param data data of the change made
      */
-    private void propagateChanges(ElementData data)
+    public void propagateChanges(ElementData data)
     {
         if(childNode != null)
         {
-            childNode.getBoard().setElementData(data.getIndex(), data.copy());
+            childNode.getBoard().notifyChange(data.copy());
             for(TreeTransition child : childNode.getChildren())
             {
-                child.getBoard().setElementData(data.getIndex(), data.copy());
+                child.getBoard().notifyChange(data.copy());
                 child.propagateChanges(data);
             }
         }

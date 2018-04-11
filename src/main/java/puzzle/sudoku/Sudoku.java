@@ -31,7 +31,13 @@ public class Sudoku extends Puzzle
     public Sudoku()
     {
         super();
-        boardView = new SudokuView(new Dimension(9, 9));
+
+        this.name = "Sudoku";
+
+        this.importer = new SudokuImporter(this);
+        this.exporter = new SudokuExporter(this);
+
+        this.factory = new SudokuCellFactory();
 
         basicRules.add(new AdvancedDeductionBasicRule());
         basicRules.add(new LastCellForNumberBasicRule());
@@ -53,8 +59,10 @@ public class Sudoku extends Puzzle
      * Initializes the game board
      */
     @Override
-    public void initializeBoard()
+    public void initializeView()
     {
+        SudokuBoard board= (SudokuBoard)currentBoard;
+        boardView = new SudokuView(board.getDimension());
         for(PuzzleElement element: boardView.getPuzzleElements())
         {
             int index = element.getIndex();
@@ -97,7 +105,7 @@ public class Sudoku extends Puzzle
      * @return true if board is valid, false otherwise
      */
     @Override
-    public boolean isValidBoardState(Board board)
+    public boolean isBoardComplete(Board board)
     {
         return false;
     }

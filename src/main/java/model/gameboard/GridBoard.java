@@ -27,6 +27,16 @@ public class GridBoard extends Board
     }
 
     /**
+     * GridBoard Constructor - models a GridBoard
+     *
+     * @param size width and height of the GridBoard
+     */
+    public GridBoard(int size)
+    {
+        this(size, size);
+    }
+
+    /**
      * Gets a GridCell from the board
      *
      * @param x x location of the cell
@@ -53,8 +63,6 @@ public class GridBoard extends Board
     {
         if(x * dimension.width + y >= elementData.size() && x < dimension.width && y < dimension.height && x >= 0 && y >= 0)
         {
-            LOGGER.log(Level.SEVERE, "Trying to call setCell with index values - " +
-                    "(" + x + ", " + y + "), which are out of range");
             return;
         }
         elementData.set(y * dimension.width + x, cell);
@@ -107,5 +115,4 @@ public class GridBoard extends Board
         }
         return newGridBoard;
     }
-
 }

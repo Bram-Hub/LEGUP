@@ -26,14 +26,21 @@ public class Masyu extends Puzzle
 
     public Masyu()
     {
+        super();
 
+        this.name=  "Masyu";
+
+        this.importer = new MasyuImporter(this);
+        this.exporter = new MasyuExporter(this);
+
+        this.factory = new MasyuCellFactory();
     }
 
     /**
      * Initializes the game board. Called by the invoker of the class
      */
     @Override
-    public void initializeBoard()
+    public void initializeView()
     {
         boardView = new MasyuView(((MasyuBoard)currentBoard).getDimension());
         for(PuzzleElement element: boardView.getPuzzleElements())
@@ -67,7 +74,7 @@ public class Masyu extends Puzzle
      * @return true if board is valid, false otherwise
      */
     @Override
-    public boolean isValidBoardState(Board board)
+    public boolean isBoardComplete(Board board)
     {
         return false;
     }

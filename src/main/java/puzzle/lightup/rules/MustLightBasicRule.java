@@ -32,6 +32,7 @@ public class MustLightBasicRule extends BasicRule
     public String checkRuleAt(TreeTransition transition, int elementIndex)
     {
         LightUpBoard initialBoard = (LightUpBoard) transition.getBoard();
+        initialBoard.fillWithLight();
         LightUpBoard finalBoard = (LightUpBoard) transition.getBoard();
         LightUpCell cell = (LightUpCell)finalBoard.getElementData(elementIndex);
         if(cell.getType() != LightUpCellType.BULB)

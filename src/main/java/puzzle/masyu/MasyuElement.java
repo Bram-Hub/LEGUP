@@ -30,7 +30,7 @@ public class MasyuElement extends GridElement
             graphics2D.setColor(Color.LIGHT_GRAY);
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
             graphics2D.setColor(Color.BLACK);
-            graphics2D.fillOval(location.x + 6, location.y + 6, 20, 20);
+            graphics2D.fillOval(location.x + 5, location.y + 5, 20, 20);
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
         }
@@ -40,9 +40,9 @@ public class MasyuElement extends GridElement
             graphics2D.setColor(Color.LIGHT_GRAY);
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
             graphics2D.setColor(Color.WHITE);
-            graphics2D.fillOval(location.x + 6, location.y + 6, 20, 20);
+            graphics2D.fillOval(location.x + 5, location.y + 5, 20, 20);
             graphics2D.setColor(Color.BLACK);
-            graphics2D.drawOval(location.x + 7, location.y + 7, 18, 18);
+            graphics2D.drawOval(location.x + 6, location.y + 6, 18, 18);
             graphics2D.setStroke(new BasicStroke(1));
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);

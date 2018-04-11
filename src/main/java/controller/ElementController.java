@@ -13,6 +13,8 @@ import ui.boardview.ElementSelection;
 import ui.boardview.PuzzleElement;
 import ui.boardview.SelectionItemView;
 import ui.treeview.*;
+import utility.ICommand;
+import utility.EditDataCommand;
 
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     protected BoardView boardView;
 
     /**
-     * ElementController - creates and element controller to handles ui events
+     * ElementController - element controller to handles ui events
      * associated interacting with a PuzzleElement
      */
     public ElementController()
@@ -57,7 +59,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     @Override
     public void mousePressed(MouseEvent e)
     {
-        
+
     }
 
     /**
@@ -108,6 +110,11 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                 ElementData data = board.getElementData(index);
                 if(!data.isModifiable())
                     return;
+
+                ICommand edit = new EditDataCommand(elementView, selectedView, e);
+                getInstance().getHistory().pushChange(edit);
+                edit.execute();
+                /*
                 if(selectedView.getType() == TreeElementType.NODE)
                 {
                     TreeNodeView nodeView = (TreeNodeView) selectedView;
@@ -149,7 +156,8 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                     board.addModifiedData(data);
                 }
 
-                transitionView.getTreeElement().propagateChanges(index);
+                transitionView.getTreeElement().propagateChanges(data);
+                */
             }
             getInstance().getLegupUI().repaintBoard();
         }
@@ -239,7 +247,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         else
             data.setModified(false);
 
-        transitionView.getTreeElement().propagateChanges(index);
+        transitionView.getTreeElement().propagateChanges(data);
 
         getInstance().getLegupUI().repaintBoard();
         boardView.getSelection().clearSelection();

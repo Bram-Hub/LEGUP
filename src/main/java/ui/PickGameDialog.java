@@ -55,11 +55,6 @@ public class PickGameDialog extends JDialog implements ActionListener
     {
         super(parent, true);
 
-        //		 legupMain.getAvailableBoardsList(puzzle)
-        // legupMain.loadPuzzle(puzzle, puzzle)
-        // legupMain.getPuzzleList()
-
-
         pickBoth = pickBothAtOnce;
         initPuzzles();
 
@@ -124,7 +119,7 @@ public class PickGameDialog extends JDialog implements ActionListener
 
     public void initPuzzles()
     {
-        Object[] o = GameBoardFacade.getInstance().getConfig().getPuzzleList().toArray();
+        Object[] o = GameBoardFacade.getInstance().getConfig().getPuzzleNames().toArray();
 
         games = new String[o.length];
 
@@ -135,7 +130,7 @@ public class PickGameDialog extends JDialog implements ActionListener
         puzzleBox = new JTextField();
         for (int x = 0; x < games.length; ++x)
         {
-            o = GameBoardFacade.getInstance().getConfig().getBoardsForPuzzle(games[x]).toArray();
+           // o = GameBoardFacade.getInstance().getConfig().getBoardsForPuzzle(games[x]).toArray();
             puzzles[x] = new String[o.length];
 
             for (int y = 0; y < o.length; ++y)

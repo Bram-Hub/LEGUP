@@ -35,6 +35,7 @@ public class TreeNodeView extends TreeElementView
     private TreeTransitionView transitionView;
 
     private boolean isCollapsed;
+    private boolean isContradictoryState;
 
     /**
      * TreeNodeView Constructor - creates a node for display
@@ -49,6 +50,7 @@ public class TreeNodeView extends TreeElementView
         this.parentViews = new ArrayList<>();
         this.childrenViews = new ArrayList<>();
         this.isCollapsed = false;
+        this.isContradictoryState = false;
     }
 
     /**
@@ -64,13 +66,14 @@ public class TreeNodeView extends TreeElementView
                     getTreeElement().getParents().get(0).isJustified() &&
                     getTreeElement().getParents().get(0).getRule().getRuleType() == RuleType.CONTRADICTION)
             {
-
+                isContradictoryState = true;
                 graphics2D.setColor(NODE_COLOR_CONTRADICTION);
                 graphics2D.drawLine(location.x - RADIUS, location.y - RADIUS, location.x + RADIUS, location.y + RADIUS);
                 graphics2D.drawLine(location.x + RADIUS, location.y - RADIUS, location.x - RADIUS, location.y + RADIUS);
             }
             else
             {
+                isContradictoryState = false;
                 graphics2D.setStroke(THIN_STROKE);
                 boolean isContraBranch = getTreeElement().leadsToContradiction();
 
@@ -96,6 +99,11 @@ public class TreeNodeView extends TreeElementView
                 }
             }
         }
+    }
+
+    public boolean isContradictoryState()
+    {
+        return isContradictoryState;
     }
 
     /**

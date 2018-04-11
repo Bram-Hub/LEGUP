@@ -1,10 +1,12 @@
 package utility;
 
+import app.GameBoardFacade;
+
 import java.util.ArrayList;
 
 public class History
 {
-    private ArrayList<Action> history;
+    private ArrayList<ICommand> history;
     private int curIndex;
 
     /**
@@ -24,13 +26,13 @@ public class History
      * If the current index does not point to the top of the stack, then at least
      * 1 undo operation was called and that information will be lost by the next change
      *
-     * @param action action to be pushed onto the stack
+     * @param command command to be pushed onto the stack
      */
-    public void pushChange(Action action)
+    public void pushChange(ICommand command)
     {
-        if(history.size() == curIndex - 1)
+        if(curIndex == history.size() - 1)
         {
-            history.add(action);
+            history.add(command);
         }
         else
         {
@@ -38,8 +40,12 @@ public class History
             {
                 history.remove(i);
             }
-            history.add(action);
+            history.add(command);
         }
+        System.err.println("Pushed Change!");
+        GameBoardFacade.getInstance().getLegupUI().getTreePanel().updateStatus("");
+        setUndoUI(true);
+        setRedoUI(false);
         curIndex++;
     }
 
@@ -47,17 +53,55 @@ public class History
     {
         if(curIndex > -1)
         {
-            history.get(curIndex).undo();
-            curIndex--;
+            history.get(curIndex--).undo();
+            if(curIndex < 0)
+            {
+                setUndoUI(false);
+            }
+            setRedoUI(true);
         }
     }
 
     public void redo()
     {
-        if(curIndex < history.size())
+        if(curIndex < history.size() - 1)
         {
-            history.get(curIndex).redo();
-            curIndex++;
+            history.get(++curIndex).redo();
+            if(curIndex == history.size() - 1)
+            {
+                setRedoUI(false);
+            }
+            if(curIndex >= 0)
+            {
+                setUndoUI(true);
+            }
         }
+    }
+
+    public void clear()
+    {
+        history.clear();
+        curIndex = -1;
+        setUndoUI(false);
+        setRedoUI(false);
+    }
+
+    public int getIndex()
+    {
+        return curIndex;
+    }
+
+
+    public void setUndoUI(boolean enabled)
+    {
+        GameBoardFacade.getInstance().getLegupUI().getUndo().setEnabled(enabled);
+        GameBoardFacade.getInstance().getLegupUI().getUndoButton().setEnabled(enabled);
+    }
+
+    public void setRedoUI(boolean enabled)
+    {
+
+        GameBoardFacade.getInstance().getLegupUI().getRedo().setEnabled(enabled);
+        GameBoardFacade.getInstance().getLegupUI().getRedoButton().setEnabled(enabled);
     }
 }

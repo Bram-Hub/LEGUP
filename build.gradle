@@ -4,6 +4,15 @@ apply plugin: 'java'
 
 sourceCompatibility = 1.8
 
+jar {
+    manifest {
+        attributes('Implementation-Title': 'Legup',
+                'Implementation-Version': version,
+                'Main-Class': 'Legup',
+                'SplashScreen-Image': 'images/Legup/LegupSplash.png')
+    }
+}
+
 repositories {
     mavenCentral()
 }

@@ -63,7 +63,7 @@ public class BulbsInPathContradictionRule extends ContradictionRule
         }
         for(int i = location.y + 1; i < board.getHeight(); i++)
         {
-            LightUpCell c = board.getCell(i, location.y);
+            LightUpCell c = board.getCell(location.x, i);
             if(c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER)
             {
                 break;
@@ -73,9 +73,9 @@ public class BulbsInPathContradictionRule extends ContradictionRule
                 return null;
             }
         }
-        for(int i = location.x - 1; i >= 0; i--)
+        for(int i = location.y - 1; i >= 0; i--)
         {
-            LightUpCell c = board.getCell(i, location.y);
+            LightUpCell c = board.getCell(location.x, i);
             if(c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER)
             {
                 break;
