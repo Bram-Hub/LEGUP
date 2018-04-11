@@ -664,7 +664,7 @@ public class LegupUI extends JFrame implements WindowListener
     public boolean noquit(String instr)
     {
         int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
-        if (n == 0)
+        if(n == JOptionPane.YES_OPTION)
         {
             return false;
         }
@@ -684,7 +684,21 @@ public class LegupUI extends JFrame implements WindowListener
 
     public void windowClosing(WindowEvent e)
     {
-
+        if(GameBoardFacade.getInstance().getHistory().getIndex() > -1)
+        {
+            if(noquit("Exiting LEGUP?"))
+            {
+                this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+            }
+            else
+            {
+                this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            }
+        }
+        else
+        {
+            this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        }
     }
 
     public void windowClosed(WindowEvent e)

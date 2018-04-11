@@ -21,7 +21,7 @@ public class ToolbarController implements ActionListener
     }
 
     /**
-     * Command Performed event -
+     * ICommand Performed event -
      *
      * @param e action event
      */

@@ -78,6 +78,7 @@ public class GameBoardFacade
     {
         this.puzzle = puzzle;
         this.legupUI.setPuzzleView(puzzle);
+        this.history.clear();
     }
 
     public void setConfig(Config config)

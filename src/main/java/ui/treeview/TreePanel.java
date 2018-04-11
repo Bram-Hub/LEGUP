@@ -99,6 +99,18 @@ public class TreePanel extends JPanel
         this.status.setText("");
     }
 
+    public void updateStatus(String statusString)
+    {
+        status.setForeground(Color.BLACK);
+        status.setText(statusString);
+    }
+
+    public void updateError(String error)
+    {
+        status.setForeground(Color.RED);
+        status.setText(error);
+    }
+
     public TreeView getTreeView()
     {
         return treeView;

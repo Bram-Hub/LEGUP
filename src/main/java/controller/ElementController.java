@@ -13,7 +13,7 @@ import ui.boardview.ElementSelection;
 import ui.boardview.PuzzleElement;
 import ui.boardview.SelectionItemView;
 import ui.treeview.*;
-import utility.Command;
+import utility.ICommand;
 import utility.EditDataCommand;
 
 import java.awt.event.*;
@@ -111,7 +111,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                 if(!data.isModifiable())
                     return;
 
-                Command edit = new EditDataCommand(elementView, selectedView, e);
+                ICommand edit = new EditDataCommand(elementView, selectedView, e);
                 getInstance().getHistory().pushChange(edit);
                 edit.execute();
                 /*

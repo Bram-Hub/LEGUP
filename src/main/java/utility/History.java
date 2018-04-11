@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class History
 {
-    private ArrayList<Command> history;
+    private ArrayList<ICommand> history;
     private int curIndex;
 
     /**
@@ -28,7 +28,7 @@ public class History
      *
      * @param command command to be pushed onto the stack
      */
-    public void pushChange(Command command)
+    public void pushChange(ICommand command)
     {
         if(curIndex == history.size() - 1)
         {
@@ -43,10 +43,9 @@ public class History
             history.add(command);
         }
         System.err.println("Pushed Change!");
-        GameBoardFacade.getInstance().getLegupUI().getUndo().setEnabled(true);
-        GameBoardFacade.getInstance().getLegupUI().getUndoButton().setEnabled(true);
-        GameBoardFacade.getInstance().getLegupUI().getRedo().setEnabled(false);
-        GameBoardFacade.getInstance().getLegupUI().getRedoButton().setEnabled(false);
+        GameBoardFacade.getInstance().getLegupUI().getTreePanel().updateStatus("");
+        setUndoUI(true);
+        setRedoUI(false);
         curIndex++;
     }
 
@@ -54,27 +53,27 @@ public class History
     {
         if(curIndex > -1)
         {
-            history.get(curIndex).undo();
-            curIndex--;
-            GameBoardFacade.getInstance().getLegupUI().getRedo().setEnabled(true);
-            GameBoardFacade.getInstance().getLegupUI().getRedoButton().setEnabled(true);
-        }
-        else
-        {
-            GameBoardFacade.getInstance().getLegupUI().getRedo().setEnabled(false);
-            GameBoardFacade.getInstance().getLegupUI().getRedoButton().setEnabled(false);
+            history.get(curIndex--).undo();
+            if(curIndex < 0)
+            {
+                setUndoUI(false);
+            }
+            setRedoUI(true);
         }
     }
 
     public void redo()
     {
-        if(curIndex + 1 < history.size())
+        if(curIndex < history.size() - 1)
         {
             history.get(++curIndex).redo();
             if(curIndex == history.size() - 1)
             {
-                GameBoardFacade.getInstance().getLegupUI().getRedo().setEnabled(false);
-                GameBoardFacade.getInstance().getLegupUI().getRedoButton().setEnabled(false);
+                setRedoUI(false);
+            }
+            if(curIndex >= 0)
+            {
+                setUndoUI(true);
             }
         }
     }
@@ -82,6 +81,27 @@ public class History
     public void clear()
     {
         history.clear();
+        curIndex = -1;
+        setUndoUI(false);
+        setRedoUI(false);
     }
 
+    public int getIndex()
+    {
+        return curIndex;
+    }
+
+
+    public void setUndoUI(boolean enabled)
+    {
+        GameBoardFacade.getInstance().getLegupUI().getUndo().setEnabled(enabled);
+        GameBoardFacade.getInstance().getLegupUI().getUndoButton().setEnabled(enabled);
+    }
+
+    public void setRedoUI(boolean enabled)
+    {
+
+        GameBoardFacade.getInstance().getLegupUI().getRedo().setEnabled(enabled);
+        GameBoardFacade.getInstance().getLegupUI().getRedoButton().setEnabled(enabled);
+    }
 }

@@ -1,6 +1,5 @@
 package utility;
 
-import model.Puzzle;
 import model.gameboard.Board;
 import model.gameboard.ElementData;
 import model.tree.Tree;
@@ -35,13 +34,7 @@ public class EditDataCommand extends PuzzleCommand
         this.event = event;
         this.newData = elementView.getData();
         this.oldData = newData.copy();
-    }
-
-    public EditDataCommand(TreeTransition transition, ElementData oldData, ElementData newData)
-    {
-        this.transition = transition;
-        this.oldData = oldData.copy();
-        this.newData = newData.copy();
+        this.transition = null;
     }
 
     /**
@@ -63,7 +56,12 @@ public class EditDataCommand extends PuzzleCommand
             TreeNodeView nodeView = (TreeNodeView) selectedView;
             TreeNode treeNode = (TreeNode) selectedView.getTreeElement();
 
-            TreeTransition transition = tree.addNewTransition(treeNode);
+            if(transition == null)
+            {
+                transition = new TreeTransition(treeNode, treeNode.getBoard().copy());
+            }
+
+            treeNode.getChildren().add(transition);
             transitionView = treeView.addNewTransitionView(nodeView, transition);
 
             selection.newSelection(transitionView);
@@ -77,6 +75,7 @@ public class EditDataCommand extends PuzzleCommand
         else
         {
             transitionView = (TreeTransitionView) selectedView;
+            transition = transitionView.getTreeElement();
         }
         newSelectedView = transitionView;
 
@@ -84,17 +83,56 @@ public class EditDataCommand extends PuzzleCommand
 
         if(newData.equals(oldData))
         {
-            newData.setModified(false);
             board.removeModifiedData(newData);
         }
         else
         {
-            newData.setModified(true);
             board.addModifiedData(newData);
         }
-        transitionView.getTreeElement().propagateChanges(newData);
+        transition.propagateChanges(newData);
 
         getInstance().getLegupUI().repaintBoard();
+    }
+
+    /**
+     * Determines whether this command can be executed
+     */
+    @Override
+    public boolean canExecute()
+    {
+        Board board = selectedView.getTreeElement().getBoard();
+        int index = elementView.getIndex();
+        if(!board.isModifiable())
+        {
+            return false;
+        }
+        else if(!board.getElementData(index).isModifiable())
+        {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Gets the reason why the command cannot be executed
+     *
+     * @return if command cannot be executed, returns reason for why the command cannot be executed,
+     * otherwise null if command can be executed
+     */
+    @Override
+    public String getExecutionError()
+    {
+        Board board = selectedView.getTreeElement().getBoard();
+        int index = elementView.getIndex();
+        if(!board.isModifiable())
+        {
+            return "Board is not modifiable";
+        }
+        else if(!board.getElementData(index).isModifiable())
+        {
+            return "Data is not modifiable";
+        }
+        return null;
     }
 
     /**
@@ -108,45 +146,38 @@ public class EditDataCommand extends PuzzleCommand
         TreeSelection selection = treeView.getTreeSelection();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
 
-        Board board = selectedView.getTreeElement().getBoard();
+        Board board = transition.getBoard();
         int index = elementView.getIndex();
 
         if(selectedView.getType() == TreeElementType.NODE)
         {
-            TreeNodeView nodeView = (TreeNodeView) selectedView;
             TreeNode treeNode = (TreeNode) selectedView.getTreeElement();
 
-            tree.removeTreeElement(newSelectedView.getTreeElement());
+            tree.removeTreeElement(transition);
             treeView.removeTreeElement(newSelectedView);
 
             selection.newSelection(selectedView);
 
             getInstance().getLegupUI().repaintTree();
-            board = treeNode.getBoard();
-            getInstance().getPuzzleModule().setCurrentBoard(board);
-            oldData = board.getElementData(index);
+            getInstance().getPuzzleModule().setCurrentBoard(treeNode.getBoard());
+        }
+
+        Board prevBoard = transition.getParentNode().getBoard();
+
+        newData.setValueInt(oldData.getValueInt());
+        board.notifyChange(newData);
+
+        //System.err.println(newData.getValueInt() + " : " + oldData.getValueInt());
+
+        if(prevBoard.getElementData(index).equals(newData))
+        {
+            board.removeModifiedData(newData);
         }
         else
         {
-            transitionView = (TreeTransitionView) selectedView;
-
-            Board prevBoard = transitionView.getParentView().getTreeElement().getBoard();
-
-            board.notifyChange(oldData);
-            oldData = board.getElementData(index);
-
-            if(prevBoard.getElementData(index).equals(oldData))
-            {
-                oldData.setModified(false);
-                board.removeModifiedData(oldData);
-            }
-            else
-            {
-                oldData.setModified(true);
-                board.addModifiedData(oldData);
-            }
-            transitionView.getTreeElement().propagateChanges(oldData);
+            board.addModifiedData(newData);
         }
+        transition.propagateChanges(newData);
         getInstance().getLegupUI().repaintBoard();
     }
 }

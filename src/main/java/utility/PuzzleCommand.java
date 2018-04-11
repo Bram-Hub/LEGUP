@@ -1,6 +1,6 @@
 package utility;
 
-public abstract class PuzzleCommand implements Command
+public abstract class PuzzleCommand implements ICommand
 {
     /**
      * Redoes an command

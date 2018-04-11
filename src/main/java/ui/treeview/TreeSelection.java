@@ -40,6 +40,15 @@ public class TreeSelection
         }
     }
 
+    public void addToSelection(TreeElementView treeElementView)
+    {
+        if(!selection.contains(treeElementView))
+        {
+            selection.add(treeElementView);
+            treeElementView.setSelected(true);
+        }
+    }
+
     public void newSelection(TreeElementView treeElementView)
     {
         clearSelection();
