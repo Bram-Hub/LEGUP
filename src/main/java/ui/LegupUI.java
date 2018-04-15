@@ -127,9 +127,7 @@ public class LegupUI extends JFrame implements WindowListener
 
         setVisible(true);
 
-        setLocationRelativeTo(null);
-
-        fileChooser = new FileDialog(this);
+        //setLocationRelativeTo(null);
     }
 
     public static boolean profFlag(int flag)
@@ -163,6 +161,7 @@ public class LegupUI extends JFrame implements WindowListener
     private void setupMenu()
     {
         mBar = new JMenuBar();
+        fileChooser = new FileDialog(this);
 
         file = new JMenu("File");
         newPuzzle = new JMenuItem("Open Puzzle");
