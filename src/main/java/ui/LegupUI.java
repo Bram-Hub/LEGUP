@@ -164,9 +164,9 @@ public class LegupUI extends JFrame implements WindowListener
         fileChooser = new FileDialog(this);
 
         file = new JMenu("File");
-        newPuzzle = new JMenuItem("Open Puzzle");
+        newPuzzle = new JMenuItem("New");
         genPuzzle = new JMenuItem("Puzzle Generators");
-        openProof = new JMenuItem("Open Proof");
+        openProof = new JMenuItem("Open");
         saveProof = new JMenuItem("Save Proof");
         instructorCheck = new JMenuItem("Instructor Check");
         exit = new JMenuItem("Exit");
@@ -182,7 +182,8 @@ public class LegupUI extends JFrame implements WindowListener
         caseRuleGen = new JCheckBoxMenuItem("Automatically generate cases for CaseRule", false);
         imdFeedback = new JCheckBoxMenuItem("Provide immediate feedback", false);
 
-        help = new JMenu("Help");
+        // unused
+       // help = new JMenu("Help");
 
         mBar.add(file);
         file.add(newPuzzle);
@@ -248,7 +249,7 @@ public class LegupUI extends JFrame implements WindowListener
         });
         imdFeedback.setState(true);
 
-        mBar.add(help);
+    //    mBar.add(help);
 
         setJMenuBar(mBar);
         this.addWindowListener(this);
