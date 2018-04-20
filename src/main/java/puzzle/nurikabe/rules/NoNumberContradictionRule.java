@@ -2,6 +2,13 @@ package puzzle.nurikabe.rules;
 
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
+import puzzle.nurikabe.NurikabeBoard;
+import puzzle.nurikabe.NurikabeCell;
+import puzzle.nurikabe.NurikabeType;
+import puzzle.nurikabe.NurikabeUtilities;
+import utility.DisjointSet;
+
+import java.util.Set;
 
 public class NoNumberContradictionRule extends ContradictionRule
 {
@@ -23,6 +30,22 @@ public class NoNumberContradictionRule extends ContradictionRule
     @Override
     public String checkContradictionAt(TreeTransition transition, int elementIndex)
     {
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+
+        NurikabeCell cell = (NurikabeCell)board.getElementData(elementIndex);
+        if(cell.getType() != NurikabeType.WHITE)
+        {
+            return "Contradiction must be a white cell";
+        }
+        DisjointSet<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(board);
+        Set<NurikabeCell> whiteRegion = regions.getSet(cell);
+        for(NurikabeCell c : whiteRegion)
+        {
+            if(c.getType() == NurikabeType.NUMBER)
+            {
+                return "Does not contain a contradiction at this index";
+            }
+        }
         return null;
     }
 

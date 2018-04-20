@@ -136,7 +136,7 @@ public abstract class PuzzleExporter
                 }
                 transitionsElement.appendChild(transElement);
 
-                if(treeTransition.getChildNode() != null)
+                if(treeTransition.getChildNode() != null && !treeElements.contains(treeTransition.getChildNode()))
                 {
                     treeElements.add(treeTransition.getChildNode());
                 }

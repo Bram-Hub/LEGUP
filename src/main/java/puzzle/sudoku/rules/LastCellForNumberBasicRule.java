@@ -1,15 +1,11 @@
 package puzzle.sudoku.rules;
 
-import model.gameboard.Board;
-import model.gameboard.ElementData;
 import model.rules.BasicRule;
-import model.tree.TreeNode;
 import model.tree.TreeTransition;
-import puzzle.sudoku.Sudoku;
 import puzzle.sudoku.SudokuBoard;
 import puzzle.sudoku.SudokuCell;
 
-import java.util.HashSet;
+import java.util.Set;
 
 public class LastCellForNumberBasicRule extends BasicRule
 {
@@ -29,57 +25,72 @@ public class LastCellForNumberBasicRule extends BasicRule
      * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
         SudokuBoard initialBoard = (SudokuBoard) transition.getParentNode().getBoard();
         SudokuBoard finalBoard = (SudokuBoard) transition.getBoard();
 
-        int groupSize = initialBoard.getWidth();
-        int groupDim = (int)Math.sqrt(groupSize);
-        int rowIndex = elementIndex / groupSize;
-        int colIndex = elementIndex % groupSize;
-        int groupNum = rowIndex / groupDim * groupDim + colIndex % groupDim;
-        HashSet<Integer> region = new HashSet<>();
-        HashSet<Integer> row = new HashSet<>();
-        HashSet<Integer> column = new HashSet<>();
-        for(int i = 0; i < groupSize; i++)
+        SudokuCell cell = (SudokuCell) finalBoard.getElementData(elementIndex);
+        if(cell.getValueInt() == 0)
         {
-            SudokuCell cell = initialBoard.getCell(groupNum, i % groupDim, i / groupDim);
-            if(cell.getValueInt() != 0 && !region.contains(cell.getValueInt()))
+            return "cell is not forced at this index";
+        }
+
+        int size = initialBoard.getSize();
+
+        Set<SudokuCell> region = initialBoard.getRegion(cell.getGroupIndex());
+        Set<SudokuCell> row = initialBoard.getRow(cell.getLocation().y);
+        Set<SudokuCell> col = initialBoard.getCol(cell.getLocation().x);
+
+        boolean contains = false;
+        if(region.size() == size - 1)
+        {
+            for(SudokuCell c : region)
             {
-                region.add(cell.getValueInt());
+                if(cell.getValueInt() == c.getValueInt())
+                {
+                    contains = true;
+                    break;
+                }
+            }
+            if(!contains)
+            {
+                return null;
             }
         }
-        for(int i = 0; i < groupSize; i++)
+        if(row.size() == size - 1)
         {
-            SudokuCell cell = (SudokuCell) initialBoard.getCell(i, colIndex);
-            if(cell.getValueInt() != 0 && !row.contains(cell.getValueInt()))
+            contains = false;
+            for(SudokuCell c : row)
             {
-                row.add(cell.getValueInt());
+                if(cell.getValueInt() == c.getValueInt())
+                {
+                    contains = true;
+                    break;
+                }
+            }
+            if(!contains)
+            {
+                return null;
             }
         }
-        for(int i = 0; i < groupSize; i++)
+        if(col.size() == size - 1)
         {
-            SudokuCell cell = (SudokuCell) initialBoard.getCell(rowIndex, i);
-            if(cell.getValueInt() != 0 && !column.contains(cell.getValueInt()))
+            contains = false;
+            for(SudokuCell c : col)
             {
-                column.add(cell.getValueInt());
+                if(cell.getValueInt() == c.getValueInt())
+                {
+                    contains = true;
+                    break;
+                }
+            }
+            if(!contains)
+            {
+                return null;
             }
         }
-        if(region.size() != groupSize - 1 || row.size() != groupSize - 1 || column.size() != groupSize - 1)
-        {
-            return "The group has more numbers left to fill in";
-        }
-        else if(region.contains(finalBoard.getElementData(elementIndex).getValueInt()) ||
-                row.contains(finalBoard.getElementData(elementIndex).getValueInt()) ||
-                column.contains(finalBoard.getElementData(elementIndex).getValueInt()))
-        {
-            return "The group has a duplicate number contained in it";
-        }
-        else
-        {
-            return null;
-        }
+        return "cell is not forced at this index";
     }
 
     /**

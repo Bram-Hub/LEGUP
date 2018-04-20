@@ -2,6 +2,12 @@ package puzzle.nurikabe.rules;
 
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
+import puzzle.nurikabe.*;
+import utility.DisjointSet;
+
+import java.awt.*;
+import java.util.List;
+import java.util.Set;
 
 public class IsolateBlackContradictionRule extends ContradictionRule
 {
@@ -23,7 +29,34 @@ public class IsolateBlackContradictionRule extends ContradictionRule
     @Override
     public String checkContradictionAt(TreeTransition transition, int elementIndex)
     {
-        return null;
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+        NurikabeCell cell = (NurikabeCell) board.getElementData(elementIndex);
+        if(cell.getType() != NurikabeType.BLACK)
+        {
+            return "Contradiction must be a black cell";
+        }
+
+        DisjointSet<NurikabeCell> blackRegions = NurikabeUtilities.getPossibleBlackRegions(board);
+        boolean oneRegion = false;
+        for(Set<NurikabeCell> region : blackRegions.getSets())
+        {
+            for(NurikabeCell c : region)
+            {
+                if(c.getType() == NurikabeType.BLACK)
+                {
+                    if(oneRegion)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        oneRegion = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return "Contradiction applied incorrectly. No isolated Blacks.";
     }
 
     /**

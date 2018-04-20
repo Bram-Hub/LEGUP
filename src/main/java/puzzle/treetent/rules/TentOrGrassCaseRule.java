@@ -58,7 +58,7 @@ public class TentOrGrassCaseRule extends CaseRule
      * otherwise error message
      */
     @Override
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
         return null;
     }

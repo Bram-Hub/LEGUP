@@ -51,6 +51,7 @@ public class TreeNodeView extends TreeElementView
         this.childrenViews = new ArrayList<>();
         this.isCollapsed = false;
         this.isContradictoryState = false;
+        this.isVisible = true;
     }
 
     /**

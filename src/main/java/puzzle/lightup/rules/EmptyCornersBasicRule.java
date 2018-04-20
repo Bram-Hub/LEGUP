@@ -1,8 +1,6 @@
 package puzzle.lightup.rules;
 
-import model.gameboard.Board;
 import model.rules.BasicRule;
-import model.tree.TreeNode;
 import model.tree.TreeTransition;
 
 public class EmptyCornersBasicRule extends BasicRule
@@ -24,7 +22,7 @@ public class EmptyCornersBasicRule extends BasicRule
      * otherwise error message
      */
     @Override
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
         return null;
     }

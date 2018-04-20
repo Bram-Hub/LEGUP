@@ -1,14 +1,10 @@
 package puzzle.sudoku.rules;
 
-import model.gameboard.Board;
-import model.gameboard.ElementData;
 import model.rules.BasicRule;
-import model.tree.TreeNode;
 import model.tree.TreeTransition;
 import puzzle.sudoku.SudokuBoard;
 import puzzle.sudoku.SudokuCell;
 
-import javax.lang.model.element.Element;
 import java.util.HashSet;
 
 public class LastNumberForCellBasicRule extends BasicRule
@@ -30,7 +26,7 @@ public class LastNumberForCellBasicRule extends BasicRule
      * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
         SudokuBoard initialBoard = (SudokuBoard) transition.getParentNode().getBoard();
         SudokuBoard finalBoard = (SudokuBoard) transition.getBoard();

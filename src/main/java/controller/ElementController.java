@@ -13,15 +13,15 @@ import ui.boardview.ElementSelection;
 import ui.boardview.PuzzleElement;
 import ui.boardview.SelectionItemView;
 import ui.treeview.*;
-import utility.ICommand;
-import utility.EditDataCommand;
+import history.ICommand;
+import history.EditDataCommand;
 
 import java.awt.event.*;
 import java.util.ArrayList;
 
 import static app.GameBoardFacade.*;
 
-public class ElementController implements MouseListener, MouseMotionListener, ActionListener
+public class ElementController implements MouseListener, MouseMotionListener, ActionListener, KeyListener
 {
     protected BoardView boardView;
 
@@ -90,14 +90,13 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                     for(Board b: cases)
                     {
                         TreeTransition transition = tree.addNewTransition(node);
+                        b.setModifiable(false);
                         transition.setBoard(b);
                         transition.setRule(caseRule);
-                        TreeTransitionView transitionView = treeView.addNewTransitionView(nodeView, transition);
+                        TreeTransitionView transitionView = treeView.addTransitionView(nodeView, transition);
 
-                        tree.addNode(transition);
-                        TreeNodeView newNodeView = transitionView.getChildView();
-                        newNodeView.setTreeElement(transition.getChildNode());
-                        newNodeView.setVisible(true);
+                        TreeNode n = tree.addNode(transition);
+                        treeView.addNodeView(transitionView, n);
                     }
                     selection.newSelection(nodeView.getChildrenViews().get(0).getChildView());
                     getInstance().getPuzzleModule().setCurrentBoard(node.getChildren().get(0).getBoard());
@@ -106,61 +105,12 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
             }
             else
             {
-                int index = elementView.getIndex();
-                ElementData data = board.getElementData(index);
-                if(!data.isModifiable())
-                    return;
-
                 ICommand edit = new EditDataCommand(elementView, selectedView, e);
                 if(edit.canExecute())
                 {
                     edit.execute();
                     getInstance().getHistory().pushChange(edit);
                 }
-                /*
-                if(selectedView.getType() == TreeElementType.NODE)
-                {
-                    TreeNodeView nodeView = (TreeNodeView) selectedView;
-                    TreeNode treeNode = (TreeNode) selectedView.getTreeElement();
-                    if(treeNode.getChildren().size() > 0)
-                    {
-                        return;
-                    }
-                    TreeTransition transition = tree.addNewTransition(treeNode);
-                    TreeTransitionView transitionView = treeView.addNewTransitionView(nodeView, transition);
-
-                    selection.newSelection(transitionView);
-                    selectedView = transitionView;
-                    getInstance().getLegupUI().repaintTree();
-                    board = transition.getBoard();
-                    getInstance().getPuzzleModule().setCurrentBoard(board);
-                    data = board.getElementData(index);
-                }
-
-                TreeTransitionView transitionView = (TreeTransitionView) selectedView;
-
-                if(e.getButton() == MouseEvent.BUTTON1 && e.isControlDown())
-                {
-                    boardView.getSelection().newSelection(elementView);
-                }
-
-                changeCell(e, data);
-
-                Board prevBord = transitionView.getTreeElement().getParentNode().getBoard();
-
-                if(data.equals(prevBord.getElementData(data.getIndex())))
-                {
-                    data.setModified(false);
-                    board.removeModifiedData(data);
-                }
-                else
-                {
-                    data.setModified(true);
-                    board.addModifiedData(data);
-                }
-
-                transitionView.getTreeElement().propagateChanges(data);
-                */
             }
             getInstance().getLegupUI().repaintBoard();
         }
@@ -272,6 +222,60 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         else if(e.getButton() == MouseEvent.BUTTON3)
         {
             data.setValueInt((data.getValueInt() + 9) % 10);
+        }
+    }
+
+    /**
+     * Invoked when a key has been typed.
+     * See the class description for {@link KeyEvent} for a definition of
+     * a key typed event.
+     *
+     * @param e the event to be processed
+     */
+    @Override
+    public void keyTyped(KeyEvent e)
+    {
+
+        System.err.println("Key pressed: " + e.getKeyCode());
+    }
+
+    /**
+     * Invoked when a key has been pressed.
+     * See the class description for {@link KeyEvent} for a definition of
+     * a key pressed event.
+     *
+     * @param e the event to be processed
+     */
+    @Override
+    public void keyPressed(KeyEvent e)
+    {
+
+        System.err.println("Key pressed: " + e.getKeyCode());
+    }
+
+    /**
+     * Invoked when a key has been released.
+     * See the class description for {@link KeyEvent} for a definition of
+     * a key released event.
+     *
+     * @param e the event to be processed
+     */
+    @Override
+    public void keyReleased(KeyEvent e)
+    {
+        Board board = getInstance().getBoard();
+        Tree tree = getInstance().getTree();
+        TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
+        BoardView boardView = getInstance().getLegupUI().getBoardView();
+        TreeSelection selection = treeView.getTreeSelection();
+        TreeElementView selectedView = selection.getFirstSelection();
+        System.err.println("Key pressed: " + e.getKeyCode());
+        if(board.getCaseRule() != null)
+        {
+            if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+            {
+                GameBoardFacade.getInstance().setBoard(selectedView.getTreeElement().getBoard());
+            }
         }
     }
 }

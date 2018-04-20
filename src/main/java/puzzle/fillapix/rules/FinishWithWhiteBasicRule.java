@@ -16,7 +16,7 @@ public class FinishWithWhiteBasicRule extends BasicRule {
     }
 
     @Override
-    public String checkRuleAt(TreeTransition transition, int elementIndex) {
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex) {
         FillapixBoard fillapixBoard = (FillapixBoard) transition.getBoard();
         int width = fillapixBoard.getWidth();
         int height = fillapixBoard.getHeight();

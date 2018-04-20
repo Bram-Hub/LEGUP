@@ -3,21 +3,11 @@ package puzzle.sudoku;
 import model.gameboard.Board;
 import model.Puzzle;
 import model.gameboard.ElementData;
-import model.tree.Tree;
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
+import model.rules.ContradictionRule;
+import model.tree.TreeTransition;
 import puzzle.sudoku.rules.*;
 import ui.boardview.BoardView;
 import ui.boardview.PuzzleElement;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.awt.*;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 
 public class Sudoku extends Puzzle
 {
@@ -85,17 +75,6 @@ public class Sudoku extends Puzzle
     }
 
     /**
-     * Determines if the puzzle was solves correctly
-     *
-     * @return true if the board was solved correctly, false otherwise
-     */
-    @Override
-    public boolean isPuzzleComplete()
-    {
-        return false;
-    }
-
-    /**
      * Determines if the current board is a valid state
      *
      * @param board board to check for validity
@@ -105,7 +84,25 @@ public class Sudoku extends Puzzle
     @Override
     public boolean isBoardComplete(Board board)
     {
-        return false;
+        SudokuBoard sudokuBoard = (SudokuBoard) board;
+        TreeTransition transition = new TreeTransition(null, sudokuBoard);
+
+        for(ContradictionRule rule : contradictionRules)
+        {
+            if(rule.checkContradiction(transition) == null)
+            {
+                return false;
+            }
+        }
+
+        for(ElementData data : sudokuBoard.getElementData())
+        {
+            if(data.getValueInt() == 0)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -117,72 +114,5 @@ public class Sudoku extends Puzzle
     public void onBoardChange(Board board)
     {
 
-    }
-
-    /**
-     * Imports the board using the file stream
-     *
-     * @param fileName
-     *
-     * @return
-     */
-    @Override
-    public void importPuzzle(String fileName) throws IOException, ParserConfigurationException, SAXException
-    {
-        if(fileName != null)
-        {
-            InputStream inputStream = new FileInputStream(fileName);
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(inputStream);
-
-            SudokuBoard sudokuBoard;
-
-            Element rootNode = document.getDocumentElement();
-            Element puzzleElement = (Element)rootNode.getElementsByTagName("puzzle").item(0);
-            Element boardElement = (Element)puzzleElement.getElementsByTagName("board").item(0);
-            Element dataElement = (Element)boardElement.getElementsByTagName("data").item(0);
-            NodeList elementDataList = dataElement.getElementsByTagName("element");
-
-            int size = Integer.valueOf(boardElement.getAttribute("size"));
-            sudokuBoard = new SudokuBoard(size);
-
-            ArrayList<ElementData> sudokuData = new ArrayList<>();
-            for(int i = 0; i < size * size; i++)
-            {
-                sudokuData.add(null);
-            }
-
-            for(int i = 0; i < elementDataList.getLength(); i++)
-            {
-                NamedNodeMap attributeList = elementDataList.item(i).getAttributes();
-                int value = Integer.valueOf(attributeList.getNamedItem("value").getNodeValue());
-                int x = Integer.valueOf(attributeList.getNamedItem("x").getNodeValue());
-                int y = Integer.valueOf(attributeList.getNamedItem("y").getNodeValue());
-                SudokuCell cell = new SudokuCell(value, new Point(x, y));
-                sudokuBoard.setCell(x, y, cell);
-                if(cell.getValueInt() > 0)
-                {
-                    cell.setModifiable(false);
-                    cell.setGiven(true);
-                }
-            }
-
-            for(int y = 0; y < size; y++)
-            {
-                for(int x = 0; x < size; x++)
-                {
-                    if(sudokuBoard.getCell(x, y) == null)
-                    {
-                        SudokuCell cell = new SudokuCell(0, new Point(x, y));
-                        cell.setModifiable(true);
-                        sudokuBoard.setCell(x, y, cell);
-                    }
-                }
-            }
-
-            this.currentBoard = sudokuBoard;
-            this.tree = new Tree(currentBoard);
-        }
     }
 }

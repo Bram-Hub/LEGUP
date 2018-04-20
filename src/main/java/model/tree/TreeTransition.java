@@ -10,6 +10,8 @@ public class TreeTransition extends TreeElement
     private TreeNode parentNode;
     private TreeNode childNode;
     private Rule rule;
+    private boolean isCorrect;
+    private boolean isVerified;
 
     /**
      * TreeTransition Constructor - create a transition from one node to another
@@ -24,6 +26,8 @@ public class TreeTransition extends TreeElement
         this.childNode = null;
         this.board = board;
         this.rule = null;
+        this.isCorrect = false;
+        this.isVerified = false;
     }
 
     /**
@@ -33,13 +37,14 @@ public class TreeTransition extends TreeElement
      */
     public void propagateChanges(ElementData data)
     {
+        board.notifyChange(data);
+        isVerified = false;
         if(childNode != null)
         {
             childNode.getBoard().notifyChange(data.copy());
             for(TreeTransition child : childNode.getChildren())
             {
-                child.getBoard().notifyChange(data.copy());
-                child.propagateChanges(data);
+                child.propagateChanges(data.copy());
             }
         }
     }
@@ -129,6 +134,7 @@ public class TreeTransition extends TreeElement
     public void setRule(Rule rule)
     {
         this.rule = rule;
+        isVerified = false;
     }
 
     /**
@@ -138,7 +144,12 @@ public class TreeTransition extends TreeElement
      */
     public boolean isCorrect()
     {
-        return isJustified() && rule.checkRule(this) == null;
+        if(!isVerified)
+        {
+            isCorrect = rule.checkRule(this) == null;
+            isVerified = true;
+        }
+        return isJustified() && isCorrect;
     }
 
     /**

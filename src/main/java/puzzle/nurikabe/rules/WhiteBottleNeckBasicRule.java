@@ -1,7 +1,14 @@
 package puzzle.nurikabe.rules;
 
 import model.rules.BasicRule;
+import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
+import puzzle.nurikabe.NurikabeBoard;
+import puzzle.nurikabe.NurikabeCell;
+import puzzle.nurikabe.NurikabeType;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class WhiteBottleNeckBasicRule extends BasicRule
 {
@@ -22,9 +29,33 @@ public class WhiteBottleNeckBasicRule extends BasicRule
      * otherwise error message
      */
     @Override
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
-        return null;
+        Set<ContradictionRule> contras = new LinkedHashSet<>();
+        contras.add(new NoNumberContradictionRule());
+        contras.add(new TooFewSpacesContradictionRule());
+
+        NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
+        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParentNode().getBoard();
+
+        NurikabeCell cell = (NurikabeCell) destBoardState.getElementData(elementIndex);
+
+        if(cell.getType() != NurikabeType.WHITE)
+        {
+            return "Only white cells are allowed for this rule!";
+        }
+        NurikabeBoard modified = origBoardState.copy();
+        NurikabeCell modCell = (NurikabeCell) modified.getElementData(elementIndex);
+        modCell.setValueInt(NurikabeType.BLACK.toValue());
+
+        for(ContradictionRule contraRule : contras)
+        {
+            if(contraRule.checkContradiction(new TreeTransition(null, modified)) == null)
+            {
+                return null;
+            }
+        }
+        return "This is not the only way for white to escape!";
     }
 
     /**

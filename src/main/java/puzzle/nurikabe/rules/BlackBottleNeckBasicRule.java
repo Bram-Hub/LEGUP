@@ -1,14 +1,22 @@
 package puzzle.nurikabe.rules;
 
 import model.rules.BasicRule;
+import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
+import puzzle.nurikabe.Nurikabe;
+import puzzle.nurikabe.NurikabeBoard;
+import puzzle.nurikabe.NurikabeCell;
+import puzzle.nurikabe.NurikabeType;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class BlackBottleNeckBasicRule extends BasicRule
 {
 
     public BlackBottleNeckBasicRule()
     {
-        super("Black Bottle Neck", "If there is only one path for a black to escape, then those unknowns must be white.","images/nurikabe/rules/OneUnknownBlack.png");
+        super("Black Bottle Neck", "If there is only one path for a black to escape, then those unknowns must be white.", "images/nurikabe/rules/OneUnknownBlack.png");
     }
 
     /**
@@ -22,9 +30,31 @@ public class BlackBottleNeckBasicRule extends BasicRule
      * otherwise error message
      */
     @Override
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
-        return null;
+        ContradictionRule contraRule = new IsolateBlackContradictionRule();
+
+        NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
+        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParentNode().getBoard();
+
+        NurikabeCell cell = (NurikabeCell) destBoardState.getElementData(elementIndex);
+
+        if(cell.getType() != NurikabeType.BLACK)
+        {
+            return "Only black cells are allowed for this rule!";
+        }
+        NurikabeBoard modified = origBoardState.copy();
+        NurikabeCell modCell = (NurikabeCell) modified.getElementData(elementIndex);
+        modCell.setValueInt(NurikabeType.WHITE.toValue());
+
+        if(contraRule.checkContradiction(new TreeTransition(null, modified)) == null)
+        {
+            return null;
+        }
+        else
+        {
+            return "This is not the only way for black to escape!";
+        }
     }
 
     /**

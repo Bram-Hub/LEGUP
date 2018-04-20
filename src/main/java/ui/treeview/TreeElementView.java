@@ -11,8 +11,8 @@ public abstract class TreeElementView implements Shape
     protected TreeElement treeElement;
     protected boolean isSelected;
     protected boolean isHover;
-    private TreeElementType type;
-    private boolean isVisible;
+    protected TreeElementType type;
+    protected boolean isVisible;
 
     protected TreeElementView(TreeElementType type, TreeElement treeElement)
     {

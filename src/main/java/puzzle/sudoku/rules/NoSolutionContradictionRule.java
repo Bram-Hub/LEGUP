@@ -1,9 +1,12 @@
 package puzzle.sudoku.rules;
 
-import model.gameboard.Board;
 import model.rules.ContradictionRule;
-import model.tree.TreeNode;
 import model.tree.TreeTransition;
+import puzzle.sudoku.SudokuBoard;
+import puzzle.sudoku.SudokuCell;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class NoSolutionContradictionRule extends ContradictionRule
 {
@@ -27,7 +30,43 @@ public class NoSolutionContradictionRule extends ContradictionRule
     @Override
     public String checkContradictionAt(TreeTransition transition, int elementIndex)
     {
-        return null;
+        SudokuBoard sudokuBoard = (SudokuBoard)transition.getBoard();
+        SudokuCell cell = (SudokuCell) sudokuBoard.getElementData(elementIndex);
+        if(cell.getValueInt() != 0)
+        {
+            return "Does not contain a contradiction at this index";
+        }
+
+        int groupSize = sudokuBoard.getSize();
+
+        Set<SudokuCell> region = sudokuBoard.getRegion(cell.getGroupIndex());
+        Set<SudokuCell> row = sudokuBoard.getRow(cell.getLocation().y);
+        Set<SudokuCell> col = sudokuBoard.getCol(cell.getLocation().x);
+        Set<Integer> solution = new HashSet<>();
+        for(int i = 1; i <= groupSize; i++)
+        {
+            solution.add(i);
+        }
+
+        for(SudokuCell c : region)
+        {
+            solution.remove(c.getValueInt());
+        }
+        for(SudokuCell c : row)
+        {
+            solution.remove(c.getValueInt());
+        }
+        for(SudokuCell c : col)
+        {
+            solution.remove(c.getValueInt());
+        }
+
+        if(solution.isEmpty())
+        {
+            return null;
+        }
+
+        return "Does not contain a contradiction at this index";
     }
 
     /**

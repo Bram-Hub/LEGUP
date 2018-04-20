@@ -1,7 +1,6 @@
 package puzzle.lightup.rules;
 
 import model.rules.BasicRule;
-import model.tree.TreeNode;
 import model.tree.TreeTransition;
 import puzzle.lightup.LightUpBoard;
 import puzzle.lightup.LightUpCell;
@@ -28,7 +27,7 @@ public class FinishWithBulbsBasicRule extends BasicRule
      * otherwise error message
      */
     @Override
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
         LightUpBoard initialBoard = (LightUpBoard)transition.getParentNode().getBoard();
         LightUpBoard finalBoard = (LightUpBoard)transition.getBoard();

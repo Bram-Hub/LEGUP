@@ -2,18 +2,35 @@ package model;
 
 import model.gameboard.Board;
 import model.gameboard.ElementFactory;
+import model.observer.IBoardListener;
+import model.observer.IBoardSubject;
+import model.observer.ITreeListener;
+import model.observer.ITreeSubject;
 import model.rules.*;
 import model.tree.Tree;
 import model.tree.TreeNode;
-import org.xml.sax.SAXException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import save.InvalidFileFormatException;
 import ui.boardview.BoardView;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public abstract class Puzzle
+public abstract class Puzzle implements IBoardSubject, ITreeSubject
 {
+    private static final Logger LOGGER = Logger.getLogger(Puzzle.class.getName());
+
     protected String name;
     protected Board currentBoard;
     protected Tree tree;
@@ -21,6 +38,9 @@ public abstract class Puzzle
     protected PuzzleImporter importer;
     protected PuzzleExporter exporter;
     protected ElementFactory factory;
+
+    private ArrayList<IBoardListener> boardListeners;
+    private ArrayList<ITreeListener> treeListeners;
 
     protected ArrayList<BasicRule> basicRules;
     protected ArrayList<ContradictionRule> contradictionRules;
@@ -31,6 +51,9 @@ public abstract class Puzzle
      */
     public Puzzle()
     {
+        this.boardListeners = new ArrayList<>();
+        this.treeListeners = new ArrayList<>();
+
         this.basicRules = new ArrayList<>();
         this.contradictionRules = new ArrayList<>();
         this.caseRules = new ArrayList<>();
@@ -97,7 +120,58 @@ public abstract class Puzzle
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public abstract void importPuzzle(String fileName) throws IOException, ParserConfigurationException, SAXException;
+    public void importPuzzle(String fileName) throws InvalidFileFormatException
+    {
+        try
+        {
+            importPuzzle(new FileInputStream(fileName));
+        }
+        catch(IOException e)
+        {
+            LOGGER.log(Level.SEVERE, "Invalid file");
+            throw new InvalidFileFormatException("Could not find file");
+        }
+    }
+
+    /**
+     * Imports the board using the file stream
+     *
+     * @param inputStream
+     * @throws IOException
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     */
+    public void importPuzzle(InputStream inputStream) throws InvalidFileFormatException
+    {
+        Document document;
+        try
+        {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            document = builder.parse(inputStream);
+        }
+        catch(IOException | SAXException | ParserConfigurationException e)
+        {
+            LOGGER.log(Level.SEVERE, "Invalid file");
+            throw new InvalidFileFormatException("Could not find file");
+        }
+
+        Element rootNode = document.getDocumentElement();
+        if(rootNode.getTagName().equals("Legup"))
+        {
+            Node node = rootNode.getElementsByTagName("puzzle").item(0);
+            if(importer == null)
+            {
+                throw new InvalidFileFormatException("Puzzle importer null");
+            }
+            importer.initializePuzzle(node);
+        }
+        else
+        {
+            LOGGER.log(Level.ALL, "Invalid file");
+            throw new InvalidFileFormatException("Invalid file: must be a Legup file");
+        }
+    }
 
     /**
      * Imports a proof file
@@ -107,18 +181,26 @@ public abstract class Puzzle
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public void importProof(String fileName) throws IOException, ParserConfigurationException, SAXException
+    public void importProof(String fileName) throws InvalidFileFormatException
     {
         importPuzzle(fileName);
-
-
     }
 
+    /**
+     * Gets the puzzle importer for importing puzzle files
+     *
+     * @return puzzle importer
+     */
     public PuzzleImporter getImporter()
     {
         return importer;
     }
 
+    /**
+     * Gets the puzzle exporter for exporting puzzle files
+     *
+     * @return puzzle exporter
+     */
     public PuzzleExporter getExporter()
     {
         return exporter;
@@ -324,18 +406,28 @@ public abstract class Puzzle
     /**
      * Sets the Tree for keeping the board states
      *
-     * @param tree
+     * @param tree tree of board states
      */
     public void setTree(Tree tree)
     {
         this.tree = tree;
     }
 
+    /**
+     * Gets the board view that displays the board
+     *
+     * @return board view
+     */
     public BoardView getBoardView()
     {
         return boardView;
     }
 
+    /**
+     * Sets the board view that displays the board
+     *
+     * @param boardView board view
+     */
     public void setBoardView(BoardView boardView)
     {
         this.boardView = boardView;
@@ -359,5 +451,71 @@ public abstract class Puzzle
     public void setFactory(ElementFactory factory)
     {
         this.factory = factory;
+    }
+
+    /**
+     * Adds a board listener
+     *
+     * @param listener listener to add
+     */
+    @Override
+    public void addBoardListener(IBoardListener listener)
+    {
+        boardListeners.add(listener);
+    }
+
+    /**
+     * Removes a board listener
+     *
+     * @param listener listener to remove
+     */
+    @Override
+    public void removeBoardListener(IBoardListener listener)
+    {
+        boardListeners.remove(listener);
+    }
+
+    /**
+     * Notifies listeners
+     *
+     * @param algorithm algorithm to notify the listeners with
+     */
+    @Override
+    public void notifyBoardListeners(Consumer<? super IBoardListener> algorithm)
+    {
+        boardListeners.forEach(algorithm);
+    }
+
+    /**
+     * Adds a board listener
+     *
+     * @param listener listener to add
+     */
+    @Override
+    public void addTreeListener(ITreeListener listener)
+    {
+        treeListeners.add(listener);
+    }
+
+    /**
+     * Removes a tree listener
+     *
+     * @param listener listener to remove
+     */
+    @Override
+    public void removeTreeListener(ITreeListener listener)
+    {
+        treeListeners.remove(listener);
+    }
+
+    /**
+     * Notifies listeners
+     *
+     * @param algorithm algorithm to notify the listeners with
+     */
+    @Override
+    public void notifyTreeListeners(Consumer<? super ITreeListener> algorithm)
+    {
+        treeListeners.forEach(algorithm);
     }
 }

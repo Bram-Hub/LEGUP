@@ -46,7 +46,7 @@ public class TreeTentController extends ElementController
             TreeTentLine line = new TreeTentLine((TreeTentCell) lastCellPressed.getData(), (TreeTentCell) element.getData());
             board.getLines().add(line);
             board.getModifiedData().add(line);
-            boardView.updateBoard(board);
+            boardView.onBoardChanged(board);
         }
         lastCellPressed = element;
     }

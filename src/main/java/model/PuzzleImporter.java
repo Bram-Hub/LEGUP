@@ -293,7 +293,7 @@ public abstract class PuzzleImporter
         }
 
         validateTreeStructure(treeNodes, treeTransitions);
-
+        System.err.println("Tree Size: " + treeTransitions.size());
         for(Map.Entry<TreeTransition, Node> entry : nodeChanges.entrySet())
         {
             makeTransitionChanges(entry.getKey(), entry.getValue());

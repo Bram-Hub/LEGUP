@@ -52,7 +52,7 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     public String checkRule(TreeTransition transition) { return null; }
 
     @Override
-    public String checkRuleAt(TreeTransition transition, int elementIndex) { return null; }
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex) { return null; }
 
     @Override
     public boolean doDefaultApplication(TreeTransition transition) { return false; }

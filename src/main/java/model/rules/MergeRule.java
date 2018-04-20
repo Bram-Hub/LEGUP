@@ -16,8 +16,39 @@ public class MergeRule extends Rule
      */
     public MergeRule()
     {
-        super(null, null, null);
+        super("Merge Rule", "Merge any number of nodes into one", "images/Legup/MergeRule.png");
         this.ruleType = MERGE;
+    }
+
+    /**
+     * Checks whether the transition logically follows from the parent node using this rule.
+     * This method is the one that should overridden in child classes
+     *
+     * @param transition transition to check
+     *
+     * @return null if the child node logically follow from the parent node, otherwise error message
+     */
+    @Override
+    public String checkRuleRaw(TreeTransition transition)
+    {
+        return null;
+    }
+
+    /**
+     * Checks whether the child node logically follows from the parent node
+     * at the specific element index using this rule
+     * This method is the one that should overridden in child classes
+     *
+     * @param transition   transition to check
+     * @param elementIndex index of the element
+     *
+     * @return null if the child node logically follow from the parent node at the specified element,
+     * otherwise error message
+     */
+    @Override
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
+    {
+        return null;
     }
 
     public Board getMergedBoard(ArrayList<TreeNode> nodes)

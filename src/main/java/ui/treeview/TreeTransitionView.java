@@ -30,6 +30,10 @@ public class TreeTransitionView extends TreeElementView
     private TreeNodeView childView;
     private TreeNodeView parentView;
     private Polygon arrowhead;
+
+    private Point lineStart;
+    private Point lineEnd;
+
     private Point startPoint;
     private Point endPoint;
 
@@ -47,19 +51,23 @@ public class TreeTransitionView extends TreeElementView
         this.treeElement = transition;
         this.parentView = parentView;
         this.isCollapsed = false;
+        this.startPoint = new Point();
+        this.endPoint = new Point();
+        this.lineStart = new Point();
+        this.lineEnd = new Point();
     }
 
     private void constructArrowhead()
     {
-        int nodeRadii = childView.getRadius();
+        int nodeRadii = parentView.getRadius();
 
-        startPoint.x = parentView.getX() + nodeRadii + GAP / 2;
-        startPoint.y = parentView.getY();
+        lineStart.x = startPoint.x;
+        lineStart.y = startPoint.y;
 
         double thetaArrow = Math.toRadians(30);
 
-        int point1X = childView.getX() - GAP - nodeRadii;
-        int point1Y = childView.getY();
+        int point1X = endPoint.x;
+        int point1Y = endPoint.y;
 
         int point2X = point1X - nodeRadii;
         int point2Y = point1Y + (int)Math.round(nodeRadii / (2 * cos(thetaArrow)));
@@ -67,8 +75,8 @@ public class TreeTransitionView extends TreeElementView
         int point3X = point1X - nodeRadii;
         int point3Y = point1Y - (int)Math.round(nodeRadii / (2 * cos(thetaArrow)));
 
-        endPoint.x = point2X;
-        endPoint.y = (point3Y - point2Y) / 2 + point2Y;
+        lineEnd.x = point2X;
+        lineEnd.y = (point3Y - point2Y) / 2 + point2Y;
 
         arrowhead = new Polygon();
         arrowhead.addPoint(point1X, point1Y);
@@ -89,7 +97,7 @@ public class TreeTransitionView extends TreeElementView
 
         graphics2D.setColor(OUTLINE_COLOR);
         graphics2D.setStroke(MEDIUM_STROKE);
-        graphics2D.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
+        graphics2D.drawLine(lineStart.x, lineStart.y, lineEnd.x, lineEnd.y);
 
         graphics2D.setColor(getTreeElement().isJustified() ? getTreeElement().isCorrect() ? CORRECT_COLOR : INCORRECT_COLOR : DEFAULT_COLOR );
         graphics2D.fillPolygon(arrowhead);
