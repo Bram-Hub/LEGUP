@@ -56,7 +56,7 @@ public class RuleFrame extends JPanel
         setMinimumSize(new Dimension(250, 256));
         setPreferredSize(new Dimension(330, 256));
 
-        status.setText("This is a test of the status bar of rule panel.");
+        //status.setText("This is a test of the status bar of rule panel.");
 
         add(tabbedPane);
         add(status, BorderLayout.SOUTH);

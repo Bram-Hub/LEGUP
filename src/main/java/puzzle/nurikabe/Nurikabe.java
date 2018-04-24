@@ -29,6 +29,7 @@ public class Nurikabe extends Puzzle
         this.basicRules.add(new PreventBlackSquareBasicRule());
         this.basicRules.add(new SurroundRegionBasicRule());
         this.basicRules.add(new WhiteBottleNeckBasicRule());
+        this.basicRules.add(new UnreachableBasicRule());
 
         this.contradictionRules.add(new BlackSquareContradictionRule());
         this.contradictionRules.add(new IsolateBlackContradictionRule());
