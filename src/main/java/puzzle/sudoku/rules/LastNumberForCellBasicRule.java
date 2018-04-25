@@ -48,15 +48,15 @@ public class LastNumberForCellBasicRule extends BasicRule
         }
         for(int i = 0; i < groupSize; i++)
         {
-            SudokuCell cell = (SudokuCell) initialBoard.getCell(i, colIndex);
+            SudokuCell cell = initialBoard.getCell(i, colIndex);
             numbers.remove(cell.getValueInt());
         }
         for(int i = 0; i < groupSize; i++)
         {
-            SudokuCell cell = (SudokuCell) initialBoard.getCell(rowIndex, i);
+            SudokuCell cell = initialBoard.getCell(rowIndex, i);
             numbers.remove(cell.getValueInt());
         }
-        if(numbers.size() > 0)
+        if(numbers.size() > 1)
         {
             return "The number at the index is not forced";
         }

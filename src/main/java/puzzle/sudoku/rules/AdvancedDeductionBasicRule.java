@@ -54,8 +54,8 @@ public class AdvancedDeductionBasicRule extends BasicRule
         {
             for(int x = 0; x < groupSize; x++)
             {
-                SudokuCell r = (SudokuCell) initialBoard.getCell(x, (groupNum / groupDim) * groupDim + y);
-                SudokuCell c = (SudokuCell) initialBoard.getCell((groupNum % groupDim) * groupDim + y, x);
+                SudokuCell r = initialBoard.getCell(x, (groupNum / groupDim) * groupDim + y);
+                SudokuCell c = initialBoard.getCell((groupNum % groupDim) * groupDim + y, x);
                 if(r.getValueInt() == cell.getValueInt())
                 {
                     for(int i = 0; i < groupDim; i++)
