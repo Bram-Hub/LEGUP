@@ -17,6 +17,12 @@ public class Legup
      */
     public static void main(String[] args)
     {
+        GameBoardFacade.getInstance();
+        setConfig();
+    }
+
+    private static void setConfig()
+    {
         Config config = null;
         try
         {

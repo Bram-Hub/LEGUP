@@ -4,27 +4,23 @@ import java.io.*;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import model.Puzzle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import save.ExportFileException;
 
 public class Config
 {
     private final static Logger LOGGER = Logger.getLogger(Config.class.getName());
 
     private Hashtable<String, String> puzzles;
-    private static final String CONFIG_LOCATION = "resources/legup/config";
+    private static final String CONFIG_LOCATION = "/legup/config";
 
     /**
      * Constructor
@@ -32,7 +28,7 @@ public class Config
     public Config() throws InvalidConfigException
     {
         puzzles = new Hashtable<>();
-        loadConfig(this.getClass().getResourceAsStream("/legup/config"));
+        loadConfig(this.getClass().getResourceAsStream(CONFIG_LOCATION));
     }
 
     /**
@@ -42,7 +38,7 @@ public class Config
      */
     public Vector<String> getPuzzleNames()
     {
-        Vector<String> puzzleList = new Vector<String>();
+        Vector<String> puzzleList = new Vector<>();
         for(Enumeration<String> e = puzzles.keys(); e.hasMoreElements(); )
         {
             puzzleList.add(e.nextElement());
@@ -102,4 +98,3 @@ public class Config
         }
     }
 }
-
