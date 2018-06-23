@@ -48,15 +48,15 @@ public class DisjointSet<T>
      * @param p element of the set of which to find
      * @return representative set element or null if the specified element is null
      */
-    public T findSet(T p)
+    public T find(T p)
     {
-        if(p == null)
+        if(p == null || parents.get(p) == null)
         {
             return null;
         }
         else if(p != parents.get(p))
         {
-            parents.put(p, findSet(parents.get(p)));
+            parents.put(p, find(parents.get(p)));
         }
         return parents.get(p);
     }
@@ -68,10 +68,10 @@ public class DisjointSet<T>
      * @param q set two
      * @return returns true if sets are non-null and disjoint, false otherwise
      */
-    public boolean unionSets(T u, T q)
+    public boolean union(T u, T q)
     {
-        T pid = findSet(u);
-        T qid = findSet(q);
+        T pid = find(u);
+        T qid = find(q);
         if(pid == null || qid == null || pid == qid)
         {
             return false;
@@ -110,6 +110,24 @@ public class DisjointSet<T>
     }
 
     /**
+     * Gets the set of elements that the specified element is contained in, or null if no such set exists.
+     *
+     * @param u element to get the set of
+     * @return the set of elements that the specified element if contained in, or null if no such set exists
+     */
+    public Set<T> getSet(T u)
+    {
+        if(find(u) != null)
+        {
+            return new HashSet<>(sets.get(u));
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /**
      * Gets a list of all of the sets in the DisjointSet
      *
      * @return list of the sets in the DisjointSet
@@ -132,59 +150,5 @@ public class DisjointSet<T>
     public int size()
     {
         return parents.size();
-    }
-
-    /**
-     * Finds the representative set element from element p
-     *
-     * @param p element in the disjoint set to find the representative set value
-     * @return the representative set value if p is not null and is contained in a set, otherwise null
-     */
-    public T find(T p)
-    {
-        if(p == null || parents.get(p) == null)
-        {
-            return null;
-        }
-        else if(p != parents.get(p))
-        {
-            parents.put(p, find(parents.get(p)));
-        }
-        return parents.get(p);
-    }
-
-    /**
-     * Gets the set of elements that the specified element is contained in, or null if no such set exists.
-     *
-     * @param u element to get the set of
-     * @return the set of elements that the specified element if contained in, or null if no such set exists
-     */
-    public Set<T> getSet(T u)
-    {
-        T pid = find(u);
-        if(pid == null)
-        {
-            return null;
-        }
-        else
-        {
-            return new HashSet<>(sets.get(pid));
-        }
-    }
-
-    /**
-     * Gets the set containing all sets in the disjoint set, if no sets exist,
-     * then it returns an empty set
-     *
-     * @return the set containing all sets in the disjoint set
-     */
-    public Set<Set<T>> getSets()
-    {
-        Set<Set<T>> allSets = new HashSet<>();
-        for(T key : sets.keySet())
-        {
-            allSets.add(getSet(key));
-        }
-        return allSets;
     }
 }
