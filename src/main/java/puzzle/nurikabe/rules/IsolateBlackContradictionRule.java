@@ -38,7 +38,7 @@ public class IsolateBlackContradictionRule extends ContradictionRule
 
         DisjointSet<NurikabeCell> blackRegions = NurikabeUtilities.getPossibleBlackRegions(board);
         boolean oneRegion = false;
-        for(Set<NurikabeCell> region : blackRegions.getSets())
+        for(Set<NurikabeCell> region : blackRegions.getAllSets())
         {
             for(NurikabeCell c : region)
             {
