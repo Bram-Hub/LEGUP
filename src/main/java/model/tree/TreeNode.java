@@ -1,7 +1,7 @@
 package model.tree;
 
 import model.gameboard.Board;
-import model.rules.RuleType;
+import utility.DisjointSet;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,6 +12,8 @@ public class TreeNode extends TreeElement
     private ArrayList<TreeTransition> parents;
     private ArrayList<TreeTransition> children;
     private boolean isRoot;
+
+    private DisjointSet<TreeNode> branches;
 
     /**
      * TreeNode Constructor - Creates a tree node whenever a rule has been made
@@ -25,6 +27,7 @@ public class TreeNode extends TreeElement
         this.parents = new ArrayList<>();
         this.children = new ArrayList<>();
         this.isRoot = false;
+        this.branches = new DisjointSet<>();
     }
 
     /**

@@ -1,9 +1,6 @@
 package utility;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class DisjointSet<T>
 {
@@ -12,25 +9,29 @@ public class DisjointSet<T>
     private Map<T, Set<T>> sets;
 
     /**
-     * Disjoint Set - Constructor
+     * DisjointSet Constructor - creates an empty DisjointSet
      */
     public DisjointSet()
     {
-        this.parents = new HashMap();
-        this.depths = new HashMap();
+        this.parents = new HashMap<>();
+        this.depths = new HashMap<>();
         this.sets = new HashMap<>();
     }
 
     /**
-     * Creates a new set in the disjoint set if not already in a set
+     * Creates a unique set that contains the specified element. If the specified element is null or another set already
+     * contains that element, this method returns false, indicating that a set was not created
      *
-     * @param u u new element to add the set
-     *
-     * @return true if element u is not already not a set, false otherwise
+     * @param u element to create the set from
+     * @return true if the set was created, false otherwise
      */
     public boolean createSet(T u)
     {
-        if(find(u) == null)
+        if(u == null || parents.containsKey(u))
+        {
+            return false;
+        }
+        else
         {
             parents.put(u, u);
             depths.put(u, 0);
@@ -39,24 +40,38 @@ public class DisjointSet<T>
             sets.put(u, newSet);
             return true;
         }
-        else
-        {
-           return false;
-        }
     }
 
     /**
-     * Unions to sets together
+     * Finds and returns the representative set element of the set that the specified element contains
      *
-     * @param p p element
-     * @param q q element
-     *
-     * @return true if p and q are elements of some set and the sets are not already in the same set, false otherwise
+     * @param p element of the set of which to find
+     * @return representative set element or null if the specified element is null
      */
-    public boolean union(T p, T q)
+    public T findSet(T p)
     {
-        T pid = find(p);
-        T qid = find(q);
+        if(p == null)
+        {
+            return null;
+        }
+        else if(p != parents.get(p))
+        {
+            parents.put(p, findSet(parents.get(p)));
+        }
+        return parents.get(p);
+    }
+
+    /**
+     * Unions two sets together. If the set are non-null and disjoint, then it returns true, false otherwise
+     *
+     * @param u set one
+     * @param q set two
+     * @return returns true if sets are non-null and disjoint, false otherwise
+     */
+    public boolean unionSets(T u, T q)
+    {
+        T pid = findSet(u);
+        T qid = findSet(q);
         if(pid == null || qid == null || pid == qid)
         {
             return false;
@@ -65,29 +80,64 @@ public class DisjointSet<T>
         {
             if(depths.get(pid) > depths.get(qid))
             {
-                sets.get(pid).addAll(sets.get(qid));
-                sets.remove(qid);
                 parents.put(qid, pid);
+                sets.get(qid).addAll(sets.get(pid));
+                sets.remove(pid);
             }
             else
             {
-                sets.get(qid).addAll(sets.get(pid));
-                sets.remove(pid);
                 parents.put(pid, qid);
-                if(depths.get(pid).equals(depths.get(qid)))
+                sets.get(pid).addAll(sets.get(qid));
+                sets.remove(qid);
+                if(depths.get(pid) == depths.get(qid))
                 {
                     depths.put(qid, depths.get(qid) + 1);
                 }
             }
-            return true;
         }
+        return true;
+    }
+
+    /**
+     * Determines whether the specified element is in the DisjointSet
+     *
+     * @param u element to check
+     * @return true if the DisjointSet contains the specified element, false otherwise
+     */
+    public boolean contains(T u)
+    {
+        return parents.containsKey(u);
+    }
+
+    /**
+     * Gets a list of all of the sets in the DisjointSet
+     *
+     * @return list of the sets in the DisjointSet
+     */
+    public List<Set<T>> getAllSets()
+    {
+        ArrayList<Set<T>> list = new ArrayList<>();
+        for(T e : sets.keySet())
+        {
+            list.add(new HashSet<>(sets.get(e)));
+        }
+        return list;
+    }
+
+    /**
+     * Returns the total number of elements among all sets in the DisjointSet
+     *
+     * @return the number of elements in the DisjointSet
+     */
+    public int size()
+    {
+        return parents.size();
     }
 
     /**
      * Finds the representative set element from element p
      *
      * @param p element in the disjoint set to find the representative set value
-     *
      * @return the representative set value if p is not null and is contained in a set, otherwise null
      */
     public T find(T p)
@@ -104,14 +154,14 @@ public class DisjointSet<T>
     }
 
     /**
-     * Gets the set that p is contained in
+     * Gets the set of elements that the specified element is contained in, or null if no such set exists.
      *
-     * @param p element that the set is contained in
-     * @return the set that element p is contained if in a set and not null, otherwise null
+     * @param u element to get the set of
+     * @return the set of elements that the specified element if contained in, or null if no such set exists
      */
-    public Set<T> getSet(T p)
+    public Set<T> getSet(T u)
     {
-        T pid = find(p);
+        T pid = find(u);
         if(pid == null)
         {
             return null;
