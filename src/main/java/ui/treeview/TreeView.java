@@ -830,4 +830,44 @@ public class TreeView extends DynamicViewer implements ITreeListener
     {
         repaint();
     }
+
+
+    ///New Draw Methods
+
+    public void newDrawTree(TreeElementView view)
+    {
+        if(view == null)
+            return;
+
+        if(view.getType() == NODE)
+        {
+            TreeNodeView nodeView = (TreeNodeView)view;
+            TreeNode node = nodeView.getTreeElement();
+            if(nodeView.getChildrenViews().size() == 0)
+            {
+                nodeView.setSpan(1);
+            }
+            else if(nodeView.getChildrenViews().size() == 1)
+            {
+                TreeElementView childView = nodeView.getChildrenViews().get(0);
+                newDrawTree(childView);
+                nodeView.setSpan(Math.max(1, childView.getSpan()));
+            }
+            else
+            {
+                int span = 1;
+                for(TreeElementView childView : nodeView.getChildrenViews())
+                {
+                    newDrawTree(childView);
+                    span = Math.max(span, childView.getSpan());
+                }
+                nodeView.setSpan(Math.max(nodeView.getChildrenViews().size(), span));
+            }
+        }
+        else
+        {
+            TreeTransitionView transView = (TreeTransitionView)view;
+            TreeTransition trans = transView.getTreeElement();
+        }
+    }
 }
