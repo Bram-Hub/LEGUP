@@ -55,7 +55,8 @@ public class TreeTransition extends TreeElement
      *
      * @return true if this tree node leads to a contradiction, false otherwise
      */
-    public boolean leadsToContradiction()
+    @Override
+    public boolean isContradictoryBranch()
     {
         if(isJustified() && isCorrect() && rule.getRuleType() == RuleType.CONTRADICTION)
         {
@@ -67,10 +68,19 @@ public class TreeTransition extends TreeElement
         }
         else
         {
-            return childNode.leadsToContradiction() && isJustified() && isCorrect();
+            return childNode.isContradictoryBranch() && isJustified() && isCorrect();
         }
     }
 
+    /**
+     * Recursively determines if the sub tree rooted at this tree element is valid by checking
+     * whether this tree element and all descendants of this tree element is justified
+     * and justified correctly
+     *
+     * @return true if this tree element and all descendants of this tree element is valid,
+     * false otherwise
+     */
+    @Override
     public boolean isValid()
     {
         return isJustified() && isCorrect() && childNode != null && childNode.isValid();

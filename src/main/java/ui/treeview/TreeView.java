@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.lang.Math.round;
-import static java.lang.Math.sqrt;
 import static model.tree.TreeElementType.NODE;
 import static model.tree.TreeElementType.TRANSITION;
 import static ui.treeview.TreeNodeView.DIAMETER;
@@ -322,7 +320,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
      */
     public void getCollapseColor(TreeNode treeNode)
     {
-        boolean overallColor = treeNode.leadsToContradiction();
+        boolean overallColor = treeNode.isContradictoryBranch();
         if(overallColor)
         {
             this.collapseColorHash.put(treeNode, Color.GREEN);

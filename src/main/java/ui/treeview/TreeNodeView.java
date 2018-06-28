@@ -76,7 +76,7 @@ public class TreeNodeView extends TreeElementView
             {
                 isContradictoryState = false;
                 graphics2D.setStroke(THIN_STROKE);
-                boolean isContraBranch = getTreeElement().leadsToContradiction();
+                boolean isContraBranch = getTreeElement().isContradictoryBranch();
 
                 graphics2D.setColor(isContraBranch ? NODE_COLOR_CONTRADICTION : NODE_COLOR_DEFAULT);
                 graphics2D.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);

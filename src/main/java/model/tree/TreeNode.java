@@ -1,7 +1,6 @@
 package model.tree;
 
 import model.gameboard.Board;
-import utility.DisjointSet;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,8 +11,6 @@ public class TreeNode extends TreeElement
     private ArrayList<TreeTransition> parents;
     private ArrayList<TreeTransition> children;
     private boolean isRoot;
-
-    private DisjointSet<TreeNode> branches;
 
     /**
      * TreeNode Constructor - Creates a tree node whenever a rule has been made
@@ -27,7 +24,6 @@ public class TreeNode extends TreeElement
         this.parents = new ArrayList<>();
         this.children = new ArrayList<>();
         this.isRoot = false;
-        this.branches = new DisjointSet<>();
     }
 
     /**
@@ -36,16 +32,26 @@ public class TreeNode extends TreeElement
      *
      * @return true if this tree node leads to a contradiction, false otherwise
      */
-    public boolean leadsToContradiction()
+    @Override
+    public boolean isContradictoryBranch()
     {
         boolean leadsToContra = true;
         for(TreeTransition child: children)
         {
-            leadsToContra &= child.leadsToContradiction();
+            leadsToContra &= child.isContradictoryBranch();
         }
         return leadsToContra && !children.isEmpty();
     }
 
+    /**
+     * Recursively determines if the sub tree rooted at this tree element is valid by checking
+     * whether this tree element and all descendants of this tree element is justified
+     * and justified correctly
+     *
+     * @return true if this tree element and all descendants of this tree element is valid,
+     * false otherwise
+     */
+    @Override
     public boolean isValid()
     {
         for(TreeTransition transition : children)
