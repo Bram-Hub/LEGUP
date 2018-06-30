@@ -379,11 +379,9 @@ public abstract class PuzzleImporter
     protected void makeTransitionChanges(TreeTransition transition, Node transElement) throws InvalidFileFormatException
     {
         NodeList cellList = transElement.getChildNodes();
-        System.err.println("Id: " + transition.hashCode() + " : child: " + cellList.getLength());
         for(int i = 0; i < cellList.getLength(); i++)
         {
             Node node = cellList.item(i);
-            System.err.println(i);
             if(node.getNodeName().equalsIgnoreCase("cell"))
             {
                 Board board = transition.getBoard();

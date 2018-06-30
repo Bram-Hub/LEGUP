@@ -134,7 +134,12 @@ public class GameBoardFacade
             {
                 Node node = rootNode.getElementsByTagName("puzzle").item(0);
                 String qualifiedClassName = config.getPuzzleClassForName(node.getAttributes().getNamedItem("name").getNodeValue());
-                System.err.println(qualifiedClassName);
+                if(qualifiedClassName == null)
+                {
+                    throw new InvalidFileFormatException("Puzzle creation error: cannot find puzzle with that name");
+                }
+                System.out.println(qualifiedClassName);
+
                 Class<?> c = Class.forName(qualifiedClassName);
                 Constructor<?> cons = c.getConstructor();
                 Puzzle puzzle = (Puzzle)cons.newInstance();
