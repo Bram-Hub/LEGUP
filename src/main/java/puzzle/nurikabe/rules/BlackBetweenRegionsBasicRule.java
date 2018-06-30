@@ -6,7 +6,6 @@ import model.tree.TreeTransition;
 import puzzle.nurikabe.*;
 import utility.DisjointSet;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -37,7 +36,7 @@ public class BlackBetweenRegionsBasicRule extends BasicRule
         contras.add(new TooManySpacesContradictionRule());
 
         NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
-        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParentNode().getBoard();
+        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParents().get(0).getBoard();
 
         NurikabeCell cell = (NurikabeCell)destBoardState.getElementData(elementIndex);
 

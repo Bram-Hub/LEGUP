@@ -36,7 +36,7 @@ public class WhiteBottleNeckBasicRule extends BasicRule
         contras.add(new TooFewSpacesContradictionRule());
 
         NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
-        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParentNode().getBoard();
+        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParents().get(0).getBoard();
 
         NurikabeCell cell = (NurikabeCell) destBoardState.getElementData(elementIndex);
 

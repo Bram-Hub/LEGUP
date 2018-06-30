@@ -20,7 +20,7 @@ public class UnreachableBasicRule extends BasicRule
         ContradictionRule contraRule = new CantReachWhiteContradictionRule();
 
         NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
-        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParentNode().getBoard();
+        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParents().get(0).getBoard();
 
         NurikabeCell cell = (NurikabeCell) destBoardState.getElementData(elementIndex);
 

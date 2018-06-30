@@ -29,7 +29,7 @@ public class FillinWhiteBasicRule extends BasicRule
     public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
-        NurikabeBoard origBoard = (NurikabeBoard) transition.getParentNode().getBoard();
+        NurikabeBoard origBoard = (NurikabeBoard) transition.getParents().get(0).getBoard();
         ContradictionRule contraRule = new IsolateBlackContradictionRule();
 
         NurikabeCell cell = (NurikabeCell)board.getElementData(elementIndex);

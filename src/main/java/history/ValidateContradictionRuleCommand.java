@@ -17,6 +17,13 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
     private HashMap<TreeNodeView, ArrayList<TreeTransitionView>> saveElementViews;
     private Rule newRule;
 
+    /**
+     * ValidateContradictionRuleCommand Constructor - creates a puzzle command for validating a contradiction rule
+     *
+     * @param selectedViews list of currently selected tree element views
+     * @param rule contradiction rule to set to all of the tree elements
+     */
+    @SuppressWarnings("unchecked")
     public ValidateContradictionRuleCommand(ArrayList<TreeElementView> selectedViews, Rule rule)
     {
         this.selectedViews = (ArrayList<TreeElementView>)selectedViews.clone();
@@ -46,8 +53,8 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
             {
                 TreeTransition transition = (TreeTransition) element;
                 TreeTransitionView treeTransitionView = (TreeTransitionView)view;
-                node = transition.getParentNode();
-                nodeView = treeTransitionView.getParentView();
+                node = transition.getParents().get(0);
+                nodeView = treeTransitionView.getParentViews().get(0);
             }
             else
             {
@@ -70,7 +77,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
             TreeTransition transition = tree.addNewTransition(node);
             TreeNode treeNode = new TreeNode(transition.getBoard().copy());
             transition.setChildNode(treeNode);
-            treeNode.addParent(transition);
+            treeNode.setParent(transition);
 
             transition.setRule(newRule);
 
@@ -123,8 +130,8 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
             {
                 TreeTransition transition = (TreeTransition) element;
                 TreeTransitionView treeTransitionView = (TreeTransitionView)view;
-                node = transition.getParentNode();
-                nodeView = treeTransitionView.getParentView();
+                node = transition.getParents().get(0);
+                nodeView = treeTransitionView.getParentViews().get(0);
             }
             else
             {

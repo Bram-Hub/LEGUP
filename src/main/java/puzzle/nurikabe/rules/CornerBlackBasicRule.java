@@ -32,7 +32,7 @@ public class CornerBlackBasicRule extends BasicRule
     public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
         NurikabeBoard destBoardState = (NurikabeBoard)transition.getBoard();
-        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParentNode().getBoard();
+        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParents().get(0).getBoard();
 
         int width = destBoardState.getWidth();
         int height = destBoardState.getHeight();

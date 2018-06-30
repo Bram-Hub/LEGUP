@@ -8,6 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import static java.lang.Math.*;
 
@@ -28,7 +29,7 @@ public class TreeTransitionView extends TreeElementView
     private static final Color X_COLOR = Color.RED;
 
     private TreeNodeView childView;
-    private TreeNodeView parentView;
+    private ArrayList<TreeNodeView> parentViews;
     private Polygon arrowhead;
 
     private Point lineStart;
@@ -43,13 +44,14 @@ public class TreeTransitionView extends TreeElementView
      * TreeTransitionView Constructor - creates a transition arrow for display
      *
      * @param transition tree transition associated with this view
-     * @param parentView TreeNodeView of the parent associated with this transition
+     * @param parentViews TreeNodeView of the parent associated with this transition
      */
-    public TreeTransitionView(TreeTransition transition, TreeNodeView parentView)
+    public TreeTransitionView(TreeTransition transition, TreeNodeView parentViews)
     {
         super(TreeElementType.TRANSITION, transition.getChildNode());
         this.treeElement = transition;
-        this.parentView = parentView;
+        this.parentViews = new ArrayList<>();
+        this.parentViews.add(parentViews);
         this.isCollapsed = false;
         this.startPoint = new Point();
         this.endPoint = new Point();
@@ -59,7 +61,7 @@ public class TreeTransitionView extends TreeElementView
 
     private void constructArrowhead()
     {
-        int nodeRadii = parentView.getRadius();
+        int nodeRadii = TreeNodeView.RADIUS;
 
         lineStart.x = startPoint.x;
         lineStart.y = startPoint.y;
@@ -128,14 +130,44 @@ public class TreeTransitionView extends TreeElementView
         this.childView = childView;
     }
 
-    public TreeNodeView getParentView()
+    /**
+     * Gets the list of parent views associated with this tree transition view
+     *
+     * @return list of parent views for this tree transition view
+     */
+    public ArrayList<TreeNodeView> getParentViews()
     {
-        return parentView;
+        return parentViews;
     }
 
-    public void setParentView(TreeNodeView parentView)
+    /**
+     * Sets the list of parent views associated with this tree transition view
+     *
+     * @param parentViews list of parent views for this tree transition view
+     */
+    public void setParentViews(ArrayList<TreeNodeView> parentViews)
     {
-        this.parentView = parentView;
+        this.parentViews = parentViews;
+    }
+
+    /**
+     * Adds a TreeNodeView to the list of parent views
+     *
+     * @param nodeView TreeNodeView to add to the list of parent views
+     */
+    public void addParentView(TreeNodeView nodeView)
+    {
+        parentViews.add(nodeView);
+    }
+
+    /**
+     * Removes a TreeNodeView from the list of parent views
+     *
+     * @param nodeView TreeNodeView to remove from the list of parent views
+     */
+    public void removeParentView(TreeNodeView nodeView)
+    {
+        parentViews.remove(nodeView);
     }
 
     public Point getStartPoint()

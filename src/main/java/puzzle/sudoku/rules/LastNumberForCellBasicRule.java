@@ -28,7 +28,7 @@ public class LastNumberForCellBasicRule extends BasicRule
      */
     public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
-        SudokuBoard initialBoard = (SudokuBoard) transition.getParentNode().getBoard();
+        SudokuBoard initialBoard = (SudokuBoard) transition.getParents().get(0).getBoard();
         SudokuBoard finalBoard = (SudokuBoard) transition.getBoard();
 
         int groupSize = initialBoard.getWidth();

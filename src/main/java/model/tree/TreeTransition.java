@@ -5,9 +5,11 @@ import model.gameboard.ElementData;
 import model.rules.Rule;
 import model.rules.RuleType;
 
+import java.util.ArrayList;
+
 public class TreeTransition extends TreeElement
 {
-    private TreeNode parentNode;
+    private ArrayList<TreeNode> parents;
     private TreeNode childNode;
     private Rule rule;
     private boolean isCorrect;
@@ -16,13 +18,14 @@ public class TreeTransition extends TreeElement
     /**
      * TreeTransition Constructor - create a transition from one node to another
      *
-     * @param parentNode parentNode tree node associated with the transition
+     * @param parent parent tree node associated with the transition
      * @param board board state of the transition
      */
-    public TreeTransition(TreeNode parentNode, Board board)
+    public TreeTransition(TreeNode parent, Board board)
     {
         super(TreeElementType.TRANSITION);
-        this.parentNode = parentNode;
+        this.parents = new ArrayList<>();
+        this.parents.add(parent);
         this.childNode = null;
         this.board = board;
         this.rule = null;
@@ -87,23 +90,54 @@ public class TreeTransition extends TreeElement
     }
 
     /**
-     * Gets the parentNode tree node of this transition
+     * Gets the parent tree nodes of this transition
      *
-     * @return parentNode tree node
+     * @return parent tree nodes of this tree transition
      */
-    public TreeNode getParentNode()
+    public ArrayList<TreeNode> getParents()
     {
-        return parentNode;
+        return parents;
     }
 
     /**
-     * Sets the parentNode tree node of this transition
+     * Sets the parent tree nodes of this transition
      *
-     * @param parentNode parentNode tree node
+     * @param parents parents tree nodes of this tree transition
      */
-    public void setParentNode(TreeNode parentNode)
+    public void setParents(ArrayList<TreeNode> parents)
     {
-        this.parentNode = parentNode;
+        this.parents = parents;
+    }
+
+    /**
+     * Adds a parent tree node to this tree transition
+     *
+     * @param parent parent tree node to add
+     */
+    public void addParent(TreeNode parent)
+    {
+        parents.add(parent);
+    }
+
+    /**
+     * Removes a parent tree node to this tree transition
+     *
+     * @param parent parent tree node to remove
+     */
+    public void removeParent(TreeNode parent)
+    {
+        parents.remove(parent);
+    }
+
+    /**
+     * Determines if the specified tree node is a parent of this transition
+     *
+     * @param parent tree node that could be a parent
+     * @return true if the specified tree node is a parent of this transition, false otherwise
+     */
+    public boolean isParent(TreeNode parent)
+    {
+        return parents.contains(parent);
     }
 
     /**

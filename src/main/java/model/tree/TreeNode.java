@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 public class TreeNode extends TreeElement
 {
-    private ArrayList<TreeTransition> parents;
+    private TreeTransition parent;
     private ArrayList<TreeTransition> children;
     private boolean isRoot;
 
@@ -21,7 +21,7 @@ public class TreeNode extends TreeElement
     {
         super(TreeElementType.NODE);
         this.board = board;
-        this.parents = new ArrayList<>();
+        this.parent = null;
         this.children = new ArrayList<>();
         this.isRoot = false;
     }
@@ -81,9 +81,9 @@ public class TreeNode extends TreeElement
             while(i.hasNext())
             {
                 TreeNode next = i.next();
-                for(TreeTransition transition : next.getParents())
+                if(next.getParent() != null)
                 {
-                    it.add(transition.getParentNode());
+                    it.addAll(next.getParent().getParents());
                 }
                 ancestors.add(next);
                 it.remove(next);
@@ -93,34 +93,14 @@ public class TreeNode extends TreeElement
     }
 
     /**
-     * Adds a parent to this tree node
+     * Determines if the specified tree transition is a parent of this node
      *
-     * @param parent parent to add
+     * @param parent tree transition that could be a parent
+     * @return true if the specified tree transition is a parent of this node, false otherwise
      */
-    public void addParent(TreeTransition parent)
+    public boolean isParent(TreeTransition parent)
     {
-        parents.add(parent);
-    }
-
-    /**
-     * Removes a parent to this tree node
-     *
-     * @param parent parent to remove
-     */
-    public void removeParent(TreeTransition parent)
-    {
-        parents.remove(parent);
-    }
-
-    /**
-     * Determines if the specified tree node is a parent of this node
-     *
-     * @param parent tree node that could be a parent
-     * @return true if the specified tree node is a parent of this node, false otherwise
-     */
-    public boolean isParent(TreeNode parent)
-    {
-        return children.contains(parent);
+        return this.parent == parent;
     }
 
     /**
@@ -157,21 +137,21 @@ public class TreeNode extends TreeElement
     /**
      * Gets the TreeNode's parent
      *
-     * @return the TreeNode's parents
+     * @return the TreeNode's parent
      */
-    public ArrayList<TreeTransition> getParents()
+    public TreeTransition getParent()
     {
-        return parents;
+        return parent;
     }
 
     /**
      * Sets the TreeNode's parent
      *
-     * @param parent the TreeNode's parents
+     * @param parent the TreeNode's parent
      */
-    public void setParents(ArrayList<TreeTransition> parent)
+    public void setParent(TreeTransition parent)
     {
-        this.parents = parent;
+        this.parent = parent;
     }
 
     /**

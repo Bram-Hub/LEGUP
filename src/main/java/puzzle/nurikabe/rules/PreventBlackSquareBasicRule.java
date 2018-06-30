@@ -31,7 +31,7 @@ public class PreventBlackSquareBasicRule extends BasicRule
         ContradictionRule contraRule = new BlackSquareContradictionRule();
 
         NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
-        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParentNode().getBoard();
+        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParents().get(0).getBoard();
 
         NurikabeCell cell = (NurikabeCell)destBoardState.getElementData(elementIndex);
 

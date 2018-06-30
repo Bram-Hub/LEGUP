@@ -29,7 +29,7 @@ public class FinishWithEmptyBasicRule extends BasicRule
     @Override
     public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
-        LightUpBoard initialBoard = (LightUpBoard)transition.getParentNode().getBoard();
+        LightUpBoard initialBoard = (LightUpBoard)transition.getParents().get(0).getBoard();
         LightUpBoard finalBoard = (LightUpBoard)transition.getBoard();
         LightUpCell cell = (LightUpCell)finalBoard.getElementData(elementIndex);
         if(cell.getType() != LightUpCellType.EMPTY)

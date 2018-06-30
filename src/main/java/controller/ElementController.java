@@ -189,7 +189,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         TreeElementView selectedView = selection.getFirstSelection();
         TreeTransitionView transitionView = (TreeTransitionView)selectedView;
 
-        Board prevBord = transitionView.getTreeElement().getParentNode().getBoard();
+        Board prevBord = transitionView.getTreeElement().getParents().get(0).getBoard();
 
         int value = ((SelectionItemView)e.getSource()).getData().getValueInt();
 

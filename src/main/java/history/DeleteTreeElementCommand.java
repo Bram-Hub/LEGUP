@@ -10,6 +10,12 @@ public class DeleteTreeElementCommand extends PuzzleCommand
 {
     private ArrayList<TreeElementView> selectedViews;
 
+    /**
+     * DeleteTreeElementCommand Constructor - creates a PuzzleCommand for deleting a tree element
+     *
+     * @param selectedViews the currently selected tree elements before the command is executed
+     */
+    @SuppressWarnings("unchecked")
     public DeleteTreeElementCommand(ArrayList<TreeElementView> selectedViews)
     {
         this.selectedViews = (ArrayList<TreeElementView>)selectedViews.clone();
@@ -26,24 +32,22 @@ public class DeleteTreeElementCommand extends PuzzleCommand
         TreeView treeView = treePanel.getTreeView();
         TreeSelection selection = treeView.getTreeSelection();
 
-
         TreeElementView firstSelectedView = selectedViews.get(0);
         TreeElementView newSelectedView;
         if(firstSelectedView.getType() == TreeElementType.NODE)
         {
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
-            newSelectedView = nodeView.getParentViews().get(0);
+            newSelectedView = nodeView.getParentView();
         }
         else
         {
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
-            newSelectedView = transitionView.getParentView();
+            newSelectedView = transitionView.getParentViews().get(0);
         }
         selection.newSelection(newSelectedView);
 
-        for(int i = 0; i < selectedViews.size(); i++)
+        for(TreeElementView selectedView : selectedViews)
         {
-            TreeElementView selectedView = selectedViews.get(i);
             tree.removeTreeElement(selectedView.getTreeElement());
             treeView.removeTreeElement(selectedView);
         }
@@ -110,28 +114,22 @@ public class DeleteTreeElementCommand extends PuzzleCommand
         TreeView treeView = treePanel.getTreeView();
         TreeSelection selection = treeView.getTreeSelection();
 
-        for(int i = 0; i < selectedViews.size(); i++)
+        for(TreeElementView selectedView : selectedViews)
         {
-            TreeElementView selectedView = selectedViews.get(i);
             if(selectedView.getType() == TreeElementType.NODE)
             {
                 TreeNodeView nodeView = (TreeNodeView) selectedView;
                 TreeNode node = nodeView.getTreeElement();
-                for(TreeTransitionView view : nodeView.getParentViews())
-                {
-                    view.setChildView(nodeView);
-                }
-                for(TreeTransition tran : nodeView.getTreeElement().getParents())
-                {
-                    tran.setChildNode(node);
-                }
+
+                nodeView.getParentView().setChildView(nodeView);
+                node.getParent().setChildNode(node);
             }
             else
             {
                 TreeTransitionView transitionView = (TreeTransitionView) selectedView;
                 TreeTransition treeTransition = transitionView.getTreeElement();
-                transitionView.getParentView().addChildrenView(transitionView);
-                treeTransition.getParentNode().addChild(treeTransition);
+                transitionView.getParentViews().forEach((TreeNodeView view) -> view.addChildrenView(transitionView));
+                treeTransition.getParents().forEach((TreeNode node) -> node.addChild(treeTransition));
             }
         }
 

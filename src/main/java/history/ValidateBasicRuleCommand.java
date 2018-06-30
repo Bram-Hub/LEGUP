@@ -54,7 +54,7 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
                         copyBoard.setModifiable(false);
                         treeNode = new TreeNode(copyBoard);
                         addNode.put(element, treeNode);
-                        treeNode.addParent(transition);
+                        treeNode.setParent(transition);
                     }
                     else
                     {
@@ -92,7 +92,7 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
                         copyBoard.setModifiable(false);
                         treeNode = new TreeNode(copyBoard);
                         addNode.put(element, treeNode);
-                        treeNode.addParent(transition);
+                        treeNode.setParent(transition);
                     }
                     else
                     {

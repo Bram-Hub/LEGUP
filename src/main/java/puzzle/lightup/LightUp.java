@@ -29,7 +29,7 @@ public class LightUp extends Puzzle
     public LightUp()
     {
         super();
-        name = "lightup";
+        name = "LightUp";
 
         importer = new LightUpImporter(this);
         exporter = new LightUpExporter(this);

@@ -1,11 +1,9 @@
 package model.tree;
 
 import model.gameboard.Board;
-import model.rules.Rule;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 
 public class Tree
 {
@@ -38,7 +36,7 @@ public class Tree
     {
         TreeNode treeNode = new TreeNode(transition.getBoard().copy());
         transition.setChildNode(treeNode);
-        treeNode.addParent(transition);
+        treeNode.setParent(transition);
         return treeNode;
     }
 
@@ -47,15 +45,12 @@ public class Tree
         if(element.getType() == TreeElementType.NODE)
         {
             TreeNode node = (TreeNode)element;
-            for(TreeTransition transition: node.getParents())
-            {
-                transition.setChildNode(null);
-            }
+            node.getParent().setChildNode(null);
         }
         else
         {
             TreeTransition transition = (TreeTransition)element;
-            transition.getParentNode().removeChild(transition);
+            transition.getParents().forEach((TreeNode n) -> n.removeChild(transition));
         }
     }
 

@@ -14,7 +14,6 @@ import ui.boardview.PuzzleElement;
 import ui.treeview.*;
 
 import java.awt.event.MouseEvent;
-import java.util.function.IntBinaryOperator;
 
 import static app.GameBoardFacade.getInstance;
 
@@ -31,6 +30,13 @@ public class EditDataCommand extends PuzzleCommand
 
     private TreeTransitionView transitionView;
 
+    /**
+     * EditDataCommand Constructor - create a puzzle command for editing a board
+     *
+     * @param elementView currently selected puzzle element view that is being edited
+     * @param selectedView currently selected tree element view that is being edited
+     * @param event mouse event
+     */
     public EditDataCommand(PuzzleElement elementView, TreeElementView selectedView, MouseEvent event)
     {
         this.elementView = elementView;
@@ -96,7 +102,7 @@ public class EditDataCommand extends PuzzleCommand
         }
         newSelectedView = transitionView;
 
-        Board prevBoard = transition.getParentNode().getBoard();
+        Board prevBoard = transition.getParents().get(0).getBoard();
 
         boardView.getElementController().changeCell(event, newData);
 
@@ -130,9 +136,9 @@ public class EditDataCommand extends PuzzleCommand
             {
                 return false;
             }
-            else if(!board.getElementData(index).isModifiable())
+            else
             {
-                return false;
+                return board.getElementData(index).isModifiable();
             }
         }
         else
@@ -142,12 +148,11 @@ public class EditDataCommand extends PuzzleCommand
             {
                 return false;
             }
-            else if(!board.getElementData(index).isModifiable())
+            else
             {
-                return false;
+                return board.getElementData(index).isModifiable();
             }
         }
-        return true;
     }
 
     /**
@@ -181,7 +186,6 @@ public class EditDataCommand extends PuzzleCommand
         Tree tree = getInstance().getTree();
         TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
         TreeSelection selection = treeView.getTreeSelection();
-        BoardView boardView = getInstance().getLegupUI().getBoardView();
 
         Board board = transition.getBoard();
         int index = elementView.getIndex();
@@ -199,7 +203,7 @@ public class EditDataCommand extends PuzzleCommand
             getInstance().getPuzzleModule().setCurrentBoard(treeNode.getBoard());
         }
 
-        Board prevBoard = transition.getParentNode().getBoard();
+        Board prevBoard = transition.getParents().get(0).getBoard();
 
         newData.setValueInt(oldData.getValueInt());
         board.notifyChange(newData);

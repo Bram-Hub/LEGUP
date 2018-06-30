@@ -35,9 +35,10 @@ public abstract class BasicRule extends Rule
         {
             return "State must be modified";
         }
-        else if(transition.getParentNode().getChildren().size() != 1)
+        else if(transition.getParents().size() != 1 ||
+                transition.getParents().get(0).getChildren().size() != 1)
         {
-            return "State must have only 1 child";
+            return "State must have only 1 parent and 1 child";
         }
         else
         {
@@ -84,9 +85,10 @@ public abstract class BasicRule extends Rule
         {
             return "Element must be modified";
         }
-        else if(transition.getParentNode().getChildren().size() != 1)
+        else if(transition.getParents().size() != 1 ||
+                transition.getParents().get(0).getChildren().size() != 1)
         {
-            return "State must have only 1 child";
+            return "State must have only 1 parent and 1 child";
         }
         else
         {

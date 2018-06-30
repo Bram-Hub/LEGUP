@@ -269,20 +269,20 @@ public class TreeView extends DynamicViewer implements ITreeListener
         while(branch0.getChildren().size() == 1)
         {
             //branch0 = branch0.getChildren().get(0);
-            if(branch0.getParents().size() == 2)
-            {
-                break;
-            }
+//            if(branch0.getParents().size() == 2)
+//            {
+//                break;
+//            }
         }
 
         TreeNode branch1 = node2;
         while(branch1.getChildren().size() == 1)
         {
            // branch1 = branch1.getChildren().get(0);
-            if(branch1.getParents().size() == 2)
-            {
-                break;
-            }
+//            if(branch1.getParents().size() == 2)
+//            {
+//                break;
+//            }
         }
 
         if(branch0 == branch1)
@@ -456,27 +456,27 @@ public class TreeView extends DynamicViewer implements ITreeListener
                         childView.setEndY(rspan + tspan + cspan / 2 + BORDER_GAP_HEIGHT);
 
                         TreeNode childNode = childNodeView.getTreeElement();
-                        ArrayList<TreeTransition> parentsTrans = childNode.getParents();
-                        int calcTrans = 0;
-                        for(TreeTransition tran : parentsTrans)
-                        {
-                            if(viewMap.containsKey(tran))
-                            {
-                                calcTrans++;
-                            }
-                        }
-                        if(calcTrans == parentsTrans.size())
-                        {
-                            //System.err.println("Seen : " + viewMap.containsKey(childNodeView.getTreeElement()));
-//                            int mergeY = (childNodeView.getParentViews().get(0).getEndY() + childNodeView.getParentViews().get(childNodeView.getParentViews().size() - 1).getEndY()) / 2;
-//                            childNodeView.setY(mergeY);
-
-                            for(TreeTransitionView transView : childNodeView.getParentViews())
-                            {
-                                transView.setEndX(childNodeView.getX() - RADIUS - TRANS_GAP / 2);
-                                transView.setEndY(childNodeView.getY());
-                            }
-                        }
+//                        ArrayList<TreeTransition> parentsTrans = childNode..getParents();
+//                        int calcTrans = 0;
+//                        for(TreeTransition tran : parentsTrans)
+//                        {
+//                            if(viewMap.containsKey(tran))
+//                            {
+//                                calcTrans++;
+//                            }
+//                        }
+//                        if(calcTrans == parentsTrans.size())
+//                        {
+//                            //System.err.println("Seen : " + viewMap.containsKey(childNodeView.getTreeElement()));
+////                            int mergeY = (childNodeView.getParentViews().get(0).getEndY() + childNodeView.getParentViews().get(childNodeView.getParentViews().size() - 1).getEndY()) / 2;
+////                            childNodeView.setY(mergeY);
+//
+//                            for(TreeTransitionView transView : childNodeView.getParentViews())
+//                            {
+//                                transView.setEndX(childNodeView.getX() - RADIUS - TRANS_GAP / 2);
+//                                transView.setEndY(childNodeView.getY());
+//                            }
+//                        }
                     }
                 }
                 else
@@ -607,7 +607,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
                 {
                     childView = new TreeNodeView(child.getChildNode());
                     transitionView.setChildView(childView);
-                    childView.addParentView(transitionView);
+                    childView.setParentView(transitionView);
                 }
 
                 int cspan = createTreeViews(childView, depth + 1, rspan + tspan);
@@ -640,8 +640,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
     {
         TreeNodeView newNodeView = new TreeNodeView(node);
         transitionView.setChildView(newNodeView);
-        newNodeView.addParentView(transitionView);
-
+        newNodeView.setParentView(transitionView);
         return newNodeView;
     }
 
@@ -650,15 +649,12 @@ public class TreeView extends DynamicViewer implements ITreeListener
         if(view.getType() == NODE)
         {
             TreeNodeView nodeView = (TreeNodeView)view;
-            for(TreeTransitionView transitionView : nodeView.getParentViews())
-            {
-                transitionView.setChildView(null);
-            }
+            nodeView.getParentView().setChildView(null);
         }
         else
         {
             TreeTransitionView transitionView = (TreeTransitionView)view;
-            transitionView.getParentView().removeChildrenView(transitionView);
+            transitionView.getParentViews().forEach((TreeNodeView n) -> n.removeChildrenView(transitionView));
         }
     }
 

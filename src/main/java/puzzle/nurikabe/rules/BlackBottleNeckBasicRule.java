@@ -3,13 +3,9 @@ package puzzle.nurikabe.rules;
 import model.rules.BasicRule;
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
-import puzzle.nurikabe.Nurikabe;
 import puzzle.nurikabe.NurikabeBoard;
 import puzzle.nurikabe.NurikabeCell;
 import puzzle.nurikabe.NurikabeType;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 public class BlackBottleNeckBasicRule extends BasicRule
 {
@@ -35,7 +31,7 @@ public class BlackBottleNeckBasicRule extends BasicRule
         ContradictionRule contraRule = new IsolateBlackContradictionRule();
 
         NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
-        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParentNode().getBoard();
+        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParents().get(0).getBoard();
 
         NurikabeCell cell = (NurikabeCell) destBoardState.getElementData(elementIndex);
 

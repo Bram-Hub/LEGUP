@@ -86,7 +86,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
             {
                 if(!leaf.isRoot())
                 {
-                    isComplete &= leaf.getParents().get(0).isContradictoryBranch() || isBoardComplete(leaf.getBoard());
+                    isComplete &= leaf.getParent().isContradictoryBranch() || isBoardComplete(leaf.getBoard());
                 }
                 else
                 {

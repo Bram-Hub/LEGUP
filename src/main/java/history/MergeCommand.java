@@ -63,12 +63,12 @@ public class MergeCommand extends PuzzleCommand
             transition.setRule(new MergeRule());
             nodeView.getTreeElement().addChild(transition);
             transition.setChildNode(mergedNode);
-            mergedNode.addParent(transition);
+            mergedNode.setParent(transition);
 
             TreeTransitionView transitionView = new TreeTransitionView(transition, nodeView);
             nodeView.addChildrenView(transitionView);
             transitionView.setChildView(mergedView);
-            mergedView.addParentView(transitionView);
+            mergedView.setParentView(transitionView);
         }
         treeView.repaint();
     }
