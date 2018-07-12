@@ -1,7 +1,9 @@
 package history;
 
 import app.GameBoardFacade;
+import model.Puzzle;
 import model.gameboard.Board;
+import model.observer.ITreeListener;
 import model.rules.Rule;
 import model.tree.*;
 import ui.treeview.*;
@@ -34,6 +36,7 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         TreeSelection selection = treeView.getTreeSelection();
         Tree tree = GameBoardFacade.getInstance().getTree();
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
         for(TreeElementView selectedView : selectedViews)
         {
@@ -64,7 +67,8 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
 
                     if(transitionView.getChildView() == null)
                     {
-                        treeView.addNodeView(transitionView, treeNode);
+                        puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(treeNode));
+                        //treeView.addNodeView(transitionView, treeNode);
                     }
                 }
                 else
@@ -102,7 +106,8 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
 
                     if(transitionView.getChildView() == null)
                     {
-                        treeView.addNodeView(transitionView, treeNode);
+                        puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(treeNode));
+                        //treeView.addNodeView(transitionView, treeNode);
                     }
                 }
                 else

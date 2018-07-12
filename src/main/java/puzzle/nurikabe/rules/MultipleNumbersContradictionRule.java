@@ -3,7 +3,7 @@ package puzzle.nurikabe.rules;
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
 import puzzle.nurikabe.*;
-import utility.DisjointSet;
+import utility.DisjointSets;
 
 import java.util.Set;
 
@@ -36,7 +36,7 @@ public class MultipleNumbersContradictionRule extends ContradictionRule
         {
             return "Contradiction must be a numbered cell";
         }
-        DisjointSet<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(board);
+        DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(board);
         Set<NurikabeCell> numberedRegion = regions.getSet(cell);
         for(NurikabeCell c : numberedRegion)
         {

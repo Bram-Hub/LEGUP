@@ -3,9 +3,8 @@ package puzzle.nurikabe.rules;
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
 import puzzle.nurikabe.*;
-import utility.DisjointSet;
+import utility.DisjointSets;
 
-import java.awt.*;
 import java.util.Set;
 
 public class TooFewSpacesContradictionRule extends ContradictionRule
@@ -36,7 +35,7 @@ public class TooFewSpacesContradictionRule extends ContradictionRule
             return "Contradiction must be a white or a numbered cell";
         }
 
-        DisjointSet<NurikabeCell> regions = NurikabeUtilities.getPossibleWhiteRegions(board);
+        DisjointSets<NurikabeCell> regions = NurikabeUtilities.getPossibleWhiteRegions(board);
         Set<NurikabeCell> whiteRegion = regions.getSet(cell);
         NurikabeCell numberedCell = null;
         for(NurikabeCell c : whiteRegion)

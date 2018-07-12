@@ -81,8 +81,8 @@ public class EditDataCommand extends PuzzleCommand
             }
 
             treeNode.getChildren().add(transition);
-            transitionView = treeView.addTransitionView(nodeView, transition);
             puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(transition));
+            transitionView = (TreeTransitionView) treeView.getElementView(transition);
 
             selection.newSelection(transitionView);
             puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeSelectionChanged(selection));

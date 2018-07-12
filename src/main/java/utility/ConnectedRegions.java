@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ConnectedRegions
+public final class ConnectedRegions
 {
     public static List<Set<Point>> getConnectedRegions(int boundaryCell, int[][] cells, int width, int height)
     {

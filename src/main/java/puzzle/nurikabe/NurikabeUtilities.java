@@ -1,7 +1,7 @@
 package puzzle.nurikabe;
 
 import model.gameboard.ElementData;
-import utility.DisjointSet;
+import utility.DisjointSets;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -38,12 +38,12 @@ public class NurikabeUtilities
      * @param board nurikabe board
      * @return a disjoint set of the regions
      */
-    public static DisjointSet<NurikabeCell> getNurikabeRegions(NurikabeBoard board)
+    public static DisjointSets<NurikabeCell> getNurikabeRegions(NurikabeBoard board)
     {
         int width = board.getWidth();
         int height = board.getHeight();
 
-        DisjointSet<NurikabeCell> regions = new DisjointSet<>();
+        DisjointSets<NurikabeCell> regions = new DisjointSets<>();
         for(ElementData data : board.getElementData())
         {
             regions.createSet((NurikabeCell)data);
@@ -105,12 +105,12 @@ public class NurikabeUtilities
      * @param board nurikabe board
      * @return the disjoint set containing the possible black regions
      */
-    public static DisjointSet<NurikabeCell> getPossibleBlackRegions(NurikabeBoard board)
+    public static DisjointSets<NurikabeCell> getPossibleBlackRegions(NurikabeBoard board)
     {
         int width = board.getWidth();
         int height = board.getHeight();
 
-        DisjointSet<NurikabeCell> blackRegions = new DisjointSet<>();
+        DisjointSets<NurikabeCell> blackRegions = new DisjointSets<>();
         for(ElementData data : board.getElementData())
         {
             NurikabeCell cell = (NurikabeCell)data;
@@ -152,12 +152,12 @@ public class NurikabeUtilities
      * @param board nurikabe board
      * @return the disjoint set containing the possible white regions
      */
-    public static DisjointSet<NurikabeCell> getPossibleWhiteRegions(NurikabeBoard board)
+    public static DisjointSets<NurikabeCell> getPossibleWhiteRegions(NurikabeBoard board)
     {
         int width = board.getWidth();
         int height = board.getHeight();
 
-        DisjointSet<NurikabeCell> whiteRegions = new DisjointSet<>();
+        DisjointSets<NurikabeCell> whiteRegions = new DisjointSets<>();
         for(ElementData data : board.getElementData())
         {
             NurikabeCell cell = (NurikabeCell)data;
@@ -204,7 +204,7 @@ public class NurikabeUtilities
         int width = board.getWidth();
         int height = board.getHeight();
 
-        DisjointSet<NurikabeCell> whiteRegions = new DisjointSet<>();
+        DisjointSets<NurikabeCell> whiteRegions = new DisjointSets<>();
         for(ElementData data : board.getElementData())
         {
             NurikabeCell cell = (NurikabeCell)data;

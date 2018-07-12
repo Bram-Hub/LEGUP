@@ -6,7 +6,7 @@ import puzzle.nurikabe.NurikabeBoard;
 import puzzle.nurikabe.NurikabeCell;
 import puzzle.nurikabe.NurikabeType;
 import puzzle.nurikabe.NurikabeUtilities;
-import utility.DisjointSet;
+import utility.DisjointSets;
 
 import java.util.Set;
 
@@ -37,7 +37,7 @@ public class NoNumberContradictionRule extends ContradictionRule
         {
             return "Contradiction must be a white cell";
         }
-        DisjointSet<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(board);
+        DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(board);
         Set<NurikabeCell> whiteRegion = regions.getSet(cell);
         for(NurikabeCell c : whiteRegion)
         {

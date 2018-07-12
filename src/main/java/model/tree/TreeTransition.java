@@ -18,19 +18,29 @@ public class TreeTransition extends TreeElement
     /**
      * TreeTransition Constructor - create a transition from one node to another
      *
-     * @param parent parent tree node associated with the transition
      * @param board board state of the transition
      */
-    public TreeTransition(TreeNode parent, Board board)
+    public TreeTransition(Board board)
     {
         super(TreeElementType.TRANSITION);
         this.parents = new ArrayList<>();
-        this.parents.add(parent);
         this.childNode = null;
         this.board = board;
         this.rule = null;
         this.isCorrect = false;
         this.isVerified = false;
+    }
+
+    /**
+     * TreeTransition Constructor - create a transition from one node to another
+     *
+     * @param parent parent tree node associated with the transition
+     * @param board board state of the transition
+     */
+    public TreeTransition(TreeNode parent, Board board)
+    {
+        this(board);
+        this.parents.add(parent);
     }
 
     /**

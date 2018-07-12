@@ -91,7 +91,8 @@ public class TreeNodeView extends TreeElementView
                 graphics2D.drawOval(location.x - RADIUS + 5, location.y - RADIUS + 5, DIAMETER - 10, DIAMETER - 10);
 
                 //graphics2D.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
-
+                graphics2D.setFont(new Font("Ariel", Font.PLAIN, 10));
+                graphics2D.drawString((int)span + "-(" + location.x + "," + location.y + ")", location.x - RADIUS, location.y);
                 if(isSelected)
                 {
                     graphics2D.setColor(SELECTION_COLOR);

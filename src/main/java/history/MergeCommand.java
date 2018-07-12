@@ -3,6 +3,7 @@ package history;
 import app.GameBoardFacade;
 import model.Puzzle;
 import model.gameboard.Board;
+import model.observer.ITreeListener;
 import model.rules.MergeRule;
 import model.tree.Tree;
 import model.tree.TreeNode;
@@ -19,6 +20,7 @@ public class MergeCommand extends PuzzleCommand
 
     private ArrayList<TreeElementView> selectedViews;
 
+    @SuppressWarnings("unchecked")
     public MergeCommand(ArrayList<TreeElementView> selectedViews)
     {
         this.selectedViews = (ArrayList<TreeElementView>)selectedViews.clone();
@@ -52,24 +54,33 @@ public class MergeCommand extends PuzzleCommand
         Board mergedBoard = lcaBoard.mergedBoard(lcaBoard, mergingBoards);
 
         TreeNode mergedNode = new TreeNode(mergedBoard.copy());
-        TreeNodeView mergedView = new TreeNodeView(mergedNode);
+        //TreeNodeView mergedView = new TreeNodeView(mergedNode);
+
+        TreeTransition transMerge = new TreeTransition(mergedBoard);
+        //TreeTransitionView transitionView = new TreeTransitionView(transMerge);
+
+        transMerge.setRule(new MergeRule());
+        transMerge.setChildNode(mergedNode);
+        mergedNode.setParent(transMerge);
+
+        //transitionView.setChildView(mergedView);
+        //mergedView.setParentView(transitionView);
 
         for(int i = 0; i < selectedViews.size(); i++)
         {
             TreeElementView elementView = selectedViews.get(i);
             TreeNodeView nodeView = (TreeNodeView)elementView;
+            TreeNode node = nodeView.getTreeElement();
 
-            TreeTransition transition = new TreeTransition(nodeView.getTreeElement(), mergedBoard);
-            transition.setRule(new MergeRule());
-            nodeView.getTreeElement().addChild(transition);
-            transition.setChildNode(mergedNode);
-            mergedNode.setParent(transition);
+            node.addChild(transMerge);
+            //nodeView.addChildrenView(transitionView);
 
-            TreeTransitionView transitionView = new TreeTransitionView(transition, nodeView);
-            nodeView.addChildrenView(transitionView);
-            transitionView.setChildView(mergedView);
-            mergedView.setParentView(transitionView);
+            transMerge.addParent(node);
+            //transitionView.addParentView(nodeView);
         }
+
+        puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(transMerge));
+        puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(mergedNode));
         treeView.repaint();
     }
 

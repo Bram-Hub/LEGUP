@@ -1,8 +1,13 @@
 package puzzle.lightup.rules;
 
 import model.rules.BasicRule;
+import model.rules.RegisterRule;
+import model.rules.RuleType;
 import model.tree.TreeTransition;
+import puzzle.lightup.LightUp;
 
+
+@RegisterRule(puzzleName = LightUp.class, ruleType = RuleType.BASIC)
 public class EmptyCornersBasicRule extends BasicRule
 {
 

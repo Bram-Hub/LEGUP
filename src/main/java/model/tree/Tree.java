@@ -4,6 +4,7 @@ import model.gameboard.Board;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public class Tree
 {
@@ -28,7 +29,7 @@ public class Tree
     public TreeTransition addNewTransition(TreeNode treeNode)
     {
         TreeTransition transition = new TreeTransition(treeNode, treeNode.getBoard().copy());
-        treeNode.getChildren().add(transition);
+        treeNode.addChild(transition);
         return transition;
     }
 
@@ -129,18 +130,18 @@ public class Tree
         }
         else
         {
-            ArrayList<ArrayList<TreeNode>> ancestors = new ArrayList<>();
+            List<List<TreeNode>> ancestors = new ArrayList<>();
             for(TreeNode node : nodes)
             {
                 ancestors.add(node.getAncestors());
             }
 
-            ArrayList<TreeNode> first = ancestors.get(0);
+            List<TreeNode> first = ancestors.get(0);
 
             for(TreeNode node : first)
             {
                 boolean isCommon = true;
-                for(ArrayList<TreeNode> nList: ancestors)
+                for(List<TreeNode> nList: ancestors)
                 {
                     isCommon &= nList.contains(node);
                 }

@@ -8,7 +8,8 @@ import java.awt.*;
 public abstract class TreeElementView implements Shape
 {
     protected TreeElement treeElement;
-    protected int span;
+    protected double span;
+    protected int depth;
     protected boolean isSelected;
     protected boolean isHover;
     protected TreeElementType type;
@@ -39,9 +40,9 @@ public abstract class TreeElementView implements Shape
     /**
      * Gets the span for the sub tree rooted at this view
      *
-     * @return span
+     * @return span bounded y span
      */
-    public int getSpan()
+    public double getSpan()
     {
         return span;
     }
@@ -49,11 +50,31 @@ public abstract class TreeElementView implements Shape
     /**
      * Sets the span for the sub tree rooted at this view.
      *
-     * @param span
+     * @param span bounded y span
      */
-    public void setSpan(int span)
+    public void setSpan(double span)
     {
         this.span = span;
+    }
+
+    /**
+     * Gets the depth of this tree element in the tree
+     *
+     * @return depth of this tree element
+     */
+    public int getDepth()
+    {
+        return depth;
+    }
+
+    /**
+     * Sets the depth of this tree element in the tree
+     *
+     * @param depth depth of this tree element
+     */
+    public void setDepth(int depth)
+    {
+        this.depth = depth;
     }
 
     /**

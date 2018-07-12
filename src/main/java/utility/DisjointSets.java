@@ -2,16 +2,16 @@ package utility;
 
 import java.util.*;
 
-public class DisjointSet<T>
+public class DisjointSets<T>
 {
     private Map<T, T> parents;
     private Map<T, Integer> depths;
     private Map<T, Set<T>> sets;
 
     /**
-     * DisjointSet Constructor - creates an empty DisjointSet
+     * DisjointSets Constructor - creates an empty DisjointSets
      */
-    public DisjointSet()
+    public DisjointSets()
     {
         this.parents = new HashMap<>();
         this.depths = new HashMap<>();
@@ -46,7 +46,7 @@ public class DisjointSet<T>
      * Finds and returns the representative set element of the set that the specified element contains
      *
      * @param p element of the set of which to find
-     * @return representative set element or null if the specified element is null
+     * @return representative set element or null if the specified element is null or is not in the DisjointSets
      */
     public T find(T p)
     {
@@ -64,13 +64,13 @@ public class DisjointSet<T>
     /**
      * Unions two sets together. If the set are non-null and disjoint, then it returns true, false otherwise
      *
-     * @param u set one
+     * @param p set one
      * @param q set two
      * @return returns true if sets are non-null and disjoint, false otherwise
      */
-    public boolean union(T u, T q)
+    public boolean union(T p, T q)
     {
-        T pid = find(u);
+        T pid = find(p);
         T qid = find(q);
         if(pid == null || qid == null || pid == qid)
         {
@@ -81,28 +81,53 @@ public class DisjointSet<T>
             if(depths.get(pid) > depths.get(qid))
             {
                 parents.put(qid, pid);
-                sets.get(qid).addAll(sets.get(pid));
-                sets.remove(pid);
+                sets.get(pid).addAll(sets.get(qid));
+                sets.remove(qid);
             }
             else
             {
                 parents.put(pid, qid);
-                sets.get(pid).addAll(sets.get(qid));
-                sets.remove(qid);
+                sets.get(qid).addAll(sets.get(pid));
+                sets.remove(pid);
                 if(depths.get(pid) == depths.get(qid))
                 {
                     depths.put(qid, depths.get(qid) + 1);
                 }
             }
+            return true;
         }
-        return true;
     }
 
     /**
-     * Determines whether the specified element is in the DisjointSet
+     * Unions to elements together, if either element is not already in the DisjointSets, it creates a set for the
+     * element then unions the sets together. If either element is null, no action is taken.
+     *
+     * @param p element one
+     * @param q element two
+     */
+    public void addAndUnion(T p, T q)
+    {
+        if(p != null && q != null)
+        {
+            T pid = find(p);
+            if(pid == null)
+            {
+                createSet(p);
+            }
+            T qid = find(q);
+            if(qid == null)
+            {
+                createSet(q);
+            }
+            union(p, q);
+        }
+    }
+
+    /**
+     * Determines whether the specified element is in the DisjointSets
      *
      * @param u element to check
-     * @return true if the DisjointSet contains the specified element, false otherwise
+     * @return true if the DisjointSets contains the specified element, false otherwise
      */
     public boolean contains(T u)
     {
@@ -112,14 +137,15 @@ public class DisjointSet<T>
     /**
      * Gets the set of elements that the specified element is contained in, or null if no such set exists.
      *
-     * @param u element to get the set of
+     * @param p element to get the set of
      * @return the set of elements that the specified element if contained in, or null if no such set exists
      */
-    public Set<T> getSet(T u)
+    public Set<T> getSet(T p)
     {
-        if(find(u) != null)
+        T pid = find(p);
+        if(pid != null)
         {
-            return new HashSet<>(sets.get(u));
+            return new HashSet<>(sets.get(pid));
         }
         else
         {
@@ -128,9 +154,9 @@ public class DisjointSet<T>
     }
 
     /**
-     * Gets a list of all of the sets in the DisjointSet
+     * Gets a list of all of the sets in the DisjointSets
      *
-     * @return list of the sets in the DisjointSet
+     * @return list of the sets in the DisjointSets
      */
     public List<Set<T>> getAllSets()
     {
@@ -143,9 +169,19 @@ public class DisjointSet<T>
     }
 
     /**
-     * Returns the total number of elements among all sets in the DisjointSet
+     * Gets the number of disjoint sets
      *
-     * @return the number of elements in the DisjointSet
+     * @return the number of disjoint sets
+     */
+    public int setCount()
+    {
+        return sets.size();
+    }
+
+    /**
+     * Gets the total number of elements among all sets in the DisjointSets
+     *
+     * @return the number of elements in the DisjointSets
      */
     public int size()
     {

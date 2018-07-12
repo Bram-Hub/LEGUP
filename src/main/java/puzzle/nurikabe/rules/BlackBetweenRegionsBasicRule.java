@@ -4,7 +4,7 @@ import model.rules.BasicRule;
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
 import puzzle.nurikabe.*;
-import utility.DisjointSet;
+import utility.DisjointSets;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -48,7 +48,7 @@ public class BlackBetweenRegionsBasicRule extends BasicRule
         int x = cell.getLocation().x;
         int y = cell.getLocation().y;
 
-        DisjointSet<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(destBoardState);
+        DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(destBoardState);
         Set<NurikabeCell> adjacentWhiteRegions = new HashSet<>();
         NurikabeCell upCell = destBoardState.getCell(x, y - 1);
         NurikabeCell rightCell = destBoardState.getCell(x + 1, y);

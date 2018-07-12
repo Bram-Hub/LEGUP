@@ -3,10 +3,8 @@ package puzzle.nurikabe.rules;
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
 import puzzle.nurikabe.*;
-import utility.DisjointSet;
+import utility.DisjointSets;
 
-import java.awt.*;
-import java.util.List;
 import java.util.Set;
 
 public class IsolateBlackContradictionRule extends ContradictionRule
@@ -36,7 +34,7 @@ public class IsolateBlackContradictionRule extends ContradictionRule
             return "Contradiction must be a black cell";
         }
 
-        DisjointSet<NurikabeCell> blackRegions = NurikabeUtilities.getPossibleBlackRegions(board);
+        DisjointSets<NurikabeCell> blackRegions = NurikabeUtilities.getPossibleBlackRegions(board);
         boolean oneRegion = false;
         for(Set<NurikabeCell> region : blackRegions.getAllSets())
         {

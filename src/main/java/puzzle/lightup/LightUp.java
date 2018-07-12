@@ -1,28 +1,17 @@
 package puzzle.lightup;
 
 import model.Puzzle;
+import model.RegisterPuzzle;
 import model.gameboard.Board;
 import model.gameboard.ElementData;
 import model.rules.ContradictionRule;
-import model.tree.Tree;
 import model.tree.TreeTransition;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 import puzzle.lightup.rules.*;
 import ui.boardview.PuzzleElement;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 
+@RegisterPuzzle
 public class LightUp extends Puzzle
 {
 

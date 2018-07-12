@@ -1,8 +1,10 @@
 package controller;
 
 import app.GameBoardFacade;
+import model.Puzzle;
 import model.gameboard.Board;
 import model.gameboard.ElementData;
+import model.observer.ITreeListener;
 import model.rules.CaseRule;
 import model.tree.Tree;
 import model.tree.TreeElementType;
@@ -77,6 +79,8 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         PuzzleElement elementView = boardView.getElement(e.getPoint());
         TreeSelection selection = treeView.getTreeSelection();
         TreeElementView selectedView = selection.getFirstSelection();
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+
         if(elementView != null)
         {
             if(board.getCaseRule() != null)
@@ -93,10 +97,13 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                         b.setModifiable(false);
                         transition.setBoard(b);
                         transition.setRule(caseRule);
-                        TreeTransitionView transitionView = treeView.addTransitionView(nodeView, transition);
+
+                        puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(transition));
+                        //TreeTransitionView transitionView = treeView.addTransitionView(nodeView, transition);
 
                         TreeNode n = tree.addNode(transition);
-                        treeView.addNodeView(transitionView, n);
+                        puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(n));
+                        //treeView.addNodeView(transitionView, n);
                     }
                     selection.newSelection(nodeView.getChildrenViews().get(0).getChildView());
                     getInstance().getPuzzleModule().setCurrentBoard(node.getChildren().get(0).getBoard());
