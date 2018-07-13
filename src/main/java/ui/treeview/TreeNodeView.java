@@ -32,7 +32,6 @@ public class TreeNodeView extends TreeElementView
 
     private TreeTransitionView parentView;
     private ArrayList<TreeTransitionView> childrenViews;
-    private TreeTransitionView transitionView;
 
     private boolean isCollapsed;
     private boolean isContradictoryState;

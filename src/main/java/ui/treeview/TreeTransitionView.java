@@ -15,9 +15,9 @@ import static java.lang.Math.*;
 
 public class TreeTransitionView extends TreeElementView
 {
-    private static final int RADIUS = 10;
-    private static final int DIAMETER = 2 * RADIUS;
-    private static final int GAP = 5;
+    static final int RADIUS = 10;
+    static final int DIAMETER = 2 * RADIUS;
+    static final int GAP = 5;
 
     private static final Stroke THIN_STROKE = new BasicStroke(1);
     private static final Stroke MEDIUM_STROKE = new BasicStroke(2);
@@ -68,30 +68,6 @@ public class TreeTransitionView extends TreeElementView
         this.lineStartPoints.add(new Point());
     }
 
-    private void constructArrowhead()
-    {
-        int nodeRadii = TreeNodeView.RADIUS;
-
-        double thetaArrow = Math.toRadians(30);
-
-        int point1X = endPoint.x;
-        int point1Y = endPoint.y;
-
-        int point2X = point1X - nodeRadii;
-        int point2Y = point1Y + (int)Math.round(nodeRadii / (2 * cos(thetaArrow)));
-
-        int point3X = point1X - nodeRadii;
-        int point3Y = point1Y - (int)Math.round(nodeRadii / (2 * cos(thetaArrow)));
-
-        lineEndPoint.x = point2X;
-        lineEndPoint.y = (point3Y - point2Y) / 2 + point2Y;
-
-        arrowhead = new Polygon();
-        arrowhead.addPoint(point1X, point1Y);
-        arrowhead.addPoint(point2X, point2Y);
-        arrowhead.addPoint(point3X, point3Y);
-    }
-
     /**
      * Draws the TreeTransitionView
      *
@@ -125,16 +101,58 @@ public class TreeTransitionView extends TreeElementView
         }
     }
 
+    /**
+     * Constructs the arrowhead shape from the start and end points
+     */
+    private void constructArrowhead()
+    {
+        int nodeRadii = TreeNodeView.RADIUS;
+
+        double thetaArrow = Math.toRadians(30);
+
+        int point1X = endPoint.x;
+        int point1Y = endPoint.y;
+
+        int point2X = point1X - nodeRadii;
+        int point2Y = point1Y + (int)Math.round(nodeRadii / (2 * cos(thetaArrow)));
+
+        int point3X = point1X - nodeRadii;
+        int point3Y = point1Y - (int)Math.round(nodeRadii / (2 * cos(thetaArrow)));
+
+        lineEndPoint.x = point2X;
+        lineEndPoint.y = (point3Y - point2Y) / 2 + point2Y;
+
+        arrowhead = new Polygon();
+        arrowhead.addPoint(point1X, point1Y);
+        arrowhead.addPoint(point2X, point2Y);
+        arrowhead.addPoint(point3X, point3Y);
+    }
+
+    /**
+     * Gets the TreeElement associated with this view
+     *
+     * @return the TreeElement associated with this view
+     */
     public TreeTransition getTreeElement()
     {
         return (TreeTransition)treeElement;
     }
 
+    /**
+     * Gets the TreeNodeView child view
+     *
+     * @return TreeNodeView child view
+     */
     public TreeNodeView getChildView()
     {
         return childView;
     }
 
+    /**
+     * Sets the TreeNodeView child view
+     *
+     * @param childView TreeNodeView child view
+     */
     public void setChildView(TreeNodeView childView)
     {
         this.childView = childView;
@@ -190,7 +208,6 @@ public class TreeTransitionView extends TreeElementView
             lineStartPoints.remove(index);
         }
     }
-
 
     public Point getEndPoint()
     {

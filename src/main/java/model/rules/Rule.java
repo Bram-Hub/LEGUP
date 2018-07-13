@@ -92,7 +92,7 @@ public abstract class Rule
     /**
      * Loads the image file
      */
-    public void loadImage()
+    private void loadImage()
     {
         if(imageName != null)
         {

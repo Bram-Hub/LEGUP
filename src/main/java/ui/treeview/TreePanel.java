@@ -69,23 +69,6 @@ public class TreePanel extends JPanel
         treeView.updateTreeView(tree);
     }
 
-    /**
-     * Merge the selected states
-     */
-    public void mergeStates()
-    {
-        treeView.mergeStates();
-    }
-
-    /**
-     * Delete the child subtree starting at the current state
-     */
-    public void delChildAtCurrentState()
-    {
-        treeView.delChildAtCurrentState();
-    }
-
-
     public void boardDataChanged(Board board)
     {
         modifiedSinceSave = true;

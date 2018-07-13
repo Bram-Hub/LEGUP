@@ -1,8 +1,6 @@
 package model;
 
 import model.gameboard.ElementData;
-import model.tree.TreeElement;
-import model.tree.TreeElementType;
 import model.tree.TreeNode;
 import model.tree.TreeTransition;
 import org.w3c.dom.Document;
@@ -62,11 +60,7 @@ public abstract class PuzzleExporter
 
             transformer.transform(source, result);
         }
-        catch(ParserConfigurationException e)
-        {
-            throw new ExportFileException("Puzzle Exporter: parser configuration exception");
-        }
-        catch(TransformerException e)
+        catch(ParserConfigurationException | TransformerException e)
         {
             throw new ExportFileException("Puzzle Exporter: parser configuration exception");
         }

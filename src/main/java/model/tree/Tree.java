@@ -5,6 +5,7 @@ import model.gameboard.Board;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Tree
 {
@@ -21,6 +22,9 @@ public class Tree
         this.rootNode.setRoot(true);
     }
 
+    /**
+     * Tree Constructor - creates the tree structure with null root node
+     */
     public Tree()
     {
         this.rootNode = null;
@@ -51,23 +55,40 @@ public class Tree
         else
         {
             TreeTransition transition = (TreeTransition)element;
-            transition.getParents().forEach((TreeNode n) -> n.removeChild(transition));
+            transition.getParents().forEach(n -> n.removeChild(transition));
         }
     }
 
+    /**
+     * Determines if the tree is valid by checking whether this tree element and
+     * all descendants of this tree element is justified and justified correctly
+     *
+     * @return true if tree is valid, false otherwise
+     */
     public boolean isValid()
     {
         return rootNode.isValid();
     }
 
-    public HashSet<TreeNode> getLeafNodes()
+    /**
+     * Gets a Set of TreeNodes that are leaf nodes
+     *
+     * @return Set of TreeNodes that are leaf nodes
+     */
+    public Set<TreeNode> getLeafNodes()
     {
-        HashSet<TreeNode> leafs = new HashSet<>();
+        Set<TreeNode> leafs = new HashSet<>();
         getLeafNodes(leafs, rootNode);
         return leafs;
     }
 
-    private void getLeafNodes(HashSet<TreeNode> leafs, TreeNode node)
+    /**
+     * Recursively gets a Set of TreeNodes that are leaf nodes
+     *
+     * @param leafs Set of TreeNodes that are leaf nodes
+     * @param node current TreeNode being evaluated
+     */
+    private void getLeafNodes(Set<TreeNode> leafs, TreeNode node)
     {
         if(node == null)
         {
@@ -112,13 +133,13 @@ public class Tree
     /**
      * Gets the lowest common ancestor (LCA) among the list of nodes passed into
      * the function. This lowest common ancestor is the most immediate ancestor
-     * node such that all nodes are descendants. This will return null if
-     * no such ancestor exists
+     * node such that the list of tree nodes specified are descendants of the node.
+     * This will return null if no such ancestor exists
      *
      * @param nodes list of tree nodes to find the LCA
      * @return the first ancestor node that all tree nodes have in common, otherwise null if none exists
      */
-    public TreeNode getLowestCommonAncestor(ArrayList<TreeNode> nodes)
+    public TreeNode getLowestCommonAncestor(List<TreeNode> nodes)
     {
         if(nodes.isEmpty())
         {
@@ -153,36 +174,6 @@ public class Tree
             }
         }
         return null;
-    }
-
-    /**
-     * Determines if the descendant is indeed a descendant of the ancestor
-     *
-     * @param ancestor possible ancestor
-     * @param descendant possible descendant
-     * @return true if the descendant is a descendant of the ancestor, false otherwise
-     */
-    public boolean isAncestor(TreeNode ancestor, TreeNode descendant)
-    {
-        //If either the ancestor or the descendant is null, return false
-//        if(ancestor == null || descendant == null)
-//        {
-//            return false;
-//        }
-//        else
-//        {
-//            TreeNode node = descendant.getParents().get(0);
-//            while(node != null)
-//            {
-//                if(node == ancestor)
-//                {
-//                    return true;
-//                }
-//                node = node.getParents().get(0);
-//            }
-//            return false;
-//        }
-        return false;
     }
 
     /**

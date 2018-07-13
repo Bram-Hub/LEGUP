@@ -18,7 +18,7 @@ public abstract class BasicRule extends Rule
     public BasicRule(String ruleName, String description, String imageName)
     {
         super(ruleName, description, imageName);
-        ruleType = BASIC;
+        this.ruleType = BASIC;
     }
 
     /**

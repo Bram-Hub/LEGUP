@@ -199,7 +199,8 @@ public class TreeNode extends TreeElement
     }
 
     /**
-     * Finds the point at which the set of tree elements passed in will merge.
+     * Finds the point at which the set of tree elements passed in will merge. This must be a set gotten from
+     * findMergingBranches method DisjointSets
      *
      * @param branches tree elements to find the merging point
      * @return tree transition of the merging point or null if no such point exists

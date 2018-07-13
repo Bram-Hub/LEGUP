@@ -77,20 +77,6 @@ public class MergeRule extends Rule
         return mergeBoard;
     }
 
-    public String canMergeNodes(ArrayList<TreeNode> nodes)
-    {
-        boolean allLeafNode = true;
-        for(TreeNode n : nodes)
-        {
-            allLeafNode &= n.getChildren().isEmpty();
-        }
-        if(!allLeafNode)
-        {
-            return "All nodes must be leaf nodes";
-        }
-        return null;
-    }
-
     /**
      * Checks whether the transition logically follows from the parent node using this rule
      *
@@ -140,7 +126,7 @@ public class MergeRule extends Rule
      * specific element index using this rule and if so will perform the default application of the rule
      *
      * @param transition   transition to apply default application
-     * @param elementIndex
+     * @param elementIndex index of the element
      *
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false

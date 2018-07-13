@@ -1,14 +1,13 @@
 package model.gameboard;
 
 import model.rules.CaseRule;
-import model.tree.TreeNode;
-
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Board
 {
-    protected ArrayList<ElementData> elementData;
-    protected ArrayList<ElementData> modifiedData;
+    protected List<ElementData> elementData;
+    protected List<ElementData> modifiedData;
     protected boolean isModifiable;
     protected CaseRule caseRule;
 
@@ -77,7 +76,7 @@ public abstract class Board
      *
      * @return elements on the board
      */
-    public ArrayList<ElementData> getElementData()
+    public List<ElementData> getElementData()
     {
         return elementData;
     }
@@ -127,7 +126,7 @@ public abstract class Board
      *
      * @return list of modified data of the board
      */
-    public ArrayList<ElementData> getModifiedData()
+    public List<ElementData> getModifiedData()
     {
         return modifiedData;
     }

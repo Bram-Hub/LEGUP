@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,12 +40,12 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
     protected PuzzleExporter exporter;
     protected ElementFactory factory;
 
-    private ArrayList<IBoardListener> boardListeners;
-    private ArrayList<ITreeListener> treeListeners;
+    private List<IBoardListener> boardListeners;
+    private List<ITreeListener> treeListeners;
 
-    protected ArrayList<BasicRule> basicRules;
-    protected ArrayList<ContradictionRule> contradictionRules;
-    protected ArrayList<CaseRule> caseRules;
+    protected List<BasicRule> basicRules;
+    protected List<ContradictionRule> contradictionRules;
+    protected List<CaseRule> caseRules;
 
     /**
      * Puzzle Constructor - creates a new Puzzle
@@ -221,7 +222,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @return list of basic rules
      */
-    public ArrayList<BasicRule> getBasicRules()
+    public List<BasicRule> getBasicRules()
     {
         return basicRules;
     }
@@ -231,7 +232,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @param basicRules list of basic rules
      */
-    public void setBasicRules(ArrayList<BasicRule> basicRules)
+    public void setBasicRules(List<BasicRule> basicRules)
     {
         this.basicRules = basicRules;
     }
@@ -261,7 +262,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @return list of contradiction rules
      */
-    public ArrayList<ContradictionRule> getContradictionRules()
+    public List<ContradictionRule> getContradictionRules()
     {
         return contradictionRules;
     }
@@ -271,7 +272,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @param contradictionRules list of contradiction rules
      */
-    public void setContradictionRules(ArrayList<ContradictionRule> contradictionRules)
+    public void setContradictionRules(List<ContradictionRule> contradictionRules)
     {
         this.contradictionRules = contradictionRules;
     }
@@ -301,7 +302,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @return list of case rules
      */
-    public ArrayList<CaseRule> getCaseRules()
+    public List<CaseRule> getCaseRules()
     {
         return caseRules;
     }
@@ -311,7 +312,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @param caseRules list of case rules
      */
-    public void setCaseRules(ArrayList<CaseRule> caseRules)
+    public void setCaseRules(List<CaseRule> caseRules)
     {
         this.caseRules = caseRules;
     }
@@ -337,7 +338,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
     }
 
     /**
-     * Gets the rule using the specfied name
+     * Gets the rule using the specified name
      *
      * @param name name of the rule
      * @return Rule

@@ -38,8 +38,7 @@ public abstract class TreeElement
     /**
      * Gets the type of tree element
      *
-     * @return NODE if this tree element is a tree node,
-     * TRANSITION, if this tree element is a transition
+     * @return NODE if this tree element is a tree node, TRANSITION, if this tree element is a transition
      */
     public TreeElementType getType()
     {
