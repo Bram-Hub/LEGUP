@@ -4,7 +4,7 @@ import model.rules.Rule;
 
 import javax.swing.*;
 
-class RuleButton extends JButton
+public class RuleButton extends JButton
 {
     private Rule rule;
 
@@ -24,7 +24,7 @@ class RuleButton extends JButton
      *
      * @return Rule from this button
      */
-    Rule getRule()
+    public Rule getRule()
     {
         return rule;
     }

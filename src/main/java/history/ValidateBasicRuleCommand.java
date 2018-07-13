@@ -19,6 +19,7 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
     private HashMap<TreeElement, TreeNode> addNode;
     private Rule newRule;
 
+    @SuppressWarnings("unchecked")
     public ValidateBasicRuleCommand(ArrayList<TreeElementView> selectedViews, Rule rule)
     {
         this.selectedViews = (ArrayList<TreeElementView>)selectedViews.clone();

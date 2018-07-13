@@ -2,7 +2,7 @@ package ui.rulesview;
 
 import javax.swing.ImageIcon;
 
-class BasicRulePanel extends RulePanel
+public class BasicRulePanel extends RulePanel
 {
     /**
      * BasicRulePanel Constructor - creates a BasicRulePanel

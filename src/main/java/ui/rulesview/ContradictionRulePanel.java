@@ -2,7 +2,7 @@ package ui.rulesview;
 
 import javax.swing.*;
 
-class ContradictionRulePanel extends RulePanel
+public class ContradictionRulePanel extends RulePanel
 {
     /**
      * ContradictionRulePanel Constructor - creates a ContradictionRulePanel
