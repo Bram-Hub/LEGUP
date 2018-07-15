@@ -4,8 +4,6 @@ import model.tree.TreeTransition;
 
 import javax.swing.ImageIcon;
 
-import java.net.URL;
-
 public abstract class Rule
 {
     protected String ruleName;
@@ -40,6 +38,15 @@ public abstract class Rule
     public abstract String checkRule(TreeTransition transition);
 
     /**
+     * Checks whether the transition logically follows from the parent node using this rule.
+     * This method is the one that should overridden in child classes
+     *
+     * @param transition transition to check
+     * @return null if the child node logically follow from the parent node, otherwise error message
+     */
+    protected abstract String checkRuleRaw(TreeTransition transition);
+
+    /**
      * Checks whether the child node logically follows from the parent node
      * at the specific element index using this rule
      *
@@ -49,6 +56,18 @@ public abstract class Rule
      * otherwise error message
      */
     public abstract String checkRuleAt(TreeTransition transition, int elementIndex);
+
+    /**
+     * Checks whether the child node logically follows from the parent node
+     * at the specific element index using this rule
+     * This method is the one that should overridden in child classes
+     *
+     * @param transition transition to check
+     * @param elementIndex index of the element
+     * @return null if the child node logically follow from the parent node at the specified element,
+     * otherwise error message
+     */
+    protected abstract String checkRuleRawAt(TreeTransition transition, int elementIndex);
 
     /**
      * Checks whether the child node logically follows from the parent node using this rule
@@ -73,7 +92,7 @@ public abstract class Rule
     /**
      * Loads the image file
      */
-    public void loadImage()
+    private void loadImage()
     {
         if(imageName != null)
         {

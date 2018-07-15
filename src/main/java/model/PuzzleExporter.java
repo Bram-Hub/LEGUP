@@ -1,18 +1,12 @@
 package model;
 
 import model.gameboard.ElementData;
-import model.rules.MergeRule;
-import model.tree.TreeElement;
-import model.tree.TreeElementType;
 import model.tree.TreeNode;
 import model.tree.TreeTransition;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import save.ExportFileException;
-import save.InvalidFileFormatException;
 
-import javax.print.Doc;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,7 +14,7 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.util.ArrayList;
+import java.util.*;
 
 public abstract class PuzzleExporter
 {
@@ -43,7 +37,7 @@ public abstract class PuzzleExporter
             Document newDocument = docBuilder.newDocument();
 
             Element legupElement = newDocument.createElement("Legup");
-            legupElement.setAttribute("version", "2.0");
+            legupElement.setAttribute("version", "2.0.0");
             newDocument.appendChild(legupElement);
 
             Element puzzleElement = newDocument.createElement("puzzle");
@@ -66,11 +60,7 @@ public abstract class PuzzleExporter
 
             transformer.transform(source, result);
         }
-        catch(ParserConfigurationException e)
-        {
-            throw new ExportFileException("Puzzle Exporter: parser configuration exception");
-        }
-        catch(TransformerException e)
+        catch(ParserConfigurationException | TransformerException e)
         {
             throw new ExportFileException("Puzzle Exporter: parser configuration exception");
         }
@@ -94,18 +84,17 @@ public abstract class PuzzleExporter
     protected Element createTreeElement(Document newDocument)
     {
         Element treeElement = newDocument.createElement("tree");
-        Element nodesElement = newDocument.createElement("nodes");
-        Element transitionsElement = newDocument.createElement("transitions");
 
-        ArrayList<TreeElement> treeElements = new ArrayList<>();
-        treeElements.add(puzzle.getTree().getRootNode());
-        while(!treeElements.isEmpty())
+        Set<TreeNode> visited = new HashSet<>();
+        List<TreeNode> nodes = new ArrayList<>();
+        nodes.add(puzzle.getTree().getRootNode());
+        while(!nodes.isEmpty())
         {
-            TreeElement element = treeElements.get(treeElements.size() - 1);
-            treeElements.remove(element);
-            if(element.getType() == TreeElementType.NODE)
+            TreeNode treeNode = nodes.get(nodes.size() - 1);
+            nodes.remove(treeNode);
+            if(!visited.contains(treeNode))
             {
-                TreeNode treeNode = (TreeNode)element;
+                visited.add(treeNode);
 
                 Element nodeElement = newDocument.createElement("node");
                 nodeElement.setAttribute("id", String.valueOf(treeNode.hashCode()));
@@ -114,37 +103,32 @@ public abstract class PuzzleExporter
                     nodeElement.setAttribute("root","true");
                 }
 
-                nodesElement.appendChild(nodeElement);
-                treeElements.addAll(treeNode.getChildren());
-            }
-            else
-            {
-                TreeTransition treeTransition = (TreeTransition)element;
-
-                Element transElement = newDocument.createElement("transition");
-                transElement.setAttribute("id", String.valueOf(treeTransition.hashCode()));
-                transElement.setAttribute("parent", String.valueOf(treeTransition.getParentNode().hashCode()));
-                transElement.setAttribute("child", String.valueOf(treeTransition.getChildNode().hashCode()));
-                if(treeTransition.isJustified())
+                for(TreeTransition transition : treeNode.getChildren())
                 {
-                    transElement.setAttribute("rule", treeTransition.getRule().getRuleName());
-                }
+                    Element transElement = newDocument.createElement("transition");
+                    transElement.setAttribute("id", String.valueOf(transition.hashCode()));
 
-                for(ElementData data : treeTransition.getBoard().getModifiedData())
-                {
-                    transElement.appendChild(puzzle.getFactory().exportCell(newDocument, data));
-                }
-                transitionsElement.appendChild(transElement);
+                    TreeNode child = transition.getChildNode();
+                    if(child != null)
+                    {
+                        transElement.setAttribute("child", String.valueOf(child.hashCode()));
+                        nodes.add(child);
+                    }
 
-                if(treeTransition.getChildNode() != null)
-                {
-                    treeElements.add(treeTransition.getChildNode());
+                    if(transition.isJustified())
+                    {
+                        transElement.setAttribute("rule", transition.getRule().getRuleName());
+                    }
+
+                    for(ElementData data : transition.getBoard().getModifiedData())
+                    {
+                        transElement.appendChild(puzzle.getFactory().exportCell(newDocument, data));
+                    }
+                    nodeElement.appendChild(transElement);
                 }
+                treeElement.appendChild(nodeElement);
             }
         }
-
-        treeElement.appendChild(nodesElement);
-        treeElement.appendChild(transitionsElement);
         return treeElement;
     }
 }

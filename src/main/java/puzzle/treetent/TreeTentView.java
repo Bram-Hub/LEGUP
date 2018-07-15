@@ -119,9 +119,9 @@ public class TreeTentView extends GridBoardView
     }
 
     @Override
-    public void updateBoard(Board board)
+    public void onBoardChanged(Board board)
     {
-        super.updateBoard(board);
+        super.onBoardChanged(board);
         TreeTentBoard treeTentBoard = (TreeTentBoard)board;
 
         lineViews.clear();

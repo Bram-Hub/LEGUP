@@ -24,7 +24,7 @@ public class BattleShipView extends GridBoardView {
     }
 
     @Override
-    public void updateBoard(Board board) {
+    public void onBoardChanged(Board board) {
         BattleShipBoard battleShipBoard = (BattleShipBoard) board;
         for (PuzzleElement element: puzzleElements) {
             element.setData(battleShipBoard.getElementData(element.getIndex()));

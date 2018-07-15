@@ -6,6 +6,7 @@ import ui.WrapLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class RulePanel extends JPanel
 {
@@ -15,7 +16,7 @@ public abstract class RulePanel extends JPanel
 
     protected RuleButton[] ruleButtons;
     protected RuleFrame ruleFrame;
-    protected ArrayList<? extends Rule> rules;
+    protected List<? extends Rule> rules;
 
     /**
      * RulePanel Constructor - creates a RulePanel
@@ -44,7 +45,7 @@ public abstract class RulePanel extends JPanel
      *
      * @param rules list of the rules
      */
-    public void setRules(ArrayList<? extends Rule> rules)
+    public void setRules(List<? extends Rule> rules)
     {
         this.rules = rules;
         clearButtons();
@@ -109,7 +110,7 @@ public abstract class RulePanel extends JPanel
      *
      * @return the rules
      */
-    public ArrayList<? extends Rule> getRules()
+    public List<? extends Rule> getRules()
     {
         return rules;
     }

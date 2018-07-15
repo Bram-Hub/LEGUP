@@ -1,10 +1,13 @@
 package puzzle.lightup.rules;
 
-import model.gameboard.Board;
 import model.rules.BasicRule;
-import model.tree.TreeNode;
+import model.rules.RegisterRule;
+import model.rules.RuleType;
 import model.tree.TreeTransition;
+import puzzle.lightup.LightUp;
 
+
+@RegisterRule(puzzleName = LightUp.class, ruleType = RuleType.BASIC)
 public class BulbsOutsideDiagonalBasicRule extends BasicRule
 {
 
@@ -24,7 +27,7 @@ public class BulbsOutsideDiagonalBasicRule extends BasicRule
      * otherwise error message
      */
     @Override
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
         return null;
     }

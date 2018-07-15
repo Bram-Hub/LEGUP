@@ -42,18 +42,22 @@ public class SudokuImporter extends PuzzleImporter
             NodeList elementDataList = dataElement.getElementsByTagName("cell");
 
             SudokuBoard sudokuBoard;
+            int size;
+            int minorSize;
             if(!boardElement.getAttribute("size").isEmpty())
             {
-                int size = Integer.valueOf(boardElement.getAttribute("size"));
+                size = Integer.valueOf(boardElement.getAttribute("size"));
+                minorSize = (int)Math.sqrt(size);
+                if(minorSize * minorSize != size)
+                {
+                    throw new InvalidFileFormatException("Sudoku Importer: invalid board dimensions");
+                }
                 sudokuBoard = new SudokuBoard(size);
             }
             else
             {
                 throw new InvalidFileFormatException("Sudoku Importer: invalid board dimensions");
             }
-
-            int width = sudokuBoard.getWidth();
-            int height = sudokuBoard.getHeight();
 
             for(int i = 0; i < elementDataList.getLength(); i++)
             {
@@ -67,14 +71,15 @@ public class SudokuImporter extends PuzzleImporter
                 sudokuBoard.setCell(loc.x, loc.y, cell);
             }
 
-            for(int y = 0; y < height; y++)
+            for(int y = 0; y < size; y++)
             {
-                for(int x = 0; x < width; x++)
+                for(int x = 0; x < size; x++)
                 {
                     if(sudokuBoard.getCell(x, y) == null)
                     {
-                        SudokuCell cell = new SudokuCell(0, new Point(x, y));
-                        cell.setIndex(y * height + x);
+                        int groupIndex = x / minorSize * minorSize + y / minorSize;
+                        SudokuCell cell = new SudokuCell(0, new Point(x, y), groupIndex);
+                        cell.setIndex(y * size + x);
                         cell.setModifiable(true);
                         sudokuBoard.setCell(x, y, cell);
                     }

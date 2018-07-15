@@ -1,14 +1,10 @@
 package puzzle.sudoku.rules;
 
-import model.gameboard.Board;
-import model.gameboard.ElementData;
 import model.rules.BasicRule;
-import model.tree.TreeNode;
 import model.tree.TreeTransition;
 import puzzle.sudoku.SudokuBoard;
 import puzzle.sudoku.SudokuCell;
 
-import javax.lang.model.element.Element;
 import java.util.HashSet;
 
 public class LastNumberForCellBasicRule extends BasicRule
@@ -30,9 +26,9 @@ public class LastNumberForCellBasicRule extends BasicRule
      * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
-        SudokuBoard initialBoard = (SudokuBoard) transition.getParentNode().getBoard();
+        SudokuBoard initialBoard = (SudokuBoard) transition.getParents().get(0).getBoard();
         SudokuBoard finalBoard = (SudokuBoard) transition.getBoard();
 
         int groupSize = initialBoard.getWidth();
@@ -52,15 +48,15 @@ public class LastNumberForCellBasicRule extends BasicRule
         }
         for(int i = 0; i < groupSize; i++)
         {
-            SudokuCell cell = (SudokuCell) initialBoard.getCell(i, colIndex);
+            SudokuCell cell = initialBoard.getCell(i, colIndex);
             numbers.remove(cell.getValueInt());
         }
         for(int i = 0; i < groupSize; i++)
         {
-            SudokuCell cell = (SudokuCell) initialBoard.getCell(rowIndex, i);
+            SudokuCell cell = initialBoard.getCell(rowIndex, i);
             numbers.remove(cell.getValueInt());
         }
-        if(numbers.size() > 0)
+        if(numbers.size() > 1)
         {
             return "The number at the index is not forced";
         }

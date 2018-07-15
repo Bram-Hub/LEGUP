@@ -33,7 +33,7 @@ public class FillapixView extends GridBoardView
      *
      * @param board board to update the BoardView
      */
-    public void updateBoard(Board board)
+    public void onBoardChanged(Board board)
     {
         FillapixBoard fillapixBoard = (FillapixBoard) board;
         for(PuzzleElement element : puzzleElements)

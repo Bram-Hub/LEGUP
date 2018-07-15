@@ -3,7 +3,6 @@ package puzzle.sudoku.rules;
 import model.gameboard.Board;
 import model.gameboard.ElementData;
 import model.rules.CaseRule;
-import model.tree.TreeNode;
 import model.tree.TreeTransition;
 import puzzle.sudoku.SudokuBoard;
 
@@ -42,7 +41,7 @@ public class PossibleCellCaseRule extends CaseRule
      * otherwise error message
      */
     @Override
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
         return null;
     }

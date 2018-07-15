@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.URL;
 import java.util.logging.Level;
@@ -137,7 +136,7 @@ public class LegupUI extends JFrame implements WindowListener
 
     public void repaintBoard()
     {
-        boardView.updateBoard(GameBoardFacade.getInstance().getBoard());
+        boardView.onBoardChanged(GameBoardFacade.getInstance().getBoard());
     }
 
     public void repaintTree()
@@ -754,6 +753,8 @@ public class LegupUI extends JFrame implements WindowListener
 
         this.treePanel.getTreeView().resetView();
         this.treePanel.getTreeView().setTree(puzzle.getTree());
+
+        puzzle.addTreeListener(treePanel.getTreeView());
 
         ruleFrame.getBasicRulePanel().setRules(puzzle.getBasicRules());
         ruleFrame.getCasePanel().setRules(puzzle.getCaseRules());

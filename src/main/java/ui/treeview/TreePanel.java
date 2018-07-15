@@ -7,6 +7,7 @@ import model.tree.Tree;
 import ui.LegupUI;
 
 import java.awt.*;
+import java.awt.font.TextAttribute;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,6 +28,10 @@ public class TreePanel extends JPanel
 
     private JLabel status;
     private Rule curRuleApplied = null;
+
+
+    private static final Font INFO_FONT = new Font("Arial", Font.PLAIN, 14);
+    private static final Font ERROR_FONT = new Font("Arial", Font.ITALIC, 14);
 
     public TreePanel(LegupUI legupUI)
     {
@@ -64,23 +69,6 @@ public class TreePanel extends JPanel
         treeView.updateTreeView(tree);
     }
 
-    /**
-     * Merge the selected states
-     */
-    public void mergeStates()
-    {
-        treeView.mergeStates();
-    }
-
-    /**
-     * Delete the child subtree starting at the current state
-     */
-    public void delChildAtCurrentState()
-    {
-        treeView.delChildAtCurrentState();
-    }
-
-
     public void boardDataChanged(Board board)
     {
         modifiedSinceSave = true;
@@ -102,12 +90,14 @@ public class TreePanel extends JPanel
     public void updateStatus(String statusString)
     {
         status.setForeground(Color.BLACK);
+        status.setFont(INFO_FONT);
         status.setText(statusString);
     }
 
     public void updateError(String error)
     {
         status.setForeground(Color.RED);
+        status.setFont(ERROR_FONT);
         status.setText(error);
     }
 

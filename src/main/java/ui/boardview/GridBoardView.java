@@ -106,7 +106,7 @@ public class GridBoardView extends BoardView
      *
      * @param board board to update the BoardView
      */
-    public void updateBoard(Board board)
+    public void onBoardChanged(Board board)
     {
         GridBoard gridBoard = (GridBoard)board;
         for(PuzzleElement element: puzzleElements)

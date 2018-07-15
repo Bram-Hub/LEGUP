@@ -6,9 +6,9 @@ import model.rules.*;
 import model.tree.*;
 import ui.rulesview.RuleButton;
 import ui.treeview.*;
-import utility.ICommand;
-import utility.ValidateBasicRuleCommand;
-import utility.ValidateContradictionRuleCommand;
+import history.ICommand;
+import history.ValidateBasicRuleCommand;
+import history.ValidateContradictionRuleCommand;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,7 +53,6 @@ public class RuleController implements ActionListener
                 getInstance().getHistory().pushChange(validate);
                 validate.execute();
             }
-            //handleContradictionRule((ContradictionRule)rule);
         }
         else
         {
@@ -66,44 +65,6 @@ public class RuleController implements ActionListener
                 getInstance().getHistory().pushChange(validate);
                 validate.execute();
             }
-            /*
-            if(selection.size() == 1)
-            {
-                TreeElementView elementView = treeSelection.getFirstSelection();
-                TreeElement element = elementView.getTreeElement();
-                if(element.getType() == TreeElementType.TRANSITION)
-                {
-                    TreeTransition transition = (TreeTransition)element;
-                    TreeTransitionView transitionView = (TreeTransitionView)elementView;
-                    transition.setRule(rule);
-                    if(transition.getChildNode() == null)
-                    {
-                        TreeNode treeNode = tree.addNode(transition);
-                        transitionView.getChildView().setTreeElement(treeNode);
-                        transitionView.getChildView().setVisible(true);
-                    }
-                    treeSelection.newSelection(transitionView.getChildView());
-                }
-                else
-                {
-                    TreeNode node = (TreeNode)element;
-                    TreeNodeView nodeView = (TreeNodeView)elementView;
-                    if(node.getChildren().size() == 1)
-                    {
-                        TreeTransitionView transitionView = nodeView.getChildrenViews().get(0);
-                        TreeTransition transition = transitionView.getTreeElement();
-                        transition.setRule(rule);
-                        if(transition.getChildNode() == null)
-                        {
-                            TreeNode treeNode = tree.addNode(transition);
-                            transitionView.getChildView().setTreeElement(treeNode);
-                            transitionView.getChildView().setVisible(true);
-                        }
-                        treeSelection.newSelection(transitionView.getChildView());
-                    }
-                }
-                GameBoardFacade.getInstance().setBoard(treeSelection.getFirstSelection().getTreeElement().getBoard());
-            }*/
         }
         GameBoardFacade.getInstance().getLegupUI().repaintBoard();
         GameBoardFacade.getInstance().getLegupUI().repaintTree();
@@ -167,12 +128,11 @@ public class RuleController implements ActionListener
                 {
                     TreeTransition transition = tree.addNewTransition(node);
                     transition.setRule(rule);
-                    TreeTransitionView transitionView = treeView.addNewTransitionView(nodeView, transition);
+                    TreeTransitionView transitionView = treeView.addTransitionView(nodeView, transition);
 
                     tree.addNode(transition);
                     TreeNodeView newNodeView = transitionView.getChildView();
                     newNodeView.setTreeElement(transition.getChildNode());
-                    newNodeView.setVisible(true);
 
                     GameBoardFacade.getInstance().setBoard(transition.getBoard());
                     GameBoardFacade.getInstance().getLegupUI().repaintTree();

@@ -1,7 +1,11 @@
 package puzzle.nurikabe.rules;
 
 import model.rules.BasicRule;
+import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
+import puzzle.nurikabe.NurikabeBoard;
+import puzzle.nurikabe.NurikabeCell;
+import puzzle.nurikabe.NurikabeType;
 
 public class FillinWhiteBasicRule extends BasicRule
 {
@@ -22,8 +26,24 @@ public class FillinWhiteBasicRule extends BasicRule
      * otherwise error message
      */
     @Override
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+        NurikabeBoard origBoard = (NurikabeBoard) transition.getParents().get(0).getBoard();
+        ContradictionRule contraRule = new IsolateBlackContradictionRule();
+
+        NurikabeCell cell = (NurikabeCell)board.getElementData(elementIndex);
+
+        if(cell.getType() != NurikabeType.WHITE)
+        {
+            return "Only white cells are allowed for this rule!";
+        }
+        NurikabeBoard modified = origBoard.copy();
+        modified.getElementData(elementIndex).setValueInt(NurikabeType.BLACK.toValue());
+        if(contraRule.checkContradictionAt(new TreeTransition(null, modified), elementIndex) != null)
+        {
+            return "white cells must be placed in a region of white cells!";
+        }
         return null;
     }
 

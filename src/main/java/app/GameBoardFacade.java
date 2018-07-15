@@ -12,8 +12,7 @@ import save.InvalidFileFormatException;
 import ui.LegupUI;
 import ui.boardview.IBoardListener;
 import ui.rulesview.ITransitionListener;
-import ui.rulesview.ITreeSelectionListener;
-import utility.History;
+import history.History;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -32,15 +31,14 @@ public class GameBoardFacade
 {
     private final static Logger LOGGER = Logger.getLogger(GameBoardFacade.class.getName());
 
-    private volatile static GameBoardFacade instance;
+    protected volatile static GameBoardFacade instance;
 
     private Config config;
 
-    private Puzzle puzzle;
+    protected Puzzle puzzle;
 
     private ArrayList<IBoardListener> boardListeners;
     private ArrayList<ITransitionListener> transitionListener;
-    private ArrayList<ITreeSelectionListener> selectionListeners;
 
     private LegupUI legupUI;
 
@@ -49,13 +47,12 @@ public class GameBoardFacade
     /**
      * Private GameBoardFacade Constructor - creates a game board facade
      */
-    private GameBoardFacade()
+    protected GameBoardFacade()
     {
         boardListeners = new ArrayList<>();
         transitionListener = new ArrayList<>();
-        selectionListeners = new ArrayList<>();
 
-        legupUI = new LegupUI();
+        initializeUI();
 
         history = new History();
     }
@@ -72,6 +69,11 @@ public class GameBoardFacade
             instance = new GameBoardFacade();
         }
         return instance;
+    }
+
+    public void initializeUI()
+    {
+        legupUI = new LegupUI();
     }
 
     public void setPuzzle(Puzzle puzzle)
@@ -93,10 +95,28 @@ public class GameBoardFacade
      */
     public void loadBoardFile(String fileName) throws InvalidFileFormatException
     {
+        try
+        {
+            loadBoardFile(new FileInputStream(fileName));
+            setWindowTitle(puzzle.getName(), fileName);
+        }
+        catch(IOException e)
+        {
+            LOGGER.log(Level.SEVERE, "Invalid file");
+            throw new InvalidFileFormatException("Could not find file");
+        }
+    }
+
+    /**
+     * Loads a board file
+     *
+     * @param inputStream file name of the board file
+     */
+    public void loadBoardFile(InputStream inputStream) throws InvalidFileFormatException
+    {
         Document document;
         try
         {
-            InputStream inputStream = new FileInputStream(fileName);
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             document = builder.parse(inputStream);
@@ -114,7 +134,12 @@ public class GameBoardFacade
             {
                 Node node = rootNode.getElementsByTagName("puzzle").item(0);
                 String qualifiedClassName = config.getPuzzleClassForName(node.getAttributes().getNamedItem("name").getNodeValue());
-                System.err.println(qualifiedClassName);
+                if(qualifiedClassName == null)
+                {
+                    throw new InvalidFileFormatException("Puzzle creation error: cannot find puzzle with that name");
+                }
+                System.out.println(qualifiedClassName);
+
                 Class<?> c = Class.forName(qualifiedClassName);
                 Constructor<?> cons = c.getConstructor();
                 Puzzle puzzle = (Puzzle)cons.newInstance();
@@ -140,7 +165,7 @@ public class GameBoardFacade
             LOGGER.log(Level.ALL, "Invalid file");
             throw new InvalidFileFormatException("Invalid file: must be a Legup file");
         }
-        setWindowTitle(puzzle.getName(), fileName);
+        setWindowTitle(puzzle.getName(), "");
     }
 
     /**

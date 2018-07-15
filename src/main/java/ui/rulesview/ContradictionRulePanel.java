@@ -1,7 +1,6 @@
 package ui.rulesview;
 
 import javax.swing.*;
-import java.util.Vector;
 
 public class ContradictionRulePanel extends RulePanel
 {
@@ -10,7 +9,7 @@ public class ContradictionRulePanel extends RulePanel
      *
      * @param ruleFrame rule frame that this ContradictionRulePanel is contained in
      */
-    public ContradictionRulePanel(RuleFrame ruleFrame)
+    ContradictionRulePanel(RuleFrame ruleFrame)
     {
         super(ruleFrame);
         this.icon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("images/Legup/Contradictions.gif"));

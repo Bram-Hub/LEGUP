@@ -8,14 +8,16 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
+import java.util.ArrayList;
 
 import static java.lang.Math.*;
 
 public class TreeTransitionView extends TreeElementView
 {
-    private static final int RADIUS = 10;
-    private static final int DIAMETER = 2 * RADIUS;
-    private static final int GAP = 5;
+    static final int RADIUS = 10;
+    static final int DIAMETER = 2 * RADIUS;
+    static final int GAP = 5;
 
     private static final Stroke THIN_STROKE = new BasicStroke(1);
     private static final Stroke MEDIUM_STROKE = new BasicStroke(2);
@@ -28,12 +30,30 @@ public class TreeTransitionView extends TreeElementView
     private static final Color X_COLOR = Color.RED;
 
     private TreeNodeView childView;
-    private TreeNodeView parentView;
+    private ArrayList<TreeNodeView> parentViews;
     private Polygon arrowhead;
-    private Point startPoint;
+
+    private List<Point> lineStartPoints;
+    private Point lineEndPoint;
+
     private Point endPoint;
 
     private boolean isCollapsed;
+
+    /**
+     * TreeTransitionView Constructor - creates a transition arrow for display
+     *
+     * @param transition tree transition associated with this view
+     */
+    public TreeTransitionView(TreeTransition transition)
+    {
+        super(TreeElementType.TRANSITION, transition);
+        this.parentViews = new ArrayList<>();
+        this.isCollapsed = false;
+        this.endPoint = new Point();
+        this.lineStartPoints = new ArrayList<>();
+        this.lineEndPoint = new Point();
+    }
 
     /**
      * TreeTransitionView Constructor - creates a transition arrow for display
@@ -43,37 +63,9 @@ public class TreeTransitionView extends TreeElementView
      */
     public TreeTransitionView(TreeTransition transition, TreeNodeView parentView)
     {
-        super(TreeElementType.TRANSITION, transition.getChildNode());
-        this.treeElement = transition;
-        this.parentView = parentView;
-        this.isCollapsed = false;
-    }
-
-    private void constructArrowhead()
-    {
-        int nodeRadii = childView.getRadius();
-
-        startPoint.x = parentView.getX() + nodeRadii + GAP / 2;
-        startPoint.y = parentView.getY();
-
-        double thetaArrow = Math.toRadians(30);
-
-        int point1X = childView.getX() - GAP - nodeRadii;
-        int point1Y = childView.getY();
-
-        int point2X = point1X - nodeRadii;
-        int point2Y = point1Y + (int)Math.round(nodeRadii / (2 * cos(thetaArrow)));
-
-        int point3X = point1X - nodeRadii;
-        int point3Y = point1Y - (int)Math.round(nodeRadii / (2 * cos(thetaArrow)));
-
-        endPoint.x = point2X;
-        endPoint.y = (point3Y - point2Y) / 2 + point2Y;
-
-        arrowhead = new Polygon();
-        arrowhead.addPoint(point1X, point1Y);
-        arrowhead.addPoint(point2X, point2Y);
-        arrowhead.addPoint(point3X, point3Y);
+        this(transition);
+        this.parentViews.add(parentView);
+        this.lineStartPoints.add(new Point());
     }
 
     /**
@@ -89,7 +81,11 @@ public class TreeTransitionView extends TreeElementView
 
         graphics2D.setColor(OUTLINE_COLOR);
         graphics2D.setStroke(MEDIUM_STROKE);
-        graphics2D.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
+
+        for(Point lineStartPoint : lineStartPoints)
+        {
+            graphics2D.drawLine(lineStartPoint.x, lineStartPoint.y, lineEndPoint.x, lineEndPoint.y);
+        }
 
         graphics2D.setColor(getTreeElement().isJustified() ? getTreeElement().isCorrect() ? CORRECT_COLOR : INCORRECT_COLOR : DEFAULT_COLOR );
         graphics2D.fillPolygon(arrowhead);
@@ -105,39 +101,112 @@ public class TreeTransitionView extends TreeElementView
         }
     }
 
+    /**
+     * Constructs the arrowhead shape from the start and end points
+     */
+    private void constructArrowhead()
+    {
+        int nodeRadii = TreeNodeView.RADIUS;
+
+        double thetaArrow = Math.toRadians(30);
+
+        int point1X = endPoint.x;
+        int point1Y = endPoint.y;
+
+        int point2X = point1X - nodeRadii;
+        int point2Y = point1Y + (int)Math.round(nodeRadii / (2 * cos(thetaArrow)));
+
+        int point3X = point1X - nodeRadii;
+        int point3Y = point1Y - (int)Math.round(nodeRadii / (2 * cos(thetaArrow)));
+
+        lineEndPoint.x = point2X;
+        lineEndPoint.y = (point3Y - point2Y) / 2 + point2Y;
+
+        arrowhead = new Polygon();
+        arrowhead.addPoint(point1X, point1Y);
+        arrowhead.addPoint(point2X, point2Y);
+        arrowhead.addPoint(point3X, point3Y);
+    }
+
+    /**
+     * Gets the TreeElement associated with this view
+     *
+     * @return the TreeElement associated with this view
+     */
     public TreeTransition getTreeElement()
     {
         return (TreeTransition)treeElement;
     }
 
+    /**
+     * Gets the TreeNodeView child view
+     *
+     * @return TreeNodeView child view
+     */
     public TreeNodeView getChildView()
     {
         return childView;
     }
 
+    /**
+     * Sets the TreeNodeView child view
+     *
+     * @param childView TreeNodeView child view
+     */
     public void setChildView(TreeNodeView childView)
     {
         this.childView = childView;
     }
 
-    public TreeNodeView getParentView()
+    /**
+     * Gets the list of parent views associated with this tree transition view
+     *
+     * @return list of parent views for this tree transition view
+     */
+    public ArrayList<TreeNodeView> getParentViews()
     {
-        return parentView;
+        return parentViews;
     }
 
-    public void setParentView(TreeNodeView parentView)
+    /**
+     * Sets the list of parent views associated with this tree transition view
+     *
+     * @param parentViews list of parent views for this tree transition view
+     */
+    public void setParentViews(ArrayList<TreeNodeView> parentViews)
     {
-        this.parentView = parentView;
+        this.parentViews = parentViews;
+        this.lineStartPoints.clear();
+        for(TreeNodeView parentView : this.parentViews)
+        {
+            this.lineStartPoints.add(new Point());
+        }
     }
 
-    public Point getStartPoint()
+    /**
+     * Adds a TreeNodeView to the list of parent views
+     *
+     * @param nodeView TreeNodeView to add to the list of parent views
+     */
+    public void addParentView(TreeNodeView nodeView)
     {
-        return startPoint;
+        parentViews.add(nodeView);
+        lineStartPoints.add(new Point());
     }
 
-    public void setStartPoint(Point startPoint)
+    /**
+     * Removes a TreeNodeView from the list of parent views
+     *
+     * @param nodeView TreeNodeView to remove from the list of parent views
+     */
+    public void removeParentView(TreeNodeView nodeView)
     {
-        this.startPoint = startPoint;
+        int index = parentViews.indexOf(nodeView);
+        parentViews.remove(nodeView);
+        if(index != -1)
+        {
+            lineStartPoints.remove(index);
+        }
     }
 
     public Point getEndPoint()
@@ -148,26 +217,6 @@ public class TreeTransitionView extends TreeElementView
     public void setEndPoint(Point endPoint)
     {
         this.endPoint = endPoint;
-    }
-
-    public int getStartX()
-    {
-        return startPoint.x;
-    }
-
-    public void setStartX(int x)
-    {
-        this.startPoint.x = x;
-    }
-
-    public int getStartY()
-    {
-        return startPoint.y;
-    }
-
-    public void setStartY(int y)
-    {
-        this.startPoint.y = y;
     }
 
     public int getEndX()
@@ -188,6 +237,21 @@ public class TreeTransitionView extends TreeElementView
     public void setEndY(int y)
     {
         this.endPoint.y = y;
+    }
+
+    public List<Point> getLineStartPoints()
+    {
+        return lineStartPoints;
+    }
+
+    public void setLineStartPoints(List<Point> lineStartPoints)
+    {
+        this.lineStartPoints = lineStartPoints;
+    }
+
+    public Point getLineStartPoint(int index)
+    {
+        return index < lineStartPoints.size() ? lineStartPoints.get(index) : null;
     }
 
     public boolean isCollapsed()
@@ -221,7 +285,7 @@ public class TreeTransitionView extends TreeElementView
     @Override
     public boolean contains(Point2D p)
     {
-        return arrowhead.contains(p);
+        return arrowhead != null && arrowhead.contains(p);
     }
 
     @Override

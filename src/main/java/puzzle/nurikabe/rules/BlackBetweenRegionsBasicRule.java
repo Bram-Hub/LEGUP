@@ -1,7 +1,14 @@
 package puzzle.nurikabe.rules;
 
 import model.rules.BasicRule;
+import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
+import puzzle.nurikabe.*;
+import utility.DisjointSets;
+
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class BlackBetweenRegionsBasicRule extends BasicRule
 {
@@ -22,9 +29,81 @@ public class BlackBetweenRegionsBasicRule extends BasicRule
      * otherwise error message
      */
     @Override
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
-        return null;
+        Set<ContradictionRule> contras = new LinkedHashSet<>();
+        contras.add(new MultipleNumbersContradictionRule());
+        contras.add(new TooManySpacesContradictionRule());
+
+        NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
+        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParents().get(0).getBoard();
+
+        NurikabeCell cell = (NurikabeCell)destBoardState.getElementData(elementIndex);
+
+        if(cell.getType() != NurikabeType.BLACK)
+        {
+            return "Only black cells are allowed for this rule!";
+        }
+
+        int x = cell.getLocation().x;
+        int y = cell.getLocation().y;
+
+        DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(destBoardState);
+        Set<NurikabeCell> adjacentWhiteRegions = new HashSet<>();
+        NurikabeCell upCell = destBoardState.getCell(x, y - 1);
+        NurikabeCell rightCell = destBoardState.getCell(x + 1, y);
+        NurikabeCell downCell = destBoardState.getCell(x, y + 1);
+        NurikabeCell leftCell = destBoardState.getCell(x - 1, y);
+
+        if(upCell != null && (upCell.getType() == NurikabeType.WHITE || upCell.getType() == NurikabeType.NUMBER))
+        {
+            NurikabeCell repCell = regions.find(upCell);
+            if(!adjacentWhiteRegions.contains(repCell))
+            {
+                adjacentWhiteRegions.add(repCell);
+            }
+        }
+        if(rightCell != null && (rightCell.getType() == NurikabeType.WHITE || rightCell.getType() == NurikabeType.NUMBER))
+        {
+            NurikabeCell repCell = regions.find(rightCell);
+            if(!adjacentWhiteRegions.contains(repCell))
+            {
+                adjacentWhiteRegions.add(repCell);
+            }
+        }
+        if(downCell != null && (downCell.getType() == NurikabeType.WHITE || downCell.getType() == NurikabeType.NUMBER))
+        {
+            NurikabeCell repCell = regions.find(downCell);
+            if(!adjacentWhiteRegions.contains(repCell))
+            {
+                adjacentWhiteRegions.add(repCell);
+            }
+        }
+        if(leftCell != null && (leftCell.getType() == NurikabeType.WHITE || leftCell.getType() == NurikabeType.NUMBER))
+        {
+            NurikabeCell repCell = regions.find(leftCell);
+            if(!adjacentWhiteRegions.contains(repCell))
+            {
+                adjacentWhiteRegions.add(repCell);
+            }
+        }
+
+        if(adjacentWhiteRegions.size() < 2)
+        {
+            return "The new black cell must separate two white regions for this rule!";
+        }
+
+        NurikabeBoard modified = origBoardState.copy();
+        modified.getCell(x, y).setValueInt(NurikabeType.WHITE.toValue());
+
+        for(ContradictionRule c : contras)
+        {
+            if(c.checkContradiction(new TreeTransition(null, modified)) == null)
+            {
+                return null;
+            }
+        }
+        return "Does not follow from the rule";
     }
 
     /**

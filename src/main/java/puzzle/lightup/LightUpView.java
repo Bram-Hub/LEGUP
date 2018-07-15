@@ -47,7 +47,7 @@ public class LightUpView extends GridBoardView
     }
 
     @Override
-    public void updateBoard(Board board)
+    public void onBoardChanged(Board board)
     {
         LightUpBoard lightUpBoard = (LightUpBoard)board;
         for(PuzzleElement element: puzzleElements)
