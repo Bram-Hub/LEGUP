@@ -4,6 +4,8 @@
     <bytecodeTargetLevel>
       <module name="2.0_main" target="1.8" />
       <module name="2.0_test" target="1.8" />
+      <module name="Legup_main" target="1.8" />
+      <module name="Legup_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

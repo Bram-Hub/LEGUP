@@ -114,50 +114,6 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                 ICommand edit = new EditDataCommand(elementView, selectedView, e);
                 getInstance().getHistory().pushChange(edit);
                 edit.execute();
-                /*
-                if(selectedView.getType() == TreeElementType.NODE)
-                {
-                    TreeNodeView nodeView = (TreeNodeView) selectedView;
-                    TreeNode treeNode = (TreeNode) selectedView.getTreeElement();
-                    if(treeNode.getChildren().size() > 0)
-                    {
-                        return;
-                    }
-                    TreeTransition transition = tree.addNewTransition(treeNode);
-                    TreeTransitionView transitionView = treeView.addNewTransitionView(nodeView, transition);
-
-                    selection.newSelection(transitionView);
-                    selectedView = transitionView;
-                    getInstance().getLegupUI().repaintTree();
-                    board = transition.getBoard();
-                    getInstance().getPuzzleModule().setCurrentBoard(board);
-                    data = board.getElementData(index);
-                }
-
-                TreeTransitionView transitionView = (TreeTransitionView) selectedView;
-
-                if(e.getButton() == MouseEvent.BUTTON1 && e.isControlDown())
-                {
-                    boardView.getSelection().newSelection(elementView);
-                }
-
-                changeCell(e, data);
-
-                Board prevBord = transitionView.getTreeElement().getParentNode().getBoard();
-
-                if(data.equals(prevBord.getElementData(data.getIndex())))
-                {
-                    data.setModified(false);
-                    board.removeModifiedData(data);
-                }
-                else
-                {
-                    data.setModified(true);
-                    board.addModifiedData(data);
-                }
-
-                transitionView.getTreeElement().propagateChanges(data);
-                */
             }
             getInstance().getLegupUI().repaintBoard();
         }
