@@ -17,6 +17,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static model.tree.TreeElementType.NODE;
 import static model.tree.TreeElementType.TRANSITION;
@@ -25,6 +26,7 @@ import static ui.treeview.TreeNodeView.RADIUS;
 
 public class TreeView extends DynamicViewer implements ITreeListener
 {
+    private final static Logger LOGGER = Logger.getLogger(TreeView.class.getName());
 
     private static final int NODE_RADIUS = 10;
     private static final int SMALL_NODE_RADIUS = 7;
@@ -571,6 +573,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
         if(tree == null)
         {
             //TODO add error
+
             System.err.println("CreateViews: Null tree");
         }
         else
