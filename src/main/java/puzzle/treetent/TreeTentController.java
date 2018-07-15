@@ -5,14 +5,8 @@ import controller.ElementController;
 import model.gameboard.Board;
 import model.gameboard.ElementData;
 import model.tree.Tree;
-import java.awt.Point;
 import ui.boardview.BoardView;
-import ui.boardview.PuzzleElement;
-import ui.treeview.TreeElementView;
-import ui.treeview.TreeSelection;
 import ui.treeview.TreeView;
-import utility.EditDataCommand;
-import utility.ICommand;
 
 import java.awt.event.MouseEvent;
 
@@ -64,6 +58,7 @@ public class TreeTentController extends ElementController
         TreeTentElement dragEnd = (TreeTentElement) boardView.getElement(e.getPoint());
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
+        TreeTentBoard board = (TreeTentBoard)getInstance().getBoard();
         TreeTentElement element = (TreeTentElement) boardView.getElement(e.getPoint());
         if(lastCellPressed != null && element != null)
         {

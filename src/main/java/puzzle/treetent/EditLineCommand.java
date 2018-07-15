@@ -1,7 +1,10 @@
 package puzzle.treetent;
 
+import model.Puzzle;
 import model.gameboard.Board;
 import model.gameboard.ElementData;
+import model.observer.IBoardListener;
+import model.observer.ITreeListener;
 import model.tree.Tree;
 import model.tree.TreeElementType;
 import model.tree.TreeNode;
@@ -9,9 +12,7 @@ import model.tree.TreeTransition;
 import ui.boardview.BoardView;
 import ui.boardview.PuzzleElement;
 import ui.treeview.*;
-import utility.EditDataCommand;
-import utility.ICommand;
-import utility.PuzzleCommand;
+import history.PuzzleCommand;
 
 import java.awt.event.MouseEvent;
 
@@ -50,6 +51,7 @@ public class EditLineCommand extends PuzzleCommand
         TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
         TreeSelection selection = treeView.getTreeSelection();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
+        Puzzle puzzle = getInstance().getPuzzleModule();
 
         TreeTentBoard board = (TreeTentBoard) selectedView.getTreeElement().getBoard();
         int index = elementView.getIndex();
@@ -65,9 +67,11 @@ public class EditLineCommand extends PuzzleCommand
             }
 
             treeNode.getChildren().add(transition);
-            transitionView = treeView.addNewTransitionView(nodeView, transition);
+            puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(transition));
+            transitionView = (TreeTransitionView) treeView.getElementView(transition);
 
             selection.newSelection(transitionView);
+            puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeSelectionChanged(selection));
 
             getInstance().getLegupUI().repaintTree();
             board = (TreeTentBoard) transition.getBoard();
@@ -83,33 +87,40 @@ public class EditLineCommand extends PuzzleCommand
         ElementData dup_line = null;
         boolean mod_contains = false;
         boolean contains = false;
-        System.out.println("Size: "+ board.getModifiedData().size());
-        for(int i = 0;i < board.getModifiedData().size();i++){
-            if(board.getModifiedData().get(i).getValueString() == "LINE"){
-                if(((TreeTentLine) newData).compare((TreeTentLine) board.getModifiedData().get(i))){
+        final TreeTentBoard editBoard = board;
+        System.out.println("Size: " + board.getModifiedData().size());
+        for(int i = 0; i < board.getModifiedData().size(); i++)
+        {
+            if(board.getModifiedData().get(i).getValueString() == "LINE")
+            {
+                if(((TreeTentLine) newData).compare((TreeTentLine) board.getModifiedData().get(i)))
+                {
                     System.out.println("contains");
                     dup_line = board.getModifiedData().get(i);
                     mod_contains = true;
                 }
             }
         }
-        for(int i = 0;i < board.getLines().size();i++){
-            if(board.getLines().get(i).compare((TreeTentLine) newData)){
+        for(int i = 0; i < board.getLines().size(); i++)
+        {
+            if(board.getLines().get(i).compare((TreeTentLine) newData))
+            {
                 contains = true;
             }
         }
-        if(contains || mod_contains){
-            //if(mod_contains){
+        if(contains || mod_contains)
+        {
             System.out.println("delete");
             board.getModifiedData().remove(dup_line);
             board.getLines().remove(dup_line);
-            boardView.updateBoard(board);
-            // }
-        } else {
+            puzzle.notifyBoardListeners((IBoardListener listener) -> listener.onBoardChanged(editBoard));
+        }
+        else
+        {
             System.out.println("adding");
             board.getModifiedData().add(newData);
             board.getLines().add((TreeTentLine) newData);
-            boardView.updateBoard(board);
+            puzzle.notifyBoardListeners((IBoardListener listener) -> listener.onBoardChanged(editBoard));
         }
 
         transition.propagateChanges(newData);
@@ -185,7 +196,7 @@ public class EditLineCommand extends PuzzleCommand
             getInstance().getPuzzleModule().setCurrentBoard(treeNode.getBoard());
         }
 
-        Board prevBoard = transition.getParentNode().getBoard();
+        Board prevBoard =null;// transition.getParentNode().getBoard();
 
         newData.setValueInt(oldData.getValueInt());
         board.notifyChange(newData);
