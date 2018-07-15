@@ -34,14 +34,14 @@ public class SudokuCellFactory extends ElementFactory
             }
 
             SudokuBoard sudokuBoard = (SudokuBoard)board;
-            int width = sudokuBoard.getWidth();
-            int height = sudokuBoard.getHeight();
+            int size = sudokuBoard.getSize();
+            int minorSize = (int)Math.sqrt(size);
 
             NamedNodeMap attributeList = node.getAttributes();
             int value = Integer.valueOf(attributeList.getNamedItem("value").getNodeValue());
             int x = Integer.valueOf(attributeList.getNamedItem("x").getNodeValue());
             int y = Integer.valueOf(attributeList.getNamedItem("y").getNodeValue());
-            if(x >= width || y >= height)
+            if(x >= size || y >= size)
             {
                 throw new InvalidFileFormatException("Sudoku Factory: cell location out of bounds");
             }
@@ -49,9 +49,9 @@ public class SudokuCellFactory extends ElementFactory
             {
                 throw new InvalidFileFormatException("Sudoku Factory: cell unknown value");
             }
-
-            SudokuCell cell = new SudokuCell(value, new Point(x, y));
-            cell.setIndex(y * height + x);
+            int groupIndex = x / minorSize * minorSize + y / minorSize;
+            SudokuCell cell = new SudokuCell(value, new Point(x, y), groupIndex);
+            cell.setIndex(y * size + x);
             return cell;
         }
         catch(NumberFormatException e)

@@ -9,7 +9,7 @@ public class CaseRulePanel extends RulePanel
      *
      * @param ruleFrame rule frame that this CaseRulePanel is contained in
      */
-    public CaseRulePanel(RuleFrame ruleFrame)
+    CaseRulePanel(RuleFrame ruleFrame)
     {
         super(ruleFrame);
         this.icon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("images/Legup/Case Rules.gif"));

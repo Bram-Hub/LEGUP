@@ -1,15 +1,13 @@
 package model.gameboard;
 
 import model.rules.CaseRule;
-import utility.IBoardListener;
-
 import java.util.ArrayList;
-import java.util.function.IntBinaryOperator;
+import java.util.List;
 
-public abstract class Board implements IBoardListener
+public abstract class Board
 {
-    protected ArrayList<ElementData> elementData;
-    protected ArrayList<ElementData> modifiedData;
+    protected List<ElementData> elementData;
+    protected List<ElementData> modifiedData;
     protected boolean isModifiable;
     protected CaseRule caseRule;
 
@@ -78,7 +76,7 @@ public abstract class Board implements IBoardListener
      *
      * @return elements on the board
      */
-    public ArrayList<ElementData> getElementData()
+    public List<ElementData> getElementData()
     {
         return elementData;
     }
@@ -128,7 +126,7 @@ public abstract class Board implements IBoardListener
      *
      * @return list of modified data of the board
      */
-    public ArrayList<ElementData> getModifiedData()
+    public List<ElementData> getModifiedData()
     {
         return modifiedData;
     }
@@ -158,15 +156,40 @@ public abstract class Board implements IBoardListener
         data.setModified(false);
     }
 
-    /**
-     * Called when a change to the board's data has occurred
-     *
-     * @param data data of the change to the board
-     */
-    @Override
     public void notifyChange(ElementData data)
     {
         elementData.get(data.getIndex()).setValueInt(data.getValueInt());
+    }
+
+    public Board mergedBoard(Board lca, ArrayList<Board> boards)
+    {
+        if(lca == null || boards.isEmpty())
+        {
+            return null;
+        }
+
+        Board mergedBoard = lca.copy();
+
+        Board firstBoard = boards.get(0);
+        for(ElementData lcaData : lca.getElementData())
+        {
+            ElementData mData = firstBoard.getElementData(lcaData.getIndex());
+
+            boolean isSame = true;
+            for(Board board : boards)
+            {
+                isSame &= mData.equals(board.getElementData(lcaData.getIndex()));
+            }
+
+            if(isSame && !lcaData.equals(mData))
+            {
+                ElementData mergedData = mergedBoard.getElementData(lcaData.getIndex());
+                mergedData.setValueInt(mData.getValueInt());
+                mergedBoard.addModifiedData(mergedData);
+            }
+        }
+
+        return mergedBoard;
     }
 
     /**

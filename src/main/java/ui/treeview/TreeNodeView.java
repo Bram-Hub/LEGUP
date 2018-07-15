@@ -13,7 +13,7 @@ public class TreeNodeView extends TreeElementView
     static final int RADIUS = 25;
     static final int DIAMETER = 2 * RADIUS;
 
-    private static final Stroke THIN_STROKE = new BasicStroke(1);
+     private static final Stroke THIN_STROKE = new BasicStroke(1);
     private static final Stroke MEDIUM_STROKE = new BasicStroke(2);
 
     private static final Color NODE_COLOR_ROOT = new Color(100, 100, 100);
@@ -30,9 +30,8 @@ public class TreeNodeView extends TreeElementView
 
     private Point location;
 
-    private ArrayList<TreeTransitionView> parentViews;
+    private TreeTransitionView parentView;
     private ArrayList<TreeTransitionView> childrenViews;
-    private TreeTransitionView transitionView;
 
     private boolean isCollapsed;
     private boolean isContradictoryState;
@@ -47,10 +46,11 @@ public class TreeNodeView extends TreeElementView
         super(TreeElementType.NODE, treeNode);
         this.treeElement = treeNode;
         this.location = new Point();
-        this.parentViews = new ArrayList<>();
+        this.parentView = null;
         this.childrenViews = new ArrayList<>();
         this.isCollapsed = false;
         this.isContradictoryState = false;
+        this.isVisible = true;
     }
 
     /**
@@ -62,9 +62,9 @@ public class TreeNodeView extends TreeElementView
     {
         if(isVisible() && treeElement != null)
         {
-            if(getTreeElement().getParents().size() == 1 &&
-                    getTreeElement().getParents().get(0).isJustified() &&
-                    getTreeElement().getParents().get(0).getRule().getRuleType() == RuleType.CONTRADICTION)
+            if(getTreeElement().getParent() != null &&
+                    getTreeElement().getParent().isJustified() &&
+                    getTreeElement().getParent().getRule().getRuleType() == RuleType.CONTRADICTION)
             {
                 isContradictoryState = true;
                 graphics2D.setColor(NODE_COLOR_CONTRADICTION);
@@ -75,7 +75,7 @@ public class TreeNodeView extends TreeElementView
             {
                 isContradictoryState = false;
                 graphics2D.setStroke(THIN_STROKE);
-                boolean isContraBranch = getTreeElement().leadsToContradiction();
+                boolean isContraBranch = getTreeElement().isContradictoryBranch();
 
                 graphics2D.setColor(isContraBranch ? NODE_COLOR_CONTRADICTION : NODE_COLOR_DEFAULT);
                 graphics2D.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
@@ -90,7 +90,8 @@ public class TreeNodeView extends TreeElementView
                 graphics2D.drawOval(location.x - RADIUS + 5, location.y - RADIUS + 5, DIAMETER - 10, DIAMETER - 10);
 
                 //graphics2D.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
-
+//                graphics2D.setFont(new Font("Ariel", Font.PLAIN, 10));
+//                graphics2D.drawString((int)span + "-(" + location.x + "," + location.y + ")", location.x - RADIUS, location.y);
                 if(isSelected)
                 {
                     graphics2D.setColor(SELECTION_COLOR);
@@ -147,43 +148,23 @@ public class TreeNodeView extends TreeElementView
     }
 
     /**
-     * Gets the list of parent views associated with this tree node
+     * Sets the parent tree transition view
      *
-     * @return list of parent views for this tree node
+     * @param parentView parent tree transition view
      */
-    public ArrayList<TreeTransitionView> getParentViews()
+    public void setParentView(TreeTransitionView parentView)
     {
-        return parentViews;
+        this.parentView = parentView;
     }
 
     /**
-     * Sets the list of parent views associated with this tree node
+     * Gets the parent tree transition view
      *
-     * @param parentViews list of parent views for this tree node
+     * @return parent tree transition view
      */
-    public void setParentViews(ArrayList<TreeTransitionView> parentViews)
+    public TreeTransitionView getParentView()
     {
-        this.parentViews = parentViews;
-    }
-
-    /**
-     * Adds a TreeTransitionView to the list of parent views
-     *
-     * @param nodeView TreeTransitionView to add to the list of parent views
-     */
-    public void addParentView(TreeTransitionView nodeView)
-    {
-        parentViews.add(nodeView);
-    }
-
-    /**
-     * Removes a TreeTransitionView from the list of parent views
-     *
-     * @param nodeView TreeTransitionView to remove from the list of parent views
-     */
-    public void removeParentView(TreeTransitionView nodeView)
-    {
-        parentViews.remove(nodeView);
+        return parentView;
     }
 
     /**

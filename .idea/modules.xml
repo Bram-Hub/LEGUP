@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Legup.iml" filepath="$PROJECT_DIR$/.idea/modules/Legup.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Legup.iml" filepath="$PROJECT_DIR$/.idea/modules/Legup.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Legup.iml" filepath="$PROJECT_DIR$/Legup.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Legup_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Legup_main.iml" group="Legup" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Legup_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Legup_test.iml" group="Legup" />
     </modules>

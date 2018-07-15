@@ -2,6 +2,10 @@ package puzzle.nurikabe.rules;
 
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
+import puzzle.nurikabe.*;
+import utility.DisjointSets;
+
+import java.util.Set;
 
 public class TooFewSpacesContradictionRule extends ContradictionRule
 {
@@ -23,7 +27,32 @@ public class TooFewSpacesContradictionRule extends ContradictionRule
     @Override
     public String checkContradictionAt(TreeTransition transition, int elementIndex)
     {
-        return null;
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+
+        NurikabeCell cell = (NurikabeCell)board.getElementData(elementIndex);
+        if(cell.getType() != NurikabeType.WHITE && cell.getType() != NurikabeType.NUMBER)
+        {
+            return "Contradiction must be a white or a numbered cell";
+        }
+
+        DisjointSets<NurikabeCell> regions = NurikabeUtilities.getPossibleWhiteRegions(board);
+        Set<NurikabeCell> whiteRegion = regions.getSet(cell);
+        NurikabeCell numberedCell = null;
+        for(NurikabeCell c : whiteRegion)
+        {
+            if(c.getType() == NurikabeType.NUMBER)
+            {
+                numberedCell = c;
+                break;
+            }
+        }
+
+        if(numberedCell != null && whiteRegion.size() < numberedCell.getValueInt())
+        {
+            System.err.println("Cell Value: " + numberedCell.getValueInt() + ", Loc: " + cell.getLocation() + ", region: " + whiteRegion.size());
+            return null;
+        }
+        return "Does not contain a contradiction at this index";
     }
 
     /**

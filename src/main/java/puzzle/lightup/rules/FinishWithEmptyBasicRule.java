@@ -1,13 +1,18 @@
 package puzzle.lightup.rules;
 
 import model.rules.BasicRule;
+import model.rules.RegisterRule;
+import model.rules.RuleType;
 import model.tree.TreeTransition;
+import puzzle.lightup.LightUp;
 import puzzle.lightup.LightUpBoard;
 import puzzle.lightup.LightUpCell;
 import puzzle.lightup.LightUpCellType;
 
 import java.awt.*;
 
+
+@RegisterRule(puzzleName = LightUp.class, ruleType = RuleType.BASIC)
 public class FinishWithEmptyBasicRule extends BasicRule
 {
 
@@ -27,9 +32,9 @@ public class FinishWithEmptyBasicRule extends BasicRule
      * otherwise error message
      */
     @Override
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
-        LightUpBoard initialBoard = (LightUpBoard)transition.getParentNode().getBoard();
+        LightUpBoard initialBoard = (LightUpBoard)transition.getParents().get(0).getBoard();
         LightUpBoard finalBoard = (LightUpBoard)transition.getBoard();
         LightUpCell cell = (LightUpCell)finalBoard.getElementData(elementIndex);
         if(cell.getType() != LightUpCellType.EMPTY)

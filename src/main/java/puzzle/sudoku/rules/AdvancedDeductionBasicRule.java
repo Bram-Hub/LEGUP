@@ -1,7 +1,6 @@
 package puzzle.sudoku.rules;
 
 import model.rules.BasicRule;
-import model.tree.TreeNode;
 import model.tree.TreeTransition;
 import puzzle.sudoku.SudokuBoard;
 import puzzle.sudoku.SudokuCell;
@@ -25,9 +24,9 @@ public class AdvancedDeductionBasicRule extends BasicRule
      * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
-        SudokuBoard initialBoard = (SudokuBoard) transition.getParentNode().getBoard();
+        SudokuBoard initialBoard = (SudokuBoard) transition.getParents().get(0).getBoard();
         SudokuBoard finalBoard = (SudokuBoard) transition.getBoard();
 
         SudokuCell cell = (SudokuCell) finalBoard.getElementData(elementIndex);
@@ -55,8 +54,8 @@ public class AdvancedDeductionBasicRule extends BasicRule
         {
             for(int x = 0; x < groupSize; x++)
             {
-                SudokuCell r = (SudokuCell) initialBoard.getCell(x, (groupNum / groupDim) * groupDim + y);
-                SudokuCell c = (SudokuCell) initialBoard.getCell((groupNum % groupDim) * groupDim + y, x);
+                SudokuCell r = initialBoard.getCell(x, (groupNum / groupDim) * groupDim + y);
+                SudokuCell c = initialBoard.getCell((groupNum % groupDim) * groupDim + y, x);
                 if(r.getValueInt() == cell.getValueInt())
                 {
                     for(int i = 0; i < groupDim; i++)

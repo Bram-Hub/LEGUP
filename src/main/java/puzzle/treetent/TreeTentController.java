@@ -64,57 +64,14 @@ public class TreeTentController extends ElementController
         TreeTentElement dragEnd = (TreeTentElement) boardView.getElement(e.getPoint());
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
-        PuzzleElement elementView = boardView.getElement(e.getPoint());
-        TreeSelection selection = treeView.getTreeSelection();
-        TreeElementView selectedView = selection.getFirstSelection();
-        TreeTentBoard board = (TreeTentBoard)getInstance().getBoard();
-        if(dragStart.getLocation().distance(dragEnd.getLocation())/30 == 1){
-            TreeTentLine line = new TreeTentLine((TreeTentCell) dragStart.getData(), (TreeTentCell) dragEnd.getData());
-            boolean mod_contains = false;
-            boolean contains = false;
-            ElementData dup_line = null;
-            ICommand edit = new EditLineCommand(elementView, selectedView, e, line);
-            getInstance().getHistory().pushChange(edit);
-            edit.execute();
-//            for(int i = 0;i < board.getModifiedData().size();i++){
-//                if(board.getModifiedData().get(i).getValueString() == "LINE"){
-//                    if(line.compare((TreeTentLine) board.getModifiedData().get(i))){
-//                        System.out.println("contains");
-//                        dup_line = board.getModifiedData().get(i);
-//                        mod_contains = true;
-//                    }
-//                }
-//            }
-//            for(int i = 0;i < board.getLines().size();i++){
-//                if(board.getLines().get(i).compare(line)){
-//                    contains = true;
-//                }
-//            }
-//            if(contains || mod_contains){
-//                if(mod_contains){
-//
-//                    ICommand edit = new EditDataCommand(elementView, selectedView, e);
-//                    getInstance().getHistory().pushChange(edit);
-//                    edit.execute();
-//                    board.getModifiedData().remove(dup_line);
-//                    board.getLines().remove(dup_line);
-//                    boardView.updateBoard(board);
-//                }
-//            } else {
-//
-//                ICommand edit = new EditDataCommand(elementView, selectedView, e);
-//                getInstance().getHistory().pushChange(edit);
-//                edit.execute();
-//                board = (TreeTentBoard) selection.getFirstSelection().getTreeElement().getBoard();
-//                board.getModifiedData().add(line);
-//                board.getLines().add(line);
-//                boardView.updateBoard(board);
-//            }
+        TreeTentElement element = (TreeTentElement) boardView.getElement(e.getPoint());
+        if(lastCellPressed != null && element != null)
+        {
+            TreeTentLine line = new TreeTentLine((TreeTentCell) lastCellPressed.getData(), (TreeTentCell) element.getData());
+            board.getLines().add(line);
+            board.getModifiedData().add(line);
+            boardView.onBoardChanged(board);
         }
-        else{
-            super.mouseReleased(e);
-        }
-
     }
     @Override
     public void changeCell(MouseEvent e, ElementData data)

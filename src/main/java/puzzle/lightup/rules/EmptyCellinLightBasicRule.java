@@ -1,12 +1,16 @@
 package puzzle.lightup.rules;
 
 import model.rules.BasicRule;
-import model.tree.TreeNode;
+import model.rules.RegisterRule;
+import model.rules.RuleType;
 import model.tree.TreeTransition;
+import puzzle.lightup.LightUp;
 import puzzle.lightup.LightUpBoard;
 import puzzle.lightup.LightUpCell;
 import puzzle.lightup.LightUpCellType;
 
+
+@RegisterRule(puzzleName = LightUp.class, ruleType = RuleType.BASIC)
 public class EmptyCellinLightBasicRule extends BasicRule
 {
 
@@ -21,16 +25,16 @@ public class EmptyCellinLightBasicRule extends BasicRule
      *
      * @param transition   transition to check
      * @param elementIndex index of the element
-     *
      * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
     @Override
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
-        ((LightUpBoard)transition.getParentNode().getBoard()).fillWithLight();
-        LightUpCell initCell = (LightUpCell)transition.getParentNode().getBoard().getElementData(elementIndex);
-        LightUpCell finalCell = (LightUpCell)transition.getBoard().getElementData(elementIndex);
+        LightUpBoard initialBoard = (LightUpBoard) transition.getParents().get(0).getBoard();
+        initialBoard.fillWithLight();
+        LightUpCell initCell = (LightUpCell) initialBoard.getElementData(elementIndex);
+        LightUpCell finalCell = (LightUpCell) transition.getBoard().getElementData(elementIndex);
         if(finalCell.getType() == LightUpCellType.EMPTY && initCell.getType() == LightUpCellType.UNKNOWN && initCell.isLite())
         {
             return null;
@@ -43,7 +47,6 @@ public class EmptyCellinLightBasicRule extends BasicRule
      * and if so will perform the default application of the rule
      *
      * @param transition transition to apply default application
-     *
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
@@ -59,7 +62,6 @@ public class EmptyCellinLightBasicRule extends BasicRule
      *
      * @param transition   transition to apply default application
      * @param elementIndex
-     *
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */

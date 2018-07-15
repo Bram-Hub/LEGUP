@@ -28,7 +28,7 @@ public class LightUpCellFactory extends ElementFactory
         {
             if(!node.getNodeName().equalsIgnoreCase("cell"))
             {
-                throw new InvalidFileFormatException("LightUp Factory: unknown data element");
+                throw new InvalidFileFormatException("lightup Factory: unknown data element");
             }
 
             LightUpBoard lightUpBoard = (LightUpBoard)board;
@@ -41,11 +41,11 @@ public class LightUpCellFactory extends ElementFactory
             int y = Integer.valueOf(attributeList.getNamedItem("y").getNodeValue());
             if(x >= width || y >= height)
             {
-                throw new InvalidFileFormatException("LightUp Factory: cell location out of bounds");
+                throw new InvalidFileFormatException("lightup Factory: cell location out of bounds");
             }
             if(value < -4 || value > 4)
             {
-                throw new InvalidFileFormatException("LightUp Factory: cell unknown value");
+                throw new InvalidFileFormatException("lightup Factory: cell unknown value");
             }
 
             LightUpCell cell = new LightUpCell(value, new Point(x, y));
@@ -54,11 +54,11 @@ public class LightUpCellFactory extends ElementFactory
         }
         catch(NumberFormatException e)
         {
-            throw new InvalidFileFormatException("LightUp Factory: unknown value where integer expected");
+            throw new InvalidFileFormatException("lightup Factory: unknown value where integer expected");
         }
         catch(NullPointerException e)
         {
-            throw new InvalidFileFormatException("LightUp Factory: could not find attribute(s)");
+            throw new InvalidFileFormatException("lightup Factory: could not find attribute(s)");
         }
     }
 

@@ -28,12 +28,12 @@ public class NurikabeImporter extends PuzzleImporter
         {
             if(!node.getNodeName().equalsIgnoreCase("board"))
             {
-                throw new InvalidFileFormatException("Nurikabe Importer: cannot find board element");
+                throw new InvalidFileFormatException("nurikabe Importer: cannot find board element");
             }
             Element boardElement = (Element)node;
             if(boardElement.getElementsByTagName("cells").getLength() == 0)
             {
-                throw new InvalidFileFormatException("Nurikabe Importer: no data found for board");
+                throw new InvalidFileFormatException("nurikabe Importer: no data found for board");
             }
             Element dataElement = (Element)boardElement.getElementsByTagName("cells").item(0);
             NodeList elementDataList = dataElement.getElementsByTagName("cell");
@@ -53,7 +53,7 @@ public class NurikabeImporter extends PuzzleImporter
 
             if(nurikabeBoard == null)
             {
-                throw new InvalidFileFormatException("Nurikabe Importer: invalid board dimensions");
+                throw new InvalidFileFormatException("nurikabe Importer: invalid board dimensions");
             }
 
             int width = nurikabeBoard.getWidth();
@@ -63,7 +63,7 @@ public class NurikabeImporter extends PuzzleImporter
             {
                 NurikabeCell cell = (NurikabeCell)puzzle.getFactory().importCell(elementDataList.item(i), nurikabeBoard);
                 Point loc = cell.getLocation();
-                if(cell.getValueInt() != -2)
+                if(cell.getValueInt() != NurikabeType.UNKNOWN.toValue())
                 {
                     cell.setModifiable(false);
                     cell.setGiven(true);
@@ -77,7 +77,7 @@ public class NurikabeImporter extends PuzzleImporter
                 {
                     if(nurikabeBoard.getCell(x, y) == null)
                     {
-                        NurikabeCell cell = new NurikabeCell(-2, new Point(x, y));
+                        NurikabeCell cell = new NurikabeCell(NurikabeType.UNKNOWN.toValue(), new Point(x, y));
                         cell.setIndex(y * height + x);
                         cell.setModifiable(true);
                         nurikabeBoard.setCell(x, y, cell);
@@ -88,7 +88,7 @@ public class NurikabeImporter extends PuzzleImporter
         }
         catch(NumberFormatException e)
         {
-            throw new InvalidFileFormatException("Nurikabe Importer: unknown value where integer expected");
+            throw new InvalidFileFormatException("nurikabe Importer: unknown value where integer expected");
         }
     }
 }

@@ -28,7 +28,7 @@ public class NurikabeCellFactory extends ElementFactory
         {
             if(!node.getNodeName().equalsIgnoreCase("cell"))
             {
-                throw new InvalidFileFormatException("Nurikabe Factory: unknown data element");
+                throw new InvalidFileFormatException("nurikabe Factory: unknown data element");
             }
 
             NurikabeBoard nurikabeBoard = (NurikabeBoard)board;
@@ -41,11 +41,11 @@ public class NurikabeCellFactory extends ElementFactory
             int y = Integer.valueOf(attributeList.getNamedItem("y").getNodeValue());
             if(x >= width || y >= height)
             {
-                throw new InvalidFileFormatException("Nurikabe Factory: cell location out of bounds");
+                throw new InvalidFileFormatException("nurikabe Factory: cell location out of bounds");
             }
             if(value < -2)
             {
-                throw new InvalidFileFormatException("Nurikabe Factory: cell unknown value");
+                throw new InvalidFileFormatException("nurikabe Factory: cell unknown value");
             }
 
             NurikabeCell cell = new NurikabeCell(value, new Point(x, y));
@@ -54,11 +54,11 @@ public class NurikabeCellFactory extends ElementFactory
         }
         catch(NumberFormatException e)
         {
-            throw new InvalidFileFormatException("Nurikabe Factory: unknown value where integer expected");
+            throw new InvalidFileFormatException("nurikabe Factory: unknown value where integer expected");
         }
         catch(NullPointerException e)
         {
-            throw new InvalidFileFormatException("Nurikabe Factory: could not find attribute(s)");
+            throw new InvalidFileFormatException("nurikabe Factory: could not find attribute(s)");
         }
     }
 

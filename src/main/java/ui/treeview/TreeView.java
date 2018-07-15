@@ -2,33 +2,32 @@ package ui.treeview;
 
 import app.GameBoardFacade;
 import controller.TreeController;
+import model.observer.ITreeListener;
 import model.rules.Rule;
 import model.tree.Tree;
+import model.tree.TreeElement;
 import model.tree.TreeNode;
 import model.tree.TreeTransition;
 import ui.DynamicViewer;
-import ui.Selection;
+import utility.DisjointSets;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.List;
+import java.util.logging.Logger;
 
-import static java.lang.Math.round;
-import static java.lang.Math.sqrt;
 import static model.tree.TreeElementType.NODE;
 import static model.tree.TreeElementType.TRANSITION;
 import static ui.treeview.TreeNodeView.DIAMETER;
 import static ui.treeview.TreeNodeView.RADIUS;
 
-public class TreeView extends DynamicViewer
+public class TreeView extends DynamicViewer implements ITreeListener
 {
-    private static final Color NODE_COLOR = new Color(255, 255, 155);
-    private static final Color TRANS_CORRECT_COLOR = Color.GREEN;
-    private static final Color TRANS_INCORRECT_COLOR = Color.RED;
+    private final static Logger LOGGER = Logger.getLogger(TreeView.class.getName());
+
     private static final int NODE_RADIUS = 10;
     private static final int SMALL_NODE_RADIUS = 7;
     private static final int COLLAPSED_DRAW_DELTA_X = 10;
@@ -36,7 +35,10 @@ public class TreeView extends DynamicViewer
     private static final int TRANS_GAP = 5;
 
     private static final int NODE_GAP_WIDTH = 70;
-    private static final int NODE_GAP_HEIGHT = 10;
+    private static final int NODE_GAP_HEIGHT = 25;
+
+    private static final int BORDER_GAP_HEIGHT = 20;
+    private static final int BORDER_GAP_WIDTH = 20;
 
     private static final float floater[] = new float[]{(5.0f), (10.0f)};
     private static final float floater2[] = new float[]{(2.0f), (3.0f)};
@@ -55,8 +57,10 @@ public class TreeView extends DynamicViewer
     private int xOffset = 0;
     private int yOffset = 0;
     private Map<TreeNode, Color> collapseColorHash;
+
     private Tree tree;
     private TreeNodeView rootNodeView;
+    private Map<TreeElement, TreeElementView> viewMap;
     private Dimension dimension;
 
     private TreeSelection treeSelection;
@@ -68,6 +72,8 @@ public class TreeView extends DynamicViewer
         collapseColorHash = new HashMap<>();
         setSize(dimension = new Dimension(100, 200));
         setPreferredSize(new Dimension(640, 160));
+
+        viewMap = new HashMap<>();
 
         treeSelection = new TreeSelection();
     }
@@ -97,47 +103,32 @@ public class TreeView extends DynamicViewer
         this.nodeHover = nodeHover;
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        // System.out.println("actionPerformed");
-    }
-
-    private TreeNodeView getLastCollapsed(TreeNodeView nodeView)
-    {
-        return getLastCollapsed(nodeView, null);
-    }
-
-    private TreeNodeView getLastCollapsed(TreeNodeView nodeView, int[] outptrNumTransitions)
-    {
-//        ArrayList<TreeTransitionView> children = nodeView.getChildrenViews();
-//        int numTransitions = 0;
-//
-//        if(children.dimension() == 1)
-//        {
-//            TreeTransitionView childView = children.get(0);
-//
-//            if(childView.isCollapsed())
-//            {
-//                numTransitions++;
-//                nodeView = getLastCollapsed(childView);
-//            }
-//        }
-//        if(outptrNumTransitions != null)
-//        {
-//            outptrNumTransitions[0] = numTransitions;
-//        }
-//        return nodeView;
-        return null;
-    }
-
+    /**
+     * Gets the TreeElementView by the specified point or null if no view exists at the specified point
+     *
+     * @param point location to query for a view
+     * @return TreeElementView at the point specified, otherwise null
+     */
     public TreeElementView getTreeElementView(Point point)
     {
-        return rootNodeView == null ? null : getTreeElementView(point, rootNodeView);
+        return getTreeElementView(point, rootNodeView);
     }
 
+    /**
+     * Recursively gets the TreeElementView by the specified point or null if no view exists at the specified point or
+     * the view specified is null
+     *
+     * @param point location to query for a view
+     * @param elementView view to determine if the point is contained within it
+     * @return TreeElementView at the point specified, otherwise null
+     */
     private TreeElementView getTreeElementView(Point point, TreeElementView elementView)
     {
-        if(elementView.contains(point) && elementView.isVisible())
+        if(elementView == null)
+        {
+            return null;
+        }
+        else if(elementView.contains(point) && elementView.isVisible())
         {
             if(elementView.getType() == NODE && ((TreeNodeView)elementView).isContradictoryState())
             {
@@ -178,12 +169,12 @@ public class TreeView extends DynamicViewer
         float scale = (100 / (float) getZoom());
         b.setBounds((int) b.getX() - (int) (100 * scale), (int) b.getY(), (int) b.getWidth() + (int) (400 * scale), (int) b.getHeight() + (int) (200 * scale));
         // get the relevant child nodes
-        ArrayList<TreeTransitionView> childrenViews = nodeView.isCollapsed() ? getLastCollapsed(nodeView).getChildrenViews() : nodeView.getChildrenViews();
+        //ArrayList<TreeTransitionView> childrenViews = nodeView.isCollapsed() ? getLastCollapsed(nodeView).getChildrenViews() : nodeView.getChildrenViews();
         // compute the union of the child bounding boxes recursively
-        for(int c = 0; c < childrenViews.size(); c++)
-        {
-            b = b.union(getTreeBounds(childrenViews.get(c).getChildView()));
-        }
+//        for(int c = 0; c < childrenViews.size(); c++)
+//        {
+//            b = b.union(getTreeBounds(childrenViews.get(c).getChildView()));
+//        }
         return b;
     }
 
@@ -197,6 +188,11 @@ public class TreeView extends DynamicViewer
         repaint();
     }
 
+    /**
+     * Sets the tree associated with this TreeView
+     *
+     * @param tree tree
+     */
     public void setTree(Tree tree)
     {
         this.tree = tree;
@@ -208,28 +204,19 @@ public class TreeView extends DynamicViewer
         {
             return;
         }
-        //bounds = getTreeBounds(GameBoardFacade.getInstance().getTree().getRootNode());
         setSize(bounds.getSize());
-        TreeNode treeNode = GameBoardFacade.getInstance().getTree().getRootNode();
-        if(bounds.y != 60)
-        {
-            //treeElement.adjustOffset(new Point(60 - bounds.y, 0));
-        }
     }
 
     public void reset()
     {
-        TreeNode state = GameBoardFacade.getInstance().getTree().getRootNode();
         if(bounds.x != 0 || bounds.y != 0)
         {
-            //state.setOffset(new Point(state.getOffset().x - bounds.x, state.getOffset().y - bounds.y));
             updateTreeSize();
         }
     }
 
     public void zoomFit()
     {
-        // find the ideal width and height scale
         zoomTo(1.0);
         updateTreeSize();
         double fitwidth = (viewport.getWidth() - 8.0) / (getSize().width - 200);
@@ -249,7 +236,8 @@ public class TreeView extends DynamicViewer
             graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-            drawTree(graphics2D, tree);
+            newReDraw(graphics2D);
+            //drawTree(graphics2D, tree);
             setSize(dimension);
 
             //graphics2D.drawRect(0,0, dimension.width, dimension.height);
@@ -274,90 +262,10 @@ public class TreeView extends DynamicViewer
             lastMovePoint = new Point(point);
         }
     }
-    /*
-    protected void highlightSelectedTransition(Point p)
-    {
-        Selection sel = getSelectionAtPoint(GameBoardFacade.getInstance().getTree().getRootNode(), p);
-        if(sel != null && sel.getState().isModifiable())
-        {
-            GameBoardFacade.getInstance().getGui().getJustificationFrame().
-                    setSelectionByJustification(sel.getState().getJustification());
-        }
-    }*/
 
     public void mouseWheelMovedAt(MouseWheelEvent e)
     {
         updateTreeSize();
-    }
-    /*
-    public TreeNode addChildAtCurrentState(Rule rule)
-    {
-        Selection selection = GameBoardFacade.getInstance().getSelections().getFirstSelection();
-        TreeNode cur = selection.getState();
-        if((cur.getChangedCells().dimension() > 0) || (cur.extraDataChanged()))
-        {
-            if(cur.isModifiable() && selection.isState())
-            {
-                GameBoardFacade.setCurrentState(cur.endTransition());
-            }
-        }
-        updateTreeSize();
-        return cur;
-    }*/
-
-    public boolean checkIfBranchIsContradiction(TreeNode state)
-    {
-
-
-        return false;
-    }
-
-    public boolean checkIfBranchesConverge(TreeNode node1, TreeNode node2)
-    {
-        TreeNode branch0 = node1;
-        while(branch0.getChildren().size() == 1)
-        {
-            //branch0 = branch0.getChildren().get(0);
-            if(branch0.getParents().size() == 2)
-            {
-                break;
-            }
-        }
-
-        TreeNode branch1 = node2;
-        while(branch1.getChildren().size() == 1)
-        {
-           // branch1 = branch1.getChildren().get(0);
-            if(branch1.getParents().size() == 2)
-            {
-                break;
-            }
-        }
-
-        if(branch0 == branch1)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public boolean handleAllBranchesContra(TreeNode treeNode)
-    {
-        return false;
-    }
-
-    public void handleAllBranchesMerged(TreeNode treeNode)
-    {
-
-
-        //This is the better looking solution!
-        //Partially works//
-        //However decollapse is broken. Also, the gap between nodes is too large.
-        //parent0.toggleCollapseRecursiveMerge(parent0.getLocation().x, parent0.getLocation().y, true);
-        //parent1.toggleCollapseRecursiveMerge(parent1.getLocation().x, parent1.getLocation().y, true);
     }
 
     /**
@@ -369,7 +277,7 @@ public class TreeView extends DynamicViewer
      */
     public void getCollapseColor(TreeNode treeNode)
     {
-        boolean overallColor = treeNode.leadsToContradiction();
+        boolean overallColor = treeNode.isContradictoryBranch();
         if(overallColor)
         {
             this.collapseColorHash.put(treeNode, Color.GREEN);
@@ -380,228 +288,32 @@ public class TreeView extends DynamicViewer
         }
     }
 
-    /**
-     * Delete the child and child's subtree starting at the current state
-     */
-    public void delChildAtCurrentState()
-    {
-        Tree tree = GameBoardFacade.getInstance().getTree();
-//        HashSet<TreeNode> selected = tree.getSelected(
-//        ArrayList<TreeNode> selectedList = new ArrayList<>(selected);
-
-        //updateTreeSize();
-    }
-
-    /**
-     * Merge the two or more selected states
-     */
-    public void mergeStates()
-    {
-        Tree tree = GameBoardFacade.getInstance().getTree();
-        if(tree.canMerge())
-        {
-            tree.mergeNodes();
-        }
-        updateTreeSize();
-    }
-
-    private void drawTree(Graphics2D graphics2D, Tree tree)
-    {
-        if(rootNodeView == null)
-        {
-            redrawTree(graphics2D, tree);
-        }
-        else
-        {
-            recalculateTreeLocations();
-            drawTree(graphics2D, rootNodeView);
-            graphics2D.setColor(Color.BLACK);
-            graphics2D.setStroke(new BasicStroke(3));
-            //graphics2D.drawRect(0, 0, dimension.width, dimension.height);
-        }
-    }
-
-    private void drawTree(Graphics2D graphics2D, TreeElementView elementView)
-    {
-        elementView.draw(graphics2D);
-        if(elementView.getType() == NODE)
-        {
-            TreeNodeView nodeView = (TreeNodeView)elementView;
-            for(TreeTransitionView childView: nodeView.getChildrenViews())
-            {
-                drawTree(graphics2D, childView);
-            }
-        }
-        else
-        {
-            TreeTransitionView transitionView = (TreeTransitionView)elementView;
-            drawTree(graphics2D, transitionView.getChildView());
-        }
-    }
-
-    private void recalculateTreeLocations()
-    {
-        dimension.height = recalculateNodeViewLocations(rootNodeView, 0, 0);
-        for(TreeTransitionView transitionView : rootNodeView.getChildrenViews())
-        {
-            calculateTransitionViewLocations(transitionView);
-        }
-    }
-
-    /**
-     * Recursively calculates the locations of the tree from scratch using deep first search
-     *
-     * @param nodeView current view object
-     * @param depth current depth of the tree view
-     * @param rspan current breath of the tree view
-     * @return span of the branch (bounded y distance of the branch center at the view)
-     */
-    private int recalculateNodeViewLocations(TreeNodeView nodeView, int depth, int rspan)
-    {
-        int xLoc = (NODE_GAP_WIDTH + DIAMETER) * depth + DIAMETER;
-        nodeView.setX(xLoc);
-        dimension.width = Math.max(dimension.width, xLoc + DIAMETER);
-        if(nodeView.getChildrenViews().isEmpty())
-        {
-            nodeView.setY(rspan + DIAMETER);
-            return 2 * DIAMETER;
-        }
-        else
-        {
-            ArrayList<TreeTransitionView> children = nodeView.getChildrenViews();
-            int size = children.size();
-            int tspan = 0;
-            for(int i = 0; i < size; i++)
-            {
-                TreeTransitionView childView = children.get(i);
-
-                int cspan = recalculateNodeViewLocations(childView.getChildView(), depth + 1, rspan + tspan);
-
-                tspan += i == size - 1 ? cspan : cspan + NODE_GAP_HEIGHT;
-            }
-            nodeView.setY(rspan + tspan / 2);
-            return tspan;
-        }
-    }
-
-    /**
-     * Recursively calculates the locations of the transition views in the tree view.
-     * Assumes the locations of the nodes have already been calculated by createTreeViews
-     *
-     * @param transitionView transition view
-     */
-    private void calculateTransitionViewLocations(TreeTransitionView transitionView)
-    {
-        TreeNodeView childView = transitionView.getChildView();
-        TreeNodeView parentView = transitionView.getParentView();
-
-        double ratio = (childView.getY() - parentView.getY())/(childView.getX() - parentView.getX());
-        double radius = childView.getRadius();
-        double denominator = sqrt((ratio*ratio)+1);
-        double xMagnitude = (radius + TRANS_GAP)/denominator;
-        double yMagnitude = (radius + TRANS_GAP)*ratio/denominator;
-
-        int startPointX = parentView.getX() + (int) round(xMagnitude);
-        int startPointY = parentView.getY() + (int) round(yMagnitude);
-        transitionView.setStartPoint(new Point(startPointX, startPointY));
-
-        int endPointX = childView.getX() - (int) round(xMagnitude);
-        int endPointY = childView.getY() - (int) round(yMagnitude);
-        transitionView.setEndPoint(new Point(endPointX, endPointY));
-        for(TreeTransitionView child: childView.getChildrenViews())
-        {
-            calculateTransitionViewLocations(child);
-        }
-    }
-
-    /**
-     * Redraws the tree completely from scratch
-     *
-     * @param graphics2D graphics object used for drawing
-     * @param tree tree
-     */
-    private void redrawTree(Graphics2D graphics2D, Tree tree)
-    {
-        if(tree == null)
-        {
-            //TODO add error
-        }
-        else
-        {
-            rootNodeView = new TreeNodeView(tree.getRootNode());
-            dimension.height = createTreeViews(rootNodeView, 0, 0) + DIAMETER;
-            for(TreeTransitionView transitionView: rootNodeView.getChildrenViews())
-            {
-                calculateTransitionViewLocations(transitionView);
-            }
-            redrawTree(graphics2D, rootNodeView);
-            treeSelection.newSelection(rootNodeView);
-            viewport.setViewPosition(new Point(0, dimension.height / 2 + viewport.getHeight() / 2 + rootNodeView.getRadius()));
-        }
-    }
-
     private void redrawTree(Graphics2D graphics2D, TreeNodeView nodeView)
     {
-        nodeView.draw(graphics2D);
-        for(TreeTransitionView transitionView: nodeView.getChildrenViews())
+        if(nodeView != null)
         {
-            transitionView.draw(graphics2D);
-            redrawTree(graphics2D, transitionView.getChildView());
-        }
-    }
-
-    /**
-     * Recursively calculates the locations of the tree from scratch using deep first search
-     *
-     * @param nodeView current view object
-     * @param depth current depth of the tree view
-     * @param rspan current breath of the tree view
-     * @return span of the branch (bounded y distance of the branch center at the view)
-     */
-    private int createTreeViews(TreeNodeView nodeView, int depth, int rspan)
-    {
-        TreeNode node = nodeView.getTreeElement();
-        int xLoc = (NODE_GAP_WIDTH + DIAMETER) * depth + DIAMETER;
-        nodeView.setX(xLoc);
-        dimension.width = Math.max(dimension.width, xLoc);
-        if(node == null || node.getChildren().isEmpty())
-        {
-            nodeView.setY(rspan + RADIUS);
-            return DIAMETER;
-        }
-        else
-        {
-            ArrayList<TreeTransition> children = node.getChildren();
-            int size = children.size();
-            int tspan = 0;
-            for(int i = 0; i < size; i++)
+            nodeView.draw(graphics2D);
+            for(TreeTransitionView transitionView : nodeView.getChildrenViews())
             {
-                TreeTransition child = children.get(i);
-                TreeTransitionView transitionView = new TreeTransitionView(child, nodeView);
-                TreeNodeView childView = new TreeNodeView(child.getChildNode());
-                transitionView.setChildView(childView);
-                childView.addParentView(transitionView);
-
-                int cspan = createTreeViews(childView, depth + 1, rspan + tspan);
-
-                nodeView.addChildrenView(transitionView);
-                tspan += i == size - 1 ? cspan : cspan + NODE_GAP_HEIGHT;
+                transitionView.draw(graphics2D);
+                redrawTree(graphics2D, transitionView.getChildView());
             }
-            nodeView.setY(rspan + tspan / 2);
-            return tspan;
         }
     }
 
-    public TreeTransitionView addNewTransitionView(TreeNodeView nodeView, TreeTransition transition)
+    public TreeTransitionView addTransitionView(TreeNodeView nodeView, TreeTransition transition)
     {
         TreeTransitionView transitionView = new TreeTransitionView(transition, nodeView);
-        TreeNodeView newNodeView = new TreeNodeView(null);
         nodeView.getChildrenViews().add(transitionView);
-
-        transitionView.setChildView(newNodeView);
-        newNodeView.addParentView(transitionView);
-        newNodeView.setVisible(false);
         return transitionView;
+    }
+
+    public TreeNodeView addNodeView(TreeTransitionView transitionView, TreeNode node)
+    {
+        TreeNodeView newNodeView = new TreeNodeView(node);
+        transitionView.setChildView(newNodeView);
+        newNodeView.setParentView(transitionView);
+        return newNodeView;
     }
 
     public void removeTreeElement(TreeElementView view)
@@ -609,18 +321,12 @@ public class TreeView extends DynamicViewer
         if(view.getType() == NODE)
         {
             TreeNodeView nodeView = (TreeNodeView)view;
-            for(TreeTransitionView transitionView : nodeView.getParentViews())
-            {
-                TreeNodeView newNodeView = new TreeNodeView(null);
-                newNodeView.setVisible(false);
-                newNodeView.addParentView(transitionView);
-                transitionView.setChildView(newNodeView);
-            }
+            nodeView.getParentView().setChildView(null);
         }
         else
         {
             TreeTransitionView transitionView = (TreeTransitionView)view;
-            transitionView.getParentView().removeChildrenView(transitionView);
+            transitionView.getParentViews().forEach((TreeNodeView n) -> n.removeChildrenView(transitionView));
         }
     }
 
@@ -683,27 +389,6 @@ public class TreeView extends DynamicViewer
     }
 
     /**
-     * Draw the current state boxes (the cached selection)
-     *
-     * @param g the graphics to use to draw
-     */
-    private void drawCurrentStateBoxes(Graphics g)
-    {
-        if(currentStateBoxes != null)
-        {
-            Graphics2D g2d = (Graphics2D) g;
-
-            g.setColor(Color.blue);
-            g2d.setStroke(dashed);
-
-            for(int x = 0; x < currentStateBoxes.size(); ++x)
-            {
-                g2d.draw(currentStateBoxes.get(x));
-            }
-        }
-    }
-
-    /**
      * When the user hovers over the transition, draws the corresponding rules image
      *
      * @param g the graphics to use to draw
@@ -758,5 +443,530 @@ public class TreeView extends DynamicViewer
         this.rootNodeView = null;
         this.treeSelection.clearSelection();
         this.treeSelection.clearHover();
+    }
+
+    /**
+     * Called when a tree element is added to the tree
+     *
+     * @param element TreeElement that was added to the tree
+     */
+    @Override
+    public void onTreeElementAdded(TreeElement element)
+    {
+        if(element.getType() == NODE)
+        {
+            addTreeNode((TreeNode)element);
+        }
+        else
+        {
+            addTreeTransition((TreeTransition)element);
+        }
+        repaint();
+    }
+
+    /**
+     * Called when a tree element is removed from the tree
+     *
+     * @param element TreeElement that was removed to the tree
+     */
+    @Override
+    public void onTreeElementRemoved(TreeElement element)
+    {
+        if(element.getType() == NODE)
+        {
+            TreeNode node = (TreeNode)element;
+            TreeNodeView nodeView = (TreeNodeView)viewMap.get(node);
+
+            nodeView.getParentView().setChildView(null);
+            removeTreeNode(node);
+        }
+        else
+        {
+            TreeTransition trans = (TreeTransition)element;
+            TreeTransitionView transView = (TreeTransitionView)viewMap.get(trans);
+
+            transView.getParentViews().forEach(n -> n.removeChildrenView(transView));
+            removeTreeTransition(trans);
+        }
+        repaint();
+    }
+
+    /**
+     * Called when the tree selection was changed
+     *
+     * @param selection tree selection that was changed
+     */
+    @Override
+    public void onTreeSelectionChanged(TreeSelection selection)
+    {
+        repaint();
+    }
+
+    /**
+     * Gets the TreeElementView by the corresponding TreeElement associated with it
+     *
+     * @param element TreeElement of the view
+     * @return TreeElementView of the TreeElement associated with it
+     */
+    public TreeElementView getElementView(TreeElement element)
+    {
+        return viewMap.get(element);
+    }
+
+    private void removeTreeNode(TreeNode node)
+    {
+        viewMap.remove(node);
+        node.getChildren().forEach(t -> removeTreeTransition(t));
+    }
+
+    private void removeTreeTransition(TreeTransition trans)
+    {
+        viewMap.remove(trans);
+        if(trans.getChildNode() != null)
+        {
+            removeTreeNode(trans.getChildNode());
+        }
+    }
+
+    private void addTreeNode(TreeNode node)
+    {
+        TreeTransition parent = node.getParent();
+
+        TreeNodeView nodeView = new TreeNodeView(node);
+        TreeTransitionView parentView = (TreeTransitionView)viewMap.get(parent);
+
+        nodeView.setParentView(parentView);
+        parentView.setChildView(nodeView);
+
+        viewMap.put(node, nodeView);
+
+        if(!node.getChildren().isEmpty())
+        {
+            node.getChildren().forEach(t -> addTreeTransition(t));
+        }
+    }
+
+    private void addTreeTransition(TreeTransition trans)
+    {
+        List<TreeNode> parents = trans.getParents();
+
+        TreeTransitionView transView = new TreeTransitionView(trans);
+        for(TreeNode parent : parents)
+        {
+            TreeNodeView parentNodeView = (TreeNodeView)viewMap.get(parent);
+            transView.addParentView(parentNodeView);
+            parentNodeView.addChildrenView(transView);
+        }
+
+        viewMap.put(trans, transView);
+
+        if(trans.getChildNode() != null)
+        {
+            addTreeNode(trans.getChildNode());
+        }
+    }
+
+    ///New Draw Methods
+
+    public void newReDraw(Graphics2D graphics2D)
+    {
+        if(tree == null)
+        {
+            //TODO add error
+
+            System.err.println("CreateViews: Null tree");
+        }
+        else
+        {
+            if(rootNodeView == null)
+            {
+                rootNodeView = new TreeNodeView(tree.getRootNode());
+
+                createViews(rootNodeView);
+                System.err.println("newReDraw: Created Views");
+
+                treeSelection.newSelection(rootNodeView);
+            }
+
+            calcSpan(rootNodeView);
+            System.err.println("newReDraw: Calculated span: " + rootNodeView.getSpan());
+
+            calculateViewLocations(rootNodeView, 0);
+            dimension.height = (int)rootNodeView.getSpan() + DIAMETER + BORDER_GAP_HEIGHT;
+            System.err.println("newReDraw: Calculated view positions");
+
+            redrawTree(graphics2D, rootNodeView);
+            System.err.println("newReDraw: redrawTree");
+
+        }
+    }
+
+    public void createViews(TreeNodeView nodeView)
+    {
+        if(nodeView != null)
+        {
+            viewMap.put(nodeView.getTreeElement(), nodeView);
+
+            TreeNode node = nodeView.getTreeElement();
+            for(TreeTransition trans : node.getChildren())
+            {
+                TreeTransitionView transView = new TreeTransitionView(trans);
+                viewMap.put(transView.getTreeElement(), transView);
+
+                transView.addParentView(nodeView);
+                nodeView.addChildrenView(transView);
+
+                TreeNode childNode = trans.getChildNode();
+                if(childNode != null)
+                {
+                    TreeNodeView childNodeView = new TreeNodeView(childNode);
+                    viewMap.put(childNodeView.getTreeElement(), childNodeView);
+
+                    childNodeView.setParentView(transView);
+                    transView.setChildView(childNodeView);
+
+                    createViews(childNodeView);
+                }
+            }
+        }
+    }
+
+    public void calculateViewLocations(TreeNodeView nodeView, int depth)
+    {
+        nodeView.setDepth(depth);
+        int xLoc = (NODE_GAP_WIDTH + DIAMETER) * depth + DIAMETER;
+        nodeView.setX(xLoc);
+        dimension.width = Math.max(dimension.width, xLoc + DIAMETER);
+
+        TreeTransitionView parentTransView = nodeView.getParentView();
+        int yLoc = parentTransView == null ? (int)nodeView.getSpan() / 2 : parentTransView.getEndY() ;
+        nodeView.setY(yLoc);
+
+        ArrayList<TreeTransitionView> children = nodeView.getChildrenViews();
+        switch(children.size())
+        {
+            case 0:
+                break;
+            case 1:
+            {
+                TreeTransitionView childView = children.get(0);
+
+                List<TreeNodeView> parentsViews = childView.getParentViews();
+                if(parentsViews.size() == 1)
+                {
+                    childView.setEndY(yLoc);
+
+                    childView.setDepth(depth);
+
+                    Point lineStartPoint = childView.getLineStartPoint(0);
+                    lineStartPoint.x = xLoc + RADIUS + TRANS_GAP / 2;
+                    lineStartPoint.y = yLoc;
+                    childView.setEndX((NODE_GAP_WIDTH + DIAMETER) * (depth + 1) + RADIUS - TRANS_GAP / 2);
+
+                    dimension.width = Math.max(dimension.width, childView.getEndX() + DIAMETER);
+
+                    TreeNodeView childNodeView = childView.getChildView();
+                    if(childNodeView != null)
+                    {
+                        calculateViewLocations(childNodeView, depth + 1);
+                    }
+                }
+                else if(parentsViews.size() > 1 && parentsViews.get(parentsViews.size() - 1) == nodeView)
+                {
+                    int yAvg = 0;
+                    for(int i = 0; i < parentsViews.size(); i++)
+                    {
+                        TreeNodeView parentNodeView = parentsViews.get(i);
+                        depth = Math.max(depth, parentNodeView.getDepth());
+                        yAvg += parentNodeView.getY();
+
+                        Point lineStartPoint = childView.getLineStartPoint(i);
+                        lineStartPoint.x = parentNodeView.getX() + RADIUS + TRANS_GAP / 2;
+                        lineStartPoint.y = parentNodeView.getY();
+                    }
+                    yAvg /= parentsViews.size();
+                    childView.setEndY(yAvg);
+
+                    childView.setDepth(depth);
+
+                    childView.setEndX((NODE_GAP_WIDTH + DIAMETER) * (depth + 1) + RADIUS - TRANS_GAP / 2);
+
+                    dimension.width = Math.max(dimension.width, childView.getEndX() + DIAMETER);
+
+                    TreeNodeView childNodeView = childView.getChildView();
+                    if(childNodeView != null)
+                    {
+                        calculateViewLocations(childNodeView, depth + 1);
+                    }
+                }
+                break;
+            }
+            default:
+            {
+                int span = 0;
+                for(TreeTransitionView childView : children)
+                {
+                    span += childView.getSpan();
+                }
+
+                span = (int)((nodeView.getSpan() - span) / 2);
+                for(int i = 0; i < children.size(); i++)
+                {
+                    TreeTransitionView childView = children.get(i);
+
+                    childView.setDepth(depth);
+
+                    Point lineStartPoint = childView.getLineStartPoint(0);
+                    lineStartPoint.x = xLoc + RADIUS + TRANS_GAP / 2;
+                    lineStartPoint.y = yLoc;
+                    childView.setEndX((NODE_GAP_WIDTH + DIAMETER) * (depth + 1) + RADIUS - TRANS_GAP / 2);
+                    childView.setEndY(yLoc - (int)(nodeView.getSpan() / 2) + span + (int)(childView.getSpan() / 2));
+
+                    span += childView.getSpan();
+                    TreeNodeView childNodeView = childView.getChildView();
+                    if(childNodeView != null)
+                    {
+                        calculateViewLocations(childNodeView, depth + 1);
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    public void calcSpan(TreeElementView view)
+    {
+        if(view.getType() == NODE)
+        {
+            TreeNodeView nodeView = (TreeNodeView)view;
+            TreeNode node = nodeView.getTreeElement();
+            if(nodeView.getChildrenViews().size() == 0)
+            {
+                nodeView.setSpan(DIAMETER);
+            }
+            else if(nodeView.getChildrenViews().size() == 1)
+            {
+                TreeTransitionView childView = nodeView.getChildrenViews().get(0);
+                calcSpan(childView);
+                if(childView.getParentViews().size() > 1)
+                {
+                    nodeView.setSpan(DIAMETER);
+                }
+                else
+                {
+                    nodeView.setSpan(childView.getSpan());
+                }
+            }
+            else
+            {
+                DisjointSets<TreeTransition> branches = node.findMergingBranches();
+                List<TreeTransition> children = node.getChildren();
+
+                if(node == children.get(0).getParents().get(0))
+                {
+                    reorderBranches(node, branches);
+                }
+
+                List<Set<TreeTransition>> mergingSets = branches.getAllSets();
+
+                double span = 0.0;
+                for(Set<TreeTransition> mergeSet : mergingSets)
+                {
+                    if(mergeSet.size() > 1)
+                    {
+                        TreeTransition mergePoint = TreeNode.findMergingPoint(mergeSet);
+                        TreeTransitionView mergePointView = (TreeTransitionView) viewMap.get(mergePoint);
+                        double subSpan = 0.0;
+                        for(TreeTransition branch: mergeSet)
+                        {
+                            TreeTransitionView branchView = (TreeTransitionView) viewMap.get(branch);
+                            subCalcSpan(branchView, mergePointView);
+                            subSpan += branchView.getSpan();
+                        }
+                        calcSpan(mergePointView);
+                        span += Math.max(mergePointView.getSpan(), subSpan);
+                    }
+                    else
+                    {
+                        TreeTransition trans = mergeSet.iterator().next();
+                        TreeTransitionView transView = (TreeTransitionView) viewMap.get(trans);
+                        calcSpan(transView);
+                        span += transView.getSpan();
+                    }
+                }
+
+                nodeView.setSpan(span);
+            }
+        }
+        else
+        {
+            TreeTransitionView transView = (TreeTransitionView)view;
+            TreeNodeView nodeView = transView.getChildView();
+            if(nodeView == null)
+            {
+                transView.setSpan(DIAMETER);
+            }
+            else
+            {
+                calcSpan(nodeView);
+                transView.setSpan(nodeView.getSpan());
+            }
+        }
+    }
+
+    /**
+     * Calculates the sub span of a given sub tree rooted at the specified view and stops at the tree element view
+     * specified as stop. Stop tree element is NOT included in the span calculation
+     *
+     * @param view
+     * @param stop
+     */
+    private void subCalcSpan(TreeElementView view, TreeElementView stop)
+    {
+        //safe-guard for infinite loop
+        if(view == stop)
+        {
+            return;
+        }
+
+        if(view.getType() == NODE)
+        {
+            TreeNodeView nodeView = (TreeNodeView)view;
+            TreeNode node = nodeView.getTreeElement();
+            if(nodeView.getChildrenViews().size() == 0)
+            {
+                nodeView.setSpan(DIAMETER);
+            }
+            else if(nodeView.getChildrenViews().size() == 1)
+            {
+                TreeTransitionView childView = nodeView.getChildrenViews().get(0);
+                if(childView == stop)
+                {
+                    nodeView.setSpan(DIAMETER);
+                }
+                else
+                {
+                    subCalcSpan(childView, stop);
+                    if(childView.getParentViews().size() > 1)
+                    {
+                        nodeView.setSpan(DIAMETER);
+                    }
+                    else
+                    {
+                        nodeView.setSpan(childView.getSpan());
+                    }
+                }
+            }
+            else
+            {
+                DisjointSets<TreeTransition> branches = node.findMergingBranches();
+                List<TreeTransition> children = node.getChildren();
+
+                if(node == children.get(0).getParents().get(0))
+                {
+                    reorderBranches(node, branches);
+                }
+
+                List<Set<TreeTransition>> mergingSets = branches.getAllSets();
+
+                double span = 0.0;
+                for(Set<TreeTransition> mergeSet : mergingSets)
+                {
+                    if(mergeSet.size() > 1)
+                    {
+                        TreeTransition mergePoint = TreeNode.findMergingPoint(mergeSet);
+                        TreeTransitionView mergePointView = (TreeTransitionView) viewMap.get(mergePoint);
+                        double subSpan = 0.0;
+                        for(TreeTransition branch: mergeSet)
+                        {
+                            TreeTransitionView branchView = (TreeTransitionView) viewMap.get(branch);
+                            subCalcSpan(branchView, mergePointView);
+                            subSpan += branchView.getSpan();
+                        }
+                        subCalcSpan(mergePointView, stop);
+                        span += Math.max(mergePointView.getSpan(), subSpan);
+                    }
+                    else
+                    {
+                        TreeTransition trans = mergeSet.iterator().next();
+                        TreeTransitionView transView = (TreeTransitionView) viewMap.get(trans);
+                        subCalcSpan(transView, stop);
+                        span += transView.getSpan();
+                    }
+                }
+
+                nodeView.setSpan(span);
+            }
+        }
+        else
+        {
+            TreeTransitionView transView = (TreeTransitionView)view;
+            TreeNodeView nodeView = transView.getChildView();
+            if(nodeView == null || nodeView == stop)
+            {
+                transView.setSpan(DIAMETER);
+            }
+            else
+            {
+                calcSpan(nodeView);
+                transView.setSpan(nodeView.getSpan());
+            }
+        }
+    }
+
+    /**
+     * Reorders branches such that merging branches are sequentially grouped together and transitions are kept in
+     * relative order in the list of child transitions of the specified node
+     *
+     * @param node root node of the branches
+     * @param branches DisjointSets of the child branches of the specified node which determine which branches merge
+     */
+    private void reorderBranches(TreeNode node, DisjointSets<TreeTransition> branches)
+    {
+        List<TreeTransition> children = node.getChildren();
+        List<Set<TreeTransition>> mergingSets = branches.getAllSets();
+
+        List<List<TreeTransition>> newOrder = new ArrayList<>();
+        for(Set<TreeTransition> set : mergingSets)
+        {
+            List<TreeTransition> mergeBranch = new ArrayList<>();
+            newOrder.add(mergeBranch);
+            children.forEach((TreeTransition t) ->
+            {
+                if(set.contains(t))
+                {
+                    mergeBranch.add(t);
+                }
+            });
+            mergeBranch.sort((TreeTransition t1, TreeTransition t2) ->
+                    children.indexOf(t1) <= children.indexOf(t2) ? -1 : 1);
+        }
+
+        newOrder.sort((List<TreeTransition> b1, List<TreeTransition> b2) ->
+        {
+            int low1 = -1;
+            int low2 = -1;
+            for(TreeTransition t1 : b1)
+            {
+                int curIndex = children.indexOf(t1);
+                if(low1 == -1 || curIndex < low1 )
+                {
+                    low1 = curIndex;
+                }
+            }
+            for(TreeTransition t1 : b2)
+            {
+                int curIndex = children.indexOf(t1);
+                if(low1 == -1 || curIndex < low1 )
+                {
+                    low1 = curIndex;
+                }
+            }
+            return low1 < low2 ? -1 : 1;
+        });
+
+        List<TreeTransition> newChildren = new ArrayList<>();
+        newOrder.forEach(l -> l.forEach(t -> newChildren.add(t)));
+        node.setChildren(newChildren);
     }
 }

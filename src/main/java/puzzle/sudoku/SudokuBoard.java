@@ -2,21 +2,37 @@ package puzzle.sudoku;
 
 import model.gameboard.GridBoard;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SudokuBoard extends GridBoard
 {
-    private final static Logger LOGGER = Logger.getLogger(SudokuBoard.class.getName());
-
     private int size;
     private int groupSize;
 
+    /**
+     * SudokuBoard Constructor - create a new Sudoku board
+     *
+     * @param size size of one side of the sudoku board, must be an integer square root
+     */
     public SudokuBoard(int size)
     {
         super(size, size);
         this.size = size;
         this.groupSize = (int)Math.sqrt(dimension.width);
+    }
+
+    /**
+     * Gets a SudokuCell from the board
+     *
+     * @param x x location of the cell
+     * @param y y location of the cell
+     * @return SudokuCell at location (x, y)
+     */
+    @Override
+    public SudokuCell getCell(int x, int y)
+    {
+        return (SudokuCell)super.getCell(x, y);
     }
 
     /**
@@ -32,26 +48,77 @@ public class SudokuBoard extends GridBoard
      */
     public SudokuCell getCell(int groupIndex, int x, int y)
     {
-        if(groupIndex >= dimension.width || x >= groupSize || y >= groupSize)
-        {
-            LOGGER.log(Level.SEVERE, "Sudoku: Attempting to access an out of bounds cell: Group Index: " +
-                    groupIndex + ", x: " + x + ", y: " + y);
-            return null;
-        }
-        else
-        {
-            return (SudokuCell) getCell(x + (groupIndex % groupSize) * groupSize, y + (groupIndex / groupSize) * groupSize);
-        }
+        return getCell(x + (groupIndex % groupSize) * groupSize, y + (groupIndex / groupSize) * groupSize);
     }
 
+    /**
+     * Gets the size of the sudoku board
+     * Standard board is 9x9
+     *
+     * @return size of the board
+     */
     public int getSize()
     {
         return size;
     }
 
+    /**
+     * Gets the minor group size of the sudoku board
+     * Standard board is 3x3x3x3
+     *
+     * @return minor group size
+     */
     public int getGroupSize()
     {
         return groupSize;
+    }
+
+    /**
+     * Gets all the cells in the specified row
+     *
+     * @param rowNum row index
+     * @return list of all the cells in the row
+     */
+    public Set<SudokuCell> getRow(int rowNum)
+    {
+        Set<SudokuCell> row = new HashSet<>();
+        for(int i = 0; i < size; i++)
+        {
+            row.add(getCell(i, rowNum));
+        }
+        return row;
+    }
+
+    /**
+     * Gets all the cells in the specified column
+     *
+     * @param colNum column index
+     * @return list of all the cells in the column
+     */
+    public Set<SudokuCell> getCol(int colNum)
+    {
+        Set<SudokuCell> col = new HashSet<>();
+        for(int i = 0; i < size; i++)
+        {
+            col.add(getCell(colNum, i));
+        }
+        return col;
+    }
+
+    /**
+     * Gets all the cells in the specified region
+     *
+     * @param regionNum region index
+     * @return list of all the cells in the region
+     */
+    public Set<SudokuCell> getRegion(int regionNum)
+    {
+        Set<SudokuCell> region = new HashSet<>();
+        for(int i = 0; i < size; i++)
+        {
+            region.add(getCell(regionNum, i % groupSize, i / groupSize));
+        }
+        return region;
     }
 
     /**

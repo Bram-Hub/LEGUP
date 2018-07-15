@@ -3,12 +3,14 @@ package ui.boardview;
 import controller.BoardController;
 import controller.ElementController;
 import model.gameboard.Board;
+import model.gameboard.ElementData;
+import model.observer.IBoardListener;
 import ui.DynamicViewer;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public abstract class BoardView extends DynamicViewer
+public abstract class BoardView extends DynamicViewer implements IBoardListener
 {
     protected ArrayList<PuzzleElement> puzzleElements;
     protected ElementController elementController;
@@ -30,6 +32,7 @@ public abstract class BoardView extends DynamicViewer
         elementController.setBoardView(this);
         addMouseListener(elementController);
         addMouseMotionListener(elementController);
+        getViewport().addKeyListener(elementController);
     }
 
     /**
@@ -87,7 +90,14 @@ public abstract class BoardView extends DynamicViewer
      *
      * @param board board to update the BoardView
      */
-    public abstract void updateBoard(Board board);
+    public void onBoardChanged(Board board)
+    {
+        for(PuzzleElement element: puzzleElements)
+        {
+            element.setData(board.getElementData(element.getIndex()));
+        }
+        repaint();
+    }
 
     /**
      * Gets the amount of puzzle elements for this board
@@ -126,6 +136,17 @@ public abstract class BoardView extends DynamicViewer
         {
             element.draw(graphics2D);
         }
+    }
+
+    /**
+     * Called when the board data changed
+     *
+     * @param data data of the element that changed
+     */
+    @Override
+    public void onBoardDataChanged(ElementData data)
+    {
+        repaint();
     }
 
     public abstract DataSelectionView getSelectionPopupMenu();

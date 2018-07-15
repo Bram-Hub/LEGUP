@@ -1,12 +1,10 @@
 package controller;
 
 import app.GameBoardFacade;
-import model.tree.Tree;
-import model.tree.TreeElement;
-import model.tree.TreeElementType;
-import model.tree.TreeNode;
 import ui.treeview.*;
-import utility.DeleteTreeElementCommand;
+import history.DeleteTreeElementCommand;
+import history.ICommand;
+import history.MergeCommand;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,12 +43,23 @@ public class TreeToolBarController implements ActionListener
             }
             else
             {
-                treePanel.updateStatus(del.getExecutionError());
+                treePanel.updateError(del.getExecutionError());
             }
         }
         else if(button.getToolBarName() == TreeToolBarName.MERGE)
         {
-            //treePanel.mergeStates();
+            TreeSelection selection = treePanel.getTreeView().getTreeSelection();
+
+            ICommand merge = new MergeCommand(selection.getSelection());
+            if(merge.canExecute())
+            {
+                merge.execute();
+                GameBoardFacade.getInstance().getHistory().pushChange(merge);
+            }
+            else
+            {
+                treePanel.updateError(merge.getExecutionError());
+            }
         }
         else if(button.getToolBarName() == TreeToolBarName.COLLAPSE)
         {

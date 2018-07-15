@@ -206,26 +206,22 @@ public abstract class PuzzleImporter
         Tree tree = new Tree();
         puzzle.setTree(tree);
 
-        Element nodes = (Element)treeElement.getElementsByTagName("nodes").item(0);
-        NodeList nodeList = nodes.getElementsByTagName("node");
-        Element transitions = (Element)treeElement.getElementsByTagName("transitions").item(0);
-        NodeList transList = transitions.getElementsByTagName("transition");
-
-        HashMap<TreeTransition, Node> nodeChanges = new HashMap<>();
+        NodeList nodeList = ((Element)node).getElementsByTagName("node");
 
         HashMap<String, TreeNode> treeNodes = new HashMap<>();
         HashMap<String, TreeTransition> treeTransitions = new HashMap<>();
+        HashMap<TreeTransition, Node> nodeChanges = new HashMap<>();
 
         for(int i = 0; i < nodeList.getLength(); i++)
         {
-            Element treeNodeElement = (Element)nodeList.item(i);
-            String id = treeNodeElement.getAttribute("id");
+            Element treeNodeElement = (Element) nodeList.item(i);
+            String nodeId = treeNodeElement.getAttribute("id");
             String isRoot = treeNodeElement.getAttribute("root");
-            if(id.isEmpty())
+            if(nodeId.isEmpty())
             {
                 throw new InvalidFileFormatException("Proof Tree construction error: cannot find node id");
             }
-            if(treeNodes.containsKey(id))
+            if(treeNodes.containsKey(nodeId))
             {
                 throw new InvalidFileFormatException("Proof Tree construction error: duplicate tree node id found");
             }
@@ -239,61 +235,58 @@ public abstract class PuzzleImporter
                 treeNode.setRoot(true);
                 tree.setRootNode(treeNode);
             }
-            treeNodes.put(id, treeNode);
+            treeNodes.put(nodeId, treeNode);
         }
 
-        for(int i = 0; i < transList.getLength(); i++)
+
+        for(int i = 0; i < nodeList.getLength(); i++)
         {
-            Element trans = (Element)transList.item(i);
-            String id = trans.getAttribute("id");
-            if(treeTransitions.containsKey(id))
+            Element treeNodeElement = (Element) nodeList.item(i);
+            String nodeId = treeNodeElement.getAttribute("id");
+            TreeNode treeNode = treeNodes.get(nodeId);
+
+            NodeList transList = treeNodeElement.getElementsByTagName("transition");
+            for(int k = 0; k < transList.getLength(); k++)
             {
-                throw new InvalidFileFormatException("Proof Tree construction error: duplicate transition id found");
-            }
+                Element trans = (Element)transList.item(k);
+                String transId = trans.getAttribute("id");
+//                if(treeTransitions.containsKey(transId))
+//                {
+//                    throw new InvalidFileFormatException("Proof Tree construction error: duplicate transition id found");
+//                }
 
-            String parentId = trans.getAttribute("parent");
-            if(parentId.isEmpty())
-            {
-                throw new InvalidFileFormatException("Proof Tree construction error: cannot find parent id of transition");
-            }
+                String childId = trans.getAttribute("child");
+                String ruleName = trans.getAttribute("rule");
 
-            String childId = trans.getAttribute("child");
-            String ruleName = trans.getAttribute("rule");
+                TreeNode child = treeNodes.get(childId);
 
-            TreeNode parent = treeNodes.get(parentId);
-            TreeNode child = treeNodes.get(childId);
+                TreeTransition transition = new TreeTransition(treeNode, treeNode.getBoard().copy());
 
-            if(parent == null)
-            {
-                throw new InvalidFileFormatException("Proof Tree construction error: transition parent could not be found");
-            }
-
-            TreeTransition transition = new TreeTransition(parent, parent.getBoard().copy());
-
-            Rule rule = null;
-            if(!ruleName.isEmpty())
-            {
-                rule = puzzle.getRuleByName(ruleName);
-                if(rule == null)
+                Rule rule;
+                if(!ruleName.isEmpty())
                 {
-                    throw new InvalidFileFormatException("Proof Tree construction error: could not find rule by name");
+                    rule = puzzle.getRuleByName(ruleName);
+                    if(rule == null)
+                    {
+                        throw new InvalidFileFormatException("Proof Tree construction error: could not find rule by name");
+                    }
+                    transition.setRule(rule);
                 }
-                transition.setRule(rule);
-            }
 
-            parent.addChild(transition);
-            if(child != null)
-            {
-                child.addParent(transition);
-                transition.setChildNode(child);
-            }
+                treeNode.addChild(transition);
+                if(child != null)
+                {
+                    child.setParent(transition);
+                    transition.setChildNode(child);
+                }
 
-            nodeChanges.put(transition, trans);
-            treeTransitions.put(id, transition);
+                nodeChanges.put(transition, trans);
+                treeTransitions.put(transId, transition);
+            }
         }
 
-        validateTreeStructure(treeNodes, treeTransitions);
-
+        //validateTreeStructure(treeNodes, treeTransitions);
+        System.err.println("Tree Size: " + treeTransitions.size());
         for(Map.Entry<TreeTransition, Node> entry : nodeChanges.entrySet())
         {
             makeTransitionChanges(entry.getKey(), entry.getValue());
@@ -334,13 +327,13 @@ public abstract class PuzzleImporter
 
                 if(connectedNodes.get(treeNode))
                 {
-                    for(TreeTransition trans : treeNode.getParents())
-                    {
-                        if(!(trans.getRule() instanceof MergeRule))
-                        {
-                            throw new InvalidFileFormatException("Proof Tree structure validation error: cyclic tree detected");
-                        }
-                    }
+//                    for(TreeTransition trans : treeNode.getParents())
+//                    {
+//                        if(!(trans.getRule() instanceof MergeRule))
+//                        {
+//                            throw new InvalidFileFormatException("Proof Tree structure validation error: cyclic tree detected");
+//                        }
+//                    }
                 }
                 connectedNodes.replace(treeNode, true);
 

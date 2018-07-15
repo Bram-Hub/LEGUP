@@ -7,6 +7,7 @@ import puzzle.sudoku.SudokuBoard;
 import puzzle.sudoku.SudokuCell;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class RepeatedNumberContradictionRule extends ContradictionRule
 {
@@ -16,37 +17,6 @@ public class RepeatedNumberContradictionRule extends ContradictionRule
         super("Repeated Numbers",
                 "Two identical numbers are placed in the same group.",
                 "images/sudoku/RepeatedNumber.png");
-    }
-
-    /**
-     * Checks whether the tree node has a contradiction using this rule
-     *
-     * @param transition transition to check contradiction
-     * @return null if the tree node contains a contradiction, otherwise error message
-     */
-    @Override
-    public String checkContradiction(TreeTransition transition)
-    {
-        SudokuBoard sudokuBoard = (SudokuBoard)transition.getBoard();
-        int groupSize = sudokuBoard.getWidth();
-        int groupDim = (int)Math.sqrt(groupSize);
-        for(int g = 0; g < groupSize; g++)
-        {
-            HashSet<Integer> numbers = new HashSet<>();
-            for(int i = 0; i < groupSize; i++)
-            {
-                SudokuCell cell = sudokuBoard.getCell(g, i % groupDim, i / groupDim);
-                if(cell.getValueInt() != 0)
-                {
-                    if(numbers.contains(cell.getValueInt()))
-                    {
-                        return null;
-                    }
-                    numbers.add(cell.getValueInt());
-                }
-            }
-        }
-        return "Board does not contain a contradiction";
     }
 
     /**
@@ -62,22 +32,48 @@ public class RepeatedNumberContradictionRule extends ContradictionRule
     public String checkContradictionAt(TreeTransition transition, int elementIndex)
     {
         SudokuBoard sudokuBoard = (SudokuBoard)transition.getBoard();
-        int groupSize = sudokuBoard.getWidth();
-        int groupDim = (int)Math.sqrt(groupSize);
-        int groupNum = (elementIndex / groupSize) / groupDim * groupDim + (elementIndex % groupSize) % groupDim * groupDim;
-        HashSet<Integer> numbers = new HashSet<>();
-        for(int i = 0; i < groupSize; i++)
+        SudokuCell cell = (SudokuCell) sudokuBoard.getElementData(elementIndex);
+        if(cell.getValueInt() == 0)
         {
-            numbers.add(sudokuBoard.getCell(groupNum, i % groupDim, i / groupDim).getValueInt());
+            return "Does not contain a contradiction at this index";
         }
-        if(numbers.contains(sudokuBoard.getElementData(elementIndex).getValueInt()))
+
+        Set<SudokuCell> region = sudokuBoard.getRegion(cell.getGroupIndex());
+        Set<SudokuCell> row = sudokuBoard.getRow(cell.getLocation().y);
+        Set<SudokuCell> col = sudokuBoard.getCol(cell.getLocation().x);
+
+        Set<Integer> regionDup = new HashSet<>();
+        Set<Integer> rowDup = new HashSet<>();
+        Set<Integer> colDup = new HashSet<>();
+
+        for(SudokuCell c : region)
         {
-            return null;
+            if(regionDup.contains(c.getValueInt()))
+            {
+                return null;
+            }
+            regionDup.add(c.getValueInt());
         }
-        else
+
+        for(SudokuCell c : row)
         {
-            return "Board does not contain a contradiction at index: " + elementIndex;
+            if(rowDup.contains(c.getValueInt()))
+            {
+                return null;
+            }
+            rowDup.add(c.getValueInt());
         }
+
+        for(SudokuCell c : col)
+        {
+            if(colDup.contains(c.getValueInt()))
+            {
+                return null;
+            }
+            colDup.add(c.getValueInt());
+        }
+
+        return "Does not contain a contradiction at this index";
     }
 
     /**

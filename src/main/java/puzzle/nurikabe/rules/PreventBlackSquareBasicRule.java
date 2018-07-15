@@ -1,7 +1,11 @@
 package puzzle.nurikabe.rules;
 
 import model.rules.BasicRule;
+import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
+import puzzle.nurikabe.NurikabeBoard;
+import puzzle.nurikabe.NurikabeCell;
+import puzzle.nurikabe.NurikabeType;
 
 public class PreventBlackSquareBasicRule extends BasicRule
 {
@@ -22,9 +26,32 @@ public class PreventBlackSquareBasicRule extends BasicRule
      * otherwise error message
      */
     @Override
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
-        return null;
+        ContradictionRule contraRule = new BlackSquareContradictionRule();
+
+        NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
+        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParents().get(0).getBoard();
+
+        NurikabeCell cell = (NurikabeCell)destBoardState.getElementData(elementIndex);
+
+        if(cell.getType() != NurikabeType.WHITE)
+        {
+            return "Only white cells are allowed for this rule!";
+        }
+
+        NurikabeBoard modified = origBoardState.copy();
+        NurikabeCell modCell = (NurikabeCell) modified.getElementData(elementIndex);
+        modCell.setValueInt(NurikabeType.BLACK.toValue());
+
+        if(contraRule.checkContradiction(new TreeTransition(null, modified)) == null)
+        {
+            return null;
+        }
+        else
+        {
+            return "Does not contain a contradiction at this index";
+        }
     }
 
     /**

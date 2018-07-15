@@ -1,8 +1,12 @@
 package puzzle.nurikabe.rules;
 
 import model.gameboard.Board;
+import model.gameboard.ElementData;
 import model.rules.CaseRule;
 import model.tree.TreeTransition;
+import puzzle.nurikabe.NurikabeBoard;
+import puzzle.nurikabe.NurikabeCell;
+import puzzle.nurikabe.NurikabeType;
 
 import java.util.ArrayList;
 
@@ -17,7 +21,17 @@ public class BlackOrWhiteCaseRule extends CaseRule
     @Override
     public Board getCaseBoard(Board board)
     {
-        return null;
+        NurikabeBoard caseBoard = (NurikabeBoard) board.copy();
+        caseBoard.setCaseRule(this);
+        caseBoard.setModifiable(false);
+        for(ElementData data: caseBoard.getElementData())
+        {
+            if(((NurikabeCell)data).getType() == NurikabeType.UNKNOWN)
+            {
+                data.setCaseApplicable(true);
+            }
+        }
+        return caseBoard;
     }
 
     /**
@@ -31,7 +45,20 @@ public class BlackOrWhiteCaseRule extends CaseRule
     @Override
     public ArrayList<Board> getCases(Board board, int elementIndex)
     {
-        return null;
+        ArrayList<Board> cases = new ArrayList<>();
+        Board case1 = board.copy();
+        ElementData data1 = case1.getElementData(elementIndex);
+        data1.setValueInt(NurikabeType.WHITE.toValue());
+        case1.addModifiedData(data1);
+        cases.add(case1);
+
+        Board case2 = board.copy();
+        ElementData data2 = case2.getElementData(elementIndex);
+        data2.setValueInt(NurikabeType.BLACK.toValue());
+        case2.addModifiedData(data2);
+        cases.add(case2);
+
+        return cases;
     }
 
     /**
@@ -58,7 +85,7 @@ public class BlackOrWhiteCaseRule extends CaseRule
      * otherwise error message
      */
     @Override
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
         return null;
     }

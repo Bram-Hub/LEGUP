@@ -2,6 +2,10 @@ package puzzle.nurikabe.rules;
 
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
+import puzzle.nurikabe.Nurikabe;
+import puzzle.nurikabe.NurikabeBoard;
+import puzzle.nurikabe.NurikabeCell;
+import puzzle.nurikabe.NurikabeType;
 
 public class BlackSquareContradictionRule extends ContradictionRule
 {
@@ -10,6 +14,8 @@ public class BlackSquareContradictionRule extends ContradictionRule
     {
         super("Black Square", "There cannot be a 2x2 square of black.", "images/nurikabe/contradictions/BlackSquare.png");
     }
+
+
 
     /**
      * Checks whether the transition has a contradiction at the specific element index using this rule
@@ -23,7 +29,31 @@ public class BlackSquareContradictionRule extends ContradictionRule
     @Override
     public String checkContradictionAt(TreeTransition transition, int elementIndex)
     {
-        return null;
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+        int height = board.getHeight();
+        int width = board.getWidth();
+
+        NurikabeCell cell = (NurikabeCell)board.getElementData(elementIndex);
+        if(cell.getType() != NurikabeType.BLACK)
+        {
+            return "Does not contain a contradiction at this index";
+        }
+
+        for(int x = cell.getLocation().x - 1; x >= 0 && x < cell.getLocation().x + 1 && x < width - 1 ; x++)
+        {
+            for(int y = cell.getLocation().y - 1; y >= 0 && y < cell.getLocation().y + 1&& y < height - 1; y++)
+            {
+                if(board.getCell(x, y).getType() == NurikabeType.BLACK &&
+                        board.getCell(x + 1,y).getType() == NurikabeType.BLACK &&
+                        board.getCell(x,y + 1).getType() == NurikabeType.BLACK &&
+                        board.getCell(x + 1,y + 1).getType() == NurikabeType.BLACK)
+                {
+                    return null;
+                }
+            }
+        }
+
+        return "No 2x2 square of black exists.";
     }
 
     /**

@@ -3,13 +3,18 @@ package puzzle.lightup.rules;
 import model.gameboard.Board;
 import model.gameboard.ElementData;
 import model.rules.CaseRule;
+import model.rules.RegisterRule;
+import model.rules.RuleType;
 import model.tree.TreeTransition;
+import puzzle.lightup.LightUp;
 import puzzle.lightup.LightUpBoard;
 import puzzle.lightup.LightUpCell;
 import puzzle.lightup.LightUpCellType;
 
 import java.util.ArrayList;
 
+
+@RegisterRule(puzzleName = LightUp.class, ruleType = RuleType.CASE)
 public class LightOrEmptyCaseRule extends CaseRule
 {
 
@@ -85,7 +90,7 @@ public class LightOrEmptyCaseRule extends CaseRule
      * otherwise error message
      */
     @Override
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
     {
         return null;
     }
