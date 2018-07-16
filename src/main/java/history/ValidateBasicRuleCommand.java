@@ -10,19 +10,19 @@ import ui.treeview.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ValidateBasicRuleCommand extends PuzzleCommand
 {
-    private ArrayList<TreeElementView> selectedViews;
+    private TreeViewSelection selection;
 
     private HashMap<TreeElement, Rule> oldRules;
     private HashMap<TreeElement, TreeNode> addNode;
     private Rule newRule;
 
-    @SuppressWarnings("unchecked")
-    public ValidateBasicRuleCommand(ArrayList<TreeElementView> selectedViews, Rule rule)
+    public ValidateBasicRuleCommand(TreeViewSelection selection, Rule rule)
     {
-        this.selectedViews = (ArrayList<TreeElementView>)selectedViews.clone();
+        this.selection = selection.copy();
         this.newRule = rule;
         this.oldRules = new HashMap<>();
         this.addNode = new HashMap<>();
@@ -35,10 +35,11 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
     public void execute()
     {
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeSelection selection = treeView.getTreeSelection();
+        TreeViewSelection selection = treeView.getTreeViewSelection();
         Tree tree = GameBoardFacade.getInstance().getTree();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
+        List<TreeElementView> selectedViews = selection.getSelection();
         for(TreeElementView selectedView : selectedViews)
         {
             TreeElement element = selectedView.getTreeElement();
@@ -129,6 +130,7 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
     @Override
     public boolean canExecute()
     {
+        List<TreeElementView> selectedViews = selection.getSelection();
         for(TreeElementView view : selectedViews)
         {
             if(view.getType() == TreeElementType.NODE)
@@ -153,6 +155,7 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
     @Override
     public String getExecutionError()
     {
+        List<TreeElementView> selectedViews = selection.getSelection();
         for(TreeElementView view : selectedViews)
         {
             if(view.getType() == TreeElementType.NODE)
@@ -175,9 +178,10 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
     public void undo()
     {
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeSelection selection = treeView.getTreeSelection();
+        TreeViewSelection selection = treeView.getTreeViewSelection();
         Tree tree = GameBoardFacade.getInstance().getTree();
 
+        List<TreeElementView> selectedViews = selection.getSelection();
         for(TreeElementView selectedView : selectedViews)
         {
             TreeElement element = selectedView.getTreeElement();

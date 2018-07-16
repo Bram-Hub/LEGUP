@@ -5,20 +5,20 @@ import model.tree.*;
 import ui.treeview.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DeleteTreeElementCommand extends PuzzleCommand
 {
-    private ArrayList<TreeElementView> selectedViews;
+    private TreeViewSelection selection;
 
     /**
      * DeleteTreeElementCommand Constructor - creates a PuzzleCommand for deleting a tree element
      *
-     * @param selectedViews the currently selected tree elements before the command is executed
+     * @param selection the currently selected tree elements before the command is executed
      */
-    @SuppressWarnings("unchecked")
-    public DeleteTreeElementCommand(ArrayList<TreeElementView> selectedViews)
+    public DeleteTreeElementCommand(TreeViewSelection selection)
     {
-        this.selectedViews = (ArrayList<TreeElementView>)selectedViews.clone();
+        this.selection = selection.copy();
     }
 
     /**
@@ -30,7 +30,8 @@ public class DeleteTreeElementCommand extends PuzzleCommand
         Tree tree = GameBoardFacade.getInstance().getTree();
         TreePanel treePanel = GameBoardFacade.getInstance().getLegupUI().getTreePanel();
         TreeView treeView = treePanel.getTreeView();
-        TreeSelection selection = treeView.getTreeSelection();
+
+        List<TreeElementView> selectedViews = selection.getSelection();
 
         TreeElementView firstSelectedView = selectedViews.get(0);
         TreeElementView newSelectedView;
@@ -63,6 +64,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand
     @Override
     public boolean canExecute()
     {
+        List<TreeElementView> selectedViews = selection.getSelection();
         if(selectedViews.isEmpty())
         {
             return false;
@@ -88,6 +90,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand
     @Override
     public String getExecutionError()
     {
+        List<TreeElementView> selectedViews = selection.getSelection();
         if(selectedViews.isEmpty())
         {
             return "Selection is Empty";
@@ -112,7 +115,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand
     {
         TreePanel treePanel = GameBoardFacade.getInstance().getLegupUI().getTreePanel();
         TreeView treeView = treePanel.getTreeView();
-        TreeSelection selection = treeView.getTreeSelection();
+        List<TreeElementView> selectedViews = selection.getSelection();
 
         for(TreeElementView selectedView : selectedViews)
         {

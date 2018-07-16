@@ -49,7 +49,7 @@ public class EditLineCommand extends PuzzleCommand
     {
         Tree tree = getInstance().getTree();
         TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeSelection selection = treeView.getTreeSelection();
+        TreeViewSelection selection = treeView.getTreeViewSelection();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         Puzzle puzzle = getInstance().getPuzzleModule();
 
@@ -177,7 +177,7 @@ public class EditLineCommand extends PuzzleCommand
     {
         Tree tree = getInstance().getTree();
         TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeSelection selection = treeView.getTreeSelection();
+        TreeViewSelection selection = treeView.getTreeViewSelection();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
 
         Board board = transition.getBoard();

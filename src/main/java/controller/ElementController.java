@@ -77,7 +77,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         PuzzleElement elementView = boardView.getElement(e.getPoint());
-        TreeSelection selection = treeView.getTreeSelection();
+        TreeViewSelection selection = treeView.getTreeViewSelection();
         TreeElementView selectedView = selection.getFirstSelection();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
@@ -99,11 +99,9 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                         transition.setRule(caseRule);
 
                         puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(transition));
-                        //TreeTransitionView transitionView = treeView.addTransitionView(nodeView, transition);
 
                         TreeNode n = tree.addNode(transition);
                         puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(n));
-                        //treeView.addNodeView(transitionView, n);
                     }
                     selection.newSelection(nodeView.getChildrenViews().get(0).getChildView());
                     getInstance().getPuzzleModule().setCurrentBoard(node.getChildren().get(0).getBoard());
@@ -112,7 +110,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
             }
             else
             {
-                ICommand edit = new EditDataCommand(elementView, selectedView, e);
+                ICommand edit = new EditDataCommand(elementView, selection, e);
                 if(edit.canExecute())
                 {
                     edit.execute();
@@ -192,7 +190,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         int index = selectedElement.getIndex();
 
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeSelection selection = treeView.getTreeSelection();
+        TreeViewSelection selection = treeView.getTreeViewSelection();
         TreeElementView selectedView = selection.getFirstSelection();
         TreeTransitionView transitionView = (TreeTransitionView)selectedView;
 
@@ -274,7 +272,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         Tree tree = getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
-        TreeSelection selection = treeView.getTreeSelection();
+        TreeViewSelection selection = treeView.getTreeViewSelection();
         TreeElementView selectedView = selection.getFirstSelection();
         System.err.println("Key pressed: " + e.getKeyCode());
         if(board.getCaseRule() != null)

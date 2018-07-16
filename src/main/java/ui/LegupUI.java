@@ -13,6 +13,8 @@ import javax.swing.*;
 
 import app.GameBoardFacade;
 import controller.RuleController;
+import history.ICommand;
+import history.IHistoryListener;
 import model.Puzzle;
 import model.PuzzleExporter;
 import model.gameboard.Board;
@@ -26,7 +28,7 @@ import user.Submission;
 
 import javax.swing.border.TitledBorder;
 
-public class LegupUI extends JFrame implements WindowListener
+public class LegupUI extends JFrame implements WindowListener, IHistoryListener
 {
     private final static Logger LOGGER = Logger.getLogger(LegupUI.class.getName());
 
@@ -809,5 +811,53 @@ public class LegupUI extends JFrame implements WindowListener
     public JButton getRedoButton()
     {
         return toolBarButtons[ToolbarName.REDO.ordinal()];
+    }
+
+    /**
+     * Called when a action is pushed onto the history stack
+     *
+     * @param command action to push onto the stack
+     */
+    @Override
+    public void onPushChange(ICommand command)
+    {
+        undo.setEnabled(true);
+        redo.setEnabled(false);
+    }
+
+    /**
+     * Called when an action is undone
+     *
+     * @param isBottom true if there are no more actions to undo, false otherwise
+     * @param isTop true if there are no more changes to redo, false otherwise
+     */
+    @Override
+    public void onUndo(boolean isBottom, boolean isTop)
+    {
+        undo.setEnabled(!isBottom);
+        redo.setEnabled(!isTop);
+    }
+
+    /**
+     * Called when an action is redone
+     *
+     * @param isBottom true if there are no more actions to undo, false otherwise
+     * @param isTop true if there are no more changes to redo, false otherwise
+     */
+    @Override
+    public void onRedo(boolean isBottom, boolean isTop)
+    {
+        undo.setEnabled(!isTop);
+        redo.setEnabled(!isTop);
+    }
+
+    /**
+     * Called when the history is cleared
+     */
+    @Override
+    public void onClearHistory()
+    {
+        undo.setEnabled(false);
+        redo.setEnabled(false);
     }
 }

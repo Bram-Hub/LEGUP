@@ -1,7 +1,7 @@
 package model.observer;
 
 import model.tree.TreeElement;
-import ui.treeview.TreeSelection;
+import ui.treeview.TreeViewSelection;
 
 public interface ITreeListener
 {
@@ -24,5 +24,5 @@ public interface ITreeListener
      *
      * @param selection tree selection that was changed
      */
-    void onTreeSelectionChanged(TreeSelection selection);
+    void onTreeSelectionChanged(TreeViewSelection selection);
 }

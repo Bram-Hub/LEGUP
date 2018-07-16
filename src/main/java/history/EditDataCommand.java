@@ -24,7 +24,7 @@ public class EditDataCommand extends PuzzleCommand
     private ElementData newData;
 
     private PuzzleElement elementView;
-    private TreeElementView selectedView;
+    private TreeViewSelection selection;
     private TreeElementView newSelectedView;
     private MouseEvent event;
 
@@ -34,13 +34,13 @@ public class EditDataCommand extends PuzzleCommand
      * EditDataCommand Constructor - create a puzzle command for editing a board
      *
      * @param elementView currently selected puzzle element view that is being edited
-     * @param selectedView currently selected tree element view that is being edited
+     * @param selection currently selected tree element views that is being edited
      * @param event mouse event
      */
-    public EditDataCommand(PuzzleElement elementView, TreeElementView selectedView, MouseEvent event)
+    public EditDataCommand(PuzzleElement elementView, TreeViewSelection selection, MouseEvent event)
     {
         this.elementView = elementView;
-        this.selectedView = selectedView;
+        this.selection = selection.copy();
         this.event = event;
         this.newData = elementView.getData();
         this.oldData = newData.copy();
@@ -60,7 +60,7 @@ public class EditDataCommand extends PuzzleCommand
 
         Puzzle puzzle = getInstance().getPuzzleModule();
         TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
-        final TreeSelection selection = treeView.getTreeSelection();
+        TreeElementView selectedView = selection.getFirstSelection();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
 
         Board board = selectedView.getTreeElement().getBoard();
@@ -68,11 +68,6 @@ public class EditDataCommand extends PuzzleCommand
 
         if(selectedView.getType() == TreeElementType.NODE)
         {
-//            ICommand addTrans = new AddTransitionCommand(selectedView);
-//            addTrans.execute();
-
-
-            TreeNodeView nodeView = (TreeNodeView) selectedView;
             TreeNode treeNode = (TreeNode) selectedView.getTreeElement();
 
             if(transition == null)
@@ -117,8 +112,6 @@ public class EditDataCommand extends PuzzleCommand
         transition.propagateChanges(newData);
 
         puzzle.notifyBoardListeners((IBoardListener listener) -> listener.onBoardDataChanged(newData));
-
-        state = CommandState.EXECUTED;
     }
 
     /**
@@ -127,11 +120,12 @@ public class EditDataCommand extends PuzzleCommand
     @Override
     public boolean canExecute()
     {
+        TreeElementView selectedView = selection.getFirstSelection();
         Board board = selectedView.getTreeElement().getBoard();
         int index = elementView.getIndex();
         if(selectedView.getType() == TreeElementType.NODE)
         {
-            TreeNodeView nodeView = (TreeNodeView)selectedView;
+            TreeNodeView nodeView = (TreeNodeView) selectedView;
             if(!nodeView.getChildrenViews().isEmpty())
             {
                 return false;
@@ -164,6 +158,12 @@ public class EditDataCommand extends PuzzleCommand
     @Override
     public String getExecutionError()
     {
+        if(selection.getSelection().size() > 1)
+        {
+            return "You have to have 1 tree view selected";
+        }
+
+        TreeElementView selectedView = selection.getFirstSelection();
         Board board = selectedView.getTreeElement().getBoard();
         int index = elementView.getIndex();
         if(!board.isModifiable())
@@ -183,16 +183,16 @@ public class EditDataCommand extends PuzzleCommand
     @Override
     public void undo()
     {
+        TreeElementView selectedView = selection.getFirstSelection();
         Tree tree = getInstance().getTree();
         TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeSelection selection = treeView.getTreeSelection();
 
         Board board = transition.getBoard();
         int index = elementView.getIndex();
 
         if(selectedView.getType() == TreeElementType.NODE)
         {
-            TreeNode treeNode = (TreeNode) selectedView.getTreeElement();
+            TreeNode treeNode = (TreeNode)selectedView.getTreeElement();
 
             tree.removeTreeElement(transition);
             treeView.removeTreeElement(newSelectedView);

@@ -32,8 +32,6 @@ public class AddTransitionCommand extends PuzzleCommand
     @Override
     public void execute()
     {
-        super.execute();
-
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
 
         TreeNodeView nodeView = (TreeNodeView) selectedView;
@@ -95,8 +93,6 @@ public class AddTransitionCommand extends PuzzleCommand
     @Override
     public void undo()
     {
-        super.undo();
-
         Tree tree = GameBoardFacade.getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
 

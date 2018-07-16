@@ -1,5 +1,7 @@
 package app;
 
+import history.IHistoryListener;
+import history.IHistorySubject;
 import model.PuzzleImporter;
 import model.gameboard.Board;
 import model.Puzzle;
@@ -10,8 +12,6 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import save.InvalidFileFormatException;
 import ui.LegupUI;
-import ui.boardview.IBoardListener;
-import ui.rulesview.ITransitionListener;
 import history.History;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -24,10 +24,12 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class GameBoardFacade
+public class GameBoardFacade implements IHistorySubject
 {
     private final static Logger LOGGER = Logger.getLogger(GameBoardFacade.class.getName());
 
@@ -37,24 +39,19 @@ public class GameBoardFacade
 
     protected Puzzle puzzle;
 
-    private ArrayList<IBoardListener> boardListeners;
-    private ArrayList<ITransitionListener> transitionListener;
-
     private LegupUI legupUI;
 
     private History history;
+    private List<IHistoryListener> historyListeners;
 
     /**
      * Private GameBoardFacade Constructor - creates a game board facade
      */
     protected GameBoardFacade()
     {
-        boardListeners = new ArrayList<>();
-        transitionListener = new ArrayList<>();
-
-        initializeUI();
-
         history = new History();
+        historyListeners = new ArrayList<>();
+        initializeUI();
     }
 
     /**
@@ -270,45 +267,42 @@ public class GameBoardFacade
     }
 
     /**
-     * Adds a board listener
+     * Adds a history listener
      *
-     * @param listener board listener
+     * @param listener listener to add
      */
-    public void addBoardListener(IBoardListener listener)
+    @Override
+    public void addHistoryListener(IHistoryListener listener)
     {
-        boardListeners.add(listener);
+        historyListeners.add(listener);
+    }
+    /**
+     * Removes a history listener
+     *
+     * @param listener listener to remove
+     */
+    @Override
+    public void removeHistoryListener(IHistoryListener listener)
+    {
+        historyListeners.remove(listener);
     }
 
     /**
-     * Removes a board listener
+     * Notifies listeners
      *
-     * @param listener board listener
+     * @param algorithm algorithm to notify the listeners with
      */
-    public void removeBoardListener(IBoardListener listener)
+    @Override
+    public void notifyHistoryListeners(Consumer<? super IHistoryListener> algorithm)
     {
-        boardListeners.remove(listener);
+        historyListeners.forEach(algorithm);
     }
 
     /**
-     * Adds a transition listener
+     * Gets the History object for storing changes to the board states
      *
-     * @param listener transition listener
+     * @return History object
      */
-    public void addBoardListeners(ITransitionListener listener)
-    {
-        transitionListener.add(listener);
-    }
-
-    /**
-     * Removes a transition listener
-     *
-     * @param listener transition listener
-     */
-    public void removeBoardListeners(ITransitionListener listener)
-    {
-        transitionListener.remove(listener);
-    }
-
     public History getHistory()
     {
         return history;

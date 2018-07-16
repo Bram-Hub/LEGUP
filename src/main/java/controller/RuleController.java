@@ -12,7 +12,7 @@ import history.ValidateContradictionRuleCommand;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.List;
 
 import static app.GameBoardFacade.getInstance;
 
@@ -44,8 +44,7 @@ public class RuleController implements ActionListener
         }
         else if(rule.getRuleType() == RuleType.CONTRADICTION)
         {
-            TreeSelection treeSelection = treeView.getTreeSelection();
-            ArrayList<TreeElementView> selection = treeSelection.getSelection();
+            TreeViewSelection selection = treeView.getTreeViewSelection();
 
             ICommand validate = new ValidateContradictionRuleCommand(selection, rule);
             if(validate.canExecute())
@@ -56,8 +55,7 @@ public class RuleController implements ActionListener
         }
         else
         {
-            TreeSelection treeSelection = treeView.getTreeSelection();
-            ArrayList<TreeElementView> selection = treeSelection.getSelection();
+            TreeViewSelection selection = treeView.getTreeViewSelection();
 
             ICommand validate = new ValidateBasicRuleCommand(selection, rule);
             if(validate.canExecute())
@@ -79,11 +77,11 @@ public class RuleController implements ActionListener
     {
         Tree tree = GameBoardFacade.getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeSelection treeSelection = treeView.getTreeSelection();
-        ArrayList<TreeElementView> selection = treeSelection.getSelection();
+        TreeViewSelection treeViewSelection = treeView.getTreeViewSelection();
+        List<TreeElementView> selection = treeViewSelection.getSelection();
         if(selection.size() == 1)
         {
-            TreeElementView elementView = treeSelection.getFirstSelection();
+            TreeElementView elementView = treeViewSelection.getFirstSelection();
             TreeElement element = elementView.getTreeElement();
             if(element.getType() == TreeElementType.TRANSITION)
             {
@@ -105,11 +103,11 @@ public class RuleController implements ActionListener
     {
         Tree tree = GameBoardFacade.getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeSelection treeSelection = treeView.getTreeSelection();
-        ArrayList<TreeElementView> selection = treeSelection.getSelection();
+        TreeViewSelection treeViewSelection = treeView.getTreeViewSelection();
+        List<TreeElementView> selection = treeViewSelection.getSelection();
         if(selection.size() == 1)
         {
-            TreeElementView elementView = treeSelection.getFirstSelection();
+            TreeElementView elementView = treeViewSelection.getFirstSelection();
             TreeElement element = elementView.getTreeElement();
             if(element.getType() == TreeElementType.TRANSITION)
             {

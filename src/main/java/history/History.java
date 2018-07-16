@@ -3,10 +3,11 @@ package history;
 import app.GameBoardFacade;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class History
 {
-    private ArrayList<ICommand> history;
+    private List<ICommand> history;
     private int curIndex;
 
     /**
@@ -42,66 +43,61 @@ public class History
             }
             history.add(command);
         }
-        //System.err.println("Pushed Change!");
-        GameBoardFacade.getInstance().getLegupUI().getTreePanel().updateStatus("");
-        setUndoUI(true);
-        setRedoUI(false);
         curIndex++;
+        GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onPushChange(command));
     }
 
+    /**
+     * Undoes an action
+     */
     public void undo()
     {
         if(curIndex > -1)
         {
             history.get(curIndex--).undo();
-            if(curIndex < 0)
-            {
-                setUndoUI(false);
-            }
-            setRedoUI(true);
+            GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onUndo(curIndex < 0, curIndex == history.size() - 1));
         }
     }
 
+    /**
+     * Redoes an action
+     */
     public void redo()
     {
         if(curIndex < history.size() - 1)
         {
             history.get(++curIndex).redo();
-            if(curIndex == history.size() - 1)
-            {
-                setRedoUI(false);
-            }
-            if(curIndex >= 0)
-            {
-                setUndoUI(true);
-            }
+            GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onUndo(curIndex < 0, curIndex == history.size() - 1));
         }
     }
 
+    /**
+     * Clears all actions from the history stack
+     */
     public void clear()
     {
         history.clear();
         curIndex = -1;
-        setUndoUI(false);
-        setRedoUI(false);
+        GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onClearHistory());
     }
 
+    /**
+     * Gets the current index that points to the action at the top of stack
+     *
+     * @return index of the action on top of the stack
+     */
     public int getIndex()
     {
         return curIndex;
     }
 
-
-    public void setUndoUI(boolean enabled)
+    /**
+     * Gets the amount of actions that have been pushed onto the stack
+     *
+     * @return size of the history stack
+     */
+    public int size()
     {
-        GameBoardFacade.getInstance().getLegupUI().getUndo().setEnabled(enabled);
-        GameBoardFacade.getInstance().getLegupUI().getUndoButton().setEnabled(enabled);
-    }
-
-    public void setRedoUI(boolean enabled)
-    {
-
-        GameBoardFacade.getInstance().getLegupUI().getRedo().setEnabled(enabled);
-        GameBoardFacade.getInstance().getLegupUI().getRedoButton().setEnabled(enabled);
+        return history.size();
     }
 }

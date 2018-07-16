@@ -2,7 +2,6 @@ package controller;
 
 import model.Puzzle;
 import model.tree.Tree;
-import model.tree.TreeElementType;
 import ui.boardview.BoardView;
 import ui.treeview.*;
 
@@ -61,7 +60,7 @@ public class TreeController extends Controller
         Point point = treeView.getActualPoint(e.getPoint());
         TreeElementView elementView = treeView.getTreeElementView(point);
         Puzzle puzzle = getInstance().getPuzzleModule();
-        TreeSelection selection = treeView.getTreeSelection();
+        TreeViewSelection selection = treeView.getTreeViewSelection();
         if(elementView != null)
         {
             if(e.isShiftDown())
@@ -118,7 +117,7 @@ public class TreeController extends Controller
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         TreeElementView treeNodeView = treeView.getTreeElementView(point);
         Puzzle puzzle = getInstance().getPuzzleModule();
-        TreeSelection selection = treeView.getTreeSelection();
+        TreeViewSelection selection = treeView.getTreeViewSelection();
 
         selection.setMousePoint(null);
         if(treeNodeView != null)
@@ -155,7 +154,7 @@ public class TreeController extends Controller
         Puzzle puzzle = getInstance().getPuzzleModule();
         if(puzzle != null)
         {
-            TreeSelection selection = treeView.getTreeSelection();
+            TreeViewSelection selection = treeView.getTreeViewSelection();
             selection.setMousePoint(treeView.getActualPoint(e.getPoint()));
             if(treeNodeView != null)
             {
@@ -191,7 +190,7 @@ public class TreeController extends Controller
     {
         super.mouseWheelMoved(e);
 //        TreeView treeView = (TreeView)viewer;
-//        TreeSelection selection = treeView.getTreeSelection();
+//        TreeViewSelection selection = treeView.getTreeViewSelection();
 //        Point newPoint = new Point(e.getX() + treeView.getViewport().getX(), e.getY() + treeView.getViewport().getY());
 //
 //        PointerInfo a = MouseInfo.getPointerInfo();

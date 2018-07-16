@@ -7,10 +7,11 @@ import ui.treeview.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ValidateContradictionRuleCommand extends PuzzleCommand
 {
-    private ArrayList<TreeElementView> selectedViews;
+    private TreeViewSelection selection;
 
     private HashMap<TreeElement, Rule> oldRules;
     private HashMap<TreeNode, ArrayList<TreeTransition>> saveElements;
@@ -20,13 +21,12 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
     /**
      * ValidateContradictionRuleCommand Constructor - creates a puzzle command for validating a contradiction rule
      *
-     * @param selectedViews list of currently selected tree element views
+     * @param selection currently selected tree element views
      * @param rule contradiction rule to set to all of the tree elements
      */
-    @SuppressWarnings("unchecked")
-    public ValidateContradictionRuleCommand(ArrayList<TreeElementView> selectedViews, Rule rule)
+    public ValidateContradictionRuleCommand(TreeViewSelection selection, Rule rule)
     {
-        this.selectedViews = (ArrayList<TreeElementView>)selectedViews.clone();
+        this.selection = selection;
         this.newRule = rule;
         this.oldRules = new HashMap<>();
         this.saveElements = new HashMap<>();
@@ -41,9 +41,10 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
     {
         Tree tree = GameBoardFacade.getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeSelection treeSelection = treeView.getTreeSelection();
-        treeSelection.clearSelection();
+        TreeViewSelection treeViewSelection = treeView.getTreeViewSelection();
+        treeViewSelection.clearSelection();
 
+        List<TreeElementView> selectedViews = selection.getSelection();
         for(TreeElementView view : selectedViews)
         {
             TreeElement element = view.getTreeElement();
@@ -84,9 +85,9 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
             TreeTransitionView transitionView = treeView.addTransitionView(nodeView, transition);
             TreeNodeView newNodeView = treeView.addNodeView(transitionView, treeNode);
 
-            treeSelection.addToSelection(transitionView);
+            treeViewSelection.addToSelection(transitionView);
         }
-        GameBoardFacade.getInstance().setBoard(treeSelection.getFirstSelection().getTreeElement().getBoard());
+        GameBoardFacade.getInstance().setBoard(treeViewSelection.getFirstSelection().getTreeElement().getBoard());
         GameBoardFacade.getInstance().getLegupUI().repaintTree();
     }
 
@@ -119,8 +120,9 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
     {
         Tree tree = GameBoardFacade.getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeSelection treeSelection = treeView.getTreeSelection();
+        TreeViewSelection treeViewSelection = treeView.getTreeViewSelection();
 
+        List<TreeElementView> selectedViews = selection.getSelection();
         for(TreeElementView view : selectedViews)
         {
             TreeElement element = view.getTreeElement();
@@ -150,10 +152,10 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
                 nodeView.getChildrenViews().addAll(saveView);
             }
         }
-        treeSelection.clearSelection();
-        treeSelection.getSelection().addAll(selectedViews);
+        treeViewSelection.clearSelection();
+        treeViewSelection.getSelection().addAll(selectedViews);
 
-        GameBoardFacade.getInstance().setBoard(treeSelection.getFirstSelection().getTreeElement().getBoard());
+        GameBoardFacade.getInstance().setBoard(treeViewSelection.getFirstSelection().getTreeElement().getBoard());
         GameBoardFacade.getInstance().getLegupUI().repaintTree();
     }
 }

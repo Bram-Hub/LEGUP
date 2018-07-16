@@ -63,7 +63,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
     private Map<TreeElement, TreeElementView> viewMap;
     private Dimension dimension;
 
-    private TreeSelection treeSelection;
+    private TreeViewSelection treeViewSelection;
 
     public TreeView(TreeController treeController)
     {
@@ -75,12 +75,12 @@ public class TreeView extends DynamicViewer implements ITreeListener
 
         viewMap = new HashMap<>();
 
-        treeSelection = new TreeSelection();
+        treeViewSelection = new TreeViewSelection();
     }
 
-    public TreeSelection getTreeSelection()
+    public TreeViewSelection getTreeViewSelection()
     {
-        return treeSelection;
+        return treeViewSelection;
     }
 
     /**
@@ -181,9 +181,9 @@ public class TreeView extends DynamicViewer implements ITreeListener
     public void updateTreeView(Tree tree)
     {
         this.tree = tree;
-        if(treeSelection.getSelection().size() == 0)
+        if(treeViewSelection.getSelection().size() == 0)
         {
-            treeSelection.newSelection(new TreeNodeView(tree.getRootNode()));
+            treeViewSelection.newSelection(new TreeNodeView(tree.getRootNode()));
         }
         repaint();
     }
@@ -242,7 +242,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
 
             //graphics2D.drawRect(0,0, dimension.width, dimension.height);
 
-            if(treeSelection.getHover() != null)
+            if(treeViewSelection.getHover() != null)
             {
                 drawMouseOver(graphics2D);
             }
@@ -395,9 +395,9 @@ public class TreeView extends DynamicViewer implements ITreeListener
      */
     public void drawMouseOver(Graphics2D g)
     {
-        if(treeSelection.getHover().getType() == TRANSITION && ((TreeTransitionView)treeSelection.getHover()).getTreeElement().isJustified())
+        if(treeViewSelection.getHover().getType() == TRANSITION && ((TreeTransitionView) treeViewSelection.getHover()).getTreeElement().isJustified())
         {
-            TreeTransitionView transitionView = (TreeTransitionView) treeSelection.getHover();
+            TreeTransitionView transitionView = (TreeTransitionView) treeViewSelection.getHover();
             TreeTransition transition = transitionView.getTreeElement();
             Rule rule = transitionView.getTreeElement().getRule();
             int w, h;
@@ -430,7 +430,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
             {
                 g_tmp.drawImage(rule.getImageIcon().getImage(), 0, v_offset, null);
             }
-            Point mousePoint = treeSelection.getMousePoint();
+            Point mousePoint = treeViewSelection.getMousePoint();
             int scaledWidth = (int) (scale * vp.getWidth());
             int scaledHeight = (int) (scale * vp.getHeight());
             g.drawImage(image, mousePoint.x, mousePoint.y, scaledWidth, scaledHeight, null);
@@ -441,8 +441,8 @@ public class TreeView extends DynamicViewer implements ITreeListener
     {
         this.tree = null;
         this.rootNodeView = null;
-        this.treeSelection.clearSelection();
-        this.treeSelection.clearHover();
+        this.treeViewSelection.clearSelection();
+        this.treeViewSelection.clearHover();
     }
 
     /**
@@ -497,7 +497,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
      * @param selection tree selection that was changed
      */
     @Override
-    public void onTreeSelectionChanged(TreeSelection selection)
+    public void onTreeSelectionChanged(TreeViewSelection selection)
     {
         repaint();
     }
@@ -585,7 +585,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
                 createViews(rootNodeView);
                 System.err.println("newReDraw: Created Views");
 
-                treeSelection.newSelection(rootNodeView);
+                treeViewSelection.newSelection(rootNodeView);
             }
 
             calcSpan(rootNodeView);

@@ -10,20 +10,19 @@ import model.tree.TreeNode;
 import model.tree.TreeTransition;
 import ui.treeview.TreeElementView;
 import ui.treeview.TreeNodeView;
-import ui.treeview.TreeTransitionView;
+import ui.treeview.TreeViewSelection;
 import ui.treeview.TreeView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MergeCommand extends PuzzleCommand
 {
+    private TreeViewSelection selection;
 
-    private ArrayList<TreeElementView> selectedViews;
-
-    @SuppressWarnings("unchecked")
-    public MergeCommand(ArrayList<TreeElementView> selectedViews)
+    public MergeCommand(TreeViewSelection selection)
     {
-        this.selectedViews = (ArrayList<TreeElementView>)selectedViews.clone();
+        this.selection = selection.copy();
     }
 
     /**
@@ -32,12 +31,16 @@ public class MergeCommand extends PuzzleCommand
     @Override
     public void execute()
     {
-        super.execute();
+        if(!canExecute())
+        {
+            return;
+        }
+
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
+        List<TreeElementView> selectedViews = selection.getSelection();
+
         Tree tree = GameBoardFacade.getInstance().getTree();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
-
-        System.err.println("Attempting Merge...");
 
         ArrayList<TreeNode> mergingNodes = new ArrayList<>();
         ArrayList<Board> mergingBoards = new ArrayList<>();
@@ -54,34 +57,34 @@ public class MergeCommand extends PuzzleCommand
         Board mergedBoard = lcaBoard.mergedBoard(lcaBoard, mergingBoards);
 
         TreeNode mergedNode = new TreeNode(mergedBoard.copy());
-        //TreeNodeView mergedView = new TreeNodeView(mergedNode);
-
         TreeTransition transMerge = new TreeTransition(mergedBoard);
-        //TreeTransitionView transitionView = new TreeTransitionView(transMerge);
 
         transMerge.setRule(new MergeRule());
         transMerge.setChildNode(mergedNode);
         mergedNode.setParent(transMerge);
 
-        //transitionView.setChildView(mergedView);
-        //mergedView.setParentView(transitionView);
-
-        for(int i = 0; i < selectedViews.size(); i++)
+        for(TreeElementView elementView : selectedViews)
         {
-            TreeElementView elementView = selectedViews.get(i);
             TreeNodeView nodeView = (TreeNodeView)elementView;
             TreeNode node = nodeView.getTreeElement();
 
             node.addChild(transMerge);
-            //nodeView.addChildrenView(transitionView);
 
             transMerge.addParent(node);
-            //transitionView.addParentView(nodeView);
         }
 
         puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(transMerge));
         puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(mergedNode));
-        treeView.repaint();
+        puzzle.notifyTreeListeners(l -> l.onTreeSelectionChanged(selection));
+    }
+
+    /**
+     * Undoes an command
+     */
+    @Override
+    public void undo()
+    {
+
     }
 
     /**
