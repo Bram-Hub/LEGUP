@@ -17,7 +17,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.TextFlow?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <VBox prefHeight="65.0" prefWidth="600.0" BorderPane.alignment="CENTER">
@@ -85,7 +84,7 @@
          <center>
             <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="104.0" prefWidth="192.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="78.0" prefWidth="312.0" />
               </content>
             </ScrollPane>
          </center>
