@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class TreeViewSelection
 {
-    private ArrayList<TreeElementView> selection;
+    private ArrayList<TreeElementView> selectedViews;
     private TreeElementView hover;
     private Point mousePoint;
 
@@ -15,73 +15,96 @@ public class TreeViewSelection
      */
     public TreeViewSelection()
     {
-        this.selection = new ArrayList<>();
+        this.selectedViews = new ArrayList<>();
         this.hover = null;
         this.mousePoint = null;
     }
+
+    /**
+     * TreeViewSelection Constructor - creates a tree view selection with a selected view
+     *
+     * @param view selected view
+     */
+    public TreeViewSelection(TreeElementView view)
+    {
+        this();
+        this.selectedViews.add(view);
+    }
+
+    /**
+     * TreeViewSelection Constructor - creates a tree view selection with a list of selected views
+     *
+     * @param views list of selected views
+     */
+    public TreeViewSelection(List<TreeElementView> views)
+    {
+        this();
+        this.selectedViews.addAll(views);
+    }
+
 
     /**
      * Gets the list of selected tree element views
      *
      * @return list of selected tree element views
      */
-    public List<TreeElementView> getSelection()
+    public List<TreeElementView> getSelectedViews()
     {
-        return selection;
+        return selectedViews;
     }
 
     /**
-     * Gets the first selection in the list of views
+     * Gets the first selectedViews in the list of views
      *
-     * @return first selection in the list of views
+     * @return first selectedViews in the list of views
      */
     public TreeElementView getFirstSelection()
     {
-        return selection.size() == 0 ? null : selection.get(0);
+        return selectedViews.size() == 0 ? null : selectedViews.get(0);
     }
 
     /**
-     * Toggles a tree element view selection
+     * Toggles a tree element view selectedViews
      *
      * @param treeElementView a tree element view to toggle
      */
     public void toggleSelection(TreeElementView treeElementView)
     {
-        if(selection.contains(treeElementView))
+        if(selectedViews.contains(treeElementView))
         {
-            selection.remove(treeElementView);
+            selectedViews.remove(treeElementView);
             treeElementView.setSelected(false);
         }
         else
         {
-            selection.add(treeElementView);
+            selectedViews.add(treeElementView);
             treeElementView.setSelected(true);
         }
     }
 
     /**
-     * Adds a tree element view selection
+     * Adds a tree element view selectedViews
      *
      * @param treeElementView a tree element view to add
      */
     public void addToSelection(TreeElementView treeElementView)
     {
-        if(!selection.contains(treeElementView))
+        if(!selectedViews.contains(treeElementView))
         {
-            selection.add(treeElementView);
+            selectedViews.add(treeElementView);
             treeElementView.setSelected(true);
         }
     }
 
     /**
-     * Creates a new selection and add the specified tree element view
+     * Creates a new selectedViews and add the specified tree element view
      *
      * @param treeElementView tree element view
      */
     public void newSelection(TreeElementView treeElementView)
     {
         clearSelection();
-        selection.add(treeElementView);
+        selectedViews.add(treeElementView);
         treeElementView.setSelected(true);
     }
 
@@ -90,11 +113,11 @@ public class TreeViewSelection
      */
     public void clearSelection()
     {
-        for(TreeElementView treeElementView : selection)
+        for(TreeElementView treeElementView : selectedViews)
         {
             treeElementView.setSelected(false);
         }
-        selection.clear();
+        selectedViews.clear();
     }
 
     /**
@@ -163,7 +186,7 @@ public class TreeViewSelection
     public TreeViewSelection copy()
     {
         TreeViewSelection cpy = new TreeViewSelection();
-        cpy.selection = (ArrayList<TreeElementView>) selection.clone();
+        cpy.selectedViews = (ArrayList<TreeElementView>) selectedViews.clone();
         cpy.hover = hover;
         cpy.mousePoint = mousePoint;
         return cpy;

@@ -1,6 +1,7 @@
 package history;
 
 import app.GameBoardFacade;
+import model.Puzzle;
 import model.rules.Rule;
 import model.tree.*;
 import ui.treeview.*;
@@ -13,7 +14,6 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
 {
     private TreeViewSelection selection;
 
-    private HashMap<TreeElement, Rule> oldRules;
     private HashMap<TreeNode, ArrayList<TreeTransition>> saveElements;
     private HashMap<TreeNodeView, ArrayList<TreeTransitionView>> saveElementViews;
     private Rule newRule;
@@ -28,7 +28,6 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
     {
         this.selection = selection;
         this.newRule = rule;
-        this.oldRules = new HashMap<>();
         this.saveElements = new HashMap<>();
         this.saveElementViews = new HashMap<>();
     }
@@ -41,39 +40,33 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
     {
         Tree tree = GameBoardFacade.getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeViewSelection treeViewSelection = treeView.getTreeViewSelection();
-        treeViewSelection.clearSelection();
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+        final TreeViewSelection newSelection = new TreeViewSelection();
 
-        List<TreeElementView> selectedViews = selection.getSelection();
+        List<TreeElementView> selectedViews = selection.getSelectedViews();
         for(TreeElementView view : selectedViews)
         {
             TreeElement element = view.getTreeElement();
             TreeNode node;
-            TreeNodeView nodeView;
             if(element.getType() == TreeElementType.TRANSITION)
             {
                 TreeTransition transition = (TreeTransition) element;
-                TreeTransitionView treeTransitionView = (TreeTransitionView)view;
                 node = transition.getParents().get(0);
-                nodeView = treeTransitionView.getParentViews().get(0);
             }
             else
             {
                 node = (TreeNode) element;
-                nodeView = (TreeNodeView)view;
             }
 
             if(!node.getChildren().isEmpty())
             {
                 ArrayList<TreeTransition> save = new ArrayList<>(node.getChildren());
                 saveElements.put(node, save);
-
-                ArrayList<TreeTransitionView> saveView = new ArrayList<>(nodeView.getChildrenViews());
-                saveElementViews.put(nodeView, saveView);
             }
 
             node.getChildren().clear();
-            nodeView.getChildrenViews().clear();
+
+            node.getChildren().forEach(n -> puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(n)));
 
             TreeTransition transition = tree.addNewTransition(node);
             TreeNode treeNode = new TreeNode(transition.getBoard().copy());
@@ -82,13 +75,13 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
 
             transition.setRule(newRule);
 
-            TreeTransitionView transitionView = treeView.addTransitionView(nodeView, transition);
-            TreeNodeView newNodeView = treeView.addNodeView(transitionView, treeNode);
+            puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(transition));
+            puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(treeNode));
 
-            treeViewSelection.addToSelection(transitionView);
+            TreeTransitionView transitionView = (TreeTransitionView) treeView.getElementView(transition);
+            newSelection.addToSelection(transitionView);
         }
-        GameBoardFacade.getInstance().setBoard(treeViewSelection.getFirstSelection().getTreeElement().getBoard());
-        GameBoardFacade.getInstance().getLegupUI().repaintTree();
+        puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
     }
 
     /**
@@ -118,44 +111,33 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
     @Override
     public void undo()
     {
-        Tree tree = GameBoardFacade.getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeViewSelection treeViewSelection = treeView.getTreeViewSelection();
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
-        List<TreeElementView> selectedViews = selection.getSelection();
+        List<TreeElementView> selectedViews = selection.getSelectedViews();
         for(TreeElementView view : selectedViews)
         {
             TreeElement element = view.getTreeElement();
             TreeNode node;
-            TreeNodeView nodeView;
             if(element.getType() == TreeElementType.TRANSITION)
             {
                 TreeTransition transition = (TreeTransition) element;
                 TreeTransitionView treeTransitionView = (TreeTransitionView)view;
                 node = transition.getParents().get(0);
-                nodeView = treeTransitionView.getParentViews().get(0);
             }
             else
             {
                 node = (TreeNode) element;
-                nodeView = (TreeNodeView)view;
             }
             node.getChildren().clear();
-            nodeView.getChildrenViews().clear();
 
             ArrayList<TreeTransition> save = saveElements.get(element);
-            ArrayList<TreeTransitionView> saveView = saveElementViews.get(nodeView);
 
             if(save != null && !save.isEmpty())
             {
                 node.getChildren().addAll(save);
-                nodeView.getChildrenViews().addAll(saveView);
             }
         }
-        treeViewSelection.clearSelection();
-        treeViewSelection.getSelection().addAll(selectedViews);
-
-        GameBoardFacade.getInstance().setBoard(treeViewSelection.getFirstSelection().getTreeElement().getBoard());
-        GameBoardFacade.getInstance().getLegupUI().repaintTree();
+        puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
     }
 }

@@ -69,7 +69,7 @@ public class CaseRuleCommand extends PuzzleCommand
     @Override
     public boolean canExecute()
     {
-        if(selection.getSelection().size() > 1)
+        if(selection.getSelectedViews().size() > 1)
         {
             return false;
         }
@@ -85,7 +85,7 @@ public class CaseRuleCommand extends PuzzleCommand
     @Override
     public String getExecutionError()
     {
-        if(selection.getSelection().size() > 1)
+        if(selection.getSelectedViews().size() > 1)
         {
             return "Tree Selection must exactly 1 Tree Node";
         }

@@ -28,8 +28,6 @@ public class EditDataCommand extends PuzzleCommand
     private TreeElementView newSelectedView;
     private MouseEvent event;
 
-    private TreeTransitionView transitionView;
-
     /**
      * EditDataCommand Constructor - create a puzzle command for editing a board
      *
@@ -40,7 +38,7 @@ public class EditDataCommand extends PuzzleCommand
     public EditDataCommand(PuzzleElement elementView, TreeViewSelection selection, MouseEvent event)
     {
         this.elementView = elementView;
-        this.selection = selection.copy();
+        this.selection = selection;
         this.event = event;
         this.newData = elementView.getData();
         this.oldData = newData.copy();
@@ -63,6 +61,8 @@ public class EditDataCommand extends PuzzleCommand
         TreeElementView selectedView = selection.getFirstSelection();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
 
+        TreeTransitionView transitionView;
+
         Board board = selectedView.getTreeElement().getBoard();
         int index = elementView.getIndex();
 
@@ -79,8 +79,8 @@ public class EditDataCommand extends PuzzleCommand
             puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(transition));
             transitionView = (TreeTransitionView) treeView.getElementView(transition);
 
-            selection.newSelection(transitionView);
-            puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeSelectionChanged(selection));
+            final TreeViewSelection newSelection = new TreeViewSelection(transitionView);
+            puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeSelectionChanged(newSelection));
 
             final Board editBoard = transition.getBoard();
             board = editBoard;
@@ -158,7 +158,7 @@ public class EditDataCommand extends PuzzleCommand
     @Override
     public String getExecutionError()
     {
-        if(selection.getSelection().size() > 1)
+        if(selection.getSelectedViews().size() > 1)
         {
             return "You have to have 1 tree view selected";
         }
@@ -200,7 +200,6 @@ public class EditDataCommand extends PuzzleCommand
             selection.newSelection(selectedView);
 
             getInstance().getLegupUI().repaintTree();
-            getInstance().getPuzzleModule().setCurrentBoard(treeNode.getBoard());
         }
 
         Board prevBoard = transition.getParents().get(0).getBoard();

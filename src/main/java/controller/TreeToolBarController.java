@@ -33,7 +33,7 @@ public class TreeToolBarController implements ActionListener
         }
         else if(button.getToolBarName() == TreeToolBarName.DEL_CHILD)
         {
-            TreeViewSelection selection = treePanel.getTreeView().getTreeViewSelection();
+            TreeViewSelection selection = treePanel.getTreeView().getSelection();
 
             DeleteTreeElementCommand del = new DeleteTreeElementCommand(selection);
             if(del.canExecute())
@@ -48,7 +48,7 @@ public class TreeToolBarController implements ActionListener
         }
         else if(button.getToolBarName() == TreeToolBarName.MERGE)
         {
-            TreeViewSelection selection = treePanel.getTreeView().getTreeViewSelection();
+            TreeViewSelection selection = treePanel.getTreeView().getSelection();
 
             ICommand merge = new MergeCommand(selection);
             if(merge.canExecute())

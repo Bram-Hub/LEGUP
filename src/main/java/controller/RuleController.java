@@ -38,13 +38,15 @@ public class RuleController implements ActionListener
     {
         Tree tree = GameBoardFacade.getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
+
+        String update = "";
         if(rule.getRuleType() == RuleType.CASE)
         {
             handleCaseRule((CaseRule)rule);
         }
         else if(rule.getRuleType() == RuleType.CONTRADICTION)
         {
-            TreeViewSelection selection = treeView.getTreeViewSelection();
+            TreeViewSelection selection = treeView.getSelection();
 
             ICommand validate = new ValidateContradictionRuleCommand(selection, rule);
             if(validate.canExecute())
@@ -52,10 +54,14 @@ public class RuleController implements ActionListener
                 getInstance().getHistory().pushChange(validate);
                 validate.execute();
             }
+            else
+            {
+                update = validate.getExecutionError();
+            }
         }
         else
         {
-            TreeViewSelection selection = treeView.getTreeViewSelection();
+            TreeViewSelection selection = treeView.getSelection();
 
             ICommand validate = new ValidateBasicRuleCommand(selection, rule);
             if(validate.canExecute())
@@ -63,7 +69,12 @@ public class RuleController implements ActionListener
                 getInstance().getHistory().pushChange(validate);
                 validate.execute();
             }
+            else
+            {
+                update = validate.getExecutionError();
+            }
         }
+        GameBoardFacade.getInstance().getLegupUI().getTreePanel().updateError(update);
         GameBoardFacade.getInstance().getLegupUI().repaintBoard();
         GameBoardFacade.getInstance().getLegupUI().repaintTree();
     }
@@ -77,8 +88,8 @@ public class RuleController implements ActionListener
     {
         Tree tree = GameBoardFacade.getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeViewSelection treeViewSelection = treeView.getTreeViewSelection();
-        List<TreeElementView> selection = treeViewSelection.getSelection();
+        TreeViewSelection treeViewSelection = treeView.getSelection();
+        List<TreeElementView> selection = treeViewSelection.getSelectedViews();
         if(selection.size() == 1)
         {
             TreeElementView elementView = treeViewSelection.getFirstSelection();
@@ -103,8 +114,8 @@ public class RuleController implements ActionListener
     {
         Tree tree = GameBoardFacade.getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeViewSelection treeViewSelection = treeView.getTreeViewSelection();
-        List<TreeElementView> selection = treeViewSelection.getSelection();
+        TreeViewSelection treeViewSelection = treeView.getSelection();
+        List<TreeElementView> selection = treeViewSelection.getSelectedViews();
         if(selection.size() == 1)
         {
             TreeElementView elementView = treeViewSelection.getFirstSelection();

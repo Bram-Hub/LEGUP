@@ -4,7 +4,6 @@ import app.GameBoardFacade;
 import model.tree.*;
 import ui.treeview.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DeleteTreeElementCommand extends PuzzleCommand
@@ -18,7 +17,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand
      */
     public DeleteTreeElementCommand(TreeViewSelection selection)
     {
-        this.selection = selection.copy();
+        this.selection = selection;
     }
 
     /**
@@ -31,7 +30,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand
         TreePanel treePanel = GameBoardFacade.getInstance().getLegupUI().getTreePanel();
         TreeView treeView = treePanel.getTreeView();
 
-        List<TreeElementView> selectedViews = selection.getSelection();
+        List<TreeElementView> selectedViews = selection.getSelectedViews();
 
         TreeElementView firstSelectedView = selectedViews.get(0);
         TreeElementView newSelectedView;
@@ -64,7 +63,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand
     @Override
     public boolean canExecute()
     {
-        List<TreeElementView> selectedViews = selection.getSelection();
+        List<TreeElementView> selectedViews = selection.getSelectedViews();
         if(selectedViews.isEmpty())
         {
             return false;
@@ -90,10 +89,10 @@ public class DeleteTreeElementCommand extends PuzzleCommand
     @Override
     public String getExecutionError()
     {
-        List<TreeElementView> selectedViews = selection.getSelection();
+        List<TreeElementView> selectedViews = selection.getSelectedViews();
         if(selectedViews.isEmpty())
         {
-            return "Selection is Empty";
+            return "There must be a selected tree element to delete it";
         }
 
         for(TreeElementView view : selectedViews)
@@ -101,7 +100,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand
             TreeElement element = view.getTreeElement();
             if(element.getType() == TreeElementType.NODE && ((TreeNode)element).isRoot())
             {
-                return "Selection contains the root node";
+                return "The selection must not contain the root node";
             }
         }
         return null;
@@ -115,7 +114,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand
     {
         TreePanel treePanel = GameBoardFacade.getInstance().getLegupUI().getTreePanel();
         TreeView treeView = treePanel.getTreeView();
-        List<TreeElementView> selectedViews = selection.getSelection();
+        List<TreeElementView> selectedViews = selection.getSelectedViews();
 
         for(TreeElementView selectedView : selectedViews)
         {
@@ -137,7 +136,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand
         }
 
         TreeElementView firstSelectedView = selectedViews.get(0);
-        selection.getSelection().addAll(selectedViews);
+        selection.getSelectedViews().addAll(selectedViews);
 
         GameBoardFacade.getInstance().setBoard(firstSelectedView.getTreeElement().getBoard());
         GameBoardFacade.getInstance().getLegupUI().repaintBoard();

@@ -3,15 +3,12 @@ package history;
 import app.GameBoardFacade;
 import model.Puzzle;
 import model.gameboard.Board;
-import model.observer.ITreeListener;
 import model.rules.MergeRule;
 import model.tree.Tree;
+import model.tree.TreeElementType;
 import model.tree.TreeNode;
 import model.tree.TreeTransition;
-import ui.treeview.TreeElementView;
-import ui.treeview.TreeNodeView;
-import ui.treeview.TreeViewSelection;
-import ui.treeview.TreeView;
+import ui.treeview.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +19,7 @@ public class MergeCommand extends PuzzleCommand
 
     public MergeCommand(TreeViewSelection selection)
     {
-        this.selection = selection.copy();
+        this.selection = selection;
     }
 
     /**
@@ -37,7 +34,7 @@ public class MergeCommand extends PuzzleCommand
         }
 
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-        List<TreeElementView> selectedViews = selection.getSelection();
+        List<TreeElementView> selectedViews = selection.getSelectedViews();
 
         Tree tree = GameBoardFacade.getInstance().getTree();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
@@ -73,9 +70,9 @@ public class MergeCommand extends PuzzleCommand
             transMerge.addParent(node);
         }
 
-        puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(transMerge));
-        puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(mergedNode));
-        puzzle.notifyTreeListeners(l -> l.onTreeSelectionChanged(selection));
+        puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(transMerge));
+        puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(mergedNode));
+        puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
     }
 
     /**
@@ -93,6 +90,29 @@ public class MergeCommand extends PuzzleCommand
     @Override
     public boolean canExecute()
     {
+        if(selection.getSelectedViews().isEmpty())
+        {
+            return false;
+        }
+        else if(selection.getSelectedViews().size() == 1)
+        {
+
+        }
+
+
+        for(TreeElementView view : selection.getSelectedViews())
+        {
+            if(view.getType() == TreeElementType.NODE)
+            {
+                TreeNodeView nodeView = (TreeNodeView)view;
+
+            }
+            else
+            {
+                TreeTransitionView transView = (TreeTransitionView)view;
+
+            }
+        }
         return true;
     }
 

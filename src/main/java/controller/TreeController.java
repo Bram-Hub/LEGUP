@@ -60,7 +60,7 @@ public class TreeController extends Controller
         Point point = treeView.getActualPoint(e.getPoint());
         TreeElementView elementView = treeView.getTreeElementView(point);
         Puzzle puzzle = getInstance().getPuzzleModule();
-        TreeViewSelection selection = treeView.getTreeViewSelection();
+        TreeViewSelection selection = treeView.getSelection();
         if(elementView != null)
         {
             if(e.isShiftDown())
@@ -117,7 +117,7 @@ public class TreeController extends Controller
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         TreeElementView treeNodeView = treeView.getTreeElementView(point);
         Puzzle puzzle = getInstance().getPuzzleModule();
-        TreeViewSelection selection = treeView.getTreeViewSelection();
+        TreeViewSelection selection = treeView.getSelection();
 
         selection.setMousePoint(null);
         if(treeNodeView != null)
@@ -154,7 +154,7 @@ public class TreeController extends Controller
         Puzzle puzzle = getInstance().getPuzzleModule();
         if(puzzle != null)
         {
-            TreeViewSelection selection = treeView.getTreeViewSelection();
+            TreeViewSelection selection = treeView.getSelection();
             selection.setMousePoint(treeView.getActualPoint(e.getPoint()));
             if(treeNodeView != null)
             {
@@ -190,7 +190,7 @@ public class TreeController extends Controller
     {
         super.mouseWheelMoved(e);
 //        TreeView treeView = (TreeView)viewer;
-//        TreeViewSelection selection = treeView.getTreeViewSelection();
+//        TreeViewSelection selection = treeView.getSelectedViews();
 //        Point newPoint = new Point(e.getX() + treeView.getViewport().getX(), e.getY() + treeView.getViewport().getY());
 //
 //        PointerInfo a = MouseInfo.getPointerInfo();
