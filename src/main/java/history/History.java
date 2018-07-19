@@ -67,7 +67,7 @@ public class History
         if(curIndex < history.size() - 1)
         {
             history.get(++curIndex).redo();
-            GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onUndo(curIndex < 0, curIndex == history.size() - 1));
+            GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onRedo(curIndex < 0, curIndex == history.size() - 1));
         }
     }
 

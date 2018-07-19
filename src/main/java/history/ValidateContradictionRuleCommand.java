@@ -64,9 +64,9 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
                 saveElements.put(node, save);
             }
 
-            node.getChildren().clear();
+            node.getChildren().forEach(n -> puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(n)));
 
-            node.getChildren().forEach(n -> puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(n)));
+            node.getChildren().clear();
 
             TreeTransition transition = tree.addNewTransition(node);
             TreeNode treeNode = new TreeNode(transition.getBoard().copy());

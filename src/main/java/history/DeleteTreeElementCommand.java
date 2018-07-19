@@ -1,6 +1,8 @@
 package history;
 
 import app.GameBoardFacade;
+import model.Puzzle;
+import model.observer.ITreeListener;
 import model.tree.*;
 import ui.treeview.*;
 
@@ -27,8 +29,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand
     public void execute()
     {
         Tree tree = GameBoardFacade.getInstance().getTree();
-        TreePanel treePanel = GameBoardFacade.getInstance().getLegupUI().getTreePanel();
-        TreeView treeView = treePanel.getTreeView();
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
         List<TreeElementView> selectedViews = selection.getSelectedViews();
 
@@ -44,17 +45,16 @@ public class DeleteTreeElementCommand extends PuzzleCommand
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
             newSelectedView = transitionView.getParentViews().get(0);
         }
-        selection.newSelection(newSelectedView);
 
         for(TreeElementView selectedView : selectedViews)
         {
-            tree.removeTreeElement(selectedView.getTreeElement());
-            treeView.removeTreeElement(selectedView);
+            TreeElement element = selectedView.getTreeElement();
+            tree.removeTreeElement(element);
+            puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(element));
         }
 
-        GameBoardFacade.getInstance().setBoard(newSelectedView.getTreeElement().getBoard());
-        GameBoardFacade.getInstance().getLegupUI().repaintBoard();
-        GameBoardFacade.getInstance().getLegupUI().repaintTree();
+        final TreeViewSelection newSelection = new TreeViewSelection(newSelectedView);
+        puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeSelectionChanged(newSelection));
     }
 
     /**
@@ -137,9 +137,5 @@ public class DeleteTreeElementCommand extends PuzzleCommand
 
         TreeElementView firstSelectedView = selectedViews.get(0);
         selection.getSelectedViews().addAll(selectedViews);
-
-        GameBoardFacade.getInstance().setBoard(firstSelectedView.getTreeElement().getBoard());
-        GameBoardFacade.getInstance().getLegupUI().repaintBoard();
-        GameBoardFacade.getInstance().getLegupUI().repaintTree();
     }
 }
