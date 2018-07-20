@@ -116,7 +116,9 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
             }
         }
         final TreeViewSelection newSelection = new TreeViewSelection(lastSelected);
+        final Board newBoard = lastSelected.getTreeElement().getBoard();
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
+        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(newBoard));
     }
 
     /**
