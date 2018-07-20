@@ -71,6 +71,7 @@ public class GameBoardFacade implements IHistorySubject
     public void initializeUI()
     {
         legupUI = new LegupUI();
+        addHistoryListener(legupUI);
     }
 
     public void setPuzzle(Puzzle puzzle)

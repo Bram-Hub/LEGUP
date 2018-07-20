@@ -821,8 +821,11 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
     @Override
     public void onPushChange(ICommand command)
     {
+        LOGGER.log(Level.SEVERE, "onPushChange");
         undo.setEnabled(true);
+        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(true);
         redo.setEnabled(false);
+        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
     }
 
     /**
@@ -835,7 +838,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
     public void onUndo(boolean isBottom, boolean isTop)
     {
         undo.setEnabled(!isBottom);
+        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
         redo.setEnabled(!isTop);
+        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(!isTop);
     }
 
     /**
@@ -847,8 +852,10 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
     @Override
     public void onRedo(boolean isBottom, boolean isTop)
     {
-        undo.setEnabled(!isTop);
+        undo.setEnabled(!isBottom);
+        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
         redo.setEnabled(!isTop);
+        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(!isTop);
     }
 
     /**
@@ -858,6 +865,8 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
     public void onClearHistory()
     {
         undo.setEnabled(false);
+        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
         redo.setEnabled(false);
+        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
     }
 }
