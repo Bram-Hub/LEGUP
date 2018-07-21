@@ -34,7 +34,6 @@ public class TreeToolbarPanel extends JPanel
 
         add(addChild);
         addChild.addActionListener(controller);
-        addChild.setEnabled(false);
         addChild.setToolTipText("Finalize CaseRule");
         addChild.setBackground(Color.LIGHT_GRAY);
 

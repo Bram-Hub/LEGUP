@@ -29,7 +29,6 @@ public class TreePanel extends JPanel
     private JLabel status;
     private Rule curRuleApplied = null;
 
-
     private static final Font INFO_FONT = new Font("Arial", Font.PLAIN, 14);
     private static final Font ERROR_FONT = new Font("Arial", Font.ITALIC, 14);
 

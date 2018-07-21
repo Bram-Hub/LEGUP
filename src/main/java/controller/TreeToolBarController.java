@@ -1,6 +1,7 @@
 package controller;
 
 import app.GameBoardFacade;
+import history.AddTreeElementCommand;
 import ui.treeview.*;
 import history.DeleteTreeElementCommand;
 import history.ICommand;
@@ -29,7 +30,18 @@ public class TreeToolBarController implements ActionListener
         TreeToolBarButton button = (TreeToolBarButton)e.getSource();
         if(button.getToolBarName() == TreeToolBarName.ADD_CHILD)
         {
+            TreeViewSelection selection = treePanel.getTreeView().getSelection();
 
+            AddTreeElementCommand add = new AddTreeElementCommand(selection);
+            if(add.canExecute())
+            {
+                add.execute();
+                GameBoardFacade.getInstance().getHistory().pushChange(add);
+            }
+            else
+            {
+                treePanel.updateError(add.getExecutionError());
+            }
         }
         else if(button.getToolBarName() == TreeToolBarName.DEL_CHILD)
         {
