@@ -15,7 +15,6 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
     private TreeViewSelection selection;
 
     private HashMap<TreeNode, ArrayList<TreeTransition>> saveElements;
-    private HashMap<TreeNodeView, ArrayList<TreeTransitionView>> saveElementViews;
     private Rule newRule;
 
     /**
@@ -29,7 +28,6 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
         this.selection = selection;
         this.newRule = rule;
         this.saveElements = new HashMap<>();
-        this.saveElementViews = new HashMap<>();
     }
 
     /**
