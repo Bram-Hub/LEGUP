@@ -138,7 +138,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
 
     public void repaintBoard()
     {
-        boardView.onBoardChanged(GameBoardFacade.getInstance().getBoard());
+//        boardView.onBoardChanged(GameBoardFacade.getInstance().getBoard());
     }
 
     public void repaintTree()
@@ -757,6 +757,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         this.treePanel.getTreeView().setTree(puzzle.getTree());
 
         puzzle.addTreeListener(treePanel.getTreeView());
+        puzzle.addBoardListener(puzzle.getBoardView());
 
         ruleFrame.getBasicRulePanel().setRules(puzzle.getBasicRules());
         ruleFrame.getCasePanel().setRules(puzzle.getCaseRules());

@@ -75,9 +75,8 @@ public class TreeController extends Controller
             {
                 selection.newSelection(elementView);
             }
-            treeView.repaint();
-            puzzle.setCurrentBoard(elementView.getTreeElement().getBoard());
-            getInstance().getLegupUI().repaintBoard();
+            puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
+            puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(elementView.getTreeElement().getBoard()));
         }
     }
 
@@ -93,13 +92,11 @@ public class TreeController extends Controller
         Point point = treeView.getActualPoint(e.getPoint());
         Tree tree = getInstance().getTree();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
-        TreeElementView treeNodeView = treeView.getTreeElementView(point);
+        TreeElementView elementView = treeView.getTreeElementView(point);
         Puzzle puzzle = getInstance().getPuzzleModule();
-        if(treeNodeView != null)
+        if(elementView != null)
         {
-            //treeView.repaint();
-            puzzle.setCurrentBoard(treeNodeView.getTreeElement().getBoard());
-            getInstance().getLegupUI().repaintBoard();
+            puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(elementView.getTreeElement().getBoard()));
         }
     }
 
@@ -113,19 +110,15 @@ public class TreeController extends Controller
     {
         TreeView treeView = (TreeView)viewer;
         Point point = treeView.getActualPoint(e.getPoint());
-        Tree tree = getInstance().getTree();
-        BoardView boardView = getInstance().getLegupUI().getBoardView();
-        TreeElementView treeNodeView = treeView.getTreeElementView(point);
+        TreeElementView elementView = treeView.getTreeElementView(point);
         Puzzle puzzle = getInstance().getPuzzleModule();
         TreeViewSelection selection = treeView.getSelection();
 
         selection.setMousePoint(null);
-        if(treeNodeView != null)
+        if(elementView != null)
         {
-            //treeView.repaint();
-            TreeElementView elementView = selection.getFirstSelection();
-            puzzle.setCurrentBoard(elementView.getTreeElement().getBoard());
-            getInstance().getLegupUI().repaintBoard();
+            TreeElementView selectedView = selection.getFirstSelection();
+            puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(selectedView.getTreeElement().getBoard()));
         }
     }
 
@@ -160,22 +153,23 @@ public class TreeController extends Controller
             {
                 if(treeNodeView != selection.getHover())
                 {
-                    puzzle.setCurrentBoard(treeNodeView.getTreeElement().getBoard());
-                    treeView.repaint();
-                    getInstance().getLegupUI().repaintBoard();
+                    puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(treeNodeView.getTreeElement().getBoard()));
                     selection.newHover(treeNodeView);
+                    puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
                 }
                 else
                 {
-                    treeView.repaint();
+                    puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
                 }
             }
             else
             {
-                puzzle.setCurrentBoard(selection.getFirstSelection().getTreeElement().getBoard());
-                treeView.repaint();
-                getInstance().getLegupUI().repaintBoard();
-                selection.clearHover();
+                if(selection.getHover() != null)
+                {
+                    puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(selection.getFirstSelection().getTreeElement().getBoard()));
+                    selection.clearHover();
+                    puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
+                }
             }
         }
     }

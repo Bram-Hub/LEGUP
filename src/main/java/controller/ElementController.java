@@ -105,7 +105,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                     }
                     selection.newSelection(nodeView.getChildrenViews().get(0).getChildView());
                     getInstance().getPuzzleModule().setCurrentBoard(node.getChildren().get(0).getBoard());
-                    getInstance().getLegupUI().repaintTree();
+                    puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
                 }
             }
             else
@@ -117,7 +117,6 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                     getInstance().getHistory().pushChange(edit);
                 }
             }
-            getInstance().getLegupUI().repaintBoard();
         }
     }
 
@@ -129,6 +128,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     @Override
     public void mouseEntered(MouseEvent e)
     {
+        Puzzle puzzle = getInstance().getPuzzleModule();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         PuzzleElement element = boardView.getElement(e.getPoint());
         ElementSelection selection = boardView.getSelection();
@@ -136,7 +136,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         {
             selection.newHover(element);
 
-            getInstance().getLegupUI().repaintBoard();
+            boardView.repaint();
         }
     }
 
@@ -153,7 +153,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         if(element != null)
         {
             view.getSelection().clearHover();
-            getInstance().getLegupUI().repaintBoard();
+            view.repaint();
         }
     }
 
@@ -172,7 +172,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         if(element != null && element != selection.getHover())
         {
             selection.newHover(element);
-            getInstance().getLegupUI().repaintBoard();
+            boardView.repaint();
         }
     }
 
@@ -207,7 +207,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
 
         transitionView.getTreeElement().propagateChanges(data);
 
-        getInstance().getLegupUI().repaintBoard();
+        boardView.repaint();
         boardView.getSelection().clearSelection();
     }
 

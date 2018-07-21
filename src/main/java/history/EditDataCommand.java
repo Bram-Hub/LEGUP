@@ -3,12 +3,8 @@ package history;
 import model.Puzzle;
 import model.gameboard.Board;
 import model.gameboard.ElementData;
-import model.observer.IBoardListener;
 import model.observer.ITreeListener;
-import model.tree.Tree;
-import model.tree.TreeElementType;
-import model.tree.TreeNode;
-import model.tree.TreeTransition;
+import model.tree.*;
 import ui.boardview.BoardView;
 import ui.boardview.PuzzleElement;
 import ui.treeview.*;
@@ -21,8 +17,8 @@ public class EditDataCommand extends PuzzleCommand
 {
     private TreeTransition transition;
     private boolean hasAddedNode;
-    private ElementData oldData;
-    private ElementData newData;
+    private ElementData saveData;
+    private ElementData data;
 
     private PuzzleElement elementView;
     private TreeViewSelection selection;
@@ -41,8 +37,8 @@ public class EditDataCommand extends PuzzleCommand
         this.elementView = elementView;
         this.selection = selection;
         this.event = event;
-        this.newData = elementView.getData();
-        this.oldData = newData.copy();
+        this.data = null;
+        this.saveData = null;
         this.transition = null;
         this.hasAddedNode = false;
     }
@@ -59,64 +55,60 @@ public class EditDataCommand extends PuzzleCommand
         }
 
         Puzzle puzzle = getInstance().getPuzzleModule();
+        Tree tree = puzzle.getTree();
         TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeElementView selectedView = selection.getFirstSelection();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
+        TreeElementView selectedView = selection.getFirstSelection();
+        TreeElement element = selectedView.getTreeElement();
 
-        TreeTransitionView transitionView;
-
-        Board board = selectedView.getTreeElement().getBoard();
+        Board board = element.getBoard();
         int index = elementView.getIndex();
 
-        if(selectedView.getType() == TreeElementType.NODE)
+        if(element.getType() == TreeElementType.NODE)
         {
-            TreeNode treeNode = (TreeNode) selectedView.getTreeElement();
+            TreeNode treeNode = (TreeNode) element;
 
             if(treeNode.getChildren().isEmpty())
             {
-                transition = new TreeTransition(treeNode, treeNode.getBoard().copy());
-                treeNode.getChildren().add(transition);
-                puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(transition));
-            }
-            else
-            {
-                transition = treeNode.getChildren().get(0);
+                if(transition == null)
+                {
+                    transition = tree.addNewTransition(treeNode);
+                }
+                puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(transition));
             }
 
-            transitionView = (TreeTransitionView) treeView.getElementView(transition);
+            final TreeViewSelection newSelection = new TreeViewSelection(treeView.getElementView(transition));
+            puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
 
-            final TreeViewSelection newSelection = new TreeViewSelection(transitionView);
-            puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeSelectionChanged(newSelection));
+            board = transition.getBoard();
 
-            final Board editBoard = transition.getBoard();
-            board = editBoard;
-            puzzle.notifyBoardListeners((IBoardListener listener) -> listener.onBoardChanged(editBoard));
-
-            newData = board.getElementData(index);
-            oldData = newData.copy();
+            data = board.getElementData(index);
+            saveData = data.copy();
         }
         else
         {
-            transitionView = (TreeTransitionView) selectedView;
-            transition = transitionView.getTreeElement();
+            transition = (TreeTransition)element;
+            data = board.getElementData(index);
+            saveData = data.copy();
         }
-        newSelectedView = transitionView;
 
         Board prevBoard = transition.getParents().get(0).getBoard();
 
-        boardView.getElementController().changeCell(event, newData);
+        boardView.getElementController().changeCell(event, data);
 
-        if(prevBoard.getElementData(index).equals(newData))
+        if(prevBoard.getElementData(index).equals(data))
         {
-            board.removeModifiedData(newData);
+            board.removeModifiedData(data);
         }
         else
         {
-            board.addModifiedData(newData);
+            board.addModifiedData(data);
         }
-        transition.propagateChanges(newData);
+        transition.propagateChanges(data);
 
-        puzzle.notifyBoardListeners((IBoardListener listener) -> listener.onBoardDataChanged(newData));
+        Board finalBoard = board;
+        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
+        puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(data));
     }
 
     /**
@@ -190,7 +182,6 @@ public class EditDataCommand extends PuzzleCommand
     {
         TreeElementView selectedView = selection.getFirstSelection();
         Tree tree = getInstance().getTree();
-        TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
         Puzzle puzzle = getInstance().getPuzzleModule();
 
         Board board = transition.getBoard();
@@ -199,25 +190,25 @@ public class EditDataCommand extends PuzzleCommand
         if(selectedView.getType() == TreeElementType.NODE)
         {
             tree.removeTreeElement(transition);
-            puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(newSelectedView.getTreeElement()));
+            puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementRemoved(transition));
         }
 
         Board prevBoard = transition.getParents().get(0).getBoard();
 
-        newData.setValueInt(oldData.getValueInt());
-        board.notifyChange(newData);
+        data.setValueInt(saveData.getValueInt());
+        board.notifyChange(data);
 
-        if(prevBoard.getElementData(index).equals(newData))
+        if(prevBoard.getElementData(index).equals(data))
         {
-            board.removeModifiedData(newData);
+            board.removeModifiedData(data);
         }
         else
         {
-            board.addModifiedData(newData);
+            board.addModifiedData(data);
         }
-        transition.propagateChanges(newData);
+        transition.propagateChanges(data);
 
-        puzzle.notifyBoardListeners(iBoardListener -> iBoardListener.onBoardDataChanged(newData));
-        puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeSelectionChanged(selection));
+        puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(data));
+        puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
     }
 }
