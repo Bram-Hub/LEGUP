@@ -4,10 +4,9 @@ import model.Puzzle;
 import model.gameboard.Board;
 import model.observer.ITreeListener;
 import model.rules.CaseRule;
-import model.tree.Tree;
-import model.tree.TreeNode;
-import model.tree.TreeTransition;
+import model.tree.*;
 import ui.boardview.PuzzleElement;
+import ui.treeview.TreeElementView;
 import ui.treeview.TreeNodeView;
 import ui.treeview.TreeViewSelection;
 
@@ -69,9 +68,17 @@ public class CaseRuleCommand extends PuzzleCommand
     @Override
     public boolean canExecute()
     {
-        if(selection.getSelectedViews().size() > 1)
+        for(TreeElementView view : selection.getSelectedViews())
         {
-            return false;
+            TreeElement element = view.getTreeElement();
+            if(element.getType() == TreeElementType.NODE)
+            {
+                TreeNode node = (TreeNode)element;
+                if(!node.getChildren().isEmpty())
+                {
+                    return false;
+                }
+            }
         }
         return true;
     }
