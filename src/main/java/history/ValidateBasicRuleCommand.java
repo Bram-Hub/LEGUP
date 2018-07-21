@@ -16,7 +16,7 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
     private TreeViewSelection selection;
 
     private Map<TreeElement, Rule> oldRules;
-    private Map<TreeElement, TreeNode> addNode;
+    private Map<TreeElement, Boolean> addNode;
     private Rule newRule;
 
     public ValidateBasicRuleCommand(TreeViewSelection selection, Rule rule)
@@ -33,6 +33,7 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
     @Override
     public void execute()
     {
+        Tree tree = GameBoardFacade.getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         TreeViewSelection selection = treeView.getSelection();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
@@ -51,29 +52,18 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
 
                 if(transition.getChildNode() == null)
                 {
-                    TreeNode treeNode;
-                    if(addNode.get(element) == null)
-                    {
-                        Board copyBoard = transition.getBoard().copy();
-                        copyBoard.setModifiable(false);
-                        treeNode = new TreeNode(copyBoard);
-                        addNode.put(element, treeNode);
-                        treeNode.setParent(transition);
-                    }
-                    else
-                    {
-                        treeNode = addNode.get(element);
-                    }
-                    transition.setChildNode(treeNode);
+                    TreeNode treeNode = tree.addNode(transition);
+                    treeNode.getBoard().setModifiable(false);
 
                     if(transitionView.getChildView() == null)
                     {
                         puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(treeNode));
                     }
+                    addNode.put(element, true);
                 }
                 else
                 {
-                    addNode.put(element, null);
+                    addNode.put(element, false);
                 }
                 lastSelected = transitionView.getChildView();
             }
@@ -88,29 +78,18 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
 
                 if(transition.getChildNode() == null)
                 {
-                    TreeNode treeNode;
-                    if(addNode.get(element) == null)
-                    {
-                        Board copyBoard = transition.getBoard().copy();
-                        copyBoard.setModifiable(false);
-                        treeNode = new TreeNode(copyBoard);
-                        addNode.put(element, treeNode);
-                        treeNode.setParent(transition);
-                    }
-                    else
-                    {
-                        treeNode = addNode.get(element);
-                    }
-                    transition.setChildNode(treeNode);
+                    TreeNode treeNode = tree.addNode(transition);
+                    treeNode.getBoard().setModifiable(false);
 
                     if(transitionView.getChildView() == null)
                     {
                         puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(treeNode));
                     }
+                    addNode.put(element, true);
                 }
                 else
                 {
-                    addNode.put(element, null);
+                    addNode.put(element, false);
                 }
                 lastSelected = transitionView.getChildView();
             }
@@ -200,7 +179,6 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
     public void undo()
     {
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeViewSelection selection = treeView.getSelection();
         Tree tree = GameBoardFacade.getInstance().getTree();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
@@ -211,32 +189,35 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
             if(element.getType() == TreeElementType.TRANSITION)
             {
                 TreeTransition transition = (TreeTransition)element;
-                TreeTransitionView transitionView = (TreeTransitionView)selectedView;
                 transition.setRule(oldRules.get(element));
 
-                if(addNode.get(element) != null)
+                if(addNode.get(element))
                 {
-                    tree.removeTreeElement(transition.getChildNode());
-                    treeView.removeTreeElement(transitionView.getChildView());
+                    TreeNode childNode = transition.getChildNode();
+                    tree.removeTreeElement(childNode);
+                    puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(childNode));
                 }
             }
             else
             {
                 TreeNodeView nodeView = (TreeNodeView)selectedView;
+                TreeNode node = nodeView.getTreeElement();
 
-                TreeTransitionView transitionView = nodeView.getChildrenViews().get(0);
-                TreeTransition transition = transitionView.getTreeElement();
+                TreeTransition transition = node.getChildren().get(0);
 
-                transition.setRule(oldRules.get(element));
+                transition.setRule(oldRules.get(transition));
 
-                if(addNode.get(element) != null)
+                if(addNode.get(element))
                 {
-                    tree.removeTreeElement(transition.getChildNode());
-                    treeView.removeTreeElement(transitionView.getChildView());
+                    TreeNode childNode = transition.getChildNode();
+                    tree.removeTreeElement(childNode);
+                    puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(childNode));
                 }
             }
         }
-        final TreeViewSelection newSelection = new TreeViewSelection(selectedViews);
-        puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
+        TreeElementView lastSelected = selectedViews.get(0);
+        final Board newBoard = lastSelected.getTreeElement().getBoard();
+        puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
+        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(newBoard));
     }
 }

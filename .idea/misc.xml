@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectResources">
-    <resource url="http://javafx.com/fxml/1" location="$PROJECT_DIR$/src/main/resources/legup/main_window.fxml" />
-    <resource url="http://javafx.com/javafx/10.0.1" location="$PROJECT_DIR$/src/main/resources/legup/main_window.fxml" />
-  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_10" project-jdk-name="10" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/out" />
+    <output url="file://$PROJECT_DIR$/classes" />
   </component>
 </project>

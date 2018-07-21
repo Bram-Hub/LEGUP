@@ -20,6 +20,7 @@ import static app.GameBoardFacade.getInstance;
 public class EditDataCommand extends PuzzleCommand
 {
     private TreeTransition transition;
+    private boolean hasAddedNode;
     private ElementData oldData;
     private ElementData newData;
 
@@ -43,6 +44,7 @@ public class EditDataCommand extends PuzzleCommand
         this.newData = elementView.getData();
         this.oldData = newData.copy();
         this.transition = null;
+        this.hasAddedNode = false;
     }
 
     /**
@@ -70,13 +72,17 @@ public class EditDataCommand extends PuzzleCommand
         {
             TreeNode treeNode = (TreeNode) selectedView.getTreeElement();
 
-            if(transition == null)
+            if(treeNode.getChildren().isEmpty())
             {
                 transition = new TreeTransition(treeNode, treeNode.getBoard().copy());
+                treeNode.getChildren().add(transition);
+                puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(transition));
+            }
+            else
+            {
+                transition = treeNode.getChildren().get(0);
             }
 
-            treeNode.getChildren().add(transition);
-            puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(transition));
             transitionView = (TreeTransitionView) treeView.getElementView(transition);
 
             final TreeViewSelection newSelection = new TreeViewSelection(transitionView);
@@ -84,7 +90,6 @@ public class EditDataCommand extends PuzzleCommand
 
             final Board editBoard = transition.getBoard();
             board = editBoard;
-            puzzle.setCurrentBoard(board);
             puzzle.notifyBoardListeners((IBoardListener listener) -> listener.onBoardChanged(editBoard));
 
             newData = board.getElementData(index);
@@ -186,20 +191,15 @@ public class EditDataCommand extends PuzzleCommand
         TreeElementView selectedView = selection.getFirstSelection();
         Tree tree = getInstance().getTree();
         TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
+        Puzzle puzzle = getInstance().getPuzzleModule();
 
         Board board = transition.getBoard();
         int index = elementView.getIndex();
 
         if(selectedView.getType() == TreeElementType.NODE)
         {
-            TreeNode treeNode = (TreeNode)selectedView.getTreeElement();
-
             tree.removeTreeElement(transition);
-            treeView.removeTreeElement(newSelectedView);
-
-            selection.newSelection(selectedView);
-
-            getInstance().getLegupUI().repaintTree();
+            puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(newSelectedView.getTreeElement()));
         }
 
         Board prevBoard = transition.getParents().get(0).getBoard();
@@ -216,6 +216,8 @@ public class EditDataCommand extends PuzzleCommand
             board.addModifiedData(newData);
         }
         transition.propagateChanges(newData);
-        getInstance().getLegupUI().repaintBoard();
+
+        puzzle.notifyBoardListeners(iBoardListener -> iBoardListener.onBoardDataChanged(newData));
+        puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeSelectionChanged(selection));
     }
 }
