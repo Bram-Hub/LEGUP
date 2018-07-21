@@ -111,7 +111,6 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
     @Override
     public void undo()
     {
-        TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
         List<TreeElementView> selectedViews = selection.getSelectedViews();
@@ -122,13 +121,13 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
             if(element.getType() == TreeElementType.TRANSITION)
             {
                 TreeTransition transition = (TreeTransition) element;
-                TreeTransitionView treeTransitionView = (TreeTransitionView)view;
                 node = transition.getParents().get(0);
             }
             else
             {
                 node = (TreeNode) element;
             }
+            node.getChildren().forEach(n -> puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(n)));
             node.getChildren().clear();
 
             ArrayList<TreeTransition> save = saveElements.get(element);
@@ -136,6 +135,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
             if(save != null && !save.isEmpty())
             {
                 node.getChildren().addAll(save);
+                node.getChildren().forEach(n -> puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(n)));
             }
         }
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));

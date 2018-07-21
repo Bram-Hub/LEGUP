@@ -178,7 +178,6 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
     @Override
     public void undo()
     {
-        TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         Tree tree = GameBoardFacade.getInstance().getTree();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
