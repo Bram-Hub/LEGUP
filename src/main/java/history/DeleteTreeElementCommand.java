@@ -112,30 +112,29 @@ public class DeleteTreeElementCommand extends PuzzleCommand
     @Override
     public void undo()
     {
-        TreePanel treePanel = GameBoardFacade.getInstance().getLegupUI().getTreePanel();
-        TreeView treeView = treePanel.getTreeView();
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         List<TreeElementView> selectedViews = selection.getSelectedViews();
 
         for(TreeElementView selectedView : selectedViews)
         {
-            if(selectedView.getType() == TreeElementType.NODE)
+            TreeElement element = selectedView.getTreeElement();
+            if(element.getType() == TreeElementType.NODE)
             {
-                TreeNodeView nodeView = (TreeNodeView) selectedView;
-                TreeNode node = nodeView.getTreeElement();
-
-                nodeView.getParentView().setChildView(nodeView);
+                TreeNode node = (TreeNode)element;
                 node.getParent().setChildNode(node);
+
+                puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(node));
             }
             else
             {
-                TreeTransitionView transitionView = (TreeTransitionView) selectedView;
-                TreeTransition treeTransition = transitionView.getTreeElement();
-                transitionView.getParentViews().forEach((TreeNodeView view) -> view.addChildrenView(transitionView));
-                treeTransition.getParents().forEach((TreeNode node) -> node.addChild(treeTransition));
+                TreeTransition treeTransition = (TreeTransition)element;
+                treeTransition.getParents().forEach(node -> node.addChild(treeTransition));
+
+                puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(treeTransition));
             }
         }
 
-        TreeElementView firstSelectedView = selectedViews.get(0);
-        selection.getSelectedViews().addAll(selectedViews);
+        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(selection.getFirstSelection().getTreeElement().getBoard()));
+        puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
     }
 }
