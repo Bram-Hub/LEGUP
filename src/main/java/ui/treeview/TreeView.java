@@ -240,7 +240,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
             //drawTree(graphics2D, tree);
             setSize(dimension);
 
-            //graphics2D.drawRect(0,0, dimension.width, dimension.height);
+//            graphics2D.drawRect(0,0, dimension.width, dimension.height);
 
             if(selection.getHover() != null)
             {
@@ -593,10 +593,11 @@ public class TreeView extends DynamicViewer implements ITreeListener
             }
 
             calcSpan(rootNodeView);
+            rootNodeView.setSpan(rootNodeView.getSpan() + DIAMETER);
             System.err.println("newReDraw: Calculated span: " + rootNodeView.getSpan());
 
             calculateViewLocations(rootNodeView, 0);
-            dimension.height = (int)rootNodeView.getSpan() + DIAMETER + BORDER_GAP_HEIGHT;
+            dimension.height = (int)rootNodeView.getSpan();
             System.err.println("newReDraw: Calculated view positions");
 
             redrawTree(graphics2D, rootNodeView);
