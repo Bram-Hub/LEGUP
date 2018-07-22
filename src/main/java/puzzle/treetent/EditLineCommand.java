@@ -2,7 +2,7 @@ package puzzle.treetent;
 
 import model.Puzzle;
 import model.gameboard.Board;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.observer.IBoardListener;
 import model.observer.ITreeListener;
 import model.tree.Tree;
@@ -21,8 +21,8 @@ import static app.GameBoardFacade.getInstance;
 public class EditLineCommand extends PuzzleCommand
 {
     private TreeTransition transition;
-    private ElementData oldData;
-    private ElementData newData;
+    private Element oldData;
+    private Element newData;
 
     private ElementView elementView;
     private TreeElementView selectedView;
@@ -84,7 +84,7 @@ public class EditLineCommand extends PuzzleCommand
             transition = transitionView.getTreeElement();
         }
         newSelectedView = transitionView;
-        ElementData dup_line = null;
+        Element dup_line = null;
         boolean mod_contains = false;
         boolean contains = false;
         final TreeTentBoard editBoard = board;
@@ -203,7 +203,7 @@ public class EditLineCommand extends PuzzleCommand
 
         //System.err.println(newData.getValueInt() + " : " + oldData.getValueInt());
 
-        if(prevBoard.getElementData(index).equals(newData))
+        if(prevBoard.getElementData(index).equalsData(newData))
         {
             board.removeModifiedData(newData);
         }

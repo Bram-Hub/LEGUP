@@ -1,10 +1,9 @@
 package puzzle.treetent;
 
 import model.gameboard.Board;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.gameboard.ElementFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import save.InvalidFileFormatException;
@@ -22,7 +21,7 @@ public class TreeTentCellFactory extends ElementFactory
      * @throws InvalidFileFormatException
      */
     @Override
-    public ElementData importCell(Node node, Board board) throws InvalidFileFormatException
+    public Element importCell(Node node, Board board) throws InvalidFileFormatException
     {
         try
         {
@@ -83,14 +82,14 @@ public class TreeTentCellFactory extends ElementFactory
      * Creates a xml document element from a cell for exporting
      *
      * @param document xml document
-     * @param data ElementData cell
+     * @param data Element cell
      * @return xml Element
      */
-    public Element exportCell(Document document, ElementData data)
+    public org.w3c.dom.Element exportCell(Document document, Element data)
     {
         if(data instanceof TreeTentCell)
         {
-            Element cellElement = document.createElement("cell");
+            org.w3c.dom.Element cellElement = document.createElement("cell");
 
             TreeTentCell cell = (TreeTentCell)data;
             Point loc = cell.getLocation();
@@ -103,7 +102,7 @@ public class TreeTentCellFactory extends ElementFactory
         }
         else
         {
-            Element lineElement = document.createElement("line");
+            org.w3c.dom.Element lineElement = document.createElement("line");
 
             TreeTentLine line = (TreeTentLine)data;
 

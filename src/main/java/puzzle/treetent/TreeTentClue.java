@@ -1,8 +1,8 @@
 package puzzle.treetent;
 
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 
-public class TreeTentClue extends ElementData
+public class TreeTentClue extends Element
 {
 
     private TreeTentType type;

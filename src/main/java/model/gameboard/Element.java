@@ -1,6 +1,6 @@
 package model.gameboard;
 
-public abstract class ElementData
+public abstract class Element
 {
     protected int index;
     protected String valueString;
@@ -8,12 +8,11 @@ public abstract class ElementData
     protected boolean isModifiable;
     protected boolean isModified;
     protected boolean isGiven;
-    protected boolean isCaseApplicable;
 
     /**
-     * ElementData Constructor - creates a new ElementData
+     * Element Constructor - creates a new Element
      */
-    public ElementData()
+    public Element()
     {
         this.index = -1;
         this.valueString = null;
@@ -21,26 +20,25 @@ public abstract class ElementData
         this.isModifiable = true;
         this.isModified = false;
         this.isGiven = false;
-        this.isCaseApplicable = false;
     }
 
     /**
-     * ElementData Constructor - creates a new ElementData from the String value
+     * Element Constructor - creates a new Element from the String value
      *
      * @param valueString String value that represents this element
      */
-    public ElementData(String valueString)
+    public Element(String valueString)
     {
         this();
         this.valueString = valueString;
     }
 
     /**
-     * ElementData Constructor - creates a new ElementData from the int value
+     * Element Constructor - creates a new Element from the int value
      *
      * @param valueInt int value that represents this element
      */
-    public ElementData(int valueInt)
+    public Element(int valueInt)
     {
         this();
         this.valueInt = valueInt;
@@ -127,9 +125,9 @@ public abstract class ElementData
     }
 
     /**
-     * Gets the index of this ElementData
+     * Gets the index of this Element
      *
-     * @return index of this ElementData
+     * @return index of this Element
      */
     public int getIndex()
     {
@@ -137,9 +135,9 @@ public abstract class ElementData
     }
 
     /**
-     * Sets the index of this ElementData
+     * Sets the index of this Element
      *
-     * @param index index of this ElementData
+     * @param index index of this Element
      */
     public void setIndex(int index)
     {
@@ -166,23 +164,13 @@ public abstract class ElementData
         isGiven = given;
     }
 
-    public boolean isCaseApplicable()
-    {
-        return isCaseApplicable;
-    }
-
-    public void setCaseApplicable(boolean caseApplicable)
-    {
-        isCaseApplicable = caseApplicable;
-    }
-
     /**
-     * Tests whether two ElementData objects have the same element
+     * Tests whether two Element objects have the same element
      *
      * @param data element element to check for equality
      * @return true if the element are equal, false otherwise
      */
-    public boolean equals(ElementData data)
+    public boolean equalsData(Element data)
     {
         return valueInt == data.valueInt &&
                 (valueString == null || data.valueString == null ||
@@ -190,9 +178,9 @@ public abstract class ElementData
     }
 
     /**
-     * Copies this elements element to a new ElementData object
+     * Copies this elements element to a new Element object
      *
-     * @return copied ElementData object
+     * @return copied Element object
      */
-    public abstract ElementData copy();
+    public abstract Element copy();
 }

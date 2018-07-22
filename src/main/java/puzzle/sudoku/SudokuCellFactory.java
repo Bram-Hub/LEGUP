@@ -1,14 +1,11 @@
 package puzzle.sudoku;
 
 import model.gameboard.Board;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.gameboard.ElementFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import puzzle.lightup.LightUpBoard;
-import puzzle.lightup.LightUpCell;
 import save.InvalidFileFormatException;
 
 import java.awt.*;
@@ -68,12 +65,12 @@ public class SudokuCellFactory extends ElementFactory
      * Creates a xml document element from a cell for exporting
      *
      * @param document xml document
-     * @param data ElementData cell
+     * @param data Element cell
      * @return xml Element
      */
-    public Element exportCell(Document document, ElementData data)
+    public org.w3c.dom.Element exportCell(Document document, Element data)
     {
-        Element cellElement = document.createElement("cell");
+        org.w3c.dom.Element cellElement = document.createElement("cell");
 
         SudokuCell cell = (SudokuCell)data;
         Point loc = cell.getLocation();

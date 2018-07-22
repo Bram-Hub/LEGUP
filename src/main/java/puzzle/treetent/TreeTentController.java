@@ -3,7 +3,7 @@ package puzzle.treetent;
 import app.GameBoardFacade;
 import controller.ElementController;
 import model.gameboard.Board;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.tree.Tree;
 import ui.boardview.BoardView;
 import ui.treeview.TreeView;
@@ -69,7 +69,7 @@ public class TreeTentController extends ElementController
         }
     }
     @Override
-    public void changeCell(MouseEvent e, ElementData data)
+    public void changeCell(MouseEvent e, Element data)
     {
         if(e.getButton() == MouseEvent.BUTTON1)
         {

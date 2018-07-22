@@ -2,7 +2,7 @@ package model.gameboard;
 
 import java.awt.*;
 
-public class GridCell extends ElementData
+public class GridCell extends Element
 {
     protected Point location;
 

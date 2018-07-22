@@ -4,7 +4,7 @@ import controller.BoardController;
 import controller.ElementController;
 import model.gameboard.Board;
 import model.gameboard.CaseBoard;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.observer.IBoardListener;
 import ui.DynamicViewer;
 
@@ -116,7 +116,7 @@ public abstract class BoardView extends DynamicViewer implements IBoardListener
 
                 for(ElementView elementView: elementViews)
                 {
-                    ElementData element = baseBoard.getElementData(elementView.getIndex());
+                    Element element = baseBoard.getElementData(elementView.getIndex());
                     elementView.setElement(element);
                     elementView.setShowCasePicker(true);
                     elementView.setCaseRulePickable(caseBoard.isPickable(elementView.getElement()));
@@ -189,7 +189,7 @@ public abstract class BoardView extends DynamicViewer implements IBoardListener
      * @param data element of the element that changed
      */
     @Override
-    public void onBoardDataChanged(ElementData data)
+    public void onBoardDataChanged(Element data)
     {
         repaint();
     }

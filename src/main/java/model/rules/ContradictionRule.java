@@ -1,6 +1,6 @@
 package model.rules;
 
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.tree.TreeTransition;
 
 import static model.rules.RuleType.CONTRADICTION;
@@ -88,7 +88,7 @@ public abstract class ContradictionRule extends Rule
      */
     public String checkContradiction(TreeTransition transition)
     {
-        for(ElementData data: transition.getBoard().getElementData())
+        for(Element data: transition.getBoard().getElementData())
         {
             String checkStr = checkContradictionAt(transition, data.getIndex());
             if(checkStr == null)

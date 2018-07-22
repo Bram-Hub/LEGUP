@@ -1,6 +1,6 @@
 package ui.boardview;
 
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,7 @@ public abstract class ElementView implements Shape
     protected int index;
     protected Point location;
     protected Dimension size;
-    protected ElementData element;
+    protected Element element;
     private Color highLightColor;
     private Color hoverColor;
     private Color modifiedColor;
@@ -30,7 +30,7 @@ public abstract class ElementView implements Shape
      *
      * @param element element element to which the puzzle element uses to draw
      */
-    public ElementView(ElementData element)
+    public ElementView(Element element)
     {
         this.element = element;
         this.highLightColor = new Color(0,0,128,255);
@@ -189,21 +189,21 @@ public abstract class ElementView implements Shape
     }
 
     /**
-     * Gets the ElementData associated with this view
+     * Gets the Element associated with this view
      *
-     * @return ElementData associated with this view
+     * @return Element associated with this view
      */
-    public ElementData getElement()
+    public Element getElement()
     {
         return element;
     }
 
     /**
-     * Sets the ElementData associated with this view
+     * Sets the Element associated with this view
      *
-     * @param data ElementData associated with this view
+     * @param data Element associated with this view
      */
-    public void setElement(ElementData data)
+    public void setElement(Element data)
     {
         this.element = data;
     }

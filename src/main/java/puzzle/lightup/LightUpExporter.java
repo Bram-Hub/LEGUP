@@ -1,9 +1,8 @@
 package puzzle.lightup;
 
 import model.PuzzleExporter;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 public class LightUpExporter extends PuzzleExporter
 {
@@ -14,20 +13,20 @@ public class LightUpExporter extends PuzzleExporter
     }
 
     @Override
-    protected Element createBoardElement(Document newDocument)
+    protected org.w3c.dom.Element createBoardElement(Document newDocument)
     {
         LightUpBoard board = (LightUpBoard) puzzle.getTree().getRootNode().getBoard();
 
-        Element boardElement = newDocument.createElement("board");
+        org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("width", String.valueOf(board.getWidth()));
         boardElement.setAttribute("height", String.valueOf(board.getHeight()));
 
-        Element cellsElement = newDocument.createElement("cells");
-        for(ElementData data : board.getElementData())
+        org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
+        for(Element data : board.getElementData())
         {
             if(data.getValueInt() != -2)
             {
-                Element cellElement = puzzle.getFactory().exportCell(newDocument, data);
+                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, data);
                 cellsElement.appendChild(cellElement);
             }
         }

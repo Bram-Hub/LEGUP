@@ -1,7 +1,7 @@
 package model.observer;
 
 import model.gameboard.Board;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 
 public interface IBoardListener
 {
@@ -17,5 +17,5 @@ public interface IBoardListener
      *
      * @param data element of the element that changed
      */
-    void onBoardDataChanged(ElementData data);
+    void onBoardDataChanged(Element data);
 }

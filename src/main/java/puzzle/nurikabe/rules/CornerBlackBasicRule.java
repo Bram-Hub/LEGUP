@@ -43,7 +43,7 @@ public class CornerBlackBasicRule extends BasicRule
         {
             for(int x = 0; x < width; x++)
             {
-                if(!destBoardState.getCell(x, y).equals(origBoardState.getCell(x, y)))
+                if(!destBoardState.getCell(x, y).equalsData(origBoardState.getCell(x, y)))
                 {
                     if(destBoardState.getCell(x, y).getValueInt() != NurikabeType.BLACK.ordinal())
                     {

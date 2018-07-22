@@ -1,7 +1,7 @@
 package model.tree;
 
 import model.gameboard.Board;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.rules.Rule;
 import model.rules.RuleType;
 
@@ -48,7 +48,7 @@ public class TreeTransition extends TreeElement
      *
      * @param data element of the change made
      */
-    public void propagateChanges(ElementData data)
+    public void propagateChanges(Element data)
     {
         board.notifyChange(data);
         isVerified = false;

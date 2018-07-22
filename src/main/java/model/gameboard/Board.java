@@ -1,13 +1,12 @@
 package model.gameboard;
 
-import model.rules.CaseRule;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Board
 {
-    protected List<ElementData> elementData;
-    protected List<ElementData> modifiedData;
+    protected List<Element> elementData;
+    protected List<Element> modifiedData;
     protected boolean isModifiable;
 
     /**
@@ -38,9 +37,9 @@ public abstract class Board
      * Gets a specific Element on the board
      *
      * @param index index of the element
-     * @return ElementData at the specified index
+     * @return Element at the specified index
      */
-    public ElementData getElementData(int index)
+    public Element getElementData(int index)
     {
         return index < elementData.size() ? elementData.get(index) : null;
     }
@@ -51,7 +50,7 @@ public abstract class Board
      * @param index index of the element
      * @param data new element at the index
      */
-    public void setElementData(int index, ElementData data)
+    public void setElementData(int index, Element data)
     {
         if(index < elementData.size())
         {
@@ -74,7 +73,7 @@ public abstract class Board
      *
      * @return elements on the board
      */
-    public List<ElementData> getElementData()
+    public List<Element> getElementData()
     {
         return elementData;
     }
@@ -84,7 +83,7 @@ public abstract class Board
      *
      * @param elementData elements on the board
      */
-    public void setElementData(ArrayList<ElementData> elementData)
+    public void setElementData(ArrayList<Element> elementData)
     {
         this.elementData = elementData;
     }
@@ -124,7 +123,7 @@ public abstract class Board
      *
      * @return list of modified element of the board
      */
-    public List<ElementData> getModifiedData()
+    public List<Element> getModifiedData()
     {
         return modifiedData;
     }
@@ -134,7 +133,7 @@ public abstract class Board
      *
      * @param data element that has been modified
      */
-    public void addModifiedData(ElementData data)
+    public void addModifiedData(Element data)
     {
         if(!modifiedData.contains(data))
         {
@@ -148,13 +147,13 @@ public abstract class Board
      *
      * @param data element that is no longer modified
      */
-    public void removeModifiedData(ElementData data)
+    public void removeModifiedData(Element data)
     {
         modifiedData.remove(data);
         data.setModified(false);
     }
 
-    public void notifyChange(ElementData data)
+    public void notifyChange(Element data)
     {
         elementData.get(data.getIndex()).setValueInt(data.getValueInt());
     }
@@ -169,19 +168,19 @@ public abstract class Board
         Board mergedBoard = lca.copy();
 
         Board firstBoard = boards.get(0);
-        for(ElementData lcaData : lca.getElementData())
+        for(Element lcaData : lca.getElementData())
         {
-            ElementData mData = firstBoard.getElementData(lcaData.getIndex());
+            Element mData = firstBoard.getElementData(lcaData.getIndex());
 
             boolean isSame = true;
             for(Board board : boards)
             {
-                isSame &= mData.equals(board.getElementData(lcaData.getIndex()));
+                isSame &= mData.equalsData(board.getElementData(lcaData.getIndex()));
             }
 
-            if(isSame && !lcaData.equals(mData))
+            if(isSame && !lcaData.equalsData(mData))
             {
-                ElementData mergedData = mergedBoard.getElementData(lcaData.getIndex());
+                Element mergedData = mergedBoard.getElementData(lcaData.getIndex());
                 mergedData.setValueInt(mData.getValueInt());
                 mergedBoard.addModifiedData(mergedData);
             }

@@ -4,7 +4,7 @@ import app.GameBoardFacade;
 import history.CaseRuleCommand;
 import model.gameboard.Board;
 import model.gameboard.CaseBoard;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.tree.Tree;
 import ui.boardview.BoardView;
 import ui.boardview.ElementSelection;
@@ -170,7 +170,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     {
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         ElementView selectedElement = boardView.getSelection().getFirstSelection();
-        ElementData data = selectedElement.getElement();
+        Element data = selectedElement.getElement();
         int index = selectedElement.getIndex();
 
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
@@ -195,7 +195,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         boardView.getSelection().clearSelection();
     }
 
-    public void changeCell(MouseEvent e, ElementData data)
+    public void changeCell(MouseEvent e, Element data)
     {
         if(e.getButton() == MouseEvent.BUTTON1)
         {

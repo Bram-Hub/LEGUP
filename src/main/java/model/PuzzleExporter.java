@@ -1,10 +1,9 @@
 package model;
 
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.tree.TreeNode;
 import model.tree.TreeTransition;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import save.ExportFileException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -36,11 +35,11 @@ public abstract class PuzzleExporter
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             Document newDocument = docBuilder.newDocument();
 
-            Element legupElement = newDocument.createElement("Legup");
+            org.w3c.dom.Element legupElement = newDocument.createElement("Legup");
             legupElement.setAttribute("version", "2.0.0");
             newDocument.appendChild(legupElement);
 
-            Element puzzleElement = newDocument.createElement("puzzle");
+            org.w3c.dom.Element puzzleElement = newDocument.createElement("puzzle");
             puzzleElement.setAttribute("name", puzzle.getName());
             legupElement.appendChild(puzzleElement);
 
@@ -71,19 +70,19 @@ public abstract class PuzzleExporter
         }
     }
 
-    protected abstract Element createBoardElement(Document newDocument);
+    protected abstract org.w3c.dom.Element createBoardElement(Document newDocument);
 
-    protected Element createProofElement(Document newDocument)
+    protected org.w3c.dom.Element createProofElement(Document newDocument)
     {
-        Element proofElement = newDocument.createElement("proof");
-        Element treeElement = createTreeElement(newDocument);
+        org.w3c.dom.Element proofElement = newDocument.createElement("proof");
+        org.w3c.dom.Element treeElement = createTreeElement(newDocument);
         proofElement.appendChild(treeElement);
         return proofElement;
     }
 
-    protected Element createTreeElement(Document newDocument)
+    protected org.w3c.dom.Element createTreeElement(Document newDocument)
     {
-        Element treeElement = newDocument.createElement("tree");
+        org.w3c.dom.Element treeElement = newDocument.createElement("tree");
 
         Set<TreeNode> visited = new HashSet<>();
         List<TreeNode> nodes = new ArrayList<>();
@@ -96,7 +95,7 @@ public abstract class PuzzleExporter
             {
                 visited.add(treeNode);
 
-                Element nodeElement = newDocument.createElement("node");
+                org.w3c.dom.Element nodeElement = newDocument.createElement("node");
                 nodeElement.setAttribute("id", String.valueOf(treeNode.hashCode()));
                 if(treeNode.isRoot())
                 {
@@ -105,7 +104,7 @@ public abstract class PuzzleExporter
 
                 for(TreeTransition transition : treeNode.getChildren())
                 {
-                    Element transElement = newDocument.createElement("transition");
+                    org.w3c.dom.Element transElement = newDocument.createElement("transition");
                     transElement.setAttribute("id", String.valueOf(transition.hashCode()));
 
                     TreeNode child = transition.getChildNode();
@@ -120,7 +119,7 @@ public abstract class PuzzleExporter
                         transElement.setAttribute("rule", transition.getRule().getRuleName());
                     }
 
-                    for(ElementData data : transition.getBoard().getModifiedData())
+                    for(Element data : transition.getBoard().getModifiedData())
                     {
                         transElement.appendChild(puzzle.getFactory().exportCell(newDocument, data));
                     }

@@ -2,7 +2,7 @@ package puzzle.fillapix.rules;
 
 import model.gameboard.Board;
 import model.gameboard.CaseBoard;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.rules.CaseRule;
 import model.tree.TreeTransition;
 import puzzle.fillapix.FillapixBoard;
@@ -22,9 +22,9 @@ public class BlackOrWhiteCaseRule extends CaseRule {
         FillapixBoard fillapixBoard = (FillapixBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(fillapixBoard, this);
         fillapixBoard.setModifiable(false);
-        for (ElementData data: fillapixBoard.getElementData()) {
+        for (Element data: fillapixBoard.getElementData()) {
             if(FillapixCell.isUnknown(data.getValueInt())) {
-                data.setCaseApplicable(true);
+                caseBoard.addPickableElement(data);
             }
         }
         return caseBoard;

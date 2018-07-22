@@ -1,6 +1,6 @@
 package utility;
 
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 
 public interface IBoardListener
 {
@@ -9,5 +9,5 @@ public interface IBoardListener
      *
      * @param data element of the change to the board
      */
-    void notifyChange(ElementData data);
+    void notifyChange(Element data);
 }

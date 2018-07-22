@@ -1,8 +1,8 @@
 package puzzle.treetent;
 
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 
-public class TreeTentLine extends ElementData
+public class TreeTentLine extends Element
 {
     private TreeTentCell c1, c2;
 
@@ -38,9 +38,9 @@ public class TreeTentLine extends ElementData
     }
 
     /**
-     * Copies this elements element to a new ElementData object
+     * Copies this elements element to a new Element object
      *
-     * @return copied ElementData object
+     * @return copied Element object
      */
     @Override
     public TreeTentLine copy()

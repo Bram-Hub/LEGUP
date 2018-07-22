@@ -2,7 +2,7 @@ package history;
 
 import model.Puzzle;
 import model.gameboard.Board;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.observer.ITreeListener;
 import model.tree.*;
 import ui.boardview.BoardView;
@@ -17,8 +17,8 @@ public class EditDataCommand extends PuzzleCommand
 {
     private TreeTransition transition;
     private boolean hasAddedNode;
-    private ElementData saveData;
-    private ElementData data;
+    private Element saveData;
+    private Element data;
 
     private ElementView elementView;
     private TreeViewSelection selection;
@@ -96,7 +96,7 @@ public class EditDataCommand extends PuzzleCommand
 
         boardView.getElementController().changeCell(event, data);
 
-        if(prevBoard.getElementData(index).equals(data))
+        if(prevBoard.getElementData(index).equalsData(data))
         {
             board.removeModifiedData(data);
         }
@@ -198,7 +198,7 @@ public class EditDataCommand extends PuzzleCommand
         data.setValueInt(saveData.getValueInt());
         board.notifyChange(data);
 
-        if(prevBoard.getElementData(index).equals(data))
+        if(prevBoard.getElementData(index).equalsData(data))
         {
             board.removeModifiedData(data);
         }

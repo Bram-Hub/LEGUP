@@ -1,37 +1,37 @@
 package ui.boardview;
 
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 
 import javax.swing.*;
 
 public class SelectionItemView extends JMenuItem
 {
-    private ElementData data;
+    private Element data;
 
-    public SelectionItemView(ElementData data, Icon icon)
+    public SelectionItemView(Element data, Icon icon)
     {
         super(icon);
         this.data = data;
     }
 
-    public SelectionItemView(ElementData data, String display)
+    public SelectionItemView(Element data, String display)
     {
         super(display);
         this.data = data;
     }
 
-    public SelectionItemView(ElementData data, int display)
+    public SelectionItemView(Element data, int display)
     {
         super(String.valueOf(display));
         this.data = data;
     }
 
-    public SelectionItemView(ElementData data)
+    public SelectionItemView(Element data)
     {
         this(data, data.getValueInt());
     }
 
-    public ElementData getData()
+    public Element getData()
     {
         return data;
     }

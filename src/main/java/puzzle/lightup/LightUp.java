@@ -3,7 +3,7 @@ package puzzle.lightup;
 import model.Puzzle;
 import model.RegisterPuzzle;
 import model.gameboard.Board;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
 import puzzle.lightup.rules.*;
@@ -92,7 +92,7 @@ public class LightUp extends Puzzle
                 return false;
             }
         }
-        for(ElementData data : lightUpBoard.getElementData())
+        for(Element data : lightUpBoard.getElementData())
         {
             LightUpCell cell = (LightUpCell)data;
             if((cell.getType() == LightUpCellType.UNKNOWN || cell.getType() == LightUpCellType.EMPTY) && !cell.isLite())

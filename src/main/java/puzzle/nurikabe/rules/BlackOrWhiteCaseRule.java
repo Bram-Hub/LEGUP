@@ -2,7 +2,7 @@ package puzzle.nurikabe.rules;
 
 import model.gameboard.Board;
 import model.gameboard.CaseBoard;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.rules.CaseRule;
 import model.tree.TreeTransition;
 import puzzle.nurikabe.NurikabeBoard;
@@ -25,11 +25,11 @@ public class BlackOrWhiteCaseRule extends CaseRule
         NurikabeBoard nurikabeBoard = (NurikabeBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(nurikabeBoard, this);
         nurikabeBoard.setModifiable(false);
-        for(ElementData data: nurikabeBoard.getElementData())
+        for(Element data: nurikabeBoard.getElementData())
         {
             if(((NurikabeCell)data).getType() == NurikabeType.UNKNOWN)
             {
-                data.setCaseApplicable(true);
+                caseBoard.addPickableElement(data);
             }
         }
         return caseBoard;
@@ -48,13 +48,13 @@ public class BlackOrWhiteCaseRule extends CaseRule
     {
         ArrayList<Board> cases = new ArrayList<>();
         Board case1 = board.copy();
-        ElementData data1 = case1.getElementData(elementIndex);
+        Element data1 = case1.getElementData(elementIndex);
         data1.setValueInt(NurikabeType.WHITE.toValue());
         case1.addModifiedData(data1);
         cases.add(case1);
 
         Board case2 = board.copy();
-        ElementData data2 = case2.getElementData(elementIndex);
+        Element data2 = case2.getElementData(elementIndex);
         data2.setValueInt(NurikabeType.BLACK.toValue());
         case2.addModifiedData(data2);
         cases.add(case2);

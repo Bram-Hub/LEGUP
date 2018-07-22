@@ -1,7 +1,7 @@
 package model.rules;
 
 import model.gameboard.Board;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.tree.TreeTransition;
 
 import static model.rules.RuleType.BASIC;
@@ -56,7 +56,7 @@ public abstract class BasicRule extends Rule
     public String checkRuleRaw(TreeTransition transition)
     {
         Board finalBoard = transition.getBoard();
-        for(ElementData data: finalBoard.getModifiedData())
+        for(Element data: finalBoard.getModifiedData())
         {
             int elementIndex = data.getIndex();
             String checkStr = checkRuleAt(transition, elementIndex);

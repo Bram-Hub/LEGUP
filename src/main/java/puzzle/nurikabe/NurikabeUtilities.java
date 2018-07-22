@@ -1,6 +1,6 @@
 package puzzle.nurikabe;
 
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import utility.DisjointSets;
 
 import java.awt.*;
@@ -21,7 +21,7 @@ public class NurikabeUtilities
     {
         Set<NurikabeCell> numberedCells = new HashSet<>();
 
-        for(ElementData data : board.getElementData())
+        for(Element data : board.getElementData())
         {
             NurikabeCell cell = (NurikabeCell)data;
             if(cell.getType() == NurikabeType.NUMBER)
@@ -44,7 +44,7 @@ public class NurikabeUtilities
         int height = board.getHeight();
 
         DisjointSets<NurikabeCell> regions = new DisjointSets<>();
-        for(ElementData data : board.getElementData())
+        for(Element data : board.getElementData())
         {
             regions.createSet((NurikabeCell)data);
         }
@@ -111,7 +111,7 @@ public class NurikabeUtilities
         int height = board.getHeight();
 
         DisjointSets<NurikabeCell> blackRegions = new DisjointSets<>();
-        for(ElementData data : board.getElementData())
+        for(Element data : board.getElementData())
         {
             NurikabeCell cell = (NurikabeCell)data;
             if(cell.getType() == NurikabeType.BLACK || cell.getType() == NurikabeType.UNKNOWN)
@@ -158,7 +158,7 @@ public class NurikabeUtilities
         int height = board.getHeight();
 
         DisjointSets<NurikabeCell> whiteRegions = new DisjointSets<>();
-        for(ElementData data : board.getElementData())
+        for(Element data : board.getElementData())
         {
             NurikabeCell cell = (NurikabeCell)data;
             if(cell.getType() == NurikabeType.WHITE || cell.getType() == NurikabeType.NUMBER || cell.getType() == NurikabeType.UNKNOWN)
@@ -205,7 +205,7 @@ public class NurikabeUtilities
         int height = board.getHeight();
 
         DisjointSets<NurikabeCell> whiteRegions = new DisjointSets<>();
-        for(ElementData data : board.getElementData())
+        for(Element data : board.getElementData())
         {
             NurikabeCell cell = (NurikabeCell)data;
             whiteRegions.createSet(cell);

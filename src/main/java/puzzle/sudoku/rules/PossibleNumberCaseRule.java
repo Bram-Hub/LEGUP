@@ -2,7 +2,7 @@ package puzzle.sudoku.rules;
 
 import model.gameboard.Board;
 import model.gameboard.CaseBoard;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.rules.CaseRule;
 import model.tree.TreeTransition;
 import puzzle.sudoku.SudokuBoard;
@@ -122,7 +122,7 @@ public class PossibleNumberCaseRule extends CaseRule
         for(int val: values)
         {
             Board caseBoard = sudokuBoard.copy();
-            ElementData data = sudokuBoard.getElementData(elementIndex).copy();
+            Element data = sudokuBoard.getElementData(elementIndex).copy();
             data.setValueInt(val);
             caseBoard.setElementData(elementIndex, data);
             cases.add(caseBoard);

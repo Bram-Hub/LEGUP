@@ -1,12 +1,10 @@
 package model;
 
 import model.gameboard.Board;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 
-import model.rules.MergeRule;
 import model.rules.Rule;
 import model.tree.*;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import save.InvalidFileFormatException;
@@ -37,7 +35,7 @@ public abstract class PuzzleImporter
     {
         if(node.getNodeName().equalsIgnoreCase("puzzle"))
         {
-            Element puzzleElement = (Element)node;
+            org.w3c.dom.Element puzzleElement = (org.w3c.dom.Element)node;
 
             boolean initBoard = false;
             boolean initProof = false;
@@ -109,7 +107,7 @@ public abstract class PuzzleImporter
     {
         if(node.getNodeName().equalsIgnoreCase("proof"))
         {
-            Element proofElement = (Element)node;
+            org.w3c.dom.Element proofElement = (org.w3c.dom.Element)node;
             NodeList treeList = proofElement.getElementsByTagName("tree");
 
             boolean initTree = false;
@@ -184,11 +182,11 @@ public abstract class PuzzleImporter
      */
     protected void setCells(Node node) throws InvalidFileFormatException
     {
-        NodeList dataList = ((Element) node).getElementsByTagName("cell");
+        NodeList dataList = ((org.w3c.dom.Element) node).getElementsByTagName("cell");
         Board board = puzzle.getCurrentBoard();
         for(int i = 0; i < dataList.getLength(); i++)
         {
-            ElementData data = puzzle.getFactory().importCell(dataList.item(i), puzzle.getCurrentBoard());
+            Element data = puzzle.getFactory().importCell(dataList.item(i), puzzle.getCurrentBoard());
             board.setElementData(data.getIndex(), data);
         }
     }
@@ -201,12 +199,12 @@ public abstract class PuzzleImporter
      */
     protected void createTree(Node node) throws InvalidFileFormatException
     {
-        Element treeElement = (Element)node;
+        org.w3c.dom.Element treeElement = (org.w3c.dom.Element)node;
 
         Tree tree = new Tree();
         puzzle.setTree(tree);
 
-        NodeList nodeList = ((Element)node).getElementsByTagName("node");
+        NodeList nodeList = ((org.w3c.dom.Element)node).getElementsByTagName("node");
 
         HashMap<String, TreeNode> treeNodes = new HashMap<>();
         HashMap<String, TreeTransition> treeTransitions = new HashMap<>();
@@ -214,7 +212,7 @@ public abstract class PuzzleImporter
 
         for(int i = 0; i < nodeList.getLength(); i++)
         {
-            Element treeNodeElement = (Element) nodeList.item(i);
+            org.w3c.dom.Element treeNodeElement = (org.w3c.dom.Element) nodeList.item(i);
             String nodeId = treeNodeElement.getAttribute("id");
             String isRoot = treeNodeElement.getAttribute("root");
             if(nodeId.isEmpty())
@@ -241,14 +239,14 @@ public abstract class PuzzleImporter
 
         for(int i = 0; i < nodeList.getLength(); i++)
         {
-            Element treeNodeElement = (Element) nodeList.item(i);
+            org.w3c.dom.Element treeNodeElement = (org.w3c.dom.Element) nodeList.item(i);
             String nodeId = treeNodeElement.getAttribute("id");
             TreeNode treeNode = treeNodes.get(nodeId);
 
             NodeList transList = treeNodeElement.getElementsByTagName("transition");
             for(int k = 0; k < transList.getLength(); k++)
             {
-                Element trans = (Element)transList.item(k);
+                org.w3c.dom.Element trans = (org.w3c.dom.Element)transList.item(k);
                 String transId = trans.getAttribute("id");
 //                if(treeTransitions.containsKey(transId))
 //                {
@@ -385,7 +383,7 @@ public abstract class PuzzleImporter
             if(node.getNodeName().equalsIgnoreCase("cell"))
             {
                 Board board = transition.getBoard();
-                ElementData cell = puzzle.getFactory().importCell(node, board);
+                Element cell = puzzle.getFactory().importCell(node, board);
 
                 board.setElementData(cell.getIndex(), cell);
                 board.addModifiedData(cell);

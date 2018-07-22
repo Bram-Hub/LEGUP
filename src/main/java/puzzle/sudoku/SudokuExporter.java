@@ -1,11 +1,8 @@
 package puzzle.sudoku;
 
 import model.PuzzleExporter;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import puzzle.lightup.LightUp;
-import puzzle.lightup.LightUpBoard;
 
 public class SudokuExporter extends PuzzleExporter
 {
@@ -16,19 +13,19 @@ public class SudokuExporter extends PuzzleExporter
     }
 
     @Override
-    protected Element createBoardElement(Document newDocument)
+    protected org.w3c.dom.Element createBoardElement(Document newDocument)
     {
         SudokuBoard board = (SudokuBoard) puzzle.getTree().getRootNode().getBoard();
 
-        Element boardElement = newDocument.createElement("board");
+        org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("size", String.valueOf(board.getSize()));
 
-        Element cellsElement = newDocument.createElement("cells");
-        for(ElementData data : board.getElementData())
+        org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
+        for(Element data : board.getElementData())
         {
             if(data.getValueInt() != 0)
             {
-                Element cellElement = puzzle.getFactory().exportCell(newDocument, data);
+                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, data);
                 cellsElement.appendChild(cellElement);
             }
         }

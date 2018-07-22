@@ -2,7 +2,7 @@ package puzzle.lightup.rules;
 
 import model.gameboard.Board;
 import model.gameboard.CaseBoard;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.rules.CaseRule;
 import model.rules.RegisterRule;
 import model.rules.RuleType;
@@ -30,7 +30,7 @@ public class LightOrEmptyCaseRule extends CaseRule
         LightUpBoard lightUpBoard = (LightUpBoard) board.copy();
         lightUpBoard.setModifiable(false);
         CaseBoard caseBoard = new CaseBoard(lightUpBoard, this);
-        for(ElementData data: lightUpBoard.getElementData())
+        for(Element data: lightUpBoard.getElementData())
         {
             if(((LightUpCell)data).getType() == LightUpCellType.UNKNOWN)
             {
@@ -53,13 +53,13 @@ public class LightOrEmptyCaseRule extends CaseRule
     {
         ArrayList<Board> cases = new ArrayList<>();
         Board case1 = board.copy();
-        ElementData data1 = case1.getElementData(elementIndex);
+        Element data1 = case1.getElementData(elementIndex);
         data1.setValueInt(-4);
         case1.addModifiedData(data1);
         cases.add(case1);
 
         Board case2 = board.copy();
-        ElementData data2 = case2.getElementData(elementIndex);
+        Element data2 = case2.getElementData(elementIndex);
         data2.setValueInt(-3);
         case2.addModifiedData(data2);
         cases.add(case2);

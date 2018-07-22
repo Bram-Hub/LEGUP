@@ -2,7 +2,7 @@ package puzzle.nurikabe;
 
 import model.Puzzle;
 import model.gameboard.Board;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
 import puzzle.nurikabe.rules.*;
@@ -96,7 +96,7 @@ public class Nurikabe extends Puzzle
                 return false;
             }
         }
-        for(ElementData data : nurikabeBoard.getElementData())
+        for(Element data : nurikabeBoard.getElementData())
         {
             NurikabeCell cell = (NurikabeCell) data;
             if(cell.getType() == NurikabeType.UNKNOWN)

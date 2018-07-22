@@ -1,7 +1,7 @@
 package model.rules;
 
 import model.gameboard.Board;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.tree.TreeNode;
 import model.tree.TreeTransition;
 
@@ -62,12 +62,12 @@ public class MergeRule extends Rule
             return nodes.get(0).getBoard().copy();
         }
         Board mergeBoard = nodes.get(0).getBoard().copy();
-        for(ElementData data : mergeBoard.getElementData())
+        for(Element data : mergeBoard.getElementData())
         {
             boolean allSame = true;
             for(TreeNode n : nodes)
             {
-                allSame &= data.equals(n.getBoard().getElementData(data.getIndex()));
+                allSame &= data.equalsData(n.getBoard().getElementData(data.getIndex()));
             }
             if(!allSame)
             {

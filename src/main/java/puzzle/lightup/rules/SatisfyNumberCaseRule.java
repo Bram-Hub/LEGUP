@@ -2,7 +2,7 @@ package puzzle.lightup.rules;
 
 import model.gameboard.Board;
 import model.gameboard.CaseBoard;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.rules.CaseRule;
 import model.rules.RegisterRule;
 import model.rules.RuleType;
@@ -30,11 +30,11 @@ public class SatisfyNumberCaseRule extends CaseRule
         LightUpBoard lightUpBoard = (LightUpBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(lightUpBoard, this);
         lightUpBoard.setModifiable(false);
-        for(ElementData data: lightUpBoard.getElementData())
+        for(Element data: lightUpBoard.getElementData())
         {
             if(((LightUpCell)data).getType() == LightUpCellType.NUMBER)
             {
-                data.setCaseApplicable(true);
+                caseBoard.addPickableElement(data);
             }
         }
         return caseBoard;

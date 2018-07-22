@@ -95,7 +95,7 @@ public class BattleShip extends Puzzle
 //            int size = Integer.valueOf(boardElement.getAttribute("size"));
 //            battleShipBoard = new BattleShipBoard(size);
 //
-//            ArrayList<ElementData> battleShipData = new ArrayList<>();
+//            ArrayList<Element> battleShipData = new ArrayList<>();
 //            for(int i = 0; i < size * size; i++)
 //            {
 //                battleShipData.add(null);

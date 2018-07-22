@@ -10,7 +10,7 @@ public class CaseBoard extends Board
 {
     private Board baseBoard;
     private CaseRule caseRule;
-    private Set<ElementData> pickableElements;
+    private Set<Element> pickableElements;
 
     public CaseBoard(Board baseBoard, CaseRule caseRule)
     {
@@ -19,17 +19,17 @@ public class CaseBoard extends Board
         this.pickableElements = new HashSet<>();
     }
 
-    public void addPickableElement(ElementData element)
+    public void addPickableElement(Element element)
     {
         pickableElements.add(element);
     }
 
-    public void removePickableElement(ElementData element)
+    public void removePickableElement(Element element)
     {
         pickableElements.remove(element);
     }
 
-    public boolean isPickable(ElementData element)
+    public boolean isPickable(Element element)
     {
         return pickableElements.contains(element);
     }

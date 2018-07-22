@@ -1,6 +1,6 @@
 package puzzle.lightup;
 
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.gameboard.GridBoard;
 
 public class LightUpBoard extends GridBoard
@@ -81,7 +81,7 @@ public class LightUpBoard extends GridBoard
     }
 
     @Override
-    public void notifyChange(ElementData data)
+    public void notifyChange(Element data)
     {
         super.notifyChange(data);
         fillWithLight();

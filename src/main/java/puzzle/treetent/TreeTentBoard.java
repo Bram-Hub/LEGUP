@@ -1,6 +1,6 @@
 package puzzle.treetent;
 
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.gameboard.GridBoard;
 
 import java.util.ArrayList;
@@ -62,7 +62,7 @@ public class TreeTentBoard extends GridBoard
     }
 
     @Override
-    public void notifyChange(ElementData data)
+    public void notifyChange(Element data)
     {
         if(data.getValueString() == "LINE"){
             lines.add((TreeTentLine) data);

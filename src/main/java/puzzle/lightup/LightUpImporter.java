@@ -1,14 +1,12 @@
 package puzzle.lightup;
 
 import model.PuzzleImporter;
-import model.gameboard.ElementData;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import save.InvalidFileFormatException;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class LightUpImporter extends PuzzleImporter
 {

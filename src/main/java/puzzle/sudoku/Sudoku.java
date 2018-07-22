@@ -2,7 +2,7 @@ package puzzle.sudoku;
 
 import model.gameboard.Board;
 import model.Puzzle;
-import model.gameboard.ElementData;
+import model.gameboard.Element;
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
 import puzzle.sudoku.rules.*;
@@ -95,7 +95,7 @@ public class Sudoku extends Puzzle
             }
         }
 
-        for(ElementData data : sudokuBoard.getElementData())
+        for(Element data : sudokuBoard.getElementData())
         {
             if(data.getValueInt() == 0)
             {
