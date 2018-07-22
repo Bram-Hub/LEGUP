@@ -1,23 +1,30 @@
 package history;
 
+import app.GameBoardFacade;
 import model.Puzzle;
 import model.gameboard.Board;
-import model.observer.ITreeListener;
+import model.gameboard.CaseBoard;
 import model.rules.CaseRule;
+import model.rules.Rule;
 import model.tree.*;
-import ui.boardview.PuzzleElement;
-import ui.treeview.TreeElementView;
-import ui.treeview.TreeNodeView;
-import ui.treeview.TreeViewSelection;
+import ui.boardview.BoardView;
+import ui.boardview.ElementView;
+import ui.treeview.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static app.GameBoardFacade.getInstance;
 
 public class CaseRuleCommand extends PuzzleCommand
 {
-    private PuzzleElement elementView;
+    private ElementView elementView;
     private TreeViewSelection selection;
+    private Rule rule;
+
+    private Map<TreeElement, Rule> oldRule;
+    private Map<TreeElement, TreeElement> addNode;
 
     /**
      * CaseRuleCommand Constructor - creates a command for validating a case rule
@@ -25,10 +32,13 @@ public class CaseRuleCommand extends PuzzleCommand
      * @param elementView currently selected puzzle element view that is being edited
      * @param selection currently selected tree element views that is being edited
      */
-    public CaseRuleCommand(PuzzleElement elementView, TreeViewSelection selection)
+    public CaseRuleCommand(ElementView elementView, TreeViewSelection selection, Rule rule)
     {
         this.elementView = elementView;
-        this.selection = selection.copy();
+        this.selection = selection;
+        this.rule = rule;
+        this.oldRule = new HashMap<>();
+        this.addNode = new HashMap<>();
     }
 
     /**
@@ -37,29 +47,76 @@ public class CaseRuleCommand extends PuzzleCommand
     @Override
     public void execute()
     {
-        TreeNodeView nodeView = (TreeNodeView)selection.getFirstSelection();
-        TreeNode node = nodeView.getTreeElement();
-        Board board = node.getBoard();
-        CaseRule caseRule = board.getCaseRule();
-        List<Board> cases = caseRule.getCases(board, elementView.getIndex());
-
-        Puzzle puzzle = getInstance().getPuzzleModule();
         Tree tree = getInstance().getTree();
-        for(Board b: cases)
+        TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
+        BoardView boardView = GameBoardFacade.getInstance().getLegupUI().getBoardView();
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+        TreeViewSelection newSelection = new TreeViewSelection();
+
+        List<TreeElementView> selectedViews = selection.getSelectedViews();
+        for(TreeElementView view : selectedViews)
         {
-            TreeTransition transition = tree.addNewTransition(node);
-            b.setModifiable(false);
-            transition.setBoard(b);
-            transition.setRule(caseRule);
+            TreeElement element = view.getTreeElement();
+            if(element.getType() == TreeElementType.NODE)
+            {
+                TreeNode node = (TreeNode)element;
+                CaseBoard caseBoard = (CaseBoard)boardView.getBoard();
+                CaseRule caseRule = caseBoard.getCaseRule();
+                List<Board> cases = caseRule.getCases(caseBoard.getBaseBoard(), elementView.getIndex());
 
-            puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(transition));
+                for(Board b: cases)
+                {
+                    TreeTransition transition = tree.addNewTransition(node);
+                    b.setModifiable(false);
+                    transition.setBoard(b);
+                    transition.setRule(caseRule);
 
-            TreeNode n = tree.addNode(transition);
-            puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(n));
+                    puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(transition));
+
+                    TreeNode n = tree.addNode(transition);
+                    puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(n));
+                    newSelection.addToSelection(treeView.getElementView(n));
+                }
+            }
+            else
+            {
+                TreeTransition transition = (TreeTransition)element;
+                oldRule.put(transition, transition.getRule());
+
+                transition.setRule(rule);
+
+                TreeNode childNode = transition.getChildNode();
+                if(childNode == null)
+                {
+                    childNode = (TreeNode)addNode.get(transition);
+                    if(childNode == null)
+                    {
+                        childNode = new TreeNode(transition.getBoard().copy());
+                        addNode.put(transition, childNode);
+                    }
+                    childNode.setParent(transition);
+                    transition.setChildNode(childNode);
+
+                    TreeNode finalChildNode = childNode;
+                    puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(finalChildNode));
+                }
+                newSelection.addToSelection(treeView.getElementView(childNode));
+            }
         }
-        selection.newSelection(nodeView.getChildrenViews().get(0).getChildView());
-        getInstance().getPuzzleModule().setCurrentBoard(node.getChildren().get(0).getBoard());
-        getInstance().getLegupUI().repaintTree();
+        TreeElementView firstSelectedView = selection.getFirstSelection();
+        Board newBoardView;
+        if(firstSelectedView.getType() == TreeElementType.NODE)
+        {
+            TreeNodeView nodeView = (TreeNodeView)firstSelectedView;
+            newBoardView = nodeView.getChildrenViews().get(0).getTreeElement().getBoard();
+        }
+        else
+        {
+            TreeTransitionView transitionView = (TreeTransitionView)firstSelectedView;
+            newBoardView = transitionView.getChildView().getTreeElement().getBoard();
+        }
+        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(newBoardView));
+        puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
     }
 
     /**

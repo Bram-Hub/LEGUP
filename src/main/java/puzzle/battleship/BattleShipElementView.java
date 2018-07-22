@@ -1,18 +1,18 @@
 package puzzle.battleship;
 
-import ui.boardview.GridElement;
+import ui.boardview.GridElementView;
 
 import java.awt.*;
 import java.util.Random;
 
-public class BattleShipElement extends GridElement {
+public class BattleShipElementView extends GridElementView {
     private static final Color WATER_COLOR = Color.BLUE; // CAN CHANGE THIS TO ANY BLUE YOU WANT
     private static final Color SHIP_COLOR = Color.DARK_GRAY;
 
-    public BattleShipElement(BattleShipCell cell) {super(cell); }
+    public BattleShipElementView(BattleShipCell cell) {super(cell); }
 
     @Override public void drawElement(Graphics2D graphics2D) {
-        BattleShipCell cell = (BattleShipCell) data;
+        BattleShipCell cell = (BattleShipCell) element;
         BattleShipCellType type = cell.getType();
 
         // graphics2D.setColor(WATER_COLOR);

@@ -35,7 +35,7 @@ public class LightUpImporter extends PuzzleImporter
             Element boardElement = (Element)node;
             if(boardElement.getElementsByTagName("cells").getLength() == 0)
             {
-                throw new InvalidFileFormatException("lightup Importer: no data found for board");
+                throw new InvalidFileFormatException("lightup Importer: no element found for board");
             }
             Element dataElement = (Element)boardElement.getElementsByTagName("cells").item(0);
             NodeList elementDataList = dataElement.getElementsByTagName("cell");

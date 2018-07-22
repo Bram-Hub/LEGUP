@@ -1,10 +1,10 @@
 package puzzle.treetent;
 
-import ui.boardview.PuzzleElement;
+import ui.boardview.ElementView;
 
 import java.awt.*;
 
-public class TreeTentLineView extends PuzzleElement
+public class TreeTentLineView extends ElementView
 {
     private final Color LINE_COLOR = Color.GREEN;
 
@@ -19,7 +19,7 @@ public class TreeTentLineView extends PuzzleElement
     public void draw(Graphics2D graphics2D)
     {
 
-        TreeTentLine line = (TreeTentLine)data;
+        TreeTentLine line = (TreeTentLine) element;
         Point p1 = line.getC1().getLocation();
         Point p2 = line.getC2().getLocation();
         int x1 = (p1.x + 1) * size.width + size.width / 2;

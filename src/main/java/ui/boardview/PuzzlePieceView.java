@@ -9,11 +9,11 @@ import java.util.ArrayList;
 
 public class PuzzlePieceView implements Shape
 {
-    private ArrayList<PuzzleElement> puzzleElements;
+    private ArrayList<ElementView> elementViews;
 
     public PuzzlePieceView()
     {
-        this.puzzleElements = new ArrayList<>();
+        this.elementViews = new ArrayList<>();
     }
 
     /**
@@ -26,31 +26,31 @@ public class PuzzlePieceView implements Shape
 
     }
 
-    public ArrayList<PuzzleElement> getPuzzleElements()
+    public ArrayList<ElementView> getElementViews()
     {
-        return puzzleElements;
+        return elementViews;
     }
 
-    public void setPuzzleElements(ArrayList<PuzzleElement> puzzleElements)
+    public void setElementViews(ArrayList<ElementView> elementViews)
     {
-        this.puzzleElements = puzzleElements;
+        this.elementViews = elementViews;
     }
 
-    public void addPuzzleElement(PuzzleElement element)
+    public void addPuzzleElement(ElementView element)
     {
-        this.puzzleElements.add(element);
+        this.elementViews.add(element);
     }
 
-    public void removePuzzleElement(PuzzleElement element)
+    public void removePuzzleElement(ElementView element)
     {
-        this.puzzleElements.remove(element);
+        this.elementViews.remove(element);
     }
 
     @Override
     public Rectangle getBounds()
     {
         Rectangle bounds = new Rectangle();
-        for(PuzzleElement element: puzzleElements)
+        for(ElementView element: elementViews)
         {
             bounds.union(element.getBounds());
         }
@@ -66,7 +66,7 @@ public class PuzzlePieceView implements Shape
     @Override
     public boolean contains(double x, double y)
     {
-        for(PuzzleElement element: puzzleElements)
+        for(ElementView element: elementViews)
         {
             if(element.contains(x, y))
             {
@@ -79,7 +79,7 @@ public class PuzzlePieceView implements Shape
     @Override
     public boolean contains(Point2D p)
     {
-        for(PuzzleElement element: puzzleElements)
+        for(ElementView element: elementViews)
         {
             if(element.contains(p))
             {
@@ -92,7 +92,7 @@ public class PuzzlePieceView implements Shape
     @Override
     public boolean intersects(double x, double y, double w, double h)
     {
-        for(PuzzleElement element: puzzleElements)
+        for(ElementView element: elementViews)
         {
             if(element.intersects(x, y, w, h))
             {
@@ -105,7 +105,7 @@ public class PuzzlePieceView implements Shape
     @Override
     public boolean intersects(Rectangle2D r)
     {
-        for(PuzzleElement element: puzzleElements)
+        for(ElementView element: elementViews)
         {
             if(element.intersects(r))
             {
@@ -118,7 +118,7 @@ public class PuzzlePieceView implements Shape
     @Override
     public boolean contains(double x, double y, double w, double h)
     {
-        for(PuzzleElement element: puzzleElements)
+        for(ElementView element: elementViews)
         {
             if(element.contains(x, y, w, h))
             {
@@ -131,7 +131,7 @@ public class PuzzlePieceView implements Shape
     @Override
     public boolean contains(Rectangle2D r)
     {
-        for(PuzzleElement element: puzzleElements)
+        for(ElementView element: elementViews)
         {
             if(element.contains(r))
             {

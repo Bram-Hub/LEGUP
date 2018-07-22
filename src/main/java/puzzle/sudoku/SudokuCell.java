@@ -9,7 +9,7 @@ public class SudokuCell extends GridCell
     private int groupIndex;
 
     /**
-     * SudokuCell Constructor - creates a new Sudoku cell to hold the data
+     * SudokuCell Constructor - creates a new Sudoku cell to hold the element
      *
      * @param value value of the sudoku cell
      * @param location location of the cell on the board

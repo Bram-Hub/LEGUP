@@ -38,7 +38,7 @@ public class TreeTentLine extends ElementData
     }
 
     /**
-     * Copies this elements data to a new ElementData object
+     * Copies this elements element to a new ElementData object
      *
      * @return copied ElementData object
      */

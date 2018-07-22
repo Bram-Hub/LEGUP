@@ -1,6 +1,7 @@
 package model.rules;
 
 import model.gameboard.Board;
+import model.gameboard.CaseBoard;
 import model.tree.TreeTransition;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public abstract class CaseRule extends Rule
      * @param board board state to find locations where this case rule can be applied
      * @return a case board
      */
-    public abstract Board getCaseBoard(Board board);
+    public abstract CaseBoard getCaseBoard(Board board);
 
     /**
      * Gets the possible cases at a specific location based on this case rule

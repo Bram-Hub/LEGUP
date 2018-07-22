@@ -1,6 +1,7 @@
 package puzzle.lightup.rules;
 
 import model.gameboard.Board;
+import model.gameboard.CaseBoard;
 import model.gameboard.ElementData;
 import model.rules.CaseRule;
 import model.rules.RegisterRule;
@@ -24,12 +25,13 @@ public class SatisfyNumberCaseRule extends CaseRule
     }
 
     @Override
-    public Board getCaseBoard(Board board)
+    public CaseBoard getCaseBoard(Board board)
     {
-        LightUpBoard caseBoard = (LightUpBoard) board.copy();
-        caseBoard.setCaseRule(this);
-        caseBoard.setModifiable(false);
-        for(ElementData data: caseBoard.getElementData())
+        LightUpBoard lightUpBoard = (LightUpBoard) board.copy();
+        CaseBoard caseBoard = new CaseBoard(lightUpBoard, this);
+        lightUpBoard.setCaseRule(this);
+        lightUpBoard.setModifiable(false);
+        for(ElementData data: lightUpBoard.getElementData())
         {
             if(((LightUpCell)data).getType() == LightUpCellType.NUMBER)
             {

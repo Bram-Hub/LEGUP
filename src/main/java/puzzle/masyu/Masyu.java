@@ -2,24 +2,7 @@ package puzzle.masyu;
 
 import model.Puzzle;
 import model.gameboard.Board;
-import model.gameboard.ElementData;
-import model.tree.Tree;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-import save.InvalidFileFormatException;
-import ui.boardview.PuzzleElement;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.awt.*;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
+import ui.boardview.ElementView;
 
 public class Masyu extends Puzzle
 {
@@ -43,13 +26,13 @@ public class Masyu extends Puzzle
     public void initializeView()
     {
         boardView = new MasyuView(((MasyuBoard)currentBoard).getDimension());
-        for(PuzzleElement element: boardView.getPuzzleElements())
+        for(ElementView element: boardView.getElementViews())
         {
             int index = element.getIndex();
             MasyuCell cell = (MasyuCell)currentBoard.getElementData(index);
 
             cell.setIndex(index);
-            element.setData(cell);
+            element.setElement(cell);
         }
     }
 
@@ -80,7 +63,7 @@ public class Masyu extends Puzzle
     }
 
     /**
-     * Callback for when the board data changes
+     * Callback for when the board element changes
      *
      * @param board the board that has changed
      */

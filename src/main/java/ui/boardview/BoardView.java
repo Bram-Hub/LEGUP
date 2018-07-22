@@ -3,6 +3,7 @@ package ui.boardview;
 import controller.BoardController;
 import controller.ElementController;
 import model.gameboard.Board;
+import model.gameboard.CaseBoard;
 import model.gameboard.ElementData;
 import model.observer.IBoardListener;
 import ui.DynamicViewer;
@@ -12,7 +13,8 @@ import java.util.ArrayList;
 
 public abstract class BoardView extends DynamicViewer implements IBoardListener
 {
-    protected ArrayList<PuzzleElement> puzzleElements;
+    protected Board board;
+    protected ArrayList<ElementView> elementViews;
     protected ElementController elementController;
     protected ElementSelection selection;
 
@@ -25,7 +27,8 @@ public abstract class BoardView extends DynamicViewer implements IBoardListener
     public BoardView(BoardController boardController, ElementController elementController)
     {
         super(boardController);
-        this.puzzleElements = new ArrayList<>();
+        this.board = null;
+        this.elementViews = new ArrayList<>();
         this.elementController = elementController;
         this.selection = new ElementSelection();
 
@@ -48,32 +51,32 @@ public abstract class BoardView extends DynamicViewer implements IBoardListener
     protected abstract Dimension getProperSize();
 
     /**
-     * Gets the PuzzleElement from the element index or
+     * Gets the ElementView from the element index or
      * null if out of bounds
      *
-     * @param index index of the PuzzleElement
-     * @return PuzzleElement at the specified index
+     * @param index index of the ElementView
+     * @return ElementView at the specified index
      */
-    public abstract PuzzleElement getElement(int index);
+    public abstract ElementView getElement(int index);
 
     /**
-     * Sets the PuzzleElement list
+     * Sets the ElementView list
      *
-     * @param elements PuzzleElement list
+     * @param elements ElementView list
      */
-    public void setPuzzleElements(ArrayList<PuzzleElement> elements)
+    public void setElementViews(ArrayList<ElementView> elements)
     {
-        puzzleElements = elements;
+        elementViews = elements;
     }
 
     /**
-     * Gets the PuzzleElement from the location specified or
+     * Gets the ElementView from the location specified or
      * null if one does not exists at that location
      *
      * @param point location on the viewport
-     * @return PuzzleElement at the specified location
+     * @return ElementView at the specified location
      */
-    public abstract PuzzleElement getElement(Point point);
+    public abstract ElementView getElement(Point point);
 
     /**
      * Gets the ElementSelection for this BoardView
@@ -86,16 +89,58 @@ public abstract class BoardView extends DynamicViewer implements IBoardListener
     }
 
     /**
-     * Board data has changed
+     * Gets the board associated with this view
+     *
+     * @return board
+     */
+    public Board getBoard()
+    {
+        return board;
+    }
+
+    /**
+     * Sets the board associated with this view
+     *
+     * @param board board
+     */
+    public void setBoard(Board board)
+    {
+        if(this.board != board)
+        {
+            this.board = board;
+
+            if(board instanceof CaseBoard)
+            {
+                CaseBoard caseBoard = (CaseBoard)board;
+                Board baseBoard = caseBoard.getBaseBoard();
+
+                for(ElementView elementView: elementViews)
+                {
+                    ElementData element = baseBoard.getElementData(elementView.getIndex());
+                    elementView.setElement(element);
+                    elementView.setShowCasePicker(true);
+                    elementView.setCaseRulePickable(caseBoard.isPickable(elementView.getElement()));
+                }
+            }
+            else
+            {
+                for(ElementView elementView: elementViews)
+                {
+                    elementView.setElement(board.getElementData(elementView.getIndex()));
+                    elementView.setShowCasePicker(false);
+                }
+            }
+        }
+    }
+
+    /**
+     * Board element has changed
      *
      * @param board board to update the BoardView
      */
     public void onBoardChanged(Board board)
     {
-        for(PuzzleElement element: puzzleElements)
-        {
-            element.setData(board.getElementData(element.getIndex()));
-        }
+        setBoard(board);
         repaint();
     }
 
@@ -106,7 +151,7 @@ public abstract class BoardView extends DynamicViewer implements IBoardListener
      */
     public int getElementCount()
     {
-        return puzzleElements.size();
+        return elementViews.size();
     }
 
     /**
@@ -114,9 +159,9 @@ public abstract class BoardView extends DynamicViewer implements IBoardListener
      *
      * @return list of PuzzleElements
      */
-    public ArrayList<PuzzleElement> getPuzzleElements()
+    public ArrayList<ElementView> getElementViews()
     {
-        return puzzleElements;
+        return elementViews;
     }
 
     public ElementController getElementController()
@@ -132,16 +177,16 @@ public abstract class BoardView extends DynamicViewer implements IBoardListener
 
     public void drawBoard(Graphics2D graphics2D)
     {
-        for(PuzzleElement element: puzzleElements)
+        for(ElementView element: elementViews)
         {
             element.draw(graphics2D);
         }
     }
 
     /**
-     * Called when the board data changed
+     * Called when the board element changed
      *
-     * @param data data of the element that changed
+     * @param data element of the element that changed
      */
     @Override
     public void onBoardDataChanged(ElementData data)

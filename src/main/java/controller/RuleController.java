@@ -1,6 +1,7 @@
 package controller;
 
 import app.GameBoardFacade;
+import model.Puzzle;
 import model.gameboard.Board;
 import model.rules.*;
 import model.tree.*;
@@ -75,8 +76,6 @@ public class RuleController implements ActionListener
             }
         }
         GameBoardFacade.getInstance().getLegupUI().getTreePanel().updateError(update);
-        GameBoardFacade.getInstance().getLegupUI().repaintBoard();
-        GameBoardFacade.getInstance().getLegupUI().repaintTree();
     }
 
     /**
@@ -87,6 +86,7 @@ public class RuleController implements ActionListener
     public void handleCaseRule(CaseRule caseRule)
     {
         Tree tree = GameBoardFacade.getInstance().getTree();
+        Puzzle puzzle = getInstance().getPuzzleModule();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         TreeViewSelection treeViewSelection = treeView.getSelection();
         List<TreeElementView> selection = treeViewSelection.getSelectedViews();
@@ -104,8 +104,8 @@ public class RuleController implements ActionListener
                 TreeNodeView nodeView = (TreeNodeView)elementView;
                 Board caseBoard = caseRule.getCaseBoard(node.getBoard());
 
-                GameBoardFacade.getInstance().setBoard(caseBoard);
-                GameBoardFacade.getInstance().getLegupUI().repaintTree();
+                caseBoard.setCaseRule(caseRule);
+                puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(caseBoard));
             }
         }
     }

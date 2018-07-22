@@ -13,7 +13,7 @@ public class TreeNodeView extends TreeElementView
     static final int RADIUS = 25;
     static final int DIAMETER = 2 * RADIUS;
 
-     private static final Stroke THIN_STROKE = new BasicStroke(1);
+    private static final Stroke THIN_STROKE = new BasicStroke(1);
     private static final Stroke MEDIUM_STROKE = new BasicStroke(2);
 
     private static final Color NODE_COLOR_ROOT = new Color(100, 100, 100);

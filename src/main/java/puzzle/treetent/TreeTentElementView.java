@@ -1,12 +1,12 @@
 package puzzle.treetent;
 
-import ui.boardview.GridElement;
+import ui.boardview.GridElementView;
 
 import java.awt.*;
 
-public class TreeTentElement extends GridElement
+public class TreeTentElementView extends GridElementView
 {
-    public TreeTentElement(TreeTentCell cell)
+    public TreeTentElementView(TreeTentCell cell)
     {
         super(cell);
     }
@@ -14,7 +14,7 @@ public class TreeTentElement extends GridElement
     @Override
     public void drawElement(Graphics2D graphics2D)
     {
-        TreeTentCell cell = (TreeTentCell)data;
+        TreeTentCell cell = (TreeTentCell) element;
         TreeTentType type = cell.getType();
         if(type == TreeTentType.UNKNOWN)
         {

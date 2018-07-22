@@ -28,7 +28,7 @@ public class MasyuCellFactory extends ElementFactory
         {
             if(!node.getNodeName().equalsIgnoreCase("cell"))
             {
-                throw new InvalidFileFormatException("Masyu Factory: unknown data element");
+                throw new InvalidFileFormatException("Masyu Factory: unknown element element");
             }
 
             MasyuBoard masyuBoard = (MasyuBoard)board;

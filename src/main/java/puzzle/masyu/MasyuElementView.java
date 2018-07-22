@@ -1,12 +1,12 @@
 package puzzle.masyu;
 
-import ui.boardview.GridElement;
+import ui.boardview.GridElementView;
 
 import java.awt.*;
 
-public class MasyuElement extends GridElement
+public class MasyuElementView extends GridElementView
 {
-    public MasyuElement(MasyuCell masyuCell)
+    public MasyuElementView(MasyuCell masyuCell)
     {
         super(masyuCell);
     }
@@ -14,7 +14,7 @@ public class MasyuElement extends GridElement
     @Override
     public void drawElement(Graphics2D graphics2D)
     {
-        MasyuCell cell = (MasyuCell)data;
+        MasyuCell cell = (MasyuCell) element;
         MasyuType type = cell.getType();
         if(type == MasyuType.UNKNOWN)
         {

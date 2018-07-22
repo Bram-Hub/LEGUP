@@ -32,7 +32,7 @@ public class FillapixCellFactory extends ElementFactory
         {
             if(!node.getNodeName().equalsIgnoreCase("cell"))
             {
-                throw new InvalidFileFormatException("Fillapix Factory: unknown data element");
+                throw new InvalidFileFormatException("Fillapix Factory: unknown element element");
             }
 
             FillapixBoard fillapixBoard = (FillapixBoard) board;

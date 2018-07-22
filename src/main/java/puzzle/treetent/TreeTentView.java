@@ -36,11 +36,11 @@ public class TreeTentView extends GridBoardView
             for(int k = 0; k < gridSize.width; k++)
             {
                 Point location = new Point((k + 1) * elementSize.width, (i + 1) * elementSize.height);
-                TreeTentElement element = new TreeTentElement(new TreeTentCell(0, null));
+                TreeTentElementView element = new TreeTentElementView(new TreeTentCell(0, null));
                 element.setIndex(i * gridSize.width + k);
                 element.setSize(elementSize);
                 element.setLocation(location);
-                puzzleElements.add(element);
+                elementViews.add(element);
             }
         }
 

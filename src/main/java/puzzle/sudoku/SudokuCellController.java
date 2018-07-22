@@ -21,8 +21,8 @@ public class SudokuCellController implements MouseListener
     @Override
     public void mouseClicked(MouseEvent e)
     {
-        SudokuElement cell = (SudokuElement) e.getSource();
-        cell.getData().setValueInt(cell.getData().getValueInt() + 1);
+        SudokuElementView cell = (SudokuElementView) e.getSource();
+        cell.getElement().setValueInt(cell.getElement().getValueInt() + 1);
     }
 
     /**

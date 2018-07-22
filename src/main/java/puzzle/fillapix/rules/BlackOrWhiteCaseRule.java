@@ -1,6 +1,7 @@
 package puzzle.fillapix.rules;
 
 import model.gameboard.Board;
+import model.gameboard.CaseBoard;
 import model.gameboard.ElementData;
 import model.rules.CaseRule;
 import model.tree.TreeTransition;
@@ -17,11 +18,12 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     }
 
     @Override
-    public Board getCaseBoard(Board board) {
-        FillapixBoard caseBoard = (FillapixBoard) board.copy();
-        caseBoard.setCaseRule(this);
-        caseBoard.setModifiable(false);
-        for (ElementData data: caseBoard.getElementData()) {
+    public CaseBoard getCaseBoard(Board board) {
+        FillapixBoard fillapixBoard = (FillapixBoard) board.copy();
+        CaseBoard caseBoard = new CaseBoard(fillapixBoard, this);
+        fillapixBoard.setCaseRule(this);
+        fillapixBoard.setModifiable(false);
+        for (ElementData data: fillapixBoard.getElementData()) {
             if(FillapixCell.isUnknown(data.getValueInt())) {
                 data.setCaseApplicable(true);
             }

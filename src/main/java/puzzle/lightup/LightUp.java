@@ -7,7 +7,7 @@ import model.gameboard.ElementData;
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
 import puzzle.lightup.rules.*;
-import ui.boardview.PuzzleElement;
+import ui.boardview.ElementView;
 
 import java.awt.*;
 
@@ -48,13 +48,13 @@ public class LightUp extends Puzzle
     {
         LightUpBoard board = (LightUpBoard) currentBoard;
         boardView = new LightUpView(new Dimension(board.getWidth(), board.getHeight()));
-        for(PuzzleElement element: boardView.getPuzzleElements())
+        for(ElementView element: boardView.getElementViews())
         {
             int index = element.getIndex();
             LightUpCell cell = (LightUpCell)currentBoard.getElementData(index);
 
             cell.setIndex(index);
-            element.setData(cell);
+            element.setElement(cell);
         }
     }
 
@@ -104,7 +104,7 @@ public class LightUp extends Puzzle
     }
 
     /**
-     * Callback for when the board data changes
+     * Callback for when the board element changes
      *
      * @param board the board that has changed
      */

@@ -30,7 +30,7 @@ public class SudokuCellFactory extends ElementFactory
         {
             if(!node.getNodeName().equalsIgnoreCase("cell"))
             {
-                throw new InvalidFileFormatException("Sudoku Factory: unknown data element");
+                throw new InvalidFileFormatException("Sudoku Factory: unknown element element");
             }
 
             SudokuBoard sudokuBoard = (SudokuBoard)board;

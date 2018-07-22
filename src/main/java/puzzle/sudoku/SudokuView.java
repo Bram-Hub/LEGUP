@@ -2,8 +2,6 @@ package puzzle.sudoku;
 
 import controller.BoardController;
 import controller.ElementController;
-import model.gameboard.Board;
-import model.gameboard.GridBoard;
 import ui.boardview.*;
 
 import javax.swing.*;
@@ -26,11 +24,11 @@ public class SudokuView extends GridBoardView
             {
                 Point location = new Point(k * elementSize.width + (k / minorSize) * 4 + 5,
                         i * elementSize.height + (i / minorSize) * 4 + 5);
-                SudokuElement element = new SudokuElement(new SudokuCell(0, null, 0));
+                SudokuElementView element = new SudokuElementView(new SudokuCell(0, null, 0));
                 element.setIndex(i * gridSize.width + k);
                 element.setSize(elementSize);
                 element.setLocation(location);
-                puzzleElements.add(element);
+                elementViews.add(element);
             }
         }
     }
@@ -61,12 +59,12 @@ public class SudokuView extends GridBoardView
 
         graphics2D.setColor(STROKE_COLOR);
         graphics2D.setStroke(MINOR_STOKE);
-        PuzzleElement hover = null;
+        ElementView hover = null;
         for(int i = 0; i < gridSize.height; i++)
         {
             for(int k = 0; k < gridSize.width; k++)
             {
-                PuzzleElement element = puzzleElements.get(i * gridSize.height + k);
+                ElementView element = elementViews.get(i * gridSize.height + k);
                 if(!element.isHover())
                     element.draw(graphics2D);
                 else
@@ -95,10 +93,10 @@ public class SudokuView extends GridBoardView
         {
             for (int c = 1; c <= 3; c++)
             {
-                SudokuElement element = new SudokuElement(new SudokuCell((r - 1) * 3 + c, null, 0));
+                SudokuElementView element = new SudokuElementView(new SudokuCell((r - 1) * 3 + c, null, 0));
                 element.setSize(new Dimension(32, 32));
                 element.setLocation(new Point(0, 0));
-                SelectionItemView item = new SelectionItemView(element.getData(), new ImageIcon(element.getImage()));
+                SelectionItemView item = new SelectionItemView(element.getElement(), new ImageIcon(element.getImage()));
                 item.addActionListener(elementController);
                 item.setHorizontalTextPosition(SwingConstants.CENTER);
                 selectionView.add(item);

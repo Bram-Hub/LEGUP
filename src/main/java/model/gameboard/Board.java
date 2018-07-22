@@ -23,7 +23,7 @@ public abstract class Board
     }
 
     /**
-     * Board Constructor - creates a board with null data
+     * Board Constructor - creates a board with null element
      *
      * @param size
      */
@@ -112,7 +112,7 @@ public abstract class Board
     }
 
     /**
-     * Gets whether the data of this board has been modified by the user
+     * Gets whether the element of this board has been modified by the user
      *
      * @return true if the board has been modified, false otherwise
      */
@@ -122,9 +122,9 @@ public abstract class Board
     }
 
     /**
-     * Gets the list of modified data of the board
+     * Gets the list of modified element of the board
      *
-     * @return list of modified data of the board
+     * @return list of modified element of the board
      */
     public List<ElementData> getModifiedData()
     {
@@ -132,9 +132,9 @@ public abstract class Board
     }
 
     /**
-     * Adds a data that has been modified to the list
+     * Adds a element that has been modified to the list
      *
-     * @param data data that has been modified
+     * @param data element that has been modified
      */
     public void addModifiedData(ElementData data)
     {
@@ -146,9 +146,9 @@ public abstract class Board
     }
 
     /**
-     * Removes a data that is no longer modified
+     * Removes a element that is no longer modified
      *
-     * @param data data that is no longer modified
+     * @param data element that is no longer modified
      */
     public void removeModifiedData(ElementData data)
     {

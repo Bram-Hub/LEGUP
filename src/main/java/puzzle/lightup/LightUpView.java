@@ -1,19 +1,15 @@
 package puzzle.lightup;
 
 import controller.BoardController;
-import controller.ElementController;
 import model.gameboard.Board;
-import model.gameboard.GridBoard;
+import model.gameboard.CaseBoard;
 import ui.boardview.DataSelectionView;
 import ui.boardview.GridBoardView;
-import ui.boardview.PuzzleElement;
 import ui.boardview.SelectionItemView;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public class LightUpView extends GridBoardView
@@ -29,11 +25,11 @@ public class LightUpView extends GridBoardView
             for(int k = 0; k < gridSize.width; k++)
             {
                 Point location = new Point(k * elementSize.width, i * elementSize.height);
-                LightUpElement element = new LightUpElement(new LightUpCell(-2, null));
+                LightUpElementView element = new LightUpElementView(new LightUpCell(-2, null));
                 element.setIndex(i * gridSize.width + k);
                 element.setSize(elementSize);
                 element.setLocation(location);
-                puzzleElements.add(element);
+                elementViews.add(element);
             }
         }
         try
@@ -49,11 +45,8 @@ public class LightUpView extends GridBoardView
     @Override
     public void onBoardChanged(Board board)
     {
-        LightUpBoard lightUpBoard = (LightUpBoard)board;
-        for(PuzzleElement element: puzzleElements)
-        {
-            element.setData(lightUpBoard.getElementData(element.getIndex()));
-        }
+        setBoard(board);
+        LightUpBoard lightUpBoard = board instanceof CaseBoard ? (LightUpBoard)((CaseBoard)board).getBaseBoard() : (LightUpBoard)board;
         lightUpBoard.fillWithLight();
         repaint();
     }
@@ -67,26 +60,26 @@ public class LightUpView extends GridBoardView
         Dimension iconSize = new Dimension(32,32);
         Point loc = new Point(0,0);
 
-        LightUpElement element1 = new LightUpElement(new LightUpCell(-2, null));
+        LightUpElementView element1 = new LightUpElementView(new LightUpCell(-2, null));
         element1.setSize(iconSize);
         element1.setLocation(loc);
-        SelectionItemView item1 = new SelectionItemView(element1.getData(), new ImageIcon(element1.getImage()));
+        SelectionItemView item1 = new SelectionItemView(element1.getElement(), new ImageIcon(element1.getImage()));
         item1.addActionListener(elementController);
         item1.setHorizontalTextPosition(SwingConstants.CENTER);
         selectionView.add(item1);
 
-        LightUpElement element2 = new LightUpElement(new LightUpCell(-4, null));
+        LightUpElementView element2 = new LightUpElementView(new LightUpCell(-4, null));
         element2.setSize(iconSize);
         element2.setLocation(loc);
-        SelectionItemView item2 = new SelectionItemView(element2.getData(), new ImageIcon(element2.getImage()));
+        SelectionItemView item2 = new SelectionItemView(element2.getElement(), new ImageIcon(element2.getImage()));
         item2.addActionListener(elementController);
         item2.setHorizontalTextPosition(SwingConstants.CENTER);
         selectionView.add(item2);
 
-        LightUpElement element3 = new LightUpElement(new LightUpCell(-3, null));
+        LightUpElementView element3 = new LightUpElementView(new LightUpCell(-3, null));
         element3.setSize(iconSize);
         element3.setLocation(loc);
-        SelectionItemView item3 = new SelectionItemView(element3.getData(), new ImageIcon(element3.getImage()));
+        SelectionItemView item3 = new SelectionItemView(element3.getElement(), new ImageIcon(element3.getImage()));
         item3.addActionListener(elementController);
         item3.setHorizontalTextPosition(SwingConstants.CENTER);
         selectionView.add(item3);

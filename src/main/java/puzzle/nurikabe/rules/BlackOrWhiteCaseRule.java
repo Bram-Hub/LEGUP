@@ -1,6 +1,7 @@
 package puzzle.nurikabe.rules;
 
 import model.gameboard.Board;
+import model.gameboard.CaseBoard;
 import model.gameboard.ElementData;
 import model.rules.CaseRule;
 import model.tree.TreeTransition;
@@ -19,12 +20,13 @@ public class BlackOrWhiteCaseRule extends CaseRule
     }
 
     @Override
-    public Board getCaseBoard(Board board)
+    public CaseBoard getCaseBoard(Board board)
     {
-        NurikabeBoard caseBoard = (NurikabeBoard) board.copy();
-        caseBoard.setCaseRule(this);
-        caseBoard.setModifiable(false);
-        for(ElementData data: caseBoard.getElementData())
+        NurikabeBoard nurikabeBoard = (NurikabeBoard) board.copy();
+        CaseBoard caseBoard = new CaseBoard(nurikabeBoard, this);
+        nurikabeBoard.setCaseRule(this);
+        nurikabeBoard.setModifiable(false);
+        for(ElementData data: nurikabeBoard.getElementData())
         {
             if(((NurikabeCell)data).getType() == NurikabeType.UNKNOWN)
             {

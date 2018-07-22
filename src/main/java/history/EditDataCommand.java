@@ -6,7 +6,7 @@ import model.gameboard.ElementData;
 import model.observer.ITreeListener;
 import model.tree.*;
 import ui.boardview.BoardView;
-import ui.boardview.PuzzleElement;
+import ui.boardview.ElementView;
 import ui.treeview.*;
 
 import java.awt.event.MouseEvent;
@@ -20,7 +20,7 @@ public class EditDataCommand extends PuzzleCommand
     private ElementData saveData;
     private ElementData data;
 
-    private PuzzleElement elementView;
+    private ElementView elementView;
     private TreeViewSelection selection;
     private TreeElementView newSelectedView;
     private MouseEvent event;
@@ -32,7 +32,7 @@ public class EditDataCommand extends PuzzleCommand
      * @param selection currently selected tree element views that is being edited
      * @param event mouse event
      */
-    public EditDataCommand(PuzzleElement elementView, TreeViewSelection selection, MouseEvent event)
+    public EditDataCommand(ElementView elementView, TreeViewSelection selection, MouseEvent event)
     {
         this.elementView = elementView;
         this.selection = selection;

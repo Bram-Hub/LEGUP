@@ -13,9 +13,9 @@ public interface IBoardListener
     void onBoardChanged(Board board);
 
     /**
-     * Called when the board data changed
+     * Called when the board element changed
      *
-     * @param data data of the element that changed
+     * @param data element of the element that changed
      */
     void onBoardDataChanged(ElementData data);
 }

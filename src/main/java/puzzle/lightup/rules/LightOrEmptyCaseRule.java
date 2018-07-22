@@ -1,6 +1,7 @@
 package puzzle.lightup.rules;
 
 import model.gameboard.Board;
+import model.gameboard.CaseBoard;
 import model.gameboard.ElementData;
 import model.rules.CaseRule;
 import model.rules.RegisterRule;
@@ -24,16 +25,16 @@ public class LightOrEmptyCaseRule extends CaseRule
     }
 
     @Override
-    public Board getCaseBoard(Board board)
+    public CaseBoard getCaseBoard(Board board)
     {
-        LightUpBoard caseBoard = (LightUpBoard) board.copy();
-        caseBoard.setCaseRule(this);
-        caseBoard.setModifiable(false);
-        for(ElementData data: caseBoard.getElementData())
+        LightUpBoard lightUpBoard = (LightUpBoard) board.copy();
+        lightUpBoard.setModifiable(false);
+        CaseBoard caseBoard = new CaseBoard(lightUpBoard, this);
+        for(ElementData data: lightUpBoard.getElementData())
         {
             if(((LightUpCell)data).getType() == LightUpCellType.UNKNOWN)
             {
-                data.setCaseApplicable(true);
+                caseBoard.addPickableElement(data);
             }
         }
         return caseBoard;

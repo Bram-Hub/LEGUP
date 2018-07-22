@@ -1,11 +1,11 @@
 package puzzle.fillapix;
 
 import model.gameboard.GridCell;
-import ui.boardview.GridElement;
+import ui.boardview.GridElementView;
 
 import java.awt.*;
 
-public class FillapixElement extends GridElement
+public class FillapixElementView extends GridElementView
 {
     private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
     private static final Color FONT_COLOR = Color.BLACK;
@@ -13,10 +13,10 @@ public class FillapixElement extends GridElement
     private static final Color BORDER_COLOR = Color.BLACK;
     public static FillapixCell fillapixCell;
 
-    public FillapixElement(GridCell cell)
+    public FillapixElementView(GridCell cell)
     {
         super(cell);
-        fillapixCell = (FillapixCell) data;
+        fillapixCell = (FillapixCell) element;
     }
 
     /**
@@ -27,7 +27,7 @@ public class FillapixElement extends GridElement
     @Override
     public void drawElement(Graphics2D graphics2D)
     {
-        FillapixCell cell = new FillapixCell(data.getValueInt(), location);
+        FillapixCell cell = new FillapixCell(element.getValueInt(), location);
 
         Color cellColor = null;
         Color textColor = FONT_COLOR;
@@ -69,7 +69,7 @@ public class FillapixElement extends GridElement
             graphics2D.drawRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
         }
 
-        if(data.isModified())
+        if(element.isModified())
         {
             graphics2D.setStroke(new BasicStroke(2));
             graphics2D.setColor(Color.GREEN);

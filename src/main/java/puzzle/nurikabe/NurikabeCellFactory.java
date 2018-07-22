@@ -28,7 +28,7 @@ public class NurikabeCellFactory extends ElementFactory
         {
             if(!node.getNodeName().equalsIgnoreCase("cell"))
             {
-                throw new InvalidFileFormatException("nurikabe Factory: unknown data element");
+                throw new InvalidFileFormatException("nurikabe Factory: unknown element element");
             }
 
             NurikabeBoard nurikabeBoard = (NurikabeBoard)board;

@@ -66,7 +66,7 @@ public class TreeTentCellFactory extends ElementFactory
             }
             else
             {
-                throw new InvalidFileFormatException("TreeTent Factory: unknown data element");
+                throw new InvalidFileFormatException("TreeTent Factory: unknown element element");
             }
         }
         catch(NumberFormatException e)

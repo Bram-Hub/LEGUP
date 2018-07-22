@@ -1,6 +1,7 @@
 package puzzle.sudoku.rules;
 
 import model.gameboard.Board;
+import model.gameboard.CaseBoard;
 import model.gameboard.ElementData;
 import model.rules.CaseRule;
 import model.tree.TreeTransition;
@@ -78,14 +79,15 @@ public class PossibleCellCaseRule extends CaseRule
     }
 
     @Override
-    public Board getCaseBoard(Board board)
+    public CaseBoard getCaseBoard(Board board)
     {
         SudokuBoard sudokuBoard = (SudokuBoard) board.copy();
+        CaseBoard caseBoard = new CaseBoard(sudokuBoard, this);
         for(ElementData data : sudokuBoard.getElementData())
         {
 
         }
-        return sudokuBoard;
+        return caseBoard;
     }
 
     /**

@@ -1,25 +1,19 @@
 package controller;
 
 import app.GameBoardFacade;
-import model.Puzzle;
+import history.CaseRuleCommand;
 import model.gameboard.Board;
 import model.gameboard.ElementData;
-import model.observer.ITreeListener;
-import model.rules.CaseRule;
 import model.tree.Tree;
-import model.tree.TreeElementType;
-import model.tree.TreeNode;
-import model.tree.TreeTransition;
 import ui.boardview.BoardView;
 import ui.boardview.ElementSelection;
-import ui.boardview.PuzzleElement;
+import ui.boardview.ElementView;
 import ui.boardview.SelectionItemView;
 import ui.treeview.*;
 import history.ICommand;
 import history.EditDataCommand;
 
 import java.awt.event.*;
-import java.util.ArrayList;
 
 import static app.GameBoardFacade.*;
 
@@ -29,7 +23,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
 
     /**
      * ElementController - element controller to handles ui events
-     * associated interacting with a PuzzleElement
+     * associated interacting with a ElementView
      */
     public ElementController()
     {
@@ -72,40 +66,26 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     @Override
     public void mouseReleased(MouseEvent e)
     {
-        Board board = getInstance().getBoard();
-        Tree tree = getInstance().getTree();
-        TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
+        TreePanel treePanel = GameBoardFacade.getInstance().getLegupUI().getTreePanel();
+        TreeView treeView = treePanel.getTreeView();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
-        PuzzleElement elementView = boardView.getElement(e.getPoint());
+        Board board = boardView.getBoard();
+        ElementView elementView = boardView.getElement(e.getPoint());
         TreeViewSelection selection = treeView.getSelection();
-        TreeElementView selectedView = selection.getFirstSelection();
-        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
         if(elementView != null)
         {
             if(board.getCaseRule() != null)
             {
-                if(selectedView.getType() == TreeElementType.NODE)
+                CaseRuleCommand caseRuleCommand = new CaseRuleCommand(elementView, selection, board.getCaseRule());
+                if(caseRuleCommand.canExecute())
                 {
-                    TreeNodeView nodeView = (TreeNodeView)selectedView;
-                    TreeNode node = nodeView.getTreeElement();
-                    CaseRule caseRule = board.getCaseRule();
-                    ArrayList<Board> cases = caseRule.getCases(board, elementView.getIndex());
-                    for(Board b: cases)
-                    {
-                        TreeTransition transition = tree.addNewTransition(node);
-                        b.setModifiable(false);
-                        transition.setBoard(b);
-                        transition.setRule(caseRule);
-
-                        puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(transition));
-
-                        TreeNode n = tree.addNode(transition);
-                        puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(n));
-                    }
-                    selection.newSelection(nodeView.getChildrenViews().get(0).getChildView());
-                    getInstance().getPuzzleModule().setCurrentBoard(node.getChildren().get(0).getBoard());
-                    puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
+                    caseRuleCommand.execute();
+                    getInstance().getHistory().pushChange(caseRuleCommand);
+                }
+                else
+                {
+                    treePanel.updateError(caseRuleCommand.getExecutionError());
                 }
             }
             else
@@ -115,6 +95,10 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                 {
                     edit.execute();
                     getInstance().getHistory().pushChange(edit);
+                }
+                else
+                {
+                    treePanel.updateError(edit.getExecutionError());
                 }
             }
         }
@@ -128,9 +112,8 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     @Override
     public void mouseEntered(MouseEvent e)
     {
-        Puzzle puzzle = getInstance().getPuzzleModule();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
-        PuzzleElement element = boardView.getElement(e.getPoint());
+        ElementView element = boardView.getElement(e.getPoint());
         ElementSelection selection = boardView.getSelection();
         if(element != null)
         {
@@ -149,7 +132,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     public void mouseExited(MouseEvent e)
     {
         BoardView view = getInstance().getLegupUI().getBoardView();
-        PuzzleElement element = view.getElement(e.getPoint());
+        ElementView element = view.getElement(e.getPoint());
         if(element != null)
         {
             view.getSelection().clearHover();
@@ -167,7 +150,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     public void mouseMoved(MouseEvent e)
     {
         BoardView boardView = getInstance().getLegupUI().getBoardView();
-        PuzzleElement element = boardView.getElement(e.getPoint());
+        ElementView element = boardView.getElement(e.getPoint());
         ElementSelection selection = boardView.getSelection();
         if(element != null && element != selection.getHover())
         {
@@ -185,8 +168,8 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     public void actionPerformed(ActionEvent e)
     {
         BoardView boardView = getInstance().getLegupUI().getBoardView();
-        PuzzleElement selectedElement = boardView.getSelection().getFirstSelection();
-        ElementData data = selectedElement.getData();
+        ElementView selectedElement = boardView.getSelection().getFirstSelection();
+        ElementData data = selectedElement.getElement();
         int index = selectedElement.getIndex();
 
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();

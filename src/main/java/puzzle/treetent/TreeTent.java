@@ -2,24 +2,8 @@ package puzzle.treetent;
 
 import model.Puzzle;
 import model.gameboard.Board;
-import model.gameboard.ElementData;
-import model.tree.Tree;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 import puzzle.treetent.rules.*;
-import ui.boardview.PuzzleElement;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.awt.*;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
+import ui.boardview.ElementView;
 
 public class TreeTent extends Puzzle
 {
@@ -63,13 +47,13 @@ public class TreeTent extends Puzzle
         TreeTentBoard board = (TreeTentBoard)currentBoard;
         TreeTentView view = new TreeTentView(board.getDimension());
         boardView = view;
-        for(PuzzleElement element: boardView.getPuzzleElements())
+        for(ElementView element: boardView.getElementViews())
         {
             int index = element.getIndex();
             TreeTentCell cell = (TreeTentCell)board.getElementData(index);
 
             cell.setIndex(index);
-            element.setData(cell);
+            element.setElement(cell);
         }
 
         for(TreeTentLine line : board.getLines())
@@ -84,8 +68,8 @@ public class TreeTent extends Puzzle
             TreeTentClueView row = view.getWestClues().get(i);
             TreeTentClueView clue = view.getEastClues().get(i);
 
-            row.setData(new TreeTentClue(i, i, TreeTentType.CLUE_WEST));
-            clue.setData(board.getEast().get(i));
+            row.setElement(new TreeTentClue(i, i, TreeTentType.CLUE_WEST));
+            clue.setElement(board.getEast().get(i));
         }
 
         for(int i = 0; i < board.getWidth(); i++)
@@ -93,8 +77,8 @@ public class TreeTent extends Puzzle
             TreeTentClueView col = view.getNorthClues().get(i);
             TreeTentClueView clue = view.getSouthClues().get(i);
 
-            col.setData(new TreeTentClue(i, i, TreeTentType.CLUE_NORTH));
-            clue.setData(board.getSouth().get(i));
+            col.setElement(new TreeTentClue(i, i, TreeTentType.CLUE_NORTH));
+            clue.setElement(board.getSouth().get(i));
         }
     }
 
@@ -125,7 +109,7 @@ public class TreeTent extends Puzzle
     }
 
     /**
-     * Callback for when the board data changes
+     * Callback for when the board element changes
      *
      * @param board the board that has changed
      */

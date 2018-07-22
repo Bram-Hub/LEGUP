@@ -1,17 +1,17 @@
 package puzzle.sudoku;
 
 import model.gameboard.GridCell;
-import ui.boardview.GridElement;
+import ui.boardview.GridElementView;
 
 import java.awt.*;
 
-public class SudokuElement extends GridElement
+public class SudokuElementView extends GridElementView
 {
     private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
     private static final Color FONT_COLOR = Color.BLACK;
     private static final Color BORDER_COLOR = Color.BLACK;
 
-    public SudokuElement(GridCell cell)
+    public SudokuElementView(GridCell cell)
     {
         super(cell);
     }
@@ -23,7 +23,7 @@ public class SudokuElement extends GridElement
      */
     public void draw(Graphics2D graphics2D)
     {
-        SudokuCell cell = (SudokuCell)data;
+        SudokuCell cell = (SudokuCell) element;
         if(cell.isGiven())
         {
             graphics2D.setColor(new Color(200,200,200));
@@ -36,7 +36,7 @@ public class SudokuElement extends GridElement
             graphics2D.setStroke(new BasicStroke(2));
             graphics2D.drawRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
         }
-        if(data.isModified())
+        if(element.isModified())
         {
             graphics2D.setStroke(new BasicStroke(2));
             graphics2D.setColor(Color.GREEN);
@@ -47,15 +47,15 @@ public class SudokuElement extends GridElement
         graphics2D.setColor(Color.BLACK);
         graphics2D.drawRect(location.x, location.y, size.width, size.height);
 
-        if(data.getValueInt() != 0)
+        if(element.getValueInt() != 0)
         {
             graphics2D.setColor(FONT_COLOR);
             graphics2D.setFont(FONT);
             FontMetrics metrics = graphics2D.getFontMetrics(FONT);
-            String value = String.valueOf(data.getValueInt());
+            String value = String.valueOf(element.getValueInt());
             int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-            graphics2D.drawString(String.valueOf(data.getValueInt()), xText, yText);
+            graphics2D.drawString(String.valueOf(element.getValueInt()), xText, yText);
         }
     }
 
@@ -68,15 +68,15 @@ public class SudokuElement extends GridElement
         graphics2D.setColor(Color.BLACK);
         graphics2D.drawRect(location.x, location.y, size.width, size.height);
 
-        if(data.getValueInt() != 0)
+        if(element.getValueInt() != 0)
         {
             graphics2D.setColor(FONT_COLOR);
             graphics2D.setFont(FONT);
             FontMetrics metrics = graphics2D.getFontMetrics(FONT);
-            String value = String.valueOf(data.getValueInt());
+            String value = String.valueOf(element.getValueInt());
             int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-            graphics2D.drawString(String.valueOf(data.getValueInt()), xText, yText);
+            graphics2D.drawString(String.valueOf(element.getValueInt()), xText, yText);
         }
     }
 }

@@ -28,7 +28,7 @@ public class LightUpCellFactory extends ElementFactory
         {
             if(!node.getNodeName().equalsIgnoreCase("cell"))
             {
-                throw new InvalidFileFormatException("lightup Factory: unknown data element");
+                throw new InvalidFileFormatException("lightup Factory: unknown element element");
             }
 
             LightUpBoard lightUpBoard = (LightUpBoard)board;

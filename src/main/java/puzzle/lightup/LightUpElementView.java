@@ -1,16 +1,16 @@
 package puzzle.lightup;
 
-import ui.boardview.GridElement;
+import ui.boardview.GridElementView;
 
 import java.awt.*;
 
-public class LightUpElement extends GridElement
+public class LightUpElementView extends GridElementView
 {
     private static final Color LITE = new Color(255,255,0,63);
     private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
     private static final Color FONT_COLOR = Color.WHITE;
 
-    public LightUpElement(LightUpCell cell)
+    public LightUpElementView(LightUpCell cell)
     {
         super(cell);
     }
@@ -18,7 +18,7 @@ public class LightUpElement extends GridElement
     @Override
     public void drawElement(Graphics2D graphics2D)
     {
-        LightUpCell cell = (LightUpCell)data;
+        LightUpCell cell = (LightUpCell) element;
         LightUpCellType type = cell.getType();
         if(type == LightUpCellType.NUMBER)
         {
@@ -29,10 +29,10 @@ public class LightUpElement extends GridElement
             graphics2D.setColor(FONT_COLOR);
             graphics2D.setFont(FONT);
             FontMetrics metrics = graphics2D.getFontMetrics(FONT);
-            String value = String.valueOf(data.getValueInt());
+            String value = String.valueOf(element.getValueInt());
             int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-            graphics2D.drawString(String.valueOf(data.getValueInt()), xText, yText);
+            graphics2D.drawString(String.valueOf(element.getValueInt()), xText, yText);
         }
         else if(type == LightUpCellType.BLACK)
         {

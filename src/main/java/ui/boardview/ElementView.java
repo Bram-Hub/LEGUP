@@ -10,28 +10,29 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-public abstract class PuzzleElement implements Shape
+public abstract class ElementView implements Shape
 {
     protected int index;
     protected Point location;
     protected Dimension size;
-    protected ElementData data;
+    protected ElementData element;
     private Color highLightColor;
     private Color hoverColor;
     private Color modifiedColor;
     private Color caseColor;
+    private boolean showCasePicker;
     private boolean isCaseRulePickable;
     private boolean isHover;
     private boolean isSelected;
 
     /**
-     * PuzzleElement Constructor - creates a puzzle element view
+     * ElementView Constructor - creates a puzzle element view
      *
-     * @param data element data to which the puzzle element uses to draw
+     * @param element element element to which the puzzle element uses to draw
      */
-    public PuzzleElement(ElementData data)
+    public ElementView(ElementData element)
     {
-        this.data = data;
+        this.element = element;
         this.highLightColor = new Color(0,0,128,255);
         this.hoverColor = new Color(0,0,255,255);
         this.modifiedColor = new Color(0, 255,0,255);
@@ -42,10 +43,10 @@ public abstract class PuzzleElement implements Shape
     }
 
     /**
-     * Determines if the specified point is within the PuzzleElement
+     * Determines if the specified point is within the ElementView
      *
      * @param point point to check
-     * @return true if the point is within the PuzzleElement, false otherwise
+     * @return true if the point is within the ElementView, false otherwise
      */
     public boolean isWithinBounds(Point point)
     {
@@ -61,15 +62,15 @@ public abstract class PuzzleElement implements Shape
     public void draw(Graphics2D graphics2D)
     {
         drawElement(graphics2D);
-        if(data.isGiven())
+        if(element.isGiven())
         {
             drawGiven(graphics2D);
         }
-        if(data.isModified())
+        if(element.isModified())
         {
             drawModified(graphics2D);
         }
-        if(data.isCaseApplicable())
+        if(showCasePicker && isCaseRulePickable)
         {
             drawCase(graphics2D);
         }
@@ -87,10 +88,10 @@ public abstract class PuzzleElement implements Shape
 
         graphics2D.setColor(Color.BLACK);
         FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
-        String value = String.valueOf(data.getValueInt());
+        String value = String.valueOf(element.getValueInt());
         int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
         int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-        graphics2D.drawString(String.valueOf(data.getValueInt()), xText, yText);
+        graphics2D.drawString(String.valueOf(element.getValueInt()), xText, yText);
     }
 
     public void drawGiven(Graphics2D graphics2D)
@@ -128,9 +129,9 @@ public abstract class PuzzleElement implements Shape
     }
 
     /**
-     * Gets the index of the PuzzleElement
+     * Gets the index of the ElementView
      *
-     * @return index of the PuzzleElement
+     * @return index of the ElementView
      */
     public int getIndex()
     {
@@ -138,9 +139,9 @@ public abstract class PuzzleElement implements Shape
     }
 
     /**
-     * Sets the index of the PuzzleElement
+     * Sets the index of the ElementView
      *
-     * @param index index of the PuzzleElement
+     * @param index index of the ElementView
      */
     public void setIndex(int index)
     {
@@ -148,9 +149,9 @@ public abstract class PuzzleElement implements Shape
     }
 
     /**
-     * Gets the location of the PuzzleElement
+     * Gets the location of the ElementView
      *
-     * @return location of the PuzzleElement
+     * @return location of the ElementView
      */
     public Point getLocation()
     {
@@ -158,9 +159,9 @@ public abstract class PuzzleElement implements Shape
     }
 
     /**
-     * Sets the location of the PuzzleElement
+     * Sets the location of the ElementView
      *
-     * @param location location of the PuzzleElement
+     * @param location location of the ElementView
      */
     public void setLocation(Point location)
     {
@@ -168,9 +169,9 @@ public abstract class PuzzleElement implements Shape
     }
 
     /**
-     * Gets the dimension of the PuzzleElement
+     * Gets the dimension of the ElementView
      *
-     * @return dimension of the PuzzleElement
+     * @return dimension of the ElementView
      */
     public Dimension getSize()
     {
@@ -178,9 +179,9 @@ public abstract class PuzzleElement implements Shape
     }
 
     /**
-     * Sets the dimension of the PuzzleElement
+     * Sets the dimension of the ElementView
      *
-     * @param size dimension of the PuzzleElement
+     * @param size dimension of the ElementView
      */
     public void setSize(Dimension size)
     {
@@ -192,9 +193,9 @@ public abstract class PuzzleElement implements Shape
      *
      * @return ElementData associated with this view
      */
-    public ElementData getData()
+    public ElementData getElement()
     {
-        return data;
+        return element;
     }
 
     /**
@@ -202,17 +203,27 @@ public abstract class PuzzleElement implements Shape
      *
      * @param data ElementData associated with this view
      */
-    public void setData(ElementData data)
+    public void setElement(ElementData data)
     {
-        this.data = data;
+        this.element = data;
+    }
+
+    public boolean isShowCasePicker()
+    {
+        return showCasePicker;
+    }
+
+    public void setShowCasePicker(boolean showCasePicker)
+    {
+        this.showCasePicker = showCasePicker;
     }
 
     /**
-     * Gets the isCaseRulePickable field to determine if this PuzzleElement
+     * Gets the isCaseRulePickable field to determine if this ElementView
      * should be highlighted in some way to indicate if it can be chosen by
      * the CaseRule
      *
-     * @return true if the PuzzleElement can be chosen for the CaseRule, false otherwise
+     * @return true if the ElementView can be chosen for the CaseRule, false otherwise
      */
     public boolean isCaseRulePickable()
     {
@@ -220,11 +231,11 @@ public abstract class PuzzleElement implements Shape
     }
 
     /**
-     * Sets the isCaseRulePickable field to determine if this PuzzleElement
+     * Sets the isCaseRulePickable field to determine if this ElementView
      * should be highlighted in some way to indicate if it can be chosen by
      * the CaseRule
      *
-     * @param isCaseRulePickable true if the PuzzleElement can be chosen for the CaseRule, false otherwise
+     * @param isCaseRulePickable true if the ElementView can be chosen for the CaseRule, false otherwise
      */
     public void setCaseRulePickable(boolean isCaseRulePickable)
     {
@@ -293,7 +304,7 @@ public abstract class PuzzleElement implements Shape
 
     public JMenuItem getSelectionMenuItem()
     {
-        JMenuItem item = new JMenuItem(data.getValueInt() + "");
+        JMenuItem item = new JMenuItem(element.getValueInt() + "");
         return item;
     }
 

@@ -178,7 +178,7 @@ public abstract class PuzzleImporter
     }
 
     /**
-     * Sets the data from the xml document node
+     * Sets the element from the xml document node
      *
      * @param node xml document node
      */

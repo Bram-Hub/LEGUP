@@ -10,7 +10,7 @@ import model.tree.TreeElementType;
 import model.tree.TreeNode;
 import model.tree.TreeTransition;
 import ui.boardview.BoardView;
-import ui.boardview.PuzzleElement;
+import ui.boardview.ElementView;
 import ui.treeview.*;
 import history.PuzzleCommand;
 
@@ -24,14 +24,14 @@ public class EditLineCommand extends PuzzleCommand
     private ElementData oldData;
     private ElementData newData;
 
-    private PuzzleElement elementView;
+    private ElementView elementView;
     private TreeElementView selectedView;
     private TreeElementView newSelectedView;
     private MouseEvent event;
 
     private TreeTransitionView transitionView;
 
-    public EditLineCommand(PuzzleElement elementView, TreeElementView selectedView, MouseEvent event, TreeTentLine line)
+    public EditLineCommand(ElementView elementView, TreeElementView selectedView, MouseEvent event, TreeTentLine line)
     {
         this.elementView = elementView;
         this.selectedView = selectedView;

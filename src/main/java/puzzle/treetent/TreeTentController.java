@@ -15,8 +15,8 @@ import static app.GameBoardFacade.getInstance;
 public class TreeTentController extends ElementController
 {
 
-    private TreeTentElement lastCellPressed;
-    private TreeTentElement dragStart;
+    private TreeTentElementView lastCellPressed;
+    private TreeTentElementView dragStart;
     public TreeTentController()
     {
         super();
@@ -31,8 +31,8 @@ public class TreeTentController extends ElementController
         Tree tree = getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
-        dragStart = (TreeTentElement) boardView.getElement(e.getPoint());
-        lastCellPressed = (TreeTentElement) boardView.getElement(e.getPoint());
+        dragStart = (TreeTentElementView) boardView.getElement(e.getPoint());
+        lastCellPressed = (TreeTentElementView) boardView.getElement(e.getPoint());
     }
 
     @Override
@@ -42,10 +42,10 @@ public class TreeTentController extends ElementController
 //        Tree tree = getInstance().getTree();
 //        TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
 //        BoardView boardView = getInstance().getLegupUI().getBoardView();
-//        TreeTentElement element = (TreeTentElement) boardView.getElement(e.getPoint());
+//        TreeTentElementView element = (TreeTentElementView) boardView.getElement(e.getPoint());
 //        if(lastCellPressed != null && element != null)
 //        {
-//            TreeTentLine line = new TreeTentLine((TreeTentCell) lastCellPressed.getData(), (TreeTentCell) element.getData());
+//            TreeTentLine line = new TreeTentLine((TreeTentCell) lastCellPressed.getElement(), (TreeTentCell) element.getElement());
 //            board.getLines().add(line);
 //            board.getModifiedData().add(line);
 //            boardView.updateBoard(board);
@@ -55,14 +55,14 @@ public class TreeTentController extends ElementController
     @Override
     public void mouseReleased(MouseEvent e)
     {
-        TreeTentElement dragEnd = (TreeTentElement) boardView.getElement(e.getPoint());
+        TreeTentElementView dragEnd = (TreeTentElementView) boardView.getElement(e.getPoint());
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         TreeTentBoard board = (TreeTentBoard)getInstance().getBoard();
-        TreeTentElement element = (TreeTentElement) boardView.getElement(e.getPoint());
+        TreeTentElementView element = (TreeTentElementView) boardView.getElement(e.getPoint());
         if(lastCellPressed != null && element != null)
         {
-            TreeTentLine line = new TreeTentLine((TreeTentCell) lastCellPressed.getData(), (TreeTentCell) element.getData());
+            TreeTentLine line = new TreeTentLine((TreeTentCell) lastCellPressed.getElement(), (TreeTentCell) element.getElement());
             board.getLines().add(line);
             board.getModifiedData().add(line);
             boardView.onBoardChanged(board);

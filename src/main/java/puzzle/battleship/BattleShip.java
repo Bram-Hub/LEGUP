@@ -2,21 +2,9 @@ package puzzle.battleship;
 
 import model.Puzzle;
 import model.gameboard.Board;
-import model.gameboard.ElementData;
-import model.tree.Tree;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-import ui.boardview.PuzzleElement;
+import ui.boardview.ElementView;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 
 public class BattleShip extends Puzzle
 {
@@ -39,13 +27,13 @@ public class BattleShip extends Puzzle
     {
         BattleShipBoard board = (BattleShipBoard) currentBoard;
         boardView = new BattleShipView(new Dimension(board.getWidth(), board.getHeight()));
-        for(PuzzleElement element : boardView.getPuzzleElements())
+        for(ElementView element : boardView.getElementViews())
         {
             int index = element.getIndex();
             BattleShipCell cell = (BattleShipCell) currentBoard.getElementData(index);
 
             cell.setIndex(index);
-            element.setData(cell);
+            element.setElement(cell);
         }
     }
 

@@ -1,6 +1,7 @@
 package puzzle.treetent.rules;
 
 import model.gameboard.Board;
+import model.gameboard.CaseBoard;
 import model.rules.CaseRule;
 import model.tree.TreeTransition;
 
@@ -15,7 +16,7 @@ public class FillinRowCaseRule extends CaseRule
     }
 
     @Override
-    public Board getCaseBoard(Board board)
+    public CaseBoard getCaseBoard(Board board)
     {
         return null;
     }

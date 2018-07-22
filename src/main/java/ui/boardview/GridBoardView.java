@@ -2,12 +2,9 @@ package ui.boardview;
 
 import controller.BoardController;
 import controller.ElementController;
-import model.gameboard.Board;
-import model.gameboard.GridBoard;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 import java.awt.Point;
 
 public class GridBoardView extends BoardView
@@ -43,36 +40,36 @@ public class GridBoardView extends BoardView
     }
 
     /**
-     * Gets the GridElement from the element index or
+     * Gets the GridElementView from the element index or
      * null if out of bounds
      *
-     * @param index index of the PuzzleElement
-     * @return GridElement at the specified index
+     * @param index index of the ElementView
+     * @return GridElementView at the specified index
      */
-    public GridElement getElement(int index)
+    public GridElementView getElement(int index)
     {
-        if(index < puzzleElements.size())
+        if(index < elementViews.size())
         {
-            return (GridElement)puzzleElements.get(index);
+            return (GridElementView) elementViews.get(index);
         }
         return null;
     }
 
     /**
-     * Gets the GridElement from the location specified or
+     * Gets the GridElementView from the location specified or
      * null if one does not exists at that location
      *
      * @param point location on the viewport
-     * @return GridElement at the specified location
+     * @return GridElementView at the specified location
      */
-    public GridElement getElement(Point point)
+    public GridElementView getElement(Point point)
     {
         Point scaledPoint = new Point((int)Math.round(point.x / getScale()), (int)Math.round(point.y / getScale()));
-        for(PuzzleElement element: puzzleElements)
+        for(ElementView element: elementViews)
         {
             if(element.isWithinBounds(scaledPoint))
             {
-                return (GridElement) element;
+                return (GridElementView) element;
             }
         }
         return null;
@@ -99,21 +96,6 @@ public class GridBoardView extends BoardView
         boardViewSize.width = gridSize.width * elementSize.width;
         boardViewSize.height = gridSize.height * elementSize.height;
         return boardViewSize;
-    }
-
-    /**
-     * Board Data changed
-     *
-     * @param board board to update the BoardView
-     */
-    public void onBoardChanged(Board board)
-    {
-        GridBoard gridBoard = (GridBoard)board;
-        for(PuzzleElement element: puzzleElements)
-        {
-            element.setData(gridBoard.getElementData(element.getIndex()));
-        }
-        repaint();
     }
 
     public DataSelectionView getSelectionPopupMenu()

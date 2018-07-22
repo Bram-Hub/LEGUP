@@ -271,7 +271,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
     /**
      * Gets the color of a collapsed tree node.
      * This function must be called before the game board collapsing takes place,
-     * otherwise transition data will be hidden
+     * otherwise transition element will be hidden
      *
      * @param treeNode collapsed tree node
      */

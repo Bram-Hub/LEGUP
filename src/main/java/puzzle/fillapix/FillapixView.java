@@ -2,9 +2,8 @@ package puzzle.fillapix;
 
 import controller.BoardController;
 import model.gameboard.Board;
-import model.gameboard.GridBoard;
+import ui.boardview.ElementView;
 import ui.boardview.GridBoardView;
-import ui.boardview.PuzzleElement;
 
 import java.awt.*;
 
@@ -19,11 +18,11 @@ public class FillapixView extends GridBoardView
             for(int j = 0; j < gridSize.width; j++)
             {
                 Point location = new Point(j * elementSize.width, i * elementSize.height);
-                FillapixElement element = new FillapixElement(new FillapixCell(-2, null));
+                FillapixElementView element = new FillapixElementView(new FillapixCell(-2, null));
                 element.setIndex(i * gridSize.width + j);
                 element.setSize(elementSize);
                 element.setLocation(location);
-                puzzleElements.add(element);
+                elementViews.add(element);
             }
         }
     }
@@ -36,9 +35,9 @@ public class FillapixView extends GridBoardView
     public void onBoardChanged(Board board)
     {
         FillapixBoard fillapixBoard = (FillapixBoard) board;
-        for(PuzzleElement element : puzzleElements)
+        for(ElementView element : elementViews)
         {
-            element.setData(fillapixBoard.getElementData(element.getIndex()));
+            element.setElement(fillapixBoard.getElementData(element.getIndex()));
         }
         repaint();
     }

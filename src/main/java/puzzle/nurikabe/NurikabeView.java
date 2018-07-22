@@ -1,7 +1,6 @@
 package puzzle.nurikabe;
 
 import controller.BoardController;
-import controller.ElementController;
 import ui.boardview.GridBoardView;
 
 import java.awt.*;
@@ -18,11 +17,11 @@ public class NurikabeView extends GridBoardView
             for(int k = 0; k < gridSize.width; k++)
             {
                 Point location = new Point(k * elementSize.width, i * elementSize.height);
-                NurikabeElement element = new NurikabeElement(new NurikabeCell(-2, null));
+                NurikabeElementView element = new NurikabeElementView(new NurikabeCell(-2, null));
                 element.setIndex(i * gridSize.width + k);
                 element.setSize(elementSize);
                 element.setLocation(location);
-                puzzleElements.add(element);
+                elementViews.add(element);
             }
         }
     }

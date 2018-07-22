@@ -19,7 +19,7 @@ public abstract class TreeElementView implements Shape
      * TreeElementView Constructor - creates a tree element view
      *
      * @param type tree element type
-     * @param treeElement tree element data associated with this view
+     * @param treeElement tree element element associated with this view
      */
     protected TreeElementView(TreeElementType type, TreeElement treeElement)
     {

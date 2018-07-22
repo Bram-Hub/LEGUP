@@ -2,25 +2,11 @@ package puzzle.fillapix;
 
 import model.Puzzle;
 import model.gameboard.Board;
-import model.gameboard.ElementData;
-import model.tree.Tree;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 import puzzle.fillapix.rules.*;
 import ui.boardview.BoardView;
-import ui.boardview.PuzzleElement;
+import ui.boardview.ElementView;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 
 public class Fillapix extends Puzzle
 {
@@ -58,13 +44,13 @@ public class Fillapix extends Puzzle
     {
         FillapixBoard board = (FillapixBoard) currentBoard;
         boardView = new FillapixView(new Dimension(board.getWidth(), board.getHeight()));
-        for(PuzzleElement element : boardView.getPuzzleElements())
+        for(ElementView element : boardView.getElementViews())
         {
             int index = element.getIndex();
             FillapixCell cell = (FillapixCell) currentBoard.getElementData(index);
 
             cell.setIndex(index);
-            element.setData(cell);
+            element.setElement(cell);
         }
     }
 

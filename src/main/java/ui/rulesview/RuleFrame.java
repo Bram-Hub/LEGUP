@@ -134,7 +134,7 @@ public class RuleFrame extends JPanel
     }
 
     /**
-     * Board data has changed
+     * Board element has changed
      *
      * @param board board state
      */

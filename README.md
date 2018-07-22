@@ -31,13 +31,13 @@ An example for the Battleship puzzle demonstrates the proper format for XML file
 <Legup>
     <puzzle qualifiedClassName="puzzle.battleship.BattleShip">
         <board size="10">
-            <data>
+            <element>
                 <element value="1" x="2" y="0"/>
                 <element value="1" x="6" y="0"/>
                 <element value="2" x="1" y="1"/>
                 <element value="-1" x="8" y="1"/>
                 <element value="-1" x="2" y="2"/>
-            </data>
+            </element>
         </board>
     </puzzle>
 </Legup>

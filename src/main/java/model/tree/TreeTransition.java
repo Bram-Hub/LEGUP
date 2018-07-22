@@ -44,9 +44,9 @@ public class TreeTransition extends TreeElement
     }
 
     /**
-     * Recursively propagates the change of data down the tree
+     * Recursively propagates the change of element down the tree
      *
-     * @param data data of the change made
+     * @param data element of the change made
      */
     public void propagateChanges(ElementData data)
     {

@@ -7,7 +7,7 @@ import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
 import puzzle.sudoku.rules.*;
 import ui.boardview.BoardView;
-import ui.boardview.PuzzleElement;
+import ui.boardview.ElementView;
 
 public class Sudoku extends Puzzle
 {
@@ -51,13 +51,13 @@ public class Sudoku extends Puzzle
     {
         SudokuBoard board= (SudokuBoard)currentBoard;
         boardView = new SudokuView(board.getDimension());
-        for(PuzzleElement element: boardView.getPuzzleElements())
+        for(ElementView element: boardView.getElementViews())
         {
             int index = element.getIndex();
             SudokuCell cell = (SudokuCell) currentBoard.getElementData(index);
 
             cell.setIndex(index);
-            element.setData(cell);
+            element.setElement(cell);
         }
     }
 
@@ -106,7 +106,7 @@ public class Sudoku extends Puzzle
     }
 
     /**
-     * Callback for when the board data changes
+     * Callback for when the board element changes
      *
      * @param board the board that has changed
      */

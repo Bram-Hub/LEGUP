@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 public class ElementSelection
 {
-    private ArrayList<PuzzleElement> selection;
-    private PuzzleElement hover;
+    private ArrayList<ElementView> selection;
+    private ElementView hover;
     private Point mousePoint;
 
     public ElementSelection()
@@ -16,52 +16,52 @@ public class ElementSelection
         this.mousePoint = null;
     }
 
-    public ArrayList<PuzzleElement> getSelection()
+    public ArrayList<ElementView> getSelection()
     {
         return selection;
     }
 
-    public PuzzleElement getFirstSelection()
+    public ElementView getFirstSelection()
     {
         return selection.size() == 0 ? null : selection.get(0);
     }
 
-    public void toggleSelection(PuzzleElement puzzleElement)
+    public void toggleSelection(ElementView elementView)
     {
-        if(selection.contains(puzzleElement))
+        if(selection.contains(elementView))
         {
-            selection.remove(puzzleElement);
-            puzzleElement.setSelected(false);
+            selection.remove(elementView);
+            elementView.setSelected(false);
         }
         else
         {
-            selection.add(puzzleElement);
-            puzzleElement.setSelected(true);
+            selection.add(elementView);
+            elementView.setSelected(true);
         }
     }
 
-    public void newSelection(PuzzleElement puzzleElement)
+    public void newSelection(ElementView elementView)
     {
         clearSelection();
-        selection.add(puzzleElement);
-        puzzleElement.setSelected(true);
+        selection.add(elementView);
+        elementView.setSelected(true);
     }
 
     public void clearSelection()
     {
-        for(PuzzleElement puzzleElement : selection)
+        for(ElementView elementView : selection)
         {
-            puzzleElement.setSelected(false);
+            elementView.setSelected(false);
         }
         selection.clear();
     }
 
-    public PuzzleElement getHover()
+    public ElementView getHover()
     {
         return hover;
     }
 
-    public void newHover(PuzzleElement newHovered)
+    public void newHover(ElementView newHovered)
     {
         newHovered.setHover(true);
         if(hover != null)

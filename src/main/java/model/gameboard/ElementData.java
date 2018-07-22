@@ -87,9 +87,9 @@ public abstract class ElementData
     }
 
     /**
-     * Gets whether this element's data is modifiable
+     * Gets whether this element's element is modifiable
      *
-     * @return true if this element's data is modifiable, false otherwise
+     * @return true if this element's element is modifiable, false otherwise
      */
     public boolean isModifiable()
     {
@@ -97,9 +97,9 @@ public abstract class ElementData
     }
 
     /**
-     * Sets whether this element's data is modifiable
+     * Sets whether this element's element is modifiable
      *
-     * @param isModifiable true if this element's data is modifiable, false otherwise
+     * @param isModifiable true if this element's element is modifiable, false otherwise
      */
     public void setModifiable(boolean isModifiable)
     {
@@ -107,9 +107,9 @@ public abstract class ElementData
     }
 
     /**
-     * Gets whether the data of this element has been modified by the user
+     * Gets whether the element of this element has been modified by the user
      *
-     * @return true if the data has been modified, false otherwise
+     * @return true if the element has been modified, false otherwise
      */
     public boolean isModified()
     {
@@ -117,9 +117,9 @@ public abstract class ElementData
     }
 
     /**
-     * Sets whether the data of this element has been modified by the user
+     * Sets whether the element of this element has been modified by the user
      *
-     * @param isModified true if the data has been modified, false otherwise
+     * @param isModified true if the element has been modified, false otherwise
      */
     public void setModified(boolean isModified)
     {
@@ -147,9 +147,9 @@ public abstract class ElementData
     }
 
     /**
-     * Gets whether this data is given
+     * Gets whether this element is given
      *
-     * @return true if the data is given, false otherwise
+     * @return true if the element is given, false otherwise
      */
     public boolean isGiven()
     {
@@ -157,9 +157,9 @@ public abstract class ElementData
     }
 
     /**
-     * Sets whether this data is given
+     * Sets whether this element is given
      *
-     * @param given true if the data is given, false otherwise
+     * @param given true if the element is given, false otherwise
      */
     public void setGiven(boolean given)
     {
@@ -177,10 +177,10 @@ public abstract class ElementData
     }
 
     /**
-     * Tests whether two ElementData objects have the same data
+     * Tests whether two ElementData objects have the same element
      *
-     * @param data element data to check for equality
-     * @return true if the data are equal, false otherwise
+     * @param data element element to check for equality
+     * @return true if the element are equal, false otherwise
      */
     public boolean equals(ElementData data)
     {
@@ -190,7 +190,7 @@ public abstract class ElementData
     }
 
     /**
-     * Copies this elements data to a new ElementData object
+     * Copies this elements element to a new ElementData object
      *
      * @return copied ElementData object
      */
