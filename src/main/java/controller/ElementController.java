@@ -3,6 +3,7 @@ package controller;
 import app.GameBoardFacade;
 import history.CaseRuleCommand;
 import model.gameboard.Board;
+import model.gameboard.CaseBoard;
 import model.gameboard.ElementData;
 import model.tree.Tree;
 import ui.boardview.BoardView;
@@ -75,9 +76,9 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
 
         if(elementView != null)
         {
-            if(board.getCaseRule() != null)
+            if(board instanceof CaseBoard)
             {
-                CaseRuleCommand caseRuleCommand = new CaseRuleCommand(elementView, selection, board.getCaseRule());
+                CaseRuleCommand caseRuleCommand = new CaseRuleCommand(elementView, selection, ((CaseBoard)board).getCaseRule());
                 if(caseRuleCommand.canExecute())
                 {
                     caseRuleCommand.execute();
@@ -258,7 +259,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         TreeViewSelection selection = treeView.getSelection();
         TreeElementView selectedView = selection.getFirstSelection();
         System.err.println("Key pressed: " + e.getKeyCode());
-        if(board.getCaseRule() != null)
+        if(board instanceof CaseBoard)
         {
             if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
             {

@@ -9,7 +9,6 @@ public abstract class Board
     protected List<ElementData> elementData;
     protected List<ElementData> modifiedData;
     protected boolean isModifiable;
-    protected CaseRule caseRule;
 
     /**
      * Board Constructor - creates an empty board
@@ -19,7 +18,6 @@ public abstract class Board
         this.elementData = new ArrayList<>();
         this.modifiedData = new ArrayList<>();
         this.isModifiable = true;
-        this.caseRule = null;
     }
 
     /**
@@ -190,26 +188,6 @@ public abstract class Board
         }
 
         return mergedBoard;
-    }
-
-    /**
-     *
-     *
-     * @return
-     */
-    public CaseRule getCaseRule()
-    {
-        return caseRule;
-    }
-
-    /**
-     *
-     *
-     * @param caseRule
-     */
-    public void setCaseRule(CaseRule caseRule)
-    {
-        this.caseRule = caseRule;
     }
 
     /**

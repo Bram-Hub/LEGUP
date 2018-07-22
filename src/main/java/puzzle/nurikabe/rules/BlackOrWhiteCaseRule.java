@@ -24,7 +24,6 @@ public class BlackOrWhiteCaseRule extends CaseRule
     {
         NurikabeBoard nurikabeBoard = (NurikabeBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(nurikabeBoard, this);
-        nurikabeBoard.setCaseRule(this);
         nurikabeBoard.setModifiable(false);
         for(ElementData data: nurikabeBoard.getElementData())
         {

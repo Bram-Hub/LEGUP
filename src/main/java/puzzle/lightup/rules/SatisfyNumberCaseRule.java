@@ -29,7 +29,6 @@ public class SatisfyNumberCaseRule extends CaseRule
     {
         LightUpBoard lightUpBoard = (LightUpBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(lightUpBoard, this);
-        lightUpBoard.setCaseRule(this);
         lightUpBoard.setModifiable(false);
         for(ElementData data: lightUpBoard.getElementData())
         {

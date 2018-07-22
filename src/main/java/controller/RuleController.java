@@ -3,6 +3,7 @@ package controller;
 import app.GameBoardFacade;
 import model.Puzzle;
 import model.gameboard.Board;
+import model.gameboard.CaseBoard;
 import model.rules.*;
 import model.tree.*;
 import ui.rulesview.RuleButton;
@@ -102,7 +103,7 @@ public class RuleController implements ActionListener
             {
                 TreeNode node = (TreeNode)element;
                 TreeNodeView nodeView = (TreeNodeView)elementView;
-                Board caseBoard = caseRule.getCaseBoard(node.getBoard());
+                CaseBoard caseBoard = caseRule.getCaseBoard(node.getBoard());
 
                 caseBoard.setCaseRule(caseRule);
                 puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(caseBoard));

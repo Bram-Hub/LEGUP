@@ -21,7 +21,6 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     public CaseBoard getCaseBoard(Board board) {
         FillapixBoard fillapixBoard = (FillapixBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(fillapixBoard, this);
-        fillapixBoard.setCaseRule(this);
         fillapixBoard.setModifiable(false);
         for (ElementData data: fillapixBoard.getElementData()) {
             if(FillapixCell.isUnknown(data.getValueInt())) {
