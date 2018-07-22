@@ -35,7 +35,6 @@ public class AddTreeElementCommand extends PuzzleCommand
             return;
         }
 
-        Tree tree = GameBoardFacade.getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         TreeViewSelection newSelection = new TreeViewSelection();
@@ -142,7 +141,9 @@ public class AddTreeElementCommand extends PuzzleCommand
     public void undo()
     {
         Tree tree = GameBoardFacade.getInstance().getTree();
+        TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+        TreeViewSelection newSelection = new TreeViewSelection();
 
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         for(TreeElementView view : selectedViews)
@@ -151,7 +152,8 @@ public class AddTreeElementCommand extends PuzzleCommand
             TreeElement child = addChild.get(element);
             tree.removeTreeElement(child);
             puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(child));
+            newSelection.addToSelection(treeView.getElementView(element));
         }
-        puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
+        puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
     }
 }
