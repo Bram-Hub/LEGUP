@@ -45,7 +45,7 @@ public class CornerBlackBasicRule extends BasicRule
             {
                 if(!destBoardState.getCell(x, y).equalsData(origBoardState.getCell(x, y)))
                 {
-                    if(destBoardState.getCell(x, y).getValueInt() != NurikabeType.BLACK.ordinal())
+                    if(destBoardState.getCell(x, y).getData() != NurikabeType.BLACK.ordinal())
                     {
                         return "Only black cells are allowed for this rule!";
                     }
@@ -58,14 +58,14 @@ public class CornerBlackBasicRule extends BasicRule
                     // Check each corner of the changed cell
                     for(int d = -1; d < 2; d += 2)
                     {
-                        if((x + d >= 0 && x + d < width) && (y + d >= 0 && y + d < height) && modified.getCell(x + d, y + d).getValueInt() >= NurikabeType.WHITE.ordinal())    // >= is used to account for numbered cells
+                        if((x + d >= 0 && x + d < width) && (y + d >= 0 && y + d < height) && modified.getCell(x + d, y + d).getData() >= NurikabeType.WHITE.ordinal())    // >= is used to account for numbered cells
                         {
                             // Series of if statements to check conditions of rule
                             // First check: cells adjacent to changed cell and white region corner are empty
-                            if(modified.getCell(x + d, y).getValueInt() == NurikabeType.UNKNOWN.ordinal() && modified.getCell(x, y + d).getValueInt() == NurikabeType.UNKNOWN.ordinal())
+                            if(modified.getCell(x + d, y).getData() == NurikabeType.UNKNOWN.ordinal() && modified.getCell(x, y + d).getData() == NurikabeType.UNKNOWN.ordinal())
                             {
-                                modified.getCell(y + d, x).setValueInt(NurikabeType.BLACK.ordinal());
-                                modified.getCell(y, x + d).setValueInt(NurikabeType.BLACK.ordinal());
+                                modified.getCell(y + d, x).setData(NurikabeType.BLACK.ordinal());
+                                modified.getCell(y, x + d).setData(NurikabeType.BLACK.ordinal());
                                 // Second check: corner is only way to escape from the white region
                                 if(tooFewContra.checkContradiction(new TreeTransition(null, modified)) == null)
                                 {
@@ -77,7 +77,7 @@ public class CornerBlackBasicRule extends BasicRule
                                         {
                                             if(regionNum == 0)
                                             {
-                                                regionNum = modified.getCell(p.x, p.y).getValueInt();
+                                                regionNum = modified.getCell(p.x, p.y).getData();
                                             }
                                             else
                                             {
@@ -95,14 +95,14 @@ public class CornerBlackBasicRule extends BasicRule
                             }
                         }
 
-                        if((x + d >= 0 && x + d < width) && (y - d >= 0 && y - d < height) && modified.getCell(x + d, y - d).getValueInt() >= NurikabeType.WHITE.ordinal())
+                        if((x + d >= 0 && x + d < width) && (y - d >= 0 && y - d < height) && modified.getCell(x + d, y - d).getData() >= NurikabeType.WHITE.ordinal())
                         {
                             // Series of if statements to check conditions of rule
                             // First check: cells adjacent to changed cell and white region corner are empty
-                            if(modified.getCell(x + d, y).getValueInt() == NurikabeType.UNKNOWN.ordinal() && modified.getCell(x, y - d).getValueInt() == NurikabeType.UNKNOWN.ordinal())
+                            if(modified.getCell(x + d, y).getData() == NurikabeType.UNKNOWN.ordinal() && modified.getCell(x, y - d).getData() == NurikabeType.UNKNOWN.ordinal())
                             {
-                                modified.getCell(y - d, x).setValueInt(NurikabeType.BLACK.ordinal());
-                                modified.getCell(y, x + d).setValueInt(NurikabeType.BLACK.ordinal());
+                                modified.getCell(y - d, x).setData(NurikabeType.BLACK.ordinal());
+                                modified.getCell(y, x + d).setData(NurikabeType.BLACK.ordinal());
                                 // Second check: corner is only way to escape from the white region
                                 if(tooFewContra.checkContradiction(new TreeTransition(null, modified)) == null)
                                 {
@@ -114,7 +114,7 @@ public class CornerBlackBasicRule extends BasicRule
                                         {
                                             if(regionNum == 0)
                                             {
-                                                regionNum = modified.getCell(p.x, p.y).getValueInt();
+                                                regionNum = modified.getCell(p.x, p.y).getData();
                                             }
                                             else
                                             {

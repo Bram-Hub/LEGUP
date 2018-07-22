@@ -3,7 +3,6 @@ package puzzle.lightup.rules;
 import model.rules.ContradictionRule;
 import model.rules.RegisterRule;
 import model.rules.RuleType;
-import model.tree.TreeNode;
 import model.tree.TreeTransition;
 import puzzle.lightup.LightUp;
 import puzzle.lightup.LightUpBoard;
@@ -66,7 +65,7 @@ public class TooManyBulbsContradictionRule extends ContradictionRule
             bulbs++;
         }
 
-        if(bulbs > cell.getValueInt())
+        if(bulbs > cell.getData())
         {
             return null;
         }

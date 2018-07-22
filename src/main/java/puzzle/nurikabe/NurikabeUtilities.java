@@ -238,7 +238,7 @@ public class NurikabeUtilities
         ArrayList<Set<NurikabeCell>> floodFilledRegions = new ArrayList<>();
         for(NurikabeCell numberCell : numberedCells)
         {
-            int number = numberCell.getValueInt();
+            int number = numberCell.getData();
             Set<NurikabeCell> region = whiteRegions.getSet(numberCell);
             floodFilledRegions.add(region);
 

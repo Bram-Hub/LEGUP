@@ -12,8 +12,14 @@ public class BattleShipCell extends GridCell {
         this.isShipSegment =false;
     }
 
+    @Override
+    public Integer getData()
+    {
+        return (Integer)data;
+    }
+
     public BattleShipCellType getType() { // FINISH IMPLEMENTING
-        switch (valueInt) {
+        switch ((Integer) data) {
             // case
             // return BattleShipCellType._
         }

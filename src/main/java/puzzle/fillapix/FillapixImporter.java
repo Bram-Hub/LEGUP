@@ -4,9 +4,6 @@ import model.PuzzleImporter;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import puzzle.lightup.LightUp;
-import puzzle.lightup.LightUpBoard;
-import puzzle.lightup.LightUpCell;
 import save.InvalidFileFormatException;
 
 import java.awt.*;
@@ -66,7 +63,7 @@ public class FillapixImporter extends PuzzleImporter
             {
                 FillapixCell cell = (FillapixCell)puzzle.getFactory().importCell(elementDataList.item(i), fillapixBoard);
                 Point loc = cell.getLocation();
-                if(cell.getValueInt() != -1)
+                if(cell.getData() != -1)
                 {
                     cell.setModifiable(true);
                     cell.setGiven(true);

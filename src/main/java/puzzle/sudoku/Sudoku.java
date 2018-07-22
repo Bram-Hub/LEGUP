@@ -95,9 +95,10 @@ public class Sudoku extends Puzzle
             }
         }
 
-        for(Element data : sudokuBoard.getElementData())
+        for(Element element : sudokuBoard.getElementData())
         {
-            if(data.getValueInt() == 0)
+            SudokuCell cell = (SudokuCell)element;
+            if(cell.getData() == 0)
             {
                 return false;
             }

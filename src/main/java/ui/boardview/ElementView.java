@@ -88,10 +88,10 @@ public abstract class ElementView implements Shape
 
         graphics2D.setColor(Color.BLACK);
         FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
-        String value = String.valueOf(element.getValueInt());
+        String value = String.valueOf(element.getData());
         int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
         int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-        graphics2D.drawString(String.valueOf(element.getValueInt()), xText, yText);
+        graphics2D.drawString(String.valueOf(element.getData()), xText, yText);
     }
 
     public void drawGiven(Graphics2D graphics2D)
@@ -304,7 +304,7 @@ public abstract class ElementView implements Shape
 
     public JMenuItem getSelectionMenuItem()
     {
-        JMenuItem item = new JMenuItem(element.getValueInt() + "");
+        JMenuItem item = new JMenuItem(element.getData() + "");
         return item;
     }
 

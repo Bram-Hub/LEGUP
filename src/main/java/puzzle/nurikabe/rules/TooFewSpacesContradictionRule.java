@@ -47,9 +47,9 @@ public class TooFewSpacesContradictionRule extends ContradictionRule
             }
         }
 
-        if(numberedCell != null && whiteRegion.size() < numberedCell.getValueInt())
+        if(numberedCell != null && whiteRegion.size() < numberedCell.getData())
         {
-            System.err.println("Cell Value: " + numberedCell.getValueInt() + ", Loc: " + cell.getLocation() + ", region: " + whiteRegion.size());
+            System.err.println("Cell Value: " + numberedCell.getData() + ", Loc: " + cell.getLocation() + ", region: " + whiteRegion.size());
             return null;
         }
         return "Does not contain a contradiction at this index";

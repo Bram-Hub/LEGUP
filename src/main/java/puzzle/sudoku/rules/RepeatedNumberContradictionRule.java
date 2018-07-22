@@ -1,7 +1,6 @@
 package puzzle.sudoku.rules;
 
 import model.rules.ContradictionRule;
-import model.tree.TreeNode;
 import model.tree.TreeTransition;
 import puzzle.sudoku.SudokuBoard;
 import puzzle.sudoku.SudokuCell;
@@ -33,7 +32,7 @@ public class RepeatedNumberContradictionRule extends ContradictionRule
     {
         SudokuBoard sudokuBoard = (SudokuBoard)transition.getBoard();
         SudokuCell cell = (SudokuCell) sudokuBoard.getElementData(elementIndex);
-        if(cell.getValueInt() == 0)
+        if(cell.getData() == 0)
         {
             return "Does not contain a contradiction at this index";
         }
@@ -48,29 +47,29 @@ public class RepeatedNumberContradictionRule extends ContradictionRule
 
         for(SudokuCell c : region)
         {
-            if(regionDup.contains(c.getValueInt()))
+            if(regionDup.contains(c.getData()))
             {
                 return null;
             }
-            regionDup.add(c.getValueInt());
+            regionDup.add(c.getData());
         }
 
         for(SudokuCell c : row)
         {
-            if(rowDup.contains(c.getValueInt()))
+            if(rowDup.contains(c.getData()))
             {
                 return null;
             }
-            rowDup.add(c.getValueInt());
+            rowDup.add(c.getData());
         }
 
         for(SudokuCell c : col)
         {
-            if(colDup.contains(c.getValueInt()))
+            if(colDup.contains(c.getData()))
             {
                 return null;
             }
-            colDup.add(c.getValueInt());
+            colDup.add(c.getData());
         }
 
         return "Does not contain a contradiction at this index";

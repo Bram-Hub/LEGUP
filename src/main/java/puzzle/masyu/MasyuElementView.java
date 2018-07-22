@@ -12,6 +12,12 @@ public class MasyuElementView extends GridElementView
     }
 
     @Override
+    public MasyuCell getElement()
+    {
+        return (MasyuCell)super.getElement();
+    }
+
+    @Override
     public void drawElement(Graphics2D graphics2D)
     {
         MasyuCell cell = (MasyuCell) element;

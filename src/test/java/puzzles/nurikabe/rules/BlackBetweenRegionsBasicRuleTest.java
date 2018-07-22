@@ -39,9 +39,9 @@ public class BlackBetweenRegionsBasicRuleTest
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
 
         NurikabeCell cell1 = board.getCell(2, 1);
-        cell1.setValueInt(NurikabeType.BLACK.toValue());
+        cell1.setData(NurikabeType.BLACK.toValue());
         NurikabeCell cell2 = board.getCell(1, 2);
-        cell2.setValueInt(NurikabeType.BLACK.toValue());
+        cell2.setData(NurikabeType.BLACK.toValue());
 
         board.addModifiedData(cell1);
         board.addModifiedData(cell2);
@@ -72,9 +72,9 @@ public class BlackBetweenRegionsBasicRuleTest
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
 
         NurikabeCell cell1 = board.getCell(1, 1);
-        cell1.setValueInt(NurikabeType.BLACK.toValue());
+        cell1.setData(NurikabeType.BLACK.toValue());
         NurikabeCell cell2 = board.getCell(2, 2);
-        cell2.setValueInt(NurikabeType.BLACK.toValue());
+        cell2.setData(NurikabeType.BLACK.toValue());
 
         board.addModifiedData(cell1);
         board.addModifiedData(cell2);
@@ -105,7 +105,7 @@ public class BlackBetweenRegionsBasicRuleTest
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
 
         NurikabeCell cell = board.getCell(1, 1);
-        cell.setValueInt(NurikabeType.BLACK.toValue());
+        cell.setData(NurikabeType.BLACK.toValue());
 
         board.addModifiedData(cell);
 
@@ -135,7 +135,7 @@ public class BlackBetweenRegionsBasicRuleTest
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
 
         NurikabeCell cell = board.getCell(1, 1);
-        cell.setValueInt(NurikabeType.BLACK.toValue());
+        cell.setData(NurikabeType.BLACK.toValue());
 
         board.addModifiedData(cell);
 

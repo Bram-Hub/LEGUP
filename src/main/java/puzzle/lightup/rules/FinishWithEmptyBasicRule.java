@@ -96,7 +96,7 @@ public class FinishWithEmptyBasicRule extends BasicRule
         }
 
         int bulbs = 0;
-        int bulbsNeeded = cell.getValueInt();
+        int bulbsNeeded = cell.getData();
         cell = board.getCell(loc.x + 1, loc.y);
         if(cell != null && cell.getType() == LightUpCellType.BULB)
         {

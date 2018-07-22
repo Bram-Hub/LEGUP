@@ -37,7 +37,7 @@ public class FillinBlackBasicRuleTest
 
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
         NurikabeCell cell = board.getCell(1,1);
-        cell.setValueInt(NurikabeType.BLACK.toValue());
+        cell.setData(NurikabeType.BLACK.toValue());
         board.addModifiedData(cell);
 
         Assert.assertNull(RULE.checkRule(transition));

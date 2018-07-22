@@ -52,7 +52,7 @@ public class TooManySpacesContradictionRule extends ContradictionRule
 
         for(NurikabeCell number : numberedCells)
         {
-            if(whiteRegion.size() > number.getValueInt())
+            if(whiteRegion.size() > number.getData())
             {
                 return null;
             }

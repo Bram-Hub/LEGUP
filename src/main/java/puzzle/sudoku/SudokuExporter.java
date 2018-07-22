@@ -21,11 +21,12 @@ public class SudokuExporter extends PuzzleExporter
         boardElement.setAttribute("size", String.valueOf(board.getSize()));
 
         org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
-        for(Element data : board.getElementData())
+        for(Element element : board.getElementData())
         {
-            if(data.getValueInt() != 0)
+            SudokuCell cell = (SudokuCell)element;
+            if(cell.getData() != 0)
             {
-                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, data);
+                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, element);
                 cellsElement.appendChild(cellElement);
             }
         }

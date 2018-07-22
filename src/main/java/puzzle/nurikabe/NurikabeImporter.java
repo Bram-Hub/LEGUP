@@ -63,7 +63,7 @@ public class NurikabeImporter extends PuzzleImporter
             {
                 NurikabeCell cell = (NurikabeCell)puzzle.getFactory().importCell(elementDataList.item(i), nurikabeBoard);
                 Point loc = cell.getLocation();
-                if(cell.getValueInt() != NurikabeType.UNKNOWN.toValue())
+                if(cell.getData() != NurikabeType.UNKNOWN.toValue())
                 {
                     cell.setModifiable(false);
                     cell.setGiven(true);

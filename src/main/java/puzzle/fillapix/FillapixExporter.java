@@ -22,11 +22,12 @@ public class FillapixExporter extends PuzzleExporter
         boardElement.setAttribute("height", String.valueOf(board.getHeight()));
 
         org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
-        for(Element data : board.getElementData())
+        for(Element element : board.getElementData())
         {
-            if(data.getValueInt() != -50)
+            FillapixCell cell = (FillapixCell)element;
+            if(cell.getData() != -50)
             {
-                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, data);
+                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, element);
                 cellsElement.appendChild(cellElement);
             }
         }

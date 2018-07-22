@@ -36,7 +36,7 @@ public class FillinWhiteBasicRuleTest
 
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
         NurikabeCell cell = board.getCell(1,1);
-        cell.setValueInt(NurikabeType.WHITE.toValue());
+        cell.setData(NurikabeType.WHITE.toValue());
         board.addModifiedData(cell);
 
         Assert.assertNull(RULE.checkRule(transition));

@@ -94,7 +94,7 @@ public class BlackBetweenRegionsBasicRule extends BasicRule
         }
 
         NurikabeBoard modified = origBoardState.copy();
-        modified.getCell(x, y).setValueInt(NurikabeType.WHITE.toValue());
+        modified.getCell(x, y).setData(NurikabeType.WHITE.toValue());
 
         for(ContradictionRule c : contras)
         {

@@ -92,8 +92,7 @@ public class GridCell extends Element
     {
         GridCell copy = new GridCell();
         copy.setIndex(index);
-        copy.setValueInt(valueInt);
-        copy.setValueString(valueString);
+        copy.setData(data);
         copy.setModifiable(isModifiable);
         copy.setModified(isModified);
         copy.setGiven(isGiven);

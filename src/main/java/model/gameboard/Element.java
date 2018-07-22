@@ -3,8 +3,7 @@ package model.gameboard;
 public abstract class Element
 {
     protected int index;
-    protected String valueString;
-    protected int valueInt;
+    protected Object data;
     protected boolean isModifiable;
     protected boolean isModified;
     protected boolean isGiven;
@@ -15,8 +14,7 @@ public abstract class Element
     public Element()
     {
         this.index = -1;
-        this.valueString = null;
-        this.valueInt = -1;
+        this.data = null;
         this.isModifiable = true;
         this.isModified = false;
         this.isGiven = false;
@@ -25,43 +23,23 @@ public abstract class Element
     /**
      * Element Constructor - creates a new Element from the String value
      *
-     * @param valueString String value that represents this element
+     * @param data String value that represents this element
      */
-    public Element(String valueString)
+    public Element(String data)
     {
         this();
-        this.valueString = valueString;
+        this.data = data;
     }
 
     /**
      * Element Constructor - creates a new Element from the int value
      *
-     * @param valueInt int value that represents this element
+     * @param data int value that represents this element
      */
-    public Element(int valueInt)
+    public Element(int data)
     {
         this();
-        this.valueInt = valueInt;
-    }
-
-    /**
-     * Gets the string value that represents this element
-     *
-     * @return string value
-     */
-    public String getValueString()
-    {
-        return valueString;
-    }
-
-    /**
-     * Sets the String value that represents this element
-     *
-     * @param valueString String value that represents this element
-     */
-    public void setValueString(String valueString)
-    {
-        this.valueString = valueString;
+        this.data = data;
     }
 
     /**
@@ -69,19 +47,19 @@ public abstract class Element
      *
      * @return int value
      */
-    public int getValueInt()
+    public Object getData()
     {
-        return valueInt;
+        return data;
     }
 
     /**
      * Sets the int value that represents this element
      *
-     * @param valueInt int value that represents this element
+     * @param data int value that represents this element
      */
-    public void setValueInt(int valueInt)
+    public void setData(Object data)
     {
-        this.valueInt = valueInt;
+        this.data = data;
     }
 
     /**
@@ -172,9 +150,7 @@ public abstract class Element
      */
     public boolean equalsData(Element data)
     {
-        return valueInt == data.valueInt &&
-                (valueString == null || data.valueString == null ||
-                valueString.equals(data.valueString));
+        return this.data.equals(data);
     }
 
     /**

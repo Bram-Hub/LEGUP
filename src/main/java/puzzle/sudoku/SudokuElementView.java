@@ -1,5 +1,6 @@
 package puzzle.sudoku;
 
+import model.gameboard.Element;
 import model.gameboard.GridCell;
 import ui.boardview.GridElementView;
 
@@ -14,6 +15,17 @@ public class SudokuElementView extends GridElementView
     public SudokuElementView(GridCell cell)
     {
         super(cell);
+    }
+
+    /**
+     * Gets the Element associated with this view
+     *
+     * @return Element associated with this view
+     */
+    @Override
+    public SudokuCell getElement()
+    {
+        return (SudokuCell) super.getElement();
     }
 
     /**
@@ -47,15 +59,15 @@ public class SudokuElementView extends GridElementView
         graphics2D.setColor(Color.BLACK);
         graphics2D.drawRect(location.x, location.y, size.width, size.height);
 
-        if(element.getValueInt() != 0)
+        if(getElement().getData() != 0)
         {
             graphics2D.setColor(FONT_COLOR);
             graphics2D.setFont(FONT);
             FontMetrics metrics = graphics2D.getFontMetrics(FONT);
-            String value = String.valueOf(element.getValueInt());
+            String value = String.valueOf(element.getData());
             int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-            graphics2D.drawString(String.valueOf(element.getValueInt()), xText, yText);
+            graphics2D.drawString(String.valueOf(element.getData()), xText, yText);
         }
     }
 
@@ -68,15 +80,15 @@ public class SudokuElementView extends GridElementView
         graphics2D.setColor(Color.BLACK);
         graphics2D.drawRect(location.x, location.y, size.width, size.height);
 
-        if(element.getValueInt() != 0)
+        if(getElement().getData() != 0)
         {
             graphics2D.setColor(FONT_COLOR);
             graphics2D.setFont(FONT);
             FontMetrics metrics = graphics2D.getFontMetrics(FONT);
-            String value = String.valueOf(element.getValueInt());
+            String value = String.valueOf(element.getData());
             int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-            graphics2D.drawString(String.valueOf(element.getValueInt()), xText, yText);
+            graphics2D.drawString(String.valueOf(element.getData()), xText, yText);
         }
     }
 }

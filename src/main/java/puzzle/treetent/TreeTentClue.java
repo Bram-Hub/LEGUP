@@ -14,6 +14,17 @@ public class TreeTentClue extends Element
         this.type = type;
     }
 
+    /**
+     * Gets the int value that represents this element
+     *
+     * @return int value
+     */
+    @Override
+    public Integer getData()
+    {
+        return (Integer) super.getData();
+    }
+
     public static String colNumToString(int col)
     {
         final StringBuilder sb = new StringBuilder();

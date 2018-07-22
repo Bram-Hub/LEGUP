@@ -10,6 +10,7 @@ public class MasyuController extends ElementController
     @Override
     public void changeCell(MouseEvent e, Element data)
     {
+        MasyuCell cell = (MasyuCell)data;
         if(e.getButton() == MouseEvent.BUTTON1)
         {
             if(e.isControlDown())
@@ -18,33 +19,33 @@ public class MasyuController extends ElementController
             }
             else
             {
-                if(data.getValueInt() == -2)
+                if(cell.getData() == -2)
                 {
-                    data.setValueInt(-4);
+                    data.setData(-4);
                 }
-                else if(data.getValueInt() == -4)
+                else if(cell.getData() == -4)
                 {
-                    data.setValueInt(-3);
+                    data.setData(-3);
                 }
                 else
                 {
-                    data.setValueInt(-2);
+                    data.setData(-2);
                 }
             }
         }
         else if(e.getButton() == MouseEvent.BUTTON3)
         {
-            if(data.getValueInt() == -4)
+            if(cell.getData() == -4)
             {
-                data.setValueInt(-2);
+                data.setData(-2);
             }
-            else if(data.getValueInt() == -2)
+            else if(cell.getData() == -2)
             {
-                data.setValueInt(-3);
+                data.setData(-3);
             }
             else
             {
-                data.setValueInt(-4);
+                data.setData(-4);
             }
         }
     }

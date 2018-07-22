@@ -180,11 +180,11 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
 
         Board prevBord = transitionView.getTreeElement().getParents().get(0).getBoard();
 
-        int value = ((SelectionItemView)e.getSource()).getData().getValueInt();
+        int value = (Integer) ((SelectionItemView)e.getSource()).getData().getData();
 
-        data.setValueInt(value);
+        data.setData(value);
 
-        if(data.getValueInt() != prevBord.getElementData(data.getIndex()).getValueInt())
+        if(data.getData() != prevBord.getElementData(data.getIndex()).getData())
             data.setModified(true);
         else
             data.setModified(false);
@@ -205,12 +205,12 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
             }
             else
             {
-                data.setValueInt((data.getValueInt() + 1) % 10);
+                data.setData(((Integer)data.getData() + 1) % 10);
             }
         }
         else if(e.getButton() == MouseEvent.BUTTON3)
         {
-            data.setValueInt((data.getValueInt() + 9) % 10);
+            data.setData(((Integer)data.getData() + 9) % 10);
         }
     }
 

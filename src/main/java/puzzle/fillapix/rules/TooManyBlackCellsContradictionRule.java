@@ -24,9 +24,9 @@ public class TooManyBlackCellsContradictionRule extends ContradictionRule
         for (int i = 0; i < rowSize; i++) {
             for (int j = 0; j < colSize; j++) {
                 FillapixCell cell = fillapixBoard.getCell(i,j);
-                if (cell.getValueInt() != -1) {
+                if (cell.getData() != -1) {
                     int numBlackCells = fillapixBoard.getNumCells(cell, FillapixCell.BLACK);
-                    if (numBlackCells > cell.getValueInt()) {
+                    if (numBlackCells > cell.getData()) {
                         return null;
                     }
                 }
@@ -41,9 +41,9 @@ public class TooManyBlackCellsContradictionRule extends ContradictionRule
         FillapixBoard fillapixBoard = (FillapixBoard) transition.getBoard();
         int width = fillapixBoard.getWidth();
         FillapixCell cell = fillapixBoard.getCell(elementIndex%width,elementIndex/width);
-        if (cell.getValueInt() != -1) {
+        if (cell.getData() != -1) {
             int numBlackCells = fillapixBoard.getNumCells(cell, FillapixCell.BLACK);
-            if (numBlackCells > cell.getValueInt()) {
+            if (numBlackCells > cell.getData()) {
                 return null;
             }
         }
@@ -54,9 +54,9 @@ public class TooManyBlackCellsContradictionRule extends ContradictionRule
     {
         int width = fillapixBoard.getWidth();
         FillapixCell cell = fillapixBoard.getCell(elementIndex%width,elementIndex/width);
-        if (cell.getValueInt() != -1) {
+        if (cell.getData() != -1) {
             int numBlackCells = fillapixBoard.getNumCells(cell, FillapixCell.BLACK);
-            if (numBlackCells > cell.getValueInt()) {
+            if (numBlackCells > cell.getData()) {
                 return null;
             }
         }

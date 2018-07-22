@@ -155,7 +155,7 @@ public abstract class Board
 
     public void notifyChange(Element data)
     {
-        elementData.get(data.getIndex()).setValueInt(data.getValueInt());
+        elementData.get(data.getIndex()).setData(data.getData());
     }
 
     public Board mergedBoard(Board lca, ArrayList<Board> boards)
@@ -181,7 +181,7 @@ public abstract class Board
             if(isSame && !lcaData.equalsData(mData))
             {
                 Element mergedData = mergedBoard.getElementData(lcaData.getIndex());
-                mergedData.setValueInt(mData.getValueInt());
+                mergedData.setData(mData.getData());
                 mergedBoard.addModifiedData(mergedData);
             }
         }

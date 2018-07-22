@@ -1,5 +1,6 @@
 package puzzle.lightup;
 
+import model.gameboard.Element;
 import ui.boardview.GridElementView;
 
 import java.awt.*;
@@ -13,6 +14,16 @@ public class LightUpElementView extends GridElementView
     public LightUpElementView(LightUpCell cell)
     {
         super(cell);
+    }
+
+    /**
+     * Gets the Element associated with this view
+     *
+     * @return Element associated with this view
+     */
+    @Override
+    public LightUpCell getElement() {
+        return (LightUpCell) super.getElement();
     }
 
     @Override
@@ -29,10 +40,10 @@ public class LightUpElementView extends GridElementView
             graphics2D.setColor(FONT_COLOR);
             graphics2D.setFont(FONT);
             FontMetrics metrics = graphics2D.getFontMetrics(FONT);
-            String value = String.valueOf(element.getValueInt());
+            String value = String.valueOf(element.getData());
             int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-            graphics2D.drawString(String.valueOf(element.getValueInt()), xText, yText);
+            graphics2D.drawString(String.valueOf(element.getData()), xText, yText);
         }
         else if(type == LightUpCellType.BLACK)
         {

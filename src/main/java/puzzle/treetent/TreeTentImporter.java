@@ -63,7 +63,7 @@ public class TreeTentImporter extends PuzzleImporter
             {
                 TreeTentCell cell = (TreeTentCell)puzzle.getFactory().importCell(elementDataList.item(i), treeTentBoard);
                 Point loc = cell.getLocation();
-                if(cell.getValueInt() != 0)
+                if(cell.getData() != 0)
                 {
                     cell.setModifiable(false);
                     cell.setGiven(true);

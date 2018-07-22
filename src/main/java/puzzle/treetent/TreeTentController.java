@@ -71,6 +71,7 @@ public class TreeTentController extends ElementController
     @Override
     public void changeCell(MouseEvent e, Element data)
     {
+        TreeTentCell cell = (TreeTentCell)data;
         if(e.getButton() == MouseEvent.BUTTON1)
         {
             if(e.isControlDown())
@@ -79,33 +80,33 @@ public class TreeTentController extends ElementController
             }
             else
             {
-                if(data.getValueInt() == 0)
+                if(cell.getData() == 0)
                 {
-                    data.setValueInt(2);
+                    data.setData(2);
                 }
-                else if(data.getValueInt() == 2)
+                else if(cell.getData() == 2)
                 {
-                    data.setValueInt(3);
+                    data.setData(3);
                 }
                 else
                 {
-                    data.setValueInt(0);
+                    data.setData(0);
                 }
             }
         }
         else if(e.getButton() == MouseEvent.BUTTON3)
         {
-            if(data.getValueInt() == 0)
+            if(cell.getData() == 0)
             {
-                data.setValueInt(3);
+                data.setData(3);
             }
-            else if(data.getValueInt() == 2)
+            else if(cell.getData() == 2)
             {
-                data.setValueInt(0);
+                data.setData(0);
             }
             else
             {
-                data.setValueInt(2);
+                data.setData(2);
             }
         }
     }

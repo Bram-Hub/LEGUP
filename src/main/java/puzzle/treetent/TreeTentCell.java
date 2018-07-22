@@ -12,9 +12,20 @@ public class TreeTentCell extends GridCell
         super(valueInt, location);
     }
 
+    /**
+     * Gets the int value that represents this element
+     *
+     * @return int value
+     */
+    @Override
+    public Integer getData() {
+        return (Integer) super.getData();
+    }
+
     public TreeTentType getType()
     {
-        switch(valueInt)
+        Integer value = getData();
+        switch(value)
         {
             case 0:
                 return TreeTentType.UNKNOWN;
@@ -32,7 +43,7 @@ public class TreeTentCell extends GridCell
     @Override
     public TreeTentCell copy()
     {
-        TreeTentCell copy = new TreeTentCell(valueInt, (Point)location.clone());
+        TreeTentCell copy = new TreeTentCell((Integer) data, (Point)location.clone());
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);

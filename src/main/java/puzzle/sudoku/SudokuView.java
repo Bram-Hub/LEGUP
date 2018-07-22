@@ -33,6 +33,19 @@ public class SudokuView extends GridBoardView
         }
     }
 
+    /**
+     * Gets the SudokuElementView from the element index or
+     * null if out of bounds
+     *
+     * @param index index of the ElementView
+     * @return SudokuElementView at the specified index
+     */
+    @Override
+    public SudokuElementView getElement(int index)
+    {
+        return (SudokuElementView ) super.getElement(index);
+    }
+
     @Override
     public void draw(Graphics2D graphics2D)
     {

@@ -97,7 +97,7 @@ public class FinishWithBulbsBasicRule extends BasicRule
             return false;
         }
 
-        int bulbs = cell.getValueInt();
+        int bulbs = cell.getData();
         cell = board.getCell(loc.x + 1, loc.y);
         if(cell != null)
         {

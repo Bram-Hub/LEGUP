@@ -63,7 +63,7 @@ public class LightUpImporter extends PuzzleImporter
             {
                 LightUpCell cell = (LightUpCell)puzzle.getFactory().importCell(elementDataList.item(i), lightUpBoard);
                 Point loc = cell.getLocation();
-                if(cell.getValueInt() != -2)
+                if(cell.getData() != -2)
                 {
                     cell.setModifiable(false);
                     cell.setGiven(true);

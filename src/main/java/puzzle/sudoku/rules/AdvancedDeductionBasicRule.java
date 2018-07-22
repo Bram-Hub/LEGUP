@@ -43,11 +43,11 @@ public class AdvancedDeductionBasicRule extends BasicRule
             for(int x = 0; x < groupDim; x++)
             {
                 SudokuCell c = initialBoard.getCell(groupNum, x, y);
-                if(c.getValueInt() == cell.getValueInt() && x != relX && y != relY )
+                if(c.getData() == cell.getData() && x != relX && y != relY )
                 {
                     return "Duplicate value in sub region";
                 }
-                possible[y][x] = c.getValueInt() == 0;
+                possible[y][x] = c.getData() == 0;
             }
         }
         for(int y = 0; y < groupDim; y++)
@@ -56,14 +56,14 @@ public class AdvancedDeductionBasicRule extends BasicRule
             {
                 SudokuCell r = initialBoard.getCell(x, (groupNum / groupDim) * groupDim + y);
                 SudokuCell c = initialBoard.getCell((groupNum % groupDim) * groupDim + y, x);
-                if(r.getValueInt() == cell.getValueInt())
+                if(r.getData() == cell.getData())
                 {
                     for(int i = 0; i < groupDim; i++)
                     {
                         possible[y][i] = false;
                     }
                 }
-                if(c.getValueInt() == cell.getValueInt())
+                if(c.getData() == cell.getData())
                 {
                     for(int i = 0; i < groupDim; i++)
                     {

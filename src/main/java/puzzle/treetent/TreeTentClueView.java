@@ -1,5 +1,6 @@
 package puzzle.treetent;
 
+import model.gameboard.Element;
 import ui.boardview.ElementView;
 
 import java.awt.*;
@@ -15,6 +16,17 @@ public class TreeTentClueView extends ElementView
         super(clue);
     }
 
+    /**
+     * Gets the Element associated with this view
+     *
+     * @return Element associated with this view
+     */
+    @Override
+    public TreeTentClue getElement()
+    {
+        return (TreeTentClue)super.getElement();
+    }
+
     @Override
     public void draw(Graphics2D graphics2D)
     {
@@ -23,20 +35,20 @@ public class TreeTentClueView extends ElementView
         FontMetrics metrics = graphics2D.getFontMetrics(FONT);
         String value;
 
-        TreeTentClue clue = (TreeTentClue) element;
+        TreeTentClue clue = getElement();
         switch(clue.getType())
         {
             case CLUE_NORTH:
-                value = String.valueOf(element.getValueInt() + 1);
+                value = String.valueOf(clue.getData() + 1);
                 break;
             case CLUE_EAST:
-                value = String.valueOf(element.getValueInt());
+                value = String.valueOf(clue.getData());
                 break;
             case CLUE_SOUTH:
-                value = String.valueOf(element.getValueInt());
+                value = String.valueOf(clue.getData());
                 break;
             case CLUE_WEST:
-                value = TreeTentClue.colNumToString(element.getValueInt() + 1);
+                value = TreeTentClue.colNumToString(clue.getData() + 1);
                 break;
             default:
                 value = "";

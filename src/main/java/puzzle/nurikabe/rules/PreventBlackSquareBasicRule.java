@@ -42,7 +42,7 @@ public class PreventBlackSquareBasicRule extends BasicRule
 
         NurikabeBoard modified = origBoardState.copy();
         NurikabeCell modCell = (NurikabeCell) modified.getElementData(elementIndex);
-        modCell.setValueInt(NurikabeType.BLACK.toValue());
+        modCell.setData(NurikabeType.BLACK.toValue());
 
         if(contraRule.checkContradiction(new TreeTransition(null, modified)) == null)
         {

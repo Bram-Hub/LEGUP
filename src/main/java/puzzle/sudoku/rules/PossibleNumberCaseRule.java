@@ -115,7 +115,7 @@ public class PossibleNumberCaseRule extends CaseRule
         {
             for(int x = 0; x < groupDim; x++)
             {
-                values.remove(sudokuBoard.getCell(groupNum, x, y).getValueInt());
+                values.remove(sudokuBoard.getCell(groupNum, x, y).getData());
             }
         }
 
@@ -123,7 +123,7 @@ public class PossibleNumberCaseRule extends CaseRule
         {
             Board caseBoard = sudokuBoard.copy();
             Element data = sudokuBoard.getElementData(elementIndex).copy();
-            data.setValueInt(val);
+            data.setData(val);
             caseBoard.setElementData(elementIndex, data);
             cases.add(caseBoard);
         }

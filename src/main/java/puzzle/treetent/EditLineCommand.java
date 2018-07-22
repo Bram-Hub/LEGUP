@@ -91,7 +91,7 @@ public class EditLineCommand extends PuzzleCommand
         System.out.println("Size: " + board.getModifiedData().size());
         for(int i = 0; i < board.getModifiedData().size(); i++)
         {
-            if(board.getModifiedData().get(i).getValueString() == "LINE")
+            if(board.getModifiedData().get(i) instanceof TreeTentLine)
             {
                 if(((TreeTentLine) newData).compare((TreeTentLine) board.getModifiedData().get(i)))
                 {
@@ -198,10 +198,10 @@ public class EditLineCommand extends PuzzleCommand
 
         Board prevBoard =null;// transition.getParentNode().getBoard();
 
-        newData.setValueInt(oldData.getValueInt());
+        newData.setData(oldData.getData());
         board.notifyChange(newData);
 
-        //System.err.println(newData.getValueInt() + " : " + oldData.getValueInt());
+        //System.err.println(newData.getData() + " : " + oldData.getData());
 
         if(prevBoard.getElementData(index).equalsData(newData))
         {

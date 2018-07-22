@@ -22,11 +22,12 @@ public class TreeTentExporter extends PuzzleExporter
         boardElement.setAttribute("height", String.valueOf(board.getHeight()));
 
         org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
-        for(Element data : board.getElementData())
+        for(Element element : board.getElementData())
         {
-            if(data.getValueInt() != 0)
+            TreeTentCell cell = (TreeTentCell)element;
+            if(cell.getData() != 0)
             {
-                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, data);
+                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, element);
                 cellsElement.appendChild(cellElement);
             }
         }
@@ -37,7 +38,7 @@ public class TreeTentExporter extends PuzzleExporter
         for(TreeTentClue clue : board.getEast())
         {
             org.w3c.dom.Element clueElement = newDocument.createElement("clue");
-            clueElement.setAttribute("value", String.valueOf(clue.getValueInt()));
+            clueElement.setAttribute("value", String.valueOf(clue.getData()));
             clueElement.setAttribute("index", TreeTentClue.colNumToString(clue.getIndex()));
             axisEast.appendChild(clueElement);
         }
@@ -48,7 +49,7 @@ public class TreeTentExporter extends PuzzleExporter
         for(TreeTentClue clue : board.getEast())
         {
             org.w3c.dom.Element clueElement = newDocument.createElement("clue");
-            clueElement.setAttribute("value", String.valueOf(clue.getValueInt()));
+            clueElement.setAttribute("value", String.valueOf(clue.getData()));
             clueElement.setAttribute("index", String.valueOf(clue.getIndex()));
             axisSouth.appendChild(clueElement);
         }

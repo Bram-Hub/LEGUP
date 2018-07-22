@@ -1,7 +1,7 @@
 package model.gameboard;
 
 import java.awt.*;
-import java.util.logging.Level;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class GridBoard extends Board
@@ -96,24 +96,6 @@ public class GridBoard extends Board
     public Dimension getDimension()
     {
         return dimension;
-    }
-
-    /**
-     * Gets the cells as an int array
-     *
-     * @return int array of values
-     */
-    public int[][] getIntArray()
-    {
-        int[][] arr = new int[dimension.height][dimension.width];
-        for(int i = 0; i < dimension.height; i++)
-        {
-            for(int k = 0; k < dimension.width; k++)
-            {
-                arr[i][k] = getCell(k, i).getValueInt();
-            }
-        }
-        return arr;
     }
 
     /**

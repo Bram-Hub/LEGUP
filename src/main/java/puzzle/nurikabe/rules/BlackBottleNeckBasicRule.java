@@ -41,7 +41,7 @@ public class BlackBottleNeckBasicRule extends BasicRule
         }
         NurikabeBoard modified = origBoardState.copy();
         NurikabeCell modCell = (NurikabeCell) modified.getElementData(elementIndex);
-        modCell.setValueInt(NurikabeType.WHITE.toValue());
+        modCell.setData(NurikabeType.WHITE.toValue());
 
         if(contraRule.checkContradiction(new TreeTransition(null, modified)) == null)
         {

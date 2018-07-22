@@ -20,18 +20,18 @@ public class FillapixCellController extends ElementController
             else
             {
                 Point location = new Point(data.getIndex() / boardView.getWidth(), data.getIndex() % boardView.getWidth());
-                FillapixCell cell = new FillapixCell(data.getValueInt(), location);
+                FillapixCell cell = new FillapixCell((Integer) data.getData(), location);
                 if(cell.isUnknown())
                 {
-                    data.setValueInt(cell.getValueInt() + FillapixCell.BLACK);
+                    data.setData(cell.getData() + FillapixCell.BLACK);
                 }
                 else if(cell.isBlack())
                 {
-                    data.setValueInt(cell.getValueInt() + FillapixCell.WHITE);
+                    data.setData(cell.getData() + FillapixCell.WHITE);
                 }
                 else if(cell.isWhite())
                 {
-                    data.setValueInt(cell.getValueInt() + FillapixCell.UNKNOWN);
+                    data.setData(cell.getData() + FillapixCell.UNKNOWN);
                 }
             }
         }

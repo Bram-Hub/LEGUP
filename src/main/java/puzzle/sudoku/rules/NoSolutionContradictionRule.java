@@ -32,7 +32,7 @@ public class NoSolutionContradictionRule extends ContradictionRule
     {
         SudokuBoard sudokuBoard = (SudokuBoard)transition.getBoard();
         SudokuCell cell = (SudokuCell) sudokuBoard.getElementData(elementIndex);
-        if(cell.getValueInt() != 0)
+        if(cell.getData() != 0)
         {
             return "Does not contain a contradiction at this index";
         }
@@ -50,15 +50,15 @@ public class NoSolutionContradictionRule extends ContradictionRule
 
         for(SudokuCell c : region)
         {
-            solution.remove(c.getValueInt());
+            solution.remove(c.getData());
         }
         for(SudokuCell c : row)
         {
-            solution.remove(c.getValueInt());
+            solution.remove(c.getData());
         }
         for(SudokuCell c : col)
         {
-            solution.remove(c.getValueInt());
+            solution.remove(c.getData());
         }
 
         if(solution.isEmpty())

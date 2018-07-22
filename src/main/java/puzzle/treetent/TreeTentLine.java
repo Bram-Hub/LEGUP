@@ -47,8 +47,4 @@ public class TreeTentLine extends Element
     {
         return new TreeTentLine(c1.copy(), c2.copy());
     }
-    @Override
-    public String getValueString(){
-        return "LINE";
-    }
 }

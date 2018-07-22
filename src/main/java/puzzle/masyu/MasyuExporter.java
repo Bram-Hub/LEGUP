@@ -22,11 +22,12 @@ public class MasyuExporter extends PuzzleExporter
         boardElement.setAttribute("height", String.valueOf(board.getHeight()));
 
         org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
-        for(Element data : board.getElementData())
+        for(Element element : board.getElementData())
         {
-            if(data.getValueInt() != -2)
+            MasyuCell cell = (MasyuCell)element;
+            if(cell.getData() != -2)
             {
-                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, data);
+                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, element);
                 cellsElement.appendChild(cellElement);
             }
         }

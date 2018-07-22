@@ -37,16 +37,16 @@ public class SurroundRegionBasicRuleTest
 
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
         NurikabeCell cell1 = board.getCell(1,0);
-        cell1.setValueInt(NurikabeType.BLACK.toValue());
+        cell1.setData(NurikabeType.BLACK.toValue());
         board.addModifiedData(cell1);
         NurikabeCell cell2 = board.getCell(0,1);
-        cell2.setValueInt(NurikabeType.BLACK.toValue());
+        cell2.setData(NurikabeType.BLACK.toValue());
         board.addModifiedData(cell2);
         NurikabeCell cell3 = board.getCell(2,1);
-        cell3.setValueInt(NurikabeType.BLACK.toValue());
+        cell3.setData(NurikabeType.BLACK.toValue());
         board.addModifiedData(cell3);
         NurikabeCell cell4 = board.getCell(1,2);
-        cell4.setValueInt(NurikabeType.BLACK.toValue());
+        cell4.setData(NurikabeType.BLACK.toValue());
         board.addModifiedData(cell4);
 
         Assert.assertNull(RULE.checkRule(transition));
@@ -74,10 +74,10 @@ public class SurroundRegionBasicRuleTest
 
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
         NurikabeCell cell1 = board.getCell(1,0);
-        cell1.setValueInt(NurikabeType.BLACK.toValue());
+        cell1.setData(NurikabeType.BLACK.toValue());
         board.addModifiedData(cell1);
         NurikabeCell cell2 = board.getCell(0,1);
-        cell2.setValueInt(NurikabeType.BLACK.toValue());
+        cell2.setData(NurikabeType.BLACK.toValue());
         board.addModifiedData(cell2);
 
         Assert.assertNull(RULE.checkRule(transition));

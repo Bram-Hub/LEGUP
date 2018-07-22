@@ -44,23 +44,23 @@ public class LastNumberForCellBasicRule extends BasicRule
         for(int i = 0; i < groupSize; i++)
         {
             SudokuCell cell = initialBoard.getCell(groupNum, i % groupDim, i / groupDim);
-            numbers.remove(cell.getValueInt());
+            numbers.remove(cell.getData());
         }
         for(int i = 0; i < groupSize; i++)
         {
             SudokuCell cell = initialBoard.getCell(i, colIndex);
-            numbers.remove(cell.getValueInt());
+            numbers.remove(cell.getData());
         }
         for(int i = 0; i < groupSize; i++)
         {
             SudokuCell cell = initialBoard.getCell(rowIndex, i);
-            numbers.remove(cell.getValueInt());
+            numbers.remove(cell.getData());
         }
         if(numbers.size() > 1)
         {
             return "The number at the index is not forced";
         }
-        else if(numbers.size() == 1 && numbers.iterator().next() != finalBoard.getElementData(elementIndex).getValueInt())
+        else if(numbers.size() == 1 && numbers.iterator().next() != finalBoard.getElementData(elementIndex).getData())
         {
             return "The number at the index is forced but not correct";
         }

@@ -1,5 +1,6 @@
 package puzzle.fillapix;
 
+import model.gameboard.Element;
 import model.gameboard.GridCell;
 import ui.boardview.GridElementView;
 
@@ -20,6 +21,17 @@ public class FillapixElementView extends GridElementView
     }
 
     /**
+     * Gets the Element associated with this view
+     *
+     * @return Element associated with this view
+     */
+    @Override
+    public FillapixCell getElement()
+    {
+        return (FillapixCell)super.getElement();
+    }
+
+    /**
      * Draws the fillapix element to the screen
      *
      * @param graphics2D graphics object
@@ -27,7 +39,7 @@ public class FillapixElementView extends GridElementView
     @Override
     public void drawElement(Graphics2D graphics2D)
     {
-        FillapixCell cell = new FillapixCell(element.getValueInt(), location);
+        FillapixCell cell = new FillapixCell((Integer) element.getData(), location);
 
         Color cellColor = null;
         Color textColor = FONT_COLOR;

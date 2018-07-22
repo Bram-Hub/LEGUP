@@ -64,7 +64,7 @@ public class TreeTentBoard extends GridBoard
     @Override
     public void notifyChange(Element data)
     {
-        if(data.getValueString() == "LINE"){
+        if(data instanceof TreeTentLine){
             lines.add((TreeTentLine) data);
         }
         else

@@ -14,9 +14,20 @@ public class LightUpCell extends GridCell
         this.isLite = false;
     }
 
+    /**
+     * Gets the int value that represents this element
+     *
+     * @return int value
+     */
+    @Override
+    public Integer getData() {
+        return (Integer) super.getData();
+    }
+
     public LightUpCellType getType()
     {
-        switch(valueInt)
+        Integer value = getData();
+        switch(value)
         {
             case -4:
                 return LightUpCellType.BULB;
@@ -27,7 +38,7 @@ public class LightUpCell extends GridCell
             case -1:
                 return LightUpCellType.BLACK;
             default:
-                if(valueInt >= 0)
+                if(value >= 0)
                 {
                     return LightUpCellType.NUMBER;
                 }
@@ -48,7 +59,7 @@ public class LightUpCell extends GridCell
     @Override
     public LightUpCell copy()
     {
-        LightUpCell copy = new LightUpCell(valueInt, (Point)location.clone());
+        LightUpCell copy = new LightUpCell((Integer) data, (Point)location.clone());
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);

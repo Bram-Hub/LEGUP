@@ -28,7 +28,7 @@ public class SelectionItemView extends JMenuItem
 
     public SelectionItemView(Element data)
     {
-        this(data, data.getValueInt());
+        this(data, (Integer)data.getData());
     }
 
     public Element getData()

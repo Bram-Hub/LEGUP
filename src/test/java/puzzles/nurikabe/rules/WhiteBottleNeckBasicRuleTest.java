@@ -11,7 +11,6 @@ import puzzle.nurikabe.Nurikabe;
 import puzzle.nurikabe.NurikabeBoard;
 import puzzle.nurikabe.NurikabeCell;
 import puzzle.nurikabe.NurikabeType;
-import puzzle.nurikabe.rules.TooFewSpacesContradictionRule;
 import puzzle.nurikabe.rules.WhiteBottleNeckBasicRule;
 import save.InvalidFileFormatException;
 
@@ -38,7 +37,7 @@ public class WhiteBottleNeckBasicRuleTest
         transition.setRule(RULE);
 
         NurikabeCell cell = board.getCell(2, 1);
-        cell.setValueInt(NurikabeType.WHITE.toValue());
+        cell.setData(NurikabeType.WHITE.toValue());
         board.addModifiedData(cell);
 
         Assert.assertNull(RULE.checkRule(transition));
@@ -66,7 +65,7 @@ public class WhiteBottleNeckBasicRuleTest
         transition.setRule(RULE);
 
         NurikabeCell cell = board.getCell(0, 0);
-        cell.setValueInt(NurikabeType.WHITE.toValue());
+        cell.setData(NurikabeType.WHITE.toValue());
         board.addModifiedData(cell);
 
         Assert.assertNotNull(RULE.checkRule(transition));

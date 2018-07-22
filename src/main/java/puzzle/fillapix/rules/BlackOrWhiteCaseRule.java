@@ -5,6 +5,7 @@ import model.gameboard.CaseBoard;
 import model.gameboard.Element;
 import model.rules.CaseRule;
 import model.tree.TreeTransition;
+import puzzle.fillapix.Fillapix;
 import puzzle.fillapix.FillapixBoard;
 import puzzle.fillapix.FillapixCell;
 
@@ -23,7 +24,8 @@ public class BlackOrWhiteCaseRule extends CaseRule {
         CaseBoard caseBoard = new CaseBoard(fillapixBoard, this);
         fillapixBoard.setModifiable(false);
         for (Element data: fillapixBoard.getElementData()) {
-            if(FillapixCell.isUnknown(data.getValueInt())) {
+            FillapixCell cell = (FillapixCell) data;
+            if(FillapixCell.isUnknown(cell.getData())) {
                 caseBoard.addPickableElement(data);
             }
         }
@@ -35,14 +37,16 @@ public class BlackOrWhiteCaseRule extends CaseRule {
         ArrayList<Board> cases = new ArrayList<>();
 
         Board case1 = board.copy();
-        int case1Value = case1.getElementData(elementIndex).getValueInt()+FillapixCell.BLACK;
-        case1.getElementData(elementIndex).setValueInt(case1Value);
+        FillapixCell cell1 = (FillapixCell) case1.getElementData(elementIndex);
+        int case1Value = cell1.getData() + FillapixCell.BLACK;
+        case1.getElementData(elementIndex).setData(case1Value);
         case1.getElementData(elementIndex).setModified(true);
         cases.add(case1);
 
         Board case2 = board.copy();
-        int case2Value = case2.getElementData(elementIndex).getValueInt()+FillapixCell.BLACK+FillapixCell.WHITE;
-        case2.getElementData(elementIndex).setValueInt(case2Value);
+        FillapixCell cell2 = (FillapixCell) case2.getElementData(elementIndex);
+        int case2Value = cell2.getData() + FillapixCell.BLACK + FillapixCell.WHITE;
+        case2.getElementData(elementIndex).setData(case2Value);
         case2.getElementData(elementIndex).setModified(true);
         cases.add(case2);
 

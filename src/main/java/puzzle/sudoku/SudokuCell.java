@@ -21,6 +21,18 @@ public class SudokuCell extends GridCell
         this.groupIndex = groupIndex;
     }
 
+    private SudokuCell(Object data, Point location, int groupIndex)
+    {
+        this(((Integer)data).intValue(), location, groupIndex);
+    }
+
+    @Override
+    public Integer getData()
+    {
+        return (Integer)data;
+    }
+
+
     /**
      * Gets the group index of the cell
      *
@@ -39,7 +51,7 @@ public class SudokuCell extends GridCell
     @Override
     public SudokuCell copy()
     {
-        SudokuCell copy = new SudokuCell(valueInt, (Point)location.clone(), groupIndex);
+        SudokuCell copy = new SudokuCell(data, (Point)location.clone(), groupIndex);
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);

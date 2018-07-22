@@ -31,7 +31,7 @@ public class LastCellForNumberBasicRule extends BasicRule
         SudokuBoard finalBoard = (SudokuBoard) transition.getBoard();
 
         SudokuCell cell = (SudokuCell) finalBoard.getElementData(elementIndex);
-        if(cell.getValueInt() == 0)
+        if(cell.getData() == 0)
         {
             return "cell is not forced at this index";
         }
@@ -47,7 +47,7 @@ public class LastCellForNumberBasicRule extends BasicRule
         {
             for(SudokuCell c : region)
             {
-                if(cell.getValueInt() == c.getValueInt())
+                if(cell.getData() == c.getData())
                 {
                     contains = true;
                     break;
@@ -63,7 +63,7 @@ public class LastCellForNumberBasicRule extends BasicRule
             contains = false;
             for(SudokuCell c : row)
             {
-                if(cell.getValueInt() == c.getValueInt())
+                if(cell.getData() == c.getData())
                 {
                     contains = true;
                     break;
@@ -79,7 +79,7 @@ public class LastCellForNumberBasicRule extends BasicRule
             contains = false;
             for(SudokuCell c : col)
             {
-                if(cell.getValueInt() == c.getValueInt())
+                if(cell.getData() == c.getData())
                 {
                     contains = true;
                     break;

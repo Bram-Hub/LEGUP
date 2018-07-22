@@ -1,5 +1,6 @@
 package puzzle.nurikabe;
 
+import model.gameboard.Element;
 import ui.boardview.GridElementView;
 
 import java.awt.*;
@@ -13,6 +14,17 @@ public class NurikabeElementView extends GridElementView
     public NurikabeElementView(NurikabeCell cell)
     {
         super(cell);
+    }
+
+    /**
+     * Gets the Element associated with this view
+     *
+     * @return Element associated with this view
+     */
+    @Override
+    public NurikabeCell getElement()
+    {
+        return (NurikabeCell)super.getElement();
     }
 
     @Override
@@ -32,10 +44,10 @@ public class NurikabeElementView extends GridElementView
             graphics2D.setColor(FONT_COLOR);
             graphics2D.setFont(FONT);
             FontMetrics metrics = graphics2D.getFontMetrics(FONT);
-            String value = String.valueOf(element.getValueInt());
+            String value = String.valueOf(element.getData());
             int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-            graphics2D.drawString(String.valueOf(element.getValueInt()), xText, yText);
+            graphics2D.drawString(String.valueOf(element.getData()), xText, yText);
         }
         else if(type == NurikabeType.BLACK)
         {

@@ -15,6 +15,12 @@ public class MasyuCell extends GridCell
         this.connectedCell = null;
     }
 
+    @Override
+    public Integer getData()
+    {
+        return (Integer) super.getData();
+    }
+
     public MasyuCell getConnectedCell()
     {
         return connectedCell;
@@ -22,7 +28,8 @@ public class MasyuCell extends GridCell
 
     public MasyuType getType()
     {
-        switch(valueInt)
+        Integer value = getData();
+        switch(value)
         {
             case 0:
                 return MasyuType.UNKNOWN;
@@ -38,7 +45,7 @@ public class MasyuCell extends GridCell
     @Override
     public MasyuCell copy()
     {
-        MasyuCell copy = new MasyuCell(valueInt, (Point)location.clone());
+        MasyuCell copy = new MasyuCell((Integer) data, (Point)location.clone());
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);

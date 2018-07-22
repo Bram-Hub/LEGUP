@@ -24,6 +24,17 @@ public class FillapixCell extends GridCell
         }
     }
 
+    /**
+     * Gets the int value that represents this element
+     *
+     * @return int value
+     */
+    @Override
+    public Integer getData()
+    {
+        return (Integer) super.getData();
+    }
+
     public static boolean isGiven(int value)
     {
         return value != -1 && value != 19 && value != 49;
@@ -107,7 +118,7 @@ public class FillapixCell extends GridCell
     @Override
     public FillapixCell copy()
     {
-        FillapixCell cell = new FillapixCell(valueInt, (Point) location.clone());
+        FillapixCell cell = new FillapixCell((Integer) data, (Point) location.clone());
         cell.setIndex(index);
         cell.setModifiable(isModifiable);
         cell.setState(state);

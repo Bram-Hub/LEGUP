@@ -11,6 +11,7 @@ public class NurikabeController extends ElementController
     @Override
     public void changeCell(MouseEvent e, Element data)
     {
+        NurikabeCell cell = (NurikabeCell)data;
         if(e.getButton() == MouseEvent.BUTTON1)
         {
             if(e.isControlDown())
@@ -19,33 +20,33 @@ public class NurikabeController extends ElementController
             }
             else
             {
-                if(data.getValueInt() == -2)
+                if(cell.getData() == -2)
                 {
-                    data.setValueInt(0);
+                    data.setData(0);
                 }
-                else if(data.getValueInt() == 0)
+                else if(cell.getData() == 0)
                 {
-                    data.setValueInt(-1);
+                    data.setData(-1);
                 }
                 else
                 {
-                    data.setValueInt(-2);
+                    data.setData(-2);
                 }
             }
         }
         else if(e.getButton() == MouseEvent.BUTTON3)
         {
-            if(data.getValueInt() == -2)
+            if(cell.getData() == -2)
             {
-                data.setValueInt(-1);
+                data.setData(-1);
             }
-            else if(data.getValueInt() == 0)
+            else if(cell.getData() == 0)
             {
-                data.setValueInt(-2);
+                data.setData(-2);
             }
             else
             {
-                data.setValueInt(0);
+                data.setData(0);
             }
         }
     }

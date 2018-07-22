@@ -39,7 +39,7 @@ public class FillinWhiteBasicRule extends BasicRule
             return "Only white cells are allowed for this rule!";
         }
         NurikabeBoard modified = origBoard.copy();
-        modified.getElementData(elementIndex).setValueInt(NurikabeType.BLACK.toValue());
+        modified.getElementData(elementIndex).setData(NurikabeType.BLACK.toValue());
         if(contraRule.checkContradictionAt(new TreeTransition(null, modified), elementIndex) != null)
         {
             return "white cells must be placed in a region of white cells!";

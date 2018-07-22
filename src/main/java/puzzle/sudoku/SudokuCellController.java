@@ -22,7 +22,7 @@ public class SudokuCellController implements MouseListener
     public void mouseClicked(MouseEvent e)
     {
         SudokuElementView cell = (SudokuElementView) e.getSource();
-        cell.getElement().setValueInt(cell.getElement().getValueInt() + 1);
+        cell.getElement().setData(cell.getElement().getData() + 1);
     }
 
     /**
