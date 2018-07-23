@@ -45,40 +45,7 @@ public class TreeTent extends Puzzle
     public void initializeView()
     {
         TreeTentBoard board = (TreeTentBoard)currentBoard;
-        TreeTentView view = new TreeTentView(board.getDimension());
-        boardView = view;
-        for(ElementView elementView: boardView.getElementViews())
-        {
-            TreeTentCell cell = (TreeTentCell)board.getElementData(elementView.getElement());
-
-            cell.setIndex(cell.getIndex());
-            elementView.setElement(cell);
-        }
-
-        for(TreeTentLine line : board.getLines())
-        {
-            TreeTentLineView lineView = new TreeTentLineView(line);
-            lineView.setSize(view.getSize());
-            view.getLineViews().add(lineView);
-        }
-
-        for(int i = 0; i < board.getHeight(); i++)
-        {
-            TreeTentClueView row = view.getWestClues().get(i);
-            TreeTentClueView clue = view.getEastClues().get(i);
-
-            row.setElement(new TreeTentClue(i, i, TreeTentType.CLUE_WEST));
-            clue.setElement(board.getEast().get(i));
-        }
-
-        for(int i = 0; i < board.getWidth(); i++)
-        {
-            TreeTentClueView col = view.getNorthClues().get(i);
-            TreeTentClueView clue = view.getSouthClues().get(i);
-
-            col.setElement(new TreeTentClue(i, i, TreeTentType.CLUE_NORTH));
-            clue.setElement(board.getSouth().get(i));
-        }
+        boardView = new TreeTentView((TreeTentBoard)currentBoard);
     }
 
     /**

@@ -46,15 +46,7 @@ public class LightUp extends Puzzle
     @Override
     public void initializeView()
     {
-        LightUpBoard board = (LightUpBoard) currentBoard;
-        boardView = new LightUpView(new Dimension(board.getWidth(), board.getHeight()));
-        for(ElementView elementView: boardView.getElementViews())
-        {
-            LightUpCell cell = (LightUpCell)currentBoard.getElementData(elementView.getElement());
-
-            cell.setIndex(elementView.getIndex());
-            elementView.setElement(cell);
-        }
+        boardView = new LightUpView((LightUpBoard) currentBoard);
     }
 
     /**

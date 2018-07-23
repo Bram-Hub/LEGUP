@@ -42,15 +42,7 @@ public class Fillapix extends Puzzle
     @Override
     public void initializeView()
     {
-        FillapixBoard board = (FillapixBoard) currentBoard;
-        boardView = new FillapixView(new Dimension(board.getWidth(), board.getHeight()));
-        for(ElementView element : boardView.getElementViews())
-        {
-            FillapixCell cell = (FillapixCell) currentBoard.getElementData(element.getElement());
-
-            cell.setIndex(cell.getIndex());
-            element.setElement(cell);
-        }
+        boardView = new FillapixView((FillapixBoard) currentBoard);
     }
 
     @Override

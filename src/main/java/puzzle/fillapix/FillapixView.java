@@ -2,6 +2,7 @@ package puzzle.fillapix;
 
 import controller.BoardController;
 import model.gameboard.Board;
+import model.gameboard.Element;
 import ui.boardview.ElementView;
 import ui.boardview.GridBoardView;
 
@@ -9,21 +10,19 @@ import java.awt.*;
 
 public class FillapixView extends GridBoardView
 {
-    public FillapixView(Dimension gridSize)
+    public FillapixView(FillapixBoard board)
     {
-        super(new BoardController(), new FillapixCellController(), gridSize);
+        super(new BoardController(), new FillapixCellController(), board.getDimension());
 
-        for(int i = 0; i < gridSize.height; i++)
+        for(Element element : board.getElementData())
         {
-            for(int j = 0; j < gridSize.width; j++)
-            {
-                Point location = new Point(j * elementSize.width, i * elementSize.height);
-                FillapixElementView element = new FillapixElementView(new FillapixCell(-2, null));
-                element.setIndex(i * gridSize.width + j);
-                element.setSize(elementSize);
-                element.setLocation(location);
-                elementViews.add(element);
-            }
+            FillapixCell cell = (FillapixCell)element;
+            Point loc = cell.getLocation();
+            FillapixElementView elementView = new FillapixElementView(cell);
+            elementView.setIndex(cell.getIndex());
+            elementView.setSize(elementSize);
+            elementView.setLocation(new Point(loc.x * elementSize.width, loc.y * elementSize.height));
+            elementViews.add(elementView);
         }
     }
 

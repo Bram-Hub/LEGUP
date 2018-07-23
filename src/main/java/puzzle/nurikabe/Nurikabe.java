@@ -6,7 +6,6 @@ import model.gameboard.Element;
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
 import puzzle.nurikabe.rules.*;
-import ui.boardview.ElementView;
 
 public class Nurikabe extends Puzzle
 {
@@ -48,17 +47,8 @@ public class Nurikabe extends Puzzle
     @Override
     public void initializeView()
     {
-        NurikabeBoard board= (NurikabeBoard)currentBoard;
-        boardView = new NurikabeView(board.getDimension());
+        boardView = new NurikabeView((NurikabeBoard)currentBoard);
         addBoardListener(boardView);
-
-        for(ElementView elementView: boardView.getElementViews())
-        {
-            NurikabeCell cell = (NurikabeCell)currentBoard.getElementData(elementView.getElement());
-
-            cell.setIndex(cell.getIndex());
-            elementView.setElement(cell);
-        }
     }
 
     /**

@@ -49,15 +49,7 @@ public class Sudoku extends Puzzle
     @Override
     public void initializeView()
     {
-        SudokuBoard board= (SudokuBoard)currentBoard;
-        boardView = new SudokuView(board.getDimension());
-        for(ElementView elementView: boardView.getElementViews())
-        {
-            SudokuCell cell = (SudokuCell) currentBoard.getElementData(elementView.getElement());
-
-            cell.setIndex(cell.getIndex());
-            elementView.setElement(cell);
-        }
+        boardView = new SudokuView((SudokuBoard)currentBoard);
     }
 
     /**

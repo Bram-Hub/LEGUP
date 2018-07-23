@@ -25,14 +25,7 @@ public class Masyu extends Puzzle
     @Override
     public void initializeView()
     {
-        boardView = new MasyuView(((MasyuBoard)currentBoard).getDimension());
-        for(ElementView elementView: boardView.getElementViews())
-        {
-            MasyuCell cell = (MasyuCell)currentBoard.getElementData(elementView.getElement());
-
-            cell.setIndex(cell.getIndex());
-            elementView.setElement(cell);
-        }
+        boardView = new MasyuView((MasyuBoard)currentBoard);
     }
 
     /**

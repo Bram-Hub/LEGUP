@@ -2,6 +2,7 @@ package puzzle.sudoku;
 
 import controller.BoardController;
 import controller.ElementController;
+import model.gameboard.Element;
 import ui.boardview.*;
 
 import javax.swing.*;
@@ -13,23 +14,19 @@ public class SudokuView extends GridBoardView
     private static final Stroke MINOR_STOKE = new BasicStroke(1);
     private static final Stroke MAJOR_STOKE = new BasicStroke(4);
 
-    public SudokuView(Dimension gridSize)
+    public SudokuView(SudokuBoard board)
     {
-        super(new BoardController(), new ElementController(), gridSize);
+        super(new BoardController(), new ElementController(), board.getDimension());
 
-        int minorSize = (int)Math.sqrt(gridSize.width);
-        for(int i = 0; i < gridSize.height; i++)
+        for(Element element : board.getElementData())
         {
-            for(int k = 0; k < gridSize.width; k++)
-            {
-                Point location = new Point(k * elementSize.width + (k / minorSize) * 4 + 5,
-                        i * elementSize.height + (i / minorSize) * 4 + 5);
-                SudokuElementView element = new SudokuElementView(new SudokuCell(0, null, 0));
-                element.setIndex(i * gridSize.width + k);
-                element.setSize(elementSize);
-                element.setLocation(location);
-                elementViews.add(element);
-            }
+            SudokuCell cell = (SudokuCell)element;
+            Point loc = cell.getLocation();
+            SudokuElementView elementView = new SudokuElementView(cell);
+            elementView.setIndex(cell.getIndex());
+            elementView.setSize(elementSize);
+            elementView.setLocation(new Point(loc.x * elementSize.width, loc.y * elementSize.height));
+            elementViews.add(elementView);
         }
     }
 

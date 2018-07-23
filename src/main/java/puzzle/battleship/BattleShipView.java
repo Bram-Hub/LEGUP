@@ -2,24 +2,25 @@ package puzzle.battleship;
 
 import controller.BoardController;
 import model.gameboard.Board;
+import model.gameboard.Element;
 import ui.boardview.ElementView;
 import ui.boardview.GridBoardView;
 
 import java.awt.*;
 
 public class BattleShipView extends GridBoardView {
-    public BattleShipView(Dimension gridSize) {
-        super(new BoardController(), new BattleShipCellController(), gridSize);
+    public BattleShipView(BattleShipBoard board) {
+        super(new BoardController(), new BattleShipCellController(), board.getDimension());
 
-        for (int i = 0; i < gridSize.height; i++) {
-            for (int j = 0; j < gridSize.width; j++) {
-                Point location = new Point(j*elementSize.width, i*elementSize.height);
-                BattleShipElementView element = new BattleShipElementView(new BattleShipCell(0, null));
-                element.setIndex(i*gridSize.width+j);
-                element.setSize(elementSize);
-                element.setLocation(location);
-                elementViews.add(element);
-            }
+        for(Element element : board.getElementData())
+        {
+            BattleShipCell cell = (BattleShipCell)element;
+            Point loc = cell.getLocation();
+            BattleShipElementView elementView = new BattleShipElementView(cell);
+            elementView.setIndex(cell.getIndex());
+            elementView.setSize(elementSize);
+            elementView.setLocation(new Point(loc.x * elementSize.width, loc.y * elementSize.height));
+            elementViews.add(elementView);
         }
     }
 

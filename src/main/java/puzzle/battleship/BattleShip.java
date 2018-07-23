@@ -25,15 +25,7 @@ public class BattleShip extends Puzzle
     @Override
     public void initializeView()
     {
-        BattleShipBoard board = (BattleShipBoard) currentBoard;
-        boardView = new BattleShipView(new Dimension(board.getWidth(), board.getHeight()));
-        for(ElementView element : boardView.getElementViews())
-        {
-            BattleShipCell cell = (BattleShipCell) currentBoard.getElementData(element.getElement());
-
-            cell.setIndex(cell.getIndex());
-            element.setElement(cell);
-        }
+        boardView = new BattleShipView((BattleShipBoard) currentBoard);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package puzzle.lightup;
 
-import model.gameboard.Element;
 import ui.boardview.GridElementView;
 
 import java.awt.*;
