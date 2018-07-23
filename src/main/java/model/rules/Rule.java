@@ -1,5 +1,6 @@
 package model.rules;
 
+import model.gameboard.Element;
 import model.tree.TreeTransition;
 
 import javax.swing.ImageIcon;
@@ -33,6 +34,7 @@ public abstract class Rule
      * Checks whether the transition logically follows from the parent node using this rule
      *
      * @param transition transition to check
+     *
      * @return null if the child node logically follow from the parent node, otherwise error message
      */
     public abstract String checkRule(TreeTransition transition);
@@ -42,6 +44,7 @@ public abstract class Rule
      * This method is the one that should overridden in child classes
      *
      * @param transition transition to check
+     *
      * @return null if the child node logically follow from the parent node, otherwise error message
      */
     protected abstract String checkRuleRaw(TreeTransition transition);
@@ -51,11 +54,12 @@ public abstract class Rule
      * at the specific element index using this rule
      *
      * @param transition transition to check
-     * @param elementIndex index of the element
+     * @param element equivalent element
+     *
      * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
-    public abstract String checkRuleAt(TreeTransition transition, int elementIndex);
+    public abstract String checkRuleAt(TreeTransition transition, Element element);
 
     /**
      * Checks whether the child node logically follows from the parent node
@@ -63,17 +67,19 @@ public abstract class Rule
      * This method is the one that should overridden in child classes
      *
      * @param transition transition to check
-     * @param elementIndex index of the element
+     * @param element equivalent element
+     *
      * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
-    protected abstract String checkRuleRawAt(TreeTransition transition, int elementIndex);
+    protected abstract String checkRuleRawAt(TreeTransition transition, Element element);
 
     /**
      * Checks whether the child node logically follows from the parent node using this rule
      * and if so will perform the default application of the rule
      *
      * @param transition transition to apply default application
+     *
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
@@ -84,10 +90,12 @@ public abstract class Rule
      * specific element index using this rule and if so will perform the default application of the rule
      *
      * @param transition transition to apply default application
+     * @param element equivalent element
+     *
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
-    public abstract boolean doDefaultApplicationAt(TreeTransition transition, int elementIndex);
+    public abstract boolean doDefaultApplicationAt(TreeTransition transition, Element element);
 
     /**
      * Loads the image file

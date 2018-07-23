@@ -1,5 +1,6 @@
 package puzzle.sudoku.rules;
 
+import model.gameboard.Element;
 import model.rules.BasicRule;
 import model.tree.TreeTransition;
 import puzzle.sudoku.SudokuBoard;
@@ -22,19 +23,20 @@ public class LastNumberForCellBasicRule extends BasicRule
      * at the specific element index using this rule
      *
      * @param transition transition to check
-     * @param elementIndex index of the element
+     * @param element equivalent element
      * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
-    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, Element element)
     {
         SudokuBoard initialBoard = (SudokuBoard) transition.getParents().get(0).getBoard();
         SudokuBoard finalBoard = (SudokuBoard) transition.getBoard();
 
+        int index = element.getIndex();
         int groupSize = initialBoard.getWidth();
         int groupDim = (int)Math.sqrt(groupSize);
-        int rowIndex = elementIndex / groupSize;
-        int colIndex = elementIndex % groupSize;
+        int rowIndex = index / groupSize;
+        int colIndex = index % groupSize;
         int groupNum = rowIndex / groupDim * groupDim + colIndex % groupDim;
         HashSet<Integer> numbers = new HashSet<>();
         for(int i = 1; i <= groupSize; i++)
@@ -60,7 +62,7 @@ public class LastNumberForCellBasicRule extends BasicRule
         {
             return "The number at the index is not forced";
         }
-        else if(numbers.size() == 1 && numbers.iterator().next() != finalBoard.getElementData(elementIndex).getData())
+        else if(numbers.size() == 1 && numbers.iterator().next() != finalBoard.getElementData(element).getData())
         {
             return "The number at the index is forced but not correct";
         }
@@ -87,13 +89,13 @@ public class LastNumberForCellBasicRule extends BasicRule
      * specific element index using this rule and if so will perform the default application of the rule
      *
      * @param transition   transition to apply default application
-     * @param elementIndex
+     * @param element equivalent element
      *
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
     @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, int elementIndex)
+    public boolean doDefaultApplicationAt(TreeTransition transition, Element element)
     {
         return false;
     }

@@ -170,7 +170,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     {
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         ElementView selectedElement = boardView.getSelection().getFirstSelection();
-        Element data = selectedElement.getElement();
+        Element element = selectedElement.getElement();
         int index = selectedElement.getIndex();
 
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
@@ -182,14 +182,14 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
 
         int value = (Integer) ((SelectionItemView)e.getSource()).getData().getData();
 
-        data.setData(value);
+        element.setData(value);
 
-        if(data.getData() != prevBord.getElementData(data.getIndex()).getData())
-            data.setModified(true);
+        if(element.equalsData(prevBord.getElementData(element)))
+            element.setModified(false);
         else
-            data.setModified(false);
+            element.setModified(true);
 
-        transitionView.getTreeElement().propagateChanges(data);
+        transitionView.getTreeElement().propagateChanges(element);
 
         boardView.repaint();
         boardView.getSelection().clearSelection();

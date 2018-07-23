@@ -25,6 +25,7 @@ public abstract class BasicRule extends Rule
      * Checks whether the transition logically follows from the parent node using this rule
      *
      * @param transition transition to check
+     *
      * @return null if the child node logically follow from the parent node, otherwise error message
      */
     public String checkRule(TreeTransition transition)
@@ -51,15 +52,15 @@ public abstract class BasicRule extends Rule
      * This method is the one that should overridden in child classes
      *
      * @param transition transition to check
+     *
      * @return null if the child node logically follow from the parent node, otherwise error message
      */
     public String checkRuleRaw(TreeTransition transition)
     {
         Board finalBoard = transition.getBoard();
-        for(Element data: finalBoard.getModifiedData())
+        for(Element element: finalBoard.getModifiedData())
         {
-            int elementIndex = data.getIndex();
-            String checkStr = checkRuleAt(transition, elementIndex);
+            String checkStr = checkRuleAt(transition, element);
             if(checkStr != null)
             {
                 return checkStr;
@@ -73,15 +74,16 @@ public abstract class BasicRule extends Rule
      * at the specific element index using this rule
      *
      * @param transition transition to check
-     * @param elementIndex index of the element
+     * @param element equivalent element
+     *
      * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleAt(TreeTransition transition, Element element)
     {
         Board finalBoard = transition.getBoard();
 
-        if(!finalBoard.getElementData(elementIndex).isModified())
+        if(!finalBoard.getElementData(element).isModified())
         {
             return "Element must be modified";
         }
@@ -92,7 +94,7 @@ public abstract class BasicRule extends Rule
         }
         else
         {
-            return checkRuleRawAt(transition, elementIndex);
+            return checkRuleRawAt(transition, element);
         }
     }
 }

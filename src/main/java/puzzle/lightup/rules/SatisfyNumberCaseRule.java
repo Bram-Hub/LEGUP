@@ -44,12 +44,12 @@ public class SatisfyNumberCaseRule extends CaseRule
      * Gets the possible cases at a specific location based on this case rule
      *
      * @param board        the current board state
-     * @param elementIndex element to determine the possible cases for
+     * @param element element to determine the possible cases for
      *
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, int elementIndex)
+    public ArrayList<Board> getCases(Board board, Element element)
     {
         return null;
     }
@@ -72,13 +72,13 @@ public class SatisfyNumberCaseRule extends CaseRule
      * at the specific element index using this rule
      *
      * @param transition   transition to check
-     * @param elementIndex index of the element
+     * @param element index of the element
      *
      * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
     @Override
-    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, Element element)
     {
         return null;
     }
@@ -103,13 +103,13 @@ public class SatisfyNumberCaseRule extends CaseRule
      * specific element index using this rule and if so will perform the default application of the rule
      *
      * @param transition   transition to apply default application
-     * @param elementIndex
+     * @param element
      *
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
     @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, int elementIndex)
+    public boolean doDefaultApplicationAt(TreeTransition transition, Element element)
     {
         return false;
     }

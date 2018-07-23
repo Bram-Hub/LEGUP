@@ -1,5 +1,6 @@
 package puzzle.lightup.rules;
 
+import model.gameboard.Element;
 import model.rules.BasicRule;
 import model.rules.RegisterRule;
 import model.rules.RuleType;
@@ -26,18 +27,18 @@ public class MustLightBasicRule extends BasicRule
      * at the specific element index using this rule
      *
      * @param transition   transition to check
-     * @param elementIndex index of the element
+     * @param element index of the element
      *
      * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
     @Override
-    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, Element element)
     {
         LightUpBoard initialBoard = (LightUpBoard) transition.getBoard();
         initialBoard.fillWithLight();
         LightUpBoard finalBoard = (LightUpBoard) transition.getBoard();
-        LightUpCell cell = (LightUpCell)finalBoard.getElementData(elementIndex);
+        LightUpCell cell = (LightUpCell)finalBoard.getElementData(element);
         if(cell.getType() != LightUpCellType.BULB)
         {
             return "Modified cells must be bulbs";
@@ -116,13 +117,13 @@ public class MustLightBasicRule extends BasicRule
      * specific element index using this rule and if so will perform the default application of the rule
      *
      * @param transition   transition to apply default application
-     * @param elementIndex
+     * @param element
      *
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
     @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, int elementIndex)
+    public boolean doDefaultApplicationAt(TreeTransition transition, Element element)
     {
         return false;
     }

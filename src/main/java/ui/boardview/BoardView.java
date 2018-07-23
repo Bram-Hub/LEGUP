@@ -116,7 +116,7 @@ public abstract class BoardView extends DynamicViewer implements IBoardListener
 
                 for(ElementView elementView: elementViews)
                 {
-                    Element element = baseBoard.getElementData(elementView.getIndex());
+                    Element element = baseBoard.getElementData(elementView.getElement());
                     elementView.setElement(element);
                     elementView.setShowCasePicker(true);
                     elementView.setCaseRulePickable(caseBoard.isPickable(elementView.getElement()));
@@ -126,7 +126,7 @@ public abstract class BoardView extends DynamicViewer implements IBoardListener
             {
                 for(ElementView elementView: elementViews)
                 {
-                    elementView.setElement(board.getElementData(elementView.getIndex()));
+                    elementView.setElement(board.getElementData(elementView.getElement()));
                     elementView.setShowCasePicker(false);
                 }
             }

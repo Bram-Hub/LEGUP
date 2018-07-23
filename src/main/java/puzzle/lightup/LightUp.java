@@ -48,13 +48,12 @@ public class LightUp extends Puzzle
     {
         LightUpBoard board = (LightUpBoard) currentBoard;
         boardView = new LightUpView(new Dimension(board.getWidth(), board.getHeight()));
-        for(ElementView element: boardView.getElementViews())
+        for(ElementView elementView: boardView.getElementViews())
         {
-            int index = element.getIndex();
-            LightUpCell cell = (LightUpCell)currentBoard.getElementData(index);
+            LightUpCell cell = (LightUpCell)currentBoard.getElementData(elementView.getElement());
 
-            cell.setIndex(index);
-            element.setElement(cell);
+            cell.setIndex(elementView.getIndex());
+            elementView.setElement(cell);
         }
     }
 

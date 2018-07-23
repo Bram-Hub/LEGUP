@@ -33,21 +33,19 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     }
 
     @Override
-    public ArrayList<Board> getCases(Board board, int elementIndex){
+    public ArrayList<Board> getCases(Board board, Element element){
         ArrayList<Board> cases = new ArrayList<>();
 
         Board case1 = board.copy();
-        FillapixCell cell1 = (FillapixCell) case1.getElementData(elementIndex);
-        int case1Value = cell1.getData() + FillapixCell.BLACK;
-        case1.getElementData(elementIndex).setData(case1Value);
-        case1.getElementData(elementIndex).setModified(true);
+        FillapixCell cell1 = (FillapixCell) case1.getElementData(element);
+        cell1.setData(cell1.getData() + FillapixCell.BLACK);
+        case1.addModifiedData(cell1);
         cases.add(case1);
 
         Board case2 = board.copy();
-        FillapixCell cell2 = (FillapixCell) case2.getElementData(elementIndex);
-        int case2Value = cell2.getData() + FillapixCell.BLACK + FillapixCell.WHITE;
-        case2.getElementData(elementIndex).setData(case2Value);
-        case2.getElementData(elementIndex).setModified(true);
+        FillapixCell cell2 = (FillapixCell) case2.getElementData(element);
+        cell2.setData(cell2.getData() + FillapixCell.BLACK + FillapixCell.WHITE);
+        case2.addModifiedData(cell2);
         cases.add(case2);
 
         return cases;
@@ -57,11 +55,11 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     public String checkRule(TreeTransition transition) { return null; }
 
     @Override
-    public String checkRuleRawAt(TreeTransition transition, int elementIndex) { return null; }
+    public String checkRuleRawAt(TreeTransition transition, Element element) { return null; }
 
     @Override
     public boolean doDefaultApplication(TreeTransition transition) { return false; }
 
     @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, int elementIndex) { return false; }
+    public boolean doDefaultApplicationAt(TreeTransition transition, Element element) { return false; }
 }

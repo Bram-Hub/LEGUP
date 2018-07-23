@@ -26,13 +26,12 @@ public class Masyu extends Puzzle
     public void initializeView()
     {
         boardView = new MasyuView(((MasyuBoard)currentBoard).getDimension());
-        for(ElementView element: boardView.getElementViews())
+        for(ElementView elementView: boardView.getElementViews())
         {
-            int index = element.getIndex();
-            MasyuCell cell = (MasyuCell)currentBoard.getElementData(index);
+            MasyuCell cell = (MasyuCell)currentBoard.getElementData(elementView.getElement());
 
-            cell.setIndex(index);
-            element.setElement(cell);
+            cell.setIndex(cell.getIndex());
+            elementView.setElement(cell);
         }
     }
 

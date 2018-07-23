@@ -1,5 +1,6 @@
 package puzzle.sudoku.rules;
 
+import model.gameboard.Element;
 import model.rules.BasicRule;
 import model.tree.TreeTransition;
 import puzzle.sudoku.SudokuBoard;
@@ -20,20 +21,21 @@ public class AdvancedDeductionBasicRule extends BasicRule
      * at the specific element index using this rule
      *
      * @param transition transition to check
-     * @param elementIndex index of the element
+     * @param element equivalent element
      * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
-    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, Element element)
     {
         SudokuBoard initialBoard = (SudokuBoard) transition.getParents().get(0).getBoard();
         SudokuBoard finalBoard = (SudokuBoard) transition.getBoard();
 
-        SudokuCell cell = (SudokuCell) finalBoard.getElementData(elementIndex);
+        SudokuCell cell = (SudokuCell) finalBoard.getElementData(element);
+        int index = cell.getIndex();
         int groupSize = initialBoard.getWidth();
         int groupDim = (int)Math.sqrt(groupSize);
-        int rowIndex = elementIndex / groupSize;
-        int colIndex = elementIndex % groupSize;
+        int rowIndex = index / groupSize;
+        int colIndex = index % groupSize;
         int relX = rowIndex / groupDim;
         int relY = colIndex % groupDim;
         int groupNum = rowIndex / groupDim * groupDim + colIndex / groupDim;
@@ -114,13 +116,13 @@ public class AdvancedDeductionBasicRule extends BasicRule
      * specific element index using this rule and if so will perform the default application of the rule
      *
      * @param transition   transition to apply default application
-     * @param elementIndex
+     * @param element equivalent element
      *
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
     @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, int elementIndex)
+    public boolean doDefaultApplicationAt(TreeTransition transition, Element element)
     {
         return false;
     }

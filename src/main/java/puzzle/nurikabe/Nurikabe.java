@@ -52,13 +52,12 @@ public class Nurikabe extends Puzzle
         boardView = new NurikabeView(board.getDimension());
         addBoardListener(boardView);
 
-        for(ElementView element: boardView.getElementViews())
+        for(ElementView elementView: boardView.getElementViews())
         {
-            int index = element.getIndex();
-            NurikabeCell cell = (NurikabeCell)currentBoard.getElementData(index);
+            NurikabeCell cell = (NurikabeCell)currentBoard.getElementData(elementView.getElement());
 
-            cell.setIndex(index);
-            element.setElement(cell);
+            cell.setIndex(cell.getIndex());
+            elementView.setElement(cell);
         }
     }
 

@@ -37,7 +37,7 @@ public class FillapixView extends GridBoardView
         FillapixBoard fillapixBoard = (FillapixBoard) board;
         for(ElementView element : elementViews)
         {
-            element.setElement(fillapixBoard.getElementData(element.getIndex()));
+            element.setElement(fillapixBoard.getElementData(element.getElement()));
         }
         repaint();
     }

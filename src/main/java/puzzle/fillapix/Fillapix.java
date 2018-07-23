@@ -46,10 +46,9 @@ public class Fillapix extends Puzzle
         boardView = new FillapixView(new Dimension(board.getWidth(), board.getHeight()));
         for(ElementView element : boardView.getElementViews())
         {
-            int index = element.getIndex();
-            FillapixCell cell = (FillapixCell) currentBoard.getElementData(index);
+            FillapixCell cell = (FillapixCell) currentBoard.getElementData(element.getElement());
 
-            cell.setIndex(index);
+            cell.setIndex(cell.getIndex());
             element.setElement(cell);
         }
     }

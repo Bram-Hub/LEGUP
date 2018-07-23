@@ -89,14 +89,14 @@ public class EditLineCommand extends PuzzleCommand
         boolean contains = false;
         final TreeTentBoard editBoard = board;
         System.out.println("Size: " + board.getModifiedData().size());
-        for(int i = 0; i < board.getModifiedData().size(); i++)
+        for(Element element : board.getModifiedData())
         {
-            if(board.getModifiedData().get(i) instanceof TreeTentLine)
+            if(element instanceof TreeTentLine)
             {
-                if(((TreeTentLine) newData).compare((TreeTentLine) board.getModifiedData().get(i)))
+                if(((TreeTentLine) newData).compare((TreeTentLine)element))
                 {
                     System.out.println("contains");
-                    dup_line = board.getModifiedData().get(i);
+                    dup_line = element;
                     mod_contains = true;
                 }
             }
@@ -135,12 +135,11 @@ public class EditLineCommand extends PuzzleCommand
     public boolean canExecute()
     {
         Board board = selectedView.getTreeElement().getBoard();
-        int index = elementView.getIndex();
         if(!board.isModifiable())
         {
             return false;
         }
-        else if(!board.getElementData(index).isModifiable())
+        else if(!board.getElementData(elementView.getElement()).isModifiable())
         {
             return false;
         }
@@ -157,12 +156,11 @@ public class EditLineCommand extends PuzzleCommand
     public String getExecutionError()
     {
         Board board = selectedView.getTreeElement().getBoard();
-        int index = elementView.getIndex();
         if(!board.isModifiable())
         {
             return "Board is not modifiable";
         }
-        else if(!board.getElementData(index).isModifiable())
+        else if(!board.getElementData(elementView.getElement()).isModifiable())
         {
             return "Data is not modifiable";
         }
@@ -181,7 +179,6 @@ public class EditLineCommand extends PuzzleCommand
         BoardView boardView = getInstance().getLegupUI().getBoardView();
 
         Board board = transition.getBoard();
-        int index = elementView.getIndex();
 
         if(selectedView.getType() == TreeElementType.NODE)
         {
@@ -203,7 +200,7 @@ public class EditLineCommand extends PuzzleCommand
 
         //System.err.println(newData.getData() + " : " + oldData.getData());
 
-        if(prevBoard.getElementData(index).equalsData(newData))
+        if(prevBoard.getElementData(elementView.getElement()).equalsData(newData))
         {
             board.removeModifiedData(newData);
         }

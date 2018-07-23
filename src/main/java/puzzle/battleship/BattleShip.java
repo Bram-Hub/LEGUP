@@ -29,10 +29,9 @@ public class BattleShip extends Puzzle
         boardView = new BattleShipView(new Dimension(board.getWidth(), board.getHeight()));
         for(ElementView element : boardView.getElementViews())
         {
-            int index = element.getIndex();
-            BattleShipCell cell = (BattleShipCell) currentBoard.getElementData(index);
+            BattleShipCell cell = (BattleShipCell) currentBoard.getElementData(element.getElement());
 
-            cell.setIndex(index);
+            cell.setIndex(cell.getIndex());
             element.setElement(cell);
         }
     }

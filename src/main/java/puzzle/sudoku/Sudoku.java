@@ -51,13 +51,12 @@ public class Sudoku extends Puzzle
     {
         SudokuBoard board= (SudokuBoard)currentBoard;
         boardView = new SudokuView(board.getDimension());
-        for(ElementView element: boardView.getElementViews())
+        for(ElementView elementView: boardView.getElementViews())
         {
-            int index = element.getIndex();
-            SudokuCell cell = (SudokuCell) currentBoard.getElementData(index);
+            SudokuCell cell = (SudokuCell) currentBoard.getElementData(elementView.getElement());
 
-            cell.setIndex(index);
-            element.setElement(cell);
+            cell.setIndex(cell.getIndex());
+            elementView.setElement(cell);
         }
     }
 

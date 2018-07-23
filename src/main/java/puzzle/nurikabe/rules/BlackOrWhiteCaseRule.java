@@ -39,22 +39,22 @@ public class BlackOrWhiteCaseRule extends CaseRule
      * Gets the possible cases at a specific location based on this case rule
      *
      * @param board        the current board state
-     * @param elementIndex element to determine the possible cases for
+     * @param element equivalent element
      *
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, int elementIndex)
+    public ArrayList<Board> getCases(Board board, Element element)
     {
         ArrayList<Board> cases = new ArrayList<>();
         Board case1 = board.copy();
-        Element data1 = case1.getElementData(elementIndex);
+        Element data1 = case1.getElementData(element);
         data1.setData(NurikabeType.WHITE.toValue());
         case1.addModifiedData(data1);
         cases.add(case1);
 
         Board case2 = board.copy();
-        Element data2 = case2.getElementData(elementIndex);
+        Element data2 = case2.getElementData(element);
         data2.setData(NurikabeType.BLACK.toValue());
         case2.addModifiedData(data2);
         cases.add(case2);
@@ -80,13 +80,13 @@ public class BlackOrWhiteCaseRule extends CaseRule
      * at the specific element index using this rule
      *
      * @param transition   transition to check
-     * @param elementIndex index of the element
+     * @param element equivalent element
      *
      * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
     @Override
-    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, Element element)
     {
         return null;
     }
@@ -111,13 +111,13 @@ public class BlackOrWhiteCaseRule extends CaseRule
      * specific element index using this rule and if so will perform the default application of the rule
      *
      * @param transition   transition to apply default application
-     * @param elementIndex
+     * @param element equivalent element
      *
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
     @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, int elementIndex)
+    public boolean doDefaultApplicationAt(TreeTransition transition, Element element)
     {
         return false;
     }

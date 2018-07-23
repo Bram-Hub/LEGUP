@@ -38,15 +38,15 @@ public abstract class ContradictionRule extends Rule
      * at the specific element index using this rule
      *
      * @param transition   transition to check
-     * @param elementIndex index of the element
+     * @param element equivalent element
      *
      * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
     @Override
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleAt(TreeTransition transition, Element element)
     {
-        return checkContradictionAt(transition, elementIndex);
+        return checkContradictionAt(transition, element);
     }
 
     /**
@@ -69,15 +69,15 @@ public abstract class ContradictionRule extends Rule
      * This method is the one that should overridden in child classes
      *
      * @param transition   transition to check
-     * @param elementIndex index of the element
+     * @param element equivalent element
      *
      * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
     @Override
-    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, Element element)
     {
-        return checkRuleAt(transition, elementIndex);
+        return checkRuleAt(transition, element);
     }
 
     /**
@@ -88,9 +88,9 @@ public abstract class ContradictionRule extends Rule
      */
     public String checkContradiction(TreeTransition transition)
     {
-        for(Element data: transition.getBoard().getElementData())
+        for(Element element: transition.getBoard().getElementData())
         {
-            String checkStr = checkContradictionAt(transition, data.getIndex());
+            String checkStr = checkContradictionAt(transition, element);
             if(checkStr == null)
             {
                 return checkStr;
@@ -103,9 +103,10 @@ public abstract class ContradictionRule extends Rule
      * Checks whether the transition has a contradiction at the specific element index using this rule
      *
      * @param transition transition to check contradiction
-     * @param elementIndex index of the element
+     * @param element equivalent element
+     *
      * @return null if the transition contains a contradiction at the specified element,
      * otherwise error message
      */
-    public abstract String checkContradictionAt(TreeTransition transition, int elementIndex);
+    public abstract String checkContradictionAt(TreeTransition transition, Element element);
 }

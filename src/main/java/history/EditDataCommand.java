@@ -17,8 +17,8 @@ public class EditDataCommand extends PuzzleCommand
 {
     private TreeTransition transition;
     private boolean hasAddedNode;
-    private Element saveData;
-    private Element data;
+    private Element saveElement;
+    private Element element;
 
     private ElementView elementView;
     private TreeViewSelection selection;
@@ -37,8 +37,8 @@ public class EditDataCommand extends PuzzleCommand
         this.elementView = elementView;
         this.selection = selection;
         this.event = event;
-        this.data = null;
-        this.saveData = null;
+        this.element = null;
+        this.saveElement = null;
         this.transition = null;
         this.hasAddedNode = false;
     }
@@ -59,14 +59,14 @@ public class EditDataCommand extends PuzzleCommand
         TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         TreeElementView selectedView = selection.getFirstSelection();
-        TreeElement element = selectedView.getTreeElement();
+        TreeElement treeElement = selectedView.getTreeElement();
 
-        Board board = element.getBoard();
-        int index = elementView.getIndex();
+        Board board = treeElement.getBoard();
+        Element selectedElement = elementView.getElement();
 
-        if(element.getType() == TreeElementType.NODE)
+        if(treeElement.getType() == TreeElementType.NODE)
         {
-            TreeNode treeNode = (TreeNode) element;
+            TreeNode treeNode = (TreeNode) treeElement;
 
             if(treeNode.getChildren().isEmpty())
             {
@@ -82,33 +82,33 @@ public class EditDataCommand extends PuzzleCommand
 
             board = transition.getBoard();
 
-            data = board.getElementData(index);
-            saveData = data.copy();
+            element = board.getElementData(selectedElement);
+            saveElement = element.copy();
         }
         else
         {
-            transition = (TreeTransition)element;
-            data = board.getElementData(index);
-            saveData = data.copy();
+            transition = (TreeTransition)treeElement;
+            element = board.getElementData(selectedElement);
+            saveElement = this.element.copy();
         }
 
         Board prevBoard = transition.getParents().get(0).getBoard();
 
-        boardView.getElementController().changeCell(event, data);
+        boardView.getElementController().changeCell(event, this.element);
 
-        if(prevBoard.getElementData(index).equalsData(data))
+        if(prevBoard.getElementData(selectedElement).equalsData(this.element))
         {
-            board.removeModifiedData(data);
+            board.removeModifiedData(this.element);
         }
         else
         {
-            board.addModifiedData(data);
+            board.addModifiedData(this.element);
         }
-        transition.propagateChanges(data);
+        transition.propagateChanges(this.element);
 
         Board finalBoard = board;
         puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
-        puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(data));
+        puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(this.element));
     }
 
     /**
@@ -119,7 +119,8 @@ public class EditDataCommand extends PuzzleCommand
     {
         TreeElementView selectedView = selection.getFirstSelection();
         Board board = selectedView.getTreeElement().getBoard();
-        int index = elementView.getIndex();
+        Element selectedElement = elementView.getElement();
+
         if(selectedView.getType() == TreeElementType.NODE)
         {
             TreeNodeView nodeView = (TreeNodeView) selectedView;
@@ -129,7 +130,7 @@ public class EditDataCommand extends PuzzleCommand
             }
             else
             {
-                return board.getElementData(index).isModifiable();
+                return board.getElementData(selectedElement).isModifiable();
             }
         }
         else
@@ -141,7 +142,7 @@ public class EditDataCommand extends PuzzleCommand
             }
             else
             {
-                return board.getElementData(index).isModifiable();
+                return board.getElementData(selectedElement).isModifiable();
             }
         }
     }
@@ -162,12 +163,13 @@ public class EditDataCommand extends PuzzleCommand
 
         TreeElementView selectedView = selection.getFirstSelection();
         Board board = selectedView.getTreeElement().getBoard();
-        int index = elementView.getIndex();
+
+        Element selectedElement = elementView.getElement();
         if(!board.isModifiable())
         {
             return "Board is not modifiable";
         }
-        else if(!board.getElementData(index).isModifiable())
+        else if(!board.getElementData(selectedElement).isModifiable())
         {
             return "Data is not modifiable";
         }
@@ -185,7 +187,7 @@ public class EditDataCommand extends PuzzleCommand
         Puzzle puzzle = getInstance().getPuzzleModule();
 
         Board board = transition.getBoard();
-        int index = elementView.getIndex();
+        Element selectedElement = elementView.getElement();
 
         if(selectedView.getType() == TreeElementType.NODE)
         {
@@ -195,20 +197,20 @@ public class EditDataCommand extends PuzzleCommand
 
         Board prevBoard = transition.getParents().get(0).getBoard();
 
-        data.setData(saveData.getData());
-        board.notifyChange(data);
+        element.setData(saveElement.getData());
+        board.notifyChange(element);
 
-        if(prevBoard.getElementData(index).equalsData(data))
+        if(prevBoard.getElementData(selectedElement).equalsData(element))
         {
-            board.removeModifiedData(data);
+            board.removeModifiedData(element);
         }
         else
         {
-            board.addModifiedData(data);
+            board.addModifiedData(element);
         }
-        transition.propagateChanges(data);
+        transition.propagateChanges(element);
 
-        puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(data));
+        puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(element));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
     }
 }

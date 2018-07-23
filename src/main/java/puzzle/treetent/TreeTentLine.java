@@ -33,8 +33,9 @@ public class TreeTentLine extends Element
         this.c2 = c2;
     }
 
-    public boolean compare(TreeTentLine l){
-        return ((l.getC1().getLocation().equals(c1.getLocation()) && l.getC2().getLocation().equals(c2.getLocation())) || (l.getC1().getLocation().equals(c2.getLocation()) && l.getC2().getLocation().equals(c1.getLocation())));
+    public boolean compare(TreeTentLine line){
+        return ((line.getC1().getLocation().equals(c1.getLocation()) && line.getC2().getLocation().equals(c2.getLocation())) ||
+                (line.getC1().getLocation().equals(c2.getLocation()) && line.getC2().getLocation().equals(c1.getLocation())));
     }
 
     /**

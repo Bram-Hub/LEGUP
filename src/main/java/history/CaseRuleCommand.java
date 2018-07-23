@@ -62,7 +62,7 @@ public class CaseRuleCommand extends PuzzleCommand
                 TreeNode node = (TreeNode)element;
                 CaseBoard caseBoard = (CaseBoard)boardView.getBoard();
                 CaseRule caseRule = caseBoard.getCaseRule();
-                List<Board> cases = caseRule.getCases(caseBoard.getBaseBoard(), elementView.getIndex());
+                List<Board> cases = caseRule.getCases(caseBoard.getBaseBoard(), elementView.getElement());
 
                 for(Board b: cases)
                 {

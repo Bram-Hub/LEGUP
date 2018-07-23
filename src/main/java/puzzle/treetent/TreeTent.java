@@ -47,13 +47,12 @@ public class TreeTent extends Puzzle
         TreeTentBoard board = (TreeTentBoard)currentBoard;
         TreeTentView view = new TreeTentView(board.getDimension());
         boardView = view;
-        for(ElementView element: boardView.getElementViews())
+        for(ElementView elementView: boardView.getElementViews())
         {
-            int index = element.getIndex();
-            TreeTentCell cell = (TreeTentCell)board.getElementData(index);
+            TreeTentCell cell = (TreeTentCell)board.getElementData(elementView.getElement());
 
-            cell.setIndex(index);
-            element.setElement(cell);
+            cell.setIndex(cell.getIndex());
+            elementView.setElement(cell);
         }
 
         for(TreeTentLine line : board.getLines())

@@ -2,6 +2,7 @@ package model.rules;
 
 import model.gameboard.Board;
 import model.gameboard.CaseBoard;
+import model.gameboard.Element;
 import model.tree.TreeTransition;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public abstract class CaseRule extends Rule
      * Gets the case board that indicates where this case rule can be applied
      *
      * @param board board state to find locations where this case rule can be applied
+     *
      * @return a case board
      */
     public abstract CaseBoard getCaseBoard(Board board);
@@ -35,10 +37,11 @@ public abstract class CaseRule extends Rule
      * Gets the possible cases at a specific location based on this case rule
      *
      * @param board the current board state
-     * @param elementIndex element to determine the possible cases for
+     * @param element equivalent element
+     *
      * @return a list of elements the specified could be
      */
-    public abstract ArrayList<Board> getCases(Board board, int elementIndex);
+    public abstract ArrayList<Board> getCases(Board board, Element element);
 
     /**
      * Checks whether the transition logically follows from the parent node using this rule
@@ -72,13 +75,13 @@ public abstract class CaseRule extends Rule
      * at the specific element index using this rule
      *
      * @param transition   transition to check
-     * @param elementIndex index of the element
+     * @param element equivalent element
      *
      * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
     @Override
-    public String checkRuleAt(TreeTransition transition, int elementIndex)
+    public String checkRuleAt(TreeTransition transition, Element element)
     {
         return null;
     }
@@ -89,13 +92,13 @@ public abstract class CaseRule extends Rule
      * This method is the one that should overridden in child classes
      *
      * @param transition   transition to check
-     * @param elementIndex index of the element
+     * @param element equivalent element
      *
      * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
     @Override
-    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, Element element)
     {
         return null;
     }

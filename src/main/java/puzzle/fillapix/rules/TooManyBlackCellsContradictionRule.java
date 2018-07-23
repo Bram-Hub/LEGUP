@@ -1,5 +1,6 @@
 package puzzle.fillapix.rules;
 
+import model.gameboard.Element;
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
 import puzzle.fillapix.FillapixBoard;
@@ -36,11 +37,11 @@ public class TooManyBlackCellsContradictionRule extends ContradictionRule
     }
 
     @Override
-    public String checkContradictionAt(TreeTransition transition, int elementIndex)
+    public String checkContradictionAt(TreeTransition transition, Element element)
     {
         FillapixBoard fillapixBoard = (FillapixBoard) transition.getBoard();
         int width = fillapixBoard.getWidth();
-        FillapixCell cell = fillapixBoard.getCell(elementIndex%width,elementIndex/width);
+        FillapixCell cell = (FillapixCell) fillapixBoard.getElementData(element);
         if (cell.getData() != -1) {
             int numBlackCells = fillapixBoard.getNumCells(cell, FillapixCell.BLACK);
             if (numBlackCells > cell.getData()) {
@@ -70,7 +71,7 @@ public class TooManyBlackCellsContradictionRule extends ContradictionRule
     }
 
     @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, int elementIndex)
+    public boolean doDefaultApplicationAt(TreeTransition transition, Element element)
     {
         return false;
     }

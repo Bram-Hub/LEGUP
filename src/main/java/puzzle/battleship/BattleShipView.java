@@ -28,7 +28,7 @@ public class BattleShipView extends GridBoardView {
         this.board = board;
         BattleShipBoard battleShipBoard = (BattleShipBoard) board;
         for (ElementView element: elementViews) {
-            element.setElement(battleShipBoard.getElementData(element.getIndex()));
+            element.setElement(battleShipBoard.getElementData(element.getElement()));
         }
         repaint();
     }

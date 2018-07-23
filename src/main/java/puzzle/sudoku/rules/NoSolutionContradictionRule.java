@@ -1,5 +1,6 @@
 package puzzle.sudoku.rules;
 
+import model.gameboard.Element;
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
 import puzzle.sudoku.SudokuBoard;
@@ -22,16 +23,16 @@ public class NoSolutionContradictionRule extends ContradictionRule
      * Checks whether the transition has a contradiction at the specific element index using this rule
      *
      * @param transition   transition to check contradiction
-     * @param elementIndex index of the element
+     * @param element equivalent element
      *
      * @return null if the transition contains a contradiction at the specified element,
      * otherwise error message
      */
     @Override
-    public String checkContradictionAt(TreeTransition transition, int elementIndex)
+    public String checkContradictionAt(TreeTransition transition, Element element)
     {
         SudokuBoard sudokuBoard = (SudokuBoard)transition.getBoard();
-        SudokuCell cell = (SudokuCell) sudokuBoard.getElementData(elementIndex);
+        SudokuCell cell = (SudokuCell) sudokuBoard.getElementData(element);
         if(cell.getData() != 0)
         {
             return "Does not contain a contradiction at this index";
@@ -89,13 +90,13 @@ public class NoSolutionContradictionRule extends ContradictionRule
      * specific element index using this rule and if so will perform the default application of the rule
      *
      * @param transition   transition to apply default application
-     * @param elementIndex
+     * @param element equivalent element
      *
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
     @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, int elementIndex)
+    public boolean doDefaultApplicationAt(TreeTransition transition, Element element)
     {
         return false;
     }

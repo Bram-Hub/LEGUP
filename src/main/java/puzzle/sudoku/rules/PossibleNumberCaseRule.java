@@ -37,13 +37,13 @@ public class PossibleNumberCaseRule extends CaseRule
      * at the specific element index using this rule
      *
      * @param transition   transition to check
-     * @param elementIndex index of the element
+     * @param element equivalent element
      *
      * @return null if the child node logically follow from the parent node at the specified element,
      * otherwise error message
      */
     @Override
-    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, Element element)
     {
         return null;
     }
@@ -68,13 +68,13 @@ public class PossibleNumberCaseRule extends CaseRule
      * specific element index using this rule and if so will perform the default application of the rule
      *
      * @param transition   transition to apply default application
-     * @param elementIndex
+     * @param element equivalent element
      *
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
     @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, int elementIndex)
+    public boolean doDefaultApplicationAt(TreeTransition transition, Element element)
     {
         return false;
     }
@@ -89,12 +89,12 @@ public class PossibleNumberCaseRule extends CaseRule
      * Gets the possible cases at a specific location based on this case rule
      *
      * @param board        the current board state
-     * @param elementIndex element to determine the possible cases for
+     * @param element equivalent element
      *
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, int elementIndex)
+    public ArrayList<Board> getCases(Board board, Element element)
     {
         ArrayList<Board> cases = new ArrayList<>();
         SudokuBoard sudokuBoard = (SudokuBoard)board;
@@ -106,9 +106,10 @@ public class PossibleNumberCaseRule extends CaseRule
             values.add(i);
         }
 
+        int index = element.getIndex();
         int groupDim = (int)Math.sqrt(groupSize);
-        int rowIndex = elementIndex / groupSize;
-        int colIndex = elementIndex % groupSize;
+        int rowIndex = index / groupSize;
+        int colIndex = index % groupSize;
         int groupNum = rowIndex / groupDim * groupDim + colIndex / groupDim;
 
         for(int y = 0; y < groupDim; y++)
@@ -122,9 +123,9 @@ public class PossibleNumberCaseRule extends CaseRule
         for(int val: values)
         {
             Board caseBoard = sudokuBoard.copy();
-            Element data = sudokuBoard.getElementData(elementIndex).copy();
+            Element data = sudokuBoard.getElementData(element).copy();
             data.setData(val);
-            caseBoard.setElementData(elementIndex, data);
+            caseBoard.setElementData(element.getIndex(), data);
             cases.add(caseBoard);
         }
 

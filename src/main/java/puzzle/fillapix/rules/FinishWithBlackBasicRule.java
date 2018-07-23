@@ -1,6 +1,7 @@
 package puzzle.fillapix.rules;
 
 import model.gameboard.Board;
+import model.gameboard.Element;
 import model.rules.BasicRule;
 import model.tree.TreeTransition;
 import puzzle.fillapix.FillapixBoard;
@@ -18,12 +19,12 @@ public class FinishWithBlackBasicRule extends BasicRule
     }
 
     @Override
-    public String checkRuleRawAt(TreeTransition transition, int elementIndex)
+    public String checkRuleRawAt(TreeTransition transition, Element element)
     {
         FillapixBoard fillapixBoard = (FillapixBoard) transition.getBoard();
         int width = fillapixBoard.getWidth();
         int height = fillapixBoard.getHeight();
-        FillapixCell cell = fillapixBoard.getCell(elementIndex % width, elementIndex / width);
+        FillapixCell cell = (FillapixCell) fillapixBoard.getElementData(element);
 
         // start up case rule for each one
         // if that leads to a contradiction,
@@ -52,7 +53,8 @@ public class FinishWithBlackBasicRule extends BasicRule
                     //     return "All the changes you made must be black to apply this rule.";
                     // }
 
-                    ArrayList<Board> cases = blackOrWhite.getCases(currentBoard, x * width + y);
+                    FillapixCell curCell = currentBoard.getCell(x, y);
+                    ArrayList<Board> cases = blackOrWhite.getCases(currentBoard, curCell);
                     for(Board caseBoard : cases)
                     {
                         String contradiction = tooFewBlackCells.checkContradictionAt((FillapixBoard) caseBoard, x * width + y);
@@ -83,7 +85,7 @@ public class FinishWithBlackBasicRule extends BasicRule
     }
 
     @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, int elementIndex)
+    public boolean doDefaultApplicationAt(TreeTransition transition, Element element)
     {
         return false;
     }

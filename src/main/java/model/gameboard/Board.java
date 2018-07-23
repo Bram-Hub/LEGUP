@@ -1,12 +1,14 @@
 package model.gameboard;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public abstract class Board
 {
     protected List<Element> elementData;
-    protected List<Element> modifiedData;
+    protected Set<Element> modifiedData;
     protected boolean isModifiable;
 
     /**
@@ -15,7 +17,7 @@ public abstract class Board
     public Board()
     {
         this.elementData = new ArrayList<>();
-        this.modifiedData = new ArrayList<>();
+        this.modifiedData = new HashSet<>();
         this.isModifiable = true;
     }
 
@@ -34,13 +36,14 @@ public abstract class Board
     }
 
     /**
-     * Gets a specific Element on the board
+     * Gets a specific Element on this board
      *
-     * @param index index of the element
-     * @return Element at the specified index
+     * @param element equivalent element
+     * @return equivalent element on this board
      */
-    public Element getElementData(int index)
+    public Element getElementData(Element element)
     {
+        int index = element.getIndex();
         return index < elementData.size() ? elementData.get(index) : null;
     }
 
@@ -123,7 +126,7 @@ public abstract class Board
      *
      * @return list of modified element of the board
      */
-    public List<Element> getModifiedData()
+    public Set<Element> getModifiedData()
     {
         return modifiedData;
     }
@@ -135,11 +138,8 @@ public abstract class Board
      */
     public void addModifiedData(Element data)
     {
-        if(!modifiedData.contains(data))
-        {
-            modifiedData.add(data);
-            data.setModified(true);
-        }
+        modifiedData.add(data);
+        data.setModified(true);
     }
 
     /**
@@ -170,17 +170,17 @@ public abstract class Board
         Board firstBoard = boards.get(0);
         for(Element lcaData : lca.getElementData())
         {
-            Element mData = firstBoard.getElementData(lcaData.getIndex());
+            Element mData = firstBoard.getElementData(lcaData);
 
             boolean isSame = true;
             for(Board board : boards)
             {
-                isSame &= mData.equalsData(board.getElementData(lcaData.getIndex()));
+                isSame &= mData.equalsData(board.getElementData(lcaData));
             }
 
             if(isSame && !lcaData.equalsData(mData))
             {
-                Element mergedData = mergedBoard.getElementData(lcaData.getIndex());
+                Element mergedData = mergedBoard.getElementData(lcaData);
                 mergedData.setData(mData.getData());
                 mergedBoard.addModifiedData(mergedData);
             }
