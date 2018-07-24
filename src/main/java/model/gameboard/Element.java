@@ -145,12 +145,12 @@ public abstract class Element
     /**
      * Tests whether two Element objects have the same element
      *
-     * @param data element element to check for equality
+     * @param element element element to check for equality
      * @return true if the element are equal, false otherwise
      */
-    public boolean equalsData(Element data)
+    public boolean equalsData(Element element)
     {
-        return this.data.equals(data);
+        return data.equals(element.data);
     }
 
     /**
