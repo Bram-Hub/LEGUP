@@ -38,6 +38,7 @@ public class LightUp extends Puzzle
         contradictionRules.add(new TooManyBulbsContradictionRule());
 
         caseRules.add(new LightOrEmptyCaseRule());
+        caseRules.add(new SatisfyNumberCaseRule());
     }
 
     /**

@@ -12,8 +12,9 @@ import puzzle.lightup.LightUpBoard;
 import puzzle.lightup.LightUpCell;
 import puzzle.lightup.LightUpCellType;
 
+import java.awt.*;
 import java.util.ArrayList;
-
+import java.util.List;
 
 @RegisterRule(puzzleName = LightUp.class, ruleType = RuleType.CASE)
 public class SatisfyNumberCaseRule extends CaseRule
@@ -51,7 +52,98 @@ public class SatisfyNumberCaseRule extends CaseRule
     @Override
     public ArrayList<Board> getCases(Board board, Element element)
     {
-        return null;
+        LightUpBoard lightUpBoard = (LightUpBoard)board;
+        LightUpCell cell = (LightUpCell)element;
+        Point loc = cell.getLocation();
+
+        List<LightUpCell> openSpots = new ArrayList<>();
+
+        LightUpCell checkCell = lightUpBoard.getCell(loc.x + 1, loc.y);
+        if(checkCell != null && checkCell.getType() == LightUpCellType.UNKNOWN)
+        {
+            openSpots.add(checkCell);
+        }
+        checkCell = lightUpBoard.getCell(loc.x, loc.y + 1);
+        if(checkCell != null && checkCell.getType() == LightUpCellType.UNKNOWN)
+        {
+            openSpots.add(checkCell);
+        }
+        checkCell = lightUpBoard.getCell(loc.x - 1, loc.y);
+        if(checkCell != null && checkCell.getType() == LightUpCellType.UNKNOWN)
+        {
+            openSpots.add(checkCell);
+        }
+        checkCell = lightUpBoard.getCell(loc.x, loc.y - 1);
+        if(checkCell != null && checkCell.getType() == LightUpCellType.UNKNOWN)
+        {
+            openSpots.add(checkCell);
+        }
+
+        ArrayList<Board> cases = new ArrayList<>();
+        generateCases(lightUpBoard, cell.getData(), openSpots, cases);
+
+        return cases;
+    }
+
+    private void generateCases(final LightUpBoard board, final int num, List<LightUpCell> openSpots, List<Board> cases)
+    {
+        if(num > openSpots.size())
+        {
+            return;
+        }
+
+        for(int i = 0; i < openSpots.size(); i++)
+        {
+            LightUpCell c = openSpots.get(i);
+            LightUpBoard newCase = board.copy();
+            LightUpCell newCell = c.copy();
+            Point loc = c.getLocation();
+
+            newCell.setData(-4);
+            newCase.setCell(loc.x, loc.y, newCell);
+            newCase.addModifiedData(newCell);
+
+            generateCases(board, num, openSpots, cases, newCase, i);
+        }
+    }
+
+    private void generateCases(final LightUpBoard board, final int num, List<LightUpCell> openSpots, List<Board> cases, LightUpBoard curBoard, int index)
+    {
+        if(num <= curBoard.getModifiedData().size())
+        {
+            cases.add(curBoard);
+            return;
+        }
+
+        for(int i = index + 1; i < openSpots.size(); i++)
+        {
+            LightUpCell c = openSpots.get(i);
+            Point loc = c.getLocation();
+            LightUpCell cc = curBoard.getCell(loc.x, loc.y);
+            if (!curBoard.getModifiedData().contains(cc))
+            {
+                LightUpBoard newCase = board.copy();
+                LightUpCell newCell = c.copy();
+
+                for(Element mod : curBoard.getModifiedData())
+                {
+                    LightUpCell modCell = (LightUpCell)mod.copy();
+                    Point modLoc = modCell.getLocation();
+
+                    modCell.setData(-4);
+
+                    newCase.setCell(modLoc.x, modLoc.y, modCell);
+                    newCase.addModifiedData(modCell);
+                }
+
+                newCell.setData(-4);
+
+                newCase.setCell(loc.x, loc.y, newCell);
+                newCase.addModifiedData(newCell);
+
+                generateCases(board, num, openSpots, cases, newCase, i);
+            }
+        }
     }
 
     /**
