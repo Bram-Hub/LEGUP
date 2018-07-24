@@ -102,11 +102,12 @@ public class FinishWithBulbsBasicRule extends BasicRule
         cell = board.getCell(loc.x + 1, loc.y);
         if(cell != null)
         {
-            if(cell.getType() == LightUpCellType.UNKNOWN)
+            LightUpCellType cellType = cell.getType();
+            if(cellType == LightUpCellType.UNKNOWN && !cell.isLite())
             {
                 availableSpots++;
             }
-            else if(cell.getType() == LightUpCellType.BULB)
+            else if(cellType == LightUpCellType.BULB)
             {
                 bulbs--;
             }
@@ -114,11 +115,12 @@ public class FinishWithBulbsBasicRule extends BasicRule
         cell = board.getCell(loc.x, loc.y + 1);
         if(cell != null)
         {
-            if(cell.getType() == LightUpCellType.UNKNOWN)
+            LightUpCellType cellType = cell.getType();
+            if(cellType == LightUpCellType.UNKNOWN && !cell.isLite())
             {
                 availableSpots++;
             }
-            else if(cell.getType() == LightUpCellType.BULB)
+            else if(cellType == LightUpCellType.BULB)
             {
                 bulbs--;
             }
@@ -126,11 +128,12 @@ public class FinishWithBulbsBasicRule extends BasicRule
         cell = board.getCell(loc.x - 1, loc.y);
         if(cell != null)
         {
-            if(cell.getType() == LightUpCellType.UNKNOWN)
+            LightUpCellType cellType = cell.getType();
+            if(cellType == LightUpCellType.UNKNOWN && !cell.isLite())
             {
                 availableSpots++;
             }
-            else if(cell.getType() == LightUpCellType.BULB)
+            else if(cellType == LightUpCellType.BULB)
             {
                 bulbs--;
             }
@@ -138,11 +141,12 @@ public class FinishWithBulbsBasicRule extends BasicRule
         cell = board.getCell(loc.x, loc.y - 1);
         if(cell != null)
         {
-            if(cell.getType() == LightUpCellType.UNKNOWN)
+            LightUpCellType cellType = cell.getType();
+            if(cellType == LightUpCellType.UNKNOWN && !cell.isLite())
             {
                 availableSpots++;
             }
-            else if(cell.getType() == LightUpCellType.BULB)
+            else if(cellType == LightUpCellType.BULB)
             {
                 bulbs--;
             }
