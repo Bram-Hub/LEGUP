@@ -6,6 +6,11 @@ import model.rules.RegisterRule;
 import model.rules.RuleType;
 import model.tree.TreeTransition;
 import puzzle.lightup.LightUp;
+import puzzle.lightup.LightUpBoard;
+import puzzle.lightup.LightUpCell;
+import puzzle.lightup.LightUpCellType;
+
+import java.awt.*;
 
 
 @RegisterRule(puzzleName = LightUp.class, ruleType = RuleType.BASIC)
@@ -30,6 +35,15 @@ public class EmptyCornersBasicRule extends BasicRule
     @Override
     public String checkRuleRawAt(TreeTransition transition, Element element)
     {
+        LightUpBoard initialBoard = (LightUpBoard)transition.getBoard();
+        LightUpCell cell = (LightUpCell) initialBoard.getElementData(element);
+        if(cell == null || cell.getType() != LightUpCellType.EMPTY)
+        {
+            return "Must be an empty cell";
+        }
+
+
+
         return null;
     }
 
@@ -62,5 +76,48 @@ public class EmptyCornersBasicRule extends BasicRule
     public boolean doDefaultApplicationAt(TreeTransition transition, Element element)
     {
         return false;
+    }
+
+    private boolean isForcedEmpty(LightUpBoard board, LightUpCell cell, Point loc)
+    {
+        if(cell == null || cell.getType() != LightUpCellType.NUMBER)
+        {
+            return false;
+        }
+
+        Point cellLoc = cell.getLocation();
+
+        if(cellLoc.x == loc.x - 1)
+        {
+            LightUpCell checkCell = null;
+        }
+        else
+        {
+
+        }
+
+        int bulbs = 0;
+        int bulbsNeeded = cell.getData();
+        cell = board.getCell(cellLoc.x + 1, cellLoc.y);
+        if(cell != null && cell.getType() == LightUpCellType.BULB)
+        {
+            bulbs++;
+        }
+        cell = board.getCell(cellLoc.x, cellLoc.y + 1);
+        if(cell != null && cell.getType() == LightUpCellType.BULB)
+        {
+            bulbs++;
+        }
+        cell = board.getCell(cellLoc.x - 1, cellLoc.y);
+        if(cell != null && cell.getType() == LightUpCellType.BULB)
+        {
+            bulbs++;
+        }
+        cell = board.getCell(cellLoc.x, cellLoc.y - 1);
+        if(cell != null && cell.getType() == LightUpCellType.BULB)
+        {
+            bulbs++;
+        }
+        return bulbs == bulbsNeeded;
     }
 }
