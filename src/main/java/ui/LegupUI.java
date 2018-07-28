@@ -15,6 +15,7 @@ import app.GameBoardFacade;
 import controller.RuleController;
 import history.ICommand;
 import history.IHistoryListener;
+import mdlaf.resources.MaterialColors;
 import model.Puzzle;
 import model.PuzzleExporter;
 import model.gameboard.Board;
@@ -27,6 +28,9 @@ import ui.treeview.TreePanel;
 import user.Submission;
 
 import javax.swing.border.TitledBorder;
+
+import mdlaf.*;
+import mdlaf.animation.*;
 
 public class LegupUI extends JFrame implements WindowListener, IHistoryListener
 {
@@ -90,6 +94,13 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
      */
     public LegupUI()
     {
+        try {
+            UIManager.setLookAndFeel (new MaterialLookAndFeel ());
+        }
+        catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace ();
+        }
+
         setTitle("LEGUP");
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -264,7 +275,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         {
             String toolBarName = ToolbarName.values()[i].toString();
             URL resourceLocation = ClassLoader.getSystemClassLoader().getResource("images/Legup/" + toolBarName + ".png");
-            getToolBarButtons()[i] = new JButton(toolBarName, new ImageIcon(resourceLocation));
+            JButton toolBarButton = new JButton(toolBarName, new ImageIcon(resourceLocation));
+            toolBarButton.setBackground(MaterialColors.GRAY_600);
+            getToolBarButtons()[i] = toolBarButton;
         }
 
         toolBar = new JToolBar();
