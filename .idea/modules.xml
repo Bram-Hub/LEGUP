@@ -5,6 +5,12 @@
       <module fileurl="file://$PROJECT_DIR$/Legup.iml" filepath="$PROJECT_DIR$/Legup.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Legup_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Legup_main.iml" group="Legup" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Legup_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Legup_test.iml" group="Legup" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/legup/legup.iml" filepath="$PROJECT_DIR$/.idea/modules/legup/legup.iml" group="legup" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/legup-update.iml" filepath="$PROJECT_DIR$/.idea/modules/legup-update.iml" group="legup-update" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/legup-update/legup-update_main.iml" filepath="$PROJECT_DIR$/.idea/modules/legup-update/legup-update_main.iml" group="legup-update" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/legup-update/legup-update_test.iml" filepath="$PROJECT_DIR$/.idea/modules/legup-update/legup-update_test.iml" group="legup-update" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/legupupdate/legupupdate.iml" filepath="$PROJECT_DIR$/.idea/modules/legupupdate/legupupdate.iml" group="legupupdate" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/main.iml" filepath="$PROJECT_DIR$/.idea/modules/main.iml" />
     </modules>
   </component>
 </project>

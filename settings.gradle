@@ -1,2 +1,5 @@
 rootProject.name = 'Legup'
+include ':legup'
+include ':legupupdate'
+include 'legup-update'
 
