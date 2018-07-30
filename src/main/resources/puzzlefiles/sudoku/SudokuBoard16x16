@@ -1,5 +1,5 @@
-<Legup>
-    <puzzle name="Sudoku">
+<edu.rpi.legup.Legup>
+    <edu.rpi.legup.puzzle name="Sudoku">
         <board size="16">
             <cells>
                 <cell value="3" x="5" y="0"/>
@@ -39,5 +39,5 @@
                 <cell value="1" x="3" y="8"/>
             </cells>
         </board>
-    </puzzle>
-</Legup>
+    </edu.rpi.legup.puzzle>
+</edu.rpi.legup.Legup>

@@ -2,13 +2,13 @@ package puzzles.lightup.rules;
 
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
-import model.PuzzleImporter;
-import model.tree.TreeNode;
-import model.tree.TreeTransition;
+import edu.rpi.legup.model.PuzzleImporter;
+import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.model.tree.TreeTransition;
 import org.junit.Assert;
-import puzzle.lightup.LightUp;
-import puzzle.lightup.rules.BulbsInPathContradictionRule;
-import save.InvalidFileFormatException;
+import edu.rpi.legup.puzzle.lightup.LightUp;
+import edu.rpi.legup.puzzle.lightup.rules.BulbsInPathContradictionRule;
+import edu.rpi.legup.save.InvalidFileFormatException;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

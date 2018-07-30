@@ -1,5 +1,5 @@
-<Legup>
-    <puzzle name="Fillapix">
+<edu.rpi.legup.Legup>
+    <edu.rpi.legup.puzzle name="Fillapix">
         <board width="10" height="10">
             <cells>
                 <cell value="2" x="1" y="0"/>
@@ -40,5 +40,5 @@
                 <cell value="4" x="7" y="9"/>
             </cells>
         </board>
-    </puzzle>
-</Legup>
+    </edu.rpi.legup.puzzle>
+</edu.rpi.legup.Legup>

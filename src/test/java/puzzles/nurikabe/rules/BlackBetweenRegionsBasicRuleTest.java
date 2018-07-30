@@ -2,18 +2,18 @@ package puzzles.nurikabe.rules;
 
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
-import model.tree.TreeNode;
-import model.tree.TreeTransition;
+import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.model.tree.TreeTransition;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import puzzle.nurikabe.Nurikabe;
-import puzzle.nurikabe.NurikabeBoard;
-import puzzle.nurikabe.NurikabeCell;
-import puzzle.nurikabe.NurikabeType;
-import puzzle.nurikabe.rules.BlackBetweenRegionsBasicRule;
-import save.InvalidFileFormatException;
+import edu.rpi.legup.puzzle.nurikabe.Nurikabe;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
+import edu.rpi.legup.puzzle.nurikabe.rules.BlackBetweenRegionsBasicRule;
+import edu.rpi.legup.save.InvalidFileFormatException;
 
 public class BlackBetweenRegionsBasicRuleTest
 {

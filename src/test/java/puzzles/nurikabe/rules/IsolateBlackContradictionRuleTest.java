@@ -2,15 +2,14 @@ package puzzles.nurikabe.rules;
 
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
-import model.tree.TreeNode;
-import model.tree.TreeTransition;
+import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.model.tree.TreeTransition;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import puzzle.nurikabe.Nurikabe;
-import puzzle.nurikabe.rules.IsolateBlackContradictionRule;
-import puzzle.nurikabe.rules.TooFewSpacesContradictionRule;
-import save.InvalidFileFormatException;
+import edu.rpi.legup.puzzle.nurikabe.Nurikabe;
+import edu.rpi.legup.puzzle.nurikabe.rules.IsolateBlackContradictionRule;
+import edu.rpi.legup.save.InvalidFileFormatException;
 
 public class IsolateBlackContradictionRuleTest
 {

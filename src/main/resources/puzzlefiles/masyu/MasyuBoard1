@@ -1,5 +1,5 @@
-<Legup>
-    <puzzle name="Masyu">
+<edu.rpi.legup.Legup>
+    <edu.rpi.legup.puzzle name="Masyu">
         <board width="8" height="8">
             <cells>
                 <cell value="2" x="1" y="1"/>
@@ -25,5 +25,5 @@
                 <line x1="1" y1="2" x2="1" y2="2"/>
             </lines>
         </board>
-    </puzzle>
-</Legup>
+    </edu.rpi.legup.puzzle>
+</edu.rpi.legup.Legup>

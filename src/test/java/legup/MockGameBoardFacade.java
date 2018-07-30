@@ -1,13 +1,9 @@
 package legup;
 
-import app.Config;
-import app.GameBoardFacade;
-import app.InvalidConfigException;
-import model.Puzzle;
-import org.junit.BeforeClass;
-
-import javax.annotation.Resource;
-import java.util.logging.Level;
+import edu.rpi.legup.app.Config;
+import edu.rpi.legup.app.GameBoardFacade;
+import edu.rpi.legup.app.InvalidConfigException;
+import edu.rpi.legup.model.Puzzle;
 
 public class MockGameBoardFacade extends GameBoardFacade
 {

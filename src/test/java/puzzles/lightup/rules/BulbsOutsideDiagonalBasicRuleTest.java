@@ -2,7 +2,7 @@ package puzzles.lightup.rules;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import puzzle.lightup.LightUp;
+import edu.rpi.legup.puzzle.lightup.LightUp;
 
 public class BulbsOutsideDiagonalBasicRuleTest
 {

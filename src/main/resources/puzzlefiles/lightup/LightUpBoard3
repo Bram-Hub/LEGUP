@@ -1,5 +1,5 @@
-<Legup>
-    <puzzle name="LightUp">
+<edu.rpi.legup.Legup>
+    <edu.rpi.legup.puzzle name="LightUp">
         <board size="25">
             <cells>
                 <cell value="-1" x="1" y="0"/>
@@ -191,5 +191,5 @@
                 <cell value="-1" x="23" y="24"/>
             </cells>
         </board>
-    </puzzle>
-</Legup>
+    </edu.rpi.legup.puzzle>
+</edu.rpi.legup.Legup>

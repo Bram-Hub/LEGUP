@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Legup version="2.0">
-    <puzzle name="LightUp">
+<edu.rpi.legup.Legup version="2.0">
+    <edu.rpi.legup.puzzle name="LightUp">
         <board height="25" width="25">
             <cells>
                 <cell value="-1" x="1" y="0"/>
@@ -1083,5 +1083,5 @@
                 </transitions>
             </tree>
         </proof>
-    </puzzle>
-</Legup>
+    </edu.rpi.legup.puzzle>
+</edu.rpi.legup.Legup>

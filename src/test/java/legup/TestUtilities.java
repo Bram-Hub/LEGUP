@@ -1,12 +1,11 @@
 package legup;
 
-import model.Puzzle;
-import model.gameboard.Board;
-import model.rules.Rule;
-import model.tree.Tree;
-import model.tree.TreeNode;
-import model.tree.TreeTransition;
-import save.InvalidFileFormatException;
+import edu.rpi.legup.model.Puzzle;
+import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.tree.Tree;
+import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.save.InvalidFileFormatException;
 
 public final class TestUtilities
 {

@@ -1,5 +1,5 @@
-<Legup>
-    <puzzle name="BattleShip">
+<edu.rpi.legup.Legup>
+    <edu.rpi.legup.puzzle name="BattleShip">
         <board size="10">
             <cells>
                 <cell value="1" x="2" y="0"/>
@@ -33,5 +33,5 @@
                 <clue value="0" index="10"/>
             </axis>
         </board>
-    </puzzle>
-</Legup>
+    </edu.rpi.legup.puzzle>
+</edu.rpi.legup.Legup>

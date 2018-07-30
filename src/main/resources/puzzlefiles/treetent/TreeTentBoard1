@@ -1,5 +1,5 @@
-<Legup>
-    <puzzle name="TreeTent">
+<edu.rpi.legup.Legup>
+    <edu.rpi.legup.puzzle name="TreeTent">
         <board width="10" height="10">
             <cells>
                 <cell value="1" x="8" y="0"/>
@@ -46,5 +46,5 @@
                 <line x1="1" y1="1" x2="2" y2="2"/>
             </lines>
         </board>
-    </puzzle>
-</Legup>
+    </edu.rpi.legup.puzzle>
+</edu.rpi.legup.Legup>
