@@ -35,10 +35,12 @@ public class TreeView extends DynamicViewer implements ITreeListener
     private static final int TRANS_GAP = 5;
 
     private static final int NODE_GAP_WIDTH = 70;
-    private static final int NODE_GAP_HEIGHT = 25;
+    private static final int NODE_GAP_HEIGHT = 15;
 
     private static final int BORDER_GAP_HEIGHT = 20;
     private static final int BORDER_GAP_WIDTH = 20;
+
+    private static final int BORDER_SPACING = 100;
 
     private static final float floater[] = new float[]{(5.0f), (10.0f)};
     private static final float floater2[] = new float[]{(2.0f), (3.0f)};
@@ -238,8 +240,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
 
             newReDraw(graphics2D);
             //drawTree(graphics2D, tree);
-            dimension.width += 100;
-            dimension.height += 100;
+            dimension.width += BORDER_SPACING;
             setSize(dimension);
 //            graphics2D.drawRect(0,0, dimension.width, dimension.height);
 
@@ -595,10 +596,10 @@ public class TreeView extends DynamicViewer implements ITreeListener
 
             dimension = new Dimension(0,0);
             calcSpan(rootNodeView);
-            rootNodeView.setSpan(rootNodeView.getSpan() + DIAMETER);
+            rootNodeView.setSpan(rootNodeView.getSpan() + DIAMETER + 2 * BORDER_SPACING);
             System.err.println("newReDraw: Calculated span: " + rootNodeView.getSpan());
 
-            calculateViewLocations(rootNodeView, 0);
+            calculateViewLocations(rootNodeView, 1);
             dimension.height = (int)rootNodeView.getSpan();
             System.err.println("newReDraw: Calculated view positions");
 
@@ -748,7 +749,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
             TreeNode node = nodeView.getTreeElement();
             if(nodeView.getChildrenViews().size() == 0)
             {
-                nodeView.setSpan(DIAMETER);
+                nodeView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
             }
             else if(nodeView.getChildrenViews().size() == 1)
             {
@@ -756,7 +757,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
                 calcSpan(childView);
                 if(childView.getParentViews().size() > 1)
                 {
-                    nodeView.setSpan(DIAMETER);
+                    nodeView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
                 }
                 else
                 {
@@ -806,7 +807,6 @@ public class TreeView extends DynamicViewer implements ITreeListener
                         span += transView.getSpan();
                     }
                 }
-
                 nodeView.setSpan(span);
             }
         }
@@ -816,7 +816,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
             TreeNodeView nodeView = transView.getChildView();
             if(nodeView == null)
             {
-                transView.setSpan(DIAMETER);
+                transView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
             }
             else
             {
@@ -847,21 +847,21 @@ public class TreeView extends DynamicViewer implements ITreeListener
             TreeNode node = nodeView.getTreeElement();
             if(nodeView.getChildrenViews().size() == 0)
             {
-                nodeView.setSpan(DIAMETER);
+                nodeView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
             }
             else if(nodeView.getChildrenViews().size() == 1)
             {
                 TreeTransitionView childView = nodeView.getChildrenViews().get(0);
                 if(childView == stop)
                 {
-                    nodeView.setSpan(DIAMETER);
+                    nodeView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
                 }
                 else
                 {
                     subCalcSpan(childView, stop);
                     if(childView.getParentViews().size() > 1)
                     {
-                        nodeView.setSpan(DIAMETER);
+                        nodeView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
                     }
                     else
                     {
@@ -916,7 +916,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
             TreeNodeView nodeView = transView.getChildView();
             if(nodeView == null || nodeView == stop)
             {
-                transView.setSpan(DIAMETER);
+                transView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
             }
             else
             {
