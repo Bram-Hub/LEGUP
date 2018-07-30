@@ -12,12 +12,12 @@ import static java.lang.Math.*;
 
 public class TreeTransitionView extends TreeElementView
 {
-    static final int RADIUS = 10;
+    static final int RADIUS = 25;
     static final int DIAMETER = 2 * RADIUS;
     static final int GAP = 5;
 
-    private static final Stroke THIN_STROKE = new BasicStroke(1);
-    private static final Stroke MEDIUM_STROKE = new BasicStroke(2);
+    private static final Stroke MAIN_STROKE = new BasicStroke(3);
+    private static final Stroke SELECTION_STROKE = new BasicStroke(2);
 
     private static final Color OUTLINE_COLOR = Color.BLACK;
     private static final Color CORRECT_COLOR = Color.GREEN;
@@ -26,6 +26,10 @@ public class TreeTransitionView extends TreeElementView
     private static final Color X_COLOR = Color.RED;
 
     private static final Color SELECTION_COLOR = new Color(0x1E88E5);
+    private static final Color OUTLINE_SELECTION_COLOR = new Color(0x1976D2);
+
+    private static final Color HOVER_COLOR = new Color(0x90CAF9);
+    private static final Color OUTLINE_HOVER_COLOR = new Color(0xBDBDBD);
 
     private TreeNodeView childView;
     private ArrayList<TreeNodeView> parentViews;
@@ -73,12 +77,10 @@ public class TreeTransitionView extends TreeElementView
      */
     public void draw(Graphics2D graphics2D)
     {
-        constructArrowhead();
-
-        graphics2D.setStroke(THIN_STROKE);
+        arrowhead = createTransitionTriangle(RADIUS);
 
         graphics2D.setColor(OUTLINE_COLOR);
-        graphics2D.setStroke(MEDIUM_STROKE);
+        graphics2D.setStroke(MAIN_STROKE);
 
         for(Point lineStartPoint : lineStartPoints)
         {
@@ -100,6 +102,28 @@ public class TreeTransitionView extends TreeElementView
 
             graphics2D.setColor(OUTLINE_COLOR);
             graphics2D.drawPolygon(arrowhead);
+
+            Polygon selection_triangle = createTransitionTriangle(RADIUS + 10);
+            selection_triangle.translate(7, 0);
+
+            graphics2D.setStroke(SELECTION_STROKE);
+            graphics2D.setColor(OUTLINE_SELECTION_COLOR);
+            graphics2D.drawPolygon(selection_triangle);
+        }
+        else if(isHover)
+        {
+            graphics2D.setColor(HOVER_COLOR);
+            graphics2D.fillPolygon(arrowhead);
+
+            graphics2D.setColor(OUTLINE_COLOR);
+            graphics2D.drawPolygon(arrowhead);
+
+            Polygon selection_triangle = createTransitionTriangle(RADIUS + 10);
+            selection_triangle.translate(7, 0);
+
+            graphics2D.setStroke(SELECTION_STROKE);
+            graphics2D.setColor(OUTLINE_HOVER_COLOR);
+            graphics2D.drawPolygon(selection_triangle);
         }
         else
         {
@@ -114,28 +138,28 @@ public class TreeTransitionView extends TreeElementView
     /**
      * Constructs the arrowhead shape from the start and end points
      */
-    private void constructArrowhead()
+    private Polygon createTransitionTriangle(int radius)
     {
-        int nodeRadii = TreeNodeView.RADIUS;
-
         double thetaArrow = Math.toRadians(30);
 
         int point1X = endPoint.x;
         int point1Y = endPoint.y;
 
-        int point2X = point1X - nodeRadii;
-        int point2Y = point1Y + (int)Math.round(nodeRadii / (2 * cos(thetaArrow)));
+        int point2X = point1X - radius;
+        int point2Y = point1Y + (int)Math.round(radius / (2 * cos(thetaArrow)));
 
-        int point3X = point1X - nodeRadii;
-        int point3Y = point1Y - (int)Math.round(nodeRadii / (2 * cos(thetaArrow)));
+        int point3X = point1X - radius;
+        int point3Y = point1Y - (int)Math.round(radius / (2 * cos(thetaArrow)));
 
         lineEndPoint.x = point2X;
         lineEndPoint.y = (point3Y - point2Y) / 2 + point2Y;
 
-        arrowhead = new Polygon();
-        arrowhead.addPoint(point1X, point1Y);
-        arrowhead.addPoint(point2X, point2Y);
-        arrowhead.addPoint(point3X, point3Y);
+        Polygon tri = new Polygon();
+        tri.addPoint(point1X, point1Y);
+        tri.addPoint(point2X, point2Y);
+        tri.addPoint(point3X, point3Y);
+
+        return tri;
     }
 
     /**
