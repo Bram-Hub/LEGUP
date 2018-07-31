@@ -3,11 +3,19 @@ package edu.rpi.legup.puzzle.battleship;
 import edu.rpi.legup.ui.boardview.GridElementView;
 
 import java.awt.*;
+import java.awt.geom.Arc2D;
 import java.util.Random;
 
 public class BattleShipElementView extends GridElementView {
-    private static final Color WATER_COLOR = Color.BLUE; // CAN CHANGE THIS TO ANY BLUE YOU WANT
-    private static final Color SHIP_COLOR = Color.DARK_GRAY;
+    private static final Stroke OUTLINE_STROKE = new BasicStroke(1);
+    private static final Color OUTLINE_COLOR = new Color(0x212121);
+
+    private static final Color UNKNOWN_COLOR = new Color(0xE0E0E0);
+    private static final Color WATER_COLOR = new Color(0x1565C0);
+    private static final Color SHIP_COLOR = new Color(0x757575);
+
+    private static final Font FONT = new Font("TimesRoman", Font.BOLD, 10);
+    private static final Color FONT_COLOR = new Color(0xFFEB3B);
 
     public BattleShipElementView(BattleShipCell cell) {super(cell); }
 
@@ -15,64 +23,61 @@ public class BattleShipElementView extends GridElementView {
         BattleShipCell cell = (BattleShipCell) element;
         BattleShipCellType type = cell.getType();
 
-        // graphics2D.setColor(WATER_COLOR);
-        // graphics2D.fillRect(location.x, location.y, size.width, size.height);
-        colorBackgroundWater(graphics2D);
-        if( type == BattleShipCellType.SHIP_SEGMENT) {
-            graphics2D.setColor(SHIP_COLOR);
-            graphics2D.fillRect(location.x+size.width/4, location.y+size.height/4, size.width/2, size.height/2);
+        switch(type)
+        {
+            case UNKNOWN:
+                graphics2D.setColor(UNKNOWN_COLOR);
+                graphics2D.fillRect(location.x, location.y, size.width, size.height);
+                break;
+            case WATER:
+                graphics2D.setColor(WATER_COLOR);
+                graphics2D.fillRect(location.x, location.y, size.width, size.height);
+                break;
+            case SHIP_SEGMENT_UNKNOWN:
+                graphics2D.setColor(SHIP_COLOR);
+                graphics2D.fillRect(location.x + 3 * size.width / 8, location.y + 3 * size.height / 8,
+                        size.width / 4, size.height / 4);
+
+                graphics2D.setColor(FONT_COLOR);
+                graphics2D.setFont(FONT);
+                FontMetrics metrics = graphics2D.getFontMetrics(FONT);
+                String value = "?";
+                int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
+                int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
+                graphics2D.drawString(value, xText, yText);
+                break;
+            case SHIP_SIZE_1:
+                graphics2D.setColor(SHIP_COLOR);
+                graphics2D.fillOval(location.x + size.width / 4, location.y + size.width / 4,
+                        size.width / 2, size.height / 2);
+                break;
+            case SHIP_SEGMENT_TOP:
+                graphics2D.setColor(SHIP_COLOR);
+                graphics2D.fillArc(location.x, location.y - size.height / 2, size.width, size.height, 180, 180);
+                break;
+            case SHIP_SEGMENT_RIGHT:
+                graphics2D.setColor(SHIP_COLOR);
+                graphics2D.fillArc(location.x + size.height / 2, location.y, size.width, size.height, 90, 180);
+                break;
+            case SHIP_SEGMENT_BOTTOM:
+                graphics2D.setColor(SHIP_COLOR);
+                graphics2D.fillArc(location.x, location.y + size.height / 2, size.width, size.height, 0, 180);
+                break;
+            case SHIP_SEGMENT_LEFT:
+                graphics2D.setColor(SHIP_COLOR);
+                graphics2D.fillArc(location.x - size.height / 2, location.y, size.width, size.height, 270, 180);
+                break;
+            case SHIP_SEGMENT_MIDDLE:
+                graphics2D.setColor(SHIP_COLOR);
+                graphics2D.fillRect(location.x, location.y, size.width, size.height);
+                break;
+            default:
+                graphics2D.setColor(new Color(0xE040FB));
+                break;
         }
 
-        graphics2D.setColor(Color.BLACK);
-        graphics2D.setStroke(new BasicStroke(1));
+        graphics2D.setColor(OUTLINE_COLOR);
+        graphics2D.setStroke(OUTLINE_STROKE);
         graphics2D.drawRect(location.x, location.y, size.width, size.height);
-    }
-
-    private void colorBackgroundWater(Graphics2D graphics2D) {
-        Color oceanColors[] = new Color[5];
-        oceanColors[0] = new Color(47, 86, 233);
-        oceanColors[1] = new Color(45, 100, 245);
-        oceanColors[2] = new Color(47, 141, 255);
-        oceanColors[3] = new Color(51, 171, 249);
-        oceanColors[4] = new Color(52, 204, 255);
-
-        graphics2D.setColor(oceanColors[0]);
-        graphics2D.fillRect(location.x, location.y, size.width, size.height);
-
-        Random generator = new Random();
-        for (int i = location.x; i < location.x+size.width; i = i+4) {
-            for (int j = location.y; j < location.y+size.height; j = j+2) {
-                int c = generator.nextInt(oceanColors.length);
-                graphics2D.setColor(oceanColors[c]);
-                if (i+4 < location.x+size.width && j+2 < location.y+size.height) {
-                    graphics2D.fillRect(i, j, 4,2);
-                } else if (i+4 < location.x+size.width) {
-                    graphics2D.fillRect(i, j, 4,(location.y+size.height)%2);
-                } else if (j+2 < location.y+size.height) {
-                    graphics2D.fillRect(i, j, (location.x+size.width)%4, 2);
-                } else {
-                    graphics2D.fillRect(i, j, (location.x+size.width)%4, (location.y+size.height)%2);
-                }
-            }
-        }
-
-        /*
-        Random generator = new Random();
-        for (int i = location.x; i < location.x+size.width; i = i+8) {
-            for (int j = location.y; j < location.y+size.height; j = j+2) {
-                int c = generator.nextInt(oceanColors.length);
-                graphics2D.setColor(oceanColors[c]);
-                if (i+8 < location.x+size.width && j+2 < location.y+size.height) {
-                    graphics2D.fillRect(i, j, 8,2);
-                } else if (i+8 < location.x+size.width) {
-                    graphics2D.fillRect(i, j, 8,(location.y+size.height)%2);
-                } else if (j+2 < location.y+size.height) {
-                    graphics2D.fillRect(i, j, (location.x+size.width)%8, 2);
-                } else {
-                    graphics2D.fillRect(i, j, (location.x+size.width)%8, (location.y+size.height)%2);
-                }
-            }
-        }
-        */
     }
 }

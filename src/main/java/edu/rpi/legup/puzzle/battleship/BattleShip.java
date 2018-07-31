@@ -11,10 +11,10 @@ public class BattleShip extends Puzzle
 
         this.name = "BattleShip";
 
-        this.importer = null;
-        this.exporter = null;
+        this.importer = new BattleShipImporter(this);
+        this.exporter = new BattleShipExporter(this);
 
-        this.factory = null;
+        this.factory = new BattleShipCellFactory();
 
         // ADD RULES ONCE THEY ARE CREATED
     }
