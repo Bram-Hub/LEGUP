@@ -11,8 +11,6 @@ public class TreeTentBoard extends GridBoard
 
     private ArrayList<TreeTentLine> lines;
 
-    private HashSet<TreeTentLine> l;
-
     private ArrayList<TreeTentClue> east;
     private ArrayList<TreeTentClue> south;
 
@@ -37,7 +35,7 @@ public class TreeTentBoard extends GridBoard
 
     public TreeTentBoard(int size)
     {
-        super(size, size);
+        this(size, size);
     }
 
     public ArrayList<TreeTentLine> getLines()
@@ -72,6 +70,7 @@ public class TreeTentBoard extends GridBoard
             super.notifyChange(data);
         }
     }
+
     @Override
     public TreeTentBoard copy()
     {
