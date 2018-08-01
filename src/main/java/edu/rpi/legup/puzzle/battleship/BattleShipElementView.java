@@ -3,8 +3,6 @@ package edu.rpi.legup.puzzle.battleship;
 import edu.rpi.legup.ui.boardview.GridElementView;
 
 import java.awt.*;
-import java.awt.geom.Arc2D;
-import java.util.Random;
 
 public class BattleShipElementView extends GridElementView {
     private static final Stroke OUTLINE_STROKE = new BasicStroke(1);
@@ -20,7 +18,7 @@ public class BattleShipElementView extends GridElementView {
     public BattleShipElementView(BattleShipCell cell) {super(cell); }
 
     @Override public void drawElement(Graphics2D graphics2D) {
-        BattleShipCell cell = (BattleShipCell) element;
+        BattleShipCell cell = (BattleShipCell) puzzleElement;
         BattleShipCellType type = cell.getType();
 
         switch(type)

@@ -57,7 +57,7 @@ public class Masyu extends Puzzle
     }
 
     /**
-     * Callback for when the board element changes
+     * Callback for when the board puzzleElement changes
      *
      * @param board the board that has changed
      */

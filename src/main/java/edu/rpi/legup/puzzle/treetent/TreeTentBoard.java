@@ -1,10 +1,9 @@
 package edu.rpi.legup.puzzle.treetent;
 
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.gameboard.GridBoard;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class TreeTentBoard extends GridBoard
 {
@@ -60,14 +59,14 @@ public class TreeTentBoard extends GridBoard
     }
 
     @Override
-    public void notifyChange(Element data)
+    public void notifyChange(PuzzleElement puzzleElement)
     {
-        if(data instanceof TreeTentLine){
-            lines.add((TreeTentLine) data);
+        if(puzzleElement instanceof TreeTentLine){
+            lines.add((TreeTentLine) puzzleElement);
         }
         else
         {
-            super.notifyChange(data);
+            super.notifyChange(puzzleElement);
         }
     }
 

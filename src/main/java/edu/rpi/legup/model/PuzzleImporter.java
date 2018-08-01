@@ -1,7 +1,7 @@
 package edu.rpi.legup.model;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.tree.*;
@@ -47,7 +47,7 @@ public abstract class PuzzleImporter
                 {
                     if(initBoard)
                     {
-                        throw new InvalidFileFormatException("Puzzle creation error: duplicate board element found");
+                        throw new InvalidFileFormatException("Puzzle creation error: duplicate board puzzleElement found");
                     }
                     initializeBoard(n);
                     initBoard = true;
@@ -56,11 +56,11 @@ public abstract class PuzzleImporter
                 {
                     if(initProof)
                     {
-                        throw new InvalidFileFormatException("Puzzle creation error: duplicate proof element found");
+                        throw new InvalidFileFormatException("Puzzle creation error: duplicate proof puzzleElement found");
                     }
                     if(!initBoard)
                     {
-                        throw new InvalidFileFormatException("Puzzle creation error: could not find board element");
+                        throw new InvalidFileFormatException("Puzzle creation error: could not find board puzzleElement");
                     }
                     initializeProof(n);
                     initProof = true;
@@ -76,7 +76,7 @@ public abstract class PuzzleImporter
 
             if(!initBoard)
             {
-                throw new InvalidFileFormatException("Puzzle creation error: could not find board element");
+                throw new InvalidFileFormatException("Puzzle creation error: could not find board puzzleElement");
             }
             if(!initProof)
             {
@@ -118,14 +118,14 @@ public abstract class PuzzleImporter
                 {
                     if(initTree)
                     {
-                        throw new InvalidFileFormatException("Proof Tree construction error: duplicate tree element");
+                        throw new InvalidFileFormatException("Proof Tree construction error: duplicate tree puzzleElement");
                     }
                     createTree(n);
                     initTree = true;
                 }
                 else
                 {
-                    throw new InvalidFileFormatException("Proof Tree construction error: unknown element found");
+                    throw new InvalidFileFormatException("Proof Tree construction error: unknown puzzleElement found");
                 }
             }
             if(!initTree)
@@ -176,7 +176,7 @@ public abstract class PuzzleImporter
     }
 
     /**
-     * Sets the element from the xml document node
+     * Sets the puzzleElement from the xml document node
      *
      * @param node xml document node
      */
@@ -186,8 +186,8 @@ public abstract class PuzzleImporter
         Board board = puzzle.getCurrentBoard();
         for(int i = 0; i < dataList.getLength(); i++)
         {
-            Element data = puzzle.getFactory().importCell(dataList.item(i), puzzle.getCurrentBoard());
-            board.setElementData(data.getIndex(), data);
+            PuzzleElement data = puzzle.getFactory().importCell(dataList.item(i), puzzle.getCurrentBoard());
+            board.setPuzzleElement(data.getIndex(), data);
         }
     }
 
@@ -383,9 +383,9 @@ public abstract class PuzzleImporter
             if(node.getNodeName().equalsIgnoreCase("cell"))
             {
                 Board board = transition.getBoard();
-                Element cell = puzzle.getFactory().importCell(node, board);
+                PuzzleElement cell = puzzle.getFactory().importCell(node, board);
 
-                board.setElementData(cell.getIndex(), cell);
+                board.setPuzzleElement(cell.getIndex(), cell);
                 board.addModifiedData(cell);
                 transition.propagateChanges(cell);
             }

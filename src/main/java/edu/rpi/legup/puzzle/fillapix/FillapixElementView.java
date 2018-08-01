@@ -16,29 +16,29 @@ public class FillapixElementView extends GridElementView
     public FillapixElementView(GridCell cell)
     {
         super(cell);
-        fillapixCell = (FillapixCell) element;
+        fillapixCell = (FillapixCell) puzzleElement;
     }
 
     /**
-     * Gets the Element associated with this view
+     * Gets the PuzzleElement associated with this view
      *
-     * @return Element associated with this view
+     * @return PuzzleElement associated with this view
      */
     @Override
-    public FillapixCell getElement()
+    public FillapixCell getPuzzleElement()
     {
-        return (FillapixCell)super.getElement();
+        return (FillapixCell)super.getPuzzleElement();
     }
 
     /**
-     * Draws the fillapix element to the screen
+     * Draws the fillapix puzzleElement to the screen
      *
      * @param graphics2D graphics object
      */
     @Override
     public void drawElement(Graphics2D graphics2D)
     {
-        FillapixCell cell = new FillapixCell((Integer) element.getData(), location);
+        FillapixCell cell = new FillapixCell((Integer) puzzleElement.getData(), location);
 
         Color cellColor = null;
         Color textColor = FONT_COLOR;
@@ -80,7 +80,7 @@ public class FillapixElementView extends GridElementView
             graphics2D.drawRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
         }
 
-        if(element.isModified())
+        if(puzzleElement.isModified())
         {
             graphics2D.setStroke(new BasicStroke(2));
             graphics2D.setColor(Color.GREEN);

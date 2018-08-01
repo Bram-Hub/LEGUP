@@ -1,13 +1,13 @@
 package edu.rpi.legup.utility;
 
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 
 public interface IBoardListener
 {
     /**
-     * Called when a change to the board's element has occurred
+     * Called when a change to the board's puzzleElement has occurred
      *
-     * @param data element of the change to the board
+     * @param data puzzleElement of the change to the board
      */
-    void notifyChange(Element data);
+    void notifyChange(PuzzleElement data);
 }

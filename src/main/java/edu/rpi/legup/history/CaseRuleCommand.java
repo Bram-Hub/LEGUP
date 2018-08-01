@@ -29,8 +29,8 @@ public class CaseRuleCommand extends PuzzleCommand
     /**
      * CaseRuleCommand Constructor - creates a command for validating a case rule
      *
-     * @param elementView currently selected edu.rpi.legup.puzzle element view that is being edited
-     * @param selection currently selected tree element views that is being edited
+     * @param elementView currently selected edu.rpi.legup.puzzle puzzleElement view that is being edited
+     * @param selection currently selected tree puzzleElement views that is being edited
      */
     public CaseRuleCommand(ElementView elementView, TreeViewSelection selection, Rule rule)
     {
@@ -62,7 +62,7 @@ public class CaseRuleCommand extends PuzzleCommand
                 TreeNode node = (TreeNode)element;
                 CaseBoard caseBoard = (CaseBoard)boardView.getBoard();
                 CaseRule caseRule = caseBoard.getCaseRule();
-                List<Board> cases = caseRule.getCases(caseBoard.getBaseBoard(), elementView.getElement());
+                List<Board> cases = caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
 
                 for(Board b: cases)
                 {

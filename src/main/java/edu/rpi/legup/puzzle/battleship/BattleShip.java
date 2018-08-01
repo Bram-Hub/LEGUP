@@ -67,14 +67,14 @@ public class BattleShip extends Puzzle
 //
 //            BattleShipBoard battleShipBoard;
 //
-//            Element rootNode = document.getDocumentElement();
-//            Element puzzleElement = (Element) rootNode.getElementsByTagName("edu.rpi.legup.puzzle").item(0);
-//            Element boardElement = (Element) puzzleElement.getElementsByTagName("board").item(0);
-//            Element axesElement = (Element) boardElement.getElementsByTagName("axes").item(0);
-//            Element shipElement = (Element) boardElement.getElementsByTagName("ships").item(0);
-//            Element cellElement = (Element) boardElement.getElementsByTagName("cells").item(0);
-//            Element rightElement = (Element) axesElement.getElementsByTagName("right").item(0);
-//            Element bottomElement = (Element) axesElement.getElementsByTagName("bottom").item(0);
+//            PuzzleElement rootNode = document.getDocumentElement();
+//            PuzzleElement puzzleElement = (PuzzleElement) rootNode.getElementsByTagName("edu.rpi.legup.puzzle").item(0);
+//            PuzzleElement boardElement = (PuzzleElement) puzzleElement.getElementsByTagName("board").item(0);
+//            PuzzleElement axesElement = (PuzzleElement) boardElement.getElementsByTagName("axes").item(0);
+//            PuzzleElement shipElement = (PuzzleElement) boardElement.getElementsByTagName("ships").item(0);
+//            PuzzleElement cellElement = (PuzzleElement) boardElement.getElementsByTagName("cells").item(0);
+//            PuzzleElement rightElement = (PuzzleElement) axesElement.getElementsByTagName("right").item(0);
+//            PuzzleElement bottomElement = (PuzzleElement) axesElement.getElementsByTagName("bottom").item(0);
 //            NodeList rightClueList = rightElement.getElementsByTagName("clue");
 //            NodeList bottomClueList = bottomElement.getElementsByTagName("clue");
 //            NodeList shipList = shipElement.getElementsByTagName("ship");
@@ -83,7 +83,7 @@ public class BattleShip extends Puzzle
 //            int size = Integer.valueOf(boardElement.getAttribute("size"));
 //            battleShipBoard = new BattleShipBoard(size);
 //
-//            ArrayList<Element> battleShipData = new ArrayList<>();
+//            ArrayList<PuzzleElement> battleShipData = new ArrayList<>();
 //            for(int i = 0; i < size * size; i++)
 //            {
 //                battleShipData.add(null);

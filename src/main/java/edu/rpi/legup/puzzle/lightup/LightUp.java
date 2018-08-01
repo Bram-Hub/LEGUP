@@ -3,7 +3,7 @@ package edu.rpi.legup.puzzle.lightup;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.RegisterPuzzle;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.lightup.rules.*;
@@ -81,7 +81,7 @@ public class LightUp extends Puzzle
                 return false;
             }
         }
-        for(Element data : lightUpBoard.getElementData())
+        for(PuzzleElement data : lightUpBoard.getPuzzleElements())
         {
             LightUpCell cell = (LightUpCell)data;
             if((cell.getType() == LightUpCellType.UNKNOWN || cell.getType() == LightUpCellType.EMPTY) && !cell.isLite())
@@ -93,7 +93,7 @@ public class LightUp extends Puzzle
     }
 
     /**
-     * Callback for when the board element changes
+     * Callback for when the board puzzleElement changes
      *
      * @param board the board that has changed
      */

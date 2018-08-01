@@ -1,6 +1,6 @@
 package edu.rpi.legup.ui.boardview;
 
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,7 @@ public abstract class ElementView implements Shape
     protected int index;
     protected Point location;
     protected Dimension size;
-    protected Element element;
+    protected PuzzleElement puzzleElement;
     private Color hoverColor;
     private Color modifiedColor;
     private Color caseColor;
@@ -25,13 +25,13 @@ public abstract class ElementView implements Shape
     private boolean isSelected;
 
     /**
-     * ElementView Constructor - creates a edu.rpi.legup.puzzle element view
+     * ElementView Constructor - creates a edu.rpi.legup.puzzle puzzleElement view
      *
-     * @param element element element to which the edu.rpi.legup.puzzle element uses to draw
+     * @param puzzleElement puzzleElement puzzleElement to which the edu.rpi.legup.puzzle puzzleElement uses to draw
      */
-    public ElementView(Element element)
+    public ElementView(PuzzleElement puzzleElement)
     {
-        this.element = element;
+        this.puzzleElement = puzzleElement;
         this.hoverColor = new Color(0x79, 0x86, 0xCB,255);
         this.modifiedColor = new Color(0x64, 0xDD, 0x17,255);
         this.caseColor = new Color(0x1A, 0x23, 0x7E,200);
@@ -53,18 +53,18 @@ public abstract class ElementView implements Shape
     }
 
     /**
-     * Draws the edu.rpi.legup.puzzle element on the screen
+     * Draws the edu.rpi.legup.puzzle puzzleElement on the screen
      *
      * @param graphics2D graphics2D object used for drawing
      */
     public void draw(Graphics2D graphics2D)
     {
         drawElement(graphics2D);
-        if(element.isGiven())
+        if(puzzleElement.isGiven())
         {
             drawGiven(graphics2D);
         }
-        if(element.isModified())
+        if(puzzleElement.isModified())
         {
             drawModified(graphics2D);
         }
@@ -86,10 +86,10 @@ public abstract class ElementView implements Shape
 
         graphics2D.setColor(Color.BLACK);
         FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
-        String value = String.valueOf(element.getData());
+        String value = String.valueOf(puzzleElement.getData());
         int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
         int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-        graphics2D.drawString(String.valueOf(element.getData()), xText, yText);
+        graphics2D.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
     }
 
     public void drawGiven(Graphics2D graphics2D)
@@ -187,23 +187,23 @@ public abstract class ElementView implements Shape
     }
 
     /**
-     * Gets the Element associated with this view
+     * Gets the PuzzleElement associated with this view
      *
-     * @return Element associated with this view
+     * @return PuzzleElement associated with this view
      */
-    public Element getElement()
+    public PuzzleElement getPuzzleElement()
     {
-        return element;
+        return puzzleElement;
     }
 
     /**
-     * Sets the Element associated with this view
+     * Sets the PuzzleElement associated with this view
      *
-     * @param data Element associated with this view
+     * @param data PuzzleElement associated with this view
      */
-    public void setElement(Element data)
+    public void setPuzzleElement(PuzzleElement data)
     {
-        this.element = data;
+        this.puzzleElement = data;
     }
 
     public boolean isShowCasePicker()
@@ -261,9 +261,9 @@ public abstract class ElementView implements Shape
     }
 
     /**
-     * Gets whether the element is currently being hovered over
+     * Gets whether the puzzleElement is currently being hovered over
      *
-     * @return true if the element is currently being hover over, false otherwise
+     * @return true if the puzzleElement is currently being hover over, false otherwise
      */
     public boolean isHover()
     {
@@ -271,9 +271,9 @@ public abstract class ElementView implements Shape
     }
 
     /**
-     * Sets whether the element is being hover over
+     * Sets whether the puzzleElement is being hover over
      *
-     * @param hover true if the element is correctly being hover over, false otherwise
+     * @param hover true if the puzzleElement is correctly being hover over, false otherwise
      */
     public void setHover(boolean hover)
     {
@@ -281,9 +281,9 @@ public abstract class ElementView implements Shape
     }
 
     /**
-     * Gets whether the element is being selected
+     * Gets whether the puzzleElement is being selected
      *
-     * @return tue if the element is currently selected, false otherwise
+     * @return tue if the puzzleElement is currently selected, false otherwise
      */
     public boolean isSelected()
     {
@@ -291,9 +291,9 @@ public abstract class ElementView implements Shape
     }
 
     /**
-     * Sets whether the element is being selected
+     * Sets whether the puzzleElement is being selected
      *
-     * @param selected tue if the element is currently selected, false otherwise
+     * @param selected tue if the puzzleElement is currently selected, false otherwise
      */
     public void setSelected(boolean selected)
     {
@@ -302,7 +302,7 @@ public abstract class ElementView implements Shape
 
     public JMenuItem getSelectionMenuItem()
     {
-        JMenuItem item = new JMenuItem(element.getData() + "");
+        JMenuItem item = new JMenuItem(puzzleElement.getData() + "");
         return item;
     }
 

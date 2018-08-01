@@ -147,7 +147,7 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         if(selectedViews.isEmpty())
         {
-            return "There must be at least 1 tree element selected to be able to be justified with a basic rule.";
+            return "There must be at least 1 tree puzzleElement selected to be able to be justified with a basic rule.";
         }
 
         for(TreeElementView view : selectedViews)

@@ -1,7 +1,7 @@
 package edu.rpi.legup.puzzle.fillapix;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -13,9 +13,9 @@ import java.awt.*;
 public class FillapixCellFactory extends ElementFactory
 {
     /**
-     * Creates a element based on the xml document Node and adds it to the board
+     * Creates a puzzleElement based on the xml document Node and adds it to the board
      *
-     * @param node  node that represents the element
+     * @param node  node that represents the puzzleElement
      * @param board board to add the newly created cell
      *
      * @return newly created cell from the xml document Node
@@ -29,7 +29,7 @@ public class FillapixCellFactory extends ElementFactory
         {
             if(!node.getNodeName().equalsIgnoreCase("cell"))
             {
-                throw new InvalidFileFormatException("Fillapix Factory: unknown element element");
+                throw new InvalidFileFormatException("Fillapix Factory: unknown puzzleElement puzzleElement");
             }
 
             FillapixBoard fillapixBoard = (FillapixBoard) board;
@@ -64,14 +64,14 @@ public class FillapixCellFactory extends ElementFactory
     }
 
     /**
-     * Creates a xml document element from a cell for exporting
+     * Creates a xml document puzzleElement from a cell for exporting
      *
      * @param document xml document
-     * @param data     Element cell
+     * @param data     PuzzleElement cell
      *
-     * @return xml Element
+     * @return xml PuzzleElement
      */
-    public org.w3c.dom.Element exportCell(Document document, Element data)
+    public org.w3c.dom.Element exportCell(Document document, PuzzleElement data)
     {
         org.w3c.dom.Element cellElement = document.createElement("cell");
 

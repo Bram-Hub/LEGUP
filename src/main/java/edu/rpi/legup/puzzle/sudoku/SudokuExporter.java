@@ -1,7 +1,7 @@
 package edu.rpi.legup.puzzle.sudoku;
 
 import edu.rpi.legup.model.PuzzleExporter;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import org.w3c.dom.Document;
 
 public class SudokuExporter extends PuzzleExporter
@@ -21,12 +21,12 @@ public class SudokuExporter extends PuzzleExporter
         boardElement.setAttribute("size", String.valueOf(board.getSize()));
 
         org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
-        for(Element element : board.getElementData())
+        for(PuzzleElement puzzleElement : board.getPuzzleElements())
         {
-            SudokuCell cell = (SudokuCell)element;
+            SudokuCell cell = (SudokuCell) puzzleElement;
             if(cell.getData() != 0)
             {
-                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, element);
+                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
                 cellsElement.appendChild(cellElement);
             }
         }

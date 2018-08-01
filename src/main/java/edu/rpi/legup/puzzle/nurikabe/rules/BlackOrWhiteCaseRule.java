@@ -2,7 +2,7 @@ package edu.rpi.legup.puzzle.nurikabe.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
@@ -25,7 +25,7 @@ public class BlackOrWhiteCaseRule extends CaseRule
         NurikabeBoard nurikabeBoard = (NurikabeBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(nurikabeBoard, this);
         nurikabeBoard.setModifiable(false);
-        for(Element data: nurikabeBoard.getElementData())
+        for(PuzzleElement data: nurikabeBoard.getPuzzleElements())
         {
             if(((NurikabeCell)data).getType() == NurikabeType.UNKNOWN)
             {
@@ -39,22 +39,22 @@ public class BlackOrWhiteCaseRule extends CaseRule
      * Gets the possible cases at a specific location based on this case rule
      *
      * @param board        the current board state
-     * @param element equivalent element
+     * @param puzzleElement equivalent puzzleElement
      *
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, Element element)
+    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement)
     {
         ArrayList<Board> cases = new ArrayList<>();
         Board case1 = board.copy();
-        Element data1 = case1.getElementData(element);
+        PuzzleElement data1 = case1.getPuzzleElement(puzzleElement);
         data1.setData(NurikabeType.WHITE.toValue());
         case1.addModifiedData(data1);
         cases.add(case1);
 
         Board case2 = board.copy();
-        Element data2 = case2.getElementData(element);
+        PuzzleElement data2 = case2.getPuzzleElement(puzzleElement);
         data2.setData(NurikabeType.BLACK.toValue());
         case2.addModifiedData(data2);
         cases.add(case2);
@@ -77,16 +77,16 @@ public class BlackOrWhiteCaseRule extends CaseRule
 
     /**
      * Checks whether the child node logically follows from the parent node
-     * at the specific element index using this rule
+     * at the specific puzzleElement index using this rule
      *
      * @param transition   transition to check
-     * @param element equivalent element
+     * @param puzzleElement equivalent puzzleElement
      *
-     * @return null if the child node logically follow from the parent node at the specified element,
+     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
      * otherwise error message
      */
     @Override
-    public String checkRuleRawAt(TreeTransition transition, Element element)
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
         return null;
     }
@@ -108,16 +108,16 @@ public class BlackOrWhiteCaseRule extends CaseRule
 
     /**
      * Checks whether the child node logically follows from the parent node at the
-     * specific element index using this rule and if so will perform the default application of the rule
+     * specific puzzleElement index using this rule and if so will perform the default application of the rule
      *
      * @param transition   transition to apply default application
-     * @param element equivalent element
+     * @param puzzleElement equivalent puzzleElement
      *
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
     @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, Element element)
+    public boolean doDefaultApplicationAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
         return false;
     }

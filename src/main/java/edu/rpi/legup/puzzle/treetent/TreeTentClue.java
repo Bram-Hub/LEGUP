@@ -1,8 +1,8 @@
 package edu.rpi.legup.puzzle.treetent;
 
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 
-public class TreeTentClue extends Element<Integer>
+public class TreeTentClue extends PuzzleElement<Integer>
 {
     private TreeTentType type;
 

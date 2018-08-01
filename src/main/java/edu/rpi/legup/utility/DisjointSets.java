@@ -19,10 +19,10 @@ public class DisjointSets<T>
     }
 
     /**
-     * Creates a unique set that contains the specified element. If the specified element is null or another set already
-     * contains that element, this method returns false, indicating that a set was not created
+     * Creates a unique set that contains the specified puzzleElement. If the specified puzzleElement is null or another set already
+     * contains that puzzleElement, this method returns false, indicating that a set was not created
      *
-     * @param u element to create the set from
+     * @param u puzzleElement to create the set from
      * @return true if the set was created, false otherwise
      */
     public boolean createSet(T u)
@@ -43,10 +43,10 @@ public class DisjointSets<T>
     }
 
     /**
-     * Finds and returns the representative set element of the set that the specified element contains
+     * Finds and returns the representative set puzzleElement of the set that the specified puzzleElement contains
      *
-     * @param p element of the set of which to find
-     * @return representative set element or null if the specified element is null or is not in the DisjointSets
+     * @param p puzzleElement of the set of which to find
+     * @return representative set puzzleElement or null if the specified puzzleElement is null or is not in the DisjointSets
      */
     public T find(T p)
     {
@@ -99,11 +99,11 @@ public class DisjointSets<T>
     }
 
     /**
-     * Unions to elements together, if either element is not already in the DisjointSets, it creates a set for the
-     * element then unions the sets together. If either element is null, no action is taken.
+     * Unions to elements together, if either puzzleElement is not already in the DisjointSets, it creates a set for the
+     * puzzleElement then unions the sets together. If either puzzleElement is null, no action is taken.
      *
-     * @param p element one
-     * @param q element two
+     * @param p puzzleElement one
+     * @param q puzzleElement two
      */
     public void addAndUnion(T p, T q)
     {
@@ -124,10 +124,10 @@ public class DisjointSets<T>
     }
 
     /**
-     * Determines whether the specified element is in the DisjointSets
+     * Determines whether the specified puzzleElement is in the DisjointSets
      *
-     * @param u element to check
-     * @return true if the DisjointSets contains the specified element, false otherwise
+     * @param u puzzleElement to check
+     * @return true if the DisjointSets contains the specified puzzleElement, false otherwise
      */
     public boolean contains(T u)
     {
@@ -135,10 +135,10 @@ public class DisjointSets<T>
     }
 
     /**
-     * Gets the set of elements that the specified element is contained in, or null if no such set exists.
+     * Gets the set of elements that the specified puzzleElement is contained in, or null if no such set exists.
      *
-     * @param p element to get the set of
-     * @return the set of elements that the specified element if contained in, or null if no such set exists
+     * @param p puzzleElement to get the set of
+     * @return the set of elements that the specified puzzleElement if contained in, or null if no such set exists
      */
     public Set<T> getSet(T p)
     {

@@ -19,24 +19,24 @@ public class SudokuElementView extends GridElementView
     }
 
     /**
-     * Gets the Element associated with this view
+     * Gets the PuzzleElement associated with this view
      *
-     * @return Element associated with this view
+     * @return PuzzleElement associated with this view
      */
     @Override
-    public SudokuCell getElement()
+    public SudokuCell getPuzzleElement()
     {
-        return (SudokuCell) super.getElement();
+        return (SudokuCell) super.getPuzzleElement();
     }
 
 //    /**
-//     * Draws the sudoku element to the screen
+//     * Draws the sudoku puzzleElement to the screen
 //     *
 //     * @param graphics2D graphics object
 //     */
 //    public void draw(Graphics2D graphics2D)
 //    {
-//        SudokuCell cell = (SudokuCell) element;
+//        SudokuCell cell = (SudokuCell) puzzleElement;
 //        if(cell.isGiven())
 //        {
 //            graphics2D.setColor(new Color(200,200,200));
@@ -49,7 +49,7 @@ public class SudokuElementView extends GridElementView
 //            graphics2D.setStroke(new BasicStroke(2));
 //            graphics2D.drawRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
 //        }
-//        if(element.isModified())
+//        if(puzzleElement.isModified())
 //        {
 //            graphics2D.setStroke(new BasicStroke(2));
 //            graphics2D.setColor(Color.GREEN);
@@ -60,15 +60,15 @@ public class SudokuElementView extends GridElementView
 //        graphics2D.setColor(Color.BLACK);
 //        graphics2D.drawRect(location.x, location.y, size.width, size.height);
 //
-//        if(getElement().getData() != 0)
+//        if(getPuzzleElement().getData() != 0)
 //        {
 //            graphics2D.setColor(FONT_COLOR);
 //            graphics2D.setFont(FONT);
 //            FontMetrics metrics = graphics2D.getFontMetrics(FONT);
-//            String value = String.valueOf(element.getData());
+//            String value = String.valueOf(puzzleElement.getData());
 //            int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
 //            int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-//            graphics2D.drawString(String.valueOf(element.getData()), xText, yText);
+//            graphics2D.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
 //        }
 //    }
 
@@ -88,15 +88,15 @@ public class SudokuElementView extends GridElementView
         graphics2D.setColor(BORDER_COLOR);
         graphics2D.drawRect(location.x, location.y, size.width, size.height);
 
-        if(getElement().getData() != 0)
+        if(getPuzzleElement().getData() != 0)
         {
             graphics2D.setColor(FONT_COLOR);
             graphics2D.setFont(FONT);
             FontMetrics metrics = graphics2D.getFontMetrics(FONT);
-            String value = String.valueOf(element.getData());
+            String value = String.valueOf(puzzleElement.getData());
             int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-            graphics2D.drawString(String.valueOf(element.getData()), xText, yText);
+            graphics2D.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
         }
     }
 }

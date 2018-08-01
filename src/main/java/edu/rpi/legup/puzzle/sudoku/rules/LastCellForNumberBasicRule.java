@@ -1,6 +1,6 @@
 package edu.rpi.legup.puzzle.sudoku.rules;
 
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.BasicRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.sudoku.SudokuBoard;
@@ -19,19 +19,19 @@ public class LastCellForNumberBasicRule extends BasicRule
 
     /**
      * Checks whether the child node logically follows from the parent node
-     * at the specific element index using this rule
+     * at the specific puzzleElement index using this rule
      *
      * @param transition transition to check
-     * @param element equivalent element
-     * @return null if the child node logically follow from the parent node at the specified element,
+     * @param puzzleElement equivalent puzzleElement
+     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
      * otherwise error message
      */
-    public String checkRuleRawAt(TreeTransition transition, Element element)
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
         SudokuBoard initialBoard = (SudokuBoard) transition.getParents().get(0).getBoard();
         SudokuBoard finalBoard = (SudokuBoard) transition.getBoard();
 
-        SudokuCell cell = (SudokuCell) finalBoard.getElementData(element);
+        SudokuCell cell = (SudokuCell) finalBoard.getPuzzleElement(puzzleElement);
         if(cell.getData() == 0)
         {
             return "cell is not forced at this index";
@@ -111,16 +111,16 @@ public class LastCellForNumberBasicRule extends BasicRule
 
     /**
      * Checks whether the child node logically follows from the parent node at the
-     * specific element index using this rule and if so will perform the default application of the rule
+     * specific puzzleElement index using this rule and if so will perform the default application of the rule
      *
      * @param transition   transition to apply default application
-     * @param element equivalent element
+     * @param puzzleElement equivalent puzzleElement
      *
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
     @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, Element element)
+    public boolean doDefaultApplicationAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
         return false;
     }

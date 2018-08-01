@@ -16,20 +16,20 @@ public class NurikabeElementView extends GridElementView
     }
 
     /**
-     * Gets the Element associated with this view
+     * Gets the PuzzleElement associated with this view
      *
-     * @return Element associated with this view
+     * @return PuzzleElement associated with this view
      */
     @Override
-    public NurikabeCell getElement()
+    public NurikabeCell getPuzzleElement()
     {
-        return (NurikabeCell)super.getElement();
+        return (NurikabeCell)super.getPuzzleElement();
     }
 
     @Override
     public void drawElement(Graphics2D graphics2D)
     {
-        NurikabeCell cell = (NurikabeCell) element;
+        NurikabeCell cell = (NurikabeCell) puzzleElement;
         NurikabeType type = cell.getType();
         if(type == NurikabeType.NUMBER)
         {
@@ -43,10 +43,10 @@ public class NurikabeElementView extends GridElementView
             graphics2D.setColor(FONT_COLOR);
             graphics2D.setFont(FONT);
             FontMetrics metrics = graphics2D.getFontMetrics(FONT);
-            String value = String.valueOf(element.getData());
+            String value = String.valueOf(puzzleElement.getData());
             int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-            graphics2D.drawString(String.valueOf(element.getData()), xText, yText);
+            graphics2D.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
         }
         else if(type == NurikabeType.BLACK)
         {

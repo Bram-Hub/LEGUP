@@ -1,7 +1,7 @@
 package edu.rpi.legup.puzzle.masyu;
 
 import edu.rpi.legup.controller.BoardController;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 
 import java.awt.*;
@@ -16,9 +16,9 @@ public class MasyuView extends GridBoardView
     {
         super(new BoardController(), new MasyuController(), board.getDimension());
 
-        for(Element element : board.getElementData())
+        for(PuzzleElement puzzleElement : board.getPuzzleElements())
         {
-            MasyuCell cell = (MasyuCell)element;
+            MasyuCell cell = (MasyuCell) puzzleElement;
             Point loc = cell.getLocation();
             MasyuElementView elementView = new MasyuElementView(cell);
             elementView.setIndex(cell.getIndex());
@@ -44,16 +44,16 @@ public class MasyuView extends GridBoardView
     }
 
     /**
-     * Called when the board element changed
+     * Called when the board puzzleElement changed
      *
-     * @param data element of the element that changed
+     * @param puzzleElement puzzleElement of the puzzleElement that changed
      */
     @Override
-    public void onBoardDataChanged(Element data)
+    public void onBoardDataChanged(PuzzleElement puzzleElement)
     {
-        if(data instanceof MasyuLine)
+        if(puzzleElement instanceof MasyuLine)
         {
-            MasyuLineView lineView = new MasyuLineView((MasyuLine) data);
+            MasyuLineView lineView = new MasyuLineView((MasyuLine) puzzleElement);
             lineView.setSize(elementSize);
             lineViews.add(lineView);
         }

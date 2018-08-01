@@ -1,7 +1,7 @@
 package edu.rpi.legup.puzzle.fillapix;
 
 import edu.rpi.legup.model.PuzzleExporter;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import org.w3c.dom.Document;
 
 public class FillapixExporter extends PuzzleExporter
@@ -22,12 +22,12 @@ public class FillapixExporter extends PuzzleExporter
         boardElement.setAttribute("height", String.valueOf(board.getHeight()));
 
         org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
-        for(Element element : board.getElementData())
+        for(PuzzleElement puzzleElement : board.getPuzzleElements())
         {
-            FillapixCell cell = (FillapixCell)element;
+            FillapixCell cell = (FillapixCell) puzzleElement;
             if(cell.getData() != -50)
             {
-                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, element);
+                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
                 cellsElement.appendChild(cellElement);
             }
         }

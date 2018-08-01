@@ -5,33 +5,32 @@ import edu.rpi.legup.model.rules.CaseRule;
 import java.util.HashSet;
 import java.util.Set;
 
-
 public class CaseBoard extends Board
 {
     private Board baseBoard;
     private CaseRule caseRule;
-    private Set<Element> pickableElements;
+    private Set<PuzzleElement> pickablePuzzleElements;
 
     public CaseBoard(Board baseBoard, CaseRule caseRule)
     {
         this.baseBoard = baseBoard;
         this.caseRule = caseRule;
-        this.pickableElements = new HashSet<>();
+        this.pickablePuzzleElements = new HashSet<>();
     }
 
-    public void addPickableElement(Element element)
+    public void addPickableElement(PuzzleElement puzzleElement)
     {
-        pickableElements.add(element);
+        pickablePuzzleElements.add(puzzleElement);
     }
 
-    public void removePickableElement(Element element)
+    public void removePickableElement(PuzzleElement puzzleElement)
     {
-        pickableElements.remove(element);
+        pickablePuzzleElements.remove(puzzleElement);
     }
 
-    public boolean isPickable(Element element)
+    public boolean isPickable(PuzzleElement puzzleElement)
     {
-        return pickableElements.contains(element);
+        return pickablePuzzleElements.contains(puzzleElement);
     }
 
     public Board getBaseBoard()
@@ -56,7 +55,7 @@ public class CaseBoard extends Board
 
     public int getCount()
     {
-        return pickableElements.size();
+        return pickablePuzzleElements.size();
     }
 
     public CaseBoard copy()

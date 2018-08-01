@@ -12,9 +12,9 @@ public class Tree
     private TreeNode rootNode;
 
     /**
-     * Tree Constructor - creates the tree structure from the initial board
+     * Tree Constructor creates the tree structure from the initial {@link Board}
      *
-     * @param initBoard initial board state
+     * @param initBoard initial board
      */
     public Tree(Board initBoard)
     {
@@ -23,7 +23,7 @@ public class Tree
     }
 
     /**
-     * Tree Constructor - creates the tree structure with null root node
+     * Tree Constructor creates the tree structure with null root node
      */
     public Tree()
     {
@@ -60,8 +60,8 @@ public class Tree
     }
 
     /**
-     * Determines if the tree is valid by checking whether this tree element and
-     * all descendants of this tree element is justified and justified correctly
+     * Determines if the tree is valid by checking whether this tree puzzleElement and
+     * all descendants of this tree puzzleElement is justified and justified correctly
      *
      * @return true if tree is valid, false otherwise
      */
@@ -131,7 +131,7 @@ public class Tree
     }
 
     /**
-     * Gets the lowest common ancestor (LCA) among the list of nodes passed into
+     * Gets the lowest common ancestor (LCA) among the list of {@link TreeNode} passed into
      * the function. This lowest common ancestor is the most immediate ancestor
      * node such that the list of tree nodes specified are descendants of the node.
      * This will return null if no such ancestor exists

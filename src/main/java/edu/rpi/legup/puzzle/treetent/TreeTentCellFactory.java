@@ -1,7 +1,7 @@
 package edu.rpi.legup.puzzle.treetent;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -13,15 +13,15 @@ import java.awt.*;
 public class TreeTentCellFactory extends ElementFactory
 {
     /**
-     * Creates a element based on the xml document Node and adds it to the board
+     * Creates a puzzleElement based on the xml document Node and adds it to the board
      *
-     * @param node node that represents the element
+     * @param node node that represents the puzzleElement
      * @param board board to add the newly created cell
      * @return newly created cell from the xml document Node
      * @throws InvalidFileFormatException
      */
     @Override
-    public Element importCell(Node node, Board board) throws InvalidFileFormatException
+    public PuzzleElement importCell(Node node, Board board) throws InvalidFileFormatException
     {
         try
         {
@@ -65,7 +65,7 @@ public class TreeTentCellFactory extends ElementFactory
             }
             else
             {
-                throw new InvalidFileFormatException("TreeTent Factory: unknown element element");
+                throw new InvalidFileFormatException("TreeTent Factory: unknown puzzleElement puzzleElement");
             }
         }
         catch(NumberFormatException e)
@@ -79,13 +79,13 @@ public class TreeTentCellFactory extends ElementFactory
     }
 
     /**
-     * Creates a xml document element from a cell for exporting
+     * Creates a xml document puzzleElement from a cell for exporting
      *
      * @param document xml document
-     * @param data Element cell
-     * @return xml Element
+     * @param data PuzzleElement cell
+     * @return xml PuzzleElement
      */
-    public org.w3c.dom.Element exportCell(Document document, Element data)
+    public org.w3c.dom.Element exportCell(Document document, PuzzleElement data)
     {
         if(data instanceof TreeTentCell)
         {

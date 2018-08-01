@@ -43,11 +43,11 @@ public class TreeNode extends TreeElement
     }
 
     /**
-     * Recursively determines if the sub tree rooted at this tree element is valid by checking
-     * whether this tree element and all descendants of this tree element is justified
+     * Recursively determines if the sub tree rooted at this tree puzzleElement is valid by checking
+     * whether this tree puzzleElement and all descendants of this tree puzzleElement is justified
      * and justified correctly
      *
-     * @return true if this tree element and all descendants of this tree element is valid,
+     * @return true if this tree puzzleElement and all descendants of this tree puzzleElement is valid,
      * false otherwise
      */
     @Override

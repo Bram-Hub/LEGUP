@@ -1,6 +1,6 @@
 package edu.rpi.legup.puzzle.lightup.rules;
 
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.BasicRule;
 import edu.rpi.legup.model.rules.RegisterRule;
 import edu.rpi.legup.model.rules.RuleType;
@@ -24,19 +24,19 @@ public class EmptyCornersBasicRule extends BasicRule
 
     /**
      * Checks whether the child node logically follows from the parent node
-     * at the specific element index using this rule
+     * at the specific puzzleElement index using this rule
      *
      * @param transition   transition to check
-     * @param element index of the element
+     * @param puzzleElement index of the puzzleElement
      *
-     * @return null if the child node logically follow from the parent node at the specified element,
+     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
      * otherwise error message
      */
     @Override
-    public String checkRuleRawAt(TreeTransition transition, Element element)
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
         LightUpBoard initialBoard = (LightUpBoard)transition.getBoard();
-        LightUpCell cell = (LightUpCell) initialBoard.getElementData(element);
+        LightUpCell cell = (LightUpCell) initialBoard.getPuzzleElement(puzzleElement);
         if(cell == null || cell.getType() != LightUpCellType.EMPTY)
         {
             return "Must be an empty cell";
@@ -64,16 +64,16 @@ public class EmptyCornersBasicRule extends BasicRule
 
     /**
      * Checks whether the child node logically follows from the parent node at the
-     * specific element index using this rule and if so will perform the default application of the rule
+     * specific puzzleElement index using this rule and if so will perform the default application of the rule
      *
      * @param transition   transition to apply default application
-     * @param element
+     * @param puzzleElement
      *
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
     @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, Element element)
+    public boolean doDefaultApplicationAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
         return false;
     }

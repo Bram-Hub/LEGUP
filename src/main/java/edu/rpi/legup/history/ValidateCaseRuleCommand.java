@@ -27,8 +27,8 @@ public class ValidateCaseRuleCommand extends PuzzleCommand
     /**
      * CaseRuleCommand Constructor - creates a command for validating a case rule
      *
-     * @param elementView currently selected edu.rpi.legup.puzzle element view that is being edited
-     * @param selection currently selected tree element views that is being edited
+     * @param elementView currently selected edu.rpi.legup.puzzle puzzleElement view that is being edited
+     * @param selection currently selected tree puzzleElement views that is being edited
      */
     public ValidateCaseRuleCommand(ElementView elementView, TreeViewSelection selection, Rule rule)
     {

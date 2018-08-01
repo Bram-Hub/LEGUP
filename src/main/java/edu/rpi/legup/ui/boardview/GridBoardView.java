@@ -40,7 +40,7 @@ public class GridBoardView extends BoardView
     }
 
     /**
-     * Gets the GridElementView from the element index or
+     * Gets the GridElementView from the puzzleElement index or
      * null if out of bounds
      *
      * @param index index of the ElementView

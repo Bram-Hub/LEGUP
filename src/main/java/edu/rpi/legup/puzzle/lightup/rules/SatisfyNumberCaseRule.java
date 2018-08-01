@@ -2,7 +2,7 @@ package edu.rpi.legup.puzzle.lightup.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.rules.RegisterRule;
 import edu.rpi.legup.model.rules.RuleType;
@@ -31,7 +31,7 @@ public class SatisfyNumberCaseRule extends CaseRule
         LightUpBoard lightUpBoard = (LightUpBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(lightUpBoard, this);
         lightUpBoard.setModifiable(false);
-        for(Element data: lightUpBoard.getElementData())
+        for(PuzzleElement data: lightUpBoard.getPuzzleElements())
         {
             if(((LightUpCell)data).getType() == LightUpCellType.NUMBER)
             {
@@ -45,15 +45,15 @@ public class SatisfyNumberCaseRule extends CaseRule
      * Gets the possible cases at a specific location based on this case rule
      *
      * @param board        the current board state
-     * @param element element to determine the possible cases for
+     * @param puzzleElement puzzleElement to determine the possible cases for
      *
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, Element element)
+    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement)
     {
         LightUpBoard lightUpBoard = (LightUpBoard)board;
-        LightUpCell cell = (LightUpCell)element;
+        LightUpCell cell = (LightUpCell) puzzleElement;
         Point loc = cell.getLocation();
 
         List<LightUpCell> openSpots = new ArrayList<>();
@@ -160,7 +160,7 @@ public class SatisfyNumberCaseRule extends CaseRule
                 LightUpBoard newCase = board.copy();
                 LightUpCell newCell = c.copy();
 
-                for(Element mod : curBoard.getModifiedData())
+                for(PuzzleElement mod : curBoard.getModifiedData())
                 {
                     LightUpCell modCell = (LightUpCell)mod.copy();
                     Point modLoc = modCell.getLocation();
@@ -196,16 +196,16 @@ public class SatisfyNumberCaseRule extends CaseRule
 
     /**
      * Checks whether the child node logically follows from the parent node
-     * at the specific element index using this rule
+     * at the specific puzzleElement index using this rule
      *
      * @param transition   transition to check
-     * @param element index of the element
+     * @param puzzleElement index of the puzzleElement
      *
-     * @return null if the child node logically follow from the parent node at the specified element,
+     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
      * otherwise error message
      */
     @Override
-    public String checkRuleRawAt(TreeTransition transition, Element element)
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
         return null;
     }
@@ -227,16 +227,16 @@ public class SatisfyNumberCaseRule extends CaseRule
 
     /**
      * Checks whether the child node logically follows from the parent node at the
-     * specific element index using this rule and if so will perform the default application of the rule
+     * specific puzzleElement index using this rule and if so will perform the default application of the rule
      *
      * @param transition   transition to apply default application
-     * @param element
+     * @param puzzleElement
      *
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
     @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, Element element)
+    public boolean doDefaultApplicationAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
         return false;
     }

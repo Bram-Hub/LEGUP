@@ -1,6 +1,6 @@
 package edu.rpi.legup.model.rules;
 
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeTransition;
 
 import javax.swing.ImageIcon;
@@ -12,7 +12,6 @@ public abstract class Rule
     protected String imageName;
     protected ImageIcon image;
     protected RuleType ruleType;
-    protected boolean isAiUsable;
 
     /**
      * Rule Constructor - creates a new rule
@@ -26,7 +25,6 @@ public abstract class Rule
         this.imageName = imageName;
         this.ruleName = ruleName;
         this.description = description;
-        isAiUsable = true;
         loadImage();
     }
 
@@ -51,28 +49,28 @@ public abstract class Rule
 
     /**
      * Checks whether the child node logically follows from the parent node
-     * at the specific element index using this rule
+     * at the specific puzzleElement index using this rule
      *
      * @param transition transition to check
-     * @param element equivalent element
+     * @param puzzleElement equivalent puzzleElement
      *
-     * @return null if the child node logically follow from the parent node at the specified element,
+     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
      * otherwise error message
      */
-    public abstract String checkRuleAt(TreeTransition transition, Element element);
+    public abstract String checkRuleAt(TreeTransition transition, PuzzleElement puzzleElement);
 
     /**
      * Checks whether the child node logically follows from the parent node
-     * at the specific element index using this rule
+     * at the specific puzzleElement index using this rule
      * This method is the one that should overridden in child classes
      *
      * @param transition transition to check
-     * @param element equivalent element
+     * @param puzzleElement equivalent puzzleElement
      *
-     * @return null if the child node logically follow from the parent node at the specified element,
+     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
      * otherwise error message
      */
-    protected abstract String checkRuleRawAt(TreeTransition transition, Element element);
+    protected abstract String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement);
 
     /**
      * Checks whether the child node logically follows from the parent node using this rule
@@ -87,15 +85,15 @@ public abstract class Rule
 
     /**
      * Checks whether the child node logically follows from the parent node at the
-     * specific element index using this rule and if so will perform the default application of the rule
+     * specific puzzleElement index using this rule and if so will perform the default application of the rule
      *
      * @param transition transition to apply default application
-     * @param element equivalent element
+     * @param puzzleElement equivalent puzzleElement
      *
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
-    public abstract boolean doDefaultApplicationAt(TreeTransition transition, Element element);
+    public abstract boolean doDefaultApplicationAt(TreeTransition transition, PuzzleElement puzzleElement);
 
     /**
      * Loads the image file

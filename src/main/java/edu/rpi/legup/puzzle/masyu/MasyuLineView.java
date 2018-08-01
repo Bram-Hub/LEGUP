@@ -18,7 +18,7 @@ public class MasyuLineView extends ElementView
     @Override
     public void draw(Graphics2D graphics2D)
     {
-        MasyuLine line = (MasyuLine) element;
+        MasyuLine line = (MasyuLine) puzzleElement;
         Point p1 = line.getC1().getLocation();
         Point p2 = line.getC2().getLocation();
         int x1 = p1.x * size.width + size.width / 2;

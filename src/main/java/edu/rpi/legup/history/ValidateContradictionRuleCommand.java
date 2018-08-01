@@ -20,7 +20,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
     /**
      * ValidateContradictionRuleCommand Constructor - creates a edu.rpi.legup.puzzle command for validating a contradiction rule
      *
-     * @param selection currently selected tree element views
+     * @param selection currently selected tree puzzleElement views
      * @param rule contradiction rule to set to all of the tree elements
      */
     public ValidateContradictionRuleCommand(TreeViewSelection selection, Rule rule)

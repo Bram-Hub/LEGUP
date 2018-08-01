@@ -16,14 +16,14 @@ public class BattleShipClueView extends ElementView
     }
 
     /**
-     * Gets the Element associated with this view
+     * Gets the PuzzleElement associated with this view
      *
-     * @return Element associated with this view
+     * @return PuzzleElement associated with this view
      */
     @Override
-    public BattleShipClue getElement()
+    public BattleShipClue getPuzzleElement()
     {
-        return (BattleShipClue)super.getElement();
+        return (BattleShipClue)super.getPuzzleElement();
     }
 
     @Override
@@ -34,7 +34,7 @@ public class BattleShipClueView extends ElementView
         FontMetrics metrics = graphics2D.getFontMetrics(FONT);
         String value;
 
-        BattleShipClue clue = getElement();
+        BattleShipClue clue = getPuzzleElement();
         switch(clue.getType())
         {
             case CLUE_NORTH:

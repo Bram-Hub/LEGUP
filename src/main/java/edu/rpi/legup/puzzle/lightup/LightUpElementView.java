@@ -19,19 +19,19 @@ public class LightUpElementView extends GridElementView
     }
 
     /**
-     * Gets the Element associated with this view
+     * Gets the PuzzleElement associated with this view
      *
-     * @return Element associated with this view
+     * @return PuzzleElement associated with this view
      */
     @Override
-    public LightUpCell getElement() {
-        return (LightUpCell) super.getElement();
+    public LightUpCell getPuzzleElement() {
+        return (LightUpCell) super.getPuzzleElement();
     }
 
     @Override
     public void drawElement(Graphics2D graphics2D)
     {
-        LightUpCell cell = (LightUpCell) element;
+        LightUpCell cell = (LightUpCell) puzzleElement;
         LightUpCellType type = cell.getType();
         if(type == LightUpCellType.NUMBER)
         {
@@ -42,10 +42,10 @@ public class LightUpElementView extends GridElementView
             graphics2D.setColor(WHITE_COLOR);
             graphics2D.setFont(FONT);
             FontMetrics metrics = graphics2D.getFontMetrics(FONT);
-            String value = String.valueOf(element.getData());
+            String value = String.valueOf(puzzleElement.getData());
             int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-            graphics2D.drawString(String.valueOf(element.getData()), xText, yText);
+            graphics2D.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
         }
         else if(type == LightUpCellType.BLACK)
         {

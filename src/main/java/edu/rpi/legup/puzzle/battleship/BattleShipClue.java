@@ -1,9 +1,8 @@
 package edu.rpi.legup.puzzle.battleship;
 
-import edu.rpi.legup.model.gameboard.Element;
-import edu.rpi.legup.puzzle.treetent.TreeTentType;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 
-public class BattleShipClue extends Element
+public class BattleShipClue extends PuzzleElement
 {
 
     private BattleShipCellType type;
@@ -16,7 +15,7 @@ public class BattleShipClue extends Element
     }
 
     /**
-     * Gets the int value that represents this element
+     * Gets the int value that represents this puzzleElement
      *
      * @return int value
      */

@@ -1,7 +1,7 @@
 package edu.rpi.legup.puzzle.nurikabe;
 
 import edu.rpi.legup.controller.BoardController;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 
 import java.awt.*;
@@ -13,9 +13,9 @@ public class NurikabeView extends GridBoardView
     {
         super(new BoardController(), new NurikabeController(), board.getDimension());
 
-        for(Element element : board.getElementData())
+        for(PuzzleElement puzzleElement : board.getPuzzleElements())
         {
-            NurikabeCell cell = (NurikabeCell)element;
+            NurikabeCell cell = (NurikabeCell) puzzleElement;
             Point loc = cell.getLocation();
             NurikabeElementView elementView = new NurikabeElementView(cell);
             elementView.setIndex(cell.getIndex());

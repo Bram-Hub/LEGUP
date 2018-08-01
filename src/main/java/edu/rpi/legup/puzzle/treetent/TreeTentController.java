@@ -3,7 +3,7 @@ package edu.rpi.legup.puzzle.treetent;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.treeview.TreeView;
@@ -42,15 +42,15 @@ public class TreeTentController extends ElementController
 //        Tree tree = getInstance().getTree();
 //        TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
 //        BoardView boardView = getInstance().getLegupUI().getBoardView();
-//        TreeTentElementView element = (TreeTentElementView) boardView.getElement(e.getPoint());
-//        if(lastCellPressed != null && element != null)
+//        TreeTentElementView puzzleElement = (TreeTentElementView) boardView.getPuzzleElement(e.getPoint());
+//        if(lastCellPressed != null && puzzleElement != null)
 //        {
-//            TreeTentLine line = new MasyuLine((TreeTentCell) lastCellPressed.getElement(), (TreeTentCell) element.getElement());
+//            TreeTentLine line = new MasyuLine((TreeTentCell) lastCellPressed.getPuzzleElement(), (TreeTentCell) puzzleElement.getPuzzleElement());
 //            board.getLines().add(line);
 //            board.getModifiedData().add(line);
 //            boardView.updateBoard(board);
 //        }
-//        lastCellPressed = element;
+//        lastCellPressed = puzzleElement;
     }
     @Override
     public void mouseReleased(MouseEvent e)
@@ -62,14 +62,14 @@ public class TreeTentController extends ElementController
         TreeTentElementView element = (TreeTentElementView) boardView.getElement(e.getPoint());
         if(lastCellPressed != null && element != null)
         {
-            TreeTentLine line = new TreeTentLine((TreeTentCell) lastCellPressed.getElement(), (TreeTentCell) element.getElement());
+            TreeTentLine line = new TreeTentLine((TreeTentCell) lastCellPressed.getPuzzleElement(), (TreeTentCell) element.getPuzzleElement());
             board.getLines().add(line);
             board.getModifiedData().add(line);
             boardView.onBoardChanged(board);
         }
     }
     @Override
-    public void changeCell(MouseEvent e, Element data)
+    public void changeCell(MouseEvent e, PuzzleElement data)
     {
         TreeTentCell cell = (TreeTentCell)data;
         if(e.getButton() == MouseEvent.BUTTON1)

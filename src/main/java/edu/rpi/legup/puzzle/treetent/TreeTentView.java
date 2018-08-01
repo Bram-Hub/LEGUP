@@ -2,7 +2,7 @@ package edu.rpi.legup.puzzle.treetent;
 
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 
 import javax.imageio.ImageIO;
@@ -45,9 +45,9 @@ public class TreeTentView extends GridBoardView
         this.southClues = new ArrayList<>();
         this.westClues = new ArrayList<>();
 
-        for(Element element : board.getElementData())
+        for(PuzzleElement puzzleElement : board.getPuzzleElements())
         {
-            TreeTentCell cell = (TreeTentCell)element;
+            TreeTentCell cell = (TreeTentCell) puzzleElement;
             Point loc = cell.getLocation();
             TreeTentElementView elementView = new TreeTentElementView(cell);
             elementView.setIndex(cell.getIndex());

@@ -2,7 +2,7 @@ package edu.rpi.legup.puzzle.sudoku;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.Puzzle;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.sudoku.rules.*;
@@ -85,9 +85,9 @@ public class Sudoku extends Puzzle
             }
         }
 
-        for(Element element : sudokuBoard.getElementData())
+        for(PuzzleElement puzzleElement : sudokuBoard.getPuzzleElements())
         {
-            SudokuCell cell = (SudokuCell)element;
+            SudokuCell cell = (SudokuCell) puzzleElement;
             if(cell.getData() == 0)
             {
                 return false;
@@ -97,7 +97,7 @@ public class Sudoku extends Puzzle
     }
 
     /**
-     * Callback for when the board element changes
+     * Callback for when the board puzzleElement changes
      *
      * @param board the board that has changed
      */

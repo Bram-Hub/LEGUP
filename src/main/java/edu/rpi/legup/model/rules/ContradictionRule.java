@@ -1,6 +1,6 @@
 package edu.rpi.legup.model.rules;
 
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeTransition;
 
 import static edu.rpi.legup.model.rules.RuleType.CONTRADICTION;
@@ -35,18 +35,18 @@ public abstract class ContradictionRule extends Rule
 
     /**
      * Checks whether the child node logically follows from the parent node
-     * at the specific element index using this rule
+     * at the specific puzzleElement index using this rule
      *
      * @param transition   transition to check
-     * @param element equivalent element
+     * @param puzzleElement equivalent puzzleElement
      *
-     * @return null if the child node logically follow from the parent node at the specified element,
+     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
      * otherwise error message
      */
     @Override
-    public String checkRuleAt(TreeTransition transition, Element element)
+    public String checkRuleAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
-        return checkContradictionAt(transition, element);
+        return checkContradictionAt(transition, puzzleElement);
     }
 
     /**
@@ -65,19 +65,19 @@ public abstract class ContradictionRule extends Rule
 
     /**
      * Checks whether the child node logically follows from the parent node
-     * at the specific element index using this rule
+     * at the specific puzzleElement index using this rule
      * This method is the one that should overridden in child classes
      *
      * @param transition   transition to check
-     * @param element equivalent element
+     * @param puzzleElement equivalent puzzleElement
      *
-     * @return null if the child node logically follow from the parent node at the specified element,
+     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
      * otherwise error message
      */
     @Override
-    public String checkRuleRawAt(TreeTransition transition, Element element)
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
-        return checkRuleAt(transition, element);
+        return checkRuleAt(transition, puzzleElement);
     }
 
     /**
@@ -88,9 +88,9 @@ public abstract class ContradictionRule extends Rule
      */
     public String checkContradiction(TreeTransition transition)
     {
-        for(Element element: transition.getBoard().getElementData())
+        for(PuzzleElement puzzleElement : transition.getBoard().getPuzzleElements())
         {
-            String checkStr = checkContradictionAt(transition, element);
+            String checkStr = checkContradictionAt(transition, puzzleElement);
             if(checkStr == null)
             {
                 return checkStr;
@@ -100,13 +100,13 @@ public abstract class ContradictionRule extends Rule
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific element index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
      *
      * @param transition transition to check contradiction
-     * @param element equivalent element
+     * @param puzzleElement equivalent puzzleElement
      *
-     * @return null if the transition contains a contradiction at the specified element,
+     * @return null if the transition contains a contradiction at the specified puzzleElement,
      * otherwise error message
      */
-    public abstract String checkContradictionAt(TreeTransition transition, Element element);
+    public abstract String checkContradictionAt(TreeTransition transition, PuzzleElement puzzleElement);
 }

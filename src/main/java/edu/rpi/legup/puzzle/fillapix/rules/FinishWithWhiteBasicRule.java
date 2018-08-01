@@ -1,7 +1,7 @@
 package edu.rpi.legup.puzzle.fillapix.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.BasicRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
@@ -19,12 +19,12 @@ public class FinishWithWhiteBasicRule extends BasicRule
     }
 
     @Override
-    public String checkRuleRawAt(TreeTransition transition, Element element)
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
         FillapixBoard fillapixBoard = (FillapixBoard) transition.getBoard();
         int width = fillapixBoard.getWidth();
         int height = fillapixBoard.getHeight();
-        FillapixCell cell = (FillapixCell) fillapixBoard.getElementData(element);
+        FillapixCell cell = (FillapixCell) fillapixBoard.getPuzzleElement(puzzleElement);
 
         BlackOrWhiteCaseRule blackOrWhite = new BlackOrWhiteCaseRule();
         TooManyBlackCellsContradictionRule tooManyBlackCells = new TooManyBlackCellsContradictionRule();
@@ -76,7 +76,7 @@ public class FinishWithWhiteBasicRule extends BasicRule
     }
 
     @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, Element element)
+    public boolean doDefaultApplicationAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
         return false;
     }

@@ -107,7 +107,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
     public abstract boolean isBoardComplete(Board board);
 
     /**
-     * Callback for when the board element changes
+     * Callback for when the board puzzleElement changes
      *
      * @param board the board that has changed
      */

@@ -3,7 +3,7 @@ package edu.rpi.legup.puzzle.lightup;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.DataSelectionView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 import edu.rpi.legup.ui.boardview.SelectionItemView;
@@ -32,9 +32,9 @@ public class LightUpView extends GridBoardView
     {
         super(new BoardController(), new LightUpCellController(), board.getDimension());
 
-        for(Element element : board.getElementData())
+        for(PuzzleElement puzzleElement : board.getPuzzleElements())
         {
-            LightUpCell cell = (LightUpCell)element;
+            LightUpCell cell = (LightUpCell) puzzleElement;
             Point loc = cell.getLocation();
             LightUpElementView elementView = new LightUpElementView(cell);
             elementView.setIndex(cell.getIndex());
@@ -65,7 +65,7 @@ public class LightUpView extends GridBoardView
         LightUpElementView element1 = new LightUpElementView(new LightUpCell(-2, null));
         element1.setSize(iconSize);
         element1.setLocation(loc);
-        SelectionItemView item1 = new SelectionItemView(element1.getElement(), new ImageIcon(element1.getImage()));
+        SelectionItemView item1 = new SelectionItemView(element1.getPuzzleElement(), new ImageIcon(element1.getImage()));
         item1.addActionListener(elementController);
         item1.setHorizontalTextPosition(SwingConstants.CENTER);
         selectionView.add(item1);
@@ -73,7 +73,7 @@ public class LightUpView extends GridBoardView
         LightUpElementView element2 = new LightUpElementView(new LightUpCell(-4, null));
         element2.setSize(iconSize);
         element2.setLocation(loc);
-        SelectionItemView item2 = new SelectionItemView(element2.getElement(), new ImageIcon(element2.getImage()));
+        SelectionItemView item2 = new SelectionItemView(element2.getPuzzleElement(), new ImageIcon(element2.getImage()));
         item2.addActionListener(elementController);
         item2.setHorizontalTextPosition(SwingConstants.CENTER);
         selectionView.add(item2);
@@ -81,7 +81,7 @@ public class LightUpView extends GridBoardView
         LightUpElementView element3 = new LightUpElementView(new LightUpCell(-3, null));
         element3.setSize(iconSize);
         element3.setLocation(loc);
-        SelectionItemView item3 = new SelectionItemView(element3.getElement(), new ImageIcon(element3.getImage()));
+        SelectionItemView item3 = new SelectionItemView(element3.getPuzzleElement(), new ImageIcon(element3.getImage()));
         item3.addActionListener(elementController);
         item3.setHorizontalTextPosition(SwingConstants.CENTER);
         selectionView.add(item3);

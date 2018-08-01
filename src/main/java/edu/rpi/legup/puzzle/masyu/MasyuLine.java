@@ -1,9 +1,9 @@
 package edu.rpi.legup.puzzle.masyu;
 
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.utility.Entry;
 
-public class MasyuLine extends Element<Entry<MasyuCell, MasyuCell>>
+public class MasyuLine extends PuzzleElement<Entry<MasyuCell, MasyuCell>>
 {
     public MasyuLine(MasyuCell c1, MasyuCell c2)
     {
@@ -37,9 +37,9 @@ public class MasyuLine extends Element<Entry<MasyuCell, MasyuCell>>
     }
 
     /**
-     * Copies this elements element to a new Element object
+     * Copies this elements puzzleElement to a new PuzzleElement object
      *
-     * @return copied Element object
+     * @return copied PuzzleElement object
      */
     @Override
     public MasyuLine copy()

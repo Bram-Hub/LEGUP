@@ -114,7 +114,7 @@ public class AddTreeElementCommand extends PuzzleCommand
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         if(selectedViews.isEmpty())
         {
-            return "There must be a selected tree element to add to it";
+            return "There must be a selected tree puzzleElement to add to it";
         }
         else
         {

@@ -4,7 +4,7 @@ import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.history.CaseRuleCommand;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.boardview.ElementSelection;
@@ -23,7 +23,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     protected BoardView boardView;
 
     /**
-     * ElementController - element edu.rpi.legup.controller to handles edu.rpi.legup.ui events
+     * ElementController - puzzleElement edu.rpi.legup.controller to handles edu.rpi.legup.ui events
      * associated interacting with a ElementView
      */
     public ElementController()
@@ -174,7 +174,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     {
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         ElementView selectedElement = boardView.getSelection().getFirstSelection();
-        Element element = selectedElement.getElement();
+        PuzzleElement puzzleElement = selectedElement.getPuzzleElement();
         int index = selectedElement.getIndex();
 
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
@@ -186,20 +186,20 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
 
         int value = (Integer) ((SelectionItemView)e.getSource()).getData().getData();
 
-        element.setData(value);
+        puzzleElement.setData(value);
 
-        if(element.equalsData(prevBord.getElementData(element)))
-            element.setModified(false);
+        if(puzzleElement.equalsData(prevBord.getPuzzleElement(puzzleElement)))
+            puzzleElement.setModified(false);
         else
-            element.setModified(true);
+            puzzleElement.setModified(true);
 
-        transitionView.getTreeElement().propagateChanges(element);
+        transitionView.getTreeElement().propagateChanges(puzzleElement);
 
         boardView.repaint();
         boardView.getSelection().clearSelection();
     }
 
-    public void changeCell(MouseEvent e, Element data)
+    public void changeCell(MouseEvent e, PuzzleElement data)
     {
         if(e.getButton() == MouseEvent.BUTTON1)
         {

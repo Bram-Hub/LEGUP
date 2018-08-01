@@ -1,7 +1,7 @@
 package edu.rpi.legup.model.tree;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.rules.RuleType;
 
@@ -44,11 +44,11 @@ public class TreeTransition extends TreeElement
     }
 
     /**
-     * Recursively propagates the change of element down the tree
+     * Recursively propagates the change of puzzleElement down the tree
      *
-     * @param data element of the change made
+     * @param data puzzleElement of the change made
      */
-    public void propagateChanges(Element data)
+    public void propagateChanges(PuzzleElement data)
     {
         board.notifyChange(data);
         isVerified = false;
@@ -86,11 +86,11 @@ public class TreeTransition extends TreeElement
     }
 
     /**
-     * Recursively determines if the sub tree rooted at this tree element is valid by checking
-     * whether this tree element and all descendants of this tree element is justified
+     * Recursively determines if the sub tree rooted at this tree puzzleElement is valid by checking
+     * whether this tree puzzleElement and all descendants of this tree puzzleElement is justified
      * and justified correctly
      *
-     * @return true if this tree element and all descendants of this tree element is valid,
+     * @return true if this tree puzzleElement and all descendants of this tree puzzleElement is valid,
      * false otherwise
      */
     @Override

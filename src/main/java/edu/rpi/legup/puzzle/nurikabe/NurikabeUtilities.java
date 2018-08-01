@@ -1,6 +1,6 @@
 package edu.rpi.legup.puzzle.nurikabe;
 
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.utility.DisjointSets;
 
 import java.awt.*;
@@ -21,7 +21,7 @@ public class NurikabeUtilities
     {
         Set<NurikabeCell> numberedCells = new HashSet<>();
 
-        for(Element data : board.getElementData())
+        for(PuzzleElement data : board.getPuzzleElements())
         {
             NurikabeCell cell = (NurikabeCell)data;
             if(cell.getType() == NurikabeType.NUMBER)
@@ -44,7 +44,7 @@ public class NurikabeUtilities
         int height = board.getHeight();
 
         DisjointSets<NurikabeCell> regions = new DisjointSets<>();
-        for(Element data : board.getElementData())
+        for(PuzzleElement data : board.getPuzzleElements())
         {
             regions.createSet((NurikabeCell)data);
         }
@@ -111,7 +111,7 @@ public class NurikabeUtilities
         int height = board.getHeight();
 
         DisjointSets<NurikabeCell> blackRegions = new DisjointSets<>();
-        for(Element data : board.getElementData())
+        for(PuzzleElement data : board.getPuzzleElements())
         {
             NurikabeCell cell = (NurikabeCell)data;
             if(cell.getType() == NurikabeType.BLACK || cell.getType() == NurikabeType.UNKNOWN)
@@ -158,7 +158,7 @@ public class NurikabeUtilities
         int height = board.getHeight();
 
         DisjointSets<NurikabeCell> whiteRegions = new DisjointSets<>();
-        for(Element data : board.getElementData())
+        for(PuzzleElement data : board.getPuzzleElements())
         {
             NurikabeCell cell = (NurikabeCell)data;
             if(cell.getType() == NurikabeType.WHITE || cell.getType() == NurikabeType.NUMBER || cell.getType() == NurikabeType.UNKNOWN)
@@ -205,7 +205,7 @@ public class NurikabeUtilities
         int height = board.getHeight();
 
         DisjointSets<NurikabeCell> whiteRegions = new DisjointSets<>();
-        for(Element data : board.getElementData())
+        for(PuzzleElement data : board.getPuzzleElements())
         {
             NurikabeCell cell = (NurikabeCell)data;
             whiteRegions.createSet(cell);

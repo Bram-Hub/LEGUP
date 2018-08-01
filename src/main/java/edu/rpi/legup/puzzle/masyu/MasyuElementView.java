@@ -12,15 +12,15 @@ public class MasyuElementView extends GridElementView
     }
 
     @Override
-    public MasyuCell getElement()
+    public MasyuCell getPuzzleElement()
     {
-        return (MasyuCell)super.getElement();
+        return (MasyuCell)super.getPuzzleElement();
     }
 
     @Override
     public void drawElement(Graphics2D graphics2D)
     {
-        MasyuCell cell = (MasyuCell) element;
+        MasyuCell cell = (MasyuCell) puzzleElement;
         MasyuType type = cell.getType();
         if(type == MasyuType.UNKNOWN)
         {

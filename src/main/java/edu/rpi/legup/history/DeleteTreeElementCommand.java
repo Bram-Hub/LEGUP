@@ -13,7 +13,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand
     private TreeViewSelection selection;
 
     /**
-     * DeleteTreeElementCommand Constructor - creates a PuzzleCommand for deleting a tree element
+     * DeleteTreeElementCommand Constructor - creates a PuzzleCommand for deleting a tree puzzleElement
      *
      * @param selection the currently selected tree elements before the command is executed
      */
@@ -93,7 +93,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         if(selectedViews.isEmpty())
         {
-            return "There must be a selected tree element to delete it";
+            return "There must be a selected tree puzzleElement to delete it";
         }
 
         for(TreeElementView view : selectedViews)

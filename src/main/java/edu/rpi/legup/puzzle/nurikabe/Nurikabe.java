@@ -2,7 +2,7 @@ package edu.rpi.legup.puzzle.nurikabe;
 
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.nurikabe.rules.*;
@@ -85,7 +85,7 @@ public class Nurikabe extends Puzzle
                 return false;
             }
         }
-        for(Element data : nurikabeBoard.getElementData())
+        for(PuzzleElement data : nurikabeBoard.getPuzzleElements())
         {
             NurikabeCell cell = (NurikabeCell) data;
             if(cell.getType() == NurikabeType.UNKNOWN)
@@ -97,7 +97,7 @@ public class Nurikabe extends Puzzle
     }
 
     /**
-     * Callback for when the board element changes
+     * Callback for when the board puzzleElement changes
      *
      * @param board the board that has changed
      */

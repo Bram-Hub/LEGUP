@@ -1,6 +1,6 @@
 package edu.rpi.legup.puzzle.nurikabe.rules;
 
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.nurikabe.*;
@@ -17,19 +17,19 @@ public class IsolateBlackContradictionRule extends ContradictionRule
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific element index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
      *
      * @param transition   transition to check contradiction
-     * @param element equivalent element
+     * @param puzzleElement equivalent puzzleElement
      *
-     * @return null if the transition contains a contradiction at the specified element,
+     * @return null if the transition contains a contradiction at the specified puzzleElement,
      * otherwise error message
      */
     @Override
-    public String checkContradictionAt(TreeTransition transition, Element element)
+    public String checkContradictionAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
-        NurikabeCell cell = (NurikabeCell) board.getElementData(element);
+        NurikabeCell cell = (NurikabeCell) board.getPuzzleElement(puzzleElement);
         if(cell.getType() != NurikabeType.BLACK)
         {
             return "Contradiction must be a black cell";
@@ -75,16 +75,16 @@ public class IsolateBlackContradictionRule extends ContradictionRule
 
     /**
      * Checks whether the child node logically follows from the parent node at the
-     * specific element index using this rule and if so will perform the default application of the rule
+     * specific puzzleElement index using this rule and if so will perform the default application of the rule
      *
      * @param transition   transition to apply default application
-     * @param element equivalent element
+     * @param puzzleElement equivalent puzzleElement
      *
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
     @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, Element element)
+    public boolean doDefaultApplicationAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
         return false;
     }

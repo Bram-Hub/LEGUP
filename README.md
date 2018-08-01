@@ -25,19 +25,19 @@ This project uses Gradle for dependency management.
 
 ## XML Board Specifications
 
-An example for the Battleship edu.rpi.legup.puzzle demonstrates the proper format for XML files to be read in. Puzzles have particular x and y values associated with a location of each element. The board size dictates the square size of the board. Currently LEGUP supports Battleship, Fillapix, LightUp, Masyu, Nurikabe, Sudoku, and Treetent puzzles.
+An example for the Battleship edu.rpi.legup.puzzle demonstrates the proper format for XML files to be read in. Puzzles have particular x and y values associated with a location of each puzzleElement. The board size dictates the square size of the board. Currently LEGUP supports Battleship, Fillapix, LightUp, Masyu, Nurikabe, Sudoku, and Treetent puzzles.
 
 ```
 <edu.rpi.legup.Legup>
     <edu.rpi.legup.puzzle qualifiedClassName="edu.rpi.legup.puzzle.battleship.BattleShip">
         <board size="10">
-            <element>
-                <element value="1" x="2" y="0"/>
-                <element value="1" x="6" y="0"/>
-                <element value="2" x="1" y="1"/>
-                <element value="-1" x="8" y="1"/>
-                <element value="-1" x="2" y="2"/>
-            </element>
+            <puzzleElement>
+                <puzzleElement value="1" x="2" y="0"/>
+                <puzzleElement value="1" x="6" y="0"/>
+                <puzzleElement value="2" x="1" y="1"/>
+                <puzzleElement value="-1" x="8" y="1"/>
+                <puzzleElement value="-1" x="2" y="2"/>
+            </puzzleElement>
         </board>
     </edu.rpi.legup.puzzle>
 </edu.rpi.legup.Legup>

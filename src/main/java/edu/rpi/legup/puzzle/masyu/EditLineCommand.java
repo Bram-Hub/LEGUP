@@ -3,7 +3,7 @@ package edu.rpi.legup.puzzle.masyu;
 import edu.rpi.legup.history.PuzzleCommand;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.observer.IBoardListener;
 import edu.rpi.legup.model.observer.ITreeListener;
 import edu.rpi.legup.model.tree.Tree;
@@ -21,8 +21,8 @@ import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 public class EditLineCommand extends PuzzleCommand
 {
     private TreeTransition transition;
-    private Element oldData;
-    private Element newData;
+    private PuzzleElement oldData;
+    private PuzzleElement newData;
 
     private ElementView elementView;
     private TreeElementView selectedView;
@@ -84,19 +84,19 @@ public class EditLineCommand extends PuzzleCommand
             transition = transitionView.getTreeElement();
         }
         newSelectedView = transitionView;
-        Element dup_line = null;
+        PuzzleElement dup_line = null;
         boolean mod_contains = false;
         boolean contains = false;
         final MasyuBoard editBoard = board;
         System.out.println("Size: " + board.getModifiedData().size());
-        for(Element element : board.getModifiedData())
+        for(PuzzleElement puzzleElement : board.getModifiedData())
         {
-            if(element instanceof MasyuLine)
+            if(puzzleElement instanceof MasyuLine)
             {
-                if(((MasyuLine) newData).compare((MasyuLine) element))
+                if(((MasyuLine) newData).compare((MasyuLine) puzzleElement))
                 {
                     System.out.println("contains");
-                    dup_line = element;
+                    dup_line = puzzleElement;
                     mod_contains = true;
                 }
             }
@@ -139,7 +139,7 @@ public class EditLineCommand extends PuzzleCommand
         {
             return false;
         }
-        else if(!board.getElementData(elementView.getElement()).isModifiable())
+        else if(!board.getPuzzleElement(elementView.getPuzzleElement()).isModifiable())
         {
             return false;
         }
@@ -160,7 +160,7 @@ public class EditLineCommand extends PuzzleCommand
         {
             return "Board is not modifiable";
         }
-        else if(!board.getElementData(elementView.getElement()).isModifiable())
+        else if(!board.getPuzzleElement(elementView.getPuzzleElement()).isModifiable())
         {
             return "Data is not modifiable";
         }
@@ -200,7 +200,7 @@ public class EditLineCommand extends PuzzleCommand
 
         //System.err.println(newData.getData() + " : " + oldData.getData());
 
-        if(prevBoard.getElementData(elementView.getElement()).equalsData(newData))
+        if(prevBoard.getPuzzleElement(elementView.getPuzzleElement()).equalsData(newData))
         {
             board.removeModifiedData(newData);
         }

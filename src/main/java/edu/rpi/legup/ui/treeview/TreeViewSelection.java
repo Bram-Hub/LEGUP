@@ -44,9 +44,9 @@ public class TreeViewSelection
 
 
     /**
-     * Gets the list of selected tree element views
+     * Gets the list of selected tree puzzleElement views
      *
-     * @return list of selected tree element views
+     * @return list of selected tree puzzleElement views
      */
     public List<TreeElementView> getSelectedViews()
     {
@@ -64,9 +64,9 @@ public class TreeViewSelection
     }
 
     /**
-     * Toggles a tree element view selectedViews
+     * Toggles a tree puzzleElement view selectedViews
      *
-     * @param treeElementView a tree element view to toggle
+     * @param treeElementView a tree puzzleElement view to toggle
      */
     public void toggleSelection(TreeElementView treeElementView)
     {
@@ -83,9 +83,9 @@ public class TreeViewSelection
     }
 
     /**
-     * Adds a tree element view selectedViews
+     * Adds a tree puzzleElement view selectedViews
      *
-     * @param treeElementView a tree element view to add
+     * @param treeElementView a tree puzzleElement view to add
      */
     public void addToSelection(TreeElementView treeElementView)
     {
@@ -97,9 +97,9 @@ public class TreeViewSelection
     }
 
     /**
-     * Creates a new selectedViews and add the specified tree element view
+     * Creates a new selectedViews and add the specified tree puzzleElement view
      *
-     * @param treeElementView tree element view
+     * @param treeElementView tree puzzleElement view
      */
     public void newSelection(TreeElementView treeElementView)
     {
@@ -121,9 +121,9 @@ public class TreeViewSelection
     }
 
     /**
-     * Gets tree element view that the mouse is hovering over or null is no such view exists
+     * Gets tree puzzleElement view that the mouse is hovering over or null is no such view exists
      *
-     * @return tree element view that the mouse is hovering over or null is no such view exists
+     * @return tree puzzleElement view that the mouse is hovering over or null is no such view exists
      */
     public TreeElementView getHover()
     {
@@ -131,9 +131,9 @@ public class TreeViewSelection
     }
 
     /**
-     * Clears the previous hover and sets the specified tree element view to the new hover
+     * Clears the previous hover and sets the specified tree puzzleElement view to the new hover
      *
-     * @param newHovered tree element view for the new hover
+     * @param newHovered tree puzzleElement view for the new hover
      */
     public void newHover(TreeElementView newHovered)
     {
@@ -146,7 +146,7 @@ public class TreeViewSelection
     }
 
     /**
-     * Clears the current hover tree element view
+     * Clears the current hover tree puzzleElement view
      */
     public void clearHover()
     {

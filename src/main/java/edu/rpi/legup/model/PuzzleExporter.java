@@ -1,6 +1,6 @@
 package edu.rpi.legup.model;
 
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import org.w3c.dom.Document;
@@ -119,7 +119,7 @@ public abstract class PuzzleExporter
                         transElement.setAttribute("rule", transition.getRule().getRuleName());
                     }
 
-                    for(Element data : transition.getBoard().getModifiedData())
+                    for(PuzzleElement data : transition.getBoard().getModifiedData())
                     {
                         transElement.appendChild(puzzle.getFactory().exportCell(newDocument, data));
                     }

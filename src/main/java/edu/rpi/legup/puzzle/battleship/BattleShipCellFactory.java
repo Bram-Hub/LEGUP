@@ -1,7 +1,7 @@
 package edu.rpi.legup.puzzle.battleship;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Document;
@@ -13,15 +13,15 @@ import java.awt.*;
 public class BattleShipCellFactory extends ElementFactory
 {
     /**
-     * Creates a element based on the xml document Node and adds it to the board
+     * Creates a puzzleElement based on the xml document Node and adds it to the board
      *
-     * @param node node that represents the element
+     * @param node node that represents the puzzleElement
      * @param board board to add the newly created cell
      * @return newly created cell from the xml document Node
      * @throws InvalidFileFormatException
      */
     @Override
-    public Element importCell(Node node, Board board) throws InvalidFileFormatException
+    public PuzzleElement importCell(Node node, Board board) throws InvalidFileFormatException
     {
         try
         {
@@ -50,7 +50,7 @@ public class BattleShipCellFactory extends ElementFactory
             }
             else
             {
-                throw new InvalidFileFormatException("BattleShip Factory: unknown element element");
+                throw new InvalidFileFormatException("BattleShip Factory: unknown puzzleElement puzzleElement");
             }
         }
         catch(NumberFormatException e)
@@ -64,13 +64,13 @@ public class BattleShipCellFactory extends ElementFactory
     }
 
     /**
-     * Creates a xml document element from a cell for exporting
+     * Creates a xml document puzzleElement from a cell for exporting
      *
      * @param document xml document
-     * @param data Element cell
-     * @return xml Element
+     * @param data PuzzleElement cell
+     * @return xml PuzzleElement
      */
-    public org.w3c.dom.Element exportCell(Document document, Element data)
+    public org.w3c.dom.Element exportCell(Document document, PuzzleElement data)
     {
             org.w3c.dom.Element cellElement = document.createElement("cell");
 

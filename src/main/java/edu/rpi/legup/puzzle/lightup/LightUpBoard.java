@@ -1,6 +1,6 @@
 package edu.rpi.legup.puzzle.lightup;
 
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.gameboard.GridBoard;
 
 public class LightUpBoard extends GridBoard
@@ -81,9 +81,9 @@ public class LightUpBoard extends GridBoard
     }
 
     @Override
-    public void notifyChange(Element data)
+    public void notifyChange(PuzzleElement puzzleElement)
     {
-        super.notifyChange(data);
+        super.notifyChange(puzzleElement);
         fillWithLight();
     }
 

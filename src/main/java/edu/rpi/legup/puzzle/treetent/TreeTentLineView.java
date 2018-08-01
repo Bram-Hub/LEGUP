@@ -19,7 +19,7 @@ public class TreeTentLineView extends ElementView
     public void draw(Graphics2D graphics2D)
     {
 
-        TreeTentLine line = (TreeTentLine) element;
+        TreeTentLine line = (TreeTentLine) puzzleElement;
         Point p1 = line.getC1().getLocation();
         Point p2 = line.getC2().getLocation();
         int x1 = (p1.x + 1) * size.width + size.width / 2;

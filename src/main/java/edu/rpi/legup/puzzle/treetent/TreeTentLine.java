@@ -1,9 +1,9 @@
 package edu.rpi.legup.puzzle.treetent;
 
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.utility.Entry;
 
-public class TreeTentLine extends Element<Entry<TreeTentCell, TreeTentCell>>
+public class TreeTentLine extends PuzzleElement<Entry<TreeTentCell, TreeTentCell>>
 {
 
     public TreeTentLine(TreeTentCell c1, TreeTentCell c2)
@@ -37,9 +37,9 @@ public class TreeTentLine extends Element<Entry<TreeTentCell, TreeTentCell>>
     }
 
     /**
-     * Copies this elements element to a new Element object
+     * Copies this elements puzzleElement to a new PuzzleElement object
      *
-     * @return copied Element object
+     * @return copied PuzzleElement object
      */
     @Override
     public TreeTentLine copy()

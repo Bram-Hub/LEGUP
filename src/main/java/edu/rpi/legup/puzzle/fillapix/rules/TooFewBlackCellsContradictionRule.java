@@ -1,6 +1,6 @@
 package edu.rpi.legup.puzzle.fillapix.rules;
 
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
@@ -38,11 +38,11 @@ public class TooFewBlackCellsContradictionRule extends ContradictionRule
     }
 
     @Override
-    public String checkContradictionAt(TreeTransition transition, Element element)
+    public String checkContradictionAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
         FillapixBoard fillapixBoard = (FillapixBoard) transition.getBoard();
         int width = fillapixBoard.getWidth();
-        FillapixCell cell = (FillapixCell) fillapixBoard.getElementData(element);
+        FillapixCell cell = (FillapixCell) fillapixBoard.getPuzzleElement(puzzleElement);
         if (cell.getData() != -1) {
             int numBlackCells = fillapixBoard.getNumCells(cell, FillapixCell.BLACK);
             int numUnknownCells = fillapixBoard.getNumCells(cell, FillapixCell.UNKNOWN);
@@ -74,7 +74,7 @@ public class TooFewBlackCellsContradictionRule extends ContradictionRule
     }
 
     @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, Element element)
+    public boolean doDefaultApplicationAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
         return false;
     }

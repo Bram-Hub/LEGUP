@@ -4,7 +4,7 @@ import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.observer.IBoardListener;
 import edu.rpi.legup.ui.DynamicViewer;
 
@@ -58,7 +58,7 @@ public abstract class BoardView extends DynamicViewer implements IBoardListener
     protected abstract Dimension getProperSize();
 
     /**
-     * Gets the ElementView from the element index or
+     * Gets the ElementView from the puzzleElement index or
      * null if out of bounds
      *
      * @param index index of the ElementView
@@ -123,17 +123,17 @@ public abstract class BoardView extends DynamicViewer implements IBoardListener
 
                 for(ElementView elementView: elementViews)
                 {
-                    Element element = baseBoard.getElementData(elementView.getElement());
-                    elementView.setElement(element);
+                    PuzzleElement puzzleElement = baseBoard.getPuzzleElement(elementView.getPuzzleElement());
+                    elementView.setPuzzleElement(puzzleElement);
                     elementView.setShowCasePicker(true);
-                    elementView.setCaseRulePickable(caseBoard.isPickable(elementView.getElement()));
+                    elementView.setCaseRulePickable(caseBoard.isPickable(elementView.getPuzzleElement()));
                 }
             }
             else
             {
                 for(ElementView elementView: elementViews)
                 {
-                    elementView.setElement(board.getElementData(elementView.getElement()));
+                    elementView.setPuzzleElement(board.getPuzzleElement(elementView.getPuzzleElement()));
                     elementView.setShowCasePicker(false);
                 }
             }
@@ -141,7 +141,7 @@ public abstract class BoardView extends DynamicViewer implements IBoardListener
     }
 
     /**
-     * Board element has changed
+     * Board puzzleElement has changed
      *
      * @param board board to update the BoardView
      */
@@ -192,12 +192,12 @@ public abstract class BoardView extends DynamicViewer implements IBoardListener
     }
 
     /**
-     * Called when the board element changed
+     * Called when the board puzzleElement changed
      *
-     * @param data element of the element that changed
+     * @param puzzleElement puzzleElement of the puzzleElement that changed
      */
     @Override
-    public void onBoardDataChanged(Element data)
+    public void onBoardDataChanged(PuzzleElement puzzleElement)
     {
         repaint();
     }

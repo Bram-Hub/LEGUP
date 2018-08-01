@@ -3,26 +3,25 @@ package edu.rpi.legup.model.observer;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.ui.treeview.TreeViewSelection;
 
-public interface ITreeListener
-{
+public interface ITreeListener {
     /**
-     * Called when a tree element is added to the tree
+     * Called when a {@link TreeElement} is added to the tree.
      *
-     * @param element TreeElement that was added to the tree
+     * @param treeElement tree element that was added to the tree
      */
-    void onTreeElementAdded(TreeElement element);
+    void onTreeElementAdded(TreeElement treeElement);
 
     /**
-     * Called when a tree element is removed from the tree
+     * Called when a {@link TreeElement} is removed from the tree.
      *
      * @param element TreeElement that was removed to the tree
      */
     void onTreeElementRemoved(TreeElement element);
 
     /**
-     * Called when the tree selection was changed
+     * Called when the {@link TreeViewSelection} was changed.
      *
-     * @param selection tree selection that was changed
+     * @param selection tree view selection that was changed
      */
     void onTreeSelectionChanged(TreeViewSelection selection);
 }

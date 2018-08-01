@@ -14,7 +14,7 @@ public class TreeTentElementView extends GridElementView
     @Override
     public void drawElement(Graphics2D graphics2D)
     {
-        TreeTentCell cell = (TreeTentCell) element;
+        TreeTentCell cell = (TreeTentCell) puzzleElement;
         TreeTentType type = cell.getType();
         if(type == TreeTentType.UNKNOWN)
         {

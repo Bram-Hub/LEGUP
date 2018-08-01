@@ -1,21 +1,20 @@
 package edu.rpi.legup.model.observer;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 
-public interface IBoardListener
-{
+public interface IBoardListener {
     /**
-     * Called when the board has changed
+     * Called when the board has changed.
      *
      * @param board board that has changed
      */
     void onBoardChanged(Board board);
 
     /**
-     * Called when the board element changed
+     * Called when a {@link PuzzleElement}'s data on the board has changed.
      *
-     * @param data element of the element that changed
+     * @param puzzleElement puzzleElement that has changed
      */
-    void onBoardDataChanged(Element data);
+    void onBoardDataChanged(PuzzleElement puzzleElement);
 }

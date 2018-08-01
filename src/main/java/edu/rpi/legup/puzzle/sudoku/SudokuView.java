@@ -34,7 +34,7 @@ public class SudokuView extends GridBoardView
     }
 
     /**
-     * Gets the SudokuElementView from the element index or
+     * Gets the SudokuElementView from the puzzleElement index or
      * null if out of bounds
      *
      * @param index index of the ElementView
@@ -109,7 +109,7 @@ public class SudokuView extends GridBoardView
                 SudokuElementView element = new SudokuElementView(new SudokuCell((r - 1) * 3 + c, null, 0));
                 element.setSize(new Dimension(32, 32));
                 element.setLocation(new Point(0, 0));
-                SelectionItemView item = new SelectionItemView(element.getElement(), new ImageIcon(element.getImage()));
+                SelectionItemView item = new SelectionItemView(element.getPuzzleElement(), new ImageIcon(element.getImage()));
                 item.addActionListener(elementController);
                 item.setHorizontalTextPosition(SwingConstants.CENTER);
                 selectionView.add(item);

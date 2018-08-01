@@ -28,12 +28,12 @@ public class SudokuImporter extends PuzzleImporter
         {
             if(!node.getNodeName().equalsIgnoreCase("board"))
             {
-                throw new InvalidFileFormatException("Sudoku Importer: cannot find board element");
+                throw new InvalidFileFormatException("Sudoku Importer: cannot find board puzzleElement");
             }
             Element boardElement = (Element)node;
             if(boardElement.getElementsByTagName("cells").getLength() == 0)
             {
-                throw new InvalidFileFormatException("Sudoku Importer: no element found for board");
+                throw new InvalidFileFormatException("Sudoku Importer: no puzzleElement found for board");
             }
             Element dataElement = (Element)boardElement.getElementsByTagName("cells").item(0);
             NodeList elementDataList = dataElement.getElementsByTagName("cell");

@@ -16,14 +16,14 @@ public class TreeTentClueView extends ElementView
     }
 
     /**
-     * Gets the Element associated with this view
+     * Gets the PuzzleElement associated with this view
      *
-     * @return Element associated with this view
+     * @return PuzzleElement associated with this view
      */
     @Override
-    public TreeTentClue getElement()
+    public TreeTentClue getPuzzleElement()
     {
-        return (TreeTentClue)super.getElement();
+        return (TreeTentClue)super.getPuzzleElement();
     }
 
     @Override
@@ -34,7 +34,7 @@ public class TreeTentClueView extends ElementView
         FontMetrics metrics = graphics2D.getFontMetrics(FONT);
         String value;
 
-        TreeTentClue clue = getElement();
+        TreeTentClue clue = getPuzzleElement();
         switch(clue.getType())
         {
             case CLUE_NORTH:

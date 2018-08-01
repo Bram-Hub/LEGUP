@@ -86,9 +86,9 @@ public class TreeView extends DynamicViewer implements ITreeListener
     }
 
     /**
-     * Gets the tree node element that the mouse is hovering over
+     * Gets the tree node puzzleElement that the mouse is hovering over
      *
-     * @return tree node element that the mouse is hovering over
+     * @return tree node puzzleElement that the mouse is hovering over
      */
     public TreeNodeView getNodeHover()
     {
@@ -96,9 +96,9 @@ public class TreeView extends DynamicViewer implements ITreeListener
     }
 
     /**
-     * Sets the tree node element that the mouse is hovering over
+     * Sets the tree node puzzleElement that the mouse is hovering over
      *
-     * @param nodeHover tree node element the mouse is hovering over
+     * @param nodeHover tree node puzzleElement the mouse is hovering over
      */
     public void setNodeHover(TreeNodeView nodeHover)
     {
@@ -273,7 +273,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
     /**
      * Gets the color of a collapsed tree node.
      * This function must be called before the game board collapsing takes place,
-     * otherwise transition element will be hidden
+     * otherwise transition puzzleElement will be hidden
      *
      * @param treeNode collapsed tree node
      */
@@ -448,26 +448,26 @@ public class TreeView extends DynamicViewer implements ITreeListener
     }
 
     /**
-     * Called when a tree element is added to the tree
+     * Called when a tree puzzleElement is added to the tree
      *
-     * @param element TreeElement that was added to the tree
+     * @param treeElement TreeElement that was added to the tree
      */
     @Override
-    public void onTreeElementAdded(TreeElement element)
+    public void onTreeElementAdded(TreeElement treeElement)
     {
-        if(element.getType() == NODE)
+        if(treeElement.getType() == NODE)
         {
-            addTreeNode((TreeNode)element);
+            addTreeNode((TreeNode) treeElement);
         }
         else
         {
-            addTreeTransition((TreeTransition)element);
+            addTreeTransition((TreeTransition) treeElement);
         }
         repaint();
     }
 
     /**
-     * Called when a tree element is removed from the tree
+     * Called when a tree puzzleElement is removed from the tree
      *
      * @param element TreeElement that was removed to the tree
      */
@@ -827,8 +827,8 @@ public class TreeView extends DynamicViewer implements ITreeListener
     }
 
     /**
-     * Calculates the sub span of a given sub tree rooted at the specified view and stops at the tree element view
-     * specified as stop. Stop tree element is NOT included in the span calculation
+     * Calculates the sub span of a given sub tree rooted at the specified view and stops at the tree puzzleElement view
+     * specified as stop. Stop tree puzzleElement is NOT included in the span calculation
      *
      * @param view
      * @param stop

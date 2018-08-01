@@ -14,7 +14,7 @@ public class SelectionController implements MouseListener, MouseMotionListener
 
     /**
      * SelectionController Constructor - creates a mouse listener
-     * for a tree node element
+     * for a tree node puzzleElement
      *
      * @param treeNodeView tree node view
      * @param treeView tree view

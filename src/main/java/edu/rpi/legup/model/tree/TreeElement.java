@@ -8,9 +8,9 @@ public abstract class TreeElement
     protected Board board;
 
     /**
-     * TreeElement Constructor - creates a tree element that is part of a tree
+     * TreeElement Constructor creates a tree puzzleElement that is part of a tree
      *
-     * @param type type of tree element (NODE or TRANSITION)
+     * @param type type of tree puzzleElement (NODE or TRANSITION)
      */
     public TreeElement(TreeElementType type)
     {
@@ -26,19 +26,19 @@ public abstract class TreeElement
     public abstract boolean isContradictoryBranch();
 
     /**
-     * Recursively determines if the sub tree rooted at this tree element is valid by checking
-     * whether this tree element and all descendants of this tree element is justified
+     * Recursively determines if the sub tree rooted at this tree puzzleElement is valid by checking
+     * whether this tree puzzleElement and all descendants of this tree puzzleElement is justified
      * and justified correctly
      *
-     * @return true if this tree element and all descendants of this tree element is valid,
+     * @return true if this tree puzzleElement and all descendants of this tree puzzleElement is valid,
      * false otherwise
      */
     public abstract boolean isValid();
 
     /**
-     * Gets the type of tree element
+     * Gets the type of tree puzzleElement
      *
-     * @return NODE if this tree element is a tree node, TRANSITION, if this tree element is a transition
+     * @return NODE if this tree puzzleElement is a tree node, TRANSITION, if this tree puzzleElement is a transition
      */
     public TreeElementType getType()
     {

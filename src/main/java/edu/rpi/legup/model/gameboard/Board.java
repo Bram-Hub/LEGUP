@@ -5,182 +5,168 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class Board
-{
-    protected List<Element> elementData;
-    protected Set<Element> modifiedData;
+public abstract class Board {
+
+    protected List<PuzzleElement> puzzleElements;
+    protected Set<PuzzleElement> modifiedData;
     protected boolean isModifiable;
 
     /**
-     * Board Constructor - creates an empty board
+     * Board Constructor creates an empty board.
      */
-    public Board()
-    {
-        this.elementData = new ArrayList<>();
+    public Board() {
+        this.puzzleElements = new ArrayList<>();
         this.modifiedData = new HashSet<>();
         this.isModifiable = true;
     }
 
     /**
-     * Board Constructor - creates a board with null element
+     * Board Constructor creates a board with null elements.
      *
      * @param size number of elements for the board
      */
-    public Board(int size)
-    {
+    public Board(int size) {
         this();
-        for(int i = 0; i < size; i++)
-        {
-            elementData.add(null);
+        for (int i = 0; i < size; i++) {
+            puzzleElements.add(null);
         }
     }
 
     /**
-     * Gets a specific Element on this board
+     * Gets a specific {@link PuzzleElement} on this board.
      *
-     * @param element equivalent element
-     * @return equivalent element on this board
+     * @param puzzleElement equivalent puzzleElement
+     * @return equivalent puzzleElement on this board
      */
-    public Element getElementData(Element element)
-    {
-        int index = element.getIndex();
-        return index < elementData.size() ? elementData.get(index) : null;
+    public PuzzleElement getPuzzleElement(PuzzleElement puzzleElement) {
+        int index = puzzleElement.getIndex();
+        return index < puzzleElements.size() ? puzzleElements.get(index) : null;
     }
 
     /**
-     * Sets a specific Element on the board
+     * Sets a specific {@link PuzzleElement} on the board.
      *
-     * @param index index of the element
-     * @param data new element at the index
+     * @param index         index of the puzzleElement
+     * @param puzzleElement new puzzleElement at the index
      */
-    public void setElementData(int index, Element data)
-    {
-        if(index < elementData.size())
-        {
-            elementData.set(index, data);
+    public void setPuzzleElement(int index, PuzzleElement puzzleElement) {
+        if (index < puzzleElements.size()) {
+            puzzleElements.set(index, puzzleElement);
         }
     }
 
     /**
-     * Gets the number of elements on the board
+     * Gets the number of elements on the board.
      *
      * @return number of elements on the board
      */
-    public int getElementCount()
-    {
-        return elementData.size();
+    public int getElementCount() {
+        return puzzleElements.size();
     }
 
     /**
-     * Gets the elements on the board
+     * Gets the {@link PuzzleElement} on the board.
      *
-     * @return elements on the board
+     * @return puzzle elements on the board
      */
-    public List<Element> getElementData()
-    {
-        return elementData;
+    public List<PuzzleElement> getPuzzleElements() {
+        return puzzleElements;
     }
 
     /**
-     * Sets the elements on the board
+     * Sets the {@link PuzzleElement} on the board.
      *
-     * @param elementData elements on the board
+     * @param puzzleElements elements on the board
      */
-    public void setElementData(ArrayList<Element> elementData)
-    {
-        this.elementData = elementData;
+    public void setPuzzleElements(List<PuzzleElement> puzzleElements) {
+        this.puzzleElements = puzzleElements;
     }
 
     /**
-     * Gets the modifiable attribute for the board
+     * Gets the modifiable attribute for the board.
      *
      * @return true if the board is modifiable, false otherwise
      */
-    public boolean isModifiable()
-    {
+    public boolean isModifiable() {
         return isModifiable;
     }
 
     /**
-     * Sets the modifiable attribute for the board
+     * Sets the modifiable attribute for the board.
      *
      * @param isModifiable true if the board is modifiable, false otherwise
      */
-    public void setModifiable(boolean isModifiable)
-    {
+    public void setModifiable(boolean isModifiable) {
         this.isModifiable = isModifiable;
     }
 
     /**
-     * Gets whether the element of this board has been modified by the edu.rpi.legup.user
+     * Gets whether any of {@link PuzzleElement} of this board has been modified by the user.
      *
      * @return true if the board has been modified, false otherwise
      */
-    public boolean isModified()
-    {
+    public boolean isModified() {
         return !modifiedData.isEmpty();
     }
 
     /**
-     * Gets the list of modified element of the board
+     * Gets the set of modified {@link PuzzleElement} of the board.
      *
-     * @return list of modified element of the board
+     * @return set of modified puzzle element of the board
      */
-    public Set<Element> getModifiedData()
-    {
+    public Set<PuzzleElement> getModifiedData() {
         return modifiedData;
     }
 
     /**
-     * Adds a element that has been modified to the list
+     * Adds a {@link PuzzleElement} that has been modified to the list.
      *
-     * @param data element that has been modified
+     * @param puzzleElement puzzleElement that has been modified
      */
-    public void addModifiedData(Element data)
-    {
-        modifiedData.add(data);
-        data.setModified(true);
+    public void addModifiedData(PuzzleElement puzzleElement) {
+        modifiedData.add(puzzleElement);
+        puzzleElement.setModified(true);
     }
 
     /**
-     * Removes a element that is no longer modified
+     * Removes a {@link PuzzleElement} that is no longer modified.
      *
-     * @param data element that is no longer modified
+     * @param data puzzleElement that is no longer modified
      */
-    public void removeModifiedData(Element data)
-    {
+    public void removeModifiedData(PuzzleElement data) {
         modifiedData.remove(data);
         data.setModified(false);
     }
 
-    public void notifyChange(Element data)
-    {
-        elementData.get(data.getIndex()).setData(data.getData());
+    /**
+     * Called when a {@link PuzzleElement} data on this has changed and passes in the equivalent puzzle element with
+     * the new data.
+     *
+     * @param puzzleElement equivalent puzzle element with the new data.
+     */
+    @SuppressWarnings("unchecked")
+    public void notifyChange(PuzzleElement puzzleElement) {
+        puzzleElements.get(puzzleElement.getIndex()).setData(puzzleElement.getData());
     }
 
-    public Board mergedBoard(Board lca, ArrayList<Board> boards)
-    {
-        if(lca == null || boards.isEmpty())
-        {
+    public Board mergedBoard(Board lca, ArrayList<Board> boards) {
+        if (lca == null || boards.isEmpty()) {
             return null;
         }
 
         Board mergedBoard = lca.copy();
 
         Board firstBoard = boards.get(0);
-        for(Element lcaData : lca.getElementData())
-        {
-            Element mData = firstBoard.getElementData(lcaData);
+        for (PuzzleElement lcaData : lca.getPuzzleElements()) {
+            PuzzleElement mData = firstBoard.getPuzzleElement(lcaData);
 
             boolean isSame = true;
-            for(Board board : boards)
-            {
-                isSame &= mData.equalsData(board.getElementData(lcaData));
+            for (Board board : boards) {
+                isSame &= mData.equalsData(board.getPuzzleElement(lcaData));
             }
 
-            if(isSame && !lcaData.equalsData(mData))
-            {
-                Element mergedData = mergedBoard.getElementData(lcaData);
+            if (isSame && !lcaData.equalsData(mData)) {
+                PuzzleElement mergedData = mergedBoard.getPuzzleElement(lcaData);
                 mergedData.setData(mData.getData());
                 mergedBoard.addModifiedData(mergedData);
             }
@@ -190,7 +176,7 @@ public abstract class Board
     }
 
     /**
-     * Performs a deep copy of the Board
+     * Performs a deep copy of this board.
      *
      * @return a new copy of the board that is independent of this one
      */
