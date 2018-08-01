@@ -4,7 +4,7 @@ import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.awt.*;
 
-public class FillapixCell extends GridCell
+public class FillapixCell extends GridCell<Integer>
 {
     public static final int UNKNOWN = -50;
     public static final int BLACK = 20;
@@ -22,17 +22,6 @@ public class FillapixCell extends GridCell
             clue = value % 10;
             setGiven(true);
         }
-    }
-
-    /**
-     * Gets the int value that represents this element
-     *
-     * @return int value
-     */
-    @Override
-    public Integer getData()
-    {
-        return (Integer) super.getData();
     }
 
     public static boolean isGiven(int value)
@@ -65,12 +54,7 @@ public class FillapixCell extends GridCell
         return clue;
     }
 
-    public boolean isGiven()
-    {
-        return isGiven;
-    }
-
-    /**
+     /**
      * Gets flag to indicate if this the state is black, white, or unknown
      *
      * @return CellState, whether the cell is black, white, or unknown
@@ -118,7 +102,7 @@ public class FillapixCell extends GridCell
     @Override
     public FillapixCell copy()
     {
-        FillapixCell cell = new FillapixCell((Integer) data, (Point) location.clone());
+        FillapixCell cell = new FillapixCell(data, (Point) location.clone());
         cell.setIndex(index);
         cell.setModifiable(isModifiable);
         cell.setState(state);

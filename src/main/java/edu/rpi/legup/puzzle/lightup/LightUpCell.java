@@ -4,7 +4,7 @@ import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.awt.*;
 
-public class LightUpCell extends GridCell
+public class LightUpCell extends GridCell<Integer>
 {
     private boolean isLite;
 
@@ -14,20 +14,9 @@ public class LightUpCell extends GridCell
         this.isLite = false;
     }
 
-    /**
-     * Gets the int value that represents this element
-     *
-     * @return int value
-     */
-    @Override
-    public Integer getData() {
-        return (Integer) super.getData();
-    }
-
     public LightUpCellType getType()
     {
-        Integer value = getData();
-        switch(value)
+        switch(data)
         {
             case -4:
                 return LightUpCellType.BULB;
@@ -38,7 +27,7 @@ public class LightUpCell extends GridCell
             case -1:
                 return LightUpCellType.BLACK;
             default:
-                if(value >= 0)
+                if(data >= 0)
                 {
                     return LightUpCellType.NUMBER;
                 }
@@ -59,7 +48,7 @@ public class LightUpCell extends GridCell
     @Override
     public LightUpCell copy()
     {
-        LightUpCell copy = new LightUpCell((Integer) data, (Point)location.clone());
+        LightUpCell copy = new LightUpCell(data, (Point)location.clone());
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);

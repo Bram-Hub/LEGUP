@@ -4,7 +4,7 @@ import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.awt.*;
 
-public class TreeTentCell extends GridCell
+public class TreeTentCell extends GridCell<Integer>
 {
 
     public TreeTentCell(int valueInt, Point location)
@@ -12,20 +12,9 @@ public class TreeTentCell extends GridCell
         super(valueInt, location);
     }
 
-    /**
-     * Gets the int value that represents this element
-     *
-     * @return int value
-     */
-    @Override
-    public Integer getData() {
-        return (Integer) super.getData();
-    }
-
     public TreeTentType getType()
     {
-        Integer value = getData();
-        switch(value)
+        switch(data)
         {
             case 0:
                 return TreeTentType.UNKNOWN;
@@ -43,7 +32,7 @@ public class TreeTentCell extends GridCell
     @Override
     public TreeTentCell copy()
     {
-        TreeTentCell copy = new TreeTentCell((Integer) data, (Point)location.clone());
+        TreeTentCell copy = new TreeTentCell(data, (Point)location.clone());
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);

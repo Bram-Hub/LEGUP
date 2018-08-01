@@ -2,56 +2,32 @@ package edu.rpi.legup.model.gameboard;
 
 import java.awt.*;
 
-public class GridCell extends Element
+public class GridCell<T> extends Element<T>
 {
     protected Point location;
 
     /**
      * GridCell Constructor - creates a new GridCell at the specified location
      *
-     * @param valueString value String that represents the GridCell
+     * @param value data value that represents the GridCell
      * @param location location of the GridCell in the grid
      */
-    public GridCell(String valueString, Point location)
+    public GridCell(T value, Point location)
     {
-        super(valueString);
+        super(value);
         this.location = location;
     }
 
     /**
      * GridCell Constructor - creates a new GridCell at the specified location
      *
-     * @param valueInt value int that represents the GridCell
-     * @param location location of the GridCell in the grid
-     */
-    public GridCell(int valueInt, Point location)
-    {
-        super(valueInt);
-        this.location = location;
-    }
-
-    /**
-     * GridCell Constructor - creates a new GridCell at the specified location
-     *
-     * @param valueString value String that represents the GridCell
+     * @param value data value that represents the GridCell
      * @param x x location of the GridCell in the grid
      * @param y y location of the GridCell in the grid
      */
-    public GridCell(String valueString, int x, int y)
+    public GridCell(T value, int x, int y)
     {
-        this(valueString, new Point(x, y));
-    }
-
-    /**
-     * GridCell Constructor - creates a new GridCell at the specified location
-     *
-     * @param valueInt value int that represents the GridCell
-     * @param x x location of the GridCell in the grid
-     * @param y y location of the GridCell in the grid
-     */
-    public GridCell(int valueInt, int x, int y)
-    {
-        this(valueInt, new Point(x, y));
+        this(value, new Point(x, y));
     }
 
     /**
@@ -88,9 +64,9 @@ public class GridCell extends Element
      *
      * @return a new copy of the GridCell that is independent of this one
      */
-    public GridCell copy()
+    public GridCell<T> copy()
     {
-        GridCell copy = new GridCell();
+        GridCell<T> copy = new GridCell<>();
         copy.setIndex(index);
         copy.setData(data);
         copy.setModifiable(isModifiable);

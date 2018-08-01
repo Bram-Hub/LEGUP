@@ -1,41 +1,39 @@
 package edu.rpi.legup.puzzle.masyu;
 
 import edu.rpi.legup.model.gameboard.Element;
+import edu.rpi.legup.utility.Entry;
 
-public class MasyuLine extends Element
+public class MasyuLine extends Element<Entry<MasyuCell, MasyuCell>>
 {
-    private MasyuCell c1, c2;
-
     public MasyuLine(MasyuCell c1, MasyuCell c2)
     {
-        this.c1 = c1;
-        this.c2 = c2;
-
+        this.data = new Entry<>(c1, c2);
     }
 
     public MasyuCell getC1()
     {
-        return c1;
+        return data.getKey();
     }
 
     public void setC1(MasyuCell c1)
     {
-        this.c1 = c1;
+        this.data.setKey(c1);
     }
 
     public MasyuCell getC2()
     {
-        return c2;
+        return data.getValue();
     }
 
     public void setC2(MasyuCell c2)
     {
-        this.c2 = c2;
+        this.data.setValue(c2);
     }
 
-    public boolean compare(MasyuLine line){
-        return ((line.getC1().getLocation().equals(c1.getLocation()) && line.getC2().getLocation().equals(c2.getLocation())) ||
-                (line.getC1().getLocation().equals(c2.getLocation()) && line.getC2().getLocation().equals(c1.getLocation())));
+    public boolean compare(MasyuLine line)
+    {
+        return ((line.getC1().getLocation().equals(data.getKey().getLocation()) && line.getC2().getLocation().equals(data.getValue().getLocation())) ||
+                (line.getC1().getLocation().equals(data.getValue().getLocation()) && line.getC2().getLocation().equals(data.getKey().getLocation())));
     }
 
     /**
@@ -46,6 +44,6 @@ public class MasyuLine extends Element
     @Override
     public MasyuLine copy()
     {
-        return new MasyuLine(c1.copy(), c2.copy());
+        return new MasyuLine(data.getKey().copy(), data.getValue().copy());
     }
 }

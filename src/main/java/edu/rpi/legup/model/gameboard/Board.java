@@ -24,7 +24,7 @@ public abstract class Board
     /**
      * Board Constructor - creates a board with null element
      *
-     * @param size
+     * @param size number of elements for the board
      */
     public Board(int size)
     {

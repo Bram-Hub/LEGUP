@@ -4,7 +4,7 @@ import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.awt.*;
 
-public class SudokuCell extends GridCell
+public class SudokuCell extends GridCell<Integer>
 {
     private int groupIndex;
 
@@ -20,18 +20,6 @@ public class SudokuCell extends GridCell
         super(value, location);
         this.groupIndex = groupIndex;
     }
-
-    private SudokuCell(Object data, Point location, int groupIndex)
-    {
-        this(((Integer)data).intValue(), location, groupIndex);
-    }
-
-    @Override
-    public Integer getData()
-    {
-        return (Integer)data;
-    }
-
 
     /**
      * Gets the group index of the cell

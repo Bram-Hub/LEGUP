@@ -4,32 +4,17 @@ import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.awt.*;
 
-public class MasyuCell extends GridCell
+public class MasyuCell extends GridCell<Integer>
 {
 
-    private MasyuCell connectedCell;
-
-    public MasyuCell(int valueInt, Point location)
+    public MasyuCell(int value, Point location)
     {
-        super(valueInt, location);
-        this.connectedCell = null;
-    }
-
-    @Override
-    public Integer getData()
-    {
-        return (Integer) super.getData();
-    }
-
-    public MasyuCell getConnectedCell()
-    {
-        return connectedCell;
+        super(value, location);
     }
 
     public MasyuType getType()
     {
-        Integer value = getData();
-        switch(value)
+        switch(data)
         {
             case 0:
                 return MasyuType.UNKNOWN;
@@ -45,7 +30,7 @@ public class MasyuCell extends GridCell
     @Override
     public MasyuCell copy()
     {
-        MasyuCell copy = new MasyuCell((Integer) data, (Point)location.clone());
+        MasyuCell copy = new MasyuCell(data, (Point)location.clone());
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);

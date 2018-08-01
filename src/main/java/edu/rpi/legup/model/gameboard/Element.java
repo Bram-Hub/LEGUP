@@ -1,9 +1,9 @@
 package edu.rpi.legup.model.gameboard;
 
-public abstract class Element
+public abstract class Element<T>
 {
     protected int index;
-    protected Object data;
+    protected T data;
     protected boolean isModifiable;
     protected boolean isModified;
     protected boolean isGiven;
@@ -21,43 +21,32 @@ public abstract class Element
     }
 
     /**
-     * Element Constructor - creates a new Element from the String value
+     * Element Constructor - creates a new Element from the specified data
      *
-     * @param data String value that represents this element
+     * @param data data used to create the puzzle element
      */
-    public Element(String data)
+    public Element(T data)
     {
         this();
         this.data = data;
     }
 
     /**
-     * Element Constructor - creates a new Element from the int value
+     * Gets the data that represents this element
      *
-     * @param data int value that represents this element
+     * @return data value
      */
-    public Element(int data)
-    {
-        this();
-        this.data = data;
-    }
-
-    /**
-     * Gets the int value that represents this element
-     *
-     * @return int value
-     */
-    public Object getData()
+    public T getData()
     {
         return data;
     }
 
     /**
-     * Sets the int value that represents this element
+     * Sets the data value that represents this element
      *
-     * @param data int value that represents this element
+     * @param data data value that represents this element
      */
-    public void setData(Object data)
+    public void setData(T data)
     {
         this.data = data;
     }
@@ -148,7 +137,7 @@ public abstract class Element
      * @param element element element to check for equality
      * @return true if the element are equal, false otherwise
      */
-    public boolean equalsData(Element element)
+    public boolean equalsData(Element<T> element)
     {
         return data.equals(element.data);
     }
@@ -158,5 +147,5 @@ public abstract class Element
      *
      * @return copied Element object
      */
-    public abstract Element copy();
+    public abstract Element<T> copy();
 }

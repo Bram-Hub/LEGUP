@@ -2,9 +2,8 @@ package edu.rpi.legup.puzzle.treetent;
 
 import edu.rpi.legup.model.gameboard.Element;
 
-public class TreeTentClue extends Element
+public class TreeTentClue extends Element<Integer>
 {
-
     private TreeTentType type;
 
     public TreeTentClue(int value, int index, TreeTentType type)
@@ -12,17 +11,6 @@ public class TreeTentClue extends Element
         super(value);
         this.index = index;
         this.type = type;
-    }
-
-    /**
-     * Gets the int value that represents this element
-     *
-     * @return int value
-     */
-    @Override
-    public Integer getData()
-    {
-        return (Integer) super.getData();
     }
 
     public static String colNumToString(int col)
