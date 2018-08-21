@@ -151,6 +151,7 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
         table.put ("SeparatorUI", MaterialSeparatorUI.class.getCanonicalName());
         table.put ("FileChooserUI", MaterialFileChooserUI.class.getCanonicalName());
         table.put ("ToolTipUI", MaterialToolTipUI.class.getCanonicalName());
+        table.put ("SplitPaneUI", MaterialSplitPaneUI.class.getCanonicalName());
 //        table.put ("ColorChooserUI", );
     }
 
@@ -252,10 +253,10 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
         table.put ("Slider.trackColor", Color.BLACK);
 //        table.put ("Slider.border", BorderFactory.createCompoundBorder(MaterialBorders.LIGHT_LINE_BORDER, BorderFactory.createEmptyBorder (5, 5, 5, 5)));
 
-        table.put ("SplitPane.border", BorderFactory.createEmptyBorder ());
+        table.put ("SplitPane.border", MaterialBorders.LIGHT_LINE_BORDER);
         table.put ("SplitPane.background", Color.WHITE);
-        table.put ("SplitPane.dividerSize", 5);
-        table.put ("SplitPaneDivider.border", BorderFactory.createEmptyBorder ());
+        table.put ("SplitPane.dividerSize", 10);
+        table.put ("SplitPaneDivider.border", MaterialBorders.LIGHT_SHADOW_BORDER);
 
         table.put ("TabbedPane.font", MaterialFonts.REGULAR);
         table.put ("TabbedPane.background", Color.WHITE);

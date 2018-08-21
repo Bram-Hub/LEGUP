@@ -14,11 +14,13 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 import edu.rpi.legup.app.GameBoardFacade;
+import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.RuleController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.ui.lookandfeel.LegupLookAndFeel;
+import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialBorders;
 import edu.rpi.legupupdate.Update;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
@@ -134,11 +136,12 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
             }
         }
 
-
         setupMenu();
         setupToolBar();
         setupContent();
-        setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        if(LegupPreferences.getInstance().getUserPref(LegupPreferences.START_FULL_SCREEN).equals(Boolean.toString(true))) {
+            setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        }
 
         setVisible(true);
 
@@ -415,7 +418,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         setGlassPane(popupPanel);
         popupPanel.setVisible(true);
 
-        mainPanel.setDividerLocation(mainPanel.getMaximumDividerLocation() + 300);
+        mainPanel.setDividerLocation(mainPanel.getMaximumDividerLocation() + 100);
         pack();
         revalidate();
     }
@@ -843,8 +846,13 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
     {
         this.boardView = puzzle.getBoardView();
 
-        this.topHalfPanel.setRightComponent(new DynamicView(boardView));
+        DynamicView dynamicView = new DynamicView(boardView);
+        this.topHalfPanel.setRightComponent(dynamicView);
         this.topHalfPanel.setVisible(true);
+
+        TitledBorder titleBoard = BorderFactory.createTitledBorder(boardView.getClass().getSimpleName());
+        titleBoard.setTitleJustification(TitledBorder.CENTER);
+        dynamicView.setBorder(titleBoard);
 
         this.treePanel.getTreeView().resetView();
         this.treePanel.getTreeView().setTree(puzzle.getTree());

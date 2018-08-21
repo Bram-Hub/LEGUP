@@ -18,6 +18,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static edu.rpi.legup.model.tree.TreeElementType.NODE;
@@ -620,9 +621,7 @@ public class TreeView extends ScrollView implements ITreeListener
     {
         if(tree == null)
         {
-            //TODO add error
-
-            System.err.println("CreateViews: Null tree");
+            LOGGER.log(Level.SEVERE, "Unable to draw tree.");
         }
         else
         {
@@ -630,8 +629,8 @@ public class TreeView extends ScrollView implements ITreeListener
             {
                 rootNodeView = new TreeNodeView(tree.getRootNode());
 
+                LOGGER.log(Level.FINE, "Creating new views for tree view.");
                 createViews(rootNodeView);
-                System.err.println("newReDraw: Created Views");
 
                 selection.newSelection(rootNodeView);
             }

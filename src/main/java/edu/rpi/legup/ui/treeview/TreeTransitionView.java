@@ -85,7 +85,7 @@ public class TreeTransitionView extends TreeElementView
         for(Point lineStartPoint : lineStartPoints)
         {
             CubicCurve2D c = new CubicCurve2D.Double();
-            double ctrlx1 = lineStartPoint.x + 25;
+            double ctrlx1 = lineEndPoint.x - 25;
             double ctrly1 = lineStartPoint.y;
             double ctrlx2 = lineEndPoint.x - 25;
             double ctrly2 = lineEndPoint.y;

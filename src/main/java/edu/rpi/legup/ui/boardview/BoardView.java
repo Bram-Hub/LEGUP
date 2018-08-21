@@ -35,11 +35,6 @@ public abstract class BoardView extends ScrollView implements IBoardListener
         this.elementController = elementController;
         this.selection = new ElementSelection();
 
-        TitledBorder titleBoard = BorderFactory.createTitledBorder(this.getClass().getSimpleName());
-        titleBoard.setTitleJustification(TitledBorder.CENTER);
-
-        setBorder(titleBoard);
-
         elementController.setBoardView(this);
         addMouseListener(elementController);
         addMouseMotionListener(elementController);

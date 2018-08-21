@@ -51,6 +51,7 @@ public class GameBoardFacade implements IHistorySubject
     {
         history = new History();
         historyListeners = new ArrayList<>();
+        LegupPreferences.getInstance();
         initializeUI();
     }
 

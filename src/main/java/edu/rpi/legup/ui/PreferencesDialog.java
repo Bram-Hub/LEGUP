@@ -2,15 +2,18 @@ package edu.rpi.legup.ui;
 
 import edu.rpi.legup.app.Config;
 import edu.rpi.legup.app.GameBoardFacade;
+import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialBorders;
-import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
@@ -19,6 +22,18 @@ import java.util.logging.Logger;
 public class PreferencesDialog extends JDialog {
 
     private final static Logger LOGGER = Logger.getLogger(PreferencesDialog.class.getName());
+
+    private JCheckBox fullScreen, autoUpdate, showMistakes, allowDefault, generateCases, immFeedback;
+    private JTextField workDirectory;
+
+    private static Image folderIcon;
+    static {
+        try {
+            folderIcon = ImageIO.read(PreferencesDialog.class.getResource("/edu/rpi/legup/imgs/folder.png"));
+        } catch(IOException e) {
+            LOGGER.log(Level.SEVERE, "Unable to locate icons");
+        }
+    }
 
     public PreferencesDialog(LegupUI legupUI) {
         super(legupUI);
@@ -57,6 +72,7 @@ public class PreferencesDialog extends JDialog {
         toolbar.setBorder(null);
         JButton okButton = new JButton("Ok");
         okButton.addActionListener(l -> {
+            applyPreferences();
             this.setVisible(false);
         });
         toolbar.add(okButton);
@@ -67,7 +83,7 @@ public class PreferencesDialog extends JDialog {
         toolbar.add(cancelButton);
         JButton applyButton = new JButton("Apply");
         applyButton.addActionListener(l -> {
-
+            applyPreferences();
         });
         toolbar.add(applyButton);
         bottomPanel.add(toolbar, BorderLayout.EAST);
@@ -82,46 +98,93 @@ public class PreferencesDialog extends JDialog {
     }
 
     private JScrollPane createGeneralTab() {
+        LegupPreferences prefs = LegupPreferences.getInstance();
         JScrollPane scrollPane = new JScrollPane();
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.PAGE_AXIS));
 
-        contentPane.add(new JLabel("Legup Preferences"));
+        contentPane.add(createLeftLabel("General Preferences"));
         contentPane.add(createLineSeparator());
 
-        JCheckBox workDir = new JCheckBox("Work Directory", false);
-        workDir.setToolTipText("This is where the open and save dialogs will open to.");
-        contentPane.add(workDir);
-        JCheckBox fullScreen = new JCheckBox("Full Screen", false);
+        JPanel workRow = new JPanel();
+        workRow.setLayout(new BorderLayout());
+        JLabel workDirLabel = new JLabel("Work Directory");
+        workDirLabel.setToolTipText("This is where the open and save dialogs will open to.");
+        workRow.add(workDirLabel, BorderLayout.WEST);
+        workDirectory = new JTextField(prefs.getUserPref(LegupPreferences.WORK_DIRECTORY));
+        workRow.add(workDirectory, BorderLayout.CENTER);
+        JButton openDir = new JButton(new ImageIcon(folderIcon));
+        openDir.addActionListener(a -> {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setCurrentDirectory(new File(workDirectory.getText()));
+            chooser.setDialogTitle("Choose work directory");
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            chooser.setAcceptAllFileFilterUsed(false);
+            chooser.setVisible(true);
+
+            if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                File newFile = chooser.getSelectedFile();
+                workDirectory.setText(newFile.toString());
+            }
+        });
+        workRow.add(openDir, BorderLayout.EAST);
+        workRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, workRow.getPreferredSize().height));
+        contentPane.add(workRow);
+
+        fullScreen = new JCheckBox("Full Screen", Boolean.valueOf(prefs.getUserPref(LegupPreferences.START_FULL_SCREEN)));
         fullScreen.setToolTipText("If checked this starts Legup in full screen.");
-        contentPane.add(fullScreen);
-        JCheckBox autoUpdate = new JCheckBox("Automatically Check for Updates", true);
+        JPanel fullScreenRow = new JPanel();
+        fullScreenRow.setLayout(new BorderLayout());
+        fullScreenRow.add(fullScreen, BorderLayout.WEST);
+        fullScreenRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, fullScreenRow.getPreferredSize().height));
+        contentPane.add(fullScreenRow);
+        autoUpdate = new JCheckBox("Automatically Check for Updates", Boolean.valueOf(prefs.getUserPref(LegupPreferences.AUTO_UPDATE)));
         autoUpdate.setToolTipText("If checked this automatically checks for updates on startup of Legup");
-        contentPane.add(autoUpdate);
+        JPanel autoUpdateRow = new JPanel();
+        autoUpdateRow.setLayout(new BorderLayout());
+        autoUpdateRow.add(autoUpdate, BorderLayout.WEST);
+        autoUpdateRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, autoUpdateRow.getPreferredSize().height));
+        contentPane.add(autoUpdateRow);
         contentPane.add(Box.createRigidArea(new Dimension(0,10)));
 
-        contentPane.add(new JLabel("Board View Preferences"));
+        contentPane.add(createLeftLabel("Board View Preferences"));
         contentPane.add(createLineSeparator());
-        JCheckBox showMistakes = new JCheckBox("Show Mistakes", true);
+        showMistakes = new JCheckBox("Show Mistakes", Boolean.valueOf(prefs.getUserPref(LegupPreferences.SHOW_MISTAKES)));
         showMistakes.setToolTipText("If checked this show incorrectly applied rule applications in red on the board");
-        contentPane.add(showMistakes);
+        JPanel showMistakesRow = new JPanel();
+        showMistakesRow.setLayout(new BorderLayout());
+        showMistakesRow.add(showMistakes, BorderLayout.WEST);
+        showMistakesRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, showMistakesRow.getPreferredSize().height));
+        contentPane.add(showMistakesRow);
         contentPane.add(Box.createRigidArea(new Dimension(0,10)));
 
-        contentPane.add(new JLabel("Tree View Preferences"));
+        contentPane.add(createLeftLabel("Tree View Preferences"));
         contentPane.add(createLineSeparator());
 
-        JCheckBox allowDefault = new JCheckBox("Allow Default Rule Applications", false);
+        allowDefault = new JCheckBox("Allow Default Rule Applications", Boolean.valueOf(prefs.getUserPref(LegupPreferences.ALLOW_DEFAULT_RULES)));
         allowDefault.setToolTipText("If checked this automatically applies a rule where it can on the board");
         allowDefault.setEnabled(false);
-        contentPane.add(allowDefault);
+        JPanel allowDefaultRow = new JPanel();
+        allowDefaultRow.setLayout(new BorderLayout());
+        allowDefaultRow.add(allowDefault, BorderLayout.WEST);
+        allowDefaultRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, allowDefaultRow.getPreferredSize().height));
+        contentPane.add(allowDefaultRow);
 
-        JCheckBox generateCases = new JCheckBox("Automatically Generate Cases", true);
+        generateCases = new JCheckBox("Automatically Generate Cases", Boolean.valueOf(prefs.getUserPref(LegupPreferences.AUTO_GENERATE_CASES)));
         generateCases.setToolTipText("If checked this automatically generates all cases for a case rule");
-        contentPane.add(generateCases);
+        JPanel generateCasesRow = new JPanel();
+        generateCasesRow.setLayout(new BorderLayout());
+        generateCasesRow.add(generateCases, BorderLayout.WEST);
+        generateCasesRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, generateCasesRow.getPreferredSize().height));
+        contentPane.add(generateCasesRow);
 
-        JCheckBox immFeedback = new JCheckBox("Provide Immediate Feedback", true);
+        immFeedback = new JCheckBox("Provide Immediate Feedback", Boolean.valueOf(prefs.getUserPref(LegupPreferences.IMMEDIATE_FEEDBACK)));
         immFeedback.setToolTipText("If checked this will update the colors of the tree view elements immediately");
-        contentPane.add(immFeedback);
+        JPanel immFeedbackRow = new JPanel();
+        immFeedbackRow.setLayout(new BorderLayout());
+        immFeedbackRow.add(immFeedback, BorderLayout.WEST);
+        immFeedbackRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, immFeedbackRow.getPreferredSize().height));
+        contentPane.add(immFeedbackRow);
 
         scrollPane.setViewportView(contentPane);
         return scrollPane;
@@ -228,5 +291,16 @@ public class PreferencesDialog extends JDialog {
         JSeparator separator = new JSeparator();
         separator.setMaximumSize(new Dimension(Integer.MAX_VALUE, 5));
         return separator;
+    }
+
+    public void applyPreferences() {
+        LegupPreferences prefs = LegupPreferences.getInstance();
+        prefs.setUserPref(LegupPreferences.WORK_DIRECTORY, workDirectory.getText());
+        prefs.setUserPref(LegupPreferences.START_FULL_SCREEN, Boolean.toString(fullScreen.isSelected()));
+        prefs.setUserPref(LegupPreferences.AUTO_UPDATE, Boolean.toString(autoUpdate.isSelected()));
+        prefs.setUserPref(LegupPreferences.SHOW_MISTAKES, Boolean.toString(showMistakes.isSelected()));
+        prefs.setUserPref(LegupPreferences.ALLOW_DEFAULT_RULES, Boolean.toString(allowDefault.isSelected()));
+        prefs.setUserPref(LegupPreferences.AUTO_GENERATE_CASES, Boolean.toString(generateCases.isSelected()));
+        prefs.setUserPref(LegupPreferences.IMMEDIATE_FEEDBACK, Boolean.toString(immFeedback.isSelected()));
     }
 }

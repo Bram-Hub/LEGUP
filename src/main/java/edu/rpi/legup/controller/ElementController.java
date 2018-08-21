@@ -80,7 +80,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
             {
                 if(elementView.isCaseRulePickable())
                 {
-                    CaseRuleCommand caseRuleCommand = new CaseRuleCommand(elementView, selection, ((CaseBoard)board).getCaseRule());
+                    CaseRuleCommand caseRuleCommand = new CaseRuleCommand(elementView, selection, ((CaseBoard)board).getCaseRule(), ((CaseBoard)board));
                     if(caseRuleCommand.canExecute())
                     {
                         caseRuleCommand.execute();

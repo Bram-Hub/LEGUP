@@ -14,7 +14,6 @@ public class Legup extends Application
 {
     private final static Logger LOGGER = Logger.getLogger(Legup.class.getName());
 
-    private static Legup instance;
     private static MainWindow mainWindow;
 
     /**
@@ -70,7 +69,6 @@ public class Legup extends Application
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-        instance = this;
         mainWindow = showProofWindow(primaryStage);
     }
 }
