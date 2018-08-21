@@ -17,7 +17,9 @@ public class EmptyCellinLightBasicRule extends BasicRule
 
     public EmptyCellinLightBasicRule()
     {
-        super("Empty Cells in Light", "Cells in light must be empty.", "images/lightup/rules/EmptyCellInLight.png");
+        super("Empty Cells in Light",
+                "Cells in light must be empty.",
+                "edu/rpi/legup/images/lightup/rules/EmptyCellInLight.png");
     }
 
     /**

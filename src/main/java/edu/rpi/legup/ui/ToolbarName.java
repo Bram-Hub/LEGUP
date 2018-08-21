@@ -3,7 +3,7 @@ package edu.rpi.legup.ui;
 public enum ToolbarName
 {
     OPEN_PUZZLE, OPEN_PROOF, SAVE, UNDO, REDO, HINT, CHECK,
-    SUBMIT, DIRECTIONS, ZOOM_IN, ZOOM_OUT, NORMAL_ZOOM, BEST_FIT, ANNOTATIONS;
+    SUBMIT, DIRECTIONS, ANNOTATIONS;
 
     /**
      * Gets the String representation of the ToolbarName enum

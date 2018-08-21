@@ -11,6 +11,7 @@ public class TreeToolBarButton extends JButton
     {
         super(imageIcon);
         this.name = name;
+        this.setSize(60, 60);
     }
 
     public TreeToolBarName getToolBarName()

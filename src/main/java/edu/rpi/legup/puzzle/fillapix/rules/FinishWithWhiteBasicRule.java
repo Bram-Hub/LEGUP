@@ -15,7 +15,7 @@ public class FinishWithWhiteBasicRule extends BasicRule
     {
         super("Finish with White",
                 "The remaining unknowns around and on a cell must be white to satisfy the number",
-                "images/fillapix/rules/FinishWithWhite.png");
+                "edu/rpi/legup/images/fillapix/rules/FinishWithWhite.png");
     }
 
     @Override

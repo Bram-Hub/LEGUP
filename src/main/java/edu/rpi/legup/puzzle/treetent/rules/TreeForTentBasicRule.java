@@ -8,7 +8,9 @@ public class TreeForTentBasicRule extends BasicRule
 {
     public TreeForTentBasicRule()
     {
-        super("Tree for Tent", "If only one unlinked tree is adjacent to an unlinked tent, the unlinked tent must link to the unlinked tree.", "images/treetent/NewTentLink.png");
+        super("Tree for Tent",
+                "If only one unlinked tree is adjacent to an unlinked tent, the unlinked tent must link to the unlinked tree.",
+                "edu/rpi/legup/images/treetent/NewTentLink.png");
     }
 
     /**

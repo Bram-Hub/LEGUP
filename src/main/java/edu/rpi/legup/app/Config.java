@@ -20,7 +20,7 @@ public class Config
     private final static Logger LOGGER = Logger.getLogger(Config.class.getName());
 
     private Hashtable<String, String> puzzles;
-    private static final String CONFIG_LOCATION = "/legup/config";
+    private static final String CONFIG_LOCATION = "edu/rpi/legup/legup/config";
 
     /**
      * Constructor
@@ -28,7 +28,7 @@ public class Config
     public Config() throws InvalidConfigException
     {
         puzzles = new Hashtable<>();
-        loadConfig(this.getClass().getResourceAsStream(CONFIG_LOCATION));
+        loadConfig(this.getClass().getClassLoader().getResourceAsStream(CONFIG_LOCATION));
     }
 
     /**

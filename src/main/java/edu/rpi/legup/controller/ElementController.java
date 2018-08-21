@@ -117,6 +117,8 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     @Override
     public void mouseEntered(MouseEvent e)
     {
+        boardView.setFocusable(true);
+        boardView.requestFocusInWindow();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         ElementView element = boardView.getElement(e.getPoint());
         ElementSelection selection = boardView.getSelection();
@@ -136,6 +138,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     @Override
     public void mouseExited(MouseEvent e)
     {
+        boardView.setFocusable(false);
         BoardView view = getInstance().getLegupUI().getBoardView();
         ElementView element = view.getElement(e.getPoint());
         if(element != null)

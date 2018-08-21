@@ -13,7 +13,7 @@ public class TooFewBlackCellsContradictionRule extends ContradictionRule
     {
         super("Too Few Black Cells",
                 "There may not be fewer black cells than the number.",
-                "images/fillapix/contradictions/TooFewBlackCells.png");
+                "edu/rpi/legup/images/fillapix/contradictions/TooFewBlackCells.png");
     }
 
     @Override

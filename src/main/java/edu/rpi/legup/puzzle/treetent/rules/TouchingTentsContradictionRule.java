@@ -9,7 +9,9 @@ public class TouchingTentsContradictionRule extends ContradictionRule
 
     public TouchingTentsContradictionRule()
     {
-        super("Touching Tents", "Tents cannot touch other tents.", "images/treetent/contra_adjacentTents.png");
+        super("Touching Tents",
+                "Tents cannot touch other tents.",
+                "edu/rpi/legup/images/treetent/contra_adjacentTents.png");
     }
 
     /**

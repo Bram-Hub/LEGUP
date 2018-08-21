@@ -16,7 +16,8 @@ public class WhiteBottleNeckBasicRule extends BasicRule
 
     public WhiteBottleNeckBasicRule()
     {
-        super("White Bottle Neck", "If a region needs more whites and there is only one path for the region to expand, then those unknowns must be white.", "images/nurikabe/rules/OneUnknownWhite.png");
+        super("White Bottle Neck",
+                "If a region needs more whites and there is only one path for the region to expand, then those unknowns must be white.", "edu/rpi/legup/images/nurikabe/rules/OneUnknownWhite.png");
     }
 
     /**

@@ -9,7 +9,9 @@ public class FinishWithGrassBasicRule extends BasicRule
 
     public FinishWithGrassBasicRule()
     {
-        super("Finish with Grass", "Grass can be added to finish a row or column that has reached its tent limit.", "images/treetent/finishGrass.png");
+        super("Finish with Grass",
+                "Grass can be added to finish a row or column that has reached its tent limit.",
+                "edu/rpi/legup/images/treetent/finishGrass.png");
     }
 
     /**

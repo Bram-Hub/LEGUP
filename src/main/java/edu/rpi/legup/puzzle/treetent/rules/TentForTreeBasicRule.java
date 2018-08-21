@@ -9,7 +9,9 @@ public class TentForTreeBasicRule extends BasicRule
 
     public TentForTreeBasicRule()
     {
-        super("Tent for Tree", "If only one unlinked tent and no blank cells are adjacent to an unlinked tree, the unlinked tree must link to the unlinked tent.", "images/treetent/NewTreeLink.png");
+        super("Tent for Tree",
+                "If only one unlinked tent and no blank cells are adjacent to an unlinked tree, the unlinked tree must link to the unlinked tent.",
+                "edu/rpi/legup/images/treetent/NewTreeLink.png");
     }
 
     /**

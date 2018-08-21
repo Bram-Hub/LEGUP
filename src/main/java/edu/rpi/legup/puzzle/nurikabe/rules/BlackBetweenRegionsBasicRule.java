@@ -16,7 +16,9 @@ public class BlackBetweenRegionsBasicRule extends BasicRule
 
     public BlackBetweenRegionsBasicRule()
     {
-        super("Black Between Regions", "Any unknowns between two regions must be black.", "images/nurikabe/rules/BetweenRegions.png");
+        super("Black Between Regions",
+                "Any unknowns between two regions must be black.",
+                "edu/rpi/legup/images/nurikabe/rules/BetweenRegions.png");
     }
 
     /**

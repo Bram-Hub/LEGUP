@@ -13,7 +13,9 @@ public class PreventBlackSquareBasicRule extends BasicRule
 
     public PreventBlackSquareBasicRule()
     {
-        super("Prevent Black Square", "There cannot be a 2x2 square of black. (3 blacks = fill in last corner white)", "images/nurikabe/rules/NoBlackSquare.png");
+        super("Prevent Black Square",
+                "There cannot be a 2x2 square of black. (3 blacks = fill in last corner white)",
+                "edu/rpi/legup/images/nurikabe/rules/NoBlackSquare.png");
     }
 
     /**

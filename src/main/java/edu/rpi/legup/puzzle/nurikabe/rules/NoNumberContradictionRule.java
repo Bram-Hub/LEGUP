@@ -16,7 +16,9 @@ public class NoNumberContradictionRule extends ContradictionRule
 
     public NoNumberContradictionRule()
     {
-        super("No Number", "All enclosed white regions must have a number.", "images/nurikabe/contradictions/NoNumber.png");
+        super("No Number",
+                "All enclosed white regions must have a number.",
+                "edu/rpi/legup/images/nurikabe/contradictions/NoNumber.png");
     }
 
     /**

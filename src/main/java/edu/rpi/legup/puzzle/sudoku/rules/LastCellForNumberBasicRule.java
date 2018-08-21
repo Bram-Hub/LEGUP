@@ -14,7 +14,7 @@ public class LastCellForNumberBasicRule extends BasicRule
     {
         super("Last Cell for Number",
                 "This is the only cell open in its group for some number.",
-                "images/sudoku/forcedByElimination.png");
+                "edu/rpi/legup/images/sudoku/forcedByElimination.png");
     }
 
     /**

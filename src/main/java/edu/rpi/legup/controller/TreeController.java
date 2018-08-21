@@ -183,7 +183,7 @@ public class TreeController extends Controller
     public void mouseWheelMoved(MouseWheelEvent e)
     {
         super.mouseWheelMoved(e);
-//        TreeView treeView = (TreeView)viewer;
+//        TreeView treeView = (TreeView)dynamicView;
 //        TreeViewSelection selection = treeView.getSelectedViews();
 //        Point newPoint = new Point(e.getX() + treeView.getViewport().getX(), e.getY() + treeView.getViewport().getY());
 //

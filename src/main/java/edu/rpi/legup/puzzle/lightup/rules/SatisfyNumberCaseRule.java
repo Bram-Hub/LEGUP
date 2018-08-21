@@ -22,7 +22,9 @@ public class SatisfyNumberCaseRule extends CaseRule
 
     public SatisfyNumberCaseRule()
     {
-        super("Satisfy Number", "The different ways a blocks number can be satisfied.","images/lightup/cases/SatisfyNumber.png");
+        super("Satisfy Number",
+                "The different ways a blocks number can be satisfied.",
+                "edu/rpi/legup/images/lightup/cases/SatisfyNumber.png");
     }
 
     @Override

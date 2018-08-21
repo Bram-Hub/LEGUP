@@ -17,7 +17,9 @@ public class TooManySpacesContradictionRule extends ContradictionRule
 
     public TooManySpacesContradictionRule()
     {
-        super("Too Many Spaces", "A region cannot contain more spaces than its number.", "images/nurikabe/contradictions/TooManySpaces.png");
+        super("Too Many Spaces",
+                "A region cannot contain more spaces than its number.",
+                "edu/rpi/legup/images/nurikabe/contradictions/TooManySpaces.png");
     }
 
     /**

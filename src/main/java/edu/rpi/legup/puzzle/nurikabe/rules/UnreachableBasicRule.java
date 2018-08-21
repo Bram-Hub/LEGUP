@@ -12,7 +12,9 @@ public class UnreachableBasicRule extends BasicRule
 {
     public UnreachableBasicRule()
     {
-        super("Unreachable white region","A cell must be black if it cannot be reached by any white region","images/nurikabe/rules/Unreachable.png");
+        super("Unreachable white region",
+                "A cell must be black if it cannot be reached by any white region",
+                "edu/rpi/legup/images/nurikabe/rules/Unreachable.png");
     }
 
     /**

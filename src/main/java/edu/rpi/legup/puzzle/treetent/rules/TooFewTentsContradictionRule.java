@@ -9,7 +9,9 @@ public class TooFewTentsContradictionRule extends ContradictionRule
 
     public TooFewTentsContradictionRule()
     {
-        super("Too Few Tents", "Rows and columns cannot have fewer tents than their clue.", "images/treetent/too_few_tents.png");
+        super("Too Few Tents",
+                "Rows and columns cannot have fewer tents than their clue.",
+                "edu/rpi/legup/images/treetent/too_few_tents.png");
     }
 
     /**

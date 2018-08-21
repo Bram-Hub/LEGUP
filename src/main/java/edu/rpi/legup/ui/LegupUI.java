@@ -4,7 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URI;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,9 +14,11 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 import edu.rpi.legup.app.GameBoardFacade;
+import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.RuleController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
+import edu.rpi.legup.ui.lookandfeel.LegupLookAndFeel;
 import edu.rpi.legupupdate.Update;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
@@ -42,7 +46,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
     public static final int INTERN_RO = 64;
     public static final int AUTO_JUST = 128;
 
-    final static int[] TOOLBAR_SEPARATOR_BEFORE = {3, 5, 9, 13};
+    final static int[] TOOLBAR_SEPARATOR_BEFORE = {3, 5, 9};
     private static final String[] PROFILES = {"No Assistance", "Rigorous Proof", "Casual Proof", "Assisted Proof", "Guided Proof", "Training-Wheels Proof", "No Restrictions"};
     private static final int[] PROF_FLAGS = {0, ALLOW_JUST | REQ_STEP_JUST, ALLOW_JUST, ALLOW_HINTS | ALLOW_JUST | AUTO_JUST, ALLOW_HINTS | ALLOW_JUST | REQ_STEP_JUST, ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_JUST | IMD_FEEDBACK | INTERN_RO, ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_FULLAI | ALLOW_JUST};
 
@@ -55,7 +59,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
     protected JMenuBar mBar;
 
     protected JMenu file;
-    protected JMenuItem newPuzzle, genPuzzle, openProof, saveProof, instructorCheck, exit;
+    protected JMenuItem newPuzzle, genPuzzle, openProof, saveProof, instructorCheck, preferences, exit;
 
     protected JMenu edit;
     protected JMenuItem undo, redo;
@@ -98,7 +102,13 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setIconImage(new ImageIcon(ClassLoader.getSystemClassLoader().getResource("images/Legup/Basic Rules.gif")).getImage());
+        try {
+            UIManager.setLookAndFeel(new LegupLookAndFeel());
+        } catch(UnsupportedLookAndFeelException e) {
+            System.err.println("Not supported ui look and fel");
+        }
+
+        setIconImage(new ImageIcon(ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/Basic Rules.gif")).getImage());
 
         final SplashScreen splash = SplashScreen.getSplashScreen();
         if (splash != null)
@@ -132,6 +142,19 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
 
         setVisible(true);
 
+        addKeyListener(new KeyAdapter() {
+            /**
+             * Invoked when a key has been typed.
+             * This event occurs when a key press is followed by a key release.
+             *
+             * @param e
+             */
+            @Override
+            public void keyTyped(KeyEvent e) {
+                System.err.println(e.getKeyChar());
+                super.keyTyped(e);
+            }
+        });
         //setLocationRelativeTo(null);
     }
 
@@ -174,6 +197,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         openProof = new JMenuItem("Open");
         saveProof = new JMenuItem("Save Proof");
         instructorCheck = new JMenuItem("Instructor Check");
+        preferences = new JMenuItem("Preferences");
         exit = new JMenuItem("Exit");
 
         edit = new JMenu("Edit");
@@ -189,8 +213,8 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
 
         about = new JMenu("About");
         checkUpdates = new JMenuItem("Check for Updates...");
-        helpLegup = new JMenuItem("Help edu.rpi.legup.Legup");
-        aboutLegup = new JMenuItem("About edu.rpi.legup.Legup");
+        helpLegup = new JMenuItem("Help Legup");
+        aboutLegup = new JMenuItem("About Legup");
 
         // unused
        // help = new JMenu("Help");
@@ -198,7 +222,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         mBar.add(file);
         file.add(newPuzzle);
         newPuzzle.addActionListener((ActionEvent) -> promptPuzzle());
-        newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', 2));
+        newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
 
         file.add(genPuzzle);
         genPuzzle.addActionListener((ActionEvent) ->
@@ -209,34 +233,40 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
 
         file.add(openProof);
         openProof.addActionListener((ActionEvent) -> openProof());
-        openProof.setAccelerator(KeyStroke.getKeyStroke('O', 2));
+        openProof.setAccelerator(KeyStroke.getKeyStroke('O', InputEvent.CTRL_DOWN_MASK));
 
         file.add(saveProof);
         saveProof.addActionListener((ActionEvent) -> saveProof());
-        saveProof.setAccelerator(KeyStroke.getKeyStroke('S', 2));
+        saveProof.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK));
 
         file.add(instructorCheck);
         instructorCheck.addActionListener((ActionEvent) -> instructorCheck());
+
+        file.add(preferences);
+        preferences.addActionListener(a -> {
+            PreferencesDialog preferencesDialog = new PreferencesDialog(this);
+        });
         file.addSeparator();
 
         file.add(exit);
         exit.addActionListener((ActionEvent) -> System.exit(0));
-        exit.setAccelerator(KeyStroke.getKeyStroke('Q', 2));
+        exit.setAccelerator(KeyStroke.getKeyStroke('Q', InputEvent.CTRL_DOWN_MASK));
         mBar.add(edit);
+
 
         edit.add(undo);
         undo.addActionListener((ActionEvent) ->
         {
             GameBoardFacade.getInstance().getHistory().undo();
         });
-        undo.setAccelerator(KeyStroke.getKeyStroke('Z', 2));
+        undo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK));
 
         edit.add(redo);
         redo.addActionListener((ActionEvent) ->
         {
             GameBoardFacade.getInstance().getHistory().redo();
         });
-        redo.setAccelerator(KeyStroke.getKeyStroke('Y', 2));
+        redo.setAccelerator(KeyStroke.getKeyStroke('Y', InputEvent.CTRL_DOWN_MASK));
 
         mBar.add(proof);
         proof.add(allowDefault);
@@ -263,6 +293,21 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         checkUpdates.addActionListener( l -> {
             checkUpdates();
         });
+
+        about.add(aboutLegup);
+        aboutLegup.addActionListener(l-> {
+            JOptionPane.showMessageDialog(null, "Version: 2.0.0");
+        });
+
+        about.add(helpLegup);
+        helpLegup.addActionListener(l-> {
+            try {
+                java.awt.Desktop.getDesktop().browse(URI.create("https://github.com/jpoegs/Legup2.0"));
+            } catch(IOException e) {
+                LOGGER.log(Level.SEVERE, "Can't open web page");
+            }
+        });
+
         mBar.add(about);
 
 
@@ -279,10 +324,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         for(int i = 0; i < ToolbarName.values().length; i++)
         {
             String toolBarName = ToolbarName.values()[i].toString();
-            URL resourceLocation = ClassLoader.getSystemClassLoader().getResource("images/Legup/" + toolBarName + ".png");
+            URL resourceLocation = ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/" + toolBarName + ".png");
             JButton button = new JButton(toolBarName, new ImageIcon(resourceLocation));
             button.setFocusPainted(false);
-            button.setFont(new Font("Tahoma", Font.BOLD, 12));
             getToolBarButtons()[i] = button;
         }
 
@@ -317,10 +361,6 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         toolBarButtons[ToolbarName.CHECK.ordinal()].addActionListener((ActionEvent e)  -> checkProof());
         toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e)  -> {});
         toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e)  -> {});
-        toolBarButtons[ToolbarName.ZOOM_IN.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomIn());
-        toolBarButtons[ToolbarName.ZOOM_OUT.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomOut());
-        toolBarButtons[ToolbarName.NORMAL_ZOOM.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomTo(1.0) );
-        toolBarButtons[ToolbarName.BEST_FIT.ordinal()].addActionListener((ActionEvent e)  -> boardView.zoomFit());
         toolBarButtons[ToolbarName.ANNOTATIONS.ordinal()].addActionListener((ActionEvent e)  -> {});
 
         toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
@@ -350,7 +390,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
 
         treePanel = new TreePanel(this);
 
-        JScrollPane emptyBoard = new JScrollPane();
+        DynamicView emptyBoard = new DynamicView(new ScrollView(new BoardController()));
         TitledBorder titleBoard = BorderFactory.createTitledBorder("Board");
         titleBoard.setTitleJustification(TitledBorder.CENTER);
         emptyBoard.setBorder(titleBoard);
@@ -375,7 +415,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         setGlassPane(popupPanel);
         popupPanel.setVisible(true);
 
-        mainPanel.setDividerLocation(mainPanel.getMaximumDividerLocation() + 100);
+        mainPanel.setDividerLocation(mainPanel.getMaximumDividerLocation() + 300);
         pack();
         revalidate();
     }
@@ -626,7 +666,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if(facade.getBoard() != null)
         {
-            if(noquit("opening a new edu.rpi.legup.puzzle?")) // !noquit or noquit?
+            if(noquit("Opening a new puzzle?")) // !noquit or noquit?
             {
                 return;
             }
@@ -802,7 +842,8 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
     public void setPuzzleView(Puzzle puzzle)
     {
         this.boardView = puzzle.getBoardView();
-        this.topHalfPanel.setRightComponent(boardView);
+
+        this.topHalfPanel.setRightComponent(new DynamicView(boardView));
         this.topHalfPanel.setVisible(true);
 
         this.treePanel.getTreeView().resetView();

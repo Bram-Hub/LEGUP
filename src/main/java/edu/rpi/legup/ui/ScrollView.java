@@ -16,9 +16,9 @@ import java.awt.Point;
 
 import javax.swing.*;
 
-public abstract class DynamicViewer extends JScrollPane
+public class ScrollView extends JScrollPane
 {
-    private final static Logger LOGGER = Logger.getLogger(DynamicViewer.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(ScrollView.class.getName());
 
     private static final double minScale = 0.25;
     private static final double maxScale = 4.0;
@@ -27,6 +27,7 @@ public abstract class DynamicViewer extends JScrollPane
     private Dimension viewSize;
     private Dimension zoomSize;
     private TreeSet<Double> zoomLevels;
+
     private double scale;
 
     private Controller controller;
@@ -34,12 +35,12 @@ public abstract class DynamicViewer extends JScrollPane
     private ZoomWidget widget;
 
     /**
-     * DynamicViewer Constructor - creates a DynamicViewer object using
-     * the edu.rpi.legup.controller handle the edu.rpi.legup.ui events
+     * ScrollView Constructor - creates a ScrollView object using
+     * the controller handle the ui events
      *
-     * @param controller edu.rpi.legup.controller that handles the edu.rpi.legup.ui events
+     * @param controller controller that handles the ui events
      */
-    public DynamicViewer(Controller controller)
+    public ScrollView(Controller controller)
     {
         super(VERTICAL_SCROLLBAR_ALWAYS, HORIZONTAL_SCROLLBAR_ALWAYS);
 
@@ -48,6 +49,7 @@ public abstract class DynamicViewer extends JScrollPane
         scale = 1.0;
 
         this.canvas = new ZoomablePane(this);
+
         viewport.setView(canvas);
 
         zoomLevels = new TreeSet<>();
@@ -147,7 +149,7 @@ public abstract class DynamicViewer extends JScrollPane
     }
 
     /**
-     * Zooms in or out on a position within the viewer
+     * Zooms in or out on a position within the dynamicView
      *
      * @param n level of zoom - n < 0 is zoom in, n > 0 is zoom out
      * @param point position to zoom in on
@@ -292,9 +294,9 @@ public abstract class DynamicViewer extends JScrollPane
     }
 
     /**
-     * Gets the scale for the dynamic viewer
+     * Gets the scale for the dynamic dynamicView
      *
-     * @return scale of the dynamic viewer
+     * @return scale of the dynamic dynamicView
      */
     public double getScale()
     {
@@ -338,7 +340,7 @@ public abstract class DynamicViewer extends JScrollPane
     }
 
     /**
-     * Draws the DynamicViewer
+     * Draws the ScrollView
      *
      * @param graphics2D Graphics2D object used for drawing
      */

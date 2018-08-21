@@ -16,7 +16,7 @@ public class RepeatedNumberContradictionRule extends ContradictionRule
     {
         super("Repeated Numbers",
                 "Two identical numbers are placed in the same group.",
-                "images/sudoku/RepeatedNumber.png");
+                "edu/rpi/legup/images/sudoku/RepeatedNumber.png");
     }
 
     /**

@@ -19,7 +19,9 @@ public class EmptyCornersBasicRule extends BasicRule
 
     public EmptyCornersBasicRule()
     {
-        super("Empty Corners", "Cells on the corners of a number must be empty if placing bulbs would prevent the number from being satisfied.", "images/lightup/rules/EmptyCorners.png");
+        super("Empty Corners",
+                "Cells on the corners of a number must be empty if placing bulbs would prevent the number from being satisfied.",
+                "edu/rpi/legup/images/lightup/rules/EmptyCorners.png");
     }
 
     /**

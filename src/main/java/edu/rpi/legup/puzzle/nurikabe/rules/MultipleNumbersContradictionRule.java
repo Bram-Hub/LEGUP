@@ -13,7 +13,9 @@ public class MultipleNumbersContradictionRule extends ContradictionRule
 
     public MultipleNumbersContradictionRule()
     {
-        super("Multiple Numbers", "All white regions cannot have more than one number.", "images/nurikabe/contradictions/MultipleNumbers.png");
+        super("Multiple Numbers",
+                "All white regions cannot have more than one number.",
+                "edu/rpi/legup/images/nurikabe/contradictions/MultipleNumbers.png");
     }
 
     /**

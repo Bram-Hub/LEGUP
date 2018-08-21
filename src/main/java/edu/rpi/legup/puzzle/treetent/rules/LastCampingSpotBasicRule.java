@@ -9,7 +9,9 @@ public class LastCampingSpotBasicRule extends BasicRule
 
     public LastCampingSpotBasicRule()
     {
-        super("Last Camping Spot", "If an unlinked tree is adjacent to only one blank cell and not adjacent to any unlinked tents, the blank cell must be a tent.", "images/treetent/oneTentPosition.png");
+        super("Last Camping Spot",
+                "If an unlinked tree is adjacent to only one blank cell and not adjacent to any unlinked tents, the blank cell must be a tent.",
+                "edu/rpi/legup/images/treetent/oneTentPosition.png");
     }
 
     /**

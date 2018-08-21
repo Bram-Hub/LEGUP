@@ -13,7 +13,9 @@ public class TentOrGrassCaseRule extends CaseRule
 
     public TentOrGrassCaseRule()
     {
-        super("Tree or Grass", "Each blank cell is either a tent or grass.", "images/treetent/caseTentOrGrass.png");
+        super("Tree or Grass",
+                "Each blank cell is either a tent or grass.",
+                "edu/rpi/legup/images/treetent/caseTentOrGrass.png");
     }
 
     @Override

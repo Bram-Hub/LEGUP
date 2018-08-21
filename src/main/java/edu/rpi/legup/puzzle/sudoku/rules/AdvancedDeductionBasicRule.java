@@ -13,7 +13,7 @@ public class AdvancedDeductionBasicRule extends BasicRule
     {
         super("Advanced Deduction",
                 "Use of group logic deduces more answers by means of forced by Location and forced by Deduction",
-                "images/sudoku/AdvancedDeduction.png");
+                "edu/rpi/legup/images/sudoku/AdvancedDeduction.png");
     }
 
     /**

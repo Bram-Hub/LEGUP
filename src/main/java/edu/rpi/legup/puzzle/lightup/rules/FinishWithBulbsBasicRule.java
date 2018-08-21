@@ -19,7 +19,9 @@ public class FinishWithBulbsBasicRule extends BasicRule
 
     public FinishWithBulbsBasicRule()
     {
-        super("Finish with Bulbs", "The remaining unknowns around a block must be bulbs to satisfy the number.", "images/lightup/rules/FinishWithBulbs.png");
+        super("Finish with Bulbs",
+                "The remaining unknowns around a block must be bulbs to satisfy the number.",
+                "edu/rpi/legup/images/lightup/rules/FinishWithBulbs.png");
     }
 
     /**

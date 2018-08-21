@@ -13,7 +13,9 @@ public class LinkTentCaseRule extends CaseRule
 
     public LinkTentCaseRule()
     {
-        super("Links from tent", "A tent must link to exactly one adjacent tree.", "images/treetent/caseLinkTent.png");
+        super("Links from tent",
+                "A tent must link to exactly one adjacent tree.",
+                "edu/rpi/legup/images/treetent/caseLinkTent.png");
     }
 
     @Override

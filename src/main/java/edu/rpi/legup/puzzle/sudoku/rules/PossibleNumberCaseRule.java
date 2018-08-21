@@ -16,7 +16,7 @@ public class PossibleNumberCaseRule extends CaseRule
     {
         super("Possible Numbers for Cell",
                 "An empty cell has a limited set of possible numbers that can fill it.",
-                "images/sudoku/PossibleValues.png");
+                "edu/rpi/legup/images/sudoku/PossibleValues.png");
     }
 
     /**

@@ -19,7 +19,9 @@ public class CannotLightACellContradictionRule extends ContradictionRule
 
     public CannotLightACellContradictionRule()
     {
-        super("Cannot Light A Cell", "All cells must be able to be lit.", "images/lightup/contradictions/CannotLightACell.png");
+        super("Cannot Light A Cell",
+                "All cells must be able to be lit.",
+                "edu/rpi/legup/images/lightup/contradictions/CannotLightACell.png");
     }
 
     /**

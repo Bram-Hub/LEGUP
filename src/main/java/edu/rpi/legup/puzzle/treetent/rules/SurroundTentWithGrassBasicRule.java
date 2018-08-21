@@ -9,7 +9,9 @@ public class SurroundTentWithGrassBasicRule extends BasicRule
 
     public SurroundTentWithGrassBasicRule()
     {
-        super("Surround Tent with Grass", "Blank cells adjacent or diagonal to a tent are grass.", "images/treetent/aroundTent.png");
+        super("Surround Tent with Grass",
+                "Blank cells adjacent or diagonal to a tent are grass.",
+                "edu/rpi/legup/images/treetent/aroundTent.png");
     }
 
     /**

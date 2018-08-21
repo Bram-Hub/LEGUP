@@ -1,0 +1,146 @@
+package edu.rpi.legup.controller;
+
+import edu.rpi.legup.ui.DynamicView;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class DynamicController implements MouseMotionListener, MouseListener, MouseWheelListener
+{
+    private DynamicView dynamicView;
+    private int x, y;
+    private boolean pan;
+
+    /**
+     * DynamicController Constructor - creates a edu.rpi.legup.controller object to listen
+     * to edu.rpi.legup.ui events from a ScrollView
+     */
+    public DynamicController()
+    {
+        x = y = -1;
+        pan = false;
+    }
+
+    public void setDynamicView(DynamicView dynamicView)
+    {
+        this.dynamicView = dynamicView;
+    }
+
+    /**
+     * Mouse Clicked event - no default action
+     *
+     * @param e MouseEvent object
+     */
+    @Override
+    public void mouseClicked(MouseEvent e)
+    {
+
+    }
+
+    /**
+     * Mouse Pressed event - sets the cursor to the move cursor and stores
+     * info for possible panning
+     *
+     * @param e MouseEvent object
+     */
+    @Override
+    public void mousePressed(MouseEvent e)
+    {
+        if(e.getButton() == MouseEvent.BUTTON1)
+        {
+            pan = true;
+            x = e.getX();
+            y = e.getY();
+            dynamicView.getScrollView().setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+        }
+    }
+
+    /**
+     * Mouse Released event - sets the cursor back to the default cursor and reset
+     * info for panning
+     *
+     * @param e MouseEvent object
+     */
+    @Override
+    public void mouseReleased(MouseEvent e)
+    {
+        if(e.getButton() == MouseEvent.BUTTON1)
+        {
+            pan = false;
+            dynamicView.getScrollView().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        }
+    }
+
+    /**
+     * Mouse Entered event - no default action
+     *
+     * @param e MouseEvent object
+     */
+    @Override
+    public void mouseEntered(MouseEvent e)
+    {
+
+    }
+
+    /**
+     * Mouse Exited event - no default action
+     *
+     * @param e MouseEvent object
+     */
+    @Override
+    public void mouseExited(MouseEvent e)
+    {
+
+    }
+
+    /**
+     * Mouse Dragged event - adjusts the viewport
+     *
+     * @param e MouseEvent object
+     */
+    @Override
+    public void mouseDragged(MouseEvent e)
+    {
+        if(pan)
+        {
+            JViewport viewport = dynamicView.getScrollView().getViewport();
+            Point position = viewport.getViewPosition();
+            position.x += (x - e.getX());
+            position.y += (y - e.getY());
+            x = e.getX();
+            y = e.getY();
+            viewport.setViewPosition(position);
+            viewport.revalidate();
+        }
+    }
+
+    /**
+     * Mouse Moved event - no default action
+     *
+     * @param e MouseEvent object
+     */
+    @Override
+    public void mouseMoved(MouseEvent e)
+    {
+
+    }
+
+    /**
+     * Mouse Wheel Moved event - zooms in on the viewport
+     *
+     * @param e MouseEvent object
+     */
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e)
+    {
+        if(e.isControlDown())
+        {
+//            dynamicView.getScrollView().zoom(e.getWheelRotation() * 2, e.getPoint());
+        }
+        else
+        {
+//            dynamicView.getScrollView().zoom(e.getWheelRotation(), e.getPoint());
+        }
+    }
+}

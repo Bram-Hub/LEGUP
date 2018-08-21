@@ -13,7 +13,9 @@ public class BlackBottleNeckBasicRule extends BasicRule
 
     public BlackBottleNeckBasicRule()
     {
-        super("Black Bottle Neck", "If there is only one path for a black to escape, then those unknowns must be white.", "images/nurikabe/rules/OneUnknownBlack.png");
+        super("Black Bottle Neck",
+                "If there is only one path for a black to escape, then those unknowns must be white.",
+                "edu/rpi/legup/images/nurikabe/rules/OneUnknownBlack.png");
     }
 
     /**

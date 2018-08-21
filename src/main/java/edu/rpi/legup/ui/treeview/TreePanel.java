@@ -4,7 +4,10 @@ import edu.rpi.legup.controller.TreeController;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.tree.Tree;
+import edu.rpi.legup.ui.DynamicView;
 import edu.rpi.legup.ui.LegupUI;
+import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
+import org.apache.commons.io.input.WindowsLineEndingInputStream;
 
 import java.awt.*;
 
@@ -28,9 +31,6 @@ public class TreePanel extends JPanel
     private JLabel status;
     private Rule curRuleApplied = null;
 
-    private static final Font INFO_FONT = new Font("Arial", Font.PLAIN, 14);
-    private static final Font ERROR_FONT = new Font("Arial", Font.ITALIC, 14);
-
     public TreePanel(LegupUI legupUI)
     {
         this.legupUI = legupUI;
@@ -45,12 +45,13 @@ public class TreePanel extends JPanel
 
         toolbar = new TreeToolbarPanel(this);
 
-        main.add(toolbar, BorderLayout.WEST);
-        main.add(treeView, BorderLayout.CENTER);
+        DynamicView dynamicTreeView = new DynamicView(treeView);
+        main.add(dynamicTreeView, BorderLayout.CENTER);
+        dynamicTreeView.add(toolbar, BorderLayout.WEST);
 
         status = new JLabel();
-        status.setPreferredSize(new Dimension(150,20));
-        main.add(status, BorderLayout.SOUTH);
+        status.setPreferredSize(new Dimension(150,15));
+        dynamicTreeView.getZoomWrapper().add(status, BorderLayout.CENTER);
 
         TitledBorder title = BorderFactory.createTitledBorder("TreePanel");
         title.setTitleJustification(TitledBorder.CENTER);
@@ -88,14 +89,14 @@ public class TreePanel extends JPanel
     public void updateStatus(String statusString)
     {
         status.setForeground(Color.BLACK);
-        status.setFont(INFO_FONT);
+        status.setFont(MaterialFonts.REGULAR);
         status.setText(statusString);
     }
 
     public void updateError(String error)
     {
         status.setForeground(Color.RED);
-        status.setFont(ERROR_FONT);
+        status.setFont(MaterialFonts.ITALIC);
         status.setText(error);
     }
 

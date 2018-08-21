@@ -13,7 +13,9 @@ public class FillinRowCaseRule extends CaseRule
 
     public FillinRowCaseRule()
     {
-        super("Fill In row", "A row must have the number of tents of its clue.", "images/treetent/case_rowcount.png");
+        super("Fill In row",
+                "A row must have the number of tents of its clue.",
+                "edu/rpi/legup/images/treetent/case_rowcount.png");
     }
 
     @Override

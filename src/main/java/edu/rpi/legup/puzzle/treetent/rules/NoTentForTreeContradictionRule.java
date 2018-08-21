@@ -9,7 +9,9 @@ public class NoTentForTreeContradictionRule extends ContradictionRule
 
     public NoTentForTreeContradictionRule()
     {
-        super("No Tents For Tree", "Each tree must link to a tent.", "images/treetent/contra_NoTentForTree.png");
+        super("No Tents For Tree",
+                "Each tree must link to a tent.",
+                "edu/rpi/legup/images/treetent/contra_NoTentForTree.png");
     }
 
     /**

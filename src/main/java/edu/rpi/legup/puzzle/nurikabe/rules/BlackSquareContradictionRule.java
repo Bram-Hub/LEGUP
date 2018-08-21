@@ -12,7 +12,9 @@ public class BlackSquareContradictionRule extends ContradictionRule
 
     public BlackSquareContradictionRule()
     {
-        super("Black Square", "There cannot be a 2x2 square of black.", "images/nurikabe/contradictions/BlackSquare.png");
+        super("Black Square",
+                "There cannot be a 2x2 square of black.",
+                "edu/rpi/legup/images/nurikabe/contradictions/BlackSquare.png");
     }
 
 

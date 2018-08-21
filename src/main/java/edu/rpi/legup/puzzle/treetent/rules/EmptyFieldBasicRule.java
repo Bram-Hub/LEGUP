@@ -9,7 +9,9 @@ public class EmptyFieldBasicRule extends BasicRule
 
     public EmptyFieldBasicRule()
     {
-        super("Empty Field", "blank cells not adjacent to an unlinked tree are grass.", "images/treetent/noTreesAround.png");
+        super("Empty Field",
+                "blank cells not adjacent to an unlinked tree are grass.",
+                "edu/rpi/legup/images/treetent/noTreesAround.png");
     }
 
     /**

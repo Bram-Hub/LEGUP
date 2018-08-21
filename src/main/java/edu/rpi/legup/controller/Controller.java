@@ -1,6 +1,6 @@
 package edu.rpi.legup.controller;
 
-import edu.rpi.legup.ui.DynamicViewer;
+import edu.rpi.legup.ui.ScrollView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,13 +8,13 @@ import java.awt.event.*;
 
 public abstract class Controller implements MouseMotionListener, MouseListener, MouseWheelListener
 {
-    protected DynamicViewer viewer;
+    protected ScrollView viewer;
     private int x, y;
     private boolean pan;
 
     /**
      * Controller Constructor - creates a edu.rpi.legup.controller object to listen
-     * to edu.rpi.legup.ui events from a DynamicViewer
+     * to edu.rpi.legup.ui events from a ScrollView
      */
     public Controller()
     {
@@ -22,7 +22,7 @@ public abstract class Controller implements MouseMotionListener, MouseListener, 
         pan = false;
     }
 
-    public void setViewer(DynamicViewer viewer)
+    public void setViewer(ScrollView viewer)
     {
         this.viewer = viewer;
     }

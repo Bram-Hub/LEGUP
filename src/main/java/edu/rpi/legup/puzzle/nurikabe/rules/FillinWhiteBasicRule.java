@@ -13,7 +13,9 @@ public class FillinWhiteBasicRule extends BasicRule
 
     public FillinWhiteBasicRule()
     {
-        super("Fill In White", "If there an unknown region surrounded by white, it must be white.", "images/nurikabe/rules/FillInWhite.png");
+        super("Fill In White",
+                "If there an unknown region surrounded by white, it must be white.",
+                "edu/rpi/legup/images/nurikabe/rules/FillInWhite.png");
     }
 
     /**

@@ -9,7 +9,9 @@ public class FinishWithTentsBasicRule extends BasicRule
 
     public FinishWithTentsBasicRule()
     {
-        super("Finish with Tents", "Tents can be added to finish a row or column that has one open spot per required tent.", "images/treetent/finishTent.png");
+        super("Finish with Tents",
+                "Tents can be added to finish a row or column that has one open spot per required tent.",
+                "edu/rpi/legup/images/treetent/finishTent.png");
     }
 
     /**

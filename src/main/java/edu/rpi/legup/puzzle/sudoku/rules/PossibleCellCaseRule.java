@@ -18,7 +18,7 @@ public class PossibleCellCaseRule extends CaseRule
     {
         super("Possible Cells for Number",
                 "A number has a limited set of cells in which it can be placed.",
-                "images/sudoku/possible_cells_number.png");
+                "edu/rpi/legup/images/sudoku/possible_cells_number.png");
     }
 
     /**

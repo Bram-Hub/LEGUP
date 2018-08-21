@@ -10,7 +10,7 @@ public class BoardController extends Controller
 
     /**
      * BoardController Constructor - creates a edu.rpi.legup.controller object to listen
-     * to edu.rpi.legup.ui events from a DynamicViewer
+     * to edu.rpi.legup.ui events from a ScrollView
      */
     public BoardController()
     {

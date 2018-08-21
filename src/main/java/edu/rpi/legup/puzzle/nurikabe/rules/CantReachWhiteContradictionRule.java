@@ -16,7 +16,9 @@ public class CantReachWhiteContradictionRule extends ContradictionRule
 
     public CantReachWhiteContradictionRule()
     {
-        super("Cant Reach white cell", "A white cell must be able to reach a white region", "images/nurikabe/contradictions/CantReach.png");
+        super("Cant Reach white cell",
+                "A white cell must be able to reach a white region",
+                "edu/rpi/legup/images/nurikabe/contradictions/CantReach.png");
     }
 
     /**

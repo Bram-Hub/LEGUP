@@ -16,7 +16,7 @@ public class MergeRule extends Rule
      */
     public MergeRule()
     {
-        super("Merge Rule", "Merge any number of nodes into one", "images/Legup/MergeRule.png");
+        super("Merge Rule", "Merge any number of nodes into one", "edu/rpi/legup/images/Legup/MergeRule.png");
         this.ruleType = MERGE;
     }
 

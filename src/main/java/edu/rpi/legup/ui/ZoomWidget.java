@@ -16,7 +16,7 @@ public class ZoomWidget extends JLabel
 {
     private static final long serialVersionUID = -6945943362868642035L;
 
-    private DynamicViewer parent;
+    private ScrollView parent;
     private PopupSlider palette = new PopupSlider();
     private MouseAdapter open = new MouseAdapter()
     {
@@ -28,11 +28,11 @@ public class ZoomWidget extends JLabel
     };
 
     /**
-     * ZoomWidget Constructor - creates a zoom widget for a DynamicViewer object
+     * ZoomWidget Constructor - creates a zoom widget for a ScrollView object
      *
-     * @param parent viewer to which to the ZoomWidget is applied to
+     * @param parent dynamicView to which to the ZoomWidget is applied to
      */
-    public ZoomWidget(DynamicViewer parent)
+    public ZoomWidget(ScrollView parent)
     {
         super(new ImageIcon("zoom.png"));
         this.parent = parent;

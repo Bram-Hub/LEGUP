@@ -7,14 +7,14 @@ import java.awt.AWTEvent;
 
 public class ZoomablePane extends JLayeredPane
 {
-    private DynamicViewer viewer;
+    private ScrollView viewer;
 
     /**
      * ZoomablePane Constructor - creates scalable JComponent
      *
-     * @param viewer dynamic viewer
+     * @param viewer dynamic dynamicView
      */
-    public ZoomablePane(DynamicViewer viewer)
+    public ZoomablePane(ScrollView viewer)
     {
         this.viewer = viewer;
     }
@@ -32,7 +32,7 @@ public class ZoomablePane extends JLayeredPane
     }
 
     /**
-     * Processes an event and sends it to the viewer
+     * Processes an event and sends it to the dynamicView
      *
      * @param e AWTEvent to process
      */

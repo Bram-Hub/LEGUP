@@ -16,7 +16,7 @@ public class NoSolutionContradictionRule extends ContradictionRule
     {
         super("No Solution for Cell",
                 "Process of elimination yields no valid numbers for an empty cell.",
-                "images/sudoku/NoSolution.png");
+                "edu/rpi/legup/images/sudoku/NoSolution.png");
     }
 
     /**

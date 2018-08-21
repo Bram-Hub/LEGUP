@@ -15,7 +15,7 @@ public class FinishWithBlackBasicRule extends BasicRule
     {
         super("Finish with Black",
                 "The remaining unknowns around and on a cell must be black to satisfy the number",
-                "images/fillapix/rules/FinishWithBlack.png");
+                "edu/rpi/legup/images/fillapix/rules/FinishWithBlack.png");
     }
 
     @Override

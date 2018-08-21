@@ -13,7 +13,9 @@ public class IsolateBlackContradictionRule extends ContradictionRule
 
     public IsolateBlackContradictionRule()
     {
-        super("Isolated Black", "There must still be a possibility to connect every Black cell", "images/nurikabe/contradictions/BlackArea.png");
+        super("Isolated Black",
+                "There must still be a possibility to connect every Black cell",
+                "edu/rpi/legup/images/nurikabe/contradictions/BlackArea.png");
     }
 
     /**

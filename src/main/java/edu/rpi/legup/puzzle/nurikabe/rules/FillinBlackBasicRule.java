@@ -13,7 +13,9 @@ public class FillinBlackBasicRule extends BasicRule
 
     public FillinBlackBasicRule()
     {
-        super("Fill In Black", "If there an unknown region surrounded by black, it must be black.", "images/nurikabe/rules/FillInBlack.png");
+        super("Fill In Black",
+                "If there an unknown region surrounded by black, it must be black.",
+                "edu/rpi/legup/images/nurikabe/rules/FillInBlack.png");
     }
 
     /**

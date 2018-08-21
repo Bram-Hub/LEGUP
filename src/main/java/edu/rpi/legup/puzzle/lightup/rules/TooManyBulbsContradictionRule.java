@@ -19,7 +19,9 @@ public class TooManyBulbsContradictionRule extends ContradictionRule
 
     public TooManyBulbsContradictionRule()
     {
-        super("Too Many Bulbs", "There cannot be more bulbs around a block than its number states.", "images/lightup/contradictions/TooManyBulbs.png");
+        super("Too Many Bulbs",
+                "There cannot be more bulbs around a block than its number states.",
+                "edu/rpi/legup/images/lightup/contradictions/TooManyBulbs.png");
     }
 
     /**

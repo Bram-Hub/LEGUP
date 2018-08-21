@@ -14,7 +14,7 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     public BlackOrWhiteCaseRule() {
         super("Black or White",
                 "Each cell is either black or white.",
-                "images/fillapix/cases/BlackOrWhite.png");
+                "edu/rpi/legup/images/fillapix/cases/BlackOrWhite.png");
     }
 
     @Override

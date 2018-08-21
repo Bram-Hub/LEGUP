@@ -8,8 +8,9 @@ import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.ui.DynamicViewer;
+import edu.rpi.legup.ui.ScrollView;
 import edu.rpi.legup.utility.DisjointSets;
+import javafx.animation.Transition;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +25,7 @@ import static edu.rpi.legup.model.tree.TreeElementType.TRANSITION;
 import static edu.rpi.legup.ui.treeview.TreeNodeView.DIAMETER;
 import static edu.rpi.legup.ui.treeview.TreeNodeView.RADIUS;
 
-public class TreeView extends DynamicViewer implements ITreeListener
+public class TreeView extends ScrollView implements ITreeListener
 {
     private final static Logger LOGGER = Logger.getLogger(TreeView.class.getName());
 
@@ -228,6 +229,61 @@ public class TreeView extends DynamicViewer implements ITreeListener
         viewport.setViewPosition(new Point(0, 0));
     }
 
+    /**
+     * Creates a customized viewport for the scroll pane
+     *
+     * @return viewport for the scroll pane
+     */
+    @Override
+    protected JViewport createViewport()
+    {
+        return new JViewport()
+        {
+            @Override
+            protected LayoutManager createLayoutManager()
+            {
+                return new ViewportLayout()
+                {
+                    @Override
+                    public void layoutContainer(Container parent)
+                    {
+                        Point point = viewport.getViewPosition();
+                        // determine the maximum x and y view positions
+                        int mx = getCanvas().getWidth() - viewport.getWidth();
+                        int my = getCanvas().getHeight() - viewport.getHeight();
+                        // obey edge boundaries
+                        if(point.x < 0)
+                        {
+                            point.x = 0;
+                        }
+                        if(point.x > mx)
+                        {
+                            point.x = mx;
+                        }
+                        if(point.y < 0)
+                        {
+                            point.y = 0;
+                        }
+                        if(point.y > my)
+                        {
+                            point.y = my;
+                        }
+                        // center margins
+                        if(mx < 0)
+                        {
+                            point.x = 0;
+                        }
+                        if(my < 0)
+                        {
+                            point.y = my / 2;
+                        }
+                        viewport.setViewPosition(point);
+                    }
+                };
+            }
+        };
+    }
+
     public void draw(Graphics2D graphics2D)
     {
         currentStateBoxes.clear();
@@ -399,43 +455,14 @@ public class TreeView extends DynamicViewer implements ITreeListener
     {
         if(selection.getHover().getType() == TRANSITION && ((TreeTransitionView) selection.getHover()).getTreeElement().isJustified())
         {
-            TreeTransitionView transitionView = (TreeTransitionView) selection.getHover();
-            TreeTransition transition = transitionView.getTreeElement();
-            Rule rule = transitionView.getTreeElement().getRule();
-            int w, h;
-            g.setStroke(thin);
+            TreeTransition transition = (TreeTransition) selection.getHover().treeElement;
+            int imgWidth = 100;
+            int imgHeight = 100;
 
-            w = (int) (100 * (100 / (float) getZoom()));
-            h = (int) (100 * (100 / (float) getZoom()));
-            float scale = (100 / (float) getZoom());
-            int offset = (int) (scale * 30);
-
-            JViewport vp = getViewport();
-            BufferedImage image = new BufferedImage(vp.getWidth(), vp.getHeight(), BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g_tmp = image.createGraphics();
-            int v_offset = 0;
-
-            if(transition.isJustified())
-            {
-                g_tmp.setColor(Color.black);
-                String[] tmp = {rule.getRuleName()};
-                v_offset = 10 + tmp.length * 14;
-                for(int c1 = 0; c1 < tmp.length; c1++)
-                {
-                    g_tmp.drawString(tmp[c1], 0, (14 * c1) + 10);
-                }
-                g_tmp.setColor(Color.gray);
-                g_tmp.drawRect(0, v_offset, 100, 100);
-            }
-
-            if(rule != null)
-            {
-                g_tmp.drawImage(rule.getImageIcon().getImage(), 0, v_offset, null);
-            }
+            BufferedImage image = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_ARGB);
+            image.createGraphics().drawImage(transition.getRule().getImageIcon().getImage(), 0,0, null);
             Point mousePoint = selection.getMousePoint();
-            int scaledWidth = (int) (scale * vp.getWidth());
-            int scaledHeight = (int) (scale * vp.getHeight());
-            g.drawImage(image, mousePoint.x, mousePoint.y, scaledWidth, scaledHeight, null);
+            g.drawImage(image, mousePoint.x, mousePoint.y, imgWidth, imgHeight, null);
         }
     }
 
@@ -458,10 +485,25 @@ public class TreeView extends DynamicViewer implements ITreeListener
         if(treeElement.getType() == NODE)
         {
             addTreeNode((TreeNode) treeElement);
+//            TreeNodeView nodeView = (TreeNodeView)viewMap.get(treeElement);
+//            int x = nodeView.getX() + 2 * nodeView.getRadius();
+//
+//            Point viewPosition = viewport.getViewPosition();
+//            System.err.println("x: " + x + ", vx: " + viewPosition.x);
+//            if(x > viewPosition.x ) {
+//                viewport.setViewPosition(new Point(x, viewPosition.y));
+//            }
         }
         else
         {
             addTreeTransition((TreeTransition) treeElement);
+//            TreeTransitionView treeTransitionView = (TreeTransitionView)viewMap.get(treeElement);
+//            int x = treeTransitionView.getEndX() + 20;
+//            Point viewPosition = viewport.getViewPosition();
+//            System.err.println("x: " + x + ", vx: " + viewPosition.x);
+//            if(x > viewPosition.x ) {
+//                viewport.setViewPosition(new Point(x, viewPosition.y));
+//            }
         }
         repaint();
     }
@@ -596,15 +638,15 @@ public class TreeView extends DynamicViewer implements ITreeListener
 
             dimension = new Dimension(0,0);
             calcSpan(rootNodeView);
-            rootNodeView.setSpan(rootNodeView.getSpan() + DIAMETER + 2 * BORDER_SPACING);
+            rootNodeView.setSpan(rootNodeView.getSpan() + DIAMETER + BORDER_SPACING);
             System.err.println("newReDraw: Calculated span: " + rootNodeView.getSpan());
 
-            calculateViewLocations(rootNodeView, 1);
+            calculateViewLocations(rootNodeView, 0);
             dimension.height = (int)rootNodeView.getSpan();
             System.err.println("newReDraw: Calculated view positions");
 
             redrawTree(graphics2D, rootNodeView);
-            System.err.println("newReDraw: redrawTree");
+            System.err.println("newReDraw: redrawTree\n");
         }
     }
 
@@ -643,7 +685,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
         nodeView.setDepth(depth);
         int xLoc = (NODE_GAP_WIDTH + DIAMETER) * depth + DIAMETER;
         nodeView.setX(xLoc);
-        dimension.width = Math.max(dimension.width, xLoc + DIAMETER);
+        dimension.width = Math.max(dimension.width, xLoc);
 
         TreeTransitionView parentTransView = nodeView.getParentView();
         int yLoc = parentTransView == null ? (int)nodeView.getSpan() / 2 : parentTransView.getEndY() ;
@@ -670,7 +712,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
                     lineStartPoint.y = yLoc;
                     childView.setEndX((NODE_GAP_WIDTH + DIAMETER) * (depth + 1) + RADIUS - TRANS_GAP / 2);
 
-                    dimension.width = Math.max(dimension.width, childView.getEndX() + DIAMETER);
+                    dimension.width = Math.max(dimension.width, childView.getEndX());
 
                     TreeNodeView childNodeView = childView.getChildView();
                     if(childNodeView != null)
@@ -698,7 +740,7 @@ public class TreeView extends DynamicViewer implements ITreeListener
 
                     childView.setEndX((NODE_GAP_WIDTH + DIAMETER) * (depth + 1) + RADIUS - TRANS_GAP / 2);
 
-                    dimension.width = Math.max(dimension.width, childView.getEndX() + DIAMETER);
+                    dimension.width = Math.max(dimension.width, childView.getEndX());
 
                     TreeNodeView childNodeView = childView.getChildView();
                     if(childNodeView != null)

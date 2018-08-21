@@ -19,7 +19,9 @@ public class FinishWithEmptyBasicRule extends BasicRule
 
     public FinishWithEmptyBasicRule()
     {
-        super("Finish with Empty", "The remaining unknowns around a block must be empty if the number is satisfied.", "images/lightup/rules/FinishWithEmpty.png");
+        super("Finish with Empty",
+                "The remaining unknowns around a block must be empty if the number is satisfied.",
+                "edu/rpi/legup/images/lightup/rules/FinishWithEmpty.png");
     }
 
     /**

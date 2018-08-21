@@ -6,14 +6,15 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.observer.IBoardListener;
-import edu.rpi.legup.ui.DynamicViewer;
+import edu.rpi.legup.ui.DynamicView;
+import edu.rpi.legup.ui.ScrollView;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
-public abstract class BoardView extends DynamicViewer implements IBoardListener
+public abstract class BoardView extends ScrollView implements IBoardListener
 {
     protected Board board;
     protected ArrayList<ElementView> elementViews;
@@ -42,7 +43,7 @@ public abstract class BoardView extends DynamicViewer implements IBoardListener
         elementController.setBoardView(this);
         addMouseListener(elementController);
         addMouseMotionListener(elementController);
-        getViewport().addKeyListener(elementController);
+        addKeyListener(elementController);
     }
 
     /**
