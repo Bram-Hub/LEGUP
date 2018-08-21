@@ -5,9 +5,14 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.puzzle.sudoku.GroupType;
+import edu.rpi.legup.puzzle.sudoku.PossibleNumberCaseBoard;
 import edu.rpi.legup.puzzle.sudoku.SudokuBoard;
+import edu.rpi.legup.puzzle.sudoku.SudokuCell;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class PossibleNumberCaseRule extends CaseRule
 {
@@ -82,7 +87,14 @@ public class PossibleNumberCaseRule extends CaseRule
     @Override
     public CaseBoard getCaseBoard(Board board)
     {
-        return null;
+        SudokuBoard sudokuBoard = (SudokuBoard)board;
+        PossibleNumberCaseBoard caseBoard = new PossibleNumberCaseBoard(sudokuBoard, this, null);
+        for(int i = 0; i < sudokuBoard.getSize(); i++) {
+            caseBoard.addPickableRegion(i);
+            caseBoard.addPickableRow(i);
+            caseBoard.addPickableCol(i);
+        }
+        return caseBoard;
     }
 
     /**
@@ -96,37 +108,62 @@ public class PossibleNumberCaseRule extends CaseRule
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement)
     {
+        return getCases(board, puzzleElement, 1, GroupType.REGION);
+    }
+
+    /**
+     * Gets the possible cases at a specific location based on this case rule
+     *
+     * @param board        the current board state
+     * @param puzzleElement equivalent puzzleElement
+     * @param value value that the rule will be applied from
+     * @param groupType group type
+     *
+     * @return a list of elements the specified could be
+     */
+    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement, int value, GroupType groupType)
+    {
         ArrayList<Board> cases = new ArrayList<>();
         SudokuBoard sudokuBoard = (SudokuBoard)board;
-        ArrayList<Integer> values = new ArrayList<>();
+        List<SudokuCell> caseCells = new ArrayList<>();
+        SudokuCell cell = (SudokuCell) puzzleElement;
 
-        int groupSize = sudokuBoard.getWidth();
-        for(int i = 1; i <= groupSize; i++)
-        {
-            values.add(i);
+        Set<SudokuCell> group;
+        if(groupType == GroupType.REGION) {
+            group = sudokuBoard.getRegion(cell.getGroupIndex());
+        } else if(groupType == GroupType.ROW) {
+            group = sudokuBoard.getRow(cell.getLocation().y);
+        } else {
+            group = sudokuBoard.getCol(cell.getLocation().x);
         }
 
-        int index = puzzleElement.getIndex();
-        int groupDim = (int)Math.sqrt(groupSize);
-        int rowIndex = index / groupSize;
-        int colIndex = index % groupSize;
-        int groupNum = rowIndex / groupDim * groupDim + colIndex / groupDim;
+        for(SudokuCell c : group) {
+            if(c.getData() == 0) {
+                Set<SudokuCell> blockableCells = sudokuBoard.getRegion(c.getGroupIndex());
+                blockableCells.addAll(sudokuBoard.getRow(c.getLocation().y));
+                blockableCells.addAll(sudokuBoard.getCol(c.getLocation().x));
 
-        for(int y = 0; y < groupDim; y++)
-        {
-            for(int x = 0; x < groupDim; x++)
-            {
-                values.remove(sudokuBoard.getCell(groupNum, x, y).getData());
+                boolean repeat = false;
+                for(SudokuCell bc : blockableCells) {
+                    if(bc.getData() == value) {
+                        repeat = true;
+                        break;
+                    }
+                }
+                if(!repeat) {
+                    caseCells.add(c);
+                }
             }
         }
 
-        for(int val: values)
+        for(SudokuCell c : caseCells)
         {
-            Board caseBoard = sudokuBoard.copy();
-            PuzzleElement data = sudokuBoard.getPuzzleElement(puzzleElement).copy();
-            data.setData(val);
-            caseBoard.setPuzzleElement(puzzleElement.getIndex(), data);
-            cases.add(caseBoard);
+            Board newCase = sudokuBoard.copy();
+            PuzzleElement element = newCase.getPuzzleElement(c);
+            element.setData(value);
+            newCase.addModifiedData(element);
+            newCase.setPuzzleElement(puzzleElement.getIndex(), element);
+            cases.add(newCase);
         }
 
         return cases;

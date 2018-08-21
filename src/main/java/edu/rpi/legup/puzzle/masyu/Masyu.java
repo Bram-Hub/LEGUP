@@ -2,7 +2,7 @@ package edu.rpi.legup.puzzle.masyu;
 
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.puzzle.masyu.rules.BlackEdgeBasicRule;
+import edu.rpi.legup.puzzle.masyu.rules.*;
 
 public class Masyu extends Puzzle
 {
@@ -19,6 +19,12 @@ public class Masyu extends Puzzle
         this.factory = new MasyuCellFactory();
 
         this.basicRules.add(new BlackEdgeBasicRule());
+        this.basicRules.add(new FinishPathBasicRule());
+        this.basicRules.add(new NearWhiteBasicRule());
+        this.basicRules.add(new OnlyOneChoiceBasicRule());
+        this.basicRules.add(new WhiteEdgeBasicRule());
+        this.basicRules.add(new ConnectedCellsBasicRule());
+        this.basicRules.add(new BlockedBlackBasicRule());
     }
 
     /**

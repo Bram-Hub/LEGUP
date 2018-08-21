@@ -17,9 +17,9 @@ public class TreeTentView extends GridBoardView
     {
         try
         {
-            TREE = ImageIO.read(ClassLoader.getSystemResourceAsStream("images/treetent/tree.png"));
-            GRASS = ImageIO.read(ClassLoader.getSystemResourceAsStream("images/treetent/grass.png"));
-            TENT = ImageIO.read(ClassLoader.getSystemResourceAsStream("images/treetent/tent.png"));
+            TREE = ImageIO.read(ClassLoader.getSystemResourceAsStream("edu/rpi/legup/images/treetent/tree.png"));
+            GRASS = ImageIO.read(ClassLoader.getSystemResourceAsStream("edu/rpi/legup/images/treetent/grass.png"));
+            TENT = ImageIO.read(ClassLoader.getSystemResourceAsStream("edu/rpi/legup/images/treetent/tent.png"));
         }
         catch(IOException e)
         {

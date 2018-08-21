@@ -9,7 +9,9 @@ public class NearWhiteBasicRule extends BasicRule
 
     public NearWhiteBasicRule()
     {
-        super(null, null, null);
+        super("Near White",
+                "",
+                "edu/rpi/legup/images/masyu/RuleNearWhite.png");
     }
 
     /**

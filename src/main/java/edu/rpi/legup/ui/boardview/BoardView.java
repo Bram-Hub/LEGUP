@@ -122,7 +122,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener
                     PuzzleElement puzzleElement = baseBoard.getPuzzleElement(elementView.getPuzzleElement());
                     elementView.setPuzzleElement(puzzleElement);
                     elementView.setShowCasePicker(true);
-                    elementView.setCaseRulePickable(caseBoard.isPickable(elementView.getPuzzleElement()));
+                    elementView.setCaseRulePickable(caseBoard.isPickable(elementView.getPuzzleElement(), null));
                 }
             }
             else

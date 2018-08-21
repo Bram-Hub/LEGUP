@@ -2,14 +2,15 @@ package edu.rpi.legup.model.gameboard;
 
 import edu.rpi.legup.model.rules.CaseRule;
 
+import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.util.Set;
 
 public class CaseBoard extends Board
 {
-    private Board baseBoard;
-    private CaseRule caseRule;
-    private Set<PuzzleElement> pickablePuzzleElements;
+    protected Board baseBoard;
+    protected CaseRule caseRule;
+    protected Set<PuzzleElement> pickablePuzzleElements;
 
     public CaseBoard(Board baseBoard, CaseRule caseRule)
     {
@@ -28,7 +29,7 @@ public class CaseBoard extends Board
         pickablePuzzleElements.remove(puzzleElement);
     }
 
-    public boolean isPickable(PuzzleElement puzzleElement)
+    public boolean isPickable(PuzzleElement puzzleElement, MouseEvent e)
     {
         return pickablePuzzleElements.contains(puzzleElement);
     }

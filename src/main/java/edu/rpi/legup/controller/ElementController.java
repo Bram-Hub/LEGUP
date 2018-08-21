@@ -2,6 +2,7 @@ package edu.rpi.legup.controller;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.history.CaseRuleCommand;
+import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -78,7 +79,8 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         {
             if(board instanceof CaseBoard)
             {
-                if(elementView.isCaseRulePickable())
+                CaseBoard caseBoard = (CaseBoard)board;
+                if(caseBoard.isPickable(elementView.getPuzzleElement(), e))
                 {
                     CaseRuleCommand caseRuleCommand = new CaseRuleCommand(elementView, selection, ((CaseBoard)board).getCaseRule(), ((CaseBoard)board));
                     if(caseRuleCommand.canExecute())
@@ -232,7 +234,6 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     public void keyTyped(KeyEvent e)
     {
 
-        System.err.println("Key pressed: " + e.getKeyCode());
     }
 
     /**
@@ -246,7 +247,6 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     public void keyPressed(KeyEvent e)
     {
 
-        System.err.println("Key pressed: " + e.getKeyCode());
     }
 
     /**
@@ -259,18 +259,15 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     @Override
     public void keyReleased(KeyEvent e)
     {
-        Board board = getInstance().getBoard();
-        Tree tree = getInstance().getTree();
-        TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
-        TreeViewSelection selection = treeView.getSelection();
-        TreeElementView selectedView = selection.getFirstSelection();
-        System.err.println("Key pressed: " + e.getKeyCode());
+        Board board = boardView.getBoard();
         if(board instanceof CaseBoard)
         {
+            CaseBoard caseBoard = (CaseBoard)board;
             if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
             {
-                GameBoardFacade.getInstance().setBoard(selectedView.getTreeElement().getBoard());
+                puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(caseBoard.getBaseBoard()));
             }
         }
     }

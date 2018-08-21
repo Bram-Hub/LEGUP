@@ -9,7 +9,9 @@ public class FinishPathBasicRule extends BasicRule
 
     public FinishPathBasicRule()
     {
-        super(null, null, null);
+        super("Finished Path",
+                "",
+                "edu/rpi/legup/images/masyu/RuleFinishPath.png");
     }
 
     /**

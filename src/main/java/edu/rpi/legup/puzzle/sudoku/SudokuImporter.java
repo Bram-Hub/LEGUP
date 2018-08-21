@@ -74,7 +74,7 @@ public class SudokuImporter extends PuzzleImporter
                 {
                     if(sudokuBoard.getCell(x, y) == null)
                     {
-                        int groupIndex = x / minorSize * minorSize + y / minorSize;
+                        int groupIndex = x / minorSize + y / minorSize * minorSize;
                         SudokuCell cell = new SudokuCell(0, new Point(x, y), groupIndex);
                         cell.setIndex(y * size + x);
                         cell.setModifiable(true);
@@ -82,6 +82,16 @@ public class SudokuImporter extends PuzzleImporter
                     }
                 }
             }
+//
+//            for(int y = 0; y < size; y++)
+//            {
+//                for(int x = 0; x < size; x++)
+//                {
+//                    SudokuCell cell = sudokuBoard.getCell(x, y);
+//                    System.err.println("(" + x + ", " + y + ") - " + cell.getGroupIndex());
+//                }
+//            }
+
             puzzle.setCurrentBoard(sudokuBoard);
         }
         catch(NumberFormatException e)

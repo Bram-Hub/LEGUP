@@ -135,7 +135,7 @@ public class GameBoardFacade implements IHistorySubject
                 String qualifiedClassName = config.getPuzzleClassForName(node.getAttributes().getNamedItem("name").getNodeValue());
                 if(qualifiedClassName == null)
                 {
-                    throw new InvalidFileFormatException("Puzzle creation error: cannot find edu.rpi.legup.puzzle with that name");
+                    throw new InvalidFileFormatException("Puzzle creation error: cannot find puzzle with that name");
                 }
                 System.out.println(qualifiedClassName);
 

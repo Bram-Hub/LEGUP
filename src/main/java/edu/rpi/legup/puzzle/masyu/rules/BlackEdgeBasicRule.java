@@ -9,7 +9,9 @@ public class BlackEdgeBasicRule extends BasicRule
 
     public BlackEdgeBasicRule()
     {
-        super(null, null, null);
+        super("Black Edge",
+                "",
+                "edu/rpi/legup/images/masyu/RuleBlackEdge.png");
     }
 
     /**

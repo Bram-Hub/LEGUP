@@ -9,7 +9,9 @@ public class OnlyOneChoiceBasicRule extends BasicRule
 
     public OnlyOneChoiceBasicRule()
     {
-        super(null, null, null);
+        super("Only One Choice",
+                "",
+                "edu/rpi/legup/images/masyu/RuleOnlyOneChoice.png");
     }
 
     /**

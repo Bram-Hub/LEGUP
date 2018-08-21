@@ -4,13 +4,12 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.BasicRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 
-public class WhiteEdgeBasicRule extends BasicRule
-{
-    public WhiteEdgeBasicRule()
-    {
-        super("White Edge",
+public class ConnectedCellsBasicRule extends BasicRule {
+
+    public ConnectedCellsBasicRule() {
+        super("Connected Cells",
                 "",
-                "edu/rpi/legup/images/masyu/RuleWhiteEdge.png");
+                "edu/rpi/legup/images/masyu/RuleConnectedCells.gif");
     }
 
     /**
@@ -18,8 +17,8 @@ public class WhiteEdgeBasicRule extends BasicRule
      * at the specific puzzleElement index using this rule
      * This method is the one that should overridden in child classes
      *
-     * @param transition transition to check
-     * @param puzzleElement    equivalent puzzleElement
+     * @param transition    transition to check
+     * @param puzzleElement equivalent puzzleElement
      * @return null if the child node logically follow from the parent node at the specified puzzleElement,
      * otherwise error message
      */
@@ -45,8 +44,8 @@ public class WhiteEdgeBasicRule extends BasicRule
      * Checks whether the child node logically follows from the parent node at the
      * specific puzzleElement index using this rule and if so will perform the default application of the rule
      *
-     * @param transition transition to apply default application
-     * @param puzzleElement    equivalent puzzleElement
+     * @param transition    transition to apply default application
+     * @param puzzleElement equivalent puzzleElement
      * @return true if the child node logically follow from the parent node and accepts the changes
      * to the board, otherwise false
      */
