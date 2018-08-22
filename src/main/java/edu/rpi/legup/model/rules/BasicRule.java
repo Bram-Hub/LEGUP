@@ -50,7 +50,11 @@ public abstract class BasicRule extends Rule {
         for (PuzzleElement puzzleElement : finalBoard.getModifiedData()) {
             String checkStr = checkRuleAt(transition, puzzleElement);
             if (checkStr != null) {
+                puzzleElement.setValid(false);
                 return checkStr;
+            }
+            else {
+                puzzleElement.setValid(true);
             }
         }
         return null;

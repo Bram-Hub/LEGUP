@@ -19,6 +19,7 @@ public abstract class ElementView implements Shape
     private Color hoverColor;
     private Color modifiedColor;
     private Color caseColor;
+    private Color invalidColor;
     private boolean showCasePicker;
     private boolean isCaseRulePickable;
     private boolean isHover;
@@ -35,6 +36,7 @@ public abstract class ElementView implements Shape
         this.hoverColor = new Color(0x79, 0x86, 0xCB,255);
         this.modifiedColor = new Color(0x64, 0xDD, 0x17,255);
         this.caseColor = new Color(0x1A, 0x23, 0x7E,200);
+        this.invalidColor = new Color(0xf4, 0x43, 0x36,200);
         this.isHover = false;
         this.isSelected = false;
         this.isCaseRulePickable = false;
@@ -106,7 +108,7 @@ public abstract class ElementView implements Shape
 
     public void drawModified(Graphics2D graphics2D)
     {
-        graphics2D.setColor(modifiedColor);
+        graphics2D.setColor(puzzleElement.isValid() ? modifiedColor : invalidColor);
         graphics2D.setStroke(new BasicStroke(2));
         graphics2D.drawRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
     }

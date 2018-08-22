@@ -55,9 +55,12 @@ public abstract class CaseRule extends Rule {
         if (parentNodes.size() != 1) {
             return "Must not have multiple parent nodes";
         }
+
         for(TreeTransition childTrans : parentNodes.get(0).getChildren()) {
             if(childTrans.getRule() == null || !childTrans.getRule().getClass().equals(this.getClass())) {
-                return "All children nods must be justified with the same case rule.";
+                return "All children nodes must be justified with the same case rule.";
+            } else if(childTrans.getBoard().getModifiedData().isEmpty()) {
+                return "You must modify the board in each case node";
             }
         }
 

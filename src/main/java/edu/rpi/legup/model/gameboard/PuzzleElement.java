@@ -7,6 +7,7 @@ public abstract class PuzzleElement<T>
     protected boolean isModifiable;
     protected boolean isModified;
     protected boolean isGiven;
+    protected boolean isValid;
 
     /**
      * PuzzleElement Constructor - creates a new PuzzleElement
@@ -18,6 +19,7 @@ public abstract class PuzzleElement<T>
         this.isModifiable = true;
         this.isModified = false;
         this.isGiven = false;
+        this.isValid = true;
     }
 
     /**
@@ -129,6 +131,26 @@ public abstract class PuzzleElement<T>
     public void setGiven(boolean given)
     {
         isGiven = given;
+    }
+
+    /**
+     * Get whether this puzzle element data is a valid change according to the rule applied to the transition that
+     * this puzzle element is contained in.
+     *
+     * @return true if the puzzle element logically follows from the rule, otherwise false.
+     */
+    public boolean isValid() {
+        return this.isValid;
+    }
+
+    /**
+     * Sets whether this puzzle element data is a valid change according to the rule applied to the transition that
+     * this puzzle element is contained in.
+     *
+     * @param isValid true if the puzzle element logically follows from the rule, otherwise false.
+     */
+    public void setValid(boolean isValid) {
+        this.isValid = isValid;
     }
 
     /**
