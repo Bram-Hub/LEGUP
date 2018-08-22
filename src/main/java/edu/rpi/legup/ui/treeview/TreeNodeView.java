@@ -260,26 +260,6 @@ public class TreeNodeView extends TreeElementView
      */
     public int getRadius() {return RADIUS; }
 
-    /**
-     * Is this tree node view collapsed in the view
-     *
-     * @return true if the node is collapsed, false otherwise
-     */
-    public boolean isCollapsed()
-    {
-        return isCollapsed;
-    }
-
-    /**
-     * Sets the tree node view collapsed field
-     *
-     * @param isCollapsed true if the node is collapsed, false otherwise
-     */
-    public void setCollapsed(boolean isCollapsed)
-    {
-        this.isCollapsed = isCollapsed;
-    }
-
     @Override
     public Rectangle getBounds()
     {

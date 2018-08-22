@@ -40,8 +40,6 @@ public class TreeTransitionView extends TreeElementView
 
     private Point endPoint;
 
-    private boolean isCollapsed;
-
     /**
      * TreeTransitionView Constructor - creates a transition arrow for display
      *
@@ -286,16 +284,6 @@ public class TreeTransitionView extends TreeElementView
     public Point getLineStartPoint(int index)
     {
         return index < lineStartPoints.size() ? lineStartPoints.get(index) : null;
-    }
-
-    public boolean isCollapsed()
-    {
-        return isCollapsed;
-    }
-
-    public void setCollapsed(boolean isCollapsed)
-    {
-        this.isCollapsed = isCollapsed;
     }
 
     @Override

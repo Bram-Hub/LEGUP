@@ -75,23 +75,10 @@ public class TreeToolBarController implements ActionListener
         }
         else if(button.getToolBarName() == TreeToolBarName.COLLAPSE)
         {
-            //treePanel.collapseStates();
-        }
-        else if(button.getToolBarName() == TreeToolBarName.ZOOM_IN)
-        {
-            treePanel.getTreeView().zoomIn();
-        }
-        else if(button.getToolBarName() == TreeToolBarName.ZOOM_OUT)
-        {
-            treePanel.getTreeView().zoomOut();
-        }
-        else if(button.getToolBarName() == TreeToolBarName.ZOOM_RESET)
-        {
-            treePanel.getTreeView().zoomReset();
-        }
-        else if(button.getToolBarName() == TreeToolBarName.ZOOM_FIT)
-        {
-            treePanel.getTreeView().zoomFit();
+            TreeViewSelection selection = treePanel.getTreeView().getSelection();
+            for(TreeElementView view : selection.getSelectedViews()) {
+                view.setCollapsed(!view.isCollapsed());
+            }
         }
     }
 }

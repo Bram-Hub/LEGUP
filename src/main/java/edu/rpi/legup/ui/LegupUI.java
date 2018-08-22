@@ -230,7 +230,8 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         file.add(genPuzzle);
         genPuzzle.addActionListener((ActionEvent) ->
         {
-
+            pickGameDialog = new PickGameDialog(this, true);
+            pickGameDialog.setVisible(true);
         });
         file.addSeparator();
 

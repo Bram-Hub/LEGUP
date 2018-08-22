@@ -14,6 +14,7 @@ public abstract class TreeElementView implements Shape
     protected boolean isHover;
     protected TreeElementType type;
     protected boolean isVisible;
+    protected boolean isCollapsed;
 
     /**
      * TreeElementView Constructor - creates a tree puzzleElement view
@@ -166,5 +167,25 @@ public abstract class TreeElementView implements Shape
     public void setVisible(boolean isVisible)
     {
         this.isVisible = isVisible;
+    }
+
+    /**
+     * Is this tree node view collapsed in the view
+     *
+     * @return true if the node is collapsed, false otherwise
+     */
+    public boolean isCollapsed()
+    {
+        return isCollapsed;
+    }
+
+    /**
+     * Sets the tree node view collapsed field
+     *
+     * @param isCollapsed true if the node is collapsed, false otherwise
+     */
+    public void setCollapsed(boolean isCollapsed)
+    {
+        this.isCollapsed = isCollapsed;
     }
 }

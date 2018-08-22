@@ -163,25 +163,6 @@ public class TreeView extends ScrollView implements ITreeListener
         return null;
     }
 
-    // recursively computes the bounding rectangle of the tree
-    private Rectangle getTreeBounds(TreeNodeView nodeView)
-    {
-        // get the position of the current node and add padding
-        Rectangle b = new Rectangle(nodeView.getLocation());
-        b.grow(2 * NODE_RADIUS, 2 * NODE_RADIUS);
-        // Adjust the rectangle so that rule popups aren't cut off
-        float scale = (100 / (float) getZoom());
-        b.setBounds((int) b.getX() - (int) (100 * scale), (int) b.getY(), (int) b.getWidth() + (int) (400 * scale), (int) b.getHeight() + (int) (200 * scale));
-        // get the relevant child nodes
-        //ArrayList<TreeTransitionView> childrenViews = nodeView.isCollapsed() ? getLastCollapsed(nodeView).getChildrenViews() : nodeView.getChildrenViews();
-        // compute the union of the child bounding boxes recursively
-//        for(int c = 0; c < childrenViews.size(); c++)
-//        {
-//            b = b.union(getTreeBounds(childrenViews.get(c).getChildView()));
-//        }
-        return b;
-    }
-
     public void updateTreeView(Tree tree)
     {
         this.tree = tree;
@@ -314,39 +295,6 @@ public class TreeView extends ScrollView implements ITreeListener
         viewport.setViewPosition(new Point(0, 0));
     }
 
-    protected void mouseDraggedAt(Point point, MouseEvent e)
-    {
-        if(lastMovePoint == null)
-        {
-            lastMovePoint = new Point(point);
-        }
-    }
-
-    public void mouseWheelMovedAt(MouseWheelEvent e)
-    {
-        updateTreeSize();
-    }
-
-    /**
-     * Gets the color of a collapsed tree node.
-     * This function must be called before the game board collapsing takes place,
-     * otherwise transition puzzleElement will be hidden
-     *
-     * @param treeNode collapsed tree node
-     */
-    public void getCollapseColor(TreeNode treeNode)
-    {
-        boolean overallColor = treeNode.isContradictoryBranch();
-        if(overallColor)
-        {
-            this.collapseColorHash.put(treeNode, Color.GREEN);
-        }
-        else
-        {
-            this.collapseColorHash.put(treeNode, Color.RED);
-        }
-    }
-
     private void redrawTree(Graphics2D graphics2D, TreeNodeView nodeView)
     {
         if(nodeView != null)
@@ -360,21 +308,6 @@ public class TreeView extends ScrollView implements ITreeListener
         }
     }
 
-    public TreeTransitionView addTransitionView(TreeNodeView nodeView, TreeTransition transition)
-    {
-        TreeTransitionView transitionView = new TreeTransitionView(transition, nodeView);
-        nodeView.getChildrenViews().add(transitionView);
-        return transitionView;
-    }
-
-    public TreeNodeView addNodeView(TreeTransitionView transitionView, TreeNode node)
-    {
-        TreeNodeView newNodeView = new TreeNodeView(node);
-        transitionView.setChildView(newNodeView);
-        newNodeView.setParentView(transitionView);
-        return newNodeView;
-    }
-
     public void removeTreeElement(TreeElementView view)
     {
         if(view.getType() == NODE)
@@ -386,64 +319,6 @@ public class TreeView extends ScrollView implements ITreeListener
         {
             TreeTransitionView transitionView = (TreeTransitionView)view;
             transitionView.getParentViews().forEach((TreeNodeView n) -> n.removeChildrenView(transitionView));
-        }
-    }
-
-    /**
-     * When the edu.rpi.legup.user collapses the nodes, find out which gameboard state was collapsed. The gameboard state can then be used to find out
-     * the overall color for the collapsed transition(s)
-     *
-     * @param lastCollapsed TreeNode before the collapsed transition(s)
-     *
-     * @return OVerall color for the collapsed transition(s)
-     */
-    private Color getCollapsedTransitionColor(TreeNode lastCollapsed)
-    {
-        Color transitionColor = new Color(255, 255, 155);
-
-        //get last node
-        TreeNode iterBoard = lastCollapsed;
-//        while(iterBoard.getChildren().dimension() == 1 && iterBoard.getChildren().get(0).getParents().dimension() < 2)
-//        {
-//            //iterBoard = iterBoard.getChildren().get(0);
-//        }
-
-        transitionColor = new Color(255, 255, 155);
-        if(collapseColorHash.containsKey(iterBoard))
-        {
-            transitionColor = collapseColorHash.get(iterBoard);
-        }
-
-        return transitionColor;
-    }
-
-    /**
-     * Draw a collapsed node at the current location
-     *
-     * @param g the Graphics to draw with
-     * @param x the x location to draw it on
-     * @param y the y location to draw it on
-     */
-    private void drawCollapsedNode(Graphics g, int x, int y, TreeNode lastCollapsed)
-    {
-        x += 5;
-        final int rad = SMALL_NODE_RADIUS;
-        final int diam = 2 * rad;
-        final int deltaX = -COLLAPSED_DRAW_DELTA_X + 2;
-        final int deltaY = -COLLAPSED_DRAW_DELTA_Y;
-
-        Color transitionColor = getCollapsedTransitionColor(lastCollapsed);
-
-        Graphics2D g2D = (Graphics2D) g;
-        g2D.setStroke(thin);
-        g2D.setColor(Color.black);
-        for(int c = 0; c < 3; ++c)
-        {
-            //Polygon tri = makeTriangle(x - rad + (c - 1) * deltaX, y, diam / 2);
-//            g.setColor(transitionColor);
-//            g.fillPolygon(tri);
-//            g.setColor(Color.black);
-//            g.drawPolygon(tri);
         }
     }
 
