@@ -9,6 +9,11 @@ public class Heyawake extends Puzzle {
         super();
 
         this.name = "Heyawake";
+
+        this.factory = new HeyawakeFactory();
+
+        this.exporter = new HeyawakeExporter(this);
+        this.importer = new HeyawakeImporter(this);
     }
 
     /**
@@ -16,7 +21,7 @@ public class Heyawake extends Puzzle {
      */
     @Override
     public void initializeView() {
-
+        boardView = new HeyawakeView((HeyawakeBoard) currentBoard);
     }
 
     /**
