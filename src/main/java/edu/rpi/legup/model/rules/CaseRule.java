@@ -55,28 +55,19 @@ public abstract class CaseRule extends Rule {
         if (parentNodes.size() != 1) {
             return "Must not have multiple parent nodes";
         }
-        TreeNode parentNode = parentNodes.get(0);
-        Map<TreeTransition, Boolean> hasCase = new HashMap<>();
-
-        parentNode.getChildren().forEach(c -> hasCase.put(c, false));
-
-        for (TreeTransition c : parentNode.getChildren()) {
-            if (hasCase.get(c) != null) {
-                hasCase.put(c, true);
-            } else {
-                return "Invalid case";
+        for(TreeTransition childTrans : parentNodes.get(0).getChildren()) {
+            if(childTrans.getRule() == null || !childTrans.getRule().getClass().equals(this.getClass())) {
+                return "All children nods must be justified with the same case rule.";
             }
         }
 
-        for (TreeTransition c : parentNode.getChildren()) {
-            if (hasCase.get(c) != null) {
-                hasCase.put(c, true);
-            } else {
-                return "Invalid case";
-            }
+        String check = checkRuleRaw(transition);
+
+        for(TreeTransition childTrans : parentNodes.get(0).getChildren()) {
+            childTrans.setCorrect(check == null);
         }
 
-        return null;
+        return check;
     }
 
     /**
@@ -87,9 +78,7 @@ public abstract class CaseRule extends Rule {
      * @return null if the child node logically follow from the parent node, otherwise error message
      */
     @Override
-    public String checkRuleRaw(TreeTransition transition) {
-        return null;
-    }
+    public abstract String checkRuleRaw(TreeTransition transition);
 
     /**
      * Checks whether the child node logically follows from the parent node at the specific puzzleElement index using
@@ -115,9 +104,7 @@ public abstract class CaseRule extends Rule {
      * otherwise error message
      */
     @Override
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        return null;
-    }
+    public abstract String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement);
 }
 
 

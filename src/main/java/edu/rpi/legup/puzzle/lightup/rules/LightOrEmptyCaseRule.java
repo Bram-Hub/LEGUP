@@ -4,15 +4,13 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
-import edu.rpi.legup.model.rules.RegisterRule;
-import edu.rpi.legup.model.rules.RuleType;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.lightup.LightUp;
 import edu.rpi.legup.puzzle.lightup.LightUpBoard;
 import edu.rpi.legup.puzzle.lightup.LightUpCell;
 import edu.rpi.legup.puzzle.lightup.LightUpCellType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LightOrEmptyCaseRule extends CaseRule
 {
@@ -75,8 +73,29 @@ public class LightOrEmptyCaseRule extends CaseRule
      * @return null if the child node logically follow from the parent node, otherwise error message
      */
     @Override
-    public String checkRule(TreeTransition transition)
+    public String checkRuleRaw(TreeTransition transition)
     {
+        List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
+        if(childTransitions.size() != 2) {
+            return "This case rule must have 2 children.";
+        }
+
+        TreeTransition case1 = childTransitions.get(0);
+        TreeTransition case2 = childTransitions.get(1);
+        if(case1.getBoard().getModifiedData().size() != 1 ||
+                case2.getBoard().getModifiedData().size() != 1) {
+            return "This case rule must have 1 modified cell for each case.";
+        }
+        LightUpCell mod1 = (LightUpCell) case1.getBoard().getModifiedData().iterator().next();
+        LightUpCell mod2 = (LightUpCell) case2.getBoard().getModifiedData().iterator().next();
+        if(!mod1.getLocation().equals(mod2.getLocation())) {
+            return "This case rule must modify the same cell for each case.";
+        }
+        if(!((mod1.getType() == LightUpCellType.EMPTY && mod2.getType() == LightUpCellType.BULB) ||
+                (mod2.getType() == LightUpCellType.EMPTY && mod1.getType() == LightUpCellType.BULB))) {
+            return "This case rule must an empty cell and a lite cell.";
+        }
+
         return null;
     }
 

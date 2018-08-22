@@ -190,7 +190,7 @@ public class SatisfyNumberCaseRule extends CaseRule
      * @return null if the child node logically follow from the parent node, otherwise error message
      */
     @Override
-    public String checkRule(TreeTransition transition)
+    public String checkRuleRaw(TreeTransition transition)
     {
         return null;
     }

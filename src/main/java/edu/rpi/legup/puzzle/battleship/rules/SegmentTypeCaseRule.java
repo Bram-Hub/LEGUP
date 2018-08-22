@@ -16,6 +16,32 @@ public class SegmentTypeCaseRule extends CaseRule {
     }
 
     /**
+     * Checks whether the {@link TreeTransition} logically follows from the parent node using this rule. This method is
+     * the one that should overridden in child classes.
+     *
+     * @param transition transition to check
+     * @return null if the child node logically follow from the parent node, otherwise error message
+     */
+    @Override
+    public String checkRuleRaw(TreeTransition transition) {
+        return null;
+    }
+
+    /**
+     * Checks whether the child node logically follows from the parent node at the specific puzzleElement index using
+     * this rule. This method is the one that should overridden in child classes.
+     *
+     * @param transition    transition to check
+     * @param puzzleElement equivalent puzzleElement
+     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
+     * otherwise error message
+     */
+    @Override
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+        return null;
+    }
+
+    /**
      * Gets the case board that indicates where this case rule can be applied on the given {@link Board}.
      *
      * @param board board to find locations where this case rule can be applied

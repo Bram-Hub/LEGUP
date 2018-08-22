@@ -51,7 +51,7 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     }
 
     @Override
-    public String checkRule(TreeTransition transition) { return null; }
+    public String checkRuleRaw(TreeTransition transition) { return null; }
 
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) { return null; }

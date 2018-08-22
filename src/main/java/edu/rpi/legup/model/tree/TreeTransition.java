@@ -207,6 +207,16 @@ public class TreeTransition extends TreeElement
     }
 
     /**
+     * Sets whether this transition is correctly justified
+     *
+     * @param isCorrect true if this transition is correctly justified, false otherwise
+     */
+    public void setCorrect(boolean isCorrect) {
+        this.isCorrect = isCorrect;
+        this.isVerified = true;
+    }
+
+    /**
      * Gets whether this transition is justified
      *
      * @return true if this transition is justified, false otherwise

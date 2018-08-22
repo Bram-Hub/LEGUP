@@ -21,6 +21,18 @@ public class BlackOrWhiteCaseRule extends CaseRule
                 "edu/rpi/legup/images/nurikabe/cases/BlackOrWhite.png");
     }
 
+    /**
+     * Checks whether the {@link TreeTransition} logically follows from the parent node using this rule. This method is
+     * the one that should overridden in child classes.
+     *
+     * @param transition transition to check
+     * @return null if the child node logically follow from the parent node, otherwise error message
+     */
+    @Override
+    public String checkRuleRaw(TreeTransition transition) {
+        return null;
+    }
+
     @Override
     public CaseBoard getCaseBoard(Board board)
     {
@@ -62,19 +74,6 @@ public class BlackOrWhiteCaseRule extends CaseRule
         cases.add(case2);
 
         return cases;
-    }
-
-    /**
-     * Checks whether the transition logically follows from the parent node using this rule
-     *
-     * @param transition transition to check
-     *
-     * @return null if the child node logically follow from the parent node, otherwise error message
-     */
-    @Override
-    public String checkRule(TreeTransition transition)
-    {
-        return null;
     }
 
     /**
