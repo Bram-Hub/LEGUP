@@ -25,16 +25,6 @@ public class Sudoku extends Puzzle
         this.exporter = new SudokuExporter(this);
 
         this.factory = new SudokuCellFactory();
-
-        basicRules.add(new AdvancedDeductionBasicRule());
-        basicRules.add(new LastCellForNumberBasicRule());
-        basicRules.add(new LastNumberForCellBasicRule());
-
-        caseRules.add(new PossibleCellCaseRule());
-        caseRules.add(new PossibleNumberCaseRule());
-
-        contradictionRules.add(new NoSolutionContradictionRule());
-        contradictionRules.add(new RepeatedNumberContradictionRule());
     }
 
     public BoardView getBoardView()

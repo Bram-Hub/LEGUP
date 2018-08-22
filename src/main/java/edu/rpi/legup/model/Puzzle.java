@@ -9,6 +9,7 @@ import edu.rpi.legup.model.observer.ITreeSubject;
 import edu.rpi.legup.model.rules.*;
 import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.utility.LegupUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -22,11 +23,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 public abstract class Puzzle implements IBoardSubject, ITreeSubject
 {
@@ -58,6 +63,45 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
         this.basicRules = new ArrayList<>();
         this.contradictionRules = new ArrayList<>();
         this.caseRules = new ArrayList<>();
+
+        registerRules();
+    }
+
+    private void registerRules() {
+        String packageName = this.getClass().getPackage().toString().replace("package ", "");
+        try {
+            Class[] possRules = LegupUtils.getClasses(packageName);
+
+            for(Class c : possRules) {
+                for(Annotation a : c.getAnnotations()) {
+                    if(a.annotationType() == RegisterRule.class) {
+                        RegisterRule registerRule = (RegisterRule)a;
+                        Constructor<?> cons = c.getConstructor();
+                        Rule rule = (Rule)cons.newInstance();
+
+                        switch(rule.getRuleType()) {
+                            case BASIC:
+                                this.addBasicRule((BasicRule)rule);
+                                break;
+                            case CASE:
+                                this.addCaseRule((CaseRule) rule);
+                                break;
+                            case CONTRADICTION:
+                                this.addContradictionRule((ContradictionRule) rule);
+                                break;
+                            case MERGE:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+
+        } catch(IOException | ClassNotFoundException | NoSuchMethodException |
+                InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            LOGGER.log(Level.SEVERE, "Unable to find rules for puzzle");
+        }
     }
 
     /**

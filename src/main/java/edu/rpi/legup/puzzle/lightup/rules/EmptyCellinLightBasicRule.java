@@ -10,8 +10,6 @@ import edu.rpi.legup.puzzle.lightup.LightUpBoard;
 import edu.rpi.legup.puzzle.lightup.LightUpCell;
 import edu.rpi.legup.puzzle.lightup.LightUpCellType;
 
-
-@RegisterRule(puzzleName = LightUp.class, ruleType = RuleType.BASIC)
 public class EmptyCellinLightBasicRule extends BasicRule
 {
 

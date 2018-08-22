@@ -11,20 +11,13 @@ public class Masyu extends Puzzle
     {
         super();
 
-        this.name=  "Masyu";
+        this.name = "Masyu";
 
         this.importer = new MasyuImporter(this);
         this.exporter = new MasyuExporter(this);
 
         this.factory = new MasyuCellFactory();
 
-        this.basicRules.add(new BlackEdgeBasicRule());
-        this.basicRules.add(new FinishPathBasicRule());
-        this.basicRules.add(new NearWhiteBasicRule());
-        this.basicRules.add(new OnlyOneChoiceBasicRule());
-        this.basicRules.add(new WhiteEdgeBasicRule());
-        this.basicRules.add(new ConnectedCellsBasicRule());
-        this.basicRules.add(new BlockedBlackBasicRule());
     }
 
     /**

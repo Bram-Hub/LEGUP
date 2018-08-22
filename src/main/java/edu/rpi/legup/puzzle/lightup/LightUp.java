@@ -21,21 +21,6 @@ public class LightUp extends Puzzle
         exporter = new LightUpExporter(this);
 
         factory = new LightUpCellFactory();
-
-        basicRules.add(new BulbsOutsideDiagonalBasicRule());
-        basicRules.add(new EmptyCellinLightBasicRule());
-        basicRules.add(new EmptyCornersBasicRule());
-        basicRules.add(new FinishWithBulbsBasicRule());
-        basicRules.add(new FinishWithEmptyBasicRule());
-        basicRules.add(new MustLightBasicRule());
-
-        contradictionRules.add(new BulbsInPathContradictionRule());
-        contradictionRules.add(new CannotLightACellContradictionRule());
-        contradictionRules.add(new TooFewBulbsContradictionRule());
-        contradictionRules.add(new TooManyBulbsContradictionRule());
-
-        caseRules.add(new LightOrEmptyCaseRule());
-        caseRules.add(new SatisfyNumberCaseRule());
     }
 
     /**

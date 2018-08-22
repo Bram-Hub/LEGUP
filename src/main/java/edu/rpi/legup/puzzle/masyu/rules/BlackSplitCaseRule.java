@@ -1,27 +1,41 @@
-package edu.rpi.legup.puzzle.battleship.rules;
+package edu.rpi.legup.puzzle.masyu.rules;
 
+import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.model.rules.ContradictionRule;
+import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 
-public class TooManyRowColContradiction extends ContradictionRule {
+import java.util.List;
 
-    public TooManyRowColContradiction() {
-        super("Too Many row/col",
+public class BlackSplitCaseRule extends CaseRule {
+
+    public BlackSplitCaseRule() {
+        super("Black Split",
                 "",
-                "edu/rpi/legup/images/battleship/contradictions/too_many_segments.png");
+                "edu/rpi/legup/images/masyu/CaseBlackSplit.png");
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Gets the case board that indicates where this case rule can be applied on the given {@link Board}.
      *
-     * @param transition    transition to check contradiction
-     * @param puzzleElement equivalent puzzleElement
-     * @return null if the transition contains a contradiction at the specified puzzleElement,
-     * otherwise error message
+     * @param board board to find locations where this case rule can be applied
+     * @return a case board
      */
     @Override
-    public String checkContradictionAt(TreeTransition transition, PuzzleElement puzzleElement) {
+    public CaseBoard getCaseBoard(Board board) {
+        return null;
+    }
+
+    /**
+     * Gets the possible cases for this {@link Board} at a specific {@link PuzzleElement} based on this case rule.
+     *
+     * @param board         the current board state
+     * @param puzzleElement equivalent puzzleElement
+     * @return a list of elements the specified could be
+     */
+    @Override
+    public List<Board> getCases(Board board, PuzzleElement puzzleElement) {
         return null;
     }
 

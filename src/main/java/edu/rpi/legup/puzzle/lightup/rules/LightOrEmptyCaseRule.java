@@ -14,8 +14,6 @@ import edu.rpi.legup.puzzle.lightup.LightUpCellType;
 
 import java.util.ArrayList;
 
-
-@RegisterRule(puzzleName = LightUp.class, ruleType = RuleType.CASE)
 public class LightOrEmptyCaseRule extends CaseRule
 {
 

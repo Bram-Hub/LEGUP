@@ -16,7 +16,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@RegisterRule(puzzleName = LightUp.class, ruleType = RuleType.CASE)
 public class SatisfyNumberCaseRule extends CaseRule
 {
 

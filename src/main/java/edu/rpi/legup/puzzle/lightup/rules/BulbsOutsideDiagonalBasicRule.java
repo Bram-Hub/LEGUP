@@ -7,8 +7,6 @@ import edu.rpi.legup.model.rules.RuleType;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.lightup.LightUp;
 
-
-@RegisterRule(puzzleName = LightUp.class, ruleType = RuleType.BASIC)
 public class BulbsOutsideDiagonalBasicRule extends BasicRule
 {
 

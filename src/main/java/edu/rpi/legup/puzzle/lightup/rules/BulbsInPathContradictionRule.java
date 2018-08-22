@@ -12,7 +12,6 @@ import edu.rpi.legup.puzzle.lightup.LightUpCellType;
 
 import java.awt.*;
 
-@RegisterRule(puzzleName = LightUp.class, ruleType = RuleType.CONTRADICTION)
 public class BulbsInPathContradictionRule extends ContradictionRule
 {
 

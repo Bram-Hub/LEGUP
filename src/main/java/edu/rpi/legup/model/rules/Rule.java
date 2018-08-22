@@ -5,6 +5,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 
 import javax.swing.ImageIcon;
 
+@RegisterRule
 public abstract class Rule
 {
     protected String ruleName;

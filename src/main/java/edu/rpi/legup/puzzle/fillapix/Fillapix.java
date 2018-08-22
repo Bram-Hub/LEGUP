@@ -23,14 +23,6 @@ public class Fillapix extends Puzzle
 
         this.factory = new FillapixCellFactory();
 
-        //basicRules.add(new AdvancedDeductionBasicRule());
-        basicRules.add(new FinishWithBlackBasicRule());
-        basicRules.add(new FinishWithWhiteBasicRule());
-
-        caseRules.add(new BlackOrWhiteCaseRule());
-
-        contradictionRules.add(new TooFewBlackCellsContradictionRule());
-        contradictionRules.add(new TooManyBlackCellsContradictionRule());
     }
 
     /**

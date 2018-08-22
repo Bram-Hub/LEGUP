@@ -17,24 +17,6 @@ public class TreeTent extends Puzzle
         this.exporter = new TreeTentExporter(this);
 
         this.factory = new TreeTentCellFactory();
-
-        this.basicRules.add(new EmptyFieldBasicRule());
-        this.basicRules.add(new FinishWithGrassBasicRule());
-        this.basicRules.add(new FinishWithTentsBasicRule());
-        this.basicRules.add(new LastCampingSpotBasicRule());
-        this.basicRules.add(new TentForTreeBasicRule());
-        this.basicRules.add(new TreeForTentBasicRule());
-
-        this.contradictionRules.add(new NoTentForTreeContradictionRule());
-        this.contradictionRules.add(new NoTreeForTentContradictionRule());
-        this.contradictionRules.add(new TooFewTentsContradictionRule());
-        this.contradictionRules.add(new TooManyTentsContradictionRule());
-        this.contradictionRules.add(new TouchingTentsContradictionRule());
-
-        this.caseRules.add(new FillinRowCaseRule());
-        this.caseRules.add(new LinkTentCaseRule());
-        this.caseRules.add(new LinkTreeCaseRule());
-        this.caseRules.add(new TentOrGrassCaseRule());
     }
 
     /**

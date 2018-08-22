@@ -19,26 +19,6 @@ public class Nurikabe extends Puzzle
         this.exporter = new NurikabeExporter(this);
 
         this.factory = new NurikabeCellFactory();
-
-        this.basicRules.add(new BlackBetweenRegionsBasicRule());
-        this.basicRules.add(new BlackBottleNeckBasicRule());
-        this.basicRules.add(new CornerBlackBasicRule());
-        this.basicRules.add(new FillinBlackBasicRule());
-        this.basicRules.add(new FillinWhiteBasicRule());
-        this.basicRules.add(new PreventBlackSquareBasicRule());
-        this.basicRules.add(new SurroundRegionBasicRule());
-        this.basicRules.add(new WhiteBottleNeckBasicRule());
-        this.basicRules.add(new UnreachableBasicRule());
-
-        this.contradictionRules.add(new BlackSquareContradictionRule());
-        this.contradictionRules.add(new IsolateBlackContradictionRule());
-        this.contradictionRules.add(new MultipleNumbersContradictionRule());
-        this.contradictionRules.add(new NoNumberContradictionRule());
-        this.contradictionRules.add(new TooFewSpacesContradictionRule());
-        this.contradictionRules.add(new TooManySpacesContradictionRule());
-        this.contradictionRules.add(new CantReachWhiteContradictionRule());
-
-        this.caseRules.add(new BlackOrWhiteCaseRule());
     }
 
     /**

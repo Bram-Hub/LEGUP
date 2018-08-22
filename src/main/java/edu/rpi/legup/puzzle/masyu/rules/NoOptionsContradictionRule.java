@@ -1,15 +1,15 @@
-package edu.rpi.legup.puzzle.battleship.rules;
+package edu.rpi.legup.puzzle.masyu.rules;
 
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 
-public class TooManyRowColContradiction extends ContradictionRule {
+public class NoOptionsContradictionRule extends ContradictionRule {
 
-    public TooManyRowColContradiction() {
-        super("Too Many row/col",
+    public NoOptionsContradictionRule() {
+        super("No Options",
                 "",
-                "edu/rpi/legup/images/battleship/contradictions/too_many_segments.png");
+                "edu/rpi/legup/images/masyu/ContradictionNoOptions.png");
     }
 
     /**

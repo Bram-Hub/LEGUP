@@ -12,8 +12,6 @@ import edu.rpi.legup.puzzle.lightup.LightUpCellType;
 
 import java.awt.*;
 
-
-@RegisterRule(puzzleName = LightUp.class, ruleType = RuleType.BASIC)
 public class EmptyCornersBasicRule extends BasicRule
 {
 
