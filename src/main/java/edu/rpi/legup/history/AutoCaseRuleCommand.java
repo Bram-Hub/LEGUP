@@ -120,38 +120,13 @@ public class AutoCaseRuleCommand extends PuzzleCommand
     }
 
     /**
-     * Determines whether this command can be executed
-     */
-    @Override
-    public boolean canExecute()
-    {
-        if(selection.getSelectedViews().size() == 1) {
-            TreeElement element = selection.getFirstSelection().getTreeElement();
-            if(element.getType() == TreeElementType.NODE) {
-                TreeNode node = (TreeNode)element;
-                if(!node.getChildren().isEmpty()) {
-                    return false;
-                }
-            }
-        } else {
-            for(TreeElementView view : selection.getSelectedViews()) {
-                TreeElement element = view.getTreeElement();
-                if(element.getType() == TreeElementType.NODE) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    /**
      * Gets the reason why the command cannot be executed
      *
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
      * otherwise null if command can be executed
      */
     @Override
-    public String getExecutionError()
+    public String getErrorString()
     {
         if(selection.getSelectedViews().size() == 1) {
             TreeElement element = selection.getFirstSelection().getTreeElement();

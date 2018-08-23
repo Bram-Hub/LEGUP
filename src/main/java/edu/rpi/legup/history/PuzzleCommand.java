@@ -3,9 +3,13 @@ package edu.rpi.legup.history;
 public abstract class PuzzleCommand implements ICommand
 {
     private CommandState state;
+    private boolean isCached;
+    private String cachedError;
 
     protected PuzzleCommand() {
         this.state = CommandState.CREATED;
+        this.isCached = false;
+        this.cachedError = null;
     }
 
     /**
@@ -18,6 +22,39 @@ public abstract class PuzzleCommand implements ICommand
             state = CommandState.EXECUTED;
         }
     }
+
+    /**
+     * Determines whether this command can be executed
+     */
+    @Override
+    public final boolean canExecute() {
+        cachedError = getError();
+        isCached = true;
+        return cachedError == null;
+    }
+
+    /**
+     * Gets the reason why the command cannot be executed
+     *
+     * @return if command cannot be executed, returns reason for why the command cannot be executed,
+     * otherwise null if command can be executed
+     */
+    @Override
+    public final String getError() {
+        if(isCached) {
+            return cachedError;
+        } else {
+            return getErrorString();
+        }
+    }
+
+    /**
+     * Gets the reason why the command cannot be executed
+     *
+     * @return if command cannot be executed, returns reason for why the command cannot be executed,
+     * otherwise null if command can be executed
+     */
+    public abstract String getErrorString();
 
     /**
      * Executes an command
@@ -40,17 +77,6 @@ public abstract class PuzzleCommand implements ICommand
         else {
             throw new InvalidCommandStateTransition(state, CommandState.REDOED);
         }
-    }
-
-    /**
-     * Gets the reason why the command cannot be executed
-     *
-     * @return if command cannot be executed, returns reason for why the command cannot be executed,
-     * otherwise null if command can be executed
-     */
-    @Override
-    public String getExecutionError() {
-        return null;
     }
 
     /**

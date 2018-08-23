@@ -59,36 +59,13 @@ public class DeleteTreeElementCommand extends PuzzleCommand
     }
 
     /**
-     * Determines whether this command can be executed
-     */
-    @Override
-    public boolean canExecute()
-    {
-        List<TreeElementView> selectedViews = selection.getSelectedViews();
-        if(selectedViews.isEmpty())
-        {
-            return false;
-        }
-
-        for(TreeElementView view : selectedViews)
-        {
-            TreeElement element = view.getTreeElement();
-            if(element.getType() == TreeElementType.NODE && ((TreeNode)element).isRoot())
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
      * Gets the reason why the command cannot be executed
      *
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
      * otherwise null if command can be executed
      */
     @Override
-    public String getExecutionError()
+    public String getErrorString()
     {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         if(selectedViews.isEmpty())

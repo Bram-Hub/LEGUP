@@ -18,7 +18,7 @@ public interface ICommand
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
      * otherwise null if command can be executed
      */
-    String getExecutionError();
+    String getError();
 
     /**
      * Undoes an command

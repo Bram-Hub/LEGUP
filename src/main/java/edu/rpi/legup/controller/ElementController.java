@@ -89,7 +89,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                     }
                     else
                     {
-                        treePanel.updateError(caseRuleCommand.getExecutionError());
+                        treePanel.updateError(caseRuleCommand.getError());
                     }
                 }
             }
@@ -104,7 +104,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                 }
                 else
                 {
-                    treePanel.updateError(edit.getExecutionError());
+                    treePanel.updateError(edit.getError());
                 }
             }
         }

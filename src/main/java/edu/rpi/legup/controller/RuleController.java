@@ -58,7 +58,7 @@ public class RuleController implements ActionListener
             }
             else
             {
-                update = validate.getExecutionError();
+                update = validate.getError();
             }
         }
         else
@@ -73,7 +73,7 @@ public class RuleController implements ActionListener
             }
             else
             {
-                update = validate.getExecutionError();
+                update = validate.getError();
             }
         }
         GameBoardFacade.getInstance().getLegupUI().getTreePanel().updateError(update);

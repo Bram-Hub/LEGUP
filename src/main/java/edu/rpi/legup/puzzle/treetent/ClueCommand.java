@@ -82,11 +82,18 @@ public class ClueCommand extends PuzzleCommand
     }
 
     /**
-     * Determines whether this command can be executed
+     * Gets the reason why the command cannot be executed
+     *
+     * @return if command cannot be executed, returns reason for why the command cannot be executed,
+     * otherwise null if command can be executed
      */
     @Override
-    public boolean canExecute()
+    public String getErrorString()
     {
+        if(selection.getSelectedViews().isEmpty()) {
+            return "There are no selected tree elements.";
+        }
+
         emptyCells.clear();
         for(TreeElementView view : selection.getSelectedViews()) {
             TreeElement treeElement = view.getTreeElement();
@@ -94,11 +101,11 @@ public class ClueCommand extends PuzzleCommand
             if(treeElement.getType() == TreeElementType.NODE) {
                 TreeNode node = (TreeNode)treeElement;
                 if(!node.getChildren().isEmpty()) {
-                    return false;
+                    return "Board is not modifiable";
                 }
             } else {
                 if(!board.isModifiable()) {
-                    return false;
+                    return "Board is not modifiable";
                 }
             }
 
@@ -114,57 +121,6 @@ public class ClueCommand extends PuzzleCommand
                 }
             } else {
                 int row = clue.getType() == TreeTentType.CLUE_WEST ? clue.getClueIndex() : clue.getClueIndex() - 1;
-                for(int i = 0; i < board.getWidth(); i++) {
-                    TreeTentCell cell = board.getCell(i, row);
-                    if(cell.getType() == TreeTentType.UNKNOWN && cell.isModifiable()) {
-                        tempList.add(cell);
-                    }
-                }
-            }
-            if(tempList.isEmpty()) {
-                return false;
-            }
-            emptyCells.add(tempList);
-        }
-        return true;
-    }
-
-    /**
-     * Gets the reason why the command cannot be executed
-     *
-     * @return if command cannot be executed, returns reason for why the command cannot be executed,
-     * otherwise null if command can be executed
-     */
-    @Override
-    public String getExecutionError()
-    {
-        emptyCells.clear();
-        for(TreeElementView view : selection.getSelectedViews()) {
-            TreeElement treeElement = view.getTreeElement();
-            TreeTentBoard board = (TreeTentBoard)treeElement.getBoard();
-            if(treeElement.getType() == TreeElementType.NODE) {
-                TreeNode node = (TreeNode)treeElement;
-                if(!node.getChildren().isEmpty()) {
-                    return "Board is not modifiable";
-                }
-            } else {
-                if(!board.isModifiable()) {
-                    return "Board is not modifiable";
-                }
-            }
-
-            List<TreeTentCell> tempList = new ArrayList<>();
-            TreeTentClue clue = clueView.getPuzzleElement();
-            if(clue.getType() == TreeTentType.CLUE_NORTH || clue.getType() == TreeTentType.CLUE_SOUTH) {
-                int col = clue.getClueIndex() - 1;
-                for(int i = 0; i < board.getWidth(); i++) {
-                    TreeTentCell cell = board.getCell(col, i);
-                    if(cell.getType() == TreeTentType.UNKNOWN && cell.isModifiable()) {
-                        tempList.add(cell);
-                    }
-                }
-            } else {
-                int row = clue.getClueIndex() - 1;
                 for(int i = 0; i < board.getWidth(); i++) {
                     TreeTentCell cell = board.getCell(i, row);
                     if(cell.getType() == TreeTentType.UNKNOWN && cell.isModifiable()) {

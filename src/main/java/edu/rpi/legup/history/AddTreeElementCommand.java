@@ -2,6 +2,7 @@ package edu.rpi.legup.history;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.model.Puzzle;
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.treeview.TreeElementView;
 import edu.rpi.legup.ui.treeview.TreeView;
@@ -65,36 +66,9 @@ public class AddTreeElementCommand extends PuzzleCommand
             newSelection.addToSelection(childView);
             addChild.put(element, child);
         }
+        final Board finalBoard = newSelection.getFirstSelection().getTreeElement().getBoard();
+        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
-    }
-
-    /**
-     * Determines whether this command can be executed
-     */
-    @Override
-    public boolean canExecute()
-    {
-        List<TreeElementView> selectedViews = selection.getSelectedViews();
-        if(selectedViews.isEmpty())
-        {
-            return false;
-        }
-        else
-        {
-            for(TreeElementView view : selectedViews)
-            {
-                TreeElement element = view.getTreeElement();
-                if(element.getType() == TreeElementType.TRANSITION)
-                {
-                    TreeTransition transition = (TreeTransition)element;
-                    if(transition.getChildNode() != null)
-                    {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
     }
 
     /**
@@ -104,7 +78,7 @@ public class AddTreeElementCommand extends PuzzleCommand
      * otherwise null if command can be executed
      */
     @Override
-    public String getExecutionError()
+    public String getErrorString()
     {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         if(selectedViews.isEmpty())

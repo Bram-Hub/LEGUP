@@ -45,9 +45,7 @@ public class ValidateCaseRuleCommand extends PuzzleCommand
     @Override
     public void executeCommand()
     {
-        Tree tree = getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-        BoardView boardView = GameBoardFacade.getInstance().getLegupUI().getBoardView();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         TreeViewSelection newSelection = new TreeViewSelection();
 
@@ -94,34 +92,13 @@ public class ValidateCaseRuleCommand extends PuzzleCommand
     }
 
     /**
-     * Determines whether this command can be executed
-     */
-    @Override
-    public boolean canExecute()
-    {
-        for(TreeElementView view : selection.getSelectedViews())
-        {
-            TreeElement element = view.getTreeElement();
-            if(element.getType() == TreeElementType.NODE)
-            {
-                TreeNode node = (TreeNode)element;
-                if(!node.getChildren().isEmpty())
-                {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    /**
      * Gets the reason why the command cannot be executed
      *
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
      * otherwise null if command can be executed
      */
     @Override
-    public String getExecutionError()
+    public String getErrorString()
     {
         for(TreeElementView view : selection.getSelectedViews())
         {

@@ -40,7 +40,7 @@ public class TreeToolBarController implements ActionListener
             }
             else
             {
-                treePanel.updateError(add.getExecutionError());
+                treePanel.updateError(add.getError());
             }
         }
         else if(button.getToolBarName() == TreeToolBarName.DEL_CHILD)
@@ -55,7 +55,7 @@ public class TreeToolBarController implements ActionListener
             }
             else
             {
-                treePanel.updateError(del.getExecutionError());
+                treePanel.updateError(del.getError());
             }
         }
         else if(button.getToolBarName() == TreeToolBarName.MERGE)
@@ -70,7 +70,7 @@ public class TreeToolBarController implements ActionListener
             }
             else
             {
-                treePanel.updateError(merge.getExecutionError());
+                treePanel.updateError(merge.getError());
             }
         }
         else if(button.getToolBarName() == TreeToolBarName.COLLAPSE)

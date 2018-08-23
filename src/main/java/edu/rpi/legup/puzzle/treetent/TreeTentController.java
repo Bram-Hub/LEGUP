@@ -48,14 +48,14 @@ public class TreeTentController extends ElementController
             lastCellPressed = boardView.getElement(e.getPoint());
             TreeViewSelection selection = treeView.getSelection();
             if (dragStart != null && dragStart == lastCellPressed) {
-                if(dragStart.getPuzzleElement().getIndex() > 0) {
+                if(dragStart.getPuzzleElement().getIndex() >= 0) {
                     ICommand edit = new EditDataCommand(lastCellPressed, selection, e);
                     if (edit.canExecute()) {
                         edit.execute();
                         getInstance().getHistory().pushChange(edit);
                         treePanel.updateError("");
                     } else {
-                        treePanel.updateError(edit.getExecutionError());
+                        treePanel.updateError(edit.getError());
                     }
                 } else {
                     ClueCommand edit = new ClueCommand(selection, (TreeTentClueView)dragStart);
@@ -64,7 +64,7 @@ public class TreeTentController extends ElementController
                         getInstance().getHistory().pushChange(edit);
                         treePanel.updateError("");
                     } else {
-                        treePanel.updateError(edit.getExecutionError());
+                        treePanel.updateError(edit.getError());
                     }
                 }
             } else if (dragStart != null && lastCellPressed != null) {
@@ -73,7 +73,7 @@ public class TreeTentController extends ElementController
                     editLine.execute();
                     getInstance().getHistory().pushChange(editLine);
                 } else {
-                    treePanel.updateError(editLine.getExecutionError());
+                    treePanel.updateError(editLine.getError());
                 }
             }
             dragStart = null;

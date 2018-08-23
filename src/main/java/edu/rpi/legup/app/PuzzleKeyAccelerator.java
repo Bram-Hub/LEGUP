@@ -3,7 +3,6 @@ package edu.rpi.legup.app;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.ValidateBasicRuleCommand;
 import edu.rpi.legup.history.ValidateContradictionRuleCommand;
-import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.rules.RuleType;
 import edu.rpi.legup.ui.treeview.TreeView;
@@ -80,7 +79,7 @@ public class PuzzleKeyAccelerator implements KeyListener {
                 }
                 else
                 {
-                    update = validate.getExecutionError();
+                    update = validate.getError();
                 }
             }
             else
@@ -95,7 +94,7 @@ public class PuzzleKeyAccelerator implements KeyListener {
                 }
                 else
                 {
-                    update = validate.getExecutionError();
+                    update = validate.getError();
                 }
             }
             GameBoardFacade.getInstance().getLegupUI().getTreePanel().updateError(update);

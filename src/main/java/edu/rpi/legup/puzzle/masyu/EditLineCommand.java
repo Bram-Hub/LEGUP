@@ -127,31 +127,13 @@ public class EditLineCommand extends PuzzleCommand
     }
 
     /**
-     * Determines whether this command can be executed
-     */
-    @Override
-    public boolean canExecute()
-    {
-        Board board = selectedView.getTreeElement().getBoard();
-        if(!board.isModifiable())
-        {
-            return false;
-        }
-        else if(!board.getPuzzleElement(elementView.getPuzzleElement()).isModifiable())
-        {
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * Gets the reason why the command cannot be executed
      *
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
      * otherwise null if command can be executed
      */
     @Override
-    public String getExecutionError()
+    public String getErrorString()
     {
         Board board = selectedView.getTreeElement().getBoard();
         if(!board.isModifiable())

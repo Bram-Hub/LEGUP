@@ -95,54 +95,13 @@ public class EditLineCommand extends PuzzleCommand
     }
 
     /**
-     * Determines whether this command can be executed
-     */
-    @Override
-    public boolean canExecute()
-    {
-        if(start == null || end == null) {
-            return false;
-        }
-
-        for(TreeElementView view : selection.getSelectedViews()) {
-            TreeElement treeElement = view.getTreeElement();
-            TreeTentBoard board = (TreeTentBoard)treeElement.getBoard();
-            if(treeElement.getType() == TreeElementType.NODE) {
-                TreeNode node = (TreeNode)treeElement;
-                if(!node.getChildren().isEmpty()) {
-                    return false;
-                }
-            } else {
-                if(!board.isModifiable()) {
-                    return false;
-                }
-            }
-            TreeTentLine line = new TreeTentLine((TreeTentCell)start.getPuzzleElement(), (TreeTentCell) end.getPuzzleElement());
-            for(TreeTentLine l : board.getLines()) {
-                if(line.compare(l) && !l.isModifiable()) {
-                    return false;
-                }
-            }
-        }
-
-        TreeTentCell startCell = (TreeTentCell)start.getPuzzleElement();
-        TreeTentCell endCell = (TreeTentCell)end.getPuzzleElement();
-        if(!((startCell.getType() == TreeTentType.TENT && endCell.getType() == TreeTentType.TREE) ||
-                (endCell.getType() == TreeTentType.TENT && startCell.getType() == TreeTentType.TREE))) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Gets the reason why the command cannot be executed
      *
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
      * otherwise null if command can be executed
      */
     @Override
-    public String getExecutionError()
+    public String getErrorString()
     {
         if(start == null || end == null) {
             return "You must connect a tree to a tent";
