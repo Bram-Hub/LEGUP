@@ -28,13 +28,8 @@ public class AddTreeElementCommand extends PuzzleCommand
      * Executes an command
      */
     @Override
-    public void execute()
+    public void executeCommand()
     {
-        if(!canExecute())
-        {
-            return;
-        }
-
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         TreeViewSelection newSelection = new TreeViewSelection();
@@ -138,7 +133,7 @@ public class AddTreeElementCommand extends PuzzleCommand
      * Undoes an command
      */
     @Override
-    public void undo()
+    public void undoCommand()
     {
         Tree tree = GameBoardFacade.getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();

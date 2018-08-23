@@ -45,7 +45,7 @@ public class EditLineCommand extends PuzzleCommand
      * Executes a command
      */
     @Override
-    public void execute()
+    public void executeCommand()
     {
         Tree tree = getInstance().getTree();
         TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
@@ -169,7 +169,7 @@ public class EditLineCommand extends PuzzleCommand
      * Undoes an command
      */
     @Override
-    public void undo()
+    public void undoCommand()
     {
         Tree tree = getInstance().getTree();
         TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();

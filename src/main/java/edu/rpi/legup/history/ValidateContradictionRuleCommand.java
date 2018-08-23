@@ -34,7 +34,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
      * Executes an command
      */
     @Override
-    public void execute()
+    public void executeCommand()
     {
         Tree tree = GameBoardFacade.getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
@@ -107,7 +107,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand
      * Undoes an command
      */
     @Override
-    public void undo()
+    public void undoCommand()
     {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 

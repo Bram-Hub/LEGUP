@@ -59,6 +59,25 @@ public class TreeTentBoard extends GridBoard
     }
 
     @Override
+    public PuzzleElement getPuzzleElement(PuzzleElement element) {
+        switch(element.getIndex()) {
+            case -2:
+                return element;
+            case -1:
+                TreeTentLine line = (TreeTentLine)element;
+                for(TreeTentLine l : lines) {
+                    if(line.compare(l)) {
+                        line = l;
+                        break;
+                    }
+                }
+                return line;
+            default:
+                return super.getPuzzleElement(element);
+        }
+    }
+
+    @Override
     public void notifyChange(PuzzleElement puzzleElement)
     {
         if(puzzleElement instanceof TreeTentLine){

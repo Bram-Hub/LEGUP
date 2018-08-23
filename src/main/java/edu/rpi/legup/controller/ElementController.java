@@ -1,12 +1,11 @@
 package edu.rpi.legup.controller;
 
 import edu.rpi.legup.app.GameBoardFacade;
-import edu.rpi.legup.history.CaseRuleCommand;
+import edu.rpi.legup.history.AutoCaseRuleCommand;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.boardview.ElementSelection;
 import edu.rpi.legup.ui.boardview.ElementView;
@@ -82,7 +81,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                 CaseBoard caseBoard = (CaseBoard)board;
                 if(caseBoard.isPickable(elementView.getPuzzleElement(), e))
                 {
-                    CaseRuleCommand caseRuleCommand = new CaseRuleCommand(elementView, selection, ((CaseBoard)board).getCaseRule(), ((CaseBoard)board));
+                    AutoCaseRuleCommand caseRuleCommand = new AutoCaseRuleCommand(elementView, selection, ((CaseBoard)board).getCaseRule(), ((CaseBoard)board));
                     if(caseRuleCommand.canExecute())
                     {
                         caseRuleCommand.execute();

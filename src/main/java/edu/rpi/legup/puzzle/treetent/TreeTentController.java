@@ -6,6 +6,7 @@ import edu.rpi.legup.history.EditDataCommand;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.BoardView;
+import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.treeview.TreePanel;
 import edu.rpi.legup.ui.treeview.TreeView;
 import edu.rpi.legup.ui.treeview.TreeViewSelection;
@@ -17,8 +18,9 @@ import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 public class TreeTentController extends ElementController
 {
 
-    private TreeTentElementView lastCellPressed;
-    private TreeTentElementView dragStart;
+    private ElementView lastCellPressed;
+    private ElementView dragStart;
+
     public TreeTentController()
     {
         super();
@@ -29,44 +31,54 @@ public class TreeTentController extends ElementController
     @Override
     public void mousePressed(MouseEvent e)
     {
-        BoardView boardView = getInstance().getLegupUI().getBoardView();
-        dragStart = (TreeTentElementView) boardView.getElement(e.getPoint());
-        lastCellPressed = (TreeTentElementView) boardView.getElement(e.getPoint());
+        if(e.getButton() != MouseEvent.BUTTON3) {
+            BoardView boardView = getInstance().getLegupUI().getBoardView();
+            dragStart = boardView.getElement(e.getPoint());
+            lastCellPressed = boardView.getElement(e.getPoint());
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e)
     {
-        TreePanel treePanel = GameBoardFacade.getInstance().getLegupUI().getTreePanel();
-        TreeTentElementView dragEnd = (TreeTentElementView) boardView.getElement(e.getPoint());
-        TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-        BoardView boardView = getInstance().getLegupUI().getBoardView();
-        TreeTentBoard board = (TreeTentBoard)getInstance().getBoard();
-        lastCellPressed = (TreeTentElementView) boardView.getElement(e.getPoint());
-        TreeViewSelection selection = treeView.getSelection();
-        if(dragStart != null && dragStart == lastCellPressed) {
-            ICommand edit = new EditDataCommand(lastCellPressed, selection, e);
-            if(edit.canExecute())
-            {
-                edit.execute();
-                getInstance().getHistory().pushChange(edit);
-                treePanel.updateError("");
+        if(e.getButton() != MouseEvent.BUTTON3) {
+            TreePanel treePanel = GameBoardFacade.getInstance().getLegupUI().getTreePanel();
+            TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
+            BoardView boardView = getInstance().getLegupUI().getBoardView();
+            lastCellPressed = boardView.getElement(e.getPoint());
+            TreeViewSelection selection = treeView.getSelection();
+            if (dragStart != null && dragStart == lastCellPressed) {
+                if(dragStart.getPuzzleElement().getIndex() > 0) {
+                    ICommand edit = new EditDataCommand(lastCellPressed, selection, e);
+                    if (edit.canExecute()) {
+                        edit.execute();
+                        getInstance().getHistory().pushChange(edit);
+                        treePanel.updateError("");
+                    } else {
+                        treePanel.updateError(edit.getExecutionError());
+                    }
+                } else {
+                    ClueCommand edit = new ClueCommand(selection, (TreeTentClueView)dragStart);
+                    if (edit.canExecute()) {
+                        edit.execute();
+                        getInstance().getHistory().pushChange(edit);
+                        treePanel.updateError("");
+                    } else {
+                        treePanel.updateError(edit.getExecutionError());
+                    }
+                }
+            } else if (dragStart != null && lastCellPressed != null) {
+                ICommand editLine = new EditLineCommand((TreeTentElementView) dragStart, (TreeTentElementView) lastCellPressed, selection);
+                if (editLine.canExecute()) {
+                    editLine.execute();
+                    getInstance().getHistory().pushChange(editLine);
+                } else {
+                    treePanel.updateError(editLine.getExecutionError());
+                }
             }
-            else
-            {
-                treePanel.updateError(edit.getExecutionError());
-            }
-        } else if (dragStart != null && lastCellPressed != null) {
-            ICommand editLine = new EditLineCommand(dragStart, lastCellPressed, selection);
-            if (editLine.canExecute()) {
-                editLine.execute();
-                getInstance().getHistory().pushChange(editLine);
-            } else {
-                treePanel.updateError(editLine.getExecutionError());
-            }
+            dragStart = null;
+            lastCellPressed = null;
         }
-        dragStart = null;
-        lastCellPressed = null;
     }
 
     @Override

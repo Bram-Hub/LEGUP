@@ -31,7 +31,7 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
      * Executes an command
      */
     @Override
-    public void execute()
+    public void executeCommand()
     {
         Tree tree = GameBoardFacade.getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
@@ -176,7 +176,7 @@ public class ValidateBasicRuleCommand extends PuzzleCommand
      * Undoes an command
      */
     @Override
-    public void undo()
+    public void undoCommand()
     {
         Tree tree = GameBoardFacade.getInstance().getTree();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();

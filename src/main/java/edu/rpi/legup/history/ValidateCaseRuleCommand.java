@@ -43,7 +43,7 @@ public class ValidateCaseRuleCommand extends PuzzleCommand
      * Executes an command
      */
     @Override
-    public void execute()
+    public void executeCommand()
     {
         Tree tree = getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
@@ -142,7 +142,7 @@ public class ValidateCaseRuleCommand extends PuzzleCommand
      * Undoes an command
      */
     @Override
-    public void undo()
+    public void undoCommand()
     {
 
     }

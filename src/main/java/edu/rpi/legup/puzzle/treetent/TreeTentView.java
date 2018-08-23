@@ -3,6 +3,7 @@ package edu.rpi.legup.puzzle.treetent;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 
 import javax.imageio.ImageIO;
@@ -90,6 +91,50 @@ public class TreeTentView extends GridBoardView
             northClues.add(col);
             southClues.add(clue);
         }
+    }
+
+    /**
+     * Gets the ElementView from the location specified or
+     * null if one does not exists at that location
+     *
+     * @param point location on the viewport
+     * @return ElementView at the specified location
+     */
+    @Override
+    public ElementView getElement(Point point) {
+        Point scaledPoint = new Point((int)Math.round(point.x / getScale()), (int)Math.round(point.y / getScale()));
+        for(ElementView element: elementViews)
+        {
+            if(element.isWithinBounds(scaledPoint))
+            {
+                return element;
+            }
+        }
+        for(TreeTentClueView clueView : northClues) {
+            if(clueView.isWithinBounds(scaledPoint))
+            {
+                return clueView;
+            }
+        }
+        for(TreeTentClueView clueView : eastClues) {
+            if(clueView.isWithinBounds(scaledPoint))
+            {
+                return clueView;
+            }
+        }
+        for(TreeTentClueView clueView : southClues) {
+            if(clueView.isWithinBounds(scaledPoint))
+            {
+                return clueView;
+            }
+        }
+        for(TreeTentClueView clueView : westClues) {
+            if(clueView.isWithinBounds(scaledPoint))
+            {
+                return clueView;
+            }
+        }
+        return null;
     }
 
     public ArrayList<TreeTentLineView> getLineViews()

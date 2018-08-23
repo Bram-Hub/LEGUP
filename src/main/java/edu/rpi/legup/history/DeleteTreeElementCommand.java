@@ -26,7 +26,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand
      * Executes an command
      */
     @Override
-    public void execute()
+    public void executeCommand()
     {
         Tree tree = GameBoardFacade.getInstance().getTree();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
@@ -111,7 +111,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand
      * Undoes an command
      */
     @Override
-    public void undo()
+    public void undoCommand()
     {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         List<TreeElementView> selectedViews = selection.getSelectedViews();

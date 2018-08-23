@@ -26,7 +26,7 @@ public class MergeCommand extends PuzzleCommand
      * Executes an command
      */
     @Override
-    public void execute()
+    public void executeCommand()
     {
         if(!canExecute())
         {
@@ -79,7 +79,7 @@ public class MergeCommand extends PuzzleCommand
      * Undoes an command
      */
     @Override
-    public void undo()
+    public void undoCommand()
     {
 
     }

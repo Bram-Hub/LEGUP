@@ -5,11 +5,13 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 public class TreeTentClue extends PuzzleElement<Integer>
 {
     private TreeTentType type;
+    private int clueIndex;
 
-    public TreeTentClue(int value, int index, TreeTentType type)
+    public TreeTentClue(int value, int clueIndex, TreeTentType type)
     {
         super(value);
-        this.index = index;
+        this.index = -2;
+        this.clueIndex = clueIndex;
         this.type = type;
     }
 
@@ -35,6 +37,14 @@ public class TreeTentClue extends PuzzleElement<Integer>
             result += col.charAt(i) - 'A' + 1;
         }
         return result;
+    }
+
+    public int getClueIndex() {
+        return clueIndex;
+    }
+
+    public void setClueIndex(int clueIndex) {
+        this.clueIndex = clueIndex;
     }
 
     public TreeTentType getType()

@@ -964,7 +964,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
     @Override
     public void onPushChange(ICommand command)
     {
-        LOGGER.log(Level.SEVERE, "onPushChange");
+        LOGGER.info("Pushing " + command.getClass().getSimpleName() + " to stack.");
         undo.setEnabled(true);
         toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(true);
         redo.setEnabled(false);

@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.treetent;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.tree.*;
-import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.treeview.*;
 import edu.rpi.legup.history.PuzzleCommand;
 
@@ -31,17 +30,11 @@ public class EditLineCommand extends PuzzleCommand
      * Executes a command
      */
     @Override
-    public void execute()
+    public void executeCommand()
     {
-        if(!canExecute())
-        {
-            return;
-        }
-
         Puzzle puzzle = getInstance().getPuzzleModule();
         Tree tree = puzzle.getTree();
         TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
-        BoardView boardView = getInstance().getLegupUI().getBoardView();
         TreeElementView selectedView = selection.getFirstSelection();
         TreeElement treeElement = selectedView.getTreeElement();
 
@@ -66,7 +59,6 @@ public class EditLineCommand extends PuzzleCommand
             puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
 
             board = (TreeTentBoard) transition.getBoard();
-
         }
         else
         {
@@ -97,13 +89,9 @@ public class EditLineCommand extends PuzzleCommand
             notifyLine = dupLine;
         }
 
-        Board prevBoard = transition.getParents().get(0).getBoard();
-
-//        transition.propagateChanges(notifyLine);
-
         Board finalBoard = board;
-        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
         puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(notifyLine));
+        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
     }
 
     /**
@@ -195,7 +183,7 @@ public class EditLineCommand extends PuzzleCommand
      * Undoes an command
      */
     @Override
-    public void undo()
+    public void undoCommand()
     {
 
     }

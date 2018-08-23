@@ -79,7 +79,18 @@ public abstract class BoardView extends ScrollView implements IBoardListener
      * @param point location on the viewport
      * @return ElementView at the specified location
      */
-    public abstract ElementView getElement(Point point);
+    public ElementView getElement(Point point)
+    {
+        Point scaledPoint = new Point((int)Math.round(point.x / getScale()), (int)Math.round(point.y / getScale()));
+        for(ElementView element: elementViews)
+        {
+            if(element.isWithinBounds(scaledPoint))
+            {
+                return element;
+            }
+        }
+        return null;
+    }
 
     /**
      * Gets the ElementSelection for this BoardView

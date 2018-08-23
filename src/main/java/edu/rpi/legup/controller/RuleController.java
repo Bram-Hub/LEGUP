@@ -1,19 +1,17 @@
 package edu.rpi.legup.controller;
 
 import edu.rpi.legup.app.GameBoardFacade;
-import edu.rpi.legup.history.CaseRuleCommand;
+import edu.rpi.legup.history.AutoCaseRuleCommand;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.rules.*;
 import edu.rpi.legup.model.tree.*;
-import edu.rpi.legup.ui.ExtendedRuleSelector;
 import edu.rpi.legup.ui.rulesview.RuleButton;
 import edu.rpi.legup.ui.treeview.*;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.ValidateBasicRuleCommand;
 import edu.rpi.legup.history.ValidateContradictionRuleCommand;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -99,7 +97,7 @@ public class RuleController implements ActionListener
             TreeElement element = elementView.getTreeElement();
             if(element.getType() == TreeElementType.TRANSITION)
             {
-                CaseRuleCommand caseRuleCommand = new CaseRuleCommand(null, treeViewSelection, caseRule, null);
+                AutoCaseRuleCommand caseRuleCommand = new AutoCaseRuleCommand(null, treeViewSelection, caseRule, null);
                 if(caseRuleCommand.canExecute())
                 {
                     caseRuleCommand.execute();

@@ -46,7 +46,7 @@ public class EditDataCommand extends PuzzleCommand
      * Executes a command
      */
     @Override
-    public void execute()
+    public void executeCommand()
     {
         if(!canExecute())
         {
@@ -179,7 +179,7 @@ public class EditDataCommand extends PuzzleCommand
      * Undoes an command
      */
     @Override
-    public void undo()
+    public void undoCommand()
     {
         TreeElementView selectedView = selection.getFirstSelection();
         Tree tree = getInstance().getTree();

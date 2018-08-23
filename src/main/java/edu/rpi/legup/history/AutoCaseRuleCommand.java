@@ -17,7 +17,7 @@ import java.util.Map;
 
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
-public class CaseRuleCommand extends PuzzleCommand
+public class AutoCaseRuleCommand extends PuzzleCommand
 {
     private ElementView elementView;
     private TreeViewSelection selection;
@@ -28,12 +28,12 @@ public class CaseRuleCommand extends PuzzleCommand
     private CaseBoard caseBoard;
 
     /**
-     * CaseRuleCommand Constructor - creates a command for validating a case rule
+     * AutoCaseRuleCommand Constructor - creates a command for validating a case rule
      *
      * @param elementView currently selected edu.rpi.legup.puzzle puzzleElement view that is being edited
      * @param selection currently selected tree puzzleElement views that is being edited
      */
-    public CaseRuleCommand(ElementView elementView, TreeViewSelection selection, Rule rule, CaseBoard caseBoard)
+    public AutoCaseRuleCommand(ElementView elementView, TreeViewSelection selection, Rule rule, CaseBoard caseBoard)
     {
         this.elementView = elementView;
         this.selection = selection;
@@ -47,7 +47,7 @@ public class CaseRuleCommand extends PuzzleCommand
      * Executes an command
      */
     @Override
-    public void execute()
+    public void executeCommand()
     {
         Tree tree = getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
@@ -176,7 +176,7 @@ public class CaseRuleCommand extends PuzzleCommand
      * Undoes an command
      */
     @Override
-    public void undo()
+    public void undoCommand()
     {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         Tree tree = GameBoardFacade.getInstance().getTree();
