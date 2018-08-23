@@ -55,6 +55,13 @@ public class GridBoardView extends BoardView
         return null;
     }
 
+    public GridElementView getElement(int xIndex, int yIndex) {
+        if(xIndex < gridSize.width && yIndex < gridSize.height) {
+            return (GridElementView) elementViews.get(yIndex * gridSize.width + xIndex);
+        }
+        return null;
+    }
+
     /**
      * Gets the GridElementView from the location specified or
      * null if one does not exists at that location
@@ -102,5 +109,10 @@ public class GridBoardView extends BoardView
     {
         return null;
     }
+
+    public Dimension getElementSize() {
+        return this.elementSize;
+    }
+
 }
 

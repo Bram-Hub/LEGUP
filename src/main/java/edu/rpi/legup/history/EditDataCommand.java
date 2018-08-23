@@ -22,7 +22,6 @@ public class EditDataCommand extends PuzzleCommand
 
     private ElementView elementView;
     private TreeViewSelection selection;
-    private TreeElementView newSelectedView;
     private MouseEvent event;
 
     /**

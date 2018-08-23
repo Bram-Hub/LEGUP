@@ -47,7 +47,7 @@ public class DynamicController implements MouseMotionListener, MouseListener, Mo
     @Override
     public void mousePressed(MouseEvent e)
     {
-        if(e.getButton() == MouseEvent.BUTTON1)
+        if(e.getButton() == MouseEvent.BUTTON3)
         {
             pan = true;
             x = e.getX();
@@ -65,7 +65,7 @@ public class DynamicController implements MouseMotionListener, MouseListener, Mo
     @Override
     public void mouseReleased(MouseEvent e)
     {
-        if(e.getButton() == MouseEvent.BUTTON1)
+        if(e.getButton() == MouseEvent.BUTTON3)
         {
             pan = false;
             dynamicView.getScrollView().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));

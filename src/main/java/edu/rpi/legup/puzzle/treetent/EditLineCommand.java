@@ -2,42 +2,28 @@ package edu.rpi.legup.puzzle.treetent;
 
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.model.observer.IBoardListener;
-import edu.rpi.legup.model.observer.ITreeListener;
-import edu.rpi.legup.model.tree.Tree;
-import edu.rpi.legup.model.tree.TreeElementType;
-import edu.rpi.legup.model.tree.TreeNode;
-import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.boardview.BoardView;
-import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.treeview.*;
 import edu.rpi.legup.history.PuzzleCommand;
 
-import java.awt.event.MouseEvent;
+import java.awt.*;
 
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class EditLineCommand extends PuzzleCommand
 {
+    private TreeTentElementView start;
+    private TreeTentElementView end;
+
+    private TreeViewSelection selection;
     private TreeTransition transition;
-    private PuzzleElement oldData;
-    private PuzzleElement newData;
 
-    private ElementView elementView;
-    private TreeElementView selectedView;
-    private TreeElementView newSelectedView;
-    private MouseEvent event;
-
-    private TreeTransitionView transitionView;
-
-    public EditLineCommand(ElementView elementView, TreeElementView selectedView, MouseEvent event, TreeTentLine line)
+    public EditLineCommand(TreeTentElementView start, TreeTentElementView endDrag, TreeViewSelection selection)
     {
-        this.elementView = elementView;
-        this.selectedView = selectedView;
-        this.event = event;
-        this.newData = line;
-        this.oldData = newData.copy();
+        this.selection = selection;
+        this.start = start;
+        this.end = getViewInDirection(endDrag);
         this.transition = null;
     }
 
@@ -47,83 +33,77 @@ public class EditLineCommand extends PuzzleCommand
     @Override
     public void execute()
     {
-        Tree tree = getInstance().getTree();
-        TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeViewSelection selection = treeView.getSelection();
-        BoardView boardView = getInstance().getLegupUI().getBoardView();
+        if(!canExecute())
+        {
+            return;
+        }
+
         Puzzle puzzle = getInstance().getPuzzleModule();
+        Tree tree = puzzle.getTree();
+        TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
+        BoardView boardView = getInstance().getLegupUI().getBoardView();
+        TreeElementView selectedView = selection.getFirstSelection();
+        TreeElement treeElement = selectedView.getTreeElement();
 
-        TreeTentBoard board = (TreeTentBoard) selectedView.getTreeElement().getBoard();
-        int index = elementView.getIndex();
+        TreeTentBoard board = (TreeTentBoard) treeElement.getBoard();
+        TreeTentCell startCell;
+        TreeTentCell endCell;
 
-        if(selectedView.getType() == TreeElementType.NODE)
+        if(treeElement.getType() == TreeElementType.NODE)
         {
-            TreeNodeView nodeView = (TreeNodeView) selectedView;
-            TreeNode treeNode = (TreeNode) selectedView.getTreeElement();
+            TreeNode treeNode = (TreeNode) treeElement;
 
-            if(transition == null)
+            if(treeNode.getChildren().isEmpty())
             {
-                transition = new TreeTransition(treeNode, treeNode.getBoard().copy());
-            }
-
-            treeNode.getChildren().add(transition);
-            puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(transition));
-            transitionView = (TreeTransitionView) treeView.getElementView(transition);
-
-            selection.newSelection(transitionView);
-            puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeSelectionChanged(selection));
-
-            getInstance().getLegupUI().repaintTree();
-            board = (TreeTentBoard) transition.getBoard();
-            getInstance().getPuzzleModule().setCurrentBoard(board);
-            oldData = newData.copy();
-        }
-        else
-        {
-            transitionView = (TreeTransitionView) selectedView;
-            transition = transitionView.getTreeElement();
-        }
-        newSelectedView = transitionView;
-        PuzzleElement dup_line = null;
-        boolean mod_contains = false;
-        boolean contains = false;
-        final TreeTentBoard editBoard = board;
-        System.out.println("Size: " + board.getModifiedData().size());
-        for(PuzzleElement puzzleElement : board.getModifiedData())
-        {
-            if(puzzleElement instanceof TreeTentLine)
-            {
-                if(((TreeTentLine) newData).compare((TreeTentLine) puzzleElement))
+                if(transition == null)
                 {
-                    System.out.println("contains");
-                    dup_line = puzzleElement;
-                    mod_contains = true;
+                    transition = tree.addNewTransition(treeNode);
                 }
+                puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(transition));
             }
-        }
-        for(int i = 0; i < board.getLines().size(); i++)
-        {
-            if(board.getLines().get(i).compare((TreeTentLine) newData))
-            {
-                contains = true;
-            }
-        }
-        if(contains || mod_contains)
-        {
-            System.out.println("delete");
-            board.getModifiedData().remove(dup_line);
-            board.getLines().remove(dup_line);
-            puzzle.notifyBoardListeners((IBoardListener listener) -> listener.onBoardChanged(editBoard));
+
+            final TreeViewSelection newSelection = new TreeViewSelection(treeView.getElementView(transition));
+            puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
+
+            board = (TreeTentBoard) transition.getBoard();
+
         }
         else
         {
-            System.out.println("adding");
-            board.getModifiedData().add(newData);
-            board.getLines().add((TreeTentLine) newData);
-            puzzle.notifyBoardListeners((IBoardListener listener) -> listener.onBoardChanged(editBoard));
+            transition = (TreeTransition)treeElement;
         }
 
-        transition.propagateChanges(newData);
+        startCell = (TreeTentCell) board.getPuzzleElement(start.getPuzzleElement());
+        endCell = (TreeTentCell) board.getPuzzleElement(end.getPuzzleElement());
+
+        TreeTentLine line = new TreeTentLine(startCell, endCell);
+
+        TreeTentLine dupLine = null;
+        for(TreeTentLine l : board.getLines()) {
+            if(line.compare(l)) {
+                dupLine = l;
+                break;
+            }
+        }
+
+        final TreeTentLine notifyLine;
+        if(dupLine == null) {
+            board.addModifiedData(line);
+            board.getLines().add(line);
+            notifyLine = line;
+        } else {
+            board.removeModifiedData(dupLine);
+            board.getLines().remove(dupLine);
+            notifyLine = dupLine;
+        }
+
+        Board prevBoard = transition.getParents().get(0).getBoard();
+
+//        transition.propagateChanges(notifyLine);
+
+        Board finalBoard = board;
+        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
+        puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(notifyLine));
     }
 
     /**
@@ -132,15 +112,38 @@ public class EditLineCommand extends PuzzleCommand
     @Override
     public boolean canExecute()
     {
-        Board board = selectedView.getTreeElement().getBoard();
-        if(!board.isModifiable())
-        {
+        if(start == null || end == null) {
             return false;
         }
-        else if(!board.getPuzzleElement(elementView.getPuzzleElement()).isModifiable())
-        {
+
+        for(TreeElementView view : selection.getSelectedViews()) {
+            TreeElement treeElement = view.getTreeElement();
+            TreeTentBoard board = (TreeTentBoard)treeElement.getBoard();
+            if(treeElement.getType() == TreeElementType.NODE) {
+                TreeNode node = (TreeNode)treeElement;
+                if(!node.getChildren().isEmpty()) {
+                    return false;
+                }
+            } else {
+                if(!board.isModifiable()) {
+                    return false;
+                }
+            }
+            TreeTentLine line = new TreeTentLine((TreeTentCell)start.getPuzzleElement(), (TreeTentCell) end.getPuzzleElement());
+            for(TreeTentLine l : board.getLines()) {
+                if(line.compare(l) && !l.isModifiable()) {
+                    return false;
+                }
+            }
+        }
+
+        TreeTentCell startCell = (TreeTentCell)start.getPuzzleElement();
+        TreeTentCell endCell = (TreeTentCell)end.getPuzzleElement();
+        if(!((startCell.getType() == TreeTentType.TENT && endCell.getType() == TreeTentType.TREE) ||
+                (endCell.getType() == TreeTentType.TENT && startCell.getType() == TreeTentType.TREE))) {
             return false;
         }
+
         return true;
     }
 
@@ -153,15 +156,38 @@ public class EditLineCommand extends PuzzleCommand
     @Override
     public String getExecutionError()
     {
-        Board board = selectedView.getTreeElement().getBoard();
-        if(!board.isModifiable())
-        {
-            return "Board is not modifiable";
+        if(start == null || end == null) {
+            return "You must connect a tree to a tent";
         }
-        else if(!board.getPuzzleElement(elementView.getPuzzleElement()).isModifiable())
-        {
-            return "Data is not modifiable";
+
+        for(TreeElementView view : selection.getSelectedViews()) {
+            TreeElement treeElement = view.getTreeElement();
+            TreeTentBoard board = (TreeTentBoard)treeElement.getBoard();
+            if(treeElement.getType() == TreeElementType.NODE) {
+                TreeNode node = (TreeNode)treeElement;
+                if(!node.getChildren().isEmpty()) {
+                    return "Board is not modifiable";
+                }
+            } else {
+                if(!board.isModifiable()) {
+                    return "Board is not modifiable";
+                }
+            }
+            TreeTentLine line = new TreeTentLine((TreeTentCell)start.getPuzzleElement(), (TreeTentCell) end.getPuzzleElement());
+            for(TreeTentLine l : board.getLines()) {
+                if(line.compare(l) && !l.isModifiable()) {
+                    return "Data is not modifiable";
+                }
+            }
         }
+
+        TreeTentCell startCell = (TreeTentCell)start.getPuzzleElement();
+        TreeTentCell endCell = (TreeTentCell)end.getPuzzleElement();
+        if(!((startCell.getType() == TreeTentType.TENT && endCell.getType() == TreeTentType.TREE) ||
+                (endCell.getType() == TreeTentType.TENT && startCell.getType() == TreeTentType.TREE))) {
+            return "You must connect a tree to a tent";
+        }
+
         return null;
     }
 
@@ -171,41 +197,34 @@ public class EditLineCommand extends PuzzleCommand
     @Override
     public void undo()
     {
-        Tree tree = getInstance().getTree();
-        TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeViewSelection selection = treeView.getSelection();
-        BoardView boardView = getInstance().getLegupUI().getBoardView();
 
-        Board board = transition.getBoard();
+    }
 
-        if(selectedView.getType() == TreeElementType.NODE)
-        {
-            TreeNode treeNode = (TreeNode) selectedView.getTreeElement();
+    private TreeTentElementView getViewInDirection(TreeTentElementView endDrag) {
+        TreeTentView boardView = (TreeTentView)getInstance().getLegupUI().getBoardView();
+        Dimension size = boardView.getElementSize();
+        int xIndex, yIndex;
 
-            tree.removeTreeElement(transition);
-            treeView.removeTreeElement(newSelectedView);
-
-            selection.newSelection(selectedView);
-
-            getInstance().getLegupUI().repaintTree();
-            getInstance().getPuzzleModule().setCurrentBoard(treeNode.getBoard());
+        Point startLoc = start.getLocation();
+        Point endLoc = endDrag.getLocation();
+        double radians = Math.atan2(startLoc.y - endLoc.y, endLoc.x - startLoc.x);
+        if(radians >= Math.PI / 4 && radians < 3 * Math.PI / 4) {
+            //up
+            xIndex = startLoc.x / size.width;
+            yIndex = (startLoc.y / size.height) - 1;
+        } else if(radians >= -Math.PI / 4 && radians < Math.PI / 4) {
+            //right
+            xIndex = (startLoc.x / size.width) + 1;
+            yIndex = startLoc.y / size.height;
+        } else if(radians >= -3 * Math.PI / 4 && radians < -Math.PI / 4) {
+            //down
+            xIndex = startLoc.x / size.width;
+            yIndex = (startLoc.y / size.height) + 1;
+        } else {
+            //left
+            xIndex = (startLoc.x / size.width) - 1;
+            yIndex = startLoc.y / size.height;
         }
-
-        Board prevBoard =null;// transition.getParentNode().getBoard();
-
-        newData.setData(oldData.getData());
-        board.notifyChange(newData);
-
-        //System.err.println(newData.getData() + " : " + oldData.getData());
-
-        if(prevBoard.getPuzzleElement(elementView.getPuzzleElement()).equalsData(newData))
-        {
-            board.removeModifiedData(newData);
-        }
-        else
-        {
-            board.addModifiedData(newData);
-        }
-        transition.propagateChanges(newData);
+        return (TreeTentElementView) boardView.getElement(xIndex - 1, yIndex - 1);
     }
 }

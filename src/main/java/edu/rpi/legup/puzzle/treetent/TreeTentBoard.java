@@ -83,7 +83,9 @@ public class TreeTentBoard extends GridBoard
         }
         for(TreeTentLine line : lines)
         {
-            copy.getLines().add(line.copy());
+            TreeTentLine lineCpy = line.copy();
+            lineCpy.setModifiable(false);
+            copy.getLines().add(lineCpy);
         }
         return copy;
     }
