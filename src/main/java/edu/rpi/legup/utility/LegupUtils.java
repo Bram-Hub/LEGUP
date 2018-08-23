@@ -1,12 +1,16 @@
 package edu.rpi.legup.utility;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class LegupUtils {
 
@@ -25,12 +29,21 @@ public class LegupUtils {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         assert classLoader != null;
         String path = packageName.replace('.', '/');
+
+        URL url = LegupUtils.class.getProtectionDomain().getCodeSource().getLocation();
+        String jarPath = URLDecoder.decode(url.getFile(), "UTF-8");
+        if(jarPath.contains(".jar")) {
+            List<Class> css = findClassesZip(jarPath, path);
+            return css.toArray(new Class[css.size()]);
+        }
+
         Enumeration<URL> resources = classLoader.getResources(path);
         List<File> dirs = new ArrayList<>();
         while (resources.hasMoreElements()) {
             URL resource = resources.nextElement();
             dirs.add(new File(resource.getFile()));
         }
+
         ArrayList<Class> classes = new ArrayList<>();
         for (File directory : dirs) {
             classes.addAll(findClasses(directory, packageName));
@@ -63,4 +76,15 @@ public class LegupUtils {
         return classes;
     }
 
+    private static List<Class> findClassesZip(String path, String packageName) throws IOException, ClassNotFoundException {
+        List<Class> classes = new ArrayList<>();
+        ZipInputStream zip = new ZipInputStream(new FileInputStream(path));
+        for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
+            if (!entry.isDirectory() && entry.getName().endsWith(".class") && entry.getName().startsWith(packageName)) {
+                String className = entry.getName().replace('/', '.');
+                classes.add(Class.forName(className.substring(0, className.length() - ".class".length())));
+            }
+        }
+        return classes;
+    }
 }

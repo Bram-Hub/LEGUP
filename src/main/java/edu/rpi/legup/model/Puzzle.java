@@ -69,6 +69,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
 
     private void registerRules() {
         String packageName = this.getClass().getPackage().toString().replace("package ", "");
+        
         try {
             Class[] possRules = LegupUtils.getClasses(packageName);
 

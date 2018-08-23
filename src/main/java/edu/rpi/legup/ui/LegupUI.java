@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,7 +31,10 @@ import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.treeview.TreePanel;
 import edu.rpi.legup.user.Submission;
+import edu.rpi.legup.utility.LegupUtils;
 import edu.rpi.legupupdate.Update;
+import edu.rpi.legupupdate.UpdateProgress;
+import org.apache.commons.lang3.SystemUtils;
 
 import javax.swing.border.TitledBorder;
 
@@ -739,7 +743,57 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         if(ans == JOptionPane.OK_OPTION && isUpdateAvailable)
         {
             LOGGER.log(Level.INFO, "Updating Legup....");
-            update.update();
+
+            new Thread(() -> {
+                JDialog updateDialog = new JDialog(this, "Updating Legup...", true);
+                JProgressBar dpb = new JProgressBar(0, 500);
+                updateDialog.add(BorderLayout.CENTER, dpb);
+                updateDialog.add(BorderLayout.NORTH, new JLabel("Progress..."));
+                updateDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+                updateDialog.setSize(300, 75);
+                updateDialog.setResizable(false);
+                updateDialog.setLocationRelativeTo(this);
+                updateDialog.setVisible(true);
+                update.setUpdateProgress(new UpdateProgress() {
+                    double total = 0;
+
+                    @Override
+                    public void setTotalDownloads(double total) {
+                        this.total = total;
+                        dpb.setString("0 - " + total);
+                    }
+
+                    @Override
+                    public void setCurrentDownload(double current) {
+                        dpb.setValue((int)(current / total * 100));
+                        dpb.setString(current + " - " + total);
+                    }
+
+                    @Override
+                    public void setDescription(String description) {
+
+                    }
+                });
+                update.update();
+            }).start();
+        } else {
+//            if (SystemUtils.IS_OS_WINDOWS) {
+//                File java = new File(SystemUtils.JAVA_HOME);
+//                java = new File(java, "bin");
+//                java = new File(java, "javaw.exe");
+//                String javaPath = java.getPath();
+//                String legupPath = LegupUI.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+//                try {
+//                    LOGGER.severe("starting new legup");
+//                    Process process = Runtime.getRuntime().exec(new String[]{javaPath, "-jar", legupPath});
+//                    process.waitFor();
+//                    System.out.println(new String(process.getInputStream().readAllBytes()));
+//                    System.err.println(new String(process.getErrorStream().readAllBytes()));
+//
+//                } catch (InterruptedException | IOException e) {
+//                    LOGGER.severe("interrupted or io");
+//                }
+//            }
         }
     }
 

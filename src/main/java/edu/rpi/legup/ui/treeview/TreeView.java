@@ -3,18 +3,15 @@ package edu.rpi.legup.ui.treeview;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.TreeController;
 import edu.rpi.legup.model.observer.ITreeListener;
-import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.ui.ScrollView;
 import edu.rpi.legup.utility.DisjointSets;
-import javafx.animation.Transition;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
@@ -276,7 +273,7 @@ public class TreeView extends ScrollView implements ITreeListener
             graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-            newReDraw(graphics2D);
+            drawTree(graphics2D);
             //drawTree(graphics2D, tree);
             dimension.width += BORDER_SPACING;
             setSize(dimension);
@@ -492,11 +489,11 @@ public class TreeView extends ScrollView implements ITreeListener
 
     ///New Draw Methods
 
-    public void newReDraw(Graphics2D graphics2D)
+    public void drawTree(Graphics2D graphics2D)
     {
         if(tree == null)
         {
-            LOGGER.log(Level.SEVERE, "Unable to draw tree.");
+            LOGGER.severe("Unable to draw tree.");
         }
         else
         {
@@ -504,7 +501,7 @@ public class TreeView extends ScrollView implements ITreeListener
             {
                 rootNodeView = new TreeNodeView(tree.getRootNode());
 
-                LOGGER.log(Level.FINE, "Creating new views for tree view.");
+                LOGGER.fine("Creating new views for tree view.");
                 createViews(rootNodeView);
 
                 selection.newSelection(rootNodeView);
@@ -513,14 +510,14 @@ public class TreeView extends ScrollView implements ITreeListener
             dimension = new Dimension(0,0);
             calcSpan(rootNodeView);
             rootNodeView.setSpan(rootNodeView.getSpan() + DIAMETER + BORDER_SPACING);
-            System.err.println("newReDraw: Calculated span: " + rootNodeView.getSpan());
+            LOGGER.fine("DrawTree: Calculated span: " + rootNodeView.getSpan());
 
             calculateViewLocations(rootNodeView, 0);
             dimension.height = (int)rootNodeView.getSpan();
-            System.err.println("newReDraw: Calculated view positions");
+            LOGGER.fine("DrawTree: Calculated view positions");
 
             redrawTree(graphics2D, rootNodeView);
-            System.err.println("newReDraw: redrawTree\n");
+            LOGGER.fine("DrawTree: redrawTree\n");
         }
     }
 

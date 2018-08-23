@@ -24,6 +24,7 @@ DisableProgramGroupPage=yes
 OutputBaseFilename=setup
 Compression=lzma
 SolidCompression=yes
+ChangesAssociations=yes
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -34,7 +35,6 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 
 [Files]
 Source: "D:\GitHub\Legup\build\libs\Legup.jar"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\GitHub\Legup\legup-update\build\libs\legup-update-2.0.jar"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -45,3 +45,9 @@ Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Fil
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: shellexec postinstall skipifsilent
 
+[Registry]
+
+Root: HKCR; Subkey: ".legup";                             ValueData: "{#MyAppName}";          Flags: uninsdeletevalue; ValueType: string;  ValueName: ""
+Root: HKCR; Subkey: "{#MyAppName}";                     ValueData: "{#MyAppName}";  Flags: uninsdeletekey;   ValueType: string;  ValueName: ""
+Root: HKCR; Subkey: "{#MyAppName}\DefaultIcon";             ValueData: "{app}\{#MyAppExeName},0";               ValueType: string;  ValueName: ""
+Root: HKCR; Subkey: "{#MyAppName}\shell\open\command";  ValueData: """{app}\{#MyAppExeName}"" ""%1""";  ValueType: string;  ValueName: ""

@@ -19,13 +19,14 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import static edu.rpi.legupupdate.Update.Stream.CLIENT;
+
 public class Update {
 
     private static final Logger logger = Logger.getLogger(Update.class.getName());
 
     private static final String RELEASE_CHECK_URL = "https://api.github.com/repos/jpoegs/Legup2.0/releases/latest";
     private static final String REPO_BASE_URL = "https://github.com/jpoegs/Legup2.0/releases/download/";
-    private static final String ASSET_NAME = "Legup.jar";
     private static final String MAVEN_BASE_URL = "http://central.maven.org/maven2/";
     private static final String CLIENT_LIBS_LOC = "/client/client.iml";
     private static final String LIBRARY_LINE_ID = "type=\"library\"";
@@ -130,7 +131,7 @@ public class Update {
 
     private HashMap<String, String> getLibs() throws IOException {
         HashMap<String, String> libs = new HashMap<>();
-        getLibs(REPO_BASE_URL + updateVersion + "/" + ASSET_NAME, libs);
+        getLibs(REPO_BASE_URL + updateVersion + "/" + CLIENT.assetName, libs);
         return libs;
     }
 
@@ -158,7 +159,6 @@ public class Update {
             progress.setDescription("Starting update");
         }
         String jarUrl = getAssetUrl(updateStream.assetName);
-        String extraUrl = getAssetUrl(updateStream.extraName);
         if (jarUrl == null)
             return false;
         try {
@@ -169,24 +169,12 @@ public class Update {
             }
             int current = 0;
             if (progress != null) {
-                progress.setTotalDownloads(libs.size() + (extraUrl == null ? 1 : 2));
+                progress.setTotalDownloads(libs.size());
                 progress.setCurrentDownload(current);
                 progress.setDescription("Downloading " + updateStream.assetName);
             }
             downloadFile(jarUrl, new File(downloadDir, updateStream.assetName));
             current++;
-            if (extraUrl != null) {
-                if (progress != null) {
-                    progress.setCurrentDownload(current);
-                    progress.setDescription("Downloading " + updateStream.extraName);
-                }
-                File extraZip = new File(downloadDir, updateStream.extraName);
-                downloadFile(extraUrl, extraZip);
-                current++;
-                if (!extraZip.exists())
-                    throw new IOException("Failed to download extras zip");
-                unzipFile(extraZip);
-            }
             File libDir = new File(downloadDir, "lib");
             for (Map.Entry<String, String> lib : libs.entrySet()) {
                 if (progress != null) {
