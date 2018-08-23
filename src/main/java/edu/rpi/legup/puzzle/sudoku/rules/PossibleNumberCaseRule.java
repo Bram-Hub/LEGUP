@@ -162,7 +162,6 @@ public class PossibleNumberCaseRule extends CaseRule
             PuzzleElement element = newCase.getPuzzleElement(c);
             element.setData(value);
             newCase.addModifiedData(element);
-            newCase.setPuzzleElement(puzzleElement.getIndex(), element);
             cases.add(newCase);
         }
 

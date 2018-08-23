@@ -1,5 +1,6 @@
 package puzzles.nurikabe.rules;
 
+import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import edu.rpi.legup.model.tree.TreeNode;
@@ -10,6 +11,8 @@ import org.junit.Test;
 import edu.rpi.legup.puzzle.nurikabe.Nurikabe;
 import edu.rpi.legup.puzzle.nurikabe.rules.TooFewSpacesContradictionRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
+
+import java.awt.*;
 
 public class BlackOrWhiteCaseRuleTest
 {
@@ -34,17 +37,17 @@ public class BlackOrWhiteCaseRuleTest
 
         Assert.assertNull(RULE.checkContradiction(transition));
 
-        for(int i = 0; i < 9; i++)
-        {
-            if(i == 4)
-            {
-                Assert.assertNull(RULE.checkContradictionAt(transition, i));
-            }
-            else
-            {
-                Assert.assertNotNull(RULE.checkContradictionAt(transition, i));
+        NurikabeBoard board = (NurikabeBoard)transition.getBoard();
+        Point location = new Point(1, 1);
+        for(int i = 0; i < board.getHeight(); i++) {
+            for(int k = 0; k < board.getWidth(); k++) {
+                Point point  = new Point(k, i);
+                if(point.equals(location)) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                } else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
             }
         }
-
     }
 }

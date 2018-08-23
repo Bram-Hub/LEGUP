@@ -6,12 +6,14 @@ import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.rules.*;
 import edu.rpi.legup.model.tree.*;
+import edu.rpi.legup.ui.ExtendedRuleSelector;
 import edu.rpi.legup.ui.rulesview.RuleButton;
 import edu.rpi.legup.ui.treeview.*;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.ValidateBasicRuleCommand;
 import edu.rpi.legup.history.ValidateContradictionRuleCommand;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -127,5 +129,13 @@ public class RuleController implements ActionListener
         lastSource = e.getSource();
         RuleButton button = (RuleButton) lastSource;
         buttonPressed(button.getRule());
+
+//        System.err.println("Glass Pane");
+//        JPanel gpane = new ExtendedRuleSelector();
+//        GameBoardFacade.getInstance().getLegupUI().setGlassPane(gpane);
+//        gpane.setOpaque(false);
+//        gpane.setVisible(true);
+//        GameBoardFacade.getInstance().getLegupUI().revalidate();
+//        System.err.println("Size: " + gpane.getSize());
     }
 }

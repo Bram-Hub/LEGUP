@@ -14,6 +14,8 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 import edu.rpi.legup.puzzle.nurikabe.rules.WhiteBottleNeckBasicRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
 
+import java.awt.*;
+
 public class WhiteBottleNeckBasicRuleTest
 {
 
@@ -42,15 +44,14 @@ public class WhiteBottleNeckBasicRuleTest
 
         Assert.assertNull(RULE.checkRule(transition));
 
-        for(int i = 0; i < transition.getBoard().getModifiedData().size(); i++)
-        {
-            if(i == cell.getIndex())
-            {
-                Assert.assertNull(RULE.checkRuleAt(transition, i));
-            }
-            else
-            {
-                Assert.assertNotNull(RULE.checkRuleAt(transition, i));
+        for(int i = 0; i < board.getHeight(); i++) {
+            for(int k = 0; k < board.getWidth(); k++) {
+                Point point  = new Point(k, i);
+                if(point.equals(cell.getLocation())) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                } else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
             }
         }
     }
@@ -70,9 +71,10 @@ public class WhiteBottleNeckBasicRuleTest
 
         Assert.assertNotNull(RULE.checkRule(transition));
 
-        for(int i = 0; i < transition.getBoard().getModifiedData().size(); i++)
-        {
-            Assert.assertNotNull(RULE.checkRuleAt(transition, i));
+        for(int i = 0; i < board.getHeight(); i++) {
+            for(int k = 0; k < board.getWidth(); k++) {
+                Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+            }
         }
     }
 }

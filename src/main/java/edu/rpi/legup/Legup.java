@@ -23,6 +23,7 @@ public class Legup extends Application
      */
     public static void main(String[] args)
     {
+        System.setProperty("sun.java2d.noddraw", Boolean.TRUE.toString());
         GameBoardFacade.getInstance();
         setConfig();
 //        launch(args);

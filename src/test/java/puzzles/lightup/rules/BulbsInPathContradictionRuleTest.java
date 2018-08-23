@@ -1,5 +1,6 @@
 package puzzles.lightup.rules;
 
+import edu.rpi.legup.puzzle.lightup.LightUpBoard;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import edu.rpi.legup.model.PuzzleImporter;
@@ -35,11 +36,12 @@ public class BulbsInPathContradictionRuleTest
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
+        LightUpBoard board = (LightUpBoard) transition.getBoard();
         Assert.assertNull(RULE.checkContradiction(transition));
-        Assert.assertNull(RULE.checkContradictionAt(transition, 0));
-        Assert.assertNull(RULE.checkContradictionAt(transition, 2));
+        Assert.assertNull(RULE.checkContradictionAt(transition, board.getCell(0,0)));
+        Assert.assertNull(RULE.checkContradictionAt(transition, board.getCell(0,2)));
 
-        Assert.assertNotNull(RULE.checkContradictionAt(transition, 1));
+        Assert.assertNotNull(RULE.checkContradictionAt(transition, board.getCell(0,1)));
     }
 
     @Test
@@ -50,10 +52,11 @@ public class BulbsInPathContradictionRuleTest
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
+        LightUpBoard board = (LightUpBoard) transition.getBoard();
         Assert.assertNull(RULE.checkContradiction(transition));
-        Assert.assertNull(RULE.checkContradictionAt(transition, 0));
-        Assert.assertNull(RULE.checkContradictionAt(transition, 6));
+        Assert.assertNull(RULE.checkContradictionAt(transition, board.getCell(0,0)));
+        Assert.assertNull(RULE.checkContradictionAt(transition, board.getCell(0,2)));
 
-        Assert.assertNotNull(RULE.checkContradictionAt(transition, 4));
+        Assert.assertNotNull(RULE.checkContradictionAt(transition, board.getCell(1,1)));
     }
 }

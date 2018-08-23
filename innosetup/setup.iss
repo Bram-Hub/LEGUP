@@ -5,7 +5,7 @@
 #define MyAppVersion "2.0"
 #define MyAppPublisher "Bram, Inc."
 #define MyAppURL "https://github.com/jpoegs/legup2.0"
-#define MyAppExeName "Legup-2.0.jar"
+#define MyAppExeName "Legup.jar"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -33,7 +33,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "D:\GitHub\Legup\build\libs\Legup-2.0.jar"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\GitHub\Legup\build\libs\Legup.jar"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\GitHub\Legup\legup-update\build\libs\legup-update-2.0.jar"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

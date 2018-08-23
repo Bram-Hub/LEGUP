@@ -14,6 +14,8 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 import edu.rpi.legup.puzzle.nurikabe.rules.SurroundRegionBasicRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
 
+import java.awt.*;
+
 public class SurroundRegionBasicRuleTest
 {
 
@@ -51,15 +53,15 @@ public class SurroundRegionBasicRuleTest
 
         Assert.assertNull(RULE.checkRule(transition));
 
-        for(int i = 0; i < transition.getBoard().getElementCount(); i++)
-        {
-            if(i == cell1.getIndex() || i == cell2.getIndex() || i == cell3.getIndex() || i == cell4.getIndex())
-            {
-                Assert.assertNull(RULE.checkRuleAt(transition, i));
-            }
-            else
-            {
-                Assert.assertNotNull(RULE.checkRuleAt(transition, i));
+        for(int i = 0; i < board.getHeight(); i++) {
+            for(int k = 0; k < board.getWidth(); k++) {
+                Point point  = new Point(k, i);
+                if(point.equals(cell1.getLocation()) || point.equals(cell2.getLocation()) ||
+                        point.equals(cell3.getLocation()) || point.equals(cell4.getLocation())) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                } else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
             }
         }
     }
@@ -82,15 +84,14 @@ public class SurroundRegionBasicRuleTest
 
         Assert.assertNull(RULE.checkRule(transition));
 
-        for(int i = 0; i < transition.getBoard().getElementCount(); i++)
-        {
-            if(i == cell1.getIndex() || i == cell2.getIndex())
-            {
-                Assert.assertNull(RULE.checkRuleAt(transition, i));
-            }
-            else
-            {
-                Assert.assertNotNull(RULE.checkRuleAt(transition, i));
+        for(int i = 0; i < board.getHeight(); i++) {
+            for(int k = 0; k < board.getWidth(); k++) {
+                Point point  = new Point(k, i);
+                if(point.equals(cell1.getLocation()) || point.equals(cell2.getLocation())) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                } else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
             }
         }
     }

@@ -7,7 +7,6 @@ import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.ui.DynamicView;
 import edu.rpi.legup.ui.LegupUI;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
-import org.apache.commons.io.input.WindowsLineEndingInputStream;
 
 import java.awt.*;
 

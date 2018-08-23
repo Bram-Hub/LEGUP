@@ -124,8 +124,6 @@ public class EditLineCommand extends PuzzleCommand
         }
 
         transition.propagateChanges(newData);
-
-        getInstance().getLegupUI().repaintBoard();
     }
 
     /**
@@ -209,6 +207,5 @@ public class EditLineCommand extends PuzzleCommand
             board.addModifiedData(newData);
         }
         transition.propagateChanges(newData);
-        getInstance().getLegupUI().repaintBoard();
     }
 }

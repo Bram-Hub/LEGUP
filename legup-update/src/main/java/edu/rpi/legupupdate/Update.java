@@ -6,8 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.net.URL;
@@ -15,6 +13,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
@@ -22,16 +21,16 @@ import java.util.zip.ZipFile;
 
 public class Update {
 
+    private static final Logger logger = Logger.getLogger(Update.class.getName());
+
     private static final String RELEASE_CHECK_URL = "https://api.github.com/repos/jpoegs/Legup2.0/releases/latest";
-    private static final String REPO_BASE_URL = "https://raw.githubusercontent.com/jpoegs/Legup2.0/";
+    private static final String REPO_BASE_URL = "https://github.com/jpoegs/Legup2.0/releases/download/";
+    private static final String ASSET_NAME = "Legup.jar";
     private static final String MAVEN_BASE_URL = "http://central.maven.org/maven2/";
-    private static final String LIB_ARIS_LIBS_LOC = "/libaris/libaris.iml";
     private static final String CLIENT_LIBS_LOC = "/client/client.iml";
-    private static final String SERVER_LIBS_LOC = "/server/server.iml";
     private static final String LIBRARY_LINE_ID = "type=\"library\"";
     private static final Pattern LIB_PATTERN = Pattern.compile("(?<=name=\").*?(?=\")");
     private static final int UPDATE_EXIT_CODE = 52;
-    private static final Logger logger = LogManager.getLogger(Update.class);
     private File downloadDir;
     private Stream updateStream;
     private JsonObject releaseData;
@@ -41,13 +40,13 @@ public class Update {
     public static final String VERSION;
 
     static {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(Update.class.getResourceAsStream("VERSION")));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(Update.class.getResourceAsStream("/edu/rpi/legup/VERSION")));
         String version = "UNKNOWN";
         try {
             version = reader.readLine();
             reader.close();
         } catch (IOException e) {
-            logger.error("An error occurred while attempting to read the version", e);
+            logger.severe("An error occurred while attempting to read the version\n" + e.getMessage());
         }
         VERSION = version;
     }
@@ -87,7 +86,7 @@ public class Update {
                     logger.info("No update available");
             }
         } catch (IOException e) {
-            logger.error("Failed to check for update", e);
+            logger.severe("Failed to check for update\n" + e.getMessage());
         }
         return false;
     }
@@ -131,8 +130,7 @@ public class Update {
 
     private HashMap<String, String> getLibs() throws IOException {
         HashMap<String, String> libs = new HashMap<>();
-        getLibs(REPO_BASE_URL + updateVersion + LIB_ARIS_LIBS_LOC, libs);
-        getLibs(REPO_BASE_URL + updateVersion + (updateStream == Stream.CLIENT ? CLIENT_LIBS_LOC : SERVER_LIBS_LOC), libs);
+        getLibs(REPO_BASE_URL + updateVersion + "/" + ASSET_NAME, libs);
         return libs;
     }
 
@@ -150,8 +148,8 @@ public class Update {
         if (releaseData == null)
             return false;
         if (guessDevEnvironment()) {
-            logger.warn("Aris appears to be running in a development environment so automatic updating has been disabled");
-            return false;
+            logger.warning("Legup appears to be running in a development environment so automatic updating has been disabled");
+//            return false;
         }
         logger.info("Starting update");
         logger.info("Getting download list");
@@ -166,7 +164,7 @@ public class Update {
         try {
             HashMap<String, String> libs = getLibs();
             if (!downloadDir.exists() && !downloadDir.mkdirs()) {
-                logger.error("Failed to create temporary download directory");
+                logger.warning("Failed to create temporary download directory");
                 return false;
             }
             int current = 0;
@@ -205,7 +203,7 @@ public class Update {
             logger.info("Download complete");
             return true;
         } catch (IOException e) {
-            logger.error("Failed to update aris", e);
+            logger.severe("Failed to update Legup\n" + e.getMessage());
             return false;
         }
     }
@@ -236,7 +234,7 @@ public class Update {
     }
 
     public enum Stream {
-        CLIENT("legup-client.jar", "client-update.zip");
+        CLIENT("Legup.jar", "client-update.zip");
 
         public final String assetName;
         public final String extraName;

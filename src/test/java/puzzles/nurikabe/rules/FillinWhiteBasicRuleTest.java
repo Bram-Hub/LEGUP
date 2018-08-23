@@ -14,6 +14,8 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 import edu.rpi.legup.puzzle.nurikabe.rules.FillinWhiteBasicRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
 
+import java.awt.*;
+
 public class FillinWhiteBasicRuleTest
 {
     private static final FillinWhiteBasicRule RULE = new FillinWhiteBasicRule();
@@ -41,17 +43,16 @@ public class FillinWhiteBasicRuleTest
 
         Assert.assertNull(RULE.checkRule(transition));
 
-        for(int i = 0; i < transition.getBoard().getElementCount(); i++)
-        {
-            if(i == 4)
-            {
-                Assert.assertNull(RULE.checkRuleAt(transition, i));
-            }
-            else
-            {
-                Assert.assertNotNull(RULE.checkRuleAt(transition, i));
+        Point location = new Point(1, 1);
+        for(int i = 0; i < board.getHeight(); i++) {
+            for(int k = 0; k < board.getWidth(); k++) {
+                Point point  = new Point(k, i);
+                if(point.equals(location)) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                } else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
             }
         }
-
     }
 }

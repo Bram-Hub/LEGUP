@@ -20,8 +20,6 @@ import edu.rpi.legup.controller.RuleController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.ui.lookandfeel.LegupLookAndFeel;
-import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialBorders;
-import edu.rpi.legupupdate.Update;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.Board;
@@ -32,6 +30,7 @@ import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.treeview.TreePanel;
 import edu.rpi.legup.user.Submission;
+import edu.rpi.legupupdate.Update;
 
 import javax.swing.border.TitledBorder;
 
@@ -54,6 +53,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
 
     private static int CONFIG_INDEX = 0;
 
+    protected JPanel contentPane;
     protected FileDialog fileChooser;
     protected PickGameDialog pickGameDialog;
     protected JButton[] toolBarButtons;
@@ -101,7 +101,6 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
     public LegupUI()
     {
         setTitle("LEGUP");
-        setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         try {
@@ -109,6 +108,10 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         } catch(UnsupportedLookAndFeelException e) {
             System.err.println("Not supported ui look and fel");
         }
+
+        this.contentPane = new JPanel();
+        contentPane.setLayout(new BorderLayout());
+        setContentPane(contentPane);
 
         setIconImage(new ImageIcon(ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/Basic Rules.gif")).getImage());
 
@@ -145,6 +148,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
 
         setVisible(true);
 
+        this.addWindowListener(this);
         addKeyListener(new KeyAdapter() {
             /**
              * Invoked when a key has been typed.
@@ -158,7 +162,8 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
                 super.keyTyped(e);
             }
         });
-        //setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
+        setMinimumSize(getPreferredSize());
     }
 
     public static boolean profFlag(int flag)
@@ -166,24 +171,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         return !((PROF_FLAGS[CONFIG_INDEX] & flag) == 0);
     }
 
-    public void repaintBoard()
-    {
-//        boardView.onBoardChanged(GameBoardFacade.getInstance().getBoard());
-    }
-
     public void repaintTree()
     {
         treePanel.repaintTreeView(GameBoardFacade.getInstance().getTree());
-    }
-
-    public boolean checkAllowDefault()
-    {
-        return allowDefault.getState();
-    }
-
-    public boolean checkImmediateFeedback()
-    {
-        return imdFeedback.getState();
     }
 
     /**
@@ -314,11 +304,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
 
         mBar.add(about);
 
-
-    //    mBar.add(help);
-
         setJMenuBar(mBar);
-        this.addWindowListener(this);
     }
 
     // contains all the code to setup the toolbar
@@ -376,7 +362,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].setEnabled(false);
         getToolBarButtons()[ToolbarName.ANNOTATIONS.ordinal()].setEnabled(false);
 
-        add(toolBar, BorderLayout.NORTH);
+        contentPane.add(toolBar, BorderLayout.NORTH);
     }
 
     /**
@@ -384,7 +370,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
      */
     protected void setupContent()
     {
-        JPanel consoleBox = new JPanel(new BorderLayout());
+//        JPanel consoleBox = new JPanel(new BorderLayout());
         JPanel treeBox = new JPanel(new BorderLayout());
         JPanel ruleBox = new JPanel(new BorderLayout());
 
@@ -411,13 +397,14 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
 
         ruleBox.add(boardPanel);
         treeBox.add(ruleBox);
-        consoleBox.add(treeBox);
+        contentPane.add(treeBox);
+//        consoleBox.add(treeBox);
+//
+//        getContentPane().add(consoleBox);
 
-        getContentPane().add(consoleBox);
-
-        JPopupPanel popupPanel = new JPopupPanel();
-        setGlassPane(popupPanel);
-        popupPanel.setVisible(true);
+//        JPopupPanel popupPanel = new JPopupPanel();
+//        setGlassPane(popupPanel);
+//        popupPanel.setVisible(true);
 
         mainPanel.setDividerLocation(mainPanel.getMaximumDividerLocation() + 100);
         pack();
@@ -661,7 +648,6 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
 
     public void reloadGui()
     {
-        repaintBoard();
         repaintTree();
     }
 
@@ -735,9 +721,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
             updateStr = "An error occurred while attempting to update Legup...";
             JOptionPane.showMessageDialog(this, updateStr, "Update Legup", JOptionPane.ERROR_MESSAGE);
         }
-//        Update update = new Update(Update.Stream.CLIENT, jarPath);
+        Update update = new Update(Update.Stream.CLIENT, jarPath);
 
-        boolean isUpdateAvailable = true;//update.checkUpdate();
+        boolean isUpdateAvailable = update.checkUpdate();
         int ans = 0;
         if(isUpdateAvailable)
         {
@@ -753,7 +739,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         if(ans == JOptionPane.OK_OPTION && isUpdateAvailable)
         {
             LOGGER.log(Level.INFO, "Updating Legup....");
-//            update.update();
+            update.update();
         }
     }
 

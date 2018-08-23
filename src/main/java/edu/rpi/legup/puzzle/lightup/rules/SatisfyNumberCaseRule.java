@@ -11,10 +11,12 @@ import edu.rpi.legup.puzzle.lightup.LightUp;
 import edu.rpi.legup.puzzle.lightup.LightUpBoard;
 import edu.rpi.legup.puzzle.lightup.LightUpCell;
 import edu.rpi.legup.puzzle.lightup.LightUpCellType;
+import edu.rpi.legup.puzzle.sudoku.SudokuCell;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class SatisfyNumberCaseRule extends CaseRule
 {
@@ -192,6 +194,29 @@ public class SatisfyNumberCaseRule extends CaseRule
     @Override
     public String checkRuleRaw(TreeTransition transition)
     {
+        List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
+        if(childTransitions.size() != 2) {
+            return "This case rule must have 2 children.";
+        }
+
+        TreeTransition case1 = childTransitions.get(0);
+        TreeTransition case2 = childTransitions.get(1);
+        if(case1.getBoard().getModifiedData().size() != 1 ||
+                case2.getBoard().getModifiedData().size() != 1) {
+            return "This case rule must have 1 modified cell for each case.";
+        }
+
+        LightUpCell mod1 = (LightUpCell) case1.getBoard().getModifiedData().iterator().next();
+        LightUpCell mod2 = (LightUpCell) case2.getBoard().getModifiedData().iterator().next();
+        if(!mod1.getLocation().equals(mod2.getLocation())) {
+            return "This case rule must modify the same cell for each case.";
+        }
+
+        if(!((mod1.getType() == LightUpCellType.EMPTY && mod2.getType() == LightUpCellType.BULB) ||
+                (mod2.getType() == LightUpCellType.EMPTY && mod1.getType() == LightUpCellType.BULB))) {
+            return "This case rule must an empty cell and a lite cell.";
+        }
+
         return null;
     }
 
@@ -209,6 +234,56 @@ public class SatisfyNumberCaseRule extends CaseRule
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
         return null;
+    }
+
+    private List<LightUpCell> getPossibleSpots(TreeTransition transition) {
+        List<LightUpCell> spots = new ArrayList<>();
+        LightUpBoard board = (LightUpBoard) transition.getBoard();
+        Set<PuzzleElement> modCells = transition.getBoard().getModifiedData();
+        switch(modCells.size()) {
+            case 0:
+                break;
+            case 1:
+                LightUpCell c = (LightUpCell)modCells.iterator().next();
+                spots.addAll(getAdjacentCells(board, c));
+                break;
+            case 2:
+                for(PuzzleElement element : modCells) {
+
+                }
+                break;
+            case 3:
+
+                break;
+            case 4:
+
+                break;
+            default:
+                break;
+        }
+        return spots;
+    }
+
+    private List<LightUpCell> getAdjacentCells(LightUpBoard board, LightUpCell cell) {
+        List<LightUpCell> cells = new ArrayList<>();
+        Point point = cell.getLocation();
+        LightUpCell right = board.getCell(point.x + 1, point.y);
+        if(right != null) {
+            cells.add(right);
+        }
+        LightUpCell down = board.getCell(point.x, point.y + 1);
+        if(down != null) {
+            cells.add(down);
+        }
+        LightUpCell left = board.getCell(point.x - 1, point.y);
+        if(left != null) {
+            cells.add(left);
+        }
+        LightUpCell up = board.getCell(point.x, point.y - 1);
+        if(up != null) {
+            cells.add(up);
+        }
+        return cells;
     }
 
     /**

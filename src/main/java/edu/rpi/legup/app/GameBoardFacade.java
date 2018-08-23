@@ -1,5 +1,7 @@
 package edu.rpi.legup.app;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.FirebaseDatabase;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.history.IHistorySubject;
 import edu.rpi.legup.model.PuzzleImporter;
@@ -17,6 +19,7 @@ import edu.rpi.legup.history.History;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -51,6 +54,7 @@ public class GameBoardFacade implements IHistorySubject
     {
         history = new History();
         historyListeners = new ArrayList<>();
+
         LegupPreferences.getInstance();
         initializeUI();
     }
@@ -71,8 +75,13 @@ public class GameBoardFacade implements IHistorySubject
 
     public void initializeUI()
     {
-        legupUI = new LegupUI();
-        addHistoryListener(legupUI);
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                legupUI = new LegupUI();
+                addHistoryListener(legupUI);
+            }
+        });
     }
 
     public void setPuzzle(Puzzle puzzle)
