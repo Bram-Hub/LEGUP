@@ -6,6 +6,7 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.rules.RegisterRule;
 import edu.rpi.legup.model.rules.RuleType;
+import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.lightup.LightUp;
 import edu.rpi.legup.puzzle.lightup.LightUpBoard;
@@ -15,6 +16,7 @@ import edu.rpi.legup.puzzle.sudoku.SudokuCell;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -194,30 +196,60 @@ public class SatisfyNumberCaseRule extends CaseRule
     @Override
     public String checkRuleRaw(TreeTransition transition)
     {
-        List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-        if(childTransitions.size() != 2) {
-            return "This case rule must have 2 children.";
+        TreeNode parent = transition.getParents().get(0);
+        List<TreeTransition> childTransitions = parent.getChildren();
+
+        List<LightUpCell> spots = getPossibleSpots(transition);
+        if(spots == null) {
+            return "This case rule must have a valid spot for where it was applied";
         }
 
-        TreeTransition case1 = childTransitions.get(0);
-        TreeTransition case2 = childTransitions.get(1);
-        if(case1.getBoard().getModifiedData().size() != 1 ||
-                case2.getBoard().getModifiedData().size() != 1) {
-            return "This case rule must have 1 modified cell for each case.";
-        }
+        for(LightUpCell c : spots) {
+            ArrayList<Board> cases = getCases(parent.getBoard(), c);
 
-        LightUpCell mod1 = (LightUpCell) case1.getBoard().getModifiedData().iterator().next();
-        LightUpCell mod2 = (LightUpCell) case2.getBoard().getModifiedData().iterator().next();
-        if(!mod1.getLocation().equals(mod2.getLocation())) {
-            return "This case rule must modify the same cell for each case.";
+            if(cases.size() == childTransitions.size()) {
+                boolean foundSpot = true;
+                for(TreeTransition childTrans : childTransitions) {
+                    LightUpBoard actCase = (LightUpBoard)childTrans.getBoard();
+                    boolean foundBoard = false;
+                    for(Board b : cases) {
+                        LightUpBoard posCase = (LightUpBoard)b;
+                        boolean foundAllCells = false;
+                        if(posCase.getModifiedData().size() == actCase.getModifiedData().size()) {
+                            foundAllCells = true;
+                            for(PuzzleElement actEle : actCase.getModifiedData()) {
+                                LightUpCell actCell = (LightUpCell)actEle;
+                                boolean foundCell = false;
+                                for(PuzzleElement posEle : posCase.getModifiedData()) {
+                                    LightUpCell posCell = (LightUpCell)posEle;
+                                    if(actCell.getType() == posCell.getType() &&
+                                            actCell.getLocation().equals(posCell.getLocation())) {
+                                        foundCell = true;
+                                        break;
+                                    }
+                                }
+                                if(!foundCell) {
+                                    foundAllCells = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if(foundAllCells) {
+                            foundBoard = true;
+                            break;
+                        }
+                    }
+                    if(!foundBoard) {
+                        foundSpot = false;
+                        break;
+                    }
+                }
+                if(foundSpot) {
+                    return null;
+                }
+            }
         }
-
-        if(!((mod1.getType() == LightUpCellType.EMPTY && mod2.getType() == LightUpCellType.BULB) ||
-                (mod2.getType() == LightUpCellType.EMPTY && mod1.getType() == LightUpCellType.BULB))) {
-            return "This case rule must an empty cell and a lite cell.";
-        }
-
-        return null;
+        return "This case rule is not valid";
     }
 
     /**
@@ -237,31 +269,21 @@ public class SatisfyNumberCaseRule extends CaseRule
     }
 
     private List<LightUpCell> getPossibleSpots(TreeTransition transition) {
-        List<LightUpCell> spots = new ArrayList<>();
         LightUpBoard board = (LightUpBoard) transition.getBoard();
         Set<PuzzleElement> modCells = transition.getBoard().getModifiedData();
-        switch(modCells.size()) {
-            case 0:
-                break;
-            case 1:
-                LightUpCell c = (LightUpCell)modCells.iterator().next();
-                spots.addAll(getAdjacentCells(board, c));
-                break;
-            case 2:
-                for(PuzzleElement element : modCells) {
 
-                }
-                break;
-            case 3:
+        int size = modCells.size();
+        if(size == 0 || size > 4) {
+            return null;
+        } else {
+            Iterator<PuzzleElement> it = modCells.iterator();
+            List<LightUpCell> spots = getAdjacentCells(board, (LightUpCell) it.next());
 
-                break;
-            case 4:
-
-                break;
-            default:
-                break;
+            while(it.hasNext()) {
+                spots.retainAll(getAdjacentCells(board, (LightUpCell) it.next()));
+            }
+            return spots;
         }
-        return spots;
     }
 
     private List<LightUpCell> getAdjacentCells(LightUpBoard board, LightUpCell cell) {
