@@ -27,18 +27,19 @@ public class TreeToolbarPanel extends JPanel
 
         add(addChild);
         addChild.addActionListener(controller);
-        addChild.setToolTipText("Finalize CaseRule");
+        addChild.setToolTipText("Add tree element");
 
         add(delChild);
         delChild.addActionListener(controller);
-        delChild.setToolTipText("Remove currently selected node");
+        delChild.setToolTipText("Remove selected tree elements");
 
         add(merge);
         merge.addActionListener(controller);
-        merge.setToolTipText("Merge nodes");
+        merge.setToolTipText("Merge selected tree nodes");
 
         add(collapse);
         collapse.addActionListener(controller);
         collapse.setToolTipText("Collapse nodes");
+        collapse.setEnabled(false);
     }
 }

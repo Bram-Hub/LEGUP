@@ -1,8 +1,10 @@
 package edu.rpi.legup.puzzle.nurikabe.rules;
 
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.BasicRule;
 import edu.rpi.legup.model.rules.ContradictionRule;
+import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
@@ -148,33 +150,13 @@ public class CornerBlackBasicRule extends BasicRule
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node using this rule
-     * and if so will perform the default application of the rule
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
      *
-     * @param transition transition to apply default application
-     *
-     * @return true if the child node logically follow from the parent node and accepts the changes
-     * to the board, otherwise false
+     * @param node tree node used to create default transition board
+     * @return default board or null if this rule cannot be applied to this tree node
      */
     @Override
-    public boolean doDefaultApplication(TreeTransition transition)
-    {
-        return false;
-    }
-
-    /**
-     * Checks whether the child node logically follows from the parent node at the
-     * specific puzzleElement index using this rule and if so will perform the default application of the rule
-     *
-     * @param transition   transition to apply default application
-     * @param puzzleElement equivalent puzzleElement
-     *
-     * @return true if the child node logically follow from the parent node and accepts the changes
-     * to the board, otherwise false
-     */
-    @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, PuzzleElement puzzleElement)
-    {
-        return false;
+    public Board getDefaultBoard(TreeNode node) {
+        return null;
     }
 }

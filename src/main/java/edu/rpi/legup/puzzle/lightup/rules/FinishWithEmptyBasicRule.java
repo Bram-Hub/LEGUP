@@ -1,9 +1,11 @@
 package edu.rpi.legup.puzzle.lightup.rules;
 
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.BasicRule;
 import edu.rpi.legup.model.rules.RegisterRule;
 import edu.rpi.legup.model.rules.RuleType;
+import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.lightup.LightUp;
 import edu.rpi.legup.puzzle.lightup.LightUpBoard;
@@ -43,49 +45,18 @@ public class FinishWithEmptyBasicRule extends BasicRule
             return "Modified cells must be empty";
         }
 
-        Point location = cell.getLocation();
-
-        boolean isForced = isForcedEmpty(initialBoard, new Point(location.x + 1, location.y)) ||
-                isForcedEmpty(initialBoard, new Point(location.x, location.y + 1)) ||
-                isForcedEmpty(initialBoard, new Point(location.x - 1, location.y)) ||
-                isForcedEmpty(initialBoard, new Point(location.x, location.y - 1));
-
-        if(isForced)
+        if(isForced(initialBoard, cell.getLocation()))
         {
             return null;
         }
         return "Empty is not forced";
     }
 
-    /**
-     * Checks whether the child node logically follows from the parent node using this rule
-     * and if so will perform the default application of the rule
-     *
-     * @param transition transition to apply default application
-     *
-     * @return true if the child node logically follow from the parent node and accepts the changes
-     * to the board, otherwise false
-     */
-    @Override
-    public boolean doDefaultApplication(TreeTransition transition)
-    {
-        return false;
-    }
-
-    /**
-     * Checks whether the child node logically follows from the parent node at the
-     * specific puzzleElement index using this rule and if so will perform the default application of the rule
-     *
-     * @param transition   transition to apply default application
-     * @param puzzleElement
-     *
-     * @return true if the child node logically follow from the parent node and accepts the changes
-     * to the board, otherwise false
-     */
-    @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, PuzzleElement puzzleElement)
-    {
-        return false;
+    private boolean isForced(LightUpBoard board, Point location) {
+        return isForcedEmpty(board, new Point(location.x + 1, location.y)) ||
+                isForcedEmpty(board, new Point(location.x, location.y + 1)) ||
+                isForcedEmpty(board, new Point(location.x - 1, location.y)) ||
+                isForcedEmpty(board, new Point(location.x, location.y - 1));
     }
 
     private boolean isForcedEmpty(LightUpBoard board, Point loc)
@@ -119,5 +90,29 @@ public class FinishWithEmptyBasicRule extends BasicRule
             bulbs++;
         }
         return bulbs == bulbsNeeded;
+    }
+
+    /**
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+     *
+     * @param node tree node used to create default transition board
+     * @return default board or null if this rule cannot be applied to this tree node
+     */
+    @Override
+    public Board getDefaultBoard(TreeNode node) {
+        LightUpBoard initialBoard = (LightUpBoard)node.getBoard();
+        LightUpBoard lightUpBoard = (LightUpBoard)node.getBoard().copy();
+        for(PuzzleElement element : lightUpBoard.getPuzzleElements()) {
+            LightUpCell cell = (LightUpCell)element;
+            if(cell.getType() == LightUpCellType.UNKNOWN && isForced(initialBoard, cell.getLocation())) {
+                cell.setData(LightUpCellType.EMPTY.value);
+                lightUpBoard.addModifiedData(cell);
+            }
+        }
+        if(lightUpBoard.getModifiedData().isEmpty()) {
+            return null;
+        } else {
+            return lightUpBoard;
+        }
     }
 }

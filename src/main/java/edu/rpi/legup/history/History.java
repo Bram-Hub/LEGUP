@@ -12,8 +12,8 @@ public class History {
 
     /**
      * History Constructor - this holds information about changes to the board
-     * and Tree structure for undoing and redoing operations. Though edu.rpi.legup.history is
-     * an ArrayList, it is implemented like a stack. The curIndex points to the
+     * and Tree structure for undoing and redoing operations. Though history is
+     * an List, it is implemented like a stack. The curIndex points to the
      * top of the stack (where the last change was made).
      */
     public History() {
@@ -22,7 +22,7 @@ public class History {
     }
 
     /**
-     * Pushes a change to the edu.rpi.legup.history list and increments the current index.
+     * Pushes a change to the history list and increments the current index.
      * If the current index does not point to the top of the stack, then at least
      * 1 undo operation was called and that information will be lost by the next change
      *
@@ -68,12 +68,12 @@ public class History {
     }
 
     /**
-     * Clears all actions from the edu.rpi.legup.history stack
+     * Clears all actions from the history stack
      */
     public void clear() {
         history.clear();
         curIndex = -1;
-        GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onClearHistory());
+        GameBoardFacade.getInstance().notifyHistoryListeners(IHistoryListener::onClearHistory);
     }
 
     /**
@@ -88,7 +88,7 @@ public class History {
     /**
      * Gets the amount of actions that have been pushed onto the stack
      *
-     * @return size of the edu.rpi.legup.history stack
+     * @return size of the history stack
      */
     public int size() {
         return history.size();

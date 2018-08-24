@@ -58,7 +58,11 @@ public class RuleController implements ActionListener {
                     if(LegupPreferences.getInstance().getUserPref(LegupPreferences.AUTO_GENERATE_CASES).equalsIgnoreCase(Boolean.toString(true))) {
                         CaseBoard caseBoard = caseRule.getCaseBoard(element.getBoard());
 
-                        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(caseBoard));
+                        if(caseBoard.getCount() > 0) {
+                            puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(caseBoard));
+                        } else {
+                            updateErrorString = "This board cannot be applied with this case rule.";
+                        }
                     } else {
                         updateErrorString = "Auto generated case rules are turned off in preferences.";
                     }
@@ -81,7 +85,8 @@ public class RuleController implements ActionListener {
                 updateErrorString = validate.getError();
             }
         } else {
-            ICommand validate = new ValidateBasicRuleCommand(selection, rule);
+            boolean def = LegupPreferences.getInstance().getUserPref(LegupPreferences.ALLOW_DEFAULT_RULES).equalsIgnoreCase(Boolean.toString(true));
+            ICommand validate = def ? new ApplyDefaultBasicRuleCommand(selection, (BasicRule) rule) : new ValidateBasicRuleCommand(selection, rule);
             if (validate.canExecute()) {
                 getInstance().getHistory().pushChange(validate);
                 validate.execute();

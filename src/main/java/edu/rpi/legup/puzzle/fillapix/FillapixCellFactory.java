@@ -44,7 +44,7 @@ public class FillapixCellFactory extends ElementFactory
             {
                 throw new InvalidFileFormatException("Fillapix Factory: cell location out of bounds");
             }
-            if(value < -50 || value > 50)
+            if(value / 100 > 2 || value % 100 > 10)
             {
                 throw new InvalidFileFormatException("Fillapix Factory: cell unknown value");
             }

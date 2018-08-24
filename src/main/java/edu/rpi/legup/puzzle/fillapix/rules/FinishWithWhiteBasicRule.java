@@ -3,11 +3,11 @@ package edu.rpi.legup.puzzle.fillapix.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.BasicRule;
+import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
 import edu.rpi.legup.puzzle.fillapix.FillapixCell;
-
-import java.util.ArrayList;
+import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
 
 public class FinishWithWhiteBasicRule extends BasicRule
 {
@@ -21,63 +21,51 @@ public class FinishWithWhiteBasicRule extends BasicRule
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
-        FillapixBoard fillapixBoard = (FillapixBoard) transition.getBoard();
-        int width = fillapixBoard.getWidth();
-        int height = fillapixBoard.getHeight();
-        FillapixCell cell = (FillapixCell) fillapixBoard.getPuzzleElement(puzzleElement);
+        FillapixBoard board = (FillapixBoard) transition.getBoard();
+        FillapixBoard parentBoard = (FillapixBoard) transition.getParents().get(0).getBoard();
+        FillapixCell cell = (FillapixCell) board.getPuzzleElement(puzzleElement);
+        FillapixCell parentCell = (FillapixCell) parentBoard.getPuzzleElement(puzzleElement);
 
-        BlackOrWhiteCaseRule blackOrWhite = new BlackOrWhiteCaseRule();
+        if(!(parentCell.getType() == FillapixCellType.UNKNOWN && cell.getType() == FillapixCellType.WHITE)) {
+            return "This cell must be white to be applicable with this rule.";
+        }
+
+        if(isForcedWhite(parentBoard, cell)) {
+            return null;
+        } else {
+            return "This cell is not forced to be white";
+        }
+    }
+
+    private boolean isForcedWhite(FillapixBoard board, FillapixCell cell) {
         TooManyBlackCellsContradictionRule tooManyBlackCells = new TooManyBlackCellsContradictionRule();
+        FillapixBoard blackCaseBoard = board.copy();
+        FillapixCell blackCell = (FillapixCell) blackCaseBoard.getPuzzleElement(cell);
+        blackCell.setType(FillapixCellType.BLACK);
+        TreeTransition blackCase = new TreeTransition(blackCaseBoard);
+        return tooManyBlackCells.checkContradictionAt(blackCase, cell) == null;
+    }
 
-        FillapixBoard currentBoard = (FillapixBoard) transition.getParents().get(0).getBoard();
-        // See note in Finish with Black because the same thing applies here for this method
-        for(int i = -1; i < 2; i++)
-        {
-            for(int j = -1; j < 2; j++)
-            {
-                int x = cell.getLocation().x + i;
-                int y = cell.getLocation().y + j;
-                if(x > -1 && x < width && y > -1 && y < height)
-                {
-                    // boolean parentCellUnknown = ((FillapixBoard) transition.getParents().getBoard()).getCell(x,y).isUnknown();
-                    // if (parentCellUnknown && !fillapixBoard.getCell(x,y).isWhite()) {
-                    //     return "All the changes you made must be white to apply this rule.";
-                    // }
-
-                    FillapixCell curCell = currentBoard.getCell(x, y);
-                    ArrayList<Board> cases = blackOrWhite.getCases(currentBoard, curCell);
-                    for(Board caseBoard : cases)
-                    {
-                        String contradiction = tooManyBlackCells.checkContradictionAt((FillapixBoard) caseBoard, x * width + y);
-                        FillapixCell caseCell = ((FillapixBoard) caseBoard).getCell(x, y);
-                        if(caseCell.hasSameState(fillapixBoard.getCell(x, y)))
-                        {
-                            if(contradiction == null)
-                            { // is a contradiction
-                                return "Incorrect use of Finish with Black, your answer leads to a contradiction.";
-                            }
-                            else
-                            {
-                                currentBoard = (FillapixBoard) caseBoard;
-                                break;
-                            }
-                        }
-                    }
-                }
+    /**
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+     *
+     * @param node tree node used to create default transition board
+     * @return default board or null if this rule cannot be applied to this tree node
+     */
+    @Override
+    public Board getDefaultBoard(TreeNode node) {
+        FillapixBoard fillapixBoard = (FillapixBoard)node.getBoard().copy();
+        for(PuzzleElement element : fillapixBoard.getPuzzleElements()) {
+            FillapixCell cell = (FillapixCell)element;
+            if(cell.getType() == FillapixCellType.UNKNOWN && isForcedWhite((FillapixBoard) node.getBoard(), cell)) {
+                cell.setType(FillapixCellType.WHITE);
+                fillapixBoard.addModifiedData(cell);
             }
         }
-        return null;
-    }
-
-    @Override
-    public boolean doDefaultApplication(TreeTransition transition)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, PuzzleElement puzzleElement)
-    {
-        return false;
+        if(fillapixBoard.getModifiedData().isEmpty()) {
+            return null;
+        } else {
+            return fillapixBoard;
+        }
     }
 }

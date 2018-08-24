@@ -63,11 +63,8 @@ public class FillapixImporter extends PuzzleImporter
             {
                 FillapixCell cell = (FillapixCell)puzzle.getFactory().importCell(elementDataList.item(i), fillapixBoard);
                 Point loc = cell.getLocation();
-                if(cell.getData() != -1)
-                {
-                    cell.setModifiable(true);
-                    cell.setGiven(true);
-                }
+                cell.setModifiable(true);
+                cell.setGiven(true);
                 fillapixBoard.setCell(loc.x, loc.y, cell);
             }
 
@@ -77,7 +74,7 @@ public class FillapixImporter extends PuzzleImporter
                 {
                     if(fillapixBoard.getCell(x, y) == null)
                     {
-                        FillapixCell cell = new FillapixCell(-1, new Point(x, y));
+                        FillapixCell cell = new FillapixCell(FillapixCell.DEFAULT_VALUE, new Point(x, y));
                         cell.setIndex(y * height + x);
                         cell.setModifiable(true);
                         fillapixBoard.setCell(x, y, cell);

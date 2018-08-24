@@ -50,14 +50,14 @@ public class Tree
         if(element.getType() == TreeElementType.NODE)
         {
             TreeNode treeNode = (TreeNode)element;
-            Board copyBoard = treeNode.board.copy();
-            copyBoard.setModifiable(false);
-            return addTreeElement(treeNode, new TreeTransition(treeNode, copyBoard));
+            return addTreeElement(treeNode, new TreeTransition(treeNode, treeNode.getBoard().copy()));
         }
         else
         {
             TreeTransition transition = (TreeTransition)element;
-            return addTreeElement(transition, new TreeNode(transition.getBoard().copy()));
+            Board copyBoard = transition.board.copy();
+            copyBoard.setModifiable(false);
+            return addTreeElement(transition, new TreeNode(copyBoard));
         }
     }
 

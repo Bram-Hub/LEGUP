@@ -1,9 +1,11 @@
 package edu.rpi.legup.puzzle.lightup.rules;
 
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.BasicRule;
 import edu.rpi.legup.model.rules.RegisterRule;
 import edu.rpi.legup.model.rules.RuleType;
+import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.lightup.LightUp;
 import edu.rpi.legup.puzzle.lightup.LightUpBoard;
@@ -47,37 +49,6 @@ public class EmptyCornersBasicRule extends BasicRule
         return null;
     }
 
-    /**
-     * Checks whether the child node logically follows from the parent node using this rule
-     * and if so will perform the default application of the rule
-     *
-     * @param transition transition to apply default application
-     *
-     * @return true if the child node logically follow from the parent node and accepts the changes
-     * to the board, otherwise false
-     */
-    @Override
-    public boolean doDefaultApplication(TreeTransition transition)
-    {
-        return false;
-    }
-
-    /**
-     * Checks whether the child node logically follows from the parent node at the
-     * specific puzzleElement index using this rule and if so will perform the default application of the rule
-     *
-     * @param transition   transition to apply default application
-     * @param puzzleElement
-     *
-     * @return true if the child node logically follow from the parent node and accepts the changes
-     * to the board, otherwise false
-     */
-    @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, PuzzleElement puzzleElement)
-    {
-        return false;
-    }
-
     private boolean isForcedEmpty(LightUpBoard board, LightUpCell cell, Point loc)
     {
         if(cell == null || cell.getType() != LightUpCellType.NUMBER)
@@ -119,5 +90,17 @@ public class EmptyCornersBasicRule extends BasicRule
             bulbs++;
         }
         return bulbs == bulbsNeeded;
+    }
+
+    /**
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+     *
+     * @param node tree node used to create default transition board
+     * @return default board or null if this rule cannot be applied to this tree node
+     */
+    @Override
+    public Board getDefaultBoard(TreeNode node) {
+        LightUpBoard lightUpBoard = (LightUpBoard)node.getBoard().copy();
+        return null;
     }
 }

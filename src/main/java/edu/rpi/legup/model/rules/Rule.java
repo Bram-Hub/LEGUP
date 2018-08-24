@@ -74,29 +74,6 @@ public abstract class Rule
     protected abstract String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement);
 
     /**
-     * Checks whether the child node logically follows from the parent node using this rule
-     * and if so will perform the default application of the rule
-     *
-     * @param transition transition to apply default application
-     *
-     * @return true if the child node logically follow from the parent node and accepts the changes
-     * to the board, otherwise false
-     */
-    public abstract boolean doDefaultApplication(TreeTransition transition);
-
-    /**
-     * Checks whether the child node logically follows from the parent node at the
-     * specific puzzleElement index using this rule and if so will perform the default application of the rule
-     *
-     * @param transition transition to apply default application
-     * @param puzzleElement equivalent puzzleElement
-     *
-     * @return true if the child node logically follow from the parent node and accepts the changes
-     * to the board, otherwise false
-     */
-    public abstract boolean doDefaultApplicationAt(TreeTransition transition, PuzzleElement puzzleElement);
-
-    /**
      * Loads the image file
      */
     private void loadImage()

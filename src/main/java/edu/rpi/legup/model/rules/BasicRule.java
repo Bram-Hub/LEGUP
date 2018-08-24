@@ -2,6 +2,7 @@ package edu.rpi.legup.model.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 
 import static edu.rpi.legup.model.rules.RuleType.BASIC;
@@ -81,4 +82,12 @@ public abstract class BasicRule extends Rule {
             return checkRuleRawAt(transition, puzzleElement);
         }
     }
+
+    /**
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+     *
+     * @param node tree node used to create default transition board
+     * @return default board or null if this rule cannot be applied to this tree node
+     */
+    public abstract Board getDefaultBoard(TreeNode node);
 }

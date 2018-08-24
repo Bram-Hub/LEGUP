@@ -163,7 +163,7 @@ public class PreferencesDialog extends JDialog {
 
         allowDefault = new JCheckBox("Allow Default Rule Applications", Boolean.valueOf(prefs.getUserPref(LegupPreferences.ALLOW_DEFAULT_RULES)));
         allowDefault.setToolTipText("If checked this automatically applies a rule where it can on the board");
-        allowDefault.setEnabled(false);
+
         JPanel allowDefaultRow = new JPanel();
         allowDefaultRow.setLayout(new BorderLayout());
         allowDefaultRow.add(allowDefault, BorderLayout.WEST);

@@ -98,6 +98,7 @@ public class LightUpBoard extends GridBoard
                 copy.setCell(x, y, getCell(x, y).copy());
             }
         }
+        copy.fillWithLight();
         return copy;
     }
 }

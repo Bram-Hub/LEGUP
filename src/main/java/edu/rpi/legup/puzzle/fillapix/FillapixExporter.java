@@ -25,7 +25,7 @@ public class FillapixExporter extends PuzzleExporter
         for(PuzzleElement puzzleElement : board.getPuzzleElements())
         {
             FillapixCell cell = (FillapixCell) puzzleElement;
-            if(cell.getData() != -50)
+            if(cell.getNumber() != -1 || cell.getType() != FillapixCellType.UNKNOWN)
             {
                 org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
                 cellsElement.appendChild(cellElement);

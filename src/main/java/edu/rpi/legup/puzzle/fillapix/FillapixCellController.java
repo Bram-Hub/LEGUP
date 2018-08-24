@@ -3,14 +3,14 @@ package edu.rpi.legup.puzzle.fillapix;
 import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 
-import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class FillapixCellController extends ElementController
 {
     @Override
-    public void changeCell(MouseEvent e, PuzzleElement data)
+    public void changeCell(MouseEvent e, PuzzleElement puzzleElement)
     {
+        FillapixCell cell = (FillapixCell)puzzleElement;
         if(e.getButton() == MouseEvent.BUTTON1)
         {
             if(e.isControlDown())
@@ -19,19 +19,17 @@ public class FillapixCellController extends ElementController
             }
             else
             {
-                Point location = new Point(data.getIndex() / boardView.getWidth(), data.getIndex() % boardView.getWidth());
-                FillapixCell cell = new FillapixCell((Integer) data.getData(), location);
-                if(cell.isUnknown())
+                if(cell.getType() == FillapixCellType.UNKNOWN)
                 {
-                    data.setData(cell.getData() + FillapixCell.BLACK);
+                    cell.setType(FillapixCellType.BLACK);
                 }
-                else if(cell.isBlack())
+                else if(cell.getType() == FillapixCellType.BLACK)
                 {
-                    data.setData(cell.getData() + FillapixCell.WHITE);
+                    cell.setType(FillapixCellType.WHITE);
                 }
-                else if(cell.isWhite())
+                else if(cell.getType() == FillapixCellType.WHITE)
                 {
-                    data.setData(cell.getData() + FillapixCell.UNKNOWN);
+                    cell.setType(FillapixCellType.UNKNOWN);
                 }
             }
         }

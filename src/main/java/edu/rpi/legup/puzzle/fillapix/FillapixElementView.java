@@ -1,6 +1,5 @@
 package edu.rpi.legup.puzzle.fillapix;
 
-import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.ui.boardview.GridElementView;
 
 import java.awt.*;
@@ -8,15 +7,14 @@ import java.awt.*;
 public class FillapixElementView extends GridElementView
 {
     private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
-    private static final Color FONT_COLOR = Color.BLACK;
-    private static final Color GREY = new Color(200, 200, 200);
-    private static final Color BORDER_COLOR = Color.BLACK;
-    public static FillapixCell fillapixCell;
 
-    public FillapixElementView(GridCell cell)
+    private static final Color BLACK_COLOR = new Color(0x212121);
+    private static final Color WHITE_COLOR = new Color(0xF5F5F5);
+    private static final Color GRAY_COLOR = new Color(0x9E9E9E);
+
+    public FillapixElementView(FillapixCell cell)
     {
         super(cell);
-        fillapixCell = (FillapixCell) puzzleElement;
     }
 
     /**
@@ -38,53 +36,31 @@ public class FillapixElementView extends GridElementView
     @Override
     public void drawElement(Graphics2D graphics2D)
     {
-        FillapixCell cell = new FillapixCell((Integer) puzzleElement.getData(), location);
-
-        Color cellColor = null;
-        Color textColor = FONT_COLOR;
-        if(cell.isUnknown())
-        {
-            cellColor = GREY;
+        FillapixCell cell = (FillapixCell) puzzleElement;
+        FillapixCellType type = cell.getType();
+        graphics2D.setStroke(new BasicStroke(1));
+        switch(type) {
+            case UNKNOWN:
+                graphics2D.setColor(GRAY_COLOR);
+                break;
+            case BLACK:
+                graphics2D.setColor(BLACK_COLOR);
+                break;
+            default:
+                graphics2D.setColor(WHITE_COLOR);
+                break;
         }
-        else if(cell.isBlack())
-        {
-            cellColor = Color.BLACK;
-            textColor = GREY;
-        }
-        else if(cell.isWhite())
-        {
-            cellColor = Color.WHITE;
-        }
-        graphics2D.setColor(cellColor);
-        graphics2D.fillRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
-
-        if(cell.isGiven())
-        {
-            graphics2D.setColor(textColor);
+        graphics2D.fillRect(location.x, location.y, size.width, size.height);
+        if(cell.getNumber() != -1) {
+            graphics2D.setColor(type == FillapixCellType.WHITE ? BLACK_COLOR : WHITE_COLOR);
             graphics2D.setFont(FONT);
             FontMetrics metrics = graphics2D.getFontMetrics(FONT);
-            String val = String.valueOf(cell.getClue());
-            int xText = location.x + (size.width - metrics.stringWidth(val)) / 2;
+            String value = String.valueOf(cell.getNumber());
+            int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-            graphics2D.drawString(String.valueOf(cell.getClue()), xText, yText);
+            graphics2D.drawString(value, xText, yText);
         }
-
-        graphics2D.setStroke(new BasicStroke(1));
-        graphics2D.setColor(Color.BLACK);
+        graphics2D.setColor(BLACK_COLOR);
         graphics2D.drawRect(location.x, location.y, size.width, size.height);
-
-        if(isHover())
-        {
-            graphics2D.setColor(new Color(63, 101, 244));
-            graphics2D.setStroke(new BasicStroke(2));
-            graphics2D.drawRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
-        }
-
-        if(puzzleElement.isModified())
-        {
-            graphics2D.setStroke(new BasicStroke(2));
-            graphics2D.setColor(Color.GREEN);
-            graphics2D.drawRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
-        }
     }
 }

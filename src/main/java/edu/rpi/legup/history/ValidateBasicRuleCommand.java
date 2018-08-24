@@ -32,7 +32,6 @@ public class ValidateBasicRuleCommand extends PuzzleCommand {
     public void executeCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-        TreeViewSelection selection = treeView.getSelection();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         final TreeViewSelection newSelection = new TreeViewSelection();
 

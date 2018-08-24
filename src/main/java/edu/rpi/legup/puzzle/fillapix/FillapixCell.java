@@ -1,97 +1,41 @@
 package edu.rpi.legup.puzzle.fillapix;
 
 import edu.rpi.legup.model.gameboard.GridCell;
+import edu.rpi.legup.utility.Entry;
 
 import java.awt.*;
 
-public class FillapixCell extends GridCell<Integer>
-{
-    public static final int UNKNOWN = -50;
-    public static final int BLACK = 20;
-    public static final int WHITE = 30;
-    private int state;
-    private int clue;
+public class FillapixCell extends GridCell<Integer> {
 
-    public FillapixCell(int value, Point location)
-    {
+    public static final int DEFAULT_VALUE = 10;
+
+    public FillapixCell(int value, Point location) {
         super(value, location);
-        state = (value / 10) * 10;
-        clue = -1;
-        if(FillapixCell.isGiven(value))
-        {
-            clue = value % 10;
-            setGiven(true);
+    }
+
+    public int getNumber() {
+        int temp = (data % 100);
+        return temp == 10 ? -1 : temp;
+    }
+
+    public void setNumber(int number) {
+        int temp = number == -1 ? 10 : number;
+        data = (data / 100) * 100 + temp;
+    }
+
+    public FillapixCellType getType() {
+        switch (data / 100) {
+            case 0:
+                return FillapixCellType.UNKNOWN;
+            case 1:
+                return FillapixCellType.BLACK;
+            default:
+                return FillapixCellType.WHITE;
         }
     }
 
-    public static boolean isGiven(int value)
-    {
-        return value != -1 && value != 19 && value != 49;
-    }
-
-    public static int getState(int value)
-    {
-        return (value / 10) * 10;
-    }
-
-    public static boolean isUnknown(int valueInt)
-    {
-        return (getState(valueInt) == 0);
-    }
-
-    public static boolean isBlack(int valueInt)
-    {
-        return getState(valueInt) == 20 || getState(valueInt) == 10;
-    }
-
-    public static boolean isWhite(int valueInt)
-    {
-        return getState(valueInt) == 50 || getState(valueInt) == 40;
-    }
-
-    public int getClue()
-    {
-        return clue;
-    }
-
-     /**
-     * Gets flag to indicate if this the state is black, white, or unknown
-     *
-     * @return CellState, whether the cell is black, white, or unknown
-     */
-    public int getState()
-    {
-        return state;
-    }
-
-    /**
-     * Sets flag to indicate if this is part of the original board
-     *
-     * @param state if the value is given for this cell, false otherwise
-     */
-    public void setState(int state)
-    {
-        this.state = state;
-    }
-
-    public boolean isUnknown()
-    {
-        return isUnknown(getState());
-    }
-
-    public boolean isBlack()
-    {
-        return isBlack(getState());
-    }
-
-    public boolean isWhite()
-    {
-        return isWhite(getState());
-    }
-
-    public boolean hasSameState(FillapixCell cell)
-    {
-        return ((this.isUnknown() && cell.isUnknown()) || (this.isBlack() && cell.isBlack()) || (this.isWhite() && cell.isWhite()));
+    public void setType(FillapixCellType type) {
+        data = type.value * 100 + (data % 100);
     }
 
     /**
@@ -100,12 +44,10 @@ public class FillapixCell extends GridCell<Integer>
      * @return a new copy of the FillapixCell that is independent of this one
      */
     @Override
-    public FillapixCell copy()
-    {
+    public FillapixCell copy() {
         FillapixCell cell = new FillapixCell(data, (Point) location.clone());
         cell.setIndex(index);
         cell.setModifiable(isModifiable);
-        cell.setState(state);
         return cell;
     }
 }

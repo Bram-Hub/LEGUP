@@ -13,7 +13,8 @@ public enum CommandError {
     CONTAINS_MERGE("The selection contains a merging transition."),
     NO_CHILDREN("The selection contains a tree node that has children."),
     SELECTION_CONTAINS_NODE("The selection contains a tree node."),
-    SELECTION_CONTAINS_TRANSITION("The selection contains a tree transition.");
+    SELECTION_CONTAINS_TRANSITION("The selection contains a tree transition."),
+    DEFAULT_APPLICATION("[Apply Default Rule Application]");
 
     private String value;
     CommandError(String value) {

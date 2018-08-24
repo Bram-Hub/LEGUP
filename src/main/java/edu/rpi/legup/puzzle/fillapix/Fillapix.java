@@ -5,15 +5,11 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.puzzle.fillapix.rules.*;
 import edu.rpi.legup.ui.boardview.BoardView;
 
-public class Fillapix extends Puzzle
-{
-    private FillapixView boardView;
-
+public class Fillapix extends Puzzle {
     /**
      * Fillapix Constructor
      */
-    public Fillapix()
-    {
+    public Fillapix() {
         super();
 
         this.name = "Fillapix";
@@ -22,44 +18,33 @@ public class Fillapix extends Puzzle
         this.exporter = new FillapixExporter(this);
 
         this.factory = new FillapixCellFactory();
-
     }
 
     /**
      * Initializes the game board
      */
     @Override
-    public void initializeView()
-    {
+    public void initializeView() {
         boardView = new FillapixView((FillapixBoard) currentBoard);
     }
 
     @Override
-    public Board generatePuzzle(int difficulty)
-    {
+    public Board generatePuzzle(int difficulty) {
         return null;
     }
 
     @Override
-    public boolean isPuzzleComplete()
-    {
+    public boolean isPuzzleComplete() {
         return false;
     }
 
     @Override
-    public boolean isBoardComplete(Board board)
-    {
+    public boolean isBoardComplete(Board board) {
         return false;
     }
 
     @Override
-    public void onBoardChange(Board board)
-    {
+    public void onBoardChange(Board board) {
 
-    }
-
-    public BoardView getBoardView()
-    {
-        return boardView;
     }
 }

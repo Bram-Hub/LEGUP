@@ -7,6 +7,7 @@ import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
 import edu.rpi.legup.puzzle.fillapix.FillapixCell;
+import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class BlackOrWhiteCaseRule extends CaseRule {
         fillapixBoard.setModifiable(false);
         for (PuzzleElement data: fillapixBoard.getPuzzleElements()) {
             FillapixCell cell = (FillapixCell) data;
-            if(FillapixCell.isUnknown(cell.getData())) {
+            if(cell.getType() == FillapixCellType.UNKNOWN) {
                 caseBoard.addPickableElement(data);
             }
         }
@@ -38,13 +39,13 @@ public class BlackOrWhiteCaseRule extends CaseRule {
 
         Board case1 = board.copy();
         FillapixCell cell1 = (FillapixCell) case1.getPuzzleElement(puzzleElement);
-        cell1.setData(cell1.getData() + FillapixCell.BLACK);
+        cell1.setType(FillapixCellType.BLACK);
         case1.addModifiedData(cell1);
         cases.add(case1);
 
         Board case2 = board.copy();
         FillapixCell cell2 = (FillapixCell) case2.getPuzzleElement(puzzleElement);
-        cell2.setData(cell2.getData() + FillapixCell.BLACK + FillapixCell.WHITE);
+        cell2.setType(FillapixCellType.WHITE);
         case2.addModifiedData(cell2);
         cases.add(case2);
 
@@ -71,7 +72,8 @@ public class BlackOrWhiteCaseRule extends CaseRule {
             return "This case rule must modify the same cell for each case.";
         }
 
-        if(!((mod1.isBlack() && mod2.isWhite()) || (mod2.isBlack() && mod1.isWhite()))) {
+        if(!((mod1.getType() == FillapixCellType.BLACK && mod2.getType() == FillapixCellType.WHITE)
+                || (mod2.getType() == FillapixCellType.BLACK && mod1.getType() == FillapixCellType.WHITE))) {
             return "This case rule must an empty cell and a lite cell.";
         }
 
@@ -80,10 +82,4 @@ public class BlackOrWhiteCaseRule extends CaseRule {
 
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) { return null; }
-
-    @Override
-    public boolean doDefaultApplication(TreeTransition transition) { return false; }
-
-    @Override
-    public boolean doDefaultApplicationAt(TreeTransition transition, PuzzleElement puzzleElement) { return false; }
 }
