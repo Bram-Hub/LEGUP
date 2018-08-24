@@ -5,8 +5,8 @@ import edu.rpi.legup.app.GameBoardFacade;
 import java.util.ArrayList;
 import java.util.List;
 
-public class History
-{
+public class History {
+    private final Object lock = new Object();
     private List<ICommand> history;
     private int curIndex;
 
@@ -16,8 +16,7 @@ public class History
      * an ArrayList, it is implemented like a stack. The curIndex points to the
      * top of the stack (where the last change was made).
      */
-    public History()
-    {
+    public History() {
         history = new ArrayList<>();
         curIndex = -1;
     }
@@ -29,16 +28,11 @@ public class History
      *
      * @param command command to be pushed onto the stack
      */
-    public void pushChange(ICommand command)
-    {
-        if(curIndex == history.size() - 1)
-        {
+    public void pushChange(ICommand command) {
+        if (curIndex == history.size() - 1) {
             history.add(command);
-        }
-        else
-        {
-            for(int i = curIndex + 1; i < history.size(); i++)
-            {
+        } else {
+            for (int i = curIndex + 1; i < history.size(); i++) {
                 history.remove(i);
             }
             history.add(command);
@@ -50,32 +44,31 @@ public class History
     /**
      * Undoes an action
      */
-    public void undo()
-    {
-        if(curIndex > -1)
-        {
-            history.get(curIndex--).undo();
-            GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onUndo(curIndex < 0, curIndex == history.size() - 1));
+    public void undo() {
+        synchronized (lock) {
+            if (curIndex > -1) {
+                history.get(curIndex--).undo();
+                GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onUndo(curIndex < 0, curIndex == history.size() - 1));
+            }
         }
     }
 
     /**
      * Redoes an action
      */
-    public void redo()
-    {
-        if(curIndex < history.size() - 1)
-        {
-            history.get(++curIndex).redo();
-            GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onRedo(curIndex < 0, curIndex == history.size() - 1));
+    public void redo() {
+        synchronized (lock) {
+            if (curIndex < history.size() - 1) {
+                history.get(++curIndex).redo();
+                GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onRedo(curIndex < 0, curIndex == history.size() - 1));
+            }
         }
     }
 
     /**
      * Clears all actions from the edu.rpi.legup.history stack
      */
-    public void clear()
-    {
+    public void clear() {
         history.clear();
         curIndex = -1;
         GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onClearHistory());
@@ -86,8 +79,7 @@ public class History
      *
      * @return index of the action on top of the stack
      */
-    public int getIndex()
-    {
+    public int getIndex() {
         return curIndex;
     }
 
@@ -96,8 +88,7 @@ public class History
      *
      * @return size of the edu.rpi.legup.history stack
      */
-    public int size()
-    {
+    public int size() {
         return history.size();
     }
 }
