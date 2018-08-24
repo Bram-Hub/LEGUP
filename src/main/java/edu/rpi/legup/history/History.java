@@ -29,16 +29,18 @@ public class History {
      * @param command command to be pushed onto the stack
      */
     public void pushChange(ICommand command) {
-        if (curIndex == history.size() - 1) {
-            history.add(command);
-        } else {
-            for (int i = curIndex + 1; i < history.size(); i++) {
-                history.remove(i);
+        synchronized (lock) {
+            if (curIndex == history.size() - 1) {
+                history.add(command);
+            } else {
+                for (int i = curIndex + 1; i < history.size(); i++) {
+                    history.remove(i);
+                }
+                history.add(command);
             }
-            history.add(command);
+            curIndex++;
+            GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onPushChange(command));
         }
-        curIndex++;
-        GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onPushChange(command));
     }
 
     /**
