@@ -31,7 +31,7 @@ public class CaseBoard extends Board
 
     public boolean isPickable(PuzzleElement puzzleElement, MouseEvent e)
     {
-        return pickablePuzzleElements.contains(puzzleElement);
+        return pickablePuzzleElements.contains(baseBoard.getPuzzleElement(puzzleElement));
     }
 
     public Board getBaseBoard()

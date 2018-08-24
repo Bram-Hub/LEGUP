@@ -8,8 +8,7 @@ import edu.rpi.legup.ui.treeview.*;
 
 import java.util.List;
 
-public class DeleteTreeElementCommand extends PuzzleCommand
-{
+public class DeleteTreeElementCommand extends PuzzleCommand {
     private TreeViewSelection selection;
 
     /**
@@ -17,17 +16,15 @@ public class DeleteTreeElementCommand extends PuzzleCommand
      *
      * @param selection the currently selected tree elements before the command is executed
      */
-    public DeleteTreeElementCommand(TreeViewSelection selection)
-    {
-        this.selection = selection;
+    public DeleteTreeElementCommand(TreeViewSelection selection) {
+        this.selection = selection.copy();
     }
 
     /**
      * Executes an command
      */
     @Override
-    public void executeCommand()
-    {
+    public void executeCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
@@ -35,19 +32,15 @@ public class DeleteTreeElementCommand extends PuzzleCommand
 
         TreeElementView firstSelectedView = selectedViews.get(0);
         TreeElementView newSelectedView;
-        if(firstSelectedView.getType() == TreeElementType.NODE)
-        {
+        if (firstSelectedView.getType() == TreeElementType.NODE) {
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
             newSelectedView = nodeView.getParentView();
-        }
-        else
-        {
+        } else {
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
             newSelectedView = transitionView.getParentViews().get(0);
         }
 
-        for(TreeElementView selectedView : selectedViews)
-        {
+        for (TreeElementView selectedView : selectedViews) {
             TreeElement element = selectedView.getTreeElement();
             tree.removeTreeElement(element);
             puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(element));
@@ -65,20 +58,16 @@ public class DeleteTreeElementCommand extends PuzzleCommand
      * otherwise null if command can be executed
      */
     @Override
-    public String getErrorString()
-    {
+    public String getErrorString() {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
-        if(selectedViews.isEmpty())
-        {
-            return "There must be a selected tree puzzleElement to delete it";
+        if (selectedViews.isEmpty()) {
+            return CommandError.NO_SELECTED_VIEWS.toString();
         }
 
-        for(TreeElementView view : selectedViews)
-        {
+        for (TreeElementView view : selectedViews) {
             TreeElement element = view.getTreeElement();
-            if(element.getType() == TreeElementType.NODE && ((TreeNode)element).isRoot())
-            {
-                return "The selection must not contain the root node";
+            if (element.getType() == TreeElementType.NODE && ((TreeNode) element).isRoot()) {
+                return CommandError.CONTAINS_ROOT.toString();
             }
         }
         return null;
@@ -88,27 +77,23 @@ public class DeleteTreeElementCommand extends PuzzleCommand
      * Undoes an command
      */
     @Override
-    public void undoCommand()
-    {
+    public void undoCommand() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         List<TreeElementView> selectedViews = selection.getSelectedViews();
 
-        for(TreeElementView selectedView : selectedViews)
-        {
+        for (TreeElementView selectedView : selectedViews) {
             TreeElement element = selectedView.getTreeElement();
-            if(element.getType() == TreeElementType.NODE)
-            {
-                TreeNode node = (TreeNode)element;
+            if (element.getType() == TreeElementType.NODE) {
+                TreeNode node = (TreeNode) element;
                 node.getParent().setChildNode(node);
 
                 puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(node));
-            }
-            else
-            {
-                TreeTransition treeTransition = (TreeTransition)element;
-                treeTransition.getParents().forEach(node -> node.addChild(treeTransition));
+            } else {
+                TreeTransition transition = (TreeTransition) element;
+                transition.getParents().forEach(node -> node.addChild(transition));
+                transition.getParents().get(0).getChildren().forEach(TreeTransition::reverify);
 
-                puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(treeTransition));
+                puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(transition));
             }
         }
 

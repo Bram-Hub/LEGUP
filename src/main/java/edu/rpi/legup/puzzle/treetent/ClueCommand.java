@@ -1,5 +1,6 @@
 package edu.rpi.legup.puzzle.treetent;
 
+import edu.rpi.legup.history.CommandError;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.treeview.*;
@@ -12,15 +13,13 @@ import java.util.Map;
 
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
-public class ClueCommand extends PuzzleCommand
-{
+public class ClueCommand extends PuzzleCommand {
     private TreeViewSelection selection;
     private TreeTentClueView clueView;
     private Map<TreeNode, TreeTransition> addTran;
     private List<List<TreeTentCell>> emptyCells;
 
-    public ClueCommand(TreeViewSelection selection, TreeTentClueView clueView)
-    {
+    public ClueCommand(TreeViewSelection selection, TreeTentClueView clueView) {
         this.selection = selection;
         this.clueView = clueView;
         this.addTran = new HashMap<>();
@@ -31,14 +30,13 @@ public class ClueCommand extends PuzzleCommand
      * Executes a command
      */
     @Override
-    public void executeCommand()
-    {
+    public void executeCommand() {
         Puzzle puzzle = getInstance().getPuzzleModule();
         Tree tree = puzzle.getTree();
         TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
 
         final TreeViewSelection newSelection = new TreeViewSelection();
-        for(int i = 0; i < selection.getSelectedViews().size(); i++) {
+        for (int i = 0; i < selection.getSelectedViews().size(); i++) {
             TreeElementView selectedView = selection.getSelectedViews().get(i);
             TreeElement treeElement = selectedView.getTreeElement();
 
@@ -48,7 +46,7 @@ public class ClueCommand extends PuzzleCommand
                 TreeNode treeNode = (TreeNode) treeElement;
 
                 TreeTransition transition = addTran.get(treeNode);
-                if(transition == null) {
+                if (transition == null) {
                     transition = tree.addNewTransition(treeNode);
                     addTran.put(treeNode, transition);
                 } else {
@@ -65,7 +63,7 @@ public class ClueCommand extends PuzzleCommand
             }
 
             for (TreeTentCell cell : tempList) {
-                cell = (TreeTentCell)board.getPuzzleElement(cell);
+                cell = (TreeTentCell) board.getPuzzleElement(cell);
                 cell.setData(TreeTentType.GRASS.value);
                 board.addModifiedData(cell);
 
@@ -73,7 +71,7 @@ public class ClueCommand extends PuzzleCommand
                 puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(finalCell));
             }
 
-            if(i == 0) {
+            if (i == 0) {
                 final TreeTentBoard finalBoard = board;
                 puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
             }
@@ -88,47 +86,46 @@ public class ClueCommand extends PuzzleCommand
      * otherwise null if command can be executed
      */
     @Override
-    public String getErrorString()
-    {
-        if(selection.getSelectedViews().isEmpty()) {
-            return "There are no selected tree elements.";
+    public String getErrorString() {
+        if (selection.getSelectedViews().isEmpty()) {
+            return CommandError.NO_SELECTED_VIEWS.toString();
         }
 
         emptyCells.clear();
-        for(TreeElementView view : selection.getSelectedViews()) {
+        for (TreeElementView view : selection.getSelectedViews()) {
             TreeElement treeElement = view.getTreeElement();
-            TreeTentBoard board = (TreeTentBoard)treeElement.getBoard();
-            if(treeElement.getType() == TreeElementType.NODE) {
-                TreeNode node = (TreeNode)treeElement;
-                if(!node.getChildren().isEmpty()) {
-                    return "Board is not modifiable";
+            TreeTentBoard board = (TreeTentBoard) treeElement.getBoard();
+            if (treeElement.getType() == TreeElementType.NODE) {
+                TreeNode node = (TreeNode) treeElement;
+                if (!node.getChildren().isEmpty()) {
+                    return CommandError.UNMODIFIABLE_BOARD.toString();
                 }
             } else {
-                if(!board.isModifiable()) {
-                    return "Board is not modifiable";
+                if (!board.isModifiable()) {
+                    return CommandError.UNMODIFIABLE_BOARD.toString();
                 }
             }
 
             List<TreeTentCell> tempList = new ArrayList<>();
             TreeTentClue clue = clueView.getPuzzleElement();
-            if(clue.getType() == TreeTentType.CLUE_NORTH || clue.getType() == TreeTentType.CLUE_SOUTH) {
+            if (clue.getType() == TreeTentType.CLUE_NORTH || clue.getType() == TreeTentType.CLUE_SOUTH) {
                 int col = clue.getType() == TreeTentType.CLUE_NORTH ? clue.getClueIndex() : clue.getClueIndex() - 1;
-                for(int i = 0; i < board.getWidth(); i++) {
+                for (int i = 0; i < board.getWidth(); i++) {
                     TreeTentCell cell = board.getCell(col, i);
-                    if(cell.getType() == TreeTentType.UNKNOWN && cell.isModifiable()) {
+                    if (cell.getType() == TreeTentType.UNKNOWN && cell.isModifiable()) {
                         tempList.add(cell);
                     }
                 }
             } else {
                 int row = clue.getType() == TreeTentType.CLUE_WEST ? clue.getClueIndex() : clue.getClueIndex() - 1;
-                for(int i = 0; i < board.getWidth(); i++) {
+                for (int i = 0; i < board.getWidth(); i++) {
                     TreeTentCell cell = board.getCell(i, row);
-                    if(cell.getType() == TreeTentType.UNKNOWN && cell.isModifiable()) {
+                    if (cell.getType() == TreeTentType.UNKNOWN && cell.isModifiable()) {
                         tempList.add(cell);
                     }
                 }
             }
-            if(tempList.isEmpty()) {
+            if (tempList.isEmpty()) {
                 return "There are no modifiable unknown cells in every selected tree element.";
             }
             emptyCells.add(tempList);
@@ -140,12 +137,11 @@ public class ClueCommand extends PuzzleCommand
      * Undoes an command
      */
     @Override
-    public void undoCommand()
-    {
+    public void undoCommand() {
         Puzzle puzzle = getInstance().getPuzzleModule();
         Tree tree = puzzle.getTree();
 
-        for(int i = 0; i < selection.getSelectedViews().size(); i++) {
+        for (int i = 0; i < selection.getSelectedViews().size(); i++) {
             TreeElementView selectedView = selection.getSelectedViews().get(i);
             TreeElement treeElement = selectedView.getTreeElement();
 
@@ -162,7 +158,7 @@ public class ClueCommand extends PuzzleCommand
             }
 
             for (TreeTentCell cell : tempList) {
-                cell = (TreeTentCell)board.getPuzzleElement(cell);
+                cell = (TreeTentCell) board.getPuzzleElement(cell);
                 cell.setData(TreeTentType.UNKNOWN.value);
                 board.removeModifiedData(cell);
 
@@ -170,7 +166,7 @@ public class ClueCommand extends PuzzleCommand
                 puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(finalCell));
             }
 
-            if(i == 0) {
+            if (i == 0) {
                 final TreeTentBoard finalBoard = board;
                 puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
             }

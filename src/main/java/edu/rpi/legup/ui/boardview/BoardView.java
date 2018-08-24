@@ -125,16 +125,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener
 
             if(board instanceof CaseBoard)
             {
-                CaseBoard caseBoard = (CaseBoard)board;
-                Board baseBoard = caseBoard.getBaseBoard();
-
-                for(ElementView elementView: elementViews)
-                {
-                    PuzzleElement puzzleElement = baseBoard.getPuzzleElement(elementView.getPuzzleElement());
-                    elementView.setPuzzleElement(puzzleElement);
-                    elementView.setShowCasePicker(true);
-                    elementView.setCaseRulePickable(caseBoard.isPickable(elementView.getPuzzleElement(), null));
-                }
+                setCasePickable();
             }
             else
             {
@@ -144,6 +135,19 @@ public abstract class BoardView extends ScrollView implements IBoardListener
                     elementView.setShowCasePicker(false);
                 }
             }
+        }
+    }
+
+    protected void setCasePickable() {
+        CaseBoard caseBoard = (CaseBoard)board;
+        Board baseBoard = caseBoard.getBaseBoard();
+
+        for(ElementView elementView: elementViews)
+        {
+            PuzzleElement puzzleElement = baseBoard.getPuzzleElement(elementView.getPuzzleElement());
+            elementView.setPuzzleElement(puzzleElement);
+            elementView.setShowCasePicker(true);
+            elementView.setCaseRulePickable(caseBoard.isPickable(puzzleElement, null));
         }
     }
 

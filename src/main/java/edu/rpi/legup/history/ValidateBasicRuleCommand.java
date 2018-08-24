@@ -15,11 +15,11 @@ public class ValidateBasicRuleCommand extends PuzzleCommand {
     private TreeViewSelection selection;
 
     private Map<TreeElement, Rule> oldRules;
-    private Map<TreeElement, Boolean> addNode;
+    private Map<TreeTransition, TreeNode> addNode;
     private Rule newRule;
 
     public ValidateBasicRuleCommand(TreeViewSelection selection, Rule rule) {
-        this.selection = selection;
+        this.selection = selection.copy();
         this.newRule = rule;
         this.oldRules = new HashMap<>();
         this.addNode = new HashMap<>();
@@ -34,55 +34,50 @@ public class ValidateBasicRuleCommand extends PuzzleCommand {
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         TreeViewSelection selection = treeView.getSelection();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
-        TreeElementView lastSelected = null;
+        final TreeViewSelection newSelection = new TreeViewSelection();
 
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         for (TreeElementView selectedView : selectedViews) {
             TreeElement element = selectedView.getTreeElement();
-            if (element.getType() == TreeElementType.TRANSITION) {
-                TreeTransition transition = (TreeTransition) element;
-                TreeTransitionView transitionView = (TreeTransitionView) selectedView;
-                oldRules.put(transition, transition.getRule());
-                transition.setRule(newRule);
-
-                if (transition.getChildNode() == null) {
-                    TreeNode treeNode = tree.addNode(transition);
-                    treeNode.getBoard().setModifiable(false);
-
-                    if (transitionView.getChildView() == null) {
-                        puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(treeNode));
-                    }
-                    addNode.put(element, true);
-                } else {
-                    addNode.put(element, false);
-                }
-                lastSelected = transitionView.getChildView();
-            } else {
+            TreeTransitionView transitionView;
+            if (element.getType() == TreeElementType.NODE) {
                 TreeNodeView nodeView = (TreeNodeView) selectedView;
-
-                TreeTransitionView transitionView = nodeView.getChildrenViews().get(0);
-                TreeTransition transition = transitionView.getTreeElement();
-                oldRules.put(transition, transition.getRule());
-                transition.setRule(newRule);
-
-                if (transition.getChildNode() == null) {
-                    TreeNode treeNode = tree.addNode(transition);
-                    treeNode.getBoard().setModifiable(false);
-
-                    if (transitionView.getChildView() == null) {
-                        puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(treeNode));
-                    }
-                    addNode.put(element, true);
-                } else {
-                    addNode.put(element, false);
-                }
-                lastSelected = transitionView.getChildView();
+                transitionView = nodeView.getChildrenViews().get(0);
+            } else {
+                transitionView = (TreeTransitionView) selectedView;
             }
+            TreeTransition transition = transitionView.getTreeElement();
+
+            oldRules.put(transition, transition.getRule());
+            transition.setRule(newRule);
+
+            TreeNode childNode = transition.getChildNode();
+            if (childNode == null) {
+                childNode = addNode.get(transition);
+                if (childNode == null) {
+                    childNode = (TreeNode) tree.addTreeElement(transition);
+                    addNode.put(transition, childNode);
+                } else {
+                    tree.addTreeElement(transition, childNode);
+                }
+
+                final TreeNode finalNode = childNode;
+                puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(finalNode));
+            }
+            newSelection.addToSelection(treeView.getElementView(childNode));
         }
-        final TreeViewSelection newSelection = new TreeViewSelection(lastSelected);
-        final Board newBoard = lastSelected.getTreeElement().getBoard();
+
+        TreeElementView firstSelectedView = selection.getFirstSelection();
+        final Board finalBoard;
+        if (firstSelectedView.getType() == TreeElementType.NODE) {
+            TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
+            finalBoard = nodeView.getChildrenViews().get(0).getTreeElement().getBoard();
+        } else {
+            TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
+            finalBoard = transitionView.getChildView().getTreeElement().getBoard();
+        }
+        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
-        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(newBoard));
     }
 
     /**
@@ -95,19 +90,19 @@ public class ValidateBasicRuleCommand extends PuzzleCommand {
     public String getErrorString() {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         if (selectedViews.isEmpty()) {
-            return "There must be at least 1 tree puzzleElement selected to be able to be justified with a basic rule.";
+            return CommandError.NO_SELECTED_VIEWS.toString();
         }
 
         for (TreeElementView view : selectedViews) {
             if (view.getType() == TreeElementType.NODE) {
                 TreeNodeView nodeView = (TreeNodeView) view;
                 if (nodeView.getChildrenViews().size() != 1) {
-                    return "Nodes must have 1 child transition to be able to be justified with a basic rule.";
+                    return CommandError.ONE_CHILD.toString();
                 }
             } else {
                 TreeTransitionView transView = (TreeTransitionView) view;
                 if (transView.getParentViews().size() > 1) {
-                    return "Transitions must not be apart of a merge to be able to be justified with a basic rule.";
+                    return CommandError.CONTAINS_MERGE.toString();
                 }
             }
         }
@@ -122,36 +117,27 @@ public class ValidateBasicRuleCommand extends PuzzleCommand {
         Tree tree = GameBoardFacade.getInstance().getTree();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
-        List<TreeElementView> selectedViews = selection.getSelectedViews();
-        for (TreeElementView selectedView : selectedViews) {
+        for (TreeElementView selectedView : selection.getSelectedViews()) {
             TreeElement element = selectedView.getTreeElement();
-            if (element.getType() == TreeElementType.TRANSITION) {
-                TreeTransition transition = (TreeTransition) element;
-                transition.setRule(oldRules.get(element));
-
-                if (addNode.get(element)) {
-                    TreeNode childNode = transition.getChildNode();
-                    tree.removeTreeElement(childNode);
-                    puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(childNode));
-                }
-            } else {
+            TreeTransitionView transitionView;
+            if (element.getType() == TreeElementType.NODE) {
                 TreeNodeView nodeView = (TreeNodeView) selectedView;
-                TreeNode node = nodeView.getTreeElement();
+                transitionView = nodeView.getChildrenViews().get(0);
+            } else {
+                transitionView = (TreeTransitionView) selectedView;
+            }
+            TreeTransition transition = transitionView.getTreeElement();
+            transition.setRule(oldRules.get(transition));
 
-                TreeTransition transition = node.getChildren().get(0);
-
-                transition.setRule(oldRules.get(transition));
-
-                if (addNode.get(element)) {
-                    TreeNode childNode = transition.getChildNode();
-                    tree.removeTreeElement(childNode);
-                    puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(childNode));
-                }
+            if (addNode.get(transition) != null) {
+                final TreeNode childNode = transition.getChildNode();
+                tree.removeTreeElement(childNode);
+                puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(childNode));
             }
         }
-        TreeElementView lastSelected = selectedViews.get(0);
-        final Board newBoard = lastSelected.getTreeElement().getBoard();
-        puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
+
+        final Board newBoard = selection.getFirstSelection().getTreeElement().getBoard();
         puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(newBoard));
+        puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
     }
 }

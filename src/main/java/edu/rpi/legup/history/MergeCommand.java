@@ -12,9 +12,11 @@ import java.util.List;
 
 public class MergeCommand extends PuzzleCommand {
     private TreeViewSelection selection;
+    private TreeTransition transition;
 
     public MergeCommand(TreeViewSelection selection) {
-        this.selection = selection;
+        this.selection = selection.copy();
+        this.transition = null;
     }
 
     /**
@@ -25,39 +27,41 @@ public class MergeCommand extends PuzzleCommand {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
 
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-        Tree tree = GameBoardFacade.getInstance().getTree();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
-        ArrayList<TreeNode> mergingNodes = new ArrayList<>();
-        ArrayList<Board> mergingBoards = new ArrayList<>();
-        for (TreeElementView view : selectedViews) {
-            TreeNode node = ((TreeNodeView) view).getTreeElement();
-            mergingNodes.add(node);
-            mergingBoards.add(node.getBoard());
+        TreeNode mergedNode;
+        if(transition == null) {
+            List<TreeNode> mergingNodes = new ArrayList<>();
+            List<Board> mergingBoards = new ArrayList<>();
+            for (TreeElementView view : selectedViews) {
+                TreeNode node = ((TreeNodeView) view).getTreeElement();
+                mergingNodes.add(node);
+                mergingBoards.add(node.getBoard());
+            }
+
+            TreeNode lca = Tree.getLowestCommonAncestor(mergingNodes);
+            Board lcaBoard = lca.getBoard();
+
+            Board mergedBoard = lcaBoard.mergedBoard(lcaBoard, mergingBoards);
+
+            mergedNode = new TreeNode(mergedBoard.copy());
+            transition = new TreeTransition(mergedBoard);
+            transition.setRule(new MergeRule());
+            transition.setChildNode(mergedNode);
+            mergedNode.setParent(transition);
+        } else {
+            mergedNode = transition.getChildNode();
         }
 
-        TreeNode lca = tree.getLowestCommonAncestor(mergingNodes);
-        Board lcaBoard = lca.getBoard();
-
-        Board mergedBoard = lcaBoard.mergedBoard(lcaBoard, mergingBoards);
-
-        TreeNode mergedNode = new TreeNode(mergedBoard.copy());
-        TreeTransition transMerge = new TreeTransition(mergedBoard);
-
-        transMerge.setRule(new MergeRule());
-        transMerge.setChildNode(mergedNode);
-        mergedNode.setParent(transMerge);
-
+        transition.getParents().clear();
         for (TreeElementView elementView : selectedViews) {
-            TreeNodeView nodeView = (TreeNodeView) elementView;
-            TreeNode node = nodeView.getTreeElement();
+            TreeNode node = (TreeNode) elementView.getTreeElement();
 
-            node.addChild(transMerge);
-
-            transMerge.addParent(node);
+            node.addChild(transition);
+            transition.addParent(node);
         }
 
-        puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(transMerge));
+        puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(transition));
 
         final TreeViewSelection newSelection = new TreeViewSelection();
         newSelection.addToSelection(treeView.getElementView(mergedNode));
@@ -89,7 +93,7 @@ public class MergeCommand extends PuzzleCommand {
     public String getErrorString() {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         if(selectedViews.size() < 2) {
-            return "There must be at least 2 tree nodes to merge.";
+            return CommandError.TWO_TO_MERGE.toString();
         }
 
         List<TreeNode> nodeList = new ArrayList<>();
@@ -97,13 +101,25 @@ public class MergeCommand extends PuzzleCommand {
             if (view.getType() == TreeElementType.NODE) {
                 TreeNodeView nodeView = (TreeNodeView) view;
                 if(!nodeView.getChildrenViews().isEmpty()) {
-                    return "All selected tree nodes must have no children.";
+                    return CommandError.NO_CHILDREN.toString();
                 }
                 nodeList.add(nodeView.getTreeElement());
             } else {
-                return "All selected tree elements must be nodes.";
+                return CommandError.SELECTION_CONTAINS_TRANSITION.toString();
             }
         }
+
+        List<TreeNode> mergingNodes = new ArrayList<>();
+        for (TreeElementView view : selectedViews) {
+            TreeNode node = ((TreeNodeView) view).getTreeElement();
+            mergingNodes.add(node);
+        }
+
+        TreeNode lca = Tree.getLowestCommonAncestor(mergingNodes);
+        if(lca == null) {
+            return "Unable to merge tree elements.";
+        }
+
         return null;
     }
 }

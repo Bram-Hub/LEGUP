@@ -63,11 +63,11 @@ public class BlackOrWhiteCaseRule extends CaseRule
         NurikabeBoard nurikabeBoard = (NurikabeBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(nurikabeBoard, this);
         nurikabeBoard.setModifiable(false);
-        for(PuzzleElement data: nurikabeBoard.getPuzzleElements())
+        for(PuzzleElement element: nurikabeBoard.getPuzzleElements())
         {
-            if(((NurikabeCell)data).getType() == NurikabeType.UNKNOWN)
+            if(((NurikabeCell)element).getType() == NurikabeType.UNKNOWN)
             {
-                caseBoard.addPickableElement(data);
+                caseBoard.addPickableElement(element);
             }
         }
         return caseBoard;

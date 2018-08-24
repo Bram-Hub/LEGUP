@@ -34,12 +34,40 @@ public class Tree
     {
         TreeTransition transition = new TreeTransition(treeNode, treeNode.getBoard().copy());
         treeNode.addChild(transition);
+        treeNode.getChildren().forEach(TreeTransition::reverify);
         return transition;
     }
 
     public TreeNode addNode(TreeTransition transition)
     {
         TreeNode treeNode = new TreeNode(transition.getBoard().copy());
+        transition.setChildNode(treeNode);
+        treeNode.setParent(transition);
+        return treeNode;
+    }
+
+    public TreeElement addTreeElement(TreeElement element) {
+        if(element.getType() == TreeElementType.NODE)
+        {
+            TreeNode treeNode = (TreeNode)element;
+            Board copyBoard = treeNode.board.copy();
+            copyBoard.setModifiable(false);
+            return addTreeElement(treeNode, new TreeTransition(treeNode, copyBoard));
+        }
+        else
+        {
+            TreeTransition transition = (TreeTransition)element;
+            return addTreeElement(transition, new TreeNode(transition.getBoard().copy()));
+        }
+    }
+
+    public TreeElement addTreeElement(TreeNode treeNode, TreeTransition transition) {
+        treeNode.addChild(transition);
+        treeNode.getChildren().forEach(TreeTransition::reverify);
+        return transition;
+    }
+
+    public TreeElement addTreeElement(TreeTransition transition, TreeNode treeNode) {
         transition.setChildNode(treeNode);
         treeNode.setParent(transition);
         return treeNode;
@@ -56,6 +84,7 @@ public class Tree
         {
             TreeTransition transition = (TreeTransition)element;
             transition.getParents().forEach(n -> n.removeChild(transition));
+            transition.getParents().get(0).getChildren().forEach(TreeTransition::reverify);
         }
     }
 
@@ -67,7 +96,7 @@ public class Tree
      */
     public boolean isValid()
     {
-        return rootNode.isValid();
+        return rootNode.isValidBranch();
     }
 
     /**
@@ -139,7 +168,7 @@ public class Tree
      * @param nodes list of tree nodes to find the LCA
      * @return the first ancestor node that all tree nodes have in common, otherwise null if none exists
      */
-    public TreeNode getLowestCommonAncestor(List<TreeNode> nodes)
+    public static TreeNode getLowestCommonAncestor(List<TreeNode> nodes)
     {
         if(nodes.isEmpty())
         {

@@ -33,7 +33,7 @@ public abstract class TreeElement
      * @return true if this tree puzzleElement and all descendants of this tree puzzleElement is valid,
      * false otherwise
      */
-    public abstract boolean isValid();
+    public abstract boolean isValidBranch();
 
     /**
      * Gets the type of tree puzzleElement

@@ -46,18 +46,18 @@ public class TreeTransition extends TreeElement
     /**
      * Recursively propagates the change of puzzleElement down the tree
      *
-     * @param data puzzleElement of the change made
+     * @param element puzzleElement of the change made
      */
-    public void propagateChanges(PuzzleElement data)
+    public void propagateChanges(PuzzleElement element)
     {
-        board.notifyChange(data);
+        board.notifyChange(element);
         isVerified = false;
         if(childNode != null)
         {
-            childNode.getBoard().notifyChange(data.copy());
+            childNode.getBoard().notifyChange(element.copy());
             for(TreeTransition child : childNode.getChildren())
             {
-                child.propagateChanges(data.copy());
+                child.propagateChanges(element.copy());
             }
         }
     }
@@ -94,9 +94,9 @@ public class TreeTransition extends TreeElement
      * false otherwise
      */
     @Override
-    public boolean isValid()
+    public boolean isValidBranch()
     {
-        return isJustified() && isCorrect() && childNode != null && childNode.isValid();
+        return isJustified() && isCorrect() && childNode != null && childNode.isValidBranch();
     }
 
     /**
@@ -198,7 +198,7 @@ public class TreeTransition extends TreeElement
      */
     public boolean isCorrect()
     {
-        if(!isVerified)
+        if(isJustified() && !isVerified)
         {
             isCorrect = rule.checkRule(this) == null;
             isVerified = true;
@@ -214,6 +214,16 @@ public class TreeTransition extends TreeElement
     public void setCorrect(boolean isCorrect) {
         this.isCorrect = isCorrect;
         this.isVerified = true;
+    }
+
+    /**
+     * Forces check of rule on this transition regardless if it has been cached already
+     *
+     * @return true if this transition is correctly justified, false otherwise
+     */
+    public boolean reverify() {
+        isVerified = false;
+        return isCorrect();
     }
 
     /**

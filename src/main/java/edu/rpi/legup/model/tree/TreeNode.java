@@ -51,11 +51,11 @@ public class TreeNode extends TreeElement
      * false otherwise
      */
     @Override
-    public boolean isValid()
+    public boolean isValidBranch()
     {
         for(TreeTransition transition : children)
         {
-            if(!transition.isValid())
+            if(!transition.isValidBranch())
             {
                 return false;
             }

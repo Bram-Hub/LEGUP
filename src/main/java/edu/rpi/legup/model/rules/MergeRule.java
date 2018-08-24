@@ -2,10 +2,12 @@ package edu.rpi.legup.model.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static edu.rpi.legup.model.rules.RuleType.MERGE;
 
@@ -16,7 +18,9 @@ public class MergeRule extends Rule
      */
     public MergeRule()
     {
-        super("Merge Rule", "Merge any number of nodes into one", "edu/rpi/legup/images/Legup/MergeRule.png");
+        super("Merge Rule",
+                "Merge any number of nodes into one",
+                "edu/rpi/legup/images/Legup/MergeRule.png");
         this.ruleType = MERGE;
     }
 
@@ -31,6 +35,28 @@ public class MergeRule extends Rule
     @Override
     public String checkRuleRaw(TreeTransition transition)
     {
+        Board board = transition.getBoard();
+        List<TreeNode> mergingNodes = new ArrayList<>();
+        List<Board> mergingBoards = new ArrayList<>();
+        for (TreeNode treeNode : transition.getParents()) {
+            mergingNodes.add(treeNode);
+            mergingBoards.add(treeNode.getBoard());
+        }
+
+        TreeNode lca = Tree.getLowestCommonAncestor(mergingNodes);
+        if(lca == null) {
+            return "Merge was not correctly created.";
+        }
+        Board lcaBoard = lca.getBoard();
+
+        Board mergedBoard = lcaBoard.mergedBoard(lcaBoard, mergingBoards);
+
+        for(PuzzleElement m : mergedBoard.getPuzzleElements()) {
+            if(!m.equalsData(board.getPuzzleElement(m))) {
+                return "Merge was not correctly created.";
+            }
+        }
+
         return null;
     }
 
@@ -48,33 +74,7 @@ public class MergeRule extends Rule
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
-        return null;
-    }
-
-    public Board getMergedBoard(ArrayList<TreeNode> nodes)
-    {
-        if(nodes.isEmpty())
-        {
-            return null;
-        }
-        else if(nodes.size() == 1)
-        {
-            return nodes.get(0).getBoard().copy();
-        }
-        Board mergeBoard = nodes.get(0).getBoard().copy();
-        for(PuzzleElement puzzleElement : mergeBoard.getPuzzleElements())
-        {
-            boolean allSame = true;
-            for(TreeNode n : nodes)
-            {
-                allSame &= puzzleElement.equalsData(n.getBoard().getPuzzleElement(puzzleElement));
-            }
-            if(!allSame)
-            {
-
-            }
-        }
-        return mergeBoard;
+        return checkRule(transition);
     }
 
     /**
@@ -87,7 +87,7 @@ public class MergeRule extends Rule
     @Override
     public String checkRule(TreeTransition transition)
     {
-        return null;
+        return checkRuleRaw(transition);
     }
 
     /**
@@ -103,7 +103,7 @@ public class MergeRule extends Rule
     @Override
     public String checkRuleAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
-        return null;
+        return checkRuleRawAt(transition, puzzleElement);
     }
 
     /**

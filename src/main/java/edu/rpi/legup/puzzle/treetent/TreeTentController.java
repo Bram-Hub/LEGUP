@@ -68,7 +68,7 @@ public class TreeTentController extends ElementController
                     }
                 }
             } else if (dragStart != null && lastCellPressed != null) {
-                ICommand editLine = new EditLineCommand((TreeTentElementView) dragStart, (TreeTentElementView) lastCellPressed, selection);
+                ICommand editLine = new EditLineCommand(selection, (TreeTentElementView) dragStart, (TreeTentElementView) lastCellPressed);
                 if (editLine.canExecute()) {
                     editLine.execute();
                     getInstance().getHistory().pushChange(editLine);

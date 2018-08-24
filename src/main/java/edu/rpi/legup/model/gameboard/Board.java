@@ -149,7 +149,7 @@ public abstract class Board {
         puzzleElements.get(puzzleElement.getIndex()).setData(puzzleElement.getData());
     }
 
-    public Board mergedBoard(Board lca, ArrayList<Board> boards) {
+    public Board mergedBoard(Board lca, List<Board>boards) {
         if (lca == null || boards.isEmpty()) {
             return null;
         }
