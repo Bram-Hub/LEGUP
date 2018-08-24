@@ -2,6 +2,9 @@ package edu.rpi.legup.puzzle.fillapix;
 
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.rules.ContradictionRule;
+import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.fillapix.rules.*;
 import edu.rpi.legup.ui.boardview.BoardView;
 
@@ -34,13 +37,22 @@ public class Fillapix extends Puzzle {
     }
 
     @Override
-    public boolean isPuzzleComplete() {
-        return false;
-    }
-
-    @Override
     public boolean isBoardComplete(Board board) {
-        return false;
+        FillapixBoard fillapixBoard = (FillapixBoard) board;
+        TreeTransition transition = new TreeTransition(null, fillapixBoard);
+
+        for (ContradictionRule rule : contradictionRules) {
+            if (rule.checkContradiction(transition) == null) {
+                return false;
+            }
+        }
+        for (PuzzleElement element : fillapixBoard.getPuzzleElements()) {
+            FillapixCell cell = (FillapixCell) element;
+            if (cell.getType() == FillapixCellType.UNKNOWN) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

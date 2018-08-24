@@ -11,8 +11,6 @@ public class Legup
 {
     private final static Logger LOGGER = Logger.getLogger(Legup.class.getName());
 
-    private static MainWindow mainWindow;
-
     /**
      * Starts the Legup Program
      *
