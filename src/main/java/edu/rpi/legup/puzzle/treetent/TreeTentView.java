@@ -2,6 +2,7 @@ package edu.rpi.legup.puzzle.treetent;
 
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
@@ -175,7 +176,12 @@ public class TreeTentView extends GridBoardView
     public void onBoardChanged(Board board)
     {
         super.onBoardChanged(board);
-        TreeTentBoard treeTentBoard = (TreeTentBoard)board;
+        TreeTentBoard treeTentBoard;
+        if(board instanceof CaseBoard) {
+            treeTentBoard = (TreeTentBoard) ((CaseBoard)board).getBaseBoard();
+        } else {
+            treeTentBoard = (TreeTentBoard)board;
+        }
 
         lineViews.clear();
         for(TreeTentLine line : treeTentBoard.getLines())

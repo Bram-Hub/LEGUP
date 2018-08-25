@@ -1,9 +1,12 @@
 package edu.rpi.legup.puzzle.treetent;
 
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.gameboard.GridBoard;
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TreeTentBoard extends GridBoard
 {
@@ -87,6 +90,71 @@ public class TreeTentBoard extends GridBoard
         {
             super.notifyChange(puzzleElement);
         }
+    }
+
+    public List<TreeTentCell> getAdjacent(TreeTentCell cell, TreeTentType type) {
+        List<TreeTentCell> adj = new ArrayList<>();
+        Point loc = cell.getLocation();
+        TreeTentCell up = getCell(loc.x, loc.y - 1);
+        TreeTentCell right = getCell(loc.x + 1, loc.y);
+        TreeTentCell down = getCell(loc.x, loc.y + 1);
+        TreeTentCell left = getCell(loc.x - 1, loc.y);
+        if(up != null && up.getType() == type) {
+            adj.add(up);
+        }
+        if(right != null && right.getType() == type) {
+            adj.add(right);
+        }
+        if(down != null && down.getType() == type) {
+            adj.add(down);
+        }
+        if(left != null && left.getType() == type) {
+            adj.add(left);
+        }
+        return adj;
+    }
+
+    public List<TreeTentCell> getRowCol(int index, TreeTentType type, boolean isRow) {
+        List<TreeTentCell> list = new ArrayList<>();
+        if(isRow) {
+            for(int i = 0; i < dimension.height; i++) {
+                TreeTentCell cell = getCell(i, index);
+                if(cell.getType() == type) {
+                    list.add(cell);
+                }
+            }
+        } else {
+            for(int i = 0; i < dimension.width; i++) {
+                TreeTentCell cell = getCell(index, i);
+                if(cell.getType() == type) {
+                    list.add(cell);
+                }
+            }
+        }
+        return list;
+    }
+
+    /**
+     * Determines if this board contains the equivalent puzzle elements as the one specified
+     *
+     * @param board board to check equivalence
+     * @return true if the boards are equivalent, false otherwise
+     */
+    @Override
+    public boolean equalsBoard(Board board) {
+        TreeTentBoard treeTentBoard = (TreeTentBoard)board;
+        for(TreeTentLine l1 : lines) {
+            boolean hasLine = false;
+            for(TreeTentLine l2 : treeTentBoard.lines) {
+                if(l1.compare(l2)) {
+                    hasLine = true;
+                }
+            }
+            if(!hasLine) {
+                return false;
+            }
+        }
+        return super.equalsBoard(treeTentBoard);
     }
 
     @Override

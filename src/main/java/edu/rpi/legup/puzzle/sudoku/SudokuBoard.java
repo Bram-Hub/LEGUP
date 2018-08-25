@@ -1,7 +1,9 @@
 package edu.rpi.legup.puzzle.sudoku;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 
+import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -119,6 +121,50 @@ public class SudokuBoard extends GridBoard
             region.add(getCell(regionNum, i % groupSize, i / groupSize));
         }
         return region;
+    }
+
+    public Set<SudokuCell> getAffected(SudokuCell cell)
+    {
+        Point loc = cell.getLocation();
+        cell = getCell(loc.x, loc.y);
+        Set<SudokuCell> affected = new HashSet<>();
+        affected.addAll(getRegion(cell.getGroupIndex()));
+        affected.addAll(getRow(loc.y));
+        affected.addAll(getCol(loc.x));
+
+        return affected;
+    }
+
+    public Set<Integer> getPossibleValues(SudokuCell cell)
+    {
+        Point loc = cell.getLocation();
+        cell = getCell(loc.x, loc.y);
+        Set<SudokuCell> possible = getAffected(cell);
+
+        Set<Integer> possibleValues = new HashSet<>();
+        for(int i = 0; i < size; i++) {
+            possibleValues.add(i);
+        }
+        for(SudokuCell c : possible) {
+            possibleValues.remove(c.getData());
+        }
+
+        return possibleValues;
+    }
+
+    /**
+     * Called when a {@link PuzzleElement} data on this has changed and passes in the equivalent puzzle element with
+     * the new data.
+     *
+     * @param puzzleElement equivalent puzzle element with the new data.
+     */
+    @Override
+    public void notifyChange(PuzzleElement puzzleElement) {
+        super.notifyChange(puzzleElement);
+        Set<SudokuCell> affected = getAffected((SudokuCell)puzzleElement);
+        for(SudokuCell c : affected) {
+            c.setAnnotations(getPossibleValues(c));
+        }
     }
 
     /**

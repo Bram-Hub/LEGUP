@@ -34,9 +34,6 @@ public class SudokuView extends GridBoardView
             }
         }
 
-        for(int i = 0; i < gridSize.height; i++) {
-            
-        }
     }
 
     /**

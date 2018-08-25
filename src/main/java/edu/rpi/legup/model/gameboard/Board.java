@@ -176,6 +176,22 @@ public abstract class Board {
     }
 
     /**
+     * Determines if this board contains the equivalent puzzle elements as the one specified
+     *
+     * @param board board to check equivalence
+     * @return true if the boards are equivalent, false otherwise
+     */
+    @SuppressWarnings("unchecked")
+    public boolean equalsBoard(Board board) {
+        for(PuzzleElement element : puzzleElements) {
+            if(!element.equalsData(board.getPuzzleElement(element))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Performs a deep copy of this board.
      *
      * @return a new copy of the board that is independent of this one

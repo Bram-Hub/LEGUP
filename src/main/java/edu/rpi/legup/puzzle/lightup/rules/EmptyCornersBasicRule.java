@@ -37,14 +37,20 @@ public class EmptyCornersBasicRule extends BasicRule
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
-        LightUpBoard initialBoard = (LightUpBoard)transition.getBoard();
+        LightUpBoard initialBoard = (LightUpBoard)transition.getParents().get(0).getBoard();
         LightUpCell cell = (LightUpCell) initialBoard.getPuzzleElement(puzzleElement);
-        if(cell == null || cell.getType() != LightUpCellType.EMPTY)
+        LightUpBoard finalBoard = (LightUpBoard)transition.getBoard();
+        LightUpCell finalCell = (LightUpCell) finalBoard.getPuzzleElement(puzzleElement);
+
+        if(!(cell.getType() == LightUpCellType.UNKNOWN && finalCell.getType() == LightUpCellType.EMPTY))
         {
             return "Must be an empty cell";
         }
 
-
+        TooFewBulbsContradictionRule tooFew = new TooFewBulbsContradictionRule();
+//        for() {
+//
+//        }
 
         return null;
     }

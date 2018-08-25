@@ -23,7 +23,7 @@ public class PreferencesDialog extends JDialog {
 
     private final static Logger LOGGER = Logger.getLogger(PreferencesDialog.class.getName());
 
-    private JCheckBox fullScreen, autoUpdate, showMistakes, allowDefault, generateCases, immFeedback;
+    private JCheckBox fullScreen, autoUpdate, showMistakes, showAnnotations, allowDefault, generateCases, immFeedback;
     private JTextField workDirectory;
 
     private static Image folderIcon;
@@ -156,6 +156,14 @@ public class PreferencesDialog extends JDialog {
         showMistakesRow.add(showMistakes, BorderLayout.WEST);
         showMistakesRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, showMistakesRow.getPreferredSize().height));
         contentPane.add(showMistakesRow);
+
+        showAnnotations = new JCheckBox("Show Annotations", Boolean.valueOf(prefs.getUserPref(LegupPreferences.SHOW_ANNOTATIONS)));
+        showAnnotations.setToolTipText("If checked this show incorrectly applied rule applications in red on the board");
+        JPanel showAnnotationsRow = new JPanel();
+        showAnnotationsRow.setLayout(new BorderLayout());
+        showAnnotationsRow.add(showAnnotations, BorderLayout.WEST);
+        showAnnotationsRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, showAnnotationsRow.getPreferredSize().height));
+        contentPane.add(showAnnotationsRow);
         contentPane.add(Box.createRigidArea(new Dimension(0,10)));
 
         contentPane.add(createLeftLabel("Tree View Preferences"));
@@ -299,6 +307,7 @@ public class PreferencesDialog extends JDialog {
         prefs.setUserPref(LegupPreferences.START_FULL_SCREEN, Boolean.toString(fullScreen.isSelected()));
         prefs.setUserPref(LegupPreferences.AUTO_UPDATE, Boolean.toString(autoUpdate.isSelected()));
         prefs.setUserPref(LegupPreferences.SHOW_MISTAKES, Boolean.toString(showMistakes.isSelected()));
+        prefs.setUserPref(LegupPreferences.SHOW_ANNOTATIONS, Boolean.toString(showAnnotations.isSelected()));
         prefs.setUserPref(LegupPreferences.ALLOW_DEFAULT_RULES, Boolean.toString(allowDefault.isSelected()));
         prefs.setUserPref(LegupPreferences.AUTO_GENERATE_CASES, Boolean.toString(generateCases.isSelected()));
         prefs.setUserPref(LegupPreferences.IMMEDIATE_FEEDBACK, Boolean.toString(immFeedback.isSelected()));

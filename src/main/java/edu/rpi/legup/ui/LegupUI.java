@@ -355,7 +355,6 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         toolBarButtons[ToolbarName.CHECK.ordinal()].addActionListener((ActionEvent e)  -> checkProof());
         toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e)  -> {});
         toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e)  -> {});
-        toolBarButtons[ToolbarName.ANNOTATIONS.ordinal()].addActionListener((ActionEvent e)  -> {});
 
         toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
@@ -364,7 +363,6 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.SUBMIT.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].setEnabled(false);
-        getToolBarButtons()[ToolbarName.ANNOTATIONS.ordinal()].setEnabled(false);
 
         contentPane.add(toolBar, BorderLayout.NORTH);
     }
@@ -629,7 +627,6 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         getToolBarButtons()[ToolbarName.CHECK.ordinal()].setEnabled(true);
         getToolBarButtons()[ToolbarName.SUBMIT.ordinal()].setEnabled(true);
         getToolBarButtons()[ToolbarName.DIRECTIONS.ordinal()].setEnabled(true);
-        getToolBarButtons()[ToolbarName.ANNOTATIONS.ordinal()].setEnabled(true);
 
         pack();
     }

@@ -2,8 +2,11 @@ package edu.rpi.legup.puzzle.treetent;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.ElementController;
+import edu.rpi.legup.history.AutoCaseRuleCommand;
 import edu.rpi.legup.history.EditDataCommand;
 import edu.rpi.legup.history.ICommand;
+import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.boardview.ElementView;
@@ -46,34 +49,50 @@ public class TreeTentController extends ElementController
             TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
             BoardView boardView = getInstance().getLegupUI().getBoardView();
             lastCellPressed = boardView.getElement(e.getPoint());
+            Board board = boardView.getBoard();
             TreeViewSelection selection = treeView.getSelection();
-            if (dragStart != null && dragStart == lastCellPressed) {
-                if(dragStart.getPuzzleElement().getIndex() >= 0) {
-                    ICommand edit = new EditDataCommand(lastCellPressed, selection, e);
-                    if (edit.canExecute()) {
-                        edit.execute();
-                        getInstance().getHistory().pushChange(edit);
+
+            if(dragStart != null) {
+                if(board instanceof CaseBoard) {
+                    CaseBoard caseBoard = (CaseBoard) board;
+                    AutoCaseRuleCommand autoCaseRuleCommand = new AutoCaseRuleCommand(dragStart, selection, caseBoard.getCaseRule(), caseBoard, e);
+                    if (autoCaseRuleCommand.canExecute()) {
+                        autoCaseRuleCommand.execute();
+                        getInstance().getHistory().pushChange(autoCaseRuleCommand);
                         treePanel.updateError("");
                     } else {
-                        treePanel.updateError(edit.getError());
+                        treePanel.updateError(autoCaseRuleCommand.getError());
                     }
                 } else {
-                    ClueCommand edit = new ClueCommand(selection, (TreeTentClueView)dragStart);
-                    if (edit.canExecute()) {
-                        edit.execute();
-                        getInstance().getHistory().pushChange(edit);
-                        treePanel.updateError("");
-                    } else {
-                        treePanel.updateError(edit.getError());
+                    if (dragStart == lastCellPressed) {
+                        if (dragStart.getPuzzleElement().getIndex() >= 0) {
+                            ICommand edit = new EditDataCommand(lastCellPressed, selection, e);
+                            if (edit.canExecute()) {
+                                edit.execute();
+                                getInstance().getHistory().pushChange(edit);
+                                treePanel.updateError("");
+                            } else {
+                                treePanel.updateError(edit.getError());
+                            }
+                        } else {
+                            ClueCommand edit = new ClueCommand(selection, (TreeTentClueView) dragStart);
+                            if (edit.canExecute()) {
+                                edit.execute();
+                                getInstance().getHistory().pushChange(edit);
+                                treePanel.updateError("");
+                            } else {
+                                treePanel.updateError(edit.getError());
+                            }
+                        }
+                    } else if (lastCellPressed != null) {
+                        ICommand editLine = new EditLineCommand(selection, (TreeTentElementView) dragStart, (TreeTentElementView) lastCellPressed);
+                        if (editLine.canExecute()) {
+                            editLine.execute();
+                            getInstance().getHistory().pushChange(editLine);
+                        } else {
+                            treePanel.updateError(editLine.getError());
+                        }
                     }
-                }
-            } else if (dragStart != null && lastCellPressed != null) {
-                ICommand editLine = new EditLineCommand(selection, (TreeTentElementView) dragStart, (TreeTentElementView) lastCellPressed);
-                if (editLine.canExecute()) {
-                    editLine.execute();
-                    getInstance().getHistory().pushChange(editLine);
-                } else {
-                    treePanel.updateError(editLine.getError());
                 }
             }
             dragStart = null;

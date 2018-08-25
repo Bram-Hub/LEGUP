@@ -12,26 +12,21 @@ import edu.rpi.legup.puzzle.lightup.LightUpCellType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LightOrEmptyCaseRule extends CaseRule
-{
+public class LightOrEmptyCaseRule extends CaseRule {
 
-    public LightOrEmptyCaseRule()
-    {
+    public LightOrEmptyCaseRule() {
         super("Light or Empty",
                 "Each blank cell is either a light or empty.",
                 "edu/rpi/legup/images/lightup/cases/LightOrEmpty.png");
     }
 
     @Override
-    public CaseBoard getCaseBoard(Board board)
-    {
+    public CaseBoard getCaseBoard(Board board) {
         LightUpBoard lightUpBoard = (LightUpBoard) board.copy();
         lightUpBoard.setModifiable(false);
         CaseBoard caseBoard = new CaseBoard(lightUpBoard, this);
-        for(PuzzleElement data: lightUpBoard.getPuzzleElements())
-        {
-            if(((LightUpCell)data).getType() == LightUpCellType.UNKNOWN)
-            {
+        for (PuzzleElement data : lightUpBoard.getPuzzleElements()) {
+            if (((LightUpCell) data).getType() == LightUpCellType.UNKNOWN) {
                 caseBoard.addPickableElement(data);
             }
         }
@@ -41,14 +36,12 @@ public class LightOrEmptyCaseRule extends CaseRule
     /**
      * Gets the possible cases at a specific location based on this case rule
      *
-     * @param board        the current board state
+     * @param board         the current board state
      * @param puzzleElement puzzleElement to determine the possible cases for
-     *
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement)
-    {
+    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
         Board case1 = board.copy();
         PuzzleElement data1 = case1.getPuzzleElement(puzzleElement);
@@ -69,33 +62,31 @@ public class LightOrEmptyCaseRule extends CaseRule
      * Checks whether the transition logically follows from the parent node using this rule
      *
      * @param transition transition to check
-     *
      * @return null if the child node logically follow from the parent node, otherwise error message
      */
     @Override
-    public String checkRuleRaw(TreeTransition transition)
-    {
+    public String checkRuleRaw(TreeTransition transition) {
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-        if(childTransitions.size() != 2) {
+        if (childTransitions.size() != 2) {
             return "This case rule must have 2 children.";
         }
 
         TreeTransition case1 = childTransitions.get(0);
         TreeTransition case2 = childTransitions.get(1);
-        if(case1.getBoard().getModifiedData().size() != 1 ||
+        if (case1.getBoard().getModifiedData().size() != 1 ||
                 case2.getBoard().getModifiedData().size() != 1) {
             return "This case rule must have 1 modified cell for each case.";
         }
 
         LightUpCell mod1 = (LightUpCell) case1.getBoard().getModifiedData().iterator().next();
         LightUpCell mod2 = (LightUpCell) case2.getBoard().getModifiedData().iterator().next();
-        if(!mod1.getLocation().equals(mod2.getLocation())) {
+        if (!mod1.getLocation().equals(mod2.getLocation())) {
             return "This case rule must modify the same cell for each case.";
         }
 
-        if(!((mod1.getType() == LightUpCellType.EMPTY && mod2.getType() == LightUpCellType.BULB) ||
+        if (!((mod1.getType() == LightUpCellType.EMPTY && mod2.getType() == LightUpCellType.BULB) ||
                 (mod2.getType() == LightUpCellType.EMPTY && mod1.getType() == LightUpCellType.BULB))) {
-            return "This case rule must an empty cell and a lite cell.";
+            return "This case rule must an empty cell and a bulb cell.";
         }
 
         return null;
@@ -105,15 +96,13 @@ public class LightOrEmptyCaseRule extends CaseRule
      * Checks whether the child node logically follows from the parent node
      * at the specific puzzleElement index using this rule
      *
-     * @param transition   transition to check
+     * @param transition    transition to check
      * @param puzzleElement index of the puzzleElement
-     *
      * @return null if the child node logically follow from the parent node at the specified puzzleElement,
      * otherwise error message
      */
     @Override
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
-    {
-        return null;
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+        return checkRuleRaw(transition);
     }
 }
