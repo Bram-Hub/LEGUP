@@ -8,11 +8,14 @@ import edu.rpi.legup.ui.treeview.*;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class DeleteTreeElementCommand extends PuzzleCommand {
     private TreeViewSelection selection;
 
     /**
-     * DeleteTreeElementCommand Constructor - creates a PuzzleCommand for deleting a tree puzzleElement
+     * DeleteTreeElementCommand Constructor creates a PuzzleCommand for deleting a tree puzzleElement
      *
      * @param selection the currently selected tree elements before the command is executed
      */

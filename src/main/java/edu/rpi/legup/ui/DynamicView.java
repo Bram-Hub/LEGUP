@@ -22,8 +22,7 @@ public class DynamicView extends JPanel {
     private JPanel zoomWrapper;
     private JPanel zoomer;
 
-    public DynamicView(ScrollView scrollView)
-    {
+    public DynamicView(ScrollView scrollView) {
         this.scrollView = scrollView;
 
         this.controller = new DynamicController();
@@ -67,15 +66,12 @@ public class DynamicView extends JPanel {
 
             this.scrollView.getViewport().addMouseWheelListener(new MouseAdapter() {
                 public void mouseWheelMoved(MouseWheelEvent e) {
-                    if(e.isControlDown())
-                    {
+                    if (e.isControlDown()) {
                         scrollView.zoom(e.getWheelRotation() * 2, e.getPoint());
-                    }
-                    else
-                    {
+                    } else {
                         scrollView.zoom(e.getWheelRotation(), e.getPoint());
                     }
-                    zoomSlider.setValue((int)(scrollView.getScale() * 100));
+                    zoomSlider.setValue((int) (scrollView.getScale() * 100));
                 }
             });
 
@@ -92,10 +88,10 @@ public class DynamicView extends JPanel {
             zoomSlider.setPaintTicks(true);
 
             Hashtable<Integer, JLabel> labelTable = new Hashtable<>();
-            labelTable.put( 0, new JLabel("25%") );
-            labelTable.put( 100, new JLabel("100%") );
-            labelTable.put( 400, new JLabel("400%") );
-            zoomSlider.setLabelTable( labelTable );
+            labelTable.put(0, new JLabel("25%"));
+            labelTable.put(100, new JLabel("100%"));
+            labelTable.put(400, new JLabel("400%"));
+            zoomSlider.setLabelTable(labelTable);
 
             zoomer.setLayout(new FlowLayout());
 

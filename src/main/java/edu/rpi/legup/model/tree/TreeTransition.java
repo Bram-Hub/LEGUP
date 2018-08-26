@@ -7,8 +7,7 @@ import edu.rpi.legup.model.rules.RuleType;
 
 import java.util.ArrayList;
 
-public class TreeTransition extends TreeElement
-{
+public class TreeTransition extends TreeElement {
     private ArrayList<TreeNode> parents;
     private TreeNode childNode;
     private Rule rule;
@@ -16,12 +15,11 @@ public class TreeTransition extends TreeElement
     private boolean isVerified;
 
     /**
-     * TreeTransition Constructor - create a transition from one node to another
+     * TreeTransition Constructor create a transition from one node to another
      *
      * @param board board state of the transition
      */
-    public TreeTransition(Board board)
-    {
+    public TreeTransition(Board board) {
         super(TreeElementType.TRANSITION);
         this.parents = new ArrayList<>();
         this.childNode = null;
@@ -35,10 +33,9 @@ public class TreeTransition extends TreeElement
      * TreeTransition Constructor - create a transition from one node to another
      *
      * @param parent parent tree node associated with the transition
-     * @param board board state of the transition
+     * @param board  board state of the transition
      */
-    public TreeTransition(TreeNode parent, Board board)
-    {
+    public TreeTransition(TreeNode parent, Board board) {
         this(board);
         this.parents.add(parent);
     }
@@ -48,15 +45,12 @@ public class TreeTransition extends TreeElement
      *
      * @param element puzzleElement of the change made
      */
-    public void propagateChanges(PuzzleElement element)
-    {
+    public void propagateChanges(PuzzleElement element) {
         board.notifyChange(element);
         isVerified = false;
-        if(childNode != null)
-        {
+        if (childNode != null) {
             childNode.getBoard().notifyChange(element.copy());
-            for(TreeTransition child : childNode.getChildren())
-            {
+            for (TreeTransition child : childNode.getChildren()) {
                 child.propagateChanges(element.copy());
             }
         }
@@ -69,18 +63,12 @@ public class TreeTransition extends TreeElement
      * @return true if this tree node leads to a contradiction, false otherwise
      */
     @Override
-    public boolean isContradictoryBranch()
-    {
-        if(isJustified() && isCorrect() && rule.getRuleType() == RuleType.CONTRADICTION)
-        {
+    public boolean isContradictoryBranch() {
+        if (isJustified() && isCorrect() && rule.getRuleType() == RuleType.CONTRADICTION) {
             return true;
-        }
-        else if(childNode == null)
-        {
+        } else if (childNode == null) {
             return false;
-        }
-        else
-        {
+        } else {
             return childNode.isContradictoryBranch() && isJustified() && isCorrect();
         }
     }
@@ -94,8 +82,7 @@ public class TreeTransition extends TreeElement
      * false otherwise
      */
     @Override
-    public boolean isValidBranch()
-    {
+    public boolean isValidBranch() {
         return isJustified() && isCorrect() && childNode != null && childNode.isValidBranch();
     }
 
@@ -104,8 +91,7 @@ public class TreeTransition extends TreeElement
      *
      * @return parent tree nodes of this tree transition
      */
-    public ArrayList<TreeNode> getParents()
-    {
+    public ArrayList<TreeNode> getParents() {
         return parents;
     }
 
@@ -114,8 +100,7 @@ public class TreeTransition extends TreeElement
      *
      * @param parents parents tree nodes of this tree transition
      */
-    public void setParents(ArrayList<TreeNode> parents)
-    {
+    public void setParents(ArrayList<TreeNode> parents) {
         this.parents = parents;
     }
 
@@ -124,8 +109,7 @@ public class TreeTransition extends TreeElement
      *
      * @param parent parent tree node to add
      */
-    public void addParent(TreeNode parent)
-    {
+    public void addParent(TreeNode parent) {
         parents.add(parent);
     }
 
@@ -134,8 +118,7 @@ public class TreeTransition extends TreeElement
      *
      * @param parent parent tree node to remove
      */
-    public void removeParent(TreeNode parent)
-    {
+    public void removeParent(TreeNode parent) {
         parents.remove(parent);
     }
 
@@ -145,8 +128,7 @@ public class TreeTransition extends TreeElement
      * @param parent tree node that could be a parent
      * @return true if the specified tree node is a parent of this transition, false otherwise
      */
-    public boolean isParent(TreeNode parent)
-    {
+    public boolean isParent(TreeNode parent) {
         return parents.contains(parent);
     }
 
@@ -155,8 +137,7 @@ public class TreeTransition extends TreeElement
      *
      * @return childNode tree node
      */
-    public TreeNode getChildNode()
-    {
+    public TreeNode getChildNode() {
         return childNode;
     }
 
@@ -165,8 +146,7 @@ public class TreeTransition extends TreeElement
      *
      * @param childNode childNode tree node
      */
-    public void setChildNode(TreeNode childNode)
-    {
+    public void setChildNode(TreeNode childNode) {
         this.childNode = childNode;
     }
 
@@ -175,8 +155,7 @@ public class TreeTransition extends TreeElement
      *
      * @return rule of this transition
      */
-    public Rule getRule()
-    {
+    public Rule getRule() {
         return rule;
     }
 
@@ -185,8 +164,7 @@ public class TreeTransition extends TreeElement
      *
      * @param rule rule of this transition
      */
-    public void setRule(Rule rule)
-    {
+    public void setRule(Rule rule) {
         this.rule = rule;
         isVerified = false;
     }
@@ -196,10 +174,8 @@ public class TreeTransition extends TreeElement
      *
      * @return true if this transition is correctly justified, false otherwise
      */
-    public boolean isCorrect()
-    {
-        if(isJustified() && !isVerified)
-        {
+    public boolean isCorrect() {
+        if (isJustified() && !isVerified) {
             isCorrect = rule.checkRule(this) == null;
             isVerified = true;
         }
@@ -231,8 +207,7 @@ public class TreeTransition extends TreeElement
      *
      * @return true if this transition is justified, false otherwise
      */
-    public boolean isJustified()
-    {
+    public boolean isJustified() {
         return rule != null;
     }
 }

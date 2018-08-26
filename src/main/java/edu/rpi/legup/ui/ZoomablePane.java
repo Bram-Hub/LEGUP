@@ -10,7 +10,7 @@ public class ZoomablePane extends JLayeredPane
     private ScrollView viewer;
 
     /**
-     * ZoomablePane Constructor - creates scalable JComponent
+     * ZoomablePane Constructor creates scalable JComponent
      *
      * @param viewer dynamic dynamicView
      */

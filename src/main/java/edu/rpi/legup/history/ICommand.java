@@ -1,7 +1,6 @@
 package edu.rpi.legup.history;
 
-public interface ICommand
-{
+public interface ICommand {
     /**
      * Executes an command
      */

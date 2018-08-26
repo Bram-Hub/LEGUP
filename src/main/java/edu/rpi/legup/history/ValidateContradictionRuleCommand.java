@@ -3,6 +3,7 @@ package edu.rpi.legup.history;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.treeview.*;
@@ -12,20 +13,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ValidateContradictionRuleCommand extends PuzzleCommand {
     private TreeViewSelection selection;
 
     private Map<TreeNode, ArrayList<TreeTransition>> saveElements;
-    private Rule newRule;
+    private ContradictionRule newRule;
     private Map<TreeElement, TreeTransition> addTran;
 
     /**
-     * ValidateContradictionRuleCommand Constructor - creates a edu.rpi.legup.puzzle command for validating a contradiction rule
+     * ValidateContradictionRuleCommand Constructor creates a puzzle command for verifying a contradiction rule
      *
      * @param selection currently selected tree puzzleElement views
      * @param rule      contradiction rule to set to all of the tree elements
      */
-    public ValidateContradictionRuleCommand(TreeViewSelection selection, Rule rule) {
+    public ValidateContradictionRuleCommand(TreeViewSelection selection, ContradictionRule rule) {
         this.selection = selection.copy();
         this.newRule = rule;
         this.saveElements = new HashMap<>();
@@ -63,7 +67,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
             treeNode.getChildren().clear();
 
             TreeTransition transition = addTran.get(treeElement);
-            if(transition == null) {
+            if (transition == null) {
                 transition = tree.addNewTransition(treeNode);
                 transition.setRule(newRule);
                 tree.addTreeElement(transition);

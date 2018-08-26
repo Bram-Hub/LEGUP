@@ -12,6 +12,9 @@ import edu.rpi.legup.ui.treeview.*;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class EditDataCommand extends PuzzleCommand {
@@ -24,7 +27,7 @@ public class EditDataCommand extends PuzzleCommand {
     private MouseEvent event;
 
     /**
-     * EditDataCommand Constructor - create a puzzle command for editing a board
+     * EditDataCommand Constructor create a puzzle command for editing a board
      *
      * @param elementView currently selected puzzle puzzleElement view that is being edited
      * @param selection   currently selected tree puzzleElement views that is being edited

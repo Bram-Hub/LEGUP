@@ -1,7 +1,6 @@
 package edu.rpi.legup.model.gameboard;
 
 import java.awt.*;
-import java.util.logging.Logger;
 
 public class GridBoard extends Board {
 
@@ -38,7 +37,8 @@ public class GridBoard extends Board {
      * @return grid cell at location (x, y)
      */
     public GridCell getCell(int x, int y) {
-        if (x * dimension.width + y >= puzzleElements.size() || x >= dimension.width || y >= dimension.height || x < 0 || y < 0) {
+        if (x * dimension.width + y >= puzzleElements.size() || x >= dimension.width ||
+                y >= dimension.height || x < 0 || y < 0) {
             return null;
         }
         return (GridCell) puzzleElements.get(y * dimension.width + x);
@@ -53,7 +53,8 @@ public class GridBoard extends Board {
      * @param cell grid cell to set at location (x,y)
      */
     public void setCell(int x, int y, GridCell cell) {
-        if (x * dimension.width + y >= puzzleElements.size() && x < dimension.width && y < dimension.height && x >= 0 && y >= 0) {
+        if (x * dimension.width + y >= puzzleElements.size() &&
+                x < dimension.width && y < dimension.height && x >= 0 && y >= 0) {
             return;
         }
         puzzleElements.set(y * dimension.width + x, cell);

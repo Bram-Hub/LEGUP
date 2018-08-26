@@ -149,7 +149,8 @@ public abstract class Board {
         puzzleElements.get(puzzleElement.getIndex()).setData(puzzleElement.getData());
     }
 
-    public Board mergedBoard(Board lca, List<Board>boards) {
+    @SuppressWarnings("unchecked")
+    public Board mergedBoard(Board lca, List<Board> boards) {
         if (lca == null || boards.isEmpty()) {
             return null;
         }
@@ -183,8 +184,8 @@ public abstract class Board {
      */
     @SuppressWarnings("unchecked")
     public boolean equalsBoard(Board board) {
-        for(PuzzleElement element : puzzleElements) {
-            if(!element.equalsData(board.getPuzzleElement(element))) {
+        for (PuzzleElement element : puzzleElements) {
+            if (!element.equalsData(board.getPuzzleElement(element))) {
                 return false;
             }
         }

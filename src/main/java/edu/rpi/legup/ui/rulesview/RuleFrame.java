@@ -17,8 +17,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
 
-public class RuleFrame extends JPanel
-{
+public class RuleFrame extends JPanel {
     private static final String checkBox = "<font style=\"color:#00CD00\"> \u2714 </font>";
     private static final String xBox = "<font style=\"color:#FF0000\"> \u2718 </font>";
     private static final String htmlHead = "<html>";
@@ -34,8 +33,7 @@ public class RuleFrame extends JPanel
 
     private RuleController controller;
 
-    public RuleFrame(RuleController controller)
-    {
+    public RuleFrame(RuleController controller) {
         this.controller = controller;
 
         this.tabbedPane = new JTabbedPane();
@@ -56,8 +54,6 @@ public class RuleFrame extends JPanel
         setMinimumSize(new Dimension(250, 256));
         setPreferredSize(new Dimension(330, 256));
 
-        //status.setText("This is a test of the status bar of rule panel.");
-
         add(tabbedPane);
         add(status, BorderLayout.SOUTH);
 
@@ -71,13 +67,11 @@ public class RuleFrame extends JPanel
      *
      * @return button group
      */
-    public ButtonGroup getButtonGroup()
-    {
+    public ButtonGroup getButtonGroup() {
         return buttonGroup;
     }
 
-    public void setSelectionByRule(Rule rule)
-    {
+    public void setSelectionByRule(Rule rule) {
         basicRulePanel.setSelectionByRule(rule);
         casePanel.setSelectionByRule(rule);
         contradictionPanel.setSelectionByRule(rule);
@@ -86,24 +80,21 @@ public class RuleFrame extends JPanel
     /**
      * Reset the rules button and status string
      */
-    public void resetRuleButtons()
-    {
+    public void resetRuleButtons() {
         resetStatus();
     }
 
     /**
      * Reset the status label to the empty string
      */
-    public void resetStatus()
-    {
+    public void resetStatus() {
         //((GridUI)GameBoardFacade.getInstance().getLegupUI()).getTreePanel().updateStatus();
     }
 
     /**
      * Resets the dimension of the rule frame
      */
-    public void resetSize()
-    {
+    public void resetSize() {
         int buttonWidth = ((RulePanel) tabbedPane.getSelectedComponent()).getRuleButtons()[0].getWidth();
         this.setMinimumSize(new Dimension(2 * buttonWidth + 64, this.getHeight()));
     }
@@ -114,8 +105,7 @@ public class RuleFrame extends JPanel
      * @param check true iff we want a check box, if false we'll have a red x box
      * @param text  the text we're setting the label to display
      */
-    public void setStatus(boolean check, String text)
-    {
+    public void setStatus(boolean check, String text) {
         String box = (check ? checkBox : xBox);
         //status.setText(htmlHead + box + text + htmlTail);
         //((GridUI)GameBoardFacade.getInstance().getLegupUI()).getTreePanel().getStatus().setText(htmlHead + box + text + htmlTail);
@@ -126,8 +116,7 @@ public class RuleFrame extends JPanel
      *
      * @param puzzle edu.rpi.legup.puzzle game
      */
-    public void setRules(Puzzle puzzle)
-    {
+    public void setRules(Puzzle puzzle) {
         basicRulePanel.setRules(puzzle.getBasicRules());
         contradictionPanel.setRules(puzzle.getContradictionRules());
         casePanel.setRules(puzzle.getCaseRules());
@@ -138,38 +127,32 @@ public class RuleFrame extends JPanel
      *
      * @param board board state
      */
-    public void boardDataChanged(Board board)
-    {
+    public void boardDataChanged(Board board) {
         this.resetStatus();
     }
 
     /**
      * Gets the RuleController for this RuleFrame
      *
-     * @return rule edu.rpi.legup.controller
+     * @return rule controller
      */
-    public RuleController getController()
-    {
+    public RuleController getController() {
         return controller;
     }
 
-    public JTabbedPane getTabbedPane()
-    {
+    public JTabbedPane getTabbedPane() {
         return tabbedPane;
     }
 
-    public BasicRulePanel getBasicRulePanel()
-    {
+    public BasicRulePanel getBasicRulePanel() {
         return basicRulePanel;
     }
 
-    public CaseRulePanel getCasePanel()
-    {
+    public CaseRulePanel getCasePanel() {
         return casePanel;
     }
 
-    public ContradictionRulePanel getContradictionPanel()
-    {
+    public ContradictionRulePanel getContradictionPanel() {
         return contradictionPanel;
     }
 }

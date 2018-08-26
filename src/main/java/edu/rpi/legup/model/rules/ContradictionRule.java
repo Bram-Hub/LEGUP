@@ -7,7 +7,7 @@ import static edu.rpi.legup.model.rules.RuleType.CONTRADICTION;
 
 public abstract class ContradictionRule extends Rule {
     /**
-     * ContradictionRule Constructor - creates a new contradiction rule
+     * ContradictionRule Constructor creates a new contradiction rule
      *
      * @param ruleName    name of the rule
      * @param description description of the rule

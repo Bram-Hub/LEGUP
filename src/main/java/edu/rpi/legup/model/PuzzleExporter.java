@@ -15,22 +15,30 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.util.*;
 
-public abstract class PuzzleExporter
-{
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.w3c.dom.Element;
+
+public abstract class PuzzleExporter {
+    private static final Logger LOGGER = LogManager.getLogger(PuzzleExporter.class.getName());
+
     protected Puzzle puzzle;
 
     /**
-     * PuzzleExporter Constructor - exports the edu.rpi.legup.puzzle object to a file
+     * PuzzleExporter Constructor exports the puzzle object to a file
      */
-    public PuzzleExporter(Puzzle puzzle)
-    {
+    public PuzzleExporter(Puzzle puzzle) {
         this.puzzle = puzzle;
     }
 
-    public void exportPuzzle(String fileName) throws ExportFileException
-    {
-        try
-        {
+    /**
+     * Exports the puzzle to an xml formatted file
+     *
+     * @param fileName name of file to be exported
+     * @throws ExportFileException
+     */
+    public void exportPuzzle(String fileName) throws ExportFileException {
+        try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             Document newDocument = docBuilder.newDocument();
@@ -44,8 +52,7 @@ public abstract class PuzzleExporter
             legupElement.appendChild(puzzleElement);
 
             puzzleElement.appendChild(createBoardElement(newDocument));
-            if(true)
-            {
+            if (!puzzle.getTree().getRootNode().getChildren().isEmpty()) {
                 puzzleElement.appendChild(createProofElement(newDocument));
             }
 
@@ -58,69 +65,56 @@ public abstract class PuzzleExporter
             StreamResult result = new StreamResult(new File(fileName));
 
             transformer.transform(source, result);
-        }
-        catch(ParserConfigurationException | TransformerException e)
-        {
+        } catch (ParserConfigurationException | TransformerException e) {
             throw new ExportFileException("Puzzle Exporter: parser configuration exception");
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             throw e;
             //throw new ExportFileException(e.getMessage());
         }
     }
 
-    protected abstract org.w3c.dom.Element createBoardElement(Document newDocument);
+    protected abstract Element createBoardElement(Document newDocument);
 
-    protected org.w3c.dom.Element createProofElement(Document newDocument)
-    {
+    protected Element createProofElement(Document newDocument) {
         org.w3c.dom.Element proofElement = newDocument.createElement("proof");
         org.w3c.dom.Element treeElement = createTreeElement(newDocument);
         proofElement.appendChild(treeElement);
         return proofElement;
     }
 
-    protected org.w3c.dom.Element createTreeElement(Document newDocument)
-    {
+    protected Element createTreeElement(Document newDocument) {
         org.w3c.dom.Element treeElement = newDocument.createElement("tree");
 
         Set<TreeNode> visited = new HashSet<>();
         List<TreeNode> nodes = new ArrayList<>();
         nodes.add(puzzle.getTree().getRootNode());
-        while(!nodes.isEmpty())
-        {
+        while (!nodes.isEmpty()) {
             TreeNode treeNode = nodes.get(nodes.size() - 1);
             nodes.remove(treeNode);
-            if(!visited.contains(treeNode))
-            {
+            if (!visited.contains(treeNode)) {
                 visited.add(treeNode);
 
                 org.w3c.dom.Element nodeElement = newDocument.createElement("node");
                 nodeElement.setAttribute("id", String.valueOf(treeNode.hashCode()));
-                if(treeNode.isRoot())
-                {
-                    nodeElement.setAttribute("root","true");
+                if (treeNode.isRoot()) {
+                    nodeElement.setAttribute("root", "true");
                 }
 
-                for(TreeTransition transition : treeNode.getChildren())
-                {
+                for (TreeTransition transition : treeNode.getChildren()) {
                     org.w3c.dom.Element transElement = newDocument.createElement("transition");
                     transElement.setAttribute("id", String.valueOf(transition.hashCode()));
 
                     TreeNode child = transition.getChildNode();
-                    if(child != null)
-                    {
+                    if (child != null) {
                         transElement.setAttribute("child", String.valueOf(child.hashCode()));
                         nodes.add(child);
                     }
 
-                    if(transition.isJustified())
-                    {
+                    if (transition.isJustified()) {
                         transElement.setAttribute("rule", transition.getRule().getRuleName());
                     }
 
-                    for(PuzzleElement data : transition.getBoard().getModifiedData())
-                    {
+                    for (PuzzleElement data : transition.getBoard().getModifiedData()) {
                         transElement.appendChild(puzzle.getFactory().exportCell(newDocument, data));
                     }
                     nodeElement.appendChild(transElement);

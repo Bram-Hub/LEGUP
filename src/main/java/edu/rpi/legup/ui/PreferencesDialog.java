@@ -27,10 +27,11 @@ public class PreferencesDialog extends JDialog {
     private JTextField workDirectory;
 
     private static Image folderIcon;
+
     static {
         try {
             folderIcon = ImageIO.read(PreferencesDialog.class.getResource("/edu/rpi/legup/imgs/folder.png"));
-        } catch(IOException e) {
+        } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Unable to locate icons");
         }
     }
@@ -59,7 +60,7 @@ public class PreferencesDialog extends JDialog {
                 Puzzle puzzle = (Puzzle) cons.newInstance();
                 tabbedPane.addTab(puzzleName, createPuzzleTab(puzzle));
             }
-        } catch(ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             LOGGER.log(Level.SEVERE, "Cannot create puzzle preferences");
         }
         mainPanel.add(tabbedPane, BorderLayout.CENTER);
@@ -122,7 +123,7 @@ public class PreferencesDialog extends JDialog {
             chooser.setAcceptAllFileFilterUsed(false);
             chooser.setVisible(true);
 
-            if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
                 File newFile = chooser.getSelectedFile();
                 workDirectory.setText(newFile.toString());
             }
@@ -145,7 +146,7 @@ public class PreferencesDialog extends JDialog {
         autoUpdateRow.add(autoUpdate, BorderLayout.WEST);
         autoUpdateRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, autoUpdateRow.getPreferredSize().height));
         contentPane.add(autoUpdateRow);
-        contentPane.add(Box.createRigidArea(new Dimension(0,10)));
+        contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
 
         contentPane.add(createLeftLabel("Board View Preferences"));
         contentPane.add(createLineSeparator());
@@ -164,7 +165,7 @@ public class PreferencesDialog extends JDialog {
         showAnnotationsRow.add(showAnnotations, BorderLayout.WEST);
         showAnnotationsRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, showAnnotationsRow.getPreferredSize().height));
         contentPane.add(showAnnotationsRow);
-        contentPane.add(Box.createRigidArea(new Dimension(0,10)));
+        contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
 
         contentPane.add(createLeftLabel("Tree View Preferences"));
         contentPane.add(createLineSeparator());
@@ -211,7 +212,7 @@ public class PreferencesDialog extends JDialog {
         contentPane.add(createLeftLabel("Basic Rules"));
         contentPane.add(createLineSeparator());
         contentPane.add(Box.createRigidArea(new Dimension(0, 5)));
-        for(Rule rule : puzzle.getBasicRules()) {
+        for (Rule rule : puzzle.getBasicRules()) {
             JPanel ruleRow = createRuleRow(rule);
             contentPane.add(ruleRow);
             contentPane.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -220,7 +221,7 @@ public class PreferencesDialog extends JDialog {
         contentPane.add(createLeftLabel("Case Rules"));
         contentPane.add(createLineSeparator());
         contentPane.add(Box.createRigidArea(new Dimension(0, 5)));
-        for(Rule rule : puzzle.getCaseRules()) {
+        for (Rule rule : puzzle.getCaseRules()) {
             JPanel ruleRow = createRuleRow(rule);
             contentPane.add(ruleRow);
             contentPane.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -229,7 +230,7 @@ public class PreferencesDialog extends JDialog {
         contentPane.add(createLeftLabel("Contradiction Rules"));
         contentPane.add(createLineSeparator());
         contentPane.add(Box.createRigidArea(new Dimension(0, 5)));
-        for(Rule rule : puzzle.getContradictionRules()) {
+        for (Rule rule : puzzle.getContradictionRules()) {
             JPanel ruleRow = createRuleRow(rule);
             contentPane.add(ruleRow);
             contentPane.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -262,14 +263,14 @@ public class PreferencesDialog extends JDialog {
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
                 String combo = "";
-                if(e.isControlDown()) {
+                if (e.isControlDown()) {
                     combo += "Ctrl + ";
-                } else if(e.isShiftDown()) {
+                } else if (e.isShiftDown()) {
                     combo += "Shift + ";
-                } else if(e.isAltDown()) {
+                } else if (e.isAltDown()) {
                     combo += "Alt + ";
                 }
-                if(keyCode == KeyEvent.VK_CONTROL || keyCode == KeyEvent.VK_SHIFT || keyCode == KeyEvent.VK_ALT ) {
+                if (keyCode == KeyEvent.VK_CONTROL || keyCode == KeyEvent.VK_SHIFT || keyCode == KeyEvent.VK_ALT) {
                     return;
                 }
                 combo += KeyEvent.getKeyText(keyCode);

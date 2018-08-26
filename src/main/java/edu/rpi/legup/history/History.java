@@ -5,13 +5,18 @@ import edu.rpi.legup.app.GameBoardFacade;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class History {
+    private static final Logger LOGGER = LogManager.getLogger(History.class.getName());
+
     private final Object lock = new Object();
     private List<ICommand> history;
     private int curIndex;
 
     /**
-     * History Constructor - this holds information about changes to the board
+     * History Constructor this holds information about changes to the board
      * and Tree structure for undoing and redoing operations. Though history is
      * an List, it is implemented like a stack. The curIndex points to the
      * top of the stack (where the last change was made).
@@ -39,6 +44,7 @@ public class History {
                 history.add(command);
             }
             curIndex++;
+            LOGGER.debug("Pushed Change to stack");
             GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onPushChange(command));
         }
     }
@@ -50,6 +56,7 @@ public class History {
         synchronized (lock) {
             if (curIndex > -1) {
                 history.get(curIndex--).undo();
+                LOGGER.debug("Undo change");
                 GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onUndo(curIndex < 0, curIndex == history.size() - 1));
             }
         }
@@ -62,6 +69,7 @@ public class History {
         synchronized (lock) {
             if (curIndex < history.size() - 1) {
                 history.get(++curIndex).redo();
+                LOGGER.debug("Redo change");
                 GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onRedo(curIndex < 0, curIndex == history.size() - 1));
             }
         }
@@ -73,6 +81,7 @@ public class History {
     public void clear() {
         history.clear();
         curIndex = -1;
+        LOGGER.debug("History Cleared");
         GameBoardFacade.getInstance().notifyHistoryListeners(IHistoryListener::onClearHistory);
     }
 

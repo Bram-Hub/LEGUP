@@ -6,24 +6,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class DynamicController implements MouseMotionListener, MouseListener, MouseWheelListener
-{
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+public class DynamicController implements MouseMotionListener, MouseListener, MouseWheelListener {
     private DynamicView dynamicView;
     private int x, y;
     private boolean pan;
 
     /**
-     * DynamicController Constructor - creates a edu.rpi.legup.controller object to listen
-     * to edu.rpi.legup.ui events from a ScrollView
+     * DynamicController Constructor creates a controller object to listen to ui events from a {@link DynamicView}
      */
-    public DynamicController()
-    {
+    public DynamicController() {
         x = y = -1;
         pan = false;
     }
 
-    public void setDynamicView(DynamicView dynamicView)
-    {
+    public void setDynamicView(DynamicView dynamicView) {
         this.dynamicView = dynamicView;
     }
 
@@ -33,8 +32,7 @@ public class DynamicController implements MouseMotionListener, MouseListener, Mo
      * @param e MouseEvent object
      */
     @Override
-    public void mouseClicked(MouseEvent e)
-    {
+    public void mouseClicked(MouseEvent e) {
 
     }
 
@@ -45,10 +43,8 @@ public class DynamicController implements MouseMotionListener, MouseListener, Mo
      * @param e MouseEvent object
      */
     @Override
-    public void mousePressed(MouseEvent e)
-    {
-        if(e.getButton() == MouseEvent.BUTTON3)
-        {
+    public void mousePressed(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON3) {
             pan = true;
             x = e.getX();
             y = e.getY();
@@ -63,10 +59,8 @@ public class DynamicController implements MouseMotionListener, MouseListener, Mo
      * @param e MouseEvent object
      */
     @Override
-    public void mouseReleased(MouseEvent e)
-    {
-        if(e.getButton() == MouseEvent.BUTTON3)
-        {
+    public void mouseReleased(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON3) {
             pan = false;
             dynamicView.getScrollView().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
@@ -78,8 +72,7 @@ public class DynamicController implements MouseMotionListener, MouseListener, Mo
      * @param e MouseEvent object
      */
     @Override
-    public void mouseEntered(MouseEvent e)
-    {
+    public void mouseEntered(MouseEvent e) {
 
     }
 
@@ -89,8 +82,7 @@ public class DynamicController implements MouseMotionListener, MouseListener, Mo
      * @param e MouseEvent object
      */
     @Override
-    public void mouseExited(MouseEvent e)
-    {
+    public void mouseExited(MouseEvent e) {
 
     }
 
@@ -100,10 +92,8 @@ public class DynamicController implements MouseMotionListener, MouseListener, Mo
      * @param e MouseEvent object
      */
     @Override
-    public void mouseDragged(MouseEvent e)
-    {
-        if(pan)
-        {
+    public void mouseDragged(MouseEvent e) {
+        if (pan) {
             JViewport viewport = dynamicView.getScrollView().getViewport();
             Point position = viewport.getViewPosition();
             position.x += (x - e.getX());
@@ -121,8 +111,7 @@ public class DynamicController implements MouseMotionListener, MouseListener, Mo
      * @param e MouseEvent object
      */
     @Override
-    public void mouseMoved(MouseEvent e)
-    {
+    public void mouseMoved(MouseEvent e) {
 
     }
 
@@ -132,14 +121,10 @@ public class DynamicController implements MouseMotionListener, MouseListener, Mo
      * @param e MouseEvent object
      */
     @Override
-    public void mouseWheelMoved(MouseWheelEvent e)
-    {
-        if(e.isControlDown())
-        {
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        if (e.isControlDown()) {
 //            dynamicView.getScrollView().zoom(e.getWheelRotation() * 2, e.getPoint());
-        }
-        else
-        {
+        } else {
 //            dynamicView.getScrollView().zoom(e.getWheelRotation(), e.getPoint());
         }
     }

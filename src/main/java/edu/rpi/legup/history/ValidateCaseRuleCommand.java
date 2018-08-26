@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class ValidateCaseRuleCommand extends PuzzleCommand {
@@ -23,7 +26,7 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
     private Map<TreeTransition, TreeNode> addNode;
 
     /**
-     * AutoCaseRuleCommand Constructor - creates a command for validating a case rule
+     * AutoCaseRuleCommand Constructor creates a command for verifying a case rule
      *
      * @param selection currently selected tree puzzleElement views that is being edited
      */
@@ -55,11 +58,11 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
             TreeNode childNode = transition.getChildNode();
             if (childNode == null) {
                 childNode = addNode.get(transition);
-                if(childNode == null) {
-                    childNode = (TreeNode)tree.addTreeElement(transition);
+                if (childNode == null) {
+                    childNode = (TreeNode) tree.addTreeElement(transition);
                     addNode.put(transition, childNode);
                 } else {
-                    childNode = (TreeNode)tree.addTreeElement(transition, childNode);
+                    childNode = (TreeNode) tree.addTreeElement(transition, childNode);
                 }
 
                 final TreeNode finalNode = childNode;

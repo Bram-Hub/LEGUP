@@ -10,12 +10,18 @@ import edu.rpi.legup.history.MergeCommand;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class TreeToolBarController implements ActionListener
-{
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+public class TreeToolBarController implements ActionListener {
     private TreePanel treePanel;
 
-    public TreeToolBarController(TreePanel treePanel)
-    {
+    /**
+     * TreeToolBarController Constructor creates a controller for clicking buttons on the toolbar
+     *
+     * @param treePanel tree panel associated with this controller
+     */
+    public TreeToolBarController(TreePanel treePanel) {
         this.treePanel = treePanel;
     }
 
@@ -25,58 +31,41 @@ public class TreeToolBarController implements ActionListener
      * @param e the event to be processed
      */
     @Override
-    public void actionPerformed(ActionEvent e)
-    {
-        TreeToolBarButton button = (TreeToolBarButton)e.getSource();
-        if(button.getToolBarName() == TreeToolBarName.ADD_CHILD)
-        {
+    public void actionPerformed(ActionEvent e) {
+        TreeToolBarButton button = (TreeToolBarButton) e.getSource();
+        if (button.getToolBarName() == TreeToolBarName.ADD_CHILD) {
             TreeViewSelection selection = treePanel.getTreeView().getSelection();
 
             AddTreeElementCommand add = new AddTreeElementCommand(selection);
-            if(add.canExecute())
-            {
+            if (add.canExecute()) {
                 add.execute();
                 GameBoardFacade.getInstance().getHistory().pushChange(add);
-            }
-            else
-            {
+            } else {
                 treePanel.updateError(add.getError());
             }
-        }
-        else if(button.getToolBarName() == TreeToolBarName.DEL_CHILD)
-        {
+        } else if (button.getToolBarName() == TreeToolBarName.DEL_CHILD) {
             TreeViewSelection selection = treePanel.getTreeView().getSelection();
 
             DeleteTreeElementCommand del = new DeleteTreeElementCommand(selection);
-            if(del.canExecute())
-            {
+            if (del.canExecute()) {
                 del.execute();
                 GameBoardFacade.getInstance().getHistory().pushChange(del);
-            }
-            else
-            {
+            } else {
                 treePanel.updateError(del.getError());
             }
-        }
-        else if(button.getToolBarName() == TreeToolBarName.MERGE)
-        {
+        } else if (button.getToolBarName() == TreeToolBarName.MERGE) {
             TreeViewSelection selection = treePanel.getTreeView().getSelection();
 
             ICommand merge = new MergeCommand(selection);
-            if(merge.canExecute())
-            {
+            if (merge.canExecute()) {
                 merge.execute();
                 GameBoardFacade.getInstance().getHistory().pushChange(merge);
-            }
-            else
-            {
+            } else {
                 treePanel.updateError(merge.getError());
             }
-        }
-        else if(button.getToolBarName() == TreeToolBarName.COLLAPSE)
-        {
+        } else if (button.getToolBarName() == TreeToolBarName.COLLAPSE) {
             TreeViewSelection selection = treePanel.getTreeView().getSelection();
-            for(TreeElementView view : selection.getSelectedViews()) {
+            for (TreeElementView view : selection.getSelectedViews()) {
                 view.setCollapsed(!view.isCollapsed());
             }
         }

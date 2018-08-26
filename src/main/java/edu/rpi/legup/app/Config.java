@@ -1,32 +1,32 @@
 package edu.rpi.legup.app;
 
 import java.io.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.logging.Logger;
+import java.util.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class Config
-{
-    private final static Logger LOGGER = Logger.getLogger(Config.class.getName());
+public class Config {
+    private final static Logger Logger = LogManager.getLogger(Config.class.getName());
 
-    private Hashtable<String, String> puzzles;
+    private Map<String, String> puzzles;
     private static final String CONFIG_LOCATION = "edu/rpi/legup/legup/config";
 
     /**
-     * Constructor
+     * Config Constructor for logic puzzles
+     *
+     * @throws InvalidConfigException
      */
-    public Config() throws InvalidConfigException
-    {
+    public Config() throws InvalidConfigException {
         puzzles = new Hashtable<>();
         loadConfig(this.getClass().getClassLoader().getResourceAsStream(CONFIG_LOCATION));
     }
@@ -36,64 +36,49 @@ public class Config
      *
      * @return Vector of Puzzle names which are Strings
      */
-    public Vector<String> getPuzzleNames()
-    {
-        Vector<String> puzzleList = new Vector<>();
-        for(Enumeration<String> e = puzzles.keys(); e.hasMoreElements(); )
-        {
-            puzzleList.add(e.nextElement());
-        }
-        return puzzleList;
+    public List<String> getPuzzleNames() {
+        return new ArrayList<>(puzzles.keySet());
     }
 
     /**
-     * Gets a edu.rpi.legup.puzzle class for a Puzzle NAME
+     * Gets a {@link edu.rpi.legup.model.Puzzle} class for a puzzle name
      *
-     * @param puzzleName Puzzle NAME to get a Class Name of
-     *
-     * @return Class Name for the Puzzle Name
+     * @param puzzleName puzzle name of the class
+     * @return class name for the puzzle name
      */
-    public String getPuzzleClassForName(String puzzleName)
-    {
-        if(puzzles.containsKey(puzzleName))
-        {
+    public String getPuzzleClassForName(String puzzleName) {
+        if (puzzles.containsKey(puzzleName)) {
             return puzzles.get(puzzleName);
         }
         return null;
     }
 
     /**
-     * Loads the Config object from the config xml file
+     * Loads the config object from the config xml file
      *
      * @param stream file stream for the config xml file
      */
-    private void loadConfig(InputStream stream) throws InvalidConfigException
-    {
-        try
-        {
+    private void loadConfig(InputStream stream) throws InvalidConfigException {
+        try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(stream);
             Element configNode = document.getDocumentElement();
 
-            if(!configNode.getNodeName().equals("Legup"))
-            {
+            if (!configNode.getNodeName().equalsIgnoreCase("Legup")) {
                 throw new InvalidConfigException("Config is not formatted correctly");
             }
 
-            Element puzzleList = (Element)configNode.getElementsByTagName("puzzles").item(0);
+            Element puzzleList = (Element) configNode.getElementsByTagName("puzzles").item(0);
             NodeList puzzleNodes = puzzleList.getElementsByTagName("puzzle");
 
-            for(int i = 0; i < puzzleNodes.getLength(); i++)
-            {
-                Element puzzle = (Element)puzzleNodes.item(i);
+            for (int i = 0; i < puzzleNodes.getLength(); i++) {
+                Element puzzle = (Element) puzzleNodes.item(i);
                 String name = puzzle.getAttribute("name");
                 String className = puzzle.getAttribute("qualifiedClassName");
                 puzzles.put(name, className);
             }
-        }
-        catch(ParserConfigurationException | SAXException | IOException e)
-        {
+        } catch (ParserConfigurationException | SAXException | IOException e) {
             throw new InvalidConfigException(e.getMessage());
         }
     }

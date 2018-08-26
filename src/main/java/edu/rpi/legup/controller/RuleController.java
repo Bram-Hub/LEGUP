@@ -8,12 +8,15 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.rules.*;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.rulesview.RuleButton;
+import edu.rpi.legup.ui.rulesview.RulePanel;
 import edu.rpi.legup.ui.treeview.*;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
@@ -21,15 +24,15 @@ public class RuleController implements ActionListener {
     protected Object lastSource;
 
     /**
-     * RuleController Constructor - creates a edu.rpi.legup.controller object to listen
-     * to edu.rpi.legup.ui events from a RulePanelView
+     * RuleController Constructor creates a controller object to listen
+     * to ui events from a {@link RulePanel}
      */
     public RuleController() {
         super();
     }
 
     /**
-     * Button Pressed event - occurs a when a rule button has been pressed
+     * Button Pressed event occurs a when a rule button has been pressed
      *
      * @param rule rule of the button that was pressed
      */
@@ -42,7 +45,7 @@ public class RuleController implements ActionListener {
 
         String updateErrorString = "";
         if (rule.getRuleType() == RuleType.CASE) {
-            CaseRule caseRule = (CaseRule)rule;
+            CaseRule caseRule = (CaseRule) rule;
             if (selectedViews.size() == 1) {
                 TreeElementView elementView = selection.getFirstSelection();
                 TreeElement element = elementView.getTreeElement();
@@ -55,10 +58,10 @@ public class RuleController implements ActionListener {
                         updateErrorString = caseRuleCommand.getError();
                     }
                 } else {
-                    if(LegupPreferences.getInstance().getUserPref(LegupPreferences.AUTO_GENERATE_CASES).equalsIgnoreCase(Boolean.toString(true))) {
+                    if (LegupPreferences.getInstance().getUserPref(LegupPreferences.AUTO_GENERATE_CASES).equalsIgnoreCase(Boolean.toString(true))) {
                         CaseBoard caseBoard = caseRule.getCaseBoard(element.getBoard());
 
-                        if(caseBoard.getCount() > 0) {
+                        if (caseBoard.getCount() > 0) {
                             puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(caseBoard));
                         } else {
                             updateErrorString = "This board cannot be applied with this case rule.";
@@ -98,7 +101,7 @@ public class RuleController implements ActionListener {
     }
 
     /**
-     * ICommand Performed event - occurs when a rule button has been pressed
+     * ICommand Performed event occurs when a rule button has been pressed
      *
      * @param e action event object
      */

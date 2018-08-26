@@ -8,8 +8,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.util.ArrayList;
 
-public class TreeNodeView extends TreeElementView
-{
+public class TreeNodeView extends TreeElementView {
     static final int RADIUS = 25;
     static final int DIAMETER = 2 * RADIUS;
 
@@ -42,12 +41,11 @@ public class TreeNodeView extends TreeElementView
     private boolean isContradictoryState;
 
     /**
-     * TreeNodeView Constructor - creates a node for display
+     * TreeNodeView Constructor creates a node for display
      *
      * @param treeNode treeElement associated with this transition
      */
-    public TreeNodeView(TreeNode treeNode)
-    {
+    public TreeNodeView(TreeNode treeNode) {
         super(TreeElementType.NODE, treeNode);
         this.treeElement = treeNode;
         this.location = new Point();
@@ -63,27 +61,21 @@ public class TreeNodeView extends TreeElementView
      *
      * @param graphics2D graphics2D used for drawing
      */
-    public void draw(Graphics2D graphics2D)
-    {
-        if(isVisible() && treeElement != null)
-        {
-            if(getTreeElement().getParent() != null &&
+    public void draw(Graphics2D graphics2D) {
+        if (isVisible() && treeElement != null) {
+            if (getTreeElement().getParent() != null &&
                     getTreeElement().getParent().isJustified() &&
-                    getTreeElement().getParent().getRule().getRuleType() == RuleType.CONTRADICTION)
-            {
+                    getTreeElement().getParent().getRule().getRuleType() == RuleType.CONTRADICTION) {
                 isContradictoryState = true;
                 graphics2D.setColor(NODE_COLOR_CONTRADICTION);
                 graphics2D.drawLine(location.x - RADIUS, location.y - RADIUS, location.x + RADIUS, location.y + RADIUS);
                 graphics2D.drawLine(location.x + RADIUS, location.y - RADIUS, location.x - RADIUS, location.y + RADIUS);
-            }
-            else
-            {
+            } else {
                 isContradictoryState = false;
                 graphics2D.setStroke(MAIN_STROKE);
                 boolean isContraBranch = getTreeElement().isContradictoryBranch();
 
-                if(isSelected)
-                {
+                if (isSelected) {
                     graphics2D.setColor(SELECTION_COLOR);
                     graphics2D.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
 
@@ -93,9 +85,7 @@ public class TreeNodeView extends TreeElementView
                     graphics2D.setStroke(SELECTION_STROKE);
                     graphics2D.setColor(OUTLINE_SELECTION_COLOR);
                     graphics2D.drawOval(location.x - RADIUS - 4, location.y - RADIUS - 4, DIAMETER + 8, DIAMETER + 8);
-                }
-                else if(isHover)
-                {
+                } else if (isHover) {
                     graphics2D.setColor(HOVER_COLOR);
                     graphics2D.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
 
@@ -105,9 +95,7 @@ public class TreeNodeView extends TreeElementView
                     graphics2D.setStroke(SELECTION_STROKE);
                     graphics2D.setColor(OUTLINE_HOVER_COLOR);
                     graphics2D.drawOval(location.x - RADIUS - 4, location.y - RADIUS - 4, DIAMETER + 8, DIAMETER + 8);
-                }
-                else
-                {
+                } else {
                     graphics2D.setColor(isContraBranch ? NODE_COLOR_CONTRADICTION : NODE_COLOR_DEFAULT);
                     graphics2D.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
 
@@ -118,8 +106,7 @@ public class TreeNodeView extends TreeElementView
         }
     }
 
-    public boolean isContradictoryState()
-    {
+    public boolean isContradictoryState() {
         return isContradictoryState;
     }
 
@@ -128,8 +115,7 @@ public class TreeNodeView extends TreeElementView
      *
      * @return list of children views for this tree node
      */
-    public ArrayList<TreeTransitionView> getChildrenViews()
-    {
+    public ArrayList<TreeTransitionView> getChildrenViews() {
         return childrenViews;
     }
 
@@ -138,8 +124,7 @@ public class TreeNodeView extends TreeElementView
      *
      * @param childrenViews list of children views for this tree node
      */
-    public void setChildrenViews(ArrayList<TreeTransitionView> childrenViews)
-    {
+    public void setChildrenViews(ArrayList<TreeTransitionView> childrenViews) {
         this.childrenViews = childrenViews;
     }
 
@@ -148,8 +133,7 @@ public class TreeNodeView extends TreeElementView
      *
      * @param nodeView TreeTransitionView to add to the list of children views
      */
-    public void addChildrenView(TreeTransitionView nodeView)
-    {
+    public void addChildrenView(TreeTransitionView nodeView) {
         childrenViews.add(nodeView);
     }
 
@@ -158,8 +142,7 @@ public class TreeNodeView extends TreeElementView
      *
      * @param nodeView TreeTransitionView to remove from the list of children views
      */
-    public void removeChildrenView(TreeTransitionView nodeView)
-    {
+    public void removeChildrenView(TreeTransitionView nodeView) {
         childrenViews.remove(nodeView);
     }
 
@@ -168,8 +151,7 @@ public class TreeNodeView extends TreeElementView
      *
      * @param parentView parent tree transition view
      */
-    public void setParentView(TreeTransitionView parentView)
-    {
+    public void setParentView(TreeTransitionView parentView) {
         this.parentView = parentView;
     }
 
@@ -178,8 +160,7 @@ public class TreeNodeView extends TreeElementView
      *
      * @return parent tree transition view
      */
-    public TreeTransitionView getParentView()
-    {
+    public TreeTransitionView getParentView() {
         return parentView;
     }
 
@@ -188,9 +169,8 @@ public class TreeNodeView extends TreeElementView
      *
      * @return tree node
      */
-    public TreeNode getTreeElement()
-    {
-        return (TreeNode)treeElement;
+    public TreeNode getTreeElement() {
+        return (TreeNode) treeElement;
     }
 
     /**
@@ -198,8 +178,7 @@ public class TreeNodeView extends TreeElementView
      *
      * @return location of the tree node
      */
-    public Point getLocation()
-    {
+    public Point getLocation() {
         return location;
     }
 
@@ -208,8 +187,7 @@ public class TreeNodeView extends TreeElementView
      *
      * @param location location of the tree node
      */
-    public void setLocation(Point location)
-    {
+    public void setLocation(Point location) {
         this.location = location;
     }
 
@@ -218,8 +196,7 @@ public class TreeNodeView extends TreeElementView
      *
      * @return x location
      */
-    public int getX()
-    {
+    public int getX() {
         return location.x;
     }
 
@@ -228,8 +205,7 @@ public class TreeNodeView extends TreeElementView
      *
      * @param x x location
      */
-    public void setX(int x)
-    {
+    public void setX(int x) {
         location.x = x;
     }
 
@@ -238,8 +214,7 @@ public class TreeNodeView extends TreeElementView
      *
      * @return y location
      */
-    public int getY()
-    {
+    public int getY() {
         return location.y;
     }
 
@@ -248,8 +223,7 @@ public class TreeNodeView extends TreeElementView
      *
      * @param y y location
      */
-    public void setY(int y)
-    {
+    public void setY(int y) {
         location.y = y;
     }
 
@@ -258,65 +232,57 @@ public class TreeNodeView extends TreeElementView
      *
      * @return radius
      */
-    public int getRadius() {return RADIUS; }
+    public int getRadius() {
+        return RADIUS;
+    }
 
     @Override
-    public Rectangle getBounds()
-    {
+    public Rectangle getBounds() {
         return new Rectangle(location.x, location.y, DIAMETER, DIAMETER);
     }
 
     @Override
-    public Rectangle2D getBounds2D()
-    {
+    public Rectangle2D getBounds2D() {
         return new Rectangle(location.x, location.y, DIAMETER, DIAMETER);
     }
 
     @Override
-    public boolean contains(double x, double y)
-    {
+    public boolean contains(double x, double y) {
         return Math.sqrt(Math.pow(x - location.x, 2) + Math.pow(y - location.y, 2)) <= RADIUS;
     }
 
     @Override
-    public boolean contains(Point2D p)
-    {
+    public boolean contains(Point2D p) {
         return contains(p.getX(), p.getY());
     }
 
     @Override
-    public boolean intersects(double x, double y, double w, double h)
-    {
+    public boolean intersects(double x, double y, double w, double h) {
         return false;
     }
 
     @Override
-    public boolean intersects(Rectangle2D r)
-    {
+    public boolean intersects(Rectangle2D r) {
         return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
     @Override
-    public boolean contains(double x, double y, double w, double h)
-    {
+    public boolean contains(double x, double y, double w, double h) {
         return false;
     }
 
     @Override
-    public boolean contains(Rectangle2D r)
-    {
+    public boolean contains(Rectangle2D r) {
         return false;
     }
 
     @Override
-    public PathIterator getPathIterator(AffineTransform at)
-    {
+    public PathIterator getPathIterator(AffineTransform at) {
         return null;
     }
 
     @Override
-    public PathIterator getPathIterator(AffineTransform at, double flatness)
-    {
+    public PathIterator getPathIterator(AffineTransform at, double flatness) {
         return null;
     }
 }

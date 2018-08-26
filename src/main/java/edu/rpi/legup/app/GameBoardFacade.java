@@ -1,7 +1,5 @@
 package edu.rpi.legup.app;
 
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.FirebaseDatabase;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.history.IHistorySubject;
 import edu.rpi.legup.model.PuzzleImporter;
@@ -16,6 +14,9 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.LegupUI;
 import edu.rpi.legup.history.History;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -29,18 +30,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class GameBoardFacade implements IHistorySubject
-{
-    private final static Logger LOGGER = Logger.getLogger(GameBoardFacade.class.getName());
+public class GameBoardFacade implements IHistorySubject {
+    private final static Logger LOGGER = LogManager.getLogger(GameBoardFacade.class.getName());
 
-    protected volatile static GameBoardFacade instance;
+    private volatile static GameBoardFacade instance;
 
     private Config config;
 
-    protected Puzzle puzzle;
+    private Puzzle puzzle;
 
     private LegupUI legupUI;
 
@@ -48,10 +46,9 @@ public class GameBoardFacade implements IHistorySubject
     private List<IHistoryListener> historyListeners;
 
     /**
-     * Private GameBoardFacade Constructor - creates a game board facade
+     * Private GameBoardFacade Constructor creates a game board facade
      */
-    protected GameBoardFacade()
-    {
+    private GameBoardFacade() {
         history = new History();
         historyListeners = new ArrayList<>();
 
@@ -64,126 +61,93 @@ public class GameBoardFacade implements IHistorySubject
      *
      * @return single instance of GameBoardFacade
      */
-    public synchronized static GameBoardFacade getInstance()
-    {
-        if(instance == null)
-        {
+    public synchronized static GameBoardFacade getInstance() {
+        if (instance == null) {
             instance = new GameBoardFacade();
         }
         return instance;
     }
 
-    public void initializeUI()
-    {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                legupUI = new LegupUI();
-                addHistoryListener(legupUI);
-            }
+    public void initializeUI() {
+        EventQueue.invokeLater(() ->{
+            legupUI = new LegupUI();
+            addHistoryListener(legupUI);
         });
     }
 
-    public void setPuzzle(Puzzle puzzle)
-    {
+    public void setPuzzle(Puzzle puzzle) {
         this.puzzle = puzzle;
         this.legupUI.setPuzzleView(puzzle);
         this.history.clear();
     }
 
-    public void setConfig(Config config)
-    {
+    public void setConfig(Config config) {
         this.config = config;
     }
 
     /**
-     * Loads a board file
+     * Loads a puzzle file
      *
      * @param fileName file name of the board file
      */
-    public void loadBoardFile(String fileName) throws InvalidFileFormatException
-    {
-        try
-        {
-            loadBoardFile(new FileInputStream(fileName));
+    public void loadPuzzle(String fileName) throws InvalidFileFormatException {
+        try {
+            loadPuzzle(new FileInputStream(fileName));
             setWindowTitle(puzzle.getName(), fileName);
-        }
-        catch(IOException e)
-        {
-            LOGGER.log(Level.SEVERE, "Invalid file");
+        } catch (IOException e) {
+            LOGGER.error("Invalid file", e);
             throw new InvalidFileFormatException("Could not find file");
         }
     }
 
     /**
-     * Loads a board file
+     * Loads a puzzle file from the input stream
      *
-     * @param inputStream file name of the board file
+     * @param inputStream input stream for the puzzle file
      */
-    public void loadBoardFile(InputStream inputStream) throws InvalidFileFormatException
-    {
+    public void loadPuzzle(InputStream inputStream) throws InvalidFileFormatException {
         Document document;
-        try
-        {
+        try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             document = builder.parse(inputStream);
-        }
-        catch(IOException | SAXException | ParserConfigurationException e)
-        {
-            LOGGER.log(Level.SEVERE, "Invalid file");
+        } catch (IOException | SAXException | ParserConfigurationException e) {
+            LOGGER.error("Invalid file", e);
             throw new InvalidFileFormatException("Could not find file");
         }
 
         Element rootNode = document.getDocumentElement();
-        if(rootNode.getTagName().equals("Legup"))
-        {
-            try
-            {
+        if (rootNode.getTagName().equals("Legup")) {
+            try {
                 Node node = rootNode.getElementsByTagName("puzzle").item(0);
                 String qualifiedClassName = config.getPuzzleClassForName(node.getAttributes().getNamedItem("name").getNodeValue());
-                if(qualifiedClassName == null)
-                {
+                if (qualifiedClassName == null) {
                     throw new InvalidFileFormatException("Puzzle creation error: cannot find puzzle with that name");
                 }
-                System.out.println(qualifiedClassName);
+                LOGGER.debug("Loading " + qualifiedClassName);
 
                 Class<?> c = Class.forName(qualifiedClassName);
                 Constructor<?> cons = c.getConstructor();
-                Puzzle puzzle = (Puzzle)cons.newInstance();
+                Puzzle puzzle = (Puzzle) cons.newInstance();
 
                 PuzzleImporter importer = puzzle.getImporter();
-                if(importer == null)
-                {
+                if (importer == null) {
+                    LOGGER.error("Puzzle importer is null");
                     throw new InvalidFileFormatException("Puzzle importer null");
                 }
                 importer.initializePuzzle(node);
                 puzzle.initializeView();
                 setPuzzle(puzzle);
-            }
-            catch(ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
-                    IllegalAccessException | InstantiationException e)
-            {
-                LOGGER.log(Level.SEVERE, e.getMessage());
+            } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+                    IllegalAccessException | InstantiationException e) {
+                LOGGER.error(e);
                 throw new InvalidFileFormatException("Puzzle creation error");
             }
-        }
-        else
-        {
-            LOGGER.log(Level.ALL, "Invalid file");
+        } else {
+            LOGGER.error("Invalid file");
             throw new InvalidFileFormatException("Invalid file: must be a Legup file");
         }
         setWindowTitle(puzzle.getName(), "");
-    }
-
-    /**
-     * Loads a proof file
-     *
-     * @param fileName file name of the proof file
-     */
-    public void loadProofFile(String fileName)
-    {
-
     }
 
     /**
@@ -191,20 +155,11 @@ public class GameBoardFacade implements IHistorySubject
      * Removes the extension
      *
      * @param puzzleName edu.rpi.legup.puzzle name for the file
-     * @param fileName file name of the edu.rpi.legup.puzzle
+     * @param fileName   file name of the edu.rpi.legup.puzzle
      */
-    public void setWindowTitle(String puzzleName, String fileName)
-    {
+    public void setWindowTitle(String puzzleName, String fileName) {
         File file = new File(fileName);
         legupUI.setTitle(puzzleName + " - " + file.getName());
-    }
-
-    /**
-     * Repaints the entire GUI
-     */
-    public void repaintGui()
-    {
-        legupUI.reloadGui();
     }
 
     /**
@@ -212,8 +167,7 @@ public class GameBoardFacade implements IHistorySubject
      *
      * @return Config object
      */
-    public Config getConfig()
-    {
+    public Config getConfig() {
         return config;
     }
 
@@ -222,8 +176,7 @@ public class GameBoardFacade implements IHistorySubject
      *
      * @return LegupUI
      */
-    public LegupUI getLegupUI()
-    {
+    public LegupUI getLegupUI() {
         return legupUI;
     }
 
@@ -232,8 +185,7 @@ public class GameBoardFacade implements IHistorySubject
      *
      * @return the initial board state
      */
-    public Board getBoard()
-    {
+    public Board getBoard() {
         return puzzle == null ? null : puzzle.getCurrentBoard();
     }
 
@@ -242,8 +194,7 @@ public class GameBoardFacade implements IHistorySubject
      *
      * @param board initial board
      */
-    public void setBoard(Board board)
-    {
+    public void setBoard(Board board) {
         puzzle.setCurrentBoard(board);
     }
 
@@ -252,8 +203,7 @@ public class GameBoardFacade implements IHistorySubject
      *
      * @return rules tree
      */
-    public Tree getTree()
-    {
+    public Tree getTree() {
         return puzzle == null ? null : puzzle.getTree();
     }
 
@@ -262,8 +212,7 @@ public class GameBoardFacade implements IHistorySubject
      *
      * @return the Puzzle for the board
      */
-    public Puzzle getPuzzleModule()
-    {
+    public Puzzle getPuzzleModule() {
         return puzzle;
     }
 
@@ -272,29 +221,27 @@ public class GameBoardFacade implements IHistorySubject
      *
      * @param puzzle the PuzzleModule for the board
      */
-    public void setPuzzleModule(Puzzle puzzle)
-    {
+    public void setPuzzleModule(Puzzle puzzle) {
         this.puzzle = puzzle;
     }
 
     /**
-     * Adds a edu.rpi.legup.history listener
+     * Adds a {@link IHistoryListener}
      *
      * @param listener listener to add
      */
     @Override
-    public void addHistoryListener(IHistoryListener listener)
-    {
+    public void addHistoryListener(IHistoryListener listener) {
         historyListeners.add(listener);
     }
+
     /**
-     * Removes a edu.rpi.legup.history listener
+     * Adds a {@link IHistoryListener}
      *
      * @param listener listener to remove
      */
     @Override
-    public void removeHistoryListener(IHistoryListener listener)
-    {
+    public void removeHistoryListener(IHistoryListener listener) {
         historyListeners.remove(listener);
     }
 
@@ -304,8 +251,7 @@ public class GameBoardFacade implements IHistorySubject
      * @param algorithm algorithm to notify the listeners with
      */
     @Override
-    public void notifyHistoryListeners(Consumer<? super IHistoryListener> algorithm)
-    {
+    public void notifyHistoryListeners(Consumer<? super IHistoryListener> algorithm) {
         historyListeners.forEach(algorithm);
     }
 
@@ -314,8 +260,7 @@ public class GameBoardFacade implements IHistorySubject
      *
      * @return History object
      */
-    public History getHistory()
-    {
+    public History getHistory() {
         return history;
     }
 }

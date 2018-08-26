@@ -16,8 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
 
-public class TreePanel extends JPanel
-{
+public class TreePanel extends JPanel {
     public boolean modifiedSinceSave = false;
     public boolean modifiedSinceUndoPush = false;
     public int updateStatusTimer = 0;
@@ -28,10 +27,8 @@ public class TreePanel extends JPanel
     private LegupUI legupUI;
 
     private JLabel status;
-    private Rule curRuleApplied = null;
 
-    public TreePanel(LegupUI legupUI)
-    {
+    public TreePanel(LegupUI legupUI) {
         this.legupUI = legupUI;
 
         main = new JPanel();
@@ -49,7 +46,7 @@ public class TreePanel extends JPanel
         dynamicTreeView.add(toolbar, BorderLayout.WEST);
 
         status = new JLabel();
-        status.setPreferredSize(new Dimension(150,15));
+        status.setPreferredSize(new Dimension(150, 15));
         dynamicTreeView.getZoomWrapper().add(status, BorderLayout.CENTER);
 
         TitledBorder title = BorderFactory.createTitledBorder("TreePanel");
@@ -62,45 +59,38 @@ public class TreePanel extends JPanel
         updateStatusTimer = 0;
     }
 
-    public void repaintTreeView(Tree tree)
-    {
+    public void repaintTreeView(Tree tree) {
         treeView.updateTreeView(tree);
     }
 
-    public void boardDataChanged(Board board)
-    {
+    public void boardDataChanged(Board board) {
         modifiedSinceSave = true;
         modifiedSinceUndoPush = true;
         updateStatus();
         //colorTransitions();
     }
 
-    public void updateStatus()
-    {
+    public void updateStatus() {
         updateStatusTimer = ((updateStatusTimer - 1) > 0) ? (updateStatusTimer - 1) : 0;
-        if(updateStatusTimer > 0)
-        {
+        if (updateStatusTimer > 0) {
             return;
         }
         this.status.setText("");
     }
 
-    public void updateStatus(String statusString)
-    {
+    public void updateStatus(String statusString) {
         status.setForeground(Color.BLACK);
         status.setFont(MaterialFonts.REGULAR);
         status.setText(statusString);
     }
 
-    public void updateError(String error)
-    {
+    public void updateError(String error) {
         status.setForeground(Color.RED);
         status.setFont(MaterialFonts.ITALIC);
         status.setText(error);
     }
 
-    public TreeView getTreeView()
-    {
+    public TreeView getTreeView() {
         return treeView;
     }
 }

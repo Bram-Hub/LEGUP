@@ -3,17 +3,18 @@ package edu.rpi.legup.controller;
 import java.awt.*;
 import java.awt.event.*;
 
-public class BoardController extends Controller
-{
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+public class BoardController extends Controller {
     protected Point lastLeftMousePoint;
     protected Point lastRightMousePoint;
 
     /**
-     * BoardController Constructor - creates a edu.rpi.legup.controller object to listen
-     * to edu.rpi.legup.ui events from a ScrollView
+     * BoardController Constructor creates a controller object to listen
+     * to ui events from a ScrollView
      */
-    public BoardController()
-    {
+    public BoardController() {
         super();
         lastLeftMousePoint = null;
         lastRightMousePoint = null;
@@ -25,8 +26,7 @@ public class BoardController extends Controller
      * @param e MouseEvent object
      */
     @Override
-    public void mouseClicked(MouseEvent e)
-    {
+    public void mouseClicked(MouseEvent e) {
 
     }
 
@@ -37,8 +37,7 @@ public class BoardController extends Controller
      * @param e MouseEvent object
      */
     @Override
-    public void mousePressed(MouseEvent e)
-    {
+    public void mousePressed(MouseEvent e) {
         super.mousePressed(e);
     }
 
@@ -49,8 +48,7 @@ public class BoardController extends Controller
      * @param e MouseEvent object
      */
     @Override
-    public void mouseReleased(MouseEvent e)
-    {
+    public void mouseReleased(MouseEvent e) {
         super.mouseReleased(e);
     }
 
@@ -60,8 +58,7 @@ public class BoardController extends Controller
      * @param e MouseEvent object
      */
     @Override
-    public void mouseEntered(MouseEvent e)
-    {
+    public void mouseEntered(MouseEvent e) {
 
     }
 
@@ -71,8 +68,7 @@ public class BoardController extends Controller
      * @param e MouseEvent object
      */
     @Override
-    public void mouseExited(MouseEvent e)
-    {
+    public void mouseExited(MouseEvent e) {
 
     }
 
@@ -82,8 +78,7 @@ public class BoardController extends Controller
      * @param e MouseEvent object
      */
     @Override
-    public void mouseDragged(MouseEvent e)
-    {
+    public void mouseDragged(MouseEvent e) {
         super.mouseDragged(e);
     }
 
@@ -93,8 +88,7 @@ public class BoardController extends Controller
      * @param e MouseEvent object
      */
     @Override
-    public void mouseMoved(MouseEvent e)
-    {
+    public void mouseMoved(MouseEvent e) {
 
     }
 
@@ -104,8 +98,7 @@ public class BoardController extends Controller
      * @param e MouseEvent object
      */
     @Override
-    public void mouseWheelMoved(MouseWheelEvent e)
-    {
+    public void mouseWheelMoved(MouseWheelEvent e) {
         super.mouseWheelMoved(e);
     }
 }

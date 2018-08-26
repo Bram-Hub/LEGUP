@@ -11,12 +11,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ApplyDefaultBasicRuleCommand extends PuzzleCommand {
 
     private TreeViewSelection selection;
     private BasicRule rule;
     private Map<TreeNode, TreeTransition> addMap;
 
+    /**
+     * ApplyDefaultBasicRuleCommand Constructor creates a command for applying the default of a basic rule
+     *
+     * @param selection selection of tree element views
+     * @param rule basic rule for the command
+     */
     public ApplyDefaultBasicRuleCommand(TreeViewSelection selection, BasicRule rule) {
         this.selection = selection.copy();
         this.rule = rule;
@@ -38,10 +47,10 @@ public class ApplyDefaultBasicRuleCommand extends PuzzleCommand {
             for (TreeElementView view : selectedViews) {
                 TreeElement element = view.getTreeElement();
                 if (element.getType() == TreeElementType.NODE) {
-                    TreeNode node = (TreeNode)element;
-                    if(!node.getChildren().isEmpty()) {
+                    TreeNode node = (TreeNode) element;
+                    if (!node.getChildren().isEmpty()) {
                         return CommandError.DEFAULT_APPLICATION + " - " + CommandError.NO_CHILDREN.toString();
-                    } else if(rule.getDefaultBoard(node) == null) {
+                    } else if (rule.getDefaultBoard(node) == null) {
                         return CommandError.DEFAULT_APPLICATION + " - " + "This selection contains a tree element that this rule cannot be applied to.";
                     }
                 } else {
@@ -63,13 +72,13 @@ public class ApplyDefaultBasicRuleCommand extends PuzzleCommand {
         final TreeViewSelection newSelection = new TreeViewSelection();
 
         for (TreeElementView selectedView : selection.getSelectedViews()) {
-            TreeNodeView nodeView = (TreeNodeView)selectedView;
+            TreeNodeView nodeView = (TreeNodeView) selectedView;
             TreeNode node = nodeView.getTreeElement();
             TreeTransition transition = addMap.get(node);
             TreeNode childNode;
-            if(transition == null) {
+            if (transition == null) {
                 transition = (TreeTransition) tree.addTreeElement(node);
-                childNode = (TreeNode)tree.addTreeElement(transition);
+                childNode = (TreeNode) tree.addTreeElement(transition);
                 addMap.put(node, transition);
             } else {
                 tree.addTreeElement(node, transition);
@@ -102,7 +111,7 @@ public class ApplyDefaultBasicRuleCommand extends PuzzleCommand {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
         for (TreeElementView selectedView : selection.getSelectedViews()) {
-            TreeNodeView nodeView = (TreeNodeView)selectedView;
+            TreeNodeView nodeView = (TreeNodeView) selectedView;
             TreeNode node = nodeView.getTreeElement();
             final TreeTransition transition = addMap.get(node);
 

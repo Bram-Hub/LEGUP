@@ -6,49 +6,45 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public abstract class Controller implements MouseMotionListener, MouseListener, MouseWheelListener
-{
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+public abstract class Controller implements MouseMotionListener, MouseListener, MouseWheelListener {
     protected ScrollView viewer;
     private int x, y;
     private boolean pan;
 
     /**
-     * Controller Constructor - creates a edu.rpi.legup.controller object to listen
-     * to edu.rpi.legup.ui events from a ScrollView
+     * Controller Constructor creates a controller object to listen to ui events from a {@link ScrollView}
      */
-    public Controller()
-    {
+    public Controller() {
         x = y = -1;
         pan = false;
     }
 
-    public void setViewer(ScrollView viewer)
-    {
+    public void setViewer(ScrollView viewer) {
         this.viewer = viewer;
     }
 
     /**
-     * Mouse Clicked event - no default action
+     * Mouse Clicked event no default action
      *
      * @param e MouseEvent object
      */
     @Override
-    public void mouseClicked(MouseEvent e)
-    {
+    public void mouseClicked(MouseEvent e) {
 
     }
 
     /**
-     * Mouse Pressed event - sets the cursor to the move cursor and stores
+     * Mouse Pressed event sets the cursor to the move cursor and stores
      * info for possible panning
      *
      * @param e MouseEvent object
      */
     @Override
-    public void mousePressed(MouseEvent e)
-    {
-        if(e.getButton() == MouseEvent.BUTTON2)
-        {
+    public void mousePressed(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON2) {
             pan = true;
             x = e.getX();
             y = e.getY();
@@ -57,53 +53,47 @@ public abstract class Controller implements MouseMotionListener, MouseListener, 
     }
 
     /**
-     * Mouse Released event - sets the cursor back to the default cursor and reset
+     * Mouse Released event sets the cursor back to the default cursor and reset
      * info for panning
      *
      * @param e MouseEvent object
      */
     @Override
-    public void mouseReleased(MouseEvent e)
-    {
-        if(e.getButton() == MouseEvent.BUTTON2)
-        {
+    public void mouseReleased(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON2) {
             pan = false;
             viewer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
     }
 
     /**
-     * Mouse Entered event - no default action
+     * Mouse Entered event no default action
      *
      * @param e MouseEvent object
      */
     @Override
-    public void mouseEntered(MouseEvent e)
-    {
+    public void mouseEntered(MouseEvent e) {
 
     }
 
     /**
-     * Mouse Exited event - no default action
+     * Mouse Exited event no default action
      *
      * @param e MouseEvent object
      */
     @Override
-    public void mouseExited(MouseEvent e)
-    {
+    public void mouseExited(MouseEvent e) {
 
     }
 
     /**
-     * Mouse Dragged event - adjusts the viewport
+     * Mouse Dragged event adjusts the viewport
      *
      * @param e MouseEvent object
      */
     @Override
-    public void mouseDragged(MouseEvent e)
-    {
-        if(pan)
-        {
+    public void mouseDragged(MouseEvent e) {
+        if (pan) {
             JViewport viewport = viewer.getViewport();
             Point position = viewer.getViewport().getViewPosition();
             position.x += (x - e.getX());
@@ -114,30 +104,25 @@ public abstract class Controller implements MouseMotionListener, MouseListener, 
     }
 
     /**
-     * Mouse Moved event - no default action
+     * Mouse Moved event no default action
      *
      * @param e MouseEvent object
      */
     @Override
-    public void mouseMoved(MouseEvent e)
-    {
+    public void mouseMoved(MouseEvent e) {
 
     }
 
     /**
-     * Mouse Wheel Moved event - zooms in on the viewport
+     * Mouse Wheel Moved event zooms in on the viewport
      *
      * @param e MouseEvent object
      */
     @Override
-    public void mouseWheelMoved(MouseWheelEvent e)
-    {
-        if(e.isControlDown())
-        {
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        if (e.isControlDown()) {
             viewer.zoom(e.getWheelRotation() * 2, e.getPoint());
-        }
-        else
-        {
+        } else {
             viewer.zoom(e.getWheelRotation(), e.getPoint());
         }
     }

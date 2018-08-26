@@ -2,8 +2,7 @@ package edu.rpi.legup.model.tree;
 
 import edu.rpi.legup.model.gameboard.Board;
 
-public abstract class TreeElement
-{
+public abstract class TreeElement {
     protected TreeElementType type;
     protected Board board;
 
@@ -12,8 +11,7 @@ public abstract class TreeElement
      *
      * @param type type of tree puzzleElement (NODE or TRANSITION)
      */
-    public TreeElement(TreeElementType type)
-    {
+    public TreeElement(TreeElementType type) {
         this.type = type;
     }
 
@@ -40,8 +38,7 @@ public abstract class TreeElement
      *
      * @return NODE if this tree puzzleElement is a tree node, TRANSITION, if this tree puzzleElement is a transition
      */
-    public TreeElementType getType()
-    {
+    public TreeElementType getType() {
         return type;
     }
 
@@ -50,8 +47,7 @@ public abstract class TreeElement
      *
      * @return the board at this TreeElement
      */
-    public Board getBoard()
-    {
+    public Board getBoard() {
         return board;
     }
 
@@ -60,8 +56,7 @@ public abstract class TreeElement
      *
      * @param board the board at this TreeElement
      */
-    public void setBoard(Board board)
-    {
+    public void setBoard(Board board) {
         this.board = board;
     }
 }

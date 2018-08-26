@@ -16,26 +16,32 @@ import edu.rpi.legup.history.EditDataCommand;
 
 import java.awt.event.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import static edu.rpi.legup.app.GameBoardFacade.*;
 
 public class ElementController implements MouseListener, MouseMotionListener, ActionListener, KeyListener {
     protected BoardView boardView;
 
     /**
-     * ElementController - puzzleElement edu.rpi.legup.controller to handles edu.rpi.legup.ui events
-     * associated interacting with a ElementView
+     * ElementController Constructor controller to handles ui events associated interacting with a {@link BoardView}
      */
     public ElementController() {
         this.boardView = null;
     }
 
+    /**
+     * Sets the {@link BoardView}
+     *
+     * @param boardView board view
+     */
     public void setBoardView(BoardView boardView) {
         this.boardView = boardView;
     }
 
     /**
-     * Invoked when the mouse button has been clicked (pressed
-     * and released) on a component.
+     * Invoked when the mouse button has been clicked (pressed and released) on a component.
      *
      * @param e the event to be processed
      */
@@ -127,11 +133,21 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         }
     }
 
+    /**
+     * Invoked when the mouse dragged
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
 
     }
 
+    /**
+     * Invoked when the mouse moved
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
         BoardView boardView = getInstance().getLegupUI().getBoardView();
@@ -143,17 +159,29 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         }
     }
 
+    public void changeCell(MouseEvent e, PuzzleElement data) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            if (e.isControlDown() && this.boardView.getSelectionPopupMenu() != null) {
+                this.boardView.getSelectionPopupMenu().show(boardView, this.boardView.getCanvas().getX() + e.getX(), this.boardView.getCanvas().getY() + e.getY());
+            } else {
+                data.setData(((Integer) data.getData() + 1) % 10);
+            }
+        } else if (e.getButton() == MouseEvent.BUTTON3) {
+            data.setData(((Integer) data.getData() + 9) % 10);
+        }
+    }
+
     /**
      * Invoked when an action occurs.
      *
      * @param e the event to be processed
      */
+    @SuppressWarnings("Unchecked")
     @Override
     public void actionPerformed(ActionEvent e) {
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         ElementView selectedElement = boardView.getSelection().getFirstSelection();
         PuzzleElement puzzleElement = selectedElement.getPuzzleElement();
-        int index = selectedElement.getIndex();
 
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         TreeViewSelection selection = treeView.getSelection();
@@ -175,18 +203,6 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
 
         boardView.repaint();
         boardView.getSelection().clearSelection();
-    }
-
-    public void changeCell(MouseEvent e, PuzzleElement data) {
-        if (e.getButton() == MouseEvent.BUTTON1) {
-            if (e.isControlDown() && this.boardView.getSelectionPopupMenu() != null) {
-                this.boardView.getSelectionPopupMenu().show(boardView, this.boardView.getCanvas().getX() + e.getX(), this.boardView.getCanvas().getY() + e.getY());
-            } else {
-                data.setData(((Integer) data.getData() + 1) % 10);
-            }
-        } else if (e.getButton() == MouseEvent.BUTTON3) {
-            data.setData(((Integer) data.getData() + 9) % 10);
-        }
     }
 
     /**

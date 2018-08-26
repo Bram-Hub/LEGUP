@@ -10,10 +10,18 @@ import edu.rpi.legup.ui.treeview.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class MergeCommand extends PuzzleCommand {
     private TreeViewSelection selection;
     private TreeTransition transition;
 
+    /**
+     * Merge Command Constructor create a command for merging tree nodes.
+     *
+     * @param selection selection of tree elements
+     */
     public MergeCommand(TreeViewSelection selection) {
         this.selection = selection.copy();
         this.transition = null;
@@ -30,7 +38,7 @@ public class MergeCommand extends PuzzleCommand {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
         TreeNode mergedNode;
-        if(transition == null) {
+        if (transition == null) {
             List<TreeNode> mergingNodes = new ArrayList<>();
             List<Board> mergingBoards = new ArrayList<>();
             for (TreeElementView view : selectedViews) {
@@ -76,7 +84,7 @@ public class MergeCommand extends PuzzleCommand {
         Tree tree = GameBoardFacade.getInstance().getTree();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
-        TreeTransition transition = ((TreeNode)selection.getFirstSelection().getTreeElement()).getChildren().get(0);
+        TreeTransition transition = ((TreeNode) selection.getFirstSelection().getTreeElement()).getChildren().get(0);
         tree.removeTreeElement(transition);
 
         puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(transition));
@@ -92,7 +100,7 @@ public class MergeCommand extends PuzzleCommand {
     @Override
     public String getErrorString() {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
-        if(selectedViews.size() < 2) {
+        if (selectedViews.size() < 2) {
             return CommandError.TWO_TO_MERGE.toString();
         }
 
@@ -100,7 +108,7 @@ public class MergeCommand extends PuzzleCommand {
         for (TreeElementView view : selection.getSelectedViews()) {
             if (view.getType() == TreeElementType.NODE) {
                 TreeNodeView nodeView = (TreeNodeView) view;
-                if(!nodeView.getChildrenViews().isEmpty()) {
+                if (!nodeView.getChildrenViews().isEmpty()) {
                     return CommandError.NO_CHILDREN.toString();
                 }
                 nodeList.add(nodeView.getTreeElement());
@@ -116,7 +124,7 @@ public class MergeCommand extends PuzzleCommand {
         }
 
         TreeNode lca = Tree.getLowestCommonAncestor(mergingNodes);
-        if(lca == null) {
+        if (lca == null) {
             return "Unable to merge tree elements.";
         }
 

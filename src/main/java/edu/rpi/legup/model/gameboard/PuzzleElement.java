@@ -1,7 +1,6 @@
 package edu.rpi.legup.model.gameboard;
 
-public abstract class PuzzleElement<T>
-{
+public abstract class PuzzleElement<T> {
     protected int index;
     protected T data;
     protected boolean isModifiable;
@@ -10,10 +9,9 @@ public abstract class PuzzleElement<T>
     protected boolean isValid;
 
     /**
-     * PuzzleElement Constructor - creates a new PuzzleElement
+     * PuzzleElement Constructor creates a new puzzle element.
      */
-    public PuzzleElement()
-    {
+    public PuzzleElement() {
         this.index = -1;
         this.data = null;
         this.isModifiable = true;
@@ -23,113 +21,102 @@ public abstract class PuzzleElement<T>
     }
 
     /**
-     * PuzzleElement Constructor - creates a new PuzzleElement from the specified data
+     * PuzzleElement Constructor creates a new puzzle element from the specified data.
      *
-     * @param data data used to create the puzzle puzzleElement
+     * @param data data used to create the puzzle element
      */
-    public PuzzleElement(T data)
-    {
+    public PuzzleElement(T data) {
         this();
         this.data = data;
     }
 
     /**
-     * Gets the data that represents this puzzleElement
+     * Gets the data that represents this puzzle element.
      *
      * @return data value
      */
-    public T getData()
-    {
+    public T getData() {
         return data;
     }
 
     /**
-     * Sets the data value that represents this puzzleElement
+     * Sets the data value that represents this puzzle element.
      *
-     * @param data data value that represents this puzzleElement
+     * @param data data value that represents this puzzle element
      */
-    public void setData(T data)
-    {
+    public void setData(T data) {
         this.data = data;
     }
 
     /**
-     * Gets whether this puzzleElement's puzzleElement is modifiable
+     * Gets whether this puzzle element is modifiable.
      *
-     * @return true if this puzzleElement's puzzleElement is modifiable, false otherwise
+     * @return true if this puzzle element is modifiable, false otherwise
      */
-    public boolean isModifiable()
-    {
+    public boolean isModifiable() {
         return isModifiable;
     }
 
     /**
-     * Sets whether this puzzleElement's puzzleElement is modifiable
+     * Sets whether this puzzle element is modifiable.
      *
-     * @param isModifiable true if this puzzleElement's puzzleElement is modifiable, false otherwise
+     * @param isModifiable true if this puzzle element is modifiable, false otherwise
      */
-    public void setModifiable(boolean isModifiable)
-    {
+    public void setModifiable(boolean isModifiable) {
         this.isModifiable = isModifiable;
     }
 
     /**
-     * Gets whether the puzzleElement of this puzzleElement has been modified by the edu.rpi.legup.user
+     * Gets whether the puzzle element has been modified.
      *
-     * @return true if the puzzleElement has been modified, false otherwise
+     * @return true if the puzzle element has been modified, false otherwise
      */
-    public boolean isModified()
-    {
+    public boolean isModified() {
         return isModified;
     }
 
     /**
-     * Sets whether the puzzleElement of this puzzleElement has been modified by the edu.rpi.legup.user
+     * Sets whether the puzzle element has been modified.
      *
-     * @param isModified true if the puzzleElement has been modified, false otherwise
+     * @param isModified true if the puzzle element has been modified, false otherwise
      */
-    public void setModified(boolean isModified)
-    {
+    public void setModified(boolean isModified) {
         this.isModified = isModified;
     }
 
     /**
-     * Gets the index of this PuzzleElement
+     * Gets the index of this puzzle element
      *
-     * @return index of this PuzzleElement
+     * @return index of this puzzle element
      */
-    public int getIndex()
-    {
+    public int getIndex() {
         return index;
     }
 
     /**
-     * Sets the index of this PuzzleElement
+     * Sets the index of this puzzle element
      *
-     * @param index index of this PuzzleElement
+     * @param index index of this puzzle element
      */
-    public void setIndex(int index)
-    {
+    public void setIndex(int index) {
         this.index = index;
     }
 
     /**
-     * Gets whether this puzzleElement is given
+     * Gets whether this puzzle element is given
      *
-     * @return true if the puzzleElement is given, false otherwise
+     * @return true if the puzzle element is given, false otherwise
      */
-    public boolean isGiven()
-    {
+    public boolean isGiven() {
         return isGiven;
     }
 
     /**
-     * Sets whether this puzzleElement is given
+     * Sets whether this puzzle element is given
      *
-     * @param given true if the puzzleElement is given, false otherwise
+     * @param given true if the puzzle element is given, false otherwise
      */
-    public void setGiven(boolean given)
-    {
+    public void setGiven(boolean given) {
         isGiven = given;
     }
 
@@ -154,20 +141,19 @@ public abstract class PuzzleElement<T>
     }
 
     /**
-     * Tests whether two PuzzleElement objects have the same puzzleElement
+     * Tests whether two puzzle elements objects have the same puzzle element
      *
-     * @param puzzleElement puzzleElement puzzleElement to check for equality
-     * @return true if the puzzleElement are equal, false otherwise
+     * @param puzzleElement puzzle element to check for equality
+     * @return true if the puzzle element are equal, false otherwise
      */
-    public boolean equalsData(PuzzleElement<T> puzzleElement)
-    {
+    public boolean equalsData(PuzzleElement<T> puzzleElement) {
         return data.equals(puzzleElement.data);
     }
 
     /**
-     * Copies this elements puzzleElement to a new PuzzleElement object
+     * Copies this puzzle element to a new puzzle element object
      *
-     * @return copied PuzzleElement object
+     * @return copied puzzle element object
      */
     public abstract PuzzleElement<T> copy();
 }

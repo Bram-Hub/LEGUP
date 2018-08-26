@@ -5,19 +5,17 @@ import edu.rpi.legup.utility.DisjointSets;
 
 import java.util.*;
 
-public class TreeNode extends TreeElement
-{
+public class TreeNode extends TreeElement {
     private TreeTransition parent;
     private List<TreeTransition> children;
     private boolean isRoot;
 
     /**
-     * TreeNode Constructor - Creates a tree node whenever a rule has been made
+     * TreeNode Constructor creates a tree node whenever a rule has been made
      *
      * @param board board associated with this tree node
      */
-    public TreeNode(Board board)
-    {
+    public TreeNode(Board board) {
         super(TreeElementType.NODE);
         this.board = board;
         this.parent = null;
@@ -32,11 +30,9 @@ public class TreeNode extends TreeElement
      * @return true if this tree node leads to a contradiction, false otherwise
      */
     @Override
-    public boolean isContradictoryBranch()
-    {
+    public boolean isContradictoryBranch() {
         boolean leadsToContra = true;
-        for(TreeTransition child: children)
-        {
+        for (TreeTransition child : children) {
             leadsToContra &= child.isContradictoryBranch();
         }
         return leadsToContra && !children.isEmpty();
@@ -51,12 +47,9 @@ public class TreeNode extends TreeElement
      * false otherwise
      */
     @Override
-    public boolean isValidBranch()
-    {
-        for(TreeTransition transition : children)
-        {
-            if(!transition.isValidBranch())
-            {
+    public boolean isValidBranch() {
+        for (TreeTransition transition : children) {
+            if (!transition.isValidBranch()) {
                 return false;
             }
         }
@@ -68,28 +61,22 @@ public class TreeNode extends TreeElement
      *
      * @return list of all of the ancestors for this node
      */
-    public List<TreeNode> getAncestors()
-    {
+    public List<TreeNode> getAncestors() {
         List<TreeNode> ancestors = new ArrayList<>();
         Queue<TreeNode> it = new LinkedList<>();
         it.add(this);
 
-        while(!it.isEmpty())
-        {
+        while (!it.isEmpty()) {
             TreeNode next = it.poll();
-            if(next.getParent() != null)
-            {
-                for(TreeNode treeNode : next.getParent().getParents())
-                {
-                    if(!it.contains(treeNode))
-                    {
+            if (next.getParent() != null) {
+                for (TreeNode treeNode : next.getParent().getParents()) {
+                    if (!it.contains(treeNode)) {
                         it.add(treeNode);
                     }
                 }
             }
 
-            if(!ancestors.contains(next))
-            {
+            if (!ancestors.contains(next)) {
                 ancestors.add(next);
             }
         }
@@ -101,34 +88,26 @@ public class TreeNode extends TreeElement
      *
      * @return list of all the descendants for this node
      */
-    public List<TreeElement> getDescendants()
-    {
+    public List<TreeElement> getDescendants() {
         List<TreeElement> descendants = new ArrayList<>();
         Queue<TreeElement> it = new LinkedList<>();
         it.add(this);
 
-        while(!it.isEmpty())
-        {
+        while (!it.isEmpty()) {
             TreeElement next = it.poll();
 
-            if(next.getType() == TreeElementType.NODE)
-            {
-                TreeNode node = (TreeNode)next;
-                for(TreeTransition transition : node.getChildren())
-                {
-                    if(!descendants.contains(transition))
-                    {
+            if (next.getType() == TreeElementType.NODE) {
+                TreeNode node = (TreeNode) next;
+                for (TreeTransition transition : node.getChildren()) {
+                    if (!descendants.contains(transition)) {
                         descendants.add(transition);
                         it.add(transition);
                     }
                 }
-            }
-            else
-            {
-                TreeTransition trans = (TreeTransition)next;
+            } else {
+                TreeTransition trans = (TreeTransition) next;
                 TreeNode childNode = trans.getChildNode();
-                if(childNode != null && !descendants.contains(childNode))
-                {
+                if (childNode != null && !descendants.contains(childNode)) {
                     descendants.add(childNode);
                     it.add(childNode);
                 }
@@ -144,36 +123,28 @@ public class TreeNode extends TreeElement
      *
      * @return DisjointSets of tree transitions containing unique non-merging branches
      */
-    public DisjointSets<TreeTransition> findMergingBranches()
-    {
+    public DisjointSets<TreeTransition> findMergingBranches() {
         DisjointSets<TreeElement> branches = new DisjointSets<>();
         children.forEach(branches::createSet);
 
-        for(TreeTransition tran : children)
-        {
+        for (TreeTransition tran : children) {
             branches.createSet(tran);
 
             TreeNode child = tran.getChildNode();
-            if(child != null)
-            {
+            if (child != null) {
                 List<TreeElement> nodes = new ArrayList<>();
                 nodes.add(child);
-                while(!nodes.isEmpty())
-                {
+                while (!nodes.isEmpty()) {
                     TreeElement element = nodes.get(0);
                     branches.createSet(element);
                     branches.union(tran, element);
 
-                    if(element.getType() == TreeElementType.NODE)
-                    {
-                        TreeNode node = (TreeNode)element;
+                    if (element.getType() == TreeElementType.NODE) {
+                        TreeNode node = (TreeNode) element;
                         nodes.addAll(node.getChildren());
-                    }
-                    else
-                    {
-                        TreeTransition childTran = (TreeTransition)element;
-                        if(childTran.getChildNode() != null)
-                        {
+                    } else {
+                        TreeTransition childTran = (TreeTransition) element;
+                        if (childTran.getChildNode() != null) {
                             nodes.add(childTran.getChildNode());
                         }
                     }
@@ -185,12 +156,9 @@ public class TreeNode extends TreeElement
         DisjointSets<TreeTransition> mergingBranches = new DisjointSets<>();
         children.forEach(mergingBranches::createSet);
 
-        for(TreeTransition tran : children)
-        {
-            for(TreeTransition tran1 : children)
-            {
-                if(branches.find(tran) == branches.find(tran1))
-                {
+        for (TreeTransition tran : children) {
+            for (TreeTransition tran1 : children) {
+                if (branches.find(tran) == branches.find(tran1)) {
                     mergingBranches.union(tran, tran1);
                 }
             }
@@ -206,39 +174,30 @@ public class TreeNode extends TreeElement
      * @return tree transition of the merging point or null if no such point exists
      */
     @SuppressWarnings("unchecked")
-    public static TreeTransition findMergingPoint(Set<? extends TreeElement> branches)
-    {
+    public static TreeTransition findMergingPoint(Set<? extends TreeElement> branches) {
         DisjointSets<TreeElement> mergeSet = new DisjointSets<>();
         Set<TreeElement> branchesCopy = new HashSet<>(branches);
         TreeElement headBranch = branchesCopy.iterator().next();
         branchesCopy.remove(headBranch);
 
-        for(TreeElement element : branchesCopy)
-        {
+        for (TreeElement element : branchesCopy) {
             mergeSet.createSet(element);
-            if(element.getType() == TreeElementType.NODE)
-            {
-                TreeNode node = (TreeNode)element;
+            if (element.getType() == TreeElementType.NODE) {
+                TreeNode node = (TreeNode) element;
                 node.getDescendants().forEach((TreeElement e) ->
                 {
-                    if(!mergeSet.contains(e))
-                    {
+                    if (!mergeSet.contains(e)) {
                         mergeSet.createSet(e);
                     }
                     mergeSet.union(element, e);
                 });
-            }
-            else
-            {
-                TreeTransition transition = (TreeTransition)element;
+            } else {
+                TreeTransition transition = (TreeTransition) element;
                 TreeNode childNode = transition.getChildNode();
-                if(childNode != null)
-                {
+                if (childNode != null) {
                     List<TreeElement> des = childNode.getDescendants();
-                    for(TreeElement e : des)
-                    {
-                        if(!mergeSet.contains(e))
-                        {
+                    for (TreeElement e : des) {
+                        if (!mergeSet.contains(e)) {
                             mergeSet.createSet(e);
                         }
                         mergeSet.union(element, e);
@@ -250,32 +209,25 @@ public class TreeNode extends TreeElement
         Queue<TreeElement> next = new LinkedList<>();
         next.add(headBranch);
 
-        while(!next.isEmpty())
-        {
+        while (!next.isEmpty()) {
             TreeElement element = next.poll();
-            if(!mergeSet.contains(element))
-            {
+            if (!mergeSet.contains(element)) {
                 mergeSet.createSet(element);
             }
             mergeSet.union(headBranch, element);
 
-            if(mergeSet.setCount() == 1)
-            {
-                if(element.getType() == TreeElementType.TRANSITION)
-                {
-                    return (TreeTransition)element;
+            if (mergeSet.setCount() == 1) {
+                if (element.getType() == TreeElementType.TRANSITION) {
+                    return (TreeTransition) element;
                 }
                 return null;
             }
 
-            if(element.getType() == TreeElementType.NODE)
-            {
-                TreeNode node = (TreeNode)element;
+            if (element.getType() == TreeElementType.NODE) {
+                TreeNode node = (TreeNode) element;
                 next.addAll(node.getChildren());
-            }
-            else
-            {
-                TreeTransition tran = (TreeTransition)element;
+            } else {
+                TreeTransition tran = (TreeTransition) element;
                 next.add(tran.getChildNode());
             }
         }
@@ -288,8 +240,7 @@ public class TreeNode extends TreeElement
      * @param parent tree transition that could be a parent
      * @return true if the specified tree transition is a parent of this node, false otherwise
      */
-    public boolean isParent(TreeTransition parent)
-    {
+    public boolean isParent(TreeTransition parent) {
         return this.parent == parent;
     }
 
@@ -298,8 +249,7 @@ public class TreeNode extends TreeElement
      *
      * @param child child to add
      */
-    public void addChild(TreeTransition child)
-    {
+    public void addChild(TreeTransition child) {
         children.add(child);
     }
 
@@ -308,8 +258,7 @@ public class TreeNode extends TreeElement
      *
      * @param child child to remove
      */
-    public void removeChild(TreeTransition child)
-    {
+    public void removeChild(TreeTransition child) {
         children.remove(child);
     }
 
@@ -319,8 +268,7 @@ public class TreeNode extends TreeElement
      * @param child tree node that could be a child
      * @return true if the specified tree node is a child of this node, false otherwise
      */
-    public boolean isChild(TreeNode child)
-    {
+    public boolean isChild(TreeNode child) {
         return children.contains(child);
     }
 
@@ -329,8 +277,7 @@ public class TreeNode extends TreeElement
      *
      * @return the TreeNode's parent
      */
-    public TreeTransition getParent()
-    {
+    public TreeTransition getParent() {
         return parent;
     }
 
@@ -339,8 +286,7 @@ public class TreeNode extends TreeElement
      *
      * @param parent the TreeNode's parent
      */
-    public void setParent(TreeTransition parent)
-    {
+    public void setParent(TreeTransition parent) {
         this.parent = parent;
     }
 
@@ -349,8 +295,7 @@ public class TreeNode extends TreeElement
      *
      * @return the TreeNode's children
      */
-    public List<TreeTransition> getChildren()
-    {
+    public List<TreeTransition> getChildren() {
         return children;
     }
 
@@ -359,8 +304,7 @@ public class TreeNode extends TreeElement
      *
      * @param children the TreeNode's children
      */
-    public void setChildren(List<TreeTransition> children)
-    {
+    public void setChildren(List<TreeTransition> children) {
         this.children = children;
     }
 
@@ -369,8 +313,7 @@ public class TreeNode extends TreeElement
      *
      * @return true if this node is the root of the tree, false otherwise
      */
-    public boolean isRoot()
-    {
+    public boolean isRoot() {
         return isRoot;
     }
 
@@ -379,8 +322,7 @@ public class TreeNode extends TreeElement
      *
      * @param isRoot true if this node is the root of the tree, false otherwise
      */
-    public void setRoot(boolean isRoot)
-    {
+    public void setRoot(boolean isRoot) {
         this.isRoot = isRoot;
     }
 }

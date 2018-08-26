@@ -2,17 +2,16 @@ package edu.rpi.legup.history;
 
 import java.util.function.Consumer;
 
-public interface IHistorySubject
-{
+public interface IHistorySubject {
     /**
-     * Adds a edu.rpi.legup.history listener
+     * Adds a history listener
      *
      * @param listener listener to add
      */
     void addHistoryListener(IHistoryListener listener);
 
     /**
-     * Removes a edu.rpi.legup.history listener
+     * Removes a history listener
      *
      * @param listener listener to remove
      */

@@ -14,6 +14,9 @@ import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class PuzzleKeyAccelerator implements KeyListener {
@@ -59,41 +62,30 @@ public class PuzzleKeyAccelerator implements KeyListener {
     public void keyPressed(KeyEvent e) {
         KeyStroke keyStroke = KeyStroke.getKeyStrokeForEvent(e);
         Rule rule = keyStrokeMap.get(keyStroke);
-        if(rule != null) {
+        if (rule != null) {
             TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
 
             String update = "";
-            if(rule.getRuleType() == RuleType.CASE)
-            {
+            if (rule.getRuleType() == RuleType.CASE) {
 //                handleCaseRule((CaseRule)rule);
-            }
-            else if(rule.getRuleType() == RuleType.CONTRADICTION)
-            {
+            } else if (rule.getRuleType() == RuleType.CONTRADICTION) {
                 TreeViewSelection selection = treeView.getSelection();
 
                 ICommand validate = new ValidateContradictionRuleCommand(selection, rule);
-                if(validate.canExecute())
-                {
+                if (validate.canExecute()) {
                     getInstance().getHistory().pushChange(validate);
                     validate.execute();
-                }
-                else
-                {
+                } else {
                     update = validate.getError();
                 }
-            }
-            else
-            {
+            } else {
                 TreeViewSelection selection = treeView.getSelection();
 
                 ICommand validate = new ValidateBasicRuleCommand(selection, rule);
-                if(validate.canExecute())
-                {
+                if (validate.canExecute()) {
                     getInstance().getHistory().pushChange(validate);
                     validate.execute();
-                }
-                else
-                {
+                } else {
                     update = validate.getError();
                 }
             }

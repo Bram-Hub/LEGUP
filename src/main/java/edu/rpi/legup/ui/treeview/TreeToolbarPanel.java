@@ -5,8 +5,7 @@ import edu.rpi.legup.controller.TreeToolBarController;
 import javax.swing.*;
 import java.awt.*;
 
-public class TreeToolbarPanel extends JPanel
-{
+public class TreeToolbarPanel extends JPanel {
     private TreePanel treePanel;
     private TreeToolBarButton addChild, delChild, merge, collapse;
     private TreeToolBarController controller;
@@ -14,8 +13,7 @@ public class TreeToolbarPanel extends JPanel
     /**
      * TreeToolbarPanel Constructor - creates the tree tool mBar panel
      */
-    public TreeToolbarPanel(TreePanel treePanel)
-    {
+    public TreeToolbarPanel(TreePanel treePanel) {
         this.treePanel = treePanel;
         this.setLayout(new GridLayout(4, 1));
         this.controller = new TreeToolBarController(treePanel);

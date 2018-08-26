@@ -10,8 +10,7 @@ import java.util.ArrayList;
 
 import static java.lang.Math.*;
 
-public class TreeTransitionView extends TreeElementView
-{
+public class TreeTransitionView extends TreeElementView {
     static final int RADIUS = 25;
     static final int DIAMETER = 2 * RADIUS;
     static final int GAP = 5;
@@ -41,12 +40,11 @@ public class TreeTransitionView extends TreeElementView
     private Point endPoint;
 
     /**
-     * TreeTransitionView Constructor - creates a transition arrow for display
+     * TreeTransitionView Constructor creates a transition arrow for display
      *
      * @param transition tree transition associated with this view
      */
-    public TreeTransitionView(TreeTransition transition)
-    {
+    public TreeTransitionView(TreeTransition transition) {
         super(TreeElementType.TRANSITION, transition);
         this.parentViews = new ArrayList<>();
         this.isCollapsed = false;
@@ -56,13 +54,12 @@ public class TreeTransitionView extends TreeElementView
     }
 
     /**
-     * TreeTransitionView Constructor - creates a transition arrow for display
+     * TreeTransitionView Constructor creates a transition arrow for display
      *
      * @param transition tree transition associated with this view
      * @param parentView TreeNodeView of the parent associated with this transition
      */
-    public TreeTransitionView(TreeTransition transition, TreeNodeView parentView)
-    {
+    public TreeTransitionView(TreeTransition transition, TreeNodeView parentView) {
         this(transition);
         this.parentViews.add(parentView);
         this.lineStartPoints.add(new Point());
@@ -73,15 +70,13 @@ public class TreeTransitionView extends TreeElementView
      *
      * @param graphics2D graphics2D used for drawing
      */
-    public void draw(Graphics2D graphics2D)
-    {
+    public void draw(Graphics2D graphics2D) {
         arrowhead = createTransitionTriangle(RADIUS);
 
         graphics2D.setColor(OUTLINE_COLOR);
         graphics2D.setStroke(MAIN_STROKE);
 
-        for(Point lineStartPoint : lineStartPoints)
-        {
+        for (Point lineStartPoint : lineStartPoints) {
             CubicCurve2D c = new CubicCurve2D.Double();
             double ctrlx1 = lineEndPoint.x - 25;
             double ctrly1 = lineStartPoint.y;
@@ -93,8 +88,7 @@ public class TreeTransitionView extends TreeElementView
             graphics2D.draw(c);
         }
 
-        if(isSelected)
-        {
+        if (isSelected) {
             graphics2D.setColor(SELECTION_COLOR);
             graphics2D.fillPolygon(arrowhead);
 
@@ -107,9 +101,7 @@ public class TreeTransitionView extends TreeElementView
             graphics2D.setStroke(SELECTION_STROKE);
             graphics2D.setColor(OUTLINE_SELECTION_COLOR);
             graphics2D.drawPolygon(selection_triangle);
-        }
-        else if(isHover)
-        {
+        } else if (isHover) {
             graphics2D.setColor(HOVER_COLOR);
             graphics2D.fillPolygon(arrowhead);
 
@@ -122,10 +114,8 @@ public class TreeTransitionView extends TreeElementView
             graphics2D.setStroke(SELECTION_STROKE);
             graphics2D.setColor(OUTLINE_HOVER_COLOR);
             graphics2D.drawPolygon(selection_triangle);
-        }
-        else
-        {
-            graphics2D.setColor(getTreeElement().isJustified() ? getTreeElement().isCorrect() ? CORRECT_COLOR : INCORRECT_COLOR : DEFAULT_COLOR );
+        } else {
+            graphics2D.setColor(getTreeElement().isJustified() ? getTreeElement().isCorrect() ? CORRECT_COLOR : INCORRECT_COLOR : DEFAULT_COLOR);
             graphics2D.fillPolygon(arrowhead);
 
             graphics2D.setColor(OUTLINE_COLOR);
@@ -136,18 +126,17 @@ public class TreeTransitionView extends TreeElementView
     /**
      * Constructs the arrowhead shape from the start and end points
      */
-    private Polygon createTransitionTriangle(int radius)
-    {
+    private Polygon createTransitionTriangle(int radius) {
         double thetaArrow = Math.toRadians(30);
 
         int point1X = endPoint.x;
         int point1Y = endPoint.y;
 
         int point2X = point1X - radius;
-        int point2Y = point1Y + (int)Math.round(radius / (2 * cos(thetaArrow)));
+        int point2Y = point1Y + (int) Math.round(radius / (2 * cos(thetaArrow)));
 
         int point3X = point1X - radius;
-        int point3Y = point1Y - (int)Math.round(radius / (2 * cos(thetaArrow)));
+        int point3Y = point1Y - (int) Math.round(radius / (2 * cos(thetaArrow)));
 
         lineEndPoint.x = point2X;
         lineEndPoint.y = (point3Y - point2Y) / 2 + point2Y;
@@ -165,9 +154,8 @@ public class TreeTransitionView extends TreeElementView
      *
      * @return the TreeElement associated with this view
      */
-    public TreeTransition getTreeElement()
-    {
-        return (TreeTransition)treeElement;
+    public TreeTransition getTreeElement() {
+        return (TreeTransition) treeElement;
     }
 
     /**
@@ -175,8 +163,7 @@ public class TreeTransitionView extends TreeElementView
      *
      * @return TreeNodeView child view
      */
-    public TreeNodeView getChildView()
-    {
+    public TreeNodeView getChildView() {
         return childView;
     }
 
@@ -185,8 +172,7 @@ public class TreeTransitionView extends TreeElementView
      *
      * @param childView TreeNodeView child view
      */
-    public void setChildView(TreeNodeView childView)
-    {
+    public void setChildView(TreeNodeView childView) {
         this.childView = childView;
     }
 
@@ -195,8 +181,7 @@ public class TreeTransitionView extends TreeElementView
      *
      * @return list of parent views for this tree transition view
      */
-    public ArrayList<TreeNodeView> getParentViews()
-    {
+    public ArrayList<TreeNodeView> getParentViews() {
         return parentViews;
     }
 
@@ -205,12 +190,10 @@ public class TreeTransitionView extends TreeElementView
      *
      * @param parentViews list of parent views for this tree transition view
      */
-    public void setParentViews(ArrayList<TreeNodeView> parentViews)
-    {
+    public void setParentViews(ArrayList<TreeNodeView> parentViews) {
         this.parentViews = parentViews;
         this.lineStartPoints.clear();
-        for(TreeNodeView parentView : this.parentViews)
-        {
+        for (TreeNodeView parentView : this.parentViews) {
             this.lineStartPoints.add(new Point());
         }
     }
@@ -220,8 +203,7 @@ public class TreeTransitionView extends TreeElementView
      *
      * @param nodeView TreeNodeView to add to the list of parent views
      */
-    public void addParentView(TreeNodeView nodeView)
-    {
+    public void addParentView(TreeNodeView nodeView) {
         parentViews.add(nodeView);
         lineStartPoints.add(new Point());
     }
@@ -231,118 +213,97 @@ public class TreeTransitionView extends TreeElementView
      *
      * @param nodeView TreeNodeView to remove from the list of parent views
      */
-    public void removeParentView(TreeNodeView nodeView)
-    {
+    public void removeParentView(TreeNodeView nodeView) {
         int index = parentViews.indexOf(nodeView);
         parentViews.remove(nodeView);
-        if(index != -1)
-        {
+        if (index != -1) {
             lineStartPoints.remove(index);
         }
     }
 
-    public Point getEndPoint()
-    {
+    public Point getEndPoint() {
         return endPoint;
     }
 
-    public void setEndPoint(Point endPoint)
-    {
+    public void setEndPoint(Point endPoint) {
         this.endPoint = endPoint;
     }
 
-    public int getEndX()
-    {
+    public int getEndX() {
         return endPoint.x;
     }
 
-    public void setEndX(int x)
-    {
+    public void setEndX(int x) {
         this.endPoint.x = x;
     }
 
-    public int getEndY()
-    {
+    public int getEndY() {
         return endPoint.y;
     }
 
-    public void setEndY(int y)
-    {
+    public void setEndY(int y) {
         this.endPoint.y = y;
     }
 
-    public List<Point> getLineStartPoints()
-    {
+    public List<Point> getLineStartPoints() {
         return lineStartPoints;
     }
 
-    public void setLineStartPoints(List<Point> lineStartPoints)
-    {
+    public void setLineStartPoints(List<Point> lineStartPoints) {
         this.lineStartPoints = lineStartPoints;
     }
 
-    public Point getLineStartPoint(int index)
-    {
+    public Point getLineStartPoint(int index) {
         return index < lineStartPoints.size() ? lineStartPoints.get(index) : null;
     }
 
     @Override
-    public Rectangle getBounds()
-    {
+    public Rectangle getBounds() {
         return arrowhead.getBounds();
     }
 
     @Override
-    public Rectangle2D getBounds2D()
-    {
+    public Rectangle2D getBounds2D() {
         return arrowhead.getBounds2D();
     }
 
     @Override
-    public boolean contains(double x, double y)
-    {
+    public boolean contains(double x, double y) {
         return arrowhead.contains(x, y);
     }
 
     @Override
-    public boolean contains(Point2D p)
-    {
+    public boolean contains(Point2D p) {
         return arrowhead != null && arrowhead.contains(p);
     }
 
     @Override
-    public boolean intersects(double x, double y, double w, double h)
-    {
+    public boolean intersects(double x, double y, double w, double h) {
         return arrowhead.intersects(x, y, w, h);
     }
 
     @Override
-    public boolean intersects(Rectangle2D r)
-    {
+    public boolean intersects(Rectangle2D r) {
         return arrowhead.intersects(r);
     }
 
     @Override
-    public boolean contains(double x, double y, double w, double h)
-    {
+    public boolean contains(double x, double y, double w, double h) {
         return arrowhead.contains(x, y, w, h);
     }
 
     @Override
-    public boolean contains(Rectangle2D r)
-    {
+    public boolean contains(Rectangle2D r) {
         return arrowhead.contains(r);
     }
 
     @Override
-    public PathIterator getPathIterator(AffineTransform at)
-    {
+    public PathIterator getPathIterator(AffineTransform at) {
         return arrowhead.getPathIterator(at);
     }
 
     @Override
-    public PathIterator getPathIterator(AffineTransform at, double flatness)
-    {
+    public PathIterator getPathIterator(AffineTransform at, double flatness) {
         return arrowhead.getPathIterator(at, flatness);
     }
 }

@@ -3,6 +3,7 @@ package edu.rpi.legup.history;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.rules.BasicRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.treeview.*;
@@ -11,14 +12,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ValidateBasicRuleCommand extends PuzzleCommand {
     private TreeViewSelection selection;
 
     private Map<TreeElement, Rule> oldRules;
     private Map<TreeTransition, TreeNode> addNode;
-    private Rule newRule;
+    private BasicRule newRule;
 
-    public ValidateBasicRuleCommand(TreeViewSelection selection, Rule rule) {
+    /**
+     * ValidateBasicRuleCommand Constructor creates a command for verifying a basic rule
+     *
+     * @param selection selection of tree elements
+     * @param rule basic rule
+     */
+    public ValidateBasicRuleCommand(TreeViewSelection selection, BasicRule rule) {
         this.selection = selection.copy();
         this.newRule = rule;
         this.oldRules = new HashMap<>();

@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.prefs.Preferences;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class LegupPreferences {
 
     private static LegupPreferences instance;
@@ -44,23 +47,43 @@ public class LegupPreferences {
         preferencesMap.put(IMMEDIATE_FEEDBACK, preferences.get(IMMEDIATE_FEEDBACK, defaultPreferencesMap.get(IMMEDIATE_FEEDBACK)));
     }
 
+    /**
+     * Gets the legup preferences singleton instance.
+     *
+     * @return legup preferences
+     */
     public static LegupPreferences getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new LegupPreferences();
         }
         return instance;
     }
 
+    /**
+     * Private LegupPreferences Singleton Constructor
+     */
     private LegupPreferences() {
 
     }
 
+    /**
+     * Gets the user preference by the string key
+     *
+     * @param key key name of the preference
+     * @return value of the preference
+     */
     public String getUserPref(String key) {
         return preferencesMap.get(key);
     }
 
-    public String setUserPref(String key, String value) {
+    /**
+     * Gets the user preference by the string key, value pair
+     *
+     * @param key key name of the preference
+     * @param value value of the preference
+     */
+    public void setUserPref(String key, String value) {
         preferences.put(key, value);
-        return preferencesMap.put(key, value);
+        preferencesMap.put(key, value);
     }
 }

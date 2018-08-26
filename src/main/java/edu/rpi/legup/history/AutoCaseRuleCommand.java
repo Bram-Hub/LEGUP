@@ -12,6 +12,9 @@ import edu.rpi.legup.ui.treeview.*;
 import java.awt.event.MouseEvent;
 import java.util.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class AutoCaseRuleCommand extends PuzzleCommand {
@@ -25,7 +28,7 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
     private List<TreeTransition> caseTrans;
 
     /**
-     * AutoCaseRuleCommand Constructor - creates a command for validating a case rule
+     * AutoCaseRuleCommand Constructor creates a command for validating a case rule
      *
      * @param elementView currently selected puzzle puzzleElement view that is being edited
      * @param selection   currently selected tree puzzleElement views that is being edited
@@ -50,16 +53,16 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
         final TreeViewSelection newSelection = new TreeViewSelection();
 
         TreeNode node = (TreeNode) selection.getFirstSelection().getTreeElement();
-        if(caseTrans.isEmpty()) {
+        if (caseTrans.isEmpty()) {
             List<Board> cases = caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
             for (Board board : cases) {
-                final TreeTransition transition = (TreeTransition)tree.addTreeElement(node);
+                final TreeTransition transition = (TreeTransition) tree.addTreeElement(node);
                 board.setModifiable(false);
                 transition.setBoard(board);
                 transition.setRule(caseRule);
                 caseTrans.add(transition);
 
-                TreeNode childNode = (TreeNode)tree.addTreeElement(transition);
+                TreeNode childNode = (TreeNode) tree.addTreeElement(transition);
 
                 puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(transition));
                 newSelection.addToSelection(treeView.getElementView(childNode));

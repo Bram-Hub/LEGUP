@@ -32,7 +32,7 @@ public class LegupUtils {
 
         URL url = LegupUtils.class.getProtectionDomain().getCodeSource().getLocation();
         String jarPath = URLDecoder.decode(url.getFile(), "UTF-8");
-        if(jarPath.contains(".jar")) {
+        if (jarPath.contains(".jar")) {
             List<Class> css = findClassesZip(jarPath, path);
             return css.toArray(new Class[css.size()]);
         }

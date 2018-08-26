@@ -1,6 +1,5 @@
 package edu.rpi.legup.model.tree;
 
-public enum TreeElementType
-{
+public enum TreeElementType {
     NODE, TRANSITION
 }

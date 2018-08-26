@@ -19,8 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class PickGameDialog extends JDialog implements ActionListener
-{
+public class PickGameDialog extends JDialog implements ActionListener {
     JLabel gameLabel = new JLabel("Game:");
     String[] games;
     JComboBox gameBox;
@@ -47,12 +46,12 @@ public class PickGameDialog extends JDialog implements ActionListener
 
     /**
      * Initialize the dialog
-     * @param parent the parent JFrame
+     *
+     * @param parent         the parent JFrame
      * @param pickBothAtOnce if true they can pick a game type and a specific edu.rpi.legup.puzzle, if
-     *  false they can only pick a game type
+     *                       false they can only pick a game type
      */
-    public PickGameDialog(JFrame parent, boolean pickBothAtOnce)
-    {
+    public PickGameDialog(JFrame parent, boolean pickBothAtOnce) {
         super(parent, true);
 
         pickBoth = pickBothAtOnce;
@@ -60,8 +59,8 @@ public class PickGameDialog extends JDialog implements ActionListener
 
         Rectangle b = parent.getBounds();
 
-        setSize(350,200);
-        setLocation((int)b.getCenterX() - getWidth() / 2, (int)b.getCenterY() - getHeight() / 2);
+        setSize(350, 200);
+        setLocation((int) b.getCenterX() - getWidth() / 2, (int) b.getCenterY() - getHeight() / 2);
         setTitle("Select Puzzle");
 
         // listeners
@@ -73,25 +72,22 @@ public class PickGameDialog extends JDialog implements ActionListener
         Container c = getContentPane();
         c.setLayout(null);
 
-        if (pickBoth)
-        {
-            gameLabel.setBounds(10,10,70,25);
-            gameBox.setBounds(80,10,190,25);
-        }
-        else
-        {
-            gameLabel.setBounds(10,30,70,25);
-            gameBox.setBounds(80,30,190,25);
+        if (pickBoth) {
+            gameLabel.setBounds(10, 10, 70, 25);
+            gameBox.setBounds(80, 10, 190, 25);
+        } else {
+            gameLabel.setBounds(10, 30, 70, 25);
+            gameBox.setBounds(80, 30, 190, 25);
         }
 
-        puzzleLabel.setBounds(10,40,70,25);
+        puzzleLabel.setBounds(10, 40, 70, 25);
 
 
-        puzzleBox.setBounds(80,40,190,25);
-        puzzleButton.setBounds(270,40,25,25);
+        puzzleBox.setBounds(80, 40, 190, 25);
+        puzzleButton.setBounds(270, 40, 25, 25);
 
-        ok.setBounds(20,130,60,25);
-        cancel.setBounds(170,130,90,25);
+        ok.setBounds(20, 130, 60, 25);
+        cancel.setBounds(170, 130, 90, 25);
 
         c.add(gameLabel);
         c.add(gameBox);
@@ -117,63 +113,51 @@ public class PickGameDialog extends JDialog implements ActionListener
         c.add(autojustifyCheckBox);
     }
 
-    public void initPuzzles()
-    {
+    public void initPuzzles() {
         Object[] o = GameBoardFacade.getInstance().getConfig().getPuzzleNames().toArray();
 
         games = new String[o.length];
 
         for (int x = 0; x < o.length; ++x)
-            games[x] = (String)o[x];
+            games[x] = (String) o[x];
 
         puzzles = new String[games.length][];
         puzzleBox = new JTextField();
-        for (int x = 0; x < games.length; ++x)
-        {
-           // o = GameBoardFacade.getInstance().getConfig().getBoardsForPuzzle(games[x]).toArray();
+        for (int x = 0; x < games.length; ++x) {
+            // o = GameBoardFacade.getInstance().getConfig().getBoardsForPuzzle(games[x]).toArray();
             puzzles[x] = new String[o.length];
 
             for (int y = 0; y < o.length; ++y)
-                puzzles[x][y] = (String)o[y];
+                puzzles[x][y] = (String) o[y];
         }
 
         gameBox = new JComboBox(games);
     }
 
-    public String getPuzzle()
-    {
+    public String getPuzzle() {
         return puzzleBox.getText();
     }
 
-    public String getGame()
-    {
-        return (String)gameBox.getSelectedItem();
+    public String getGame() {
+        return (String) gameBox.getSelectedItem();
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if (e.getSource() == gameBox)
-        {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == gameBox) {
             int index = gameBox.getSelectedIndex();
-        }
-        else if (e.getSource() == ok)
-        {
+        } else if (e.getSource() == ok) {
             okPressed = true;
             setVisible(false);
-        }
-        else if (e.getSource() == cancel)
-        {
+        } else if (e.getSource() == cancel) {
             okPressed = false;
             setVisible(false);
-        }
-        else if(e.getSource() == puzzleButton)
-        {
+        } else if (e.getSource() == puzzleButton) {
             File f = new File("puzzlefiles" + File.separator + gameBox.getSelectedItem().toString().toLowerCase() + File.separator);
             if (f.exists() && f.isDirectory())
                 puzzleChooser = new JFileChooser(f);
             else
                 puzzleChooser = new JFileChooser();
-            if(puzzleChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+            if (puzzleChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
                 puzzleBox.setText(puzzleChooser.getSelectedFile().getAbsolutePath());
         }
     }

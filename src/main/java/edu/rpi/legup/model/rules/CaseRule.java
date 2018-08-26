@@ -56,10 +56,10 @@ public abstract class CaseRule extends Rule {
             return "Must not have multiple parent nodes";
         }
 
-        for(TreeTransition childTrans : parentNodes.get(0).getChildren()) {
-            if(childTrans.getRule() == null || !childTrans.getRule().getClass().equals(this.getClass())) {
+        for (TreeTransition childTrans : parentNodes.get(0).getChildren()) {
+            if (childTrans.getRule() == null || !childTrans.getRule().getClass().equals(this.getClass())) {
                 return "All children nodes must be justified with the same case rule.";
-            } else if(childTrans.getBoard().getModifiedData().isEmpty()) {
+            } else if (childTrans.getBoard().getModifiedData().isEmpty()) {
                 return "You must modify the board in each case node";
             }
         }
@@ -67,9 +67,9 @@ public abstract class CaseRule extends Rule {
         String check = checkRuleRaw(transition);
 
         boolean isCorrect = check == null;
-        for(TreeTransition childTrans : parentNodes.get(0).getChildren()) {
+        for (TreeTransition childTrans : parentNodes.get(0).getChildren()) {
             childTrans.setCorrect(isCorrect);
-            for(PuzzleElement element : childTrans.getBoard().getModifiedData()) {
+            for (PuzzleElement element : childTrans.getBoard().getModifiedData()) {
                 element.setValid(isCorrect);
             }
         }

@@ -5,7 +5,6 @@ import java.awt.*;
 
 public class ManualPuzzleCreatorDialog extends JDialog {
 
-    
 
     public ManualPuzzleCreatorDialog() {
 

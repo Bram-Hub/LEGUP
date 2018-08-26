@@ -4,8 +4,7 @@ import edu.rpi.legup.model.rules.Rule;
 
 import javax.swing.*;
 
-public class RuleButton extends JButton
-{
+public class RuleButton extends JButton {
     private Rule rule;
 
     /**
@@ -13,8 +12,7 @@ public class RuleButton extends JButton
      *
      * @param rule rule to create the button
      */
-    RuleButton(Rule rule)
-    {
+    RuleButton(Rule rule) {
         super(rule.getImageIcon());
         this.rule = rule;
     }
@@ -24,8 +22,7 @@ public class RuleButton extends JButton
      *
      * @return Rule from this button
      */
-    public Rule getRule()
-    {
+    public Rule getRule() {
         return rule;
     }
 
@@ -34,8 +31,7 @@ public class RuleButton extends JButton
      *
      * @param rule Rule for this button
      */
-    void setRule(Rule rule)
-    {
+    void setRule(Rule rule) {
         this.rule = rule;
     }
 }

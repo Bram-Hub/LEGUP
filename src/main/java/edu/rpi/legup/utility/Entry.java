@@ -1,18 +1,16 @@
 package edu.rpi.legup.utility;
 
-public class Entry <K, V>
-{
+public class Entry<K, V> {
     private K key;
     private V value;
 
     /**
-     * Entry Constructor - creates a key value pair
+     * Entry Constructor creates a key value pair
      *
-     * @param key key
+     * @param key   key
      * @param value value
      */
-    public Entry(K key, V value)
-    {
+    public Entry(K key, V value) {
         this.key = key;
         this.value = value;
     }
@@ -22,8 +20,7 @@ public class Entry <K, V>
      *
      * @return key
      */
-    public K getKey()
-    {
+    public K getKey() {
         return key;
     }
 
@@ -32,8 +29,7 @@ public class Entry <K, V>
      *
      * @param key key
      */
-    public void setKey(K key)
-    {
+    public void setKey(K key) {
         this.key = key;
     }
 
@@ -42,8 +38,7 @@ public class Entry <K, V>
      *
      * @return value
      */
-    public V getValue()
-    {
+    public V getValue() {
         return value;
     }
 
@@ -52,8 +47,7 @@ public class Entry <K, V>
      *
      * @param value value
      */
-    public void setValue(V value)
-    {
+    public void setValue(V value) {
         this.value = value;
     }
 }

@@ -53,8 +53,7 @@ public abstract class BasicRule extends Rule {
             if (checkStr != null) {
                 puzzleElement.setValid(false);
                 return checkStr;
-            }
-            else {
+            } else {
                 puzzleElement.setValid(true);
             }
         }

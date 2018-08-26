@@ -8,8 +8,7 @@ import javax.swing.JPanel;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class RulePanel extends JPanel
-{
+public abstract class RulePanel extends JPanel {
     protected ImageIcon icon;
     protected String name;
     protected String toolTip;
@@ -19,12 +18,11 @@ public abstract class RulePanel extends JPanel
     protected List<? extends Rule> rules;
 
     /**
-     * RulePanel Constructor - creates a RulePanel
+     * RulePanel Constructor creates a RulePanel
      *
      * @param ruleFrame rule frame that this RulePanel is contained in
      */
-    public RulePanel(RuleFrame ruleFrame)
-    {
+    public RulePanel(RuleFrame ruleFrame) {
         this.ruleFrame = ruleFrame;
         this.rules = new ArrayList<>();
         setLayout(new WrapLayout());
@@ -35,8 +33,7 @@ public abstract class RulePanel extends JPanel
      *
      * @return rule ruleButtons
      */
-    public RuleButton[] getRuleButtons()
-    {
+    public RuleButton[] getRuleButtons() {
         return ruleButtons;
     }
 
@@ -45,15 +42,13 @@ public abstract class RulePanel extends JPanel
      *
      * @param rules list of the rules
      */
-    public void setRules(List<? extends Rule> rules)
-    {
+    public void setRules(List<? extends Rule> rules) {
         this.rules = rules;
         clearButtons();
 
         ruleButtons = new RuleButton[rules.size()];
 
-        for(int i = 0; i < rules.size(); i++)
-        {
+        for (int i = 0; i < rules.size(); i++) {
             Rule rule = rules.get(i);
             ruleButtons[i] = new RuleButton(rule);
             ruleFrame.getButtonGroup().add(ruleButtons[i]);
@@ -70,14 +65,10 @@ public abstract class RulePanel extends JPanel
      *
      * @param rule rule to set the selection to
      */
-    public void setSelectionByRule(Rule rule)
-    {
-        if(ruleButtons != null)
-        {
-            for(int i = 0; i < ruleButtons.length; i++)
-            {
-                if(rules.get(i).equals(rule))
-                {
+    public void setSelectionByRule(Rule rule) {
+        if (ruleButtons != null) {
+            for (int i = 0; i < ruleButtons.length; i++) {
+                if (rules.get(i).equals(rule)) {
                     ruleButtons[i].setSelected(true);
                     break;
                 }
@@ -85,21 +76,13 @@ public abstract class RulePanel extends JPanel
         }
     }
 
-
-    //protected abstract void checkRule(int button);
-
-    //protected abstract Rule doDefaultApplication(int button, Board board);
-
     /**
      * Clears the rule buttons off this panel
      */
-    protected void clearButtons()
-    {
-        if(ruleButtons != null)
-        {
+    protected void clearButtons() {
+        if (ruleButtons != null) {
             removeAll();
-            for(int x = 0; x < ruleButtons.length; ++x)
-            {
+            for (int x = 0; x < ruleButtons.length; ++x) {
                 ruleButtons[x].removeActionListener(ruleFrame.getController());
             }
         }
@@ -110,40 +93,33 @@ public abstract class RulePanel extends JPanel
      *
      * @return the rules
      */
-    public List<? extends Rule> getRules()
-    {
+    public List<? extends Rule> getRules() {
         return rules;
     }
 
-    public ImageIcon getIcon()
-    {
+    public ImageIcon getIcon() {
         return icon;
     }
 
-    public void setIcon(ImageIcon icon)
-    {
+    public void setIcon(ImageIcon icon) {
         this.icon = icon;
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     @Override
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getToolTip()
-    {
+    public String getToolTip() {
         return toolTip;
     }
 
-    public void setToolTip(String toolTip)
-    {
+    public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
     }
 }

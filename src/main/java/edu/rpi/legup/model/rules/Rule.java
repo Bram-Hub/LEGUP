@@ -5,9 +5,11 @@ import edu.rpi.legup.model.tree.TreeTransition;
 
 import javax.swing.ImageIcon;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 @RegisterRule
-public abstract class Rule
-{
+public abstract class Rule {
     protected String ruleName;
     protected String description;
     protected String imageName;
@@ -15,14 +17,13 @@ public abstract class Rule
     protected RuleType ruleType;
 
     /**
-     * Rule Constructor - creates a new rule
+     * Rule Constructor creates a new rule
      *
-     * @param ruleName name of the rule
+     * @param ruleName    name of the rule
      * @param description description of the rule
-     * @param imageName file name of the image
+     * @param imageName   file name of the image
      */
-    public Rule(String ruleName, String description, String imageName)
-    {
+    public Rule(String ruleName, String description, String imageName) {
         this.imageName = imageName;
         this.ruleName = ruleName;
         this.description = description;
@@ -33,7 +34,6 @@ public abstract class Rule
      * Checks whether the transition logically follows from the parent node using this rule
      *
      * @param transition transition to check
-     *
      * @return null if the child node logically follow from the parent node, otherwise error message
      */
     public abstract String checkRule(TreeTransition transition);
@@ -43,7 +43,6 @@ public abstract class Rule
      * This method is the one that should overridden in child classes
      *
      * @param transition transition to check
-     *
      * @return null if the child node logically follow from the parent node, otherwise error message
      */
     protected abstract String checkRuleRaw(TreeTransition transition);
@@ -52,9 +51,8 @@ public abstract class Rule
      * Checks whether the child node logically follows from the parent node
      * at the specific puzzleElement index using this rule
      *
-     * @param transition transition to check
+     * @param transition    transition to check
      * @param puzzleElement equivalent puzzleElement
-     *
      * @return null if the child node logically follow from the parent node at the specified puzzleElement,
      * otherwise error message
      */
@@ -65,9 +63,8 @@ public abstract class Rule
      * at the specific puzzleElement index using this rule
      * This method is the one that should overridden in child classes
      *
-     * @param transition transition to check
+     * @param transition    transition to check
      * @param puzzleElement equivalent puzzleElement
-     *
      * @return null if the child node logically follow from the parent node at the specified puzzleElement,
      * otherwise error message
      */
@@ -76,10 +73,8 @@ public abstract class Rule
     /**
      * Loads the image file
      */
-    private void loadImage()
-    {
-        if(imageName != null)
-        {
+    private void loadImage() {
+        if (imageName != null) {
             image = new ImageIcon(ClassLoader.getSystemResource(imageName));
         }
     }
@@ -89,8 +84,7 @@ public abstract class Rule
      *
      * @return name of the rule
      */
-    public String getRuleName()
-    {
+    public String getRuleName() {
         return ruleName;
     }
 
@@ -99,8 +93,7 @@ public abstract class Rule
      *
      * @param ruleName new name of the rule
      */
-    public void setRuleName(String ruleName)
-    {
+    public void setRuleName(String ruleName) {
         this.ruleName = ruleName;
     }
 
@@ -109,8 +102,7 @@ public abstract class Rule
      *
      * @return the description of the rule
      */
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
@@ -119,8 +111,7 @@ public abstract class Rule
      *
      * @return image icon of the rule
      */
-    public ImageIcon getImageIcon()
-    {
+    public ImageIcon getImageIcon() {
         return image;
     }
 
@@ -129,8 +120,7 @@ public abstract class Rule
      *
      * @return rule type
      */
-    public RuleType getRuleType()
-    {
+    public RuleType getRuleType() {
         return ruleType;
     }
 }

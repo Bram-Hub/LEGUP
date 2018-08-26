@@ -10,8 +10,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-public abstract class ElementView implements Shape
-{
+public abstract class ElementView implements Shape {
     protected int index;
     protected Point location;
     protected Dimension size;
@@ -26,17 +25,16 @@ public abstract class ElementView implements Shape
     private boolean isSelected;
 
     /**
-     * ElementView Constructor - creates a edu.rpi.legup.puzzle puzzleElement view
+     * ElementView Constructor creates a puzzleElement view
      *
-     * @param puzzleElement puzzleElement puzzleElement to which the edu.rpi.legup.puzzle puzzleElement uses to draw
+     * @param puzzleElement puzzleElement to which the view uses to draw
      */
-    public ElementView(PuzzleElement puzzleElement)
-    {
+    public ElementView(PuzzleElement puzzleElement) {
         this.puzzleElement = puzzleElement;
-        this.hoverColor = new Color(0x79, 0x86, 0xCB,255);
-        this.modifiedColor = new Color(0x64, 0xDD, 0x17,255);
-        this.caseColor = new Color(0x1A, 0x23, 0x7E,200);
-        this.invalidColor = new Color(0xf4, 0x43, 0x36,200);
+        this.hoverColor = new Color(0x79, 0x86, 0xCB, 255);
+        this.modifiedColor = new Color(0x64, 0xDD, 0x17, 255);
+        this.caseColor = new Color(0x1A, 0x23, 0x7E, 200);
+        this.invalidColor = new Color(0xf4, 0x43, 0x36, 200);
         this.isHover = false;
         this.isSelected = false;
         this.isCaseRulePickable = false;
@@ -48,40 +46,33 @@ public abstract class ElementView implements Shape
      * @param point point to check
      * @return true if the point is within the ElementView, false otherwise
      */
-    public boolean isWithinBounds(Point point)
-    {
+    public boolean isWithinBounds(Point point) {
         return point.x >= location.x && point.x <= location.x + size.width &&
                 point.y >= location.y && point.y <= location.y + size.height;
     }
 
     /**
-     * Draws the edu.rpi.legup.puzzle puzzleElement on the screen
+     * Draws the puzzle element on the screen
      *
      * @param graphics2D graphics2D object used for drawing
      */
-    public void draw(Graphics2D graphics2D)
-    {
+    public void draw(Graphics2D graphics2D) {
         drawElement(graphics2D);
-        if(puzzleElement.isGiven())
-        {
+        if (puzzleElement.isGiven()) {
             drawGiven(graphics2D);
         }
-        if(puzzleElement.isModified())
-        {
+        if (puzzleElement.isModified()) {
             drawModified(graphics2D);
         }
-        if(showCasePicker && isCaseRulePickable)
-        {
+        if (showCasePicker && isCaseRulePickable) {
             drawCase(graphics2D);
         }
-        if(isHover)
-        {
+        if (isHover) {
             drawHover(graphics2D);
         }
     }
 
-    public void drawElement(Graphics2D graphics2D)
-    {
+    public void drawElement(Graphics2D graphics2D) {
         graphics2D.setStroke(new BasicStroke(1));
         graphics2D.setColor(Color.BLACK);
         graphics2D.drawRect(location.x, location.y, size.width, size.height);
@@ -94,33 +85,28 @@ public abstract class ElementView implements Shape
         graphics2D.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
     }
 
-    public void drawGiven(Graphics2D graphics2D)
-    {
+    public void drawGiven(Graphics2D graphics2D) {
 
     }
 
-    public void drawHover(Graphics2D graphics2D)
-    {
+    public void drawHover(Graphics2D graphics2D) {
         graphics2D.setColor(hoverColor);
         graphics2D.setStroke(new BasicStroke(2));
         graphics2D.drawRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
     }
 
-    public void drawModified(Graphics2D graphics2D)
-    {
+    public void drawModified(Graphics2D graphics2D) {
         graphics2D.setColor(puzzleElement.isValid() ? modifiedColor : invalidColor);
         graphics2D.setStroke(new BasicStroke(2));
         graphics2D.drawRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
     }
 
-    public void drawCase(Graphics2D graphics2D)
-    {
+    public void drawCase(Graphics2D graphics2D) {
         graphics2D.setColor(caseColor);
         graphics2D.fillRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
     }
 
-    public BufferedImage getImage()
-    {
+    public BufferedImage getImage() {
         BufferedImage image = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics2D = image.createGraphics();
         drawElement(graphics2D);
@@ -133,8 +119,7 @@ public abstract class ElementView implements Shape
      *
      * @return index of the ElementView
      */
-    public int getIndex()
-    {
+    public int getIndex() {
         return index;
     }
 
@@ -143,8 +128,7 @@ public abstract class ElementView implements Shape
      *
      * @param index index of the ElementView
      */
-    public void setIndex(int index)
-    {
+    public void setIndex(int index) {
         this.index = index;
     }
 
@@ -153,8 +137,7 @@ public abstract class ElementView implements Shape
      *
      * @return location of the ElementView
      */
-    public Point getLocation()
-    {
+    public Point getLocation() {
         return location;
     }
 
@@ -163,8 +146,7 @@ public abstract class ElementView implements Shape
      *
      * @param location location of the ElementView
      */
-    public void setLocation(Point location)
-    {
+    public void setLocation(Point location) {
         this.location = location;
     }
 
@@ -173,8 +155,7 @@ public abstract class ElementView implements Shape
      *
      * @return dimension of the ElementView
      */
-    public Dimension getSize()
-    {
+    public Dimension getSize() {
         return size;
     }
 
@@ -183,8 +164,7 @@ public abstract class ElementView implements Shape
      *
      * @param size dimension of the ElementView
      */
-    public void setSize(Dimension size)
-    {
+    public void setSize(Dimension size) {
         this.size = size;
     }
 
@@ -193,8 +173,7 @@ public abstract class ElementView implements Shape
      *
      * @return PuzzleElement associated with this view
      */
-    public PuzzleElement getPuzzleElement()
-    {
+    public PuzzleElement getPuzzleElement() {
         return puzzleElement;
     }
 
@@ -203,18 +182,15 @@ public abstract class ElementView implements Shape
      *
      * @param data PuzzleElement associated with this view
      */
-    public void setPuzzleElement(PuzzleElement data)
-    {
+    public void setPuzzleElement(PuzzleElement data) {
         this.puzzleElement = data;
     }
 
-    public boolean isShowCasePicker()
-    {
+    public boolean isShowCasePicker() {
         return showCasePicker;
     }
 
-    public void setShowCasePicker(boolean showCasePicker)
-    {
+    public void setShowCasePicker(boolean showCasePicker) {
         this.showCasePicker = showCasePicker;
     }
 
@@ -225,8 +201,7 @@ public abstract class ElementView implements Shape
      *
      * @return true if the ElementView can be chosen for the CaseRule, false otherwise
      */
-    public boolean isCaseRulePickable()
-    {
+    public boolean isCaseRulePickable() {
         return isCaseRulePickable;
     }
 
@@ -237,8 +212,7 @@ public abstract class ElementView implements Shape
      *
      * @param isCaseRulePickable true if the ElementView can be chosen for the CaseRule, false otherwise
      */
-    public void setCaseRulePickable(boolean isCaseRulePickable)
-    {
+    public void setCaseRulePickable(boolean isCaseRulePickable) {
         this.isCaseRulePickable = isCaseRulePickable;
     }
 
@@ -247,8 +221,7 @@ public abstract class ElementView implements Shape
      *
      * @return high-light color
      */
-    public Color getHoverColor()
-    {
+    public Color getHoverColor() {
         return hoverColor;
     }
 
@@ -257,8 +230,7 @@ public abstract class ElementView implements Shape
      *
      * @param hoverColor high-light color
      */
-    public void setHoverColor(Color hoverColor)
-    {
+    public void setHoverColor(Color hoverColor) {
         this.hoverColor = hoverColor;
     }
 
@@ -267,8 +239,7 @@ public abstract class ElementView implements Shape
      *
      * @return true if the puzzleElement is currently being hover over, false otherwise
      */
-    public boolean isHover()
-    {
+    public boolean isHover() {
         return isHover;
     }
 
@@ -277,8 +248,7 @@ public abstract class ElementView implements Shape
      *
      * @param hover true if the puzzleElement is correctly being hover over, false otherwise
      */
-    public void setHover(boolean hover)
-    {
+    public void setHover(boolean hover) {
         isHover = hover;
     }
 
@@ -287,8 +257,7 @@ public abstract class ElementView implements Shape
      *
      * @return tue if the puzzleElement is currently selected, false otherwise
      */
-    public boolean isSelected()
-    {
+    public boolean isSelected() {
         return isSelected;
     }
 
@@ -297,77 +266,65 @@ public abstract class ElementView implements Shape
      *
      * @param selected tue if the puzzleElement is currently selected, false otherwise
      */
-    public void setSelected(boolean selected)
-    {
+    public void setSelected(boolean selected) {
         isSelected = selected;
     }
 
-    public JMenuItem getSelectionMenuItem()
-    {
+    public JMenuItem getSelectionMenuItem() {
         JMenuItem item = new JMenuItem(puzzleElement.getData() + "");
         return item;
     }
 
     @Override
-    public boolean contains(double x, double y)
-    {
+    public boolean contains(double x, double y) {
         return x >= location.x && x <= location.x + size.width &&
                 y >= location.y && y <= location.y + size.height;
     }
 
     @Override
-    public boolean contains(Point2D point)
-    {
+    public boolean contains(Point2D point) {
         return contains(point.getX(), point.getY());
     }
 
     @Override
-    public boolean intersects(double x, double y, double width, double height)
-    {
+    public boolean intersects(double x, double y, double width, double height) {
         return (x + width >= location.x && x <= location.x + size.width) ||
                 (y + height >= location.y && y <= location.y + size.height);
     }
 
     @Override
-    public boolean intersects(Rectangle2D rectangle2D)
-    {
+    public boolean intersects(Rectangle2D rectangle2D) {
         return intersects(rectangle2D.getX(), rectangle2D.getY(), rectangle2D.getWidth(), rectangle2D.getHeight());
     }
 
     @Override
-    public boolean contains(double x, double y, double width, double height)
-    {
+    public boolean contains(double x, double y, double width, double height) {
         return (x + width >= location.x && x <= location.x + size.width) &&
                 (y + height >= location.y && y <= location.y + size.height);
     }
 
     @Override
-    public boolean contains(Rectangle2D rectangle2D)
-    {
+    public boolean contains(Rectangle2D rectangle2D) {
         return contains(rectangle2D.getX(), rectangle2D.getY(), rectangle2D.getWidth(), rectangle2D.getHeight());
     }
 
     @Override
-    public PathIterator getPathIterator(AffineTransform at)
-    {
+    public PathIterator getPathIterator(AffineTransform at) {
         return new Rectangle(location.x, location.y, size.width, size.height).getPathIterator(at);
     }
 
     @Override
-    public PathIterator getPathIterator(AffineTransform at, double flatness)
-    {
+    public PathIterator getPathIterator(AffineTransform at, double flatness) {
         return new Rectangle(location.x, location.y, size.width, size.height).getPathIterator(at, flatness);
     }
 
     @Override
-    public Rectangle getBounds()
-    {
+    public Rectangle getBounds() {
         return new Rectangle(location.x, location.y, size.width, size.height);
     }
 
     @Override
-    public Rectangle2D getBounds2D()
-    {
+    public Rectangle2D getBounds2D() {
         return new Rectangle(location.x, location.y, size.width, size.height);
     }
 }

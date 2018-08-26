@@ -49,7 +49,7 @@ public class UsageStatistics {
                     instream.close();
                 }
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             return false;
         }
         return false;

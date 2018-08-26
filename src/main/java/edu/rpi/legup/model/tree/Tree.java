@@ -7,8 +7,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Tree
-{
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+public class Tree {
     private TreeNode rootNode;
 
     /**
@@ -16,8 +18,7 @@ public class Tree
      *
      * @param initBoard initial board
      */
-    public Tree(Board initBoard)
-    {
+    public Tree(Board initBoard) {
         this.rootNode = new TreeNode(initBoard);
         this.rootNode.setRoot(true);
     }
@@ -25,21 +26,18 @@ public class Tree
     /**
      * Tree Constructor creates the tree structure with null root node
      */
-    public Tree()
-    {
+    public Tree() {
         this.rootNode = null;
     }
 
-    public TreeTransition addNewTransition(TreeNode treeNode)
-    {
+    public TreeTransition addNewTransition(TreeNode treeNode) {
         TreeTransition transition = new TreeTransition(treeNode, treeNode.getBoard().copy());
         treeNode.addChild(transition);
         treeNode.getChildren().forEach(TreeTransition::reverify);
         return transition;
     }
 
-    public TreeNode addNode(TreeTransition transition)
-    {
+    public TreeNode addNode(TreeTransition transition) {
         TreeNode treeNode = new TreeNode(transition.getBoard().copy());
         transition.setChildNode(treeNode);
         treeNode.setParent(transition);
@@ -47,14 +45,11 @@ public class Tree
     }
 
     public TreeElement addTreeElement(TreeElement element) {
-        if(element.getType() == TreeElementType.NODE)
-        {
-            TreeNode treeNode = (TreeNode)element;
+        if (element.getType() == TreeElementType.NODE) {
+            TreeNode treeNode = (TreeNode) element;
             return addTreeElement(treeNode, new TreeTransition(treeNode, treeNode.getBoard().copy()));
-        }
-        else
-        {
-            TreeTransition transition = (TreeTransition)element;
+        } else {
+            TreeTransition transition = (TreeTransition) element;
             Board copyBoard = transition.board.copy();
             copyBoard.setModifiable(false);
             return addTreeElement(transition, new TreeNode(copyBoard));
@@ -73,16 +68,12 @@ public class Tree
         return treeNode;
     }
 
-    public void removeTreeElement(TreeElement element)
-    {
-        if(element.getType() == TreeElementType.NODE)
-        {
-            TreeNode node = (TreeNode)element;
+    public void removeTreeElement(TreeElement element) {
+        if (element.getType() == TreeElementType.NODE) {
+            TreeNode node = (TreeNode) element;
             node.getParent().setChildNode(null);
-        }
-        else
-        {
-            TreeTransition transition = (TreeTransition)element;
+        } else {
+            TreeTransition transition = (TreeTransition) element;
             transition.getParents().forEach(n -> n.removeChild(transition));
             transition.getParents().get(0).getChildren().forEach(TreeTransition::reverify);
         }
@@ -94,8 +85,7 @@ public class Tree
      *
      * @return true if tree is valid, false otherwise
      */
-    public boolean isValid()
-    {
+    public boolean isValid() {
         return rootNode.isValidBranch();
     }
 
@@ -104,8 +94,7 @@ public class Tree
      *
      * @return Set of TreeNodes that are leaf nodes
      */
-    public Set<TreeNode> getLeafNodes()
-    {
+    public Set<TreeNode> getLeafNodes() {
         Set<TreeNode> leafs = new HashSet<>();
         getLeafNodes(leafs, rootNode);
         return leafs;
@@ -115,47 +104,18 @@ public class Tree
      * Recursively gets a Set of TreeNodes that are leaf nodes
      *
      * @param leafs Set of TreeNodes that are leaf nodes
-     * @param node current TreeNode being evaluated
+     * @param node  current TreeNode being evaluated
      */
-    private void getLeafNodes(Set<TreeNode> leafs, TreeNode node)
-    {
-        if(node == null)
-        {
+    private void getLeafNodes(Set<TreeNode> leafs, TreeNode node) {
+        if (node == null) {
             return;
         }
-        if(node.getChildren().isEmpty())
-        {
+        if (node.getChildren().isEmpty()) {
             leafs.add(node);
-        }
-        else
-        {
-            for(TreeTransition transition : node.getChildren())
-            {
+        } else {
+            for (TreeTransition transition : node.getChildren()) {
                 getLeafNodes(leafs, transition.getChildNode());
             }
-        }
-    }
-
-    /**
-     * Determines if the list of selected tree nodes can be merged into one node. All
-     * nodes in the list must be at the same depth, all branches must be valid,
-     * and all nodes must be apart of the same immediate case rule node
-     *
-     * @return true if the list of tree nodes can be merged, false otherwise
-     */
-    public boolean canMerge()
-    {
-        return true;
-    }
-
-    /**
-     * Merges the list of selected tree nodes if possible
-     */
-    public void mergeNodes()
-    {
-        if(canMerge())
-        {
-            Board mergedBoard;
         }
     }
 
@@ -168,36 +128,26 @@ public class Tree
      * @param nodes list of tree nodes to find the LCA
      * @return the first ancestor node that all tree nodes have in common, otherwise null if none exists
      */
-    public static TreeNode getLowestCommonAncestor(List<TreeNode> nodes)
-    {
-        if(nodes.isEmpty())
-        {
+    public static TreeNode getLowestCommonAncestor(List<TreeNode> nodes) {
+        if (nodes.isEmpty()) {
             return null;
-        }
-        else if(nodes.size() == 1)
-        {
+        } else if (nodes.size() == 1) {
             return nodes.get(0);
-        }
-        else
-        {
+        } else {
             List<List<TreeNode>> ancestors = new ArrayList<>();
-            for(TreeNode node : nodes)
-            {
+            for (TreeNode node : nodes) {
                 ancestors.add(node.getAncestors());
             }
 
             List<TreeNode> first = ancestors.get(0);
 
-            for(TreeNode node : first)
-            {
+            for (TreeNode node : first) {
                 boolean isCommon = true;
-                for(List<TreeNode> nList: ancestors)
-                {
+                for (List<TreeNode> nList : ancestors) {
                     isCommon &= nList.contains(node);
                 }
 
-                if(isCommon)
-                {
+                if (isCommon) {
                     return node;
                 }
             }
@@ -210,8 +160,7 @@ public class Tree
      *
      * @return the root node of the tree
      */
-    public TreeNode getRootNode()
-    {
+    public TreeNode getRootNode() {
         return rootNode;
     }
 
@@ -220,8 +169,7 @@ public class Tree
      *
      * @param rootNode the root node of the tree
      */
-    public void setRootNode(TreeNode rootNode)
-    {
+    public void setRootNode(TreeNode rootNode) {
         this.rootNode = rootNode;
     }
 }

@@ -9,70 +9,59 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
-public class TreeController extends Controller
-{
+public class TreeController extends Controller {
     /**
-     * TreeController Constructor - creates a edu.rpi.legup.controller object to listen
-     * to edu.rpi.legup.ui events from a TreePanel
+     * TreeController Constructor creates a controller object to listen to ui events from a {@link TreePanel}
      */
-    public TreeController()
-    {
+    public TreeController() {
 
     }
 
     /**
-     * Mouse Clicked event - no default action
+     * Mouse Clicked event no default action
      *
      * @param e MouseEvent object
      */
     @Override
-    public void mouseClicked(MouseEvent e)
-    {
+    public void mouseClicked(MouseEvent e) {
 
     }
 
     /**
-     * Mouse Pressed event - sets the cursor to the move cursor and stores
-     * info for possible panning
+     * Mouse Pressed event sets the cursor to the move cursor and stores info for possible panning
      *
      * @param e MouseEvent object
      */
     @Override
-    public void mousePressed(MouseEvent e)
-    {
+    public void mousePressed(MouseEvent e) {
         super.mousePressed(e);
     }
 
     /**
-     * Mouse Released event - sets the cursor back to the default cursor and reset
-     * info for panning
+     * Mouse Released event sets the cursor back to the default cursor and reset info for panning
      *
      * @param e MouseEvent object
      */
     @Override
-    public void mouseReleased(MouseEvent e)
-    {
+    public void mouseReleased(MouseEvent e) {
         super.mouseReleased(e);
 
-        TreeView treeView = (TreeView)viewer;
+        TreeView treeView = (TreeView) viewer;
         Point point = treeView.getActualPoint(e.getPoint());
         TreeElementView elementView = treeView.getTreeElementView(point);
         Puzzle puzzle = getInstance().getPuzzleModule();
         TreeViewSelection selection = treeView.getSelection();
-        if(elementView != null)
-        {
-            if(e.isShiftDown())
-            {
+        if (elementView != null) {
+            if (e.isShiftDown()) {
                 selection.addToSelection(elementView);
-            }
-            else if(e.isControlDown())
-            {
+            } else if (e.isControlDown()) {
                 selection.toggleSelection(elementView);
-            }
-            else
-            {
+            } else {
                 selection.newSelection(elementView);
             }
             puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
@@ -81,91 +70,77 @@ public class TreeController extends Controller
     }
 
     /**
-     * Mouse Entered event - no default action
+     * Mouse Entered event no default action
      *
      * @param e MouseEvent object
      */
     @Override
-    public void mouseEntered(MouseEvent e)
-    {
-        TreeView treeView = (TreeView)viewer;
+    public void mouseEntered(MouseEvent e) {
+        TreeView treeView = (TreeView) viewer;
         Point point = treeView.getActualPoint(e.getPoint());
         Tree tree = getInstance().getTree();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         TreeElementView elementView = treeView.getTreeElementView(point);
         Puzzle puzzle = getInstance().getPuzzleModule();
-        if(elementView != null)
-        {
+        if (elementView != null) {
             puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(elementView.getTreeElement().getBoard()));
         }
     }
 
     /**
-     * Mouse Exited event - no default action
+     * Mouse Exited event no default action
      *
      * @param e MouseEvent object
      */
     @Override
-    public void mouseExited(MouseEvent e)
-    {
-        TreeView treeView = (TreeView)viewer;
+    public void mouseExited(MouseEvent e) {
+        TreeView treeView = (TreeView) viewer;
         Point point = treeView.getActualPoint(e.getPoint());
         TreeElementView elementView = treeView.getTreeElementView(point);
         Puzzle puzzle = getInstance().getPuzzleModule();
         TreeViewSelection selection = treeView.getSelection();
 
         selection.setMousePoint(null);
-        if(elementView != null)
-        {
+        if (elementView != null) {
             TreeElementView selectedView = selection.getFirstSelection();
             puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(selectedView.getTreeElement().getBoard()));
         }
     }
 
     /**
-     * Mouse Dragged event - adjusts the viewport
+     * Mouse Dragged event adjusts the viewport
      *
      * @param e MouseEvent object
      */
     @Override
-    public void mouseDragged(MouseEvent e)
-    {
+    public void mouseDragged(MouseEvent e) {
         super.mouseDragged(e);
     }
 
     /**
-     * Mouse Moved event - no default action
+     * Mouse Moved event no default action
      *
      * @param e MouseEvent object
      */
     @Override
-    public void mouseMoved(MouseEvent e)
-    {
-        TreeView treeView = (TreeView)viewer;
+    public void mouseMoved(MouseEvent e) {
+        TreeView treeView = (TreeView) viewer;
         Point point = treeView.getActualPoint(e.getPoint());
         TreeElementView treeNodeView = treeView.getTreeElementView(point);
         Puzzle puzzle = getInstance().getPuzzleModule();
-        if(puzzle != null)
-        {
+        if (puzzle != null) {
             TreeViewSelection selection = treeView.getSelection();
             selection.setMousePoint(treeView.getActualPoint(e.getPoint()));
-            if(treeNodeView != null)
-            {
-                if(treeNodeView != selection.getHover())
-                {
+            if (treeNodeView != null) {
+                if (treeNodeView != selection.getHover()) {
                     puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(treeNodeView.getTreeElement().getBoard()));
                     selection.newHover(treeNodeView);
                     puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
-                }
-                else
-                {
+                } else {
                     puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
                 }
-            }
-            else
-            {
-                if(selection.getHover() != null)
-                {
+            } else {
+                if (selection.getHover() != null) {
                     puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(selection.getFirstSelection().getTreeElement().getBoard()));
                     selection.clearHover();
                     puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
@@ -175,22 +150,12 @@ public class TreeController extends Controller
     }
 
     /**
-     * Mouse Wheel Moved event - zooms in on the viewport
+     * Mouse Wheel Moved event zooms in on the viewport
      *
      * @param e MouseEvent object
      */
     @Override
-    public void mouseWheelMoved(MouseWheelEvent e)
-    {
+    public void mouseWheelMoved(MouseWheelEvent e) {
         super.mouseWheelMoved(e);
-//        TreeView treeView = (TreeView)dynamicView;
-//        TreeViewSelection selection = treeView.getSelectedViews();
-//        Point newPoint = new Point(e.getX() + treeView.getViewport().getX(), e.getY() + treeView.getViewport().getY());
-//
-//        PointerInfo a = MouseInfo.getPointerInfo();
-//        Point b = a.getLocation();
-//        SwingUtilities.convertPointFromScreen(b, treeView.getCanvas());
-//
-//        selection.setMousePoint(b);
     }
 }

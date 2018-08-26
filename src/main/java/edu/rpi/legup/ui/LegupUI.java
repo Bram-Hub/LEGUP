@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URI;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,15 +30,12 @@ import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.treeview.TreePanel;
 import edu.rpi.legup.user.Submission;
-import edu.rpi.legup.utility.LegupUtils;
 import edu.rpi.legupupdate.Update;
 import edu.rpi.legupupdate.UpdateProgress;
-import org.apache.commons.lang3.SystemUtils;
 
 import javax.swing.border.TitledBorder;
 
-public class LegupUI extends JFrame implements WindowListener, IHistoryListener
-{
+public class LegupUI extends JFrame implements WindowListener, IHistoryListener {
     private final static Logger LOGGER = Logger.getLogger(LegupUI.class.getName());
 
     public static final int ALLOW_HINTS = 1;
@@ -102,14 +98,13 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
     /**
      * LegupUI Constructor - creates a new LegupUI to setup the menu and toolbar
      */
-    public LegupUI()
-    {
+    public LegupUI() {
         setTitle("LEGUP");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         try {
             UIManager.setLookAndFeel(new LegupLookAndFeel());
-        } catch(UnsupportedLookAndFeelException e) {
+        } catch (UnsupportedLookAndFeelException e) {
             System.err.println("Not supported ui look and fel");
         }
 
@@ -120,23 +115,18 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         setIconImage(new ImageIcon(ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/Basic Rules.gif")).getImage());
 
         final SplashScreen splash = SplashScreen.getSplashScreen();
-        if (splash != null)
-        {
+        if (splash != null) {
             Graphics2D g = splash.createGraphics();
-            if (g != null)
-            {
+            if (g != null) {
                 g.setComposite(AlphaComposite.Clear);
                 g.setPaintMode();
                 g.setColor(Color.BLACK);
                 g.setFont(new Font(g.getFont().getName(), Font.BOLD, 24));
                 g.drawString("Loading ...", 120, 350);
                 splash.update();
-                try
-                {
+                try {
                     Thread.sleep(2000);
-                }
-                catch(InterruptedException e)
-                {
+                } catch (InterruptedException e) {
 
                 }
                 splash.close();
@@ -146,7 +136,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         setupMenu();
         setupToolBar();
         setupContent();
-        if(LegupPreferences.getInstance().getUserPref(LegupPreferences.START_FULL_SCREEN).equals(Boolean.toString(true))) {
+        if (LegupPreferences.getInstance().getUserPref(LegupPreferences.START_FULL_SCREEN).equals(Boolean.toString(true))) {
             setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
         }
 
@@ -170,21 +160,18 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         setMinimumSize(getPreferredSize());
     }
 
-    public static boolean profFlag(int flag)
-    {
+    public static boolean profFlag(int flag) {
         return !((PROF_FLAGS[CONFIG_INDEX] & flag) == 0);
     }
 
-    public void repaintTree()
-    {
+    public void repaintTree() {
         treePanel.repaintTreeView(GameBoardFacade.getInstance().getTree());
     }
 
     /**
      * Sets up the menu bar
      */
-    private void setupMenu()
-    {
+    private void setupMenu() {
         mBar = new JMenuBar();
         fileChooser = new FileDialog(this);
 
@@ -214,7 +201,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         aboutLegup = new JMenuItem("About Legup");
 
         // unused
-       // help = new JMenu("Help");
+        // help = new JMenu("Help");
 
         mBar.add(file);
         file.add(newPuzzle);
@@ -288,20 +275,20 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         imdFeedback.setState(true);
 
         about.add(checkUpdates);
-        checkUpdates.addActionListener( l -> {
+        checkUpdates.addActionListener(l -> {
             checkUpdates();
         });
 
         about.add(aboutLegup);
-        aboutLegup.addActionListener(l-> {
+        aboutLegup.addActionListener(l -> {
             JOptionPane.showMessageDialog(null, "Version: 2.0.0");
         });
 
         about.add(helpLegup);
-        helpLegup.addActionListener(l-> {
+        helpLegup.addActionListener(l -> {
             try {
                 java.awt.Desktop.getDesktop().browse(URI.create("https://github.com/jpoegs/Legup2.0"));
-            } catch(IOException e) {
+            } catch (IOException e) {
                 LOGGER.log(Level.SEVERE, "Can't open web page");
             }
         });
@@ -312,11 +299,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
     }
 
     // contains all the code to setup the toolbar
-    private void setupToolBar()
-    {
+    private void setupToolBar() {
         setToolBarButtons(new JButton[ToolbarName.values().length]);
-        for(int i = 0; i < ToolbarName.values().length; i++)
-        {
+        for (int i = 0; i < ToolbarName.values().length; i++) {
             String toolBarName = ToolbarName.values()[i].toString();
             URL resourceLocation = ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/" + toolBarName + ".png");
             JButton button = new JButton(toolBarName, new ImageIcon(resourceLocation));
@@ -328,12 +313,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
 
-        for(int i = 0; i < getToolBarButtons().length; i++)
-        {
-            for(int s = 0; s < TOOLBAR_SEPARATOR_BEFORE.length; s++)
-            {
-                if(i == TOOLBAR_SEPARATOR_BEFORE[s])
-                {
+        for (int i = 0; i < getToolBarButtons().length; i++) {
+            for (int s = 0; s < TOOLBAR_SEPARATOR_BEFORE.length; s++) {
+                if (i == TOOLBAR_SEPARATOR_BEFORE[s]) {
                     toolBar.addSeparator();
                 }
             }
@@ -346,15 +328,18 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
             getToolBarButtons()[i].setHorizontalTextPosition(SwingConstants.CENTER);
         }
 
-        toolBarButtons[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent e)  -> promptPuzzle());
-        toolBarButtons[ToolbarName.OPEN_PROOF.ordinal()].addActionListener((ActionEvent e)  -> openProof());
-        toolBarButtons[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e)  -> saveProof());
-        toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e)  -> GameBoardFacade.getInstance().getHistory().undo());
-        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e)  -> GameBoardFacade.getInstance().getHistory().redo());
-        toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e)  -> {});
-        toolBarButtons[ToolbarName.CHECK.ordinal()].addActionListener((ActionEvent e)  -> checkProof());
-        toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e)  -> {});
-        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e)  -> {});
+        toolBarButtons[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent e) -> promptPuzzle());
+        toolBarButtons[ToolbarName.OPEN_PROOF.ordinal()].addActionListener((ActionEvent e) -> openProof());
+        toolBarButtons[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e) -> saveProof());
+        toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e) -> GameBoardFacade.getInstance().getHistory().undo());
+        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e) -> GameBoardFacade.getInstance().getHistory().redo());
+        toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e) -> {
+        });
+        toolBarButtons[ToolbarName.CHECK.ordinal()].addActionListener((ActionEvent e) -> checkProof());
+        toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e) -> {
+        });
+        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e) -> {
+        });
 
         toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
@@ -370,15 +355,14 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
     /**
      * Sets the main content for the edu.rpi.legup.user interface
      */
-    protected void setupContent()
-    {
+    protected void setupContent() {
 //        JPanel consoleBox = new JPanel(new BorderLayout());
         JPanel treeBox = new JPanel(new BorderLayout());
         JPanel ruleBox = new JPanel(new BorderLayout());
 
         RuleController ruleController = new RuleController();
         ruleFrame = new RuleFrame(ruleController);
-        ruleBox.add(ruleFrame, BorderLayout.WEST );
+        ruleBox.add(ruleFrame, BorderLayout.WEST);
 
         treePanel = new TreePanel(this);
 
@@ -416,12 +400,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
     /**
      * Opens the file chooser to open a proof file
      */
-    private void openProof()
-    {
-        if(GameBoardFacade.getInstance().getBoard() != null)
-        {
-            if(noquit("Opening a new proof?"))
-            {
+    private void openProof() {
+        if (GameBoardFacade.getInstance().getBoard() != null) {
+            if (noquit("Opening a new proof?")) {
                 return;
             }
         }
@@ -431,26 +412,22 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
 
         String filename = fileChooser.getFile();
 
-        if(filename != null)
-        {
+        if (filename != null) {
             filename = fileChooser.getDirectory() + filename;
-            if(!filename.toLowerCase().endsWith(".proof"))
-            {
+            if (!filename.toLowerCase().endsWith(".proof")) {
                 JOptionPane.showMessageDialog(null, "File selected does not have the suffix \".proof\".");
                 return;
             }
-            GameBoardFacade.getInstance().loadProofFile(filename);
+//            GameBoardFacade.getInstance().loadProofFile(filename);
         }
     }
 
     /**
      * Saves a proof
      */
-    private void saveProof()
-    {
+    private void saveProof() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
-        if(puzzle == null)
-        {
+        if (puzzle == null) {
             return;
         }
 
@@ -460,22 +437,17 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
 
         String filename = fileChooser.getFile();
 
-        if(filename != null)
-        {
+        if (filename != null) {
             filename = fileChooser.getDirectory() + filename;
 
             //facade.setWindowTitle(filename.substring(0, filename.length() - 6), facade.getPuzzleModule().getName());
-            try
-            {
+            try {
                 PuzzleExporter exporter = puzzle.getExporter();
-                if(exporter == null)
-                {
+                if (exporter == null) {
                     throw new ExportFileException("Puzzle exporter null");
                 }
                 exporter.exportPuzzle(filename);
-            }
-            catch(ExportFileException e)
-            {
+            } catch (ExportFileException e) {
                 e.printStackTrace();
             }
         }
@@ -484,8 +456,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
     /**
      * Checks the proof for correctness
      */
-    private void checkProof()
-    {
+    private void checkProof() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         Tree tree = GameBoardFacade.getInstance().getTree();
         Board board = facade.getBoard();
@@ -496,18 +467,14 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
 
         Puzzle puzzle = facade.getPuzzleModule();
 
-        if(puzzle.isPuzzleComplete())
-        {
+        if (puzzle.isPuzzleComplete()) {
             int confirm = JOptionPane.showConfirmDialog(null, "Congratulations! Your proof is correct. Would you like to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
-            if(confirm == JOptionPane.YES_OPTION)
-            {
+            if (confirm == JOptionPane.YES_OPTION) {
                 Submission submission = new Submission(board);
                 submission.submit();
             }
             showStatus("Your proof is correct.", false);
-        }
-        else
-        {
+        } else {
             String message = "\nThe game board is not solved.";
             JOptionPane.showMessageDialog(null, message, "Invalid proof.", JOptionPane.ERROR_MESSAGE);
 
@@ -515,16 +482,14 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         }
     }
 
-    private boolean basicCheckProof(int[][] origCells)
-    {
+    private boolean basicCheckProof(int[][] origCells) {
         return false;
     }
 
     /**
      * Instructor checks
      */
-    private void instructorCheck()
-    {
+    private void instructorCheck() {
         promptPuzzle();
         GameBoardFacade facade = GameBoardFacade.getInstance();
         Board board = facade.getInstance().getBoard();
@@ -536,27 +501,20 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setVisible(true);
 
-        if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
-        {
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             File dir = new File(chooser.getSelectedFile().toString());
             File[] directoryListing = dir.listFiles();
-            if(directoryListing != null)
-            {
+            if (directoryListing != null) {
                 String results = "";
-                for(File child : directoryListing)
-                {
-                    if(!child.toString().toLowerCase().endsWith(".proof"))
-                    {
+                for (File child : directoryListing) {
+                    if (!child.toString().toLowerCase().endsWith(".proof")) {
                         JOptionPane.showMessageDialog(null, "File selected does not have the suffix \".proof\".");
                         return;
                     }
-                    facade.loadProofFile(child.toString());
-                    if(basicCheckProof(null))
-                    {
+//                    facade.loadProofFile(child.toString());
+                    if (basicCheckProof(null)) {
                         results += child.toString() + ": Correct!\n";
-                    }
-                    else
-                    {
+                    } else {
                         results += child.toString() + ": Incorrect\n";
                     }
                 }
@@ -565,22 +523,17 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
                 fileChooser.setTitle("Select Proof");
                 fileChooser.setVisible(true);
                 String filename = fileChooser.getFile();
-                if(filename != null) // edu.rpi.legup.user didn't pressed cancel
+                if (filename != null) // edu.rpi.legup.user didn't pressed cancel
                 {
                     String savePath = fileChooser.getDirectory() + filename;
-                    try(PrintStream ps = new PrintStream(savePath))
-                    {
+                    try (PrintStream ps = new PrintStream(savePath)) {
                         ps.println(results);
-                    }
-                    catch(FileNotFoundException e)
-                    {
+                    } catch (FileNotFoundException e) {
                         System.out.println("Can't find file");
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             System.out.println("No Selection");
         }
     }
@@ -588,38 +541,31 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
     /**
      * Submits the proof file
      */
-    private void submit()
-    {
+    private void submit() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         Board board = facade.getBoard();
         boolean delayStatus = true; //board.evalDelayStatus();
         repaintAll();
 
         Puzzle pm = facade.getPuzzleModule();
-        if(pm.isPuzzleComplete() && delayStatus)
-        {
+        if (pm.isPuzzleComplete() && delayStatus) {
             // 0 means yes, 1 means no (Java's fault...)
             int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you wish to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
-            if(confirm == 0)
-            {
+            if (confirm == 0) {
                 Submission submission = new Submission(board);
                 submission.submit();
             }
-        }
-        else
-        {
+        } else {
             JOptionPane.showConfirmDialog(null, "Your proof is incorrect! Are you sure you wish to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
             Submission submit = new Submission(board);
         }
     }
 
-    private void directions()
-    {
+    private void directions() {
         JOptionPane.showMessageDialog(null, "For ever move you make, you must provide a rules for it (located in the Rules panel).\n" + "While working on the edu.rpi.legup.puzzle, you may click on the \"Check\" button to test your proof for correctness.", "Directions", JOptionPane.PLAIN_MESSAGE);
     }
 
-    private void showAll()
-    {
+    private void showAll() {
         getToolBarButtons()[ToolbarName.SAVE.ordinal()].setEnabled(true);
         getToolBarButtons()[ToolbarName.UNDO.ordinal()].setEnabled(false);
         getToolBarButtons()[ToolbarName.REDO.ordinal()].setEnabled(false);
@@ -631,33 +577,27 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         pack();
     }
 
-    private void repaintAll()
-    {
+    private void repaintAll() {
         boardView.repaint();
         treePanel.repaint();
     }
 
-    public void showStatus(String status, boolean error)
-    {
+    public void showStatus(String status, boolean error) {
         showStatus(status, error, 1);
     }
 
-    public void errorEncountered(String error)
-    {
+    public void errorEncountered(String error) {
         JOptionPane.showMessageDialog(null, error);
     }
 
-    public void reloadGui()
-    {
+    public void reloadGui() {
         repaintTree();
     }
 
-    public void promptPuzzle()
-    {
+    public void promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
-        if(facade.getBoard() != null)
-        {
-            if(noquit("Opening a new puzzle?")) // !noquit or noquit?
+        if (facade.getBoard() != null) {
+            if (noquit("Opening a new puzzle?")) // !noquit or noquit?
             {
                 return;
             }
@@ -668,15 +608,11 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         fileChooser.setVisible(true);
         String filename = fileChooser.getFile();
 
-        if (filename != null)
-        {
+        if (filename != null) {
             filename = fileChooser.getDirectory() + filename;
-            try
-            {
-                GameBoardFacade.getInstance().loadBoardFile(filename);
-            }
-            catch(InvalidFileFormatException e)
-            {
+            try {
+                GameBoardFacade.getInstance().loadPuzzle(filename);
+            } catch (InvalidFileFormatException e) {
                 LOGGER.log(Level.SEVERE, e.getMessage());
             }
             //GameBoardFacade.getInstance().setPuzzle(new Sudoku());
@@ -688,7 +624,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         newPuzzle.setFileFilter(fileType);
         if(newPuzzle.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
         {
-            facade.loadBoardFile(newPuzzle.getSelectedFile().getAbsolutePath());
+            facade.loadPuzzle(newPuzzle.getSelectedFile().getAbsolutePath());
             Puzzle edu.rpi.legup.puzzle = facade.getPuzzleModule();
             if(edu.rpi.legup.puzzle != null)
             {
@@ -706,19 +642,16 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         */
     }
 
-    public void showStatus(String status, boolean error, int timer)
-    {
+    public void showStatus(String status, boolean error, int timer) {
 
     }
 
-    public void checkUpdates()
-    {
+    public void checkUpdates() {
         String updateStr = null;
         File jarPath = null;
         try {
             jarPath = new File(LegupUI.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParentFile();
-        } catch(Exception e)
-        {
+        } catch (Exception e) {
             updateStr = "An error occurred while attempting to update Legup...";
             JOptionPane.showMessageDialog(this, updateStr, "Update Legup", JOptionPane.ERROR_MESSAGE);
         }
@@ -726,19 +659,15 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
 
         boolean isUpdateAvailable = update.checkUpdate();
         int ans = 0;
-        if(isUpdateAvailable)
-        {
+        if (isUpdateAvailable) {
             updateStr = "There is update available. Do you want to update?";
             ans = JOptionPane.showConfirmDialog(this, updateStr, "Update Legup", JOptionPane.OK_CANCEL_OPTION);
-        }
-        else
-        {
+        } else {
             updateStr = "There is no update available at this time. Check again later!";
             JOptionPane.showMessageDialog(this, updateStr, "Update Legup", JOptionPane.INFORMATION_MESSAGE);
         }
 
-        if(ans == JOptionPane.OK_OPTION && isUpdateAvailable)
-        {
+        if (ans == JOptionPane.OK_OPTION && isUpdateAvailable) {
             LOGGER.log(Level.INFO, "Updating Legup....");
 
             new Thread(() -> {
@@ -762,7 +691,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
 
                     @Override
                     public void setCurrentDownload(double current) {
-                        dpb.setValue((int)(current / total * 100));
+                        dpb.setValue((int) (current / total * 100));
                         dpb.setString(current + " - " + total);
                     }
 
@@ -795,68 +724,52 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
     }
 
     //ask to edu.rpi.legup.save current proof
-    public boolean noquit(String instr)
-    {
+    public boolean noquit(String instr) {
         int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
-        if(n == JOptionPane.YES_OPTION)
-        {
+        if (n == JOptionPane.YES_OPTION) {
             return false;
         }
         return true;
     }
 
-    public void resetUndoRedo()
-    {
+    public void resetUndoRedo() {
 
     }
 
     @Override
-    public void windowOpened(WindowEvent e)
-    {
+    public void windowOpened(WindowEvent e) {
 
     }
 
-    public void windowClosing(WindowEvent e)
-    {
-        if(GameBoardFacade.getInstance().getHistory().getIndex() > -1)
-        {
-            if(noquit("Exiting LEGUP?"))
-            {
+    public void windowClosing(WindowEvent e) {
+        if (GameBoardFacade.getInstance().getHistory().getIndex() > -1) {
+            if (noquit("Exiting LEGUP?")) {
                 this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-            }
-            else
-            {
+            } else {
                 this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             }
-        }
-        else
-        {
+        } else {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         }
     }
 
-    public void windowClosed(WindowEvent e)
-    {
+    public void windowClosed(WindowEvent e) {
         System.exit(0);
     }
 
-    public void windowIconified(WindowEvent e)
-    {
+    public void windowIconified(WindowEvent e) {
 
     }
 
-    public void windowDeiconified(WindowEvent e)
-    {
+    public void windowDeiconified(WindowEvent e) {
 
     }
 
-    public void windowActivated(WindowEvent e)
-    {
+    public void windowActivated(WindowEvent e) {
 
     }
 
-    public void windowDeactivated(WindowEvent e)
-    {
+    public void windowDeactivated(WindowEvent e) {
 
     }
 
@@ -865,8 +778,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
      *
      * @return toolbar buttons
      */
-    public JButton[] getToolBarButtons()
-    {
+    public JButton[] getToolBarButtons() {
         return toolBarButtons;
     }
 
@@ -875,13 +787,11 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
      *
      * @param toolBarButtons toolbar buttons
      */
-    public void setToolBarButtons(JButton[] toolBarButtons)
-    {
+    public void setToolBarButtons(JButton[] toolBarButtons) {
         this.toolBarButtons = toolBarButtons;
     }
 
-    public void setPuzzleView(Puzzle puzzle)
-    {
+    public void setPuzzleView(Puzzle puzzle) {
         this.boardView = puzzle.getBoardView();
 
         DynamicView dynamicView = new DynamicView(boardView);
@@ -908,48 +818,39 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
         reloadGui();
     }
 
-    public BoardView getBoardView()
-    {
+    public BoardView getBoardView() {
         return boardView;
     }
 
-    public TreePanel getTreePanel()
-    {
+    public TreePanel getTreePanel() {
         return treePanel;
     }
 
-    public RuleFrame getRuleFrame()
-    {
+    public RuleFrame getRuleFrame() {
         return ruleFrame;
     }
 
-    public JMenuBar getmBar()
-    {
+    public JMenuBar getmBar() {
         return mBar;
     }
 
-    public JToolBar getToolBar()
-    {
+    public JToolBar getToolBar() {
         return toolBar;
     }
 
-    public JMenuItem getUndo()
-    {
+    public JMenuItem getUndo() {
         return undo;
     }
 
-    public JMenuItem getRedo()
-    {
+    public JMenuItem getRedo() {
         return redo;
     }
 
-    public JButton getUndoButton()
-    {
+    public JButton getUndoButton() {
         return toolBarButtons[ToolbarName.UNDO.ordinal()];
     }
 
-    public JButton getRedoButton()
-    {
+    public JButton getRedoButton() {
         return toolBarButtons[ToolbarName.REDO.ordinal()];
     }
 
@@ -959,8 +860,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
      * @param command action to push onto the stack
      */
     @Override
-    public void onPushChange(ICommand command)
-    {
+    public void onPushChange(ICommand command) {
         LOGGER.info("Pushing " + command.getClass().getSimpleName() + " to stack.");
         undo.setEnabled(true);
         toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(true);
@@ -972,11 +872,10 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
      * Called when an action is undone
      *
      * @param isBottom true if there are no more actions to undo, false otherwise
-     * @param isTop true if there are no more changes to redo, false otherwise
+     * @param isTop    true if there are no more changes to redo, false otherwise
      */
     @Override
-    public void onUndo(boolean isBottom, boolean isTop)
-    {
+    public void onUndo(boolean isBottom, boolean isTop) {
         undo.setEnabled(!isBottom);
         toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
         redo.setEnabled(!isTop);
@@ -987,11 +886,10 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
      * Called when an action is redone
      *
      * @param isBottom true if there are no more actions to undo, false otherwise
-     * @param isTop true if there are no more changes to redo, false otherwise
+     * @param isTop    true if there are no more changes to redo, false otherwise
      */
     @Override
-    public void onRedo(boolean isBottom, boolean isTop)
-    {
+    public void onRedo(boolean isBottom, boolean isTop) {
         undo.setEnabled(!isBottom);
         toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
         redo.setEnabled(!isTop);
@@ -1002,8 +900,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener
      * Called when the edu.rpi.legup.history is cleared
      */
     @Override
-    public void onClearHistory()
-    {
+    public void onClearHistory() {
         undo.setEnabled(false);
         toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
         redo.setEnabled(false);

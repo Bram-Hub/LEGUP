@@ -12,12 +12,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class AddTreeElementCommand extends PuzzleCommand {
 
     private TreeViewSelection selection;
 
     private Map<TreeElement, TreeElement> addChild;
 
+    /**
+     * AddTreeElementCommand Constructor creates a command for adding a tree element to the proof tree
+     *
+     * @param selection selection of tree elements views
+     */
     public AddTreeElementCommand(TreeViewSelection selection) {
         this.selection = selection.copy();
         this.addChild = new HashMap<>();

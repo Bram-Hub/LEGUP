@@ -4,40 +4,36 @@ import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
 
-public class TreeViewSelection
-{
+public class TreeViewSelection {
     private ArrayList<TreeElementView> selectedViews;
     private TreeElementView hover;
     private Point mousePoint;
 
     /**
-     * TreeViewSelection Constructor - creates a tree view selection
+     * TreeViewSelection Constructor creates a tree view selection
      */
-    public TreeViewSelection()
-    {
+    public TreeViewSelection() {
         this.selectedViews = new ArrayList<>();
         this.hover = null;
         this.mousePoint = null;
     }
 
     /**
-     * TreeViewSelection Constructor - creates a tree view selection with a selected view
+     * TreeViewSelection Constructor creates a tree view selection with a selected view
      *
      * @param view selected view
      */
-    public TreeViewSelection(TreeElementView view)
-    {
+    public TreeViewSelection(TreeElementView view) {
         this();
         this.selectedViews.add(view);
     }
 
     /**
-     * TreeViewSelection Constructor - creates a tree view selection with a list of selected views
+     * TreeViewSelection Constructor creates a tree view selection with a list of selected views
      *
      * @param views list of selected views
      */
-    public TreeViewSelection(List<TreeElementView> views)
-    {
+    public TreeViewSelection(List<TreeElementView> views) {
         this();
         this.selectedViews.addAll(views);
     }
@@ -48,8 +44,7 @@ public class TreeViewSelection
      *
      * @return list of selected tree puzzleElement views
      */
-    public List<TreeElementView> getSelectedViews()
-    {
+    public List<TreeElementView> getSelectedViews() {
         return selectedViews;
     }
 
@@ -58,8 +53,7 @@ public class TreeViewSelection
      *
      * @return first selectedViews in the list of views
      */
-    public TreeElementView getFirstSelection()
-    {
+    public TreeElementView getFirstSelection() {
         return selectedViews.size() == 0 ? null : selectedViews.get(0);
     }
 
@@ -68,15 +62,11 @@ public class TreeViewSelection
      *
      * @param treeElementView a tree puzzleElement view to toggle
      */
-    public void toggleSelection(TreeElementView treeElementView)
-    {
-        if(selectedViews.contains(treeElementView))
-        {
+    public void toggleSelection(TreeElementView treeElementView) {
+        if (selectedViews.contains(treeElementView)) {
             selectedViews.remove(treeElementView);
             treeElementView.setSelected(false);
-        }
-        else
-        {
+        } else {
             selectedViews.add(treeElementView);
             treeElementView.setSelected(true);
         }
@@ -87,10 +77,8 @@ public class TreeViewSelection
      *
      * @param treeElementView a tree puzzleElement view to add
      */
-    public void addToSelection(TreeElementView treeElementView)
-    {
-        if(!selectedViews.contains(treeElementView))
-        {
+    public void addToSelection(TreeElementView treeElementView) {
+        if (!selectedViews.contains(treeElementView)) {
             selectedViews.add(treeElementView);
             treeElementView.setSelected(true);
         }
@@ -101,8 +89,7 @@ public class TreeViewSelection
      *
      * @param treeElementView tree puzzleElement view
      */
-    public void newSelection(TreeElementView treeElementView)
-    {
+    public void newSelection(TreeElementView treeElementView) {
         clearSelection();
         selectedViews.add(treeElementView);
         treeElementView.setSelected(true);
@@ -111,10 +98,8 @@ public class TreeViewSelection
     /**
      * Clears all selected views
      */
-    public void clearSelection()
-    {
-        for(TreeElementView treeElementView : selectedViews)
-        {
+    public void clearSelection() {
+        for (TreeElementView treeElementView : selectedViews) {
             treeElementView.setSelected(false);
         }
         selectedViews.clear();
@@ -125,8 +110,7 @@ public class TreeViewSelection
      *
      * @return tree puzzleElement view that the mouse is hovering over or null is no such view exists
      */
-    public TreeElementView getHover()
-    {
+    public TreeElementView getHover() {
         return hover;
     }
 
@@ -135,11 +119,9 @@ public class TreeViewSelection
      *
      * @param newHovered tree puzzleElement view for the new hover
      */
-    public void newHover(TreeElementView newHovered)
-    {
+    public void newHover(TreeElementView newHovered) {
         newHovered.setHover(true);
-        if(hover != null)
-        {
+        if (hover != null) {
             hover.setHover(false);
         }
         hover = newHovered;
@@ -148,10 +130,8 @@ public class TreeViewSelection
     /**
      * Clears the current hover tree puzzleElement view
      */
-    public void clearHover()
-    {
-        if(hover != null)
-        {
+    public void clearHover() {
+        if (hover != null) {
             hover.setHover(false);
             hover = null;
         }
@@ -162,8 +142,7 @@ public class TreeViewSelection
      *
      * @return the current mouse location relative to the tree view
      */
-    public Point getMousePoint()
-    {
+    public Point getMousePoint() {
         return mousePoint;
     }
 
@@ -172,8 +151,7 @@ public class TreeViewSelection
      *
      * @param point the current mouse location relative to the tree view
      */
-    public void setMousePoint(Point point)
-    {
+    public void setMousePoint(Point point) {
         this.mousePoint = point;
     }
 
@@ -183,8 +161,7 @@ public class TreeViewSelection
      * @return a copy of this TreeViewSelection
      */
     @SuppressWarnings("unchecked")
-    public TreeViewSelection copy()
-    {
+    public TreeViewSelection copy() {
         TreeViewSelection cpy = new TreeViewSelection();
         cpy.selectedViews = (ArrayList<TreeElementView>) selectedViews.clone();
         cpy.hover = hover;

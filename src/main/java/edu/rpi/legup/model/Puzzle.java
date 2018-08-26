@@ -29,13 +29,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public abstract class Puzzle implements IBoardSubject, ITreeSubject
-{
-    private static final Logger LOGGER = Logger.getLogger(Puzzle.class.getName());
+public abstract class Puzzle implements IBoardSubject, ITreeSubject {
+    private static final Logger LOGGER = LogManager.getLogger(Puzzle.class.getName());
 
     protected String name;
     protected Board currentBoard;
@@ -55,8 +54,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
     /**
      * Puzzle Constructor - creates a new Puzzle
      */
-    public Puzzle()
-    {
+    public Puzzle() {
         this.boardListeners = new ArrayList<>();
         this.treeListeners = new ArrayList<>();
 
@@ -69,20 +67,20 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
 
     private void registerRules() {
         String packageName = this.getClass().getPackage().toString().replace("package ", "");
-        
+
         try {
             Class[] possRules = LegupUtils.getClasses(packageName);
 
-            for(Class c : possRules) {
-                for(Annotation a : c.getAnnotations()) {
-                    if(a.annotationType() == RegisterRule.class) {
-                        RegisterRule registerRule = (RegisterRule)a;
+            for (Class c : possRules) {
+                for (Annotation a : c.getAnnotations()) {
+                    if (a.annotationType() == RegisterRule.class) {
+                        RegisterRule registerRule = (RegisterRule) a;
                         Constructor<?> cons = c.getConstructor();
-                        Rule rule = (Rule)cons.newInstance();
+                        Rule rule = (Rule) cons.newInstance();
 
-                        switch(rule.getRuleType()) {
+                        switch (rule.getRuleType()) {
                             case BASIC:
-                                this.addBasicRule((BasicRule)rule);
+                                this.addBasicRule((BasicRule) rule);
                                 break;
                             case CASE:
                                 this.addCaseRule((CaseRule) rule);
@@ -99,9 +97,9 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
                 }
             }
 
-        } catch(IOException | ClassNotFoundException | NoSuchMethodException |
+        } catch (IOException | ClassNotFoundException | NoSuchMethodException |
                 InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            LOGGER.log(Level.SEVERE, "Unable to find rules for puzzle");
+            LOGGER.error("Unable to find rules for puzzle", e);
         }
     }
 
@@ -123,19 +121,13 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @return true if the board was solved correctly, false otherwise
      */
-    public boolean isPuzzleComplete()
-    {
+    public boolean isPuzzleComplete() {
         boolean isComplete = tree.isValid();
-        if(isComplete)
-        {
-            for(TreeNode leaf : tree.getLeafNodes())
-            {
-                if(!leaf.isRoot())
-                {
+        if (isComplete) {
+            for (TreeNode leaf : tree.getLeafNodes()) {
+                if (!leaf.isRoot()) {
                     isComplete &= leaf.getParent().isContradictoryBranch() || isBoardComplete(leaf.getBoard());
-                }
-                else
-                {
+                } else {
                     isComplete &= isBoardComplete(leaf.getBoard());
                 }
             }
@@ -166,15 +158,11 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public void importPuzzle(String fileName) throws InvalidFileFormatException
-    {
-        try
-        {
+    public void importPuzzle(String fileName) throws InvalidFileFormatException {
+        try {
             importPuzzle(new FileInputStream(fileName));
-        }
-        catch(IOException e)
-        {
-            LOGGER.log(Level.SEVERE, "Invalid file");
+        } catch (IOException e) {
+            LOGGER.error("Importing puzzle error", e);
             throw new InvalidFileFormatException("Could not find file");
         }
     }
@@ -187,49 +175,28 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public void importPuzzle(InputStream inputStream) throws InvalidFileFormatException
-    {
+    public void importPuzzle(InputStream inputStream) throws InvalidFileFormatException {
         Document document;
-        try
-        {
+        try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             document = builder.parse(inputStream);
-        }
-        catch(IOException | SAXException | ParserConfigurationException e)
-        {
-            LOGGER.log(Level.SEVERE, "Invalid file");
+        } catch (IOException | SAXException | ParserConfigurationException e) {
+            LOGGER.error("Importing puzzle error", e);
             throw new InvalidFileFormatException("Could not find file");
         }
 
         Element rootNode = document.getDocumentElement();
-        if(rootNode.getTagName().equals("edu.rpi.legup.Legup"))
-        {
+        if (rootNode.getTagName().equals("edu.rpi.legup.Legup")) {
             Node node = rootNode.getElementsByTagName("edu/rpi/legup/puzzle").item(0);
-            if(importer == null)
-            {
+            if (importer == null) {
                 throw new InvalidFileFormatException("Puzzle importer null");
             }
             importer.initializePuzzle(node);
-        }
-        else
-        {
-            LOGGER.log(Level.ALL, "Invalid file");
+        } else {
+            LOGGER.error("Invalid file");
             throw new InvalidFileFormatException("Invalid file: must be a edu.rpi.legup.Legup file");
         }
-    }
-
-    /**
-     * Imports a proof file
-     *
-     * @param fileName
-     * @throws IOException
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     */
-    public void importProof(String fileName) throws InvalidFileFormatException
-    {
-        importPuzzle(fileName);
     }
 
     /**
@@ -237,8 +204,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @return edu.rpi.legup.puzzle importer
      */
-    public PuzzleImporter getImporter()
-    {
+    public PuzzleImporter getImporter() {
         return importer;
     }
 
@@ -247,8 +213,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @return edu.rpi.legup.puzzle exporter
      */
-    public PuzzleExporter getExporter()
-    {
+    public PuzzleExporter getExporter() {
         return exporter;
     }
 
@@ -257,8 +222,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @return name of the edu.rpi.legup.puzzle
      */
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
@@ -267,8 +231,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @return list of basic rules
      */
-    public List<BasicRule> getBasicRules()
-    {
+    public List<BasicRule> getBasicRules() {
         return basicRules;
     }
 
@@ -277,8 +240,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @param basicRules list of basic rules
      */
-    public void setBasicRules(List<BasicRule> basicRules)
-    {
+    public void setBasicRules(List<BasicRule> basicRules) {
         this.basicRules = basicRules;
     }
 
@@ -287,8 +249,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @param rule basic rule to add
      */
-    public void addBasicRule(BasicRule rule)
-    {
+    public void addBasicRule(BasicRule rule) {
         basicRules.add(rule);
     }
 
@@ -297,8 +258,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @param rule basic rule to remove
      */
-    public void removeBasicRule(BasicRule rule)
-    {
+    public void removeBasicRule(BasicRule rule) {
         basicRules.remove(rule);
     }
 
@@ -307,8 +267,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @return list of contradiction rules
      */
-    public List<ContradictionRule> getContradictionRules()
-    {
+    public List<ContradictionRule> getContradictionRules() {
         return contradictionRules;
     }
 
@@ -317,8 +276,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @param contradictionRules list of contradiction rules
      */
-    public void setContradictionRules(List<ContradictionRule> contradictionRules)
-    {
+    public void setContradictionRules(List<ContradictionRule> contradictionRules) {
         this.contradictionRules = contradictionRules;
     }
 
@@ -327,8 +285,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @param rule contradiction rule to add
      */
-    public void addContradictionRule(ContradictionRule rule)
-    {
+    public void addContradictionRule(ContradictionRule rule) {
         contradictionRules.add(rule);
     }
 
@@ -337,8 +294,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @param rule contradiction rule to remove
      */
-    public void removeContradictionRule(ContradictionRule rule)
-    {
+    public void removeContradictionRule(ContradictionRule rule) {
         contradictionRules.remove(rule);
     }
 
@@ -347,8 +303,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @return list of case rules
      */
-    public List<CaseRule> getCaseRules()
-    {
+    public List<CaseRule> getCaseRules() {
         return caseRules;
     }
 
@@ -357,8 +312,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @param caseRules list of case rules
      */
-    public void setCaseRules(List<CaseRule> caseRules)
-    {
+    public void setCaseRules(List<CaseRule> caseRules) {
         this.caseRules = caseRules;
     }
 
@@ -367,8 +321,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @param rule case rule to add
      */
-    public void addCaseRule(CaseRule rule)
-    {
+    public void addCaseRule(CaseRule rule) {
         caseRules.add(rule);
     }
 
@@ -377,8 +330,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @param rule case rule to remove
      */
-    public void removeCaseRule(CaseRule rule)
-    {
+    public void removeCaseRule(CaseRule rule) {
         caseRules.remove(rule);
     }
 
@@ -388,32 +340,24 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      * @param name name of the rule
      * @return Rule
      */
-    public Rule getRuleByName(String name)
-    {
-        for(Rule rule : basicRules)
-        {
-            if(rule.getRuleName().equals(name))
-            {
+    public Rule getRuleByName(String name) {
+        for (Rule rule : basicRules) {
+            if (rule.getRuleName().equals(name)) {
                 return rule;
             }
         }
-        for(Rule rule : contradictionRules)
-        {
-            if(rule.getRuleName().equals(name))
-            {
+        for (Rule rule : contradictionRules) {
+            if (rule.getRuleName().equals(name)) {
                 return rule;
             }
         }
-        for(Rule rule : caseRules)
-        {
-            if(rule.getRuleName().equals(name))
-            {
+        for (Rule rule : caseRules) {
+            if (rule.getRuleName().equals(name)) {
                 return rule;
             }
         }
         Rule mergeRule = new MergeRule();
-        if(mergeRule.getRuleName().equals(name))
-        {
+        if (mergeRule.getRuleName().equals(name)) {
             return mergeRule;
         }
         return null;
@@ -424,8 +368,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @return current board
      */
-    public Board getCurrentBoard()
-    {
+    public Board getCurrentBoard() {
         return currentBoard;
     }
 
@@ -434,8 +377,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @param currentBoard the current board
      */
-    public void setCurrentBoard(Board currentBoard)
-    {
+    public void setCurrentBoard(Board currentBoard) {
         this.currentBoard = currentBoard;
     }
 
@@ -444,8 +386,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @return Tree
      */
-    public Tree getTree()
-    {
+    public Tree getTree() {
         return tree;
     }
 
@@ -454,8 +395,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @param tree tree of board states
      */
-    public void setTree(Tree tree)
-    {
+    public void setTree(Tree tree) {
         this.tree = tree;
     }
 
@@ -464,8 +404,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @return board view
      */
-    public BoardView getBoardView()
-    {
+    public BoardView getBoardView() {
         return boardView;
     }
 
@@ -474,8 +413,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @param boardView board view
      */
-    public void setBoardView(BoardView boardView)
-    {
+    public void setBoardView(BoardView boardView) {
         this.boardView = boardView;
     }
 
@@ -484,8 +422,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @return ElementFactory associated with this edu.rpi.legup.puzzle
      */
-    public ElementFactory getFactory()
-    {
+    public ElementFactory getFactory() {
         return factory;
     }
 
@@ -494,8 +431,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      *
      * @param factory ElementFactory associated with this edu.rpi.legup.puzzle
      */
-    public void setFactory(ElementFactory factory)
-    {
+    public void setFactory(ElementFactory factory) {
         this.factory = factory;
     }
 
@@ -505,8 +441,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      * @param listener listener to add
      */
     @Override
-    public void addBoardListener(IBoardListener listener)
-    {
+    public void addBoardListener(IBoardListener listener) {
         boardListeners.add(listener);
     }
 
@@ -516,8 +451,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      * @param listener listener to remove
      */
     @Override
-    public void removeBoardListener(IBoardListener listener)
-    {
+    public void removeBoardListener(IBoardListener listener) {
         boardListeners.remove(listener);
     }
 
@@ -527,8 +461,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      * @param algorithm algorithm to notify the listeners with
      */
     @Override
-    public void notifyBoardListeners(Consumer<? super IBoardListener> algorithm)
-    {
+    public void notifyBoardListeners(Consumer<? super IBoardListener> algorithm) {
         boardListeners.forEach(algorithm);
     }
 
@@ -538,8 +471,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      * @param listener listener to add
      */
     @Override
-    public void addTreeListener(ITreeListener listener)
-    {
+    public void addTreeListener(ITreeListener listener) {
         treeListeners.add(listener);
     }
 
@@ -549,8 +481,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      * @param listener listener to remove
      */
     @Override
-    public void removeTreeListener(ITreeListener listener)
-    {
+    public void removeTreeListener(ITreeListener listener) {
         treeListeners.remove(listener);
     }
 
@@ -560,8 +491,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject
      * @param algorithm algorithm to notify the listeners with
      */
     @Override
-    public void notifyTreeListeners(Consumer<? super ITreeListener> algorithm)
-    {
+    public void notifyTreeListeners(Consumer<? super ITreeListener> algorithm) {
         treeListeners.forEach(algorithm);
     }
 }

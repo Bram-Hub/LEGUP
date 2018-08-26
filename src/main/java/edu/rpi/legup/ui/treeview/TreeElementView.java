@@ -5,8 +5,7 @@ import edu.rpi.legup.model.tree.TreeElementType;
 
 import java.awt.*;
 
-public abstract class TreeElementView implements Shape
-{
+public abstract class TreeElementView implements Shape {
     protected TreeElement treeElement;
     protected double span;
     protected int depth;
@@ -17,13 +16,12 @@ public abstract class TreeElementView implements Shape
     protected boolean isCollapsed;
 
     /**
-     * TreeElementView Constructor - creates a tree puzzleElement view
+     * TreeElementView Constructor creates a tree puzzleElement view
      *
-     * @param type tree puzzleElement type
+     * @param type        tree puzzleElement type
      * @param treeElement tree puzzleElement puzzleElement associated with this view
      */
-    protected TreeElementView(TreeElementType type, TreeElement treeElement)
-    {
+    protected TreeElementView(TreeElementType type, TreeElement treeElement) {
         this.type = type;
         this.treeElement = treeElement;
         this.isSelected = false;
@@ -43,8 +41,7 @@ public abstract class TreeElementView implements Shape
      *
      * @return span bounded y span
      */
-    public double getSpan()
-    {
+    public double getSpan() {
         return span;
     }
 
@@ -53,8 +50,7 @@ public abstract class TreeElementView implements Shape
      *
      * @param span bounded y span
      */
-    public void setSpan(double span)
-    {
+    public void setSpan(double span) {
         this.span = span;
     }
 
@@ -63,8 +59,7 @@ public abstract class TreeElementView implements Shape
      *
      * @return depth of this tree puzzleElement
      */
-    public int getDepth()
-    {
+    public int getDepth() {
         return depth;
     }
 
@@ -73,8 +68,7 @@ public abstract class TreeElementView implements Shape
      *
      * @param depth depth of this tree puzzleElement
      */
-    public void setDepth(int depth)
-    {
+    public void setDepth(int depth) {
         this.depth = depth;
     }
 
@@ -83,8 +77,7 @@ public abstract class TreeElementView implements Shape
      *
      * @return tree puzzleElement type
      */
-    public TreeElementType getType()
-    {
+    public TreeElementType getType() {
         return type;
     }
 
@@ -93,8 +86,7 @@ public abstract class TreeElementView implements Shape
      *
      * @return tree puzzleElement associated with this view
      */
-    public TreeElement getTreeElement()
-    {
+    public TreeElement getTreeElement() {
         return treeElement;
     }
 
@@ -103,8 +95,7 @@ public abstract class TreeElementView implements Shape
      *
      * @param treeElement tree puzzleElement associated with this view
      */
-    public void setTreeElement(TreeElement treeElement)
-    {
+    public void setTreeElement(TreeElement treeElement) {
         this.treeElement = treeElement;
     }
 
@@ -113,8 +104,7 @@ public abstract class TreeElementView implements Shape
      *
      * @return mouse selection
      */
-    public boolean isSelected()
-    {
+    public boolean isSelected() {
         return isSelected;
     }
 
@@ -123,8 +113,7 @@ public abstract class TreeElementView implements Shape
      *
      * @param isSelected mouse selection
      */
-    public void setSelected(boolean isSelected)
-    {
+    public void setSelected(boolean isSelected) {
         this.isSelected = isSelected;
     }
 
@@ -133,8 +122,7 @@ public abstract class TreeElementView implements Shape
      *
      * @return mouse hover
      */
-    public boolean isHover()
-    {
+    public boolean isHover() {
         return isHover;
     }
 
@@ -143,8 +131,7 @@ public abstract class TreeElementView implements Shape
      *
      * @param isHovered mouse hover
      */
-    public void setHover(boolean isHovered)
-    {
+    public void setHover(boolean isHovered) {
         this.isHover = isHovered;
     }
 
@@ -154,8 +141,7 @@ public abstract class TreeElementView implements Shape
      *
      * @return visibility of the tree puzzleElement
      */
-    public boolean isVisible()
-    {
+    public boolean isVisible() {
         return isVisible;
     }
 
@@ -164,8 +150,7 @@ public abstract class TreeElementView implements Shape
      *
      * @param isVisible visibility of the tree puzzleElement
      */
-    public void setVisible(boolean isVisible)
-    {
+    public void setVisible(boolean isVisible) {
         this.isVisible = isVisible;
     }
 
@@ -174,8 +159,7 @@ public abstract class TreeElementView implements Shape
      *
      * @return true if the node is collapsed, false otherwise
      */
-    public boolean isCollapsed()
-    {
+    public boolean isCollapsed() {
         return isCollapsed;
     }
 
@@ -184,8 +168,7 @@ public abstract class TreeElementView implements Shape
      *
      * @param isCollapsed true if the node is collapsed, false otherwise
      */
-    public void setCollapsed(boolean isCollapsed)
-    {
+    public void setCollapsed(boolean isCollapsed) {
         this.isCollapsed = isCollapsed;
     }
 }

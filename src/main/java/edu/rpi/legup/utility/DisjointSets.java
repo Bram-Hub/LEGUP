@@ -2,17 +2,15 @@ package edu.rpi.legup.utility;
 
 import java.util.*;
 
-public class DisjointSets<T>
-{
+public class DisjointSets<T> {
     private Map<T, T> parents;
     private Map<T, Integer> depths;
     private Map<T, Set<T>> sets;
 
     /**
-     * DisjointSets Constructor - creates an empty DisjointSets
+     * DisjointSets Constructor creates an empty DisjointSets
      */
-    public DisjointSets()
-    {
+    public DisjointSets() {
         this.parents = new HashMap<>();
         this.depths = new HashMap<>();
         this.sets = new HashMap<>();
@@ -25,14 +23,10 @@ public class DisjointSets<T>
      * @param u puzzleElement to create the set from
      * @return true if the set was created, false otherwise
      */
-    public boolean createSet(T u)
-    {
-        if(u == null || parents.containsKey(u))
-        {
+    public boolean createSet(T u) {
+        if (u == null || parents.containsKey(u)) {
             return false;
-        }
-        else
-        {
+        } else {
             parents.put(u, u);
             depths.put(u, 0);
             Set<T> newSet = new HashSet<>();
@@ -48,14 +42,10 @@ public class DisjointSets<T>
      * @param p puzzleElement of the set of which to find
      * @return representative set puzzleElement or null if the specified puzzleElement is null or is not in the DisjointSets
      */
-    public T find(T p)
-    {
-        if(p == null || parents.get(p) == null)
-        {
+    public T find(T p) {
+        if (p == null || parents.get(p) == null) {
             return null;
-        }
-        else if(p != parents.get(p))
-        {
+        } else if (p != parents.get(p)) {
             parents.put(p, find(parents.get(p)));
         }
         return parents.get(p);
@@ -68,29 +58,21 @@ public class DisjointSets<T>
      * @param q set two
      * @return returns true if sets are non-null and disjoint, false otherwise
      */
-    public boolean union(T p, T q)
-    {
+    public boolean union(T p, T q) {
         T pid = find(p);
         T qid = find(q);
-        if(pid == null || qid == null || pid == qid)
-        {
+        if (pid == null || qid == null || pid == qid) {
             return false;
-        }
-        else
-        {
-            if(depths.get(pid) > depths.get(qid))
-            {
+        } else {
+            if (depths.get(pid) > depths.get(qid)) {
                 parents.put(qid, pid);
                 sets.get(pid).addAll(sets.get(qid));
                 sets.remove(qid);
-            }
-            else
-            {
+            } else {
                 parents.put(pid, qid);
                 sets.get(qid).addAll(sets.get(pid));
                 sets.remove(pid);
-                if(depths.get(pid) == depths.get(qid))
-                {
+                if (depths.get(pid) == depths.get(qid)) {
                     depths.put(qid, depths.get(qid) + 1);
                 }
             }
@@ -105,18 +87,14 @@ public class DisjointSets<T>
      * @param p puzzleElement one
      * @param q puzzleElement two
      */
-    public void addAndUnion(T p, T q)
-    {
-        if(p != null && q != null)
-        {
+    public void addAndUnion(T p, T q) {
+        if (p != null && q != null) {
             T pid = find(p);
-            if(pid == null)
-            {
+            if (pid == null) {
                 createSet(p);
             }
             T qid = find(q);
-            if(qid == null)
-            {
+            if (qid == null) {
                 createSet(q);
             }
             union(p, q);
@@ -129,8 +107,7 @@ public class DisjointSets<T>
      * @param u puzzleElement to check
      * @return true if the DisjointSets contains the specified puzzleElement, false otherwise
      */
-    public boolean contains(T u)
-    {
+    public boolean contains(T u) {
         return parents.containsKey(u);
     }
 
@@ -140,15 +117,11 @@ public class DisjointSets<T>
      * @param p puzzleElement to get the set of
      * @return the set of elements that the specified puzzleElement if contained in, or null if no such set exists
      */
-    public Set<T> getSet(T p)
-    {
+    public Set<T> getSet(T p) {
         T pid = find(p);
-        if(pid != null)
-        {
+        if (pid != null) {
             return new HashSet<>(sets.get(pid));
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -158,11 +131,9 @@ public class DisjointSets<T>
      *
      * @return list of the sets in the DisjointSets
      */
-    public List<Set<T>> getAllSets()
-    {
+    public List<Set<T>> getAllSets() {
         ArrayList<Set<T>> list = new ArrayList<>();
-        for(T e : sets.keySet())
-        {
+        for (T e : sets.keySet()) {
             list.add(new HashSet<>(sets.get(e)));
         }
         return list;
@@ -173,8 +144,7 @@ public class DisjointSets<T>
      *
      * @return the number of disjoint sets
      */
-    public int setCount()
-    {
+    public int setCount() {
         return sets.size();
     }
 
@@ -183,8 +153,7 @@ public class DisjointSets<T>
      *
      * @return the number of elements in the DisjointSets
      */
-    public int size()
-    {
+    public int size() {
         return parents.size();
     }
 }
