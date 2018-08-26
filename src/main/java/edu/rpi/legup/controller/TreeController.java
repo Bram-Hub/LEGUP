@@ -53,19 +53,21 @@ public class TreeController extends Controller {
 
         TreeView treeView = (TreeView) viewer;
         Point point = treeView.getActualPoint(e.getPoint());
-        TreeElementView elementView = treeView.getTreeElementView(point);
+        TreeElementView treeElementView = treeView.getTreeElementView(point);
         Puzzle puzzle = getInstance().getPuzzleModule();
         TreeViewSelection selection = treeView.getSelection();
-        if (elementView != null) {
+        if (treeElementView != null) {
             if (e.isShiftDown()) {
-                selection.addToSelection(elementView);
+                selection.addToSelection(treeElementView);
             } else if (e.isControlDown()) {
-                selection.toggleSelection(elementView);
+                if(!(selection.getSelectedViews().size() == 1 && treeElementView == selection.getFirstSelection())) {
+                    selection.toggleSelection(treeElementView);
+                }
             } else {
-                selection.newSelection(elementView);
+                selection.newSelection(treeElementView);
             }
             puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
-            puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(elementView.getTreeElement().getBoard()));
+            puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(treeElementView.getTreeElement().getBoard()));
         }
     }
 

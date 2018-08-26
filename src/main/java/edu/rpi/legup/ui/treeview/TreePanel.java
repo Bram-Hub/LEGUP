@@ -1,6 +1,11 @@
 package edu.rpi.legup.ui.treeview;
 
+import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.TreeController;
+import edu.rpi.legup.history.AddTreeElementCommand;
+import edu.rpi.legup.history.DeleteTreeElementCommand;
+import edu.rpi.legup.history.ICommand;
+import edu.rpi.legup.history.MergeCommand;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.tree.Tree;
@@ -92,5 +97,48 @@ public class TreePanel extends JPanel {
 
     public TreeView getTreeView() {
         return treeView;
+    }
+
+    public void add() {
+        TreeViewSelection selection = treeView.getSelection();
+
+        AddTreeElementCommand add = new AddTreeElementCommand(selection);
+        if (add.canExecute()) {
+            add.execute();
+            GameBoardFacade.getInstance().getHistory().pushChange(add);
+        } else {
+            updateError(add.getError());
+        }
+    }
+
+    public void delete() {
+        TreeViewSelection selection = treeView.getSelection();
+
+        DeleteTreeElementCommand del = new DeleteTreeElementCommand(selection);
+        if (del.canExecute()) {
+            del.execute();
+            GameBoardFacade.getInstance().getHistory().pushChange(del);
+        } else {
+            updateError(del.getError());
+        }
+    }
+
+    public void merge() {
+        TreeViewSelection selection = treeView.getSelection();
+
+        ICommand merge = new MergeCommand(selection);
+        if (merge.canExecute()) {
+            merge.execute();
+            GameBoardFacade.getInstance().getHistory().pushChange(merge);
+        } else {
+            updateError(merge.getError());
+        }
+    }
+
+    public void collapse() {
+        TreeViewSelection selection = treeView.getSelection();
+        for (TreeElementView view : selection.getSelectedViews()) {
+            view.setCollapsed(!view.isCollapsed());
+        }
     }
 }

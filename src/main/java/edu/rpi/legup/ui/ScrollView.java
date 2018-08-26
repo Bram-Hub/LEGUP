@@ -65,6 +65,8 @@ public class ScrollView extends JScrollPane {
         canvas.addMouseMotionListener(controller);
         canvas.addMouseListener(controller);
         viewport.addMouseWheelListener(controller);
+        viewport.addMouseListener(controller);
+        viewport.addMouseMotionListener(controller);
     }
 
     /**

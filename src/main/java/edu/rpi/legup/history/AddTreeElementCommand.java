@@ -86,6 +86,14 @@ public class AddTreeElementCommand extends PuzzleCommand {
                     if (transition.getChildNode() != null) {
                         return CommandError.ADD_WITH_CHILD.toString();
                     }
+                } else {
+                    TreeNode node = (TreeNode)element;
+                    if(!node.getChildren().isEmpty()) {
+                        TreeTransition transition = node.getChildren().get(0);
+                        if(transition.getParents().size() > 1) {
+                            return CommandError.ADD_TO_MERGE.toString();
+                        }
+                    }
                 }
             }
         }

@@ -27,10 +27,6 @@ import static edu.rpi.legup.ui.treeview.TreeNodeView.RADIUS;
 public class TreeView extends ScrollView implements ITreeListener {
     private final static Logger LOGGER = LogManager.getLogger(TreeView.class.getName());
 
-    private static final int NODE_RADIUS = 10;
-    private static final int SMALL_NODE_RADIUS = 7;
-    private static final int COLLAPSED_DRAW_DELTA_X = 10;
-    private static final int COLLAPSED_DRAW_DELTA_Y = 10;
     private static final int TRANS_GAP = 5;
 
     private static final int NODE_GAP_WIDTH = 70;
@@ -40,14 +36,6 @@ public class TreeView extends ScrollView implements ITreeListener {
     private static final int BORDER_GAP_WIDTH = 20;
 
     private static final int BORDER_SPACING = 100;
-
-    private static final float floater[] = new float[]{(5.0f), (10.0f)};
-    private static final float floater2[] = new float[]{(2.0f), (3.0f)};
-    private static final Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 10, floater, 0);
-    private static final Stroke dotted = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 10, floater2, 0);
-    private static final Stroke medium = new BasicStroke(2);
-    private static final Stroke thin = new BasicStroke(1);
-    private static final String NodeImgs = "images/Legup/tree/smiley/";
 
     private TreeNodeView nodeHover;
 
@@ -451,14 +439,12 @@ public class TreeView extends ScrollView implements ITreeListener {
             dimension = new Dimension(0, 0);
             calcSpan(rootNodeView);
             rootNodeView.setSpan(rootNodeView.getSpan() + DIAMETER + BORDER_SPACING);
-            LOGGER.debug("DrawTree: Calculated span: " + rootNodeView.getSpan());
 
             calculateViewLocations(rootNodeView, 0);
             dimension.height = (int) rootNodeView.getSpan();
-            LOGGER.debug("DrawTree: Calculated view positions");
 
             redrawTree(graphics2D, rootNodeView);
-            LOGGER.debug("DrawTree: redrawTree\n");
+            LOGGER.debug("DrawTree: dimensions - " + dimension.width + "x" + dimension.height);
         }
     }
 

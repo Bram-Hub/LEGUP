@@ -9,9 +9,7 @@ import edu.rpi.legup.ui.treeview.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.Set;
 
 public class MergeCommand extends PuzzleCommand {
     private TreeViewSelection selection;
@@ -99,6 +97,7 @@ public class MergeCommand extends PuzzleCommand {
      */
     @Override
     public String getErrorString() {
+        Tree tree = GameBoardFacade.getInstance().getTree();
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         if (selectedViews.size() < 2) {
             return CommandError.TWO_TO_MERGE.toString();
@@ -126,6 +125,16 @@ public class MergeCommand extends PuzzleCommand {
         TreeNode lca = Tree.getLowestCommonAncestor(mergingNodes);
         if (lca == null) {
             return "Unable to merge tree elements.";
+        }
+        Set<TreeElement> leafNodes = tree.getLeafTreeElements(lca);
+        if(leafNodes.size() != mergingNodes.size()) {
+//            return "Unable to merge tree elements.";
+        }
+
+        for(TreeNode node : mergingNodes) {
+            if(!leafNodes.contains(node)) {
+//                return "Unable to merge tree elements.";
+            }
         }
 
         return null;

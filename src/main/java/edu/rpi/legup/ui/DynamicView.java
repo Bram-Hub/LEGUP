@@ -1,6 +1,5 @@
 package edu.rpi.legup.ui;
 
-import edu.rpi.legup.controller.DynamicController;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 
 import javax.imageio.ImageIO;
@@ -18,20 +17,11 @@ import static java.awt.BorderLayout.*;
 public class DynamicView extends JPanel {
 
     private ScrollView scrollView;
-    private DynamicController controller;
     private JPanel zoomWrapper;
     private JPanel zoomer;
 
     public DynamicView(ScrollView scrollView) {
         this.scrollView = scrollView;
-
-        this.controller = new DynamicController();
-        this.controller.setDynamicView(this);
-        this.scrollView.getCanvas().addMouseListener(controller);
-        this.scrollView.getCanvas().addMouseMotionListener(controller);
-        this.scrollView.getViewport().addMouseListener(controller);
-        this.scrollView.getViewport().addMouseMotionListener(controller);
-        this.scrollView.getViewport().addMouseWheelListener(controller);
 
         setLayout(new BorderLayout());
 

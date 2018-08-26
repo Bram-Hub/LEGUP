@@ -8,6 +8,8 @@ import edu.rpi.legup.model.observer.ITreeListener;
 import edu.rpi.legup.model.observer.ITreeSubject;
 import edu.rpi.legup.model.rules.*;
 import edu.rpi.legup.model.tree.Tree;
+import edu.rpi.legup.model.tree.TreeElement;
+import edu.rpi.legup.model.tree.TreeElementType;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.utility.LegupUtils;
 import org.w3c.dom.Document;
@@ -124,11 +126,16 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     public boolean isPuzzleComplete() {
         boolean isComplete = tree.isValid();
         if (isComplete) {
-            for (TreeNode leaf : tree.getLeafNodes()) {
-                if (!leaf.isRoot()) {
-                    isComplete &= leaf.getParent().isContradictoryBranch() || isBoardComplete(leaf.getBoard());
+            for (TreeElement leaf : tree.getLeafTreeElements()) {
+                if(leaf.getType() == TreeElementType.NODE) {
+                    TreeNode node = (TreeNode)leaf;
+                    if (!node.isRoot()) {
+                        isComplete &= node.getParent().isContradictoryBranch() || isBoardComplete(node.getBoard());
+                    } else {
+                        isComplete &= isBoardComplete(node.getBoard());
+                    }
                 } else {
-                    isComplete &= isBoardComplete(leaf.getBoard());
+                    isComplete = false;
                 }
             }
         }

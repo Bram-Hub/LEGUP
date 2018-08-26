@@ -18,10 +18,7 @@ import java.io.File;
 
 public class Legup {
     static {
-//        System.setProperty("log4j.configurationFile",
-//                new File(Legup.class.getProtectionDomain().getCodeSource().getLocation().toString()).getParent() + File.separator + "log4j2.properties");
-
-        String logPath = "C:\\Users\\jeffp\\Documents";
+        String logPath = new File(Legup.class.getProtectionDomain().getCodeSource().getLocation().getFile()).getParent();
         logPath += logPath.endsWith(File.separator) ? "" : File.separator;
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         Configuration config = context.getConfiguration();
@@ -42,7 +39,6 @@ public class Legup {
         LoggerConfig rootLogger = config.getRootLogger();
         rootLogger.addAppender(config.getAppender("fileLogger"), null, null);
         context.updateLoggers();
-
 
         System.setProperty("sun.java2d.noddraw", Boolean.TRUE.toString());
     }

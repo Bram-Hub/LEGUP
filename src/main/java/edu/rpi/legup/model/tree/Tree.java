@@ -7,9 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class Tree {
     private TreeNode rootNode;
 
@@ -94,9 +91,20 @@ public class Tree {
      *
      * @return Set of TreeNodes that are leaf nodes
      */
-    public Set<TreeNode> getLeafNodes() {
-        Set<TreeNode> leafs = new HashSet<>();
-        getLeafNodes(leafs, rootNode);
+    public Set<TreeElement> getLeafTreeElements() {
+        Set<TreeElement> leafs = new HashSet<>();
+        getLeafTreeElements(leafs, rootNode);
+        return leafs;
+    }
+
+    /**
+     * Gets a Set of TreeNodes that are leaf nodes from the sub tree rooted at the specified node
+     *
+     * @return Set of TreeNodes that are leaf nodes from the sub tree
+     */
+    public Set<TreeElement> getLeafTreeElements(TreeNode node) {
+        Set<TreeElement> leafs = new HashSet<>();
+        getLeafTreeElements(leafs, node);
         return leafs;
     }
 
@@ -104,17 +112,24 @@ public class Tree {
      * Recursively gets a Set of TreeNodes that are leaf nodes
      *
      * @param leafs Set of TreeNodes that are leaf nodes
-     * @param node  current TreeNode being evaluated
+     * @param element  current TreeNode being evaluated
      */
-    private void getLeafNodes(Set<TreeNode> leafs, TreeNode node) {
-        if (node == null) {
-            return;
-        }
-        if (node.getChildren().isEmpty()) {
-            leafs.add(node);
+    private void getLeafTreeElements(Set<TreeElement> leafs, TreeElement element) {
+        if(element.getType() == TreeElementType.NODE) {
+            TreeNode node = (TreeNode)element;
+            List<TreeTransition> childTrans = node.getChildren();
+            if(childTrans.isEmpty()) {
+                leafs.add(node);
+            } else {
+                childTrans.forEach(t -> getLeafTreeElements(leafs, t));
+            }
         } else {
-            for (TreeTransition transition : node.getChildren()) {
-                getLeafNodes(leafs, transition.getChildNode());
+            TreeTransition transition = (TreeTransition)element;
+            TreeNode childNode = transition.getChildNode();
+            if(childNode == null) {
+                leafs.add(transition);
+            } else {
+                getLeafTreeElements(leafs, childNode);
             }
         }
     }

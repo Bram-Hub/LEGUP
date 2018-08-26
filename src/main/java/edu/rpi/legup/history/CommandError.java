@@ -11,6 +11,7 @@ public enum CommandError {
     ADD_WITH_CHILD("The selection contains a tree transition that already has a child tree node."),
     TWO_TO_MERGE("The selection must have at least two tree nodes to merge."),
     CONTAINS_MERGE("The selection contains a merging transition."),
+    ADD_TO_MERGE("The selection contains a tree node that merges."),
     NO_CHILDREN("The selection contains a tree node that has children."),
     SELECTION_CONTAINS_NODE("The selection contains a tree node."),
     SELECTION_CONTAINS_TRANSITION("The selection contains a tree transition."),
