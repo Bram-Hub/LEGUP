@@ -3,6 +3,8 @@ package edu.rpi.legup.app;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.ValidateBasicRuleCommand;
 import edu.rpi.legup.history.ValidateContradictionRuleCommand;
+import edu.rpi.legup.model.rules.BasicRule;
+import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.rules.RuleType;
 import edu.rpi.legup.ui.treeview.TreeView;
@@ -71,7 +73,7 @@ public class PuzzleKeyAccelerator implements KeyListener {
             } else if (rule.getRuleType() == RuleType.CONTRADICTION) {
                 TreeViewSelection selection = treeView.getSelection();
 
-                ICommand validate = new ValidateContradictionRuleCommand(selection, rule);
+                ICommand validate = new ValidateContradictionRuleCommand(selection, (ContradictionRule) rule);
                 if (validate.canExecute()) {
                     getInstance().getHistory().pushChange(validate);
                     validate.execute();
@@ -81,7 +83,7 @@ public class PuzzleKeyAccelerator implements KeyListener {
             } else {
                 TreeViewSelection selection = treeView.getSelection();
 
-                ICommand validate = new ValidateBasicRuleCommand(selection, rule);
+                ICommand validate = new ValidateBasicRuleCommand(selection, (BasicRule) rule);
                 if (validate.canExecute()) {
                     getInstance().getHistory().pushChange(validate);
                     validate.execute();

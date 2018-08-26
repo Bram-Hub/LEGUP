@@ -80,7 +80,7 @@ public class RuleController implements ActionListener {
                 }
             }
         } else if (rule.getRuleType() == RuleType.CONTRADICTION) {
-            ICommand validate = new ValidateContradictionRuleCommand(selection, rule);
+            ICommand validate = new ValidateContradictionRuleCommand(selection, (ContradictionRule) rule);
             if (validate.canExecute()) {
                 getInstance().getHistory().pushChange(validate);
                 validate.execute();
@@ -89,7 +89,7 @@ public class RuleController implements ActionListener {
             }
         } else {
             boolean def = LegupPreferences.getInstance().getUserPref(LegupPreferences.ALLOW_DEFAULT_RULES).equalsIgnoreCase(Boolean.toString(true));
-            ICommand validate = def ? new ApplyDefaultBasicRuleCommand(selection, (BasicRule) rule) : new ValidateBasicRuleCommand(selection, rule);
+            ICommand validate = def ? new ApplyDefaultBasicRuleCommand(selection, (BasicRule) rule) : new ValidateBasicRuleCommand(selection, (BasicRule) rule);
             if (validate.canExecute()) {
                 getInstance().getHistory().pushChange(validate);
                 validate.execute();
