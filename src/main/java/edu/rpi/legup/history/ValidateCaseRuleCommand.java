@@ -12,9 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class ValidateCaseRuleCommand extends PuzzleCommand {
@@ -73,15 +70,15 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
         }
 
         TreeElementView firstSelectedView = selection.getFirstSelection();
-        final Board finalBoard;
+        final TreeElement finalTreeElement;
         if (firstSelectedView.getType() == TreeElementType.NODE) {
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
-            finalBoard = nodeView.getChildrenViews().get(0).getTreeElement().getBoard();
+            finalTreeElement = nodeView.getChildrenViews().get(0).getTreeElement();
         } else {
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
-            finalBoard = transitionView.getChildView().getTreeElement().getBoard();
+            finalTreeElement = transitionView.getChildView().getTreeElement();
         }
-        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
+        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTreeElement));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
     }
 
@@ -132,8 +129,8 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
             transition.getParents().get(0).getChildren().forEach(TreeTransition::reverify);
         }
 
-        final Board finalBoard = selection.getFirstSelection().getTreeElement().getBoard();
-        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
+        final TreeElement finalTreeElement = selection.getFirstSelection().getTreeElement();
+        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTreeElement));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
     }
 }

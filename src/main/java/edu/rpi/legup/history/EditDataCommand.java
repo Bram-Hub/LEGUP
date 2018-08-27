@@ -12,9 +12,6 @@ import edu.rpi.legup.ui.treeview.*;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class EditDataCommand extends PuzzleCommand {
@@ -89,8 +86,8 @@ public class EditDataCommand extends PuzzleCommand {
         }
         transition.propagateChanges(puzzleElement);
 
-        Board finalBoard = board;
-        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
+        final TreeElement finalTreeElement = transition;
+        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTreeElement));
         puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(puzzleElement));
 
         final TreeViewSelection newSelection = new TreeViewSelection(treeView.getElementView(transition));
@@ -167,8 +164,8 @@ public class EditDataCommand extends PuzzleCommand {
 
         puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(puzzleElement));
 
-        final Board finalBoard = selection.getFirstSelection().getTreeElement().getBoard();
-        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
+        final TreeElement finalTreeElement = selection.getFirstSelection().getTreeElement();
+        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTreeElement));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
     }
 }

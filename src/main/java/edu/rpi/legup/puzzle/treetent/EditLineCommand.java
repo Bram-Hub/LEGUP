@@ -40,7 +40,7 @@ public class EditLineCommand extends PuzzleCommand {
         TreeTentCell startCell;
         TreeTentCell endCell;
 
-        TreeTransition transition;
+        final TreeTransition transition;
         if (treeElement.getType() == TreeElementType.NODE) {
             TreeNode treeNode = (TreeNode) treeElement;
 
@@ -78,8 +78,7 @@ public class EditLineCommand extends PuzzleCommand {
 
         puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(notifyLine));
 
-        final Board finalBoard = board;
-        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
+        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(transition));
 
         final TreeViewSelection newSelection = new TreeViewSelection(treeView.getElementView(transition));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
@@ -182,8 +181,8 @@ public class EditLineCommand extends PuzzleCommand {
 
         puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(notifyLine));
 
-        final Board finalBoard = selection.getFirstSelection().getTreeElement().getBoard();
-        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
+        final TreeElement finalTreeElement = selection.getFirstSelection().getTreeElement();
+        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTreeElement));
 
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
     }

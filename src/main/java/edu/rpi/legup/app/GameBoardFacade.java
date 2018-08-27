@@ -42,6 +42,8 @@ public class GameBoardFacade implements IHistorySubject {
 
     private LegupUI legupUI;
 
+    private String curFileName;
+
     private History history;
     private List<IHistoryListener> historyListeners;
 
@@ -51,7 +53,7 @@ public class GameBoardFacade implements IHistorySubject {
     private GameBoardFacade() {
         history = new History();
         historyListeners = new ArrayList<>();
-
+        curFileName = null;
         LegupPreferences.getInstance();
         initializeUI();
     }
@@ -93,9 +95,10 @@ public class GameBoardFacade implements IHistorySubject {
     public void loadPuzzle(String fileName) throws InvalidFileFormatException {
         try {
             loadPuzzle(new FileInputStream(fileName));
+            curFileName = fileName;
             setWindowTitle(puzzle.getName(), fileName);
         } catch (IOException e) {
-            LOGGER.error("Invalid file", e);
+            LOGGER.error("Invalid file " + fileName, e);
             throw new InvalidFileFormatException("Could not find file");
         }
     }
@@ -137,6 +140,7 @@ public class GameBoardFacade implements IHistorySubject {
                 }
                 importer.initializePuzzle(node);
                 puzzle.initializeView();
+                puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
                 setPuzzle(puzzle);
             } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
                     IllegalAccessException | InstantiationException e) {
@@ -147,14 +151,13 @@ public class GameBoardFacade implements IHistorySubject {
             LOGGER.error("Invalid file");
             throw new InvalidFileFormatException("Invalid file: must be a Legup file");
         }
-        setWindowTitle(puzzle.getName(), "");
     }
 
     /**
      * Sets the window title to 'PuzzleName - FileName'
      * Removes the extension
      *
-     * @param puzzleName edu.rpi.legup.puzzle name for the file
+     * @param puzzleName puzzle name for the file
      * @param fileName   file name of the edu.rpi.legup.puzzle
      */
     public void setWindowTitle(String puzzleName, String fileName) {
@@ -223,6 +226,10 @@ public class GameBoardFacade implements IHistorySubject {
      */
     public void setPuzzleModule(Puzzle puzzle) {
         this.puzzle = puzzle;
+    }
+
+    public String getCurFileName() {
+        return this.curFileName;
     }
 
     /**

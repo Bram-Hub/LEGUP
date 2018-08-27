@@ -4,6 +4,7 @@ import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.ui.boardview.DataSelectionView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 import edu.rpi.legup.ui.boardview.SelectionItemView;
@@ -43,11 +44,15 @@ public class LightUpView extends GridBoardView
             elementViews.add(elementView);
         }
     }
-
+    /**
+     * Called when the tree element has changed.
+     *
+     * @param treeElement tree element
+     */
     @Override
-    public void onBoardChanged(Board board)
+    public void onTreeElementChanged(TreeElement treeElement)
     {
-        setBoard(board);
+        super.onTreeElementChanged(treeElement);
         LightUpBoard lightUpBoard = board instanceof CaseBoard ? (LightUpBoard)((CaseBoard)board).getBaseBoard() : (LightUpBoard)board;
         lightUpBoard.fillWithLight();
         repaint();

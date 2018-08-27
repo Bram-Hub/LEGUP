@@ -12,9 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class AddTreeElementCommand extends PuzzleCommand {
 
     private TreeViewSelection selection;
@@ -62,8 +59,8 @@ public class AddTreeElementCommand extends PuzzleCommand {
             newSelection.addToSelection(treeView.getElementView(child));
         }
 
-        final Board finalBoard = newSelection.getFirstSelection().getTreeElement().getBoard();
-        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
+        final TreeElement finalTreeElement = newSelection.getFirstSelection().getTreeElement();
+        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTreeElement));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
     }
 

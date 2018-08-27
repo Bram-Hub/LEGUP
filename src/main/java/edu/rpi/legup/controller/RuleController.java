@@ -15,9 +15,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class RuleController implements ActionListener {
@@ -61,8 +58,8 @@ public class RuleController implements ActionListener {
                     if (LegupPreferences.getInstance().getUserPref(LegupPreferences.AUTO_GENERATE_CASES).equalsIgnoreCase(Boolean.toString(true))) {
                         CaseBoard caseBoard = caseRule.getCaseBoard(element.getBoard());
 
-                        if (caseBoard.getCount() > 0) {
-                            puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(caseBoard));
+                        if (caseBoard != null && caseBoard.getCount() > 0) {
+                            puzzle.notifyBoardListeners(listener -> listener.onCaseBoardAdded(caseBoard));
                         } else {
                             updateErrorString = "This board cannot be applied with this case rule.";
                         }
@@ -88,7 +85,7 @@ public class RuleController implements ActionListener {
                 updateErrorString = validate.getError();
             }
         } else {
-            boolean def = LegupPreferences.getInstance().getUserPref(LegupPreferences.ALLOW_DEFAULT_RULES).equalsIgnoreCase(Boolean.toString(true));
+            boolean def = LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.ALLOW_DEFAULT_RULES);
             ICommand validate = def ? new ApplyDefaultBasicRuleCommand(selection, (BasicRule) rule) : new ValidateBasicRuleCommand(selection, (BasicRule) rule);
             if (validate.canExecute()) {
                 getInstance().getHistory().pushChange(validate);

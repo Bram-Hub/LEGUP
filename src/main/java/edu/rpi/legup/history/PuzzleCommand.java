@@ -79,7 +79,7 @@ public abstract class PuzzleCommand implements ICommand {
             executeCommand();
             state = CommandState.REDOED;
         } else {
-            throw new InvalidCommandStateTransition(state, CommandState.REDOED);
+            throw new InvalidCommandStateTransition(this, state, CommandState.REDOED);
         }
     }
 
@@ -92,7 +92,7 @@ public abstract class PuzzleCommand implements ICommand {
             undoCommand();
             state = CommandState.UNDOED;
         } else {
-            throw new InvalidCommandStateTransition(state, CommandState.UNDOED);
+            throw new InvalidCommandStateTransition(this, state, CommandState.UNDOED);
         }
     }
 
@@ -104,7 +104,7 @@ public abstract class PuzzleCommand implements ICommand {
             redoCommand();
             state = CommandState.REDOED;
         } else {
-            throw new InvalidCommandStateTransition(state, CommandState.REDOED);
+            throw new InvalidCommandStateTransition(this, state, CommandState.REDOED);
         }
     }
 }

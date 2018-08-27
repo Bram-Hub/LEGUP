@@ -7,12 +7,11 @@ import edu.rpi.legup.model.rules.RegisterRule;
 import edu.rpi.legup.model.rules.RuleType;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.lightup.LightUp;
-import edu.rpi.legup.puzzle.lightup.LightUpBoard;
-import edu.rpi.legup.puzzle.lightup.LightUpCell;
-import edu.rpi.legup.puzzle.lightup.LightUpCellType;
+import edu.rpi.legup.puzzle.lightup.*;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmptyCornersBasicRule extends BasicRule
 {
@@ -47,12 +46,43 @@ public class EmptyCornersBasicRule extends BasicRule
             return "Must be an empty cell";
         }
 
-        TooFewBulbsContradictionRule tooFew = new TooFewBulbsContradictionRule();
-//        for() {
-//
-//        }
+        Point loc = finalCell.getLocation();
+        List<LightUpCell> numberedCells = new ArrayList<>();
+        LightUpCell upperRight = finalBoard.getCell(loc.x + 1, loc.y - 1);
+        if(upperRight != null && upperRight.getType() == LightUpCellType.NUMBER) {
+            numberedCells.add(upperRight);
+        }
+        LightUpCell upperLeft = finalBoard.getCell(loc.x - 1, loc.y - 1);
+        if(upperLeft != null && upperLeft.getType() == LightUpCellType.NUMBER) {
+            numberedCells.add(upperLeft);
+        }
+        LightUpCell lowerRight = finalBoard.getCell(loc.x + 1, loc.y + 1);
+        if(lowerRight != null && lowerRight.getType() == LightUpCellType.NUMBER) {
+            numberedCells.add(lowerRight);
+        }
+        LightUpCell lowerLeft = finalBoard.getCell(loc.x - 1, loc.y + 1);
+        if(lowerLeft != null && lowerLeft.getType() == LightUpCellType.NUMBER) {
+            numberedCells.add(lowerLeft);
+        }
+        if(numberedCells.isEmpty()) {
+            return "There must be a numbered cell diagonal to this cell.";
+        }
 
-        return null;
+        TooFewBulbsContradictionRule tooFew = new TooFewBulbsContradictionRule();
+        LightUpBoard bulbCaseBoard = finalBoard.copy();
+        LightUpCell bulbCaseCell = (LightUpCell) bulbCaseBoard.getPuzzleElement(puzzleElement);
+        bulbCaseCell.setData(LightUpCellType.BULB.value);
+        bulbCaseBoard.fillWithLight();
+        TreeTransition bulbTran = new TreeTransition(bulbCaseBoard);
+        boolean createsContra = false;
+        for(LightUpCell c : numberedCells) {
+            createsContra |= tooFew.checkContradictionAt(bulbTran, c) == null;
+        }
+        if(createsContra) {
+            return null;
+        } else {
+            return "Cell is not forced to be empty";
+        }
     }
 
     private boolean isForcedEmpty(LightUpBoard board, LightUpCell cell, Point loc)

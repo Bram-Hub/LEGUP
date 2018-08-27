@@ -1,11 +1,17 @@
 package edu.rpi.legup.controller;
 
+import edu.rpi.legup.Legup;
 import edu.rpi.legup.app.GameBoardFacade;
+import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.history.AutoCaseRuleCommand;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.tree.TreeElement;
+import edu.rpi.legup.model.tree.TreeElementType;
+import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.ui.DynamicView;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.boardview.ElementSelection;
 import edu.rpi.legup.ui.boardview.ElementView;
@@ -15,9 +21,6 @@ import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.EditDataCommand;
 
 import java.awt.event.*;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import static edu.rpi.legup.app.GameBoardFacade.*;
 
@@ -107,12 +110,29 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     public void mouseEntered(MouseEvent e) {
         boardView.setFocusable(true);
         boardView.requestFocusInWindow();
+        TreeElement treeElement = boardView.getTreeElement();
+        DynamicView dynamicView =  getInstance().getLegupUI().getDynamicBoardView();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
-        ElementView element = boardView.getElement(e.getPoint());
+        Board board = boardView.getBoard();
+        ElementView elementView = boardView.getElement(e.getPoint());
         ElementSelection selection = boardView.getSelection();
-        if (element != null) {
-            selection.newHover(element);
-
+        String error = null;
+        if (elementView != null) {
+            selection.newHover(elementView);
+            if(LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.SHOW_MISTAKES)) {
+                PuzzleElement element = elementView.getPuzzleElement();
+                if (treeElement.getType() == TreeElementType.TRANSITION && board.getModifiedData().contains(element)) {
+                    TreeTransition transition = (TreeTransition) treeElement;
+                    if (transition.isJustified() && !transition.isCorrect()) {
+                        error = transition.getRule().checkRuleAt(transition, element);
+                    }
+                }
+                if (error != null) {
+                    dynamicView.updateError(error);
+                } else {
+                    dynamicView.resetStatus();
+                }
+            }
             boardView.repaint();
         }
     }
@@ -125,11 +145,13 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     @Override
     public void mouseExited(MouseEvent e) {
         boardView.setFocusable(false);
-        BoardView view = getInstance().getLegupUI().getBoardView();
-        ElementView element = view.getElement(e.getPoint());
+        DynamicView dynamicView =  getInstance().getLegupUI().getDynamicBoardView();
+        BoardView boardView = getInstance().getLegupUI().getBoardView();
+        ElementView element = boardView.getElement(e.getPoint());
         if (element != null) {
-            view.getSelection().clearHover();
-            view.repaint();
+            boardView.getSelection().clearHover();
+            dynamicView.resetStatus();
+            boardView.repaint();
         }
     }
 
@@ -151,24 +173,34 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     @Override
     public void mouseMoved(MouseEvent e) {
         BoardView boardView = getInstance().getLegupUI().getBoardView();
-        ElementView element = boardView.getElement(e.getPoint());
+        Board board = boardView.getBoard();
+        TreeElement treeElement = boardView.getTreeElement();
+        DynamicView dynamicView =  getInstance().getLegupUI().getDynamicBoardView();
+        ElementView elementView = boardView.getElement(e.getPoint());
         ElementSelection selection = boardView.getSelection();
-        if (element != null && element != selection.getHover()) {
-            selection.newHover(element);
+        String error = null;
+        if (elementView != null && elementView != selection.getHover()) {
+            selection.newHover(elementView);
+            if(LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.SHOW_MISTAKES)) {
+                PuzzleElement element = elementView.getPuzzleElement();
+                if (treeElement.getType() == TreeElementType.TRANSITION && board.getModifiedData().contains(element)) {
+                    TreeTransition transition = (TreeTransition) treeElement;
+                    if (transition.isJustified() && !transition.isCorrect()) {
+                        error = transition.getRule().checkRuleAt(transition, element);
+                    }
+                }
+                if (error != null) {
+                    dynamicView.updateError(error);
+                } else {
+                    dynamicView.resetStatus();
+                }
+            }
             boardView.repaint();
         }
     }
 
     public void changeCell(MouseEvent e, PuzzleElement data) {
-        if (e.getButton() == MouseEvent.BUTTON1) {
-            if (e.isControlDown() && this.boardView.getSelectionPopupMenu() != null) {
-                this.boardView.getSelectionPopupMenu().show(boardView, this.boardView.getCanvas().getX() + e.getX(), this.boardView.getCanvas().getY() + e.getY());
-            } else {
-                data.setData(((Integer) data.getData() + 1) % 10);
-            }
-        } else if (e.getButton() == MouseEvent.BUTTON3) {
-            data.setData(((Integer) data.getData() + 9) % 10);
-        }
+
     }
 
     /**
@@ -244,7 +276,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         if (board instanceof CaseBoard) {
             CaseBoard caseBoard = (CaseBoard) board;
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(caseBoard.getBaseBoard()));
+                puzzle.notifyBoardListeners(listener -> listener.onCaseBoardAdded(caseBoard));
             }
         }
     }

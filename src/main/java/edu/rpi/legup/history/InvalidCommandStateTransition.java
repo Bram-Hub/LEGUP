@@ -2,7 +2,7 @@ package edu.rpi.legup.history;
 
 public class InvalidCommandStateTransition extends RuntimeException {
 
-    public InvalidCommandStateTransition(CommandState from, CommandState to) {
-        super("Invalid command state transition from " + from + " to " + to);
+    public InvalidCommandStateTransition(PuzzleCommand puzzleCommand, CommandState from, CommandState to) {
+        super("PuzzleCommand - " + puzzleCommand.getClass().getSimpleName() + " - Attempted invalid command state transition from " + from + " to " + to);
     }
 }

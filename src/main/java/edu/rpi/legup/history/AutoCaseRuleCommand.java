@@ -12,9 +12,6 @@ import edu.rpi.legup.ui.treeview.*;
 import java.awt.event.MouseEvent;
 import java.util.*;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class AutoCaseRuleCommand extends PuzzleCommand {
@@ -76,8 +73,8 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
             }
         }
 
-        final Board finalBoard = node.getChildren().get(0).getChildNode().getBoard();
-        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
+        final TreeElement finalTreeElement = node.getChildren().get(0).getChildNode();
+        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTreeElement));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
     }
 
@@ -125,8 +122,8 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
             puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(finalTran));
         }
 
-        final Board finalBoard = node.getBoard();
-        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
+        final TreeElement finalTreeElement = node;
+        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTreeElement));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
     }
 }

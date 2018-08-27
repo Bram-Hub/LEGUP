@@ -1,5 +1,6 @@
 package edu.rpi.legup.ui;
 
+import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 
 import javax.imageio.ImageIO;
@@ -19,6 +20,13 @@ public class DynamicView extends JPanel {
     private ScrollView scrollView;
     private JPanel zoomWrapper;
     private JPanel zoomer;
+    private JLabel status;
+
+    private static final Font ERROR_FONT = MaterialFonts.ITALIC;
+    private static final Color ERROR_COLOR = MaterialColors.RED_700;
+
+    private static final Font INFO_FONT = MaterialFonts.REGULAR;
+    private static final Color INFO_COLOR = MaterialColors.GRAY_900;
 
     public DynamicView(ScrollView scrollView) {
         this.scrollView = scrollView;
@@ -90,7 +98,10 @@ public class DynamicView extends JPanel {
             zoomer.add(plus);
             zoomer.add(zoomLabel);
 
+            status = new JLabel();
+
             zoomWrapper.setLayout(new BorderLayout());
+            zoomWrapper.add(status, WEST);
             zoomWrapper.add(zoomer, EAST);
         } catch (IOException e) {
 
@@ -108,5 +119,21 @@ public class DynamicView extends JPanel {
 
     public JPanel getZoomer() {
         return this.zoomer;
+    }
+
+    public void updateInfo(String message) {
+        status.setFont(INFO_FONT);
+        status.setForeground(INFO_COLOR);
+        status.setText(message);
+    }
+
+    public void updateError(String message) {
+        status.setFont(ERROR_FONT);
+        status.setForeground(ERROR_COLOR);
+        status.setText(message);
+    }
+
+    public void resetStatus() {
+        status.setText("");
     }
 }

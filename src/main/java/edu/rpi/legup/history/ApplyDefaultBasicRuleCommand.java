@@ -11,9 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class ApplyDefaultBasicRuleCommand extends PuzzleCommand {
 
     private TreeViewSelection selection;
@@ -98,8 +95,8 @@ public class ApplyDefaultBasicRuleCommand extends PuzzleCommand {
             newSelection.addToSelection(treeView.getElementView(childNode));
         }
 
-        final Board finalBoard = newSelection.getFirstSelection().getTreeElement().getBoard();
-        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
+        final TreeElement finalTreeElement = newSelection.getFirstSelection().getTreeElement();
+        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTreeElement));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
     }
 
@@ -118,8 +115,8 @@ public class ApplyDefaultBasicRuleCommand extends PuzzleCommand {
             puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(transition));
         }
 
-        final Board finalBoard = selection.getFirstSelection().getTreeElement().getBoard();
-        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
+        final TreeElement finalTreeElement = selection.getFirstSelection().getTreeElement();
+        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTreeElement));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
     }
 }

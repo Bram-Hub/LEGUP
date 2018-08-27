@@ -113,14 +113,14 @@ public class EditLineCommand extends PuzzleCommand
             System.out.println("delete");
             board.getModifiedData().remove(dup_line);
             board.getLines().remove(dup_line);
-            puzzle.notifyBoardListeners((IBoardListener listener) -> listener.onBoardChanged(editBoard));
+//            puzzle.notifyBoardListeners((IBoardListener listener) -> listener.onTreeElementChanged(editBoard));
         }
         else
         {
             System.out.println("adding");
             board.getModifiedData().add(newData);
             board.getLines().add((MasyuLine) newData);
-            puzzle.notifyBoardListeners((IBoardListener listener) -> listener.onBoardChanged(editBoard));
+//            puzzle.notifyBoardListeners((IBoardListener listener) -> listener.onTreeElementChanged(editBoard));
         }
 
         transition.propagateChanges(newData);

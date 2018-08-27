@@ -5,8 +5,6 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.URI;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.*;
 
@@ -29,12 +27,13 @@ import edu.rpi.legup.ui.treeview.TreePanel;
 import edu.rpi.legup.user.Submission;
 import edu.rpi.legupupdate.Update;
 import edu.rpi.legupupdate.UpdateProgress;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.border.TitledBorder;
-import javax.swing.filechooser.FileFilter;
 
 public class LegupUI extends JFrame implements WindowListener, IHistoryListener {
-    private final static Logger LOGGER = Logger.getLogger(LegupUI.class.getName());
+    private final static Logger LOGGER = LogManager.getLogger(LegupUI.class.getName());
 
     public static final int ALLOW_HINTS = 1;
     public static final int ALLOW_DEFAPP = 2;
@@ -52,7 +51,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     private static int CONFIG_INDEX = 0;
 
     protected JPanel contentPane;
-    protected JFileChooser fileChooser;
+    protected FileDialog fileDialog;
     protected PickGameDialog pickGameDialog;
     protected JButton[] toolBarButtons;
 
@@ -87,6 +86,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     protected JToolBar toolBar;
 
     protected BoardView boardView;
+    protected DynamicView dynamicBoardView;
     private RuleFrame ruleFrame;
     private TreePanel treePanel;
 
@@ -172,7 +172,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
      */
     private void setupMenu() {
         mBar = new JMenuBar();
-        fileChooser = new JFileChooser();
+        fileDialog = new FileDialog(this);
 
         file = new JMenu("File");
         newPuzzle = new JMenuItem("Open");
@@ -190,22 +190,22 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         proof = new JMenu("Proof");
 
         add = new JMenuItem("Add");
-        add.addActionListener(a-> treePanel.add());
+        add.addActionListener(a -> treePanel.add());
         add.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_DOWN_MASK));
         proof.add(add);
 
         delete = new JMenuItem("Delete");
-        delete.addActionListener(a-> treePanel.delete());
+        delete.addActionListener(a -> treePanel.delete());
         delete.setAccelerator(KeyStroke.getKeyStroke('D', InputEvent.CTRL_DOWN_MASK));
         proof.add(delete);
 
         merge = new JMenuItem("Merge");
-        merge.addActionListener(a-> treePanel.merge());
+        merge.addActionListener(a -> treePanel.merge());
         merge.setAccelerator(KeyStroke.getKeyStroke('M', InputEvent.CTRL_DOWN_MASK));
         proof.add(merge);
 
         collapse = new JMenuItem("Collapse");
-        collapse.addActionListener(a-> treePanel.collapse());
+        collapse.addActionListener(a -> treePanel.collapse());
         collapse.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_DOWN_MASK));
         collapse.setEnabled(false);
         proof.add(collapse);
@@ -299,7 +299,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
             try {
                 java.awt.Desktop.getDesktop().browse(URI.create("https://github.com/jpoegs/Legup2.0"));
             } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, "Can't open web page");
+                LOGGER.error("Can't open web page");
             }
         });
 
@@ -375,13 +375,13 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 
         treePanel = new TreePanel(this);
 
-        DynamicView emptyBoard = new DynamicView(new ScrollView(new BoardController()));
+        dynamicBoardView = new DynamicView(new ScrollView(new BoardController()));
         TitledBorder titleBoard = BorderFactory.createTitledBorder("Board");
         titleBoard.setTitleJustification(TitledBorder.CENTER);
-        emptyBoard.setBorder(titleBoard);
+        dynamicBoardView.setBorder(titleBoard);
 
         JPanel boardPanel = new JPanel(new BorderLayout());
-        topHalfPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, ruleFrame, emptyBoard);
+        topHalfPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, ruleFrame, dynamicBoardView);
         mainPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, topHalfPanel, treePanel);
         topHalfPanel.setPreferredSize(new Dimension(600, 400));
         mainPanel.setPreferredSize(new Dimension(600, 600));
@@ -407,31 +407,6 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     }
 
     /**
-     * Opens the file chooser to open a proof file
-     */
-    private void openProof() {
-        if (GameBoardFacade.getInstance().getBoard() != null) {
-            if (noquit("Opening a new proof?")) {
-                return;
-            }
-        }
-
-        fileChooser.setDialogTitle("Select Proof");
-        fileChooser.showOpenDialog(this);
-
-//        String filename = fileChooser.getSelectedFile();
-//
-//        if (filename != null) {
-//            filename = fileChooser.getDirectory() + filename;
-//            if (!filename.toLowerCase().endsWith(".proof")) {
-//                JOptionPane.showMessageDialog(null, "File selected does not have the suffix \".proof\".");
-//                return;
-//            }
-////            GameBoardFacade.getInstance().loadProofFile(filename);
-//        }
-    }
-
-    /**
      * Saves a proof
      */
     private void saveProof() {
@@ -440,41 +415,29 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
             return;
         }
 
-        fileChooser.setFileFilter(new FileFilter() {
-            /**
-             * Whether the given file is accepted by this filter.
-             *
-             * @param f the File to test
-             * @return true if the file is to be accepted
-             */
-            @Override
-            public boolean accept(File f) {
-                return f.getPath().endsWith(".legup");
-            }
+        fileDialog.setMode(FileDialog.SAVE);
+        fileDialog.setTitle("Save Proof");
+        String curFileName = GameBoardFacade.getInstance().getCurFileName();
+        if (curFileName == null) {
+            fileDialog.setDirectory(LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY));
+        } else {
+            File curFile = new File(curFileName);
+            fileDialog.setDirectory(curFile.getParent());
+        }
+        fileDialog.setVisible(true);
 
-            /**
-             * The description of this filter. For example: "JPG and GIF Images"
-             *
-             * @return the description of this filter
-             */
-            @Override
-            public String getDescription() {
-                return "Legup Puzzle File";
-            }
-        });
-        fileChooser.setDialogTitle("Save Proof");
-        fileChooser.showOpenDialog(this);
+        String fileName = null;
+        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
+            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
+        }
 
-        File file = fileChooser.getSelectedFile();
-
-        if (file == null) {
-            String filename = file.getPath();
+        if (fileName != null) {
             try {
                 PuzzleExporter exporter = puzzle.getExporter();
                 if (exporter == null) {
                     throw new ExportFileException("Puzzle exporter null");
                 }
-                exporter.exportPuzzle(filename);
+                exporter.exportPuzzle(fileName);
             } catch (ExportFileException e) {
                 e.printStackTrace();
             }
@@ -512,58 +475,6 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 
     private boolean basicCheckProof(int[][] origCells) {
         return false;
-    }
-
-    /**
-     * Instructor checks
-     */
-    private void instructorCheck() {
-        promptPuzzle();
-        GameBoardFacade facade = GameBoardFacade.getInstance();
-        Board board = facade.getInstance().getBoard();
-
-        JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new java.io.File("."));
-        chooser.setDialogTitle("Choose directory with submissions");
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        chooser.setAcceptAllFileFilterUsed(false);
-        chooser.setVisible(true);
-
-        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            File dir = new File(chooser.getSelectedFile().toString());
-            File[] directoryListing = dir.listFiles();
-            if (directoryListing != null) {
-                String results = "";
-                for (File child : directoryListing) {
-                    if (!child.toString().toLowerCase().endsWith(".proof")) {
-                        JOptionPane.showMessageDialog(null, "File selected does not have the suffix \".proof\".");
-                        return;
-                    }
-//                    facade.loadProofFile(child.toString());
-                    if (basicCheckProof(null)) {
-                        results += child.toString() + ": Correct!\n";
-                    } else {
-                        results += child.toString() + ": Incorrect\n";
-                    }
-                }
-
-//                fileChooser.setMode(FileDialog.SAVE);
-//                fileChooser.setTitle("Select Proof");
-//                fileChooser.setVisible(true);
-//                String filename = fileChooser.getFile();
-//                if (filename != null) // edu.rpi.legup.user didn't pressed cancel
-//                {
-//                    String savePath = fileChooser.getDirectory() + filename;
-//                    try (PrintStream ps = new PrintStream(savePath)) {
-//                        ps.println(results);
-//                    } catch (FileNotFoundException e) {
-//                        System.out.println("Can't find file");
-//                    }
-//                }
-            }
-        } else {
-            System.out.println("No Selection");
-        }
     }
 
     /**
@@ -631,41 +542,25 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
             }
         }
 
-        fileChooser.setDialogTitle("Select Puzzle");
-        fileChooser.showOpenDialog(this);
-        String filename = fileChooser.getSelectedFile().getPath();
+        fileDialog.setMode(FileDialog.LOAD);
+        fileDialog.setTitle("Select Puzzle");
+        fileDialog.setVisible(true);
+        String fileName = null;
+        File puzzleFile = null;
+        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
+            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
+            puzzleFile = new File(fileName);
+        }
 
-        if (filename != null) {
+        if (puzzleFile != null && puzzleFile.exists()) {
             try {
-                GameBoardFacade.getInstance().loadPuzzle(filename);
+                GameBoardFacade.getInstance().loadPuzzle(fileName);
+                String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+                setTitle(puzzleName + " - " + puzzleFile.getName());
             } catch (InvalidFileFormatException e) {
-                LOGGER.log(Level.SEVERE, e.getMessage());
+                LOGGER.error(e.getMessage());
             }
-            //GameBoardFacade.getInstance().setPuzzle(new Sudoku());
         }
-
-
-        /*JFileChooser newPuzzle = new JFileChooser("puzzlefiles");
-        FileNameExtensionFilter fileType = new FileNameExtensionFilter("LEGUP Puzzles", "xml");
-        newPuzzle.setFileFilter(fileType);
-        if(newPuzzle.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
-        {
-            facade.loadPuzzle(newPuzzle.getSelectedFile().getAbsolutePath());
-            Puzzle edu.rpi.legup.puzzle = facade.getPuzzleModule();
-            if(edu.rpi.legup.puzzle != null)
-            {
-                //getJustificationFrame().setJustifications(edu.rpi.legup.puzzle);
-                // AI setup
-                //myAI.setBoard(edu.rpi.legup.puzzle);
-            }
-            // show them all
-            showAll();
-        }
-        else
-        {
-            //System.out.println("Cancel Pressed");
-        }
-        */
     }
 
     public void showStatus(String status, boolean error, int timer) {
@@ -694,7 +589,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         }
 
         if (ans == JOptionPane.OK_OPTION && isUpdateAvailable) {
-            LOGGER.log(Level.INFO, "Updating Legup....");
+            LOGGER.info("Updating Legup....");
 
             new Thread(() -> {
                 JDialog updateDialog = new JDialog(this, "Updating Legup...", true);
@@ -758,10 +653,6 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         return true;
     }
 
-    public void resetUndoRedo() {
-
-    }
-
     @Override
     public void windowOpened(WindowEvent e) {
 
@@ -820,13 +711,13 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     public void setPuzzleView(Puzzle puzzle) {
         this.boardView = puzzle.getBoardView();
 
-        DynamicView dynamicView = new DynamicView(boardView);
-        this.topHalfPanel.setRightComponent(dynamicView);
+        dynamicBoardView = new DynamicView(boardView);
+        this.topHalfPanel.setRightComponent(dynamicBoardView);
         this.topHalfPanel.setVisible(true);
 
         TitledBorder titleBoard = BorderFactory.createTitledBorder(boardView.getClass().getSimpleName());
         titleBoard.setTitleJustification(TitledBorder.CENTER);
-        dynamicView.setBorder(titleBoard);
+        dynamicBoardView.setBorder(titleBoard);
 
         this.treePanel.getTreeView().resetView();
         this.treePanel.getTreeView().setTree(puzzle.getTree());
@@ -848,36 +739,12 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         return boardView;
     }
 
+    public DynamicView getDynamicBoardView() {
+        return dynamicBoardView;
+    }
+
     public TreePanel getTreePanel() {
         return treePanel;
-    }
-
-    public RuleFrame getRuleFrame() {
-        return ruleFrame;
-    }
-
-    public JMenuBar getmBar() {
-        return mBar;
-    }
-
-    public JToolBar getToolBar() {
-        return toolBar;
-    }
-
-    public JMenuItem getUndo() {
-        return undo;
-    }
-
-    public JMenuItem getRedo() {
-        return redo;
-    }
-
-    public JButton getUndoButton() {
-        return toolBarButtons[ToolbarName.UNDO.ordinal()];
-    }
-
-    public JButton getRedoButton() {
-        return toolBarButtons[ToolbarName.REDO.ordinal()];
     }
 
     /**
@@ -892,6 +759,10 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(true);
         redo.setEnabled(false);
         toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
+
+        String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+        File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
+        setTitle(puzzleName + " - " + puzzleFile.getName() + " *");
     }
 
     /**
@@ -906,6 +777,15 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
         redo.setEnabled(!isTop);
         toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(!isTop);
+        if (isBottom) {
+            String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+            File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
+            setTitle(puzzleName + " - " + puzzleFile.getName());
+        } else {
+            String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+            File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
+            setTitle(puzzleName + " - " + puzzleFile.getName() + " *");
+        }
     }
 
     /**
@@ -920,10 +800,19 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
         redo.setEnabled(!isTop);
         toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(!isTop);
+        if (isBottom) {
+            String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+            File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
+            setTitle(puzzleName + " - " + puzzleFile.getName());
+        } else {
+            String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+            File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
+            setTitle(puzzleName + " - " + puzzleFile.getName() + " *");
+        }
     }
 
     /**
-     * Called when the edu.rpi.legup.history is cleared
+     * Called when the history is cleared
      */
     @Override
     public void onClearHistory() {

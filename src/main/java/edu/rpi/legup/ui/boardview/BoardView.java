@@ -6,15 +6,14 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.observer.IBoardListener;
-import edu.rpi.legup.ui.DynamicView;
+import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.ui.ScrollView;
 
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
 public abstract class BoardView extends ScrollView implements IBoardListener {
+    protected TreeElement treeElement;
     protected Board board;
     protected ArrayList<ElementView> elementViews;
     protected ElementController elementController;
@@ -27,6 +26,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      */
     public BoardView(BoardController boardController, ElementController elementController) {
         super(boardController);
+        this.treeElement = null;
         this.board = null;
         this.elementViews = new ArrayList<>();
         this.elementController = elementController;
@@ -134,14 +134,30 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
     }
 
     /**
-     * Board puzzleElement has changed
+     * Called when the tree element has changed.
      *
-     * @param board board to update the BoardView
+     * @param treeElement tree element
      */
     @Override
-    public void onBoardChanged(Board board) {
-        setBoard(board);
+    public void onTreeElementChanged(TreeElement treeElement) {
+        this.treeElement = treeElement;
+        setBoard(treeElement.getBoard());
         repaint();
+    }
+
+    /**
+     * Called when the a case board has been added to the view.
+     *
+     * @param caseBoard case board to be added
+     */
+    @Override
+    public void onCaseBoardAdded(CaseBoard caseBoard) {
+        setBoard(caseBoard);
+        repaint();
+    }
+
+    public TreeElement getTreeElement() {
+        return this.treeElement;
     }
 
     /**

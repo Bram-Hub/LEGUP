@@ -8,9 +8,6 @@ import edu.rpi.legup.ui.treeview.*;
 
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class DeleteTreeElementCommand extends PuzzleCommand {
     private TreeViewSelection selection;
 
@@ -50,7 +47,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
         }
 
         final TreeViewSelection newSelection = new TreeViewSelection(newSelectedView);
-        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(newSelectedView.getTreeElement().getBoard()));
+        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(newSelectedView.getTreeElement()));
         puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeSelectionChanged(newSelection));
     }
 
@@ -100,7 +97,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
             }
         }
 
-        puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(selection.getFirstSelection().getTreeElement().getBoard()));
+        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(selection.getFirstSelection().getTreeElement()));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
     }
 }

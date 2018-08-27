@@ -40,6 +40,7 @@ public class ClueCommand extends PuzzleCommand {
             TreeElementView selectedView = selection.getSelectedViews().get(i);
             TreeElement treeElement = selectedView.getTreeElement();
 
+            final TreeTransition finalTran;
             TreeTentBoard board = (TreeTentBoard) treeElement.getBoard();
             List<TreeTentCell> tempList = emptyCells.get(i);
             if (treeElement.getType() == TreeElementType.NODE) {
@@ -53,12 +54,13 @@ public class ClueCommand extends PuzzleCommand {
                     treeNode.addChild(transition);
                 }
 
-                final TreeTransition finalTran = transition;
+                finalTran = transition;
                 puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(finalTran));
 
                 newSelection.addToSelection(treeView.getElementView(finalTran));
                 board = (TreeTentBoard) finalTran.getBoard();
             } else {
+                finalTran = (TreeTransition) treeElement;
                 newSelection.addToSelection(treeView.getElementView(treeElement));
             }
 
@@ -72,8 +74,7 @@ public class ClueCommand extends PuzzleCommand {
             }
 
             if (i == 0) {
-                final TreeTentBoard finalBoard = board;
-                puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
+                puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTran));
             }
         }
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
@@ -145,16 +146,19 @@ public class ClueCommand extends PuzzleCommand {
             TreeElementView selectedView = selection.getSelectedViews().get(i);
             TreeElement treeElement = selectedView.getTreeElement();
 
+            final TreeTransition finalTran;
             TreeTentBoard board = (TreeTentBoard) treeElement.getBoard();
             List<TreeTentCell> tempList = emptyCells.get(i);
             if (treeElement.getType() == TreeElementType.NODE) {
                 TreeNode treeNode = (TreeNode) treeElement;
 
-                final TreeTransition finalTran = treeNode.getChildren().get(0);
+                finalTran = treeNode.getChildren().get(0);
                 tree.removeTreeElement(finalTran);
                 puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(finalTran));
 
                 board = (TreeTentBoard) finalTran.getBoard();
+            } else {
+                finalTran = (TreeTransition) treeElement;
             }
 
             for (TreeTentCell cell : tempList) {
@@ -167,8 +171,7 @@ public class ClueCommand extends PuzzleCommand {
             }
 
             if (i == 0) {
-                final TreeTentBoard finalBoard = board;
-                puzzle.notifyBoardListeners(listener -> listener.onBoardChanged(finalBoard));
+                puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTran));
             }
         }
         final TreeViewSelection newSelection = selection;
