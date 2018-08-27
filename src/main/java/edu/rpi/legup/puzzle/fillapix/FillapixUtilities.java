@@ -11,8 +11,7 @@ public class FillapixUtilities {
         FillapixBoard whiteCaseBoard = board.copy();
         FillapixCell whiteCell = (FillapixCell) whiteCaseBoard.getPuzzleElement(cell);
         whiteCell.setType(FillapixCellType.WHITE);
-        TreeTransition whiteCase = new TreeTransition(whiteCaseBoard);
-        return tooManyBlackCells.checkContradictionAt(whiteCase, cell) != null;
+        return tooManyBlackCells.checkContradictionAt(whiteCaseBoard, cell) != null;
     }
 
     public static boolean isForcedWhite(FillapixBoard board, FillapixCell cell) {
@@ -20,7 +19,6 @@ public class FillapixUtilities {
         FillapixBoard blackCaseBoard = board.copy();
         FillapixCell blackCell = (FillapixCell) blackCaseBoard.getPuzzleElement(cell);
         blackCell.setType(FillapixCellType.BLACK);
-        TreeTransition blackCase = new TreeTransition(blackCaseBoard);
-        return tooManyBlackCells.checkContradictionAt(blackCase, cell) != null;
+        return tooManyBlackCells.checkContradictionAt(blackCaseBoard, cell) != null;
     }
 }

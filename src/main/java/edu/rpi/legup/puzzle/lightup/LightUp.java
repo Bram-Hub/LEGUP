@@ -9,11 +9,9 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.lightup.rules.*;
 
 @RegisterPuzzle
-public class LightUp extends Puzzle
-{
+public class LightUp extends Puzzle {
 
-    public LightUp()
-    {
+    public LightUp() {
         super();
         name = "LightUp";
 
@@ -27,8 +25,7 @@ public class LightUp extends Puzzle
      * Initializes the game board. Called by the invoker of the class
      */
     @Override
-    public void initializeView()
-    {
+    public void initializeView() {
         boardView = new LightUpView((LightUpBoard) currentBoard);
     }
 
@@ -36,12 +33,10 @@ public class LightUp extends Puzzle
      * Generates a random edu.rpi.legup.puzzle based on the difficulty
      *
      * @param difficulty level of difficulty (1-10)
-     *
      * @return board of the random edu.rpi.legup.puzzle
      */
     @Override
-    public Board generatePuzzle(int difficulty)
-    {
+    public Board generatePuzzle(int difficulty) {
         return null;
     }
 
@@ -49,28 +44,21 @@ public class LightUp extends Puzzle
      * Determines if the current board is a valid state
      *
      * @param board board to check for validity
-     *
      * @return true if board is valid, false otherwise
      */
     @Override
-    public boolean isBoardComplete(Board board)
-    {
-        LightUpBoard lightUpBoard = (LightUpBoard)board;
+    public boolean isBoardComplete(Board board) {
+        LightUpBoard lightUpBoard = (LightUpBoard) board;
         lightUpBoard.fillWithLight();
-        TreeTransition transition = new TreeTransition(null, lightUpBoard);
 
-        for(ContradictionRule rule : contradictionRules)
-        {
-            if(rule.checkContradiction(transition) == null)
-            {
+        for (ContradictionRule rule : contradictionRules) {
+            if (rule.checkContradiction(lightUpBoard) == null) {
                 return false;
             }
         }
-        for(PuzzleElement data : lightUpBoard.getPuzzleElements())
-        {
-            LightUpCell cell = (LightUpCell)data;
-            if((cell.getType() == LightUpCellType.UNKNOWN || cell.getType() == LightUpCellType.EMPTY) && !cell.isLite())
-            {
+        for (PuzzleElement data : lightUpBoard.getPuzzleElements()) {
+            LightUpCell cell = (LightUpCell) data;
+            if ((cell.getType() == LightUpCellType.UNKNOWN || cell.getType() == LightUpCellType.EMPTY) && !cell.isLite()) {
                 return false;
             }
         }
@@ -83,8 +71,7 @@ public class LightUp extends Puzzle
      * @param board the board that has changed
      */
     @Override
-    public void onBoardChange(Board board)
-    {
+    public void onBoardChange(Board board) {
 
     }
 }

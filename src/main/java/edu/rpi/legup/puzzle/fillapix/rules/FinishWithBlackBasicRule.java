@@ -42,8 +42,7 @@ public class FinishWithBlackBasicRule extends BasicRule
         FillapixBoard whiteCaseBoard = board.copy();
         FillapixCell whiteCell = (FillapixCell) whiteCaseBoard.getPuzzleElement(cell);
         whiteCell.setType(FillapixCellType.WHITE);
-        TreeTransition whiteCase = new TreeTransition(whiteCaseBoard);
-        return tooManyBlackCells.checkContradictionAt(whiteCase, cell) == null;
+        return tooManyBlackCells.checkContradictionAt(whiteCaseBoard, cell) == null;
     }
 
     /**

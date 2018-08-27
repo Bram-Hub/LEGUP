@@ -72,7 +72,7 @@ public class CornerBlackBasicRule extends BasicRule
                                 modified.getCell(y + d, x).setData(NurikabeType.BLACK.ordinal());
                                 modified.getCell(y, x + d).setData(NurikabeType.BLACK.ordinal());
                                 // Second check: corner is only way to escape from the white region
-                                if(tooFewContra.checkContradiction(new TreeTransition(null, modified)) == null)
+                                if(tooFewContra.checkContradiction(modified) == null)
                                 {
                                     Set<Point> reg = ConnectedRegions.getRegionAroundPoint(new Point(x + d, y + d), NurikabeType.BLACK.ordinal(), modified.getIntArray(), modified.getWidth(), modified.getHeight());
                                     int regionNum = 0;
@@ -109,7 +109,7 @@ public class CornerBlackBasicRule extends BasicRule
                                 modified.getCell(y - d, x).setData(NurikabeType.BLACK.ordinal());
                                 modified.getCell(y, x + d).setData(NurikabeType.BLACK.ordinal());
                                 // Second check: corner is only way to escape from the white region
-                                if(tooFewContra.checkContradiction(new TreeTransition(null, modified)) == null)
+                                if(tooFewContra.checkContradiction(modified) == null)
                                 {
                                     Set<Point> reg = ConnectedRegions.getRegionAroundPoint(new Point(x + d, y - d), NurikabeType.BLACK.ordinal(), modified.getIntArray(), modified.getWidth(), modified.getHeight());
                                     int regionNum = 0;

@@ -8,15 +8,13 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.sudoku.rules.*;
 import edu.rpi.legup.ui.boardview.BoardView;
 
-public class Sudoku extends Puzzle
-{
+public class Sudoku extends Puzzle {
     private SudokuView boardView;
 
     /**
      * Sudoku Constructor
      */
-    public Sudoku()
-    {
+    public Sudoku() {
         super();
 
         this.name = "Sudoku";
@@ -27,8 +25,7 @@ public class Sudoku extends Puzzle
         this.factory = new SudokuCellFactory();
     }
 
-    public BoardView getBoardView()
-    {
+    public BoardView getBoardView() {
         return boardView;
     }
 
@@ -36,21 +33,18 @@ public class Sudoku extends Puzzle
      * Initializes the game board
      */
     @Override
-    public void initializeView()
-    {
-        boardView = new SudokuView((SudokuBoard)currentBoard);
+    public void initializeView() {
+        boardView = new SudokuView((SudokuBoard) currentBoard);
     }
 
     /**
      * Generates a random edu.rpi.legup.puzzle based on the difficulty
      *
      * @param difficulty level of difficulty (1-10)
-     *
      * @return board of the random edu.rpi.legup.puzzle
      */
     @Override
-    public Board generatePuzzle(int difficulty)
-    {
+    public Board generatePuzzle(int difficulty) {
         return null;
     }
 
@@ -58,28 +52,21 @@ public class Sudoku extends Puzzle
      * Determines if the current board is a valid state
      *
      * @param board board to check for validity
-     *
      * @return true if board is valid, false otherwise
      */
     @Override
-    public boolean isBoardComplete(Board board)
-    {
+    public boolean isBoardComplete(Board board) {
         SudokuBoard sudokuBoard = (SudokuBoard) board;
-        TreeTransition transition = new TreeTransition(null, sudokuBoard);
 
-        for(ContradictionRule rule : contradictionRules)
-        {
-            if(rule.checkContradiction(transition) == null)
-            {
+        for (ContradictionRule rule : contradictionRules) {
+            if (rule.checkContradiction(sudokuBoard) == null) {
                 return false;
             }
         }
 
-        for(PuzzleElement puzzleElement : sudokuBoard.getPuzzleElements())
-        {
+        for (PuzzleElement puzzleElement : sudokuBoard.getPuzzleElements()) {
             SudokuCell cell = (SudokuCell) puzzleElement;
-            if(cell.getData() == 0)
-            {
+            if (cell.getData() == 0) {
                 return false;
             }
         }
@@ -92,8 +79,7 @@ public class Sudoku extends Puzzle
      * @param board the board that has changed
      */
     @Override
-    public void onBoardChange(Board board)
-    {
+    public void onBoardChange(Board board) {
 
     }
 }

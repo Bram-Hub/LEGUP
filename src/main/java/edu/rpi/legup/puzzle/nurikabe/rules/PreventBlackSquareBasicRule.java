@@ -49,7 +49,7 @@ public class PreventBlackSquareBasicRule extends BasicRule
         NurikabeCell modCell = (NurikabeCell) modified.getPuzzleElement(puzzleElement);
         modCell.setData(NurikabeType.BLACK.toValue());
 
-        if(contraRule.checkContradiction(new TreeTransition(null, modified)) == null)
+        if(contraRule.checkContradiction(modified) == null)
         {
             return null;
         }

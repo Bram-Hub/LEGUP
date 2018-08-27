@@ -45,7 +45,7 @@ public class FillinBlackBasicRule extends BasicRule
         }
         NurikabeBoard modified = origBoard.copy();
         modified.getPuzzleElement(puzzleElement).setData(NurikabeType.WHITE.toValue());
-        if(contraRule.checkContradictionAt(new TreeTransition(null, modified), puzzleElement) != null)
+        if(contraRule.checkContradictionAt(modified, puzzleElement) != null)
         {
             return "Black cells must be placed in a region of black cells!";
         }

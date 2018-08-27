@@ -7,10 +7,8 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.nurikabe.rules.*;
 
-public class Nurikabe extends Puzzle
-{
-    public Nurikabe()
-    {
+public class Nurikabe extends Puzzle {
+    public Nurikabe() {
         super();
 
         this.name = "Nurikabe";
@@ -25,9 +23,8 @@ public class Nurikabe extends Puzzle
      * Initializes the game board. Called by the invoker of the class
      */
     @Override
-    public void initializeView()
-    {
-        boardView = new NurikabeView((NurikabeBoard)currentBoard);
+    public void initializeView() {
+        boardView = new NurikabeView((NurikabeBoard) currentBoard);
         addBoardListener(boardView);
     }
 
@@ -35,12 +32,10 @@ public class Nurikabe extends Puzzle
      * Generates a random edu.rpi.legup.puzzle based on the difficulty
      *
      * @param difficulty level of difficulty (1-10)
-     *
      * @return board of the random edu.rpi.legup.puzzle
      */
     @Override
-    public Board generatePuzzle(int difficulty)
-    {
+    public Board generatePuzzle(int difficulty) {
         return null;
     }
 
@@ -48,28 +43,20 @@ public class Nurikabe extends Puzzle
      * Determines if the current board is a valid state
      *
      * @param board board to check for validity
-     *
      * @return true if board is valid, false otherwise
      */
     @Override
-    public boolean isBoardComplete(Board board)
-    {
-        NurikabeBoard nurikabeBoard = (NurikabeBoard)board;
-        TreeTransition transition = new TreeTransition(null, nurikabeBoard);
+    public boolean isBoardComplete(Board board) {
+        NurikabeBoard nurikabeBoard = (NurikabeBoard) board;
 
-
-        for(ContradictionRule rule : contradictionRules)
-        {
-            if(rule.checkContradiction(transition) == null)
-            {
+        for (ContradictionRule rule : contradictionRules) {
+            if (rule.checkContradiction(nurikabeBoard) == null) {
                 return false;
             }
         }
-        for(PuzzleElement data : nurikabeBoard.getPuzzleElements())
-        {
+        for (PuzzleElement data : nurikabeBoard.getPuzzleElements()) {
             NurikabeCell cell = (NurikabeCell) data;
-            if(cell.getType() == NurikabeType.UNKNOWN)
-            {
+            if (cell.getType() == NurikabeType.UNKNOWN) {
                 return false;
             }
         }
@@ -82,8 +69,7 @@ public class Nurikabe extends Puzzle
      * @param board the board that has changed
      */
     @Override
-    public void onBoardChange(Board board)
-    {
+    public void onBoardChange(Board board) {
 
     }
 }

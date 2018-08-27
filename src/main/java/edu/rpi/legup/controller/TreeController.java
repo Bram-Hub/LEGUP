@@ -79,10 +79,10 @@ public class TreeController extends Controller {
         Point point = treeView.getActualPoint(e.getPoint());
         Tree tree = getInstance().getTree();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
-        TreeElementView elementView = treeView.getTreeElementView(point);
+        TreeElementView treeElementView = treeView.getTreeElementView(point);
         Puzzle puzzle = getInstance().getPuzzleModule();
-        if (elementView != null) {
-            puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(elementView.getTreeElement()));
+        if (treeElementView != null) {
+            puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(treeElementView.getTreeElement()));
         }
     }
 
@@ -125,25 +125,19 @@ public class TreeController extends Controller {
     public void mouseMoved(MouseEvent e) {
         TreeView treeView = (TreeView) viewer;
         Point point = treeView.getActualPoint(e.getPoint());
-        TreeElementView treeNodeView = treeView.getTreeElementView(point);
+        TreeElementView treeElementView = treeView.getTreeElementView(point);
         Puzzle puzzle = getInstance().getPuzzleModule();
         if (puzzle != null) {
             TreeViewSelection selection = treeView.getSelection();
             selection.setMousePoint(treeView.getActualPoint(e.getPoint()));
-            if (treeNodeView != null) {
-                if (treeNodeView != selection.getHover()) {
-                    puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(treeNodeView.getTreeElement()));
-                    selection.newHover(treeNodeView);
-                    puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
-                } else {
-                    puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
-                }
-            } else {
-                if (selection.getHover() != null) {
-                    puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(selection.getFirstSelection().getTreeElement()));
-                    selection.clearHover();
-                    puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
-                }
+            if (treeElementView != null && treeElementView != selection.getHover()) {
+                puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(treeElementView.getTreeElement()));
+                selection.newHover(treeElementView);
+                puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
+            } else if (selection.getHover() != null) {
+                puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(selection.getFirstSelection().getTreeElement()));
+                selection.clearHover();
+                puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
             }
         }
     }

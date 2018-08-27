@@ -1,5 +1,6 @@
 package edu.rpi.legup.model.rules;
 
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeTransition;
 
@@ -26,7 +27,7 @@ public abstract class ContradictionRule extends Rule {
      */
     @Override
     public String checkRule(TreeTransition transition) {
-        return checkContradiction(transition);
+        return checkContradiction(transition.getBoard());
     }
 
     /**
@@ -40,7 +41,7 @@ public abstract class ContradictionRule extends Rule {
      */
     @Override
     public String checkRuleAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        return checkContradictionAt(transition, puzzleElement);
+        return checkContradictionAt(transition.getBoard(), puzzleElement);
     }
 
     /**
@@ -52,7 +53,7 @@ public abstract class ContradictionRule extends Rule {
      */
     @Override
     public String checkRuleRaw(TreeTransition transition) {
-        return checkRule(transition);
+        return checkContradiction(transition.getBoard());
     }
 
     /**
@@ -67,18 +68,18 @@ public abstract class ContradictionRule extends Rule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        return checkRuleAt(transition, puzzleElement);
+        return checkContradictionAt(transition.getBoard(), puzzleElement);
     }
 
     /**
      * Checks whether the tree node has a contradiction using this rule
      *
-     * @param transition transition to check contradiction
+     * @param board board to check contradiction
      * @return null if the tree node contains a contradiction, otherwise error message
      */
-    public String checkContradiction(TreeTransition transition) {
-        for (PuzzleElement puzzleElement : transition.getBoard().getPuzzleElements()) {
-            String checkStr = checkContradictionAt(transition, puzzleElement);
+    public String checkContradiction(Board board) {
+        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
+            String checkStr = checkContradictionAt(board, puzzleElement);
             if (checkStr == null) {
                 return checkStr;
             }
@@ -89,10 +90,10 @@ public abstract class ContradictionRule extends Rule {
     /**
      * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
      *
-     * @param transition    transition to check contradiction
+     * @param board    board to check contradiction
      * @param puzzleElement equivalent puzzleElement
      * @return null if the transition contains a contradiction at the specified puzzleElement,
      * otherwise error message
      */
-    public abstract String checkContradictionAt(TreeTransition transition, PuzzleElement puzzleElement);
+    public abstract String checkContradictionAt(Board board, PuzzleElement puzzleElement);
 }

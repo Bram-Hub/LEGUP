@@ -38,47 +38,56 @@ public class MustLightBasicRule extends BasicRule {
             return "Modified cells must be bulbs";
         }
 
-        if (isForcedBulb(parentBoard, finalCell.getLocation())) {
+        finalCell.setData(LightUpCellType.EMPTY.value);
+        boolean isForced = isForcedBulb(finalBoard, finalCell.getLocation());
+        finalCell.setData(LightUpCellType.BULB.value);
+
+        if (isForced) {
             return null;
         } else {
-            return "This cell can be lite by another";
+            return "This cell can be lite by another cell.";
         }
     }
 
-    private boolean isForcedBulb(LightUpBoard board, Point location) {
-        for (int i = location.x + 1; i < board.getWidth(); i++) {
-            LightUpCell c = board.getCell(i, location.y);
+    private boolean isForcedBulb(LightUpBoard board, Point loc) {
+        CannotLightACellContradictionRule cannotLite = new CannotLightACellContradictionRule();
+        for (int i = loc.x + 1; i < board.getWidth(); i++) {
+            LightUpCell c = board.getCell(i, loc.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            } else if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
-                return false;
+            } else if ((c.getType() == LightUpCellType.EMPTY || c.getType() == LightUpCellType.UNKNOWN) &&
+                    !c.isLite() && cannotLite.checkContradictionAt(board, c) == null) {
+                return true;
             }
         }
-        for (int i = location.x - 1; i >= 0; i--) {
-            LightUpCell c = board.getCell(i, location.y);
+        for (int i = loc.x - 1; i >= 0; i--) {
+            LightUpCell c = board.getCell(i, loc.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            } else if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
-                return false;
+            }  else if ((c.getType() == LightUpCellType.EMPTY || c.getType() == LightUpCellType.UNKNOWN) &&
+                    !c.isLite() && cannotLite.checkContradictionAt(board, c) == null) {
+                return true;
             }
         }
-        for (int i = location.y + 1; i < board.getHeight(); i++) {
-            LightUpCell c = board.getCell(i, location.y);
+        for (int i = loc.y + 1; i < board.getHeight(); i++) {
+            LightUpCell c = board.getCell(i, loc.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            } else if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
-                return false;
+            }  else if ((c.getType() == LightUpCellType.EMPTY || c.getType() == LightUpCellType.UNKNOWN) &&
+                    !c.isLite() && cannotLite.checkContradictionAt(board, c) == null) {
+                return true;
             }
         }
-        for (int i = location.x - 1; i >= 0; i--) {
-            LightUpCell c = board.getCell(i, location.y);
+        for (int i = loc.y - 1; i >= 0; i--) {
+            LightUpCell c = board.getCell(i, loc.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            } else if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
-                return false;
+            }  else if ((c.getType() == LightUpCellType.EMPTY || c.getType() == LightUpCellType.UNKNOWN) &&
+                    !c.isLite() && cannotLite.checkContradictionAt(board, c) == null) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**
@@ -91,15 +100,13 @@ public class MustLightBasicRule extends BasicRule {
     public Board getDefaultBoard(TreeNode node) {
         LightUpBoard initialBoard = (LightUpBoard) node.getBoard();
         LightUpBoard lightUpBoard = (LightUpBoard) node.getBoard().copy();
-        for (PuzzleElement element : lightUpBoard.getPuzzleElements()) {
+        for (PuzzleElement element : initialBoard.getPuzzleElements()) {
             LightUpCell cell = (LightUpCell) element;
-            int tempData = cell.getData();
-            cell.setData(LightUpCellType.BULB.value);
             if (cell.getType() == LightUpCellType.UNKNOWN && !cell.isLite() &&
                     isForcedBulb(initialBoard, cell.getLocation())) {
-                lightUpBoard.addModifiedData(cell);
-            } else {
-                cell.setData(tempData);
+                LightUpCell modCell = (LightUpCell) lightUpBoard.getPuzzleElement(cell);
+                modCell.setData(LightUpCellType.BULB.value);
+                lightUpBoard.addModifiedData(modCell);
             }
         }
         if (lightUpBoard.getModifiedData().isEmpty()) {

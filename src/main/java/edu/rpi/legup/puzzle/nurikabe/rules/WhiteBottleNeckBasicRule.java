@@ -54,7 +54,7 @@ public class WhiteBottleNeckBasicRule extends BasicRule
 
         for(ContradictionRule contraRule : contras)
         {
-            if(contraRule.checkContradiction(new TreeTransition(null, modified)) == null)
+            if(contraRule.checkContradiction(modified) == null)
             {
                 return null;
             }

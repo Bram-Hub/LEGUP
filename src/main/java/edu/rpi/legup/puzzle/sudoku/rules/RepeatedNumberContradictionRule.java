@@ -1,5 +1,6 @@
 package edu.rpi.legup.puzzle.sudoku.rules;
 
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -9,11 +10,9 @@ import edu.rpi.legup.puzzle.sudoku.SudokuCell;
 import java.util.HashSet;
 import java.util.Set;
 
-public class RepeatedNumberContradictionRule extends ContradictionRule
-{
+public class RepeatedNumberContradictionRule extends ContradictionRule {
 
-    public RepeatedNumberContradictionRule()
-    {
+    public RepeatedNumberContradictionRule() {
         super("Repeated Numbers",
                 "Two identical numbers are placed in the same group.",
                 "edu/rpi/legup/images/sudoku/RepeatedNumber.png");
@@ -22,19 +21,16 @@ public class RepeatedNumberContradictionRule extends ContradictionRule
     /**
      * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
      *
-     * @param transition   transition to check contradiction
+     * @param board         board to check contradiction
      * @param puzzleElement equivalent puzzleElement
-     *
      * @return null if the transition contains a contradiction at the specified puzzleElement,
      * otherwise error message
      */
     @Override
-    public String checkContradictionAt(TreeTransition transition, PuzzleElement puzzleElement)
-    {
-        SudokuBoard sudokuBoard = (SudokuBoard)transition.getBoard();
+    public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
+        SudokuBoard sudokuBoard = (SudokuBoard) board;
         SudokuCell cell = (SudokuCell) sudokuBoard.getPuzzleElement(puzzleElement);
-        if(cell.getData() == 0)
-        {
+        if (cell.getData() == 0) {
             return "Does not contain a contradiction at this index";
         }
 
@@ -46,28 +42,22 @@ public class RepeatedNumberContradictionRule extends ContradictionRule
         Set<Integer> rowDup = new HashSet<>();
         Set<Integer> colDup = new HashSet<>();
 
-        for(SudokuCell c : region)
-        {
-            if(regionDup.contains(c.getData()))
-            {
+        for (SudokuCell c : region) {
+            if (regionDup.contains(c.getData())) {
                 return null;
             }
             regionDup.add(c.getData());
         }
 
-        for(SudokuCell c : row)
-        {
-            if(rowDup.contains(c.getData()))
-            {
+        for (SudokuCell c : row) {
+            if (rowDup.contains(c.getData())) {
                 return null;
             }
             rowDup.add(c.getData());
         }
 
-        for(SudokuCell c : col)
-        {
-            if(colDup.contains(c.getData()))
-            {
+        for (SudokuCell c : col) {
+            if (colDup.contains(c.getData())) {
                 return null;
             }
             colDup.add(c.getData());

@@ -39,10 +39,8 @@ public class Fillapix extends Puzzle {
     @Override
     public boolean isBoardComplete(Board board) {
         FillapixBoard fillapixBoard = (FillapixBoard) board;
-        TreeTransition transition = new TreeTransition(null, fillapixBoard);
-
         for (ContradictionRule rule : contradictionRules) {
-            if (rule.checkContradiction(transition) == null) {
+            if (rule.checkContradiction(fillapixBoard) == null) {
                 return false;
             }
         }
