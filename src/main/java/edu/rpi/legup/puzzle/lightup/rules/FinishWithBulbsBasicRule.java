@@ -61,61 +61,23 @@ public class FinishWithBulbsBasicRule extends BasicRule {
         return "This cell is forced to be a bulb.";
     }
 
-    private boolean isForced(LightUpBoard board, Point location) {
-        return isForcedBulb(board, new Point(location.x + 1, location.y)) ||
-                isForcedBulb(board, new Point(location.x, location.y + 1)) ||
-                isForcedBulb(board, new Point(location.x - 1, location.y)) ||
-                isForcedBulb(board, new Point(location.x, location.y - 1));
-    }
-
-    private boolean isForcedBulb(LightUpBoard board, Point location) {
-        int availableSpots = 0;
-
-        LightUpCell cell = board.getCell(location.x, location.y);
-        if (cell == null || cell.getType() != LightUpCellType.NUMBER) {
+    private boolean isForced(LightUpBoard board, LightUpCell cell) {
+        Set<LightUpCell> adjCells = board.getAdj(cell);
+        adjCells.removeIf(c -> c.getType() != LightUpCellType.NUMBER);
+        if(adjCells.isEmpty()) {
             return false;
         }
 
-        int bulbs = cell.getData();
-        cell = board.getCell(location.x + 1, location.y);
-        if (cell != null) {
-            LightUpCellType cellType = cell.getType();
-            if (cellType == LightUpCellType.UNKNOWN && !cell.isLite()) {
-                availableSpots++;
-            } else if (cellType == LightUpCellType.BULB) {
-                bulbs--;
+        LightUpBoard emptyCase = board.copy();
+        emptyCase.getPuzzleElement(cell).setData(LightUpCellType.EMPTY.value);
+        TooFewBulbsContradictionRule tooFew = new TooFewBulbsContradictionRule();
+        for(LightUpCell c : adjCells) {
+            if(tooFew.checkContradictionAt(emptyCase, c) == null) {
+                return true;
             }
         }
-        cell = board.getCell(location.x, location.y + 1);
-        if (cell != null) {
-            LightUpCellType cellType = cell.getType();
-            if (cellType == LightUpCellType.UNKNOWN && !cell.isLite()) {
-                availableSpots++;
-            } else if (cellType == LightUpCellType.BULB) {
-                bulbs--;
-            }
-        }
-        cell = board.getCell(location.x - 1, location.y);
-        if (cell != null) {
-            LightUpCellType cellType = cell.getType();
-            if (cellType == LightUpCellType.UNKNOWN && !cell.isLite()) {
-                availableSpots++;
-            } else if (cellType == LightUpCellType.BULB) {
-                bulbs--;
-            }
-        }
-        cell = board.getCell(location.x, location.y - 1);
-        if (cell != null) {
-            LightUpCellType cellType = cell.getType();
-            if (cellType == LightUpCellType.UNKNOWN && !cell.isLite()) {
-                availableSpots++;
-            } else if (cellType == LightUpCellType.BULB) {
-                bulbs--;
-            }
-        }
-        return bulbs == availableSpots;
+        return false;
     }
-
     /**
      * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
      *
@@ -128,7 +90,7 @@ public class FinishWithBulbsBasicRule extends BasicRule {
         LightUpBoard lightUpBoard = (LightUpBoard) node.getBoard().copy();
         for (PuzzleElement element : lightUpBoard.getPuzzleElements()) {
             LightUpCell cell = (LightUpCell) element;
-            if (cell.getType() == LightUpCellType.UNKNOWN && isForced(initialBoard, cell.getLocation())) {
+            if (cell.getType() == LightUpCellType.UNKNOWN && isForced(initialBoard, cell)) {
                 cell.setData(LightUpCellType.BULB.value);
                 lightUpBoard.addModifiedData(cell);
             }

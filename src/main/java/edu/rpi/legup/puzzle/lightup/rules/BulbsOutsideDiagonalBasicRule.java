@@ -32,7 +32,7 @@ public class BulbsOutsideDiagonalBasicRule extends BasicRule
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
-        return null;
+        return "This rule is not implemented yet.";
     }
 
     /**

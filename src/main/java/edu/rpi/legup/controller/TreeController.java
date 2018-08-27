@@ -134,7 +134,7 @@ public class TreeController extends Controller {
                 puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(treeElementView.getTreeElement()));
                 selection.newHover(treeElementView);
                 puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
-            } else if (selection.getHover() != null) {
+            } else if (treeElementView == null && selection.getHover() != null) {
                 puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(selection.getFirstSelection().getTreeElement()));
                 selection.clearHover();
                 puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));

@@ -35,16 +35,14 @@ public class History {
      */
     public void pushChange(ICommand command) {
         synchronized (lock) {
-            if (curIndex == history.size() - 1) {
-                history.add(command);
-            } else {
-                for (int i = curIndex + 1; i < history.size(); i++) {
+            if (curIndex < history.size() - 1) {
+                for (int i = history.size() - 1; i > curIndex; i--) {
                     history.remove(i);
                 }
-                history.add(command);
             }
+            history.add(command);
             curIndex++;
-            LOGGER.debug("Pushed Change to stack");
+            LOGGER.info("Pushed " + command.getClass().getSimpleName() + " to stack.");
             GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onPushChange(command));
         }
     }
@@ -55,8 +53,9 @@ public class History {
     public void undo() {
         synchronized (lock) {
             if (curIndex > -1) {
-                history.get(curIndex--).undo();
-                LOGGER.debug("Undo change");
+                ICommand command =  history.get(curIndex--);
+                command.undo();
+                LOGGER.info("Undoed " + command.getClass().getSimpleName());
                 GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onUndo(curIndex < 0, curIndex == history.size() - 1));
             }
         }
@@ -68,8 +67,9 @@ public class History {
     public void redo() {
         synchronized (lock) {
             if (curIndex < history.size() - 1) {
-                history.get(++curIndex).redo();
-                LOGGER.debug("Redo change");
+                ICommand command =  history.get(++curIndex);
+                command.redo();
+                LOGGER.info("Redoed " + command.getClass().getSimpleName());
                 GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onRedo(curIndex < 0, curIndex == history.size() - 1));
             }
         }
