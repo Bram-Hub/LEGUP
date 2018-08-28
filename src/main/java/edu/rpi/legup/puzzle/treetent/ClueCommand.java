@@ -68,11 +68,11 @@ public class ClueCommand extends PuzzleCommand {
                 cell = (TreeTentCell) board.getPuzzleElement(cell);
                 cell.setData(TreeTentType.GRASS.value);
                 board.addModifiedData(cell);
+                finalTran.propagateChanges(cell);
 
                 final TreeTentCell finalCell = cell;
                 puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(finalCell));
             }
-
             if (i == 0) {
                 puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTran));
             }

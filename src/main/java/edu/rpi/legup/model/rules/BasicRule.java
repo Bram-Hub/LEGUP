@@ -48,16 +48,14 @@ public abstract class BasicRule extends Rule {
      */
     public String checkRuleRaw(TreeTransition transition) {
         Board finalBoard = transition.getBoard();
+        String checkStr = null;
         for (PuzzleElement puzzleElement : finalBoard.getModifiedData()) {
-            String checkStr = checkRuleAt(transition, puzzleElement);
-            if (checkStr != null) {
-                puzzleElement.setValid(false);
-                return checkStr;
-            } else {
-                puzzleElement.setValid(true);
+            String tempStr = checkRuleAt(transition, puzzleElement);
+            if (tempStr != null) {
+                checkStr = tempStr;
             }
         }
-        return null;
+        return checkStr;
     }
 
     /**
@@ -71,15 +69,18 @@ public abstract class BasicRule extends Rule {
      */
     public String checkRuleAt(TreeTransition transition, PuzzleElement puzzleElement) {
         Board finalBoard = transition.getBoard();
-
-        if (!finalBoard.getPuzzleElement(puzzleElement).isModified()) {
-            return "PuzzleElement must be modified";
+        puzzleElement = finalBoard.getPuzzleElement(puzzleElement);
+        String checkStr;
+        if (!puzzleElement.isModified()) {
+            checkStr = "PuzzleElement must be modified";
         } else if (transition.getParents().size() != 1 ||
                 transition.getParents().get(0).getChildren().size() != 1) {
-            return "State must have only 1 parent and 1 child";
+            checkStr = "State must have only 1 parent and 1 child";
         } else {
-            return checkRuleRawAt(transition, puzzleElement);
+            checkStr = checkRuleRawAt(transition, puzzleElement);
         }
+        puzzleElement.setValid(checkStr == null);
+        return checkStr;
     }
 
     /**

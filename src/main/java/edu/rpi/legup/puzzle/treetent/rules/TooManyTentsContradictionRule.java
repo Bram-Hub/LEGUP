@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.treetent.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
-import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
@@ -35,8 +34,8 @@ public class TooManyTentsContradictionRule extends ContradictionRule {
         int rowTents = treeTentBoard.getRowCol(loc.y, TreeTentType.TENT,true).size();
         int colTents = treeTentBoard.getRowCol(loc.x, TreeTentType.TENT, false).size();
 
-        if (rowTents > treeTentBoard.getEast().get(loc.y).getData() ||
-                colTents > treeTentBoard.getSouth().get(loc.x).getData()) {
+        if (rowTents > treeTentBoard.getRowClues().get(loc.y).getData() ||
+                colTents > treeTentBoard.getColClues().get(loc.x).getData()) {
             return null;
         } else {
             return "This cell does not contain a contradiction at this location.";

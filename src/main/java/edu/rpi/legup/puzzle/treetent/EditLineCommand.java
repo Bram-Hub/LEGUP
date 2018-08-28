@@ -4,6 +4,7 @@ import edu.rpi.legup.history.CommandError;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.tree.*;
+import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.treeview.*;
 import edu.rpi.legup.history.PuzzleCommand;
 
@@ -19,7 +20,7 @@ public class EditLineCommand extends PuzzleCommand {
 
     private TreeViewSelection selection;
 
-    public EditLineCommand(TreeViewSelection selection, TreeTentElementView start, TreeTentElementView endDrag) {
+    public EditLineCommand(TreeViewSelection selection, TreeTentElementView start, ElementView endDrag) {
         this.selection = selection;
         this.start = start;
         this.end = getViewInDirection(endDrag);
@@ -76,6 +77,7 @@ public class EditLineCommand extends PuzzleCommand {
             notifyLine = dupLine;
         }
 
+        transition.propagateChanges(notifyLine);
         puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(notifyLine));
 
         puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(transition));
@@ -144,15 +146,17 @@ public class EditLineCommand extends PuzzleCommand {
         TreeTentBoard board = (TreeTentBoard) treeElement.getBoard();
         TreeTentCell startCell;
         TreeTentCell endCell;
-
+        TreeTransition transition;
         if (treeElement.getType() == TreeElementType.NODE) {
             TreeNode treeNode = (TreeNode) treeElement;
-            TreeTransition transition = treeNode.getChildren().get(0);
+            transition = treeNode.getChildren().get(0);
 
             tree.removeTreeElement(transition);
             puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(transition));
 
             board = (TreeTentBoard) transition.getBoard();
+        } else {
+            transition = (TreeTransition)treeElement;
         }
 
         startCell = (TreeTentCell) board.getPuzzleElement(start.getPuzzleElement());
@@ -178,7 +182,7 @@ public class EditLineCommand extends PuzzleCommand {
             board.getLines().remove(dupLine);
             notifyLine = dupLine;
         }
-
+        transition.propagateChanges(notifyLine);
         puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(notifyLine));
 
         final TreeElement finalTreeElement = selection.getFirstSelection().getTreeElement();
@@ -187,7 +191,7 @@ public class EditLineCommand extends PuzzleCommand {
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
     }
 
-    private TreeTentElementView getViewInDirection(TreeTentElementView endDrag) {
+    private TreeTentElementView getViewInDirection(ElementView endDrag) {
         TreeTentView boardView = (TreeTentView) getInstance().getLegupUI().getBoardView();
         Dimension size = boardView.getElementSize();
         int xIndex, yIndex;

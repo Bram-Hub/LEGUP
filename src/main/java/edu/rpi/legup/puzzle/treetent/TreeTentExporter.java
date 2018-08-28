@@ -35,7 +35,7 @@ public class TreeTentExporter extends PuzzleExporter
 
         org.w3c.dom.Element axisEast = newDocument.createElement("axis");
         axisEast.setAttribute("side", "east");
-        for(TreeTentClue clue : board.getEast())
+        for(TreeTentClue clue : board.getRowClues())
         {
             org.w3c.dom.Element clueElement = newDocument.createElement("clue");
             clueElement.setAttribute("value", String.valueOf(clue.getData()));
@@ -46,7 +46,7 @@ public class TreeTentExporter extends PuzzleExporter
 
         org.w3c.dom.Element axisSouth = newDocument.createElement("axis");
         axisSouth.setAttribute("side", "south");
-        for(TreeTentClue clue : board.getEast())
+        for(TreeTentClue clue : board.getRowClues())
         {
             org.w3c.dom.Element clueElement = newDocument.createElement("clue");
             clueElement.setAttribute("value", String.valueOf(clue.getData()));

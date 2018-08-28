@@ -8,86 +8,75 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TreeTentBoard extends GridBoard
-{
+public class TreeTentBoard extends GridBoard {
 
     private ArrayList<TreeTentLine> lines;
 
-    private ArrayList<TreeTentClue> east;
-    private ArrayList<TreeTentClue> south;
+    private ArrayList<TreeTentClue> rowClues;
+    private ArrayList<TreeTentClue> colClues;
 
-    public TreeTentBoard(int width, int height)
-    {
+    public TreeTentBoard(int width, int height) {
         super(width, height);
 
         this.lines = new ArrayList<>();
 
-        this.east = new ArrayList<>();
-        this.south = new ArrayList<>();
+        this.rowClues = new ArrayList<>();
+        this.colClues = new ArrayList<>();
 
-        for(int i = 0; i < height; i++)
-        {
-            east.add(null);
+        for (int i = 0; i < height; i++) {
+            rowClues.add(null);
         }
-        for(int i = 0; i < width; i++)
-        {
-            south.add(null);
+        for (int i = 0; i < width; i++) {
+            colClues.add(null);
         }
     }
 
-    public TreeTentBoard(int size)
-    {
+    public TreeTentBoard(int size) {
         this(size, size);
     }
 
-    public ArrayList<TreeTentLine> getLines()
-    {
+    public ArrayList<TreeTentLine> getLines() {
         return lines;
     }
 
-    public ArrayList<TreeTentClue> getEast()
-    {
-        return east;
+    public ArrayList<TreeTentClue> getRowClues() {
+        return rowClues;
     }
 
-    public ArrayList<TreeTentClue> getSouth()
-    {
-        return south;
+    public ArrayList<TreeTentClue> getColClues() {
+        return colClues;
     }
 
     @Override
-    public TreeTentCell getCell(int x, int y)
-    {
+    public TreeTentCell getCell(int x, int y) {
         return (TreeTentCell) super.getCell(x, y);
     }
 
     @Override
     public PuzzleElement getPuzzleElement(PuzzleElement element) {
-        switch(element.getIndex()) {
+        switch (element.getIndex()) {
             case -2:
                 return element;
             case -1:
-                TreeTentLine line = (TreeTentLine)element;
-                for(TreeTentLine l : lines) {
-                    if(line.compare(l)) {
-                        line = l;
+                TreeTentLine line = (TreeTentLine) element;
+                TreeTentLine thisLine = null;
+                for (TreeTentLine l : lines) {
+                    if (line.compare(l)) {
+                        thisLine = l;
                         break;
                     }
                 }
-                return line;
+                return thisLine;
             default:
                 return super.getPuzzleElement(element);
         }
     }
 
     @Override
-    public void notifyChange(PuzzleElement puzzleElement)
-    {
-        if(puzzleElement instanceof TreeTentLine){
+    public void notifyChange(PuzzleElement puzzleElement) {
+        if (puzzleElement instanceof TreeTentLine) {
             lines.add((TreeTentLine) puzzleElement);
-        }
-        else
-        {
+        } else {
             super.notifyChange(puzzleElement);
         }
     }
@@ -99,16 +88,16 @@ public class TreeTentBoard extends GridBoard
         TreeTentCell right = getCell(loc.x + 1, loc.y);
         TreeTentCell down = getCell(loc.x, loc.y + 1);
         TreeTentCell left = getCell(loc.x - 1, loc.y);
-        if(up != null && up.getType() == type) {
+        if (up != null && up.getType() == type) {
             adj.add(up);
         }
-        if(right != null && right.getType() == type) {
+        if (right != null && right.getType() == type) {
             adj.add(right);
         }
-        if(down != null && down.getType() == type) {
+        if (down != null && down.getType() == type) {
             adj.add(down);
         }
-        if(left != null && left.getType() == type) {
+        if (left != null && left.getType() == type) {
             adj.add(left);
         }
         return adj;
@@ -116,17 +105,17 @@ public class TreeTentBoard extends GridBoard
 
     public List<TreeTentCell> getRowCol(int index, TreeTentType type, boolean isRow) {
         List<TreeTentCell> list = new ArrayList<>();
-        if(isRow) {
-            for(int i = 0; i < dimension.height; i++) {
+        if (isRow) {
+            for (int i = 0; i < dimension.height; i++) {
                 TreeTentCell cell = getCell(i, index);
-                if(cell.getType() == type) {
+                if (cell.getType() == type) {
                     list.add(cell);
                 }
             }
         } else {
-            for(int i = 0; i < dimension.width; i++) {
+            for (int i = 0; i < dimension.width; i++) {
                 TreeTentCell cell = getCell(index, i);
-                if(cell.getType() == type) {
+                if (cell.getType() == type) {
                     list.add(cell);
                 }
             }
@@ -142,15 +131,15 @@ public class TreeTentBoard extends GridBoard
      */
     @Override
     public boolean equalsBoard(Board board) {
-        TreeTentBoard treeTentBoard = (TreeTentBoard)board;
-        for(TreeTentLine l1 : lines) {
+        TreeTentBoard treeTentBoard = (TreeTentBoard) board;
+        for (TreeTentLine l1 : lines) {
             boolean hasLine = false;
-            for(TreeTentLine l2 : treeTentBoard.lines) {
-                if(l1.compare(l2)) {
+            for (TreeTentLine l2 : treeTentBoard.lines) {
+                if (l1.compare(l2)) {
                     hasLine = true;
                 }
             }
-            if(!hasLine) {
+            if (!hasLine) {
                 return false;
             }
         }
@@ -158,18 +147,14 @@ public class TreeTentBoard extends GridBoard
     }
 
     @Override
-    public TreeTentBoard copy()
-    {
+    public TreeTentBoard copy() {
         TreeTentBoard copy = new TreeTentBoard(dimension.width, dimension.height);
-        for(int x = 0; x < this.dimension.width; x++)
-        {
-            for(int y = 0; y < this.dimension.height; y++)
-            {
+        for (int x = 0; x < this.dimension.width; x++) {
+            for (int y = 0; y < this.dimension.height; y++) {
                 copy.setCell(x, y, getCell(x, y).copy());
             }
         }
-        for(TreeTentLine line : lines)
-        {
+        for (TreeTentLine line : lines) {
             TreeTentLine lineCpy = line.copy();
             lineCpy.setModifiable(false);
             copy.getLines().add(lineCpy);

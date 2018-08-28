@@ -1,6 +1,5 @@
 package edu.rpi.legup.controller;
 
-import edu.rpi.legup.Legup;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.history.AutoCaseRuleCommand;

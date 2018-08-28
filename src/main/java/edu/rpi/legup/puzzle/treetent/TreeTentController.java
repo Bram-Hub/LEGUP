@@ -34,7 +34,7 @@ public class TreeTentController extends ElementController
     @Override
     public void mousePressed(MouseEvent e)
     {
-        if(e.getButton() != MouseEvent.BUTTON3) {
+        if(e.getButton() != MouseEvent.BUTTON2) {
             BoardView boardView = getInstance().getLegupUI().getBoardView();
             dragStart = boardView.getElement(e.getPoint());
             lastCellPressed = boardView.getElement(e.getPoint());
@@ -44,7 +44,7 @@ public class TreeTentController extends ElementController
     @Override
     public void mouseReleased(MouseEvent e)
     {
-        if(e.getButton() != MouseEvent.BUTTON3) {
+        if(e.getButton() != MouseEvent.BUTTON2) {
             TreePanel treePanel = GameBoardFacade.getInstance().getLegupUI().getTreePanel();
             TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
             BoardView boardView = getInstance().getLegupUI().getBoardView();
@@ -85,12 +85,14 @@ public class TreeTentController extends ElementController
                             }
                         }
                     } else if (lastCellPressed != null) {
-                        ICommand editLine = new EditLineCommand(selection, (TreeTentElementView) dragStart, (TreeTentElementView) lastCellPressed);
-                        if (editLine.canExecute()) {
-                            editLine.execute();
-                            getInstance().getHistory().pushChange(editLine);
-                        } else {
-                            treePanel.updateError(editLine.getError());
+                        if(dragStart instanceof TreeTentElementView) {
+                            ICommand editLine = new EditLineCommand(selection, (TreeTentElementView) dragStart, lastCellPressed);
+                            if (editLine.canExecute()) {
+                                editLine.execute();
+                                getInstance().getHistory().pushChange(editLine);
+                            } else {
+                                treePanel.updateError(editLine.getError());
+                            }
                         }
                     }
                 }

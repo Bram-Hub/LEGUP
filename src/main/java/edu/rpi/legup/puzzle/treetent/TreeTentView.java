@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.treetent;
 
 import edu.rpi.legup.controller.BoardController;
-import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeElement;
@@ -72,7 +71,7 @@ public class TreeTentView extends GridBoardView
             row.setLocation(new Point(0, (i + 1) * elementSize.height));
             row.setSize(elementSize);
 
-            TreeTentClueView clue = new TreeTentClueView(board.getEast().get(i));
+            TreeTentClueView clue = new TreeTentClueView(board.getRowClues().get(i));
             clue.setLocation(new Point((gridSize.height + 1) * elementSize.height, (i + 1) * elementSize.height));
             clue.setSize(elementSize);
 
@@ -86,7 +85,7 @@ public class TreeTentView extends GridBoardView
             col.setLocation(new Point((i + 1) * elementSize.width, 0));
             col.setSize(elementSize);
 
-            TreeTentClueView clue = new TreeTentClueView(board.getSouth().get(i));
+            TreeTentClueView clue = new TreeTentClueView(board.getColClues().get(i));
             clue.setLocation(new Point( (i + 1) * elementSize.width, (gridSize.width + 1) * elementSize.width));
             clue.setSize(elementSize);
 

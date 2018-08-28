@@ -124,11 +124,11 @@ public class TreeTentImporter extends PuzzleImporter
                     throw new InvalidFileFormatException("TreeTent Importer: clue index out of bounds");
                 }
 
-                if(treeTentBoard.getEast().get(index - 1) != null)
+                if(treeTentBoard.getRowClues().get(index - 1) != null)
                 {
                     throw new InvalidFileFormatException("TreeTent Importer: duplicate clue index");
                 }
-                treeTentBoard.getEast().set(index - 1, new TreeTentClue(value, index, TreeTentType.CLUE_EAST));
+                treeTentBoard.getRowClues().set(index - 1, new TreeTentClue(value, index, TreeTentType.CLUE_EAST));
             }
 
             for(int i = 0; i < southClues.getLength(); i++)
@@ -142,11 +142,11 @@ public class TreeTentImporter extends PuzzleImporter
                     throw new InvalidFileFormatException("TreeTent Importer: clue index out of bounds");
                 }
 
-                if(treeTentBoard.getSouth().get(index - 1) != null)
+                if(treeTentBoard.getColClues().get(index - 1) != null)
                 {
                     throw new InvalidFileFormatException("TreeTent Importer: duplicate clue index");
                 }
-                treeTentBoard.getSouth().set(index - 1, new TreeTentClue(value, index, TreeTentType.CLUE_SOUTH));
+                treeTentBoard.getColClues().set(index - 1, new TreeTentClue(value, index, TreeTentType.CLUE_SOUTH));
             }
 
             if(boardElement.getElementsByTagName("lines").getLength() == 1)
