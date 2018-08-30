@@ -8,12 +8,16 @@ import java.net.URL;
 
 import javax.swing.*;
 
+import java.util.List;
+
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.RuleController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
+import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.ui.lookandfeel.LegupLookAndFeel;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
@@ -24,6 +28,7 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.treeview.TreePanel;
+import edu.rpi.legup.ui.treeview.TreeViewSelection;
 import edu.rpi.legup.user.Submission;
 import edu.rpi.legupupdate.Update;
 import edu.rpi.legupupdate.UpdateProgress;
@@ -58,7 +63,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     protected JMenuBar mBar;
 
     protected JMenu file;
-    protected JMenuItem newPuzzle, saveProof, preferences, exit;
+    protected JMenuItem newPuzzle, resetPuzzle, saveProof, preferences, exit;
 
     protected JMenu edit;
     protected JMenuItem undo, redo;
@@ -176,6 +181,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 
         file = new JMenu("File");
         newPuzzle = new JMenuItem("Open");
+        resetPuzzle = new JMenuItem("Reset Puzzle");
 //        genPuzzle = new JMenuItem("Puzzle Generators");
         saveProof = new JMenuItem("Save Proof");
         preferences = new JMenuItem("Preferences");
@@ -250,6 +256,25 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 ////            pickGameDialog = new PickGameDialog(this, true);
 ////            pickGameDialog.setVisible(true);
 ////        });
+        file.add(resetPuzzle);
+        resetPuzzle.addActionListener(a -> {
+            Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+            if(puzzle != null) {
+                Tree tree = GameBoardFacade.getInstance().getTree();
+                TreeNode rootNode = tree.getRootNode();
+                if(rootNode != null) {
+                    int confirmReset = JOptionPane.showConfirmDialog(this, "Reset Puzzle to Root Node?", "Confirm Reset", JOptionPane.YES_NO_CANCEL_OPTION);
+                    if (confirmReset == JOptionPane.YES_OPTION) {
+                        List<TreeTransition> children = rootNode.getChildren();
+                        children.forEach(t -> puzzle.notifyTreeListeners(l -> l.onTreeElementRemoved(t)));
+                        final TreeViewSelection selection = new TreeViewSelection(treePanel.getTreeView().getElementView(rootNode));
+                        puzzle.notifyTreeListeners(l -> l.onTreeSelectionChanged(selection));
+                        GameBoardFacade.getInstance().getHistory().clear();
+                    }
+                }
+            }
+        });
+        resetPuzzle.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.CTRL_DOWN_MASK));
         file.addSeparator();
 
         file.add(saveProof);
