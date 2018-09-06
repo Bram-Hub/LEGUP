@@ -61,18 +61,18 @@ public class EmptyFieldBasicRule extends BasicRule {
      */
     @Override
     public Board getDefaultBoard(TreeNode node) {
-        TreeTentBoard lightUpBoard = (TreeTentBoard)node.getBoard().copy();
-        for(PuzzleElement element : lightUpBoard.getPuzzleElements()) {
+        TreeTentBoard treeTentBoard = (TreeTentBoard)node.getBoard().copy();
+        for(PuzzleElement element : treeTentBoard.getPuzzleElements()) {
             TreeTentCell cell = (TreeTentCell)element;
-            if(cell.getType() == TreeTentType.UNKNOWN && isForced(lightUpBoard, cell)) {
+            if(cell.getType() == TreeTentType.UNKNOWN && isForced(treeTentBoard, cell)) {
                 cell.setData(TreeTentType.GRASS.value);
-                lightUpBoard.addModifiedData(cell);
+                treeTentBoard.addModifiedData(cell);
             }
         }
-        if(lightUpBoard.getModifiedData().isEmpty()) {
+        if(treeTentBoard.getModifiedData().isEmpty()) {
             return null;
         } else {
-            return lightUpBoard;
+            return treeTentBoard;
         }
     }
 }

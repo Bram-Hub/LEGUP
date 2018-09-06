@@ -74,8 +74,7 @@ public abstract class ElementView implements Shape {
 
     public void drawElement(Graphics2D graphics2D) {
         graphics2D.setStroke(new BasicStroke(1));
-        graphics2D.setColor(Color.BLACK);
-        graphics2D.drawRect(location.x, location.y, size.width, size.height);
+        graphics2D.draw(new Rectangle2D.Double(location.x + 0.5f, location.y + 0.5f, size.width - 2, size.height - 2));
 
         graphics2D.setColor(Color.BLACK);
         FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
@@ -92,18 +91,18 @@ public abstract class ElementView implements Shape {
     public void drawHover(Graphics2D graphics2D) {
         graphics2D.setColor(hoverColor);
         graphics2D.setStroke(new BasicStroke(2));
-        graphics2D.drawRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
+        graphics2D.draw(new Rectangle2D.Double(location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
     }
 
     public void drawModified(Graphics2D graphics2D) {
         graphics2D.setColor(puzzleElement.isValid() ? modifiedColor : invalidColor);
         graphics2D.setStroke(new BasicStroke(2));
-        graphics2D.drawRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
+        graphics2D.draw(new Rectangle2D.Double(location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
     }
 
     public void drawCase(Graphics2D graphics2D) {
         graphics2D.setColor(caseColor);
-        graphics2D.fillRect(location.x + 1, location.y + 1, size.width - 2, size.height - 2);
+        graphics2D.fill(new Rectangle2D.Double(location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
     }
 
     public BufferedImage getImage() {

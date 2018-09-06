@@ -103,6 +103,28 @@ public class TreeTentBoard extends GridBoard {
         return adj;
     }
 
+    public List<TreeTentCell> getDiagonals(TreeTentCell cell, TreeTentType type) {
+        List<TreeTentCell> dia = new ArrayList<>();
+        Point loc = cell.getLocation();
+        TreeTentCell upRight = getCell(loc.x + 1, loc.y - 1);
+        TreeTentCell downRight= getCell(loc.x + 1, loc.y + 1);
+        TreeTentCell downLeft = getCell(loc.x - 1, loc.y + 1);
+        TreeTentCell upLeft = getCell(loc.x - 1, loc.y - 1);
+        if (upRight != null && upRight.getType() == type) {
+            dia.add(upRight);
+        }
+        if (downLeft != null && downLeft.getType() == type) {
+            dia.add(downLeft);
+        }
+        if (downRight != null && downRight.getType() == type) {
+            dia.add(downRight);
+        }
+        if (upLeft != null && upLeft.getType() == type) {
+            dia.add(upLeft);
+        }
+        return dia;
+    }
+
     public List<TreeTentCell> getRowCol(int index, TreeTentType type, boolean isRow) {
         List<TreeTentCell> list = new ArrayList<>();
         if (isRow) {
@@ -159,6 +181,8 @@ public class TreeTentBoard extends GridBoard {
             lineCpy.setModifiable(false);
             copy.getLines().add(lineCpy);
         }
+        copy.rowClues = rowClues;
+        copy.colClues = colClues;
         return copy;
     }
 }

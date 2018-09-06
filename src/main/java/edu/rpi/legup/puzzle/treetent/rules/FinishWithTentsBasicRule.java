@@ -39,8 +39,8 @@ public class FinishWithTentsBasicRule extends BasicRule {
         TreeTentCell initCell = (TreeTentCell) initialBoard.getPuzzleElement(puzzleElement);
         TreeTentBoard finalBoard = (TreeTentBoard) transition.getBoard();
         TreeTentCell finalCell = (TreeTentCell) finalBoard.getPuzzleElement(puzzleElement);
-        if (finalCell.getType() == TreeTentType.TENT && initCell.getType() == TreeTentType.UNKNOWN) {
-            return null;
+        if (!(initCell.getType() == TreeTentType.UNKNOWN && finalCell.getType() == TreeTentType.TENT)) {
+            return "This cell must be a tent.";
         }
 
         if (isForced(initialBoard, initCell)) {
@@ -69,18 +69,18 @@ public class FinishWithTentsBasicRule extends BasicRule {
      */
     @Override
     public Board getDefaultBoard(TreeNode node) {
-        TreeTentBoard lightUpBoard = (TreeTentBoard)node.getBoard().copy();
-        for(PuzzleElement element : lightUpBoard.getPuzzleElements()) {
+        TreeTentBoard treeTentBoard = (TreeTentBoard)node.getBoard().copy();
+        for(PuzzleElement element : treeTentBoard.getPuzzleElements()) {
             TreeTentCell cell = (TreeTentCell)element;
-            if(cell.getType() == TreeTentType.UNKNOWN && isForced(lightUpBoard, cell)) {
+            if(cell.getType() == TreeTentType.UNKNOWN && isForced(treeTentBoard, cell)) {
                 cell.setData(TreeTentType.TENT.value);
-                lightUpBoard.addModifiedData(cell);
+                treeTentBoard.addModifiedData(cell);
             }
         }
-        if(lightUpBoard.getModifiedData().isEmpty()) {
+        if(treeTentBoard.getModifiedData().isEmpty()) {
             return null;
         } else {
-            return lightUpBoard;
+            return treeTentBoard;
         }
     }
 }

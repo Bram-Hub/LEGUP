@@ -2,17 +2,11 @@ package edu.rpi.legup.ui;
 
 import edu.rpi.legup.controller.Controller;
 
+import java.awt.*;
 import java.lang.Double;
 
 import java.util.TreeSet;
 import java.util.logging.Logger;
-
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.LayoutManager;
-import java.awt.Point;
 
 import javax.swing.*;
 
@@ -304,6 +298,8 @@ public class ScrollView extends JScrollPane {
      * @param graphics2D Graphics2D object used for drawing
      */
     protected void draw(Graphics2D graphics2D) {
+        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics2D.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
         canvas.paint(graphics2D);
     }
 }
