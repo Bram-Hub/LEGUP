@@ -34,16 +34,19 @@ public class MasyuController extends ElementController
      * @param e the event to be processed
      */
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(MouseEvent e)
+    {
         BoardView boardView = getInstance().getLegupUI().getBoardView();
-        mousePressedCell = (MasyuElementView)boardView.getElement(e.getPoint());
+        this.masyuLine.clear();
+        mousePressedCell = (MasyuElementView) boardView.getElement(e.getPoint());
         masyuLine.add(mousePressedCell);
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
+    public void mouseDragged(MouseEvent e)
+    {
         BoardView boardView = getInstance().getLegupUI().getBoardView();
-        MasyuElementView elementView = (MasyuElementView)boardView.getElement(e.getPoint());
+        MasyuElementView elementView = (MasyuElementView) boardView.getElement(e.getPoint());
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if(mousePressedCell != null && elementView != null)
         {
@@ -77,7 +80,8 @@ public class MasyuController extends ElementController
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased(MouseEvent e)
+    {
         super.mouseReleased(e);
         mousePressedCell = null;
         mouseDraggedCell = null;
