@@ -15,14 +15,16 @@ public class BattleShipElementView extends GridElementView {
     private static final Font FONT = new Font("TimesRoman", Font.BOLD, 10);
     private static final Color FONT_COLOR = new Color(0xFFEB3B);
 
-    public BattleShipElementView(BattleShipCell cell) {super(cell); }
+    public BattleShipElementView(BattleShipCell cell) {
+        super(cell);
+    }
 
-    @Override public void drawElement(Graphics2D graphics2D) {
+    @Override
+    public void drawElement(Graphics2D graphics2D) {
         BattleShipCell cell = (BattleShipCell) puzzleElement;
         BattleShipCellType type = cell.getType();
 
-        switch(type)
-        {
+        switch (type) {
             case UNKNOWN:
                 graphics2D.setColor(UNKNOWN_COLOR);
                 graphics2D.fillRect(location.x, location.y, size.width, size.height);

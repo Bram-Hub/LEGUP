@@ -1,15 +1,15 @@
 package edu.rpi.legup.puzzle.treetent;
 
 import edu.rpi.legup.history.CommandError;
+import edu.rpi.legup.history.PuzzleCommand;
 import edu.rpi.legup.model.Puzzle;
-import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.boardview.ElementView;
-import edu.rpi.legup.ui.treeview.*;
-import edu.rpi.legup.history.PuzzleCommand;
+import edu.rpi.legup.ui.treeview.TreeElementView;
+import edu.rpi.legup.ui.treeview.TreeView;
+import edu.rpi.legup.ui.treeview.TreeViewSelection;
 
 import java.awt.*;
-
 import java.util.List;
 
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
@@ -95,7 +95,7 @@ public class EditLineCommand extends PuzzleCommand {
     @Override
     public String getErrorString() {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
-        if(selectedViews.size() != 1) {
+        if (selectedViews.size() != 1) {
             return CommandError.ONE_SELECTED_VIEW.toString();
         }
 
@@ -156,7 +156,7 @@ public class EditLineCommand extends PuzzleCommand {
 
             board = (TreeTentBoard) transition.getBoard();
         } else {
-            transition = (TreeTransition)treeElement;
+            transition = (TreeTransition) treeElement;
         }
 
         startCell = (TreeTentCell) board.getPuzzleElement(start.getPuzzleElement());

@@ -4,20 +4,17 @@ import edu.rpi.legup.ui.boardview.ElementView;
 
 import java.awt.*;
 
-public class MasyuLineView extends ElementView
-{
+public class MasyuLineView extends ElementView {
     private final Color LINE_COLOR = Color.GREEN;
 
     private final Stroke LINE_STROKE = new BasicStroke(3);
 
-    public MasyuLineView(MasyuLine line)
-    {
+    public MasyuLineView(MasyuLine line) {
         super(line);
     }
 
     @Override
-    public void draw(Graphics2D graphics2D)
-    {
+    public void draw(Graphics2D graphics2D) {
         MasyuLine line = (MasyuLine) puzzleElement;
         Point p1 = line.getC1().getLocation();
         Point p2 = line.getC2().getLocation();

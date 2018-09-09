@@ -6,10 +6,8 @@ import edu.rpi.legup.model.rules.BasicRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 
-public class WhiteEdgeBasicRule extends BasicRule
-{
-    public WhiteEdgeBasicRule()
-    {
+public class WhiteEdgeBasicRule extends BasicRule {
+    public WhiteEdgeBasicRule() {
         super("White Edge",
                 "",
                 "edu/rpi/legup/images/masyu/RuleWhiteEdge.png");
@@ -20,8 +18,8 @@ public class WhiteEdgeBasicRule extends BasicRule
      * at the specific puzzleElement index using this rule
      * This method is the one that should overridden in child classes
      *
-     * @param transition transition to check
-     * @param puzzleElement    equivalent puzzleElement
+     * @param transition    transition to check
+     * @param puzzleElement equivalent puzzleElement
      * @return null if the child node logically follow from the parent node at the specified puzzleElement,
      * otherwise error message
      */

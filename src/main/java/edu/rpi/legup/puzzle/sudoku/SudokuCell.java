@@ -6,20 +6,18 @@ import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SudokuCell extends GridCell<Integer>
-{
+public class SudokuCell extends GridCell<Integer> {
     private int groupIndex;
     private Set<Integer> annotations;
 
     /**
      * SudokuCell Constructor - creates a new Sudoku cell to hold the puzzleElement
      *
-     * @param value value of the sudoku cell
-     * @param location location of the cell on the board
+     * @param value      value of the sudoku cell
+     * @param location   location of the cell on the board
      * @param groupIndex index of the group the cell is in on the board
      */
-    public SudokuCell(int value, Point location, int groupIndex)
-    {
+    public SudokuCell(int value, Point location, int groupIndex) {
         super(value, location);
         this.groupIndex = groupIndex;
         this.annotations = new HashSet<>();
@@ -30,8 +28,7 @@ public class SudokuCell extends GridCell<Integer>
      *
      * @return group index of the cell
      */
-    public int getGroupIndex()
-    {
+    public int getGroupIndex() {
         return groupIndex;
     }
 
@@ -49,9 +46,8 @@ public class SudokuCell extends GridCell<Integer>
      * @return a new copy of the SudokuCell that is independent of this one
      */
     @Override
-    public SudokuCell copy()
-    {
-        SudokuCell copy = new SudokuCell(data, (Point)location.clone(), groupIndex);
+    public SudokuCell copy() {
+        SudokuCell copy = new SudokuCell(data, (Point) location.clone(), groupIndex);
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);

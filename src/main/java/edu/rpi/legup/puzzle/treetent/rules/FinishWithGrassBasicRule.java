@@ -11,7 +11,6 @@ import edu.rpi.legup.puzzle.treetent.TreeTentLine;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 
 import java.awt.*;
-
 import java.util.List;
 
 public class FinishWithGrassBasicRule extends BasicRule {
@@ -33,18 +32,18 @@ public class FinishWithGrassBasicRule extends BasicRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        if(puzzleElement instanceof TreeTentLine) {
+        if (puzzleElement instanceof TreeTentLine) {
             return "Line is not valid for this rule.";
         }
         TreeTentBoard initialBoard = (TreeTentBoard) transition.getParents().get(0).getBoard();
         TreeTentCell initCell = (TreeTentCell) initialBoard.getPuzzleElement(puzzleElement);
-        TreeTentBoard finalBoard = (TreeTentBoard)transition.getBoard();
+        TreeTentBoard finalBoard = (TreeTentBoard) transition.getBoard();
         TreeTentCell finalCell = (TreeTentCell) finalBoard.getPuzzleElement(puzzleElement);
         if (!(finalCell.getType() == TreeTentType.GRASS && initCell.getType() == TreeTentType.UNKNOWN)) {
             return "This cell must be grass.";
         }
 
-        if(isForced(initialBoard, initCell)) {
+        if (isForced(initialBoard, initCell)) {
             return null;
         } else {
             return "This cell is not forced to be grass.";
@@ -68,15 +67,15 @@ public class FinishWithGrassBasicRule extends BasicRule {
      */
     @Override
     public Board getDefaultBoard(TreeNode node) {
-        TreeTentBoard treeTentBoard = (TreeTentBoard)node.getBoard().copy();
-        for(PuzzleElement element : treeTentBoard.getPuzzleElements()) {
-            TreeTentCell cell = (TreeTentCell)element;
-            if(cell.getType() == TreeTentType.UNKNOWN && isForced(treeTentBoard, cell)) {
+        TreeTentBoard treeTentBoard = (TreeTentBoard) node.getBoard().copy();
+        for (PuzzleElement element : treeTentBoard.getPuzzleElements()) {
+            TreeTentCell cell = (TreeTentCell) element;
+            if (cell.getType() == TreeTentType.UNKNOWN && isForced(treeTentBoard, cell)) {
                 cell.setData(TreeTentType.GRASS.value);
                 treeTentBoard.addModifiedData(cell);
             }
         }
-        if(treeTentBoard.getModifiedData().isEmpty()) {
+        if (treeTentBoard.getModifiedData().isEmpty()) {
             return null;
         } else {
             return treeTentBoard;

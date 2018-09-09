@@ -6,14 +6,12 @@ import org.w3c.dom.Document;
 
 public class HeyawakeExporter extends PuzzleExporter {
 
-    public HeyawakeExporter(Heyawake heyawake)
-    {
+    public HeyawakeExporter(Heyawake heyawake) {
         super(heyawake);
     }
 
     @Override
-    protected org.w3c.dom.Element createBoardElement(Document newDocument)
-    {
+    protected org.w3c.dom.Element createBoardElement(Document newDocument) {
         HeyawakeBoard board = (HeyawakeBoard) puzzle.getTree().getRootNode().getBoard();
 
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
@@ -21,11 +19,9 @@ public class HeyawakeExporter extends PuzzleExporter {
         boardElement.setAttribute("height", String.valueOf(board.getHeight()));
 
         org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
-        for(PuzzleElement puzzleElement : board.getPuzzleElements())
-        {
+        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             HeyawakeCell cell = (HeyawakeCell) puzzleElement;
-            if(cell.getData() != -2)
-            {
+            if (cell.getData() != -2) {
                 org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
                 cellsElement.appendChild(cellElement);
             }

@@ -4,8 +4,7 @@ import edu.rpi.legup.ui.boardview.GridElementView;
 
 import java.awt.*;
 
-public class LightUpElementView extends GridElementView
-{
+public class LightUpElementView extends GridElementView {
     private static final Color LITE = new Color(0xFFF176);
     private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
 
@@ -13,8 +12,7 @@ public class LightUpElementView extends GridElementView
     private static final Color WHITE_COLOR = new Color(0xF5F5F5);
     private static final Color GRAY_COLOR = new Color(0x9E9E9E);
 
-    public LightUpElementView(LightUpCell cell)
-    {
+    public LightUpElementView(LightUpCell cell) {
         super(cell);
     }
 
@@ -29,12 +27,10 @@ public class LightUpElementView extends GridElementView
     }
 
     @Override
-    public void drawElement(Graphics2D graphics2D)
-    {
+    public void drawElement(Graphics2D graphics2D) {
         LightUpCell cell = (LightUpCell) puzzleElement;
         LightUpCellType type = cell.getType();
-        if(type == LightUpCellType.NUMBER)
-        {
+        if (type == LightUpCellType.NUMBER) {
             graphics2D.setStroke(new BasicStroke(1));
             graphics2D.setColor(BLACK_COLOR);
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
@@ -46,32 +42,24 @@ public class LightUpElementView extends GridElementView
             int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
             graphics2D.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
-        }
-        else if(type == LightUpCellType.BLACK)
-        {
+        } else if (type == LightUpCellType.BLACK) {
             graphics2D.setStroke(new BasicStroke(1));
             graphics2D.setColor(BLACK_COLOR);
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
-        }
-        else if(type == LightUpCellType.EMPTY)
-        {
+        } else if (type == LightUpCellType.EMPTY) {
             graphics2D.setStroke(new BasicStroke(1));
             graphics2D.setColor(cell.isLite() ? LITE : WHITE_COLOR);
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
             graphics2D.setColor(BLACK_COLOR);
             graphics2D.fillRect(location.x + size.width * 7 / 16, location.y + size.height * 7 / 16, size.width / 8, size.height / 8);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
-        }
-        else if(type == LightUpCellType.UNKNOWN)
-        {
+        } else if (type == LightUpCellType.UNKNOWN) {
             graphics2D.setStroke(new BasicStroke(1));
             graphics2D.setColor(cell.isLite() ? LITE : Color.LIGHT_GRAY);
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
-        }
-        else if(type == LightUpCellType.BULB)
-        {
+        } else if (type == LightUpCellType.BULB) {
             graphics2D.setColor(Color.LIGHT_GRAY);
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
             graphics2D.drawImage(LightUpView.lightImage, location.x, location.y, size.width, size.height, LITE, null);

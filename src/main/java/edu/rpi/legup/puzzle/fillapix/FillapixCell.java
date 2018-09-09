@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.fillapix;
 
 import edu.rpi.legup.model.gameboard.GridCell;
-import edu.rpi.legup.utility.Entry;
 
 import java.awt.*;
 

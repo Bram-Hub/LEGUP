@@ -6,11 +6,9 @@ import edu.rpi.legup.model.rules.BasicRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 
-public class FinishPathBasicRule extends BasicRule
-{
+public class FinishPathBasicRule extends BasicRule {
 
-    public FinishPathBasicRule()
-    {
+    public FinishPathBasicRule() {
         super("Finished Path",
                 "",
                 "edu/rpi/legup/images/masyu/RuleFinishPath.png");
@@ -21,8 +19,8 @@ public class FinishPathBasicRule extends BasicRule
      * at the specific puzzleElement index using this rule
      * This method is the one that should overridden in child classes
      *
-     * @param transition transition to check
-     * @param puzzleElement    equivalent puzzleElement
+     * @param transition    transition to check
+     * @param puzzleElement equivalent puzzleElement
      * @return null if the child node logically follow from the parent node at the specified puzzleElement,
      * otherwise error message
      */

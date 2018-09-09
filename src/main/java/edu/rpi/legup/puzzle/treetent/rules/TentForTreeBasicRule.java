@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.treetent.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.BasicRule;
-import edu.rpi.legup.model.rules.RegisterRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
@@ -32,7 +31,7 @@ public class TentForTreeBasicRule extends BasicRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        if(!(puzzleElement instanceof TreeTentLine)) {
+        if (!(puzzleElement instanceof TreeTentLine)) {
             return "Lines must be created for this rule.";
         }
         TreeTentBoard initialBoard = (TreeTentBoard) transition.getParents().get(0).getBoard();
@@ -40,10 +39,10 @@ public class TentForTreeBasicRule extends BasicRule {
         TreeTentBoard finalBoard = (TreeTentBoard) transition.getBoard();
         TreeTentLine finalLine = (TreeTentLine) finalBoard.getPuzzleElement(puzzleElement);
         TreeTentCell tree, tent;
-        if(finalLine.getC1().getType() == TreeTentType.TREE || finalLine.getC2().getType() == TreeTentType.TENT) {
+        if (finalLine.getC1().getType() == TreeTentType.TREE || finalLine.getC2().getType() == TreeTentType.TENT) {
             tree = finalLine.getC1();
             tent = finalLine.getC2();
-        } else if(finalLine.getC2().getType() == TreeTentType.TREE || finalLine.getC1().getType() == TreeTentType.TENT) {
+        } else if (finalLine.getC2().getType() == TreeTentType.TREE || finalLine.getC1().getType() == TreeTentType.TENT) {
             tree = finalLine.getC2();
             tent = finalLine.getC1();
         } else {

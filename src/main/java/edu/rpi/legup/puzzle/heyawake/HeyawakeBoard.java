@@ -22,9 +22,8 @@ public class HeyawakeBoard extends GridBoard {
     }
 
     @Override
-    public HeyawakeCell getCell(int x, int y)
-    {
-        return (HeyawakeCell)super.getCell(x, y);
+    public HeyawakeCell getCell(int x, int y) {
+        return (HeyawakeCell) super.getCell(x, y);
     }
 
     public List<HeyawakeCell> getRegion(int regionIndex) {
@@ -36,12 +35,11 @@ public class HeyawakeBoard extends GridBoard {
     }
 
     @Override
-    public HeyawakeBoard copy()
-    {
+    public HeyawakeBoard copy() {
         HeyawakeBoard copy = new HeyawakeBoard(dimension.width, dimension.height);
-        for(List<HeyawakeCell> region : regions.values()) {
+        for (List<HeyawakeCell> region : regions.values()) {
             List<HeyawakeCell> newCpy = new ArrayList<>();
-            for(HeyawakeCell cell : region) {
+            for (HeyawakeCell cell : region) {
                 Point point = cell.getLocation();
                 HeyawakeCell cellCpy = cell.copy();
                 copy.setCell(point.x, point.y, cellCpy);

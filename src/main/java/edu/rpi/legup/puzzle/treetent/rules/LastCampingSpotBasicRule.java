@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.treetent.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.BasicRule;
-import edu.rpi.legup.model.rules.RegisterRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
@@ -33,7 +32,7 @@ public class LastCampingSpotBasicRule extends BasicRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        if(puzzleElement instanceof TreeTentLine) {
+        if (puzzleElement instanceof TreeTentLine) {
             return "Line is not valid for this rule.";
         }
         TreeTentBoard initialBoard = (TreeTentBoard) transition.getParents().get(0).getBoard();
@@ -53,10 +52,10 @@ public class LastCampingSpotBasicRule extends BasicRule {
 
     private boolean isForced(TreeTentBoard board, TreeTentCell cell) {
         List<TreeTentCell> adjTents = board.getAdjacent(cell, TreeTentType.TREE);
-        for(TreeTentCell c : adjTents) {
+        for (TreeTentCell c : adjTents) {
             Point loc = c.getLocation();
-            for(TreeTentLine line : board.getLines()) {
-                if(line.getC1().getLocation().equals(loc) || line.getC2().getLocation().equals(loc)) {
+            for (TreeTentLine line : board.getLines()) {
+                if (line.getC1().getLocation().equals(loc) || line.getC2().getLocation().equals(loc)) {
                     return false;
                 }
             }
@@ -72,15 +71,15 @@ public class LastCampingSpotBasicRule extends BasicRule {
      */
     @Override
     public Board getDefaultBoard(TreeNode node) {
-        TreeTentBoard treeTentBoard = (TreeTentBoard)node.getBoard().copy();
-        for(PuzzleElement element : treeTentBoard.getPuzzleElements()) {
-            TreeTentCell cell = (TreeTentCell)element;
-            if(cell.getType() == TreeTentType.UNKNOWN && isForced(treeTentBoard, cell)) {
+        TreeTentBoard treeTentBoard = (TreeTentBoard) node.getBoard().copy();
+        for (PuzzleElement element : treeTentBoard.getPuzzleElements()) {
+            TreeTentCell cell = (TreeTentCell) element;
+            if (cell.getType() == TreeTentType.UNKNOWN && isForced(treeTentBoard, cell)) {
                 cell.setData(TreeTentType.TENT.value);
                 treeTentBoard.addModifiedData(cell);
             }
         }
-        if(treeTentBoard.getModifiedData().isEmpty()) {
+        if (treeTentBoard.getModifiedData().isEmpty()) {
             return null;
         } else {
             return treeTentBoard;

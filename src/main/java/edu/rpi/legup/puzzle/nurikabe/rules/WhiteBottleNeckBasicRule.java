@@ -13,11 +13,9 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class WhiteBottleNeckBasicRule extends BasicRule
-{
+public class WhiteBottleNeckBasicRule extends BasicRule {
 
-    public WhiteBottleNeckBasicRule()
-    {
+    public WhiteBottleNeckBasicRule() {
         super("White Bottle Neck",
                 "If a region needs more whites and there is only one path for the region to expand, then those unknowns must be white.", "edu/rpi/legup/images/nurikabe/rules/OneUnknownWhite.png");
     }
@@ -26,15 +24,13 @@ public class WhiteBottleNeckBasicRule extends BasicRule
      * Checks whether the child node logically follows from the parent node
      * at the specific puzzleElement index using this rule
      *
-     * @param transition   transition to check
+     * @param transition    transition to check
      * @param puzzleElement equivalent puzzleElement
-     *
      * @return null if the child node logically follow from the parent node at the specified puzzleElement,
      * otherwise error message
      */
     @Override
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
-    {
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         Set<ContradictionRule> contras = new LinkedHashSet<>();
         contras.add(new NoNumberContradictionRule());
         contras.add(new TooFewSpacesContradictionRule());
@@ -44,18 +40,15 @@ public class WhiteBottleNeckBasicRule extends BasicRule
 
         NurikabeCell cell = (NurikabeCell) destBoardState.getPuzzleElement(puzzleElement);
 
-        if(cell.getType() != NurikabeType.WHITE)
-        {
+        if (cell.getType() != NurikabeType.WHITE) {
             return "Only white cells are allowed for this rule!";
         }
         NurikabeBoard modified = origBoardState.copy();
         NurikabeCell modCell = (NurikabeCell) modified.getPuzzleElement(puzzleElement);
         modCell.setData(NurikabeType.BLACK.toValue());
 
-        for(ContradictionRule contraRule : contras)
-        {
-            if(contraRule.checkContradiction(modified) == null)
-            {
+        for (ContradictionRule contraRule : contras) {
+            if (contraRule.checkContradiction(modified) == null) {
                 return null;
             }
         }

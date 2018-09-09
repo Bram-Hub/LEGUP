@@ -10,10 +10,8 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 
-public class UnreachableBasicRule extends BasicRule
-{
-    public UnreachableBasicRule()
-    {
+public class UnreachableBasicRule extends BasicRule {
+    public UnreachableBasicRule() {
         super("Unreachable white region",
                 "A cell must be black if it cannot be reached by any white region",
                 "edu/rpi/legup/images/nurikabe/rules/Unreachable.png");
@@ -23,15 +21,13 @@ public class UnreachableBasicRule extends BasicRule
      * Checks whether the child node logically follows from the parent node
      * at the specific puzzleElement index using this rule
      *
-     * @param transition   transition to check
+     * @param transition    transition to check
      * @param puzzleElement equivalent puzzleElement
-     *
      * @return null if the child node logically follow from the parent node at the specified puzzleElement,
      * otherwise error message
      */
     @Override
-    protected String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
-    {
+    protected String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         ContradictionRule contraRule = new CantReachWhiteContradictionRule();
 
         NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
@@ -39,8 +35,7 @@ public class UnreachableBasicRule extends BasicRule
 
         NurikabeCell cell = (NurikabeCell) destBoardState.getPuzzleElement(puzzleElement);
 
-        if(cell.getType() != NurikabeType.BLACK)
-        {
+        if (cell.getType() != NurikabeType.BLACK) {
             return "Only black cells are allowed for this rule!";
         }
 
@@ -48,12 +43,9 @@ public class UnreachableBasicRule extends BasicRule
         NurikabeCell modCell = (NurikabeCell) modified.getPuzzleElement(puzzleElement);
         modCell.setData(NurikabeType.WHITE.toValue());
 
-        if(contraRule.checkContradiction(modified) == null)
-        {
+        if (contraRule.checkContradiction(modified) == null) {
             return null;
-        }
-        else
-        {
+        } else {
             return "This is not the only way for black to escape!";
         }
     }

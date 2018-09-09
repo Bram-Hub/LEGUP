@@ -10,11 +10,9 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 
-public class PreventBlackSquareBasicRule extends BasicRule
-{
+public class PreventBlackSquareBasicRule extends BasicRule {
 
-    public PreventBlackSquareBasicRule()
-    {
+    public PreventBlackSquareBasicRule() {
         super("Prevent Black Square",
                 "There cannot be a 2x2 square of black. (3 blacks = fill in last corner white)",
                 "edu/rpi/legup/images/nurikabe/rules/NoBlackSquare.png");
@@ -24,24 +22,21 @@ public class PreventBlackSquareBasicRule extends BasicRule
      * Checks whether the child node logically follows from the parent node
      * at the specific puzzleElement index using this rule
      *
-     * @param transition   transition to check
+     * @param transition    transition to check
      * @param puzzleElement equivalent puzzleElement
-     *
      * @return null if the child node logically follow from the parent node at the specified puzzleElement,
      * otherwise error message
      */
     @Override
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
-    {
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         ContradictionRule contraRule = new BlackSquareContradictionRule();
 
         NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
         NurikabeBoard origBoardState = (NurikabeBoard) transition.getParents().get(0).getBoard();
 
-        NurikabeCell cell = (NurikabeCell)destBoardState.getPuzzleElement(puzzleElement);
+        NurikabeCell cell = (NurikabeCell) destBoardState.getPuzzleElement(puzzleElement);
 
-        if(cell.getType() != NurikabeType.WHITE)
-        {
+        if (cell.getType() != NurikabeType.WHITE) {
             return "Only white cells are allowed for this rule!";
         }
 
@@ -49,12 +44,9 @@ public class PreventBlackSquareBasicRule extends BasicRule
         NurikabeCell modCell = (NurikabeCell) modified.getPuzzleElement(puzzleElement);
         modCell.setData(NurikabeType.BLACK.toValue());
 
-        if(contraRule.checkContradiction(modified) == null)
-        {
+        if (contraRule.checkContradiction(modified) == null) {
             return null;
-        }
-        else
-        {
+        } else {
             return "Does not contain a contradiction at this index";
         }
     }

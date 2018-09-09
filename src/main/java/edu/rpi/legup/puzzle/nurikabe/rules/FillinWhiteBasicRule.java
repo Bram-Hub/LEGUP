@@ -10,11 +10,9 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 
-public class FillinWhiteBasicRule extends BasicRule
-{
+public class FillinWhiteBasicRule extends BasicRule {
 
-    public FillinWhiteBasicRule()
-    {
+    public FillinWhiteBasicRule() {
         super("Fill In White",
                 "If there an unknown region surrounded by white, it must be white.",
                 "edu/rpi/legup/images/nurikabe/rules/FillInWhite.png");
@@ -24,29 +22,25 @@ public class FillinWhiteBasicRule extends BasicRule
      * Checks whether the child node logically follows from the parent node
      * at the specific puzzleElement index using this rule
      *
-     * @param transition   transition to check
+     * @param transition    transition to check
      * @param puzzleElement equivalent puzzleElement
-     *
      * @return null if the child node logically follow from the parent node at the specified puzzleElement,
      * otherwise error message
      */
     @Override
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
-    {
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
         NurikabeBoard origBoard = (NurikabeBoard) transition.getParents().get(0).getBoard();
         ContradictionRule contraRule = new IsolateBlackContradictionRule();
 
-        NurikabeCell cell = (NurikabeCell)board.getPuzzleElement(puzzleElement);
+        NurikabeCell cell = (NurikabeCell) board.getPuzzleElement(puzzleElement);
 
-        if(cell.getType() != NurikabeType.WHITE)
-        {
+        if (cell.getType() != NurikabeType.WHITE) {
             return "Only white cells are allowed for this rule!";
         }
         NurikabeBoard modified = origBoard.copy();
         modified.getPuzzleElement(puzzleElement).setData(NurikabeType.BLACK.toValue());
-        if(contraRule.checkContradictionAt(modified, puzzleElement) != null)
-        {
+        if (contraRule.checkContradictionAt(modified, puzzleElement) != null) {
             return "white cells must be placed in a region of white cells!";
         }
         return null;

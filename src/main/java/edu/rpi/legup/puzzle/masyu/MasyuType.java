@@ -1,6 +1,5 @@
 package edu.rpi.legup.puzzle.masyu;
 
-public enum MasyuType
-{
+public enum MasyuType {
     UNKNOWN, BLACK, WHITE
 }

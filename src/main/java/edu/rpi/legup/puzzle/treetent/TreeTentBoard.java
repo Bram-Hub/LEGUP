@@ -1,8 +1,8 @@
 package edu.rpi.legup.puzzle.treetent;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.gameboard.GridBoard;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -107,7 +107,7 @@ public class TreeTentBoard extends GridBoard {
         List<TreeTentCell> dia = new ArrayList<>();
         Point loc = cell.getLocation();
         TreeTentCell upRight = getCell(loc.x + 1, loc.y - 1);
-        TreeTentCell downRight= getCell(loc.x + 1, loc.y + 1);
+        TreeTentCell downRight = getCell(loc.x + 1, loc.y + 1);
         TreeTentCell downLeft = getCell(loc.x - 1, loc.y + 1);
         TreeTentCell upLeft = getCell(loc.x - 1, loc.y - 1);
         if (upRight != null && upRight.getType() == type) {

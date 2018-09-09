@@ -13,7 +13,7 @@ public class BattleShipBoard extends GridBoard {
     /**
      * BattleShipBoard Constructor creates a new battleship board from the specified width and height
      *
-     * @param width width of the board
+     * @param width  width of the board
      * @param height height of the board
      */
     public BattleShipBoard(int width, int height) {
