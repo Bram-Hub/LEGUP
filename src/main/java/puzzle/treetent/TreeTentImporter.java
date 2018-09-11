@@ -147,6 +147,7 @@ public class TreeTentImporter extends PuzzleImporter
                     throw new InvalidFileFormatException("TreeTent Importer: duplicate clue index");
                 }
                 treeTentBoard.getSouth().set(index - 1, new TreeTentClue(value, index, TreeTentType.CLUE_SOUTH));
+                //System.out.println(treeTentBoard.getSouth());
             }
 
             if(boardElement.getElementsByTagName("lines").getLength() == 1)

@@ -152,7 +152,7 @@ public abstract class DynamicViewer extends JScrollPane
      * @param n level of zoom - n < 0 is zoom in, n > 0 is zoom out
      * @param point position to zoom in on
      */
-    public void zoom(int n, Point point)
+    public void zoom(double n, Point point)
     {
         // if no Point is given, keep current center
         if(point == null)

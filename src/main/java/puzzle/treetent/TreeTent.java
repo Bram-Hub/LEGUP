@@ -42,6 +42,7 @@ public class TreeTent extends Puzzle
         this.basicRules.add(new LastCampingSpotBasicRule());
         this.basicRules.add(new TentForTreeBasicRule());
         this.basicRules.add(new TreeForTentBasicRule());
+        this.basicRules.add(new SurroundTentWithGrassBasicRule());
 
         this.contradictionRules.add(new NoTentForTreeContradictionRule());
         this.contradictionRules.add(new NoTreeForTentContradictionRule());

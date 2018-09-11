@@ -2,7 +2,10 @@ package puzzle.treetent;
 
 import controller.BoardController;
 import model.gameboard.Board;
+import model.gameboard.ElementData;
 import ui.boardview.GridBoardView;
+import ui.boardview.GridElement;
+import ui.boardview.PuzzleElement;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -162,5 +165,33 @@ public class TreeTentView extends GridBoardView
         {
             clueView.draw(graphics2D);
         }
+    }
+
+    @Override
+    public PuzzleElement getElement(Point point)
+    {
+        Point scaledPoint = new Point((int)Math.round(point.x / getScale()), (int)Math.round(point.y / getScale()));
+        for(PuzzleElement element: puzzleElements)
+        {
+            if(element.isWithinBounds(scaledPoint))
+            {
+                return element;
+            }
+        }
+        for(PuzzleElement element: eastClues)
+        {
+            if(element.isWithinBounds(scaledPoint))
+            {
+                return element;
+            }
+        }
+        for(PuzzleElement element: southClues)
+        {
+            if(element.isWithinBounds(scaledPoint))
+            {
+                return element;
+            }
+        }
+        return null;
     }
 }

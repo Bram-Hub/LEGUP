@@ -37,8 +37,11 @@ public class TreeTentController extends ElementController
         Tree tree = getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
-        dragStart = (TreeTentElement) boardView.getElement(e.getPoint());
-        lastCellPressed = (TreeTentElement) boardView.getElement(e.getPoint());
+        PuzzleElement data = boardView.getElement(e.getPoint());
+        if(data instanceof TreeTentElement)
+        {
+            dragStart = (TreeTentElement) data;
+        }
     }
 
     @Override
@@ -61,60 +64,36 @@ public class TreeTentController extends ElementController
     @Override
     public void mouseReleased(MouseEvent e)
     {
-        TreeTentElement dragEnd = (TreeTentElement) boardView.getElement(e.getPoint());
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-        BoardView boardView = getInstance().getLegupUI().getBoardView();
         PuzzleElement elementView = boardView.getElement(e.getPoint());
         TreeSelection selection = treeView.getTreeSelection();
         TreeElementView selectedView = selection.getFirstSelection();
         TreeTentBoard board = (TreeTentBoard)getInstance().getBoard();
-        if(dragStart.getLocation().distance(dragEnd.getLocation())/30 == 1){
-            TreeTentLine line = new TreeTentLine((TreeTentCell) dragStart.getData(), (TreeTentCell) dragEnd.getData());
-            boolean mod_contains = false;
-            boolean contains = false;
-            ElementData dup_line = null;
-            ICommand edit = new EditLineCommand(elementView, selectedView, e, line);
-            getInstance().getHistory().pushChange(edit);
-            edit.execute();
-//            for(int i = 0;i < board.getModifiedData().size();i++){
-//                if(board.getModifiedData().get(i).getValueString() == "LINE"){
-//                    if(line.compare((TreeTentLine) board.getModifiedData().get(i))){
-//                        System.out.println("contains");
-//                        dup_line = board.getModifiedData().get(i);
-//                        mod_contains = true;
-//                    }
-//                }
-//            }
-//            for(int i = 0;i < board.getLines().size();i++){
-//                if(board.getLines().get(i).compare(line)){
-//                    contains = true;
-//                }
-//            }
-//            if(contains || mod_contains){
-//                if(mod_contains){
-//
-//                    ICommand edit = new EditDataCommand(elementView, selectedView, e);
-//                    getInstance().getHistory().pushChange(edit);
-//                    edit.execute();
-//                    board.getModifiedData().remove(dup_line);
-//                    board.getLines().remove(dup_line);
-//                    boardView.updateBoard(board);
-//                }
-//            } else {
-//
-//                ICommand edit = new EditDataCommand(elementView, selectedView, e);
-//                getInstance().getHistory().pushChange(edit);
-//                edit.execute();
-//                board = (TreeTentBoard) selection.getFirstSelection().getTreeElement().getBoard();
-//                board.getModifiedData().add(line);
-//                board.getLines().add(line);
-//                boardView.updateBoard(board);
-//            }
+
+        TreeTentElement dragEnd = null;
+        TreeTentClueView clueView = null;
+        if(elementView instanceof TreeTentElement) {
+            dragEnd = (TreeTentElement) elementView;
         }
-        else{
-            super.mouseReleased(e);
+        else {
+            clueView = (TreeTentClueView)elementView;
         }
 
+        if(dragStart != null && dragEnd != null) {
+            if (dragStart.getLocation().distance(dragEnd.getLocation()) / 30 == 1) {
+                TreeTentLine line = new TreeTentLine((TreeTentCell) dragStart.getData(), (TreeTentCell) dragEnd.getData());
+                ICommand edit = new EditLineCommand(elementView, selectedView, e, line);
+                getInstance().getHistory().pushChange(edit);
+                edit.execute();
+            } else {
+                if (!((TreeTentCell) dragEnd.getData()).isLinked())
+                    super.mouseReleased(e);
+            }
+        }
+        else
+        {
+            super.mouseReleased(e);
+        }
     }
     @Override
     public void changeCell(MouseEvent e, ElementData data)

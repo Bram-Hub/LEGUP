@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class TreeTentCell extends GridCell
 {
-
+    private boolean linked = false;
     public TreeTentCell(int valueInt, Point location)
     {
         super(valueInt, location);
@@ -29,6 +29,17 @@ public class TreeTentCell extends GridCell
         }
     }
 
+    public void setLink(boolean hasLink){
+        linked = hasLink;
+//        if(linked)
+//            System.out.println("Link true at " + getLocation());
+//        else
+//            System.out.println("Link false at " + getLocation());
+    }
+
+    public boolean isLinked(){
+        return linked;
+    }
     @Override
     public TreeTentCell copy()
     {
@@ -36,6 +47,7 @@ public class TreeTentCell extends GridCell
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
+        copy.setLink(linked);
         return copy;
     }
 }

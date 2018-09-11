@@ -1,7 +1,16 @@
 package puzzle.treetent.rules;
 
+import model.gameboard.ElementData;
 import model.rules.BasicRule;
+import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
+import puzzle.treetent.TreeTentBoard;
+import puzzle.treetent.TreeTentCell;
+import puzzle.treetent.TreeTentLine;
+import puzzle.treetent.TreeTentType;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 public class EmptyFieldBasicRule extends BasicRule
 {
@@ -24,7 +33,35 @@ public class EmptyFieldBasicRule extends BasicRule
     @Override
     public String checkRuleAt(TreeTransition transition, int elementIndex)
     {
-        return null;
+        ContradictionRule contra1 = new NoTreeForTentContradictionRule();
+
+        TreeTentBoard destBoardState = (TreeTentBoard) transition.getBoard();
+        TreeTentBoard origBoardState = (TreeTentBoard) transition.getParentNode().getBoard();
+
+        TreeTentCell cell = (TreeTentCell)destBoardState.getElementData(elementIndex);
+
+        if(cell.getType() != TreeTentType.GRASS){
+            return "Only grass cells are allowed for this rule!";
+        }
+        ArrayList<ElementData> mod_data = destBoardState.getModifiedData();
+        for(ElementData data: mod_data){
+            if(data.getIndex() == -1){
+                System.out.println("Link found at 1");
+                return "Only grass cells are allowed for this rule!";
+            }
+        }
+
+
+        TreeTentBoard modified = origBoardState.copy();
+        TreeTentCell modCell = (TreeTentCell) modified.getElementData(elementIndex);
+        modCell.setValueInt(TreeTentType.TENT.toValue());
+
+        if(contra1.checkContradiction(new TreeTransition(null,modified)) == null){
+            return null;
+        } else{
+            return "Does not contain a contradiction at this index";
+        }
+
     }
 
     /**
@@ -57,4 +94,5 @@ public class EmptyFieldBasicRule extends BasicRule
     {
         return false;
     }
+
 }

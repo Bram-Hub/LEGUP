@@ -10,6 +10,7 @@ public class TreeTentLine extends ElementData
     {
         this.c1 = c1;
         this.c2 = c2;
+        this.setIndex(-1);
 
     }
 
@@ -51,4 +52,7 @@ public class TreeTentLine extends ElementData
     public String getValueString(){
         return "LINE";
     }
+
+
+
 }

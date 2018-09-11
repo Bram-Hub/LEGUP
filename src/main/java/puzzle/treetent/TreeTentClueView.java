@@ -16,7 +16,7 @@ public class TreeTentClueView extends PuzzleElement
     }
 
     @Override
-    public void draw(Graphics2D graphics2D)
+    public void drawElement(Graphics2D graphics2D)
     {
         graphics2D.setColor(FONT_COLOR);
         graphics2D.setFont(FONT);

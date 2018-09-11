@@ -28,7 +28,7 @@ public class TreeTentLineView extends PuzzleElement
         int x2 = (p2.x + 1) * size.width + size.width / 2;
         int y2 = (p2.y + 1) * size.height + size.height / 2;
         //graphics2D.setColor(LINE_COLOR);
-        graphics2D.setColor(line.isModified() ? Color.GREEN : Color.WHITE);
+        graphics2D.setColor(data.isModified() ? Color.GREEN : Color.WHITE);
         graphics2D.setStroke(LINE_STROKE);
         graphics2D.drawLine(x1, y1, x2, y2);
     }

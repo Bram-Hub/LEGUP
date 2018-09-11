@@ -12,6 +12,7 @@ public class TreeTentClue extends ElementData
         super(value);
         this.index = index;
         this.type = type;
+        this.isModifiable = false;
     }
 
     public static String colNumToString(int col)
@@ -47,9 +48,9 @@ public class TreeTentClue extends ElementData
     {
         this.type = type;
     }
-
+    @Override
     public TreeTentClue copy()
     {
-        return null;
+        return new TreeTentClue(super.valueInt,this.index,this.type);
     }
 }

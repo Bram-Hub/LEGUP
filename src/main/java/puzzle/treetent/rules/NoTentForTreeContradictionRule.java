@@ -2,6 +2,12 @@ package puzzle.treetent.rules;
 
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
+import puzzle.treetent.TreeTentBoard;
+import puzzle.treetent.TreeTentCell;
+import puzzle.treetent.TreeTentType;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 public class NoTentForTreeContradictionRule extends ContradictionRule
 {
@@ -23,7 +29,10 @@ public class NoTentForTreeContradictionRule extends ContradictionRule
     @Override
     public String checkContradictionAt(TreeTransition transition, int elementIndex)
     {
-        return null;
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+        TreeTentCell cell = (TreeTentCell)board.getElementData(elementIndex);
+        return(cell.getType() != TreeTentType.TREE || cell.isLinked() || checkTentforTree(board,cell.getLocation()))?"Does not contain a contradiction": null;
+        //return(cell.getType() != TreeTentType.TREE || cell.isLinked())?"Does not contain a contradiction":checkTentforTree(board,cell.getLocation())?"Does not contain a contradiction" : null;
     }
 
     /**
@@ -54,6 +63,21 @@ public class NoTentForTreeContradictionRule extends ContradictionRule
     @Override
     public boolean doDefaultApplicationAt(TreeTransition transition, int elementIndex)
     {
+        return false;
+    }
+
+    public boolean checkTentforTree(TreeTentBoard board, Point loc){
+        ArrayList<TreeTentCell> adjacent = new ArrayList<>();
+        adjacent.add(board.getCell(loc.x+1,loc.y));
+        adjacent.add(board.getCell(loc.x-1,loc.y));
+        adjacent.add(board.getCell(loc.x,loc.y+1));
+        adjacent.add(board.getCell(loc.x,loc.y-1));
+        for(TreeTentCell cell: adjacent){
+            if (cell != null && (cell.getType() == TreeTentType.UNKNOWN || (cell.getType() == TreeTentType.TENT && !cell.isLinked()))) {
+                return true;
+            }
+        }
+        System.out.println("Contradiction: No tent for tree");
         return false;
     }
 }

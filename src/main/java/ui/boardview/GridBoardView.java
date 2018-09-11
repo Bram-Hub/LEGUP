@@ -65,14 +65,14 @@ public class GridBoardView extends BoardView
      * @param point location on the viewport
      * @return GridElement at the specified location
      */
-    public GridElement getElement(Point point)
+    public PuzzleElement getElement(Point point)
     {
         Point scaledPoint = new Point((int)Math.round(point.x / getScale()), (int)Math.round(point.y / getScale()));
         for(PuzzleElement element: puzzleElements)
         {
             if(element.isWithinBounds(scaledPoint))
             {
-                return (GridElement) element;
+                return element;
             }
         }
         return null;

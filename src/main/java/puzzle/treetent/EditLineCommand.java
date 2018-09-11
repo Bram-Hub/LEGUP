@@ -83,15 +83,25 @@ public class EditLineCommand extends PuzzleCommand
         ElementData dup_line = null;
         boolean mod_contains = false;
         boolean contains = false;
+        boolean invalid = false;
+        TreeTentCell c1 = ((TreeTentLine) newData).getC1();
+        TreeTentCell c2 = ((TreeTentLine) newData).getC2();
         System.out.println("Size: "+ board.getModifiedData().size());
+
         for(int i = 0;i < board.getModifiedData().size();i++){
             if(board.getModifiedData().get(i).getValueString() == "LINE"){
                 if(((TreeTentLine) newData).compare((TreeTentLine) board.getModifiedData().get(i))){
-                    System.out.println("contains");
                     dup_line = board.getModifiedData().get(i);
                     mod_contains = true;
                 }
             }
+        }
+
+        if(((TreeTentLine)newData).getC1().isLinked() || ((TreeTentLine)newData).getC2().isLinked()){
+            invalid = true;
+        }
+        if (!((((TreeTentLine) newData).getC1().getType() == TreeTentType.TENT && ((TreeTentLine) newData).getC2().getType() == TreeTentType.TREE) || (((TreeTentLine) newData).getC2().getType() == TreeTentType.TENT && ((TreeTentLine) newData).getC1().getType() == TreeTentType.TREE))) {
+            invalid = true;
         }
         for(int i = 0;i < board.getLines().size();i++){
             if(board.getLines().get(i).compare((TreeTentLine) newData)){
@@ -99,17 +109,42 @@ public class EditLineCommand extends PuzzleCommand
             }
         }
         if(contains || mod_contains){
-            //if(mod_contains){
-            System.out.println("delete");
+            if(mod_contains){
+            for(int i = 0; i < board.getElementData().size();i++){
+                if(((TreeTentCell) board.getElementData(i)).getLocation() == c1.getLocation()){
+                    c1 = (TreeTentCell) board.getElementData(i);
+                    c1.setLink(false);
+                    board.setElementData(i, c1);
+                }
+                if(((TreeTentCell) board.getElementData(i)).getLocation() == c2.getLocation()){
+                    c2 = (TreeTentCell) board.getElementData(i);
+                    c2.setLink(false);
+                    board.setElementData(i, c2);
+                }
+            }
             board.getModifiedData().remove(dup_line);
             board.getLines().remove(dup_line);
             boardView.updateBoard(board);
-            // }
+            }
         } else {
-            System.out.println("adding");
-            board.getModifiedData().add(newData);
-            board.getLines().add((TreeTentLine) newData);
-            boardView.updateBoard(board);
+            if(!invalid) {
+                for(int i = 0; i < board.getElementData().size();i++){
+                    if(((TreeTentCell) board.getElementData(i)).getLocation() == c1.getLocation()){
+                        c1 = (TreeTentCell) board.getElementData(i);
+                        c1.setLink(true);
+                        board.setElementData(i, c1);
+                    }
+                    if(((TreeTentCell) board.getElementData(i)).getLocation() == c2.getLocation()){
+                        c2 = (TreeTentCell) board.getElementData(i);
+                        c2.setLink(true);
+                        board.setElementData(i, c2);
+                    }
+                }
+                newData.setModified(true);
+                board.getModifiedData().add(newData);
+                board.getLines().add((TreeTentLine) newData);
+                boardView.updateBoard(board);
+            }
         }
 
         transition.propagateChanges(newData);

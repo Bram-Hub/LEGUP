@@ -134,11 +134,11 @@ public abstract class Controller implements MouseMotionListener, MouseListener, 
     {
         if(e.isControlDown())
         {
-            viewer.zoom(e.getWheelRotation() * 2, e.getPoint());
+            viewer.zoom(e.getPreciseWheelRotation() * 2, e.getPoint());
         }
         else
         {
-            viewer.zoom(e.getWheelRotation(), e.getPoint());
+            viewer.zoom(e.getPreciseWheelRotation(), e.getPoint());
         }
     }
 }

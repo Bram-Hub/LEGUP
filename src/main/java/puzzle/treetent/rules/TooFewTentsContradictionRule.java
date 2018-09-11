@@ -2,6 +2,9 @@ package puzzle.treetent.rules;
 
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
+import puzzle.treetent.TreeTentBoard;
+import puzzle.treetent.TreeTentCell;
+import puzzle.treetent.TreeTentType;
 
 public class TooFewTentsContradictionRule extends ContradictionRule
 {
@@ -23,7 +26,39 @@ public class TooFewTentsContradictionRule extends ContradictionRule
     @Override
     public String checkContradictionAt(TreeTransition transition, int elementIndex)
     {
-        return null;
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+        TreeTentCell cell = (TreeTentCell)board.getElementData(elementIndex);
+        int tentCount = 0;
+        for(int i = 0; i < board.getWidth();i++){
+            int tentLimit = board.getSouth().get(i).getValueInt();
+            tentCount = 0;
+            for(int k = 0; k < board.getHeight();k++){
+                TreeTentType cellType = board.getCell(i,k).getType();
+                if(cellType != TreeTentType.GRASS) {
+                    tentCount += 1;
+                }
+            }
+            if(tentCount < tentLimit){
+                System.out.println("Contradiction: Too few tents in the column "+tentCount );
+                return null;
+            }
+            //System.out.println("Tent limit at " + i  + " is " + tentLimit);
+        }
+        for(int i = 0; i < board.getHeight();i++){
+            int tentLimit = board.getEast().get(i).getValueInt();
+            tentCount = 0;
+            for(int k = 0; k < board.getWidth();k++){
+                TreeTentType cellType = board.getCell(i,k).getType();
+                if(cellType != TreeTentType.GRASS) {
+                    tentCount += 1;
+                }
+            }
+            if(tentCount < tentLimit){
+                System.out.println("Contradiction: Too few tents in the row");
+                return null;
+            }
+        }
+        return "Does not contain a contradiction";
     }
 
     /**

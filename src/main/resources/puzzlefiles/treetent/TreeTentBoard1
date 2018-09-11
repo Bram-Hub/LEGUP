@@ -42,9 +42,6 @@
                 <clue value="5" index="9"/>
                 <clue value="0" index="10"/>
             </axis>
-            <lines>
-                <line x1="1" y1="1" x2="2" y2="2"/>
-            </lines>
         </board>
     </puzzle>
 </Legup>

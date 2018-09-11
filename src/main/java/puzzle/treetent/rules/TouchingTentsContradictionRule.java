@@ -2,6 +2,11 @@ package puzzle.treetent.rules;
 
 import model.rules.ContradictionRule;
 import model.tree.TreeTransition;
+import puzzle.treetent.TreeTentBoard;
+import puzzle.treetent.TreeTentCell;
+import puzzle.treetent.TreeTentType;
+
+import java.awt.*;
 
 public class TouchingTentsContradictionRule extends ContradictionRule
 {
@@ -23,7 +28,9 @@ public class TouchingTentsContradictionRule extends ContradictionRule
     @Override
     public String checkContradictionAt(TreeTransition transition, int elementIndex)
     {
-        return null;
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+        TreeTentCell cell = (TreeTentCell)board.getElementData(elementIndex);
+        return (cell.getType() != TreeTentType.TENT || !checkAdjacentTents(board,cell.getLocation()))?"Does not contain a contradiction":null;
     }
 
     /**
@@ -56,4 +63,18 @@ public class TouchingTentsContradictionRule extends ContradictionRule
     {
         return false;
     }
+
+    public boolean checkAdjacentTents(TreeTentBoard board, Point loc){
+        for(int i = -1;i <= 1; i++){
+            for(int k = -1; k <= 1; k++){
+                TreeTentCell cell = board.getCell(loc.x+i,loc.y+k);
+                if((i!=0 || k!=0) && cell != null && cell.getType() == TreeTentType.TENT){
+                    System.out.println("Contradiction: Touching tents");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }

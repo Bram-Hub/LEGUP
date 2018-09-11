@@ -46,16 +46,8 @@ public class TreeTentBoard extends GridBoard
     {
         return lines;
     }
-
-    public ArrayList<TreeTentClue> getEast()
-    {
-        return east;
-    }
-
-    public ArrayList<TreeTentClue> getSouth()
-    {
-        return south;
-    }
+    public ArrayList<TreeTentClue> getEast() { return east; }
+    public ArrayList<TreeTentClue> getSouth() { return south; }
 
     @Override
     public TreeTentCell getCell(int x, int y)
@@ -88,6 +80,12 @@ public class TreeTentBoard extends GridBoard
         for(TreeTentLine line : lines)
         {
             copy.getLines().add(line.copy());
+        }
+        for(int i = 0; i < east.size(); i++){
+            copy.getEast().set(i, this.getEast().get(i));
+        }
+        for(int i = 0;i < south.size(); i++){
+            copy.getSouth().set(i, this.getSouth().get(i));
         }
         return copy;
     }
