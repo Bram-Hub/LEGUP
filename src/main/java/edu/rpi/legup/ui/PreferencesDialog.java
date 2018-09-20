@@ -51,7 +51,6 @@ public class PreferencesDialog extends JDialog {
 
         Config config = GameBoardFacade.getInstance().getConfig();
         try {
-
             for (String puzzleName : config.getPuzzleNames()) {
                 String qualifiedClassName = config.getPuzzleClassForName(puzzleName);
 

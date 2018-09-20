@@ -13,8 +13,6 @@ public class BattleShip extends Puzzle {
         this.exporter = new BattleShipExporter(this);
 
         this.factory = new BattleShipCellFactory();
-
-        // ADD RULES ONCE THEY ARE CREATED
     }
 
     @Override
