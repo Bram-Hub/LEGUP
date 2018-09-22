@@ -149,6 +149,24 @@ public abstract class Board {
         puzzleElements.get(puzzleElement.getIndex()).setData(puzzleElement.getData());
     }
 
+    /**
+     * Called when a {@link PuzzleElement} has been added and passes in the equivalent puzzle element with the data.
+     *
+     * @param puzzleElement equivalent puzzle element with the data.
+     */
+    public void notifyAddition(PuzzleElement puzzleElement) {
+
+    }
+
+    /**
+     * Called when a {@link PuzzleElement} has been deleted and passes in the equivalent puzzle element with the data.
+     *
+     * @param puzzleElement equivalent puzzle element with the data.
+     */
+    public void notifyDeletion(PuzzleElement puzzleElement) {
+
+    }
+
     @SuppressWarnings("unchecked")
     public Board mergedBoard(Board lca, List<Board> boards) {
         if (lca == null || boards.isEmpty()) {

@@ -6,8 +6,6 @@ import edu.rpi.legup.model.rules.MergeRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.save.InvalidFileFormatException;
-import edu.rpi.legup.ui.treeview.TreeElementView;
-import edu.rpi.legup.ui.treeview.TreeNodeView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Element;
@@ -324,7 +322,7 @@ public abstract class PuzzleImporter {
 
                     board.setPuzzleElement(cell.getIndex(), cell);
                     board.addModifiedData(cell);
-                    transition.propagateChanges(cell);
+                    transition.propagateChange(cell);
                 } else {
                     if (!node.getNodeName().equalsIgnoreCase("#text")) {
                         throw new InvalidFileFormatException("Proof Tree construction error: unknown node in transition");

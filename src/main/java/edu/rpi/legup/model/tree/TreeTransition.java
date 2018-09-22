@@ -2,7 +2,6 @@ package edu.rpi.legup.model.tree;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.model.rules.MergeRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.rules.RuleType;
 
@@ -48,7 +47,7 @@ public class TreeTransition extends TreeElement {
      * @param element puzzleElement of the change made
      */
     @SuppressWarnings("unchecked")
-    public void propagateChanges(PuzzleElement element) {
+    public void propagateChange(PuzzleElement element) {
         if(isJustified() && rule.getRuleType() == RuleType.MERGE) {
             TreeNode lca = Tree.getLowestCommonAncestor(parents);
             Board lcaBoard = lca.getBoard();
@@ -77,7 +76,7 @@ public class TreeTransition extends TreeElement {
                 if (changed && childNode != null) {
                     childNode.getBoard().notifyChange(element.copy());
                     for (TreeTransition child : childNode.getChildren()) {
-                        child.propagateChanges(element.copy());
+                        child.propagateChange(element.copy());
                     }
                 }
             }
@@ -85,7 +84,105 @@ public class TreeTransition extends TreeElement {
             board.notifyChange(element);
             childNode.getBoard().notifyChange(element.copy());
             for (TreeTransition child : childNode.getChildren()) {
-                child.propagateChanges(element.copy());
+                child.propagateChange(element.copy());
+            }
+        }
+        reverify();
+    }
+
+    /**
+     * Recursively propagates the addition of puzzleElement down the tree
+     *
+     * @param element puzzleElement of the addition made
+     */
+    @SuppressWarnings("unchecked")
+    public void propagateAddition(PuzzleElement element) {
+        if(isJustified() && rule.getRuleType() == RuleType.MERGE) {
+            TreeNode lca = Tree.getLowestCommonAncestor(parents);
+            Board lcaBoard = lca.getBoard();
+            List<Board> boards = new ArrayList<>();
+            parents.forEach(p -> boards.add(p.getBoard()));
+            PuzzleElement lcaElement = lcaBoard.getPuzzleElement(element);
+            boolean isSame = true;
+            for (Board board : boards) {
+                isSame &= element.equalsData(board.getPuzzleElement(lcaElement));
+            }
+
+            if (isSame) {
+                boolean changed = false;
+                PuzzleElement mergedData = board.getPuzzleElement(element);
+                if(lcaElement.equalsData(element) && !mergedData.equalsData(element)) {
+                    mergedData.setData(element.getData());
+                    board.removeModifiedData(element);
+                    board.notifyDeletion(element);
+                    changed = true;
+                } else if (!lcaElement.equalsData(element)){
+                    mergedData.setData(element.getData());
+                    board.addModifiedData(mergedData);
+                    board.notifyAddition(element);
+                    changed = true;
+                }
+                if (changed && childNode != null) {
+                    childNode.getBoard().notifyAddition(element.copy());
+                    for (TreeTransition child : childNode.getChildren()) {
+                        child.propagateAddition(element.copy());
+                    }
+                }
+            }
+        } else if (childNode != null) {
+            board.notifyAddition(element);
+            childNode.getBoard().notifyAddition(element.copy());
+            for (TreeTransition child : childNode.getChildren()) {
+                child.propagateAddition(element.copy());
+            }
+        }
+        reverify();
+    }
+
+    /**
+     * Recursively propagates the change of puzzleElement down the tree
+     *
+     * @param element puzzleElement of the change made
+     */
+    @SuppressWarnings("unchecked")
+    public void propagateDeletion(PuzzleElement element) {
+        if(isJustified() && rule.getRuleType() == RuleType.MERGE) {
+            TreeNode lca = Tree.getLowestCommonAncestor(parents);
+            Board lcaBoard = lca.getBoard();
+            List<Board> boards = new ArrayList<>();
+            parents.forEach(p -> boards.add(p.getBoard()));
+            PuzzleElement lcaElement = lcaBoard.getPuzzleElement(element);
+            boolean isSame = true;
+            for (Board board : boards) {
+                isSame &= element.equalsData(board.getPuzzleElement(lcaElement));
+            }
+
+            if (isSame) {
+                boolean changed = false;
+                PuzzleElement mergedData = board.getPuzzleElement(element);
+                if(lcaElement.equalsData(element) && !mergedData.equalsData(element)) {
+                    mergedData.setData(element.getData());
+                    board.removeModifiedData(element);
+                    board.notifyDeletion(element);
+                    changed = true;
+                } else if (!lcaElement.equalsData(element)){
+                    mergedData.setData(element.getData());
+                    board.addModifiedData(mergedData);
+                    board.notifyAddition(element);
+                    changed = true;
+                }
+                if (changed && childNode != null) {
+                    childNode.getBoard().notifyDeletion(element.copy());
+                    for (TreeTransition child : childNode.getChildren()) {
+                        child.propagateDeletion(element.copy());
+                    }
+                }
+            }
+        } else if (childNode != null) {
+            board.notifyDeletion(element);
+            childNode.getBoard().notifyDeletion(element.copy());
+            for (TreeTransition child : childNode.getChildren()) {
+                child.propagateDeletion(element.copy());
             }
         }
         reverify();

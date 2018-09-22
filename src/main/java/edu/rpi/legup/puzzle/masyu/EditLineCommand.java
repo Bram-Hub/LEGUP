@@ -107,7 +107,7 @@ public class EditLineCommand extends PuzzleCommand {
 //            puzzle.notifyBoardListeners((IBoardListener listener) -> listener.onTreeElementChanged(editBoard));
         }
 
-        transition.propagateChanges(newData);
+        transition.propagateChange(newData);
     }
 
     /**
@@ -163,6 +163,6 @@ public class EditLineCommand extends PuzzleCommand {
         } else {
             board.addModifiedData(newData);
         }
-        transition.propagateChanges(newData);
+        transition.propagateChange(newData);
     }
 }

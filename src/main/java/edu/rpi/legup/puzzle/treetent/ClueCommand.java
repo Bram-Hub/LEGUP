@@ -70,7 +70,7 @@ public class ClueCommand extends PuzzleCommand {
                 cell = (TreeTentCell) board.getPuzzleElement(cell);
                 cell.setData(TreeTentType.GRASS.value);
                 board.addModifiedData(cell);
-                finalTran.propagateChanges(cell);
+                finalTran.propagateChange(cell);
 
                 final TreeTentCell finalCell = cell;
                 puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(finalCell));

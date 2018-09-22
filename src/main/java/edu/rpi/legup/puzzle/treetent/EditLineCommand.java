@@ -71,13 +71,14 @@ public class EditLineCommand extends PuzzleCommand {
             board.addModifiedData(line);
             board.getLines().add(line);
             notifyLine = line;
+            transition.propagateAddition(notifyLine);
         } else {
             board.removeModifiedData(dupLine);
             board.getLines().remove(dupLine);
             notifyLine = dupLine;
+            transition.propagateDeletion(notifyLine);
         }
 
-        transition.propagateChanges(notifyLine);
         puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(notifyLine));
 
         puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(transition));
@@ -182,7 +183,7 @@ public class EditLineCommand extends PuzzleCommand {
             board.getLines().remove(dupLine);
             notifyLine = dupLine;
         }
-        transition.propagateChanges(notifyLine);
+        transition.propagateChange(notifyLine);
         puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(notifyLine));
 
         final TreeElement finalTreeElement = selection.getFirstSelection().getTreeElement();

@@ -72,12 +72,32 @@ public class TreeTentBoard extends GridBoard {
         }
     }
 
+    /**
+     * Called when a {@link PuzzleElement} has been added and passes in the equivalent puzzle element with the data.
+     *
+     * @param puzzleElement equivalent puzzle element with the data.
+     */
     @Override
-    public void notifyChange(PuzzleElement puzzleElement) {
-        if (puzzleElement instanceof TreeTentLine) {
+    public void notifyAddition(PuzzleElement puzzleElement) {
+        if(puzzleElement instanceof TreeTentLine) {
             lines.add((TreeTentLine) puzzleElement);
-        } else {
-            super.notifyChange(puzzleElement);
+        }
+    }
+
+    /**
+     * Called when a {@link PuzzleElement} has been deleted and passes in the equivalent puzzle element with the data.
+     *
+     * @param puzzleElement equivalent puzzle element with the data.
+     */
+    @Override
+    public void notifyDeletion(PuzzleElement puzzleElement) {
+        if(puzzleElement instanceof TreeTentLine) {
+            for(TreeTentLine line : lines) {
+                if(line.compare((TreeTentLine)puzzleElement)) {
+                    lines.remove(line);
+                    break;
+                }
+            }
         }
     }
 
