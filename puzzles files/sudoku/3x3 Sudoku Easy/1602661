@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="2.0.0">
+    <puzzle name="Sudoku">
+        <board size="9">
+            <cells>
+                <cell value="1" x="3" y="0"/>
+                <cell value="4" x="1" y="1"/>
+                <cell value="7" x="5" y="1"/>
+                <cell value="5" x="7" y="1"/>
+                <cell value="3" x="8" y="1"/>
+                <cell value="9" x="0" y="2"/>
+                <cell value="5" x="1" y="2"/>
+                <cell value="6" x="7" y="2"/>
+                <cell value="2" x="3" y="3"/>
+                <cell value="3" x="4" y="3"/>
+                <cell value="5" x="8" y="3"/>
+                <cell value="3" x="1" y="4"/>
+                <cell value="2" x="2" y="4"/>
+                <cell value="5" x="4" y="4"/>
+                <cell value="7" x="6" y="4"/>
+                <cell value="8" x="7" y="4"/>
+                <cell value="5" x="0" y="5"/>
+                <cell value="7" x="4" y="5"/>
+                <cell value="4" x="5" y="5"/>
+                <cell value="2" x="1" y="6"/>
+                <cell value="7" x="7" y="6"/>
+                <cell value="9" x="8" y="6"/>
+                <cell value="4" x="0" y="7"/>
+                <cell value="8" x="1" y="7"/>
+                <cell value="5" x="3" y="7"/>
+                <cell value="2" x="7" y="7"/>
+                <cell value="8" x="5" y="8"/>
+            </cells>
+        </board>
+    </puzzle>
+</Legup>

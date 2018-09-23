@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="2.0.0">
+    <puzzle name="Nurikabe">
+        <board height="20" width="20">
+            <cells>
+                <cell value="1" x="0" y="0"/>
+                <cell value="3" x="3" y="0"/>
+                <cell value="2" x="6" y="0"/>
+                <cell value="2" x="9" y="0"/>
+                <cell value="3" x="11" y="0"/>
+                <cell value="1" x="13" y="0"/>
+                <cell value="1" x="15" y="0"/>
+                <cell value="4" x="17" y="0"/>
+                <cell value="2" x="19" y="0"/>
+                <cell value="2" x="1" y="2"/>
+                <cell value="2" x="3" y="2"/>
+                <cell value="1" x="5" y="2"/>
+                <cell value="1" x="7" y="2"/>
+                <cell value="1" x="9" y="2"/>
+                <cell value="4" x="13" y="2"/>
+                <cell value="1" x="15" y="2"/>
+                <cell value="1" x="6" y="3"/>
+                <cell value="4" x="8" y="3"/>
+                <cell value="3" x="19" y="3"/>
+                <cell value="1" x="5" y="4"/>
+                <cell value="3" x="11" y="4"/>
+                <cell value="4" x="16" y="4"/>
+                <cell value="2" x="1" y="5"/>
+                <cell value="3" x="4" y="5"/>
+                <cell value="2" x="17" y="5"/>
+                <cell value="1" x="6" y="6"/>
+                <cell value="3" x="12" y="6"/>
+                <cell value="2" x="2" y="7"/>
+                <cell value="2" x="5" y="7"/>
+                <cell value="3" x="7" y="7"/>
+                <cell value="3" x="9" y="7"/>
+                <cell value="3" x="14" y="7"/>
+                <cell value="3" x="19" y="7"/>
+                <cell value="3" x="3" y="8"/>
+                <cell value="4" x="17" y="8"/>
+                <cell value="2" x="1" y="9"/>
+                <cell value="3" x="12" y="9"/>
+                <cell value="7" x="6" y="10"/>
+                <cell value="2" x="14" y="10"/>
+                <cell value="2" x="16" y="10"/>
+                <cell value="2" x="18" y="10"/>
+                <cell value="2" x="0" y="11"/>
+                <cell value="3" x="2" y="11"/>
+                <cell value="1" x="7" y="11"/>
+                <cell value="3" x="10" y="11"/>
+                <cell value="1" x="12" y="11"/>
+                <cell value="3" x="11" y="12"/>
+                <cell value="1" x="13" y="12"/>
+                <cell value="2" x="8" y="13"/>
+                <cell value="3" x="17" y="13"/>
+                <cell value="3" x="19" y="13"/>
+                <cell value="2" x="1" y="14"/>
+                <cell value="1" x="6" y="14"/>
+                <cell value="3" x="9" y="14"/>
+                <cell value="5" x="14" y="14"/>
+                <cell value="1" x="7" y="15"/>
+                <cell value="3" x="17" y="15"/>
+                <cell value="3" x="4" y="16"/>
+                <cell value="1" x="6" y="16"/>
+                <cell value="4" x="11" y="16"/>
+                <cell value="2" x="19" y="16"/>
+                <cell value="1" x="0" y="17"/>
+                <cell value="1" x="2" y="17"/>
+                <cell value="4" x="14" y="17"/>
+                <cell value="1" x="17" y="17"/>
+                <cell value="1" x="3" y="18"/>
+                <cell value="2" x="6" y="18"/>
+                <cell value="3" x="9" y="18"/>
+                <cell value="2" x="1" y="19"/>
+                <cell value="3" x="19" y="19"/>
+            </cells>
+        </board>
+    </puzzle>
+</Legup>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="2.0.0">
+    <puzzle name="LightUp">
+        <board height="14" width="14">
+            <cells>
+                <cell value="-1" x="0" y="0"/>
+                <cell value="-1" x="3" y="0"/>
+                <cell value="1" x="8" y="0"/>
+                <cell value="-1" x="13" y="0"/>
+                <cell value="3" x="4" y="1"/>
+                <cell value="-1" x="7" y="1"/>
+                <cell value="1" x="11" y="1"/>
+                <cell value="0" x="1" y="2"/>
+                <cell value="1" x="2" y="2"/>
+                <cell value="-1" x="3" y="2"/>
+                <cell value="-1" x="5" y="2"/>
+                <cell value="1" x="11" y="2"/>
+                <cell value="2" x="4" y="3"/>
+                <cell value="0" x="8" y="3"/>
+                <cell value="1" x="11" y="3"/>
+                <cell value="-1" x="13" y="3"/>
+                <cell value="-1" x="10" y="4"/>
+                <cell value="3" x="12" y="4"/>
+                <cell value="2" x="0" y="5"/>
+                <cell value="0" x="3" y="5"/>
+                <cell value="3" x="11" y="5"/>
+                <cell value="-1" x="1" y="6"/>
+                <cell value="-1" x="6" y="6"/>
+                <cell value="1" x="7" y="6"/>
+                <cell value="2" x="6" y="7"/>
+                <cell value="-1" x="7" y="7"/>
+                <cell value="1" x="12" y="7"/>
+                <cell value="-1" x="2" y="8"/>
+                <cell value="0" x="10" y="8"/>
+                <cell value="-1" x="13" y="8"/>
+                <cell value="-1" x="1" y="9"/>
+                <cell value="-1" x="3" y="9"/>
+                <cell value="1" x="0" y="10"/>
+                <cell value="2" x="2" y="10"/>
+                <cell value="2" x="5" y="10"/>
+                <cell value="-1" x="9" y="10"/>
+                <cell value="-1" x="2" y="11"/>
+                <cell value="-1" x="8" y="11"/>
+                <cell value="-1" x="10" y="11"/>
+                <cell value="-1" x="11" y="11"/>
+                <cell value="2" x="12" y="11"/>
+                <cell value="2" x="2" y="12"/>
+                <cell value="-1" x="6" y="12"/>
+                <cell value="4" x="9" y="12"/>
+                <cell value="-1" x="0" y="13"/>
+                <cell value="-1" x="5" y="13"/>
+                <cell value="2" x="10" y="13"/>
+                <cell value="-1" x="13" y="13"/>
+            </cells>
+        </board>
+    </puzzle>
+</Legup>

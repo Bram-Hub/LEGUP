@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="2.0.0">
+    <puzzle name="Nurikabe">
+        <board height="12" width="12">
+            <cells>
+                <cell value="3" x="0" y="0"/>
+                <cell value="1" x="2" y="0"/>
+                <cell value="2" x="6" y="0"/>
+                <cell value="2" x="9" y="0"/>
+                <cell value="2" x="10" y="1"/>
+                <cell value="1" x="8" y="2"/>
+                <cell value="3" x="0" y="4"/>
+                <cell value="3" x="7" y="4"/>
+                <cell value="2" x="9" y="4"/>
+                <cell value="2" x="9" y="6"/>
+                <cell value="9" x="2" y="7"/>
+                <cell value="5" x="4" y="7"/>
+                <cell value="2" x="11" y="7"/>
+                <cell value="3" x="1" y="10"/>
+                <cell value="7" x="2" y="11"/>
+                <cell value="9" x="5" y="11"/>
+                <cell value="1" x="9" y="11"/>
+                <cell value="5" x="11" y="11"/>
+            </cells>
+        </board>
+    </puzzle>
+</Legup>
