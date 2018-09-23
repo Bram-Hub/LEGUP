@@ -33,6 +33,7 @@ public class EmptyFieldBasicRule extends BasicRule
     @Override
     public String checkRuleAt(TreeTransition transition, int elementIndex)
     {
+        //valid cells are ones that in no way can be replaced by a tent.
         ContradictionRule contra1 = new NoTreeForTentContradictionRule();
 
         TreeTentBoard destBoardState = (TreeTentBoard) transition.getBoard();
@@ -51,7 +52,7 @@ public class EmptyFieldBasicRule extends BasicRule
             }
         }
 
-
+        //replace the cells with tents and check that it would be invalid to place a tent.
         TreeTentBoard modified = origBoardState.copy();
         TreeTentCell modCell = (TreeTentCell) modified.getElementData(elementIndex);
         modCell.setValueInt(TreeTentType.TENT.toValue());

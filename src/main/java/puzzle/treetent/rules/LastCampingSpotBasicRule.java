@@ -41,13 +41,13 @@ public class LastCampingSpotBasicRule extends BasicRule
         if(cell.getType() != TreeTentType.TENT){
             return "Only tent cells are allowed for this rule!";
         }
-        ArrayList<ElementData> mod_data = destBoardState.getModifiedData();
-        for(ElementData data: mod_data){
-            if(data.getIndex() == -1){
-                System.out.println("Link found at 4");
-                return "Only tent cells are allowed for this rule!";
-            }
-        }
+//        ArrayList<ElementData> mod_data = destBoardState.getModifiedData();
+//        for(ElementData data: mod_data){
+//            if(data.getIndex() == -1){
+//                System.out.println("Link found at 4");
+//                return "Only tent cells are allowed for this rule!";
+//            }
+//        }
 
         TreeTentBoard modified = origBoardState.copy();
         TreeTentCell modCell = (TreeTentCell) modified.getElementData(elementIndex);

@@ -46,6 +46,7 @@ public class TentOrGrassCaseRule extends CaseRule
     public ArrayList<Board> getCases(Board board, int elementIndex)
     {
         ArrayList<Board> cases = new ArrayList<>();
+
         Board case1 = board.copy();
         ElementData data1 = case1.getElementData(elementIndex);
         data1.setValueInt(TreeTentType.TENT.toValue());

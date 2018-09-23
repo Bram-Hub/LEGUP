@@ -53,7 +53,7 @@ public class FinishWithGrassBasicRule extends BasicRule
         TreeTentBoard modified = origBoardState.copy();
         TreeTentCell modCell = (TreeTentCell) modified.getElementData(elementIndex);
         modCell.setValueInt(TreeTentType.TENT.toValue());
-
+        //return(contra1.checkContradiction(new TreeTransition(null, modified)) == null)?null : "Does not contain a contradiction";
         if(contra1.checkContradiction(new TreeTransition(null,modified)) == null){
             System.out.println("Valid");
             return null;

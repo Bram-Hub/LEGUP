@@ -53,12 +53,12 @@ public class FinishWithTentsBasicRule extends BasicRule
         TreeTentCell modCell = (TreeTentCell) modified.getElementData(elementIndex);
 
         modCell.setValueInt(TreeTentType.GRASS.toValue());
-
-        if(contra1.checkContradiction(new TreeTransition(null,modified)) == null){
-            return null;
-        } else{
-            return "Does not contain a contradiction at this index";
-        }
+        return(contra1.checkContradiction(new TreeTransition(null,modified)) == null)?null:"Does not contain a contradiction at this index";
+//        if(contra1.checkContradiction(new TreeTransition(null,modified)) == null){
+//            return null;
+//        } else{
+//            return "Does not contain a contradiction at this index";
+//        }
     }
 
     /**

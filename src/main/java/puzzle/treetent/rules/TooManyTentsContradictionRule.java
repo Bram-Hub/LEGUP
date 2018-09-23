@@ -28,37 +28,51 @@ public class TooManyTentsContradictionRule extends ContradictionRule
     {
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
         TreeTentCell cell = (TreeTentCell)board.getElementData(elementIndex);
-        int tentCount = 0;
+        int x = cell.getLocation().x;
+        int y = cell.getLocation().y;
+        int rowTentCount = 0;
+        int colTentCount = 0;
+        int colLimit = board.getSouth().get(y).getValueInt();
+        int rowLimit = board.getEast().get(x).getValueInt();
+
         for(int i = 0; i < board.getWidth();i++){
-            int tentLimit = board.getSouth().get(i).getValueInt();
-            tentCount = 0;
-            for(int k = 0; k < board.getHeight();k++){
-                TreeTentType cellType = board.getCell(i,k).getType();
-                if(cellType == TreeTentType.TENT) {
-                    tentCount += 1;
-                }
-            }
-            if(tentCount > tentLimit){
-                //System.out.println("Contradiction: Too many tents in the column " + tentCount + " " + tentLimit);
-                return null;
-            }
-            //System.out.println("Tent limit at " + i  + " is " + tentLimit);
+            if(board.getCell(x,i).getType() == TreeTentType.TENT)
+                rowTentCount += 1;
         }
-        for(int i = 0; i < board.getHeight();i++){
-            int tentLimit = board.getEast().get(i).getValueInt();
-            tentCount = 0;
-            for(int k = 0; k < board.getWidth();k++){
-                TreeTentType cellType = board.getCell(k,i).getType();
-                if(cellType == TreeTentType.TENT) {
-                    tentCount += 1;
-                }
-            }
-            if(tentCount > tentLimit){
-                //System.out.println("Contradiction: Too many tents in the row " + tentCount + " " + tentLimit);
-                return null;
-            }
+        for(int i = 0; i < board.getHeight(); i++){
+            if(board.getCell(i,y).getType() == TreeTentType.TENT)
+                colTentCount += 1;
         }
-        return "Does not contain a contradiction";
+        return(rowTentCount > rowLimit || colTentCount > colLimit)?null:"Does not contain a contradiction";
+//        for(int i = 0; i < board.getWidth();i++){
+//            int tentLimit = board.getSouth().get(i).getValueInt();
+//            tentCount = 0;
+//            for(int k = 0; k < board.getHeight();k++){
+//                TreeTentType cellType = board.getCell(i,k).getType();
+//                if(cellType == TreeTentType.TENT) {
+//                    tentCount += 1;
+//                }
+//            }
+//            if(tentCount > tentLimit){
+//                //System.out.println("Contradiction: Too many tents in the column " + tentCount + " " + tentLimit);
+//                return null;
+//            }
+//            //System.out.println("Tent limit at " + i  + " is " + tentLimit);
+//        }
+//        for(int i = 0; i < board.getHeight();i++){
+//            int tentLimit = board.getEast().get(i).getValueInt();
+//            tentCount = 0;
+//            for(int k = 0; k < board.getWidth();k++){
+//                TreeTentType cellType = board.getCell(k,i).getType();
+//                if(cellType == TreeTentType.TENT) {
+//                    tentCount += 1;
+//                }
+//            }
+//            if(tentCount > tentLimit){
+//                //System.out.println("Contradiction: Too many tents in the row " + tentCount + " " + tentLimit);
+//                return null;
+//            }
+//        }
     }
 
     /**
