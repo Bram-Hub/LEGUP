@@ -55,13 +55,13 @@ public class BattleShipCellFactory extends ElementFactory {
      * Creates a xml document puzzleElement from a cell for exporting
      *
      * @param document xml document
-     * @param data     PuzzleElement cell
+     * @param puzzleElement     PuzzleElement cell
      * @return xml PuzzleElement
      */
-    public org.w3c.dom.Element exportCell(Document document, PuzzleElement data) {
+    public org.w3c.dom.Element exportCell(Document document, PuzzleElement puzzleElement) {
         org.w3c.dom.Element cellElement = document.createElement("cell");
 
-        BattleShipCell cell = (BattleShipCell) data;
+        BattleShipCell cell = (BattleShipCell) puzzleElement;
         Point loc = cell.getLocation();
 
         cellElement.setAttribute("value", String.valueOf(cell.getData()));

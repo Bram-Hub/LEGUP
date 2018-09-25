@@ -160,12 +160,15 @@ public class SudokuBoard extends GridBoard {
      */
     @Override
     public SudokuBoard copy() {
-        SudokuBoard newGridBoard = new SudokuBoard(size);
+        SudokuBoard copy = new SudokuBoard(size);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {
-                newGridBoard.setCell(x, y, getCell(x, y).copy());
+                copy.setCell(x, y, getCell(x, y).copy());
             }
         }
-        return newGridBoard;
+        for(PuzzleElement e : modifiedData) {
+            copy.getPuzzleElement(e).setModifiable(false);
+        }
+        return copy;
     }
 }

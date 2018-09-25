@@ -313,6 +313,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         checkUpdates.addActionListener(l -> {
             checkUpdates();
         });
+        checkUpdates.setEnabled(false);
 
         about.add(aboutLegup);
         aboutLegup.addActionListener(l -> {
@@ -621,11 +622,11 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                 JProgressBar dpb = new JProgressBar(0, 500);
                 updateDialog.add(BorderLayout.CENTER, dpb);
                 updateDialog.add(BorderLayout.NORTH, new JLabel("Progress..."));
-                updateDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+                updateDialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
                 updateDialog.setSize(300, 75);
                 updateDialog.setResizable(false);
                 updateDialog.setLocationRelativeTo(this);
-                updateDialog.setVisible(true);
+//                updateDialog.setVisible(true);
                 update.setUpdateProgress(new UpdateProgress() {
                     double total = 0;
 
@@ -647,7 +648,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                     }
                 });
                 update.update();
-            }).start();
+            }).run();
         } else {
 //            if (SystemUtils.IS_OS_WINDOWS) {
 //                File java = new File(SystemUtils.JAVA_HOME);

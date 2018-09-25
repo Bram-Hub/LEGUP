@@ -1,6 +1,7 @@
 package edu.rpi.legup.puzzle.fillapix;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 
 import java.awt.*;
 import java.util.logging.Logger;
@@ -27,13 +28,16 @@ public class FillapixBoard extends GridBoard {
      */
     @Override
     public FillapixBoard copy() {
-        FillapixBoard newGridBoard = new FillapixBoard(dimension.width, dimension.height);
+        FillapixBoard copy = new FillapixBoard(dimension.width, dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {
-                newGridBoard.setCell(x, y, getCell(x, y).copy());
+                copy.setCell(x, y, getCell(x, y).copy());
             }
         }
-        return newGridBoard;
+        for(PuzzleElement e : modifiedData) {
+            copy.getPuzzleElement(e).setModifiable(false);
+        }
+        return copy;
     }
 
     /**
@@ -55,6 +59,7 @@ public class FillapixBoard extends GridBoard {
                 }
             }
         }
+
         return numCells;
     }
 }

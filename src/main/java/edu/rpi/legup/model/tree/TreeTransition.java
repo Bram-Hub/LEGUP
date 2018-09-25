@@ -76,7 +76,9 @@ public class TreeTransition extends TreeElement {
                 if (changed && childNode != null) {
                     childNode.getBoard().notifyChange(element.copy());
                     for (TreeTransition child : childNode.getChildren()) {
-                        child.propagateChange(element.copy());
+                        PuzzleElement copy = element.copy();
+                        copy.setModifiable(false);
+                        child.propagateChange(copy);
                     }
                 }
             }
@@ -84,7 +86,9 @@ public class TreeTransition extends TreeElement {
             board.notifyChange(element);
             childNode.getBoard().notifyChange(element.copy());
             for (TreeTransition child : childNode.getChildren()) {
-                child.propagateChange(element.copy());
+                PuzzleElement copy = element.copy();
+                copy.setModifiable(false);
+                child.propagateChange(copy);
             }
         }
         reverify();

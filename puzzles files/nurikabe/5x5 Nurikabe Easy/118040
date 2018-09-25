@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="2.0.0">
+    <puzzle name="Nurikabe">
+        <board height="5" width="5">
+            <cells>
+                <cell value="4" x="4" y="0"/>
+                <cell value="1" x="0" y="2"/>
+                <cell value="1" x="2" y="2"/>
+                <cell value="1" x="4" y="2"/>
+                <cell value="4" x="0" y="4"/>
+            </cells>
+        </board>
+    </puzzle>
+</Legup>

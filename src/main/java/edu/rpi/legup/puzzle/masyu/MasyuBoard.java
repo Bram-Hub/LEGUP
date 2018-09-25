@@ -52,6 +52,9 @@ public class MasyuBoard extends GridBoard {
         for (MasyuLine line : lines) {
             copy.lines.add(line.copy());
         }
+        for(PuzzleElement e : modifiedData) {
+            copy.getPuzzleElement(e).setModifiable(false);
+        }
         return copy;
     }
 }

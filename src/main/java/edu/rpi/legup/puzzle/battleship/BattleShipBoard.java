@@ -1,6 +1,7 @@
 package edu.rpi.legup.puzzle.battleship;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,6 @@ public class BattleShipBoard extends GridBoard {
         return south;
     }
 
-
     @Override
     public BattleShipCell getCell(int x, int y) {
         return (BattleShipCell) super.getCell(x, y);
@@ -70,6 +70,9 @@ public class BattleShipBoard extends GridBoard {
             for (int y = 0; y < this.dimension.height; y++) {
                 copy.setCell(x, y, getCell(x, y).copy());
             }
+        }
+        for(PuzzleElement e : modifiedData) {
+            copy.getPuzzleElement(e).setModifiable(false);
         }
         copy.east = this.east;
         copy.south = this.south;

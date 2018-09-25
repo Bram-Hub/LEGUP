@@ -67,14 +67,14 @@ public class TreeTentCellFactory extends ElementFactory {
      * Creates a xml document puzzleElement from a cell for exporting
      *
      * @param document xml document
-     * @param data     PuzzleElement cell
+     * @param puzzleElement     PuzzleElement cell
      * @return xml PuzzleElement
      */
-    public org.w3c.dom.Element exportCell(Document document, PuzzleElement data) {
-        if (data instanceof TreeTentCell) {
+    public org.w3c.dom.Element exportCell(Document document, PuzzleElement puzzleElement) {
+        if (puzzleElement instanceof TreeTentCell) {
             org.w3c.dom.Element cellElement = document.createElement("cell");
 
-            TreeTentCell cell = (TreeTentCell) data;
+            TreeTentCell cell = (TreeTentCell) puzzleElement;
             Point loc = cell.getLocation();
 
             cellElement.setAttribute("value", String.valueOf(cell.getData()));
@@ -85,7 +85,7 @@ public class TreeTentCellFactory extends ElementFactory {
         } else {
             org.w3c.dom.Element lineElement = document.createElement("line");
 
-            TreeTentLine line = (TreeTentLine) data;
+            TreeTentLine line = (TreeTentLine) puzzleElement;
 
             lineElement.setAttribute("x1", String.valueOf(line.getC1().getLocation().x));
             lineElement.setAttribute("y1", String.valueOf(line.getC1().getLocation().y));

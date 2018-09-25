@@ -201,6 +201,9 @@ public class TreeTentBoard extends GridBoard {
             lineCpy.setModifiable(false);
             copy.getLines().add(lineCpy);
         }
+        for(PuzzleElement e : modifiedData) {
+            copy.getPuzzleElement(e).setModifiable(false);
+        }
         copy.rowClues = rowClues;
         copy.colClues = colClues;
         return copy;
