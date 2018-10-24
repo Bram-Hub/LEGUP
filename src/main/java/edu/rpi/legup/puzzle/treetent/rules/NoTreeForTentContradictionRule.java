@@ -7,6 +7,8 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
+import java.awt.*;
+import java.util.ArrayList;
 
 public class NoTreeForTentContradictionRule extends ContradictionRule {
 
@@ -28,15 +30,33 @@ public class NoTreeForTentContradictionRule extends ContradictionRule {
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
         TreeTentBoard treeTentBoard = (TreeTentBoard) board;
         TreeTentCell cell = (TreeTentCell) puzzleElement;
-        if (cell.getType() != TreeTentType.TENT) {
-            return "This cell does not contain a contradiction at this location.";
+        return(cell.getType() != TreeTentType.TENT || cell.isLinked() || checkTreeforTent(treeTentBoard,cell.getLocation()))?"This cell does not contain a contradiction at this location." : null;
+//        TreeTentBoard treeTentBoard = (TreeTentBoard) board;
+//        TreeTentCell cell = (TreeTentCell) puzzleElement;
+//        if (cell.getType() != TreeTentType.TENT) {
+//            return "This cell does not contain a contradiction at this location.";
+//        }
+//        int adjTree = treeTentBoard.getAdjacent(cell, TreeTentType.TREE).size();
+//        int adjUnknown = treeTentBoard.getAdjacent(cell, TreeTentType.UNKNOWN).size();
+//        if (adjTree == 0 && adjUnknown == 0) {
+//            return null;
+//        } else {
+//            return "This cell does not contain a contradiction at this location.";
+//        }
+    }
+
+    public boolean checkTreeforTent(TreeTentBoard board, Point loc){
+        ArrayList<TreeTentCell> adjacent = new ArrayList<>();
+        adjacent.add(board.getCell(loc.x+1,loc.y));
+        adjacent.add(board.getCell(loc.x-1,loc.y));
+        adjacent.add(board.getCell(loc.x,loc.y+1));
+        adjacent.add(board.getCell(loc.x,loc.y-1));
+        for(TreeTentCell cell: adjacent){
+            if (cell != null && (cell.getType() == TreeTentType.TREE && !cell.isLinked())) {
+                return true;
+            }
         }
-        int adjTree = treeTentBoard.getAdjacent(cell, TreeTentType.TREE).size();
-        int adjUnknown = treeTentBoard.getAdjacent(cell, TreeTentType.UNKNOWN).size();
-        if (adjTree == 0 && adjUnknown == 0) {
-            return null;
-        } else {
-            return "This cell does not contain a contradiction at this location.";
-        }
+        System.out.println("Contradiction: No tree for tent");
+        return false;
     }
 }

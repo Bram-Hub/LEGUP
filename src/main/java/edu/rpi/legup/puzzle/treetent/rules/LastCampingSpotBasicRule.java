@@ -3,6 +3,7 @@ package edu.rpi.legup.puzzle.treetent.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.BasicRule;
+import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.rules.RegisterRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -12,6 +13,7 @@ import edu.rpi.legup.puzzle.treetent.TreeTentLine;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LastCampingSpotBasicRule extends BasicRule {
@@ -36,19 +38,44 @@ public class LastCampingSpotBasicRule extends BasicRule {
         if(puzzleElement instanceof TreeTentLine) {
             return "Line is not valid for this rule.";
         }
+        ContradictionRule contra1 = new NoTentForTreeContradictionRule();
         TreeTentBoard initialBoard = (TreeTentBoard) transition.getParents().get(0).getBoard();
         TreeTentCell initCell = (TreeTentCell) initialBoard.getPuzzleElement(puzzleElement);
         TreeTentBoard finalBoard = (TreeTentBoard) transition.getBoard();
         TreeTentCell finalCell = (TreeTentCell) finalBoard.getPuzzleElement(puzzleElement);
-        if (!(initCell.getType() == TreeTentType.UNKNOWN && finalCell.getType() == TreeTentType.TENT)) {
-            return "This cell must be a tent.";
+        if(finalCell.getType() != TreeTentType.TENT){
+            return "Only tent cells are allowed for this rule";
         }
 
-        if (isForced(initialBoard, initCell)) {
-            return null;
-        } else {
-            return "This cell is not forced to be tent.";
+        TreeTentBoard modified = initialBoard.copy();
+        TreeTentCell modCell = (TreeTentCell) modified.getPuzzleElement(finalCell);
+        modCell.setData(TreeTentType.GRASS.value);
+        List<TreeTentCell> adjTents = initialBoard.getAdjacent(modCell, TreeTentType.TREE);
+        for(TreeTentCell cell: adjTents){
+            if(contra1.checkContradictionAt(modified,cell) == null){
+                return null;
+            }
         }
+        return "not forced";
+//        if (isForced(initialBoard, initCell)) {
+//            return null;
+//        } else {
+//            return "This cell is not forced to be tent.";
+//        }
+    }
+    public boolean checkTentforTree(TreeTentBoard board, Point loc){
+        ArrayList<TreeTentCell> adjacent = new ArrayList<>();
+        adjacent.add(board.getCell(loc.x+1,loc.y));
+        adjacent.add(board.getCell(loc.x-1,loc.y));
+        adjacent.add(board.getCell(loc.x,loc.y+1));
+        adjacent.add(board.getCell(loc.x,loc.y-1));
+        for(TreeTentCell cell: adjacent){
+            if (cell != null && (cell.getType() == TreeTentType.UNKNOWN || (cell.getType() == TreeTentType.TENT && !cell.isLinked()))) {
+                System.out.println("available");
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isForced(TreeTentBoard board, TreeTentCell cell) {

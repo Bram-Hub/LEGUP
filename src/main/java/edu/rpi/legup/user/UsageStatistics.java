@@ -44,7 +44,7 @@ public class UsageStatistics {
                 InputStream instream = entity.getContent();
 
                 try {
-                    System.err.println(new String(instream.readAllBytes()));
+//                    System.err.println(new String(instream.readAllBytes()));
                 } finally {
                     instream.close();
                 }

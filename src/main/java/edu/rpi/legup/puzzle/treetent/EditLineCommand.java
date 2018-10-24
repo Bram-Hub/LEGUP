@@ -70,10 +70,14 @@ public class EditLineCommand extends PuzzleCommand {
         if (dupLine == null) {
             board.addModifiedData(line);
             board.getLines().add(line);
+            startCell.setLink(true);
+            endCell.setLink(true);
             notifyLine = line;
         } else {
             board.removeModifiedData(dupLine);
             board.getLines().remove(dupLine);
+            startCell.setLink(false);
+            endCell.setLink(false);
             notifyLine = dupLine;
         }
 

@@ -8,6 +8,8 @@ import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 
+import java.awt.*;
+
 public class TouchingTentsContradictionRule extends ContradictionRule {
 
     public TouchingTentsContradictionRule() {
@@ -28,14 +30,31 @@ public class TouchingTentsContradictionRule extends ContradictionRule {
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
         TreeTentBoard treeTentBoard = (TreeTentBoard) board;
         TreeTentCell cell = (TreeTentCell) puzzleElement;
-        if (cell.getType() != TreeTentType.TREE) {
-            return "This cell does not contain a contradiction at this location.";
+        return (cell.getType() != TreeTentType.TENT || !checkAdjacentTents(treeTentBoard,cell.getLocation()))?"Does not contain a contradiction":null;
+//        TreeTentBoard treeTentBoard = (TreeTentBoard) board;
+//        TreeTentCell cell = (TreeTentCell) puzzleElement;
+//        System.out.println("Checking");
+//        if (cell.getType() != TreeTentType.TENT) {
+//            return "This cell does not contain a contradiction at this location.";
+//        }
+//        int adjTent = treeTentBoard.getAdjacent(cell, TreeTentType.TENT).size();
+//        if (adjTent > 0) {
+//            System.out.println("Contra");
+//            return null;
+//        } else {
+//            return "This cell does not contain a contradiction at this location.";
+//        }
+    }
+    public boolean checkAdjacentTents(TreeTentBoard board, Point loc){
+        for(int i = -1;i <= 1; i++){
+            for(int k = -1; k <= 1; k++){
+                TreeTentCell cell = board.getCell(loc.x+i,loc.y+k);
+                if((i!=0 || k!=0) && cell != null && cell.getType() == TreeTentType.TENT){
+                    System.out.println("Contradiction: Touching tents");
+                    return true;
+                }
+            }
         }
-        int adjTree = treeTentBoard.getAdjacent(cell, TreeTentType.TREE).size();
-        if (adjTree > 0) {
-            return null;
-        } else {
-            return "This cell does not contain a contradiction at this location.";
-        }
+        return false;
     }
 }

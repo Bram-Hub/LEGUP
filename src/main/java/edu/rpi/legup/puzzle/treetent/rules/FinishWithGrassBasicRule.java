@@ -40,8 +40,8 @@ public class FinishWithGrassBasicRule extends BasicRule {
         TreeTentCell initCell = (TreeTentCell) initialBoard.getPuzzleElement(puzzleElement);
         TreeTentBoard finalBoard = (TreeTentBoard)transition.getBoard();
         TreeTentCell finalCell = (TreeTentCell) finalBoard.getPuzzleElement(puzzleElement);
-        if (!(finalCell.getType() == TreeTentType.GRASS && initCell.getType() == TreeTentType.UNKNOWN)) {
-            return "This cell must be grass.";
+        if(finalCell.getType() != TreeTentType.GRASS){
+            return "Only grass cells are allowed for this rule";
         }
 
         if(isForced(initialBoard, initCell)) {
