@@ -24,9 +24,9 @@ public class BlackOrWhiteCaseRule extends CaseRule {
         FillapixBoard fillapixBoard = (FillapixBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(fillapixBoard, this);
         fillapixBoard.setModifiable(false);
-        for (PuzzleElement data: fillapixBoard.getPuzzleElements()) {
+        for (PuzzleElement data : fillapixBoard.getPuzzleElements()) {
             FillapixCell cell = (FillapixCell) data;
-            if(cell.getType() == FillapixCellType.UNKNOWN) {
+            if (cell.getType() == FillapixCellType.UNKNOWN) {
                 caseBoard.addPickableElement(data);
             }
         }
@@ -34,7 +34,7 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     }
 
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement){
+    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
 
         Board case1 = board.copy();
@@ -55,24 +55,24 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     @Override
     public String checkRuleRaw(TreeTransition transition) {
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-        if(childTransitions.size() != 2) {
+        if (childTransitions.size() != 2) {
             return "This case rule must have 2 children.";
         }
 
         TreeTransition case1 = childTransitions.get(0);
         TreeTransition case2 = childTransitions.get(1);
-        if(case1.getBoard().getModifiedData().size() != 1 ||
+        if (case1.getBoard().getModifiedData().size() != 1 ||
                 case2.getBoard().getModifiedData().size() != 1) {
             return "This case rule must have 1 modified cell for each case.";
         }
 
         FillapixCell mod1 = (FillapixCell) case1.getBoard().getModifiedData().iterator().next();
         FillapixCell mod2 = (FillapixCell) case2.getBoard().getModifiedData().iterator().next();
-        if(!mod1.getLocation().equals(mod2.getLocation())) {
+        if (!mod1.getLocation().equals(mod2.getLocation())) {
             return "This case rule must modify the same cell for each case.";
         }
 
-        if(!((mod1.getType() == FillapixCellType.BLACK && mod2.getType() == FillapixCellType.WHITE)
+        if (!((mod1.getType() == FillapixCellType.BLACK && mod2.getType() == FillapixCellType.WHITE)
                 || (mod2.getType() == FillapixCellType.BLACK && mod1.getType() == FillapixCellType.WHITE))) {
             return "This case rule must an empty cell and a lite cell.";
         }
@@ -81,5 +81,7 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     }
 
     @Override
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) { return null; }
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+        return null;
+    }
 }

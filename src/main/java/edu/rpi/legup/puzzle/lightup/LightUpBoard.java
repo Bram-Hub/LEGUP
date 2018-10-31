@@ -1,7 +1,7 @@
 package edu.rpi.legup.puzzle.lightup;
 
-import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.gameboard.GridBoard;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -88,8 +88,8 @@ public class LightUpBoard extends GridBoard {
     public int getNumAdj(LightUpCell cell, LightUpCellType type) {
         int num = 0;
         Set<LightUpCell> adjCells = getAdj(cell);
-        for(LightUpCell c : adjCells) {
-            if(c.getType() == type) {
+        for (LightUpCell c : adjCells) {
+            if (c.getType() == type) {
                 num++;
             }
         }
@@ -99,8 +99,8 @@ public class LightUpBoard extends GridBoard {
     public int getNumAdjLite(LightUpCell cell) {
         int num = 0;
         Set<LightUpCell> adjCells = getAdj(cell);
-        for(LightUpCell c : adjCells) {
-            if(c.isLite()) {
+        for (LightUpCell c : adjCells) {
+            if (c.isLite()) {
                 num++;
             }
         }
@@ -110,8 +110,8 @@ public class LightUpBoard extends GridBoard {
     public int getNumPlacble(LightUpCell cell) {
         int num = 0;
         Set<LightUpCell> adjCells = getAdj(cell);
-        for(LightUpCell c : adjCells) {
-            if(c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
+        for (LightUpCell c : adjCells) {
+            if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
                 num++;
             }
         }
@@ -136,6 +136,9 @@ public class LightUpBoard extends GridBoard {
             for (int y = 0; y < this.dimension.height; y++) {
                 copy.setCell(x, y, getCell(x, y).copy());
             }
+        }
+        for(PuzzleElement e : modifiedData) {
+            copy.getPuzzleElement(e).setModifiable(false);
         }
         copy.fillWithLight();
         return copy;

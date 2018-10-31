@@ -1,6 +1,7 @@
 package edu.rpi.legup.puzzle.heyawake;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -22,9 +23,8 @@ public class HeyawakeBoard extends GridBoard {
     }
 
     @Override
-    public HeyawakeCell getCell(int x, int y)
-    {
-        return (HeyawakeCell)super.getCell(x, y);
+    public HeyawakeCell getCell(int x, int y) {
+        return (HeyawakeCell) super.getCell(x, y);
     }
 
     public List<HeyawakeCell> getRegion(int regionIndex) {
@@ -36,18 +36,20 @@ public class HeyawakeBoard extends GridBoard {
     }
 
     @Override
-    public HeyawakeBoard copy()
-    {
+    public HeyawakeBoard copy() {
         HeyawakeBoard copy = new HeyawakeBoard(dimension.width, dimension.height);
-        for(List<HeyawakeCell> region : regions.values()) {
+        for (List<HeyawakeCell> region : regions.values()) {
             List<HeyawakeCell> newCpy = new ArrayList<>();
-            for(HeyawakeCell cell : region) {
+            for (HeyawakeCell cell : region) {
                 Point point = cell.getLocation();
                 HeyawakeCell cellCpy = cell.copy();
                 copy.setCell(point.x, point.y, cellCpy);
                 newCpy.add(cellCpy);
             }
             copy.regions.put(region.get(0).getRegionIndex(), newCpy);
+        }
+        for(PuzzleElement e : modifiedData) {
+            copy.getPuzzleElement(e).setModifiable(false);
         }
         return copy;
     }

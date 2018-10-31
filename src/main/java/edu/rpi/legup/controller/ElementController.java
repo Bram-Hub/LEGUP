@@ -230,7 +230,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         else
             puzzleElement.setModified(true);
 
-        transitionView.getTreeElement().propagateChanges(puzzleElement);
+        transitionView.getTreeElement().propagateChange(puzzleElement);
 
         boardView.repaint();
         boardView.getSelection().clearSelection();

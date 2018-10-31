@@ -3,14 +3,13 @@ package edu.rpi.legup.puzzle.battleship.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
-import edu.rpi.legup.model.tree.TreeTransition;
 
 public class TooFewRowColContradictionRule extends ContradictionRule {
 
     public TooFewRowColContradictionRule() {
         super("Too few in row/col",
                 "",
-                "edu/rpi/legup/images/battleship//contradictions/too_few_segments.png");
+                "edu/rpi/legup/images/battleship/contradictions/too_few_segments.png");
     }
 
     /**

@@ -4,8 +4,6 @@ import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
-import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.nurikabe.rules.*;
 
 public class Nurikabe extends Puzzle {
     public Nurikabe() {

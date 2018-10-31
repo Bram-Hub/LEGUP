@@ -454,7 +454,14 @@ public class TreeView extends ScrollView implements ITreeListener {
 
             TreeNode node = nodeView.getTreeElement();
             for (TreeTransition trans : node.getChildren()) {
-                TreeTransitionView transView = new TreeTransitionView(trans);
+                TreeTransitionView transView = (TreeTransitionView) viewMap.get(trans);
+                if(transView != null) {
+                    nodeView.addChildrenView(transView);
+                    transView.addParentView(nodeView);
+                    break;
+                }
+                transView = new TreeTransitionView(trans);
+
                 viewMap.put(transView.getTreeElement(), transView);
 
                 transView.addParentView(nodeView);

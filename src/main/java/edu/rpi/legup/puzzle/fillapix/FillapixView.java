@@ -6,14 +6,11 @@ import edu.rpi.legup.ui.boardview.GridBoardView;
 
 import java.awt.*;
 
-public class FillapixView extends GridBoardView
-{
-    public FillapixView(FillapixBoard board)
-    {
+public class FillapixView extends GridBoardView {
+    public FillapixView(FillapixBoard board) {
         super(new BoardController(), new FillapixCellController(), board.getDimension());
 
-        for(PuzzleElement puzzleElement : board.getPuzzleElements())
-        {
+        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             FillapixCell cell = (FillapixCell) puzzleElement;
             Point loc = cell.getLocation();
             FillapixElementView elementView = new FillapixElementView(cell);

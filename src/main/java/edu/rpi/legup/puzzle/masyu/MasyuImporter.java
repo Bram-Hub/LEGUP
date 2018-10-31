@@ -1,17 +1,15 @@
 package edu.rpi.legup.puzzle.masyu;
 
 import edu.rpi.legup.model.PuzzleImporter;
+import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import edu.rpi.legup.save.InvalidFileFormatException;
 
 import java.awt.*;
 
-public class MasyuImporter extends PuzzleImporter
-{
-    public MasyuImporter(Masyu masyu)
-    {
+public class MasyuImporter extends PuzzleImporter {
+    public MasyuImporter(Masyu masyu) {
         super(masyu);
     }
 
@@ -22,61 +20,48 @@ public class MasyuImporter extends PuzzleImporter
      * @throws InvalidFileFormatException
      */
     @Override
-    public void initializeBoard(Node node) throws InvalidFileFormatException
-    {
-        try
-        {
-            if(!node.getNodeName().equalsIgnoreCase("board"))
-            {
+    public void initializeBoard(Node node) throws InvalidFileFormatException {
+        try {
+            if (!node.getNodeName().equalsIgnoreCase("board")) {
                 throw new InvalidFileFormatException("Masyu Importer: cannot find board puzzleElement");
             }
-            Element boardElement = (Element)node;
-            if(boardElement.getElementsByTagName("cells").getLength() == 0)
-            {
+            Element boardElement = (Element) node;
+            if (boardElement.getElementsByTagName("cells").getLength() == 0) {
                 throw new InvalidFileFormatException("Masyu Importer: no puzzleElement found for board");
             }
-            Element dataElement = (Element)boardElement.getElementsByTagName("cells").item(0);
+            Element dataElement = (Element) boardElement.getElementsByTagName("cells").item(0);
             NodeList elementDataList = dataElement.getElementsByTagName("cell");
 
             MasyuBoard masyuBoard = null;
-            if(!boardElement.getAttribute("size").isEmpty())
-            {
+            if (!boardElement.getAttribute("size").isEmpty()) {
                 int size = Integer.valueOf(boardElement.getAttribute("size"));
                 masyuBoard = new MasyuBoard(size);
-            }
-            else if(!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty())
-            {
+            } else if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
                 int width = Integer.valueOf(boardElement.getAttribute("width"));
                 int height = Integer.valueOf(boardElement.getAttribute("height"));
                 masyuBoard = new MasyuBoard(width, height);
             }
 
-            if(masyuBoard == null)
-            {
+            if (masyuBoard == null) {
                 throw new InvalidFileFormatException("Masyu Importer: invalid board dimensions");
             }
 
             int width = masyuBoard.getWidth();
             int height = masyuBoard.getHeight();
 
-            for(int i = 0; i < elementDataList.getLength(); i++)
-            {
-                MasyuCell cell = (MasyuCell)puzzle.getFactory().importCell(elementDataList.item(i), masyuBoard);
+            for (int i = 0; i < elementDataList.getLength(); i++) {
+                MasyuCell cell = (MasyuCell) puzzle.getFactory().importCell(elementDataList.item(i), masyuBoard);
                 Point loc = cell.getLocation();
-                if(cell.getData() != 0)
-                {
+                if (cell.getData() != 0) {
                     cell.setModifiable(false);
                     cell.setGiven(true);
                 }
                 masyuBoard.setCell(loc.x, loc.y, cell);
             }
 
-            for(int y = 0; y < height; y++)
-            {
-                for(int x = 0; x < width; x++)
-                {
-                    if(masyuBoard.getCell(x, y) == null)
-                    {
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    if (masyuBoard.getCell(x, y) == null) {
                         MasyuCell cell = new MasyuCell(0, new Point(x, y));
                         cell.setIndex(y * height + x);
                         cell.setModifiable(true);
@@ -85,9 +70,7 @@ public class MasyuImporter extends PuzzleImporter
                 }
             }
             puzzle.setCurrentBoard(masyuBoard);
-        }
-        catch(NumberFormatException e)
-        {
+        } catch (NumberFormatException e) {
             throw new InvalidFileFormatException("Masyu Importer: unknown value where integer expected");
         }
     }

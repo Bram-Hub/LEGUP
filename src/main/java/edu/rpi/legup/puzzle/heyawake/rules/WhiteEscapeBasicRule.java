@@ -1,5 +1,4 @@
 package edu.rpi.legup.puzzle.heyawake.rules;
 
-public class WhiteEscapeBasicRule
-{
+public class WhiteEscapeBasicRule {
 }

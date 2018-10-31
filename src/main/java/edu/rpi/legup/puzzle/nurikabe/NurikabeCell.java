@@ -4,18 +4,14 @@ import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.awt.*;
 
-public class NurikabeCell extends GridCell<Integer>
-{
+public class NurikabeCell extends GridCell<Integer> {
 
-    public NurikabeCell(int valueInt, Point location)
-    {
+    public NurikabeCell(int valueInt, Point location) {
         super(valueInt, location);
     }
 
-    public NurikabeType getType()
-    {
-        switch(data)
-        {
+    public NurikabeType getType() {
+        switch (data) {
             case -2:
                 return NurikabeType.UNKNOWN;
             case -1:
@@ -23,8 +19,7 @@ public class NurikabeCell extends GridCell<Integer>
             case 0:
                 return NurikabeType.WHITE;
             default:
-                if(data > 0)
-                {
+                if (data > 0) {
                     return NurikabeType.NUMBER;
                 }
         }
@@ -32,9 +27,8 @@ public class NurikabeCell extends GridCell<Integer>
     }
 
     @Override
-    public NurikabeCell copy()
-    {
-        NurikabeCell copy = new NurikabeCell(data, (Point)location.clone());
+    public NurikabeCell copy() {
+        NurikabeCell copy = new NurikabeCell(data, (Point) location.clone());
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);

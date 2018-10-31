@@ -1,6 +1,7 @@
 package edu.rpi.legup.model.gameboard;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import edu.rpi.legup.save.InvalidFileFormatException;
 
@@ -20,8 +21,8 @@ public abstract class ElementFactory {
      * Creates a xml document {@link PuzzleElement} from a cell for exporting.
      *
      * @param document xml document
-     * @param data     PuzzleElement cell
+     * @param puzzleElement     PuzzleElement cell
      * @return xml PuzzleElement
      */
-    public abstract org.w3c.dom.Element exportCell(Document document, PuzzleElement data);
+    public abstract Element exportCell(Document document, PuzzleElement puzzleElement);
 }

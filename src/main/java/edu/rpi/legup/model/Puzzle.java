@@ -101,7 +101,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
         } catch (IOException | ClassNotFoundException | NoSuchMethodException |
                 InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            LOGGER.error("Unable to find rules for puzzle", e);
+            LOGGER.error("Unable to find rules for " + this.getClass().getSimpleName(), e);
         }
     }
 

@@ -12,8 +12,7 @@ public class HeyawakeElementView extends GridElementView {
     private static final Color WHITE_COLOR = new Color(0xF5F5F5);
     private static final Color GRAY_COLOR = new Color(0x9E9E9E);
 
-    public HeyawakeElementView(HeyawakeCell cell)
-    {
+    public HeyawakeElementView(HeyawakeCell cell) {
         super(cell);
     }
 
@@ -28,14 +27,13 @@ public class HeyawakeElementView extends GridElementView {
     }
 
     @Override
-    public void drawElement(Graphics2D graphics2D)
-    {
+    public void drawElement(Graphics2D graphics2D) {
         HeyawakeCell cell = (HeyawakeCell) puzzleElement;
         graphics2D.setStroke(new BasicStroke(1));
         graphics2D.setColor(BLACK_COLOR);
         graphics2D.drawRect(location.x, location.y, size.width, size.height);
 
-        if(cell.getData() >= 0) {
+        if (cell.getData() >= 0) {
             graphics2D.setColor(BLACK_COLOR);
             graphics2D.setFont(FONT);
             FontMetrics metrics = graphics2D.getFontMetrics(FONT);

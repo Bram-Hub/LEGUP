@@ -16,8 +16,7 @@ public class PossibleNumberCaseBoard extends CaseBoard {
     private Set<Integer> pickableCols;
 
 
-    public PossibleNumberCaseBoard(SudokuBoard baseBoard, PossibleNumberCaseRule caseRule, SudokuCell cell)
-    {
+    public PossibleNumberCaseBoard(SudokuBoard baseBoard, PossibleNumberCaseRule caseRule, SudokuCell cell) {
         super(baseBoard, caseRule);
         this.cell = cell;
         this.pickableRegions = new HashSet<>();
@@ -27,26 +26,26 @@ public class PossibleNumberCaseBoard extends CaseBoard {
 
     @Override
     public boolean isPickable(PuzzleElement puzzleElement, MouseEvent e) {
-        if(e == null) {
+        if (e == null) {
             return false;
         }
 
-        SudokuCell sudokuCell = (SudokuCell)puzzleElement;
-        if(e.isShiftDown()) {
-            for(int r : pickableRows) {
-                if(r == sudokuCell.getLocation().y) {
+        SudokuCell sudokuCell = (SudokuCell) puzzleElement;
+        if (e.isShiftDown()) {
+            for (int r : pickableRows) {
+                if (r == sudokuCell.getLocation().y) {
                     return true;
                 }
             }
-        } else if(e.isControlDown()) {
-            for(int c : pickableCols) {
-                if(c == sudokuCell.getLocation().x) {
+        } else if (e.isControlDown()) {
+            for (int c : pickableCols) {
+                if (c == sudokuCell.getLocation().x) {
                     return true;
                 }
             }
         } else {
-            for(int r : pickableRegions) {
-                if(r == sudokuCell.getGroupIndex()) {
+            for (int r : pickableRegions) {
+                if (r == sudokuCell.getGroupIndex()) {
                     return true;
                 }
             }

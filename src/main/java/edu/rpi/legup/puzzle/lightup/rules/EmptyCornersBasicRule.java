@@ -3,11 +3,11 @@ package edu.rpi.legup.puzzle.lightup.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.BasicRule;
-import edu.rpi.legup.model.rules.RegisterRule;
-import edu.rpi.legup.model.rules.RuleType;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.lightup.*;
+import edu.rpi.legup.puzzle.lightup.LightUpBoard;
+import edu.rpi.legup.puzzle.lightup.LightUpCell;
+import edu.rpi.legup.puzzle.lightup.LightUpCellType;
 
 import java.awt.*;
 import java.util.ArrayList;

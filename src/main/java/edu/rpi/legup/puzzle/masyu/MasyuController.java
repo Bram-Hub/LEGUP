@@ -13,15 +13,13 @@ import java.util.List;
 
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
-public class MasyuController extends ElementController
-{
+public class MasyuController extends ElementController {
 
     private MasyuElementView mousePressedCell;
     private MasyuElementView mouseDraggedCell;
     private List<MasyuElementView> masyuLine;
 
-    public MasyuController()
-    {
+    public MasyuController() {
         super();
         this.mousePressedCell = null;
         this.mouseDraggedCell = null;
@@ -34,8 +32,7 @@ public class MasyuController extends ElementController
      * @param e the event to be processed
      */
     @Override
-    public void mousePressed(MouseEvent e)
-    {
+    public void mousePressed(MouseEvent e) {
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         this.masyuLine.clear();
         mousePressedCell = (MasyuElementView) boardView.getElement(e.getPoint());
@@ -43,33 +40,26 @@ public class MasyuController extends ElementController
     }
 
     @Override
-    public void mouseDragged(MouseEvent e)
-    {
+    public void mouseDragged(MouseEvent e) {
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         MasyuElementView elementView = (MasyuElementView) boardView.getElement(e.getPoint());
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
-        if(mousePressedCell != null && elementView != null)
-        {
-            if(mouseDraggedCell == null)
-            {
+        if (mousePressedCell != null && elementView != null) {
+            if (mouseDraggedCell == null) {
                 mouseDraggedCell = elementView;
                 Point p1 = mousePressedCell.getPuzzleElement().getLocation();
                 Point p2 = mouseDraggedCell.getPuzzleElement().getLocation();
 
-                if(Math.abs(p1.x - p2.x) == 1 ^ Math.abs(p1.y - p2.y) == 1)
-                {
+                if (Math.abs(p1.x - p2.x) == 1 ^ Math.abs(p1.y - p2.y) == 1) {
                     masyuLine.add(elementView);
                     MasyuLine newLine = new MasyuLine(mousePressedCell.getPuzzleElement(), mouseDraggedCell.getPuzzleElement());
                     puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(newLine));
                 }
-            }
-            else if(mouseDraggedCell != elementView)
-            {
+            } else if (mouseDraggedCell != elementView) {
                 Point p1 = mouseDraggedCell.getPuzzleElement().getLocation();
                 Point p2 = elementView.getPuzzleElement().getLocation();
 
-                if(Math.abs(p1.x - p2.x) == 1 ^ Math.abs(p1.y - p2.y) == 1)
-                {
+                if (Math.abs(p1.x - p2.x) == 1 ^ Math.abs(p1.y - p2.y) == 1) {
                     masyuLine.add(elementView);
                     MasyuLine newLine = new MasyuLine(mouseDraggedCell.getPuzzleElement(), elementView.getPuzzleElement());
                     puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(newLine));
@@ -80,8 +70,7 @@ public class MasyuController extends ElementController
     }
 
     @Override
-    public void mouseReleased(MouseEvent e)
-    {
+    public void mouseReleased(MouseEvent e) {
         super.mouseReleased(e);
         mousePressedCell = null;
         mouseDraggedCell = null;
@@ -89,8 +78,7 @@ public class MasyuController extends ElementController
     }
 
     @Override
-    public void changeCell(MouseEvent e, PuzzleElement data)
-    {
+    public void changeCell(MouseEvent e, PuzzleElement data) {
 
     }
 }

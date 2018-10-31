@@ -2,20 +2,20 @@ package edu.rpi.legup.model;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
+import edu.rpi.legup.model.rules.MergeRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.tree.*;
+import edu.rpi.legup.save.InvalidFileFormatException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import edu.rpi.legup.save.InvalidFileFormatException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public abstract class PuzzleImporter {
     private static final Logger LOGGER = LogManager.getLogger(PuzzleImporter.class.getName());
@@ -180,17 +180,24 @@ public abstract class PuzzleImporter {
             for (int k = 0; k < transList.getLength(); k++) {
                 org.w3c.dom.Element trans = (org.w3c.dom.Element) transList.item(k);
                 String transId = trans.getAttribute("id");
-//                if(treeTransitions.containsKey(transId))
-//                {
-//                    throw new InvalidFileFormatException("Proof Tree construction error: duplicate transition id found");
-//                }
+                TreeTransition transition = treeTransitions.get(transId);
+                if (transition != null) {
+                    if (transition.getRule() instanceof MergeRule) {
+                        transition.addParent(treeNode);
+                        treeNode.addChild(transition);
+                        continue;
+                    } else {
+                        throw new InvalidFileFormatException("Proof Tree construction error: duplicate transition id found");
+                    }
+
+                }
 
                 String childId = trans.getAttribute("child");
                 String ruleName = trans.getAttribute("rule");
 
                 TreeNode child = treeNodes.get(childId);
 
-                TreeTransition transition = new TreeTransition(treeNode, treeNode.getBoard().copy());
+                transition = new TreeTransition(treeNode, treeNode.getBoard().copy());
 
                 Rule rule;
                 if (!ruleName.isEmpty()) {
@@ -287,19 +294,39 @@ public abstract class PuzzleImporter {
     }
 
     protected void makeTransitionChanges(TreeTransition transition, Node transElement) throws InvalidFileFormatException {
-        NodeList cellList = transElement.getChildNodes();
-        for (int i = 0; i < cellList.getLength(); i++) {
-            Node node = cellList.item(i);
-            if (node.getNodeName().equalsIgnoreCase("cell")) {
-                Board board = transition.getBoard();
-                PuzzleElement cell = puzzle.getFactory().importCell(node, board);
+        if(transition.getRule() instanceof MergeRule) {
+            List<TreeNode> mergingNodes = transition.getParents();
+            List<Board> mergingBoards = new ArrayList<>();
+            mergingNodes.forEach(n -> mergingBoards.add(n.getBoard()));
 
-                board.setPuzzleElement(cell.getIndex(), cell);
-                board.addModifiedData(cell);
-                transition.propagateChanges(cell);
-            } else {
-                if (!node.getNodeName().equalsIgnoreCase("#text")) {
-                    throw new InvalidFileFormatException("Proof Tree construction error: unknown node in transition");
+            TreeNode lca = Tree.getLowestCommonAncestor(mergingNodes);
+            if(lca == null) {
+                throw new InvalidFileFormatException("Proof Tree construction error: unable to find merge node");
+            }
+            Board lcaBoard = lca.getBoard();
+
+            Board mergedBoard = lcaBoard.mergedBoard(lcaBoard, mergingBoards);
+
+            transition.setBoard(mergedBoard);
+            TreeNode childNode = transition.getChildNode();
+            if(childNode != null) {
+                childNode.setBoard(mergedBoard.copy());
+            }
+        } else {
+            NodeList cellList = transElement.getChildNodes();
+            for (int i = 0; i < cellList.getLength(); i++) {
+                Node node = cellList.item(i);
+                if (node.getNodeName().equalsIgnoreCase("cell")) {
+                    Board board = transition.getBoard();
+                    PuzzleElement cell = puzzle.getFactory().importCell(node, board);
+
+                    board.setPuzzleElement(cell.getIndex(), cell);
+                    board.addModifiedData(cell);
+                    transition.propagateChange(cell);
+                } else {
+                    if (!node.getNodeName().equalsIgnoreCase("#text")) {
+                        throw new InvalidFileFormatException("Proof Tree construction error: unknown node in transition");
+                    }
                 }
             }
         }

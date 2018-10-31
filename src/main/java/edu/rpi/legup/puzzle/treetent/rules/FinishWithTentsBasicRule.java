@@ -32,7 +32,7 @@ public class FinishWithTentsBasicRule extends BasicRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        if(puzzleElement instanceof TreeTentLine) {
+        if (puzzleElement instanceof TreeTentLine) {
             return "Line is not valid for this rule.";
         }
         TreeTentBoard initialBoard = (TreeTentBoard) transition.getParents().get(0).getBoard();
@@ -69,15 +69,15 @@ public class FinishWithTentsBasicRule extends BasicRule {
      */
     @Override
     public Board getDefaultBoard(TreeNode node) {
-        TreeTentBoard treeTentBoard = (TreeTentBoard)node.getBoard().copy();
-        for(PuzzleElement element : treeTentBoard.getPuzzleElements()) {
-            TreeTentCell cell = (TreeTentCell)element;
-            if(cell.getType() == TreeTentType.UNKNOWN && isForced(treeTentBoard, cell)) {
+        TreeTentBoard treeTentBoard = (TreeTentBoard) node.getBoard().copy();
+        for (PuzzleElement element : treeTentBoard.getPuzzleElements()) {
+            TreeTentCell cell = (TreeTentCell) element;
+            if (cell.getType() == TreeTentType.UNKNOWN && isForced(treeTentBoard, cell)) {
                 cell.setData(TreeTentType.TENT.value);
                 treeTentBoard.addModifiedData(cell);
             }
         }
-        if(treeTentBoard.getModifiedData().isEmpty()) {
+        if (treeTentBoard.getModifiedData().isEmpty()) {
             return null;
         } else {
             return treeTentBoard;

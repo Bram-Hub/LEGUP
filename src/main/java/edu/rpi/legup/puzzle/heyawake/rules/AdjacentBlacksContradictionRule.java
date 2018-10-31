@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.heyawake.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
-import edu.rpi.legup.model.tree.TreeTransition;
 
 public class AdjacentBlacksContradictionRule extends ContradictionRule {
 

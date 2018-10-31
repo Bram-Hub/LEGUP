@@ -9,11 +9,9 @@ import edu.rpi.legup.puzzle.treetent.TreeTentType;
 
 import java.awt.*;
 
-public class TooFewTentsContradictionRule extends ContradictionRule
-{
+public class TooFewTentsContradictionRule extends ContradictionRule {
 
-    public TooFewTentsContradictionRule()
-    {
+    public TooFewTentsContradictionRule() {
         super("Too Few Tents",
                 "Rows and columns cannot have fewer tents than their clue.",
                 "edu/rpi/legup/images/treetent/too_few_tents.png");

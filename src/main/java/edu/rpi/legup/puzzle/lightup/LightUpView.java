@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.lightup;
 
 import edu.rpi.legup.controller.BoardController;
-import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeElement;
@@ -14,27 +13,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class LightUpView extends GridBoardView
-{
+public class LightUpView extends GridBoardView {
     static Image lightImage;
-    static
-    {
-        try
-        {
+
+    static {
+        try {
             lightImage = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/lightup/light.png"));
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
 
         }
     }
 
-    public LightUpView(LightUpBoard board)
-    {
+    public LightUpView(LightUpBoard board) {
         super(new BoardController(), new LightUpCellController(), board.getDimension());
 
-        for(PuzzleElement puzzleElement : board.getPuzzleElements())
-        {
+        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             LightUpCell cell = (LightUpCell) puzzleElement;
             Point loc = cell.getLocation();
             LightUpElementView elementView = new LightUpElementView(cell);
@@ -44,28 +37,27 @@ public class LightUpView extends GridBoardView
             elementViews.add(elementView);
         }
     }
+
     /**
      * Called when the tree element has changed.
      *
      * @param treeElement tree element
      */
     @Override
-    public void onTreeElementChanged(TreeElement treeElement)
-    {
+    public void onTreeElementChanged(TreeElement treeElement) {
         super.onTreeElementChanged(treeElement);
-        LightUpBoard lightUpBoard = board instanceof CaseBoard ? (LightUpBoard)((CaseBoard)board).getBaseBoard() : (LightUpBoard)board;
+        LightUpBoard lightUpBoard = board instanceof CaseBoard ? (LightUpBoard) ((CaseBoard) board).getBaseBoard() : (LightUpBoard) board;
         lightUpBoard.fillWithLight();
         repaint();
     }
 
-    public DataSelectionView getSelectionPopupMenu()
-    {
+    public DataSelectionView getSelectionPopupMenu() {
         DataSelectionView selectionView = new DataSelectionView(elementController);
-        GridLayout layout = new GridLayout(3,1);
+        GridLayout layout = new GridLayout(3, 1);
         selectionView.setLayout(layout);
 
-        Dimension iconSize = new Dimension(32,32);
-        Point loc = new Point(0,0);
+        Dimension iconSize = new Dimension(32, 32);
+        Point loc = new Point(0, 0);
 
         LightUpElementView element1 = new LightUpElementView(new LightUpCell(-2, null));
         element1.setSize(iconSize);

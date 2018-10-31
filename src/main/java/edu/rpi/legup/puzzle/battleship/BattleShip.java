@@ -3,10 +3,8 @@ package edu.rpi.legup.puzzle.battleship;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 
-public class BattleShip extends Puzzle
-{
-    public BattleShip()
-    {
+public class BattleShip extends Puzzle {
+    public BattleShip() {
         super();
 
         this.name = "BattleShip";
@@ -15,19 +13,15 @@ public class BattleShip extends Puzzle
         this.exporter = new BattleShipExporter(this);
 
         this.factory = new BattleShipCellFactory();
-
-        // ADD RULES ONCE THEY ARE CREATED
     }
 
     @Override
-    public void initializeView()
-    {
+    public void initializeView() {
         boardView = new BattleShipView((BattleShipBoard) currentBoard);
     }
 
     @Override
-    public Board generatePuzzle(int difficulty)
-    {
+    public Board generatePuzzle(int difficulty) {
         return null;
     }
 
@@ -35,18 +29,15 @@ public class BattleShip extends Puzzle
      * Determines if the current board is a valid state
      *
      * @param board board to check for validity
-     *
      * @return true if board is valid, false otherwise
      */
     @Override
-    public boolean isBoardComplete(Board board)
-    {
+    public boolean isBoardComplete(Board board) {
         return false;
     }
 
     @Override
-    public void onBoardChange(Board board)
-    {
+    public void onBoardChange(Board board) {
 
     }
 //
@@ -57,8 +48,7 @@ public class BattleShip extends Puzzle
 //    }
 
     @Override
-    public void importPuzzle(String fileName)
-    {
+    public void importPuzzle(String fileName) {
 //        if(fileName != null)
 //        {
 //            InputStream inputStream = new FileInputStream(fileName);

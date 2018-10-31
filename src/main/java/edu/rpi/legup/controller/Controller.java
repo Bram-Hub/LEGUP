@@ -6,9 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public abstract class Controller implements MouseMotionListener, MouseListener, MouseWheelListener {
     protected ScrollView viewer;
     private int x, y;

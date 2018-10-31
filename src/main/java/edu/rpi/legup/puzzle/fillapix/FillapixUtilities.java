@@ -1,6 +1,5 @@
 package edu.rpi.legup.puzzle.fillapix;
 
-import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.fillapix.rules.TooFewBlackCellsContradictionRule;
 import edu.rpi.legup.puzzle.fillapix.rules.TooManyBlackCellsContradictionRule;
 

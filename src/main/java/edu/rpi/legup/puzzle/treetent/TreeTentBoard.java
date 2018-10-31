@@ -1,8 +1,8 @@
 package edu.rpi.legup.puzzle.treetent;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.gameboard.GridBoard;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -72,12 +72,32 @@ public class TreeTentBoard extends GridBoard {
         }
     }
 
+    /**
+     * Called when a {@link PuzzleElement} has been added and passes in the equivalent puzzle element with the data.
+     *
+     * @param puzzleElement equivalent puzzle element with the data.
+     */
     @Override
-    public void notifyChange(PuzzleElement puzzleElement) {
-        if (puzzleElement instanceof TreeTentLine) {
+    public void notifyAddition(PuzzleElement puzzleElement) {
+        if(puzzleElement instanceof TreeTentLine) {
             lines.add((TreeTentLine) puzzleElement);
-        } else {
-            super.notifyChange(puzzleElement);
+        }
+    }
+
+    /**
+     * Called when a {@link PuzzleElement} has been deleted and passes in the equivalent puzzle element with the data.
+     *
+     * @param puzzleElement equivalent puzzle element with the data.
+     */
+    @Override
+    public void notifyDeletion(PuzzleElement puzzleElement) {
+        if(puzzleElement instanceof TreeTentLine) {
+            for(TreeTentLine line : lines) {
+                if(line.compare((TreeTentLine)puzzleElement)) {
+                    lines.remove(line);
+                    break;
+                }
+            }
         }
     }
 
@@ -107,7 +127,7 @@ public class TreeTentBoard extends GridBoard {
         List<TreeTentCell> dia = new ArrayList<>();
         Point loc = cell.getLocation();
         TreeTentCell upRight = getCell(loc.x + 1, loc.y - 1);
-        TreeTentCell downRight= getCell(loc.x + 1, loc.y + 1);
+        TreeTentCell downRight = getCell(loc.x + 1, loc.y + 1);
         TreeTentCell downLeft = getCell(loc.x - 1, loc.y + 1);
         TreeTentCell upLeft = getCell(loc.x - 1, loc.y - 1);
         if (upRight != null && upRight.getType() == type) {
@@ -180,6 +200,9 @@ public class TreeTentBoard extends GridBoard {
             TreeTentLine lineCpy = line.copy();
             lineCpy.setModifiable(false);
             copy.getLines().add(lineCpy);
+        }
+        for(PuzzleElement e : modifiedData) {
+            copy.getPuzzleElement(e).setModifiable(false);
         }
         copy.rowClues = rowClues;
         copy.colClues = colClues;

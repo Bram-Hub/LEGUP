@@ -4,20 +4,17 @@ import edu.rpi.legup.ui.boardview.ElementView;
 
 import java.awt.*;
 
-public class TreeTentLineView extends ElementView
-{
+public class TreeTentLineView extends ElementView {
     private final Color LINE_COLOR = Color.GREEN;
 
     private final Stroke LINE_STROKE = new BasicStroke(2);
 
-    public TreeTentLineView(TreeTentLine line)
-    {
+    public TreeTentLineView(TreeTentLine line) {
         super(line);
     }
 
     @Override
-    public void draw(Graphics2D graphics2D)
-    {
+    public void draw(Graphics2D graphics2D) {
 
         TreeTentLine line = (TreeTentLine) puzzleElement;
         Point p1 = line.getC1().getLocation();

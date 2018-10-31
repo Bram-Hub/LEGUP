@@ -7,14 +7,13 @@ public enum BattleShipCellType {
 
     public int value;
 
-    BattleShipCellType () {
+    BattleShipCellType() {
         this.value = this.ordinal();
     }
 
     public static BattleShipCellType getType(int value) {
         BattleShipCellType[] vals = values();
-        if(value >= 0 && value < vals.length)
-        {
+        if (value >= 0 && value < vals.length) {
             return vals[value];
         }
         return null;

@@ -1,10 +1,12 @@
 package edu.rpi.legup.puzzle.treetent;
 
 import edu.rpi.legup.history.CommandError;
+import edu.rpi.legup.history.PuzzleCommand;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.tree.*;
-import edu.rpi.legup.ui.treeview.*;
-import edu.rpi.legup.history.PuzzleCommand;
+import edu.rpi.legup.ui.treeview.TreeElementView;
+import edu.rpi.legup.ui.treeview.TreeView;
+import edu.rpi.legup.ui.treeview.TreeViewSelection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,7 +70,7 @@ public class ClueCommand extends PuzzleCommand {
                 cell = (TreeTentCell) board.getPuzzleElement(cell);
                 cell.setData(TreeTentType.GRASS.value);
                 board.addModifiedData(cell);
-                finalTran.propagateChanges(cell);
+                finalTran.propagateChange(cell);
 
                 final TreeTentCell finalCell = cell;
                 puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(finalCell));

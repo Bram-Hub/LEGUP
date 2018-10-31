@@ -222,7 +222,7 @@ public class Update {
     }
 
     public enum Stream {
-        CLIENT("Legup.jar", "client-update.zip");
+        CLIENT("Legup(1).jar", "client-update.zip");
 
         public final String assetName;
         public final String extraName;

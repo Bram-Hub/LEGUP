@@ -9,28 +9,25 @@ import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
 import edu.rpi.legup.puzzle.fillapix.FillapixCell;
 import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
 
-public class FinishWithBlackBasicRule extends BasicRule
-{
-    public FinishWithBlackBasicRule()
-    {
+public class FinishWithBlackBasicRule extends BasicRule {
+    public FinishWithBlackBasicRule() {
         super("Finish with Black",
                 "The remaining unknowns around and on a cell must be black to satisfy the number",
                 "edu/rpi/legup/images/fillapix/rules/FinishWithBlack.png");
     }
 
     @Override
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
-    {
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         FillapixBoard board = (FillapixBoard) transition.getBoard();
         FillapixBoard parentBoard = (FillapixBoard) transition.getParents().get(0).getBoard();
         FillapixCell cell = (FillapixCell) board.getPuzzleElement(puzzleElement);
         FillapixCell parentCell = (FillapixCell) parentBoard.getPuzzleElement(puzzleElement);
 
-        if(!(parentCell.getType() == FillapixCellType.UNKNOWN && cell.getType() == FillapixCellType.BLACK)) {
+        if (!(parentCell.getType() == FillapixCellType.UNKNOWN && cell.getType() == FillapixCellType.BLACK)) {
             return "This cell must be black to be applicable with this rule.";
         }
 
-        if(isForcedBlack(parentBoard, cell)) {
+        if (isForcedBlack(parentBoard, cell)) {
             return null;
         } else {
             return "This cell is not forced to be black";
@@ -53,15 +50,15 @@ public class FinishWithBlackBasicRule extends BasicRule
      */
     @Override
     public Board getDefaultBoard(TreeNode node) {
-        FillapixBoard fillapixBoard = (FillapixBoard)node.getBoard().copy();
-        for(PuzzleElement element : fillapixBoard.getPuzzleElements()) {
-            FillapixCell cell = (FillapixCell)element;
-            if(cell.getType() == FillapixCellType.UNKNOWN && isForcedBlack((FillapixBoard) node.getBoard(), cell)) {
+        FillapixBoard fillapixBoard = (FillapixBoard) node.getBoard().copy();
+        for (PuzzleElement element : fillapixBoard.getPuzzleElements()) {
+            FillapixCell cell = (FillapixCell) element;
+            if (cell.getType() == FillapixCellType.UNKNOWN && isForcedBlack((FillapixBoard) node.getBoard(), cell)) {
                 cell.setType(FillapixCellType.BLACK);
                 fillapixBoard.addModifiedData(cell);
             }
         }
-        if(fillapixBoard.getModifiedData().isEmpty()) {
+        if (fillapixBoard.getModifiedData().isEmpty()) {
             return null;
         } else {
             return fillapixBoard;

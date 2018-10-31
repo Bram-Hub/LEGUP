@@ -6,15 +6,12 @@ import edu.rpi.legup.ui.boardview.GridBoardView;
 
 import java.awt.*;
 
-public class NurikabeView extends GridBoardView
-{
+public class NurikabeView extends GridBoardView {
 
-    public NurikabeView(NurikabeBoard board)
-    {
+    public NurikabeView(NurikabeBoard board) {
         super(new BoardController(), new NurikabeController(), board.getDimension());
 
-        for(PuzzleElement puzzleElement : board.getPuzzleElements())
-        {
+        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             NurikabeCell cell = (NurikabeCell) puzzleElement;
             Point loc = cell.getLocation();
             NurikabeElementView elementView = new NurikabeElementView(cell);

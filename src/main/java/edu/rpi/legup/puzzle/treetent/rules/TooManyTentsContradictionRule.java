@@ -31,7 +31,7 @@ public class TooManyTentsContradictionRule extends ContradictionRule {
         TreeTentCell cell = (TreeTentCell) puzzleElement;
 
         Point loc = cell.getLocation();
-        int rowTents = treeTentBoard.getRowCol(loc.y, TreeTentType.TENT,true).size();
+        int rowTents = treeTentBoard.getRowCol(loc.y, TreeTentType.TENT, true).size();
         int colTents = treeTentBoard.getRowCol(loc.x, TreeTentType.TENT, false).size();
 
         if (rowTents > treeTentBoard.getRowClues().get(loc.y).getData() ||

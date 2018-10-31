@@ -4,14 +4,12 @@ import edu.rpi.legup.ui.boardview.ElementView;
 
 import java.awt.*;
 
-public class TreeTentClueView extends ElementView
-{
+public class TreeTentClueView extends ElementView {
 
     private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
     private static final Color FONT_COLOR = Color.BLACK;
 
-    public TreeTentClueView(TreeTentClue clue)
-    {
+    public TreeTentClueView(TreeTentClue clue) {
         super(clue);
     }
 
@@ -21,22 +19,19 @@ public class TreeTentClueView extends ElementView
      * @return PuzzleElement associated with this view
      */
     @Override
-    public TreeTentClue getPuzzleElement()
-    {
-        return (TreeTentClue)super.getPuzzleElement();
+    public TreeTentClue getPuzzleElement() {
+        return (TreeTentClue) super.getPuzzleElement();
     }
 
     @Override
-    public void drawElement(Graphics2D graphics2D)
-    {
+    public void drawElement(Graphics2D graphics2D) {
         graphics2D.setColor(FONT_COLOR);
         graphics2D.setFont(FONT);
         FontMetrics metrics = graphics2D.getFontMetrics(FONT);
         String value;
 
         TreeTentClue clue = getPuzzleElement();
-        switch(clue.getType())
-        {
+        switch (clue.getType()) {
             case CLUE_NORTH:
                 value = String.valueOf(clue.getData() + 1);
                 break;

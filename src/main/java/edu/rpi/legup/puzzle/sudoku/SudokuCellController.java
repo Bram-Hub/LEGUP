@@ -3,12 +3,10 @@ package edu.rpi.legup.puzzle.sudoku;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class SudokuCellController implements MouseListener
-{
+public class SudokuCellController implements MouseListener {
     private SudokuView sudokuView;
 
-    public SudokuCellController(SudokuView sudokuView)
-    {
+    public SudokuCellController(SudokuView sudokuView) {
         this.sudokuView = sudokuView;
     }
 
@@ -19,8 +17,7 @@ public class SudokuCellController implements MouseListener
      * @param e the event to be processed
      */
     @Override
-    public void mouseClicked(MouseEvent e)
-    {
+    public void mouseClicked(MouseEvent e) {
         SudokuElementView cell = (SudokuElementView) e.getSource();
         cell.getPuzzleElement().setData(cell.getPuzzleElement().getData() + 1);
     }
@@ -31,8 +28,7 @@ public class SudokuCellController implements MouseListener
      * @param e the event to be processed
      */
     @Override
-    public void mousePressed(MouseEvent e)
-    {
+    public void mousePressed(MouseEvent e) {
 
     }
 
@@ -42,8 +38,7 @@ public class SudokuCellController implements MouseListener
      * @param e the event to be processed
      */
     @Override
-    public void mouseReleased(MouseEvent e)
-    {
+    public void mouseReleased(MouseEvent e) {
 
     }
 
@@ -53,8 +48,7 @@ public class SudokuCellController implements MouseListener
      * @param e the event to be processed
      */
     @Override
-    public void mouseEntered(MouseEvent e)
-    {
+    public void mouseEntered(MouseEvent e) {
 
     }
 
@@ -64,8 +58,7 @@ public class SudokuCellController implements MouseListener
      * @param e the event to be processed
      */
     @Override
-    public void mouseExited(MouseEvent e)
-    {
+    public void mouseExited(MouseEvent e) {
 
     }
 }

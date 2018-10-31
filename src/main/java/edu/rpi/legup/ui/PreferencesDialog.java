@@ -51,14 +51,13 @@ public class PreferencesDialog extends JDialog {
 
         Config config = GameBoardFacade.getInstance().getConfig();
         try {
-
             for (String puzzleName : config.getPuzzleNames()) {
                 String qualifiedClassName = config.getPuzzleClassForName(puzzleName);
 
                 Class<?> c = Class.forName(qualifiedClassName);
                 Constructor<?> cons = c.getConstructor();
                 Puzzle puzzle = (Puzzle) cons.newInstance();
-                tabbedPane.addTab(puzzleName, createPuzzleTab(puzzle));
+//                tabbedPane.addTab(puzzleName, createPuzzleTab(puzzle));
             }
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             LOGGER.log(Level.SEVERE, "Cannot create puzzle preferences");
@@ -171,6 +170,7 @@ public class PreferencesDialog extends JDialog {
         contentPane.add(createLineSeparator());
 
         allowDefault = new JCheckBox("Allow Default Rule Applications", Boolean.valueOf(prefs.getUserPref(LegupPreferences.ALLOW_DEFAULT_RULES)));
+        allowDefault.setEnabled(false);
         allowDefault.setToolTipText("If checked this automatically applies a rule where it can on the board");
 
         JPanel allowDefaultRow = new JPanel();

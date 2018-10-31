@@ -3,18 +3,12 @@ package edu.rpi.legup.puzzle.lightup.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.BasicRule;
-import edu.rpi.legup.model.rules.RegisterRule;
-import edu.rpi.legup.model.rules.RuleType;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.lightup.LightUp;
 import edu.rpi.legup.puzzle.lightup.LightUpBoard;
 import edu.rpi.legup.puzzle.lightup.LightUpCell;
 import edu.rpi.legup.puzzle.lightup.LightUpCellType;
 
-import java.awt.*;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.Set;
 
 public class FinishWithBulbsBasicRule extends BasicRule {
@@ -46,15 +40,15 @@ public class FinishWithBulbsBasicRule extends BasicRule {
 
         Set<LightUpCell> adjCells = finalBoard.getAdj(finalCell);
         adjCells.removeIf(cell -> cell.getType() != LightUpCellType.NUMBER);
-        if(adjCells.isEmpty()) {
+        if (adjCells.isEmpty()) {
             return "This cell is not adjacent to a numbered cell.";
         }
 
         LightUpBoard emptyCase = initialBoard.copy();
         emptyCase.getPuzzleElement(finalCell).setData(LightUpCellType.EMPTY.value);
         TooFewBulbsContradictionRule tooFew = new TooFewBulbsContradictionRule();
-        for(LightUpCell c : adjCells) {
-            if(tooFew.checkContradictionAt(emptyCase, c) == null) {
+        for (LightUpCell c : adjCells) {
+            if (tooFew.checkContradictionAt(emptyCase, c) == null) {
                 return null;
             }
         }
@@ -64,20 +58,21 @@ public class FinishWithBulbsBasicRule extends BasicRule {
     private boolean isForced(LightUpBoard board, LightUpCell cell) {
         Set<LightUpCell> adjCells = board.getAdj(cell);
         adjCells.removeIf(c -> c.getType() != LightUpCellType.NUMBER);
-        if(adjCells.isEmpty()) {
+        if (adjCells.isEmpty()) {
             return false;
         }
 
         LightUpBoard emptyCase = board.copy();
         emptyCase.getPuzzleElement(cell).setData(LightUpCellType.EMPTY.value);
         TooFewBulbsContradictionRule tooFew = new TooFewBulbsContradictionRule();
-        for(LightUpCell c : adjCells) {
-            if(tooFew.checkContradictionAt(emptyCase, c) == null) {
+        for (LightUpCell c : adjCells) {
+            if (tooFew.checkContradictionAt(emptyCase, c) == null) {
                 return true;
             }
         }
         return false;
     }
+
     /**
      * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
      *

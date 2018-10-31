@@ -7,8 +7,7 @@ import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SudokuBoard extends GridBoard
-{
+public class SudokuBoard extends GridBoard {
     private int size;
     private int groupSize;
 
@@ -17,11 +16,10 @@ public class SudokuBoard extends GridBoard
      *
      * @param size size of one side of the sudoku board, must be an integer square root
      */
-    public SudokuBoard(int size)
-    {
+    public SudokuBoard(int size) {
         super(size, size);
         this.size = size;
-        this.groupSize = (int)Math.sqrt(dimension.width);
+        this.groupSize = (int) Math.sqrt(dimension.width);
     }
 
     /**
@@ -32,9 +30,8 @@ public class SudokuBoard extends GridBoard
      * @return SudokuCell at location (x, y)
      */
     @Override
-    public SudokuCell getCell(int x, int y)
-    {
-        return (SudokuCell)super.getCell(x, y);
+    public SudokuCell getCell(int x, int y) {
+        return (SudokuCell) super.getCell(x, y);
     }
 
     /**
@@ -44,12 +41,11 @@ public class SudokuBoard extends GridBoard
      * less the square root of the width (or height) of the board.
      *
      * @param groupIndex group index of the cell
-     * @param x x location relative to the group
-     * @param y y location relative to the group
+     * @param x          x location relative to the group
+     * @param y          y location relative to the group
      * @return cell in the specified group index at the given x and y location
      */
-    public SudokuCell getCell(int groupIndex, int x, int y)
-    {
+    public SudokuCell getCell(int groupIndex, int x, int y) {
         return getCell(x + (groupIndex % groupSize) * groupSize, y + (groupIndex / groupSize) * groupSize);
     }
 
@@ -59,8 +55,7 @@ public class SudokuBoard extends GridBoard
      *
      * @return size of the board
      */
-    public int getSize()
-    {
+    public int getSize() {
         return size;
     }
 
@@ -70,8 +65,7 @@ public class SudokuBoard extends GridBoard
      *
      * @return minor group size
      */
-    public int getGroupSize()
-    {
+    public int getGroupSize() {
         return groupSize;
     }
 
@@ -81,11 +75,9 @@ public class SudokuBoard extends GridBoard
      * @param rowNum row index
      * @return list of all the cells in the row
      */
-    public Set<SudokuCell> getRow(int rowNum)
-    {
+    public Set<SudokuCell> getRow(int rowNum) {
         Set<SudokuCell> row = new HashSet<>();
-        for(int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             row.add(getCell(i, rowNum));
         }
         return row;
@@ -97,11 +89,9 @@ public class SudokuBoard extends GridBoard
      * @param colNum column index
      * @return list of all the cells in the column
      */
-    public Set<SudokuCell> getCol(int colNum)
-    {
+    public Set<SudokuCell> getCol(int colNum) {
         Set<SudokuCell> col = new HashSet<>();
-        for(int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             col.add(getCell(colNum, i));
         }
         return col;
@@ -113,18 +103,15 @@ public class SudokuBoard extends GridBoard
      * @param regionNum region index
      * @return list of all the cells in the region
      */
-    public Set<SudokuCell> getRegion(int regionNum)
-    {
+    public Set<SudokuCell> getRegion(int regionNum) {
         Set<SudokuCell> region = new HashSet<>();
-        for(int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             region.add(getCell(regionNum, i % groupSize, i / groupSize));
         }
         return region;
     }
 
-    public Set<SudokuCell> getAffected(SudokuCell cell)
-    {
+    public Set<SudokuCell> getAffected(SudokuCell cell) {
         Point loc = cell.getLocation();
         cell = getCell(loc.x, loc.y);
         Set<SudokuCell> affected = new HashSet<>();
@@ -135,17 +122,16 @@ public class SudokuBoard extends GridBoard
         return affected;
     }
 
-    public Set<Integer> getPossibleValues(SudokuCell cell)
-    {
+    public Set<Integer> getPossibleValues(SudokuCell cell) {
         Point loc = cell.getLocation();
         cell = getCell(loc.x, loc.y);
         Set<SudokuCell> possible = getAffected(cell);
 
         Set<Integer> possibleValues = new HashSet<>();
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             possibleValues.add(i);
         }
-        for(SudokuCell c : possible) {
+        for (SudokuCell c : possible) {
             possibleValues.remove(c.getData());
         }
 
@@ -161,8 +147,8 @@ public class SudokuBoard extends GridBoard
     @Override
     public void notifyChange(PuzzleElement puzzleElement) {
         super.notifyChange(puzzleElement);
-        Set<SudokuCell> affected = getAffected((SudokuCell)puzzleElement);
-        for(SudokuCell c : affected) {
+        Set<SudokuCell> affected = getAffected((SudokuCell) puzzleElement);
+        for (SudokuCell c : affected) {
             c.setAnnotations(getPossibleValues(c));
         }
     }
@@ -173,16 +159,16 @@ public class SudokuBoard extends GridBoard
      * @return a new copy of the board that is independent of this one
      */
     @Override
-    public SudokuBoard copy()
-    {
-        SudokuBoard newGridBoard = new SudokuBoard(size);
-        for(int x = 0; x < this.dimension.width; x++)
-        {
-            for(int y = 0; y < this.dimension.height; y++)
-            {
-                newGridBoard.setCell(x, y, getCell(x, y).copy());
+    public SudokuBoard copy() {
+        SudokuBoard copy = new SudokuBoard(size);
+        for (int x = 0; x < this.dimension.width; x++) {
+            for (int y = 0; y < this.dimension.height; y++) {
+                copy.setCell(x, y, getCell(x, y).copy());
             }
         }
-        return newGridBoard;
+        for(PuzzleElement e : modifiedData) {
+            copy.getPuzzleElement(e).setModifiable(false);
+        }
+        return copy;
     }
 }

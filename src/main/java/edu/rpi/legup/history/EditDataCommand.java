@@ -84,7 +84,7 @@ public class EditDataCommand extends PuzzleCommand {
         } else {
             board.addModifiedData(puzzleElement);
         }
-        transition.propagateChanges(puzzleElement);
+        transition.propagateChange(puzzleElement);
 
         final TreeElement finalTreeElement = transition;
         puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTreeElement));
@@ -160,7 +160,7 @@ public class EditDataCommand extends PuzzleCommand {
         } else {
             board.addModifiedData(puzzleElement);
         }
-        transition.propagateChanges(puzzleElement);
+        transition.propagateChange(puzzleElement);
 
         puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(puzzleElement));
 

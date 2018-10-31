@@ -1,10 +1,7 @@
 package edu.rpi.legup.puzzle.battleship;
 
 import edu.rpi.legup.controller.BoardController;
-import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.model.tree.TreeElement;
-import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 
 import java.awt.*;
@@ -13,8 +10,7 @@ public class BattleShipView extends GridBoardView {
     public BattleShipView(BattleShipBoard board) {
         super(new BoardController(), new BattleShipCellController(), board.getDimension());
 
-        for(PuzzleElement puzzleElement : board.getPuzzleElements())
-        {
+        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             BattleShipCell cell = (BattleShipCell) puzzleElement;
             Point loc = cell.getLocation();
             BattleShipElementView elementView = new BattleShipElementView(cell);
