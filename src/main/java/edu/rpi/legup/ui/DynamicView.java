@@ -65,18 +65,22 @@ public class DynamicView extends JPanel {
             this.scrollView.getViewport().addMouseWheelListener(new MouseAdapter() {
                 public void mouseWheelMoved(MouseWheelEvent e) {
                     if (e.isControlDown()) {
-                        scrollView.zoom(e.getWheelRotation() * 2, e.getPoint());
+                        //scrollView.zoom(1, e.getPoint());//e.getWheelRotation(), e.getPoint());
+                        zoomSlider.setValue((int) (scrollView.getScale() * 100 - 5));
+                        scrollView.zoomTo(scrollView.getScale() - 0.05);
                     } else {
-                        scrollView.zoom(e.getWheelRotation(), e.getPoint());
+                        //scrollView.zoom(-1, e.getPoint());//e.getWheelRotation(), e.getPoint());
+                        zoomSlider.setValue((int) (scrollView.getScale() * 100 + 5));
+                        scrollView.zoomTo(scrollView.getScale() + 0.05);
                     }
-                    zoomSlider.setValue((int) (scrollView.getScale() * 100));
+                    //zoomSlider.setValue((int) (scrollView.getScale() * 100));
                 }
             });
 
             zoomSlider.setPreferredSize(new Dimension(160, 30));
 
             zoomSlider.addChangeListener((ChangeEvent e) -> {
-                scrollView.zoomTo(zoomSlider.getValue() / 100.0);
+                //scrollView.zoomTo(zoomSlider.getValue() / 100.0);
                 zoomLabel.setText(zoomSlider.getValue() + "%");
             });
 
