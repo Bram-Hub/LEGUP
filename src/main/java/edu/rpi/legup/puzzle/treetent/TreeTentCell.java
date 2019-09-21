@@ -4,18 +4,14 @@ import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.awt.*;
 
-public class TreeTentCell extends GridCell<Integer>
-{
-    private boolean linked = false;
-    public TreeTentCell(int valueInt, Point location)
-    {
+public class TreeTentCell extends GridCell<Integer> {
+
+    public TreeTentCell(int valueInt, Point location) {
         super(valueInt, location);
     }
 
-    public TreeTentType getType()
-    {
-        switch(data)
-        {
+    public TreeTentType getType() {
+        switch (data) {
             case 0:
                 return TreeTentType.UNKNOWN;
             case 1:
@@ -28,21 +24,13 @@ public class TreeTentCell extends GridCell<Integer>
                 return null;
         }
     }
-    public void setLink(boolean hasLink){
-        linked = hasLink;
-    }
 
-    public boolean isLinked(){
-        return linked;
-    }
     @Override
-    public TreeTentCell copy()
-    {
-        TreeTentCell copy = new TreeTentCell(data, (Point)location.clone());
+    public TreeTentCell copy() {
+        TreeTentCell copy = new TreeTentCell(data, (Point) location.clone());
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
-        copy.setLink(linked);
         return copy;
     }
 }

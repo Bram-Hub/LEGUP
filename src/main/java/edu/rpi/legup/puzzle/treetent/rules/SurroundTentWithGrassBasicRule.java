@@ -3,8 +3,6 @@ package edu.rpi.legup.puzzle.treetent.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.BasicRule;
-import edu.rpi.legup.model.rules.ContradictionRule;
-import edu.rpi.legup.model.rules.RegisterRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
@@ -12,7 +10,6 @@ import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentLine;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 
-import java.awt.*;
 import java.util.List;
 
 public class SurroundTentWithGrassBasicRule extends BasicRule {
@@ -34,33 +31,22 @@ public class SurroundTentWithGrassBasicRule extends BasicRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        if(puzzleElement instanceof TreeTentLine) {
+        if (puzzleElement instanceof TreeTentLine) {
             return "Line is not valid for this rule.";
         }
-        ContradictionRule contra1 = new TouchingTentsContradictionRule();
         TreeTentBoard initialBoard = (TreeTentBoard) transition.getParents().get(0).getBoard();
         TreeTentCell initCell = (TreeTentCell) initialBoard.getPuzzleElement(puzzleElement);
         TreeTentBoard finalBoard = (TreeTentBoard) transition.getBoard();
         TreeTentCell finalCell = (TreeTentCell) finalBoard.getPuzzleElement(puzzleElement);
-//        if (!(initCell.getType() == TreeTentType.UNKNOWN && finalCell.getType() == TreeTentType.GRASS)) {
-//            return "This cell must be a tent.";
-//        }
-        if(finalCell.getType() != TreeTentType.GRASS){
-            return "Only grass cells are allowed for this rule";
+        if (!(initCell.getType() == TreeTentType.UNKNOWN && finalCell.getType() == TreeTentType.GRASS)) {
+            return "This cell must be a tent.";
         }
-        TreeTentBoard modified = initialBoard.copy();
-        TreeTentCell modCell = (TreeTentCell) modified.getPuzzleElement(finalCell);
-        modCell.setData(TreeTentType.TENT.value);
-        if(contra1.checkContradictionAt(modified,modCell) == null){
+
+        if (isForced(initialBoard, initCell)) {
             return null;
-        } else{
-            return "Not forced";
+        } else {
+            return "This cell is not forced to be tent.";
         }
-//        if (isForced(initialBoard, initCell)) {
-//            return null;
-//        } else {
-//            return "This cell is not forced to be tent.";
-//        }
     }
 
     private boolean isForced(TreeTentBoard board, TreeTentCell cell) {
@@ -77,15 +63,15 @@ public class SurroundTentWithGrassBasicRule extends BasicRule {
      */
     @Override
     public Board getDefaultBoard(TreeNode node) {
-        TreeTentBoard treeTentBoard = (TreeTentBoard)node.getBoard().copy();
-        for(PuzzleElement element : treeTentBoard.getPuzzleElements()) {
-            TreeTentCell cell = (TreeTentCell)element;
-            if(cell.getType() == TreeTentType.UNKNOWN && isForced(treeTentBoard, cell)) {
+        TreeTentBoard treeTentBoard = (TreeTentBoard) node.getBoard().copy();
+        for (PuzzleElement element : treeTentBoard.getPuzzleElements()) {
+            TreeTentCell cell = (TreeTentCell) element;
+            if (cell.getType() == TreeTentType.UNKNOWN && isForced(treeTentBoard, cell)) {
                 cell.setData(TreeTentType.GRASS.value);
                 treeTentBoard.addModifiedData(cell);
             }
         }
-        if(treeTentBoard.getModifiedData().isEmpty()) {
+        if (treeTentBoard.getModifiedData().isEmpty()) {
             return null;
         } else {
             return treeTentBoard;

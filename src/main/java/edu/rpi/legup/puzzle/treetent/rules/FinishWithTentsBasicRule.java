@@ -39,8 +39,8 @@ public class FinishWithTentsBasicRule extends BasicRule {
         TreeTentCell initCell = (TreeTentCell) initialBoard.getPuzzleElement(puzzleElement);
         TreeTentBoard finalBoard = (TreeTentBoard) transition.getBoard();
         TreeTentCell finalCell = (TreeTentCell) finalBoard.getPuzzleElement(puzzleElement);
-        if(finalCell.getType() != TreeTentType.TENT){
-            return "Only tent cells are allowed for this rule";
+        if (!(initCell.getType() == TreeTentType.UNKNOWN && finalCell.getType() == TreeTentType.TENT)) {
+            return "This cell must be a tent.";
         }
 
         if (isForced(initialBoard, initCell)) {
