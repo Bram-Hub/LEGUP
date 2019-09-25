@@ -1,9 +1,0 @@
-<edu.rpi.legup.Legup>
-    <edu.rpi.legup.puzzle name="Nurikabe">
-        <board width="3" height="3">
-            <cells>
-                <cell value="1" x="0" y="0"/>
-            </cells>
-        </board>
-    </edu.rpi.legup.puzzle>
-</edu.rpi.legup.Legup>

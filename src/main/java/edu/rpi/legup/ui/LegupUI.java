@@ -5,6 +5,8 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.URI;
 import java.net.URL;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
 
 import javax.swing.*;
 
@@ -378,6 +380,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         });
         toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e) -> {
         });
+
         toolBarButtons[ToolbarName.CHECK_ALL.ordinal()].addActionListener((ActionEvent e) -> checkProofAll());
 
         toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
@@ -518,26 +521,54 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         folderBrowser.showOpenDialog(this);
         File folder = folderBrowser.getSelectedFile();
 
-        for (final File fileEntry : folder.listFiles()) {
+        //FileWriter csvWriter = new FileWriter("new.csv");
+        File resultFile = new File(folder.getAbsolutePath() + File.separator +"result.csv");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
+            writer.append("Name");
+            writer.append(",");
+            writer.append("File Name");
+            writer.append(",");
+            writer.append("Solved or not");
+            writer.append("\n");
+            //csvWriter.flush();
+            //csvWriter.close();
 
-            String fileName = folder.getAbsolutePath() + File.separator + fileEntry.getName();
-            File puzzleFile = new File(fileName);
-            if (puzzleFile != null && puzzleFile.exists()) {
-                try {
-                    GameBoardFacade.getInstance().loadPuzzle(fileName);
-                    String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
-                    setTitle(puzzleName + " - " + puzzleFile.getName());
-                    facade = GameBoardFacade.getInstance();
-                    Puzzle puzzle = facade.getPuzzleModule();
-                    if (puzzle.isPuzzleComplete()) {
-                        System.out.println(fileEntry.getName()+"  solved");
-                    }else{
-                        System.out.println(fileEntry.getName()+"  not solved");
+            for (final File folderEntry : folder.listFiles(File::isDirectory)) {
+                writer.append(folderEntry.getName());
+                writer.append(",");
+                int count1 = 0;
+                for (final File fileEntry : folderEntry.listFiles()) {
+                    count1++;
+                    if (count1 > 1){
+                        writer.append(",");
                     }
-                } catch (InvalidFileFormatException e) {
-                    LOGGER.error(e.getMessage());
+                    writer.append(fileEntry.getName());
+                    writer.append(",");
+                    String fileName = folderEntry.getAbsolutePath() + File.separator + fileEntry.getName();
+                    File puzzleFile = new File(fileName);
+                    if (puzzleFile != null && puzzleFile.exists()) {
+                        try {
+                            GameBoardFacade.getInstance().loadPuzzle(fileName);
+                            String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+                            setTitle(puzzleName + " - " + puzzleFile.getName());
+                            facade = GameBoardFacade.getInstance();
+                            Puzzle puzzle = facade.getPuzzleModule();
+                            if (puzzle.isPuzzleComplete()) {
+                                writer.append("solved");
+                                System.out.println(fileEntry.getName() + "  solved");
+                            } else {
+                                writer.append("not solved");
+                                System.out.println(fileEntry.getName() + "  not solved");
+                            }
+                            writer.append("\n");
+                        } catch (InvalidFileFormatException e) {
+                            LOGGER.error(e.getMessage());
+                        }
+                    }
                 }
             }
+        }catch (IOException ex){
+
         }
 
         /*fileDialog.setMode(FileDialog.LOAD);

@@ -112,3 +112,125 @@
 [DEBUG] 2019-04-03 11:03:17.617 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
 [DEBUG] 2019-04-03 11:03:17.632 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
 [DEBUG] 2019-04-03 11:03:17.658 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-09-25 13:27:15.969 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-09-25 13:27:16.154 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-09-25 13:27:16.172 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-09-25 13:27:16.250 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-09-25 13:27:16.263 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-09-25 13:27:16.300 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-09-25 13:27:16.437 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-09-25 13:27:16.536 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 170x215
+[DEBUG] 2019-09-25 13:27:16.568 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 170x215
+[DEBUG] 2019-09-25 13:51:09.439 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-09-25 13:51:09.883 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-09-25 13:51:10.062 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-09-25 13:51:10.339 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-09-25 13:51:10.366 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-09-25 13:51:10.405 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-09-25 13:51:10.694 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-09-25 13:51:10.876 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 170x215
+[DEBUG] 2019-09-25 13:51:10.920 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 170x215
+[ERROR] 2019-09-25 13:53:01.010 [AWT-EventQueue-0] GameBoardFacade - Invalid file
+org.xml.sax.SAXParseException: Content is not allowed in prolog.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257) ~[?:1.8.0_131]
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339) ~[?:1.8.0_131]
+	at javax.xml.parsers.DocumentBuilder.parse(DocumentBuilder.java:121) ~[?:1.8.0_131]
+	at edu.rpi.legup.app.GameBoardFacade.loadPuzzle(GameBoardFacade.java:116) ~[main/:?]
+	at edu.rpi.legup.app.GameBoardFacade.loadPuzzle(GameBoardFacade.java:97) ~[main/:?]
+	at edu.rpi.legup.ui.LegupUI.checkProofAll(LegupUI.java:551) ~[main/:?]
+	at edu.rpi.legup.ui.LegupUI.lambda$setupToolBar$28(LegupUI.java:384) ~[main/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_131]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_131]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_131]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_131]
+	at javax.swing.plaf.basic.BasicButtonListener.focusLost(BasicButtonListener.java:198) [?:1.8.0_131]
+	at java.awt.AWTEventMulticaster.focusLost(AWTEventMulticaster.java:229) [?:1.8.0_131]
+	at java.awt.Component.processFocusEvent(Component.java:6425) [?:1.8.0_131]
+	at java.awt.Component.processEvent(Component.java:6289) [?:1.8.0_131]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_131]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_131]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_131]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_131]
+	at java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1954) [?:1.8.0_131]
+	at java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:995) [?:1.8.0_131]
+	at java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:661) [?:1.8.0_131]
+	at java.awt.Component.dispatchEventImpl(Component.java:4760) [?:1.8.0_131]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_131]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_131]
+	at java.awt.KeyboardFocusManager.dispatchAndCatchException(KeyboardFocusManager.java:2601) [?:1.8.0_131]
+	at java.awt.KeyboardFocusManager.processCurrentLightweightRequests(KeyboardFocusManager.java:2693) [?:1.8.0_131]
+	at java.awt.KeyboardFocusManager$4.run(KeyboardFocusManager.java:2804) [?:1.8.0_131]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311) [?:1.8.0_131]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:756) [?:1.8.0_131]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_131]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_131]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_131]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_131]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_131]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:726) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_131]
+[ERROR] 2019-09-25 13:53:01.030 [AWT-EventQueue-0] LegupUI - InvalidFileFormatException: Could not find file
+[DEBUG] 2019-09-25 13:53:01.036 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-09-25 13:53:01.110 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-09-25 13:53:01.113 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-09-25 13:53:01.266 [AWT-EventQueue-0] History - History Cleared
+[ERROR] 2019-09-25 13:53:01.274 [AWT-EventQueue-0] GameBoardFacade - Invalid file
+org.xml.sax.SAXParseException: Content is not allowed in prolog.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257) ~[?:1.8.0_131]
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339) ~[?:1.8.0_131]
+	at javax.xml.parsers.DocumentBuilder.parse(DocumentBuilder.java:121) ~[?:1.8.0_131]
+	at edu.rpi.legup.app.GameBoardFacade.loadPuzzle(GameBoardFacade.java:116) ~[main/:?]
+	at edu.rpi.legup.app.GameBoardFacade.loadPuzzle(GameBoardFacade.java:97) ~[main/:?]
+	at edu.rpi.legup.ui.LegupUI.checkProofAll(LegupUI.java:551) ~[main/:?]
+	at edu.rpi.legup.ui.LegupUI.lambda$setupToolBar$28(LegupUI.java:384) ~[main/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_131]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_131]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_131]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_131]
+	at javax.swing.plaf.basic.BasicButtonListener.focusLost(BasicButtonListener.java:198) [?:1.8.0_131]
+	at java.awt.AWTEventMulticaster.focusLost(AWTEventMulticaster.java:229) [?:1.8.0_131]
+	at java.awt.Component.processFocusEvent(Component.java:6425) [?:1.8.0_131]
+	at java.awt.Component.processEvent(Component.java:6289) [?:1.8.0_131]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_131]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_131]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_131]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_131]
+	at java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1954) [?:1.8.0_131]
+	at java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:995) [?:1.8.0_131]
+	at java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:661) [?:1.8.0_131]
+	at java.awt.Component.dispatchEventImpl(Component.java:4760) [?:1.8.0_131]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_131]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_131]
+	at java.awt.KeyboardFocusManager.dispatchAndCatchException(KeyboardFocusManager.java:2601) [?:1.8.0_131]
+	at java.awt.KeyboardFocusManager.processCurrentLightweightRequests(KeyboardFocusManager.java:2693) [?:1.8.0_131]
+	at java.awt.KeyboardFocusManager$4.run(KeyboardFocusManager.java:2804) [?:1.8.0_131]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311) [?:1.8.0_131]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:756) [?:1.8.0_131]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_131]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_131]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_131]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_131]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_131]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:726) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_131]
+[ERROR] 2019-09-25 13:53:01.277 [AWT-EventQueue-0] LegupUI - InvalidFileFormatException: Could not find file
+[DEBUG] 2019-09-25 13:53:01.281 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-09-25 13:53:01.378 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-09-25 13:53:01.428 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-09-25 13:53:01.437 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 1490x345
+[DEBUG] 2019-09-25 13:53:01.481 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 1490x345
+[DEBUG] 2019-09-25 13:55:37.501 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-09-25 13:55:37.564 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-09-25 13:55:37.610 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-09-25 13:55:37.613 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-09-25 13:55:37.637 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
