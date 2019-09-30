@@ -538,6 +538,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                 writer.append(",");
                 int count1 = 0;
                 for (final File fileEntry : folderEntry.listFiles()) {
+                    if (fileEntry.getName().charAt(0) == '.'){
+                        continue;
+                    }
                     count1++;
                     if (count1 > 1){
                         writer.append(",");
@@ -554,10 +557,10 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                             facade = GameBoardFacade.getInstance();
                             Puzzle puzzle = facade.getPuzzleModule();
                             if (puzzle.isPuzzleComplete()) {
-                                writer.append("solved");
+                                writer.append("Solved");
                                 System.out.println(fileEntry.getName() + "  solved");
                             } else {
-                                writer.append("not solved");
+                                writer.append("Not solved");
                                 System.out.println(fileEntry.getName() + "  not solved");
                             }
                             writer.append("\n");
@@ -566,9 +569,13 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                         }
                     }
                 }
+                if (count1 == 0){
+                    writer.append("No file");
+                    writer.append("\n");
+                }
             }
         }catch (IOException ex){
-
+            LOGGER.error(ex.getMessage());
         }
 
         /*fileDialog.setMode(FileDialog.LOAD);
