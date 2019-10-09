@@ -543,6 +543,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                     }
                     count1++;
                     if (count1 > 1){
+                        writer.append(folderEntry.getName());
                         writer.append(",");
                     }
                     writer.append(fileEntry.getName());

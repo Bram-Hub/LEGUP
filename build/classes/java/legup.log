@@ -234,3 +234,12 @@ org.xml.sax.SAXParseException: Content is not allowed in prolog.
 [DEBUG] 2019-09-25 13:55:37.610 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
 [DEBUG] 2019-09-25 13:55:37.613 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
 [DEBUG] 2019-09-25 13:55:37.637 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-10-09 14:31:39.726 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-10-09 14:31:39.914 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-10-09 14:31:39.924 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-10-09 14:31:39.947 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-10-09 14:31:39.957 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-10-09 14:31:40.027 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-10-09 14:31:40.127 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-10-09 14:31:40.197 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 1490x345
+[DEBUG] 2019-10-09 14:31:40.233 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 1490x345
