@@ -92,7 +92,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
             return cases;
         }
 
-        generateCases(lightUpBoard, cell.getData()-numNeeded, openSpots, cases);
+        generateCases(lightUpBoard, numNeeded, openSpots, cases);
 
         return cases;
     }

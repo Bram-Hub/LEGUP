@@ -62,7 +62,7 @@ public class MustLightBasicRule extends BasicRule {
             LightUpCell c = board.getCell(i, loc.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            } else if ((c.getType() == LightUpCellType.EMPTY || c.getType() == LightUpCellType.UNKNOWN) &&
+            } else if (c.getType() == LightUpCellType.EMPTY &&
                     !c.isLite() && cannotLite.checkContradictionAt(board, c) == null) {
                 return true;
             }
@@ -71,7 +71,7 @@ public class MustLightBasicRule extends BasicRule {
             LightUpCell c = board.getCell(i, loc.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            } else if ((c.getType() == LightUpCellType.EMPTY || c.getType() == LightUpCellType.UNKNOWN) &&
+            } else if (c.getType() == LightUpCellType.EMPTY &&
                     !c.isLite() && cannotLite.checkContradictionAt(board, c) == null) {
                 return true;
             }
@@ -80,7 +80,7 @@ public class MustLightBasicRule extends BasicRule {
             LightUpCell c = board.getCell(loc.x, i);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            } else if ((c.getType() == LightUpCellType.EMPTY || c.getType() == LightUpCellType.UNKNOWN) &&
+            } else if (c.getType() == LightUpCellType.EMPTY &&
                     !c.isLite() && cannotLite.checkContradictionAt(board, c) == null) {
                 return true;
             }
@@ -89,7 +89,7 @@ public class MustLightBasicRule extends BasicRule {
             LightUpCell c = board.getCell(loc.x, i);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            } else if ((c.getType() == LightUpCellType.EMPTY || c.getType() == LightUpCellType.UNKNOWN) &&
+            } else if (c.getType() == LightUpCellType.EMPTY &&
                     !c.isLite() && cannotLite.checkContradictionAt(board, c) == null) {
                 return true;
             }
