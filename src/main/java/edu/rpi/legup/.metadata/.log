@@ -1,0 +1,116 @@
+!SESSION 2019-10-23 14:12:58.040 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_131
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product -product org.eclipse.epp.package.java.product -keyring /Users/James/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.java.product -data /Users/James/Documents/RPI/Research/LEGUP/Legup/src/main/java/edu/rpi/legup -product org.eclipse.epp.package.java.product -keyring /Users/James/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.recommenders.snipmatch.rcp 4 0 2019-10-23 14:12:58.665
+!MESSAGE FrameworkEvent ERROR
+!STACK 0
+org.osgi.framework.BundleException: Could not resolve module: org.eclipse.recommenders.snipmatch.rcp [392]
+  Bundle was not resolved because of a uses contraint violation.
+  org.osgi.service.resolver.ResolutionException: Uses constraint violation. Unable to resolve resource org.eclipse.recommenders.snipmatch.rcp [osgi.identity; osgi.identity="org.eclipse.recommenders.snipmatch.rcp"; type="osgi.bundle"; version:Version="2.2.0.v20150609-1848"; singleton:="true"] because it is exposed to package 'org.eclipse.jgit.dircache' from resources org.eclipse.jgit [osgi.identity; osgi.identity="org.eclipse.jgit"; type="osgi.bundle"; version:Version="5.2.0.201812061821-r"] and org.eclipse.jgit [osgi.identity; osgi.identity="org.eclipse.jgit"; type="osgi.bundle"; version:Version="4.0.3.201509231615-r"] via two dependency chains.
+
+Chain 1:
+  org.eclipse.recommenders.snipmatch.rcp [osgi.identity; osgi.identity="org.eclipse.recommenders.snipmatch.rcp"; type="osgi.bundle"; version:Version="2.2.0.v20150609-1848"; singleton:="true"]
+    require: (osgi.wiring.bundle=org.eclipse.jgit)
+     |
+    provide: osgi.wiring.bundle: org.eclipse.jgit
+  org.eclipse.jgit [osgi.identity; osgi.identity="org.eclipse.jgit"; type="osgi.bundle"; version:Version="5.2.0.201812061821-r"]
+
+Chain 2:
+  org.eclipse.recommenders.snipmatch.rcp [osgi.identity; osgi.identity="org.eclipse.recommenders.snipmatch.rcp"; type="osgi.bundle"; version:Version="2.2.0.v20150609-1848"; singleton:="true"]
+    require: (&(osgi.wiring.bundle=org.eclipse.egit.core)(bundle-version>=3.2.0))
+     |
+    provide: osgi.wiring.bundle; bundle-version:Version="4.0.3.201509231615-r"; osgi.wiring.bundle="org.eclipse.egit.core"; singleton:="true"
+  org.eclipse.egit.core [osgi.identity; osgi.identity="org.eclipse.egit.core"; type="osgi.bundle"; version:Version="4.0.3.201509231615-r"; singleton:="true"]
+    import: (&(osgi.wiring.package=org.eclipse.jgit.lib)(&(version>=4.0.3)(!(version>=4.1.0))))
+     |
+    export: osgi.wiring.package: org.eclipse.jgit.lib; uses:=org.eclipse.jgit.dircache
+    export: osgi.wiring.package=org.eclipse.jgit.dircache
+  org.eclipse.jgit [osgi.identity; osgi.identity="org.eclipse.jgit"; type="osgi.bundle"; version:Version="4.0.3.201509231615-r"]
+	at org.eclipse.osgi.container.Module.start(Module.java:434)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.incStartLevel(ModuleContainer.java:1582)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.incStartLevel(ModuleContainer.java:1561)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.doContainerStartLevel(ModuleContainer.java:1533)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.dispatchEvent(ModuleContainer.java:1476)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.dispatchEvent(ModuleContainer.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+
+!ENTRY org.eclipse.core.net 1 0 2019-10-23 14:13:01.501
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+!SESSION 2019-10-29 22:17:23.239 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_131
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product -keyring /Users/James/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.java.product -keyring /Users/James/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.recommenders.snipmatch.rcp 4 0 2019-10-29 22:17:23.914
+!MESSAGE FrameworkEvent ERROR
+!STACK 0
+org.osgi.framework.BundleException: Could not resolve module: org.eclipse.recommenders.snipmatch.rcp [392]
+  Bundle was not resolved because of a uses contraint violation.
+  org.osgi.service.resolver.ResolutionException: Uses constraint violation. Unable to resolve resource org.eclipse.recommenders.snipmatch.rcp [osgi.identity; osgi.identity="org.eclipse.recommenders.snipmatch.rcp"; type="osgi.bundle"; version:Version="2.2.0.v20150609-1848"; singleton:="true"] because it is exposed to package 'org.eclipse.jgit.dircache' from resources org.eclipse.jgit [osgi.identity; osgi.identity="org.eclipse.jgit"; type="osgi.bundle"; version:Version="5.2.0.201812061821-r"] and org.eclipse.jgit [osgi.identity; osgi.identity="org.eclipse.jgit"; type="osgi.bundle"; version:Version="4.0.3.201509231615-r"] via two dependency chains.
+
+Chain 1:
+  org.eclipse.recommenders.snipmatch.rcp [osgi.identity; osgi.identity="org.eclipse.recommenders.snipmatch.rcp"; type="osgi.bundle"; version:Version="2.2.0.v20150609-1848"; singleton:="true"]
+    require: (osgi.wiring.bundle=org.eclipse.jgit)
+     |
+    provide: osgi.wiring.bundle: org.eclipse.jgit
+  org.eclipse.jgit [osgi.identity; osgi.identity="org.eclipse.jgit"; type="osgi.bundle"; version:Version="5.2.0.201812061821-r"]
+
+Chain 2:
+  org.eclipse.recommenders.snipmatch.rcp [osgi.identity; osgi.identity="org.eclipse.recommenders.snipmatch.rcp"; type="osgi.bundle"; version:Version="2.2.0.v20150609-1848"; singleton:="true"]
+    require: (&(osgi.wiring.bundle=org.eclipse.egit.core)(bundle-version>=3.2.0))
+     |
+    provide: osgi.wiring.bundle; bundle-version:Version="4.0.3.201509231615-r"; osgi.wiring.bundle="org.eclipse.egit.core"; singleton:="true"
+  org.eclipse.egit.core [osgi.identity; osgi.identity="org.eclipse.egit.core"; type="osgi.bundle"; version:Version="4.0.3.201509231615-r"; singleton:="true"]
+    import: (&(osgi.wiring.package=org.eclipse.jgit.lib)(&(version>=4.0.3)(!(version>=4.1.0))))
+     |
+    export: osgi.wiring.package: org.eclipse.jgit.lib; uses:=org.eclipse.jgit.dircache
+    export: osgi.wiring.package=org.eclipse.jgit.dircache
+  org.eclipse.jgit [osgi.identity; osgi.identity="org.eclipse.jgit"; type="osgi.bundle"; version:Version="4.0.3.201509231615-r"]
+	at org.eclipse.osgi.container.Module.start(Module.java:434)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.incStartLevel(ModuleContainer.java:1582)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.incStartLevel(ModuleContainer.java:1561)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.doContainerStartLevel(ModuleContainer.java:1533)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.dispatchEvent(ModuleContainer.java:1476)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.dispatchEvent(ModuleContainer.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+
+!ENTRY org.eclipse.core.net 1 0 2019-10-29 22:17:27.175
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY org.eclipse.epp.logging.aeri.ui 2 23 2019-10-29 22:18:10.094
+!MESSAGE The server availability check failed Version: 1.0.0.v20150617-0732
+!STACK 0
+java.net.UnknownHostException: dev.eclipse.org: nodename nor servname provided, or not known
+	at java.net.Inet6AddressImpl.lookupAllHostAddr(Native Method)
+	at java.net.InetAddress$2.lookupAllHostAddr(InetAddress.java:928)
+	at java.net.InetAddress.getAddressesFromNameService(InetAddress.java:1323)
+	at java.net.InetAddress.getAllByName0(InetAddress.java:1276)
+	at java.net.InetAddress.getAllByName(InetAddress.java:1192)
+	at java.net.InetAddress.getAllByName(InetAddress.java:1126)
+	at org.apache.http.impl.conn.SystemDefaultDnsResolver.resolve(SystemDefaultDnsResolver.java:44)
+	at org.apache.http.impl.conn.HttpClientConnectionOperator.connect(HttpClientConnectionOperator.java:102)
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:319)
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:363)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:219)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:195)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:86)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:108)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:57)
+	at org.apache.http.client.fluent.Executor.execute(Executor.java:206)
+	at org.eclipse.epp.internal.logging.aeri.ui.log.CheckServerAvailabilityJob.run(CheckServerAvailabilityJob.java:48)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.eclipse.core.jobs 2 2 2019-10-29 22:18:59.533
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: org.eclipse.epp.internal.logging.aeri.ui.log.ProblemsDatabaseUpdateJob
