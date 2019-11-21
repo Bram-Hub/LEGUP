@@ -31,7 +31,6 @@ task customFatJar(type: Jar) {
                 'SplashScreen-Image': 'edu/rpi/legup/images/Legup/LegupSplash.png')
     }
     archiveName = 'Legup.jar'
-    baseName = 'Legup.jar'
     from {
         configurations.compile.collect {
             it.isDirectory() ? it : zipTree(it)

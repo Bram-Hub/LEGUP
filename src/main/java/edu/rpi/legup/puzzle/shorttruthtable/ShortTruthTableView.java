@@ -14,7 +14,7 @@ public class ShortTruthTableView extends GridBoardView {
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             ShortTruthTableCell cell = (ShortTruthTableCell) puzzleElement;
             Point loc = cell.getLocation();
-            ShortTruthTableView elementView = new ShortTruthTableView(cell);
+            ShortTruthTableElementView elementView = new ShortTruthTableElementView(cell);
             elementView.setIndex(cell.getIndex());
             elementView.setSize(elementSize);
             elementView.setLocation(new Point(loc.x * elementSize.width, loc.y * elementSize.height));

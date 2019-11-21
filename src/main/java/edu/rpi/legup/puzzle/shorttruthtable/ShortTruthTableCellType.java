@@ -1,14 +1,30 @@
 package edu.rpi.legup.puzzle.shorttruthtable;
 
+import java.util.Map;
+import java.util.HashMap;
+
 public enum ShortTruthTableCellType{
-	FALSE(0), TRUE(1), UNKNOWN(-1), NON_VAR(-2);
+	FALSE(0), TRUE(1), UNKNOWN(-1), NOT_IN_PLAY(-2);
 
 
     public int value;
+    private static Map map = new HashMap<>();
 
     ShortTruthTableCellType(int value) {
         this.value = value;
     }
+
+    static {
+        for (ShortTruthTableCellType cellType : ShortTruthTableCellType.values()) {
+            map.put(cellType.value, cellType);
+        }
+    }
+
+    public static ShortTruthTableCellType valueOf(int cellType) {
+        return (ShortTruthTableCellType) map.get(cellType);
+    }
+
+
 
     /**
      * Returns true if this cell holds the value either TRUE or FALSE
@@ -26,7 +42,7 @@ public enum ShortTruthTableCellType{
     */
     public static ShortTruthTableCellType getType(char symbol){
     	if(symbol=='(' || symbol==')')
-    		return NON_VAR;
+    		return NOT_IN_PLAY;
     	return UNKNOWN;
     }
 

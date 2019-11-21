@@ -5,6 +5,11 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 
+import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
+import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCell;
+import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
+import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableStatement;
+
 import java.util.Set;
 import java.util.Iterator;
 
@@ -28,7 +33,7 @@ public class ContradictionRuleAtomic extends ContradictionRule{
         //get the cell that contradicts another cell in the board
         ShortTruthTableCell cell = (ShortTruthTableCell) board.getPuzzleElement(puzzleElement);
 
-        if(!cell.isVariable){
+        if(!cell.isVariable()){
             return "Can not check for contradiction on a non-variable element";
         }
 
@@ -37,18 +42,18 @@ public class ContradictionRuleAtomic extends ContradictionRule{
             return "Can only check for a contradiction against a cell that is assigned a value of True or False";
 
         //get all the cells with the same value
-        Set<ShortTruthTableCell> varCells = board.getCellsWithSymbol(cell1.getSymbol());
+        Set<ShortTruthTableCell> varCells = board.getCellsWithSymbol(cell.getSymbol());
 
-        Iterator<ShortTruthTableCell> itr = varCells.getIterator();
+        Iterator<ShortTruthTableCell> itr = varCells.iterator();
         while(itr.hasNext()){
             ShortTruthTableCellType checkCellType = itr.next().getType();
             //if there is an assigned contradiction, return null
             if(checkCellType.isTrueOrFalse() && checkCellType!=cellType)
-                reutrn null;
+                return null;
         }
 
         //if it made it through the while loop, thene there is no contradiction
-        return "There is no contradiction for the variable "+cell1.getSymbol();
+        return "There is no contradiction for the variable "+cell.getSymbol();
 
     }
 

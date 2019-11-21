@@ -1,9 +1,11 @@
-package rpi.legup.puzzle.shorttruthtable;
+package edu.rpi.legup.puzzle.shorttruthtable;
 
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 
 public class ShortTruthTable extends Puzzle {
+
+    ShortTruthTableBoard board;
 
     public ShortTruthTable() {
         super();
@@ -21,8 +23,7 @@ public class ShortTruthTable extends Puzzle {
      */
     @Override
     public void initializeView() {
-        TreeTentBoard board = (TreeTentBoard) currentBoard;
-        boardView = new TreeTentView((TreeTentBoard) currentBoard);
+        boardView = new ShortTruthTableView(board);
     }
 
     /**

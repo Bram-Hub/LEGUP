@@ -1,9 +1,12 @@
-package rpi.legup.puzzle.shorttruthtable;
+package edu.rpi.legup.puzzle.shorttruthtable;
 
 
 
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 
+import java.util.Set;
+import java.util.HashSet;
+import java.awt.Point;
 
 
 public class ShortTruthTableStatement extends PuzzleElement<String>{
@@ -39,13 +42,19 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 		//get the index of the char that this statement represents
 		int index = parse(statement);
 		//construct the cell for this node in the tree
-		cell = new ShortTruthTableCell(statement.getCharAt(index));
+		cell = new ShortTruthTableCell(statement.charAt(index));
 		//get the strings on either side of this char in the string rep
-		String left = statement.subString(0, index);
-		String right = statement.subString(index+1);
+		String left = statement.substring(0, index);
+		String right = statement.substring(index+1);
 		//cunstruct substatements if necessary
-		if(left.length() > 0) leftStatement = new ShortTruthTablestatement(left);
-		if(right.length() > 0) rightStatement = new ShortTruthTablestatement(right);
+		if(left.length() > 0)
+			leftStatement = new ShortTruthTableStatement(left);
+		else
+			leftStatement = null;
+		if(right.length() > 0)
+			rightStatement = new ShortTruthTableStatement(right);
+		else
+			rightStatement = null;
 
 	}
 
@@ -149,7 +158,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 
 	//Setters
 
-	public void setCellLocations(int rowIndex, int offset){
+	private void setCellLocations(int rowIndex, int offset){
 		//set the location of this cell
 		int xLoc = offset;
 		if(leftStatement != null)
@@ -162,7 +171,9 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 			rightStatement.setCellLocations(rowIndex, xLoc+1);
 	}
 
-
+	public void setCellLocations(int rowIndex){
+		setCellLocations(rowIndex, 0);
+	}
 
 
 

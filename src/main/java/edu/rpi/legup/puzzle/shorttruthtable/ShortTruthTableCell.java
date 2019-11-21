@@ -1,6 +1,8 @@
-package rpi.legup.puzzle.shorttruthtable;
+package edu.rpi.legup.puzzle.shorttruthtable;
 
 import edu.rpi.legup.model.gameboard.GridCell;
+
+import java.awt.Point;
 
 public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
 	
@@ -13,6 +15,13 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
 		this.symbol = symbol;
 	}
 
+    /**
+     * Constructs a new Cell and calculates the cell type based off of 'symbol'.
+     * The cell type will be either UNKNOWN  or NOT_IN_PLAY
+     *
+     * @param symbol
+     * @param location
+     */
     public ShortTruthTableCell(char symbol, Point location){
         this(symbol, ShortTruthTableCellType.getType(symbol), location);
     }
@@ -21,7 +30,14 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
         this(symbol, null);
     }
 
-
+    /**
+     * Constructs a new NOT_IN_PLAY Cell
+     *
+     * @param location the location of this cell on the board
+     */
+    public ShortTruthTableCell(Point location){
+	    this(' ', ShortTruthTableCellType.NOT_IN_PLAY, location);
+    }
 
 
     //Getters
@@ -44,6 +60,9 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
 
 
 
+    //Setters
+
+
 
 
 
@@ -53,9 +72,9 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
 
     public void cycleTypeForward(){
         switch(data){
-            case ShortTruthTableCellType.UNKNOWN: data = ShortTruthTableCellType.TRUE; break;
-            case ShortTruthTableCellType.TRUE: data = ShortTruthTableCellType.FALSE; break;
-            case ShortTruthTableCellType.FALSE: data = ShortTruthTableCellType.UNKNOWN; break;
+            case UNKNOWN: data = ShortTruthTableCellType.TRUE; break;
+            case TRUE: data = ShortTruthTableCellType.FALSE; break;
+            case FALSE: data = ShortTruthTableCellType.UNKNOWN; break;
             default: break;
         }
     }
@@ -76,7 +95,7 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
 
     @Override
     public ShortTruthTableCell copy() {
-        ShortTruthTableCell copy = new ShortTruthTableCell(data, (Point) location.clone());
+        ShortTruthTableCell copy = new ShortTruthTableCell(symbol, data, (Point) location.clone());
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
