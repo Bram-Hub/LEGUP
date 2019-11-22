@@ -15,6 +15,7 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
 		this.symbol = symbol;
 	}
 
+
     /**
      * Constructs a new Cell and calculates the cell type based off of 'symbol'.
      * The cell type will be either UNKNOWN  or NOT_IN_PLAY

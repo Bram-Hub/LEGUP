@@ -7,6 +7,8 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import java.util.Set;
 import java.util.HashSet;
 import java.awt.Point;
+import java.util.List;
+import java.util.ArrayList;
 
 
 public class ShortTruthTableStatement extends PuzzleElement<String>{
@@ -59,8 +61,43 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 	}
 
 
+	//recursive constructor; constructs child statement nodes if necessary
+	public ShortTruthTableStatement(String statement, List<ShortTruthTableCell> cells){
+
+		//set the string rep to the statement (include parens incase this is a sub statement)
+		this.stringRep = statement;
+
+		//remove the parens for parsing the statement
+		statement = removeParens(statement);
+		removeParens(cells);
+
+		//get the index of the char that this statement represents
+		int index = parse(statement);
+
+		//construct the cell for this node in the tree
+		cell = cells.get(index);
+
+		//get the strings on either side of this char in the string rep
+		String left = statement.substring(0, index);
+		String right = statement.substring(index+1);
+
+		//cunstruct substatements if necessary
+		if(left.length() > 0)
+			leftStatement = new ShortTruthTableStatement(left, cells.subList(0, index));
+		else
+			leftStatement = null;
+
+		if(right.length() > 0)
+			rightStatement = new ShortTruthTableStatement(right, cells.subList(index+1, cells.size()));
+		else
+			rightStatement = null;
+
+	}
+
+
+
 	//parsing for the constructor
-	String removeParens(String statement){
+	static String removeParens(String statement){
 
 		if(statement.charAt(0) != '(')
 			return statement;
@@ -114,7 +151,32 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 
 	}
 
+	static void removeParens(List<ShortTruthTableCell> cells){
 
+		if(cells.get(0).getSymbol() != '(')
+			return;
+
+		//if the statement does start with a paren, check that it matches with the last paren
+		int openParenCount = 1;
+		int i = 1;
+		while(i < cells.size()-1){
+			char c = cells.get(i).getSymbol();
+			if(c == '(') openParenCount++;
+			else if(c == ')') openParenCount--;
+
+			//if the first paren has been closed and it is not the end of the string,
+			//then there is no whole statement parens to remove
+			if(openParenCount == 0 && i!=cells.size()-1)
+				return;
+
+			i++;
+		}
+
+		//if the while loop made it through the entire statement, there are parens around the whole thing
+		cells.remove(cells.size()-1);
+		cells.remove(0);
+
+	}
 
 
 
@@ -152,6 +214,14 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 		if(cell.getSymbol() == symbol) set.add(cell);
 		if(leftStatement != null) set.addAll(leftStatement.getCellsWithSymbol(symbol));
 		if(rightStatement != null) set.addAll(rightStatement.getCellsWithSymbol(symbol));
+		return set;
+	}
+
+	public Set<ShortTruthTableCell> getAllCells(){
+		Set<ShortTruthTableCell> set = new HashSet(getLength());
+		set.add(cell);
+		if(leftStatement != null) set.addAll(leftStatement.getAllCells());
+		if(rightStatement != null) set.addAll(rightStatement.getAllCells());
 		return set;
 	}
 
