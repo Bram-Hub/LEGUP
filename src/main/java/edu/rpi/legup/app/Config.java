@@ -76,6 +76,7 @@ public class Config {
                 Element puzzle = (Element) puzzleNodes.item(i);
                 String name = puzzle.getAttribute("name");
                 String className = puzzle.getAttribute("qualifiedClassName");
+                Logger.debug("Class Name: "+className);
                 puzzles.put(name, className);
             }
         } catch (ParserConfigurationException | SAXException | IOException e) {

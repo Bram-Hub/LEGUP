@@ -25,7 +25,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 
 	//each of the logic symbols
 	public static final char NOT = '~';
-	public static final char AND = '&';
+	public static final char AND = '^';
 	public static final char OR = '|';
 	public static final char CONDITIONAL = '>';
 	public static final char BICONDITIONAL = '-';
