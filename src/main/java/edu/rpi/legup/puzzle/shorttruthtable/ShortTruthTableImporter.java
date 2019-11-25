@@ -24,7 +24,7 @@ class ShortTruthTableImporter extends PuzzleImporter{
     private List<ShortTruthTableCell> getCells(String statement, int rowIndex){
         List<ShortTruthTableCell> cells = new ArrayList<ShortTruthTableCell>();
         for(int i = 0; i<statement.length(); i++){
-            ShortTruthTableCell cell = new ShortTruthTableCell(statement.charAt(i), ShortTruthTableCellType.UNKNOWN, new Point(rowIndex, i));
+            ShortTruthTableCell cell = new ShortTruthTableCell(statement.charAt(i), ShortTruthTableCellType.UNKNOWN, new Point(i, rowIndex));
             cell.setModifiable(true);
             cells.add(cell);
         }
@@ -52,7 +52,7 @@ class ShortTruthTableImporter extends PuzzleImporter{
                 throw new InvalidFileFormatException("short truth table Importer: cannot find board puzzleElement");
             }
             Element boardElement = (Element) node;
-            if (boardElement.getElementsByTagName("statements").getLength() == 0) {
+            if (boardElement.getElementsByTagName("data").getLength() == 0) {
                 throw new InvalidFileFormatException("short truth table Importer: no statements found for board");
             }
 
@@ -91,7 +91,7 @@ class ShortTruthTableImporter extends PuzzleImporter{
             for(int i = 0; i<cellData.getLength(); i++){
 
                 //get the atributes for the cell
-                NamedNodeMap attributeList = statementData.item(i).getAttributes();
+                NamedNodeMap attributeList = cellData.item(i).getAttributes();
                 int rowIndex = Integer.valueOf(attributeList.getNamedItem("row_index").getNodeValue());
                 int charIndex = Integer.valueOf(attributeList.getNamedItem("char_index").getNodeValue());
                 String cellType = attributeList.getNamedItem("type").getNodeValue();
@@ -109,15 +109,19 @@ class ShortTruthTableImporter extends PuzzleImporter{
             int width = maxStatementLength;
             int height = statements.size();
 
+            System.out.println("Board dimentions "+width+", "+height);
+
             //instantiate the board with the correct width and height
             ShortTruthTableBoard sttBoard = new ShortTruthTableBoard(width, height, statements);
 
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     ShortTruthTableCell cell = null;
-                    if(x < allCells.get(y).size())
+                    if(x < statements.get(y).getLength()) {
                         cell = allCells.get(y).get(x);
-                    else{
+                        System.out.println(cell);
+                    }else{
+                        System.out.println("making empty cell");
                         cell = new ShortTruthTableCell(' ', ShortTruthTableCellType.NOT_IN_PLAY, new Point(x, y));
                         cell.setModifiable(false);
                     }
@@ -126,6 +130,8 @@ class ShortTruthTableImporter extends PuzzleImporter{
                 }
             }
 
+
+            System.out.println("\n\n\n\n");
             puzzle.setCurrentBoard(sttBoard);
 
         } catch (NumberFormatException e) {
@@ -134,85 +140,6 @@ class ShortTruthTableImporter extends PuzzleImporter{
 
 
     }
-
-
-
-
-
-    //CELL IMPORTER OLD
-
-    /*
-    /**
-     * Creates the board for building
-     *
-     * @param node xml document node
-     * @throws InvalidFileFormatException
-     */
-    /*
-    @Override
-    public void initializeBoard(Node node) throws InvalidFileFormatException {
-
-        try {
-
-            //Check File formatting
-            if (!node.getNodeName().equalsIgnoreCase("board")) {
-                throw new InvalidFileFormatException("short truth table Importer: cannot find board puzzleElement");
-            }
-            Element boardElement = (Element) node;
-            if (boardElement.getElementsByTagName("cells").getLength() == 0) {
-                throw new InvalidFileFormatException("short truth table Importer: no puzzleElement found for board");
-            }
-
-
-            //Get the width and the height of the board
-            int width = 0;
-            int height = 0;
-            if (!boardElement.getAttribute("size").isEmpty()) {
-                width = height = Integer.valueOf(boardElement.getAttribute("size"));
-            } else if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
-                width = Integer.valueOf(boardElement.getAttribute("width"));
-                height = Integer.valueOf(boardElement.getAttribute("height"));
-            }else{
-                throw new InvalidFileFormatException("short truth table Importer: invalid board dimensions");
-            }
-
-            //instantiate the board with the correct width and height
-            ShortTruthTableBoard sttBoard = new ShortTruthTableBoard(width, height);
-
-
-            Element dataElement = (Element) boardElement.getElementsByTagName("cells").item(0);
-            NodeList elementDataList = dataElement.getElementsByTagName("cell");
-
-            for (int i = 0; i < elementDataList.getLength(); i++) {
-                ShortTruthTableCell cell = (ShortTruthTableCell) puzzle.getFactory().importCell(elementDataList.item(i), sttBoard);
-                Point loc = cell.getLocation();
-
-                if (cell.getData() != ShortTruthTableCellType.UNKNOWN) {
-                    cell.setModifiable(false);
-                    cell.setGiven(true);
-                }
-                sttBoard.setCell(loc.x, loc.y, cell);
-            }
-
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-                    if (sttBoard.getCell(x, y) == null) {
-                        ShortTruthTableCell cell = new ShortTruthTableCell(ShortTruthTableCellType.OUT_OF_PLAY, new Point(x, y));
-                        cell.setIndex(y * height + x);
-                        cell.setModifiable(true);
-                        sttBoard.setCell(x, y, cell);
-                    }
-                }
-            }
-
-            puzzle.setCurrentBoard(nurikabeBoard);
-
-        } catch (NumberFormatException e) {
-            throw new InvalidFileFormatException("short truth table Importer: unknown value where integer expected");
-        }
-
-
-    }*/
 
 
 

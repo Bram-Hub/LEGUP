@@ -89,6 +89,15 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
 
 
 
+    //TO STRING
+
+    @Override
+    public String toString(){
+        return "STTCell: "+symbol+" "+location;
+    }
+
+
+
 
 
 

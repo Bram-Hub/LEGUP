@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.awt.Point;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class ShortTruthTableStatement extends PuzzleElement<String>{
@@ -64,6 +65,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 	//recursive constructor; constructs child statement nodes if necessary
 	public ShortTruthTableStatement(String statement, List<ShortTruthTableCell> cells){
 
+
 		//set the string rep to the statement (include parens incase this is a sub statement)
 		this.stringRep = statement;
 
@@ -81,15 +83,18 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 		String left = statement.substring(0, index);
 		String right = statement.substring(index+1);
 
+		List<ShortTruthTableCell> leftCells = new ArrayList<ShortTruthTableCell>(cells.subList(0, index));
+		List<ShortTruthTableCell> rightCells = new ArrayList<ShortTruthTableCell>(cells.subList(index+1, cells.size()));
+
 		//cunstruct substatements if necessary
 		if(left.length() > 0)
-			leftStatement = new ShortTruthTableStatement(left, cells.subList(0, index));
+			leftStatement = new ShortTruthTableStatement(left, leftCells);
 		else
 			leftStatement = null;
 
-		if(right.length() > 0)
-			rightStatement = new ShortTruthTableStatement(right, cells.subList(index+1, cells.size()));
-		else
+		if(right.length() > 0) {
+			rightStatement = new ShortTruthTableStatement(right, rightCells);
+		}else
 			rightStatement = null;
 
 	}

@@ -5,14 +5,12 @@ import edu.rpi.legup.model.gameboard.Board;
 
 public class ShortTruthTable extends Puzzle {
 
-    ShortTruthTableBoard board;
-
     public ShortTruthTable() {
         super();
 
         this.name = "Short Truth Table";
 
-        // this.importer = new TreeTentImporter(this);
+         this.importer = new ShortTruthTableImporter(this);
         // this.exporter = new TreeTentExporter(this);
 
         // this.factory = new TreeTentCellFactory();
@@ -23,7 +21,8 @@ public class ShortTruthTable extends Puzzle {
      */
     @Override
     public void initializeView() {
-        boardView = new ShortTruthTableView(board);
+        boardView = new ShortTruthTableView((ShortTruthTableBoard) currentBoard);
+        addBoardListener(boardView);
     }
 
     /**
