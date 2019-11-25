@@ -36,6 +36,14 @@ public class ShortTruthTableBoard extends GridBoard {
     @Override
     public ShortTruthTableBoard copy() {
         ShortTruthTableBoard copy = new ShortTruthTableBoard(getWidth(), getHeight(), statements);
+        for (int x = 0; x < this.dimension.width; x++) {
+            for (int y = 0; y < this.dimension.height; y++) {
+                copy.setCell(x, y, getCell(x, y).copy());
+            }
+        }
+        for(PuzzleElement e : modifiedData) {
+            copy.getPuzzleElement(e).setModifiable(false);
+        }
         return copy;
     }
 

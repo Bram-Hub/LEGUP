@@ -10,6 +10,8 @@ public class ShortTruthTableController extends ElementController {
     @Override
     public void changeCell(MouseEvent e, PuzzleElement data) {
 
+        System.out.println("STTController: Cell change");
+
         //cast the data to a short truth tablce cell
         ShortTruthTableCell cell = (ShortTruthTableCell) data;
 

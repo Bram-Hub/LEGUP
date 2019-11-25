@@ -89,7 +89,7 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
 
     @Override
     public String toString(){
-        return String.format("STTCell: %c %2d %11s %s", symbol, index, data, location.toString());
+        return String.format("STTCell: %c %2d %-11s %s", symbol, index, data, location.toString());
     }
 
 
