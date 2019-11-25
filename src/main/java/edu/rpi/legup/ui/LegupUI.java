@@ -5,10 +5,13 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.URI;
 import java.net.URL;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
 
 import javax.swing.*;
 
 import java.util.List;
+
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
@@ -57,6 +60,8 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 
     protected JPanel contentPane;
     protected FileDialog fileDialog;
+    protected JFileChooser folderBrowser;
+
     protected PickGameDialog pickGameDialog;
     protected JButton[] toolBarButtons;
 
@@ -259,10 +264,10 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         file.add(resetPuzzle);
         resetPuzzle.addActionListener(a -> {
             Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
-            if(puzzle != null) {
+            if (puzzle != null) {
                 Tree tree = GameBoardFacade.getInstance().getTree();
                 TreeNode rootNode = tree.getRootNode();
-                if(rootNode != null) {
+                if (rootNode != null) {
                     int confirmReset = JOptionPane.showConfirmDialog(this, "Reset Puzzle to Root Node?", "Confirm Reset", JOptionPane.YES_NO_CANCEL_OPTION);
                     if (confirmReset == JOptionPane.YES_OPTION) {
                         List<TreeTransition> children = rootNode.getChildren();
@@ -376,6 +381,8 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e) -> {
         });
 
+        toolBarButtons[ToolbarName.CHECK_ALL.ordinal()].addActionListener((ActionEvent e) -> checkProofAll());
+
         toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
@@ -383,6 +390,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.SUBMIT.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].setEnabled(false);
+        toolBarButtons[ToolbarName.CHECK_ALL.ordinal()].setEnabled(true);
 
         contentPane.add(toolBar, BorderLayout.NORTH);
     }
@@ -497,6 +505,99 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 
             showStatus(message, true);
         }
+    }
+
+    /**
+     * Checks the proof for all files
+     */
+    private void checkProofAll() {
+        GameBoardFacade facade = GameBoardFacade.getInstance();
+
+        folderBrowser = new JFileChooser();
+        folderBrowser.setCurrentDirectory(new java.io.File("."));
+        folderBrowser.setDialogTitle("Select Directory");
+        folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        folderBrowser.setAcceptAllFileFilterUsed(false);
+        folderBrowser.showOpenDialog(this);
+        File folder = folderBrowser.getSelectedFile();
+
+        //FileWriter csvWriter = new FileWriter("new.csv");
+        File resultFile = new File(folder.getAbsolutePath() + File.separator +"result.csv");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
+            writer.append("Name");
+            writer.append(",");
+            writer.append("File Name");
+            writer.append(",");
+            writer.append("Solved or not");
+            writer.append("\n");
+            //csvWriter.flush();
+            //csvWriter.close();
+
+            for (final File folderEntry : folder.listFiles(File::isDirectory)) {
+                writer.append(folderEntry.getName());
+                writer.append(",");
+                int count1 = 0;
+                for (final File fileEntry : folderEntry.listFiles()) {
+                    if (fileEntry.getName().charAt(0) == '.'){
+                        continue;
+                    }
+                    count1++;
+                    if (count1 > 1){
+                        writer.append(folderEntry.getName());
+                        writer.append(",");
+                    }
+                    writer.append(fileEntry.getName());
+                    writer.append(",");
+                    String fileName = folderEntry.getAbsolutePath() + File.separator + fileEntry.getName();
+                    File puzzleFile = new File(fileName);
+                    if (puzzleFile != null && puzzleFile.exists()) {
+                        try {
+                            GameBoardFacade.getInstance().loadPuzzle(fileName);
+                            String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+                            setTitle(puzzleName + " - " + puzzleFile.getName());
+                            facade = GameBoardFacade.getInstance();
+                            Puzzle puzzle = facade.getPuzzleModule();
+                            if (puzzle.isPuzzleComplete()) {
+                                writer.append("Solved");
+                                System.out.println(fileEntry.getName() + "  solved");
+                            } else {
+                                writer.append("Not solved");
+                                System.out.println(fileEntry.getName() + "  not solved");
+                            }
+                            writer.append("\n");
+                        } catch (InvalidFileFormatException e) {
+                            LOGGER.error(e.getMessage());
+                        }
+                    }
+                }
+                if (count1 == 0){
+                    writer.append("No file");
+                    writer.append("\n");
+                }
+            }
+        }catch (IOException ex){
+            LOGGER.error(ex.getMessage());
+        }
+
+        /*fileDialog.setMode(FileDialog.LOAD);
+        fileDialog.setTitle("Select Puzzle");
+        fileDialog.setVisible(true);
+        String fileName = null;
+        File puzzleFile = null;
+        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
+            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
+            puzzleFile = new File(fileName);
+        }
+
+        if (puzzleFile != null && puzzleFile.exists()) {
+            try {
+                GameBoardFacade.getInstance().loadPuzzle(fileName);
+                String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+                setTitle(puzzleName + " - " + puzzleFile.getName());
+            } catch (InvalidFileFormatException e) {
+                LOGGER.error(e.getMessage());
+            }
+        }*/
     }
 
     private boolean basicCheckProof(int[][] origCells) {

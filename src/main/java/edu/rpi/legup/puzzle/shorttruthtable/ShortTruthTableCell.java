@@ -65,10 +65,6 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
 
 
 
-
-
-
-
     //Modifiers
 
     public void cycleTypeForward(){
@@ -93,8 +89,9 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
 
     @Override
     public String toString(){
-        return "STTCell: "+symbol+" "+location;
+        return String.format("STTCell: %c %2d %11s %s", symbol, index, data, location.toString());
     }
+
 
 
 

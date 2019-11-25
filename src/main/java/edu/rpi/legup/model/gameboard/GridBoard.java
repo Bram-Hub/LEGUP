@@ -37,7 +37,7 @@ public class GridBoard extends Board {
      * @return grid cell at location (x, y)
      */
     public GridCell getCell(int x, int y) {
-        if (x * dimension.width + y >= puzzleElements.size() || x >= dimension.width ||
+        if (y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
                 y >= dimension.height || x < 0 || y < 0) {
             return null;
         }
@@ -53,8 +53,8 @@ public class GridBoard extends Board {
      * @param cell grid cell to set at location (x,y)
      */
     public void setCell(int x, int y, GridCell cell) {
-        if (y * dimension.width + x >= puzzleElements.size() ||
-                x >= dimension.width || y >= dimension.height || x < 0 || y < 0) {
+        if (y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
+                y >= dimension.height || x < 0 || y < 0) {
             return;
         }
         puzzleElements.set(y * dimension.width + x, cell);

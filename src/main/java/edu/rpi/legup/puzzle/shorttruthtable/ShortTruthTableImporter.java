@@ -119,17 +119,21 @@ class ShortTruthTableImporter extends PuzzleImporter{
                     ShortTruthTableCell cell = null;
                     if(x < statements.get(y).getLength()) {
                         cell = allCells.get(y).get(x);
-                        System.out.println(cell);
+//                        System.out.println(cell);
                     }else{
-                        System.out.println("making empty cell");
+//                        System.out.println("making empty cell");
                         cell = new ShortTruthTableCell(' ', ShortTruthTableCellType.NOT_IN_PLAY, new Point(x, y));
                         cell.setModifiable(false);
                     }
-                    cell.setIndex(y * height + x);
+                    cell.setIndex(y * width + x);
+//                    System.out.print("Importer set cell: ");
                     sttBoard.setCell(x, y, cell);
                 }
             }
 
+            for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++)
+                    System.out.println("Imprter "+sttBoard.getCell(x, y));
 
             System.out.println("\n\n\n\n");
             puzzle.setCurrentBoard(sttBoard);

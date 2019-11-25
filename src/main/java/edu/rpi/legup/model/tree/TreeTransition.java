@@ -346,4 +346,8 @@ public class TreeTransition extends TreeElement {
     public boolean isJustified() {
         return rule != null;
     }
+
+    /*public int modifiedData_size(){
+        return board.getModifiedData().size();
+    }*/
 }
