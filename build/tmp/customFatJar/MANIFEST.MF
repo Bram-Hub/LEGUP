@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Implementation-Title: Legup
+Implementation-Version: 2.0.0
+Main-Class: edu.rpi.legup.Legup
+SplashScreen-Image: edu/rpi/legup/images/Legup/LegupSplash.png
+
