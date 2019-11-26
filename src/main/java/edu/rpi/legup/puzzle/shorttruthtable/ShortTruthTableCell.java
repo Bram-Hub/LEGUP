@@ -15,22 +15,6 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
 		this.symbol = symbol;
 	}
 
-
-    /**
-     * Constructs a new Cell and calculates the cell type based off of 'symbol'.
-     * The cell type will be either UNKNOWN  or NOT_IN_PLAY
-     *
-     * @param symbol
-     * @param location
-     */
-    public ShortTruthTableCell(char symbol, Point location){
-        this(symbol, ShortTruthTableCellType.getType(symbol), location);
-    }
-
-    public ShortTruthTableCell(char symbol){
-        this(symbol, null);
-    }
-
     /**
      * Constructs a new NOT_IN_PLAY Cell
      *
@@ -108,5 +92,7 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
         copy.setGiven(isGiven);
         return copy;
     }
+
+
 
 }

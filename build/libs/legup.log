@@ -943,3 +943,342 @@
 [DEBUG] 2019-11-25 13:44:23.613 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
 [DEBUG] 2019-11-25 13:44:23.636 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
 [DEBUG] 2019-11-25 13:44:23.659 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 15:58:05.692 [main] Config - [puzzles: null]
+[DEBUG] 2019-11-25 15:58:05.694 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2019-11-25 15:58:05.694 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2019-11-25 15:58:05.694 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2019-11-25 15:58:05.694 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-11-25 15:58:05.695 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2019-11-25 15:58:05.695 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2019-11-25 15:58:05.695 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2019-11-25 15:58:05.695 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2019-11-25 15:58:12.324 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2019-11-25 15:58:13.261 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-11-25 15:58:13.289 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-11-25 15:58:13.313 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 15:58:13.320 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 15:59:01.290 [main] Config - [puzzles: null]
+[DEBUG] 2019-11-25 15:59:01.291 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2019-11-25 15:59:01.292 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2019-11-25 15:59:01.292 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2019-11-25 15:59:01.292 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-11-25 15:59:01.292 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2019-11-25 15:59:01.292 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2019-11-25 15:59:01.292 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2019-11-25 15:59:01.292 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2019-11-25 15:59:08.313 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2019-11-25 15:59:09.286 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-11-25 15:59:09.321 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-11-25 15:59:09.346 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 15:59:09.351 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 15:59:21.443 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 15:59:21.445 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:08:34.648 [main] Config - [puzzles: null]
+[DEBUG] 2019-11-25 16:08:34.650 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2019-11-25 16:08:34.650 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2019-11-25 16:08:34.650 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2019-11-25 16:08:34.650 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-11-25 16:08:34.650 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2019-11-25 16:08:34.650 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2019-11-25 16:08:34.650 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2019-11-25 16:08:34.650 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2019-11-25 16:08:41.525 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2019-11-25 16:08:42.467 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-11-25 16:08:42.485 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-11-25 16:08:42.506 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 16:08:42.533 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 16:08:45.162 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:08:45.164 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:11:39.883 [main] Config - [puzzles: null]
+[DEBUG] 2019-11-25 16:11:39.885 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2019-11-25 16:11:39.885 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2019-11-25 16:11:39.885 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2019-11-25 16:11:39.885 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-11-25 16:11:39.886 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2019-11-25 16:11:39.886 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2019-11-25 16:11:39.886 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2019-11-25 16:11:39.886 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2019-11-25 16:11:47.434 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2019-11-25 16:11:48.371 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-11-25 16:11:48.417 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-11-25 16:11:48.441 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 16:11:48.446 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 16:11:49.771 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:11:49.773 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:32:25.328 [main] Config - [puzzles: null]
+[DEBUG] 2019-11-25 16:32:25.330 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2019-11-25 16:32:25.330 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2019-11-25 16:32:25.330 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2019-11-25 16:32:25.330 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-11-25 16:32:25.330 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2019-11-25 16:32:25.331 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2019-11-25 16:32:25.331 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2019-11-25 16:32:25.331 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2019-11-25 16:32:31.640 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2019-11-25 16:32:32.589 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-11-25 16:32:32.599 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-11-25 16:32:32.620 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 16:32:32.659 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 16:32:34.453 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:32:34.455 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:36:13.799 [main] Config - [puzzles: null]
+[DEBUG] 2019-11-25 16:36:13.801 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2019-11-25 16:36:13.801 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2019-11-25 16:36:13.801 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2019-11-25 16:36:13.801 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-11-25 16:36:13.801 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2019-11-25 16:36:13.801 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2019-11-25 16:36:13.802 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2019-11-25 16:36:13.802 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2019-11-25 16:36:20.201 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2019-11-25 16:36:21.139 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-11-25 16:36:21.156 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-11-25 16:36:21.178 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 16:36:21.214 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 16:36:29.368 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:36:29.371 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:37:37.674 [main] Config - [puzzles: null]
+[DEBUG] 2019-11-25 16:37:37.675 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2019-11-25 16:37:37.676 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2019-11-25 16:37:37.676 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2019-11-25 16:37:37.676 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-11-25 16:37:37.676 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2019-11-25 16:37:37.676 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2019-11-25 16:37:37.676 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2019-11-25 16:37:37.676 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2019-11-25 16:37:45.734 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2019-11-25 16:37:46.697 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-11-25 16:37:46.731 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-11-25 16:37:46.754 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 16:37:46.759 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 16:37:48.038 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:37:48.040 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:39:42.695 [main] Config - [puzzles: null]
+[DEBUG] 2019-11-25 16:39:42.697 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2019-11-25 16:39:42.697 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2019-11-25 16:39:42.697 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2019-11-25 16:39:42.697 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-11-25 16:39:42.698 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2019-11-25 16:39:42.698 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2019-11-25 16:39:42.698 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2019-11-25 16:39:42.698 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2019-11-25 16:39:49.664 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2019-11-25 16:39:50.619 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-11-25 16:39:50.638 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-11-25 16:39:50.659 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 16:39:50.690 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[INFO ] 2019-11-25 16:39:52.308 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:39:52.308 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:39:52.314 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:39:52.325 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:39:53.724 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:39:53.724 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:39:53.727 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:39:54.376 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:39:54.376 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:39:54.378 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:39:55.970 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:39:55.970 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:39:55.972 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:39:56.689 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:39:56.689 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:39:56.691 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:39:57.752 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:39:57.752 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:39:57.754 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:39:58.276 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:39:58.277 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:39:58.278 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:39:58.722 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:39:58.722 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:39:58.723 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:40:00.450 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:40:00.450 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:40:00.452 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:40:01.186 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:40:01.186 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:40:01.188 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:40:01.562 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:40:01.562 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:40:01.563 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:40:02.338 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:40:02.338 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:40:02.339 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:40:02.733 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:40:02.733 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:40:02.735 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:40:03.565 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:40:03.565 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:40:03.567 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:40:03.933 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:40:03.933 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:40:03.935 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:40:04.373 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:40:04.373 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:40:04.375 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:40:04.869 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:40:04.869 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:40:04.871 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:40:05.429 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:40:05.429 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:40:05.430 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:40:05.708 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:40:05.709 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:40:05.710 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:40:06.195 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:40:06.196 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:40:06.197 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:40:07.336 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:40:07.336 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:40:07.337 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:44:29.262 [main] Config - [puzzles: null]
+[DEBUG] 2019-11-25 16:44:29.264 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2019-11-25 16:44:29.264 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2019-11-25 16:44:29.264 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2019-11-25 16:44:29.264 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-11-25 16:44:29.264 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2019-11-25 16:44:29.264 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2019-11-25 16:44:29.265 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2019-11-25 16:44:29.265 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2019-11-25 16:44:35.754 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2019-11-25 16:44:36.695 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-11-25 16:44:36.721 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-11-25 16:44:36.745 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 16:44:36.760 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[INFO ] 2019-11-25 16:44:38.465 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:44:38.465 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:44:38.471 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:44:38.478 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:44:40.214 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:44:40.214 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:44:40.216 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:46:01.510 [main] Config - [puzzles: null]
+[DEBUG] 2019-11-25 16:46:01.511 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2019-11-25 16:46:01.512 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2019-11-25 16:46:01.512 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2019-11-25 16:46:01.512 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-11-25 16:46:01.512 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2019-11-25 16:46:01.512 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2019-11-25 16:46:01.512 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2019-11-25 16:46:01.512 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2019-11-25 16:46:15.046 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2019-11-25 16:46:16.007 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-11-25 16:46:16.032 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-11-25 16:46:16.054 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 16:46:16.080 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[INFO ] 2019-11-25 16:46:17.354 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:46:17.354 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:46:17.364 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:46:17.367 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:46:18.872 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:46:18.872 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:46:18.874 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:46:19.816 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:46:19.816 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:46:19.818 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:46:46.037 [main] Config - [puzzles: null]
+[DEBUG] 2019-11-25 16:46:46.038 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2019-11-25 16:46:46.039 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2019-11-25 16:46:46.039 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2019-11-25 16:46:46.039 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-11-25 16:46:46.039 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2019-11-25 16:46:46.039 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2019-11-25 16:46:46.039 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2019-11-25 16:46:46.039 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2019-11-25 16:46:54.897 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2019-11-25 16:46:55.857 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-11-25 16:46:55.881 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-11-25 16:46:55.905 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 16:46:55.920 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[INFO ] 2019-11-25 16:46:56.906 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:46:56.906 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:46:56.913 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:46:56.922 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:46:57.909 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:46:57.909 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:46:57.912 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:47:01.132 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:47:01.135 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:47:01.137 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:57:21.925 [main] Config - [puzzles: null]
+[DEBUG] 2019-11-25 16:57:21.927 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2019-11-25 16:57:21.927 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2019-11-25 16:57:21.927 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2019-11-25 16:57:21.927 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-11-25 16:57:21.927 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2019-11-25 16:57:21.928 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2019-11-25 16:57:21.928 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2019-11-25 16:57:21.928 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2019-11-25 16:57:29.751 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2019-11-25 16:57:30.686 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-11-25 16:57:30.733 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-11-25 16:57:30.761 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 16:57:30.766 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[INFO ] 2019-11-25 16:57:36.526 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:57:36.527 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:57:36.540 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:57:36.542 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:57:37.713 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:57:37.713 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:57:37.716 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 16:57:39.873 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 16:57:39.873 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 16:57:39.876 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 16:59:36.358 [main] Config - [puzzles: null]
+[DEBUG] 2019-11-25 16:59:36.360 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2019-11-25 16:59:36.360 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2019-11-25 16:59:36.361 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2019-11-25 16:59:36.361 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-11-25 16:59:36.361 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2019-11-25 16:59:36.361 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2019-11-25 16:59:36.361 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2019-11-25 16:59:36.361 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2019-11-25 16:59:43.699 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2019-11-25 16:59:44.638 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-11-25 16:59:44.657 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-11-25 16:59:44.678 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 16:59:44.719 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 17:01:00.187 [main] Config - [puzzles: null]
+[DEBUG] 2019-11-25 17:01:00.188 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2019-11-25 17:01:00.189 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2019-11-25 17:01:00.189 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2019-11-25 17:01:00.189 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2019-11-25 17:01:00.189 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2019-11-25 17:01:00.189 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2019-11-25 17:01:00.189 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2019-11-25 17:01:00.189 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2019-11-25 17:01:06.601 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2019-11-25 17:01:07.552 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2019-11-25 17:01:07.576 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2019-11-25 17:01:07.599 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2019-11-25 17:01:07.607 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[INFO ] 2019-11-25 17:02:50.788 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 17:02:50.788 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 17:02:50.795 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2019-11-25 17:02:50.802 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 17:02:52.047 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 17:02:52.047 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 17:02:52.050 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2019-11-25 17:02:54.451 [AWT-EventQueue-0] History - Pushed ValidateBasicRuleCommand to stack.
+[INFO ] 2019-11-25 17:02:54.451 [AWT-EventQueue-0] LegupUI - Pushing ValidateBasicRuleCommand to stack.
+[DEBUG] 2019-11-25 17:02:54.455 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 170x215
+[DEBUG] 2019-11-25 17:02:54.457 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 170x215
+[INFO ] 2019-11-25 17:03:16.848 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 17:03:16.848 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 17:03:16.851 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 263x215
+[DEBUG] 2019-11-25 17:03:16.853 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 263x215
+[INFO ] 2019-11-25 17:03:17.592 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 17:03:17.592 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 17:03:17.594 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 263x215
+[INFO ] 2019-11-25 17:03:18.208 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 17:03:18.208 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 17:03:18.210 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 263x215
+[INFO ] 2019-11-25 17:03:21.715 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 17:03:21.716 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 17:03:21.718 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 263x215
+[INFO ] 2019-11-25 17:03:23.100 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 17:03:23.100 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 17:03:23.102 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 263x215
+[INFO ] 2019-11-25 17:03:23.716 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2019-11-25 17:03:23.716 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2019-11-25 17:03:23.719 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 263x215

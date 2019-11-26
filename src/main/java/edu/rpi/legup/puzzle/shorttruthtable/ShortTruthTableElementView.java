@@ -11,8 +11,8 @@ public class ShortTruthTableElementView extends GridElementView {
 
     private static final Color TRUE_COLOR = Color.GREEN;
     private static final Color FALSE_COLOR = Color.RED;
-    private static final Color UNKNOWN_COLOR = Color.WHITE;
-    private static final Color NOT_IN_PLAY_COLOR = Color.BLACK;
+    private static final Color UNKNOWN_COLOR = Color.LIGHT_GRAY;
+    private static final Color NOT_IN_PLAY_COLOR = Color.LIGHT_GRAY;
 
     public ShortTruthTableElementView(ShortTruthTableCell cell) {
         super(cell);

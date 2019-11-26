@@ -23,6 +23,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 
 	//the representation string for this statement
 	private final String stringRep;
+	private final List<ShortTruthTableCell> cells;
 
 	//each of the logic symbols
 	public static final char NOT = '~';
@@ -33,41 +34,12 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 
 
 	//recursive constructor; constructs child statement nodes if necessary
-	public ShortTruthTableStatement(String statement){
-
-		//set the string rep to the statement (include parens incase this is a sub statement)
-		this.stringRep = statement;
-
-		//remove the parens for parsing the statement
-		statement = removeParens(statement);
-
-		//construct the cell, left and right statements
-		//get the index of the char that this statement represents
-		int index = parse(statement);
-		//construct the cell for this node in the tree
-		cell = new ShortTruthTableCell(statement.charAt(index));
-		//get the strings on either side of this char in the string rep
-		String left = statement.substring(0, index);
-		String right = statement.substring(index+1);
-		//cunstruct substatements if necessary
-		if(left.length() > 0)
-			leftStatement = new ShortTruthTableStatement(left);
-		else
-			leftStatement = null;
-		if(right.length() > 0)
-			rightStatement = new ShortTruthTableStatement(right);
-		else
-			rightStatement = null;
-
-	}
-
-
-	//recursive constructor; constructs child statement nodes if necessary
 	public ShortTruthTableStatement(String statement, List<ShortTruthTableCell> cells){
 
 
 		//set the string rep to the statement (include parens incase this is a sub statement)
 		this.stringRep = statement;
+		this.cells = new ArrayList<ShortTruthTableCell>(cells);;
 
 		//remove the parens for parsing the statement
 		statement = removeParens(statement);
@@ -255,7 +227,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 
 
 	public ShortTruthTableStatement copy(){
-		return new ShortTruthTableStatement(stringRep);
+		return new ShortTruthTableStatement(stringRep, cells);
 	}
 
 }

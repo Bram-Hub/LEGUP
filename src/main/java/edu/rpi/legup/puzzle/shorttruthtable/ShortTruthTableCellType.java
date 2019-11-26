@@ -35,15 +35,5 @@ public enum ShortTruthTableCellType{
         return value==0 || value==1;
     }
 
-    /**
-    * 
-    * @param symbol the symbol in the statement
-    * @return UNKNOWN or NON_VAR
-    */
-    public static ShortTruthTableCellType getType(char symbol){
-    	if(symbol=='(' || symbol==')')
-    		return NOT_IN_PLAY;
-    	return UNKNOWN;
-    }
 
 }
