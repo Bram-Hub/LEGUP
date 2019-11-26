@@ -11,8 +11,7 @@ public class ShortTruthTableElementView extends GridElementView {
 
     private static final Color TRUE_COLOR = Color.GREEN;
     private static final Color FALSE_COLOR = Color.RED;
-    private static final Color UNKNOWN_COLOR = Color.LIGHT_GRAY;
-    private static final Color NOT_IN_PLAY_COLOR = Color.LIGHT_GRAY;
+    private static final Color UNKNOWN_COLOR = Color.WHITE;
 
     public ShortTruthTableElementView(ShortTruthTableCell cell) {
         super(cell);
@@ -32,12 +31,11 @@ public class ShortTruthTableElementView extends GridElementView {
     @Override
     public void drawElement(Graphics2D graphics2D) {
 
-        if(!(puzzleElement instanceof ShortTruthTableCell))
-            return;
-
         //get informatino about the cell
         ShortTruthTableCell cell = (ShortTruthTableCell) puzzleElement;
         ShortTruthTableCellType type = cell.getData();
+
+        if(type == ShortTruthTableCellType.NOT_IN_PLAY) return;
 
         //fill in background color of the cell
         graphics2D.setStroke(new BasicStroke(1));
@@ -45,12 +43,8 @@ public class ShortTruthTableElementView extends GridElementView {
             case TRUE: graphics2D.setColor(TRUE_COLOR); break;
             case FALSE: graphics2D.setColor(FALSE_COLOR); break;
             case UNKNOWN: graphics2D.setColor(UNKNOWN_COLOR); break;
-            case NOT_IN_PLAY: graphics2D.setColor(NOT_IN_PLAY_COLOR); break;
         }
         graphics2D.fillRect(location.x, location.y, size.width, size.height);
-
-        //if the cell is not in play, nothing else has to be done
-        if(type == ShortTruthTableCellType.NOT_IN_PLAY) return;
 
         //Draw the symbol on the cell
         graphics2D.setColor(FONT_COLOR);
@@ -59,7 +53,7 @@ public class ShortTruthTableElementView extends GridElementView {
         String value = String.valueOf(cell.getSymbol());
         int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
         int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-        graphics2D.drawString(String.valueOf(cell.getSymbol()), xText, yText);
+        graphics2D.drawString(ShortTruthTableStatement.getLogicSymbol(cell.getSymbol()), xText, yText);
 
 
     }

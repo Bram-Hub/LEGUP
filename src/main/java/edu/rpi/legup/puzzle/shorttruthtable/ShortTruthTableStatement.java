@@ -10,6 +10,9 @@ import java.awt.Point;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
+import java.util.TreeMap;
 
 
 public class ShortTruthTableStatement extends PuzzleElement<String>{
@@ -31,6 +34,22 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 	public static final char OR = '|';
 	public static final char CONDITIONAL = '>';
 	public static final char BICONDITIONAL = '-';
+	private static final Map<Character, String> logicSymbolMap;
+	static {
+		Map<Character, String> aMap = new TreeMap();
+		aMap.put(NOT, "¬");
+		aMap.put(AND, "∧");
+		aMap.put(OR, "∨");
+		aMap.put(CONDITIONAL, "→");
+		aMap.put(BICONDITIONAL, "↔");
+		logicSymbolMap = Collections.unmodifiableMap(aMap);
+	}
+
+	public static String getLogicSymbol(char c){
+		String s = logicSymbolMap.get(c);
+		if(s == null) return String.valueOf(c);
+		return s;
+	}
 
 
 	//recursive constructor; constructs child statement nodes if necessary

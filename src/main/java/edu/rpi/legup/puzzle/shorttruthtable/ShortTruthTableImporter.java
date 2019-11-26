@@ -78,7 +78,7 @@ class ShortTruthTableImporter extends PuzzleImporter{
                 int rowIndex = Integer.valueOf(attributeList.getNamedItem("row_index").getNodeValue());
 
                 //get the cells for the statement
-                List<ShortTruthTableCell> rowOfCells = getCells(statementRep, rowIndex);
+                List<ShortTruthTableCell> rowOfCells = getCells(statementRep, rowIndex*2);
                 allCells.add(rowOfCells);
                 statements.add(new ShortTruthTableStatement(statementRep, rowOfCells));
 
@@ -107,7 +107,7 @@ class ShortTruthTableImporter extends PuzzleImporter{
 
             //calculate the width and height for the board
             int width = maxStatementLength;
-            int height = statements.size();
+            int height = statements.size()*2-1;
 
             System.out.println("Board dimentions "+width+", "+height);
 
@@ -116,9 +116,10 @@ class ShortTruthTableImporter extends PuzzleImporter{
 
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
+                    int statementIndex = y/2;
                     ShortTruthTableCell cell = null;
-                    if(x < statements.get(y).getLength()) {
-                        cell = allCells.get(y).get(x);
+                    if(y%2==0 && x < statements.get(statementIndex).getLength()) {
+                        cell = allCells.get(statementIndex).get(x);
 //                        System.out.println(cell);
                     }else{
 //                        System.out.println("making empty cell");
