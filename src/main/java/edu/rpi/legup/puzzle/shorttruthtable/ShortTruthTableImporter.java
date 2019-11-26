@@ -114,29 +114,35 @@ class ShortTruthTableImporter extends PuzzleImporter{
             //instantiate the board with the correct width and height
             ShortTruthTableBoard sttBoard = new ShortTruthTableBoard(width, height, statements);
 
+            //set the cells in the board. create not_in_play cells where needed
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
+
+                    //get the statement index for this row of the table
                     int statementIndex = y/2;
+
+                    //get the cell at this location; or create a not_in_play one if necessary
                     ShortTruthTableCell cell = null;
+                    //for a celll to exist at (x, y), it must be a valid row and within the statment length
                     if(y%2==0 && x < statements.get(statementIndex).getLength()) {
                         cell = allCells.get(statementIndex).get(x);
-//                        System.out.println(cell);
                     }else{
-//                        System.out.println("making empty cell");
                         cell = new ShortTruthTableCell(' ', ShortTruthTableCellType.NOT_IN_PLAY, new Point(x, y));
                         cell.setModifiable(false);
                     }
+
+                    //add the cell to the table
                     cell.setIndex(y * width + x);
-//                    System.out.print("Importer set cell: ");
                     sttBoard.setCell(x, y, cell);
                 }
             }
 
+            //debug print
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
                     System.out.println("Imprter "+sttBoard.getCell(x, y));
-
             System.out.println("\n\n\n\n");
+
             puzzle.setCurrentBoard(sttBoard);
 
         } catch (NumberFormatException e) {
