@@ -1,4 +1,4 @@
-package rpi.legup.puzzle.shorttruthtable;
+package edu.rpi.legup.puzzle.shorttruthtable.rules;
 
 
 import edu.rpi.legup.model.gameboard.Board;
@@ -17,10 +17,10 @@ import java.util.Iterator;
 public class ContradictionRuleNegation extends ContradictionRule{
 
 
-    ContradictionRuleNegation(){
+    public ContradictionRuleNegation(){
         super("Contradicting Negation",
                 "A negation and its following statement can not have the same truth value",
-                "image path");
+                "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/Not.png");
     }
 
 

@@ -58,7 +58,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 
 		//set the string rep to the statement (include parens incase this is a sub statement)
 		this.stringRep = statement;
-		this.cells = new ArrayList<ShortTruthTableCell>(cells);;
+		this.cells = new ArrayList<ShortTruthTableCell>(cells);
 
 		//remove the parens for parsing the statement
 		statement = removeParens(statement);
@@ -69,6 +69,8 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 
 		//construct the cell for this node in the tree
 		cell = cells.get(index);
+		//give the cell a reference back to this statement
+		cell.setStatementRefference(this);
 
 		//get the strings on either side of this char in the string rep
 		String left = statement.substring(0, index);

@@ -97,7 +97,7 @@ class ShortTruthTableImporter extends PuzzleImporter{
                 String cellType = attributeList.getNamedItem("type").getNodeValue();
 
                 //modify the appropriet cell
-                ShortTruthTableCell  cell = allCells.get(rowIndex).get(charIndex);
+                ShortTruthTableCell cell = allCells.get(rowIndex).get(charIndex);
                 cell.setData(ShortTruthTableCellType.valueOf(cellType));
                 cell.setModifiable(false);
                 cell.setGiven(true);
@@ -123,10 +123,12 @@ class ShortTruthTableImporter extends PuzzleImporter{
 
                     //get the cell at this location; or create a not_in_play one if necessary
                     ShortTruthTableCell cell = null;
-                    //for a celll to exist at (x, y), it must be a valid row and within the statment length
+
+                    //for a cell to exist at (x, y), it must be a valid row and within the statment length
                     if(y%2==0 && x < statements.get(statementIndex).getLength()) {
                         cell = allCells.get(statementIndex).get(x);
                     }else{
+                        //if it is not a valid cell space, add a NOT_IN_PLAY cell
                         cell = new ShortTruthTableCell(' ', ShortTruthTableCellType.NOT_IN_PLAY, new Point(x, y));
                         cell.setModifiable(false);
                     }
@@ -138,10 +140,10 @@ class ShortTruthTableImporter extends PuzzleImporter{
             }
 
             //debug print
-            for (int y = 0; y < height; y++)
-                for (int x = 0; x < width; x++)
-                    System.out.println("Imprter "+sttBoard.getCell(x, y));
-            System.out.println("\n\n\n\n");
+//            for (int y = 0; y < height; y++)
+//                for (int x = 0; x < width; x++)
+//                    System.out.println("Imprter "+sttBoard.getCell(x, y));
+//            System.out.println("\n\n\n\n");
 
             puzzle.setCurrentBoard(sttBoard);
 

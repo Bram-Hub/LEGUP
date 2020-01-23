@@ -2,11 +2,17 @@ package edu.rpi.legup.puzzle.shorttruthtable;
 
 import edu.rpi.legup.model.gameboard.GridCell;
 
+import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableStatement;
+
 import java.awt.Point;
 
 public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
-	
+
+    //The symbol on the cell
 	private final char symbol;
+
+	//This is a reference to the statement that contains this cell
+	private ShortTruthTableStatement statement;
 
 	//Constructors
 
@@ -14,6 +20,15 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
 		super(cellType, location);
 		this.symbol = symbol;
 	}
+
+
+	void setStatementRefference(ShortTruthTableStatement statement){
+	    this.statement = statement;
+    }
+
+    public ShortTruthTableStatement getStatementRefference() {
+        return statement;
+    }
 
     /**
      * Constructs a new NOT_IN_PLAY Cell

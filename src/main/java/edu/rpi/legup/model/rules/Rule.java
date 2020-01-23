@@ -4,6 +4,9 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeTransition;
 
 import javax.swing.ImageIcon;
+import java.awt.image.BufferedImage;
+import java.awt.Image;
+import java.awt.Graphics2D;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -75,7 +78,21 @@ public abstract class Rule {
      */
     private void loadImage() {
         if (imageName != null) {
-            image = new ImageIcon(ClassLoader.getSystemResource(imageName));
+            this.image = new ImageIcon(ClassLoader.getSystemResource(imageName));
+            //Resize images to be 100px wide
+            Image image = this.image.getImage();
+            if(this.image.getIconWidth() < 120) return;
+            int height = (int) (100 * ((double) this.image.getIconHeight() / this.image.getIconWidth()));
+            if(height==0){
+                System.out.println("height is 0 error");
+                System.out.println("height: "+this.image.getIconHeight());
+                System.out.println("width:  "+this.image.getIconWidth());
+                return;
+            }
+            BufferedImage bimage = new BufferedImage(100, height, BufferedImage.TYPE_INT_RGB);
+            Graphics2D g = bimage.createGraphics();
+            g.drawImage(image, 0, 0, 100, height, null);
+            this.image = new ImageIcon(bimage);
         }
     }
 

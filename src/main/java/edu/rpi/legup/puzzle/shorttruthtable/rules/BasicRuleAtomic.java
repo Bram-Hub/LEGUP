@@ -18,7 +18,7 @@ public class BasicRuleAtomic extends BasicRule {
     public BasicRuleAtomic() {
         super("Fill in all atoms",
                 "If one atomic value is known, all can be filled in with that value.",
-                "edu/rpi/legup/images/treetent/finishGrass.png");
+                "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/And.png");
     }
 
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement element){

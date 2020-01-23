@@ -1,4 +1,4 @@
-package rpi.legup.puzzle.shorttruthtable;
+package edu.rpi.legup.puzzle.shorttruthtable.rules;
 
 
 import edu.rpi.legup.model.gameboard.Board;
@@ -17,10 +17,10 @@ import java.util.Iterator;
 public class ContradictionRuleOr extends ContradictionRule{
 
 
-    ContradictionRuleOr(){
+    public ContradictionRuleOr(){
         super("Contradicting Or Statement",
                 "An Or statement must not have correct format",
-                "image path");
+                "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/Or.png");
     }
 
 

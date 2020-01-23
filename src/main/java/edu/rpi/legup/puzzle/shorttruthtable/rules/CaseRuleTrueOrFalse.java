@@ -19,7 +19,8 @@ public class CaseRuleTrueOrFalse extends CaseRule {
     public CaseRuleTrueOrFalse() {
         super("True or False",
                 "Each unknown statement must be either true or false",
-                "edu/rpi/legup/images/treetent/caseTentOrGrass.png");
+                "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/And.png");
+        System.out.println("Case Rule T/F constructor");
     }
 
     @Override

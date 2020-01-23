@@ -1,4 +1,4 @@
-package rpi.legup.puzzle.shorttruthtable;
+package edu.rpi.legup.puzzle.shorttruthtable.rules;
 
 
 import edu.rpi.legup.model.gameboard.Board;
@@ -17,10 +17,10 @@ import java.util.Iterator;
 public class ContradictionRuleBiconditional extends ContradictionRule{
 
 
-    ContradictionRuleBiconditional(){
+    public ContradictionRuleBiconditional(){
         super("Contradicting Biconditional Statement",
                 "A Biconditional statement must not have correct format",
-                "image path");
+                "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/Biconditional.png");
     }
 
 
@@ -31,10 +31,20 @@ public class ContradictionRuleBiconditional extends ContradictionRule{
         ShortTruthTableBoard board = (ShortTruthTableBoard) puzzleBoard;
 
         //get the cell that contradicts another cell in the board
-        ShortTruthTableStatement statement = (ShortTruthTableStatement) board.getPuzzleElement(puzzleElement);
-        ShortTruthTableCell cell = statement.getCell();
+        ShortTruthTableCell cell = (ShortTruthTableCell) board.getPuzzleElement(puzzleElement);
+        ShortTruthTableStatement statement = cell.getStatementRefference();
 
-        //must be a NOT statement
+        System.out.println("Contradition Rule Biconitional: statement:       "+statement);
+        System.out.println("Contradition Rule Biconitional: cell:            "+statement.getCell());
+        System.out.println("Contradition Rule Biconitional: cell type:       "+statement.getCell().getType());
+        System.out.println("Contradition Rule Biconitional: left statement:  "+statement.getLeftStatement());
+        System.out.println("Contradition Rule Biconitional: left cell:       "+statement.getLeftStatement().getCell());
+        System.out.println("Contradition Rule Biconitional: left cell type:  "+statement.getLeftStatement().getCell().getType());
+        System.out.println("Contradition Rule Biconitional: right statement: "+statement.getRightStatement());
+        System.out.println("Contradition Rule Biconitional: right cell:      "+statement.getRightStatement().getCell());
+        System.out.println("Contradition Rule Biconitional: right cell type: "+statement.getRightStatement().getCell().getType());
+
+        //must be a BICONDITIONAL statement
         if(cell.getSymbol() != ShortTruthTableStatement.BICONDITIONAL)
             return "Can not check for negation contradiction on a non-biconditional element";
 

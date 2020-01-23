@@ -1,4 +1,4 @@
-package rpi.legup.puzzle.shorttruthtable;
+package edu.rpi.legup.puzzle.shorttruthtable.rules;
 
 
 import edu.rpi.legup.model.gameboard.Board;
@@ -17,10 +17,10 @@ import java.util.Iterator;
 public class ContradictionRuleAtomic extends ContradictionRule{
 
 
-    ContradictionRuleAtomic(){
+    public ContradictionRuleAtomic(){
         super("Contradicting Variable",
                 "A single variable can not be both True and False",
-                "image path");
+                "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/Atomic.png");
     }
 
 
