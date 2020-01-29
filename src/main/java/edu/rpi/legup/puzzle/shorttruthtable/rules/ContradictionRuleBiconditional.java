@@ -10,6 +10,8 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCell;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableStatement;
 
+import java.awt.Point;
+
 import java.util.Set;
 import java.util.Iterator;
 
@@ -34,19 +36,33 @@ public class ContradictionRuleBiconditional extends ContradictionRule{
         ShortTruthTableCell cell = (ShortTruthTableCell) board.getPuzzleElement(puzzleElement);
         ShortTruthTableStatement statement = cell.getStatementRefference();
 
-        System.out.println("Contradition Rule Biconitional: statement:       "+statement);
-        System.out.println("Contradition Rule Biconitional: cell:            "+statement.getCell());
-        System.out.println("Contradition Rule Biconitional: cell type:       "+statement.getCell().getType());
-        System.out.println("Contradition Rule Biconitional: left statement:  "+statement.getLeftStatement());
-        System.out.println("Contradition Rule Biconitional: left cell:       "+statement.getLeftStatement().getCell());
-        System.out.println("Contradition Rule Biconitional: left cell type:  "+statement.getLeftStatement().getCell().getType());
-        System.out.println("Contradition Rule Biconitional: right statement: "+statement.getRightStatement());
-        System.out.println("Contradition Rule Biconitional: right cell:      "+statement.getRightStatement().getCell());
-        System.out.println("Contradition Rule Biconitional: right cell type: "+statement.getRightStatement().getCell().getType());
-
         //must be a BICONDITIONAL statement
         if(cell.getSymbol() != ShortTruthTableStatement.BICONDITIONAL)
             return "Can not check for negation contradiction on a non-biconditional element";
+
+
+        System.out.println(board);
+
+        Point leftPos = statement.getLeftStatement().getCell().getLocation();
+        ShortTruthTableCell leftCell = (ShortTruthTableCell) board.getCell((int)leftPos.getX(), (int)leftPos.getY());
+
+        System.out.println("Contradition Rule Biconitional: statement:       "+statement);
+        System.out.println("Contradition Rule Biconitional: cell:            "+statement.getCell());
+        System.out.println("Contradition Rule Biconitional: cell type:       "+statement.getCell().getType());
+
+        System.out.println("Contradition Rule Biconitional: left statement:  "+statement.getLeftStatement());
+        System.out.println("Contradition Rule Biconitional: left cell:       "+statement.getLeftStatement().getCell());
+        System.out.println("Contradition Rule Biconitional: left cell type:  "+statement.getLeftStatement().getCell().getType());
+
+        System.out.println("Contradition Rule Biconitional: left2 statement:  "+leftCell.getStatementRefference());
+        System.out.println("Contradition Rule Biconitional: left2 cell:       "+leftCell);
+        System.out.println("Contradition Rule Biconitional: left2 cell type:  "+leftCell.getType());
+
+        System.out.println("left1=2? "+(statement.getLeftStatement().getCell()==leftCell));
+
+        System.out.println("Contradition Rule Biconitional: right statement: "+statement.getRightStatement());
+        System.out.println("Contradition Rule Biconitional: right cell:      "+statement.getRightStatement().getCell());
+        System.out.println("Contradition Rule Biconitional: right cell type: "+statement.getRightStatement().getCell().getType());
 
         //check that the initial statement is assigned
         ShortTruthTableCellType cellType = cell.getType();

@@ -24,6 +24,14 @@ public enum ShortTruthTableCellType{
         return (ShortTruthTableCellType) map.get(cellType);
     }
 
+    public static char toChar(ShortTruthTableCellType type){
+        switch(type){
+            case TRUE: return 'T';
+            case FALSE: return 'F';
+            case UNKNOWN: return '?';
+            default: return ' ';
+        }
+    }
 
 
     /**

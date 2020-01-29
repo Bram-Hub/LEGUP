@@ -14,28 +14,30 @@ import java.util.HashSet;
 
 public class ShortTruthTableBoard extends GridBoard {
 
-    private List<ShortTruthTableStatement> statements;
-
-    public ShortTruthTableBoard(int width, int height, List<ShortTruthTableStatement> statements) {
+    public ShortTruthTableBoard(int width, int height) {
 
         super(width, height);
-
-        this.statements = copyStatementList(statements);
 
     }
 
 
     public Set<ShortTruthTableCell> getCellsWithSymbol(char symbol){
         Set<ShortTruthTableCell> cells = new HashSet<ShortTruthTableCell>();
-        for(ShortTruthTableStatement statement : statements)
-            cells.addAll(statement.getCellsWithSymbol(symbol));
+        for (int x = 0; x < this.dimension.width; x++) {
+            for (int y = 0; y < this.dimension.height; y++) {
+                ShortTruthTableCell cell = (ShortTruthTableCell) getCell(x, y);
+                if(cell.getSymbol() == symbol)
+                    cells.add(cell);
+            }
+        }
         return cells;
     }
 
 
     @Override
     public ShortTruthTableBoard copy() {
-        ShortTruthTableBoard copy = new ShortTruthTableBoard(getWidth(), getHeight(), statements);
+        System.out.println("Board.copy()");
+        ShortTruthTableBoard copy = new ShortTruthTableBoard(getWidth(), getHeight());
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {
                 copy.setCell(x, y, getCell(x, y).copy());
@@ -53,6 +55,25 @@ public class ShortTruthTableBoard extends GridBoard {
             copy.add(statements.get(i).copy());
         }
         return copy;
+    }
+
+
+    @Override
+    public String toString(){
+        StringBuilder str = new StringBuilder();
+        for(int i = 0; i<dimension.height; i+=2){
+            for(int j = 0; j<dimension.width; j++){
+                ShortTruthTableCell c = (ShortTruthTableCell) getCell(j, i);
+                str.append(c.getSymbol());
+            }
+            str.append("  ");
+            for(int j = 0; j<dimension.width; j++){
+                ShortTruthTableCell c = (ShortTruthTableCell) getCell(j, i);
+                str.append(ShortTruthTableCellType.toChar(c.getType()));
+            }
+            str.append('\n');
+        }
+        return str.toString();
     }
 
 }

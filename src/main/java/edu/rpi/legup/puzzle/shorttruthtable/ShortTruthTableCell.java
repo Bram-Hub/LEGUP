@@ -57,7 +57,12 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
      */
     public boolean isVariable(){ return Character.isLetter(symbol); }
 
-
+    public int getX(){
+        return (int) location.getX();
+    }
+    public int getY(){
+        return (int) location.getY();
+    }
 
 
     //Setters
@@ -68,9 +73,9 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
 
     public void cycleTypeForward(){
         switch(data){
-            case UNKNOWN: data = ShortTruthTableCellType.TRUE; break;
-            case TRUE: data = ShortTruthTableCellType.FALSE; break;
-            case FALSE: data = ShortTruthTableCellType.UNKNOWN; break;
+            case UNKNOWN: data = ShortTruthTableCellType.TRUE;    break;
+            case TRUE:    data = ShortTruthTableCellType.FALSE;   break;
+            case FALSE:   data = ShortTruthTableCellType.UNKNOWN; break;
             default: break;
         }
     }
@@ -105,6 +110,7 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
+        copy.setStatementRefference(this.getStatementRefference());
         return copy;
     }
 

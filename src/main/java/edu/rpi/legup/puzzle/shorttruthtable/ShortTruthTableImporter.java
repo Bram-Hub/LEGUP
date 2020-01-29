@@ -112,7 +112,7 @@ class ShortTruthTableImporter extends PuzzleImporter{
             System.out.println("Board dimentions "+width+", "+height);
 
             //instantiate the board with the correct width and height
-            ShortTruthTableBoard sttBoard = new ShortTruthTableBoard(width, height, statements);
+            ShortTruthTableBoard sttBoard = new ShortTruthTableBoard(width, height);
 
             //set the cells in the board. create not_in_play cells where needed
             for (int y = 0; y < height; y++) {
@@ -127,6 +127,7 @@ class ShortTruthTableImporter extends PuzzleImporter{
                     //for a cell to exist at (x, y), it must be a valid row and within the statment length
                     if(y%2==0 && x < statements.get(statementIndex).getLength()) {
                         cell = allCells.get(statementIndex).get(x);
+                        System.out.println("Importer: check cell statement ref: "+cell.getStatementRefference());
                     }else{
                         //if it is not a valid cell space, add a NOT_IN_PLAY cell
                         cell = new ShortTruthTableCell(' ', ShortTruthTableCellType.NOT_IN_PLAY, new Point(x, y));
