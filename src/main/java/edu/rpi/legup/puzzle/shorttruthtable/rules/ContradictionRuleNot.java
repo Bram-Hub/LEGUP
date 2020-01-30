@@ -1,18 +1,7 @@
 package edu.rpi.legup.puzzle.shorttruthtable.rules;
 
-
-import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.model.rules.ContradictionRule;
-
-import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
-import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCell;
-import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableStatement;
-
-import java.util.Set;
-import java.util.Iterator;
-
+import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
 
 public class ContradictionRuleNot extends ContradictionRule_GenericStatement{
 
