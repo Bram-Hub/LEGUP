@@ -46,6 +46,8 @@ public class ShortTruthTableBoard extends GridBoard {
         for(PuzzleElement e : modifiedData) {
             copy.getPuzzleElement(e).setModifiable(false);
         }
+        System.out.println("original:\n" + this);
+        System.out.println("copy:\n" + copy);
         return copy;
     }
 

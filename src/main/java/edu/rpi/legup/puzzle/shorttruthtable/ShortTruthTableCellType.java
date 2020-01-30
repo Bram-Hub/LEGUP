@@ -44,4 +44,12 @@ public enum ShortTruthTableCellType{
     }
 
 
+    public ShortTruthTableCellType getNegation(){
+        switch(value){
+            case 1: return ShortTruthTableCellType.FALSE;
+            case 0: return ShortTruthTableCellType.TRUE;
+            default: throw new RuntimeException("Trying to negate a cell not assigned to true or false");
+        }
+    }
+
 }

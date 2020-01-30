@@ -80,7 +80,6 @@ public class Config {
                 Logger.debug("Class Name: "+className);
                 puzzles.put(name, className);
             }
-//            puzzles.put("Short Truth Table", "edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable");
 
         } catch (ParserConfigurationException | SAXException | IOException e) {
             throw new InvalidConfigException(e.getMessage());

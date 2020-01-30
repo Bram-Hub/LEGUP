@@ -65,9 +65,15 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
     }
 
 
+    public boolean isAssigned(){
+        return getType()==ShortTruthTableCellType.TRUE || getType()==ShortTruthTableCellType.FALSE;
+    }
+
     //Setters
 
-
+    public void setType(ShortTruthTableCellType type){
+        data = type;
+    }
 
     //Modifiers
 
@@ -84,7 +90,6 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
         cycleTypeForward();
         cycleTypeForward();
     }
-
 
 
 

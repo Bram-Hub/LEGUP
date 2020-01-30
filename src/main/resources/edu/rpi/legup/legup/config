@@ -6,6 +6,7 @@
         <puzzle name="LightUp" qualifiedClassName="edu.rpi.legup.puzzle.lightup.LightUp" fileType=".xml"/>
         <puzzle name="Masyu" qualifiedClassName="edu.rpi.legup.puzzle.masyu.Masyu" fileType=".xml"/>
         <puzzle name="Nurikabe" qualifiedClassName="edu.rpi.legup.puzzle.nurikabe.Nurikabe" fileType=".xml"/>
+        <puzzle name="ShortTruthTable" qualifiedClassName="edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable" fileType=".xml"/>
         <puzzle name="Sudoku" qualifiedClassName="edu.rpi.legup.puzzle.sudoku.Sudoku" fileType=".xml"/>
         <puzzle name="TreeTent" qualifiedClassName="edu.rpi.legup.puzzle.treetent.TreeTent" fileType=".xml"/>
     </puzzles>
