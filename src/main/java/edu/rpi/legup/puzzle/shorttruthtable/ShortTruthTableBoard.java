@@ -33,6 +33,10 @@ public class ShortTruthTableBoard extends GridBoard {
         return cells;
     }
 
+    public ShortTruthTableCell getCellFromElement(PuzzleElement element){
+        return (ShortTruthTableCell) getPuzzleElement(element);
+    }
+
 
     @Override
     public ShortTruthTableBoard copy() {

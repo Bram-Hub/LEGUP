@@ -76,3 +76,50 @@
 [DEBUG] 2020-01-30 13:19:21.969 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 170x215
 [DEBUG] 2020-01-30 13:19:22.008 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 170x215
 [DEBUG] 2020-01-30 13:19:22.480 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 170x215
+[DEBUG] 2020-01-30 13:37:11.192 [main] Config - [puzzles: null]
+[DEBUG] 2020-01-30 13:37:11.195 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2020-01-30 13:37:11.195 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2020-01-30 13:37:11.195 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2020-01-30 13:37:11.196 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2020-01-30 13:37:11.196 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2020-01-30 13:37:11.196 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2020-01-30 13:37:11.196 [main] Config - Class Name: edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2020-01-30 13:37:11.196 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2020-01-30 13:37:11.196 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2020-01-30 13:37:19.346 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2020-01-30 13:37:20.378 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2020-01-30 13:37:20.432 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2020-01-30 13:37:20.456 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2020-01-30 13:37:20.471 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[INFO ] 2020-01-30 13:37:31.932 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2020-01-30 13:37:31.932 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2020-01-30 13:37:31.942 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2020-01-30 13:37:31.944 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2020-01-30 13:37:34.454 [AWT-EventQueue-0] History - Pushed ValidateBasicRuleCommand to stack.
+[INFO ] 2020-01-30 13:37:34.454 [AWT-EventQueue-0] LegupUI - Pushing ValidateBasicRuleCommand to stack.
+[DEBUG] 2020-01-30 13:37:34.459 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 170x215
+[DEBUG] 2020-01-30 13:37:34.461 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 170x215
+[INFO ] 2020-01-30 13:37:37.306 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2020-01-30 13:37:37.306 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2020-01-30 13:37:37.309 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 263x215
+[DEBUG] 2020-01-30 13:37:37.311 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 263x215
+[INFO ] 2020-01-30 13:37:38.584 [AWT-EventQueue-0] History - Pushed ValidateBasicRuleCommand to stack.
+[INFO ] 2020-01-30 13:37:38.584 [AWT-EventQueue-0] LegupUI - Pushing ValidateBasicRuleCommand to stack.
+[DEBUG] 2020-01-30 13:37:38.588 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 290x215
+[DEBUG] 2020-01-30 13:37:38.591 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 290x215
+[INFO ] 2020-01-30 13:37:42.514 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2020-01-30 13:37:42.514 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2020-01-30 13:37:42.517 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 383x215
+[DEBUG] 2020-01-30 13:37:42.520 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 383x215
+[INFO ] 2020-01-30 13:37:43.693 [AWT-EventQueue-0] History - Pushed ValidateBasicRuleCommand to stack.
+[INFO ] 2020-01-30 13:37:43.693 [AWT-EventQueue-0] LegupUI - Pushing ValidateBasicRuleCommand to stack.
+[DEBUG] 2020-01-30 13:37:43.697 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 410x215
+[DEBUG] 2020-01-30 13:37:43.701 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 410x215
+[DEBUG] 2020-01-30 13:37:44.409 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 410x215
+[DEBUG] 2020-01-30 13:37:44.425 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 410x215
+[DEBUG] 2020-01-30 13:37:44.871 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 410x215
+[DEBUG] 2020-01-30 13:37:45.152 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 410x215
+[DEBUG] 2020-01-30 13:37:45.352 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 410x215
+[DEBUG] 2020-01-30 13:37:46.135 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 410x215
+[DEBUG] 2020-01-30 13:37:46.215 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 410x215
+[DEBUG] 2020-01-30 13:37:46.440 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 410x215

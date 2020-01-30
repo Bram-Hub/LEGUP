@@ -26,23 +26,6 @@ public class BasicRuleNot extends BasicRule {
 
 
     /**
-     * Checks whether the {@link TreeTransition} logically follows from the parent node using this rule. This method is
-     * the one that should overridden in child classes.
-     *
-     * @param transition transition to check
-     * @return null if the child node logically follow from the parent node, otherwise error message
-     */
-    public String checkRuleRaw(TreeTransition transition) {
-
-//        NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
-//        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParents().get(0).getBoard();
-
-
-        return null;
-
-    }
-
-    /**
      * Checks whether the child node logically follows from the parent node
      * at the specific puzzleElement index using this rule
      *
@@ -53,8 +36,13 @@ public class BasicRuleNot extends BasicRule {
      */
     @Override
     protected String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-    /*
-        NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
+
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+        ShortTruthTableCell cell = board.getCellFromElement(puzzleElement);
+
+        return null;
+
+        /*
         NurikabeBoard origBoardState = (NurikabeBoard) transition.getParents().get(0).getBoard();
 
         ShortTruthTableStatement statement = (ShortTruthTableStatement) destBoardState.getPuzzleElement(puzzleElement);
@@ -73,8 +61,10 @@ public class BasicRuleNot extends BasicRule {
         } else {
             return "This is not the only way for black to escape!";
         }
-        */
+
         return null;
+
+         */
     }
 
     /**

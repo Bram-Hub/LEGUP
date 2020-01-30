@@ -21,6 +21,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 	private final ShortTruthTableCell cell;
 
 	//child nodes of the tree
+	private final ShortTruthTableStatement parentStatment;
 	private final ShortTruthTableStatement leftStatement;
 	private final ShortTruthTableStatement rightStatement;
 
@@ -51,10 +52,15 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 		return s;
 	}
 
+	//constructor for root statement, sets parent to null
+	public ShortTruthTableStatement(String statement, List<ShortTruthTableCell> cells){
+		this(statement, null, cells);
+	}
 
 	//recursive constructor; constructs child statement nodes if necessary
-	public ShortTruthTableStatement(String statement, List<ShortTruthTableCell> cells){
+	private ShortTruthTableStatement(String statement, ShortTruthTableStatement parent, List<ShortTruthTableCell> cells){
 
+		this.parentStatment = parent;
 
 		//set the string rep to the statement (include parens incase this is a sub statement)
 		this.stringRep = statement;
@@ -248,7 +254,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 
 
 	public ShortTruthTableStatement copy(){
-		return new ShortTruthTableStatement(stringRep, cells);
+		return new ShortTruthTableStatement(stringRep, parentStatment, cells);
 	}
 
 }

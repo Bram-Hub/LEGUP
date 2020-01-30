@@ -14,10 +14,10 @@ import java.util.Set;
 import java.util.Iterator;
 
 
-public class ContradictionRuleNegation extends ContradictionRule{
+public class ContradictionRuleNot extends ContradictionRule{
 
 
-    public ContradictionRuleNegation(){
+    public ContradictionRuleNot(){
         super("Contradicting Negation",
                 "A negation and its following statement can not have the same truth value",
                 "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/Not.png");

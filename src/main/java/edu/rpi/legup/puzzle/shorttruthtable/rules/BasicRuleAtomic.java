@@ -27,9 +27,7 @@ public class BasicRuleAtomic extends BasicRule {
         //Check that the puzzle element is no unknown
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
         ShortTruthTableCell cell = (ShortTruthTableCell) board.getPuzzleElement(element);
-        System.out.print("Testing cell "+cell+"     ");
         if(!cell.isAssigned()){
-            System.out.println("not assigned");
             return "Only assigned cells are allowed for this rule";
         }
 
@@ -43,20 +41,13 @@ public class BasicRuleAtomic extends BasicRule {
         //see if there is a contradiction
         ContradictionRule contradictionRule = new ContradictionRuleAtomic();
         if(contradictionRule.checkContradictionAt(testBoard, element) != null){
-            System.out.println("there is a contradiction");
             return "The variable must be assigned to the same value as existing variables";
         }
-
-        System.out.println("Valid");
 
         return null;
 
     }
 
-
-    private boolean isForced(ShortTruthTableBoard board, ShortTruthTableCell cell){
-        return false;
-    }
 
     /**
      * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
@@ -66,20 +57,6 @@ public class BasicRuleAtomic extends BasicRule {
      */
     @Override
     public Board getDefaultBoard(TreeNode node) {
-        ShortTruthTableBoard sttBoard = (ShortTruthTableBoard) node.getBoard().copy();
-        System.out.println("Basic Atomic Rule:\n"+sttBoard);
-        /*for (PuzzleElement element : sttBoard.getPuzzleElements()) {
-            ShortTruthTableCell cell = (ShortTruthTableCell) element;
-            if (cell.getType() == ShortTruthTableCellType.UNKNOWN && isForced(sttBoard, cell)) {
-                cell.setData(TreeTentType.GRASS.value);
-                treeTentBoard.addModifiedData(cell);
-            }
-        }
-        if (treeTentBoard.getModifiedData().isEmpty()) {
-            return null;
-        } else {
-            return treeTentBoard;
-        }*/
         return null;
     }
 }
