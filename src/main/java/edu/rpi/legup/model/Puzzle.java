@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +75,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             Class[] possRules = LegupUtils.getClasses(packageName);
 
             for (Class c : possRules) {
+
+                //check that the rule is not abstract
+                if(Modifier.isAbstract( c.getModifiers() )) continue;
+
                 for (Annotation a : c.getAnnotations()) {
                     if (a.annotationType() == RegisterRule.class) {
                         RegisterRule registerRule = (RegisterRule) a;

@@ -1,4 +1,4 @@
-package edu.rpi.legup.puzzle.shorttruthtable.rules;
+package edu.rpi.legup.puzzle.shorttruthtable;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -47,7 +47,7 @@ public abstract class BasicRule_Generic extends BasicRule {
 
     }
 
-    abstract ContradictionRule getContradictionRule();
+    public abstract ContradictionRule getContradictionRule();
 
 
     /**

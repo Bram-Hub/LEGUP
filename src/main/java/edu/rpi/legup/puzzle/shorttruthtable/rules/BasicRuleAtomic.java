@@ -9,6 +9,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCell;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
+import edu.rpi.legup.puzzle.shorttruthtable.BasicRule_Generic;
 import edu.rpi.legup.model.rules.ContradictionRule;
 
 import java.awt.*;
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class BasicRuleAtomic extends BasicRule_Generic {
 
-    static final ContradictionRule corrispondingContradictionRule = new ContradictionRuleAtomic();
+    static final ContradictionRule correspondingContradictionRule = new ContradictionRuleAtomic();
 
     public BasicRuleAtomic() {
         super("Fill in all atoms",
@@ -24,8 +25,9 @@ public class BasicRuleAtomic extends BasicRule_Generic {
                 "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/And.png");
     }
 
-    ContradictionRule getContradictionRule(){
-        return corrispondingContradictionRule;
+    @Override
+    public ContradictionRule getContradictionRule(){
+        return correspondingContradictionRule;
     }
 
 

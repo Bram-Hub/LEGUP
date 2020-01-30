@@ -123,3 +123,315 @@
 [DEBUG] 2020-01-30 13:37:46.135 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 410x215
 [DEBUG] 2020-01-30 13:37:46.215 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 410x215
 [DEBUG] 2020-01-30 13:37:46.440 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 410x215
+[DEBUG] 2020-01-30 16:16:28.872 [main] Config - [puzzles: null]
+[DEBUG] 2020-01-30 16:16:28.875 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2020-01-30 16:16:28.875 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2020-01-30 16:16:28.875 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2020-01-30 16:16:28.876 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2020-01-30 16:16:28.876 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2020-01-30 16:16:28.876 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2020-01-30 16:16:28.876 [main] Config - Class Name: edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2020-01-30 16:16:28.876 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2020-01-30 16:16:28.876 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2020-01-30 16:16:36.374 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[ERROR] 2020-01-30 16:16:37.340 [AWT-EventQueue-0] Puzzle - Unable to find rules for ShortTruthTable
+java.lang.NoSuchMethodException: edu.rpi.legup.puzzle.shorttruthtable.rules.BasicRule_Generic.<init>()
+	at java.lang.Class.getConstructor0(Class.java:3082) ~[?:1.8.0_131]
+	at java.lang.Class.getConstructor(Class.java:1825) ~[?:1.8.0_131]
+	at edu.rpi.legup.model.Puzzle.registerRules(Puzzle.java:80) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.model.Puzzle.<init>(Puzzle.java:67) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable.<init>(ShortTruthTable.java:9) ~[Legup.jar:2.0.0]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:1.8.0_131]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:1.8.0_131]
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:1.8.0_131]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423) ~[?:1.8.0_131]
+	at edu.rpi.legup.app.GameBoardFacade.loadPuzzle(GameBoardFacade.java:134) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.app.GameBoardFacade.loadPuzzle(GameBoardFacade.java:97) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.ui.LegupUI.promptPuzzle(LegupUI.java:684) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.ui.LegupUI.lambda$setupToolBar$20(LegupUI.java:372) ~[Legup.jar:2.0.0]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_131]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_131]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_131]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_131]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_131]
+	at java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:289) [?:1.8.0_131]
+	at java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:289) [?:1.8.0_131]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_131]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_131]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_131]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_131]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_131]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_131]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_131]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_131]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_131]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_131]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_131]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_131]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_131]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_131]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_131]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_131]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_131]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_131]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_131]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_131]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_131]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_131]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_131]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_131]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_131]
+[DEBUG] 2020-01-30 16:16:37.358 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2020-01-30 16:16:37.421 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2020-01-30 16:16:37.444 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2020-01-30 16:16:37.445 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[INFO ] 2020-01-30 16:16:40.412 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2020-01-30 16:16:40.413 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2020-01-30 16:16:40.427 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2020-01-30 16:16:40.429 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2020-01-30 16:16:42.362 [AWT-EventQueue-0] History - Pushed ValidateBasicRuleCommand to stack.
+[INFO ] 2020-01-30 16:16:42.362 [AWT-EventQueue-0] LegupUI - Pushing ValidateBasicRuleCommand to stack.
+[DEBUG] 2020-01-30 16:16:42.367 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 170x215
+[DEBUG] 2020-01-30 16:16:42.370 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 170x215
+[INFO ] 2020-01-30 16:16:45.907 [AWT-EventQueue-0] History - Pushed DeleteTreeElementCommand to stack.
+[INFO ] 2020-01-30 16:16:45.908 [AWT-EventQueue-0] LegupUI - Pushing DeleteTreeElementCommand to stack.
+[DEBUG] 2020-01-30 16:16:45.910 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2020-01-30 16:16:45.912 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2020-01-30 16:16:46.973 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2020-01-30 16:16:46.973 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2020-01-30 16:16:46.976 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2020-01-30 16:16:48.332 [AWT-EventQueue-0] History - Pushed ValidateBasicRuleCommand to stack.
+[INFO ] 2020-01-30 16:16:48.332 [AWT-EventQueue-0] LegupUI - Pushing ValidateBasicRuleCommand to stack.
+[DEBUG] 2020-01-30 16:16:48.336 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 170x215
+[DEBUG] 2020-01-30 16:16:48.338 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 170x215
+[DEBUG] 2020-01-30 16:19:30.348 [main] Config - [puzzles: null]
+[DEBUG] 2020-01-30 16:19:30.351 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2020-01-30 16:19:30.351 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2020-01-30 16:19:30.351 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2020-01-30 16:19:30.351 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2020-01-30 16:19:30.352 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2020-01-30 16:19:30.352 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2020-01-30 16:19:30.352 [main] Config - Class Name: edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2020-01-30 16:19:30.352 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2020-01-30 16:19:30.352 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2020-01-30 16:19:38.373 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[ERROR] 2020-01-30 16:19:39.337 [AWT-EventQueue-0] Puzzle - Unable to find rules for ShortTruthTable
+java.lang.NoSuchMethodException: edu.rpi.legup.puzzle.shorttruthtable.rules.BasicRule_Generic.<init>()
+	at java.lang.Class.getConstructor0(Class.java:3082) ~[?:1.8.0_131]
+	at java.lang.Class.getConstructor(Class.java:1825) ~[?:1.8.0_131]
+	at edu.rpi.legup.model.Puzzle.registerRules(Puzzle.java:80) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.model.Puzzle.<init>(Puzzle.java:67) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable.<init>(ShortTruthTable.java:9) ~[Legup.jar:2.0.0]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:1.8.0_131]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:1.8.0_131]
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:1.8.0_131]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423) ~[?:1.8.0_131]
+	at edu.rpi.legup.app.GameBoardFacade.loadPuzzle(GameBoardFacade.java:134) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.app.GameBoardFacade.loadPuzzle(GameBoardFacade.java:97) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.ui.LegupUI.promptPuzzle(LegupUI.java:684) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.ui.LegupUI.lambda$setupToolBar$20(LegupUI.java:372) ~[Legup.jar:2.0.0]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_131]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_131]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_131]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_131]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_131]
+	at java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:289) [?:1.8.0_131]
+	at java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:289) [?:1.8.0_131]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_131]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_131]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_131]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_131]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_131]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_131]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_131]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_131]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_131]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_131]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_131]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_131]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_131]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_131]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_131]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_131]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_131]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_131]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_131]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_131]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_131]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_131]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_131]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_131]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_131]
+[DEBUG] 2020-01-30 16:19:39.358 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2020-01-30 16:19:39.410 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2020-01-30 16:19:39.434 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2020-01-30 16:19:39.453 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[INFO ] 2020-01-30 16:19:41.000 [AWT-EventQueue-0] History - Pushed EditDataCommand to stack.
+[INFO ] 2020-01-30 16:19:41.000 [AWT-EventQueue-0] LegupUI - Pushing EditDataCommand to stack.
+[DEBUG] 2020-01-30 16:19:41.006 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[DEBUG] 2020-01-30 16:19:41.015 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 143x215
+[INFO ] 2020-01-30 16:19:45.563 [AWT-EventQueue-0] History - Pushed ValidateBasicRuleCommand to stack.
+[INFO ] 2020-01-30 16:19:45.564 [AWT-EventQueue-0] LegupUI - Pushing ValidateBasicRuleCommand to stack.
+[DEBUG] 2020-01-30 16:22:53.973 [main] Config - [puzzles: null]
+[DEBUG] 2020-01-30 16:22:53.975 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2020-01-30 16:22:53.976 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2020-01-30 16:22:53.976 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2020-01-30 16:22:53.976 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2020-01-30 16:22:53.976 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2020-01-30 16:22:53.976 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2020-01-30 16:22:53.976 [main] Config - Class Name: edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2020-01-30 16:22:53.976 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2020-01-30 16:22:53.976 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2020-01-30 16:23:00.938 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[ERROR] 2020-01-30 16:23:01.900 [AWT-EventQueue-0] Puzzle - Unable to find rules for ShortTruthTable
+java.lang.NoSuchMethodException: edu.rpi.legup.puzzle.shorttruthtable.rules.BasicRule_Generic.<init>()
+	at java.lang.Class.getConstructor0(Class.java:3082) ~[?:1.8.0_131]
+	at java.lang.Class.getConstructor(Class.java:1825) ~[?:1.8.0_131]
+	at edu.rpi.legup.model.Puzzle.registerRules(Puzzle.java:80) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.model.Puzzle.<init>(Puzzle.java:67) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable.<init>(ShortTruthTable.java:9) ~[Legup.jar:2.0.0]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:1.8.0_131]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:1.8.0_131]
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:1.8.0_131]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423) ~[?:1.8.0_131]
+	at edu.rpi.legup.app.GameBoardFacade.loadPuzzle(GameBoardFacade.java:134) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.app.GameBoardFacade.loadPuzzle(GameBoardFacade.java:97) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.ui.LegupUI.promptPuzzle(LegupUI.java:684) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.ui.LegupUI.lambda$setupToolBar$20(LegupUI.java:372) ~[Legup.jar:2.0.0]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_131]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_131]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_131]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_131]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_131]
+	at java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:289) [?:1.8.0_131]
+	at java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:289) [?:1.8.0_131]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_131]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_131]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_131]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_131]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_131]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_131]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_131]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_131]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_131]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_131]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_131]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_131]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_131]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_131]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_131]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_131]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_131]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_131]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_131]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_131]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_131]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_131]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_131]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_131]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_131]
+[DEBUG] 2020-01-30 16:23:01.920 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2020-01-30 16:23:01.970 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2020-01-30 16:23:01.993 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2020-01-30 16:23:02.007 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2020-01-30 16:27:03.859 [main] Config - [puzzles: null]
+[DEBUG] 2020-01-30 16:27:03.862 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2020-01-30 16:27:03.863 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2020-01-30 16:27:03.863 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2020-01-30 16:27:03.863 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2020-01-30 16:27:03.863 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2020-01-30 16:27:03.863 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2020-01-30 16:27:03.863 [main] Config - Class Name: edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2020-01-30 16:27:03.864 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2020-01-30 16:27:03.864 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2020-01-30 16:27:12.280 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[ERROR] 2020-01-30 16:27:13.260 [AWT-EventQueue-0] Puzzle - Unable to find rules for ShortTruthTable
+java.lang.NoSuchMethodException: edu.rpi.legup.puzzle.shorttruthtable.BasicRule_Generic.<init>()
+	at java.lang.Class.getConstructor0(Class.java:3082) ~[?:1.8.0_131]
+	at java.lang.Class.getConstructor(Class.java:1825) ~[?:1.8.0_131]
+	at edu.rpi.legup.model.Puzzle.registerRules(Puzzle.java:80) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.model.Puzzle.<init>(Puzzle.java:67) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable.<init>(ShortTruthTable.java:9) ~[Legup.jar:2.0.0]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:1.8.0_131]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:1.8.0_131]
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:1.8.0_131]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423) ~[?:1.8.0_131]
+	at edu.rpi.legup.app.GameBoardFacade.loadPuzzle(GameBoardFacade.java:134) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.app.GameBoardFacade.loadPuzzle(GameBoardFacade.java:97) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.ui.LegupUI.promptPuzzle(LegupUI.java:684) ~[Legup.jar:2.0.0]
+	at edu.rpi.legup.ui.LegupUI.lambda$setupToolBar$20(LegupUI.java:372) ~[Legup.jar:2.0.0]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_131]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_131]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_131]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_131]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_131]
+	at java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:289) [?:1.8.0_131]
+	at java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:289) [?:1.8.0_131]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_131]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_131]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_131]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_131]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_131]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_131]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_131]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_131]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_131]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_131]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_131]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_131]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_131]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_131]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_131]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_131]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_131]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_131]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_131]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_131]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_131]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_131]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_131]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_131]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_131]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_131]
+[DEBUG] 2020-01-30 16:27:13.278 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2020-01-30 16:27:13.333 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2020-01-30 16:27:13.356 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2020-01-30 16:27:13.368 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2020-01-30 16:35:08.785 [main] Config - [puzzles: null]
+[DEBUG] 2020-01-30 16:35:08.788 [main] Config - Class Name: edu.rpi.legup.puzzle.battleship.BattleShip
+[DEBUG] 2020-01-30 16:35:08.788 [main] Config - Class Name: edu.rpi.legup.puzzle.fillapix.Fillapix
+[DEBUG] 2020-01-30 16:35:08.788 [main] Config - Class Name: edu.rpi.legup.puzzle.heyawake.Heyawake
+[DEBUG] 2020-01-30 16:35:08.788 [main] Config - Class Name: edu.rpi.legup.puzzle.lightup.LightUp
+[DEBUG] 2020-01-30 16:35:08.788 [main] Config - Class Name: edu.rpi.legup.puzzle.masyu.Masyu
+[DEBUG] 2020-01-30 16:35:08.788 [main] Config - Class Name: edu.rpi.legup.puzzle.nurikabe.Nurikabe
+[DEBUG] 2020-01-30 16:35:08.789 [main] Config - Class Name: edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2020-01-30 16:35:08.789 [main] Config - Class Name: edu.rpi.legup.puzzle.sudoku.Sudoku
+[DEBUG] 2020-01-30 16:35:08.789 [main] Config - Class Name: edu.rpi.legup.puzzle.treetent.TreeTent
+[DEBUG] 2020-01-30 16:35:15.673 [AWT-EventQueue-0] GameBoardFacade - Loading edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable
+[DEBUG] 2020-01-30 16:35:16.651 [AWT-EventQueue-0] History - History Cleared
+[DEBUG] 2020-01-30 16:35:16.657 [AWT-EventQueue-0] TreeView - Creating new views for tree view.
+[DEBUG] 2020-01-30 16:35:16.678 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
+[DEBUG] 2020-01-30 16:35:16.730 [AWT-EventQueue-0] TreeView - DrawTree: dimensions - 50x215
