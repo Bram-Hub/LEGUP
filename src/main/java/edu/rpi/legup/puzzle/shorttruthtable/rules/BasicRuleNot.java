@@ -40,6 +40,9 @@ public class BasicRuleNot extends BasicRule {
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
         ShortTruthTableCell cell = board.getCellFromElement(puzzleElement);
 
+        //check that the cell is part of a not statement (either the super statement or sub statement)
+
+
         return null;
 
         /*

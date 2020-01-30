@@ -14,7 +14,9 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 import java.awt.*;
 import java.util.List;
 
-public class BasicRuleAtomic extends BasicRule {
+public class BasicRuleAtomic extends BasicRule_Generic {
+
+    static final ContradictionRule corrispondingContradictionRule = new ContradictionRuleAtomic();
 
     public BasicRuleAtomic() {
         super("Fill in all atoms",
@@ -22,30 +24,8 @@ public class BasicRuleAtomic extends BasicRule {
                 "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/And.png");
     }
 
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement element){
-
-        //Check that the puzzle element is no unknown
-        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
-        ShortTruthTableCell cell = (ShortTruthTableCell) board.getPuzzleElement(element);
-        if(!cell.isAssigned()){
-            return "Only assigned cells are allowed for this rule";
-        }
-
-        //check that it is assigned to the right value
-        ShortTruthTableBoard originalBoard = (ShortTruthTableBoard) transition.getParents().get(0).getBoard();
-
-        //Use this board to check what would happen if the cell what the oppisite value
-        ShortTruthTableBoard testBoard = originalBoard.copy();
-        ((ShortTruthTableCell) testBoard.getPuzzleElement(element)).setType(cell.getType().getNegation());
-
-        //see if there is a contradiction
-        ContradictionRule contradictionRule = new ContradictionRuleAtomic();
-        if(contradictionRule.checkContradictionAt(testBoard, element) != null){
-            return "The variable must be assigned to the same value as existing variables";
-        }
-
-        return null;
-
+    ContradictionRule getContradictionRule(){
+        return corrispondingContradictionRule;
     }
 
 
