@@ -22,14 +22,6 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
 	}
 
 
-	void setStatementRefference(ShortTruthTableStatement statement){
-	    this.statement = statement;
-    }
-
-    public ShortTruthTableStatement getStatementRefference() {
-        return statement;
-    }
-
     /**
      * Constructs a new NOT_IN_PLAY Cell
      *
@@ -41,6 +33,10 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
 
 
     //Getters
+
+    public ShortTruthTableStatement getStatementRefference() {
+        return statement;
+    }
 
     public ShortTruthTableCellType getType() {
         return data;
@@ -70,6 +66,10 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
     }
 
     //Setters
+
+    void setStatementRefference(ShortTruthTableStatement statement){
+        this.statement = statement;
+    }
 
     public void setType(ShortTruthTableCellType type){
         data = type;

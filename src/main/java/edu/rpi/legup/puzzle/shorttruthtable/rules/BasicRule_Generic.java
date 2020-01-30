@@ -47,7 +47,7 @@ public abstract class BasicRule_Generic extends BasicRule {
 
     }
 
-    public abstract ContradictionRule getContradictionRule();
+    abstract ContradictionRule getContradictionRule();
 
 
     /**
