@@ -9,7 +9,7 @@ public class ContradictionRuleConditional extends ContradictionRule_GenericState
     public ContradictionRuleConditional(){
         super("Contradicting Conditional",
                 "A Conditional statement must have a contradicting pattern",
-                "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/And.png");
+                "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/Conditional.png");
     }
 
     private static ShortTruthTableCellType[][] validPatterns = {

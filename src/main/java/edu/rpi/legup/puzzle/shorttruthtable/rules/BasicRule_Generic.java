@@ -16,8 +16,11 @@ import java.util.List;
 
 public abstract class BasicRule_Generic extends BasicRule {
 
-    public BasicRule_Generic(String ruleName, String description, String imageName){
+    final ContradictionRule correspondingContradictionRule;
+
+    public BasicRule_Generic(String ruleName, String description, String imageName, ContradictionRule contraRule){
         super(ruleName, description, imageName);
+        this.correspondingContradictionRule = contraRule;
     }
 
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement element){
@@ -37,8 +40,7 @@ public abstract class BasicRule_Generic extends BasicRule {
         ((ShortTruthTableCell) testBoard.getPuzzleElement(element)).setType(cell.getType().getNegation());
 
         //see if there is a contradiction
-        ContradictionRule contradictionRule = getContradictionRule();
-        String checkContradiction = contradictionRule.checkContradictionAt(testBoard, element);
+        String checkContradiction = correspondingContradictionRule.checkContradictionAt(testBoard, element);
         if(checkContradiction != null){
             return "Opisite contradiction failed: "+checkContradiction;
         }
@@ -46,9 +48,6 @@ public abstract class BasicRule_Generic extends BasicRule {
         return null;
 
     }
-
-    abstract ContradictionRule getContradictionRule();
-
 
     /**
      * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.

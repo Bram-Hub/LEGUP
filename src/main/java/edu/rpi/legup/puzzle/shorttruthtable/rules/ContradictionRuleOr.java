@@ -9,7 +9,7 @@ public class ContradictionRuleOr extends ContradictionRule_GenericStatement{
     public ContradictionRuleOr(){
         super("Contradicting Or",
                 "An OR statement must have a contradicting pattern",
-                "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/And.png");
+                "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/Or.png");
     }
 
     private static ShortTruthTableCellType[][] validPatterns = {

@@ -9,7 +9,7 @@ public class ContradictionRuleBiconditional extends ContradictionRule_GenericSta
     public ContradictionRuleBiconditional(){
         super("Contradicting Biconditional",
                 "A Biconditional statement must have a contradicting pattern",
-                "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/And.png");
+                "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/Biconditional.png");
     }
 
     private static ShortTruthTableCellType[][] validPatterns = {
