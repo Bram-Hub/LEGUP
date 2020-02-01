@@ -34,19 +34,23 @@ public class ContradictionRuleAtomic extends ContradictionRule{
         ShortTruthTableCell cell = (ShortTruthTableCell) board.getPuzzleElement(puzzleElement);
 
         if(!cell.isVariable()){
+            System.out.println("  Not Var");
             return "Can not check for contradiction on a non-variable element";
         }
 
         ShortTruthTableCellType cellType = cell.getType();
-        if(!cellType.isTrueOrFalse())
+        if(!cellType.isTrueOrFalse()){
             return "Can only check for a contradiction against a cell that is assigned a value of True or False";
+        }
 
         //get all the cells with the same value
         Set<ShortTruthTableCell> varCells = board.getCellsWithSymbol(cell.getSymbol());
 
+        //check if there are any contradictions
         Iterator<ShortTruthTableCell> itr = varCells.iterator();
         while(itr.hasNext()){
-            ShortTruthTableCellType checkCellType = itr.next().getType();
+            ShortTruthTableCell checkCell = itr.next();
+            ShortTruthTableCellType checkCellType = checkCell.getType();
             //if there is an assigned contradiction, return null
             if(checkCellType.isTrueOrFalse() && checkCellType!=cellType)
                 return null;

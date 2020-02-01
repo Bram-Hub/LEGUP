@@ -43,16 +43,8 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
         if(!cellType.isTrueOrFalse())
             return "Can only check for a contradiction on a cell that is assigned a value of True or False";
 
-        //get both sides of the statement
-        ShortTruthTableCellType leftCellType = null;
-        ShortTruthTableCellType rightCellType = null;
-        ShortTruthTableStatement leftStatement = statement.getLeftStatement();
-        ShortTruthTableStatement rightStatement = statement.getRightStatement();
-        if(leftStatement != null) leftCellType = leftStatement.getCell().getType();
-        if(rightStatement != null) rightCellType = rightStatement.getCell().getType();
-
         //get the pattern for this sub-statement
-        ShortTruthTableCellType[] testPattern = {leftCellType, cellType, rightCellType};
+        ShortTruthTableCellType[] testPattern = statement.getCellTypePattern();
 
         //get all contradiction patterns
         ShortTruthTableCellType[][] contradictionPatterns = getContradictingPatterns();

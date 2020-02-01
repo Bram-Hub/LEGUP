@@ -112,7 +112,7 @@ class ShortTruthTableImporter extends PuzzleImporter{
             System.out.println("Board dimentions "+width+", "+height);
 
             //instantiate the board with the correct width and height
-            ShortTruthTableBoard sttBoard = new ShortTruthTableBoard(width, height);
+            ShortTruthTableBoard sttBoard = new ShortTruthTableBoard(width, height, statements.toArray(new ShortTruthTableStatement[statements.size()]));
 
             //set the cells in the board. create not_in_play cells where needed
             for (int y = 0; y < height; y++) {

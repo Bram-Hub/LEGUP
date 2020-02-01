@@ -209,6 +209,11 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 	}
 
 
+	public ShortTruthTableCell getCell(int i){
+		return cells.get(i);
+	}
+
+
 
 	//Getters (recursive)
 
@@ -229,6 +234,25 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 		return set;
 	}
 
+	/**
+	 * Returns an array of three elements where [0] is the left
+	 * statement type, [1] is this statement type, and [2] is the
+	 * right statement type. null means either the statement doesn't
+	 * exist or is is an unknown value.
+	 *
+	 * @return the assigned values to this statement and its substatements
+	 */
+	public ShortTruthTableCellType[] getCellTypePattern(){
+		//get this type and the right type, they will always be used
+		ShortTruthTableCellType type = this.cell.getType();
+		ShortTruthTableCellType rightType = this.rightStatement.getCell().getType();
+		//if this is a not statement, there is no left side
+		if(cell.getSymbol() == ShortTruthTableStatement.NOT)
+			return new ShortTruthTableCellType[]{null, type, rightType};
+		//if it is any other operation, get the left side too and return it
+		ShortTruthTableCellType leftType = this.leftStatement.getCell().getType();
+		return new ShortTruthTableCellType[]{leftType, type, rightType};
+	}
 
 	//Setters
 
@@ -254,7 +278,16 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 
 
 	public ShortTruthTableStatement copy(){
-		return new ShortTruthTableStatement(stringRep, parentStatment, cells);
+		//copy all the cells
+		List<ShortTruthTableCell> cellsCopy = new ArrayList<ShortTruthTableCell>();
+		for(ShortTruthTableCell c : cells)
+			cellsCopy.add(c.copy());
+		//make a copy of the statement with all of the copied cells
+		ShortTruthTableStatement statementCopy = new ShortTruthTableStatement(stringRep, parentStatment, cellsCopy);
+		//set the statement refference of the new cells to the new statement
+		for(ShortTruthTableCell c : statementCopy.cells)
+			c.setStatementRefference(statementCopy);
+		return statementCopy;
 	}
 
 }

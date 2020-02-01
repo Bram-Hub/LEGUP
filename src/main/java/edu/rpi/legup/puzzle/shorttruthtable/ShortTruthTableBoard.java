@@ -14,9 +14,13 @@ import java.util.HashSet;
 
 public class ShortTruthTableBoard extends GridBoard {
 
-    public ShortTruthTableBoard(int width, int height) {
+    ShortTruthTableStatement[] statements;
+
+    public ShortTruthTableBoard(int width, int height, ShortTruthTableStatement[] statements) {
 
         super(width, height);
+
+        this.statements = statements;
 
     }
 
@@ -40,19 +44,30 @@ public class ShortTruthTableBoard extends GridBoard {
 
     @Override
     public ShortTruthTableBoard copy() {
-        System.out.println("Board.copy()");
-        ShortTruthTableBoard copy = new ShortTruthTableBoard(getWidth(), getHeight());
-        for (int x = 0; x < this.dimension.width; x++) {
-            for (int y = 0; y < this.dimension.height; y++) {
-                copy.setCell(x, y, getCell(x, y).copy());
+
+        //Copy the statements
+        ShortTruthTableStatement[] statementsCopy = new ShortTruthTableStatement[this.statements.length];
+        for(int i = 0; i<statements.length; i++){
+            statementsCopy[i] = this.statements[i].copy();
+        }
+        //copy the board and set the cells
+        ShortTruthTableBoard boardCopy = new ShortTruthTableBoard(getWidth(), getHeight(), statementsCopy);
+        for (int r = 0; r < this.dimension.height; r++) {
+            for (int c = 0; c < this.dimension.width; c++) {
+                if(r%2==0 && c<statementsCopy[r/2].getLength())
+                    boardCopy.setCell(c, r, statementsCopy[r/2].getCell(c));
+                else
+                    boardCopy.setCell(c, r, getCell(c, r).copy());
             }
         }
         for(PuzzleElement e : modifiedData) {
-            copy.getPuzzleElement(e).setModifiable(false);
+            boardCopy.getPuzzleElement(e).setModifiable(false);
         }
+        System.out.println("Board.copy()");
         System.out.println("original:\n" + this);
-        System.out.println("copy:\n" + copy);
-        return copy;
+        System.out.println("copy:\n" + boardCopy);
+        return boardCopy;
+
     }
 
     public static List<ShortTruthTableStatement> copyStatementList(List<ShortTruthTableStatement> statements){
@@ -75,7 +90,7 @@ public class ShortTruthTableBoard extends GridBoard {
             str.append("  ");
             for(int j = 0; j<dimension.width; j++){
                 ShortTruthTableCell c = (ShortTruthTableCell) getCell(j, i);
-                str.append(ShortTruthTableCellType.toChar(c.getType()));
+                str.append(ShortTruthTableCellType.toChar(c.getType(), c.isModifiable()));
             }
             str.append('\n');
         }

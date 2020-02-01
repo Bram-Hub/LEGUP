@@ -24,13 +24,11 @@ public enum ShortTruthTableCellType{
         return (ShortTruthTableCellType) map.get(cellType);
     }
 
-    public static char toChar(ShortTruthTableCellType type){
-        switch(type){
-            case TRUE: return 'T';
-            case FALSE: return 'F';
-            case UNKNOWN: return '?';
-            default: return ' ';
-        }
+    public static char toChar(ShortTruthTableCellType type, boolean isModifiable){
+        if(type == TRUE)    return 'T';
+        if(type == FALSE)   return 'F';
+        if(isModifiable)    return '?';
+        return ' ';
     }
 
 
