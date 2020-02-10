@@ -141,10 +141,14 @@ class ShortTruthTableImporter extends PuzzleImporter{
             }
 
             //debug print
-//            for (int y = 0; y < height; y++)
-//                for (int x = 0; x < width; x++)
-//                    System.out.println("Imprter "+sttBoard.getCell(x, y));
-//            System.out.println("\n\n\n\n");
+            System.out.println("Imprter");
+            for (int y = 0; y < height; y+=2)
+                for (int x = 0; x < width; x++){
+                    System.out.println("Cell  "+sttBoard.getCell(x, y));
+                    System.out.println("State "+((ShortTruthTableCell)sttBoard.getCell(x, y)).getStatementRefference());
+                    System.out.println();
+                }
+            System.out.println("\n\n\n\n");
 
             puzzle.setCurrentBoard(sttBoard);
 

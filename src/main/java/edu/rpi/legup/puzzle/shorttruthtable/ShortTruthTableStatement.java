@@ -21,7 +21,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 	private final ShortTruthTableCell cell;
 
 	//child nodes of the tree
-	private final ShortTruthTableStatement parentStatment;
+	private final ShortTruthTableStatement parentStatement;
 	private final ShortTruthTableStatement leftStatement;
 	private final ShortTruthTableStatement rightStatement;
 
@@ -60,7 +60,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 	//recursive constructor; constructs child statement nodes if necessary
 	private ShortTruthTableStatement(String statement, ShortTruthTableStatement parent, List<ShortTruthTableCell> cells){
 
-		this.parentStatment = parent;
+		this.parentStatement = parent;
 
 		//set the string rep to the statement (include parens incase this is a sub statement)
 		this.stringRep = statement;
@@ -87,12 +87,12 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 
 		//cunstruct substatements if necessary
 		if(left.length() > 0)
-			leftStatement = new ShortTruthTableStatement(left, leftCells);
+			leftStatement = new ShortTruthTableStatement(left, this, leftCells);
 		else
 			leftStatement = null;
 
 		if(right.length() > 0) {
-			rightStatement = new ShortTruthTableStatement(right, rightCells);
+			rightStatement = new ShortTruthTableStatement(right, this, rightCells);
 		}else
 			rightStatement = null;
 
@@ -192,10 +192,13 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 
 	public ShortTruthTableStatement getLeftStatement(){ return leftStatement; }
 	public ShortTruthTableStatement getRightStatement(){ return rightStatement; }
+	public ShortTruthTableStatement getParentStatement(){ return parentStatement; }
 
 	@Override
 	public String toString(){
-		return stringRep;
+		if(this.parentStatement == null)
+			return "SST_Statement: "+stringRep+" parent: null";
+		return "SST_Statement: "+stringRep+" parent: "+parentStatement.stringRep;
 	}
 
 
@@ -283,10 +286,10 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 		for(ShortTruthTableCell c : cells)
 			cellsCopy.add(c.copy());
 		//make a copy of the statement with all of the copied cells
-		ShortTruthTableStatement statementCopy = new ShortTruthTableStatement(stringRep, parentStatment, cellsCopy);
+		ShortTruthTableStatement statementCopy = new ShortTruthTableStatement(stringRep, cellsCopy);
 		//set the statement refference of the new cells to the new statement
-		for(ShortTruthTableCell c : statementCopy.cells)
-			c.setStatementRefference(statementCopy);
+//		for(ShortTruthTableCell c : statementCopy.cells)
+//			c.setStatementRefference(statementCopy);
 		return statementCopy;
 	}
 

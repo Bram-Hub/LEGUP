@@ -9,6 +9,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCell;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
+import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableStatement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 
 import java.awt.*;
@@ -28,7 +29,11 @@ public abstract class BasicRule_Generic extends BasicRule {
         //Check that the puzzle element is no unknown
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
         ShortTruthTableCell cell = (ShortTruthTableCell) board.getPuzzleElement(element);
+
+        System.out.println("Check Basic Rule Generic: "+cell);
+
         if(!cell.isAssigned()){
+            System.out.println("  Only assigned cells");
             return "Only assigned cells are allowed for basic rules";
         }
 
@@ -39,13 +44,28 @@ public abstract class BasicRule_Generic extends BasicRule {
         ShortTruthTableBoard testBoard = originalBoard.copy();
         ((ShortTruthTableCell) testBoard.getPuzzleElement(element)).setType(cell.getType().getNegation());
 
+        System.out.println("BAsicRule_Generic Full Debug");
+        for (int y = 0; y < board.getHeight(); y+=2)
+            for (int x = 0; x < board.getWidth(); x++){
+                System.out.println("Cell  "+board.getCell(x, y));
+                System.out.println("State "+((ShortTruthTableCell)board.getCell(x, y)).getStatementRefference());
+                System.out.println();
+            }
+        System.out.println("\n\n\n\n");
+
         //see if there is a contradiction
         String checkContradiction = correspondingContradictionRule.checkContradictionAt(testBoard, element);
-        if(checkContradiction != null){
-            return "Opisite contradiction failed: "+checkContradiction;
-        }
+        ShortTruthTableStatement s = cell.getStatementRefference();
+        System.out.println(cell);
+        System.out.println(s);
+        ShortTruthTableStatement parent = s.getParentStatement();
+        ShortTruthTableCell parentCell = parent.getCell();
+        String checkContradictionParent = correspondingContradictionRule.checkContradictionAt(testBoard, parentCell);
 
-        return null;
+        if(checkContradiction==null || checkContradictionParent==null)
+            return null;
+
+        return "Oppisite Contradiction Failed";
 
     }
 

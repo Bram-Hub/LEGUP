@@ -33,7 +33,7 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
         ShortTruthTableCell cell = board.getCellFromElement(puzzleElement);
         ShortTruthTableStatement statement = cell.getStatementRefference();
 
-        //must be a NOT statement
+        //must be the correct statement
         if(cell.getSymbol() != getOperationSymbol())
             return "This cell does not contain the correct operation";
 
@@ -65,12 +65,12 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
             }
             //if testPattern matches one of the valid contradiction patterns, the contradiction is correct
             if(matches){
-                System.out.println("contrRuleGen: matches pat: "+pattern);
+                System.out.println("This is a valid contradiction: matches pat: "+pattern);
                 return null;
             }
         }
 
-        System.out.println("not patterns match");
+        System.out.println("not patterns match. There is not a contradiction");
         return "This cell does not match any contradiction pattern for this rule";
 
     }
