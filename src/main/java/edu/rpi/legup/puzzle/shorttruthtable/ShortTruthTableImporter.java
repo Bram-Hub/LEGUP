@@ -105,6 +105,13 @@ class ShortTruthTableImporter extends PuzzleImporter{
             }
 
 
+            if(dataElement.getAttribute("normal").equalsIgnoreCase("true")){
+                for(int i = 0; i<statements.size()-1; i++)
+                    statements.get(i).getCell().setGiven(ShortTruthTableCellType.TRUE);
+                statements.get(statements.size()-1).getCell().setGiven(ShortTruthTableCellType.FALSE);
+            }
+
+
             //calculate the width and height for the board
             int width = maxStatementLength;
             int height = statements.size()*2-1;
@@ -141,14 +148,14 @@ class ShortTruthTableImporter extends PuzzleImporter{
             }
 
             //debug print
-            System.out.println("Imprter");
-            for (int y = 0; y < height; y+=2)
-                for (int x = 0; x < width; x++){
-                    System.out.println("Cell  "+sttBoard.getCell(x, y));
-                    System.out.println("State "+((ShortTruthTableCell)sttBoard.getCell(x, y)).getStatementRefference());
-                    System.out.println();
-                }
-            System.out.println("\n\n\n\n");
+//            System.out.println("Imprter");
+//            for (int y = 0; y < height; y+=2)
+//                for (int x = 0; x < width; x++){
+//                    System.out.println("Cell  "+sttBoard.getCell(x, y));
+//                    System.out.println("State "+((ShortTruthTableCell)sttBoard.getCell(x, y)).getStatementRefference());
+//                    System.out.println();
+//                }
+//            System.out.println("\n\n\n\n");
 
             puzzle.setCurrentBoard(sttBoard);
 

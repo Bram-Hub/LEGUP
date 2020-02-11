@@ -229,13 +229,13 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 		return set;
 	}
 
-	public Set<ShortTruthTableCell> getAllCells(){
-		Set<ShortTruthTableCell> set = new HashSet(getLength());
-		set.add(cell);
-		if(leftStatement != null) set.addAll(leftStatement.getAllCells());
-		if(rightStatement != null) set.addAll(rightStatement.getAllCells());
-		return set;
-	}
+//	public Set<ShortTruthTableCell> getAllCells(){
+//		Set<ShortTruthTableCell> set = new HashSet(getLength());
+//		set.add(cell);
+//		if(leftStatement != null) set.addAll(leftStatement.getAllCells());
+//		if(rightStatement != null) set.addAll(rightStatement.getAllCells());
+//		return set;
+//	}
 
 	/**
 	 * Returns an array of three elements where [0] is the left
@@ -287,9 +287,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 			cellsCopy.add(c.copy());
 		//make a copy of the statement with all of the copied cells
 		ShortTruthTableStatement statementCopy = new ShortTruthTableStatement(stringRep, cellsCopy);
-		//set the statement refference of the new cells to the new statement
-//		for(ShortTruthTableCell c : statementCopy.cells)
-//			c.setStatementRefference(statementCopy);
+		//return the new statement
 		return statementCopy;
 	}
 

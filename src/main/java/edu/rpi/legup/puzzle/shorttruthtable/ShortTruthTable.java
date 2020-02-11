@@ -10,7 +10,7 @@ public class ShortTruthTable extends Puzzle {
 
         this.name = "Short Truth Table";
 
-         this.importer = new ShortTruthTableImporter(this);
+        this.importer = new ShortTruthTableImporter(this);
         // this.exporter = new TreeTentExporter(this);
 
         // this.factory = new TreeTentCellFactory();

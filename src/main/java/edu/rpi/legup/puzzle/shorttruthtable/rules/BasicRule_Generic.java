@@ -44,22 +44,9 @@ public abstract class BasicRule_Generic extends BasicRule {
         ShortTruthTableBoard testBoard = originalBoard.copy();
         ((ShortTruthTableCell) testBoard.getPuzzleElement(element)).setType(cell.getType().getNegation());
 
-        System.out.println("BAsicRule_Generic Full Debug");
-        for (int y = 0; y < board.getHeight(); y+=2)
-            for (int x = 0; x < board.getWidth(); x++){
-                System.out.println("Cell  "+board.getCell(x, y));
-                System.out.println("State "+((ShortTruthTableCell)board.getCell(x, y)).getStatementRefference());
-                System.out.println();
-            }
-        System.out.println("\n\n\n\n");
-
         //see if there is a contradiction
         String checkContradiction = correspondingContradictionRule.checkContradictionAt(testBoard, element);
-        ShortTruthTableStatement s = cell.getStatementRefference();
-        System.out.println(cell);
-        System.out.println(s);
-        ShortTruthTableStatement parent = s.getParentStatement();
-        ShortTruthTableCell parentCell = parent.getCell();
+        ShortTruthTableCell parentCell = cell.getStatementRefference().getParentStatement().getCell();
         String checkContradictionParent = correspondingContradictionRule.checkContradictionAt(testBoard, parentCell);
 
         if(checkContradiction==null || checkContradictionParent==null)

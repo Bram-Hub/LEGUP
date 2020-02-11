@@ -75,6 +75,12 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
         data = type;
     }
 
+    public void setGiven(ShortTruthTableCellType type){
+        setType(type);
+        setModifiable(false);
+        setGiven(true);
+    }
+
     //Modifiers
 
     public void cycleTypeForward(){
