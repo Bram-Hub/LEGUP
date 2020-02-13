@@ -10,9 +10,6 @@ import java.awt.Point;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
-import java.util.TreeMap;
 
 
 public class ShortTruthTableStatement extends PuzzleElement<String>{
@@ -29,28 +26,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 	private final String stringRep;
 	private final List<ShortTruthTableCell> cells;
 
-	//each of the logic symbols
-	public static final char NOT = '~';
-	public static final char AND = '^';
-	public static final char OR = '|';
-	public static final char CONDITIONAL = '>';
-	public static final char BICONDITIONAL = '-';
-	private static final Map<Character, String> logicSymbolMap;
-	static {
-		Map<Character, String> aMap = new TreeMap();
-		aMap.put(NOT, "¬");
-		aMap.put(AND, "∧");
-		aMap.put(OR, "∨");
-		aMap.put(CONDITIONAL, "→");
-		aMap.put(BICONDITIONAL, "↔");
-		logicSymbolMap = Collections.unmodifiableMap(aMap);
-	}
 
-	public static String getLogicSymbol(char c){
-		String s = logicSymbolMap.get(c);
-		if(s == null) return String.valueOf(c);
-		return s;
-	}
 
 	//constructor for root statement, sets parent to null
 	public ShortTruthTableStatement(String statement, List<ShortTruthTableCell> cells){
@@ -142,7 +118,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 			if(c == '(') openParenCount++;
 			else if(c == ')') openParenCount--;
 			//if the char is an operator, and there are no open parens, split the statement here
-			else if((c==AND || c==OR || c==CONDITIONAL || c==BICONDITIONAL) && openParenCount==0)
+			else if(openParenCount==0 && ShortTruthTableOperation.isOperation(c) && c!=ShortTruthTableOperation.NOT)
 				return i;
 			//increment the index
 			i++;
@@ -250,7 +226,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 		ShortTruthTableCellType type = this.cell.getType();
 		ShortTruthTableCellType rightType = this.rightStatement.getCell().getType();
 		//if this is a not statement, there is no left side
-		if(cell.getSymbol() == ShortTruthTableStatement.NOT)
+		if(cell.getSymbol() == ShortTruthTableOperation.NOT)
 			return new ShortTruthTableCellType[]{null, type, rightType};
 		//if it is any other operation, get the left side too and return it
 		ShortTruthTableCellType leftType = this.leftStatement.getCell().getType();
