@@ -1,4 +1,4 @@
-package edu.rpi.legup.puzzle.shorttruthtable.rules;
+package edu.rpi.legup.puzzle.shorttruthtable.rules.basic;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -18,10 +18,12 @@ import java.util.List;
 public abstract class BasicRule_Generic extends BasicRule {
 
     final ContradictionRule correspondingContradictionRule;
+    final boolean eliminationRule;
 
-    public BasicRule_Generic(String ruleName, String description, String imageName, ContradictionRule contraRule){
-        super(ruleName, description, imageName);
+    protected BasicRule_Generic(String ruleName, String description, String imageName, ContradictionRule contraRule, boolean eliminationRule){
+        super(ruleName, description, "edu/rpi/legup/images/shorttruthtable/ruleimages/"+imageName);
         this.correspondingContradictionRule = contraRule;
+        this.eliminationRule = eliminationRule;
     }
 
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement element){
@@ -44,15 +46,21 @@ public abstract class BasicRule_Generic extends BasicRule {
         ShortTruthTableBoard testBoard = originalBoard.copy();
         ((ShortTruthTableCell) testBoard.getPuzzleElement(element)).setType(cell.getType().getNegation());
 
-        //see if there is a contradiction
-        String checkContradiction = correspondingContradictionRule.checkContradictionAt(testBoard, element);
-        ShortTruthTableCell parentCell = cell.getStatementRefference().getParentStatement().getCell();
-        String checkContradictionParent = correspondingContradictionRule.checkContradictionAt(testBoard, parentCell);
+        //if this is elimination/introduction check the cell or its parent
+        PuzzleElement checkElement = element;
 
-        if(checkContradiction==null || checkContradictionParent==null)
+        if(this.eliminationRule){
+            checkElement = cell.getStatementRefference().getParentStatement().getCell();
+        }
+
+        //see if there is a contradiction
+        String checkContradiction = correspondingContradictionRule.checkContradictionAt(testBoard, checkElement);
+
+        //if there is a contradition when the modified element is negated, then the basic riule must be true
+        if(checkContradiction==null)
             return null;
 
-        return "Oppisite Contradiction Failed";
+        return "Negated Contradiction Failed: "+checkContradiction;
 
     }
 

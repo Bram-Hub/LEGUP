@@ -1,4 +1,4 @@
-package edu.rpi.legup.puzzle.shorttruthtable.rules;
+package edu.rpi.legup.puzzle.shorttruthtable.rules.contradiction;
 
 
 import edu.rpi.legup.model.gameboard.Board;
