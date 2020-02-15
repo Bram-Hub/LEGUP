@@ -5,11 +5,11 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 
 public abstract class BasicRule_GenericElimination extends BasicRule_Generic {
 
-    protected BasicRule_GenericElimination(String ruleName, ContradictionRule contradictionRule) {
+    public BasicRule_GenericElimination(String ruleName, ContradictionRule contradictionRule) {
 
         super(ruleName+" Elimination",
                 ruleName+" statements must have a valid pattern",
-                "elimination/"+ruleName+".png",
+                "elimination/"+ruleName,
                 contradictionRule,
                 true
         );

@@ -20,8 +20,8 @@ public abstract class BasicRule_Generic extends BasicRule {
     final ContradictionRule correspondingContradictionRule;
     final boolean eliminationRule;
 
-    protected BasicRule_Generic(String ruleName, String description, String imageName, ContradictionRule contraRule, boolean eliminationRule){
-        super(ruleName, description, "edu/rpi/legup/images/shorttruthtable/ruleimages/"+imageName);
+    public BasicRule_Generic(String ruleName, String description, String imageName, ContradictionRule contraRule, boolean eliminationRule){
+        super(ruleName, description, "edu/rpi/legup/images/shorttruthtable/ruleimages/basic/"+imageName+".png");
         this.correspondingContradictionRule = contraRule;
         this.eliminationRule = eliminationRule;
     }

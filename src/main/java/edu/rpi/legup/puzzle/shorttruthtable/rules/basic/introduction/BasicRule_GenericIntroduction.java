@@ -9,7 +9,7 @@ public abstract class BasicRule_GenericIntroduction extends BasicRule_Generic {
 
         super(ruleName+" Introduction",
                 ruleName+" statements must have a valid pattern",
-                "introduction/"+ruleName+".png",
+                "introduction/"+ruleName,
                 contradictionRule,
                 false
         );

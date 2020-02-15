@@ -6,6 +6,7 @@ public class BasicRuleAndElimination extends BasicRule_GenericElimination {
 
     public BasicRuleAndElimination() {
         super("And", new ContradictionRuleAnd());
+        System.out.println("and eliminatio constructor");
     }
 
 }

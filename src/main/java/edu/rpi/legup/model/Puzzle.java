@@ -76,36 +76,46 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
             for (Class c : possRules) {
 
+                System.out.println("possible rule: " + c.getName());
+
                 //check that the rule is not abstract
-                if(Modifier.isAbstract( c.getModifiers() )) continue;
+                if (Modifier.isAbstract(c.getModifiers())) continue;
 
                 for (Annotation a : c.getAnnotations()) {
                     if (a.annotationType() == RegisterRule.class) {
                         RegisterRule registerRule = (RegisterRule) a;
                         Constructor<?> cons = c.getConstructor();
-                        Rule rule = (Rule) cons.newInstance();
+                        try {
+                            Rule rule = (Rule) cons.newInstance();
 
-                        switch (rule.getRuleType()) {
-                            case BASIC:
-                                this.addBasicRule((BasicRule) rule);
-                                break;
-                            case CASE:
-                                this.addCaseRule((CaseRule) rule);
-                                break;
-                            case CONTRADICTION:
-                                this.addContradictionRule((ContradictionRule) rule);
-                                break;
-                            case MERGE:
-                                break;
-                            default:
-                                break;
+                            switch (rule.getRuleType()) {
+                                case BASIC:
+                                    this.addBasicRule((BasicRule) rule);
+                                    break;
+                                case CASE:
+                                    this.addCaseRule((CaseRule) rule);
+                                    break;
+                                case CONTRADICTION:
+                                    this.addContradictionRule((ContradictionRule) rule);
+                                    break;
+                                case MERGE:
+                                    break;
+                                default:
+                                    break;
+                            }
+                        } catch (InvocationTargetException e) {
+                            System.out.println("    Failed ");
+                            e.getTargetException().printStackTrace();
                         }
                     }
                 }
             }
 
-        } catch (IOException | ClassNotFoundException | NoSuchMethodException |
-                InstantiationException | IllegalAccessException | InvocationTargetException e) {
+//        } catch (IOException | ClassNotFoundException | NoSuchMethodException |
+//                InstantiationException | IllegalAccessException | InvocationTargetException e) {
+//            LOGGER.error("Unable to find rules for " + this.getClass().getSimpleName(), e);
+//        }
+        }catch(Exception e){
             LOGGER.error("Unable to find rules for " + this.getClass().getSimpleName(), e);
         }
     }
