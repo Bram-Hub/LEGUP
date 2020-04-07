@@ -9,8 +9,8 @@ public class ShortTruthTableElementView extends GridElementView {
     private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
     private static final Color FONT_COLOR = Color.BLACK;
 
-    private static final Color TRUE_COLOR = Color.GREEN;
-    private static final Color FALSE_COLOR = Color.RED;
+    private static final Color TRUE_COLOR = new Color(0, 130, 0);
+    private static final Color FALSE_COLOR = new Color(200, 0, 0);
     private static final Color UNKNOWN_COLOR = Color.WHITE;
 
     public ShortTruthTableElementView(ShortTruthTableCell cell) {

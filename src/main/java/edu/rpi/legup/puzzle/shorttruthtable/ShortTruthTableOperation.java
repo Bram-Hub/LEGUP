@@ -91,4 +91,15 @@ public class ShortTruthTableOperation{
         return contradictionPatterns.get(symbol);
     }
 
+    public static String getRuleName(char operation){
+        switch(operation){
+            case AND: return "And";
+            case OR: return "Or";
+            case NOT: return "Not";
+            case CONDITIONAL: return "Conditional";
+            case BICONDITIONAL: return "Biconditional";
+        }
+        return null;
+    }
+
 }
