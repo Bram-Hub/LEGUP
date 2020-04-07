@@ -51,8 +51,6 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
 
             System.out.println("GetCaseBoard Testing: "+element);
 
-            //the element must be modifiable to be selectable
-//            if(element.isModifiable()) continue;
             //get the cell object
             ShortTruthTableCell cell = sttBoard.getCellFromElement(element);
             //the cell must match the symbol

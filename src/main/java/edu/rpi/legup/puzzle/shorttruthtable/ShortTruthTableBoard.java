@@ -90,7 +90,7 @@ public class ShortTruthTableBoard extends GridBoard {
             str.append("  ");
             for(int j = 0; j<dimension.width; j++){
                 ShortTruthTableCell c = (ShortTruthTableCell) getCell(j, i);
-                str.append(ShortTruthTableCellType.toChar(c.getType(), c.isModifiable()));
+                str.append(ShortTruthTableCellType.toChar(c.getType()));
             }
             str.append('\n');
         }

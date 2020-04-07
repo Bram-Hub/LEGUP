@@ -15,15 +15,15 @@ public class ShortTruthTableOperation{
     private ShortTruthTableOperation(){}
 
 
-    public static String getLogicSymbol(char operation){
-        switch(operation){
+    public static String getLogicSymbol(char c){
+        switch(c){
             case AND: return "∧";
             case OR: return "∨";
             case NOT: return "¬";
             case CONDITIONAL: return "→";
             case BICONDITIONAL: return "↔";
         }
-        return null;
+        return "" + c;
     }
 
     public static String getRuleName(char operation){

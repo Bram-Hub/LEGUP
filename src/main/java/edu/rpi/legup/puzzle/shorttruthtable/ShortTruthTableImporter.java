@@ -24,7 +24,8 @@ class ShortTruthTableImporter extends PuzzleImporter{
     private List<ShortTruthTableCell> getCells(String statement, int rowIndex){
         List<ShortTruthTableCell> cells = new ArrayList<ShortTruthTableCell>();
         for(int i = 0; i<statement.length(); i++){
-            ShortTruthTableCell cell = new ShortTruthTableCell(statement.charAt(i), ShortTruthTableCellType.UNKNOWN, new Point(i, rowIndex));
+            char c = statement.charAt(i);
+            ShortTruthTableCell cell = new ShortTruthTableCell(c, ShortTruthTableCellType.getDefaultType(c), new Point(i, rowIndex));
             cell.setModifiable(statement.charAt(i)!='(' && statement.charAt(i)!=')');
             cells.add(cell);
         }

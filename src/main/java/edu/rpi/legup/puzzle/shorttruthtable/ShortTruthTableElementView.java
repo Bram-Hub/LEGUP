@@ -6,9 +6,11 @@ import java.awt.*;
 
 public class ShortTruthTableElementView extends GridElementView {
 
+    //Font
     private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
     private static final Color FONT_COLOR = Color.BLACK;
 
+    //Square Colors
     private static final Color TRUE_COLOR = new Color(0, 130, 0);
     private static final Color FALSE_COLOR = new Color(200, 0, 0);
     private static final Color UNKNOWN_COLOR = Color.WHITE;
@@ -43,7 +45,7 @@ public class ShortTruthTableElementView extends GridElementView {
         switch (type){
             case TRUE:    graphics2D.setColor(TRUE_COLOR); break;
             case FALSE:   graphics2D.setColor(FALSE_COLOR); break;
-            case UNKNOWN: graphics2D.setColor(UNKNOWN_COLOR); break;
+            default: graphics2D.setColor(UNKNOWN_COLOR); break;
         }
         graphics2D.fillRect(location.x, location.y, size.width, size.height);
 

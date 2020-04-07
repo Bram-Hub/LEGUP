@@ -2,6 +2,8 @@ package edu.rpi.legup.puzzle.shorttruthtable;
 
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.rules.ContradictionRule;
 
 public class ShortTruthTable extends Puzzle {
 
@@ -45,7 +47,22 @@ public class ShortTruthTable extends Puzzle {
      */
     @Override
     public boolean isBoardComplete(Board board) {
-        return false;
+
+        ShortTruthTableBoard sttboard = (ShortTruthTableBoard) board;
+
+        for (ContradictionRule rule : contradictionRules) {
+            if (rule.checkContradiction(sttboard) == null) {
+                return false;
+            }
+        }
+        for (PuzzleElement data : sttboard.getPuzzleElements()) {
+            ShortTruthTableCell cell = (ShortTruthTableCell) data;
+            if (cell.getType() == ShortTruthTableCellType.UNKNOWN) {
+                return false;
+            }
+        }
+        return true;
+
     }
 
     /**

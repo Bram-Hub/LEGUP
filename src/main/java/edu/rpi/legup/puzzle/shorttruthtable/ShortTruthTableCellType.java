@@ -4,8 +4,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 public enum ShortTruthTableCellType{
-	FALSE(0), TRUE(1), UNKNOWN(-1), NOT_IN_PLAY(-2);
 
+	FALSE(0), TRUE(1), UNKNOWN(-1), NOT_IN_PLAY(-2), PARENTHESIS(-3);
 
     public int value;
     private static Map map = new HashMap<>();
@@ -24,10 +24,13 @@ public enum ShortTruthTableCellType{
         return (ShortTruthTableCellType) map.get(cellType);
     }
 
-    public static char toChar(ShortTruthTableCellType type, boolean isModifiable){
+    /**
+     * Gets the char value of a cell, Used for debugging
+     */
+    public static char toChar(ShortTruthTableCellType type){
         if(type == TRUE)    return 'T';
         if(type == FALSE)   return 'F';
-        if(isModifiable)    return '?';
+        if(type == UNKNOWN) return '?';
         return ' ';
     }
 
@@ -48,6 +51,11 @@ public enum ShortTruthTableCellType{
             case 0: return ShortTruthTableCellType.TRUE;
             default: throw new RuntimeException("Trying to negate a cell not assigned to true or false");
         }
+    }
+
+    public static ShortTruthTableCellType getDefaultType(char c){
+        if( c == '(' || c == ')' ) return PARENTHESIS;
+        return UNKNOWN;
     }
 
 }

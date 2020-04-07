@@ -30,8 +30,7 @@ public class CaseRuleAtomic extends CaseRule_Generic {
         sttBoard.setModifiable(false);
         CaseBoard caseBoard = new CaseBoard(sttBoard, this);
         for (PuzzleElement element : sttBoard.getPuzzleElements()) {
-            if (((ShortTruthTableCell) element).getType() == ShortTruthTableCellType.UNKNOWN &&
-                    element.isModifiable()) {
+            if (((ShortTruthTableCell) element).getType() == ShortTruthTableCellType.UNKNOWN) {
                 caseBoard.addPickableElement(element);
             }
         }
