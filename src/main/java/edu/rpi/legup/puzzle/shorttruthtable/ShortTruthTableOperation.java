@@ -15,30 +15,15 @@ public class ShortTruthTableOperation{
     private ShortTruthTableOperation(){}
 
 
-    private static final Map<Character, String> logicSymbolMap;
-    static {
-        Map<Character, String> aMap = new TreeMap();
-        aMap.put(NOT, "¬");
-        aMap.put(AND, "∧");
-        aMap.put(OR, "∨");
-        aMap.put(CONDITIONAL, "→");
-        aMap.put(BICONDITIONAL, "↔");
-        logicSymbolMap = Collections.unmodifiableMap(aMap);
-    }
-
-
-    public static String getLogicSymbol(char c){
-        String s = logicSymbolMap.get(c);
-        if(s == null) return String.valueOf(c);
-        return s;
-    }
-
-    public static boolean isOperation(char c){
-        return c == AND ||
-                c == OR ||
-                c == NOT ||
-                c == CONDITIONAL ||
-                c == BICONDITIONAL;
+    public static String getLogicSymbol(char operation){
+        switch(operation){
+            case AND: return "∧";
+            case OR: return "∨";
+            case NOT: return "¬";
+            case CONDITIONAL: return "→";
+            case BICONDITIONAL: return "↔";
+        }
+        return null;
     }
 
     public static String getRuleName(char operation){
@@ -51,5 +36,15 @@ public class ShortTruthTableOperation{
         }
         return null;
     }
+
+
+    public static boolean isOperation(char c){
+        return c == AND ||
+                c == OR ||
+                c == NOT ||
+                c == CONDITIONAL ||
+                c == BICONDITIONAL;
+    }
+
 
 }
