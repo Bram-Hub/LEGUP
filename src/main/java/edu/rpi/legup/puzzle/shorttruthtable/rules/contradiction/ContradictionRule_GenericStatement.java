@@ -20,9 +20,18 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
 
     private final char operationSymbol;
 
-    public ContradictionRule_GenericStatement(String ruleName, String description, String imageName, char operationSymbol){
+    private final ShortTruthTableCellType[][] contradictionPatterns;
+
+
+    final static ShortTruthTableCellType T = ShortTruthTableCellType.TRUE;
+    final static ShortTruthTableCellType F = ShortTruthTableCellType.FALSE;
+    final static ShortTruthTableCellType n = null;
+
+    public ContradictionRule_GenericStatement(String ruleName, String description, String imageName,
+                                              char operationSymbol, ShortTruthTableCellType[][] contradictionPatterns){
         super(ruleName, description, imageName);
         this.operationSymbol = operationSymbol;
+        this.contradictionPatterns = contradictionPatterns;
     }
 
 
@@ -48,9 +57,6 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
 
         //get the pattern for this sub-statement
         ShortTruthTableCellType[] testPattern = statement.getCellTypePattern();
-
-        //get all contradiction patterns
-        ShortTruthTableCellType[][] contradictionPatterns = ShortTruthTableOperation.getContradictionPatterns(this.operationSymbol);
 
         //if the board pattern matches any contradiction patter, it is a valid contradiction
         System.out.println("Testing pattern: "+Arrays.toString(testPattern));

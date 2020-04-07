@@ -26,52 +26,6 @@ public class ShortTruthTableOperation{
         logicSymbolMap = Collections.unmodifiableMap(aMap);
     }
 
-    private static final Map<Character, ShortTruthTableCellType[][]> contradictionPatterns;
-    static {
-
-        ShortTruthTableCellType T = ShortTruthTableCellType.TRUE;
-        ShortTruthTableCellType F = ShortTruthTableCellType.FALSE;
-        ShortTruthTableCellType n = null;
-
-        ShortTruthTableCellType[][] and = {
-                {n, T, F},
-                {F, T, n},
-                {T, F, T},
-        };
-
-        ShortTruthTableCellType[][] or = {
-                {n, F, T},
-                {T, F, n},
-                {F, T, F},
-        };
-
-        ShortTruthTableCellType[][] not = {
-                {n, T, T},
-                {n, F, F}
-        };
-
-        ShortTruthTableCellType[][] conditional = {
-                {n, F, T},
-                {F, F, n},
-                {T, T, F},
-        };
-
-        ShortTruthTableCellType[][] biconditional = {
-                {T, T, F},
-                {F, T, T},
-                {T, F, T},
-                {F, F, F},
-        };
-
-        Map<Character, ShortTruthTableCellType[][]> map = new TreeMap();
-        map.put(AND, and);
-        map.put(OR, or);
-        map.put(NOT, not);
-        map.put(CONDITIONAL, conditional);
-        map.put(BICONDITIONAL, biconditional);
-        contradictionPatterns = Collections.unmodifiableMap(map);
-    }
-
 
     public static String getLogicSymbol(char c){
         String s = logicSymbolMap.get(c);
@@ -85,10 +39,6 @@ public class ShortTruthTableOperation{
                 c == NOT ||
                 c == CONDITIONAL ||
                 c == BICONDITIONAL;
-    }
-
-    public static ShortTruthTableCellType[][] getContradictionPatterns(char symbol){
-        return contradictionPatterns.get(symbol);
     }
 
     public static String getRuleName(char operation){
