@@ -19,19 +19,137 @@ class ShortTruthTableImporter extends PuzzleImporter{
     }
 
 
-
-
-    private List<ShortTruthTableCell> getCells(String statement, int rowIndex){
+    /**
+     * Parse a string into all te cells, the y position of the statement is passed so the y position can be set
+     *
+     * @param statement
+     * @param y
+     * @return
+     */
+    private List<ShortTruthTableCell> getCells(String statement, int y){
         List<ShortTruthTableCell> cells = new ArrayList<ShortTruthTableCell>();
+        //go through each char in the statment and make a cell for it
         for(int i = 0; i<statement.length(); i++){
             char c = statement.charAt(i);
-            ShortTruthTableCell cell = new ShortTruthTableCell(c, ShortTruthTableCellType.getDefaultType(c), new Point(i, rowIndex));
-            cell.setModifiable(statement.charAt(i)!='(' && statement.charAt(i)!=')');//TODO - cell type = unkonwn
+            ShortTruthTableCell cell = new ShortTruthTableCell(c, ShortTruthTableCellType.getDefaultType(c), new Point(i, y));
+            //it is modifiable if the type is unknown
+            cell.setModifiable(cell.getType() == ShortTruthTableCellType.UNKNOWN);
             cells.add(cell);
         }
         return cells;
     }
 
+
+    /**
+     * Parses the statementData into all the cells (with symbols) and statements for the
+     * puzzle. All cells are set to UNKNWON, it their value is given, it will be set later
+     * in the import process.
+     *
+     * Both allCells and statements act as returns, They should be passed as empty arrays
+     *
+     * @param statementData The data to be imported
+     * @param allCells returns all the cells as a jagged 2d array
+     * @param statements returns all the statements
+     * @return the length, in chars, of the longest statement
+     */
+    private int parseAllStatmentsAndCells(final NodeList statementData,
+                                        List<List<ShortTruthTableCell>> allCells,
+                                        List<ShortTruthTableStatement> statements){
+
+        int maxStatementLength = 0;
+
+        //get a 2D arraylist of all the cells
+        for (int i = 0; i < statementData.getLength(); i++) {
+
+            //Get the atributes from the statement i in the file
+            NamedNodeMap attributeList = statementData.item(i).getAttributes();
+            String statementRep = attributeList.getNamedItem("representation").getNodeValue();
+            int rowIndex = Integer.valueOf(attributeList.getNamedItem("row_index").getNodeValue());
+
+            //get the cells for the statement
+            List<ShortTruthTableCell> rowOfCells = getCells(statementRep, rowIndex*2);
+            allCells.add(rowOfCells);
+            statements.add(new ShortTruthTableStatement(statementRep, rowOfCells));
+
+            //keep track of the length of the longest statement
+            maxStatementLength = Math.max(maxStatementLength, statementRep.length());
+
+        }
+
+        return maxStatementLength;
+
+    }
+
+
+
+    private ShortTruthTableBoard generateBoard(List<List<ShortTruthTableCell>> allCells,
+                                               List<ShortTruthTableStatement> statements,
+                                               int width){
+
+        //calculate the height for the board
+        int height = statements.size()*2-1;
+
+        //instantiate the board with the correct width and height
+        ShortTruthTableBoard sttBoard = new ShortTruthTableBoard(width, height,
+                statements.toArray(new ShortTruthTableStatement[statements.size()]));
+
+        //set the cells in the board. create not_in_play cells where needed
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+
+                //get the statement index for this row of the table
+                int statementIndex = y/2;
+
+                //get the cell at this location; or create a not_in_play one if necessary
+                ShortTruthTableCell cell = null;
+
+                //for a cell to exist at (x, y), it must be a valid row and within the statment length
+                if(y%2==0 && x < statements.get(statementIndex).getLength()) {
+                    cell = allCells.get(statementIndex).get(x);
+                    System.out.println("Importer: check cell statement ref: "+cell.getStatementRefference());
+                }else{
+                    //if it is not a valid cell space, add a NOT_IN_PLAY cell
+                    cell = new ShortTruthTableCell(' ', ShortTruthTableCellType.NOT_IN_PLAY, new Point(x, y));
+                    cell.setModifiable(false);
+                }
+
+                //add the cell to the table
+                cell.setIndex(y * width + x);
+                sttBoard.setCell(x, y, cell);
+            }
+        }
+
+        return sttBoard;
+
+    }
+
+
+    private void setGivenCells(ShortTruthTableBoard sttBoard,
+                               Element dataElement,
+                               NodeList cellData,
+                               List<ShortTruthTableStatement> statements) throws InvalidFileFormatException{
+
+
+        //if it is normal, set all predicats to true and the conclusion to false
+        if(dataElement.getAttribute("normal").equalsIgnoreCase("true")){
+            //set all predicates to true (all but the last one)
+            for(int i = 0; i<statements.size()-1; i++)
+                statements.get(i).getCell().setGiven(ShortTruthTableCellType.TRUE);
+            //set the conclusion to false (the last one)
+            statements.get(statements.size()-1).getCell().setGiven(ShortTruthTableCellType.FALSE);
+        }
+
+        //set the given cell values
+        for(int i = 0; i<cellData.getLength(); i++){
+            //set the value with the factory importer
+            ShortTruthTableCell cell = (ShortTruthTableCell) puzzle.getFactory().importCell(cellData.item(i), sttBoard);
+            //set the modifiable and given flags
+            cell.setModifiable(false);
+            cell.setGiven(true);
+        }
+
+
+    }
 
 
 
@@ -62,101 +180,21 @@ class ShortTruthTableImporter extends PuzzleImporter{
             List<List<ShortTruthTableCell>> allCells = new ArrayList<List<ShortTruthTableCell>>();
             //store the statement data structors
             List<ShortTruthTableStatement> statements = new ArrayList<ShortTruthTableStatement>();
-            //store the max length
-            int maxStatementLength = 0;
 
             //get the elements from the file
             Element dataElement = (Element) boardElement.getElementsByTagName("data").item(0);
             NodeList statementData = dataElement.getElementsByTagName("statement");
             NodeList cellData = dataElement.getElementsByTagName("cell");
 
-            //get a 2D arraylist of all the given cells
-            for (int i = 0; i < statementData.getLength(); i++) {
 
-                //Get the atributes from the statement i in the file
-                NamedNodeMap attributeList = statementData.item(i).getAttributes();
-                String statementRep = attributeList.getNamedItem("representation").getNodeValue();
-                int rowIndex = Integer.valueOf(attributeList.getNamedItem("row_index").getNodeValue());
+            //Parse the data
+            int maxStatementLength = parseAllStatmentsAndCells(statementData, allCells, statements);
 
-                //get the cells for the statement
-                List<ShortTruthTableCell> rowOfCells = getCells(statementRep, rowIndex*2);
-                allCells.add(rowOfCells);
-                statements.add(new ShortTruthTableStatement(statementRep, rowOfCells));
+            //generate the board
+            ShortTruthTableBoard sttBoard = generateBoard(allCells, statements, maxStatementLength);
 
-                //keep track of the length of the longest statement
-                maxStatementLength = Math.max(maxStatementLength, statementRep.length());
-
-            }
-
-            //go through the given cells
-            for(int i = 0; i<cellData.getLength(); i++){
-
-                //get the atributes for the cell
-                NamedNodeMap attributeList = cellData.item(i).getAttributes();
-                int rowIndex = Integer.valueOf(attributeList.getNamedItem("row_index").getNodeValue());
-                int charIndex = Integer.valueOf(attributeList.getNamedItem("char_index").getNodeValue());
-                String cellType = attributeList.getNamedItem("type").getNodeValue();
-
-                //modify the appropriet cell
-                ShortTruthTableCell cell = allCells.get(rowIndex).get(charIndex);
-                cell.setData(ShortTruthTableCellType.valueOf(cellType));
-                cell.setModifiable(false);
-                cell.setGiven(true);
-
-            }
-
-
-            if(dataElement.getAttribute("normal").equalsIgnoreCase("true")){
-                for(int i = 0; i<statements.size()-1; i++)
-                    statements.get(i).getCell().setGiven(ShortTruthTableCellType.TRUE);
-                statements.get(statements.size()-1).getCell().setGiven(ShortTruthTableCellType.FALSE);
-            }
-
-
-            //calculate the width and height for the board
-            int width = maxStatementLength;
-            int height = statements.size()*2-1;
-
-            System.out.println("Board dimentions "+width+", "+height);
-
-            //instantiate the board with the correct width and height
-            ShortTruthTableBoard sttBoard = new ShortTruthTableBoard(width, height, statements.toArray(new ShortTruthTableStatement[statements.size()]));
-
-            //set the cells in the board. create not_in_play cells where needed
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-
-                    //get the statement index for this row of the table
-                    int statementIndex = y/2;
-
-                    //get the cell at this location; or create a not_in_play one if necessary
-                    ShortTruthTableCell cell = null;
-
-                    //for a cell to exist at (x, y), it must be a valid row and within the statment length
-                    if(y%2==0 && x < statements.get(statementIndex).getLength()) {
-                        cell = allCells.get(statementIndex).get(x);
-                        System.out.println("Importer: check cell statement ref: "+cell.getStatementRefference());
-                    }else{
-                        //if it is not a valid cell space, add a NOT_IN_PLAY cell
-                        cell = new ShortTruthTableCell(' ', ShortTruthTableCellType.NOT_IN_PLAY, new Point(x, y));
-                        cell.setModifiable(false);
-                    }
-
-                    //add the cell to the table
-                    cell.setIndex(y * width + x);
-                    sttBoard.setCell(x, y, cell);
-                }
-            }
-
-            //debug print
-//            System.out.println("Imprter");
-//            for (int y = 0; y < height; y+=2)
-//                for (int x = 0; x < width; x++){
-//                    System.out.println("Cell  "+sttBoard.getCell(x, y));
-//                    System.out.println("State "+((ShortTruthTableCell)sttBoard.getCell(x, y)).getStatementRefference());
-//                    System.out.println();
-//                }
-//            System.out.println("\n\n\n\n");
+            //set the given cell values
+            setGivenCells(sttBoard, dataElement, cellData, statements);
 
             puzzle.setCurrentBoard(sttBoard);
 
