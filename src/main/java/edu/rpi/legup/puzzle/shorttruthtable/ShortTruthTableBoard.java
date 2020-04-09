@@ -14,7 +14,7 @@ import java.util.HashSet;
 
 public class ShortTruthTableBoard extends GridBoard {
 
-    ShortTruthTableStatement[] statements;
+    private ShortTruthTableStatement[] statements;
 
     public ShortTruthTableBoard(int width, int height, ShortTruthTableStatement[] statements) {
 
@@ -70,6 +70,10 @@ public class ShortTruthTableBoard extends GridBoard {
 
     }
 
+    public ShortTruthTableStatement[] getStatements() {
+        return statements;
+    }
+
     public static List<ShortTruthTableStatement> copyStatementList(List<ShortTruthTableStatement> statements){
         List<ShortTruthTableStatement> copy = new ArrayList<ShortTruthTableStatement>();
         for(int i = 0; i<statements.size(); i++){
@@ -77,6 +81,14 @@ public class ShortTruthTableBoard extends GridBoard {
         }
         return copy;
     }
+
+
+//    @Override
+//    public void setPuzzleElement(int index, PuzzleElement element){
+//        ShortTruthTableCell cellElement = (ShortTruthTableCell) element;
+//        ShortTruthTableCell cell = getCell(cellElement.getX(), cellElement.getY());
+//        cell.setType(cellElement.getType());
+//    }
 
 
     @Override

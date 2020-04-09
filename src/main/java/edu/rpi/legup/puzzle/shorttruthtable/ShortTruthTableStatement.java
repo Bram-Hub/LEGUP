@@ -177,6 +177,9 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 		return "SST_Statement: "+stringRep+" parent: "+parentStatement.stringRep;
 	}
 
+	public String getStringRep(){
+		return this.stringRep;
+	}
 
 	/**
 	 * Returns the length of the statement in cells. This includes all cells used for parenthesis

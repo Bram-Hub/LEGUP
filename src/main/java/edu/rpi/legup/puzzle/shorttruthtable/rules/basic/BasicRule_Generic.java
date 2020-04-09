@@ -28,7 +28,7 @@ public abstract class BasicRule_Generic extends BasicRule {
 
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement element){
 
-        //Check that the puzzle element is no unknown
+        //Check that the puzzle element is not unknown
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
         ShortTruthTableCell cell = (ShortTruthTableCell) board.getPuzzleElement(element);
 
@@ -49,6 +49,7 @@ public abstract class BasicRule_Generic extends BasicRule {
         //if this is elimination/introduction check the cell or its parent
         PuzzleElement checkElement = element;
 
+        //if elimination, check the parent
         if(this.eliminationRule){
             checkElement = cell.getStatementRefference().getParentStatement().getCell();
         }

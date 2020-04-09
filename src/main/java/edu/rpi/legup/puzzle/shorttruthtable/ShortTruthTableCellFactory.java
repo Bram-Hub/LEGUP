@@ -21,38 +21,32 @@ public class ShortTruthTableCellFactory extends ElementFactory {
      */
     @Override
     public ShortTruthTableCell importCell(Node node, Board board) throws InvalidFileFormatException {
+
         try {
-
-            //sanity check that the name is a cell
             if (!node.getNodeName().equalsIgnoreCase("cell")) {
-                throw new InvalidFileFormatException("nurikabe Factory: unknown puzzleElement puzzleElement");
+                throw new InvalidFileFormatException("ShortTruthTable Factory: unknown puzzleElement puzzleElement");
             }
 
-            //Cast the board object
             ShortTruthTableBoard sttBoard = (ShortTruthTableBoard) board;
-            int width = sttBoard.getWidth();
-            int height = sttBoard.getHeight();
 
-            //Get the attributes for the cell
+            //get the atributes for the cell
             NamedNodeMap attributeList = node.getAttributes();
-            char symbol = attributeList.getNamedItem("symbol").getNodeValue().charAt(0);
-            ShortTruthTableCellType cellType = ShortTruthTableCellType.valueOf(Integer.valueOf(attributeList.getNamedItem("cell_type").getNodeValue()));
-            int x = Integer.valueOf(attributeList.getNamedItem("x").getNodeValue());
-            int y = Integer.valueOf(attributeList.getNamedItem("y").getNodeValue());
-            if (x >= width || y >= height) {
-                throw new InvalidFileFormatException("short truth table Factory: cell location out of bounds");
-            }
+            int rowIndex = Integer.valueOf(attributeList.getNamedItem("row_index").getNodeValue());
+            int charIndex = Integer.valueOf(attributeList.getNamedItem("char_index").getNodeValue());
+            String cellType = attributeList.getNamedItem("type").getNodeValue();
 
-            //Construct the cell
-            ShortTruthTableCell cell = new ShortTruthTableCell(symbol, cellType, new Point(x, y));
-            cell.setIndex(y * height + x);
+            //modify the appropriet cell
+            ShortTruthTableCell cell = (ShortTruthTableCell) sttBoard.getCell(charIndex, rowIndex*2);
+            cell.setData(ShortTruthTableCellType.valueOf(cellType));
+
             return cell;
 
         } catch (NumberFormatException e) {
-            throw new InvalidFileFormatException("short truth table Factory: unknown value where integer expected");
+            throw new InvalidFileFormatException("nurikabe Factory: unknown value where integer expected");
         } catch (NullPointerException e) {
-            throw new InvalidFileFormatException("short truth table Factory: could not find attribute(s)");
+            throw new InvalidFileFormatException("nurikabe Factory: could not find attribute(s)");
         }
+
     }
 
     /**
@@ -64,15 +58,12 @@ public class ShortTruthTableCellFactory extends ElementFactory {
      */
     public org.w3c.dom.Element exportCell(Document document, PuzzleElement puzzleElement) {
 
-        org.w3c.dom.Element cellElement = document.createElement("cell");
-
         ShortTruthTableCell cell = (ShortTruthTableCell) puzzleElement;
-        Point loc = cell.getLocation();
 
-        cellElement.setAttribute("symbol", String.valueOf(cell.getSymbol()));
-        cellElement.setAttribute("cell_type", String.valueOf(cell.getData()));
-        cellElement.setAttribute("x", String.valueOf(loc.x));
-        cellElement.setAttribute("y", String.valueOf(loc.y));
+        org.w3c.dom.Element cellElement = document.createElement("cell");
+        cellElement.setAttribute("row_index",  String.valueOf(cell.getY()/2));
+        cellElement.setAttribute("char_index", String.valueOf(cell.getX()));
+        cellElement.setAttribute("type", String.valueOf(cell.getType()));
 
         return cellElement;
     }
