@@ -7,8 +7,7 @@ public class CaseRuleAnd extends CaseRule_GenericStatement {
 
     public CaseRuleAnd() {
         super(ShortTruthTableOperation.AND,
-                "True or False",
-                "Each unknown statement must be either true or false",
+                "And",
                 trueCases,
                 falseCases);
     }

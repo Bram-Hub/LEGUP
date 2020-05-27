@@ -7,8 +7,7 @@ public class CaseRuleConditional extends CaseRule_GenericStatement {
 
     public CaseRuleConditional() {
         super(ShortTruthTableOperation.CONDITIONAL,
-                "True or False",
-                "Each unknown statement must be either true or false",
+                "Conditional",
                 trueCases,
                 falseCases);
     }

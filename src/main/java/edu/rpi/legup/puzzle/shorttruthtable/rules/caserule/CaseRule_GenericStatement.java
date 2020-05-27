@@ -18,10 +18,12 @@ import java.util.List;
 
 public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
 
-    public CaseRule_GenericStatement(char operation, String title, String description,
+    public CaseRule_GenericStatement(char operation, String title,
                                      ShortTruthTableCellType[][] trueCases,
                                      ShortTruthTableCellType[][] falseCases) {
-        super(ShortTruthTableOperation.getRuleName(operation), title, description);
+        super(ShortTruthTableOperation.getRuleName(operation),
+                title+" case",
+                "A known "+title.toUpperCase()+" statment can have multiple forms");
 
         this.operation = operation;
 

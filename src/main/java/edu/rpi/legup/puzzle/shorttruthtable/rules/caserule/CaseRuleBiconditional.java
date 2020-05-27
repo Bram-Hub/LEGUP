@@ -7,8 +7,7 @@ public class CaseRuleBiconditional extends CaseRule_GenericStatement {
 
     public CaseRuleBiconditional() {
         super(ShortTruthTableOperation.BICONDITIONAL,
-                "True or False",
-                "Each unknown statement must be either true or false",
+                "Biconditional",
                 trueCases,
                 falseCases);
     }

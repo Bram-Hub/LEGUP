@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="2.0.0">
+    <puzzle name="ShortTruthTable">
+        <board>
+            <data normal="true">
+                <statement representation="R>Q" row_index="0"/>
+                <statement representation="~(T^~S)" row_index="1"/>
+                <statement representation="~Q|~S" row_index="2"/>
+                <statement representation="~R|~T" row_index="3"/>
+            </data>
+        </board>
+    </puzzle>
+</Legup>

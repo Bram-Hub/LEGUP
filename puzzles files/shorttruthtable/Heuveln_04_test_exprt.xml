@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="2.0.0">
+<puzzle name="ShortTruthTable">
+<board>
+<data>
+<statement representation="(J|M)&gt;~(J^M)" row_index="0"/>
+<statement representation="M-(M&gt;J)" row_index="1"/>
+<statement representation="M&gt;J" row_index="2"/>
+<cell char_index="5" row_index="0" type="TRUE"/>
+<cell char_index="1" row_index="1" type="TRUE"/>
+<cell char_index="1" row_index="2" type="FALSE"/>
+</data>
+</board>
+<proof>
+<tree>
+<node id="741772045" root="true">
+<transition child="1994127736" id="1807273898" rule="Conditional Elimination">
+<cell char_index="0" row_index="2" type="TRUE"/>
+<cell char_index="2" row_index="2" type="FALSE"/>
+</transition>
+</node>
+<node id="1994127736"/>
+</tree>
+</proof>
+</puzzle>
+</Legup>

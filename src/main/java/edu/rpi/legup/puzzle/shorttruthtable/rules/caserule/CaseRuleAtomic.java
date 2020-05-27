@@ -18,8 +18,8 @@ public class CaseRuleAtomic extends CaseRule_Generic {
 
     public CaseRuleAtomic() {
         super("Atomic",
-                "True or False",
-                "Each unknown cell must be either true or false");
+                "Atomic Case",
+                "Each unknown cell must either be true or false");
         System.out.println("Case Rule T/F constructor");
     }
 
