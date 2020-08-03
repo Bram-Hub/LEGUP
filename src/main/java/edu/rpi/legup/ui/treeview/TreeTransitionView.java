@@ -24,7 +24,6 @@ public class TreeTransitionView extends TreeElementView {
     private static final Color DEFAULT_COLOR = Color.GRAY;
     private static final Color X_COLOR = Color.RED;
 
-    private static final Color SELECTION_COLOR = new Color(0x1E88E5);
     private static final Color OUTLINE_SELECTION_COLOR = new Color(0x1976D2);
 
     private static final Color HOVER_COLOR = new Color(0x90CAF9);
@@ -89,7 +88,7 @@ public class TreeTransitionView extends TreeElementView {
         }
 
         if (isSelected) {
-            graphics2D.setColor(SELECTION_COLOR);
+            graphics2D.setColor(getTreeElement().isJustified() ? getTreeElement().isCorrect() ? CORRECT_COLOR : INCORRECT_COLOR : DEFAULT_COLOR);
             graphics2D.fillPolygon(arrowhead);
 
             graphics2D.setColor(OUTLINE_COLOR);
