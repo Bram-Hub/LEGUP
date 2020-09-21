@@ -34,11 +34,11 @@ import java.util.function.Consumer;
 public class GameBoardFacade implements IHistorySubject {
     private final static Logger LOGGER = LogManager.getLogger(GameBoardFacade.class.getName());
 
-    private volatile static GameBoardFacade instance;
+    protected volatile static GameBoardFacade instance;
 
     private Config config;
 
-    private Puzzle puzzle;
+    protected Puzzle puzzle;
 
     private LegupUI legupUI;
 
@@ -50,7 +50,7 @@ public class GameBoardFacade implements IHistorySubject {
     /**
      * Private GameBoardFacade Constructor creates a game board facade
      */
-    private GameBoardFacade() {
+    protected GameBoardFacade() {
         history = new History();
         historyListeners = new ArrayList<>();
         curFileName = null;

@@ -1,17 +1,16 @@
-package java.puzzles.shorttruthtable;
+package puzzles.shorttruthtable;
 
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableStatement;
-import org.junit.jupiter.api.Test;
+//import org.junit.Test;
+//import static org.junit.Assert.assertEquals;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+//class ShortTruthTableStatementTest{
 
-class ShortTruthTableStatementTest{
+//    @Test
+//    public void testCreateStatement(){
+//        ShortTruthTableStatement statement = new ShortTruthTableStatement("a^b");
 
-    @Test
-    public void testCreateStatement(){
-        ShortTruthTableStatement statement = new ShortTruthTableStatement("a^b");
+//        assertEquals(statement.getLength(), 3);
+//    }
 
-        assertEquals(statement.getLength(), 3);
-    }
-
-}
+//}

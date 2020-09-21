@@ -1,6 +1,6 @@
 package puzzles.nurikabe.rules;
 
-import javafx.scene.layout.Pane;
+//import javafx.scene.layout.Pane;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import edu.rpi.legup.model.tree.TreeNode;

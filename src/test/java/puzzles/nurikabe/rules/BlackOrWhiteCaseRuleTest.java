@@ -35,7 +35,7 @@ public class BlackOrWhiteCaseRuleTest
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
-        Assert.assertNull(RULE.checkContradiction(transition));
+        Assert.assertNull(RULE.checkContradiction((NurikabeBoard)transition.getBoard()));
 
         NurikabeBoard board = (NurikabeBoard)transition.getBoard();
         Point location = new Point(1, 1);
