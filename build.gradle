@@ -2,6 +2,7 @@ version '2.0.0'
 
 apply plugin: 'java'
 apply plugin: 'application'
+mainClassName = 'edu.rpi.legup.Legup'
 
 sourceCompatibility = 1.8
 

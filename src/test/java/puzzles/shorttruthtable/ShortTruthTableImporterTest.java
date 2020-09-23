@@ -1,15 +1,15 @@
-package puzzles.shorttruthtable;
+//package puzzles.shorttruthtable;
 
 
-class ShortTruthTableImporterTest{
+//class ShortTruthTableImporterTest{
 
 
-    @Test
-    public void testImport(){
+//    @Test
+//    public void testImport(){
 
-    }
-
-
+//    }
 
 
-}
+
+
+//}

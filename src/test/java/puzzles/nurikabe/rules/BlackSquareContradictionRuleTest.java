@@ -41,7 +41,7 @@ public class BlackSquareContradictionRuleTest
         NurikabeCell cell3 = board.getCell(2, 1);
         NurikabeCell cell4 = board.getCell(2, 2);
 
-        Assert.assertNull(RULE.checkContradiction(transition));
+        Assert.assertNull(RULE.checkContradiction((NurikabeBoard)transition.getBoard()));
 
         for(int i = 0; i < board.getHeight(); i++) {
             for(int k = 0; k < board.getWidth(); k++) {

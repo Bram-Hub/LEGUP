@@ -17,11 +17,11 @@ public class ShortTruthTableOperation{
 
     public static String getLogicSymbol(char c){
         switch(c){
-            case AND: return "∧";
-            case OR: return "∨";
-            case NOT: return "¬";
-            case CONDITIONAL: return "→";
-            case BICONDITIONAL: return "↔";
+            case AND: return "\u2227";
+            case OR: return "\u2228";
+            case NOT: return "\u00AC";
+            case CONDITIONAL: return "\u2192";
+            case BICONDITIONAL: return "\u2194";
         }
         return "" + c;
     }
