@@ -49,7 +49,19 @@ public class Skyscrapers extends Puzzle {
      */
     @Override
     public boolean isBoardComplete(Board board) {
-        return false; //needs implementing
+        SkyscrapersBoard skyscrapersBoard = (SkyscrapersBoard) board;
+        //do something with the board
+        
+        for (ContradictionRule rule : contradictionRules) {
+            if (rule.checkContradiction(skyscrapersBoard) == null){
+                return false;
+            }
+        }
+        for (PuzzleElement data : skyscrapersBoard.getPuzzleElements()) {
+            SkyscrapersCell cell = (SkyscrapersCell) data;
+            //check elements
+        }
+        return true;
     }
 
     /**
