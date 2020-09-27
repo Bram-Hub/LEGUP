@@ -1,6 +1,4 @@
 ## TODO
-- ~~Skyscrapers class (`Skyscrapers.java`)~~
-- ~~Skyscrapers cell and types (`SkyscrapersCell.java`, `SkyscrapersCellType.java`)~~
 - Implement board class (`SkyscrapersBoard.java`)
 - Implement cell generation (`SkyscrapersCellFactory.java`)
 - Implement puzzle importer (`SkyscrapersImporter.java`)
