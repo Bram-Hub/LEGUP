@@ -9,7 +9,7 @@ public class ContradictionRuleConditional extends ContradictionRule_GenericState
         super("Contradicting Conditional",
                 "A Conditional statement must have a contradicting pattern",
                 "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/Conditional.png",
-                ShortTruthTableOperation.CONDITIONAL,
+                ShortTruthTableOperation.CONDITIONAL_1,
                 new ShortTruthTableCellType[][] {
                         {n, F, T},
                         {F, F, n},

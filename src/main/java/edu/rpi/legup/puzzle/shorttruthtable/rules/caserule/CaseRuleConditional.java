@@ -6,7 +6,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
 public class CaseRuleConditional extends CaseRule_GenericStatement {
 
     public CaseRuleConditional() {
-        super(ShortTruthTableOperation.CONDITIONAL,
+        super(ShortTruthTableOperation.CONDITIONAL_1,
                 "Conditional",
                 trueCases,
                 falseCases);
