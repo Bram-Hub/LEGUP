@@ -12,6 +12,8 @@ import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
 
+import javax.swing.*;
+
 class ShortTruthTableImporter extends PuzzleImporter{
 
     public ShortTruthTableImporter(ShortTruthTable stt) {
@@ -54,7 +56,7 @@ class ShortTruthTableImporter extends PuzzleImporter{
      */
     private int parseAllStatmentsAndCells(final NodeList statementData,
                                         List<List<ShortTruthTableCell>> allCells,
-                                        List<ShortTruthTableStatement> statements){
+                                        List<ShortTruthTableStatement> statements) throws InvalidFileFormatException{
 
         int maxStatementLength = 0;
 
@@ -64,6 +66,12 @@ class ShortTruthTableImporter extends PuzzleImporter{
             //Get the atributes from the statement i in the file
             NamedNodeMap attributeList = statementData.item(i).getAttributes();
             String statementRep = attributeList.getNamedItem("representation").getNodeValue();
+            //parser time (on statementRep)
+            //if (!validGrammar(statementRep)) throw some error
+            if(!validGrammar(statementRep)){
+                JOptionPane.showMessageDialog(null, "ERROR: Invalid file syntax");
+                throw new InvalidFileFormatException("shorttruthtable importer: invalid sentence syntax");
+            }
             int rowIndex = Integer.valueOf(attributeList.getNamedItem("row_index").getNodeValue());
 
             //get the cells for the statement
@@ -80,7 +88,62 @@ class ShortTruthTableImporter extends PuzzleImporter{
 
     }
 
-
+    private boolean validGrammar(String sentence) {
+        int open = 0;
+        int close = 0;
+        char[] valid_characters = new char[] {'^', 'v', '!', '>', '-', '&', '|', '~', '$', '%'};
+        for(int i = 0; i < sentence.length(); i++) {
+            char s = sentence.charAt(i);
+            if(s == '(' || s == ')'){
+                switch (s) {
+                    case ')':
+                        close++;
+                        break;
+                    case '(':
+                        open++;
+                        break;
+                }
+                continue;
+            }
+            if(!Character.isLetter(s)) {
+                boolean valid = false;
+                for(char c: valid_characters) {
+                    if(c == s) {
+                        valid = true;
+                        break;
+                    }
+                }
+                if(!valid) {
+                    System.out.println("Invalid character");
+                    System.out.println(s);
+                    return false;
+                }
+                if(i != sentence.length() - 1) {
+                    char next = sentence.charAt(i+1);
+                    if(next != '!' && next != '~') {
+                        for(char c: valid_characters) {
+                            if(c == next) {
+                                System.out.println("Invalid next character");
+                                System.out.println(s);
+                                System.out.println(next);
+                                return false;
+                            }
+                        }
+                    }
+                }
+            } else {
+                if(i != sentence.length() - 1) {
+                    if(Character.isLetter(sentence.charAt(i+1))) {
+                        System.out.println("Invalid next character");
+                        System.out.println(s);
+                        System.out.println(sentence.charAt(i+1));
+                        return false;
+                    } 
+                }
+            }
+        }
+        return open == close;
+    } 
 
     private ShortTruthTableBoard generateBoard(List<List<ShortTruthTableCell>> allCells,
                                                List<ShortTruthTableStatement> statements,
