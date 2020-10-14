@@ -11,7 +11,6 @@
 	 - Unresolved Cell
 	 - Exceeding Visibility
 	 - Insufficient Visibility
-	 - 
  3. Case Rules:
 	 - Possible Contents
 	 - Possible Places

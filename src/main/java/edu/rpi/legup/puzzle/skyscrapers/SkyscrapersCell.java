@@ -18,14 +18,14 @@ public class SkyscrapersCell extends GridCell<Integer> {
     //i'm not sure how it'll be implemented yet though (part of grid or not)
     public SkyscrapersCell getType() {
         switch (data) {
-            case -1:
+            case 0:
                return SkyscrapersCellType.EMPTY;
             default:
               if (data >= 0) {
                 this.isEmpty = false;
                 return SkyscrapersCellType.NUMBER;
-              } 
-        } 
+              }
+        }
         return null;
     }
 
@@ -35,7 +35,7 @@ public class SkyscrapersCell extends GridCell<Integer> {
 
     public void setValue(int val) {
         this.value = val;
-    } 
+    }
 
     @Override
     public SkyscrapersCell copy() {
