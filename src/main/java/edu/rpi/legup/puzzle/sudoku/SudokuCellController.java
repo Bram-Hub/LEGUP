@@ -1,64 +1,40 @@
 package edu.rpi.legup.puzzle.sudoku;
 
-import java.awt.event.MouseEvent;
+/*import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class SudokuCellController implements MouseListener {
-    private SudokuView sudokuView;
 
-    public SudokuCellController(SudokuView sudokuView) {
-        this.sudokuView = sudokuView;
-    }
+import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.puzzle.treetent.TreeTentCell;*/
 
-    /**
-     * Invoked when the mouse button has been clicked (pressed
-     * and released) on a component.
-     *
-     * @param e the event to be processed
-     */
+import edu.rpi.legup.controller.ElementController;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
+
+
+import java.awt.event.MouseEvent;
+
+public class SudokuCellController extends ElementController {
     @Override
-    public void mouseClicked(MouseEvent e) {
-        SudokuElementView cell = (SudokuElementView) e.getSource();
-        cell.getPuzzleElement().setData(cell.getPuzzleElement().getData() + 1);
-    }
 
-    /**
-     * Invoked when a mouse button has been pressed on a component.
-     *
-     * @param e the event to be processed
-     */
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    /**
-     * Invoked when a mouse button has been released on a component.
-     *
-     * @param e the event to be processed
-     */
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    /**
-     * Invoked when the mouse enters a component.
-     *
-     * @param e the event to be processed
-     */
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    /**
-     * Invoked when the mouse exits a component.
-     *
-     * @param e the event to be processed
-     */
-    @Override
-    public void mouseExited(MouseEvent e) {
-
+    public void changeCell(MouseEvent e, PuzzleElement data) {
+        SudokuCell cell = (SudokuCell) data;
+        System.out.print(111);
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            if (e.isControlDown()) {
+                this.boardView.getSelectionPopupMenu().show(boardView, this.boardView.getCanvas().getX() + e.getX(), this.boardView.getCanvas().getY() + e.getY());
+            } else {
+                if (cell.getData() < cell.getMax()) {
+                    data.setData(cell.getData()+1);
+                } else {
+                    data.setData(0);
+                }
+            }
+        } else if (e.getButton() == MouseEvent.BUTTON3) {
+        	if (cell.getData() > 0) {
+                data.setData(cell.getData()-1);
+            } else {
+                data.setData(cell.getMax());
+            }
+        }
     }
 }

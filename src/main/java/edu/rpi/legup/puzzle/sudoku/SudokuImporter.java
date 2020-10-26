@@ -60,7 +60,7 @@ public class SudokuImporter extends PuzzleImporter {
                 for (int x = 0; x < size; x++) {
                     if (sudokuBoard.getCell(x, y) == null) {
                         int groupIndex = x / minorSize + y / minorSize * minorSize;
-                        SudokuCell cell = new SudokuCell(0, new Point(x, y), groupIndex);
+                        SudokuCell cell = new SudokuCell(0, new Point(x, y), groupIndex, size);
                         cell.setIndex(y * size + x);
                         cell.setModifiable(true);
                         sudokuBoard.setCell(x, y, cell);

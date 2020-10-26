@@ -17,7 +17,7 @@ public class SudokuView extends GridBoardView {
     private static final Stroke MAJOR_STOKE = new BasicStroke(4);
 
     public SudokuView(SudokuBoard board) {
-        super(new BoardController(), new ElementController(), board.getDimension());
+        super(new BoardController(), new SudokuCellController(), board.getDimension());
 
         int minorSize = (int) Math.sqrt(gridSize.width);
         for (int i = 0; i < gridSize.height; i++) {
@@ -127,7 +127,6 @@ public class SudokuView extends GridBoardView {
             y = firstElement.getLocation().y;
             w = (lastElement.getLocation().x + elementSize.width) - x;
             h = (lastElement.getLocation().y + elementSize.height) - y;
-
             graphics2D.fillRect(x + 4, y + 4, w - 8, h - 8);
         }
 
@@ -148,7 +147,7 @@ public class SudokuView extends GridBoardView {
         selectionView.setLayout(layout);
         for (int r = 1; r <= 3; r++) {
             for (int c = 1; c <= 3; c++) {
-                SudokuElementView element = new SudokuElementView(new SudokuCell((r - 1) * 3 + c, null, 0));
+                SudokuElementView element = new SudokuElementView(new SudokuCell((r - 1) * 3 + c, null, 0, gridSize.width));
                 element.setSize(new Dimension(32, 32));
                 element.setLocation(new Point(0, 0));
                 SelectionItemView item = new SelectionItemView(element.getPuzzleElement(), new ImageIcon(element.getImage()));
