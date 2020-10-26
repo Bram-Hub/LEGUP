@@ -9,6 +9,7 @@ public class LightUpCellController extends ElementController {
     @Override
     public void changeCell(MouseEvent e, PuzzleElement data) {
         LightUpCell cell = (LightUpCell) data;
+        System.out.print(111);
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (e.isControlDown()) {
                 this.boardView.getSelectionPopupMenu().show(boardView, this.boardView.getCanvas().getX() + e.getX(), this.boardView.getCanvas().getY() + e.getY());

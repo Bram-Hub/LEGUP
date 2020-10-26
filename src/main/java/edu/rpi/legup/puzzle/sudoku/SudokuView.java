@@ -17,7 +17,7 @@ public class SudokuView extends GridBoardView {
     private static final Stroke MAJOR_STOKE = new BasicStroke(4);
 
     public SudokuView(SudokuBoard board) {
-        super(new BoardController(), new ElementController(), board.getDimension());
+        super(new BoardController(), new SudokuCellController(), board.getDimension());
 
         int minorSize = (int) Math.sqrt(gridSize.width);
         for (int i = 0; i < gridSize.height; i++) {
