@@ -102,20 +102,16 @@ public class SkyscrapersController extends ElementController {
     public void changeCell(MouseEvent e, PuzzleElement element) {
     	SkyscrapersCell cell = (SkyscrapersCell) element;
         if (e.getButton() == MouseEvent.BUTTON1) {
-            if (cell.getData() == 0) {
-                element.setData(2);
-            } else if (cell.getData() == 2) {
-                element.setData(3);
+        	if (cell.getData() < cell.getMax()) {
+                cell.setData(cell.getData()+1);
             } else {
-                element.setData(0);
+                cell.setData(0);
             }
         } else if (e.getButton() == MouseEvent.BUTTON3) {
-            if (cell.getData() == 0) {
-                element.setData(3);
-            } else if (cell.getData() == 2) {
-                element.setData(0);
+        	if (cell.getData() > 0) {
+                cell.setData(cell.getData()-1);
             } else {
-                element.setData(2);
+                cell.setData(cell.getMax());
             }
         }
     }

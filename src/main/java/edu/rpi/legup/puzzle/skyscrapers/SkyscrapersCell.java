@@ -5,9 +5,11 @@ import edu.rpi.legup.model.gameboard.GridCell;
 import java.awt.*;
 
 public class SkyscrapersCell extends GridCell<Integer> {
+	private int max;
 
-    public SkyscrapersCell(int valueInt, Point location) {
+    public SkyscrapersCell(int valueInt, Point location, int size) {
         super(valueInt, location);
+        this.max = size;
     }
 
     public SkyscrapersType getType() {
@@ -24,10 +26,14 @@ public class SkyscrapersCell extends GridCell<Integer> {
                 return null;
         }
     }
+    
+    public int getMax() {
+        return max;
+    }
 
     @Override
     public SkyscrapersCell copy() {
-    	SkyscrapersCell copy = new SkyscrapersCell(data, (Point) location.clone());
+    	SkyscrapersCell copy = new SkyscrapersCell(data, (Point) location.clone(), max);
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);

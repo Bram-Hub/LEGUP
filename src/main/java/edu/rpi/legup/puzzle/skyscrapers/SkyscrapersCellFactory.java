@@ -38,7 +38,7 @@ public class SkyscrapersCellFactory extends ElementFactory {
                     throw new InvalidFileFormatException("TreeTent Factory: cell unknown value");
                 }
 
-                SkyscrapersCell cell = new SkyscrapersCell(value, new Point(x, y));
+                SkyscrapersCell cell = new SkyscrapersCell(value, new Point(x, y), width);
                 cell.setIndex(y * height + x);
                 return cell;
             } else if (node.getNodeName().equalsIgnoreCase("line")) {

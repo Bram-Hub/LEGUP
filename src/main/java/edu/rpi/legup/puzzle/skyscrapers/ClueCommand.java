@@ -3,8 +3,12 @@ package edu.rpi.legup.puzzle.skyscrapers;
 import edu.rpi.legup.history.CommandError;
 import edu.rpi.legup.history.PuzzleCommand;
 import edu.rpi.legup.model.Puzzle;
+import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.treeview.TreeElementView;
+import edu.rpi.legup.ui.treeview.TreeNodeView;
+import edu.rpi.legup.ui.treeview.TreeTransitionView;
 import edu.rpi.legup.ui.treeview.TreeView;
 import edu.rpi.legup.ui.treeview.TreeViewSelection;
 
@@ -33,7 +37,7 @@ public class ClueCommand extends PuzzleCommand {
      */
     @Override
     public void executeCommand() {
-        Puzzle puzzle = getInstance().getPuzzleModule();
+        /*Puzzle puzzle = getInstance().getPuzzleModule();
         Tree tree = puzzle.getTree();
         TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
 
@@ -79,7 +83,7 @@ public class ClueCommand extends PuzzleCommand {
                 puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTran));
             }
         }
-        puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
+        puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));*/
     }
 
     /**
@@ -89,6 +93,37 @@ public class ClueCommand extends PuzzleCommand {
      * otherwise null if command can be executed
      */
     @Override
+    public String getErrorString() {
+        List<TreeElementView> selectedViews = selection.getSelectedViews();
+        if (selectedViews.size() != 1) {
+            return CommandError.ONE_SELECTED_VIEW.toString();
+        }
+        TreeElementView selectedView = selection.getFirstSelection();
+        Board board = selectedView.getTreeElement().getBoard();
+        SkyscrapersClue selectedPuzzleElement = clueView.getPuzzleElement();
+        if (selectedView.getType() == TreeElementType.NODE) {
+        	
+            TreeNodeView nodeView = (TreeNodeView) selectedView;
+            if (!nodeView.getChildrenViews().isEmpty()) {
+                return CommandError.UNMODIFIABLE_BOARD.toString();
+            } else {
+                if (!board.getPuzzleElement(selectedPuzzleElement).isModifiable()) {
+                    return CommandError.UNMODIFIABLE_DATA.toString();
+                }
+            }
+        } else {
+            TreeTransitionView transitionView = (TreeTransitionView) selectedView;
+            if (!transitionView.getTreeElement().getBoard().isModifiable()) {
+                return CommandError.UNMODIFIABLE_BOARD.toString();
+            } else {
+                if (!board.getPuzzleElement(selectedPuzzleElement).isModifiable()) {
+                    return CommandError.UNMODIFIABLE_DATA.toString();
+                }
+            }
+        }
+        return null;
+    }
+    /*@Override
     public String getErrorString() {
         if (selection.getSelectedViews().isEmpty()) {
             return CommandError.NO_SELECTED_VIEWS.toString();
@@ -134,14 +169,14 @@ public class ClueCommand extends PuzzleCommand {
             emptyCells.add(tempList);
         }
         return null;
-    }
+    }*/
 
     /**
      * Undoes an command
      */
     @Override
     public void undoCommand() {
-        Puzzle puzzle = getInstance().getPuzzleModule();
+        /*Puzzle puzzle = getInstance().getPuzzleModule();
         Tree tree = puzzle.getTree();
 
         for (int i = 0; i < selection.getSelectedViews().size(); i++) {
@@ -177,6 +212,6 @@ public class ClueCommand extends PuzzleCommand {
             }
         }
         final TreeViewSelection newSelection = selection;
-        puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
+        puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));*/
     }
 }

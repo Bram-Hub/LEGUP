@@ -62,7 +62,7 @@ public class SkyscrapersImporter extends PuzzleImporter {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     if (treeTentBoard.getCell(x, y) == null) {
-                    	SkyscrapersCell cell = new SkyscrapersCell(0, new Point(x, y));
+                    	SkyscrapersCell cell = new SkyscrapersCell(0, new Point(x, y), width);
                         cell.setIndex(y * height + x);
                         cell.setModifiable(true);
                         treeTentBoard.setCell(x, y, cell);

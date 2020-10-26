@@ -11,6 +11,7 @@ public class SkyscrapersClue extends PuzzleElement<Integer> {
         this.index = -2;
         this.clueIndex = clueIndex;
         this.type = type;
+        this.setModifiable(false);
     }
 
     public static String colNumToString(int col) {

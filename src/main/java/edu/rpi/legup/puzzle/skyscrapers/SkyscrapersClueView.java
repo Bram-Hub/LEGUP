@@ -22,6 +22,10 @@ public class SkyscrapersClueView extends ElementView {
     public SkyscrapersClue getPuzzleElement() {
         return (SkyscrapersClue) super.getPuzzleElement();
     }
+    @Override
+    public void draw(Graphics2D graphics2D) {
+        drawElement(graphics2D);
+    }
 
     @Override
     public void drawElement(Graphics2D graphics2D) {
