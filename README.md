@@ -1,7 +1,7 @@
 # LEGUP
 ### A Project by Dr. van Heuveln
 Logic Engine for Grid-Using Puzzles - a better way to learn formal logic
-
+test
 ## Goal
 The main goal of the LEGUP project is to provide a better interface for students to learn basic principles of logical reasoning.
 
