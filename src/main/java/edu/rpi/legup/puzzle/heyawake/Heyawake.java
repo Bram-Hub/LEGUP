@@ -3,6 +3,7 @@ package edu.rpi.legup.puzzle.heyawake;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 
+//lolmaodksfla
 public class Heyawake extends Puzzle {
 
     public Heyawake() {
@@ -53,6 +54,6 @@ public class Heyawake extends Puzzle {
      */
     @Override
     public void onBoardChange(Board board) {
-
+        System.out.println("hey");
     }
 }
