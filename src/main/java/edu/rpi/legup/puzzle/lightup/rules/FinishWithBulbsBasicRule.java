@@ -52,7 +52,7 @@ public class FinishWithBulbsBasicRule extends BasicRule {
                 return null;
             }
         }
-        return "This cell is forced to be a bulb.";
+        return "This cell is not forced to be a bulb.";
     }
 
     private boolean isForced(LightUpBoard board, LightUpCell cell) {

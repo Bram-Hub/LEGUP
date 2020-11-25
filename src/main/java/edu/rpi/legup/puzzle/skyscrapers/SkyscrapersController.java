@@ -80,7 +80,7 @@ public class SkyscrapersController extends ElementController {
                                 treePanel.updateError(edit.getError());
                             }
                         }
-                    } else if (lastCellPressed != null) {
+                    } /*else if (lastCellPressed != null) {
                         if (dragStart instanceof SkyscrapersElementView) {
                             ICommand editLine = new EditLineCommand(selection, (SkyscrapersElementView) dragStart, lastCellPressed);
                             if (editLine.canExecute()) {
@@ -90,7 +90,7 @@ public class SkyscrapersController extends ElementController {
                                 treePanel.updateError(editLine.getError());
                             }
                         }
-                    }
+                    }*/
                 }
             }
             dragStart = null;

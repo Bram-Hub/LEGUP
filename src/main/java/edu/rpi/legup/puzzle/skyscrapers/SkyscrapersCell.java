@@ -16,14 +16,8 @@ public class SkyscrapersCell extends GridCell<Integer> {
         switch (data) {
             case 0:
                 return SkyscrapersType.UNKNOWN;
-            case 1:
-                return SkyscrapersType.TREE;
-            case 2:
-                return SkyscrapersType.GRASS;
-            case 3:
-                return SkyscrapersType.TENT;
             default:
-                return null;
+                return SkyscrapersType.Number;
         }
     }
     

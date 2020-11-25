@@ -57,7 +57,6 @@ public class RuleController implements ActionListener {
                 } else {
                     if (LegupPreferences.getInstance().getUserPref(LegupPreferences.AUTO_GENERATE_CASES).equalsIgnoreCase(Boolean.toString(true))) {
                         CaseBoard caseBoard = caseRule.getCaseBoard(element.getBoard());
-
                         if (caseBoard != null && caseBoard.getCount() > 0) {
                             puzzle.notifyBoardListeners(listener -> listener.onCaseBoardAdded(caseBoard));
                         } else {
