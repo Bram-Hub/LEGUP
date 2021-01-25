@@ -32,7 +32,7 @@ public class CannotLightACellContradictionRule extends ContradictionRule {
         /*if (cell.getType() == LightUpCellType.BLACK || cell.getType() == LightUpCellType.NUMBER || cell.isLite()) {
             return "This cell does not contain a contradiction";
         }*/
-        if (cell.getType() != LightUpCellType.EMPTY) {
+        if (cell.getType() != LightUpCellType.EMPTY || cell.isLite()) {
             return "This cell does not contain a contradiction";
         }
         Point location = cell.getLocation();

@@ -49,19 +49,19 @@ public class SkyscrapersBoard extends GridBoard {
         return lines;
     }
 
-    public ArrayList<SkyscrapersClue> getRowClues() {
+    public ArrayList<SkyscrapersClue> getRowClues() { //EAST CLUE
         return rowClues;
     }
 
-    public ArrayList<SkyscrapersClue> getColClues() {
+    public ArrayList<SkyscrapersClue> getColClues() { //SOUTH CLUE
         return colClues;
     }
     
-    public ArrayList<SkyscrapersClue> getRow() {
+    public ArrayList<SkyscrapersClue> getRow() { //WEST CLUE
         return row;
     }
 
-    public ArrayList<SkyscrapersClue> getCol() {
+    public ArrayList<SkyscrapersClue> getCol() { //NORTH CLUE
         return col;
     }
 
@@ -224,6 +224,8 @@ public class SkyscrapersBoard extends GridBoard {
         }
         copy.rowClues = rowClues;
         copy.colClues = colClues;
+        copy.row = row;
+        copy.col = col;
         return copy;
     }
 }

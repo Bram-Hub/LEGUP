@@ -122,7 +122,7 @@ public class SkyscrapersImporter extends PuzzleImporter {
                 if (treeTentBoard.getColClues().get(index - 1) != null) {
                     throw new InvalidFileFormatException("TreeTent Importer: duplicate clue index");
                 }*/
-                treeTentBoard.getCol().set(/*index - 1*/i, new SkyscrapersClue(index, index, SkyscrapersType.CLUE_WEST));
+                treeTentBoard.getCol().set(/*index - 1*/i, new SkyscrapersClue(index, index, SkyscrapersType.CLUE_NORTH));
                 treeTentBoard.getColClues().set(/*index - 1*/i, new SkyscrapersClue(value, index, SkyscrapersType.CLUE_SOUTH));
             }
 

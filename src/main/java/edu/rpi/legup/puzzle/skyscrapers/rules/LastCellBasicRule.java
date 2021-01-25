@@ -14,12 +14,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class LastNumberBasicRule extends BasicRule {
+public class LastCellBasicRule extends BasicRule {
 
-    public LastNumberBasicRule() {
-        super("Last Number",
-                "A certain cell must contain a certain number since that number is the only one that can possibly appear in that cell.",
-                "edu/rpi/legup/images/skyscrapers/LastNumber.png");
+    public LastCellBasicRule() {
+        super("Last Cell",
+                "A certain number must go in a certain cell, because that cell is the last place that number can appear in that row/column.",
+                "edu/rpi/legup/images/skyscrapers/LastCell.png");
     }
 
     /**
@@ -59,6 +59,18 @@ public class LastNumberBasicRule extends BasicRule {
             	//System.out.println(finalCell.getData());
             }
         }
+        if (candidates.size() == 1) {
+        	Iterator<Integer> it = candidates.iterator();
+        	if (it.next() == finalCell.getData()) {
+        		return null;
+        	}
+        	return "Wrong number in the cell.";
+        }
+        
+        candidates.clear();
+        for (int i = 1; i <= initialBoard.getWidth(); i++) {
+        	candidates.add(i);
+        }
         
         // check column
         for (int i = 0; i < initialBoard.getHeight(); i++) {
@@ -69,9 +81,7 @@ public class LastNumberBasicRule extends BasicRule {
             	//System.out.println(finalCell.getData());
             }
         }
-        
-        DuplicateNumberContradictionRule duplicate = new DuplicateNumberContradictionRule();
-        if (candidates.size() == 1 && duplicate.checkContradictionAt(emptyCase, finalCell) != null) {
+        if (candidates.size() == 1) {
         	Iterator<Integer> it = candidates.iterator();
         	if (it.next() == finalCell.getData()) {
         		return null;

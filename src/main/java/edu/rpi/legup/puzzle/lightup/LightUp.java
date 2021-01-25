@@ -51,6 +51,7 @@ public class LightUp extends Puzzle {
 
         for (ContradictionRule rule : contradictionRules) {
             if (rule.checkContradiction(lightUpBoard) == null) {
+            	System.out.println(rule.getRuleName());
                 return false;
             }
         }

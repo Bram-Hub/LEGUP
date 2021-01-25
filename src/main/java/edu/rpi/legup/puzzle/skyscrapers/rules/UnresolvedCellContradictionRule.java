@@ -56,9 +56,10 @@ public class UnresolvedCellContradictionRule extends ContradictionRule {
         }
         
         if (candidates.size() == skyscrapersboard.getWidth()) {
+        	System.out.print("violation");
         	return null;
         }
-    	
+        //System.out.print("Does not contain a contradiction at this index");
         return "Does not contain a contradiction at this index";
     }
 }

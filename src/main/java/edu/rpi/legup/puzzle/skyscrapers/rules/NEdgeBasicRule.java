@@ -14,12 +14,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class LastNumberBasicRule extends BasicRule {
+public class NEdgeBasicRule extends BasicRule {
 
-    public LastNumberBasicRule() {
-        super("Last Number",
-                "A certain cell must contain a certain number since that number is the only one that can possibly appear in that cell.",
-                "edu/rpi/legup/images/skyscrapers/LastNumber.png");
+    public NEdgeBasicRule() {
+        super("N Edge",
+                "If the maximum number appears on an edge, the row or column¡¯s numbers appear in ascending order, starting at that edge.",
+                "edu/rpi/legup/images/skyscrapers/NEdge.png");
     }
 
     /**
@@ -44,42 +44,23 @@ public class LastNumberBasicRule extends BasicRule {
         SkyscrapersBoard emptyCase = initialBoard.copy();
         emptyCase.getPuzzleElement(finalCell).setData(0);
         Point loc = finalCell.getLocation();
+        int max = initialBoard.getHeight();
         
-        Set<Integer> candidates = new HashSet<Integer>();
-        for (int i = 1; i <= initialBoard.getWidth(); i++) {
-        	candidates.add(i);
+        if (initialBoard.getRow().get(loc.y).getData() == max && finalCell.getData() == loc.x + 1) {
+        	return null;
         }
-        
-        //check row
-        for (int i = 0; i < initialBoard.getWidth(); i++) {
-        	SkyscrapersCell c = initialBoard.getCell(i, loc.y);
-            if (i != loc.x && c.getType() == SkyscrapersType.Number) {
-            	candidates.remove(c.getData());
-            	//System.out.print(c.getData());
-            	//System.out.println(finalCell.getData());
-            }
+        if (initialBoard.getRowClues().get(loc.y).getData() == max && finalCell.getData() == max - loc.x) {
+        	return null;
         }
-        
-        // check column
-        for (int i = 0; i < initialBoard.getHeight(); i++) {
-        	SkyscrapersCell c = initialBoard.getCell(loc.x, i);
-        	if (i != loc.y && c.getType() == SkyscrapersType.Number) {
-        		candidates.remove(c.getData());
-        		//System.out.print(c.getData());
-            	//System.out.println(finalCell.getData());
-            }
+        if (initialBoard.getCol().get(loc.x).getData() == max && finalCell.getData() == loc.y + 1) {
+        	return null;
         }
-        
-        DuplicateNumberContradictionRule duplicate = new DuplicateNumberContradictionRule();
-        if (candidates.size() == 1 && duplicate.checkContradictionAt(emptyCase, finalCell) != null) {
-        	Iterator<Integer> it = candidates.iterator();
-        	if (it.next() == finalCell.getData()) {
-        		return null;
-        	}
-        	return "Wrong number in the cell.";
+        if (initialBoard.getColClues().get(loc.x).getData() == max && finalCell.getData() == max - loc.y) {
+        	return null;
         }
         
         return "This cell is not forced.";
+        
     }
 
     private boolean isForced(SkyscrapersBoard board, SkyscrapersCell cell) {

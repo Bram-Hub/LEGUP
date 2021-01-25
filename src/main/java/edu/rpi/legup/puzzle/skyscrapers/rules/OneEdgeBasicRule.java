@@ -14,12 +14,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class LastNumberBasicRule extends BasicRule {
+public class OneEdgeBasicRule extends BasicRule {
 
-    public LastNumberBasicRule() {
-        super("Last Number",
-                "A certain cell must contain a certain number since that number is the only one that can possibly appear in that cell.",
-                "edu/rpi/legup/images/skyscrapers/LastNumber.png");
+    public OneEdgeBasicRule() {
+        super("One Edge",
+                "If you have a 1 on an edge, put n in the adjacent square.",
+                "edu/rpi/legup/images/skyscrapers/OneEdge.png");
     }
 
     /**
@@ -45,41 +45,29 @@ public class LastNumberBasicRule extends BasicRule {
         emptyCase.getPuzzleElement(finalCell).setData(0);
         Point loc = finalCell.getLocation();
         
-        Set<Integer> candidates = new HashSet<Integer>();
-        for (int i = 1; i <= initialBoard.getWidth(); i++) {
-        	candidates.add(i);
+        if (loc.x != 0 && loc.x != initialBoard.getWidth() - 1 && loc.y != 0 && loc.y != initialBoard.getHeight() - 1) {
+        	return "Modified cells must be on the edge";
         }
         
-        //check row
-        for (int i = 0; i < initialBoard.getWidth(); i++) {
-        	SkyscrapersCell c = initialBoard.getCell(i, loc.y);
-            if (i != loc.x && c.getType() == SkyscrapersType.Number) {
-            	candidates.remove(c.getData());
-            	//System.out.print(c.getData());
-            	//System.out.println(finalCell.getData());
-            }
+        if (finalCell.getData() != initialBoard.getWidth()) {
+        	return "Modified cells must be the max";
         }
         
-        // check column
-        for (int i = 0; i < initialBoard.getHeight(); i++) {
-        	SkyscrapersCell c = initialBoard.getCell(loc.x, i);
-        	if (i != loc.y && c.getType() == SkyscrapersType.Number) {
-        		candidates.remove(c.getData());
-        		//System.out.print(c.getData());
-            	//System.out.println(finalCell.getData());
-            }
+        if (loc.x == 0 && initialBoard.getRow().get(loc.y).getData() == 1) {
+        	return null;
+        }
+        else if (loc.x == initialBoard.getWidth() - 1 && initialBoard.getRowClues().get(loc.y).getData() == 1) {
+        	return null;
+        }
+        else if (loc.y == 0 && initialBoard.getCol().get(loc.x).getData() == 1) {
+        	return null;
+        }
+        else if (loc.y == initialBoard.getHeight() - 1 && initialBoard.getColClues().get(loc.x).getData() == 1) {
+        	return null;
+        } else {
+        	return "This cell is not forced.";
         }
         
-        DuplicateNumberContradictionRule duplicate = new DuplicateNumberContradictionRule();
-        if (candidates.size() == 1 && duplicate.checkContradictionAt(emptyCase, finalCell) != null) {
-        	Iterator<Integer> it = candidates.iterator();
-        	if (it.next() == finalCell.getData()) {
-        		return null;
-        	}
-        	return "Wrong number in the cell.";
-        }
-        
-        return "This cell is not forced.";
     }
 
     private boolean isForced(SkyscrapersBoard board, SkyscrapersCell cell) {

@@ -2,6 +2,11 @@ package edu.rpi.legup.puzzle.skyscrapers;
 
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.rules.ContradictionRule;
+import edu.rpi.legup.puzzle.lightup.LightUpBoard;
+import edu.rpi.legup.puzzle.lightup.LightUpCell;
+import edu.rpi.legup.puzzle.lightup.LightUpCellType;
 
 public class Skyscrapers extends Puzzle {
 
@@ -44,7 +49,21 @@ public class Skyscrapers extends Puzzle {
      */
     @Override
     public boolean isBoardComplete(Board board) {
-        return false;
+    	SkyscrapersBoard SkyscraperBoard = (SkyscrapersBoard) board;
+
+        for (ContradictionRule rule : contradictionRules) {
+            if (rule.checkContradiction(SkyscraperBoard) == null) {
+            	System.out.println(rule.getRuleName());
+                return false;
+            }
+        }
+        for (PuzzleElement data : SkyscraperBoard.getPuzzleElements()) {
+            SkyscrapersCell cell = (SkyscrapersCell) data;
+            if (cell.getType() == SkyscrapersType.UNKNOWN) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
