@@ -72,7 +72,6 @@ public class ValidateBasicRuleCommand extends PuzzleCommand {
             }
             newSelection.addToSelection(treeView.getElementView(childNode));
         }
-
         TreeElementView firstSelectedView = selection.getFirstSelection();
         final TreeElement finalTreeElement;
         if (firstSelectedView.getType() == TreeElementType.NODE) {

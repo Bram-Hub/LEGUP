@@ -1,22 +1,24 @@
-package edu.rpi.legup.puzzle.lightup;
+package edu.rpi.legup.puzzle.skyscrapers;
 
 import edu.rpi.legup.model.Puzzle;
-import edu.rpi.legup.model.RegisterPuzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
+import edu.rpi.legup.puzzle.lightup.LightUpBoard;
+import edu.rpi.legup.puzzle.lightup.LightUpCell;
+import edu.rpi.legup.puzzle.lightup.LightUpCellType;
 
-@RegisterPuzzle
-public class LightUp extends Puzzle {
+public class Skyscrapers extends Puzzle {
 
-    public LightUp() {
+    public Skyscrapers() {
         super();
-        name = "LightUp";
 
-        importer = new LightUpImporter(this);
-        exporter = new LightUpExporter(this);
+        this.name = "Skyscrapers";
 
-        factory = new LightUpCellFactory();
+        this.importer = new SkyscrapersImporter(this);
+        this.exporter = new SkyscrapersExporter(this);
+
+        this.factory = new SkyscrapersCellFactory();
     }
 
     /**
@@ -24,7 +26,8 @@ public class LightUp extends Puzzle {
      */
     @Override
     public void initializeView() {
-        boardView = new LightUpView((LightUpBoard) currentBoard);
+    	SkyscrapersBoard board = (SkyscrapersBoard) currentBoard;
+        boardView = new SkyscrapersView((SkyscrapersBoard) currentBoard);
     }
 
     /**
@@ -46,18 +49,17 @@ public class LightUp extends Puzzle {
      */
     @Override
     public boolean isBoardComplete(Board board) {
-        LightUpBoard lightUpBoard = (LightUpBoard) board;
-        lightUpBoard.fillWithLight();
+    	SkyscrapersBoard SkyscraperBoard = (SkyscrapersBoard) board;
 
         for (ContradictionRule rule : contradictionRules) {
-            if (rule.checkContradiction(lightUpBoard) == null) {
+            if (rule.checkContradiction(SkyscraperBoard) == null) {
             	System.out.println(rule.getRuleName());
                 return false;
             }
         }
-        for (PuzzleElement data : lightUpBoard.getPuzzleElements()) {
-            LightUpCell cell = (LightUpCell) data;
-            if ((cell.getType() == LightUpCellType.UNKNOWN || cell.getType() == LightUpCellType.EMPTY) && !cell.isLite()) {
+        for (PuzzleElement data : SkyscraperBoard.getPuzzleElements()) {
+            SkyscrapersCell cell = (SkyscrapersCell) data;
+            if (cell.getType() == SkyscrapersType.UNKNOWN) {
                 return false;
             }
         }

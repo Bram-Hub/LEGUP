@@ -106,11 +106,11 @@ public class EditDataCommand extends PuzzleCommand {
         if (selectedViews.size() != 1) {
             return CommandError.ONE_SELECTED_VIEW.toString();
         }
-
         TreeElementView selectedView = selection.getFirstSelection();
         Board board = selectedView.getTreeElement().getBoard();
         PuzzleElement selectedPuzzleElement = elementView.getPuzzleElement();
         if (selectedView.getType() == TreeElementType.NODE) {
+        	
             TreeNodeView nodeView = (TreeNodeView) selectedView;
             if (!nodeView.getChildrenViews().isEmpty()) {
                 return CommandError.UNMODIFIABLE_BOARD.toString();
