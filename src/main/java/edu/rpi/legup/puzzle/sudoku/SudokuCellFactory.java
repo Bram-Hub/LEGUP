@@ -41,7 +41,7 @@ public class SudokuCellFactory extends ElementFactory {
                 throw new InvalidFileFormatException("Sudoku Factory: cell unknown value");
             }
             int groupIndex = x / minorSize + y / minorSize * minorSize;
-            SudokuCell cell = new SudokuCell(value, new Point(x, y), groupIndex);
+            SudokuCell cell = new SudokuCell(value, new Point(x, y), groupIndex, size);
             cell.setIndex(y * size + x);
             return cell;
         } catch (NumberFormatException e) {
