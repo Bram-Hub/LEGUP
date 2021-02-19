@@ -14,11 +14,20 @@ import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.apache.logging.log4j.core.layout.PatternLayout;
 
 import java.io.File;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 
 
 public class Legup {
     static {
-        String logPath = new File(Legup.class.getProtectionDomain().getCodeSource().getLocation().getFile()).getParent();
+        String logPath = "";
+		try {
+			logPath = Paths.get(Legup.class.getProtectionDomain().getCodeSource().getLocation().toURI()).toFile().getParent();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.exit(0);
+		}
         logPath += logPath.endsWith(File.separator) ? "" : File.separator;
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         Configuration config = context.getConfiguration();
