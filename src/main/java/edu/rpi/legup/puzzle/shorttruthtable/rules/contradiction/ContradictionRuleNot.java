@@ -9,7 +9,7 @@ public class ContradictionRuleNot extends ContradictionRule_GenericStatement{
         super("Contradicting Negation",
                 "A negation and its following statement can not have the same truth value",
                 "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/Not.png",
-                ShortTruthTableOperation.NOT_1,
+                ShortTruthTableOperation.NOT,
                 new ShortTruthTableCellType[][] {
                         {n, T, T},
                         {n, F, F}

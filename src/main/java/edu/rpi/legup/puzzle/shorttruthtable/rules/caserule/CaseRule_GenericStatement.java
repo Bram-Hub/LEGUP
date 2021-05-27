@@ -65,7 +65,7 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
             System.out.println("  Operation is known");
             if(cell.getStatementRefference().getRightStatement().getCell().getType().isTrueOrFalse()) continue;
             System.out.println("  right side is unknown");
-            if(this.operation != ShortTruthTableOperation.NOT_1 && this.operation != ShortTruthTableOperation.NOT_2 &&
+            if(this.operation != ShortTruthTableOperation.NOT &&
                     cell.getStatementRefference().getRightStatement().getCell().getType().isTrueOrFalse()) continue;
             System.out.println("  left side is unknown");
 

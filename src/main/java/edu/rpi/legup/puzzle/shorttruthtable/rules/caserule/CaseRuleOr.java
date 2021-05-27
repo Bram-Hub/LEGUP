@@ -6,7 +6,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
 public class CaseRuleOr extends CaseRule_GenericStatement {
 
     public CaseRuleOr() {
-        super(ShortTruthTableOperation.OR_1,
+        super(ShortTruthTableOperation.OR,
                 "Or",
                 trueCases,
                 falseCases);

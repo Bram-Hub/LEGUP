@@ -118,7 +118,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 			if(c == '(') openParenCount++;
 			else if(c == ')') openParenCount--;
 			//if the char is an operator, and there are no open parens, split the statement here
-			else if(openParenCount==0 && ShortTruthTableOperation.isOperation(c) && c!=ShortTruthTableOperation.NOT_1 && c!=ShortTruthTableOperation.NOT_2)
+			else if(openParenCount==0 && ShortTruthTableOperation.isOperation(c) && c!=ShortTruthTableOperation.NOT)
 				return i;
 			//increment the index
 			i++;
@@ -229,7 +229,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 		ShortTruthTableCellType type = this.cell.getType();
 		ShortTruthTableCellType rightType = this.rightStatement.getCell().getType();
 		//if this is a not statement, there is no left side
-		if(cell.getSymbol() == ShortTruthTableOperation.NOT_1 || cell.getSymbol() == ShortTruthTableOperation.NOT_2)
+		if(cell.getSymbol() == ShortTruthTableOperation.NOT)
 			return new ShortTruthTableCellType[]{null, type, rightType};
 		//if it is any other operation, get the left side too and return it
 		ShortTruthTableCellType leftType = this.leftStatement.getCell().getType();

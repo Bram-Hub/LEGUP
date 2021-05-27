@@ -9,7 +9,7 @@ public class ContradictionRuleAnd extends ContradictionRule_GenericStatement{
         super("Contradicting And",
                 "An AND statement must have a contradicting pattern",
                 "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/And.png",
-                ShortTruthTableOperation.AND_1,
+                ShortTruthTableOperation.AND,
                 new ShortTruthTableCellType[][] {
                     {n, T, F},
                     {F, T, n},

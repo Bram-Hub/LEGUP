@@ -493,15 +493,11 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         Puzzle puzzle = facade.getPuzzleModule();
 
         if (puzzle.isPuzzleComplete()) {
-            //can uncomment once there is a submit system
-            /*
             int confirm = JOptionPane.showConfirmDialog(null, "Congratulations! Your proof is correct. Would you like to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 Submission submission = new Submission(board);
                 submission.submit();
             }
-            */
-            JOptionPane.showMessageDialog(null, "Congratulations! Your proof is correct.");
             showStatus("Your proof is correct.", false);
         } else {
             String message = "\nThe game board is not solved.";
