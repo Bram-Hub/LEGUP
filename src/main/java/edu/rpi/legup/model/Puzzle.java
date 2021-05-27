@@ -209,15 +209,15 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         }
 
         Element rootNode = document.getDocumentElement();
-        if (rootNode.getTagName().equals("edu.rpi.legup.Legup")) {
-            Node node = rootNode.getElementsByTagName("edu/rpi/legup/puzzle").item(0);
+        if (rootNode.getTagName().equals("Legup")) {
+            Node node = rootNode.getElementsByTagName("puzzle").item(0);
             if (importer == null) {
                 throw new InvalidFileFormatException("Puzzle importer null");
             }
             importer.initializePuzzle(node);
         } else {
             LOGGER.error("Invalid file");
-            throw new InvalidFileFormatException("Invalid file: must be a edu.rpi.legup.Legup file");
+            throw new InvalidFileFormatException("Invalid file: must be a Legup file");
         }
     }
 

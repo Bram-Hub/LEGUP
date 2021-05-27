@@ -1,5 +1,5 @@
-<edu.rpi.legup.Legup>
-    <edu.rpi.legup.puzzle name="Nurikabe">
+<Legup>
+    <puzzle name="Nurikabe">
         <board width="3" height="3">
             <cells>
                 <cell value="-1" x="0" y="0"/>
@@ -9,5 +9,5 @@
                 <cell value="-1" x="2" y="2"/>
             </cells>
         </board>
-    </edu.rpi.legup.puzzle>
-</edu.rpi.legup.Legup>
+    </puzzle>
+</Legup>

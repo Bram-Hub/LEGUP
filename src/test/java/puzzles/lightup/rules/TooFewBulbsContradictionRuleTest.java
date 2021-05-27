@@ -6,10 +6,10 @@ import edu.rpi.legup.puzzle.lightup.LightUp;
 
 public class TooFewBulbsContradictionRuleTest
 {
-    LightUp lightUp;
+    private static LightUp lightUp;
 
     @BeforeClass
-    public void setUp()
+    public static void setUp()
     {
         lightUp = new LightUp();
     }

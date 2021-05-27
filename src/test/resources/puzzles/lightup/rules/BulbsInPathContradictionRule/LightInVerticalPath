@@ -1,10 +1,10 @@
-<edu.rpi.legup.Legup>
-    <edu.rpi.legup.puzzle name="LightUp">
+<Legup>
+    <puzzle name="LightUp">
         <board width="3" height="3">
             <cells>
                 <cell value="-4" x="0" y="0"/>
                 <cell value="-4" x="0" y="2"/>
             </cells>
         </board>
-    </edu.rpi.legup.puzzle>
-</edu.rpi.legup.Legup>
+    </puzzle>
+</Legup>
