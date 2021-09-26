@@ -42,6 +42,18 @@ public class NoNumberContradictionRule extends ContradictionRule {
                 return "Does not contain a contradiction at this index";
             }
         }
+        NurikabeCell top = nurikabeBoard.getCell(cell.getLocation().x, cell.getLocation().y+1);
+        NurikabeCell left = nurikabeBoard.getCell(cell.getLocation().x-1, cell.getLocation().y);
+        NurikabeCell right = nurikabeBoard.getCell(cell.getLocation().x+1, cell.getLocation().y);
+        NurikabeCell bottom = nurikabeBoard.getCell(cell.getLocation().x, cell.getLocation().y-1);
+        if (
+                (top != null && top.getType() != NurikabeType.BLACK) ||
+                (left != null && left.getType() != NurikabeType.BLACK) ||
+                (right != null && right.getType() != NurikabeType.BLACK) ||
+                (bottom != null && bottom.getType() != NurikabeType.BLACK)
+        ) {
+            return "Must be surrounded by black cells";
+        }
         return null;
     }
 }
