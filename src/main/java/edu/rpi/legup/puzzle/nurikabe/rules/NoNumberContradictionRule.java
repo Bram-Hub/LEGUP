@@ -42,6 +42,21 @@ public class NoNumberContradictionRule extends ContradictionRule {
                 return "Does not contain a contradiction at this index";
             }
         }
+        for (NurikabeCell c : whiteRegion) {
+            NurikabeCell top = nurikabeBoard.getCell(c.getLocation().x, c.getLocation().y+1);
+            NurikabeCell left = nurikabeBoard.getCell(c.getLocation().x-1, c.getLocation().y);
+            NurikabeCell right = nurikabeBoard.getCell(c.getLocation().x+1, c.getLocation().y);
+            NurikabeCell bottom = nurikabeBoard.getCell(c.getLocation().x, c.getLocation().y-1);
+            if (
+                    (top != null && top.getType() != NurikabeType.BLACK && top.getType() != NurikabeType.WHITE) ||
+                    (left != null && left.getType() != NurikabeType.BLACK && left.getType() != NurikabeType.WHITE) ||
+                    (right != null && right.getType() != NurikabeType.BLACK && right.getType() != NurikabeType.WHITE) ||
+                    (bottom != null && bottom.getType() != NurikabeType.BLACK && bottom.getType() != NurikabeType.WHITE)
+            ) {
+                return "Must be surrounded by black cells";
+            }
+        }
+
         return null;
     }
 }
