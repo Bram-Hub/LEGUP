@@ -43,20 +43,29 @@ public class NoNumberContradictionRule extends ContradictionRule {
             }
         }
         for (NurikabeCell c : whiteRegion) {
+            System.out.println(c.getLocation().x + "\t" + c.getLocation().y);
             NurikabeCell top = nurikabeBoard.getCell(c.getLocation().x, c.getLocation().y+1);
             NurikabeCell left = nurikabeBoard.getCell(c.getLocation().x-1, c.getLocation().y);
             NurikabeCell right = nurikabeBoard.getCell(c.getLocation().x+1, c.getLocation().y);
             NurikabeCell bottom = nurikabeBoard.getCell(c.getLocation().x, c.getLocation().y-1);
-            if (
-                    (top != null && top.getType() != NurikabeType.BLACK && top.getType() != NurikabeType.WHITE) ||
-                    (left != null && left.getType() != NurikabeType.BLACK && left.getType() != NurikabeType.WHITE) ||
-                    (right != null && right.getType() != NurikabeType.BLACK && right.getType() != NurikabeType.WHITE) ||
-                    (bottom != null && bottom.getType() != NurikabeType.BLACK && bottom.getType() != NurikabeType.WHITE)
-            ) {
-                return "Must be surrounded by black cells";
-            }
-        }
 
+            if (isEmptyCell(top) || isEmptyCell(left) || isEmptyCell(right) || isEmptyCell(bottom))
+                return "Must be surrounded by black cells";
+        }
         return null;
+    }
+
+    /**
+     * Checks whether a give NurikabeCell is empty.
+     *
+     * @param cell  NurikabeCell to check if empty
+     * @return      false if the NurikabeCell is not empty or null, true otherwise
+     */
+    private boolean isEmptyCell(NurikabeCell cell)
+    {
+        if (cell == null)
+            return false;
+        NurikabeType cellType = cell.getType();
+        return cellType != NurikabeType.BLACK && cellType != NurikabeType.WHITE;
     }
 }
