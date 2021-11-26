@@ -12,7 +12,7 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 
 public class UnreachableBasicRule extends BasicRule {
     public UnreachableBasicRule() {
-        super("Unreachables Are Black",
+        super("Unreachable white region",
                 "A cell must be black if it cannot be reached by any white region",
                 "edu/rpi/legup/images/nurikabe/rules/Unreachable.png");
     }
@@ -31,23 +31,26 @@ public class UnreachableBasicRule extends BasicRule {
         ContradictionRule contraRule = new CantReachWhiteContradictionRule();
 
         NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
-        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParents().get(0).getBoard();
-
         NurikabeCell cell = (NurikabeCell) destBoardState.getPuzzleElement(puzzleElement);
-
         if (cell.getType() != NurikabeType.BLACK) {
             return "Only black cells are allowed for this rule!";
         }
 
+        NurikabeBoard origBoardState = (NurikabeBoard) transition.getParents().get(0).getBoard();
         NurikabeBoard modified = origBoardState.copy();
-        NurikabeCell modCell = (NurikabeCell) modified.getPuzzleElement(puzzleElement);
-        modCell.setData(NurikabeType.WHITE.toValue());
 
-        if (contraRule.checkContradiction(modified) == null) {
+        for (int i = 0; i < modified.getWidth(); i++)
+            for (int j = 0; j < modified.getHeight(); j++)
+            {
+                NurikabeCell currentCell = modified.getCell(i, j);
+                if (currentCell.getType() == NurikabeType.WHITE)
+                    currentCell.setData(NurikabeType.UNKNOWN.toValue());
+            }
+        NurikabeCell modifiedCell = (NurikabeCell) modified.getPuzzleElement(puzzleElement);
+        modifiedCell.setData(NurikabeType.WHITE.toValue());
+        if (contraRule.checkContradiction(modified) == null)
             return null;
-        } else {
-            return "This is not the only way for black to escape!";
-        }
+        return "This is not the only way for black to escape!";
     }
 
     /**
