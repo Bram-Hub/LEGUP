@@ -58,13 +58,13 @@ public class CornerBlackBasicRule extends BasicRule {
                     if (board.getCell(cornerLocation.x, cellLocation.y).getType() == NurikabeType.UNKNOWN && board.getCell(cellLocation.x, cornerLocation.y).getType() == NurikabeType.UNKNOWN)
                     {
                         NurikabeBoard modified = board.copy();
-                        modified.getCell(cornerLocation.x, cellLocation.y).setData(-1 * NurikabeType.BLACK.ordinal());
-                        modified.getCell(cellLocation.x, cornerLocation.y).setData(-1 * NurikabeType.BLACK.ordinal());
+                        modified.getCell(cornerLocation.x, cellLocation.y).setData(NurikabeType.BLACK.toValue());
+                        modified.getCell(cellLocation.x, cornerLocation.y).setData(NurikabeType.BLACK.toValue());
                         boolean containsContradiction = tooFewContra.checkContradiction(modified) == null;
                         if (containsContradiction)
                         {
                             // 3. Check if the connected region is 1 under what is needed
-                            Set<Point> region = ConnectedRegions.getRegionAroundPoint(cellLocation, -1 * NurikabeType.BLACK.ordinal(), modified.getIntArray(), modified.getWidth(), modified.getHeight());
+                            Set<Point> region = ConnectedRegions.getRegionAroundPoint(cellLocation, NurikabeType.BLACK.toValue(), modified.getIntArray(), modified.getWidth(), modified.getHeight());
                             int regionNumber = 0;
                             for (Point p : region)
                             {
