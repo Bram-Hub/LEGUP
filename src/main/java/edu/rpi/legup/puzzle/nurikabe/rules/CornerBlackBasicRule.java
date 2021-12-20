@@ -57,6 +57,7 @@ public class CornerBlackBasicRule extends BasicRule {
                     // 2. Check if the intersecting adjacent spaces of the white space and the black corner are empty
                     if (board.getCell(cornerLocation.x, cellLocation.y).getType() == NurikabeType.UNKNOWN && board.getCell(cellLocation.x, cornerLocation.y).getType() == NurikabeType.UNKNOWN)
                     {
+                        // System.out.println("Went inside if statement");
                         NurikabeBoard modified = board.copy();
                         modified.getCell(cornerLocation.x, cellLocation.y).setData(NurikabeType.BLACK.toValue());
                         modified.getCell(cellLocation.x, cornerLocation.y).setData(NurikabeType.BLACK.toValue());
@@ -64,8 +65,9 @@ public class CornerBlackBasicRule extends BasicRule {
                         if (containsContradiction)
                         {
                             // 3. Check if the connected region is 1 under what is needed
-                            Set<Point> region = ConnectedRegions.getRegionAroundPoint(cellLocation, NurikabeType.BLACK.toValue(), modified.getIntArray(), modified.getWidth(), modified.getHeight());
+                            Set<Point> region = ConnectedRegions.getRegionAroundPoint(cornerLocation, NurikabeType.BLACK.toValue(), modified.getIntArray(), modified.getWidth(), modified.getHeight());
                             int regionNumber = 0;
+                            // System.out.println("Region set size: " + region.size());
                             for (Point p : region)
                             {
                                 NurikabeCell pCell = modified.getCell(p.x, p.y);
