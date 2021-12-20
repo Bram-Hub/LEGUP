@@ -43,7 +43,7 @@ public class NoNumberContradictionRule extends ContradictionRule {
             }
         }
         for (NurikabeCell c : whiteRegion) {
-            System.out.println(c.getLocation().x + "\t" + c.getLocation().y);
+            // System.out.println(c.getLocation().x + "\t" + c.getLocation().y);
             NurikabeCell top = nurikabeBoard.getCell(c.getLocation().x, c.getLocation().y+1);
             NurikabeCell left = nurikabeBoard.getCell(c.getLocation().x-1, c.getLocation().y);
             NurikabeCell right = nurikabeBoard.getCell(c.getLocation().x+1, c.getLocation().y);
