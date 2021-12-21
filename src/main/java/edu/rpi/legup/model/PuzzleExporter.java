@@ -112,6 +112,7 @@ public abstract class PuzzleExporter {
 
                     if (transition.isJustified()) {
                         transElement.setAttribute("rule", transition.getRule().getRuleName());
+                        transElement.setAttribute("rule_id", transition.getRule().getRuleID());
                     }
 
                     for (PuzzleElement data : transition.getBoard().getModifiedData()) {
