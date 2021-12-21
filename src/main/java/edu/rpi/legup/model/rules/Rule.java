@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 @RegisterRule
 public abstract class Rule {
+    protected String ruleID;
     protected String ruleName;
     protected String description;
     protected String imageName;
@@ -22,14 +23,16 @@ public abstract class Rule {
     /**
      * Rule Constructor creates a new rule
      *
+     * @param ruleID      ID of the rule
      * @param ruleName    name of the rule
      * @param description description of the rule
      * @param imageName   file name of the image
      */
-    public Rule(String ruleName, String description, String imageName) {
-        this.imageName = imageName;
+    public Rule(String ruleID, String ruleName, String description, String imageName) {
+        this.ruleID = ruleID;
         this.ruleName = ruleName;
         this.description = description;
+        this.imageName = imageName;
         loadImage();
     }
 
