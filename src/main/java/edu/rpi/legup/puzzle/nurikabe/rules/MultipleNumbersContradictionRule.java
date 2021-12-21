@@ -14,7 +14,8 @@ import java.util.Set;
 public class MultipleNumbersContradictionRule extends ContradictionRule {
 
     public MultipleNumbersContradictionRule() {
-        super("Multiple Numbers",
+        super("NURI-CONT-0004",
+                "Multiple Numbers",
                 "All white regions cannot have more than one number.",
                 "edu/rpi/legup/images/nurikabe/contradictions/MultipleNumbers.png");
     }

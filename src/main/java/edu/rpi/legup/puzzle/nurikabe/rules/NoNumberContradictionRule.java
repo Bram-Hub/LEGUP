@@ -14,7 +14,8 @@ import java.util.Set;
 public class NoNumberContradictionRule extends ContradictionRule {
 
     public NoNumberContradictionRule() {
-        super("No Number",
+        super("NURI-CONT-0005",
+                "No Number",
                 "All enclosed white regions must have a number.",
                 "edu/rpi/legup/images/nurikabe/contradictions/NoNumber.png");
     }

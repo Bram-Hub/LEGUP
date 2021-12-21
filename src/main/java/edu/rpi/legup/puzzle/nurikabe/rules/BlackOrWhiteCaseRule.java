@@ -15,7 +15,8 @@ import java.util.List;
 public class BlackOrWhiteCaseRule extends CaseRule {
 
     public BlackOrWhiteCaseRule() {
-        super("Black or White",
+        super("NURI-CASE-0001",
+                "Black or White",
                 "Each blank cell is either black or white.",
                 "edu/rpi/legup/images/nurikabe/cases/BlackOrWhite.png");
     }

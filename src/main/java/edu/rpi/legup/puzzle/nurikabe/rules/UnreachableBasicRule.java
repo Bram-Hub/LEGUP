@@ -12,7 +12,8 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 
 public class UnreachableBasicRule extends BasicRule {
     public UnreachableBasicRule() {
-        super("Unreachable white region",
+        super("NURI-BASC-0008",
+                "Unreachable white region",
                 "A cell must be black if it cannot be reached by any white region",
                 "edu/rpi/legup/images/nurikabe/rules/Unreachable.png");
     }

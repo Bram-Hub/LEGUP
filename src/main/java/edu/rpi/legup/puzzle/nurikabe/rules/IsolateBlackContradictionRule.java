@@ -14,7 +14,8 @@ import java.util.Set;
 public class IsolateBlackContradictionRule extends ContradictionRule {
 
     public IsolateBlackContradictionRule() {
-        super("Isolated Black",
+        super("NURI-CONT-0003",
+                "Isolated Black",
                 "There must still be a possibility to connect every Black cell",
                 "edu/rpi/legup/images/nurikabe/contradictions/BlackArea.png");
     }
