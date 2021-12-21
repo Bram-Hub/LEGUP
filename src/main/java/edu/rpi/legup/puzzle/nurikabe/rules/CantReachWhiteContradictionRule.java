@@ -14,7 +14,8 @@ import java.util.Set;
 public class CantReachWhiteContradictionRule extends ContradictionRule {
 
     public CantReachWhiteContradictionRule() {
-        super("Cant Reach white cell",
+        super("NURI-CONT-0002",
+                "Cant Reach white cell",
                 "A white cell must be able to reach a white region",
                 "edu/rpi/legup/images/nurikabe/contradictions/CantReach.png");
     }

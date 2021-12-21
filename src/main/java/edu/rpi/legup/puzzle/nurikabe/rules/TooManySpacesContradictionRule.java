@@ -15,7 +15,8 @@ import java.util.Set;
 public class TooManySpacesContradictionRule extends ContradictionRule {
 
     public TooManySpacesContradictionRule() {
-        super("Too Many Spaces",
+        super("NURI-CONT-0007",
+                "Too Many Spaces",
                 "A region cannot contain more spaces than its number.",
                 "edu/rpi/legup/images/nurikabe/contradictions/TooManySpaces.png");
     }
