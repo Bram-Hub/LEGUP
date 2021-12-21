@@ -109,6 +109,15 @@ public abstract class Rule {
     }
 
     /**
+     * Gets the name of the rule
+     *
+     * @return name of the rule
+     */
+    public String getRuleID() {
+        return ruleID;
+    }
+
+    /**
      * Sets the rule name
      *
      * @param ruleName new name of the rule

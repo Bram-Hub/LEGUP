@@ -201,7 +201,7 @@ public abstract class PuzzleImporter {
 
                 Rule rule;
                 if (!ruleName.isEmpty()) {
-                    rule = puzzle.getRuleByName(ruleName);
+                    rule = puzzle.getRuleByID(ruleName);
                     if (rule == null) {
                         throw new InvalidFileFormatException("Proof Tree construction error: could not find rule by name");
                     }

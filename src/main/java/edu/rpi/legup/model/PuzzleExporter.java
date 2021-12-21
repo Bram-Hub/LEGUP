@@ -44,7 +44,7 @@ public abstract class PuzzleExporter {
             Document newDocument = docBuilder.newDocument();
 
             org.w3c.dom.Element legupElement = newDocument.createElement("Legup");
-            legupElement.setAttribute("version", "2.0.0");
+            legupElement.setAttribute("version", "3.0.0");
             newDocument.appendChild(legupElement);
 
             org.w3c.dom.Element puzzleElement = newDocument.createElement("puzzle");
