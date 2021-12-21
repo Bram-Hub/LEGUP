@@ -37,9 +37,9 @@ public final class ConnectedRegions {
     }
 
     public static Set<Point> getRegionAroundPoint(Point p, int boundaryCell, int[][] cells, int width, int height) {
-        Set<Integer> boundryCells = new HashSet<>();
-        boundryCells.add(boundaryCell);
-        return getRegionAroundPoint(p, boundryCells, cells, width, height);
+        Set<Integer> boundaryCells = new HashSet<>();
+        boundaryCells.add(boundaryCell);
+        return getRegionAroundPoint(p, boundaryCells, cells, width, height);
     }
 
     public static Set<Point> getRegionAroundPoint(Point p, Set<Integer> boundaryCells, int[][] cells, int width, int height) {

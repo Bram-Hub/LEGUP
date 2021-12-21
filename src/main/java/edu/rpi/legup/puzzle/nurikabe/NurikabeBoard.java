@@ -34,7 +34,7 @@ public class NurikabeBoard extends GridBoard {
 
     @Override
     public NurikabeBoard copy() {
-        System.out.println("NarukabeBoard copy()");
+        // System.out.println("NurikabeBoard copy()");
         NurikabeBoard copy = new NurikabeBoard(dimension.width, dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {
