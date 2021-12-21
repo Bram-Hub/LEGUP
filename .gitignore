@@ -2,4 +2,5 @@
 .idea/*
 out/*
 build/*
+legup-update/build/*
 .DS_Store
