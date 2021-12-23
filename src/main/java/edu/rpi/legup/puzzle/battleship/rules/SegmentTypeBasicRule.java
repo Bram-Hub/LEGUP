@@ -9,7 +9,8 @@ import edu.rpi.legup.model.tree.TreeTransition;
 public class SegmentTypeBasicRule extends BasicRule {
 
     public SegmentTypeBasicRule() {
-        super("Segment Type",
+        super("BTSP-BASC-0004",
+                "Segment Type",
                 "",
                 "edu/rpi/legup/images/battleship/rules/SegmentChoice.png");
     }
