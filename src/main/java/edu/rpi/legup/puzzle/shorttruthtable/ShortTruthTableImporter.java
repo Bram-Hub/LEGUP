@@ -169,7 +169,7 @@ class ShortTruthTableImporter extends PuzzleImporter{
                 //for a cell to exist at (x, y), it must be a valid row and within the statment length
                 if(y%2==0 && x < statements.get(statementIndex).getLength()) {
                     cell = allCells.get(statementIndex).get(x);
-                    System.out.println("Importer: check cell statement ref: "+cell.getStatementRefference());
+                    System.out.println("Importer: check cell statement ref: "+cell.getStatementReference());
                 }else{
                     //if it is not a valid cell space, add a NOT_IN_PLAY cell
                     cell = new ShortTruthTableCell(' ', ShortTruthTableCellType.NOT_IN_PLAY, new Point(x, y));

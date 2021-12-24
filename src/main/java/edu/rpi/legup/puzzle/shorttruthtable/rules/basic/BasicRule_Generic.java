@@ -8,12 +8,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCell;
-import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
-import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableStatement;
 import edu.rpi.legup.model.rules.ContradictionRule;
-
-import java.awt.*;
-import java.util.List;
 
 public abstract class BasicRule_Generic extends BasicRule {
 
@@ -42,7 +37,7 @@ public abstract class BasicRule_Generic extends BasicRule {
         //check that it is assigned to the right value
         ShortTruthTableBoard originalBoard = (ShortTruthTableBoard) transition.getParents().get(0).getBoard();
 
-        //Use this board to check what would happen if the cell what the oppisite value
+        //Use this board to check what would happen if the cell what the opposite value
         ShortTruthTableBoard testBoard = originalBoard.copy();
         ((ShortTruthTableCell) testBoard.getPuzzleElement(element)).setType(cell.getType().getNegation());
 
@@ -51,13 +46,22 @@ public abstract class BasicRule_Generic extends BasicRule {
 
         //if elimination, check the parent
         if(this.eliminationRule){
-            checkElement = cell.getStatementRefference().getParentStatement().getCell();
+            System.out.println("Is an elimination rule");
+            checkElement = cell.getStatementReference().getParentStatement().getCell();
         }
 
         //see if there is a contradiction
+        if (this.eliminationRule)
+            System.out.println("Parent check contradiction START");
         String checkContradiction = correspondingContradictionRule.checkContradictionAt(testBoard, checkElement);
+        if (this.eliminationRule)
+        {
+            System.out.println("Parent check contradiction END");
+            System.out.println("Parent contradiction: " + checkContradiction);
+        }
 
-        //if there is a contradition when the modified element is negated, then the basic riule must be true
+
+        //if there is a contradiction when the modified element is negated, then the basic rule must be true
         if(checkContradiction==null)
             return null;
 

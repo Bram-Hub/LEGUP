@@ -9,11 +9,8 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCell;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableStatement;
-import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableOperation;
 
-import java.util.Set;
 import java.util.Arrays;
-import java.util.Iterator;
 
 
 public abstract class ContradictionRule_GenericStatement extends ContradictionRule{
@@ -38,12 +35,12 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
     @Override
     public String checkContradictionAt(Board puzzleBoard, PuzzleElement puzzleElement) {
 
-        //cast the board toa shortTruthTableBoard
+        //cast the board to a shortTruthTableBoard
         ShortTruthTableBoard board = (ShortTruthTableBoard) puzzleBoard;
 
         //get the cell that contradicts another cell in the board
         ShortTruthTableCell cell = board.getCellFromElement(puzzleElement);
-        ShortTruthTableStatement statement = cell.getStatementRefference();
+        ShortTruthTableStatement statement = cell.getStatementReference();
 
         //must be the correct statement
         if(cell.getSymbol() != this.operationSymbol)
@@ -58,10 +55,11 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
         //get the pattern for this sub-statement
         ShortTruthTableCellType[] testPattern = statement.getCellTypePattern();
 
-        //if the board pattern matches any contradiction patter, it is a valid contradiction
+        //if the board pattern matches any contradiction pattern, it is a valid contradiction
+        System.out.println("Name: " + this.ruleName);
         System.out.println("Testing pattern: "+Arrays.toString(testPattern));
         for(ShortTruthTableCellType[] pattern : contradictionPatterns){
-            System.out.println("compareing to: "+Arrays.toString(pattern));
+            System.out.println("Comparing to: "+Arrays.toString(pattern));
             boolean matches = true;
             for(int i = 0; i<3; i++){
                 //null means that part does not affect the statement
@@ -74,12 +72,12 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
             }
             //if testPattern matches one of the valid contradiction patterns, the contradiction is correct
             if(matches){
-                System.out.println("This is a valid contradiction: matches pat: "+pattern);
+                System.out.println("This is a valid contradiction: matches pat: "+Arrays.toString(pattern));
                 return null;
             }
         }
 
-        System.out.println("not patterns match. There is not a contradiction");
+        System.out.println("No patterns match. There is not a contradiction");
         return "This cell does not match any contradiction pattern for this rule";
 
     }
