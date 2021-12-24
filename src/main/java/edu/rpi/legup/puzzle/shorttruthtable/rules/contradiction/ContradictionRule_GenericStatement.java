@@ -43,6 +43,7 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
         ShortTruthTableStatement statement = cell.getStatementReference();
 
         //must be the correct statement
+        System.out.println("Symbol: " + cell.getSymbol());
         if(cell.getSymbol() != this.operationSymbol)
             return "This cell does not contain the correct operation";
 

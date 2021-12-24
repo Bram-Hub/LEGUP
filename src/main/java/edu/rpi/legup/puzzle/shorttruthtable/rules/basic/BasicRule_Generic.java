@@ -53,15 +53,19 @@ public abstract class BasicRule_Generic extends BasicRule {
         //see if there is a contradiction
         if (this.eliminationRule)
             System.out.println("Parent check contradiction START");
+        System.out.println("checkElement: " + checkElement);
         String checkContradiction = correspondingContradictionRule.checkContradictionAt(testBoard, checkElement);
+        System.out.println("Contradiction message: " + checkContradiction);
         if (this.eliminationRule)
         {
             System.out.println("Parent check contradiction END");
             System.out.println("Parent contradiction: " + checkContradiction);
         }
 
-
+        // MISTAKE IS HERE:
         //if there is a contradiction when the modified element is negated, then the basic rule must be true
+        // ^ that is false. Given F^T, where T was the modified element, if T is negated, it becomes F^F. F^F is F, but
+        // that does not mean that F^T is true.
         if(checkContradiction==null)
             return null;
 
