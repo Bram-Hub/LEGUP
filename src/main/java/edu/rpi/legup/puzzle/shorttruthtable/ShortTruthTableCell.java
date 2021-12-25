@@ -34,7 +34,7 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
 
     //Getters
 
-    public ShortTruthTableStatement getStatementRefference() {
+    public ShortTruthTableStatement getStatementReference() {
         return statement;
     }
 
@@ -67,7 +67,7 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
 
     //Setters
 
-    void setStatementRefference(ShortTruthTableStatement statement){
+    void setStatementReference(ShortTruthTableStatement statement){
         this.statement = statement;
     }
 

@@ -13,6 +13,7 @@ public class ContradictionRuleAnd extends ContradictionRule_GenericStatement{
                 new ShortTruthTableCellType[][] {
                     {n, T, F},
                     {F, T, n},
+                    // {F, T, F},
                     {T, F, T},
                 }
         );

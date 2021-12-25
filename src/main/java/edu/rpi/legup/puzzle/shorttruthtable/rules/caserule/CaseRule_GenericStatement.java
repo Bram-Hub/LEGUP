@@ -3,8 +3,6 @@ package edu.rpi.legup.puzzle.shorttruthtable.rules.caserule;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.model.rules.CaseRule;
-import edu.rpi.legup.model.tree.TreeTransition;
 
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCell;
@@ -14,7 +12,6 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableOperation;
 
 
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
 
@@ -63,10 +60,10 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
             //the statement must be assigned with unassigned sub-statements
             if(!cell.getType().isTrueOrFalse()) continue;
             System.out.println("  Operation is known");
-            if(cell.getStatementRefference().getRightStatement().getCell().getType().isTrueOrFalse()) continue;
+            if(cell.getStatementReference().getRightStatement().getCell().getType().isTrueOrFalse()) continue;
             System.out.println("  right side is unknown");
             if(this.operation != ShortTruthTableOperation.NOT &&
-                    cell.getStatementRefference().getRightStatement().getCell().getType().isTrueOrFalse()) continue;
+                    cell.getStatementReference().getRightStatement().getCell().getType().isTrueOrFalse()) continue;
             System.out.println("  left side is unknown");
 
             System.out.println("    Valid choice");
@@ -113,7 +110,7 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
 
             //get the statement of the square that was selected
             ShortTruthTableCell cell = b.getCellFromElement(puzzleElement);
-            ShortTruthTableStatement statement = cell.getStatementRefference();
+            ShortTruthTableStatement statement = cell.getStatementReference();
 
             //modify its children
             //avoid error if it is a NOT statement
