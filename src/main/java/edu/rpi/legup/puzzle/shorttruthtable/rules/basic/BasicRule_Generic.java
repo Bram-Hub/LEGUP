@@ -62,9 +62,19 @@ public abstract class BasicRule_Generic extends BasicRule {
 
 
         //if there is a contradiction when the modified element is negated, then the basic rule must be true
-        if(checkContradiction==null)
+        if(checkContradiction==null && !eliminationRule)
+        {
             return null;
-
+        }
+        // if it's an elimination rule, check if the original case was also invalid
+        else if (checkContradiction == null && eliminationRule)
+        {
+            String checkOriginalContradiction = correspondingContradictionRule.checkContradictionAt(originalBoard, checkElement);
+            if (checkOriginalContradiction == null)
+                return "Invalid use of " + this.ruleName;
+            else
+                return null;
+        }
         return "Negated Contradiction Failed: "+checkContradiction;
 
 //        if (this.eliminationRule)

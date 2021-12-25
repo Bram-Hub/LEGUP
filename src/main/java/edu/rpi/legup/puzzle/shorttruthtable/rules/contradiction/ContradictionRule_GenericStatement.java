@@ -33,22 +33,21 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
 
 
     @Override
-    public String checkContradictionAt(Board puzzleBoard, PuzzleElement puzzleElement) {
+    public String checkContradictionAt(Board puzzleBoard, PuzzleElement operatorPuzzleElement) {
 
         //cast the board to a shortTruthTableBoard
         ShortTruthTableBoard board = (ShortTruthTableBoard) puzzleBoard;
 
         //get the cell that contradicts another cell in the board
-        ShortTruthTableCell cell = board.getCellFromElement(puzzleElement);
+        ShortTruthTableCell cell = board.getCellFromElement(operatorPuzzleElement);
         ShortTruthTableStatement statement = cell.getStatementReference();
-        ShortTruthTableStatement parentStatement = statement.getParentStatement();
+        // ShortTruthTableStatement parentStatement = statement.getParentStatement();
         System.out.println("Statement: " + statement);
 
 
         //must be the correct statement
         System.out.println("Symbol: " + cell.getSymbol());
 
-        // ISSUE: IT SEEMS TO BE THAT puzzleElement IS EXPECTED TO BE THE OPERATOR
         if(cell.getSymbol() != this.operationSymbol)
             return "This cell does not contain the correct operation";
 
