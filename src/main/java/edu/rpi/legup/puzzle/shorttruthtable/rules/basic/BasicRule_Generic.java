@@ -53,24 +53,45 @@ public abstract class BasicRule_Generic extends BasicRule {
         //see if there is a contradiction
         if (this.eliminationRule)
             System.out.println("Parent check contradiction START");
-        System.out.println("checkElement: " + checkElement);
         String checkContradiction = correspondingContradictionRule.checkContradictionAt(testBoard, checkElement);
-        System.out.println("Contradiction message: " + checkContradiction);
         if (this.eliminationRule)
         {
             System.out.println("Parent check contradiction END");
             System.out.println("Parent contradiction: " + checkContradiction);
         }
 
-        // MISTAKE IS HERE:
+
         //if there is a contradiction when the modified element is negated, then the basic rule must be true
-        // ^ that is false. Given F^T, where T was the modified element, if T is negated, it becomes F^F. F^F is F, but
-        // that does not mean that F^T is true.
         if(checkContradiction==null)
             return null;
 
         return "Negated Contradiction Failed: "+checkContradiction;
 
+//        if (this.eliminationRule)
+//        {
+//            System.out.println("Elimination rule check entered");
+//            // If the rule is an elimination rule, we can check if the statement contains a contradiction. If it does
+//            // contain a contradiction, then we know that the rule must be false
+//
+//            String checkContradiction = correspondingContradictionRule.checkContradictionAt(originalBoard, checkElement);
+//            System.out.println("checkContradiction: " + checkContradiction);
+//            if (checkContradiction == null) // original board contains a contradiction: this is bad!
+//                return "This is not a valid use of " + this.ruleName + "!";
+//            return null;
+//        }
+//        else
+//        {
+//            // If the rule is not an elimination rule, we can check to see if negating the modified cell will create
+//            // a contradiction
+//
+//            // Use the original board to check what would happen if the cell what the opposite value
+//            ShortTruthTableBoard testBoard = originalBoard.copy();
+//            ((ShortTruthTableCell) testBoard.getPuzzleElement(element)).setType(cell.getType().getNegation());
+//            String checkContradiction = correspondingContradictionRule.checkContradictionAt(testBoard, checkElement);
+//            if (checkContradiction == null) // modified board contains a contradiction: this is good!
+//                return null;
+//            return "Negated Contradiction Failed: "+checkContradiction;
+//        }
     }
 
     /**
