@@ -19,10 +19,13 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
 
     private final ShortTruthTableCellType[][] contradictionPatterns;
 
-
     final static ShortTruthTableCellType T = ShortTruthTableCellType.TRUE;
     final static ShortTruthTableCellType F = ShortTruthTableCellType.FALSE;
     final static ShortTruthTableCellType n = null;
+
+    private final String NOT_RIGHT_OPERATOR_ERROR_MESSAGE = "This cell does not contain the correct operation";
+    private final String NOT_TRUE_FALSE_ERROR_MESSAGE = "Can only check for a contradiction on a cell that is assigned a value of True or False";
+    private final String NO_CONTRADICTION_MESSAGE = "This cell does not match any contradiction patterns for this rule";
 
     public ContradictionRule_GenericStatement(String ruleName, String description, String imageName,
                                               char operationSymbol, ShortTruthTableCellType[][] contradictionPatterns){
@@ -30,7 +33,6 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
         this.operationSymbol = operationSymbol;
         this.contradictionPatterns = contradictionPatterns;
     }
-
 
     @Override
     public String checkContradictionAt(Board puzzleBoard, PuzzleElement puzzleElement) {
@@ -50,13 +52,13 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
 
         // ISSUE: IT SEEMS TO BE THAT puzzleElement IS EXPECTED TO BE THE OPERATOR
         if(cell.getSymbol() != this.operationSymbol)
-            return "This cell does not contain the correct operation";
+            return this.NOT_RIGHT_OPERATOR_ERROR_MESSAGE;
 
         //check that the initial statement is assigned
         ShortTruthTableCellType cellType = cell.getType();
         System.out.println("contra rule generic cell: "+cell);
         if(!cellType.isTrueOrFalse())
-            return "Can only check for a contradiction on a cell that is assigned a value of True or False";
+            return this.NOT_TRUE_FALSE_ERROR_MESSAGE;
 
         //get the pattern for this sub-statement
         ShortTruthTableCellType[] testPattern = statement.getCellTypePattern();
@@ -84,8 +86,21 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
         }
 
         System.out.println("No patterns match. There is not a contradiction");
-        return "This cell does not match any contradiction pattern for this rule";
-
+        return this.NO_CONTRADICTION_MESSAGE;
     }
 
+    public String getNotRightOperatorErrorMessage()
+    {
+        return this.NOT_RIGHT_OPERATOR_ERROR_MESSAGE;
+    }
+
+    public String getNotTrueFalseErrorMessage()
+    {
+        return this.NOT_TRUE_FALSE_ERROR_MESSAGE;
+    }
+
+    public String getNoContradictionMessage()
+    {
+        return this.NO_CONTRADICTION_MESSAGE;
+    }
 }
