@@ -13,6 +13,9 @@ import java.util.Set;
 
 public class CantReachWhiteContradictionRule extends ContradictionRule {
 
+    private final String NO_CONTRADICTION_MESSAGE = "Cell at this index can be reached";
+    private final String INVALID_USE_MESSAGE = "Does not contain a contradiction at this index";
+
     public CantReachWhiteContradictionRule() {
         super("Cant Reach white cell",
                 "A white cell must be able to reach a white region",
@@ -33,7 +36,7 @@ public class CantReachWhiteContradictionRule extends ContradictionRule {
 
         NurikabeCell cell = (NurikabeCell) nurikabeBoard.getPuzzleElement(puzzleElement);
         if (cell.getType() != NurikabeType.WHITE) {
-            return "Does not contain a contradiction at this index";
+            return super.getInvalidUseOfContradictionMessage() + ": " + this.INVALID_USE_MESSAGE;
         }
 
         ArrayList<Set<NurikabeCell>> regions = NurikabeUtilities.getFloodFillWhite(nurikabeBoard);
@@ -41,7 +44,7 @@ public class CantReachWhiteContradictionRule extends ContradictionRule {
         for (Set<NurikabeCell> region : regions) {
             for (NurikabeCell c : region) {
                 if (c == cell) {
-                    return "Cell at this index can be reached";
+                    return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
                 }
             }
         }

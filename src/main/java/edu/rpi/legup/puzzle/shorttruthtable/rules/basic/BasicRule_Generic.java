@@ -14,11 +14,13 @@ public abstract class BasicRule_Generic extends BasicRule {
 
     final ContradictionRule CORRESPONDING_CONTRADICTION_RULE;
     final boolean ELIMINATION_RULE;
+    final String INVALID_USE_MESSAGE;
 
     public BasicRule_Generic(String ruleName, String description, String imageName, ContradictionRule contraRule, boolean eliminationRule){
         super(ruleName, description, "edu/rpi/legup/images/shorttruthtable/ruleimages/basic/"+imageName+".png");
         this.CORRESPONDING_CONTRADICTION_RULE = contraRule;
         this.ELIMINATION_RULE = eliminationRule;
+        this.INVALID_USE_MESSAGE = "Invalid use of " + this.ruleName;
     }
 
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement element)
@@ -47,13 +49,13 @@ public abstract class BasicRule_Generic extends BasicRule {
             System.out.println("ELIMINATION RULE CONTRADICTION MESSAGE: " + contradictionMessage);
             if (contradictionMessage != null)
             {
-                if (contradictionMessage.equals("This cell does not match any contradiction patterns for this rule")) // <-- temporary, don't want to hardcode that string
+                if (contradictionMessage.equals(CORRESPONDING_CONTRADICTION_RULE.getNoContradictionMessage()))
                     return null;
                 else
                     return contradictionMessage;
             }
             else
-                return "Invalid use of " + this.ruleName;
+                return this.INVALID_USE_MESSAGE;
         }
         else
         {

@@ -14,6 +14,9 @@ import java.util.Set;
 
 public class TooManySpacesContradictionRule extends ContradictionRule {
 
+    private final String NO_CONTRADICTION_MESSAGE = "Does not contain a contradiction at this index";
+    private final String INVALID_USE_MESSAGE = "Contradiction must be a white or a numbered cell";
+
     public TooManySpacesContradictionRule() {
         super("Too Many Spaces",
                 "A region cannot contain more spaces than its number.",
@@ -34,7 +37,7 @@ public class TooManySpacesContradictionRule extends ContradictionRule {
 
         NurikabeCell cell = (NurikabeCell) nurikabeBoard.getPuzzleElement(puzzleElement);
         if (cell.getType() != NurikabeType.WHITE && cell.getType() != NurikabeType.NUMBER) {
-            return "Contradiction must be a white or a numbered cell";
+            return super.getInvalidUseOfContradictionMessage() + ": " + this.INVALID_USE_MESSAGE;
         }
 
         DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nurikabeBoard);
@@ -51,6 +54,6 @@ public class TooManySpacesContradictionRule extends ContradictionRule {
                 return null;
             }
         }
-        return "Does not contain a contradiction at this index";
+        return super.getNoContradictionMessage() + ":" + this.NO_CONTRADICTION_MESSAGE;
     }
 }

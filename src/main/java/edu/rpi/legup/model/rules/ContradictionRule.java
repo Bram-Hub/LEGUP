@@ -7,6 +7,10 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import static edu.rpi.legup.model.rules.RuleType.CONTRADICTION;
 
 public abstract class ContradictionRule extends Rule {
+
+    private final String NO_CONTRADICTION_MESSAGE = "No instance of " + this.ruleName;
+    private final String INVALID_USE_MESSAGE = "Invalid use of " + this.ruleName;
+
     /**
      * ContradictionRule Constructor creates a new contradiction rule
      *
@@ -87,6 +91,16 @@ public abstract class ContradictionRule extends Rule {
         return "Does not contain a contradiction";
     }
 
+    public String getNoContradictionMessage()
+    {
+        return this.NO_CONTRADICTION_MESSAGE;
+    }
+
+    public String getInvalidUseOfContradictionMessage()
+    {
+        return this.INVALID_USE_MESSAGE;
+    }
+
     /**
      * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
      *
@@ -96,4 +110,5 @@ public abstract class ContradictionRule extends Rule {
      * otherwise error message
      */
     public abstract String checkContradictionAt(Board board, PuzzleElement puzzleElement);
+
 }

@@ -89,16 +89,6 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
         return this.NO_CONTRADICTION_MESSAGE;
     }
 
-    public String getNotRightOperatorErrorMessage()
-    {
-        return this.NOT_RIGHT_OPERATOR_ERROR_MESSAGE;
-    }
-
-    public String getNotTrueFalseErrorMessage()
-    {
-        return this.NOT_TRUE_FALSE_ERROR_MESSAGE;
-    }
-
     public String getNoContradictionMessage()
     {
         return this.NO_CONTRADICTION_MESSAGE;
