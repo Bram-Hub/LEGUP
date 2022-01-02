@@ -29,7 +29,6 @@ public class BlackOrWhiteCaseRule extends CaseRule {
      */
     @Override
     public String checkRuleRaw(TreeTransition transition) {
-        System.out.println("Check Rule Raw Case Rule");
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
         if (childTransitions.size() != 2) {
             return "This case rule must have 2 children.";
