@@ -36,7 +36,7 @@ public class CantReachWhiteContradictionRule extends ContradictionRule {
 
         NurikabeCell cell = (NurikabeCell) nurikabeBoard.getPuzzleElement(puzzleElement);
         if (cell.getType() != NurikabeType.WHITE) {
-            return super.getInvalidUseOfContradictionMessage() + ": " + this.INVALID_USE_MESSAGE;
+            return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
         }
 
         ArrayList<Set<NurikabeCell>> regions = NurikabeUtilities.getFloodFillWhite(nurikabeBoard);

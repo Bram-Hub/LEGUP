@@ -36,7 +36,7 @@ public class MultipleNumbersContradictionRule extends ContradictionRule {
 
         NurikabeCell cell = (NurikabeCell) nurikabeBoard.getPuzzleElement(puzzleElement);
         if (cell.getType() != NurikabeType.NUMBER) {
-            return super.getInvalidUseOfContradictionMessage() + ": " + INVALID_USE_MESSAGE;
+            return super.getInvalidUseOfRuleMessage() + ": " + INVALID_USE_MESSAGE;
         }
         DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nurikabeBoard);
         Set<NurikabeCell> numberedRegion = regions.getSet(cell);

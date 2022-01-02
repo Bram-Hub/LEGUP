@@ -37,7 +37,7 @@ public class NoNumberContradictionRule extends ContradictionRule {
 
         NurikabeCell cell = (NurikabeCell) nurikabeBoard.getPuzzleElement(puzzleElement);
         if (cell.getType() != NurikabeType.WHITE) {
-            return super.getInvalidUseOfContradictionMessage() + ": " + this.INVALID_USE_MESSAGE;
+            return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
         }
         DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nurikabeBoard);
         Set<NurikabeCell> whiteRegion = regions.getSet(cell);
@@ -54,7 +54,7 @@ public class NoNumberContradictionRule extends ContradictionRule {
             NurikabeCell bottom = nurikabeBoard.getCell(c.getLocation().x, c.getLocation().y-1);
 
             if (isEmptyCell(top) || isEmptyCell(left) || isEmptyCell(right) || isEmptyCell(bottom))
-                return super.getInvalidUseOfContradictionMessage() + ": " + this.NOT_SURROUNDED_BY_BLACK_MESSAGE;
+                return super.getInvalidUseOfRuleMessage() + ": " + this.NOT_SURROUNDED_BY_BLACK_MESSAGE;
         }
         return null;
     }

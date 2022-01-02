@@ -37,7 +37,7 @@ public class TooManySpacesContradictionRule extends ContradictionRule {
 
         NurikabeCell cell = (NurikabeCell) nurikabeBoard.getPuzzleElement(puzzleElement);
         if (cell.getType() != NurikabeType.WHITE && cell.getType() != NurikabeType.NUMBER) {
-            return super.getInvalidUseOfContradictionMessage() + ": " + this.INVALID_USE_MESSAGE;
+            return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
         }
 
         DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nurikabeBoard);

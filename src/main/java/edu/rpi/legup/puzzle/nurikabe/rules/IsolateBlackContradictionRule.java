@@ -35,7 +35,7 @@ public class IsolateBlackContradictionRule extends ContradictionRule {
         NurikabeBoard nurikabeBoard = (NurikabeBoard) board;
         NurikabeCell cell = (NurikabeCell) nurikabeBoard.getPuzzleElement(puzzleElement);
         if (cell.getType() != NurikabeType.BLACK) {
-            return super.getInvalidUseOfContradictionMessage() + ": " + this.INVALID_USE_MESSAGE;
+            return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
         }
 
         DisjointSets<NurikabeCell> blackRegions = NurikabeUtilities.getPossibleBlackRegions(nurikabeBoard);

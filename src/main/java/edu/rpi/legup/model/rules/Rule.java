@@ -19,6 +19,8 @@ public abstract class Rule {
     protected ImageIcon image;
     protected RuleType ruleType;
 
+    private final String INVALID_USE_MESSAGE;
+
     /**
      * Rule Constructor creates a new rule
      *
@@ -30,6 +32,7 @@ public abstract class Rule {
         this.imageName = imageName;
         this.ruleName = ruleName;
         this.description = description;
+        this.INVALID_USE_MESSAGE = "Invalid use of " + this.ruleName;
         loadImage();
     }
 
@@ -139,5 +142,10 @@ public abstract class Rule {
      */
     public RuleType getRuleType() {
         return ruleType;
+    }
+
+    public String getInvalidUseOfRuleMessage()
+    {
+        return this.INVALID_USE_MESSAGE;
     }
 }

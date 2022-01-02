@@ -35,7 +35,7 @@ public class BlackSquareContradictionRule extends ContradictionRule {
 
         NurikabeCell cell = (NurikabeCell) nurikabeBoard.getPuzzleElement(puzzleElement);
         if (cell.getType() != NurikabeType.BLACK) {
-            return super.getInvalidUseOfContradictionMessage() + ": " + this.INVALID_USE_MESSAGE;
+            return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
         }
 
         for (int x = cell.getLocation().x - 1; x >= 0 && x < cell.getLocation().x + 1 && x < width - 1; x++) {
