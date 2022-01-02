@@ -103,7 +103,8 @@ public abstract class CaseRule extends Rule {
      */
     @Override
     public String checkRuleAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        return null;
+//        System.out.println("Nurikabe case rule check reached here");
+        return "Invalid use of a case rule";
     }
 
     /**
