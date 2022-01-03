@@ -32,7 +32,7 @@ public class LastCellForNumberBasicRule extends BasicRule {
 
         SudokuCell cell = (SudokuCell) finalBoard.getPuzzleElement(puzzleElement);
         if (cell.getData() == 0) {
-            return "cell is not forced at this index";
+            return super.getInvalidUseOfRuleMessage() + ": Cell is not forced at this index";
         }
 
         int size = initialBoard.getSize();
@@ -77,7 +77,7 @@ public class LastCellForNumberBasicRule extends BasicRule {
                 return null;
             }
         }
-        return "cell is not forced at this index";
+        return super.getInvalidUseOfRuleMessage() + ": Cell is not forced at this index";
     }
 
     /**
