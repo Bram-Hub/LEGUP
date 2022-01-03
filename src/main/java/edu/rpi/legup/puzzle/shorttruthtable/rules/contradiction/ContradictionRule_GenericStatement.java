@@ -32,16 +32,15 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
     }
 
     @Override
-    public String checkContradictionAt(Board puzzleBoard, PuzzleElement puzzleElement) {
+    public String checkContradictionAt(Board puzzleBoard, PuzzleElement operatorPuzzleElement) {
 
         //cast the board to a shortTruthTableBoard
         ShortTruthTableBoard board = (ShortTruthTableBoard) puzzleBoard;
 
         //get the cell that contradicts another cell in the board
-        ShortTruthTableCell cell = board.getCellFromElement(puzzleElement);
+        ShortTruthTableCell cell = board.getCellFromElement(operatorPuzzleElement);
         ShortTruthTableStatement statement = cell.getStatementReference();
 
-        //must be the correct statement
         if(cell.getSymbol() != this.operationSymbol)
             return super.getInvalidUseOfRuleMessage() + ": " + this.NOT_RIGHT_OPERATOR_ERROR_MESSAGE;
 

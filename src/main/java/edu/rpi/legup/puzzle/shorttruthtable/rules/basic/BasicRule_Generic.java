@@ -66,7 +66,7 @@ public abstract class BasicRule_Generic extends BasicRule {
             String contradictionMessage = CORRESPONDING_CONTRADICTION_RULE.checkContradictionAt(modifiedBoard, element);
             if (contradictionMessage == null) // A contradiction exists in the modified statement; this is good!
                 return null;
-            return "Negated Contradiction Failed: " + contradictionMessage;
+            return super.getInvalidUseOfRuleMessage() + ": " + contradictionMessage;
         }
     }
 
