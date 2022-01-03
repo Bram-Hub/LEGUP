@@ -31,7 +31,7 @@ public abstract class BasicRule_Generic extends BasicRule {
 //        System.out.println("Check Basic Rule Generic: "+cell);
 
         if (!cell.isAssigned())
-            return "Only assigned cells are allowed for basic rules";
+            return super.getInvalidUseOfRuleMessage() + ": Only assigned cells are allowed for basic rules";
 
         // Get the original board
         ShortTruthTableBoard originalBoard = (ShortTruthTableBoard) transition.getParents().get(0).getBoard();
@@ -44,7 +44,7 @@ public abstract class BasicRule_Generic extends BasicRule {
             PuzzleElement checkElement = cell.getStatementReference().getParentStatement().getCell();
 
             String contradictionMessage = CORRESPONDING_CONTRADICTION_RULE.checkContradictionAt(originalBoard, checkElement);
-            System.out.println("ELIMINATION RULE CONTRADICTION MESSAGE: " + contradictionMessage);
+//            System.out.println("ELIMINATION RULE CONTRADICTION MESSAGE: " + contradictionMessage);
             if (contradictionMessage != null)
             {
                 if (contradictionMessage.startsWith(CORRESPONDING_CONTRADICTION_RULE.getNoContradictionMessage()))
