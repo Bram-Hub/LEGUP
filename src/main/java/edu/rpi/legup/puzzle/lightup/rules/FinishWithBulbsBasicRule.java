@@ -35,13 +35,13 @@ public class FinishWithBulbsBasicRule extends BasicRule {
         LightUpBoard finalBoard = (LightUpBoard) transition.getBoard();
         LightUpCell finalCell = (LightUpCell) finalBoard.getPuzzleElement(puzzleElement);
         if (!(initCell.getType() == LightUpCellType.UNKNOWN && finalCell.getType() == LightUpCellType.BULB)) {
-            return "Modified cells must be bulbs";
+            return super.getInvalidUseOfRuleMessage() + ": Modified cells must be bulbs";
         }
 
         Set<LightUpCell> adjCells = finalBoard.getAdj(finalCell);
         adjCells.removeIf(cell -> cell.getType() != LightUpCellType.NUMBER);
         if (adjCells.isEmpty()) {
-            return "This cell is not adjacent to a numbered cell.";
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not adjacent to a numbered cell";
         }
 
         LightUpBoard emptyCase = initialBoard.copy();
@@ -52,7 +52,7 @@ public class FinishWithBulbsBasicRule extends BasicRule {
                 return null;
             }
         }
-        return "This cell is not forced to be a bulb.";
+        return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be a bulb";
     }
 
     private boolean isForced(LightUpBoard board, LightUpCell cell) {

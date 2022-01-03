@@ -30,7 +30,7 @@ public class BulbsInPathContradictionRule extends ContradictionRule {
         LightUpBoard lightUpBoard = (LightUpBoard) board;
         LightUpCell cell = (LightUpCell) lightUpBoard.getPuzzleElement(puzzleElement);
         if (cell.getType() != LightUpCellType.BULB) {
-            return "Does not contain a contradiction at this index";
+            return super.getNoContradictionMessage();
         }
 
         Point location = cell.getLocation();
@@ -66,6 +66,6 @@ public class BulbsInPathContradictionRule extends ContradictionRule {
                 return null;
             }
         }
-        return "Does not contain a contradiction at this index";
+        return super.getNoContradictionMessage();
     }
 }

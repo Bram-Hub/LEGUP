@@ -32,7 +32,7 @@ public abstract class Rule {
         this.imageName = imageName;
         this.ruleName = ruleName;
         this.description = description;
-        this.INVALID_USE_MESSAGE = "Invalid use of " + this.ruleName;
+        this.INVALID_USE_MESSAGE = "Invalid use of the rule " + this.ruleName;
         loadImage();
     }
 
