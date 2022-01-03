@@ -35,7 +35,7 @@ public class EmptyCellinLightBasicRule extends BasicRule {
         if (finalCell.getType() == LightUpCellType.EMPTY && initCell.getType() == LightUpCellType.UNKNOWN && initCell.isLite()) {
             return null;
         }
-        return "Cell is not forced to be empty";
+        return super.getInvalidUseOfRuleMessage() + ": Cell is not forced to be empty";
     }
 
     /**

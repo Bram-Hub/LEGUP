@@ -8,7 +8,7 @@ import static edu.rpi.legup.model.rules.RuleType.CONTRADICTION;
 
 public abstract class ContradictionRule extends Rule {
 
-    private final String NO_CONTRADICTION_MESSAGE = "No instance of " + this.ruleName;
+    private final String NO_CONTRADICTION_MESSAGE = "No instance of the contradiction " + this.ruleName + " here";
 
     /**
      * ContradictionRule Constructor creates a new contradiction rule
@@ -87,7 +87,7 @@ public abstract class ContradictionRule extends Rule {
                 return checkStr;
             }
         }
-        return "Does not contain a contradiction";
+        return this.NO_CONTRADICTION_MESSAGE;
     }
 
     public String getNoContradictionMessage()

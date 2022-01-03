@@ -30,7 +30,7 @@ public class TooManyBulbsContradictionRule extends ContradictionRule {
         LightUpBoard lightUpBoard = (LightUpBoard) board;
         LightUpCell cell = (LightUpCell) lightUpBoard.getPuzzleElement(puzzleElement);
         if (cell.getType() != LightUpCellType.NUMBER) {
-            return "Does not contain a contradiction";
+            return super.getNoContradictionMessage();
         }
 
         Point location = cell.getLocation();
@@ -57,6 +57,6 @@ public class TooManyBulbsContradictionRule extends ContradictionRule {
         if (bulbs > cell.getData()) {
             return null;
         }
-        return "Number does not contain a contradiction";
+        return super.getNoContradictionMessage();
     }
 }
