@@ -24,13 +24,13 @@ public class FinishWithWhiteBasicRule extends BasicRule {
         FillapixCell parentCell = (FillapixCell) parentBoard.getPuzzleElement(puzzleElement);
 
         if (!(parentCell.getType() == FillapixCellType.UNKNOWN && cell.getType() == FillapixCellType.WHITE)) {
-            return "This cell must be white to be applicable with this rule.";
+            return super.getInvalidUseOfRuleMessage() + ": This cell must be white to be applicable with this rule";
         }
 
         if (isForcedWhite(parentBoard, cell)) {
             return null;
         } else {
-            return "This cell is not forced to be white";
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be white";
         }
     }
 
