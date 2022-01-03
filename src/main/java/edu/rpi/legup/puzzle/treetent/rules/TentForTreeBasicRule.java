@@ -32,7 +32,7 @@ public class TentForTreeBasicRule extends BasicRule {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         if (!(puzzleElement instanceof TreeTentLine)) {
-            return "Lines must be created for this rule.";
+            return super.getInvalidUseOfRuleMessage() + ": Lines must be created for this rule.";
         }
         TreeTentBoard initialBoard = (TreeTentBoard) transition.getParents().get(0).getBoard();
         TreeTentLine initLine = (TreeTentLine) initialBoard.getPuzzleElement(puzzleElement);
@@ -46,13 +46,13 @@ public class TentForTreeBasicRule extends BasicRule {
             tree = finalLine.getC2();
             tent = finalLine.getC1();
         } else {
-            return "This line must connect a tree to a tent.";
+            return super.getInvalidUseOfRuleMessage() + ": This line must connect a tree to a tent.";
         }
 
         if (isForced(initialBoard, tree, tent)) {
             return null;
         } else {
-            return "This cell is not forced to be tent.";
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be tent.";
         }
     }
 

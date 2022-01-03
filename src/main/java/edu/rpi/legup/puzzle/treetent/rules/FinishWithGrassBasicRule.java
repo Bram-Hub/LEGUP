@@ -33,20 +33,20 @@ public class FinishWithGrassBasicRule extends BasicRule {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         if (puzzleElement instanceof TreeTentLine) {
-            return "Line is not valid for this rule.";
+            return super.getInvalidUseOfRuleMessage() + ": Line is not valid for this rule";
         }
         TreeTentBoard initialBoard = (TreeTentBoard) transition.getParents().get(0).getBoard();
         TreeTentCell initCell = (TreeTentCell) initialBoard.getPuzzleElement(puzzleElement);
         TreeTentBoard finalBoard = (TreeTentBoard) transition.getBoard();
         TreeTentCell finalCell = (TreeTentCell) finalBoard.getPuzzleElement(puzzleElement);
         if (!(finalCell.getType() == TreeTentType.GRASS && initCell.getType() == TreeTentType.UNKNOWN)) {
-            return "This cell must be grass.";
+            return super.getInvalidUseOfRuleMessage() + ": This cell must be grass.";
         }
 
         if (isForced(initialBoard, initCell)) {
             return null;
         } else {
-            return "This cell is not forced to be grass.";
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be grass.";
         }
     }
 

@@ -28,13 +28,13 @@ public class TouchingTentsContradictionRule extends ContradictionRule {
         TreeTentBoard treeTentBoard = (TreeTentBoard) board;
         TreeTentCell cell = (TreeTentCell) puzzleElement;
         if (cell.getType() != TreeTentType.TREE) {
-            return "This cell does not contain a contradiction at this location.";
+            return super.getNoContradictionMessage();
         }
         int adjTree = treeTentBoard.getAdjacent(cell, TreeTentType.TREE).size();
         if (adjTree > 0) {
             return null;
         } else {
-            return "This cell does not contain a contradiction at this location.";
+            return super.getNoContradictionMessage();
         }
     }
 }

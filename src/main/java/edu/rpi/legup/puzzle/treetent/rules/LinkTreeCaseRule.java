@@ -69,12 +69,12 @@ public class LinkTreeCaseRule extends CaseRule {
     public String checkRuleRaw(TreeTransition transition) {
         Set<PuzzleElement> modCells = transition.getBoard().getModifiedData();
         if (modCells.size() != 1) {
-            return "This case rule must have 1 modified cell for each case.";
+            return super.getInvalidUseOfRuleMessage() + ": This case rule must have 1 modified cell for each case";
         }
         PuzzleElement mod = modCells.iterator().next();
         TreeTentLine line = mod instanceof TreeTentLine ? (TreeTentLine) mod : null;
         if (line == null) {
-            return "This case rule only involves tree and tent connection lines.";
+            return super.getInvalidUseOfRuleMessage() + ": This case rule only involves tree and tent connection lines";
         }
         TreeTentCell tree = null;
         if (line.getC1().getType() == TreeTentType.TREE) {
@@ -84,14 +84,14 @@ public class LinkTreeCaseRule extends CaseRule {
             tree = line.getC2();
         }
         if (tree == null) {
-            return "This case rule must have a tent cell.";
+            return super.getInvalidUseOfRuleMessage() + "This case rule must have a tent cell";
         }
 
         TreeTentBoard parentBoard = (TreeTentBoard) transition.getParents().get(0).getBoard();
         ArrayList<Board> cases = getCases(parentBoard, tree);
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
         if (childTransitions.size() != cases.size()) {
-            return "This case rule is incorrectly created.";
+            return super.getInvalidUseOfRuleMessage();
         }
         for (Board caseBoard : cases) {
             TreeTentBoard cBoard = (TreeTentBoard) caseBoard;
@@ -100,11 +100,11 @@ public class LinkTreeCaseRule extends CaseRule {
             for (TreeTransition tran : childTransitions) {
                 TreeTentBoard tBoard = (TreeTentBoard) tran.getBoard();
                 if (tBoard.getModifiedData().size() != 1) {
-                    return "This case rule is incorrectly created.";
+                    return super.getInvalidUseOfRuleMessage();
                 }
                 PuzzleElement tElement = tBoard.getModifiedData().iterator().next();
                 if (tElement instanceof TreeTentLine) {
-                    return "This case rule only involves tree and tent connection lines.";
+                    return super.getInvalidUseOfRuleMessage() + ": This case rule only involves tree and tent connection lines";
                 }
                 if (cLine.compare((TreeTentLine) tElement)) {
                     hasLine = true;
@@ -112,7 +112,7 @@ public class LinkTreeCaseRule extends CaseRule {
                 }
             }
             if (!hasLine) {
-                return "Could not find case";
+                return super.getInvalidUseOfRuleMessage();
             }
         }
 
