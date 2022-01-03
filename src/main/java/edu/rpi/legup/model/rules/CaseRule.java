@@ -103,7 +103,7 @@ public abstract class CaseRule extends Rule {
      */
     @Override
     public String checkRuleAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        return null;
+        return super.getInvalidUseOfRuleMessage();
     }
 
     /**

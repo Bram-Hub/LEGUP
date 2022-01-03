@@ -31,7 +31,6 @@ public abstract class CaseRule_Generic extends CaseRule {
      */
     @Override
     public String checkRuleRaw(TreeTransition transition) {
-
         return null;
     }
 
