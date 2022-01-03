@@ -14,6 +14,9 @@ import java.util.Map;
 import static edu.rpi.legup.model.rules.RuleType.CASE;
 
 public abstract class CaseRule extends Rule {
+
+    private final String INVALID_USE_MESSAGE;
+
     /**
      * CaseRule Constructor creates a new case rule.
      *
@@ -24,6 +27,7 @@ public abstract class CaseRule extends Rule {
     public CaseRule(String ruleName, String description, String imageName) {
         super(ruleName, description, imageName);
         this.ruleType = CASE;
+        this.INVALID_USE_MESSAGE = "Invalid use of the case rule " + this.ruleName;
     }
 
     /**
@@ -103,7 +107,7 @@ public abstract class CaseRule extends Rule {
      */
     @Override
     public String checkRuleAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        return super.getInvalidUseOfRuleMessage();
+        return this.INVALID_USE_MESSAGE;
     }
 
     /**
