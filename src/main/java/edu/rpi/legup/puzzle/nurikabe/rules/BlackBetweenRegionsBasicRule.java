@@ -45,7 +45,7 @@ public class BlackBetweenRegionsBasicRule extends BasicRule {
         NurikabeCell cell = (NurikabeCell) destBoardState.getPuzzleElement(puzzleElement);
 
         if (cell.getType() != NurikabeType.BLACK) {
-            return "Only black cells are allowed for this rule!";
+            return super.getInvalidUseOfRuleMessage() + ": Only black cells are allowed for this rule!";
         }
 
         int x = cell.getLocation().x;
