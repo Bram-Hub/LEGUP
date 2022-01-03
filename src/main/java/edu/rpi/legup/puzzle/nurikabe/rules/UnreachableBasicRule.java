@@ -33,7 +33,7 @@ public class UnreachableBasicRule extends BasicRule {
         NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
         NurikabeCell cell = (NurikabeCell) destBoardState.getPuzzleElement(puzzleElement);
         if (cell.getType() != NurikabeType.BLACK) {
-            return "Only black cells are allowed for this rule!";
+            return super.getInvalidUseOfRuleMessage() + ": Only black cells are allowed for this rule!";
         }
 
         NurikabeBoard origBoardState = (NurikabeBoard) transition.getParents().get(0).getBoard();
@@ -50,7 +50,7 @@ public class UnreachableBasicRule extends BasicRule {
         modifiedCell.setData(NurikabeType.WHITE.toValue());
         if (contraRule.checkContradiction(modified) == null)
             return null;
-        return "This is not the only way for black to escape!";
+        return super.getInvalidUseOfRuleMessage() + ": This is not the only way for black to escape!";
     }
 
     /**
