@@ -1,0 +1,1087 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<edu.rpi.legup.Legup version="2.0">
+    <edu.rpi.legup.puzzle name="LightUp">
+        <board height="25" width="25">
+            <cells>
+                <cell value="-1" x="1" y="0"/>
+                <cell value="3" x="5" y="0"/>
+                <cell value="-1" x="7" y="0"/>
+                <cell value="3" x="9" y="0"/>
+                <cell value="-1" x="14" y="0"/>
+                <cell value="1" x="17" y="0"/>
+                <cell value="1" x="22" y="0"/>
+                <cell value="2" x="2" y="1"/>
+                <cell value="-1" x="4" y="1"/>
+                <cell value="-1" x="7" y="1"/>
+                <cell value="1" x="11" y="1"/>
+                <cell value="-1" x="13" y="1"/>
+                <cell value="-1" x="15" y="1"/>
+                <cell value="-1" x="16" y="1"/>
+                <cell value="2" x="24" y="1"/>
+                <cell value="0" x="0" y="2"/>
+                <cell value="-1" x="5" y="2"/>
+                <cell value="2" x="6" y="2"/>
+                <cell value="-1" x="9" y="2"/>
+                <cell value="-1" x="10" y="2"/>
+                <cell value="-1" x="11" y="2"/>
+                <cell value="-1" x="13" y="2"/>
+                <cell value="1" x="18" y="2"/>
+                <cell value="0" x="19" y="2"/>
+                <cell value="-1" x="21" y="2"/>
+                <cell value="3" x="23" y="2"/>
+                <cell value="-1" x="2" y="3"/>
+                <cell value="-1" x="8" y="3"/>
+                <cell value="-1" x="12" y="3"/>
+                <cell value="-1" x="15" y="3"/>
+                <cell value="1" x="16" y="3"/>
+                <cell value="-1" x="6" y="4"/>
+                <cell value="-1" x="7" y="4"/>
+                <cell value="2" x="9" y="4"/>
+                <cell value="3" x="13" y="4"/>
+                <cell value="-1" x="16" y="4"/>
+                <cell value="-1" x="23" y="4"/>
+                <cell value="2" x="2" y="5"/>
+                <cell value="3" x="6" y="5"/>
+                <cell value="0" x="10" y="5"/>
+                <cell value="-1" x="15" y="5"/>
+                <cell value="0" x="16" y="5"/>
+                <cell value="1" x="22" y="5"/>
+                <cell value="-1" x="24" y="5"/>
+                <cell value="-1" x="2" y="6"/>
+                <cell value="-1" x="8" y="6"/>
+                <cell value="-1" x="11" y="6"/>
+                <cell value="0" x="19" y="6"/>
+                <cell value="-1" x="20" y="6"/>
+                <cell value="-1" x="22" y="6"/>
+                <cell value="-1" x="0" y="7"/>
+                <cell value="-1" x="11" y="7"/>
+                <cell value="-1" x="13" y="7"/>
+                <cell value="-1" x="14" y="7"/>
+                <cell value="-1" x="20" y="7"/>
+                <cell value="3" x="23" y="7"/>
+                <cell value="-1" x="24" y="7"/>
+                <cell value="1" x="1" y="8"/>
+                <cell value="0" x="3" y="8"/>
+                <cell value="-1" x="4" y="8"/>
+                <cell value="-1" x="5" y="8"/>
+                <cell value="-1" x="8" y="8"/>
+                <cell value="2" x="12" y="8"/>
+                <cell value="0" x="16" y="8"/>
+                <cell value="1" x="18" y="8"/>
+                <cell value="-1" x="21" y="8"/>
+                <cell value="-1" x="1" y="9"/>
+                <cell value="2" x="3" y="9"/>
+                <cell value="-1" x="5" y="9"/>
+                <cell value="-1" x="20" y="9"/>
+                <cell value="0" x="22" y="9"/>
+                <cell value="1" x="24" y="9"/>
+                <cell value="-1" x="0" y="10"/>
+                <cell value="-1" x="7" y="10"/>
+                <cell value="-1" x="10" y="10"/>
+                <cell value="-1" x="13" y="10"/>
+                <cell value="2" x="14" y="10"/>
+                <cell value="-1" x="19" y="10"/>
+                <cell value="-1" x="22" y="10"/>
+                <cell value="2" x="1" y="11"/>
+                <cell value="0" x="2" y="11"/>
+                <cell value="-1" x="4" y="11"/>
+                <cell value="2" x="7" y="11"/>
+                <cell value="-1" x="10" y="11"/>
+                <cell value="3" x="11" y="11"/>
+                <cell value="2" x="13" y="11"/>
+                <cell value="1" x="17" y="11"/>
+                <cell value="0" x="18" y="11"/>
+                <cell value="-1" x="22" y="11"/>
+                <cell value="-1" x="23" y="11"/>
+                <cell value="-1" x="3" y="12"/>
+                <cell value="-1" x="8" y="12"/>
+                <cell value="2" x="12" y="12"/>
+                <cell value="-1" x="16" y="12"/>
+                <cell value="0" x="21" y="12"/>
+                <cell value="1" x="1" y="13"/>
+                <cell value="-1" x="2" y="13"/>
+                <cell value="-1" x="6" y="13"/>
+                <cell value="1" x="7" y="13"/>
+                <cell value="-1" x="11" y="13"/>
+                <cell value="-1" x="13" y="13"/>
+                <cell value="-1" x="14" y="13"/>
+                <cell value="-1" x="17" y="13"/>
+                <cell value="-1" x="20" y="13"/>
+                <cell value="-1" x="22" y="13"/>
+                <cell value="-1" x="23" y="13"/>
+                <cell value="1" x="2" y="14"/>
+                <cell value="1" x="5" y="14"/>
+                <cell value="-1" x="10" y="14"/>
+                <cell value="-1" x="11" y="14"/>
+                <cell value="-1" x="14" y="14"/>
+                <cell value="1" x="17" y="14"/>
+                <cell value="-1" x="24" y="14"/>
+                <cell value="0" x="0" y="15"/>
+                <cell value="-1" x="2" y="15"/>
+                <cell value="-1" x="4" y="15"/>
+                <cell value="-1" x="19" y="15"/>
+                <cell value="2" x="21" y="15"/>
+                <cell value="-1" x="23" y="15"/>
+                <cell value="-1" x="3" y="16"/>
+                <cell value="1" x="6" y="16"/>
+                <cell value="-1" x="8" y="16"/>
+                <cell value="2" x="12" y="16"/>
+                <cell value="-1" x="16" y="16"/>
+                <cell value="1" x="19" y="16"/>
+                <cell value="2" x="20" y="16"/>
+                <cell value="-1" x="21" y="16"/>
+                <cell value="-1" x="23" y="16"/>
+                <cell value="-1" x="0" y="17"/>
+                <cell value="-1" x="1" y="17"/>
+                <cell value="3" x="4" y="17"/>
+                <cell value="-1" x="10" y="17"/>
+                <cell value="-1" x="11" y="17"/>
+                <cell value="-1" x="13" y="17"/>
+                <cell value="0" x="24" y="17"/>
+                <cell value="-1" x="2" y="18"/>
+                <cell value="0" x="4" y="18"/>
+                <cell value="1" x="5" y="18"/>
+                <cell value="-1" x="13" y="18"/>
+                <cell value="-1" x="16" y="18"/>
+                <cell value="1" x="22" y="18"/>
+                <cell value="-1" x="0" y="19"/>
+                <cell value="-1" x="2" y="19"/>
+                <cell value="-1" x="8" y="19"/>
+                <cell value="2" x="9" y="19"/>
+                <cell value="-1" x="14" y="19"/>
+                <cell value="2" x="18" y="19"/>
+                <cell value="0" x="22" y="19"/>
+                <cell value="1" x="1" y="20"/>
+                <cell value="-1" x="8" y="20"/>
+                <cell value="-1" x="11" y="20"/>
+                <cell value="-1" x="15" y="20"/>
+                <cell value="-1" x="17" y="20"/>
+                <cell value="1" x="18" y="20"/>
+                <cell value="-1" x="8" y="21"/>
+                <cell value="-1" x="9" y="21"/>
+                <cell value="2" x="12" y="21"/>
+                <cell value="-1" x="16" y="21"/>
+                <cell value="2" x="22" y="21"/>
+                <cell value="0" x="1" y="22"/>
+                <cell value="0" x="3" y="22"/>
+                <cell value="-1" x="5" y="22"/>
+                <cell value="1" x="6" y="22"/>
+                <cell value="0" x="11" y="22"/>
+                <cell value="-1" x="13" y="22"/>
+                <cell value="0" x="14" y="22"/>
+                <cell value="-1" x="15" y="22"/>
+                <cell value="-1" x="18" y="22"/>
+                <cell value="-1" x="19" y="22"/>
+                <cell value="1" x="24" y="22"/>
+                <cell value="-1" x="0" y="23"/>
+                <cell value="1" x="8" y="23"/>
+                <cell value="1" x="9" y="23"/>
+                <cell value="-1" x="11" y="23"/>
+                <cell value="2" x="13" y="23"/>
+                <cell value="-1" x="17" y="23"/>
+                <cell value="-1" x="20" y="23"/>
+                <cell value="-1" x="22" y="23"/>
+                <cell value="1" x="2" y="24"/>
+                <cell value="2" x="7" y="24"/>
+                <cell value="0" x="10" y="24"/>
+                <cell value="-1" x="15" y="24"/>
+                <cell value="2" x="17" y="24"/>
+                <cell value="2" x="19" y="24"/>
+                <cell value="-1" x="23" y="24"/>
+            </cells>
+        </board>
+        <proof>
+            <tree>
+                <nodes>
+                    <node id="105669285" root="true"/>
+                    <node id="1047685423"/>
+                    <node id="800329325"/>
+                    <node id="37884610"/>
+                    <node id="329153249"/>
+                    <node id="1624517500"/>
+                    <node id="1793584950"/>
+                    <node id="272695869"/>
+                    <node id="541770556"/>
+                    <node id="447972718"/>
+                    <node id="28550069"/>
+                    <node id="584685294"/>
+                    <node id="1739547049"/>
+                    <node id="710842365"/>
+                    <node id="1606020212"/>
+                    <node id="169160405"/>
+                    <node id="898427116"/>
+                    <node id="321704487"/>
+                    <node id="998668729"/>
+                    <node id="1529986402"/>
+                    <node id="161356995"/>
+                    <node id="1006946057"/>
+                    <node id="1820031920"/>
+                    <node id="1614470182"/>
+                    <node id="1495588445"/>
+                    <node id="715444255"/>
+                    <node id="818370370"/>
+                    <node id="877672582"/>
+                    <node id="1846326752"/>
+                    <node id="1673156927"/>
+                    <node id="980615810"/>
+                    <node id="1100845463"/>
+                    <node id="83280744"/>
+                    <node id="522325233"/>
+                    <node id="78915982"/>
+                    <node id="1265888295"/>
+                    <node id="674857706"/>
+                    <node id="695911572"/>
+                    <node id="1904089289"/>
+                    <node id="1949503024"/>
+                    <node id="997395387"/>
+                    <node id="83574046"/>
+                    <node id="2040860460"/>
+                    <node id="1757506395"/>
+                    <node id="1574522287"/>
+                    <node id="1872846870"/>
+                    <node id="255474971"/>
+                    <node id="1032253569"/>
+                    <node id="591743617"/>
+                    <node id="1727162760"/>
+                    <node id="282673712"/>
+                    <node id="599643724"/>
+                    <node id="35500822"/>
+                    <node id="1072371242"/>
+                    <node id="759892930"/>
+                    <node id="589292965"/>
+                    <node id="8297924"/>
+                    <node id="1863523178"/>
+                    <node id="1075540217"/>
+                    <node id="37857815"/>
+                    <node id="344374604"/>
+                    <node id="1298374362"/>
+                    <node id="489117662"/>
+                    <node id="55929403"/>
+                    <node id="49455293"/>
+                    <node id="805372161"/>
+                    <node id="1864144026"/>
+                    <node id="1580433872"/>
+                    <node id="1588094480"/>
+                    <node id="212296919"/>
+                    <node id="1789768629"/>
+                    <node id="1278535418"/>
+                    <node id="21179675"/>
+                    <node id="1984172543"/>
+                    <node id="504044121"/>
+                    <node id="57016361"/>
+                    <node id="1521273774"/>
+                    <node id="1711594393"/>
+                    <node id="1892019752"/>
+                    <node id="1080446530"/>
+                    <node id="793365254"/>
+                    <node id="906007333"/>
+                    <node id="996583728"/>
+                    <node id="113139673"/>
+                    <node id="1984218931"/>
+                    <node id="1062092502"/>
+                    <node id="2041133453"/>
+                    <node id="187927690"/>
+                    <node id="542330878"/>
+                    <node id="1921065197"/>
+                    <node id="277381740"/>
+                    <node id="497968199"/>
+                    <node id="10473705"/>
+                    <node id="1696693453"/>
+                    <node id="61353104"/>
+                    <node id="111938395"/>
+                    <node id="1988872433"/>
+                    <node id="1333286056"/>
+                    <node id="25681976"/>
+                    <node id="205997549"/>
+                    <node id="595679085"/>
+                    <node id="1771745468"/>
+                    <node id="999384075"/>
+                    <node id="52714444"/>
+                    <node id="1100994753"/>
+                    <node id="1452202312"/>
+                    <node id="677703155"/>
+                    <node id="172298986"/>
+                    <node id="492152361"/>
+                    <node id="874402721"/>
+                    <node id="3061311"/>
+                    <node id="1385924532"/>
+                    <node id="1961555847"/>
+                    <node id="550125977"/>
+                    <node id="759984912"/>
+                    <node id="722827243"/>
+                    <node id="1413693256"/>
+                    <node id="482692463"/>
+                    <node id="1798027450"/>
+                    <node id="1063740007"/>
+                    <node id="1438069831"/>
+                    <node id="572941684"/>
+                    <node id="2041509578"/>
+                    <node id="1161044200"/>
+                    <node id="1595409705"/>
+                    <node id="685926554"/>
+                    <node id="325944335"/>
+                    <node id="1295299843"/>
+                    <node id="555346705"/>
+                    <node id="1917902377"/>
+                    <node id="408500097"/>
+                    <node id="1366503734"/>
+                    <node id="1185820443"/>
+                    <node id="465472479"/>
+                    <node id="1824478510"/>
+                    <node id="936914612"/>
+                    <node id="455629981"/>
+                    <node id="1825692734"/>
+                    <node id="481914922"/>
+                    <node id="1867042976"/>
+                    <node id="1978944924"/>
+                    <node id="129596621"/>
+                    <node id="672873053"/>
+                    <node id="565396353"/>
+                    <node id="260318025"/>
+                    <node id="1509073062"/>
+                    <node id="347808803"/>
+                    <node id="1977887058"/>
+                    <node id="1809518431"/>
+                    <node id="1145682927"/>
+                    <node id="766367071"/>
+                    <node id="1531866382"/>
+                    <node id="1398068116"/>
+                    <node id="1938045720"/>
+                    <node id="1962664719"/>
+                    <node id="1406402428"/>
+                    <node id="1159099201"/>
+                    <node id="1632889100"/>
+                    <node id="1141361742"/>
+                    <node id="1588352836"/>
+                    <node id="1254594919"/>
+                    <node id="207346054"/>
+                    <node id="1039353951"/>
+                    <node id="1259369885"/>
+                    <node id="1820119875"/>
+                    <node id="1722243066"/>
+                    <node id="531832153"/>
+                    <node id="1812290268"/>
+                    <node id="2006482751"/>
+                    <node id="795317352"/>
+                    <node id="1391409907"/>
+                    <node id="971367564"/>
+                    <node id="1176216363"/>
+                    <node id="782519607"/>
+                    <node id="465349979"/>
+                    <node id="2084801161"/>
+                    <node id="1820977868"/>
+                    <node id="408159077"/>
+                    <node id="5378039"/>
+                    <node id="403695573"/>
+                    <node id="193112792"/>
+                    <node id="194077111"/>
+                    <node id="999959460"/>
+                    <node id="1450150593"/>
+                    <node id="961172857"/>
+                    <node id="2041853102"/>
+                    <node id="1093579998"/>
+                    <node id="791120164"/>
+                    <node id="102607312"/>
+                    <node id="844201465"/>
+                    <node id="1602025569"/>
+                    <node id="2104586156"/>
+                    <node id="198009109"/>
+                    <node id="1193722423"/>
+                    <node id="851892918"/>
+                    <node id="646803356"/>
+                    <node id="1384860045"/>
+                    <node id="1805403619"/>
+                    <node id="759433647"/>
+                    <node id="1588789751"/>
+                </nodes>
+                <transitions>
+                    <transition child="1047685423" id="1638666057" parent="105669285" rule="Finish with Bulbs">
+                        <cell value="-4" x="8" y="0"/>
+                        <cell value="-4" x="9" y="1"/>
+                        <cell value="-4" x="10" y="0"/>
+                        <cell value="-4" x="5" y="1"/>
+                        <cell value="-4" x="6" y="0"/>
+                        <cell value="-4" x="4" y="0"/>
+                        <cell value="-4" x="23" y="6"/>
+                        <cell value="-4" x="22" y="7"/>
+                        <cell value="-4" x="23" y="8"/>
+                    </transition>
+                    <transition child="800329325" id="2033834651" parent="1047685423" rule="Finish with Empty">
+                        <cell value="-3" x="0" y="1"/>
+                        <cell value="-3" x="1" y="2"/>
+                        <cell value="-3" x="0" y="3"/>
+                        <cell value="-3" x="19" y="3"/>
+                        <cell value="-3" x="20" y="2"/>
+                        <cell value="-3" x="19" y="1"/>
+                        <cell value="-3" x="21" y="13"/>
+                        <cell value="-3" x="22" y="12"/>
+                        <cell value="-3" x="21" y="11"/>
+                        <cell value="-3" x="20" y="12"/>
+                        <cell value="-3" x="21" y="9"/>
+                        <cell value="-3" x="17" y="8"/>
+                        <cell value="-3" x="16" y="9"/>
+                        <cell value="-3" x="15" y="8"/>
+                        <cell value="-3" x="16" y="7"/>
+                        <cell value="-3" x="19" y="7"/>
+                        <cell value="-3" x="18" y="6"/>
+                        <cell value="-3" x="19" y="5"/>
+                        <cell value="-3" x="9" y="5"/>
+                        <cell value="-3" x="10" y="4"/>
+                        <cell value="-3" x="11" y="5"/>
+                        <cell value="-3" x="10" y="6"/>
+                        <cell value="-3" x="16" y="6"/>
+                        <cell value="-3" x="17" y="5"/>
+                        <cell value="-3" x="2" y="8"/>
+                        <cell value="-3" x="3" y="7"/>
+                        <cell value="-3" x="18" y="12"/>
+                        <cell value="-3" x="19" y="11"/>
+                        <cell value="-3" x="18" y="10"/>
+                        <cell value="-3" x="0" y="14"/>
+                        <cell value="-3" x="1" y="15"/>
+                        <cell value="-3" x="0" y="16"/>
+                        <cell value="-3" x="2" y="12"/>
+                        <cell value="-3" x="3" y="11"/>
+                        <cell value="-3" x="2" y="10"/>
+                        <cell value="-3" x="4" y="19"/>
+                        <cell value="-3" x="3" y="18"/>
+                        <cell value="-3" x="23" y="17"/>
+                        <cell value="-3" x="24" y="18"/>
+                        <cell value="-3" x="24" y="16"/>
+                        <cell value="-3" x="23" y="19"/>
+                        <cell value="-3" x="22" y="20"/>
+                        <cell value="-3" x="21" y="19"/>
+                        <cell value="-3" x="14" y="23"/>
+                        <cell value="-3" x="14" y="21"/>
+                        <cell value="-3" x="12" y="22"/>
+                        <cell value="-3" x="10" y="22"/>
+                        <cell value="-3" x="11" y="21"/>
+                        <cell value="-3" x="9" y="24"/>
+                        <cell value="-3" x="10" y="23"/>
+                        <cell value="-3" x="11" y="24"/>
+                        <cell value="-3" x="3" y="23"/>
+                        <cell value="-3" x="4" y="22"/>
+                        <cell value="-3" x="3" y="21"/>
+                        <cell value="-3" x="2" y="22"/>
+                        <cell value="-3" x="1" y="23"/>
+                        <cell value="-3" x="1" y="21"/>
+                        <cell value="-3" x="0" y="22"/>
+                    </transition>
+                    <transition child="37884610" id="966927489" parent="800329325" rule="Empty Cells in Light">
+                        <cell value="-3" x="6" y="1"/>
+                    </transition>
+                    <transition child="329153249" id="1494557217" parent="37884610" rule="Finish with Bulbs">
+                        <cell value="-4" x="7" y="2"/>
+                        <cell value="-4" x="6" y="3"/>
+                    </transition>
+                    <transition child="1624517500" id="1489156109" parent="329153249" rule="Finish with Bulbs">
+                        <cell value="-4" x="20" y="17"/>
+                        <cell value="-4" x="20" y="15"/>
+                    </transition>
+                    <transition child="1793584950" id="1863867532" parent="1624517500" rule="Empty Cells in Light">
+                        <cell value="-3" x="19" y="17"/>
+                    </transition>
+                    <transition child="272695869" id="1194785730" parent="1793584950" rule="Finish with Bulbs">
+                        <cell value="-4" x="18" y="16"/>
+                    </transition>
+                    <transition child="541770556" id="935513391" parent="272695869" rule="Finish with Bulbs">
+                        <cell value="-4" x="12" y="23"/>
+                        <cell value="-4" x="13" y="24"/>
+                    </transition>
+                    <transition child="447972718" id="2056067338" parent="541770556" rule="Finish with Bulbs">
+                        <cell value="-4" x="3" y="17"/>
+                        <cell value="-4" x="4" y="16"/>
+                        <cell value="-4" x="5" y="17"/>
+                    </transition>
+                    <transition child="28550069" id="1474090731" parent="447972718" rule="Finish with Bulbs">
+                        <cell value="-4" x="11" y="10"/>
+                        <cell value="-4" x="12" y="11"/>
+                        <cell value="-4" x="11" y="12"/>
+                    </transition>
+                    <transition child="584685294" id="658820921" parent="28550069" rule="Empty Cells in Light">
+                        <cell value="-3" x="23" y="9"/>
+                        <cell value="-3" x="24" y="8"/>
+                    </transition>
+                    <transition child="1739547049" id="114214219" parent="584685294" rule="Finish with Bulbs">
+                        <cell value="-4" x="24" y="10"/>
+                    </transition>
+                    <transition child="710842365" id="345627089" parent="1739547049" rule="Finish with Bulbs">
+                        <cell value="-4" x="5" y="5"/>
+                        <cell value="-4" x="6" y="6"/>
+                        <cell value="-4" x="7" y="5"/>
+                    </transition>
+                    <transition child="1606020212" id="633548327" parent="710842365" rule="Empty Cells in Light">
+                        <cell value="-3" x="3" y="5"/>
+                    </transition>
+                    <transition child="169160405" id="612303009" parent="1606020212" rule="Finish with Bulbs">
+                        <cell value="-4" x="2" y="4"/>
+                        <cell value="-4" x="1" y="5"/>
+                    </transition>
+                    <transition child="898427116" id="1416330744" parent="169160405" rule="Finish with Bulbs">
+                        <cell value="-4" x="8" y="4"/>
+                        <cell value="-4" x="9" y="3"/>
+                    </transition>
+                    <transition child="321704487" id="241590773" parent="898427116" rule="Empty Cells in Light">
+                        <cell value="-3" x="1" y="1"/>
+                        <cell value="-3" x="2" y="0"/>
+                    </transition>
+                    <transition child="998668729" id="845730824" parent="321704487" rule="Finish with Bulbs">
+                        <cell value="-4" x="2" y="2"/>
+                        <cell value="-4" x="3" y="1"/>
+                    </transition>
+                    <transition child="1529986402" id="1859035372" parent="998668729" rule="Empty Cells in Light">
+                        <cell value="-3" x="10" y="1"/>
+                        <cell value="-3" x="11" y="0"/>
+                    </transition>
+                    <transition child="161356995" id="1640334448" parent="1529986402" rule="Finish with Bulbs">
+                        <cell value="-4" x="12" y="1"/>
+                    </transition>
+                    <transition child="1006946057" id="1544628340" parent="161356995" rule="Must Light">
+                        <cell value="-4" x="0" y="0"/>
+                    </transition>
+                    <transition child="1820031920" id="682454890" parent="1006946057" rule="Must Light">
+                        <cell value="-4" x="0" y="6"/>
+                    </transition>
+                    <transition child="1614470182" id="872379219" parent="1820031920" rule="Empty Cells in Light">
+                        <cell value="-3" x="11" y="8"/>
+                        <cell value="-3" x="12" y="9"/>
+                    </transition>
+                    <transition child="1495588445" id="2119472984" parent="1614470182" rule="Finish with Bulbs">
+                        <cell value="-4" x="12" y="7"/>
+                        <cell value="-4" x="13" y="8"/>
+                    </transition>
+                    <transition child="715444255" id="726876782" parent="1495588445" rule="Empty Cells in Light">
+                        <cell value="-3" x="12" y="4"/>
+                    </transition>
+                    <transition child="818370370" id="1749462609" parent="715444255" rule="Finish with Bulbs">
+                        <cell value="-4" x="13" y="5"/>
+                        <cell value="-4" x="14" y="4"/>
+                        <cell value="-4" x="13" y="3"/>
+                    </transition>
+                    <transition child="877672582" id="552287713" parent="818370370" rule="Empty Cells in Light">
+                        <cell value="-3" x="1" y="7"/>
+                    </transition>
+                    <transition child="1846326752" id="2061467891" parent="877672582" rule="Finish with Bulbs">
+                        <cell value="-4" x="0" y="8"/>
+                    </transition>
+                    <transition child="1673156927" id="1261366772" parent="1846326752" rule="Empty Cells in Light">
+                        <cell value="-3" x="18" y="18"/>
+                    </transition>
+                    <transition child="980615810" id="382203622" parent="1673156927" rule="Finish with Bulbs">
+                        <cell value="-4" x="17" y="19"/>
+                        <cell value="-4" x="19" y="19"/>
+                    </transition>
+                    <transition child="1100845463" id="1874515434" parent="980615810" rule="Empty Cells in Light">
+                        <cell value="-3" x="17" y="15"/>
+                        <cell value="-3" x="18" y="14"/>
+                    </transition>
+                    <transition child="83280744" id="1768163574" parent="1100845463" rule="Finish with Bulbs">
+                        <cell value="-4" x="16" y="14"/>
+                    </transition>
+                    <transition child="522325233" id="1427708259" parent="83280744" rule="Finish with Empty">
+                        <cell value="-3" x="12" y="13"/>
+                        <cell value="-3" x="13" y="12"/>
+                    </transition>
+                    <transition child="78915982" id="2093004256" parent="522325233" rule="Finish with Bulbs">
+                        <cell value="-4" x="14" y="11"/>
+                    </transition>
+                    <transition child="1265888295" id="1173105175" parent="78915982" rule="Empty Cells in Light">
+                        <cell value="-3" x="6" y="11"/>
+                    </transition>
+                    <transition child="674857706" id="201767396" parent="1265888295" rule="Finish with Bulbs">
+                        <cell value="-4" x="7" y="12"/>
+                        <cell value="-4" x="8" y="11"/>
+                    </transition>
+                    <transition child="695911572" id="298416902" parent="674857706" rule="Finish with Empty">
+                        <cell value="-3" x="7" y="14"/>
+                        <cell value="-3" x="8" y="13"/>
+                    </transition>
+                    <transition child="1904089289" id="1759490922" parent="695911572" rule="Finish with Bulbs">
+                        <cell value="-4" x="9" y="22"/>
+                    </transition>
+                    <transition child="1949503024" id="1279754484" parent="1904089289" rule="Empty Cells in Light">
+                        <cell value="-3" x="8" y="22"/>
+                    </transition>
+                    <transition child="997395387" id="1966590209" parent="1949503024" rule="Finish with Bulbs">
+                        <cell value="-4" x="18" y="24"/>
+                        <cell value="-4" x="16" y="24"/>
+                    </transition>
+                    <transition child="83574046" id="805084650" parent="997395387" rule="Finish with Bulbs">
+                        <cell value="-4" x="13" y="21"/>
+                        <cell value="-4" x="12" y="20"/>
+                    </transition>
+                    <transition child="2040860460" id="984428444" parent="83574046" rule="Empty Cells in Light">
+                        <cell value="-3" x="19" y="20"/>
+                    </transition>
+                    <transition child="1757506395" id="1243437085" parent="2040860460" rule="Finish with Bulbs">
+                        <cell value="-4" x="18" y="21"/>
+                    </transition>
+                    <transition child="1574522287" id="435365505" parent="1757506395" rule="Light or Empty">
+                        <cell value="-4" x="8" y="24"/>
+                    </transition>
+                    <transition child="1872846870" id="965625874" parent="1574522287" rule="Finish with Empty">
+                        <cell value="-3" x="7" y="23"/>
+                    </transition>
+                    <transition child="255474971" id="2006291874" parent="1872846870" rule="Finish with Bulbs">
+                        <cell value="-4" x="6" y="24"/>
+                    </transition>
+                    <transition child="1032253569" id="875243421" parent="255474971" rule="Empty Cells in Light">
+                        <cell value="-3" x="6" y="23"/>
+                        <cell value="-3" x="7" y="22"/>
+                    </transition>
+                    <transition child="591743617" id="879544503" parent="1032253569" rule="Finish with Bulbs">
+                        <cell value="-4" x="6" y="21"/>
+                    </transition>
+                    <transition child="1727162760" id="2137639152" parent="591743617" rule="Finish with Empty">
+                        <cell value="-3" x="6" y="18"/>
+                        <cell value="-3" x="5" y="19"/>
+                    </transition>
+                    <transition child="282673712" id="613055034" parent="1727162760" rule="Must Light">
+                        <cell value="-4" x="11" y="4"/>
+                    </transition>
+                    <transition child="599643724" id="1240512249" parent="282673712" rule="Must Light">
+                        <cell value="-4" x="24" y="15"/>
+                    </transition>
+                    <transition child="35500822" id="453768704" parent="599643724" rule="Must Light">
+                        <cell value="-4" x="15" y="12"/>
+                    </transition>
+                    <transition child="1072371242" id="705991641" parent="35500822" rule="Empty Cells in Light">
+                        <cell value="-3" x="21" y="21"/>
+                    </transition>
+                    <transition child="759892930" id="1572366091" parent="1072371242" rule="Finish with Bulbs">
+                        <cell value="-4" x="22" y="22"/>
+                        <cell value="-4" x="23" y="21"/>
+                    </transition>
+                    <transition child="589292965" id="296961339" parent="759892930" rule="Empty Cells in Light">
+                        <cell value="-3" x="23" y="22"/>
+                        <cell value="-3" x="24" y="21"/>
+                    </transition>
+                    <transition child="8297924" id="1431051003" parent="589292965" rule="Finish with Bulbs">
+                        <cell value="-4" x="24" y="23"/>
+                    </transition>
+                    <transition child="1863523178" id="1531498960" parent="8297924" rule="Must Light">
+                        <cell value="-4" x="21" y="14"/>
+                    </transition>
+                    <transition child="1075540217" id="1171678605" parent="1863523178" rule="Finish with Empty">
+                        <cell value="-3" x="22" y="15"/>
+                    </transition>
+                    <transition child="37857815" id="1313303185" parent="1075540217" rule="Must Light">
+                        <cell value="-4" x="22" y="16"/>
+                    </transition>
+                    <transition child="344374604" id="2070493792" parent="37857815" rule="Empty Cells in Light">
+                        <cell value="-3" x="22" y="17"/>
+                        <cell value="-3" x="23" y="18"/>
+                    </transition>
+                    <transition child="1298374362" id="1722987148" parent="344374604" rule="Finish with Bulbs">
+                        <cell value="-4" x="21" y="18"/>
+                    </transition>
+                    <transition child="489117662" id="280910298" parent="1298374362" rule="Must Light">
+                        <cell value="-4" x="24" y="20"/>
+                    </transition>
+                    <transition child="55929403" id="1708698302" parent="489117662" rule="Must Light">
+                        <cell value="-4" x="15" y="23"/>
+                    </transition>
+                    <transition child="49455293" id="1473259103" parent="55929403" rule="Must Light">
+                        <cell value="-4" x="19" y="23"/>
+                    </transition>
+                    <transition child="805372161" id="612747515" parent="49455293" rule="Finish with Empty">
+                        <cell value="-3" x="20" y="24"/>
+                    </transition>
+                    <transition child="1864144026" id="1175921976" parent="805372161" rule="Must Light">
+                        <cell value="-4" x="22" y="24"/>
+                    </transition>
+                    <transition child="1580433872" id="1715141150" parent="1864144026" rule="Must Light">
+                        <cell value="-4" x="17" y="22"/>
+                    </transition>
+                    <transition child="1588094480" id="814668376" parent="1580433872" rule="Must Light">
+                        <cell value="-4" x="16" y="20"/>
+                    </transition>
+                    <transition child="212296919" id="986062498" parent="1588094480" rule="Must Light">
+                        <cell value="-4" x="10" y="21"/>
+                    </transition>
+                    <transition child="1789768629" id="1158136359" parent="212296919" rule="Must Light">
+                        <cell value="-4" x="9" y="20"/>
+                    </transition>
+                    <transition child="1278535418" id="1960589971" parent="1789768629" rule="Empty Cells in Light">
+                        <cell value="-3" x="10" y="19"/>
+                    </transition>
+                    <transition child="21179675" id="843473482" parent="1278535418" rule="Finish with Bulbs">
+                        <cell value="-4" x="9" y="18"/>
+                    </transition>
+                    <transition child="1984172543" id="947870126" parent="21179675" rule="Must Light">
+                        <cell value="-4" x="11" y="19"/>
+                    </transition>
+                    <transition child="504044121" id="1133687420" parent="1984172543" rule="Must Light">
+                        <cell value="-4" x="0" y="20"/>
+                    </transition>
+                    <transition child="57016361" id="1452212287" parent="504044121" rule="Finish with Empty">
+                        <cell value="-3" x="2" y="20"/>
+                        <cell value="-3" x="1" y="19"/>
+                    </transition>
+                    <transition child="1521273774" id="1473936534" parent="57016361" rule="Must Light">
+                        <cell value="-4" x="23" y="12"/>
+                    </transition>
+                    <transition child="1711594393" id="736151635" parent="1521273774" rule="Light or Empty">
+                        <cell value="-4" x="23" y="3"/>
+                    </transition>
+                    <transition child="1892019752" id="97544058" parent="1711594393" rule="Empty Cells in Light">
+                        <cell value="-3" x="18" y="3"/>
+                    </transition>
+                    <transition child="1080446530" id="110671507" parent="1892019752" rule="Empty Cells in Light">
+                        <cell value="-3" x="17" y="3"/>
+                    </transition>
+                    <transition child="793365254" id="1102878618" parent="1080446530" rule="Light or Empty">
+                        <cell value="-4" x="17" y="2"/>
+                    </transition>
+                    <transition child="906007333" id="560389194" parent="793365254" rule="Empty Cells in Light">
+                        <cell value="-3" x="16" y="2"/>
+                    </transition>
+                    <transition child="996583728" id="713490519" parent="906007333" rule="Too Few Bulbs"/>
+                    <transition child="113139673" id="1447478549" parent="1080446530" rule="Light or Empty">
+                        <cell value="-3" x="17" y="2"/>
+                    </transition>
+                    <transition child="1984218931" id="2068393438" parent="113139673" rule="Finish with Bulbs">
+                        <cell value="-4" x="18" y="1"/>
+                    </transition>
+                    <transition child="1062092502" id="2099543674" parent="1984218931" rule="Empty Cells in Light">
+                        <cell value="-3" x="17" y="1"/>
+                        <cell value="-3" x="18" y="0"/>
+                    </transition>
+                    <transition child="2041133453" id="1053516643" parent="1062092502" rule="Finish with Bulbs">
+                        <cell value="-4" x="16" y="0"/>
+                    </transition>
+                    <transition child="187927690" id="1581606850" parent="2041133453" rule="Finish with Bulbs">
+                        <cell value="-4" x="16" y="2"/>
+                    </transition>
+                    <transition child="542330878" id="1817216521" parent="187927690" rule="Empty Cells in Light">
+                        <cell value="-3" x="23" y="1"/>
+                    </transition>
+                    <transition child="1921065197" id="844751447" parent="542330878" rule="Finish with Bulbs">
+                        <cell value="-4" x="22" y="2"/>
+                        <cell value="-4" x="24" y="2"/>
+                    </transition>
+                    <transition child="277381740" id="1475104516" parent="1921065197" rule="Finish with Bulbs">
+                        <cell value="-4" x="24" y="0"/>
+                    </transition>
+                    <transition child="497968199" id="576866636" parent="277381740" rule="Empty Cells in Light">
+                        <cell value="-3" x="22" y="1"/>
+                        <cell value="-3" x="23" y="0"/>
+                    </transition>
+                    <transition child="10473705" id="1248523207" parent="497968199" rule="Finish with Bulbs">
+                        <cell value="-4" x="21" y="0"/>
+                    </transition>
+                    <transition child="1696693453" id="937229191" parent="10473705" rule="Empty Cells in Light">
+                        <cell value="-3" x="22" y="4"/>
+                        <cell value="-3" x="23" y="5"/>
+                    </transition>
+                    <transition child="61353104" id="41747991" parent="1696693453" rule="Finish with Bulbs">
+                        <cell value="-4" x="21" y="5"/>
+                    </transition>
+                    <transition child="111938395" id="853870397" parent="61353104" rule="Must Light">
+                        <cell value="-4" x="20" y="4"/>
+                    </transition>
+                    <transition child="1988872433" id="797716077" parent="111938395" rule="Must Light">
+                        <cell value="-4" x="17" y="6"/>
+                    </transition>
+                    <transition child="1333286056" id="264058359" parent="1988872433" rule="Light or Empty">
+                        <cell value="-4" x="18" y="7"/>
+                    </transition>
+                    <transition child="25681976" id="1091345707" parent="1333286056" rule="Finish with Empty">
+                        <cell value="-3" x="19" y="8"/>
+                        <cell value="-3" x="18" y="9"/>
+                    </transition>
+                    <transition child="205997549" id="1494136826" parent="25681976" rule="Must Light">
+                        <cell value="-4" x="16" y="10"/>
+                    </transition>
+                    <transition child="595679085" id="337422229" parent="205997549" rule="Empty Cells in Light">
+                        <cell value="-3" x="16" y="11"/>
+                        <cell value="-3" x="17" y="10"/>
+                    </transition>
+                    <transition child="1771745468" id="1919433324" parent="595679085" rule="Finish with Bulbs">
+                        <cell value="-4" x="17" y="12"/>
+                    </transition>
+                    <transition child="999384075" id="1462244559" parent="1771745468" rule="Empty Cells in Light">
+                        <cell value="-3" x="15" y="10"/>
+                    </transition>
+                    <transition child="52714444" id="2067126455" parent="999384075" rule="Finish with Bulbs">
+                        <cell value="-4" x="14" y="9"/>
+                    </transition>
+                    <transition child="1100994753" id="182777931" parent="52714444" rule="Must Light">
+                        <cell value="-4" x="19" y="13"/>
+                    </transition>
+                    <transition child="1452202312" id="963381281" parent="1100994753" rule="Must Light">
+                        <cell value="-4" x="21" y="10"/>
+                    </transition>
+                    <transition child="677703155" id="779484591" parent="1452202312" rule="Must Light">
+                        <cell value="-4" x="20" y="11"/>
+                    </transition>
+                    <transition child="172298986" id="2068867254" parent="677703155" rule="Must Light">
+                        <cell value="-4" x="10" y="13"/>
+                    </transition>
+                    <transition child="492152361" id="238475778" parent="172298986" rule="Light or Empty">
+                        <cell value="-4" x="20" y="8"/>
+                    </transition>
+                    <transition child="874402721" id="1985681066" parent="492152361" rule="Empty Cells in Light">
+                        <cell value="-3" x="3" y="24"/>
+                    </transition>
+                    <transition child="3061311" id="2139095839" parent="874402721" rule="Empty Cells in Light">
+                        <cell value="-3" x="12" y="17"/>
+                    </transition>
+                    <transition child="1385924532" id="1853524099" parent="3061311" rule="Light or Empty">
+                        <cell value="-4" x="13" y="16"/>
+                    </transition>
+                    <transition child="1961555847" id="1469488532" parent="1385924532" rule="Light or Empty">
+                        <cell value="-4" x="2" y="23"/>
+                    </transition>
+                    <transition child="550125977" id="1953667342" parent="1961555847" rule="Finish with Empty">
+                        <cell value="-3" x="1" y="24"/>
+                    </transition>
+                    <transition child="759984912" id="1580907027" parent="550125977" rule="Must Light">
+                        <cell value="-4" x="4" y="20"/>
+                    </transition>
+                    <transition child="722827243" id="1404267244" parent="759984912" rule="Must Light">
+                        <cell value="-4" x="0" y="24"/>
+                    </transition>
+                    <transition child="1413693256" id="935439397" parent="722827243" rule="Must Light">
+                        <cell value="-4" x="7" y="19"/>
+                    </transition>
+                    <transition child="482692463" id="477092646" parent="1413693256" rule="Light or Empty">
+                        <cell value="-3" x="1" y="12"/>
+                    </transition>
+                    <transition child="1798027450" id="652180054" parent="482692463" rule="Must Light">
+                        <cell value="-4" x="0" y="12"/>
+                    </transition>
+                    <transition child="1063740007" id="159377426" parent="1798027450" rule="Empty Cells in Light">
+                        <cell value="-3" x="0" y="11"/>
+                    </transition>
+                    <transition child="1438069831" id="1656201751" parent="1063740007" rule="Too Few Bulbs"/>
+                    <transition child="572941684" id="1416575123" parent="1413693256" rule="Light or Empty">
+                        <cell value="-4" x="1" y="12"/>
+                    </transition>
+                    <transition child="2041509578" id="643194637" parent="572941684" rule="Finish with Empty">
+                        <cell value="-3" x="1" y="14"/>
+                        <cell value="-3" x="0" y="13"/>
+                    </transition>
+                    <transition child="1161044200" id="1420354252" parent="2041509578" rule="Must Light">
+                        <cell value="-4" x="0" y="11"/>
+                    </transition>
+                    <transition child="1595409705" id="1368301940" parent="1161044200" rule="Must Light">
+                        <cell value="-4" x="1" y="16"/>
+                    </transition>
+                    <transition child="685926554" id="1286943364" parent="1595409705" rule="Finish with Bulbs">
+                        <cell value="-4" x="3" y="14"/>
+                    </transition>
+                    <transition child="325944335" id="214166003" parent="685926554" rule="Empty Cells in Light">
+                        <cell value="-3" x="4" y="14"/>
+                        <cell value="-3" x="5" y="15"/>
+                    </transition>
+                    <transition child="1295299843" id="1990833652" parent="325944335" rule="Finish with Empty">
+                        <cell value="-3" x="1" y="10"/>
+                    </transition>
+                    <transition child="555346705" id="1579897127" parent="1295299843" rule="Empty Cells in Light">
+                        <cell value="-3" x="5" y="16"/>
+                        <cell value="-3" x="6" y="17"/>
+                        <cell value="-3" x="7" y="16"/>
+                    </transition>
+                    <transition child="1917902377" id="447020243" parent="555346705" rule="Finish with Bulbs">
+                        <cell value="-4" x="6" y="15"/>
+                    </transition>
+                    <transition child="408500097" id="1995836205" parent="1917902377" rule="Empty Cells in Light">
+                        <cell value="-3" x="12" y="15"/>
+                    </transition>
+                    <transition child="1366503734" id="631640637" parent="408500097" rule="Finish with Bulbs">
+                        <cell value="-4" x="11" y="16"/>
+                    </transition>
+                    <transition child="1185820443" id="396027734" parent="1366503734" rule="Must Light">
+                        <cell value="-4" x="12" y="14"/>
+                    </transition>
+                    <transition child="465472479" id="1393355273" parent="1185820443" rule="Must Light">
+                        <cell value="-4" x="14" y="18"/>
+                    </transition>
+                    <transition child="1824478510" id="1532915625" parent="465472479" rule="Must Light">
+                        <cell value="-4" x="8" y="14"/>
+                    </transition>
+                    <transition child="936914612" id="1482143250" parent="1824478510" rule="Empty Cells in Light">
+                        <cell value="-3" x="6" y="14"/>
+                    </transition>
+                    <transition child="455629981" id="533933249" parent="936914612" rule="Finish with Bulbs">
+                        <cell value="-4" x="5" y="13"/>
+                    </transition>
+                    <transition child="1825692734" id="164830256" parent="455629981" rule="Light or Empty">
+                        <cell value="-3" x="3" y="10"/>
+                    </transition>
+                    <transition child="481914922" id="445309598" parent="1825692734" rule="Finish with Bulbs">
+                        <cell value="-4" x="4" y="9"/>
+                        <cell value="-4" x="2" y="9"/>
+                    </transition>
+                    <transition child="1867042976" id="219860241" parent="481914922" rule="Cannot Light A Cell"/>
+                    <transition child="1978944924" id="580604357" parent="455629981" rule="Light or Empty">
+                        <cell value="-4" x="3" y="10"/>
+                    </transition>
+                    <transition child="129596621" id="777876598" parent="1978944924" rule="Must Light">
+                        <cell value="-4" x="4" y="9"/>
+                    </transition>
+                    <transition child="672873053" id="2136211590" parent="129596621" rule="Finish with Empty">
+                        <cell value="-3" x="2" y="9"/>
+                    </transition>
+                    <transition child="565396353" id="1839207916" parent="672873053" rule="Must Light">
+                        <cell value="-4" x="2" y="7"/>
+                    </transition>
+                    <transition child="260318025" id="2117875457" parent="565396353" rule="Must Light">
+                        <cell value="-4" x="10" y="8"/>
+                    </transition>
+                    <transition child="1509073062" id="1650874400" parent="260318025" rule="Must Light">
+                        <cell value="-4" x="1" y="18"/>
+                    </transition>
+                    <transition child="347808803" id="1900695985" parent="1385924532" rule="Light or Empty">
+                        <cell value="-3" x="2" y="23"/>
+                    </transition>
+                    <transition child="1977887058" id="1268531148" parent="347808803" rule="Finish with Bulbs">
+                        <cell value="-4" x="1" y="24"/>
+                    </transition>
+                    <transition child="1809518431" id="1838296629" parent="1977887058" rule="Cannot Light A Cell"/>
+                    <transition child="1145682927" id="250100636" parent="3061311" rule="Light or Empty">
+                        <cell value="-3" x="13" y="16"/>
+                    </transition>
+                    <transition child="766367071" id="917902985" parent="1145682927" rule="Finish with Bulbs">
+                        <cell value="-4" x="12" y="15"/>
+                        <cell value="-4" x="11" y="16"/>
+                    </transition>
+                    <transition child="1531866382" id="418818227" parent="766367071" rule="Must Light">
+                        <cell value="-4" x="13" y="14"/>
+                    </transition>
+                    <transition child="1398068116" id="1737607241" parent="1531866382" rule="Empty Cells in Light">
+                        <cell value="-3" x="6" y="17"/>
+                        <cell value="-3" x="5" y="16"/>
+                        <cell value="-3" x="6" y="15"/>
+                    </transition>
+                    <transition child="1938045720" id="686439420" parent="1398068116" rule="Finish with Bulbs">
+                        <cell value="-4" x="7" y="16"/>
+                    </transition>
+                    <transition child="1962664719" id="1805799997" parent="1938045720" rule="Light or Empty">
+                        <cell value="-4" x="6" y="14"/>
+                    </transition>
+                    <transition child="1406402428" id="1595008917" parent="1962664719" rule="Finish with Empty">
+                        <cell value="-3" x="5" y="13"/>
+                        <cell value="-3" x="4" y="14"/>
+                    </transition>
+                    <transition child="1159099201" id="1155513892" parent="1406402428" rule="Light or Empty">
+                        <cell value="-4" x="3" y="14"/>
+                    </transition>
+                    <transition child="1632889100" id="229208759" parent="1159099201" rule="Must Light">
+                        <cell value="-4" x="4" y="13"/>
+                    </transition>
+                    <transition child="1141361742" id="2145724699" parent="1632889100" rule="Finish with Empty">
+                        <cell value="-3" x="1" y="14"/>
+                    </transition>
+                    <transition child="1588352836" id="1457385376" parent="1141361742" rule="Must Light">
+                        <cell value="-4" x="1" y="16"/>
+                    </transition>
+                    <transition child="1254594919" id="2072745577" parent="1588352836" rule="Light or Empty">
+                        <cell value="-4" x="1" y="12"/>
+                    </transition>
+                    <transition child="207346054" id="1474682331" parent="1254594919" rule="Finish with Empty">
+                        <cell value="-3" x="0" y="13"/>
+                    </transition>
+                    <transition child="1039353951" id="1999802241" parent="207346054" rule="Must Light">
+                        <cell value="-4" x="0" y="11"/>
+                    </transition>
+                    <transition child="1259369885" id="604681623" parent="1039353951" rule="Finish with Empty">
+                        <cell value="-3" x="1" y="10"/>
+                    </transition>
+                    <transition child="1820119875" id="51726241" parent="1259369885" rule="Must Light">
+                        <cell value="-4" x="3" y="10"/>
+                    </transition>
+                    <transition child="1722243066" id="2061981981" parent="1820119875" rule="Must Light">
+                        <cell value="-4" x="5" y="11"/>
+                    </transition>
+                    <transition child="531832153" id="24370070" parent="1722243066" rule="Light or Empty">
+                        <cell value="-4" x="2" y="23"/>
+                    </transition>
+                    <transition child="1812290268" id="1276038232" parent="531832153" rule="Must Light">
+                        <cell value="-4" x="4" y="20"/>
+                    </transition>
+                    <transition child="2006482751" id="1303212202" parent="1812290268" rule="Cannot Light A Cell"/>
+                    <transition child="795317352" id="424320839" parent="1722243066" rule="Light or Empty">
+                        <cell value="-3" x="2" y="23"/>
+                    </transition>
+                    <transition child="1391409907" id="1746741236" parent="795317352" rule="Finish with Bulbs">
+                        <cell value="-4" x="1" y="24"/>
+                    </transition>
+                    <transition child="971367564" id="1092373785" parent="1391409907" rule="Cannot Light A Cell"/>
+                    <transition child="1176216363" id="1875531201" parent="1588352836" rule="Light or Empty">
+                        <cell value="-3" x="1" y="12"/>
+                    </transition>
+                    <transition child="782519607" id="699444805" parent="1176216363" rule="Must Light">
+                        <cell value="-4" x="0" y="12"/>
+                    </transition>
+                    <transition child="465349979" id="2144073625" parent="782519607" rule="Empty Cells in Light">
+                        <cell value="-3" x="0" y="11"/>
+                    </transition>
+                    <transition child="2084801161" id="1188210479" parent="465349979" rule="Too Few Bulbs"/>
+                    <transition child="1820977868" id="1570302272" parent="1406402428" rule="Light or Empty">
+                        <cell value="-3" x="3" y="14"/>
+                    </transition>
+                    <transition child="408159077" id="326035593" parent="1820977868" rule="Finish with Bulbs">
+                        <cell value="-4" x="1" y="14"/>
+                    </transition>
+                    <transition child="5378039" id="1780773731" parent="408159077" rule="Finish with Empty">
+                        <cell value="-3" x="0" y="13"/>
+                        <cell value="-3" x="1" y="12"/>
+                    </transition>
+                    <transition child="403695573" id="987303165" parent="5378039" rule="Finish with Bulbs">
+                        <cell value="-4" x="0" y="11"/>
+                        <cell value="-4" x="1" y="10"/>
+                    </transition>
+                    <transition child="193112792" id="537997327" parent="403695573" rule="Cannot Light A Cell"/>
+                    <transition child="194077111" id="787378742" parent="1938045720" rule="Light or Empty">
+                        <cell value="-3" x="6" y="14"/>
+                    </transition>
+                    <transition child="999959460" id="66118760" parent="194077111" rule="Must Light">
+                        <cell value="-4" x="8" y="14"/>
+                    </transition>
+                    <transition child="1450150593" id="1249084733" parent="999959460" rule="Light or Empty">
+                        <cell value="-4" x="2" y="23"/>
+                    </transition>
+                    <transition child="961172857" id="1975003107" parent="1450150593" rule="Finish with Empty">
+                        <cell value="-3" x="1" y="24"/>
+                    </transition>
+                    <transition child="2041853102" id="1413137977" parent="961172857" rule="Must Light">
+                        <cell value="-4" x="4" y="20"/>
+                    </transition>
+                    <transition child="1093579998" id="1034838744" parent="2041853102" rule="Cannot Light A Cell"/>
+                    <transition child="791120164" id="1783281631" parent="999959460" rule="Light or Empty">
+                        <cell value="-3" x="2" y="23"/>
+                    </transition>
+                    <transition child="102607312" id="327570609" parent="791120164" rule="Finish with Bulbs">
+                        <cell value="-4" x="1" y="24"/>
+                    </transition>
+                    <transition child="844201465" id="1311046453" parent="102607312" rule="Cannot Light A Cell"/>
+                    <transition child="1602025569" id="1457254711" parent="172298986" rule="Light or Empty">
+                        <cell value="-3" x="20" y="8"/>
+                    </transition>
+                    <transition child="2104586156" id="254793421" parent="1602025569" rule="Cannot Light A Cell"/>
+                    <transition child="198009109" id="2136795352" parent="1988872433" rule="Light or Empty">
+                        <cell value="-3" x="18" y="7"/>
+                    </transition>
+                    <transition child="1193722423" id="368772250" parent="198009109" rule="Cannot Light A Cell"/>
+                    <transition child="851892918" id="363527658" parent="1521273774" rule="Light or Empty">
+                        <cell value="-3" x="23" y="3"/>
+                    </transition>
+                    <transition child="646803356" id="1140698225" parent="851892918" rule="Finish with Bulbs">
+                        <cell value="-4" x="22" y="2"/>
+                        <cell value="-4" x="23" y="1"/>
+                        <cell value="-4" x="24" y="2"/>
+                    </transition>
+                    <transition child="1384860045" id="1843253961" parent="646803356" rule="Finish with Empty">
+                        <cell value="-3" x="24" y="0"/>
+                    </transition>
+                    <transition child="1805403619" id="1776762152" parent="1384860045" rule="Cannot Light A Cell"/>
+                    <transition child="759433647" id="27914142" parent="1757506395" rule="Light or Empty">
+                        <cell value="-3" x="8" y="24"/>
+                    </transition>
+                    <transition child="1588789751" id="1257316748" parent="759433647" rule="Cannot Light A Cell"/>
+                </transitions>
+            </tree>
+        </proof>
+    </edu.rpi.legup.puzzle>
+</edu.rpi.legup.Legup>
