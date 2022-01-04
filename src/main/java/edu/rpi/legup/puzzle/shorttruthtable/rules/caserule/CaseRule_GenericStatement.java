@@ -20,7 +20,7 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
                                      ShortTruthTableCellType[][] falseCases) {
         super(ShortTruthTableOperation.getRuleName(operation),
                 title+" case",
-                "A known "+title.toUpperCase()+" statment can have multiple forms");
+                "A known "+title.toUpperCase()+" statement can have multiple forms");
 
         this.operation = operation;
 

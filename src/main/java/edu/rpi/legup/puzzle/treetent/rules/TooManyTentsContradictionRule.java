@@ -38,7 +38,7 @@ public class TooManyTentsContradictionRule extends ContradictionRule {
                 colTents > treeTentBoard.getColClues().get(loc.x).getData()) {
             return null;
         } else {
-            return "This cell does not contain a contradiction at this location.";
+            return super.getNoContradictionMessage();
         }
     }
 }

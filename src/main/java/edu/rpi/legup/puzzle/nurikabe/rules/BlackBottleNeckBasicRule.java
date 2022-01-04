@@ -37,7 +37,7 @@ public class BlackBottleNeckBasicRule extends BasicRule {
         NurikabeCell cell = (NurikabeCell) destBoardState.getPuzzleElement(puzzleElement);
 
         if (cell.getType() != NurikabeType.BLACK) {
-            return "Only black cells are allowed for this rule!";
+            return super.getInvalidUseOfRuleMessage() + ": Only black cells are allowed for this rule!";
         }
         NurikabeBoard modified = origBoardState.copy();
         NurikabeCell modCell = (NurikabeCell) modified.getPuzzleElement(puzzleElement);
@@ -46,7 +46,7 @@ public class BlackBottleNeckBasicRule extends BasicRule {
         if (contraRule.checkContradiction(modified) == null) {
             return null;
         } else {
-            return "This is not the only way for black to escape!";
+            return super.getInvalidUseOfRuleMessage() + ": This is not the only way for black to escape!";
         }
     }
 

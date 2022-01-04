@@ -31,7 +31,7 @@ public class EmptyFieldBasicRule extends BasicRule {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         if (puzzleElement instanceof TreeTentLine) {
-            return "Line is not valid for this rule.";
+            return super.getInvalidUseOfRuleMessage() + ": Line is not valid for this rule";
         }
         TreeTentBoard initialBoard = (TreeTentBoard) transition.getParents().get(0).getBoard();
         TreeTentCell initCell = (TreeTentCell) initialBoard.getPuzzleElement(puzzleElement);
@@ -44,7 +44,7 @@ public class EmptyFieldBasicRule extends BasicRule {
         if (isForced(finalBoard, finalCell)) {
             return null;
         } else {
-            return "This cell is not forced to be empty.";
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty.";
         }
     }
 

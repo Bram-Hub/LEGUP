@@ -38,7 +38,7 @@ public class FixedMaxBasicRule extends BasicRule {
     	SkyscrapersBoard finalBoard = (SkyscrapersBoard) transition.getBoard();
         SkyscrapersCell finalCell = (SkyscrapersCell) finalBoard.getPuzzleElement(puzzleElement);
         if (!(initCell.getType() == SkyscrapersType.UNKNOWN && finalCell.getType() == SkyscrapersType.Number)) {
-            return "Modified cells must be number";
+            return super.getInvalidUseOfRuleMessage() + ": Modified cells must be number";
         }
 
         SkyscrapersBoard emptyCase = initialBoard.copy();
@@ -53,11 +53,11 @@ public class FixedMaxBasicRule extends BasicRule {
         System.out.println(south);
         if (north + south != max + 1 && west + east != max + 1) {
         	System.out.println("111");
-        	return "Opposing clues must add up to max";
+        	return super.getInvalidUseOfRuleMessage() + ": Opposing clues must add up to max";
         }
         
         if (finalCell.getData() != initialBoard.getWidth()) {
-        	return "Modified cells must be the max";
+        	return super.getInvalidUseOfRuleMessage() + ": Modified cells must be the max";
         }
         
         if (north + south == max + 1 && loc.y + 1 == north) {
@@ -67,7 +67,7 @@ public class FixedMaxBasicRule extends BasicRule {
         	return null;
         }
         
-        return "This cell is not forced.";
+        return super.getInvalidUseOfRuleMessage() + ": This cell is not forced.";
                 
     }
 

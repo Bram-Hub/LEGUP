@@ -28,14 +28,14 @@ public class NoTreeForTentContradictionRule extends ContradictionRule {
         TreeTentBoard treeTentBoard = (TreeTentBoard) board;
         TreeTentCell cell = (TreeTentCell) puzzleElement;
         if (cell.getType() != TreeTentType.TENT) {
-            return "This cell does not contain a contradiction at this location.";
+            return super.getNoContradictionMessage();
         }
         int adjTree = treeTentBoard.getAdjacent(cell, TreeTentType.TREE).size();
         int adjUnknown = treeTentBoard.getAdjacent(cell, TreeTentType.UNKNOWN).size();
         if (adjTree == 0 && adjUnknown == 0) {
             return null;
         } else {
-            return "This cell does not contain a contradiction at this location.";
+            return super.getNoContradictionMessage();
         }
     }
 }

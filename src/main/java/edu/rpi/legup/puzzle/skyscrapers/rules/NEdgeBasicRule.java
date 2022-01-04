@@ -18,7 +18,7 @@ public class NEdgeBasicRule extends BasicRule {
 
     public NEdgeBasicRule() {
         super("N Edge",
-                "If the maximum number appears on an edge, the row or column¡¯s numbers appear in ascending order, starting at that edge.",
+                "If the maximum number appears on an edge, the row or columnï¿½ï¿½s numbers appear in ascending order, starting at that edge.",
                 "edu/rpi/legup/images/skyscrapers/NEdge.png");
     }
 
@@ -38,7 +38,7 @@ public class NEdgeBasicRule extends BasicRule {
     	SkyscrapersBoard finalBoard = (SkyscrapersBoard) transition.getBoard();
         SkyscrapersCell finalCell = (SkyscrapersCell) finalBoard.getPuzzleElement(puzzleElement);
         if (!(initCell.getType() == SkyscrapersType.UNKNOWN && finalCell.getType() == SkyscrapersType.Number)) {
-            return "Modified cells must be number";
+            return super.getInvalidUseOfRuleMessage() + ": Modified cells must be number";
         }
 
         SkyscrapersBoard emptyCase = initialBoard.copy();
@@ -59,7 +59,7 @@ public class NEdgeBasicRule extends BasicRule {
         	return null;
         }
         
-        return "This cell is not forced.";
+        return super.getInvalidUseOfRuleMessage() + ": This cell is not forced.";
         
     }
 

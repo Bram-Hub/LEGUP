@@ -33,7 +33,6 @@ public abstract class CaseRule_Generic extends CaseRule {
      */
     @Override
     public String checkRuleRaw(TreeTransition transition) {
-//        System.out.println("checkRuleRaw case rule");
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
         if (childTransitions.size() != 2) {
             return "This case rule must have 2 children.";
@@ -56,7 +55,7 @@ public abstract class CaseRule_Generic extends CaseRule {
                 (mod2.getType() == ShortTruthTableCellType.FALSE && mod1.getType() == ShortTruthTableCellType.TRUE))) {
             return "This case rule must an empty true or false cell.";
         }
-
+      
         return null;
     }
 
