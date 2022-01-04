@@ -35,6 +35,8 @@ import edu.rpi.legup.ui.treeview.TreeViewSelection;
 import edu.rpi.legup.user.Submission;
 import edu.rpi.legupupdate.Update;
 import edu.rpi.legupupdate.UpdateProgress;
+import io.grpc.internal.KeepAliveManager;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -103,6 +105,16 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     protected TitledBorder boardBorder;
 
     protected JSplitPane topHalfPanel, mainPanel;
+
+    /**
+     * Identifies operating system 
+     */
+    public String getOS() {
+        String os = System.getProperty("os.name").toLowerCase(); 
+        if(os.contains("mac")) os = "mac"; 
+        else os = "win"; 
+        return os;  
+    }
 
     /**
      * LegupUI Constructor - creates a new LegupUI to setup the menu and toolbar
@@ -200,24 +212,30 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 
         proof = new JMenu("Proof");
 
+        String os = getOS(); 
+
         add = new JMenuItem("Add");
         add.addActionListener(a -> treePanel.add());
-        add.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_DOWN_MASK));
+        if(os == "mac") add.setAccelerator(KeyStroke.getKeyStroke('A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        else add.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_DOWN_MASK));
         proof.add(add);
 
         delete = new JMenuItem("Delete");
         delete.addActionListener(a -> treePanel.delete());
-        delete.setAccelerator(KeyStroke.getKeyStroke('D', InputEvent.CTRL_DOWN_MASK));
+        if(os == "mac") delete.setAccelerator(KeyStroke.getKeyStroke('D', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        else delete.setAccelerator(KeyStroke.getKeyStroke('D', InputEvent.CTRL_DOWN_MASK));
         proof.add(delete);
 
         merge = new JMenuItem("Merge");
         merge.addActionListener(a -> treePanel.merge());
-        merge.setAccelerator(KeyStroke.getKeyStroke('M', InputEvent.CTRL_DOWN_MASK));
+        if(os == "mac") merge.setAccelerator(KeyStroke.getKeyStroke('M', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        else merge.setAccelerator(KeyStroke.getKeyStroke('M', InputEvent.CTRL_DOWN_MASK));
         proof.add(merge);
 
         collapse = new JMenuItem("Collapse");
         collapse.addActionListener(a -> treePanel.collapse());
-        collapse.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_DOWN_MASK));
+        if(os == "mac") collapse.setAccelerator(KeyStroke.getKeyStroke('C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        else collapse.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_DOWN_MASK));
         collapse.setEnabled(false);
         proof.add(collapse);
 
@@ -253,7 +271,8 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         mBar.add(file);
         file.add(newPuzzle);
         newPuzzle.addActionListener((ActionEvent) -> promptPuzzle());
-        newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
+        if(os == "mac") newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        else newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
 
 //        file.add(genPuzzle);
 ////        genPuzzle.addActionListener((ActionEvent) ->
@@ -279,12 +298,14 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                 }
             }
         });
-        resetPuzzle.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.CTRL_DOWN_MASK));
+        if(os == "mac") resetPuzzle.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())); 
+        else resetPuzzle.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.CTRL_DOWN_MASK));
         file.addSeparator();
 
         file.add(saveProof);
         saveProof.addActionListener((ActionEvent) -> saveProof());
-        saveProof.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK));
+        if(os == "mac") saveProof.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        else saveProof.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK));
 
         file.add(preferences);
         preferences.addActionListener(a -> {
@@ -294,7 +315,8 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 
         file.add(exit);
         exit.addActionListener((ActionEvent) -> System.exit(0));
-        exit.setAccelerator(KeyStroke.getKeyStroke('Q', InputEvent.CTRL_DOWN_MASK));
+        if(os == "mac") exit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        else exit.setAccelerator(KeyStroke.getKeyStroke('Q', InputEvent.CTRL_DOWN_MASK));
         mBar.add(edit);
 
 
@@ -303,14 +325,16 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         {
             GameBoardFacade.getInstance().getHistory().undo();
         });
-        undo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK));
+        if(os == "mac") undo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        else undo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK));
 
         edit.add(redo);
         redo.addActionListener((ActionEvent) ->
         {
             GameBoardFacade.getInstance().getHistory().redo();
         });
-        redo.setAccelerator(KeyStroke.getKeyStroke('Y', InputEvent.CTRL_DOWN_MASK));
+        if(os == "mac") redo.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        else redo.setAccelerator(KeyStroke.getKeyStroke('Y', InputEvent.CTRL_DOWN_MASK));
 
         mBar.add(proof);
 
