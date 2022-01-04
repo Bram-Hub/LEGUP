@@ -55,6 +55,6 @@ public class DuplicateNumberContradictionRule extends ContradictionRule {
             }
         }
     	
-        return "Does not contain a contradiction at this index";
+        return super.getNoContradictionMessage();
     }
 }

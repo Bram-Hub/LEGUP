@@ -45,6 +45,6 @@ public class TooManyBlackCellsContradictionRule extends ContradictionRule {
                 }
             }
         }
-        return "Board does not contain a contradiction";
+        return super.getNoContradictionMessage();
     }
 }

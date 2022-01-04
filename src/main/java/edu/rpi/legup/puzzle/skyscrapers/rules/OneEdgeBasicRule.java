@@ -38,7 +38,7 @@ public class OneEdgeBasicRule extends BasicRule {
     	SkyscrapersBoard finalBoard = (SkyscrapersBoard) transition.getBoard();
         SkyscrapersCell finalCell = (SkyscrapersCell) finalBoard.getPuzzleElement(puzzleElement);
         if (!(initCell.getType() == SkyscrapersType.UNKNOWN && finalCell.getType() == SkyscrapersType.Number)) {
-            return "Modified cells must be number";
+            return super.getInvalidUseOfRuleMessage() + ": Modified cells must be number";
         }
 
         SkyscrapersBoard emptyCase = initialBoard.copy();
@@ -46,11 +46,11 @@ public class OneEdgeBasicRule extends BasicRule {
         Point loc = finalCell.getLocation();
         
         if (loc.x != 0 && loc.x != initialBoard.getWidth() - 1 && loc.y != 0 && loc.y != initialBoard.getHeight() - 1) {
-        	return "Modified cells must be on the edge";
+        	return super.getInvalidUseOfRuleMessage() + ": Modified cells must be on the edge";
         }
         
         if (finalCell.getData() != initialBoard.getWidth()) {
-        	return "Modified cells must be the max";
+        	return super.getInvalidUseOfRuleMessage() + ": Modified cells must be the max";
         }
         
         if (loc.x == 0 && initialBoard.getRow().get(loc.y).getData() == 1) {

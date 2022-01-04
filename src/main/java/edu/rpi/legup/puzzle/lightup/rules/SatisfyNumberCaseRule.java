@@ -163,13 +163,14 @@ public class SatisfyNumberCaseRule extends CaseRule {
 
         List<LightUpCell> spots = getPossibleSpots(transition);
         if (spots == null) {
-            return "This case rule must have a valid spot for where it was applied";
+            return super.getInvalidUseOfRuleMessage();
         }
 
         for (LightUpCell c : spots) {
             ArrayList<Board> cases = getCases(parent.getBoard(), c);
 
-            if (cases.size() == childTransitions.size()) {
+            // We want to return false if cases.size() is equal to 1 because case rules aren't supposed to have only 1 option
+            if (cases.size() == childTransitions.size() && cases.size() > 1) {
                 boolean foundSpot = true;
                 for (TreeTransition childTrans : childTransitions) {
                     LightUpBoard actCase = (LightUpBoard) childTrans.getBoard();
@@ -211,7 +212,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
                 }
             }
         }
-        return "This case rule is not valid";
+        return super.getInvalidUseOfRuleMessage();
     }
 
     /**

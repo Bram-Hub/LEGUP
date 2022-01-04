@@ -118,6 +118,6 @@ public class InsufficientVisibilityContradictionRule extends ContradictionRule {
     	}
         
         //System.out.print("Does not contain a contradiction at this index");
-        return "Does not contain a contradiction at this index";
+        return super.getNoContradictionMessage();
     }
 }

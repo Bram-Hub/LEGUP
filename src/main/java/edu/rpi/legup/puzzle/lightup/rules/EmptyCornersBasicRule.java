@@ -38,7 +38,7 @@ public class EmptyCornersBasicRule extends BasicRule {
         LightUpCell finalCell = (LightUpCell) finalBoard.getPuzzleElement(puzzleElement);
 
         if (!(cell.getType() == LightUpCellType.UNKNOWN && finalCell.getType() == LightUpCellType.EMPTY)) {
-            return "This cell must be an empty cell.";
+            return super.getInvalidUseOfRuleMessage() + ": This cell must be an empty cell";
         }
 
         Point loc = finalCell.getLocation();
@@ -60,7 +60,7 @@ public class EmptyCornersBasicRule extends BasicRule {
             numberedCells.add(lowerLeft);
         }
         if (numberedCells.isEmpty()) {
-            return "This cell must diagonal to a numbered cell.";
+            return super.getInvalidUseOfRuleMessage() + ": This cell must diagonal to a numbered cell";
         }
 
         TooFewBulbsContradictionRule tooFew = new TooFewBulbsContradictionRule();
@@ -76,7 +76,7 @@ public class EmptyCornersBasicRule extends BasicRule {
         if (createsContra) {
             return null;
         } else {
-            return "This cell is not forced to be empty.";
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty";
         }
     }
 

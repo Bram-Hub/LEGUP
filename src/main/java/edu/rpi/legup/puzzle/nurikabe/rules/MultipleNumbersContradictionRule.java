@@ -13,6 +13,9 @@ import java.util.Set;
 
 public class MultipleNumbersContradictionRule extends ContradictionRule {
 
+    private final String NO_CONTRADICTION_MESSAGE = "Does not contain a contradiction at this index";
+    private final String INVALID_USE_MESSAGE = "Contradiction must be a numbered cell";
+
     public MultipleNumbersContradictionRule() {
         super("Multiple Numbers",
                 "All white regions cannot have more than one number.",
@@ -33,7 +36,7 @@ public class MultipleNumbersContradictionRule extends ContradictionRule {
 
         NurikabeCell cell = (NurikabeCell) nurikabeBoard.getPuzzleElement(puzzleElement);
         if (cell.getType() != NurikabeType.NUMBER) {
-            return "Contradiction must be a numbered cell";
+            return super.getInvalidUseOfRuleMessage() + ": " + INVALID_USE_MESSAGE;
         }
         DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nurikabeBoard);
         Set<NurikabeCell> numberedRegion = regions.getSet(cell);
@@ -42,6 +45,6 @@ public class MultipleNumbersContradictionRule extends ContradictionRule {
                 return null;
             }
         }
-        return "Does not contain a contradiction at this index";
+        return super.getNoContradictionMessage() + ": " + NO_CONTRADICTION_MESSAGE;
     }
 }

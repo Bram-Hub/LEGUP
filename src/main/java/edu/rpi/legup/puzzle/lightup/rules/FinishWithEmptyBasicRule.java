@@ -34,13 +34,13 @@ public class FinishWithEmptyBasicRule extends BasicRule {
         LightUpBoard finalBoard = (LightUpBoard) transition.getBoard();
         LightUpCell cell = (LightUpCell) finalBoard.getPuzzleElement(puzzleElement);
         if (cell.getType() != LightUpCellType.EMPTY) {
-            return "Modified cells must be empty";
+            return super.getInvalidUseOfRuleMessage() + ": Modified cells must be empty";
         }
 
         if (isForced(initialBoard, cell.getLocation())) {
             return null;
         }
-        return "Empty is not forced";
+        return super.getInvalidUseOfRuleMessage() + ": Empty is not forced";
     }
 
     private boolean isForced(LightUpBoard board, Point location) {
