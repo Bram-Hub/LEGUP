@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.awt.Point;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class ShortTruthTableStatement extends PuzzleElement<String>{
@@ -52,7 +51,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 		//construct the cell for this node in the tree
 		cell = cells.get(index);
 		//give the cell a reference back to this statement
-		cell.setStatementRefference(this);
+		cell.setStatementReference(this);
 
 		//get the strings on either side of this char in the string rep
 		String left = statement.substring(0, index);
