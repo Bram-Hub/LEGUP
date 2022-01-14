@@ -33,9 +33,6 @@ public abstract class BasicRule_Generic extends BasicRule {
         if (!cell.isAssigned())
             return super.getInvalidUseOfRuleMessage() + ": Only assigned cells are allowed for basic rules";
 
-        // Get the original board
-        ShortTruthTableBoard originalBoard = (ShortTruthTableBoard) transition.getParents().get(0).getBoard();
-
         if (this.ELIMINATION_RULE)
         {
             // Strategy: If this is an elimination rule, simply check if there is a contradiction at the specified statement
@@ -62,7 +59,7 @@ public abstract class BasicRule_Generic extends BasicRule {
             // Strategy: Negate the modified cell and check if there is a contradiction. If there is one, then the
             // original statement must be true. If there isn't one, then the original statement must be false.
 
-            ShortTruthTableBoard modifiedBoard = originalBoard.copy();
+            ShortTruthTableBoard modifiedBoard = board.copy();
             ((ShortTruthTableCell) modifiedBoard.getPuzzleElement(element)).setType(cell.getType().getNegation());
 
             String contradictionMessage = CORRESPONDING_CONTRADICTION_RULE.checkContradictionAt(modifiedBoard, element);
