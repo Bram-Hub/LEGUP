@@ -13,6 +13,9 @@ import java.util.Set;
 
 public class IsolateBlackContradictionRule extends ContradictionRule {
 
+    private final String NO_CONTRADICTION_MESSAGE = "Contradiction applied incorrectly. No isolated Blacks.";
+    private final String INVALID_USE_MESSAGE = "Contradiction must be a black cell";
+
     public IsolateBlackContradictionRule() {
         super("Isolated Black",
                 "There must still be a possibility to connect every Black cell",
@@ -32,7 +35,7 @@ public class IsolateBlackContradictionRule extends ContradictionRule {
         NurikabeBoard nurikabeBoard = (NurikabeBoard) board;
         NurikabeCell cell = (NurikabeCell) nurikabeBoard.getPuzzleElement(puzzleElement);
         if (cell.getType() != NurikabeType.BLACK) {
-            return "Contradiction must be a black cell";
+            return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
         }
 
         DisjointSets<NurikabeCell> blackRegions = NurikabeUtilities.getPossibleBlackRegions(nurikabeBoard);
@@ -49,6 +52,6 @@ public class IsolateBlackContradictionRule extends ContradictionRule {
                 }
             }
         }
-        return "Contradiction applied incorrectly. No isolated Blacks.";
+        return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
     }
 }

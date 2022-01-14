@@ -43,7 +43,7 @@ public class AdvancedDeductionBasicRule extends BasicRule {
             for (int x = 0; x < groupDim; x++) {
                 SudokuCell c = initialBoard.getCell(groupNum, x, y);
                 if (c.getData() == cell.getData() && x != relX && y != relY) {
-                    return "Duplicate value in sub region";
+                    return super.getRuleName() + ": Duplicate value in sub-region";
                 }
                 possible[y][x] = c.getData() == 0;
             }
@@ -70,12 +70,12 @@ public class AdvancedDeductionBasicRule extends BasicRule {
                 if (possible[y][x] && !isForced) {
                     isForced = true;
                 } else if (possible[y][x]) {
-                    return "Not forced";
+                    return super.getInvalidUseOfRuleMessage() + ": Not forced";
                 }
             }
         }
         if (!isForced) {
-            return "Not forced";
+            return super.getInvalidUseOfRuleMessage() + ": Not forced";
         }
         return null;
     }

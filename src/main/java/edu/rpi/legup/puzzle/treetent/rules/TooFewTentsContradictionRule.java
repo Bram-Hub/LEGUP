@@ -40,7 +40,7 @@ public class TooFewTentsContradictionRule extends ContradictionRule {
                 colTents + colUnknowns < treeTentBoard.getColClues().get(loc.x).getData()) {
             return null;
         } else {
-            return "This cell does not contain a contradiction at this location.";
+            return super.getNoContradictionMessage();
         }
     }
 }

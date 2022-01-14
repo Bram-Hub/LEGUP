@@ -33,7 +33,7 @@ public class CannotLightACellContradictionRule extends ContradictionRule {
             return "This cell does not contain a contradiction";
         }*/
         if (cell.getType() != LightUpCellType.EMPTY || cell.isLite()) {
-            return "This cell does not contain a contradiction";
+            return super.getNoContradictionMessage();
         }
         Point location = cell.getLocation();
         int ver_count = 0;
@@ -74,6 +74,6 @@ public class CannotLightACellContradictionRule extends ContradictionRule {
         if(hor_count == 0 && ver_count == 0) {
             return null;
         }
-        return "This cell does not contain a contradiction";
+        return super.getNoContradictionMessage();
     }
 }

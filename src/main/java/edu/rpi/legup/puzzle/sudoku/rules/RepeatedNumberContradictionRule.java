@@ -30,7 +30,7 @@ public class RepeatedNumberContradictionRule extends ContradictionRule {
         SudokuBoard sudokuBoard = (SudokuBoard) board;
         SudokuCell cell = (SudokuCell) sudokuBoard.getPuzzleElement(puzzleElement);
         if (cell.getData() == 0) {
-            return "Does not contain a contradiction at this index";
+            return super.getNoContradictionMessage();
         }
 
         Set<SudokuCell> region = sudokuBoard.getRegion(cell.getGroupIndex());
@@ -62,6 +62,6 @@ public class RepeatedNumberContradictionRule extends ContradictionRule {
             colDup.add(c.getData());
         }
 
-        return "Does not contain a contradiction at this index";
+        return super.getNoContradictionMessage();
     }
 }

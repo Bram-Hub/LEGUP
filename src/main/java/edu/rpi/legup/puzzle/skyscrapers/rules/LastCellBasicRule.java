@@ -38,7 +38,7 @@ public class LastCellBasicRule extends BasicRule {
     	SkyscrapersBoard finalBoard = (SkyscrapersBoard) transition.getBoard();
         SkyscrapersCell finalCell = (SkyscrapersCell) finalBoard.getPuzzleElement(puzzleElement);
         if (!(initCell.getType() == SkyscrapersType.UNKNOWN && finalCell.getType() == SkyscrapersType.Number)) {
-            return "Modified cells must be number";
+            return super.getInvalidUseOfRuleMessage() + ": Modified cells must be number";
         }
 
         SkyscrapersBoard emptyCase = initialBoard.copy();
@@ -64,7 +64,7 @@ public class LastCellBasicRule extends BasicRule {
         	if (it.next() == finalCell.getData()) {
         		return null;
         	}
-        	return "Wrong number in the cell.";
+        	return super.getInvalidUseOfRuleMessage() + ": Wrong number in the cell.";
         }
         
         candidates.clear();
@@ -86,10 +86,10 @@ public class LastCellBasicRule extends BasicRule {
         	if (it.next() == finalCell.getData()) {
         		return null;
         	}
-        	return "Wrong number in the cell.";
+        	return super.getInvalidUseOfRuleMessage() + ": Wrong number in the cell.";
         }
         
-        return "This cell is not forced.";
+        return super.getInvalidUseOfRuleMessage() + ": This cell is not forced.";
     }
 
     private boolean isForced(SkyscrapersBoard board, SkyscrapersCell cell) {

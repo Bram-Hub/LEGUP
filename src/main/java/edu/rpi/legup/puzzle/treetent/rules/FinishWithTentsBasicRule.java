@@ -33,20 +33,20 @@ public class FinishWithTentsBasicRule extends BasicRule {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         if (puzzleElement instanceof TreeTentLine) {
-            return "Line is not valid for this rule.";
+            return super.getInvalidUseOfRuleMessage() + ": Line is not valid for this rule.";
         }
         TreeTentBoard initialBoard = (TreeTentBoard) transition.getParents().get(0).getBoard();
         TreeTentCell initCell = (TreeTentCell) initialBoard.getPuzzleElement(puzzleElement);
         TreeTentBoard finalBoard = (TreeTentBoard) transition.getBoard();
         TreeTentCell finalCell = (TreeTentCell) finalBoard.getPuzzleElement(puzzleElement);
         if (!(initCell.getType() == TreeTentType.UNKNOWN && finalCell.getType() == TreeTentType.TENT)) {
-            return "This cell must be a tent.";
+            return super.getInvalidUseOfRuleMessage() + ": This cell must be a tent.";
         }
 
         if (isForced(initialBoard, initCell)) {
             return null;
         } else {
-            return "This cell is not forced to be tent.";
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be tent.";
         }
     }
 

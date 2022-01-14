@@ -30,7 +30,7 @@ public class NoSolutionContradictionRule extends ContradictionRule {
         SudokuBoard sudokuBoard = (SudokuBoard) board;
         SudokuCell cell = (SudokuCell) sudokuBoard.getPuzzleElement(puzzleElement);
         if (cell.getData() != 0) {
-            return "Does not contain a contradiction at this index";
+            return super.getNoContradictionMessage();
         }
 
         int groupSize = sudokuBoard.getSize();
@@ -57,6 +57,6 @@ public class NoSolutionContradictionRule extends ContradictionRule {
             return null;
         }
 
-        return "Does not contain a contradiction at this index";
+        return super.getNoContradictionMessage();
     }
 }

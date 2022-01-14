@@ -60,6 +60,6 @@ public class UnresolvedCellContradictionRule extends ContradictionRule {
         	return null;
         }
         //System.out.print("Does not contain a contradiction at this index");
-        return "Does not contain a contradiction at this index";
+        return super.getNoContradictionMessage();
     }
 }

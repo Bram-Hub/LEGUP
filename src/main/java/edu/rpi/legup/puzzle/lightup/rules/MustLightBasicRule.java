@@ -35,7 +35,7 @@ public class MustLightBasicRule extends BasicRule {
         LightUpCell parentCell = (LightUpCell) parentBoard.getPuzzleElement(puzzleElement);
         LightUpCell finalCell = (LightUpCell) finalBoard.getPuzzleElement(puzzleElement);
         if (!(parentCell.getType() == LightUpCellType.UNKNOWN && !parentCell.isLite() && finalCell.getType() == LightUpCellType.BULB)) {
-            return "Modified cells must be bulbs";
+            return super.getInvalidUseOfRuleMessage() + ": Modified cells must be bulbs";
         }
 
         finalCell.setData(LightUpCellType.EMPTY.value);
@@ -47,7 +47,7 @@ public class MustLightBasicRule extends BasicRule {
         if (isForced) {
             return null;
         } else {
-            return "This cell can be lite by another cell.";
+            return super.getInvalidUseOfRuleMessage() + ": This cell can be lit by another cell";
         }
     }
 
