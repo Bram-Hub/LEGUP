@@ -34,38 +34,44 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
     @Override
     public String checkContradictionAt(Board puzzleBoard, PuzzleElement operatorPuzzleElement) {
 
-        //cast the board to a shortTruthTableBoard
+        // cast the board to a shortTruthTableBoard
         ShortTruthTableBoard board = (ShortTruthTableBoard) puzzleBoard;
+        System.out.println("Board hard coded position check 1: " + board.getCell(5, 0));
+        System.out.println("Board hard coded position check 2: " + ((ShortTruthTableCell) board.getCell(5, 0)).getType());
 
-        //get the cell that contradicts another cell in the board
+        // get the cell that contradicts another cell in the board
         ShortTruthTableCell cell = board.getCellFromElement(operatorPuzzleElement);
         ShortTruthTableStatement statement = cell.getStatementReference();
+        System.out.println("statement: " + statement);
 
         if(cell.getSymbol() != this.operationSymbol)
             return super.getInvalidUseOfRuleMessage() + ": " + this.NOT_RIGHT_OPERATOR_ERROR_MESSAGE;
 
-        //check that the initial statement is assigned
+        // check that the initial statement is assigned
         ShortTruthTableCellType cellType = cell.getType();
         System.out.println("contra rule generic cell: "+cell);
         if(!cellType.isTrueOrFalse())
             return super.getInvalidUseOfRuleMessage() + ": " + this.NOT_TRUE_FALSE_ERROR_MESSAGE;
 
-        //get the pattern for this sub-statement
+        // get the pattern for this sub-statement
         ShortTruthTableCellType[] testPattern = statement.getCellTypePattern();
 
-        //if the board pattern matches any contradiction pattern, it is a valid contradiction
+        // if the board pattern matches any contradiction pattern, it is a valid contradiction
         for(ShortTruthTableCellType[] pattern : contradictionPatterns){
             boolean matches = true;
-            for(int i = 0; i<3; i++){
+            for(int i = 0; i < 3; i++){
+                System.out.println("pattern[i]: " + pattern[i] + "\ttestPattern[i]: " + testPattern[i]);
                 //null means that part does not affect the statement
-                if(pattern[i] == null) continue;
+                if(pattern[i] == null)
+                    continue;
                 //if it is not null, it must match the test pattern
                 if(pattern[i] != testPattern[i]){
                     matches = false;
                     break;
                 }
             }
-            //if testPattern matches one of the valid contradiction patterns, the contradiction is correct
+            // if testPattern matches one of the valid contradiction patterns, the contradiction is correct
+            System.out.println("Matches: " + matches);
             if (matches)
                 return null;
         }

@@ -43,12 +43,14 @@ public abstract class BasicRule_Generic extends BasicRule {
             // This gets the operator of the parent statement, which is what we need for checking the contradiction
             PuzzleElement checkElement = cell.getStatementReference().getParentStatement().getCell();
 
-            String contradictionMessage = CORRESPONDING_CONTRADICTION_RULE.checkContradictionAt(originalBoard, checkElement);
+            String contradictionMessage = CORRESPONDING_CONTRADICTION_RULE.checkContradictionAt(board, checkElement);
 //            System.out.println("ELIMINATION RULE CONTRADICTION MESSAGE: " + contradictionMessage);
             if (contradictionMessage != null)
             {
                 if (contradictionMessage.startsWith(CORRESPONDING_CONTRADICTION_RULE.getNoContradictionMessage()))
                     return null;
+//                else if (contradictionMessage.equals(CORRESPONDING_CONTRADICTION_RULE.getIncompleteStatement()))
+//                    return super.getInvalidUseOfRuleMessage() + ": " + contradictionMessage;
                 else
                     return super.getInvalidUseOfRuleMessage() + ": " + contradictionMessage;
             }
