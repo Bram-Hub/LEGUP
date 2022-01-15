@@ -24,11 +24,9 @@ public abstract class BasicRule_Generic extends BasicRule {
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement element)
     {
 
-        //Check that the puzzle element is not unknown
+        // Check that the puzzle element is not unknown
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
         ShortTruthTableCell cell = (ShortTruthTableCell) board.getPuzzleElement(element);
-
-//        System.out.println("Check Basic Rule Generic: "+cell);
 
         if (!cell.isAssigned())
             return super.getInvalidUseOfRuleMessage() + ": Only assigned cells are allowed for basic rules";
@@ -41,13 +39,10 @@ public abstract class BasicRule_Generic extends BasicRule {
             PuzzleElement checkElement = cell.getStatementReference().getParentStatement().getCell();
 
             String contradictionMessage = CORRESPONDING_CONTRADICTION_RULE.checkContradictionAt(board, checkElement);
-//            System.out.println("ELIMINATION RULE CONTRADICTION MESSAGE: " + contradictionMessage);
             if (contradictionMessage != null)
             {
                 if (contradictionMessage.startsWith(CORRESPONDING_CONTRADICTION_RULE.getNoContradictionMessage()))
                     return null;
-//                else if (contradictionMessage.equals(CORRESPONDING_CONTRADICTION_RULE.getIncompleteStatement()))
-//                    return super.getInvalidUseOfRuleMessage() + ": " + contradictionMessage;
                 else
                     return super.getInvalidUseOfRuleMessage() + ": " + contradictionMessage;
             }
