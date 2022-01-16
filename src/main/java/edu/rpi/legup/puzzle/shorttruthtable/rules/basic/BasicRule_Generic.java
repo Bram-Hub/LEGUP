@@ -24,17 +24,12 @@ public abstract class BasicRule_Generic extends BasicRule {
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement element)
     {
 
-        //Check that the puzzle element is not unknown
+        // Check that the puzzle element is not unknown
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
         ShortTruthTableCell cell = (ShortTruthTableCell) board.getPuzzleElement(element);
 
-//        System.out.println("Check Basic Rule Generic: "+cell);
-
         if (!cell.isAssigned())
             return super.getInvalidUseOfRuleMessage() + ": Only assigned cells are allowed for basic rules";
-
-        // Get the original board
-        ShortTruthTableBoard originalBoard = (ShortTruthTableBoard) transition.getParents().get(0).getBoard();
 
         if (this.ELIMINATION_RULE)
         {
@@ -43,8 +38,7 @@ public abstract class BasicRule_Generic extends BasicRule {
             // This gets the operator of the parent statement, which is what we need for checking the contradiction
             PuzzleElement checkElement = cell.getStatementReference().getParentStatement().getCell();
 
-            String contradictionMessage = CORRESPONDING_CONTRADICTION_RULE.checkContradictionAt(originalBoard, checkElement);
-//            System.out.println("ELIMINATION RULE CONTRADICTION MESSAGE: " + contradictionMessage);
+            String contradictionMessage = CORRESPONDING_CONTRADICTION_RULE.checkContradictionAt(board, checkElement);
             if (contradictionMessage != null)
             {
                 if (contradictionMessage.startsWith(CORRESPONDING_CONTRADICTION_RULE.getNoContradictionMessage()))
@@ -60,7 +54,7 @@ public abstract class BasicRule_Generic extends BasicRule {
             // Strategy: Negate the modified cell and check if there is a contradiction. If there is one, then the
             // original statement must be true. If there isn't one, then the original statement must be false.
 
-            ShortTruthTableBoard modifiedBoard = originalBoard.copy();
+            ShortTruthTableBoard modifiedBoard = board.copy();
             ((ShortTruthTableCell) modifiedBoard.getPuzzleElement(element)).setType(cell.getType().getNegation());
 
             String contradictionMessage = CORRESPONDING_CONTRADICTION_RULE.checkContradictionAt(modifiedBoard, element);
