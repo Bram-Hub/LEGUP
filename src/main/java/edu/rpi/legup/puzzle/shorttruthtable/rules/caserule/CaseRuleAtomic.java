@@ -23,7 +23,7 @@ public class CaseRuleAtomic extends CaseRule_Generic {
         System.out.println("Case Rule T/F constructor");
     }
 
-    //Adds all elements that can be selected for this caserule
+    // Adds all elements that can be selected for this case rule
     @Override
     public CaseBoard getCaseBoard(Board board) {
         ShortTruthTableBoard sttBoard = (ShortTruthTableBoard) board.copy();
