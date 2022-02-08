@@ -18,9 +18,9 @@ import java.util.List;
 
 public abstract class CaseRule_Generic extends CaseRule {
 
-    public CaseRule_Generic(String ruleName, String title, String description) {
+    public CaseRule_Generic(String ruleName, String title, String description)
+    {
         super(title, description, "edu/rpi/legup/images/shorttruthtable/ruleimages/case/"+ruleName+".png");
-//        System.out.println("Case Rule Generic constructor");
     }
 
 
@@ -32,39 +32,27 @@ public abstract class CaseRule_Generic extends CaseRule {
      * @return null if the child node logically follow from the parent node, otherwise error message
      */
     @Override
-    public String checkRuleRaw(TreeTransition transition) {
-        System.out.println("Case Rule Generic checkRuleRaw");
+    public String checkRuleRaw(TreeTransition transition)
+    {
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-        if (childTransitions.size() != 2) {
-            System.out.println("Return error 1");
+        if (childTransitions.size() != 2)
             return "This case rule must have 2 children.";
-        }
 
         TreeTransition case1 = childTransitions.get(0);
         TreeTransition case2 = childTransitions.get(1);
-        if (case1.getBoard().getModifiedData().size() != 1 ||
-                case2.getBoard().getModifiedData().size() != 1) {
-            System.out.println("Return error 2");
+        if (case1.getBoard().getModifiedData().size() != 1 || case2.getBoard().getModifiedData().size() != 1)
             return "This case rule must have 1 modified cell for each case.";
-        }
 
         ShortTruthTableCell mod1 = (ShortTruthTableCell) case1.getBoard().getModifiedData().iterator().next();
         ShortTruthTableCell mod2 = (ShortTruthTableCell) case2.getBoard().getModifiedData().iterator().next();
-        if (!mod1.getLocation().equals(mod2.getLocation())) {
-            System.out.println("Return error 3");
+        if (!mod1.getLocation().equals(mod2.getLocation()))
             return "This case rule must modify the same cell for each case.";
-        }
 
-        System.out.println(mod1.getType() + " " + mod2.getType());
         boolean firstPossibility = mod1.getType() == ShortTruthTableCellType.TRUE && mod2.getType() == ShortTruthTableCellType.FALSE;
         boolean secondPossibility = mod1.getType() == ShortTruthTableCellType.FALSE && mod2.getType() == ShortTruthTableCellType.TRUE;
-        System.out.println(firstPossibility + " " + secondPossibility);
-        if (!firstPossibility && !secondPossibility) {
-            System.out.println("Return error 4");
+        if (!firstPossibility && !secondPossibility)
             return "This case rule must an empty true or false cell.";
-        }
 
-        System.out.println("returning null");
         return null;
     }
 
@@ -78,8 +66,8 @@ public abstract class CaseRule_Generic extends CaseRule {
      * otherwise error message
      */
     @Override
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        System.out.println("checkRuleRawAt case rule");
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
+    {
         return checkRuleRaw(transition);
     }
 }

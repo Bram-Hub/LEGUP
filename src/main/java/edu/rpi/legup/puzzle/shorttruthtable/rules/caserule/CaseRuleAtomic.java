@@ -67,7 +67,6 @@ public class CaseRuleAtomic extends CaseRule_Generic {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
     {
-        System.out.println("Case Rule Atomic checkRuleRawAt");
         return null;
     }
 }

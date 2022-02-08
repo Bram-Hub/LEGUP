@@ -33,7 +33,6 @@ public abstract class BasicRule_Generic extends BasicRule {
 
         if (this.ELIMINATION_RULE)
         {
-            System.out.println("Entered elimination rule check");
             // Strategy: If this is an elimination rule, simply check if there is a contradiction at the specified statement
 
             // This gets the operator of the parent statement, which is what we need for checking the contradiction
@@ -52,7 +51,6 @@ public abstract class BasicRule_Generic extends BasicRule {
         }
         else
         {
-            System.out.println("Entered NOT an elimination rule check");
             // Strategy: Negate the modified cell and check if there is a contradiction. If there is one, then the
             // original statement must be true. If there isn't one, then the original statement must be false.
 
