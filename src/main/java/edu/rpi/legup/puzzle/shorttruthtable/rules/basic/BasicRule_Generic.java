@@ -59,10 +59,9 @@ public abstract class BasicRule_Generic extends BasicRule {
 
             if (contradictionMessage != null)
             {
+                // No contradiction exists means valid use of elimination rule
                 if (contradictionMessage.startsWith(CORRESPONDING_CONTRADICTION_RULE.getNoContradictionMessage()))
-                {
                     return null;
-                }
                 else
                     return super.getInvalidUseOfRuleMessage() + ": " + contradictionMessage;
             }
