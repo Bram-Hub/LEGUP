@@ -1,0 +1,19 @@
+HEYA-BASC-0001 : BlackBetweenRegionsBasicRule
+HEYA-BASC-0002 : BlackBottleNeckBasicRule
+HEYA-BASC-0003 : CornerBlackBasicRule
+HEYA-BASC-0004 : FillInBlackBasicRule
+HEYA-BASC-0005 : FillInWhiteBasicRule
+HEYA-BASC-0006 : PreventBlackSquareBasicRule
+HEYA-BASC-0007 : SurroundRegionBasicRule
+HEYA-BASC-0008 : UnreachableBasicRule
+HEYA-BASC-0009 : WhiteBottleNeckBasicRule
+
+HEYA-CONT-0001 : BlackSquareContradictionRule
+HEYA-CONT-0002 : CantReachWhiteContradictionRule
+HEYA-CONT-0003 : IsolateBlackContradictionRule
+HEYA-CONT-0004 : MultipleNumbersContradictionRule
+HEYA-CONT-0005 : NoNumberContradictionRule
+HEYA-CONT-0006 : TooFewSpacesContradictionRule
+HEYA-CONT-0007 : TooManySpacesContradictionRule
+
+HEYA-CASE-0001 : BlackOrWhiteCaseRule
