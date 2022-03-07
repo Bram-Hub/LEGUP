@@ -1,0 +1,12 @@
+SKYS-BASC-0001 : FixedMaxBasicRule
+SKYS-BASC-0001 : LastCellBasicRule
+SKYS-BASC-0001 : LastNUmberBasicRule
+SKYS-BASC-0001 : NEdgeBasicRule
+SKYS-BASC-0001 : OneEdgeBasicRule
+
+SKYS-CONT-0001 : DuplicateNumbersContradictionRule
+SKYS-CONT-0001 : ExceedingVisibilityContradictionRule
+SKYS-CONT-0001 : InsufficientVisibilityContradictionRule
+SKYS-CONT-0001 : UnresolvedCellContradictionRule
+
+SKYS-CASE-0001 : PossibleContentsCaseRule
