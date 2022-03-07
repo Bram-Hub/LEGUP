@@ -19,7 +19,7 @@ import java.util.Set;
 public class SatisfyNumberCaseRule extends CaseRule {
 
     public SatisfyNumberCaseRule() {
-        super("Satisfy Number",
+        super("LTUP-CASE-0002", "Satisfy Number",
                 "The different ways a blocks number can be satisfied.",
                 "edu/rpi/legup/images/lightup/cases/SatisfyNumber.png");
     }

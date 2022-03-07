@@ -14,7 +14,7 @@ import java.awt.*;
 public class MustLightBasicRule extends BasicRule {
 
     public MustLightBasicRule() {
-        super("Must Light",
+        super("LTUP-BASC-0006", "Must Light",
                 "A cell must be a bulb if it is the only cell to be able to light another.",
                 "edu/rpi/legup/images/lightup/rules/MustLight.png");
     }
