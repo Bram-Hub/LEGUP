@@ -29,7 +29,7 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
 
     public ContradictionRule_GenericStatement(String ruleName, String description, String imageName,
                                               char operationSymbol, ShortTruthTableCellType[][] contradictionPatterns){
-        super(ruleName, description, imageName);
+        super("STTT-CONT-0001", ruleName, description, imageName);
         this.operationSymbol = operationSymbol;
         this.contradictionPatterns = contradictionPatterns;
     }
