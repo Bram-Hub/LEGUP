@@ -23,24 +23,43 @@ public abstract class BasicRule_Generic extends BasicRule {
 
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement element)
     {
-
         // Check that the puzzle element is not unknown
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
         ShortTruthTableCell cell = (ShortTruthTableCell) board.getPuzzleElement(element);
+
+        ShortTruthTableBoard modifiedBoard = board.copy();
+        ((ShortTruthTableCell) modifiedBoard.getPuzzleElement(element)).setType(cell.getType().getNegation());
+        ShortTruthTableCell modifiedCell = (ShortTruthTableCell) board.getPuzzleElement(element);
 
         if (!cell.isAssigned())
             return super.getInvalidUseOfRuleMessage() + ": Only assigned cells are allowed for basic rules";
 
         if (this.ELIMINATION_RULE)
         {
-            // Strategy: If this is an elimination rule, simply check if there is a contradiction at the specified statement
+            // Strategy: If this is an elimination rule, check if there is a contradiction at the specified statement. If
+            // there is no contradiction, negate the cell and check again if there is a contradiction. If there is no
+            // contradiction again, that means that cell was not forced to be the given value, and so the elimination
+            // rule does not check out.
+
 
             // This gets the operator of the parent statement, which is what we need for checking the contradiction
             PuzzleElement checkElement = cell.getStatementReference().getParentStatement().getCell();
+            PuzzleElement modifiedCheckElement = modifiedCell.getStatementReference().getParentStatement().getCell();
 
             String contradictionMessage = CORRESPONDING_CONTRADICTION_RULE.checkContradictionAt(board, checkElement);
+            String modifiedBoardContradictionMessage = CORRESPONDING_CONTRADICTION_RULE.checkContradictionAt(modifiedBoard, modifiedCheckElement);
+
+            // No contradiction for both, meaning the cell is not forced
+            if (contradictionMessage != null && modifiedBoardContradictionMessage != null
+                    && contradictionMessage.startsWith(CORRESPONDING_CONTRADICTION_RULE.getNoContradictionMessage())
+                    && modifiedBoardContradictionMessage.startsWith(CORRESPONDING_CONTRADICTION_RULE.getNoContradictionMessage()))
+            {
+                return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be " + element.getData().toString().toLowerCase();
+            }
+
             if (contradictionMessage != null)
             {
+                // No contradiction exists means valid use of elimination rule
                 if (contradictionMessage.startsWith(CORRESPONDING_CONTRADICTION_RULE.getNoContradictionMessage()))
                     return null;
                 else
@@ -54,8 +73,8 @@ public abstract class BasicRule_Generic extends BasicRule {
             // Strategy: Negate the modified cell and check if there is a contradiction. If there is one, then the
             // original statement must be true. If there isn't one, then the original statement must be false.
 
-            ShortTruthTableBoard modifiedBoard = board.copy();
-            ((ShortTruthTableCell) modifiedBoard.getPuzzleElement(element)).setType(cell.getType().getNegation());
+//            ShortTruthTableBoard modifiedBoard = board.copy();
+//            ((ShortTruthTableCell) modifiedBoard.getPuzzleElement(element)).setType(cell.getType().getNegation());
 
             String contradictionMessage = CORRESPONDING_CONTRADICTION_RULE.checkContradictionAt(modifiedBoard, element);
             if (contradictionMessage == null) // A contradiction exists in the modified statement; this is good!
