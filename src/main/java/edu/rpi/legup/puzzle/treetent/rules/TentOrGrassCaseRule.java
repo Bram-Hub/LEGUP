@@ -15,7 +15,7 @@ import java.util.List;
 public class TentOrGrassCaseRule extends CaseRule {
 
     public TentOrGrassCaseRule() {
-        super("Tree or Grass",
+        super("TREE-CASE-0004", "Tree or Grass",
                 "Each blank cell is either a tent or grass.",
                 "edu/rpi/legup/images/treetent/caseTentOrGrass.png");
     }

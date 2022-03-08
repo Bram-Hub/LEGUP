@@ -12,7 +12,8 @@ import java.awt.*;
 public class TooManyBlackCellsContradictionRule extends ContradictionRule {
 
     public TooManyBlackCellsContradictionRule() {
-        super("Too Many Black Cells",
+        super("FPIX-CONT-0002",
+                "Too Many Black Cells",
                 "There may not be more black cells than the number",
                 "edu/rpi/legup/images/fillapix/contradictions/TooManyBlackCells.png");
     }

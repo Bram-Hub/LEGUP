@@ -9,7 +9,8 @@ import edu.rpi.legup.model.tree.TreeTransition;
 public class ContinueShipBasicRule extends BasicRule {
 
     public ContinueShipBasicRule() {
-        super("Continue Ship",
+        super("BTSP-BASC-0001",
+                "Continue Ship",
                 "",
                 "edu/rpi/legup/images/battleship/rules/ContinueShip.png");
     }

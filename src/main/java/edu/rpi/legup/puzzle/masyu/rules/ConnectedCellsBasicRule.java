@@ -9,7 +9,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 public class ConnectedCellsBasicRule extends BasicRule {
 
     public ConnectedCellsBasicRule() {
-        super("Connected Cells",
+        super("MASY-BASC-0003", "Connected Cells",
                 "",
                 "edu/rpi/legup/images/masyu/RuleConnectedCells.gif");
     }

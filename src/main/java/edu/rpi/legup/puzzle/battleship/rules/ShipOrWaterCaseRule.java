@@ -11,7 +11,8 @@ import java.util.List;
 public class ShipOrWaterCaseRule extends CaseRule {
 
     public ShipOrWaterCaseRule() {
-        super("Ship or Water",
+        super("BTSP-CASE-0003",
+                "Ship or Water",
                 "",
                 "edu/rpi/legup/images/battleship/cases/ShipOrWater.png");
     }

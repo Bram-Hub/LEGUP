@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class LastCellForNumberBasicRule extends BasicRule {
     public LastCellForNumberBasicRule() {
-        super("Last Cell for Number",
+        super("SUDO-BASC-0002", "Last Cell for Number",
                 "This is the only cell open in its group for some number.",
                 "edu/rpi/legup/images/sudoku/forcedByElimination.png");
     }

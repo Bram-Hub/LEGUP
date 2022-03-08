@@ -11,7 +11,7 @@ import java.util.List;
 public class BlackSplitCaseRule extends CaseRule {
 
     public BlackSplitCaseRule() {
-        super("Black Split",
+        super("MASY-CASE-0001", "Black Split",
                 "",
                 "edu/rpi/legup/images/masyu/CaseBlackSplit.png");
     }

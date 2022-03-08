@@ -11,7 +11,8 @@ import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
 
 public class FinishWithBlackBasicRule extends BasicRule {
     public FinishWithBlackBasicRule() {
-        super("Finish with Black",
+        super("FPIX-BASC-0001",
+                "Finish with Black",
                 "The remaining unknowns around and on a cell must be black to satisfy the number",
                 "edu/rpi/legup/images/fillapix/rules/FinishWithBlack.png");
     }
