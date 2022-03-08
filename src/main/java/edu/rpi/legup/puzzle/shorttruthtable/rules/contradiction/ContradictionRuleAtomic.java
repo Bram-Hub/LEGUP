@@ -18,7 +18,7 @@ public class ContradictionRuleAtomic extends ContradictionRule{
 
 
     public ContradictionRuleAtomic(){
-        super("Contradicting Variable",
+        super("STTT-CONT-0002", "Contradicting Variable",
                 "A single variable can not be both True and False",
                 "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/Atomic.png");
     }

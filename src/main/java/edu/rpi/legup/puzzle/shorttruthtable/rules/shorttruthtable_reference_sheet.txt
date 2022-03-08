@@ -3,3 +3,4 @@ STTT-BASC-0001 : BasicRule_Generic
 STTT-CASE-0001 : CaseRule_Generic
 
 STTT-CONT-0001 : ContradictionRule_Generic
+STTT-CONT-0002 : ContradictionRuleAtomic
