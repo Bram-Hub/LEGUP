@@ -7,7 +7,8 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 public class AdjacentShipsContradictionRule extends ContradictionRule {
 
     public AdjacentShipsContradictionRule() {
-        super("Adjacent Ships",
+        super("BTSP-CONT-0001",
+                "Adjacent Ships",
                 "",
                 "edu/rpi/legup/images/battleship/contradictions/AdjacentShips.png");
     }

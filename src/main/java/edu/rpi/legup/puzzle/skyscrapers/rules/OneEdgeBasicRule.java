@@ -17,7 +17,7 @@ import java.util.Set;
 public class OneEdgeBasicRule extends BasicRule {
 
     public OneEdgeBasicRule() {
-        super("One Edge",
+        super("SKYS-BASC-0005", "One Edge",
                 "If you have a 1 on an edge, put n in the adjacent square.",
                 "edu/rpi/legup/images/skyscrapers/OneEdge.png");
     }

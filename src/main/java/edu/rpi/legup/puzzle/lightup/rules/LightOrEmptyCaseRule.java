@@ -15,7 +15,7 @@ import java.util.List;
 public class LightOrEmptyCaseRule extends CaseRule {
 
     public LightOrEmptyCaseRule() {
-        super("Light or Empty",
+        super("LTUP-CASE-0001", "Light or Empty",
                 "Each blank cell is either a light or empty.",
                 "edu/rpi/legup/images/lightup/cases/LightOrEmpty.png");
     }

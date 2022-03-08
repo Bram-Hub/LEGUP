@@ -16,7 +16,7 @@ import java.util.List;
 public class FinishWithGrassBasicRule extends BasicRule {
 
     public FinishWithGrassBasicRule() {
-        super("Finish with Grass",
+        super("TREE-BASC-0002", "Finish with Grass",
                 "Grass can be added to finish a row or column that has reached its tent limit.",
                 "edu/rpi/legup/images/treetent/finishGrass.png");
     }

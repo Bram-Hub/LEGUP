@@ -10,7 +10,7 @@ import edu.rpi.legup.puzzle.treetent.TreeTentType;
 public class TouchingTentsContradictionRule extends ContradictionRule {
 
     public TouchingTentsContradictionRule() {
-        super("Touching Tents",
+        super("TREE-CONT-0005", "Touching Tents",
                 "Tents cannot touch other tents.",
                 "edu/rpi/legup/images/treetent/contra_adjacentTents.png");
     }

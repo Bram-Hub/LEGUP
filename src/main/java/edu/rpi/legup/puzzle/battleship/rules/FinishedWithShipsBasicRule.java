@@ -9,7 +9,8 @@ import edu.rpi.legup.model.tree.TreeTransition;
 public class FinishedWithShipsBasicRule extends BasicRule {
 
     public FinishedWithShipsBasicRule() {
-        super("Finished with Ships",
+        super("BTSP-BASC-0002",
+                "Finished with Ships",
                 "",
                 "edu/rpi/legup/images/battleship/rules/finishShip.png");
     }

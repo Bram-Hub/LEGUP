@@ -14,7 +14,7 @@ import java.util.Set;
 public class InsufficientVisibilityContradictionRule extends ContradictionRule {
 
     public InsufficientVisibilityContradictionRule() {
-        super("Insufficient Visibility",
+        super("SKYS-CONT-0003", "Insufficient Visibility",
                 "Less skyscrapers are visible than there should be.",
                 "edu/rpi/legup/images/skyscrapers/InsufficientVisibility.png");
     }

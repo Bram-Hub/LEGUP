@@ -1,0 +1,18 @@
+TREE-BASC-0001 : EmptyFieldBasicRule
+TREE-BASC-0002 : FinishWithGrassBasicRule
+TREE-BASC-0003 : FinishWithTentsBasicRule
+TREE-BASC-0004 : LastCampingSpotBasicRule
+TREE-BASC-0005 : SurroundTentWithGrassBasicRule
+TREE-BASC-0006 : TentForTreeBasicRule
+TREE-BASC-0007 : TreeForTentBasicRule
+
+TREE-CONT-0001 : NoTentForTreeContradictionRule
+TREE-CONT-0002 : NoTreeForTentContradictionRule
+TREE-CONT-0003 : TooFewTentsContradictionRule
+TREE-CONT-0004 : TooManyTentsContradictionRule
+TREE-CONT-0005 : TouchingTentsContradictionRule
+
+TREE-CASE-0001 : FillInRowCaseRule
+TREE-CASE-0002 : LinkTentCaseRule
+TREE-CASE-0003 : LinkTreeCaseRule
+TREE-CASE-0004 : TentOrGrassCaseRule

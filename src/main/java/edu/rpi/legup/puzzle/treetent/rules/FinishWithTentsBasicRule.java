@@ -16,7 +16,7 @@ import java.util.List;
 public class FinishWithTentsBasicRule extends BasicRule {
 
     public FinishWithTentsBasicRule() {
-        super("Finish with Tents",
+        super("TREE-BASC-0003", "Finish with Tents",
                 "Tents can be added to finish a row or column that has one open spot per required tent.",
                 "edu/rpi/legup/images/treetent/finishTent.png");
     }

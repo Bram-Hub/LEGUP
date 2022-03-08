@@ -17,7 +17,7 @@ import java.util.Set;
 public class LastNumberBasicRule extends BasicRule {
 
     public LastNumberBasicRule() {
-        super("Last Number",
+        super("SKYS-BASC-0003", "Last Number",
                 "A certain cell must contain a certain number since that number is the only one that can possibly appear in that cell.",
                 "edu/rpi/legup/images/skyscrapers/LastNumber.png");
     }

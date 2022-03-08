@@ -17,7 +17,7 @@ import java.util.List;
 public abstract class CaseRule_Generic extends CaseRule {
 
     public CaseRule_Generic(String ruleName, String title, String description) {
-        super(title, description, "edu/rpi/legup/images/shorttruthtable/ruleimages/case/"+ruleName+".png");
+        super("STTT-CASE-0001", title, description, "edu/rpi/legup/images/shorttruthtable/ruleimages/case/"+ruleName+".png");
         System.out.println("Case Rule Generic constructor");
     }
 
