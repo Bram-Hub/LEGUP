@@ -15,4 +15,4 @@ TREE-CONT-0005 : TouchingTentsContradictionRule
 TREE-CASE-0001 : FillInRowCaseRule
 TREE-CASE-0002 : LinkTentCaseRule
 TREE-CASE-0003 : LinkTreeCaseRule
-TREE-CASE-0004 : TreeOrGrassCaseRule
+TREE-CASE-0004 : TentOrGrassCaseRule
