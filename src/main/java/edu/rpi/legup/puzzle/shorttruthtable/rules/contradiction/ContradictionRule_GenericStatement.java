@@ -27,9 +27,9 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
     final static ShortTruthTableCellType F = ShortTruthTableCellType.FALSE;
     final static ShortTruthTableCellType n = null;
 
-    public ContradictionRule_GenericStatement(String ruleName, String description, String imageName,
+    public ContradictionRule_GenericStatement(String ruleID, String ruleName, String description, String imageName,
                                               char operationSymbol, ShortTruthTableCellType[][] contradictionPatterns){
-        super("STTT-CONT-0001", ruleName, description, imageName);
+        super(ruleID, ruleName, description, imageName);
         this.operationSymbol = operationSymbol;
         this.contradictionPatterns = contradictionPatterns;
     }

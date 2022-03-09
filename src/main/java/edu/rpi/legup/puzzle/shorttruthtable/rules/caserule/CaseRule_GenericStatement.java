@@ -18,12 +18,12 @@ import java.util.List;
 
 public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
 
-    public CaseRule_GenericStatement(char operation, String title,
+    public CaseRule_GenericStatement(String ruleID, char operation, String title,
                                      ShortTruthTableCellType[][] trueCases,
                                      ShortTruthTableCellType[][] falseCases) {
-        super(ShortTruthTableOperation.getRuleName(operation),
+        super(ruleID, ShortTruthTableOperation.getRuleName(operation),
                 title+" case",
-                "A known "+title.toUpperCase()+" statment can have multiple forms");
+                "A known "+title.toUpperCase()+" statement can have multiple forms");
 
         this.operation = operation;
 
@@ -43,7 +43,7 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
     //Adds all elements that can be selected for this caserule
     @Override
     public CaseBoard getCaseBoard(Board board) {
-        //copy the board and add all ements that can be selected
+        //copy the board and add all elements that can be selected
         ShortTruthTableBoard sttBoard = (ShortTruthTableBoard) board.copy();
         sttBoard.setModifiable(false);
         CaseBoard caseBoard = new CaseBoard(sttBoard, this);
