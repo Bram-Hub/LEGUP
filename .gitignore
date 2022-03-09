@@ -3,3 +3,4 @@
 out/*
 build/*
 .DS_Store
+legup-update/build/libs/legup-update-2.0.jar
