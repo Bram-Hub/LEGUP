@@ -5,7 +5,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.rules.contradiction.ContradictionRul
 public class BasicRuleOrElimination extends BasicRule_GenericElimination {
 
     public BasicRuleOrElimination() {
-        super("Or", new ContradictionRuleOr());
+        super("STTT-BASC-0006", "Or", new ContradictionRuleOr());
     }
 
 }
