@@ -5,7 +5,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.rules.contradiction.ContradictionRul
 public class BasicRuleBiconditionalIntroduction extends BasicRule_GenericIntroduction {
 
     public BasicRuleBiconditionalIntroduction() {
-        super("Biconditional", new ContradictionRuleBiconditional());
+        super("STTT-BASC-0008", "Biconditional", new ContradictionRuleBiconditional());
     }
 
 }

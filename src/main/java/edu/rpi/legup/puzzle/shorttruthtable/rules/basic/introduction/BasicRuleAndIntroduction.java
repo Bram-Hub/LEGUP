@@ -5,7 +5,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.rules.contradiction.ContradictionRul
 public class BasicRuleAndIntroduction extends BasicRule_GenericIntroduction {
 
     public BasicRuleAndIntroduction() {
-        super("And", new ContradictionRuleAnd());
+        super("STTT-BASC-0007", "And", new ContradictionRuleAnd());
     }
 
 }
