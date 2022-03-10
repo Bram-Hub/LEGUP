@@ -12,7 +12,7 @@ import java.awt.*;
 public class CannotLightACellContradictionRule extends ContradictionRule {
 
     public CannotLightACellContradictionRule() {
-        super("Cannot Light A Cell",
+        super("LTUP-CONT-0002", "Cannot Light A Cell",
                 "All cells must be able to be lit.",
                 "edu/rpi/legup/images/lightup/contradictions/CannotLightACell.png");
     }

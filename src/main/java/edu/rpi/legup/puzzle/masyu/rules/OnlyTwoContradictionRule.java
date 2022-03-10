@@ -7,7 +7,7 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 public class OnlyTwoContradictionRule extends ContradictionRule {
 
     public OnlyTwoContradictionRule() {
-        super("Only Two",
+        super("MASY-CONT-0004", "Only Two",
                 "",
                 "edu/rpi/legup/images/masyu/ContradictionOnly2.png");
     }

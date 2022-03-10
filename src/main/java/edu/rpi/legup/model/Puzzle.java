@@ -386,6 +386,35 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     }
 
     /**
+     * Gets the rule using the specified name
+     *
+     * @param id name of the rule
+     * @return Rule
+     */
+    public Rule getRuleByID(String id) {
+        for (Rule rule : basicRules) {
+            if (rule.getRuleID().equals(id)) {
+                return rule;
+            }
+        }
+        for (Rule rule : contradictionRules) {
+            if (rule.getRuleID().equals(id)) {
+                return rule;
+            }
+        }
+        for (Rule rule : caseRules) {
+            if (rule.getRuleID().equals(id)) {
+                return rule;
+            }
+        }
+        Rule mergeRule = new MergeRule();
+        if (mergeRule.getRuleID().equals(id)) {
+            return mergeRule;
+        }
+        return null;
+    }
+
+    /**
      * Gets the current board
      *
      * @return current board

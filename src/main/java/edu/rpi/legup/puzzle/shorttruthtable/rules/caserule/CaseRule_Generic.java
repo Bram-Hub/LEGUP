@@ -18,9 +18,8 @@ import java.util.List;
 
 public abstract class CaseRule_Generic extends CaseRule {
 
-    public CaseRule_Generic(String ruleName, String title, String description)
-    {
-        super(title, description, "edu/rpi/legup/images/shorttruthtable/ruleimages/case/"+ruleName+".png");
+    public CaseRule_Generic(String ruleID, String ruleName, String title, String description) {
+        super(ruleID, title, description, "edu/rpi/legup/images/shorttruthtable/ruleimages/case/"+ruleName+".png");
     }
 
 

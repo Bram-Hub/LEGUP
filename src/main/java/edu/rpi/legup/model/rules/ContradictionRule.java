@@ -13,12 +13,13 @@ public abstract class ContradictionRule extends Rule {
     /**
      * ContradictionRule Constructor creates a new contradiction rule
      *
+     * @param ruleID      ID of the rule
      * @param ruleName    name of the rule
      * @param description description of the rule
      * @param imageName   file name of the image
      */
-    public ContradictionRule(String ruleName, String description, String imageName) {
-        super(ruleName, description, imageName);
+    public ContradictionRule(String ruleID, String ruleName, String description, String imageName) {
+        super(ruleID, ruleName, description, imageName);
         ruleType = CONTRADICTION;
     }
 

@@ -7,7 +7,7 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 public class WhiteContradictionRule extends ContradictionRule {
 
     public WhiteContradictionRule() {
-        super("White",
+        super("MASY-CONT-0005", "White",
                 "",
                 "edu/rpi/legup/images/masyu/ContradictionWhite.png");
     }

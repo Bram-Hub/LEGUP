@@ -19,7 +19,8 @@ import java.util.Set;
 public class BlackBetweenRegionsBasicRule extends BasicRule {
 
     public BlackBetweenRegionsBasicRule() {
-        super("Black Between Regions",
+        super("NURIK-BASIC-00001",
+                "Black Between Regions",
                 "Any unknowns between two regions must be black.",
                 "edu/rpi/legup/images/nurikabe/rules/BetweenRegions.png");
     }

@@ -5,7 +5,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.rules.contradiction.ContradictionRul
 public class BasicRuleConditionalIntroduction extends BasicRule_GenericIntroduction {
 
     public BasicRuleConditionalIntroduction() {
-        super("Conditional", new ContradictionRuleConditional());
+        super("STTT-BASC-0009", "Conditional", new ContradictionRuleConditional());
     }
 
 }

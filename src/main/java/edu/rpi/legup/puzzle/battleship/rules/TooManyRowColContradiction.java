@@ -7,7 +7,8 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 public class TooManyRowColContradiction extends ContradictionRule {
 
     public TooManyRowColContradiction() {
-        super("Too Many row/col",
+        super("BTSP-CONT-0006",
+                "Too Many row/col",
                 "",
                 "edu/rpi/legup/images/battleship/contradictions/too_many_segments.png");
     }

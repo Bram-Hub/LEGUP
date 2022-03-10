@@ -10,7 +10,7 @@ import edu.rpi.legup.puzzle.treetent.TreeTentType;
 public class NoTentForTreeContradictionRule extends ContradictionRule {
 
     public NoTentForTreeContradictionRule() {
-        super("No Tent For Tree",
+        super("TREE-CONT-0001", "No Tent For Tree",
                 "Each tree must link to a tent.",
                 "edu/rpi/legup/images/treetent/contra_NoTentForTree.png");
     }

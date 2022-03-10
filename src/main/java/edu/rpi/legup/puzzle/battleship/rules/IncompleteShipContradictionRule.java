@@ -7,7 +7,8 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 public class IncompleteShipContradictionRule extends ContradictionRule {
 
     public IncompleteShipContradictionRule() {
-        super("Incomplete Ship",
+        super("BTSP-CONT-0002",
+                "Incomplete Ship",
                 "",
                 "edu/rpi/legup/images/battleship/contradictions/IncompleteShip.png");
     }

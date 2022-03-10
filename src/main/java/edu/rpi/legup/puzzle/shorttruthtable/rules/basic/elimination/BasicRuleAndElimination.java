@@ -5,8 +5,8 @@ import edu.rpi.legup.puzzle.shorttruthtable.rules.contradiction.ContradictionRul
 public class BasicRuleAndElimination extends BasicRule_GenericElimination {
 
     public BasicRuleAndElimination() {
-        super("And", new ContradictionRuleAnd());
-        //System.out.println("and elimination constructor");
+        super("STTT-BASC-0002", "And", new ContradictionRuleAnd());
+        System.out.println("and eliminatio constructor");
     }
 
 }

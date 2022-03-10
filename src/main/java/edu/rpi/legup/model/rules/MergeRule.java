@@ -19,7 +19,7 @@ public class MergeRule extends Rule {
      * MergeRule Constructor merges to board states together
      */
     public MergeRule() {
-        super("Merge Rule",
+        super("MERGE","Merge Rule",
                 "Merge any number of nodes into one",
                 "edu/rpi/legup/images/Legup/MergeRule.png");
         this.ruleType = MERGE;
