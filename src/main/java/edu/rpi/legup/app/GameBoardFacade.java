@@ -125,7 +125,7 @@ public class GameBoardFacade implements IHistorySubject {
                 Node node = rootNode.getElementsByTagName("puzzle").item(0);
                 String qualifiedClassName = config.getPuzzleClassForName(node.getAttributes().getNamedItem("name").getNodeValue());
                 if (qualifiedClassName == null) {
-                    throw new InvalidFileFormatException("Puzzle creation error: cannot find puzzle with that name");
+                    throw new InvalidPuzzleCreationException("Cannot find puzzle with that name");
                 }
                 LOGGER.debug("Loading " + qualifiedClassName);
 
@@ -136,14 +136,13 @@ public class GameBoardFacade implements IHistorySubject {
                 PuzzleImporter importer = puzzle.getImporter();
                 if (importer == null) {
                     LOGGER.error("Puzzle importer is null");
-                    throw new InvalidFileFormatException("Puzzle importer null");
+                    throw new NullPointerException("Puzzle importer null");
                 }
                 importer.initializePuzzle(node);
                 puzzle.initializeView();
                 puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
                 setPuzzle(puzzle);
-            } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
-                    IllegalAccessException | InstantiationException e) {
+            } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException | InvalidPuzzleCreationException e) {
                 LOGGER.error(e);
                 throw new InvalidFileFormatException("Puzzle creation error");
             }

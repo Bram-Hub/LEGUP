@@ -1,5 +1,6 @@
 package edu.rpi.legup.model;
 
+import edu.rpi.legup.app.InvalidPuzzleCreationException;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.MergeRule;
@@ -35,7 +36,7 @@ public abstract class PuzzleImporter {
      * @param node xml document node
      * @throws InvalidFileFormatException
      */
-    public void initializePuzzle(Node node) throws InvalidFileFormatException {
+    public void initializePuzzle(Node node) throws InvalidFileFormatException, InvalidPuzzleCreationException {
         if (node.getNodeName().equalsIgnoreCase("puzzle")) {
             org.w3c.dom.Element puzzleElement = (org.w3c.dom.Element) node;
 
@@ -46,34 +47,34 @@ public abstract class PuzzleImporter {
                 Node n = childNodes.item(i);
                 if (n.getNodeName().equalsIgnoreCase("board")) {
                     if (initBoard) {
-                        throw new InvalidFileFormatException("Puzzle creation error: duplicate board puzzleElement found");
+                        throw new InvalidPuzzleCreationException("Duplicate board puzzleElement found");
                     }
                     initializeBoard(n);
                     initBoard = true;
                 } else if (n.getNodeName().equalsIgnoreCase("proof")) {
                     if (initProof) {
-                        throw new InvalidFileFormatException("Puzzle creation error: duplicate proof puzzleElement found");
+                        throw new InvalidPuzzleCreationException("Duplicate proof puzzleElement found");
                     }
                     if (!initBoard) {
-                        throw new InvalidFileFormatException("Puzzle creation error: could not find board puzzleElement");
+                        throw new InvalidPuzzleCreationException("Could not find board puzzleElement");
                     }
                     initializeProof(n);
                     initProof = true;
                 } else {
                     if (!n.getNodeName().equalsIgnoreCase("#text")) {
-                        throw new InvalidFileFormatException("Puzzle creation error: unknown node found in file");
+                        throw new InvalidPuzzleCreationException("Unknown node found in file");
                     }
                 }
             }
 
             if (!initBoard) {
-                throw new InvalidFileFormatException("Puzzle creation error: could not find board puzzleElement");
+                throw new InvalidPuzzleCreationException("Could not find board puzzleElement");
             }
             if (!initProof) {
                 createDefaultTree();
             }
         } else {
-            throw new InvalidFileFormatException("Invalid file format; does not contain \"puzzle\" node");
+            throw new InvalidFileFormatException("Does not contain \"puzzle\" node");
         }
     }
 

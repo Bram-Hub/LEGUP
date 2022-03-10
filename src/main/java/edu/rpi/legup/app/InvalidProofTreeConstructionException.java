@@ -1,4 +1,4 @@
-package edu.rpi.legup.model.tree;
+package edu.rpi.legup.app;
 
 public class InvalidProofTreeConstructionException extends Exception
 {
