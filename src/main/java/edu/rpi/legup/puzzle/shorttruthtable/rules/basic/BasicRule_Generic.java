@@ -12,9 +12,6 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableStatement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 
-import java.awt.*;
-import java.util.List;
-
 public abstract class BasicRule_Generic extends BasicRule {
 
     final ContradictionRule correspondingContradictionRule;
