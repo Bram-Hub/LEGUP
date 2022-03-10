@@ -711,6 +711,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                 String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
                 setTitle(puzzleName + " - " + puzzleFile.getName());
             } catch (InvalidFileFormatException e) {
+                this.showErrorMessage("ERROR: Can't open file", e.getMessage());
                 LOGGER.error(e.getMessage());
             }
         }
@@ -973,5 +974,15 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
         redo.setEnabled(false);
         toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
+    }
+
+    /**
+     * Shows an error message with the given title and error message.
+     * @param title         The title of the error message
+     * @param errorMessage  Explanation of the error message
+     */
+    private void showErrorMessage(String title, String errorMessage)
+    {
+        JOptionPane.showMessageDialog(null, errorMessage, title, JOptionPane.ERROR_MESSAGE);
     }
 }
