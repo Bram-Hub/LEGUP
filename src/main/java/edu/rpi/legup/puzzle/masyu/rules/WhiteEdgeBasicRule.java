@@ -8,7 +8,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 
 public class WhiteEdgeBasicRule extends BasicRule {
     public WhiteEdgeBasicRule() {
-        super("White Edge",
+        super("MASY-BASC-0007", "White Edge",
                 "",
                 "edu/rpi/legup/images/masyu/RuleWhiteEdge.png");
     }

@@ -6,7 +6,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
 public class CaseRuleBiconditional extends CaseRule_GenericStatement {
 
     public CaseRuleBiconditional() {
-        super(ShortTruthTableOperation.BICONDITIONAL,
+        super("STTT-CASE-0003", ShortTruthTableOperation.BICONDITIONAL,
                 "Biconditional",
                 trueCases,
                 falseCases);

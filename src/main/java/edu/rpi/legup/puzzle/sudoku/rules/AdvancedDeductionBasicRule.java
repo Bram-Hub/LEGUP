@@ -11,7 +11,7 @@ import edu.rpi.legup.puzzle.sudoku.SudokuCell;
 public class AdvancedDeductionBasicRule extends BasicRule {
 
     public AdvancedDeductionBasicRule() {
-        super("Advanced Deduction",
+        super("SUDO-BASC-0001", "Advanced Deduction",
                 "Use of group logic deduces more answers by means of forced by Location and forced by Deduction",
                 "edu/rpi/legup/images/sudoku/AdvancedDeduction.png");
     }

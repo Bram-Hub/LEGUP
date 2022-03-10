@@ -18,7 +18,8 @@ public class NoNumberContradictionRule extends ContradictionRule {
     private final String NOT_SURROUNDED_BY_BLACK_MESSAGE = "Must be surrounded by black cells";
 
     public NoNumberContradictionRule() {
-        super("No Number",
+        super("NURI-CONT-0005",
+                "No Number",
                 "All enclosed white regions must have a number.",
                 "edu/rpi/legup/images/nurikabe/contradictions/NoNumber.png");
     }

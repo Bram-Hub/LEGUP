@@ -14,7 +14,7 @@ import java.util.Set;
 public class DuplicateNumberContradictionRule extends ContradictionRule {
 
     public DuplicateNumberContradictionRule() {
-        super("Duplicate Number",
+        super("SKYS-CONT-0001", "Duplicate Number",
                 "Skyscrapers of same height cannot be placed in the same row or column.",
                 "edu/rpi/legup/images/skyscrapers/DuplicateNumber.png");
     }

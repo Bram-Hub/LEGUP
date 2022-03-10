@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class FillinRowCaseRule extends CaseRule {
 
     public FillinRowCaseRule() {
-        super("Fill In row",
+        super("TREE-CASE-0001", "Fill In row",
                 "A row must have the number of tents of its clue.",
                 "edu/rpi/legup/images/treetent/case_rowcount.png");
     }

@@ -1,0 +1,7 @@
+FPIX-BASC-0001 : FinishWithBlackBasicRule
+FPIX-BASC-0002 : FinishWithWhiteBasicRule
+
+FPIX-CONT-0001 : TooFewBlackCellsContradictionRule
+FPIX-CONT-0002 : TooManyBlackCellsContradictionRule
+
+FPIX-CASE-0001 : BlackOrWhiteCaseRule
