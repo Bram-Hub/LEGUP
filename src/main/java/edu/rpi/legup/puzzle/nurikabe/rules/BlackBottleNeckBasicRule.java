@@ -13,7 +13,7 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 public class BlackBottleNeckBasicRule extends BasicRule {
 
     public BlackBottleNeckBasicRule() {
-        super("NURIK-BASIC-00002",
+        super("NURI-BASC-0002",
                 "Black Bottle Neck",
                 "If there is only one path for a black to escape, then those unknowns must be white.",
                 "edu/rpi/legup/images/nurikabe/rules/OneUnknownBlack.png");
