@@ -7,7 +7,7 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 public class AdjacentBlacksContradictionRule extends ContradictionRule {
 
     public AdjacentBlacksContradictionRule() {
-        super("Adjacent Blacks",
+        super("HEYA-CONT-0001", "Adjacent Blacks",
                 "",
                 "edu/rpi/legup/images/heyawake/contradictions/adjacentBlacks.png");
     }

@@ -14,7 +14,7 @@ import java.util.Set;
 public class UnresolvedCellContradictionRule extends ContradictionRule {
 
     public UnresolvedCellContradictionRule() {
-        super("Unresolved Cell",
+        super("SKYS-CONT-0004", "Unresolved Cell",
                 "Elimination leaves no possible number for a cell.",
                 "edu/rpi/legup/images/skyscrapers/UnresolvedCell.png");
     }

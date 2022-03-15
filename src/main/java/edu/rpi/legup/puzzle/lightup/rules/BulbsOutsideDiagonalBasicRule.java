@@ -9,7 +9,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 public class BulbsOutsideDiagonalBasicRule extends BasicRule {
 
     public BulbsOutsideDiagonalBasicRule() {
-        super("Bulbs Outside Diagonal",
+        super("LTUP-BASC-0001", "Bulbs Outside Diagonal",
                 "Cells on the external edges of a 3 diagonal to a numerical block must be bulbs.",
                 "edu/rpi/legup/images/lightup/rules/BulbsOutsideDiagonal.png");
     }

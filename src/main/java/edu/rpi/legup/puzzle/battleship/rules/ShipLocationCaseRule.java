@@ -11,7 +11,8 @@ import java.util.List;
 public class ShipLocationCaseRule extends CaseRule {
 
     public ShipLocationCaseRule() {
-        super("Ship Location",
+        super("BTSP-CASE-0002",
+                "Ship Location",
                 "",
                 "edu/rpi/legup/images/battleship/cases/ShipLocations.png");
     }

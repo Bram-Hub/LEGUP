@@ -13,7 +13,8 @@ public class BlackSquareContradictionRule extends ContradictionRule {
     private final String INVALID_USE_MESSAGE = "Does not contain a contradiction at this index";
 
     public BlackSquareContradictionRule() {
-        super("Black Square",
+        super("NURI-CONT-0001",
+                "Black Square",
                 "There cannot be a 2x2 square of black.",
                 "edu/rpi/legup/images/nurikabe/contradictions/BlackSquare.png");
     }

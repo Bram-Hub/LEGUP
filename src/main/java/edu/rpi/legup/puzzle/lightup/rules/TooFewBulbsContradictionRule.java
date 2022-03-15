@@ -12,7 +12,7 @@ import java.awt.*;
 public class TooFewBulbsContradictionRule extends ContradictionRule {
 
     public TooFewBulbsContradictionRule() {
-        super("Too Few Bulbs",
+        super("LTUP-CONT-0003", "Too Few Bulbs",
                 "There cannot be less bulbs around a block than its number states.",
                 "edu/rpi/legup/images/lightup/contradictions/TooFewBulbs.png");
     }
