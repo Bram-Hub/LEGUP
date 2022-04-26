@@ -537,6 +537,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
      * Checks the proof for all files
      */
     private void checkProofAll() {
+        System.out.println("Entered");
         GameBoardFacade facade = GameBoardFacade.getInstance();
 
         folderBrowser = new JFileChooser();
@@ -558,11 +559,11 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
             writer.append("\n");
             //csvWriter.flush();
             //csvWriter.close();
-
             for (final File folderEntry : folder.listFiles(File::isDirectory)) {
                 writer.append(folderEntry.getName());
                 writer.append(",");
                 int count1 = 0;
+                System.out.println("FILES: " + folderEntry.listFiles());
                 for (final File fileEntry : folderEntry.listFiles()) {
                     if (fileEntry.getName().charAt(0) == '.'){
                         continue;
@@ -593,6 +594,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                             writer.append("\n");
                         } catch (InvalidFileFormatException e) {
                             LOGGER.error(e.getMessage());
+                            writer.append("\n");
                         }
                     }
                 }
@@ -602,8 +604,11 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                 }
             }
         }catch (IOException ex){
+//            System.out.println("ERROR: " +ex.getMessage());
             LOGGER.error(ex.getMessage());
         }
+
+        JOptionPane.showMessageDialog(null, "Batch grading complete.");
 
         /*fileDialog.setMode(FileDialog.LOAD);
         fileDialog.setTitle("Select Puzzle");
