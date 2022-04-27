@@ -585,15 +585,16 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                             facade = GameBoardFacade.getInstance();
                             Puzzle puzzle = facade.getPuzzleModule();
                             if (puzzle.isPuzzleComplete()) {
-                                writer.append("Solved");
+                                writer.append("1, Solved");
                                 System.out.println(fileEntry.getName() + "  solved");
                             } else {
-                                writer.append("Not solved");
+                                writer.append("0, Unsolved");
                                 System.out.println(fileEntry.getName() + "  not solved");
                             }
                             writer.append("\n");
                         } catch (InvalidFileFormatException e) {
                             LOGGER.error(e.getMessage());
+                            writer.append("?, Ungradeable");
                             writer.append("\n");
                         }
                     }
