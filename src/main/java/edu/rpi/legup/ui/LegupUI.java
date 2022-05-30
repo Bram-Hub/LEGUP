@@ -533,12 +533,70 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         }
     }
 
+    private void traverseDir(File folder, BufferedWriter writer, String path) throws IOException {
+        // Recursively traverse directory 
+        GameBoardFacade facade = GameBoardFacade.getInstance(); 
+
+        // Folder is empty
+        if(folder.listFiles().length == 0) {
+            writer.append(path + ",Empty folder,0,Ungradeable\n"); 
+            return;
+        }
+
+        // Travese directory, recurse if sub-directory found 
+        for(final File f : folder.listFiles()) {
+            // Recurse 
+            if(f.isDirectory()) {
+                traverseDir(f, writer, path + "/" + f.getName());
+                continue; 
+            } 
+
+            // Set path name 
+            writer.append(path + ","); 
+
+            // Load puzzle, run checker 
+            // If wrong file type, ungradeable 
+            String fName = f.getName(); 
+            String fPath = f.getAbsolutePath(); 
+            File puzzleFile = new File(fPath); 
+            if(puzzleFile != null && puzzleFile.exists()) {
+                // Try to load file. If invalid, note in csv 
+                try {
+                    // Load puzzle, run checker 
+                    GameBoardFacade.getInstance().loadPuzzle(fPath);
+                    String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+                    setTitle(puzzleName + " - " + puzzleFile.getName());
+                    facade = GameBoardFacade.getInstance();
+                    Puzzle puzzle = facade.getPuzzleModule();
+                    
+                    // Write data 
+                    writer.append(fName + ","); 
+                    if(puzzle.isPuzzleComplete()) writer.append("1,Solved\n");
+                    else writer.append("0,Unsolved\n");
+                } catch (InvalidFileFormatException e) {
+                    writer.append(fName + " - invalid type,0,Ungradeable\n"); 
+                }
+            } else {
+                LOGGER.debug("Failed to run sim");
+            }
+        }
+    }
+
     /**
      * Checks the proof for all files
      */
     private void checkProofAll() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
-
+        
+        /**
+         * Select dir to grade; recursively grade sub-dirs using traverseDir()
+         * Selected dir must have sub-dirs for each student: 
+         * GradeThis
+         *    |
+         *    | -> Student 1 
+         *    |       |
+         *    |       | -> Proofs
+         **/     
         folderBrowser = new JFileChooser();
         folderBrowser.setCurrentDirectory(new java.io.File("."));
         folderBrowser.setDialogTitle("Select Directory");
@@ -547,83 +605,21 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         folderBrowser.showOpenDialog(this);
         File folder = folderBrowser.getSelectedFile();
 
-        //FileWriter csvWriter = new FileWriter("new.csv");
-        File resultFile = new File(folder.getAbsolutePath() + File.separator +"result.csv");
+        // Write csv file (Path,File-Name,Score,Solved?)
+        File resultFile = new File(folder.getAbsolutePath() + File.separator + "result.csv");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
-            writer.append("Name");
-            writer.append(",");
-            writer.append("File Name");
-            writer.append(",");
-            writer.append("Solved or not");
-            writer.append("\n");
-            //csvWriter.flush();
-            //csvWriter.close();
+            writer.append("Name,File Name,Score,Solved?\n");
 
+            // Go through student folders
             for (final File folderEntry : folder.listFiles(File::isDirectory)) {
-                writer.append(folderEntry.getName());
-                writer.append(",");
-                int count1 = 0;
-                for (final File fileEntry : folderEntry.listFiles()) {
-                    if (fileEntry.getName().charAt(0) == '.'){
-                        continue;
-                    }
-                    count1++;
-                    if (count1 > 1){
-                        writer.append(folderEntry.getName());
-                        writer.append(",");
-                    }
-                    writer.append(fileEntry.getName());
-                    writer.append(",");
-                    String fileName = folderEntry.getAbsolutePath() + File.separator + fileEntry.getName();
-                    File puzzleFile = new File(fileName);
-                    if (puzzleFile != null && puzzleFile.exists()) {
-                        try {
-                            GameBoardFacade.getInstance().loadPuzzle(fileName);
-                            String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
-                            setTitle(puzzleName + " - " + puzzleFile.getName());
-                            facade = GameBoardFacade.getInstance();
-                            Puzzle puzzle = facade.getPuzzleModule();
-                            if (puzzle.isPuzzleComplete()) {
-                                writer.append("Solved");
-                                System.out.println(fileEntry.getName() + "  solved");
-                            } else {
-                                writer.append("Not solved");
-                                System.out.println(fileEntry.getName() + "  not solved");
-                            }
-                            writer.append("\n");
-                        } catch (InvalidFileFormatException e) {
-                            LOGGER.error(e.getMessage());
-                        }
-                    }
-                }
-                if (count1 == 0){
-                    writer.append("No file");
-                    writer.append("\n");
-                }
+                // Write path 
+                String path = folderEntry.getName(); 
+                traverseDir(folderEntry, writer, path); 
             }
         }catch (IOException ex){
-            LOGGER.error(ex.getMessage());
+            //LOGGER.error(ex.getMessage());
         }
-
-        /*fileDialog.setMode(FileDialog.LOAD);
-        fileDialog.setTitle("Select Puzzle");
-        fileDialog.setVisible(true);
-        String fileName = null;
-        File puzzleFile = null;
-        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
-            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
-            puzzleFile = new File(fileName);
-        }
-
-        if (puzzleFile != null && puzzleFile.exists()) {
-            try {
-                GameBoardFacade.getInstance().loadPuzzle(fileName);
-                String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
-                setTitle(puzzleName + " - " + puzzleFile.getName());
-            } catch (InvalidFileFormatException e) {
-                LOGGER.error(e.getMessage());
-            }
-        }*/
+        JOptionPane.showMessageDialog(null, "Batch grading complete.");
     }
 
     private boolean basicCheckProof(int[][] origCells) {
@@ -654,7 +650,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     }
 
     private void directions() {
-        JOptionPane.showMessageDialog(null, "For ever move you make, you must provide a rules for it (located in the Rules panel).\n" + "While working on the edu.rpi.legup.puzzle, you may click on the \"Check\" button to test your proof for correctness.", "Directions", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, "For every move you make, you must provide a rules for it (located in the Rules panel).\n" + "While working on the edu.rpi.legup.puzzle, you may click on the \"Check\" button to test your proof for correctness.", "Directions", JOptionPane.PLAIN_MESSAGE);
     }
 
     private void showAll() {
