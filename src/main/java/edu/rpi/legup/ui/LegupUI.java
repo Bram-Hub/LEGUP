@@ -333,8 +333,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         {
             GameBoardFacade.getInstance().getHistory().redo();
         });
+        // TODO Mac is not yet done
         if(os == "mac") redo.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        else redo.setAccelerator(KeyStroke.getKeyStroke('Y', InputEvent.CTRL_DOWN_MASK));
+        else redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
 
         mBar.add(proof);
 
