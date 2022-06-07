@@ -12,4 +12,4 @@ If there is any one point that should be emphasized from the programming princip
 Please refer to the [developer setup guide](https://github.com/Bram-Hub/Legup/wiki/Programming-Setup-Guide) to get set up with the Legup repository. Please note that the developer setup guide is a *guide*. We recommend you use IntelliJ and GitHub Desktop, but feel free to use other IDEs and/or the command line if you feel more comfortable with that.
 
 ## References
-This guide is adapted from the [GitHub docs contributing guide](https://github.com/github/docs/blob/main/CONTRIBUTING.md).
+This guide is loosely adapted from the [GitHub docs contributing guide](https://github.com/github/docs/blob/main/CONTRIBUTING.md).
