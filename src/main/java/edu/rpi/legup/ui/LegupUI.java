@@ -28,14 +28,13 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
-import edu.rpi.legup.ui.boardview.BoardView;
-import edu.rpi.legup.ui.rulesview.RuleFrame;
-import edu.rpi.legup.ui.treeview.TreePanel;
-import edu.rpi.legup.ui.treeview.TreeViewSelection;
+import edu.rpi.legup.ui.puzzleeditorui.boardview.BoardView;
+import edu.rpi.legup.ui.puzzleeditorui.rulesview.RuleFrame;
+import edu.rpi.legup.ui.puzzleeditorui.treeview.TreePanel;
+import edu.rpi.legup.ui.puzzleeditorui.treeview.TreeViewSelection;
 import edu.rpi.legup.user.Submission;
 import edu.rpi.legupupdate.Update;
 import edu.rpi.legupupdate.UpdateProgress;
-import io.grpc.internal.KeepAliveManager;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

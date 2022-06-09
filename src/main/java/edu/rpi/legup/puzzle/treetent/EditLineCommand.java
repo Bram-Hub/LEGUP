@@ -4,10 +4,10 @@ import edu.rpi.legup.history.CommandError;
 import edu.rpi.legup.history.PuzzleCommand;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.tree.*;
-import edu.rpi.legup.ui.boardview.ElementView;
-import edu.rpi.legup.ui.treeview.TreeElementView;
-import edu.rpi.legup.ui.treeview.TreeView;
-import edu.rpi.legup.ui.treeview.TreeViewSelection;
+import edu.rpi.legup.ui.puzzleeditorui.boardview.ElementView;
+import edu.rpi.legup.ui.puzzleeditorui.treeview.TreeElementView;
+import edu.rpi.legup.ui.puzzleeditorui.treeview.TreeView;
+import edu.rpi.legup.ui.puzzleeditorui.treeview.TreeViewSelection;
 
 import java.awt.*;
 import java.util.List;

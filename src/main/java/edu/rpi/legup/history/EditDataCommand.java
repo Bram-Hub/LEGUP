@@ -5,9 +5,9 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.observer.ITreeListener;
 import edu.rpi.legup.model.tree.*;
-import edu.rpi.legup.ui.boardview.BoardView;
-import edu.rpi.legup.ui.boardview.ElementView;
-import edu.rpi.legup.ui.treeview.*;
+import edu.rpi.legup.ui.puzzleeditorui.boardview.BoardView;
+import edu.rpi.legup.ui.puzzleeditorui.boardview.ElementView;
+import edu.rpi.legup.ui.puzzleeditorui.treeview.*;
 
 import java.awt.event.MouseEvent;
 import java.util.List;

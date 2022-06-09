@@ -1,4 +1,4 @@
-package edu.rpi.legup.ui.rulesview;
+package edu.rpi.legup.ui.puzzleeditorui.rulesview;
 
 import javax.swing.ImageIcon;
 

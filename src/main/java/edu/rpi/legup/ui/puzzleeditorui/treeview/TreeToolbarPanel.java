@@ -1,4 +1,4 @@
-package edu.rpi.legup.ui.treeview;
+package edu.rpi.legup.ui.puzzleeditorui.treeview;
 
 import javax.swing.*;
 import java.awt.*;

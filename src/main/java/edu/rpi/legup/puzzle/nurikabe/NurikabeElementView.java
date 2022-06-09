@@ -1,6 +1,6 @@
 package edu.rpi.legup.puzzle.nurikabe;
 
-import edu.rpi.legup.ui.boardview.GridElementView;
+import edu.rpi.legup.ui.puzzleeditorui.boardview.GridElementView;
 
 import java.awt.*;
 

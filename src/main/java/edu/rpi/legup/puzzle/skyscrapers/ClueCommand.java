@@ -2,22 +2,17 @@ package edu.rpi.legup.puzzle.skyscrapers;
 
 import edu.rpi.legup.history.CommandError;
 import edu.rpi.legup.history.PuzzleCommand;
-import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.*;
-import edu.rpi.legup.ui.treeview.TreeElementView;
-import edu.rpi.legup.ui.treeview.TreeNodeView;
-import edu.rpi.legup.ui.treeview.TreeTransitionView;
-import edu.rpi.legup.ui.treeview.TreeView;
-import edu.rpi.legup.ui.treeview.TreeViewSelection;
+import edu.rpi.legup.ui.puzzleeditorui.treeview.TreeElementView;
+import edu.rpi.legup.ui.puzzleeditorui.treeview.TreeNodeView;
+import edu.rpi.legup.ui.puzzleeditorui.treeview.TreeTransitionView;
+import edu.rpi.legup.ui.puzzleeditorui.treeview.TreeViewSelection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class ClueCommand extends PuzzleCommand {
     private TreeViewSelection selection;
