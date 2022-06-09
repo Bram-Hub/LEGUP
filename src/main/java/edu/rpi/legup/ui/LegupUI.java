@@ -539,11 +539,12 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 
         // Folder is empty
         if(folder.listFiles().length == 0) {
-            writer.append(path + ",Empty folder,0,Ungradeable\n"); 
+            writer.append(path + ",Empty folder,,Ungradeable\n"); 
             return;
         }
 
         // Travese directory, recurse if sub-directory found 
+        // If ungradeable, do not leave a score (0, 1) 
         for(final File f : folder.listFiles()) {
             // Recurse 
             if(f.isDirectory()) {
@@ -574,7 +575,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                     if(puzzle.isPuzzleComplete()) writer.append("1,Solved\n");
                     else writer.append("0,Unsolved\n");
                 } catch (InvalidFileFormatException e) {
-                    writer.append(fName + " - invalid type,0,Ungradeable\n"); 
+                    writer.append(fName + " - invalid type,,Ungradeable\n"); 
                 }
             } else {
                 LOGGER.debug("Failed to run sim");
