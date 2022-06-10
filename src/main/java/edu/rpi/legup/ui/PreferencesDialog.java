@@ -49,19 +49,6 @@ public class PreferencesDialog extends JDialog {
 
         tabbedPane.addTab("General", generalTab);
 
-        Config config = GameBoardFacade.getInstance().getConfig();
-        try {
-            for (String puzzleName : config.getPuzzleNames()) {
-                String qualifiedClassName = config.getPuzzleClassForName(puzzleName);
-
-                Class<?> c = Class.forName(qualifiedClassName);
-                Constructor<?> cons = c.getConstructor();
-                Puzzle puzzle = (Puzzle) cons.newInstance();
-//                tabbedPane.addTab(puzzleName, createPuzzleTab(puzzle));
-            }
-        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            LOGGER.log(Level.SEVERE, "Cannot create puzzle preferences");
-        }
         mainPanel.add(tabbedPane, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel();
