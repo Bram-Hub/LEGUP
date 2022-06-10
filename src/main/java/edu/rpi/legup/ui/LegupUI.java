@@ -393,10 +393,10 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
             getToolBarButtons()[i].setHorizontalTextPosition(SwingConstants.CENTER);
         }
 
-        toolBarButtons[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent e) -> promptPuzzle());
-        toolBarButtons[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e) -> saveProof());
-        toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e) -> GameBoardFacade.getInstance().getHistory().undo());
-        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e) -> GameBoardFacade.getInstance().getHistory().redo());
+//        toolBarButtons[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent e) -> promptPuzzle());
+//        toolBarButtons[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e) -> saveProof());
+//        toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e) -> GameBoardFacade.getInstance().getHistory().undo());
+//        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e) -> GameBoardFacade.getInstance().getHistory().redo());
         toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e) -> {
         });
         toolBarButtons[ToolbarName.CHECK.ordinal()].addActionListener((ActionEvent e) -> checkProof());
@@ -407,9 +407,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 
         toolBarButtons[ToolbarName.CHECK_ALL.ordinal()].addActionListener((ActionEvent e) -> checkProofAll());
 
-        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
+//        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
+//        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
+//        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.HINT.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.SUBMIT.ordinal()].setEnabled(false);
@@ -655,9 +655,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     }
 
     private void showAll() {
-        getToolBarButtons()[ToolbarName.SAVE.ordinal()].setEnabled(true);
-        getToolBarButtons()[ToolbarName.UNDO.ordinal()].setEnabled(false);
-        getToolBarButtons()[ToolbarName.REDO.ordinal()].setEnabled(false);
+//        getToolBarButtons()[ToolbarName.SAVE.ordinal()].setEnabled(true);
+//        getToolBarButtons()[ToolbarName.UNDO.ordinal()].setEnabled(false);
+//        getToolBarButtons()[ToolbarName.REDO.ordinal()].setEnabled(false);
         getToolBarButtons()[ToolbarName.HINT.ordinal()].setEnabled(true);
         getToolBarButtons()[ToolbarName.CHECK.ordinal()].setEnabled(true);
         getToolBarButtons()[ToolbarName.SUBMIT.ordinal()].setEnabled(true);
@@ -880,7 +880,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         ruleFrame.getContradictionPanel().setRules(puzzle.getContradictionRules());
 
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
-        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
+//        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
 
         reloadGui();
     }
@@ -906,9 +906,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     public void onPushChange(ICommand command) {
         LOGGER.info("Pushing " + command.getClass().getSimpleName() + " to stack.");
         undo.setEnabled(true);
-        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(true);
+//        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(true);
         redo.setEnabled(false);
-        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
+//        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
 
         String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
         File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
@@ -924,9 +924,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     @Override
     public void onUndo(boolean isBottom, boolean isTop) {
         undo.setEnabled(!isBottom);
-        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
+//        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
         redo.setEnabled(!isTop);
-        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(!isTop);
+//        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(!isTop);
         if (isBottom) {
             String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
             File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
@@ -947,9 +947,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     @Override
     public void onRedo(boolean isBottom, boolean isTop) {
         undo.setEnabled(!isBottom);
-        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
+//        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
         redo.setEnabled(!isTop);
-        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(!isTop);
+//        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(!isTop);
         if (isBottom) {
             String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
             File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
@@ -967,8 +967,8 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     @Override
     public void onClearHistory() {
         undo.setEnabled(false);
-        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
+//        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
         redo.setEnabled(false);
-        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
+//        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
     }
 }
