@@ -131,7 +131,7 @@ public class LegupUI extends JFrame implements WindowListener {
         add(window);
         panels = new LegupPanel[3];
         panels[0] = new HomePanel(this);
-        panels[1] = new PuzzleSolverPanel(this.fileDialog, this);
+        panels[1] = new ProofEditorPanel(this.fileDialog, this);
         panels[2] = new PuzzleEditorPanel();
     }
 
@@ -147,8 +147,8 @@ public class LegupUI extends JFrame implements WindowListener {
         repaint();
     }
 
-    public PuzzleSolverPanel getPuzzleSolver() {
-        return (PuzzleSolverPanel) panels[1];
+    public ProofEditorPanel getPuzzleSolver() {
+        return (ProofEditorPanel) panels[1];
     }
 
     public static boolean profFlag(int flag) {

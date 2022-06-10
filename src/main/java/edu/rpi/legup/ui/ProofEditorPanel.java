@@ -35,8 +35,8 @@ import java.net.URI;
 import java.net.URL;
 import java.util.List;
 
-public class PuzzleSolverPanel extends LegupPanel implements IHistoryListener {
-    private final static Logger LOGGER = LogManager.getLogger(PuzzleSolverPanel.class.getName());
+public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
+    private final static Logger LOGGER = LogManager.getLogger(ProofEditorPanel.class.getName());
     private JMenuBar mBar;
     private TreePanel treePanel;
     private FileDialog fileDialog;
@@ -53,7 +53,7 @@ public class PuzzleSolverPanel extends LegupPanel implements IHistoryListener {
 
     final static int[] TOOLBAR_SEPARATOR_BEFORE = {2, 4, 8};
 
-    public PuzzleSolverPanel(FileDialog fileDialog, JFrame frame) {
+    public ProofEditorPanel(FileDialog fileDialog, JFrame frame) {
         this.fileDialog = fileDialog;
         this.frame = frame;
         setLayout(new BorderLayout());
