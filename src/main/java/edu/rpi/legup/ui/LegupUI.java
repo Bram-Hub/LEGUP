@@ -126,7 +126,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         try {
             UIManager.setLookAndFeel(new LegupLookAndFeel());
         } catch (UnsupportedLookAndFeelException e) {
-            System.err.println("Not supported ui look and fel");
+            System.err.println("Not supported ui look and feel");
         }
 
         this.contentPane = new JPanel();
@@ -134,25 +134,6 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         setContentPane(contentPane);
 
         setIconImage(new ImageIcon(ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/Basic Rules.gif")).getImage());
-
-        final SplashScreen splash = SplashScreen.getSplashScreen();
-        if (splash != null) {
-            Graphics2D g = splash.createGraphics();
-            if (g != null) {
-                g.setComposite(AlphaComposite.Clear);
-                g.setPaintMode();
-                g.setColor(Color.BLACK);
-                g.setFont(new Font(g.getFont().getName(), Font.BOLD, 24));
-                g.drawString("Loading ...", 120, 350);
-                splash.update();
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-
-                }
-                splash.close();
-            }
-        }
 
         setupMenu();
         setupToolBar();
