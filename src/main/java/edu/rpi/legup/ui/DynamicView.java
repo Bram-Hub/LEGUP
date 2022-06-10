@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.io.IOException;
 import java.util.Hashtable;
+import java.util.Objects;
 
 import static java.awt.BorderLayout.*;
 
@@ -48,23 +49,19 @@ public class DynamicView extends JPanel {
             JSlider zoomSlider = new JSlider(25, 400, 100);
 
             JButton plus = new JButton(new ImageIcon(ImageIO.read(
-                    ClassLoader.getSystemClassLoader().getResource(
-                            "edu/rpi/legup/imgs/add.png"))));
+                    Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(
+                            "edu/rpi/legup/imgs/add.png")))));
             plus.setFont(MaterialFonts.getRegularFont(10f));
             plus.setPreferredSize(new Dimension(20, 20));
-            plus.addActionListener((ActionEvent e) -> {
-                zoomSlider.setValue(zoomSlider.getValue() + 25);
-            });
+            plus.addActionListener((ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() + 25));
 
 
             JButton minus = new JButton(new ImageIcon(ImageIO.read(
-                    ClassLoader.getSystemClassLoader().getResource(
-                            "edu/rpi/legup/imgs/remove.png"))));
+                    Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(
+                            "edu/rpi/legup/imgs/remove.png")))));
             minus.setPreferredSize(new Dimension(20, 20));
             minus.setFont(MaterialFonts.getRegularFont(10f));
-            minus.addActionListener((ActionEvent e) -> {
-                zoomSlider.setValue(zoomSlider.getValue() - 25);
-            });
+            minus.addActionListener((ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() - 25));
             this.scrollView.setWheelScrollingEnabled(true);
             /*this.scrollView.getViewport().addMouseWheelListener(new MouseAdapter() {
                 public void mouseWheelMoved(MouseWheelEvent e) {
@@ -108,7 +105,7 @@ public class DynamicView extends JPanel {
             zoomWrapper.add(status, WEST);
             zoomWrapper.add(zoomer, EAST);
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
         return zoomWrapper;
     }
