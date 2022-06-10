@@ -1,4 +1,4 @@
-package edu.rpi.legup.ui.puzzleeditorui.boardview;
+package edu.rpi.legup.ui.boardview;
 
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.ElementController;

@@ -1,6 +1,6 @@
 package edu.rpi.legup.puzzle.treetent;
 
-import edu.rpi.legup.ui.puzzleeditorui.boardview.ElementView;
+import edu.rpi.legup.ui.boardview.ElementView;
 
 import java.awt.*;
 

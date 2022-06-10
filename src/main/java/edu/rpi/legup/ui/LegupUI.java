@@ -11,7 +11,7 @@ import javax.swing.*;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.ui.lookandfeel.LegupLookAndFeel;
-import edu.rpi.legup.ui.puzzleeditorui.boardview.BoardView;
+import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.puzzleeditorui.treeview.TreePanel;
 import edu.rpi.legupupdate.Update;
 import edu.rpi.legupupdate.UpdateProgress;

@@ -4,8 +4,8 @@ import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeElement;
-import edu.rpi.legup.ui.puzzleeditorui.boardview.ElementView;
-import edu.rpi.legup.ui.puzzleeditorui.boardview.GridBoardView;
+import edu.rpi.legup.ui.boardview.ElementView;
+import edu.rpi.legup.ui.boardview.GridBoardView;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

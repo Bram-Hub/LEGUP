@@ -1,6 +1,6 @@
 package edu.rpi.legup.puzzle.skyscrapers;
 
-import edu.rpi.legup.ui.puzzleeditorui.boardview.GridElementView;
+import edu.rpi.legup.ui.boardview.GridElementView;
 
 import java.awt.*;
 

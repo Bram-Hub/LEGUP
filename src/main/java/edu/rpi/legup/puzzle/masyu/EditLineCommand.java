@@ -9,8 +9,8 @@ import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.model.tree.TreeElementType;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.ui.puzzleeditorui.boardview.BoardView;
-import edu.rpi.legup.ui.puzzleeditorui.boardview.ElementView;
+import edu.rpi.legup.ui.boardview.BoardView;
+import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.puzzleeditorui.treeview.*;
 
 import java.awt.event.MouseEvent;

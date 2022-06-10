@@ -14,7 +14,7 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
-import edu.rpi.legup.ui.puzzleeditorui.boardview.BoardView;
+import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.puzzleeditorui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.puzzleeditorui.treeview.TreePanel;
 import edu.rpi.legup.ui.puzzleeditorui.treeview.TreeViewSelection;

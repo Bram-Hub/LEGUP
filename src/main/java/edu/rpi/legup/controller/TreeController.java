@@ -2,7 +2,7 @@ package edu.rpi.legup.controller;
 
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.tree.Tree;
-import edu.rpi.legup.ui.puzzleeditorui.boardview.BoardView;
+import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.puzzleeditorui.treeview.*;
 
 import java.awt.*;
