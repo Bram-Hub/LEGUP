@@ -169,6 +169,8 @@ public class ScrollView extends JScrollPane {
     }
 
     public void zoomTo(double newScale) {
+        //System.out.println("Zooming to " + newScale);
+
         // check zoom bounds
         if (newScale < minScale) {
             newScale = minScale;
@@ -181,7 +183,8 @@ public class ScrollView extends JScrollPane {
         }
         // calculate the newScale and center point
         double mag = newScale / scale;
-        Point p = new Point(viewport.getWidth() / 2 + viewport.getX(), viewport.getHeight() / 2 + viewport.getY());
+        Point p = new Point(viewport.getWidth() / 2 + viewport.getX(),
+                viewport.getHeight() / 2 + viewport.getY());
 
         // set scale directly
         scale = newScale;
