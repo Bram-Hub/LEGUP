@@ -27,10 +27,10 @@ public class TouchingTentsContradictionRule extends ContradictionRule {
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
         TreeTentBoard treeTentBoard = (TreeTentBoard) board;
         TreeTentCell cell = (TreeTentCell) puzzleElement;
-        if (cell.getType() != TreeTentType.TREE) {
+        if (cell.getType() != TreeTentType.TENT) {
             return super.getNoContradictionMessage();
         }
-        int adjTree = treeTentBoard.getAdjacent(cell, TreeTentType.TREE).size();
+        int adjTree = treeTentBoard.getAdjacent(cell, TreeTentType.TENT).size();
         if (adjTree > 0) {
             return null;
         } else {
