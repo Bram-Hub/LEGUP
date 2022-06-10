@@ -146,7 +146,7 @@ public abstract class Board {
      */
     @SuppressWarnings("unchecked")
     public void notifyChange(PuzzleElement puzzleElement) {
-        puzzleElements.get(puzzleElement.getIndex()).setData(puzzleElement.getData());
+        puzzleElements.set(puzzleElement.getIndex(), puzzleElement);
     }
 
     /**

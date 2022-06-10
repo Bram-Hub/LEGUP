@@ -126,7 +126,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         try {
             UIManager.setLookAndFeel(new LegupLookAndFeel());
         } catch (UnsupportedLookAndFeelException e) {
-            System.err.println("Not supported ui look and fel");
+            System.err.println("Not supported ui look and feel");
         }
 
         this.contentPane = new JPanel();
@@ -134,25 +134,6 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         setContentPane(contentPane);
 
         setIconImage(new ImageIcon(ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/Basic Rules.gif")).getImage());
-
-        final SplashScreen splash = SplashScreen.getSplashScreen();
-        if (splash != null) {
-            Graphics2D g = splash.createGraphics();
-            if (g != null) {
-                g.setComposite(AlphaComposite.Clear);
-                g.setPaintMode();
-                g.setColor(Color.BLACK);
-                g.setFont(new Font(g.getFont().getName(), Font.BOLD, 24));
-                g.drawString("Loading ...", 120, 350);
-                splash.update();
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-
-                }
-                splash.close();
-            }
-        }
 
         setupMenu();
         setupToolBar();
@@ -333,8 +314,8 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         {
             GameBoardFacade.getInstance().getHistory().redo();
         });
-        if(os == "mac") redo.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        else redo.setAccelerator(KeyStroke.getKeyStroke('Y', InputEvent.CTRL_DOWN_MASK));
+        if(os == "mac") redo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK));
+        else redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
 
         mBar.add(proof);
 
@@ -539,11 +520,12 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 
         // Folder is empty
         if(folder.listFiles().length == 0) {
-            writer.append(path + ",Empty folder,0,Ungradeable\n"); 
+            writer.append(path + ",Empty folder,,Ungradeable\n"); 
             return;
         }
 
         // Travese directory, recurse if sub-directory found 
+        // If ungradeable, do not leave a score (0, 1) 
         for(final File f : folder.listFiles()) {
             // Recurse 
             if(f.isDirectory()) {
@@ -574,7 +556,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                     if(puzzle.isPuzzleComplete()) writer.append("1,Solved\n");
                     else writer.append("0,Unsolved\n");
                 } catch (InvalidFileFormatException e) {
-                    writer.append(fName + " - invalid type,0,Ungradeable\n"); 
+                    writer.append(fName + " - invalid type,,Ungradeable\n"); 
                 }
             } else {
                 LOGGER.debug("Failed to run sim");
