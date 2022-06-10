@@ -17,7 +17,7 @@ The LEGUP interface allows the edu.rpi.legup.user to solve different types of gr
 
 So, how does the LEGUP interface differ from online platforms for grid-based games? The most important difference is that the LEGUP interface requires the edu.rpi.legup.user to explicitly indicate their logical reasoning. Thus, solving the edu.rpi.legup.puzzle due to some lucky guesses is no longer an option! The interface will congratulate the edu.rpi.legup.user less on the fact that the edu.rpi.legup.user was able to solve the edu.rpi.legup.puzzle, but more on how the edu.rpi.legup.user solved the edu.rpi.legup.puzzle. This is essential to logic: logic is not about the truth or the correct or best answer, but about deductive implication and valid inference: what follows from what, and why? 
 
-LEGUP also provides a single interface that is capable of supporting many different types of puzzles. Since most of the interface remains the same, however, users wil start to recognize certain similarities between the different puzzles. In particular, since they have to explicitly state their reasoning, users should start to see strong similarities in their logical reasoning patterns from edu.rpi.legup.puzzle to edu.rpi.legup.puzzle, which is the very basis of the abstract logical reasoning principles taught in traditional logic courses. However, rather than being 'thrown in the water' with abstract principles based on obscure symbols, users instead are dealing with a concrete, fun, and engaging logic edu.rpi.legup.puzzle. As such, LEGUP aims to give its users a 'leg up' when it comes to the understanding of logic.
+Legup also provides a single interface that is capable of supporting many different types of puzzles. Since most of the interface remains the same, however, users wil start to recognize certain similarities between the different puzzles. In particular, since they have to explicitly state their reasoning, users should start to see strong similarities in their logical reasoning patterns from edu.rpi.legup.puzzle to edu.rpi.legup.puzzle, which is the very basis of the abstract logical reasoning principles taught in traditional logic courses. However, rather than being 'thrown in the water' with abstract principles based on obscure symbols, users instead are dealing with a concrete, fun, and engaging logic edu.rpi.legup.puzzle. As such, LEGUP aims to give its users a 'leg up' when it comes to the understanding of logic.
 
 ## Gradle
 
@@ -25,7 +25,7 @@ This project uses Gradle for dependency management.
 
 ## XML Board Specifications
 
-An example for the Battleship edu.rpi.legup.puzzle demonstrates the proper format for XML files to be read in. Puzzles have particular x and y values associated with a location of each puzzleElement. The board size dictates the square size of the board. Currently LEGUP supports Battleship, Fillapix, LightUp, Masyu, Nurikabe, Sudoku, and Treetent puzzles.
+An example for the Battleship puzzle demonstrates the proper format for XML files to be read in. Puzzles have particular x and y values associated with a location of each puzzleElement. The board size dictates the square size of the board. Legup supports many puzzles, such as Light Up, Nurikabe, Short Truth Table, etc., with others such as Battleship, Skyscrapers, and Tree Tent actively in development.
 
 ```
 <edu.rpi.legup.Legup>
@@ -42,4 +42,4 @@ An example for the Battleship edu.rpi.legup.puzzle demonstrates the proper forma
     </edu.rpi.legup.puzzle>
 </edu.rpi.legup.Legup>
 ```
-Element values are dependent on the type of edu.rpi.legup.puzzle. This is specified in each edu.rpi.legup.puzzle's documentation.
+Element values are dependent on the type of edu.rpi.legup.puzzle.
