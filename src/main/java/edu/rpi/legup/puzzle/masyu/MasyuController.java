@@ -4,7 +4,7 @@ import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.ui.boardview.BoardView;
+import edu.rpi.legup.ui.puzzleeditorui.boardview.BoardView;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

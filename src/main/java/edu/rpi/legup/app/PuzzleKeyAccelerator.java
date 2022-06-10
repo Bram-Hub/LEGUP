@@ -7,17 +7,14 @@ import edu.rpi.legup.model.rules.BasicRule;
 import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.rules.RuleType;
-import edu.rpi.legup.ui.treeview.TreeView;
-import edu.rpi.legup.ui.treeview.TreeViewSelection;
+import edu.rpi.legup.ui.puzzleeditorui.treeview.TreeView;
+import edu.rpi.legup.ui.puzzleeditorui.treeview.TreeViewSelection;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 

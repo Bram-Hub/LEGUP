@@ -1,11 +1,10 @@
 package edu.rpi.legup.puzzle.sudoku;
 
 import edu.rpi.legup.controller.BoardController;
-import edu.rpi.legup.controller.ElementController;
-import edu.rpi.legup.ui.boardview.DataSelectionView;
-import edu.rpi.legup.ui.boardview.ElementView;
-import edu.rpi.legup.ui.boardview.GridBoardView;
-import edu.rpi.legup.ui.boardview.SelectionItemView;
+import edu.rpi.legup.ui.puzzleeditorui.boardview.DataSelectionView;
+import edu.rpi.legup.ui.puzzleeditorui.boardview.ElementView;
+import edu.rpi.legup.ui.puzzleeditorui.boardview.GridBoardView;
+import edu.rpi.legup.ui.puzzleeditorui.boardview.SelectionItemView;
 
 import javax.swing.*;
 import java.awt.*;

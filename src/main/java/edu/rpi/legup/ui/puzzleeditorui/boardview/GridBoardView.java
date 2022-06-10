@@ -1,11 +1,10 @@
-package edu.rpi.legup.ui.boardview;
+package edu.rpi.legup.ui.puzzleeditorui.boardview;
 
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.ElementController;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Point;
 
 public class GridBoardView extends BoardView {
     protected Dimension gridSize;

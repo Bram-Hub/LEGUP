@@ -11,11 +11,11 @@ import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.model.tree.TreeElementType;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.ui.DynamicView;
-import edu.rpi.legup.ui.boardview.BoardView;
-import edu.rpi.legup.ui.boardview.ElementSelection;
-import edu.rpi.legup.ui.boardview.ElementView;
-import edu.rpi.legup.ui.boardview.SelectionItemView;
-import edu.rpi.legup.ui.treeview.*;
+import edu.rpi.legup.ui.puzzleeditorui.boardview.BoardView;
+import edu.rpi.legup.ui.puzzleeditorui.boardview.ElementSelection;
+import edu.rpi.legup.ui.puzzleeditorui.boardview.ElementView;
+import edu.rpi.legup.ui.puzzleeditorui.boardview.SelectionItemView;
+import edu.rpi.legup.ui.puzzleeditorui.treeview.*;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.EditDataCommand;
 
