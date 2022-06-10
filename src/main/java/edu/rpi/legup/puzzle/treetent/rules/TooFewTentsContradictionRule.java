@@ -12,7 +12,7 @@ import java.awt.*;
 public class TooFewTentsContradictionRule extends ContradictionRule {
 
     public TooFewTentsContradictionRule() {
-        super("Too Few Tents",
+        super("TREE-CONT-0003", "Too Few Tents",
                 "Rows and columns cannot have fewer tents than their clue.",
                 "edu/rpi/legup/images/treetent/too_few_tents.png");
     }

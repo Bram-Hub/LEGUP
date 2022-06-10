@@ -17,7 +17,8 @@ public class CantReachWhiteContradictionRule extends ContradictionRule {
     private final String INVALID_USE_MESSAGE = "Does not contain a contradiction at this index";
 
     public CantReachWhiteContradictionRule() {
-        super("Cant Reach white cell",
+        super("NURI-CONT-0002",
+                "Unreachables are Black",
                 "A white cell must be able to reach a white region",
                 "edu/rpi/legup/images/nurikabe/contradictions/CantReach.png");
     }

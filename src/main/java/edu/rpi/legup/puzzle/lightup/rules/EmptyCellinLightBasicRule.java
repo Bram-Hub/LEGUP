@@ -12,7 +12,7 @@ import edu.rpi.legup.puzzle.lightup.LightUpCellType;
 public class EmptyCellinLightBasicRule extends BasicRule {
 
     public EmptyCellinLightBasicRule() {
-        super("Empty Cells in Light",
+        super("LTUP-BASC-0002", "Empty Cells in Light",
                 "Cells in light must be empty.",
                 "edu/rpi/legup/images/lightup/rules/EmptyCellInLight.png");
     }

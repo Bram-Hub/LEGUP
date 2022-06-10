@@ -20,12 +20,13 @@ public abstract class CaseRule extends Rule {
     /**
      * CaseRule Constructor creates a new case rule.
      *
+     * @param ruleID      ID of the rule
      * @param ruleName    name of the rule
      * @param description description of the rule
      * @param imageName   file name of the image
      */
-    public CaseRule(String ruleName, String description, String imageName) {
-        super(ruleName, description, imageName);
+    public CaseRule(String ruleID, String ruleName, String description, String imageName) {
+        super(ruleID, ruleName, description, imageName);
         this.ruleType = CASE;
         this.INVALID_USE_MESSAGE = "Invalid use of the case rule " + this.ruleName;
     }

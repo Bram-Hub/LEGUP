@@ -17,7 +17,7 @@ import java.util.Set;
 public class PossibleNumberCaseRule extends CaseRule {
 
     public PossibleNumberCaseRule() {
-        super("Possible Numbers for Cell",
+        super("SUDO-CASE-0002", "Possible Numbers for Cell",
                 "An empty cell has a limited set of possible numbers that can fill it.",
                 "edu/rpi/legup/images/sudoku/PossibleValues.png");
     }

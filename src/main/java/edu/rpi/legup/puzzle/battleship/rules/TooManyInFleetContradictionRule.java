@@ -7,7 +7,8 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 public class TooManyInFleetContradictionRule extends ContradictionRule {
 
     public TooManyInFleetContradictionRule() {
-        super("Too Many in Fleet",
+        super("BTSP-CONT-0005",
+                "Too Many in Fleet",
                 "",
                 "edu/rpi/legup/images/battleship/contradictions/too_many_in_fleet.png");
     }
