@@ -33,8 +33,8 @@ public class TreePanel extends JPanel {
 
     private JLabel status;
 
-    public TreePanel(LegupUI legupUI) {
-        this.legupUI = legupUI;
+    public TreePanel(/*LegupUI legupUI*/) {
+        //this.legupUI = legupUI;
 
         main = new JPanel();
 
