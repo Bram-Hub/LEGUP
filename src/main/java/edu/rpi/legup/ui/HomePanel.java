@@ -5,18 +5,38 @@ import java.awt.*;
 
 public class HomePanel extends LegupPanel {
     private LegupUI legupUI;
-
+    private JFrame frame;
     private JButton[] buttons;
+    private JMenuBar menuBar;
 
-    public HomePanel(LegupUI legupUI) {
+    public HomePanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
         this.legupUI = legupUI;
+        this.frame = frame;
         setLayout(new GridLayout(1, 2));
         initButtons();
     }
 
+    public JMenuBar getMenuBar()
+    {
+        this.menuBar = new JMenuBar();
+        JMenu settings = new JMenu("Settings");
+        menuBar.add(settings);
+        JMenuItem about = new JMenuItem("About");
+        JMenuItem preferences = new JMenuItem("Preferences");
+        settings.add(about);
+        about.addActionListener(a -> {System.out.println("About clicked");});
+        // settings.addSeparator();
+        settings.add(preferences);
+        preferences.addActionListener(a -> {System.out.println("Preferences clicked");});
+        return this.menuBar;
+    }
+
     @Override
-    public void makeVisible() {
+    public void makeVisible()
+    {
         render();
+        this.frame.setVisible(true);
+        this.frame.setJMenuBar(this.getMenuBar());
     }
 
     private void initButtons() {
@@ -34,7 +54,7 @@ public class HomePanel extends LegupPanel {
     }
 
     private void render() {
-        add(this.buttons[0]);
-        add(this.buttons[1]);
+        this.add(this.buttons[0]);
+        this.add(this.buttons[1]);
     }
 }
