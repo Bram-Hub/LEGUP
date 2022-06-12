@@ -845,8 +845,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         dynamicBoardView = new DynamicView(boardView);
         this.topHalfPanel.setRightComponent(dynamicBoardView);
         this.topHalfPanel.setVisible(true);
-
-        TitledBorder titleBoard = BorderFactory.createTitledBorder(boardView.getClass().getSimpleName());
+        String boardType = boardView.getBoard().getClass().getSimpleName();
+        boardType = boardType.substring(0, boardType.indexOf("Board"));
+        TitledBorder titleBoard = BorderFactory.createTitledBorder(boardType + " Board");
         titleBoard.setTitleJustification(TitledBorder.CENTER);
         dynamicBoardView.setBorder(titleBoard);
 
