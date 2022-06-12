@@ -19,6 +19,8 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
     protected ElementController elementController;
     protected ElementSelection selection;
 
+
+
     /**
      * BoardView Constructor creates a view for the board object using the controller handle the ui events
      *
