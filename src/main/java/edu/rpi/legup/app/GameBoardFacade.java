@@ -83,6 +83,16 @@ public class GameBoardFacade implements IHistorySubject {
         this.history.clear();
     }
 
+    public static void setupConfig() {
+        Config config = null;
+        try {
+            config = new Config();
+        } catch (InvalidConfigException e) {
+            System.exit(1);
+        }
+        GameBoardFacade.getInstance().setConfig(config);
+    }
+
     public void setConfig(Config config) {
         this.config = config;
     }
