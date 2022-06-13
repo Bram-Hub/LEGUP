@@ -142,3 +142,4 @@ gradle-app.setting
 
 **/.DS_Store
 gradle/wrapper/gradle-wrapper.properties
+/native/windows/bin/legup_installer.exe
