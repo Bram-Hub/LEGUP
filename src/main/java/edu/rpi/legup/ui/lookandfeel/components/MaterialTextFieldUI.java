@@ -120,7 +120,7 @@ public class MaterialTextFieldUI extends BasicTextFieldUI implements FocusListen
 			}
 		};
 
-		// note getMenuShortcutKeyMask() is deprecated in Java 10 - change to getMenuShortcutKeyMaskEx()
+		// note getMenuShortcutKeyMask() is deprecated in Java 10 - change to getMenuShortcutKeyMask()
 		getComponent ().getInputMap ().put (KeyStroke.getKeyStroke (KeyEvent.VK_A, Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask ()), "selectAll");
 		getComponent ().getInputMap ().put (KeyStroke.getKeyStroke (KeyEvent.VK_BACK_SPACE, 0), "delete");
 		getComponent ().getInputMap ().put (KeyStroke.getKeyStroke (KeyEvent.VK_LEFT, 0), "left");
