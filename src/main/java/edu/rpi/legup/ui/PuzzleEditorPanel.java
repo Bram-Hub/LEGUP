@@ -17,6 +17,8 @@ public class PuzzleEditorPanel extends LegupPanel {
     private JMenuBar menuBar;
     private JFrame frame;
     private JButton[] buttons;
+
+    private JPanel elementPanel;
     private JPanel mainPanel;
     private FileDialog fileDialog;
     private JMenuItem undo, redo;
@@ -57,11 +59,11 @@ public class PuzzleEditorPanel extends LegupPanel {
         newPuzzle.addActionListener((ActionEvent) -> promptPuzzle());
         if(os.equals("mac")) newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         else newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
-        // file>open
-        JMenuItem openPuzzle = new JMenuItem("Open");
+        // file>save
+        JMenuItem savePuzzle = new JMenuItem("Save");
 
         menus[0].add(newPuzzle);
-        menus[0].add(openPuzzle);
+        menus[0].add(savePuzzle);
 
         // EDIT
         menus[1] = new JMenu("Edit");
