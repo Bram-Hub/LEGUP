@@ -177,10 +177,10 @@ public class PreferencesDialog extends JDialog {
         immFeedbackRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, immFeedbackRow.getPreferredSize().height));
         contentPane.add(immFeedbackRow);
 
-        contentPane.add(createLeftLabel("Instructor Mode"));
+        contentPane.add(createLeftLabel("Instructor Preferences"));
         contentPane.add(createLineSeparator());
         immFeedback = new JCheckBox("Instructor Mode", Boolean.valueOf(prefs.getUserPref(LegupPreferences.IMMEDIATE_FEEDBACK)));
-        immFeedback.setToolTipText("If checked this will update the colors of the tree view elements immediately");
+        immFeedback.setToolTipText("Currently unimplemented, this does nothing right now");
         immFeedbackRow.setLayout(new BorderLayout());
         immFeedbackRow.add(immFeedback, BorderLayout.WEST);
         immFeedbackRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, immFeedbackRow.getPreferredSize().height));
