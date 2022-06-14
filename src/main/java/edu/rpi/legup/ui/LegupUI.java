@@ -694,6 +694,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                 setTitle(puzzleName + " - " + puzzleFile.getName());
             } catch (InvalidFileFormatException e) {
                 LOGGER.error(e.getMessage());
+                JOptionPane.showMessageDialog(null, "File does not exist or it cannot be read", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
