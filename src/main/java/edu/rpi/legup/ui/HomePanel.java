@@ -94,7 +94,9 @@ public class HomePanel extends LegupPanel {
     {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         JLabel welcome = new JLabel("Welcome to Legup");
+        welcome.setFont(new Font("Roboto", Font.BOLD, 23));
         welcome.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         JPanel buttons = new JPanel();
         buttons.add(this.buttons[0]);
         buttons.add(Box.createRigidArea(new Dimension(5, 0)));
