@@ -1,4 +1,4 @@
-package edu.rpi.legup.ui.puzzleeditorui.rulesview;
+package edu.rpi.legup.ui.proofeditorui.rulesview;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

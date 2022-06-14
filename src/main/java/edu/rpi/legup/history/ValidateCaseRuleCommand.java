@@ -5,7 +5,7 @@ import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.tree.*;
-import edu.rpi.legup.ui.puzzleeditorui.treeview.*;
+import edu.rpi.legup.ui.proofeditorui.treeview.*;
 
 import java.util.HashMap;
 import java.util.List;

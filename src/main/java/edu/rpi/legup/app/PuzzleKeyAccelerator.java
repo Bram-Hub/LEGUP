@@ -7,8 +7,8 @@ import edu.rpi.legup.model.rules.BasicRule;
 import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.rules.RuleType;
-import edu.rpi.legup.ui.puzzleeditorui.treeview.TreeView;
-import edu.rpi.legup.ui.puzzleeditorui.treeview.TreeViewSelection;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;

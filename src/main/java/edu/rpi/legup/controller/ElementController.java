@@ -15,7 +15,7 @@ import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.boardview.ElementSelection;
 import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.boardview.SelectionItemView;
-import edu.rpi.legup.ui.puzzleeditorui.treeview.*;
+import edu.rpi.legup.ui.proofeditorui.treeview.*;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.EditDataCommand;
 

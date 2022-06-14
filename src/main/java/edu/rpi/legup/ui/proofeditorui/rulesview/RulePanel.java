@@ -1,4 +1,4 @@
-package edu.rpi.legup.ui.puzzleeditorui.rulesview;
+package edu.rpi.legup.ui.proofeditorui.rulesview;
 
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.ui.WrapLayout;

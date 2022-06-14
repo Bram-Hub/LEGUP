@@ -7,7 +7,7 @@ import edu.rpi.legup.model.observer.ITreeListener;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.boardview.ElementView;
-import edu.rpi.legup.ui.puzzleeditorui.treeview.*;
+import edu.rpi.legup.ui.proofeditorui.treeview.*;
 
 import java.awt.event.MouseEvent;
 import java.util.List;
