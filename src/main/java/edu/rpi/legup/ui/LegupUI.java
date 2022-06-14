@@ -714,7 +714,12 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                 this.showErrorMessage("ERROR: Can't open file", e.getMessage());
                 LOGGER.error(e.getMessage());
                 JOptionPane.showMessageDialog(null,"Can't open the file!\nCheck the file and try again.","Error",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog (null, "File does not exist or it cannot be read", "Title", JOptionPane.ERROR_MESSAGE);
+                LOGGER.error("Error message: " + e.getMessage());
             }
+        }
+        else{
+            LOGGER.error("File does not exist or it cannot be read.");
         }
     }
 
