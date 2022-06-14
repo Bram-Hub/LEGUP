@@ -6,7 +6,7 @@ import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.tree.Tree;
-import edu.rpi.legup.ui.PuzzleSolverPanel;
+import edu.rpi.legup.ui.ProofEditorPanel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -43,7 +43,7 @@ public class GameBoardFacade implements IHistorySubject {
 
     private LegupUI legupUI;
 
-    private PuzzleSolverPanel puzzleSolver;
+    private ProofEditorPanel puzzleSolver;
 
     private String curFileName;
 

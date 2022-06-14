@@ -73,7 +73,7 @@ public class LegupUI extends JFrame implements WindowListener {
         try {
             UIManager.setLookAndFeel(new LegupLookAndFeel());
         } catch (UnsupportedLookAndFeelException e) {
-            System.err.println("Not supported ui look and fel");
+            System.err.println("Not supported ui look and feel");
         }
 
         fileDialog = new FileDialog(this);
@@ -130,9 +130,11 @@ public class LegupUI extends JFrame implements WindowListener {
         window = new JPanel();
         add(window);
         panels = new LegupPanel[3];
-        panels[0] = new HomePanel(this);
-        panels[1] = new PuzzleSolverPanel(this.fileDialog, this);
-        panels[2] = new PuzzleEditorPanel(this);
+
+        panels[0] = new HomePanel(this.fileDialog, this, this);
+        panels[1] = new ProofEditorPanel(this.fileDialog, this);
+        panels[2] = new PuzzleEditorPanel();
+
     }
 
     protected void displayPanel(int option) {
@@ -147,8 +149,8 @@ public class LegupUI extends JFrame implements WindowListener {
         repaint();
     }
 
-    public PuzzleSolverPanel getPuzzleSolver() {
-        return (PuzzleSolverPanel) panels[1];
+    public ProofEditorPanel getPuzzleSolver() {
+        return (ProofEditorPanel) panels[1];
     }
 
     public static boolean profFlag(int flag) {
