@@ -9,6 +9,8 @@ public class HomePanel extends LegupPanel {
     private JButton[] buttons;
     private JMenuBar menuBar;
 
+    private final int buttonSize = 23;
+
     public HomePanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
         this.legupUI = legupUI;
         this.frame = frame;
@@ -21,13 +23,22 @@ public class HomePanel extends LegupPanel {
         this.menuBar = new JMenuBar();
         JMenu settings = new JMenu("Settings");
         menuBar.add(settings);
-        JMenuItem about = new JMenuItem("About");
         JMenuItem preferences = new JMenuItem("Preferences");
-        settings.add(about);
-        about.addActionListener(a -> {System.out.println("About clicked");});
-        // settings.addSeparator();
+        preferences.addActionListener(a -> { System.out.println("Preferences clicked"); });
         settings.add(preferences);
-        preferences.addActionListener(a -> {System.out.println("Preferences clicked");});
+
+        JMenuItem about = new JMenuItem("About");
+        about.addActionListener(a -> { System.out.println("About clicked"); });
+        settings.add(about);
+
+        JMenuItem help = new JMenuItem("Help");
+        about.addActionListener(a -> { System.out.println("Help clicked"); });
+        settings.add(help);
+
+        JMenuItem contribute = new JMenuItem("Contribute to Legup");
+        contribute.addActionListener(a -> { System.out.println("Contribute to Legup clicked"); });
+        settings.add(contribute);
+
         return this.menuBar;
     }
 
@@ -40,21 +51,57 @@ public class HomePanel extends LegupPanel {
     }
 
     private void initButtons() {
-        this.buttons = new JButton[2];
-        this.buttons[0] = new JButton("Open Proof");
+        this.buttons = new JButton[3];
+
+        this.buttons[0] = new JButton("Open Proof")
+        {
+            {
+                setSize(buttonSize, buttonSize);
+                setMaximumSize(getSize());
+            }
+        };
         this.buttons[0].setIcon(new ImageIcon("src/main/resources/edu/rpi/legup/homepanel/openproof.png"));
         this.buttons[0].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[0].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[0].addActionListener(l -> this.legupUI.displayPanel(1));
-        this.buttons[1] = new JButton("Create/Edit Puzzle");
+
+        this.buttons[1] = new JButton("Create New Puzzle")
+        {
+            {
+                setSize(buttonSize, buttonSize);
+                setMaximumSize(getSize());
+            }
+        };
         this.buttons[1].setIcon(new ImageIcon("src/main/resources/edu/rpi/legup/homepanel/edit.png"));
         this.buttons[1].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[1].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[1].addActionListener(l -> this.legupUI.displayPanel(2));
+
+        this.buttons[2] = new JButton("Edit Puzzle")
+        {
+            {
+                setSize(buttonSize, buttonSize);
+                setMaximumSize(getSize());
+            }
+        };
+        this.buttons[2].setIcon(new ImageIcon("src/main/resources/edu/rpi/legup/homepanel/edit.png")); // PLACEHOLDER
+        this.buttons[2].setHorizontalTextPosition(AbstractButton.CENTER);
+        this.buttons[2].setVerticalTextPosition(AbstractButton.BOTTOM);
+        this.buttons[2].addActionListener(l -> this.legupUI.displayPanel(2)); // PLACEHOLDER
     }
 
-    private void render() {
-        this.add(this.buttons[0]);
-        this.add(this.buttons[1]);
+    private void render()
+    {
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        JLabel welcome = new JLabel("Welcome to Legup");
+        welcome.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JPanel buttons = new JPanel();
+        buttons.add(this.buttons[0]);
+        buttons.add(Box.createRigidArea(new Dimension(5, 0)));
+        buttons.add(this.buttons[1]);
+        buttons.add(Box.createRigidArea(new Dimension(5, 0)));
+        buttons.add(this.buttons[2]);
+        this.add(welcome);
+        this.add(buttons);
     }
 }
