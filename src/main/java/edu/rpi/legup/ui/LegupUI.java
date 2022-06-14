@@ -130,9 +130,11 @@ public class LegupUI extends JFrame implements WindowListener {
         window = new JPanel();
         add(window);
         panels = new LegupPanel[3];
+
         panels[0] = new HomePanel(this.fileDialog, this, this);
         panels[1] = new ProofEditorPanel(this.fileDialog, this);
         panels[2] = new PuzzleEditorPanel();
+
     }
 
     protected void displayPanel(int option) {
