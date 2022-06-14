@@ -24,9 +24,9 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
     private final String NOT_RIGHT_OPERATOR_ERROR_MESSAGE = "This cell does not contain the correct operation";
     private final String NOT_TRUE_FALSE_ERROR_MESSAGE = "Can only check for a contradiction on a cell that is assigned a value of True or False";
 
-    public ContradictionRule_GenericStatement(String ruleName, String description, String imageName,
+    public ContradictionRule_GenericStatement(String ruleID, String ruleName, String description, String imageName,
                                               char operationSymbol, ShortTruthTableCellType[][] contradictionPatterns){
-        super(ruleName, description, imageName);
+        super(ruleID, ruleName, description, imageName);
         this.operationSymbol = operationSymbol;
         this.contradictionPatterns = contradictionPatterns;
     }

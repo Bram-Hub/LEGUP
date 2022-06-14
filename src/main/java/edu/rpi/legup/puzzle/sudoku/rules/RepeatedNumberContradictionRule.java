@@ -12,7 +12,7 @@ import java.util.Set;
 public class RepeatedNumberContradictionRule extends ContradictionRule {
 
     public RepeatedNumberContradictionRule() {
-        super("Repeated Numbers",
+        super("SUDO-CONT-0002", "Repeated Numbers",
                 "Two identical numbers are placed in the same group.",
                 "edu/rpi/legup/images/sudoku/RepeatedNumber.png");
     }

@@ -17,7 +17,8 @@ public class TooFewSpacesContradictionRule extends ContradictionRule {
     private final String INVALID_USE_MESSAGE = "Contradiction must be a white or a numbered cell";
 
     public TooFewSpacesContradictionRule() {
-        super("Too Few Spaces",
+        super("NURI-CONT-0006",
+                "Too Few Spaces",
                 "A region cannot contain less spaces than its number.",
                 "edu/rpi/legup/images/nurikabe/contradictions/TooFewSpaces.png");
     }

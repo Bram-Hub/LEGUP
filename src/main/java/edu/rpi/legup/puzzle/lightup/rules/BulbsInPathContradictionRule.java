@@ -12,7 +12,7 @@ import java.awt.*;
 public class BulbsInPathContradictionRule extends ContradictionRule {
 
     public BulbsInPathContradictionRule() {
-        super("Bulbs In Path",
+        super("LTUP-CONT-0001","Bulbs In Path",
                 "A bulb cannot be placed in another bulb's path.",
                 "edu/rpi/legup/images/lightup/contradictions/BulbsInPath.png");
     }

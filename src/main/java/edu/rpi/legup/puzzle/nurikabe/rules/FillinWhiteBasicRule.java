@@ -13,7 +13,8 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 public class FillinWhiteBasicRule extends BasicRule {
 
     public FillinWhiteBasicRule() {
-        super("Fill In White",
+        super("NURI-BASC-0005",
+                "Fill In White",
                 "If there an unknown region surrounded by white, it must be white.",
                 "edu/rpi/legup/images/nurikabe/rules/FillInWhite.png");
     }

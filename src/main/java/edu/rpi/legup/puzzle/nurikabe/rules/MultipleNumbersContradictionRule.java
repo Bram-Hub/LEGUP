@@ -17,7 +17,8 @@ public class MultipleNumbersContradictionRule extends ContradictionRule {
     private final String INVALID_USE_MESSAGE = "Contradiction must be a numbered cell";
 
     public MultipleNumbersContradictionRule() {
-        super("Multiple Numbers",
+        super("NURI-CONT-0004",
+                "Multiple Numbers",
                 "All white regions cannot have more than one number.",
                 "edu/rpi/legup/images/nurikabe/contradictions/MultipleNumbers.png");
     }

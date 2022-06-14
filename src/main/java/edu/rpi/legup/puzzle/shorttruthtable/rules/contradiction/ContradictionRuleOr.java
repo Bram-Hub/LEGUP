@@ -6,7 +6,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
 public class ContradictionRuleOr extends ContradictionRule_GenericStatement{
 
     public ContradictionRuleOr(){
-        super("Contradicting Or",
+        super("STTT-CONT-0006", "Contradicting Or",
                 "An OR statement must have a contradicting pattern",
                 "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/Or.png",
                 ShortTruthTableOperation.OR,

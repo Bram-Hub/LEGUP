@@ -44,7 +44,7 @@ public abstract class PuzzleExporter {
             Document newDocument = docBuilder.newDocument();
 
             org.w3c.dom.Element legupElement = newDocument.createElement("Legup");
-            legupElement.setAttribute("version", "2.0.0");
+            legupElement.setAttribute("version", "3.0.0");
             newDocument.appendChild(legupElement);
 
             org.w3c.dom.Element puzzleElement = newDocument.createElement("puzzle");
@@ -112,6 +112,7 @@ public abstract class PuzzleExporter {
 
                     if (transition.isJustified()) {
                         transElement.setAttribute("rule", transition.getRule().getRuleName());
+                        transElement.setAttribute("rule_id", transition.getRule().getRuleID());
                     }
 
                     for (PuzzleElement data : transition.getBoard().getModifiedData()) {

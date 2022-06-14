@@ -1,0 +1,17 @@
+BTSP-BASC-0001 : ContinueShipBasicRule
+BTSP-BASC-0002 : FinishedWithShipsBasicRule
+BTSP-BASC-0003 : FinishWithWaterBasicRule
+BTSP-BASC-0004 : SegmentTypeBasicRule
+BTSP-BASC-0005 : SurroundShipBasicRule
+
+BTSP-CONT-0001 : AdjacentShipsContradictionRule
+BTSP-CONT-0002 : IncompleteShipContradictionRule
+BTSP-CONT-0003 : TooFewInFleetContradictionRule
+BTSP-CONT-0004 : TooFewRowColContradictionRule
+BTSP-CONT-0005 : TooManyInFleetContradictionRule
+BTSP-CONT-0006 : TooManyRowColContradiction
+
+BTSP-CASE-0001 : SegmentTypeCaseRule
+BTSP-CASE-0002 : ShipLocationCaseRule
+BTSP-CASE-0003 : ShipOrWaterCaseRule
+
