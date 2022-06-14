@@ -22,7 +22,7 @@ public class BattleShipElementView extends GridElementView {
     @Override
     public void drawElement(Graphics2D graphics2D) {
         BattleShipCell cell = (BattleShipCell) puzzleElement;
-        BattleShipCellType type = cell.getType();
+        BattleShipType type = cell.getType();
 
         switch (type) {
             case UNKNOWN:

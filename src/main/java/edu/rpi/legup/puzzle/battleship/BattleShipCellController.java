@@ -13,17 +13,17 @@ public class BattleShipCellController extends ElementController {
             if (e.isControlDown()) {
                 this.boardView.getSelectionPopupMenu().show(boardView, this.boardView.getCanvas().getX() + e.getX(), this.boardView.getCanvas().getY() + e.getY());
             } else {
-                if (cell.getData() == BattleShipCellType.SHIP_SEGMENT_MIDDLE.value) {
-                    cell.setData(BattleShipCellType.UNKNOWN.value);
+                if (cell.getData() == BattleShipType.SHIP_SEGMENT_MIDDLE) {
+                    cell.setData(BattleShipType.UNKNOWN);
                 } else {
-                    cell.setData(cell.getData() + 1);
+                    cell.setData(BattleShipType.getType(cell.getData().value + 1));
                 }
             }
         } else if (e.getButton() == MouseEvent.BUTTON3) {
-            if (cell.getData() == BattleShipCellType.UNKNOWN.value) {
-                cell.setData(BattleShipCellType.SHIP_SEGMENT_MIDDLE.value);
+            if (cell.getData() == BattleShipType.UNKNOWN) {
+                cell.setData(BattleShipType.SHIP_SEGMENT_MIDDLE);
             } else {
-                cell.setData(cell.getData() - 1);
+                cell.setData(BattleShipType.getType(cell.getData().value - 1));
             }
         }
     }
