@@ -97,6 +97,14 @@ public class HomePanel extends LegupPanel {
         welcome.setFont(new Font("Roboto", Font.BOLD, 23));
         welcome.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        JLabel version = new JLabel("Version 3.0.0"); // This should be autochanged in the future
+        version.setFont(new Font("Roboto", Font.ITALIC, 10));
+        version.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel credits = new JLabel("A project by Dr. Bram van Heuveln");
+        credits.setFont(new Font("Roboto", Font.PLAIN, 12));
+        credits.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         JPanel buttons = new JPanel();
         buttons.add(this.buttons[0]);
         buttons.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -104,6 +112,8 @@ public class HomePanel extends LegupPanel {
         buttons.add(Box.createRigidArea(new Dimension(5, 0)));
         buttons.add(this.buttons[2]);
         this.add(welcome);
+        this.add(version);
+        this.add(credits);
         this.add(buttons);
     }
 }
