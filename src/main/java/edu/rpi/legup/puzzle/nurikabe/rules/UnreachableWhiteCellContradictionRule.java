@@ -11,12 +11,12 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeUtilities;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class CantReachWhiteContradictionRule extends ContradictionRule {
+public class UnreachableWhiteCellContradictionRule extends ContradictionRule {
 
     private final String NO_CONTRADICTION_MESSAGE = "Cell at this index can be reached";
     private final String INVALID_USE_MESSAGE = "Does not contain a contradiction at this index";
 
-    public CantReachWhiteContradictionRule() {
+    public UnreachableWhiteCellContradictionRule() {
         super("NURI-CONT-0002",
                 "Unreachable White Cell",
                 "A white cell must be able to reach a white region",
