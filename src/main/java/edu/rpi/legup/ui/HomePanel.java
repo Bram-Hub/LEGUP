@@ -51,7 +51,7 @@ public class HomePanel extends LegupPanel {
     }
 
     private void initButtons() {
-        this.buttons = new JButton[3];
+        this.buttons = new JButton[4];
 
         this.buttons[0] = new JButton("Open Proof")
         {
@@ -88,6 +88,18 @@ public class HomePanel extends LegupPanel {
         this.buttons[2].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[2].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[2].addActionListener(l -> this.legupUI.displayPanel(2)); // PLACEHOLDER
+
+        this.buttons[3] = new JButton("Batch Grader")
+        {
+            {
+                setSize(buttonSize, buttonSize);
+                setMaximumSize(getSize());
+            }
+        };
+        this.buttons[3].setIcon(new ImageIcon("src/main/resources/edu/rpi/legup/homepanel/edit.png")); // PLACEHOLDER
+        this.buttons[3].setHorizontalTextPosition(AbstractButton.CENTER);
+        this.buttons[3].setVerticalTextPosition(AbstractButton.BOTTOM);
+        this.buttons[3].addActionListener(l -> this.legupUI.displayPanel(2)); // PLACEHOLDER
     }
 
     private void render()
@@ -111,6 +123,8 @@ public class HomePanel extends LegupPanel {
         buttons.add(this.buttons[1]);
         buttons.add(Box.createRigidArea(new Dimension(5, 0)));
         buttons.add(this.buttons[2]);
+        buttons.add(Box.createRigidArea(new Dimension(5, 0)));
+        buttons.add(this.buttons[3]);
         this.add(welcome);
         this.add(version);
         this.add(credits);
