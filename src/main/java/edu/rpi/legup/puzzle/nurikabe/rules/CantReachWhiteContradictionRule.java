@@ -18,7 +18,7 @@ public class CantReachWhiteContradictionRule extends ContradictionRule {
 
     public CantReachWhiteContradictionRule() {
         super("NURI-CONT-0002",
-                "Unreachables are Black",
+                "Unreachable White Cell",
                 "A white cell must be able to reach a white region",
                 "edu/rpi/legup/images/nurikabe/contradictions/CantReach.png");
     }
