@@ -149,7 +149,7 @@ public class LegupUI extends JFrame implements WindowListener {
         repaint();
     }
 
-    public ProofEditorPanel getPuzzleSolver() {
+    public ProofEditorPanel getProofEditor() {
         return (ProofEditorPanel) panels[1];
     }
 
@@ -158,7 +158,7 @@ public class LegupUI extends JFrame implements WindowListener {
     }
 
     public void repaintTree() {
-        getPuzzleSolver().repaintTree();
+        getProofEditor().repaintTree();
     }
 
     private void directions() {
@@ -301,14 +301,14 @@ public class LegupUI extends JFrame implements WindowListener {
     }
 
     public BoardView getBoardView() {
-        return getPuzzleSolver().getBoardView();
+        return getProofEditor().getBoardView();
     }
 
     public DynamicView getDynamicBoardView() {
-        return getPuzzleSolver().getDynamicBoardView();
+        return getProofEditor().getDynamicBoardView();
     }
 
     public TreePanel getTreePanel() {
-        return getPuzzleSolver().getTreePanel();
+        return getProofEditor().getTreePanel();
     }
 }
