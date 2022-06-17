@@ -44,12 +44,7 @@ public class PreferencesDialog extends JDialog {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
-        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
-        JScrollPane generalTab = createGeneralTab();
-
-        tabbedPane.addTab("General", generalTab);
-
-        mainPanel.add(tabbedPane, BorderLayout.CENTER);
+        mainPanel.add(createGeneralTab());
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setBorder(null);
@@ -177,6 +172,15 @@ public class PreferencesDialog extends JDialog {
         immFeedback = new JCheckBox("Provide Immediate Feedback", Boolean.valueOf(prefs.getUserPref(LegupPreferences.IMMEDIATE_FEEDBACK)));
         immFeedback.setToolTipText("If checked this will update the colors of the tree view elements immediately");
         JPanel immFeedbackRow = new JPanel();
+        immFeedbackRow.setLayout(new BorderLayout());
+        immFeedbackRow.add(immFeedback, BorderLayout.WEST);
+        immFeedbackRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, immFeedbackRow.getPreferredSize().height));
+        contentPane.add(immFeedbackRow);
+
+        contentPane.add(createLeftLabel("Instructor Preferences"));
+        contentPane.add(createLineSeparator());
+        immFeedback = new JCheckBox("Instructor Mode", Boolean.valueOf(prefs.getUserPref(LegupPreferences.IMMEDIATE_FEEDBACK)));
+        immFeedback.setToolTipText("Currently unimplemented, this does nothing right now");
         immFeedbackRow.setLayout(new BorderLayout());
         immFeedbackRow.add(immFeedback, BorderLayout.WEST);
         immFeedbackRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, immFeedbackRow.getPreferredSize().height));
