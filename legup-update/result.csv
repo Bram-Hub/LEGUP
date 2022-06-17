@@ -1,0 +1,14 @@
+Name,File Name,Score,Solved?
+bin/main/edu.rpi.legupupdate,VERSION - invalid type,,Ungradeable
+build/classes/java/main/edu/rpi/legupupdate,NetUtil.class - invalid type,,Ungradeable
+build/classes/java/main/edu/rpi/legupupdate,Update$Stream.class - invalid type,,Ungradeable
+build/classes/java/main/edu/rpi/legupupdate,Update.class - invalid type,,Ungradeable
+build/classes/java/main/edu/rpi/legupupdate,UpdateProgress.class - invalid type,,Ungradeable
+build/libs,legup-update-2.0.jar - invalid type,,Ungradeable
+build/resources/main/edu.rpi.legupupdate,VERSION - invalid type,,Ungradeable
+build/tmp/compileJava,Empty folder,,Ungradeable
+build/tmp/jar,MANIFEST.MF - invalid type,,Ungradeable
+src/main/java/edu/rpi/legupupdate,NetUtil.java - invalid type,,Ungradeable
+src/main/java/edu/rpi/legupupdate,Update.java - invalid type,,Ungradeable
+src/main/java/edu/rpi/legupupdate,UpdateProgress.java - invalid type,,Ungradeable
+src/main/resources/edu.rpi.legupupdate,VERSION - invalid type,,Ungradeable

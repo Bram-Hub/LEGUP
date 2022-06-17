@@ -583,13 +583,23 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
          *    |       |
          *    |       | -> Proofs
          */
-        folderBrowser = new JFileChooser();
-        folderBrowser.setCurrentDirectory(new java.io.File("."));
-        folderBrowser.setDialogTitle("Select Directory");
-        folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        folderBrowser.setAcceptAllFileFilterUsed(false);
-        folderBrowser.showOpenDialog(this);
-        File folder = folderBrowser.getSelectedFile();
+        fileDialog.setMode(FileDialog.LOAD);
+        fileDialog.setTitle("Select Directory");
+        fileDialog.setVisible(true);
+        String fileName = null;
+        File folder = null;
+        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
+            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
+            folder = new File(fileName);
+        }
+
+//        folderBrowser = new JFileChooser();
+//        folderBrowser.setCurrentDirectory(new java.io.File("."));
+//        folderBrowser.setDialogTitle("Select Directory");
+//        folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//        folderBrowser.setAcceptAllFileFilterUsed(false);
+//        folderBrowser.showOpenDialog(this);
+//        File folder = folderBrowser.getSelectedFile();
 
         // Write csv file (Path,File-Name,Score,Solved?)
         File resultFile = new File(folder.getAbsolutePath() + File.separator + "result.csv");
