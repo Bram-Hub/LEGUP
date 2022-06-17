@@ -4,7 +4,7 @@ import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.awt.*;
 
-public class BattleShipCell extends GridCell<Integer> {
+public class BattleShipCell extends GridCell<BattleShipType> {
 
     /**
      * BattleShipCell Constructor - creates a BattleShipCell from the specified value and location
@@ -12,7 +12,7 @@ public class BattleShipCell extends GridCell<Integer> {
      * @param value    value of the BattleShipCell
      * @param location position of the BattleShipCell
      */
-    public BattleShipCell(int value, Point location) {
+    public BattleShipCell(BattleShipType value, Point location) {
         super(value, location);
     }
 
@@ -21,8 +21,8 @@ public class BattleShipCell extends GridCell<Integer> {
      *
      * @return type of BattleShipCell
      */
-    public BattleShipCellType getType() {
-        return BattleShipCellType.getType(getData());
+    public BattleShipType getType() {
+        return data;
     }
 
     /**
