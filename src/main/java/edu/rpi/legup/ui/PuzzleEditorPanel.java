@@ -1,49 +1,78 @@
 package edu.rpi.legup.ui;
 
 import edu.rpi.legup.app.GameBoardFacade;
+import edu.rpi.legup.controller.BoardController;
+import edu.rpi.legup.controller.EditorElementController;
+import edu.rpi.legup.controller.ElementController;
+import edu.rpi.legup.controller.RuleController;
+import edu.rpi.legup.history.ICommand;
+import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import edu.rpi.legup.ui.boardview.BoardView;
+import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
+import edu.rpi.legup.ui.puzzleeditorui.elementsview.ElementFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.io.File;
+import java.net.URL;
 
-public class PuzzleEditorPanel extends LegupPanel {
+public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     private final static Logger LOGGER = LogManager.getLogger(ProofEditorPanel.class.getName());
     private JMenu[] menus;
     private JMenuBar menuBar;
+    private JToolBar toolBar;
     private JFrame frame;
     private JButton[] buttons;
-
+    private JButton[] toolBarButtons;
     private JPanel elementPanel;
-    private JPanel mainPanel;
+    private DynamicView dynamicBoardView;
+    private BoardView boardView;
+    private TitledBorder boardBorder;
+    private JSplitPane mainPanel;
     private FileDialog fileDialog;
     private JMenuItem undo, redo;
+    private ElementFrame elementFrame;
+    final static int[] TOOLBAR_SEPARATOR_BEFORE = {2, 4, 8};
     public PuzzleEditorPanel(FileDialog fileDialog, JFrame frame) {
         this.fileDialog = fileDialog;
         this.frame = frame;
         setLayout(new GridLayout(2, 1));
-        setup();
     }
 
-    private void setup() {
-        mainPanel = new JPanel();
-        mainPanel.setSize(100,300);
-        // menu bar
+    protected void setupContent() {
 
+        JPanel elementBox = new JPanel(new BorderLayout());
 
-        // buttons
-        buttons = new JButton[3];
-        buttons[0] = new JButton("element 0");
-        buttons[1] = new JButton("element 1");
-        buttons[2] = new JButton("element 2");
-        for (JButton button : buttons) {
-            mainPanel.add(button);
-        }
-        setMenuBar();
+        EditorElementController elementController = new EditorElementController();
+        elementFrame = new ElementFrame(elementController);
+        elementBox.add(elementFrame, BorderLayout.WEST);
+
+        dynamicBoardView = new DynamicView(new ScrollView(new BoardController()));
+        TitledBorder titleBoard = BorderFactory.createTitledBorder("Board");
+        titleBoard.setTitleJustification(TitledBorder.CENTER);
+        dynamicBoardView.setBorder(titleBoard);
+
+        JPanel boardPanel = new JPanel(new BorderLayout());
+        mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, elementFrame, dynamicBoardView);
+        mainPanel.setPreferredSize(new Dimension(600, 100));
+
+        boardPanel.add(mainPanel);
+        boardBorder = BorderFactory.createTitledBorder("Board");
+        boardBorder.setTitleJustification(TitledBorder.CENTER);
+
+        elementBox.add(boardPanel);
+        this.add(elementBox);
+
+        mainPanel.setDividerLocation(mainPanel.getMaximumDividerLocation() + 100);
+
+        revalidate();
     }
 
     public void setMenuBar() {
@@ -86,8 +115,61 @@ public class PuzzleEditorPanel extends LegupPanel {
 
     @Override
     public void makeVisible() {
-        render();
+        setupToolBar();
+        setupContent();
+        setMenuBar();
         frame.setJMenuBar(menuBar);
+    }
+
+    private void setupToolBar() {
+        setToolBarButtons(new JButton[ToolbarName.values().length]);
+        for (int i = 0; i < ToolbarName.values().length; i++) {
+            String toolBarName = ToolbarName.values()[i].toString();
+            URL resourceLocation = ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/" + toolBarName + ".png");
+            JButton button = new JButton(toolBarName, new ImageIcon(resourceLocation));
+            button.setFocusPainted(false);
+            getToolBarButtons()[i] = button;
+        }
+        toolBar = new JToolBar();
+        toolBar.setFloatable(false);
+        toolBar.setRollover(true);
+
+        for (int i = 0; i < getToolBarButtons().length; i++) {
+            for (int s = 0; s < TOOLBAR_SEPARATOR_BEFORE.length; s++) {
+                if (i == TOOLBAR_SEPARATOR_BEFORE[s]) {
+                    toolBar.addSeparator();
+                }
+            }
+            String toolBarName = ToolbarName.values()[i].toString();
+
+            toolBar.add(getToolBarButtons()[i]);
+            getToolBarButtons()[i].setToolTipText(toolBarName);
+
+            getToolBarButtons()[i].setVerticalTextPosition(SwingConstants.BOTTOM);
+            getToolBarButtons()[i].setHorizontalTextPosition(SwingConstants.CENTER);
+        }
+
+        toolBarButtons[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent e) -> promptPuzzle());
+        //toolBarButtons[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e) -> saveProof());
+        toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e) -> GameBoardFacade.getInstance().getHistory().undo());
+        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e) -> GameBoardFacade.getInstance().getHistory().redo());
+        toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e) -> {
+        });
+        toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e) -> {
+        });
+        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e) -> {
+        });
+
+        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
+        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
+        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
+        toolBarButtons[ToolbarName.HINT.ordinal()].setEnabled(false);
+        toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(false);
+        toolBarButtons[ToolbarName.SUBMIT.ordinal()].setEnabled(false);
+        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].setEnabled(false);
+        toolBarButtons[ToolbarName.CHECK_ALL.ordinal()].setEnabled(true);
+
+        this.add(toolBar, BorderLayout.NORTH);
     }
 
     public void promptPuzzle() {
@@ -123,8 +205,35 @@ public class PuzzleEditorPanel extends LegupPanel {
         int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
         return n != JOptionPane.YES_OPTION;
     }
-    private void render() {
-        add(mainPanel);
-        add(new JLabel("Welcome to the puzzle editor!"));
+
+    @Override
+    public void onPushChange(ICommand command) {
+
+    }
+
+    @Override
+    public void onUndo(boolean isBottom, boolean isTop) {
+
+    }
+
+    @Override
+    public void onRedo(boolean isBottom, boolean isTop) {
+
+    }
+
+    @Override
+    public void onClearHistory() {
+
+    }
+
+    public JButton[] getToolBarButtons() {
+        return toolBarButtons;
+    }
+    public void setToolBarButtons(JButton[] toolBarButtons) {
+        this.toolBarButtons = toolBarButtons;
+    }
+
+    private void repaintAll() {
+        boardView.repaint();
     }
 }
