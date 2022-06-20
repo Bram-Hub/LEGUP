@@ -305,4 +305,28 @@ public class ScrollView extends JScrollPane {
         graphics2D.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
         canvas.paint(graphics2D);
     }
+
+    /**
+     * Scroll up the ScrollView
+     *
+     * @param mag The magnitude for scroll up
+     * */
+    public void scrollUp(int mag){
+        System.out.println(viewport.getX()+' '+viewport.getY());
+        viewport.setViewPosition(new Point(viewport.getX(), viewport.getY()+1));
+        updateSize();
+        revalidate();
+    }
+
+    /**
+     * Scroll down the ScrollView
+     *
+     * @param mag The magnitude for scroll up
+     * */
+    public void scrollDown(int mag){
+        System.out.println(viewport.getX()+' '+viewport.getY());
+        viewport.setViewPosition(new Point(viewport.getX(), viewport.getY()-1));
+        updateSize();
+        revalidate();
+    }
 }
