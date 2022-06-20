@@ -42,7 +42,7 @@ out/
 build/
 bin/
 
-# Native files generated on build, not needed for distribution
+# Native files generated on build, not needed in git
 native/windows/lib
 native/windows/bin/Legup.exe
 native/windows/bin/legup_installer.exe
