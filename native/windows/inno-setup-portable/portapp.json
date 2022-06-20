@@ -1,0 +1,11 @@
+{
+  "id": "innosetup-portable",
+  "guid": "{CA9535B1-B0DE-4710-944A-3F67AEA24DCF}",
+  "name": "Inno Setup Portable",
+  "version": "6.2.0",
+  "release": "5",
+  "date": "2022/03/06 22:08:55",
+  "publisher": "CrazyMax",
+  "url": "https://github.com/portapps/innosetup-portable",
+  "portapps_version": "3.4.0"
+}

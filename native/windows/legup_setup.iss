@@ -45,7 +45,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "{#MyAppRoot}\native\windows\bin\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "{#MyAppRoot}\native\windows\bin\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyAppRoot}\build\libs\Legup.jar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Program Files\Java\jre1.8.0_333\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
