@@ -1,6 +1,3 @@
-# Created by https://www.toptal.com/developers/gitignore/api/intellij+all,gradle,java
-# Edit at https://www.toptal.com/developers/gitignore?templates=intellij+all,gradle,java
-
 ### Intellij+all ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
@@ -47,6 +44,8 @@ bin/
 
 # Native files generated on build, not needed for distribution
 native/windows/lib
+native/windows/bin/Legup.exe
+native/windows/bin/legup_installer.exe
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -134,4 +133,3 @@ gradle-app.setting
 
 **/.DS_Store
 gradle/wrapper/gradle-wrapper.properties
-/native/windows/bin/legup_installer.exe

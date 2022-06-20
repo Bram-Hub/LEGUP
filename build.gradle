@@ -64,7 +64,13 @@ jar {
     archiveName = 'Legup.jar'
 }
 
-createExe{
+/*
+ * CREATES NATIVE WINDOWS EXECUTABLE
+ * Launches launch4j to create an executable (.exe) file wrapping the jar
+ * Add "icon = 'path/to/icon.ico'" to set an icon
+ *
+ */
+createExe() {
     mainClassName = 'edu.rpi.legup.Legup'
     outputDir = '../native/windows'
     outfile = 'bin/Legup.exe'
@@ -73,6 +79,19 @@ createExe{
     jdkPreference = 'preferJre'
     jreMinVersion = '1.8.0'
     jreRuntimeBits = '64/32'
+}
+
+/*
+ * CREATES NATIVE WINDOWS INSTALLER -- ONLY RUNS ON WINDOWS
+ * Runs the shipped version of Inno Setup (6.2) to compile the installer
+ * Modify the setup settings in native/windows/legup_inno_setup.iss
+ */
+task buildNativeWindows(type: Exec, dependsOn: 'createExe') {
+    jar
+    createExe
+
+    workingDir = "${buildDir}/../native/windows"
+    commandLine 'cmd', '/c', 'make_windows_installer.bat'
 }
 
 
