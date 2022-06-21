@@ -85,7 +85,7 @@ public class HomePanel extends LegupPanel {
         this.buttons[1].setIcon(resizeButtonIcon(button1Icon, this.buttonSize, this.buttonSize));
         this.buttons[1].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[1].setVerticalTextPosition(AbstractButton.BOTTOM);
-        this.buttons[1].addActionListener(l -> this.legupUI.displayPanel(2));
+        this.buttons[1].addActionListener(l -> this.openNewPuzzleDialog());
 
         this.buttons[2] = new JButton("Edit Puzzle")
         {
@@ -142,5 +142,15 @@ public class HomePanel extends LegupPanel {
         this.add(credits);
         this.add(buttons);
         this.add(batchGraderButton);
+    }
+
+    private void openNewPuzzleDialog() {
+        CreatePuzzleDialog cpd = new CreatePuzzleDialog(this.frame, this);
+        cpd.setVisible(true);
+    }
+
+    public void openEditorWithNewPuzzle(String game) {
+        // Set game type on the puzzle editor
+        this.legupUI.displayPanel(2);
     }
 }
