@@ -1,47 +1,39 @@
 package edu.rpi.legup.ui;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.net.URI;
-import java.net.URL;
-import java.io.FileWriter;
-import java.io.BufferedWriter;
-
-import javax.swing.*;
-
-import java.util.List;
-import java.util.Objects;
-
-
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.RuleController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
-import edu.rpi.legup.model.tree.TreeNode;
-import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.ui.lookandfeel.LegupLookAndFeel;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.tree.Tree;
+import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
+import edu.rpi.legup.ui.lookandfeel.LegupLookAndFeel;
 import edu.rpi.legup.ui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.treeview.TreePanel;
 import edu.rpi.legup.ui.treeview.TreeViewSelection;
 import edu.rpi.legup.user.Submission;
 import edu.rpi.legupupdate.Update;
 import edu.rpi.legupupdate.UpdateProgress;
-import io.grpc.internal.KeepAliveManager;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.net.URI;
+import java.net.URL;
+import java.util.List;
+import java.util.Objects;
 
 public class LegupUI extends JFrame implements WindowListener, IHistoryListener {
     private final static Logger LOGGER = LogManager.getLogger(LegupUI.class.getName());
@@ -583,17 +575,33 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
          *    |       |
          *    |       | -> Proofs
          */
-        fileDialog.setMode(FileDialog.LOAD);
-        fileDialog.setTitle("Select Directory");
-        fileDialog.setVisible(true);
-        String fileName = null;
-        File folder = null;
-        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
-            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
-            folder = new File(fileName);
-        }
 
-//        folderBrowser = new JFileChooser();
+        Frame F= new Frame("Select Directory");
+        FileDialog fd =new FileDialog(F,"Select Directory", FileDialog.LOAD);
+
+
+        fd.setDirectory("C:\\Users");
+
+        fd.setFilenameFilter( (dir, name) -> name.endsWith("*.txt")&& dir.isFile() );
+
+        fd.setFile("*.txt");
+        fd.pack();
+
+        fd.setVisible(true);
+
+
+        String folder_name=fd.getDirectory()+fd.getFile();
+        File folder= new File(folder_name);
+        //File folder = fd.getFile();
+
+//        String fileName = null;
+//        File folder = null;
+//        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
+//            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
+//            folder = new File(fileName);
+//        }
+
+//        folderBrowser  = new JFileDialog(F,"Select Directory", FileDialog.LOAD);
 //        folderBrowser.setCurrentDirectory(new java.io.File("."));
 //        folderBrowser.setDialogTitle("Select Directory");
 //        folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -603,6 +611,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 
         // Write csv file (Path,File-Name,Score,Solved?)
         File resultFile = new File(folder.getAbsolutePath() + File.separator + "result.csv");
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
             writer.append("Name,File Name,Score,Solved?\n");
 
