@@ -150,14 +150,6 @@ public class TreeController extends Controller {
      */
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        if (e.isControlDown()) {
-            if (e.getWheelRotation() != 0){
-                super.viewer.scrollDown(-1);
-            }
-        } else {
-            if (e.getWheelRotation() != 0) {
-                super.viewer.scrollUp(-1);
-            }
-        }
+        super.viewer.scroll(e.getWheelRotation());
     }
 }

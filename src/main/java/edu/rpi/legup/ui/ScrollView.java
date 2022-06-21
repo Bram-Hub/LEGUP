@@ -307,25 +307,17 @@ public class ScrollView extends JScrollPane {
     }
 
     /**
-     * Scroll up the ScrollView
+     * Scroll up or down on the ScrollView
      *
      * @param mag The magnitude for scroll up
+     *            positive is scroll up, negative is scroll down,
+     *            recommend to use getWheelRotation() as the mag
      * */
-    public void scrollUp(int mag){
-        System.out.println(viewport.getX()+' '+viewport.getY());
-        viewport.setViewPosition(new Point(viewport.getX(), viewport.getY()+1));
-        updateSize();
-        revalidate();
-    }
-
-    /**
-     * Scroll down the ScrollView
-     *
-     * @param mag The magnitude for scroll up
-     * */
-    public void scrollDown(int mag){
-        System.out.println(viewport.getX()+' '+viewport.getY());
-        viewport.setViewPosition(new Point(viewport.getX(), viewport.getY()-1));
+    public void scroll(int mag){
+        Point point = super.viewport.getViewPosition();
+        // the point changing with th
+        point.y += mag*getZoom()/20;
+        viewport.setViewPosition(point);
         updateSize();
         revalidate();
     }
