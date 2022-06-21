@@ -3,13 +3,10 @@ package edu.rpi.legup.ui;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.EditorElementController;
-import edu.rpi.legup.controller.ElementController;
-import edu.rpi.legup.controller.RuleController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
-import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.puzzleeditorui.elementsview.ElementFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,19 +32,20 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private DynamicView dynamicBoardView;
     private BoardView boardView;
     private TitledBorder boardBorder;
-    private JSplitPane mainPanel, topHalfPanel;
+    //private JSplitPane splitPanel, topHalfPanel;
     private FileDialog fileDialog;
     private JMenuItem undo, redo;
     private ElementFrame elementFrame;
+    private JPanel treePanel;
     final static int[] TOOLBAR_SEPARATOR_BEFORE = {2, 4, 8};
     public PuzzleEditorPanel(FileDialog fileDialog, JFrame frame) {
         this.fileDialog = fileDialog;
         this.frame = frame;
-        setLayout(new GridLayout(2, 1));
+        setLayout(new BorderLayout());
     }
 
     protected void setupContent() {
-
+        JSplitPane splitPanel;
         JPanel elementBox = new JPanel(new BorderLayout());
 
         EditorElementController elementController = new EditorElementController();
@@ -60,19 +58,17 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         dynamicBoardView.setBorder(titleBoard);
 
         JPanel boardPanel = new JPanel(new BorderLayout());
+        splitPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, elementFrame, dynamicBoardView);
+        splitPanel.setPreferredSize(new Dimension(600, 400));
 
-        topHalfPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, elementFrame, dynamicBoardView);
-        mainPanel = new JSplitPane();
-        mainPanel.setPreferredSize(new Dimension(600, 300));
-
-        boardPanel.add(mainPanel);
+        boardPanel.add(splitPanel);
         boardBorder = BorderFactory.createTitledBorder("Board");
         boardBorder.setTitleJustification(TitledBorder.CENTER);
 
         elementBox.add(boardPanel);
         this.add(elementBox);
 
-        mainPanel.setDividerLocation(mainPanel.getMaximumDividerLocation()+100);
+        splitPanel.setDividerLocation(splitPanel.getMaximumDividerLocation()+100);
 
         revalidate();
     }
