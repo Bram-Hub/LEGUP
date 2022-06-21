@@ -78,6 +78,7 @@ public class Config {
                 String name = puzzle.getAttribute("name");
                 String className = puzzle.getAttribute("qualifiedClassName");
                 Logger.debug("Class Name: "+className);
+                System.out.println("CLASS NAME: " + name);
                 puzzles.put(name, className);
             }
 
