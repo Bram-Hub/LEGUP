@@ -9,7 +9,7 @@ public class HomePanel extends LegupPanel {
     private JButton[] buttons;
     private JMenuBar menuBar;
 
-    private final int buttonSize = 23;
+    private final int buttonSize = 100;
 
     public HomePanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
         this.legupUI = legupUI;
@@ -50,6 +50,13 @@ public class HomePanel extends LegupPanel {
         this.frame.setJMenuBar(this.getMenuBar());
     }
 
+    private static ImageIcon resizeButtonIcon(ImageIcon icon, int width, int height)
+    {
+        Image image = icon.getImage();
+        Image resizedImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(resizedImage);
+    }
+
     private void initButtons() {
         this.buttons = new JButton[4];
 
@@ -60,19 +67,22 @@ public class HomePanel extends LegupPanel {
                 setMaximumSize(getSize());
             }
         };
-        this.buttons[0].setIcon(new ImageIcon("src/main/resources/edu/rpi/legup/homepanel/openproof.png"));
+
+        ImageIcon button0Icon = new ImageIcon("src/main/resources/edu/rpi/legup/homepanel/openproof.png");
+        this.buttons[0].setIcon(resizeButtonIcon(button0Icon, this.buttonSize, this.buttonSize));
         this.buttons[0].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[0].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[0].addActionListener(l -> this.legupUI.displayPanel(1));
 
-        this.buttons[1] = new JButton("Create New Puzzle")
+        this.buttons[1] = new JButton("New Puzzle")
         {
             {
                 setSize(buttonSize, buttonSize);
                 setMaximumSize(getSize());
             }
         };
-        this.buttons[1].setIcon(new ImageIcon("src/main/resources/edu/rpi/legup/homepanel/edit.png"));
+        ImageIcon button1Icon = new ImageIcon("src/main/resources/edu/rpi/legup/homepanel/edit.png");
+        this.buttons[1].setIcon(resizeButtonIcon(button1Icon, this.buttonSize, this.buttonSize));
         this.buttons[1].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[1].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[1].addActionListener(l -> this.legupUI.displayPanel(2));
@@ -84,22 +94,21 @@ public class HomePanel extends LegupPanel {
                 setMaximumSize(getSize());
             }
         };
-        this.buttons[2].setIcon(new ImageIcon("src/main/resources/edu/rpi/legup/homepanel/edit.png")); // PLACEHOLDER
+        ImageIcon button2Icon = new ImageIcon("src/main/resources/edu/rpi/legup/homepanel/edit.png"); // PLACEHOLDER
+        this.buttons[2].setIcon(resizeButtonIcon(button2Icon, this.buttonSize, this.buttonSize));
         this.buttons[2].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[2].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[2].addActionListener(l -> this.legupUI.displayPanel(2)); // PLACEHOLDER
 
-        this.buttons[3] = new JButton("Batch Grader")
+        for (int i = 0; i < this.buttons.length - 1; i++) // -1 to avoid the batch grader button
         {
-            {
-                setSize(buttonSize, buttonSize);
-                setMaximumSize(getSize());
-            }
-        };
-        this.buttons[3].setIcon(new ImageIcon("src/main/resources/edu/rpi/legup/homepanel/edit.png")); // PLACEHOLDER
+            //this.buttons[i].setPreferredSize(new Dimension(100, 100));
+            this.buttons[i].setBounds(200, 200, 700, 700);
+        }
+
+        this.buttons[3] = new JButton("Batch Grader");
         this.buttons[3].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[3].setVerticalTextPosition(AbstractButton.BOTTOM);
-        this.buttons[3].addActionListener(l -> this.legupUI.displayPanel(2)); // PLACEHOLDER
     }
 
     private void render()
@@ -123,11 +132,15 @@ public class HomePanel extends LegupPanel {
         buttons.add(this.buttons[1]);
         buttons.add(Box.createRigidArea(new Dimension(5, 0)));
         buttons.add(this.buttons[2]);
-        buttons.add(Box.createRigidArea(new Dimension(5, 0)));
-        buttons.add(this.buttons[3]);
+
+        JPanel batchGraderButton = new JPanel();
+        batchGraderButton.add(this.buttons[3]);
+        batchGraderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         this.add(welcome);
         this.add(version);
         this.add(credits);
         this.add(buttons);
+        this.add(batchGraderButton);
     }
 }

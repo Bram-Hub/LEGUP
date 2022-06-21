@@ -76,8 +76,8 @@ public class GameBoardFacade implements IHistorySubject {
     public void initializeUI() {
         EventQueue.invokeLater(() ->{
             legupUI = new LegupUI();
-            puzzleSolver = legupUI.getPuzzleSolver();
-            addHistoryListener(legupUI.getPuzzleSolver());
+            puzzleSolver = legupUI.getProofEditor();
+            addHistoryListener(legupUI.getProofEditor());
         });
     }
 
