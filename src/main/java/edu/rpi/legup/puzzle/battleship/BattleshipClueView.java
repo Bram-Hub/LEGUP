@@ -4,12 +4,12 @@ import edu.rpi.legup.ui.boardview.ElementView;
 
 import java.awt.*;
 
-public class BattleShipClueView extends ElementView {
+public class BattleshipClueView extends ElementView {
 
     private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
     private static final Color FONT_COLOR = Color.BLACK;
 
-    public BattleShipClueView(BattleShipClue clue) {
+    public BattleshipClueView(BattleshipClue clue) {
         super(clue);
     }
 
@@ -19,8 +19,8 @@ public class BattleShipClueView extends ElementView {
      * @return PuzzleElement associated with this view
      */
     @Override
-    public BattleShipClue getPuzzleElement() {
-        return (BattleShipClue) super.getPuzzleElement();
+    public BattleshipClue getPuzzleElement() {
+        return (BattleshipClue) super.getPuzzleElement();
     }
 
     @Override
@@ -30,7 +30,7 @@ public class BattleShipClueView extends ElementView {
         FontMetrics metrics = graphics2D.getFontMetrics(FONT);
         String value;
 
-        BattleShipClue clue = getPuzzleElement();
+        BattleshipClue clue = getPuzzleElement();
         switch (clue.getType()) {
             case CLUE_NORTH:
                 value = String.valueOf(clue.getData() + 1);
@@ -42,7 +42,7 @@ public class BattleShipClueView extends ElementView {
                 value = String.valueOf(clue.getData());
                 break;
             case CLUE_WEST:
-                value = BattleShipClue.colNumToString(clue.getData() + 1);
+                value = BattleshipClue.colNumToString(clue.getData() + 1);
                 break;
             default:
                 value = "";

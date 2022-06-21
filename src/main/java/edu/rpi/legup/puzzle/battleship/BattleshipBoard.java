@@ -6,10 +6,10 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BattleShipBoard extends GridBoard {
+public class BattleshipBoard extends GridBoard {
 
-    private List<BattleShipClue> east;
-    private List<BattleShipClue> south;
+    private List<BattleshipClue> east;
+    private List<BattleshipClue> south;
 
     /**
      * BattleShipBoard Constructor creates a new battleship board from the specified width and height
@@ -17,7 +17,7 @@ public class BattleShipBoard extends GridBoard {
      * @param width  width of the board
      * @param height height of the board
      */
-    public BattleShipBoard(int width, int height) {
+    public BattleshipBoard(int width, int height) {
         super(width, height);
 
         this.east = new ArrayList<>();
@@ -36,36 +36,36 @@ public class BattleShipBoard extends GridBoard {
      *
      * @param size size of the board
      */
-    public BattleShipBoard(int size) {
+    public BattleshipBoard(int size) {
         this(size, size);
     }
 
     /**
-     * Gets the east {@link BattleShipClue}
+     * Gets the east {@link BattleshipClue}
      *
      * @return east battle ship clues
      */
-    public List<BattleShipClue> getEast() {
+    public List<BattleshipClue> getEast() {
         return east;
     }
 
     /**
-     * Gets the east {@link BattleShipClue}
+     * Gets the east {@link BattleshipClue}
      *
      * @return east battle ship clues
      */
-    public List<BattleShipClue> getSouth() {
+    public List<BattleshipClue> getSouth() {
         return south;
     }
 
     @Override
-    public BattleShipCell getCell(int x, int y) {
-        return (BattleShipCell) super.getCell(x, y);
+    public BattleshipCell getCell(int x, int y) {
+        return (BattleshipCell) super.getCell(x, y);
     }
 
     @Override
-    public BattleShipBoard copy() {
-        BattleShipBoard copy = new BattleShipBoard(dimension.width, dimension.height);
+    public BattleshipBoard copy() {
+        BattleshipBoard copy = new BattleshipBoard(dimension.width, dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {
                 copy.setCell(x, y, getCell(x, y).copy());
