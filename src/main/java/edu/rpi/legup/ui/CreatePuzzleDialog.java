@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 public class CreatePuzzleDialog extends JDialog implements ActionListener {
     private String[] games;
     JComboBox gameBox;
-    JLabel gameLabel = new JLabel("Game:");
+    JLabel puzzleLabel = new JLabel("Puzzle:");
     JButton ok = new JButton("Ok");
     JButton cancel = new JButton("Cancel");
     JTextField width;
@@ -32,20 +32,20 @@ public class CreatePuzzleDialog extends JDialog implements ActionListener {
         Container c = getContentPane();
         c.setLayout(null);
 
-        gameLabel.setBounds(10, 30, 70, 25);
+        puzzleLabel.setBounds(10, 30, 70, 25);
         gameBox.setBounds(80, 30, 190, 25);
 
         ok.setBounds(20, 130, 60, 25);
         cancel.setBounds(170, 130, 90, 25);
 
-        c.add(gameLabel);
+        c.add(puzzleLabel);
         c.add(gameBox);
 
         width = new JTextField();
         height = new JTextField();
 
-        JLabel widthLabel = new JLabel("Width:");
-        JLabel heightLabel = new JLabel("Height:");
+        JLabel widthLabel = new JLabel("Rows:");
+        JLabel heightLabel = new JLabel("Columns:");
 
         widthLabel.setBounds(30, 70, 60, 25);
         heightLabel.setBounds(30, 95, 60, 25);
