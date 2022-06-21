@@ -10,10 +10,10 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 
-public class UnreachableBasicRule extends BasicRule {
-    public UnreachableBasicRule() {
+public class CannotReachCellBasicRule extends BasicRule {
+    public CannotReachCellBasicRule() {
         super("NURI-BASC-0008",
-                "Unreachable white region",
+                "Can't Reach Cell",
                 "A cell must be black if it cannot be reached by any white region",
                 "edu/rpi/legup/images/nurikabe/rules/Unreachable.png");
     }
@@ -29,7 +29,7 @@ public class UnreachableBasicRule extends BasicRule {
      */
     @Override
     protected String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        ContradictionRule contraRule = new CantReachWhiteContradictionRule();
+        ContradictionRule contraRule = new UnreachableWhiteCellContradictionRule();
 
         NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
         NurikabeCell cell = (NurikabeCell) destBoardState.getPuzzleElement(puzzleElement);

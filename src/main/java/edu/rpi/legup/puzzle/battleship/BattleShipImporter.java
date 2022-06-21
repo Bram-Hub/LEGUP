@@ -50,9 +50,10 @@ public class BattleShipImporter extends PuzzleImporter {
             int height = battleShipBoard.getHeight();
 
             for (int i = 0; i < elementDataList.getLength(); i++) {
-                BattleShipCell cell = (BattleShipCell) puzzle.getFactory().importCell(elementDataList.item(i), battleShipBoard);
+                BattleShipCell cell = (BattleShipCell) puzzle.getFactory().importCell(
+                        elementDataList.item(i), battleShipBoard);
                 Point loc = cell.getLocation();
-                if (cell.getData() != 0) {
+                if (cell.getData() != BattleShipType.getType(0)) {
                     cell.setModifiable(false);
                     cell.setGiven(true);
                 }
@@ -62,7 +63,7 @@ public class BattleShipImporter extends PuzzleImporter {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     if (battleShipBoard.getCell(x, y) == null) {
-                        BattleShipCell cell = new BattleShipCell(BattleShipCellType.UNKNOWN.value, new Point(x, y));
+                        BattleShipCell cell = new BattleShipCell(BattleShipType.UNKNOWN, new Point(x, y));
                         cell.setIndex(y * height + x);
                         cell.setModifiable(true);
                         battleShipBoard.setCell(x, y, cell);
@@ -106,7 +107,7 @@ public class BattleShipImporter extends PuzzleImporter {
                 if (battleShipBoard.getEast().get(index - 1) != null) {
                     throw new InvalidFileFormatException("BattleShip Importer: duplicate clue index");
                 }
-                battleShipBoard.getEast().set(index - 1, new BattleShipClue(value, index, BattleShipCellType.CLUE_EAST));
+                battleShipBoard.getEast().set(index - 1, new BattleShipClue(value, index, BattleShipType.CLUE_EAST));
             }
 
             for (int i = 0; i < southClues.getLength(); i++) {
@@ -121,7 +122,7 @@ public class BattleShipImporter extends PuzzleImporter {
                 if (battleShipBoard.getSouth().get(index - 1) != null) {
                     throw new InvalidFileFormatException("BattleShip Importer: duplicate clue index");
                 }
-                battleShipBoard.getSouth().set(index - 1, new BattleShipClue(value, index, BattleShipCellType.CLUE_SOUTH));
+                battleShipBoard.getSouth().set(index - 1, new BattleShipClue(value, index, BattleShipType.CLUE_SOUTH));
             }
 
             puzzle.setCurrentBoard(battleShipBoard);

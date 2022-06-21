@@ -2,6 +2,8 @@ package edu.rpi.legup.puzzle.battleship;
 
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.rules.ContradictionRule;
 
 public class BattleShip extends Puzzle {
     public BattleShip() {
@@ -15,9 +17,13 @@ public class BattleShip extends Puzzle {
         this.factory = new BattleShipCellFactory();
     }
 
+    /**
+     * Initializes the game board. Called by the invoker of the class
+     */
     @Override
     public void initializeView() {
         boardView = new BattleShipView((BattleShipBoard) currentBoard);
+        addBoardListener(boardView);
     }
 
     @Override
@@ -33,9 +39,27 @@ public class BattleShip extends Puzzle {
      */
     @Override
     public boolean isBoardComplete(Board board) {
-        return false;
+        BattleShipBoard battleShipBoard = (BattleShipBoard) board;
+
+        for (ContradictionRule rule : contradictionRules) {
+            if (rule.checkContradiction(battleShipBoard) == null) {
+                return false;
+            }
+        }
+        for (PuzzleElement data : battleShipBoard.getPuzzleElements()) {
+            BattleShipCell cell = (BattleShipCell) data;
+            if (cell.getType() == BattleShipType.UNKNOWN) {
+                return false;
+            }
+        }
+        return true;
     }
 
+    /**
+     * Callback for when the board puzzleElement changes
+     *
+     * @param board the board that has changed
+     */
     @Override
     public void onBoardChange(Board board) {
 
@@ -98,7 +122,7 @@ public class BattleShip extends Puzzle {
 //                int y = Integer.valueOf(cells.item(i).getAttributes().getNamedItem("y").getNodeValue());
 //                String value = cells.item(i).getAttributes().getNamedItem("value").getNodeValue().toUpperCase();
 //
-//                BattleShipCell cell = new BattleShipCell(BattleShipCellType.valueOf(value).ordinal(), new Point(x, y));
+//                BattleShipCell cell = new BattleShipCell(BattleShipType.valueOf(value).ordinal(), new Point(x, y));
 //                battleShipBoard.setCell(x, y, cell);
 //                cell.setModifiable(false);
 //                cell.setGiven(true);

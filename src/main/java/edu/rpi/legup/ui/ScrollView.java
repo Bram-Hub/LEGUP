@@ -15,7 +15,7 @@ public class ScrollView extends JScrollPane {
 
     private static final double minScale = 0.25;
     private static final double maxScale = 4.0;
-    private static final double levels[] = {0.25, 1.0 / 3.0, 0.50, 2.0 / 3.0, 1.0, 2.0, 3.0, 4.0};
+    private static final double[] levels = { 0.25, 1.0 / 3.0, 0.50, 2.0 / 3.0, 1.0, 2.0, 3.0, 4.0 };
 
     private Dimension viewSize;
     private Dimension zoomSize;
@@ -118,8 +118,8 @@ public class ScrollView extends JScrollPane {
     /**
      * Updates the viewport position
      *
-     * @param point
-     * @param magnification
+     * @param point         point to set the viewport to
+     * @param magnification magnification to set the viewport to
      */
     public void updatePosition(Point point, double magnification) {
         Point position = viewport.getViewPosition();
@@ -169,6 +169,8 @@ public class ScrollView extends JScrollPane {
     }
 
     public void zoomTo(double newScale) {
+        //System.out.println("Zooming to " + newScale);
+
         // check zoom bounds
         if (newScale < minScale) {
             newScale = minScale;
@@ -181,7 +183,8 @@ public class ScrollView extends JScrollPane {
         }
         // calculate the newScale and center point
         double mag = newScale / scale;
-        Point p = new Point(viewport.getWidth() / 2 + viewport.getX(), viewport.getHeight() / 2 + viewport.getY());
+        Point p = new Point(viewport.getWidth() / 2 + viewport.getX(),
+                viewport.getHeight() / 2 + viewport.getY());
 
         // set scale directly
         scale = newScale;
@@ -206,7 +209,7 @@ public class ScrollView extends JScrollPane {
             double fitWidth = (viewport.getWidth() - 8.0) / viewSize.width;
             double fitHeight = (viewport.getHeight() - 8.0) / viewSize.height;
 
-            zoomTo((fitWidth < fitHeight) ? fitWidth : fitHeight);
+            zoomTo(Math.min(fitWidth, fitHeight));
         }
     }
 
@@ -228,7 +231,7 @@ public class ScrollView extends JScrollPane {
         // find the next valid zoom level
         Double newScale = zoomLevels.lower(scale);
         if (newScale != null) {
-            zoomTo(newScale.doubleValue());
+            zoomTo(newScale);
         }
     }
 

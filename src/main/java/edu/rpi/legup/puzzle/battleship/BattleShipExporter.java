@@ -21,7 +21,7 @@ public class BattleShipExporter extends PuzzleExporter {
         org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             BattleShipCell cell = (BattleShipCell) puzzleElement;
-            if (cell.getData() != 0) {
+            if (cell.getData() != BattleShipType.getType(0)) {
                 org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
                 cellsElement.appendChild(cellElement);
             }

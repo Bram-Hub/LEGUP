@@ -11,6 +11,7 @@ import java.io.BufferedWriter;
 import javax.swing.*;
 
 import java.util.List;
+import java.util.Objects;
 
 
 import edu.rpi.legup.app.GameBoardFacade;
@@ -133,7 +134,8 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         contentPane.setLayout(new BorderLayout());
         setContentPane(contentPane);
 
-        setIconImage(new ImageIcon(ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/Basic Rules.gif")).getImage());
+        setIconImage(new ImageIcon(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(
+                "edu/rpi/legup/images/Legup/Basic Rules.gif"))).getImage());
 
         setupMenu();
         setupToolBar();
@@ -197,25 +199,25 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 
         add = new JMenuItem("Add");
         add.addActionListener(a -> treePanel.add());
-        if(os == "mac") add.setAccelerator(KeyStroke.getKeyStroke('A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        if(Objects.equals(os, "mac")) add.setAccelerator(KeyStroke.getKeyStroke('A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         else add.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_DOWN_MASK));
         proof.add(add);
 
         delete = new JMenuItem("Delete");
         delete.addActionListener(a -> treePanel.delete());
-        if(os == "mac") delete.setAccelerator(KeyStroke.getKeyStroke('D', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        if(Objects.equals(os, "mac")) delete.setAccelerator(KeyStroke.getKeyStroke('D', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         else delete.setAccelerator(KeyStroke.getKeyStroke('D', InputEvent.CTRL_DOWN_MASK));
         proof.add(delete);
 
         merge = new JMenuItem("Merge");
         merge.addActionListener(a -> treePanel.merge());
-        if(os == "mac") merge.setAccelerator(KeyStroke.getKeyStroke('M', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        if(Objects.equals(os, "mac")) merge.setAccelerator(KeyStroke.getKeyStroke('M', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         else merge.setAccelerator(KeyStroke.getKeyStroke('M', InputEvent.CTRL_DOWN_MASK));
         proof.add(merge);
 
         collapse = new JMenuItem("Collapse");
         collapse.addActionListener(a -> treePanel.collapse());
-        if(os == "mac") collapse.setAccelerator(KeyStroke.getKeyStroke('C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        if(Objects.equals(os, "mac")) collapse.setAccelerator(KeyStroke.getKeyStroke('C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         else collapse.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_DOWN_MASK));
         collapse.setEnabled(false);
         proof.add(collapse);
@@ -252,7 +254,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         mBar.add(file);
         file.add(newPuzzle);
         newPuzzle.addActionListener((ActionEvent) -> promptPuzzle());
-        if(os == "mac") newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        if(Objects.equals(os, "mac")) newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         else newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
 
 //        file.add(genPuzzle);
@@ -279,13 +281,13 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                 }
             }
         });
-        if(os == "mac") resetPuzzle.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())); 
+        if(Objects.equals(os, "mac")) resetPuzzle.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         else resetPuzzle.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.CTRL_DOWN_MASK));
         file.addSeparator();
 
         file.add(saveProof);
         saveProof.addActionListener((ActionEvent) -> saveProof());
-        if(os == "mac") saveProof.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        if(Objects.equals(os, "mac")) saveProof.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         else saveProof.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK));
 
         file.add(preferences);
@@ -296,7 +298,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 
         file.add(exit);
         exit.addActionListener((ActionEvent) -> System.exit(0));
-        if(os == "mac") exit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        if(Objects.equals(os, "mac")) exit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         else exit.setAccelerator(KeyStroke.getKeyStroke('Q', InputEvent.CTRL_DOWN_MASK));
         mBar.add(edit);
 
@@ -306,7 +308,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         {
             GameBoardFacade.getInstance().getHistory().undo();
         });
-        if(os == "mac") undo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        if(Objects.equals(os, "mac")) undo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         else undo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK));
 
         edit.add(redo);
@@ -314,7 +316,8 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         {
             GameBoardFacade.getInstance().getHistory().redo();
         });
-        if(os == "mac") redo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK));
+
+        if(Objects.equals(os, "mac")) redo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() + InputEvent.SHIFT_DOWN_MASK));
         else redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
 
         mBar.add(proof);
@@ -350,6 +353,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         for (int i = 0; i < ToolbarName.values().length; i++) {
             String toolBarName = ToolbarName.values()[i].toString();
             URL resourceLocation = ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/" + toolBarName + ".png");
+            assert resourceLocation != null;
             JButton button = new JButton(toolBarName, new ImageIcon(resourceLocation));
             button.setFocusPainted(false);
             getToolBarButtons()[i] = button;
@@ -360,8 +364,8 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         toolBar.setRollover(true);
 
         for (int i = 0; i < getToolBarButtons().length; i++) {
-            for (int s = 0; s < TOOLBAR_SEPARATOR_BEFORE.length; s++) {
-                if (i == TOOLBAR_SEPARATOR_BEFORE[s]) {
+            for (int j : TOOLBAR_SEPARATOR_BEFORE) {
+                if (i == j) {
                     toolBar.addSeparator();
                 }
             }
@@ -374,10 +378,10 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
             getToolBarButtons()[i].setHorizontalTextPosition(SwingConstants.CENTER);
         }
 
-        toolBarButtons[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent e) -> promptPuzzle());
-        toolBarButtons[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e) -> saveProof());
-        toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e) -> GameBoardFacade.getInstance().getHistory().undo());
-        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e) -> GameBoardFacade.getInstance().getHistory().redo());
+//        toolBarButtons[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent e) -> promptPuzzle());
+//        toolBarButtons[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e) -> saveProof());
+//        toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e) -> GameBoardFacade.getInstance().getHistory().undo());
+//        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e) -> GameBoardFacade.getInstance().getHistory().redo());
         toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e) -> {
         });
         toolBarButtons[ToolbarName.CHECK.ordinal()].addActionListener((ActionEvent e) -> checkProof());
@@ -388,9 +392,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 
         toolBarButtons[ToolbarName.CHECK_ALL.ordinal()].addActionListener((ActionEvent e) -> checkProofAll());
 
-        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
+//        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
+//        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
+//        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.HINT.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.SUBMIT.ordinal()].setEnabled(false);
@@ -519,14 +523,14 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         GameBoardFacade facade = GameBoardFacade.getInstance(); 
 
         // Folder is empty
-        if(folder.listFiles().length == 0) {
-            writer.append(path + ",Empty folder,,Ungradeable\n"); 
+        if(Objects.requireNonNull(folder.listFiles()).length == 0) {
+            writer.append(path).append(",Empty folder,,Ungradeable\n");
             return;
         }
 
         // Travese directory, recurse if sub-directory found 
         // If ungradeable, do not leave a score (0, 1) 
-        for(final File f : folder.listFiles()) {
+        for(final File f : Objects.requireNonNull(folder.listFiles())) {
             // Recurse 
             if(f.isDirectory()) {
                 traverseDir(f, writer, path + "/" + f.getName());
@@ -534,14 +538,14 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
             } 
 
             // Set path name 
-            writer.append(path + ","); 
+            writer.append(path).append(",");
 
             // Load puzzle, run checker 
             // If wrong file type, ungradeable 
             String fName = f.getName(); 
             String fPath = f.getAbsolutePath(); 
             File puzzleFile = new File(fPath); 
-            if(puzzleFile != null && puzzleFile.exists()) {
+            if(puzzleFile.exists()) {
                 // Try to load file. If invalid, note in csv 
                 try {
                     // Load puzzle, run checker 
@@ -552,11 +556,11 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                     Puzzle puzzle = facade.getPuzzleModule();
                     
                     // Write data 
-                    writer.append(fName + ","); 
+                    writer.append(fName).append(",");
                     if(puzzle.isPuzzleComplete()) writer.append("1,Solved\n");
                     else writer.append("0,Unsolved\n");
                 } catch (InvalidFileFormatException e) {
-                    writer.append(fName + " - invalid type,,Ungradeable\n"); 
+                    writer.append(fName).append(" - invalid type,,Ungradeable\n");
                 }
             } else {
                 LOGGER.debug("Failed to run sim");
@@ -569,16 +573,16 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
      */
     private void checkProofAll() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
-        
-        /**
+
+        /*
          * Select dir to grade; recursively grade sub-dirs using traverseDir()
-         * Selected dir must have sub-dirs for each student: 
+         * Selected dir must have sub-dirs for each student:
          * GradeThis
          *    |
-         *    | -> Student 1 
+         *    | -> Student 1
          *    |       |
          *    |       | -> Proofs
-         **/     
+         */
         folderBrowser = new JFileChooser();
         folderBrowser.setCurrentDirectory(new java.io.File("."));
         folderBrowser.setDialogTitle("Select Directory");
@@ -593,13 +597,13 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
             writer.append("Name,File Name,Score,Solved?\n");
 
             // Go through student folders
-            for (final File folderEntry : folder.listFiles(File::isDirectory)) {
+            for (final File folderEntry : Objects.requireNonNull(folder.listFiles(File::isDirectory))) {
                 // Write path 
                 String path = folderEntry.getName(); 
                 traverseDir(folderEntry, writer, path); 
             }
         }catch (IOException ex){
-            //LOGGER.error(ex.getMessage());
+            LOGGER.error(ex.getMessage());
         }
         JOptionPane.showMessageDialog(null, "Batch grading complete.");
     }
@@ -618,7 +622,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         repaintAll();
 
         Puzzle pm = facade.getPuzzleModule();
-        if (pm.isPuzzleComplete() && delayStatus) {
+        if (pm.isPuzzleComplete()) {
             // 0 means yes, 1 means no (Java's fault...)
             int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you wish to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
             if (confirm == 0) {
@@ -636,9 +640,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     }
 
     private void showAll() {
-        getToolBarButtons()[ToolbarName.SAVE.ordinal()].setEnabled(true);
-        getToolBarButtons()[ToolbarName.UNDO.ordinal()].setEnabled(false);
-        getToolBarButtons()[ToolbarName.REDO.ordinal()].setEnabled(false);
+//        getToolBarButtons()[ToolbarName.SAVE.ordinal()].setEnabled(true);
+//        getToolBarButtons()[ToolbarName.UNDO.ordinal()].setEnabled(false);
+//        getToolBarButtons()[ToolbarName.REDO.ordinal()].setEnabled(false);
         getToolBarButtons()[ToolbarName.HINT.ordinal()].setEnabled(true);
         getToolBarButtons()[ToolbarName.CHECK.ordinal()].setEnabled(true);
         getToolBarButtons()[ToolbarName.SUBMIT.ordinal()].setEnabled(true);
@@ -690,12 +694,16 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                 setTitle(puzzleName + " - " + puzzleFile.getName());
             } catch (InvalidFileFormatException e) {
                 LOGGER.error(e.getMessage());
+                if (e.getMessage().contains("Proof Tree construction error: could not find rule by ID")) // TO DO: make error message not hardcoded
+                    JOptionPane.showMessageDialog(null, "This file runs on an outdated version of Legup\nand is not compatible with the current version.", "Error", JOptionPane.ERROR_MESSAGE);
+                else
+                    JOptionPane.showMessageDialog(null, "File does not exist or it cannot be read", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
     public void showStatus(String status, boolean error, int timer) {
-
+        // TODO: implement
     }
 
     public void checkUpdates() {
@@ -753,8 +761,8 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                     }
                 });
                 update.update();
-            }).run();
-        } else {
+            }).start();
+        } /*else {
 //            if (SystemUtils.IS_OS_WINDOWS) {
 //                File java = new File(SystemUtils.JAVA_HOME);
 //                java = new File(java, "bin");
@@ -772,16 +780,13 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 //                    LOGGER.severe("interrupted or io");
 //                }
 //            }
-        }
+        }*/
     }
 
     //ask to edu.rpi.legup.save current proof
     public boolean noquit(String instr) {
         int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
-        if (n == JOptionPane.YES_OPTION) {
-            return false;
-        }
-        return true;
+        return n != JOptionPane.YES_OPTION;
     }
 
     @Override
@@ -845,8 +850,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         dynamicBoardView = new DynamicView(boardView);
         this.topHalfPanel.setRightComponent(dynamicBoardView);
         this.topHalfPanel.setVisible(true);
-
-        TitledBorder titleBoard = BorderFactory.createTitledBorder(boardView.getClass().getSimpleName());
+        String boardType = boardView.getBoard().getClass().getSimpleName();
+        boardType = boardType.substring(0, boardType.indexOf("Board"));
+        TitledBorder titleBoard = BorderFactory.createTitledBorder(boardType + " Board");
         titleBoard.setTitleJustification(TitledBorder.CENTER);
         dynamicBoardView.setBorder(titleBoard);
 
@@ -861,7 +867,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         ruleFrame.getContradictionPanel().setRules(puzzle.getContradictionRules());
 
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
-        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
+//        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
 
         reloadGui();
     }
@@ -887,9 +893,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     public void onPushChange(ICommand command) {
         LOGGER.info("Pushing " + command.getClass().getSimpleName() + " to stack.");
         undo.setEnabled(true);
-        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(true);
+//        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(true);
         redo.setEnabled(false);
-        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
+//        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
 
         String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
         File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
@@ -905,16 +911,14 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     @Override
     public void onUndo(boolean isBottom, boolean isTop) {
         undo.setEnabled(!isBottom);
-        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
+//        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
         redo.setEnabled(!isTop);
-        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(!isTop);
+//        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(!isTop);
+        String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+        File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
         if (isBottom) {
-            String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
-            File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
             setTitle(puzzleName + " - " + puzzleFile.getName());
         } else {
-            String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
-            File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
             setTitle(puzzleName + " - " + puzzleFile.getName() + " *");
         }
     }
@@ -928,9 +932,9 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     @Override
     public void onRedo(boolean isBottom, boolean isTop) {
         undo.setEnabled(!isBottom);
-        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
+//        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
         redo.setEnabled(!isTop);
-        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(!isTop);
+//        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(!isTop);
         if (isBottom) {
             String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
             File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
@@ -948,8 +952,8 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     @Override
     public void onClearHistory() {
         undo.setEnabled(false);
-        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
+//        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
         redo.setEnabled(false);
-        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
+//        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
     }
 }
