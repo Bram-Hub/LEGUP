@@ -4,9 +4,9 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 
 public class BattleShipClue extends PuzzleElement {
 
-    private BattleShipCellType type;
+    private BattleShipType type;
 
-    public BattleShipClue(int value, int index, BattleShipCellType type) {
+    public BattleShipClue(int value, int index, BattleShipType type) {
         super(value);
         this.index = index;
         this.type = type;
@@ -42,11 +42,11 @@ public class BattleShipClue extends PuzzleElement {
         return (Integer) super.getData();
     }
 
-    public BattleShipCellType getType() {
+    public BattleShipType getType() {
         return type;
     }
 
-    public void setType(BattleShipCellType type) {
+    public void setType(BattleShipType type) {
         this.type = type;
     }
 
