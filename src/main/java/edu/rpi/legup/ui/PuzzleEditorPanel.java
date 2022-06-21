@@ -35,7 +35,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private DynamicView dynamicBoardView;
     private BoardView boardView;
     private TitledBorder boardBorder;
-    private JSplitPane mainPanel;
+    private JSplitPane mainPanel, topHalfPanel;
     private FileDialog fileDialog;
     private JMenuItem undo, redo;
     private ElementFrame elementFrame;
@@ -60,8 +60,10 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         dynamicBoardView.setBorder(titleBoard);
 
         JPanel boardPanel = new JPanel(new BorderLayout());
-        mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, elementFrame, dynamicBoardView);
-        mainPanel.setPreferredSize(new Dimension(600, 100));
+
+        topHalfPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, elementFrame, dynamicBoardView);
+        mainPanel = new JSplitPane();
+        mainPanel.setPreferredSize(new Dimension(600, 300));
 
         boardPanel.add(mainPanel);
         boardBorder = BorderFactory.createTitledBorder("Board");
@@ -70,7 +72,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         elementBox.add(boardPanel);
         this.add(elementBox);
 
-        mainPanel.setDividerLocation(mainPanel.getMaximumDividerLocation() + 100);
+        mainPanel.setDividerLocation(mainPanel.getMaximumDividerLocation()+100);
 
         revalidate();
     }
@@ -111,6 +113,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         for (JMenu menu : menus) {
             menuBar.add(menu);
         }
+        frame.setJMenuBar(menuBar);
     }
 
     @Override
@@ -118,7 +121,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         setupToolBar();
         setupContent();
         setMenuBar();
-        frame.setJMenuBar(menuBar);
     }
 
     private void setupToolBar() {
@@ -164,10 +166,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.HINT.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.SUBMIT.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.CHECK_ALL.ordinal()].setEnabled(true);
 
         this.add(toolBar, BorderLayout.NORTH);
     }

@@ -1,5 +1,7 @@
 package edu.rpi.legup.model;
 
+import edu.rpi.legup.model.elements.NonPlaceableElement;
+import edu.rpi.legup.model.elements.PlaceableElement;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.observer.IBoardListener;
@@ -11,6 +13,7 @@ import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.model.tree.TreeElementType;
 import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.ui.puzzleeditorui.elementsview.NonPlaceableElementPanel;
 import edu.rpi.legup.utility.LegupUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -53,6 +56,8 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     protected List<BasicRule> basicRules;
     protected List<ContradictionRule> contradictionRules;
     protected List<CaseRule> caseRules;
+    protected List<PlaceableElement> placeableElements;
+    protected List<NonPlaceableElement> nonPlaceableElements;
 
     /**
      * Puzzle Constructor - creates a new Puzzle
@@ -256,6 +261,13 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     public List<BasicRule> getBasicRules() {
         return basicRules;
     }
+    public List<PlaceableElement> getPlaceableElements() {
+        return placeableElements;
+    }
+    public List<NonPlaceableElement> getNonPlaceableElements() {
+        return nonPlaceableElements;
+    }
+
 
     /**
      * Sets the list of basic rules
@@ -274,7 +286,12 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     public void addBasicRule(BasicRule rule) {
         basicRules.add(rule);
     }
-
+    public void addPlaceableElement(PlaceableElement element) {
+        placeableElements.add(element);
+    }
+    public void addNonPlaceableElement(NonPlaceableElement element) {
+        nonPlaceableElements.add(element);
+    }
     /**
      * Remove a basic rule from this Puzzle
      *
