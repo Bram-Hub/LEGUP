@@ -19,6 +19,7 @@ public class Config {
     private final static Logger Logger = LogManager.getLogger(Config.class.getName());
 
     private Map<String, String> puzzles;
+    private Map<String, Boolean> fileCreationDisabledStatuses;
     private static final String CONFIG_LOCATION = "edu/rpi/legup/legup/config";
 
     /**
@@ -27,7 +28,8 @@ public class Config {
      * @throws InvalidConfigException
      */
     public Config() throws InvalidConfigException {
-        puzzles = new Hashtable<>();
+        this.puzzles = new Hashtable<>();
+        this.fileCreationDisabledStatuses = new Hashtable<>();
         loadConfig(this.getClass().getClassLoader().getResourceAsStream(CONFIG_LOCATION));
     }
 
@@ -39,6 +41,16 @@ public class Config {
     public List<String> getPuzzleNames() {
         return new ArrayList<>(puzzles.keySet());
     }
+
+    public List<String> getFileCreationEnabledPuzzles()
+    {
+        LinkedList<String> puzzles = new LinkedList<String>();
+        for (String puzzle : this.puzzles.keySet())
+            if (!this.fileCreationDisabledStatuses.get(puzzle))
+                puzzles.add(puzzle);
+        return puzzles;
+    }
+
 
     /**
      * Gets a {@link edu.rpi.legup.model.Puzzle} class for a puzzle name
@@ -77,9 +89,10 @@ public class Config {
                 Element puzzle = (Element) puzzleNodes.item(i);
                 String name = puzzle.getAttribute("name");
                 String className = puzzle.getAttribute("qualifiedClassName");
+                boolean status = Boolean.parseBoolean(puzzle.getAttribute("fileCreationDisabled").toLowerCase());
                 Logger.debug("Class Name: "+className);
-                System.out.println("CLASS NAME: " + name);
-                puzzles.put(name, className);
+                this.puzzles.put(name, className);
+                this.fileCreationDisabledStatuses.put(name, Boolean.valueOf(status));
             }
 
         } catch (ParserConfigurationException | SAXException | IOException e) {
