@@ -315,7 +315,7 @@ public class ScrollView extends JScrollPane {
      * */
     public void scroll(int mag){
         Point point = super.viewport.getViewPosition();
-        // the point changing with th
+        // the point changing speed changes with the scale
         point.y += mag*getZoom()/20;
         viewport.setViewPosition(point);
         updateSize();
