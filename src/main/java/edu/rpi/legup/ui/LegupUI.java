@@ -699,6 +699,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         folderBrowser = new JFileChooser();
         folderBrowser.setCurrentDirectory(new java.io.File("."));
         folderBrowser.setDialogTitle("Select Directory");
+<<<<<<< Updated upstream
         folderBrowser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         folderBrowser.setAcceptAllFileFilterUsed(false);
         folderBrowser.showOpenDialog(this);
@@ -707,8 +708,21 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         File puzzleFile = null;
         if (folderBrowser.getName() != null && folderBrowser.getSelectedFile() != null) {
             fileName = folderBrowser.getName() + File.separator + folderBrowser.getSelectedFile();
+=======
+        folderBrowser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        folderBrowser.setAcceptAllFileFilterUsed(false);
+        folderBrowser.showOpenDialog(this);
+        File puzzleFile = folderBrowser.getSelectedFile();
+
+        String fileName = null;
+
+
+        if (folderBrowser.getCurrentDirectory().getName() != null && folderBrowser.getSelectedFile().getName() != null) {
+            fileName = puzzleFile.getAbsolutePath() + File.separator;
+>>>>>>> Stashed changes
             puzzleFile = new File(fileName);
         }
+
 
         if (puzzleFile != null && puzzleFile.exists()) {
             try {
