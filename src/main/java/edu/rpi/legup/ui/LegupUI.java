@@ -696,13 +696,17 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
             }
         }
 
-        fileDialog.setMode(FileDialog.LOAD);
-        fileDialog.setTitle("Select Puzzle");
-        fileDialog.setVisible(true);
+        folderBrowser = new JFileChooser();
+        folderBrowser.setCurrentDirectory(new java.io.File("."));
+        folderBrowser.setDialogTitle("Select Directory");
+        folderBrowser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        folderBrowser.setAcceptAllFileFilterUsed(false);
+        folderBrowser.showOpenDialog(this);
+
         String fileName = null;
         File puzzleFile = null;
-        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
-            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
+        if (folderBrowser.getName() != null && folderBrowser.getSelectedFile() != null) {
+            fileName = folderBrowser.getName() + File.separator + folderBrowser.getSelectedFile();
             puzzleFile = new File(fileName);
         }
 
