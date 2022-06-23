@@ -4,7 +4,7 @@ import edu.rpi.legup.ui.boardview.GridElementView;
 
 import java.awt.*;
 
-public class BattleShipElementView extends GridElementView {
+public class BattleshipElementView extends GridElementView {
     private static final Stroke OUTLINE_STROKE = new BasicStroke(1);
     private static final Color OUTLINE_COLOR = new Color(0x212121);
 
@@ -15,14 +15,14 @@ public class BattleShipElementView extends GridElementView {
     private static final Font FONT = new Font("TimesRoman", Font.BOLD, 10);
     private static final Color FONT_COLOR = new Color(0xFFEB3B);
 
-    public BattleShipElementView(BattleShipCell cell) {
+    public BattleshipElementView(BattleshipCell cell) {
         super(cell);
     }
 
     @Override
     public void drawElement(Graphics2D graphics2D) {
-        BattleShipCell cell = (BattleShipCell) puzzleElement;
-        BattleShipType type = cell.getType();
+        BattleshipCell cell = (BattleshipCell) puzzleElement;
+        BattleshipType type = cell.getType();
 
         switch (type) {
             case UNKNOWN:
