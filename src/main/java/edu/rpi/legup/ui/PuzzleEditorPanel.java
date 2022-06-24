@@ -37,10 +37,13 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private JMenuItem undo, redo;
     private ElementFrame elementFrame;
     private JPanel treePanel;
+    private LegupUI legupUI;
     final static int[] TOOLBAR_SEPARATOR_BEFORE = {2, 4, 8};
-    public PuzzleEditorPanel(FileDialog fileDialog, JFrame frame) {
+
+    public PuzzleEditorPanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
         this.fileDialog = fileDialog;
         this.frame = frame;
+        this.legupUI = legupUI;
         setLayout(new BorderLayout());
     }
 

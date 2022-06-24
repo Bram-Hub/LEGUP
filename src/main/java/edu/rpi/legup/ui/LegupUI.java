@@ -133,13 +133,13 @@ public class LegupUI extends JFrame implements WindowListener {
         panels = new LegupPanel[3];
 
         panels[0] = new HomePanel(this.fileDialog, this, this);
-        panels[1] = new ProofEditorPanel(this.fileDialog, this);
-        panels[2] = new PuzzleEditorPanel(this.fileDialog, this);
+        panels[1] = new ProofEditorPanel(this.fileDialog, this, this);
+        panels[2] = new PuzzleEditorPanel(this.fileDialog, this, this);
 
     }
 
     protected void displayPanel(int option) {
-        if (option > panels.length) {
+        if (option > panels.length || option < 0) {
             throw new InvalidParameterException("Invalid option");
         }
         this.window.removeAll();

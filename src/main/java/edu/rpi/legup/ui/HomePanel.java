@@ -7,6 +7,7 @@ public class HomePanel extends LegupPanel {
     private LegupUI legupUI;
     private JFrame frame;
     private JButton[] buttons;
+    private JLabel[] text;
     private JMenuBar menuBar;
 
     private final int buttonSize = 100;
@@ -15,6 +16,7 @@ public class HomePanel extends LegupPanel {
         this.legupUI = legupUI;
         this.frame = frame;
         setLayout(new GridLayout(1, 2));
+        initText();
         initButtons();
     }
 
@@ -111,9 +113,10 @@ public class HomePanel extends LegupPanel {
         this.buttons[3].setVerticalTextPosition(AbstractButton.BOTTOM);
     }
 
-    private void render()
+    private void initText()
     {
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        this.text = new JLabel[3];
+        
         JLabel welcome = new JLabel("Welcome to Legup");
         welcome.setFont(new Font("Roboto", Font.BOLD, 23));
         welcome.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -125,6 +128,19 @@ public class HomePanel extends LegupPanel {
         JLabel credits = new JLabel("A project by Dr. Bram van Heuveln");
         credits.setFont(new Font("Roboto", Font.PLAIN, 12));
         credits.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        this.text[0] = welcome;
+        this.text[1] = version;
+        this.text[2] = credits;
+    }
+
+    private void render()
+    {
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        
+        //JPanel welcomeText = new JPanel();
+        //for (JLabel label : this.text)
+        //    welcomeText.add(label);
 
         JPanel buttons = new JPanel();
         buttons.add(this.buttons[0]);
@@ -137,9 +153,9 @@ public class HomePanel extends LegupPanel {
         batchGraderButton.add(this.buttons[3]);
         batchGraderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        this.add(welcome);
-        this.add(version);
-        this.add(credits);
+        // this.add(welcomeText);
+        for (JLabel label : this.text)
+            this.add(label);
         this.add(buttons);
         this.add(batchGraderButton);
     }
