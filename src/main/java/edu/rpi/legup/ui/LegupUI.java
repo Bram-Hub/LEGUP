@@ -540,11 +540,14 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         GameBoardFacade facade = GameBoardFacade.getInstance();
 
         folderBrowser = new JFileChooser();
+
+        folderBrowser.showOpenDialog(this);
+        folderBrowser.setVisible(true);
         folderBrowser.setCurrentDirectory(new java.io.File("."));
         folderBrowser.setDialogTitle("Select Directory");
         folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         folderBrowser.setAcceptAllFileFilterUsed(false);
-        folderBrowser.showOpenDialog(this);
+
         File folder = folderBrowser.getSelectedFile();
 
         //FileWriter csvWriter = new FileWriter("new.csv");
@@ -695,13 +698,19 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
             }
         }
 
-        fileDialog.setMode(FileDialog.LOAD);
-        fileDialog.setTitle("Select Puzzle");
-        fileDialog.setVisible(true);
+        folderBrowser = new JFileChooser();
+
+        folderBrowser.showOpenDialog(this);
+        folderBrowser.setVisible(true);
+        folderBrowser.setCurrentDirectory(new java.io.File("."));
+        folderBrowser.setDialogTitle("Select Directory");
+        folderBrowser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        folderBrowser.setAcceptAllFileFilterUsed(true);
+
         String fileName = null;
-        File puzzleFile = null;
-        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
-            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
+        File puzzleFile = folderBrowser.getSelectedFile();
+        if (folderBrowser.getCurrentDirectory() != null && folderBrowser.getSelectedFile().getName() != null) {
+            fileName = puzzleFile.getAbsolutePath()+ File.separator;
             puzzleFile = new File(fileName);
         }
 
