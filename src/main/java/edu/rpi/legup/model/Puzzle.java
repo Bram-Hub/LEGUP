@@ -70,6 +70,9 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         this.contradictionRules = new ArrayList<>();
         this.caseRules = new ArrayList<>();
 
+        this.placeableElements = new ArrayList<>();
+        this.nonPlaceableElements = new ArrayList<>();
+
         registerRules();
     }
 
