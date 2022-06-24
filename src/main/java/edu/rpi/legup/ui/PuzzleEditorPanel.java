@@ -33,19 +33,20 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private DynamicView dynamicBoardView;
     private BoardView boardView;
     private TitledBorder boardBorder;
-    private JSplitPane mainPanel;
+    //private JSplitPane splitPanel, topHalfPanel;
     private FileDialog fileDialog;
     private JMenuItem undo, redo;
     private ElementFrame elementFrame;
+    private JPanel treePanel;
     final static int[] TOOLBAR_SEPARATOR_BEFORE = {2, 4, 8};
     public PuzzleEditorPanel(FileDialog fileDialog, JFrame frame) {
         this.fileDialog = fileDialog;
         this.frame = frame;
-        setLayout(new GridLayout(2, 1));
+        setLayout(new BorderLayout());
     }
 
     protected void setupContent() {
-
+        JSplitPane splitPanel;
         JPanel elementBox = new JPanel(new BorderLayout());
 
         EditorElementController elementController = new EditorElementController();
@@ -58,17 +59,17 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         dynamicBoardView.setBorder(titleBoard);
 
         JPanel boardPanel = new JPanel(new BorderLayout());
-        mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, elementFrame, dynamicBoardView);
-        mainPanel.setPreferredSize(new Dimension(600, 100));
+        splitPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, elementFrame, dynamicBoardView);
+        splitPanel.setPreferredSize(new Dimension(600, 400));
 
-        boardPanel.add(mainPanel);
+        boardPanel.add(splitPanel);
         boardBorder = BorderFactory.createTitledBorder("Board");
         boardBorder.setTitleJustification(TitledBorder.CENTER);
 
         elementBox.add(boardPanel);
         this.add(elementBox);
 
-        mainPanel.setDividerLocation(mainPanel.getMaximumDividerLocation() + 100);
+        splitPanel.setDividerLocation(splitPanel.getMaximumDividerLocation()+100);
 
         revalidate();
     }
@@ -109,6 +110,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         for (JMenu menu : menus) {
             menuBar.add(menu);
         }
+        frame.setJMenuBar(menuBar);
     }
 
     @Override
@@ -116,7 +118,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         setupToolBar();
         setupContent();
         setMenuBar();
-        frame.setJMenuBar(menuBar);
     }
 
     private void setupToolBar() {
@@ -162,10 +163,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.HINT.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.SUBMIT.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.CHECK_ALL.ordinal()].setEnabled(true);
 
         this.add(toolBar, BorderLayout.NORTH);
     }

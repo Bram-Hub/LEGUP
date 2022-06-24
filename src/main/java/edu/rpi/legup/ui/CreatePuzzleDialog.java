@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class CreatePuzzleDialog extends JDialog implements ActionListener {
     private String[] games;
@@ -67,17 +68,8 @@ public class CreatePuzzleDialog extends JDialog implements ActionListener {
     }
 
     public void initPuzzles() {
-        Object[] o = GameBoardFacade.getInstance().getConfig().getPuzzleNames().toArray();
-
-        games = new String[o.length];
-
-        for (int x = 0; x < o.length; ++x) {
-            games[x] = (String) o[x];
-            if (games[x].equals("ShortTruthTable")) {
-                games[x] = games[x] + " (Unsupported)";
-            }
-        }
-
+        this.games = GameBoardFacade.getInstance().getConfig().getFileCreationEnabledPuzzles().toArray(new String[0]);
+        Arrays.sort(this.games);
         gameBox = new JComboBox(games);
     }
 

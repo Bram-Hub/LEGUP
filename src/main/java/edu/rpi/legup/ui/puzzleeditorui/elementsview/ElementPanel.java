@@ -22,7 +22,7 @@ public abstract class ElementPanel extends JPanel {
         this.elements = new ArrayList<>();
         setLayout(new WrapLayout());
     }
-    public void setRules(List<? extends Element> elements) {
+    public void setElements(List<? extends Element> elements) {
         this.elements = elements;
         clearButtons();
 

@@ -128,6 +128,7 @@ public class LegupUI extends JFrame implements WindowListener {
 
     private void initPanels() {
         window = new JPanel();
+        window.setLayout(new BorderLayout());
         add(window);
         panels = new LegupPanel[3];
 
