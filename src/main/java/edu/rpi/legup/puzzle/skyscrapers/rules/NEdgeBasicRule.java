@@ -19,7 +19,7 @@ public class NEdgeBasicRule extends BasicRule {
     public NEdgeBasicRule() {
         super("SKYS-BASC-0004", "N Edge",
                 "If the maximum number appears on an edge, the row or column��s numbers appear in ascending order, starting at that edge.",
-                "edu/rpi/legup/images/skyscrapers/NEdge.png");
+                "edu/rpi/legup/images/skyscrapers/rules/NEdge.png");
     }
 
     /**

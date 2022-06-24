@@ -19,7 +19,7 @@ public class FixedMaxBasicRule extends BasicRule {
     public FixedMaxBasicRule() {
         super("SKYS-BASC-0001","Fixed Max",
                 "If the sum of two opposing edges is n+1, the maximum number appears at a position k spaces away from the edge, where k is the number at that edge.",
-                "edu/rpi/legup/images/skyscrapers/FixedMax.png");
+                "edu/rpi/legup/images/skyscrapers/rules/FixedMax.png");
     }
 
     /**

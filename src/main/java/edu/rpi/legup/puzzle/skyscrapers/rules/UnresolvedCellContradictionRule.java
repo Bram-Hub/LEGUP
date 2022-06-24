@@ -16,7 +16,7 @@ public class UnresolvedCellContradictionRule extends ContradictionRule {
     public UnresolvedCellContradictionRule() {
         super("SKYS-CONT-0004", "Unresolved Cell",
                 "Elimination leaves no possible number for a cell.",
-                "edu/rpi/legup/images/skyscrapers/UnresolvedCell.png");
+                "edu/rpi/legup/images/skyscrapers/contradictions/UnresolvedCell.png");
     }
 
     /**

@@ -19,7 +19,7 @@ public class OneEdgeBasicRule extends BasicRule {
     public OneEdgeBasicRule() {
         super("SKYS-BASC-0005", "One Edge",
                 "If you have a 1 on an edge, put n in the adjacent square.",
-                "edu/rpi/legup/images/skyscrapers/OneEdge.png");
+                "edu/rpi/legup/images/skyscrapers/rules/OneEdge.png");
     }
 
     /**

@@ -16,7 +16,7 @@ public class ExceedingVisibilityContradictionRule extends ContradictionRule {
     public ExceedingVisibilityContradictionRule() {
         super("SKYS-CONT-0002", "Exceeding Visibility",
                 "More skyscrapers are visible than there should be.",
-                "edu/rpi/legup/images/skyscrapers/ExceedingVisibility.png");
+                "edu/rpi/legup/images/skyscrapers/contradictions/ExceedingVisibility.png");
     }
 
     /**

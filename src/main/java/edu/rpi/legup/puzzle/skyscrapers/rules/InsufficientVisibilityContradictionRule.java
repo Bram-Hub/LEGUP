@@ -16,7 +16,7 @@ public class InsufficientVisibilityContradictionRule extends ContradictionRule {
     public InsufficientVisibilityContradictionRule() {
         super("SKYS-CONT-0003", "Insufficient Visibility",
                 "Less skyscrapers are visible than there should be.",
-                "edu/rpi/legup/images/skyscrapers/InsufficientVisibility.png");
+                "edu/rpi/legup/images/skyscrapers/contradictions/InsufficientVisibility.png");
     }
 
     /**
