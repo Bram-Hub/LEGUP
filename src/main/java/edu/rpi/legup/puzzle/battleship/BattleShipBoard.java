@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.battleship;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -97,7 +96,7 @@ public class BattleShipBoard extends GridBoard {
      * @return      List of adjacent cells in clockwise order:
      *              <code>{ up, right, down, left }</code>
      */
-    public List<BattleShipCell> getAdjacent(@NotNull BattleShipCell cell) {
+    public List<BattleShipCell> getAdjacent(BattleShipCell cell) {
         List<BattleShipCell> adj = new ArrayList<>();
         Point loc = cell.getLocation();
         BattleShipCell up = getCell(loc.x, loc.y - 1);
@@ -118,7 +117,7 @@ public class BattleShipBoard extends GridBoard {
      * @return      List of diagonally adjacent cells in clockwise order:
      *              <code>{ upRight, downRight, downLeft, upLeft }</code>
      */
-    public List<BattleShipCell> getAdjDiagonals(@NotNull BattleShipCell cell) {
+    public List<BattleShipCell> getAdjDiagonals(BattleShipCell cell) {
         List<BattleShipCell> dia = new ArrayList<>();
         Point loc = cell.getLocation();
         BattleShipCell upRight = getCell(loc.x + 1, loc.y - 1);
