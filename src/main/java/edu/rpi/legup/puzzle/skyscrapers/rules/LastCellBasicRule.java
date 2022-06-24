@@ -19,7 +19,7 @@ public class LastCellBasicRule extends BasicRule {
     public LastCellBasicRule() {
         super("SKYS-BASC-0002", "Last Cell",
                 "A certain number must go in a certain cell, because that cell is the last place that number can appear in that row/column.",
-                "edu/rpi/legup/images/skyscrapers/LastCell.png");
+                "edu/rpi/legup/images/skyscrapers/rules/LastCell.png");
     }
 
     /**
