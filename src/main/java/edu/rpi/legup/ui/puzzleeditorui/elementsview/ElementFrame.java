@@ -41,7 +41,7 @@ public class ElementFrame extends JPanel {
         add(tabbedPane);
         add(status, BorderLayout.SOUTH);
 
-        TitledBorder title = BorderFactory.createTitledBorder("Rules");
+        TitledBorder title = BorderFactory.createTitledBorder("Elements");
         title.setTitleJustification(TitledBorder.CENTER);
         setBorder(title);
     }
@@ -67,4 +67,7 @@ public class ElementFrame extends JPanel {
     public JTabbedPane getTabbedPane() {
         return tabbedPane;
     }
+
+    public NonPlaceableElementPanel getNonPlaceableElementPanel() { return nonPlaceableElementPanel; }
+    public PlaceableElementPanel getPlaceableElementPanel() { return placeableElementPanel; }
 }
