@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.battleship;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -89,13 +88,13 @@ public class BattleshipBoard extends GridBoard {
      * @return      List of adjacent cells in clockwise order:
      *              <code>{ up, right, down, left }</code>
      */
-    public List<BattleShipCell> getAdjacent(@NotNull BattleShipCell cell) {
-        List<BattleShipCell> adj = new ArrayList<>();
+    public List<BattleshipCell> getAdjacent(BattleshipCell cell) {
+        List<BattleshipCell> adj = new ArrayList<>();
         Point loc = cell.getLocation();
-        BattleShipCell up = getCell(loc.x, loc.y - 1);
-        BattleShipCell right = getCell(loc.x + 1, loc.y);
-        BattleShipCell down = getCell(loc.x, loc.y + 1);
-        BattleShipCell left = getCell(loc.x - 1, loc.y);
+        BattleshipCell up = getCell(loc.x, loc.y - 1);
+        BattleshipCell right = getCell(loc.x + 1, loc.y);
+        BattleshipCell down = getCell(loc.x, loc.y + 1);
+        BattleshipCell left = getCell(loc.x - 1, loc.y);
         adj.add(up);
         adj.add(right);
         adj.add(down);
@@ -110,13 +109,13 @@ public class BattleshipBoard extends GridBoard {
      * @return      List of diagonally adjacent cells in clockwise order:
      *              <code>{ upRight, downRight, downLeft, upLeft }</code>
      */
-    public List<BattleShipCell> getAdjDiagonals(@NotNull BattleShipCell cell) {
-        List<BattleShipCell> dia = new ArrayList<>();
+    public List<BattleshipCell> getAdjDiagonals(BattleshipCell cell) {
+        List<BattleshipCell> dia = new ArrayList<>();
         Point loc = cell.getLocation();
-        BattleShipCell upRight = getCell(loc.x + 1, loc.y - 1);
-        BattleShipCell downRight = getCell(loc.x + 1, loc.y + 1);
-        BattleShipCell downLeft = getCell(loc.x - 1, loc.y + 1);
-        BattleShipCell upLeft = getCell(loc.x - 1, loc.y - 1);
+        BattleshipCell upRight = getCell(loc.x + 1, loc.y - 1);
+        BattleshipCell downRight = getCell(loc.x + 1, loc.y + 1);
+        BattleshipCell downLeft = getCell(loc.x - 1, loc.y + 1);
+        BattleshipCell upLeft = getCell(loc.x - 1, loc.y - 1);
         dia.add(upRight);
         dia.add(downRight);
         dia.add(downLeft);
@@ -130,8 +129,8 @@ public class BattleshipBoard extends GridBoard {
      * @param y The y-coordinate of the row.
      * @return  List of cells in the row in increasing x-coordinate order.
      */
-    public List<BattleShipCell> getRow(int y) {
-        List<BattleShipCell> row = new ArrayList<>();
+    public List<BattleshipCell> getRow(int y) {
+        List<BattleshipCell> row = new ArrayList<>();
         for (int x = 0; x < dimension.width; x++) {
             row.add(getCell(x, y));
         }
@@ -144,8 +143,8 @@ public class BattleshipBoard extends GridBoard {
      * @param x The x-coordinate of the column.
      * @return  List of cells in the column in increasing y-coordinate order.
      */
-    public List<BattleShipCell> getColumn(int x) {
-        List<BattleShipCell> column = new ArrayList<>();
+    public List<BattleshipCell> getColumn(int x) {
+        List<BattleshipCell> column = new ArrayList<>();
         for (int y = 0; y < dimension.height; y++) {
             column.add(getCell(x, y));
         }
