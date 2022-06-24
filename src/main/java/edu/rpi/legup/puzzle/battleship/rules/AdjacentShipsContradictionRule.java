@@ -3,9 +3,9 @@ package edu.rpi.legup.puzzle.battleship.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
-import edu.rpi.legup.puzzle.battleship.BattleShipBoard;
-import edu.rpi.legup.puzzle.battleship.BattleShipCell;
-import edu.rpi.legup.puzzle.battleship.BattleShipType;
+import edu.rpi.legup.puzzle.battleship.BattleshipBoard;
+import edu.rpi.legup.puzzle.battleship.BattleshipCell;
+import edu.rpi.legup.puzzle.battleship.BattleshipType;
 
 import java.util.List;
 
@@ -34,14 +34,14 @@ public class AdjacentShipsContradictionRule extends ContradictionRule {
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
-        BattleShipBoard bsBoard = (BattleShipBoard) board;
-        BattleShipCell cell = (BattleShipCell) bsBoard.getPuzzleElement(puzzleElement);
+        BattleshipBoard bsBoard = (BattleshipBoard) board;
+        BattleshipCell cell = (BattleshipCell) bsBoard.getPuzzleElement(puzzleElement);
 
         // check orthogonally adjacent cells
-        List<BattleShipCell> orthoAdjCells
+        List<BattleshipCell> orthoAdjCells
                 = bsBoard.getAdjacent(cell);
 
-        BattleShipCell up = orthoAdjCells.get(0);
+        BattleshipCell up = orthoAdjCells.get(0);
 
         return null;
     }
