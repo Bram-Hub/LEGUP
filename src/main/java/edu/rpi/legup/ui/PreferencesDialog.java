@@ -42,6 +42,7 @@ public class PreferencesDialog extends JDialog {
         setTitle("Preferences");
 
         JPanel mainPanel = new JPanel();
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         mainPanel.setLayout(new BorderLayout());
 
         mainPanel.add(createGeneralTab());

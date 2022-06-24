@@ -5,16 +5,16 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 
-public class BattleShip extends Puzzle {
-    public BattleShip() {
+public class Battleship extends Puzzle {
+    public Battleship() {
         super();
 
-        this.name = "BattleShip";
+        this.name = "Battleship";
 
-        this.importer = new BattleShipImporter(this);
-        this.exporter = new BattleShipExporter(this);
+        this.importer = new BattleshipImporter(this);
+        this.exporter = new BattleshipExporter(this);
 
-        this.factory = new BattleShipCellFactory();
+        this.factory = new BattleshipCellFactory();
     }
 
     /**
@@ -22,7 +22,7 @@ public class BattleShip extends Puzzle {
      */
     @Override
     public void initializeView() {
-        boardView = new BattleShipView((BattleShipBoard) currentBoard);
+        boardView = new BattleshipView((BattleshipBoard) currentBoard);
         addBoardListener(boardView);
     }
 
@@ -39,7 +39,7 @@ public class BattleShip extends Puzzle {
      */
     @Override
     public boolean isBoardComplete(Board board) {
-        BattleShipBoard battleShipBoard = (BattleShipBoard) board;
+        BattleshipBoard battleShipBoard = (BattleshipBoard) board;
 
         for (ContradictionRule rule : contradictionRules) {
             if (rule.checkContradiction(battleShipBoard) == null) {
@@ -47,8 +47,8 @@ public class BattleShip extends Puzzle {
             }
         }
         for (PuzzleElement data : battleShipBoard.getPuzzleElements()) {
-            BattleShipCell cell = (BattleShipCell) data;
-            if (cell.getType() == BattleShipType.UNKNOWN) {
+            BattleshipCell cell = (BattleshipCell) data;
+            if (cell.getType() == BattleshipType.UNKNOWN) {
                 return false;
             }
         }
