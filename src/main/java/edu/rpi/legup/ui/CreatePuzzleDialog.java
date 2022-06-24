@@ -77,7 +77,7 @@ public class CreatePuzzleDialog extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == ok) {
             String game = (String) gameBox.getSelectedItem();
-            this.homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(width.getText()), Integer.valueOf(height.getText()));
+            this.homePanel.openEditorWithNewPuzzle(game);
             setVisible(false);
         }
         else if (e.getSource() == cancel) {

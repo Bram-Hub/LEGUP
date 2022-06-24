@@ -149,9 +149,8 @@ public class HomePanel extends LegupPanel {
         cpd.setVisible(true);
     }
 
-    public void openEditorWithNewPuzzle(String game, int width, int height) {
+    public void openEditorWithNewPuzzle(String game) {
         // Set game type on the puzzle editor
         this.legupUI.displayPanel(2);
-        this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, width, height);
     }
 }

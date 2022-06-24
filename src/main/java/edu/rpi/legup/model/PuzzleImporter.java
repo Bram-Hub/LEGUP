@@ -30,17 +30,6 @@ public abstract class PuzzleImporter {
     }
 
     /**
-     * Initializes an empty puzzle
-     *
-     * @param width width of puzzle
-     * @param height height of puzzle
-     * @throws RuntimeException
-     */
-    public void initializePuzzle(int width, int height) throws RuntimeException {
-
-    }
-
-    /**
      * Initializes the puzzle attributes
      *
      * @param node xml document node
