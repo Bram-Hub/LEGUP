@@ -1,11 +1,6 @@
 package edu.rpi.legup.ui.puzzleeditorui.elementsview;
 
 import edu.rpi.legup.controller.EditorElementController;
-import edu.rpi.legup.controller.RuleController;
-import edu.rpi.legup.ui.proofeditorui.rulesview.BasicRulePanel;
-import edu.rpi.legup.ui.proofeditorui.rulesview.CaseRulePanel;
-import edu.rpi.legup.ui.proofeditorui.rulesview.ContradictionRulePanel;
-import edu.rpi.legup.ui.proofeditorui.rulesview.RulePanel;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -37,7 +32,7 @@ public class ElementFrame extends JPanel {
         add(tabbedPane);
         add(status, BorderLayout.SOUTH);
 
-        TitledBorder title = BorderFactory.createTitledBorder("Rules");
+        TitledBorder title = BorderFactory.createTitledBorder("Elements");
         title.setTitleJustification(TitledBorder.CENTER);
         setBorder(title);
     }

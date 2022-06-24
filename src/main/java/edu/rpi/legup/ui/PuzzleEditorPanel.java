@@ -4,12 +4,10 @@ import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.EditorElementController;
 import edu.rpi.legup.controller.ElementController;
-import edu.rpi.legup.controller.RuleController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
-import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.puzzleeditorui.elementsview.ElementFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -171,7 +169,10 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         this.add(toolBar, BorderLayout.NORTH);
     }
-
+//    public void loadPuzzleFromHome(String game, int width, int height) {
+//        GameBoardFacade facade = GameBoardFacade.getInstance();
+//        facade.loadPuzzle();
+//    }
     public void promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
