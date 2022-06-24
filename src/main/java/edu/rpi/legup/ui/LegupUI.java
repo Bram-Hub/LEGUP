@@ -153,6 +153,9 @@ public class LegupUI extends JFrame implements WindowListener {
     public ProofEditorPanel getProofEditor() {
         return (ProofEditorPanel) panels[1];
     }
+    public PuzzleEditorPanel getPuzzleEditor() {
+        return (PuzzleEditorPanel) panels[2];
+    }
 
     public static boolean profFlag(int flag) {
         return !((PROF_FLAGS[CONFIG_INDEX] & flag) == 0);

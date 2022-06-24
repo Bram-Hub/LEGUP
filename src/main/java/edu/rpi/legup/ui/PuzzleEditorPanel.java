@@ -5,6 +5,7 @@ import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.EditorElementController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
+import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.puzzleeditorui.elementsview.ElementFrame;
@@ -27,6 +28,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private JToolBar toolBar;
     private JFrame frame;
     private JButton[] buttons;
+    JSplitPane splitPanel;
     private JButton[] toolBarButtons;
     private JPanel elementPanel;
     private DynamicView dynamicBoardView;
@@ -232,4 +234,25 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private void repaintAll() {
         boardView.repaint();
     }
+
+    public void setPuzzleView(Puzzle puzzle) {
+        this.boardView = puzzle.getBoardView();
+
+        dynamicBoardView = new DynamicView(boardView);
+        this.splitPanel.setRightComponent(dynamicBoardView);
+        this.splitPanel.setVisible(true);
+
+        TitledBorder titleBoard = BorderFactory.createTitledBorder(boardView.getClass().getSimpleName());
+        titleBoard.setTitleJustification(TitledBorder.CENTER);
+        dynamicBoardView.setBorder(titleBoard);
+
+        puzzle.addBoardListener(puzzle.getBoardView());
+
+        elementFrame.getNonPlaceableElementPanel().setElements(puzzle.getNonPlaceableElements());
+        elementFrame.getPlaceableElementPanel().setElements(puzzle.getPlaceableElements());
+
+        toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
+        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
+    }
+
 }

@@ -7,6 +7,7 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.ui.ProofEditorPanel;
+import edu.rpi.legup.ui.PuzzleEditorPanel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -45,6 +46,8 @@ public class GameBoardFacade implements IHistorySubject {
 
     private ProofEditorPanel puzzleSolver;
 
+    private PuzzleEditorPanel puzzleEditor;
+
     private String curFileName;
 
     private History history;
@@ -77,6 +80,7 @@ public class GameBoardFacade implements IHistorySubject {
         EventQueue.invokeLater(() ->{
             legupUI = new LegupUI();
             puzzleSolver = legupUI.getProofEditor();
+            puzzleEditor = legupUI.getPuzzleEditor();
             addHistoryListener(legupUI.getProofEditor());
         });
     }
@@ -84,6 +88,7 @@ public class GameBoardFacade implements IHistorySubject {
     public void setPuzzle(Puzzle puzzle) {
         this.puzzle = puzzle;
         this.puzzleSolver.setPuzzleView(puzzle);
+        this.puzzleEditor.setPuzzleView((puzzle));
         this.history.clear();
     }
 
