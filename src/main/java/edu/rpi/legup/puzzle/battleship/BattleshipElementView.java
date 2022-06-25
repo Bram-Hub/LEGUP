@@ -33,7 +33,7 @@ public class BattleshipElementView extends GridElementView {
                 graphics2D.setColor(WATER_COLOR);
                 graphics2D.fillRect(location.x, location.y, size.width, size.height);
                 break;
-            case SHIP_SEGMENT_UNKNOWN:
+            case SHIP_UNKNOWN:
                 graphics2D.setColor(SHIP_COLOR);
                 graphics2D.fillRect(location.x + 3 * size.width / 8, location.y + 3 * size.height / 8,
                         size.width / 4, size.height / 4);
@@ -46,28 +46,28 @@ public class BattleshipElementView extends GridElementView {
                 int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
                 graphics2D.drawString(value, xText, yText);
                 break;
-            case SHIP_SIZE_1:
+            case SUBMARINE:
                 graphics2D.setColor(SHIP_COLOR);
                 graphics2D.fillOval(location.x + size.width / 4, location.y + size.width / 4,
                         size.width / 2, size.height / 2);
                 break;
-            case SHIP_SEGMENT_TOP:
+            case SHIP_TOP:
                 graphics2D.setColor(SHIP_COLOR);
                 graphics2D.fillArc(location.x, location.y - size.height / 2, size.width, size.height, 180, 180);
                 break;
-            case SHIP_SEGMENT_RIGHT:
+            case SHIP_RIGHT:
                 graphics2D.setColor(SHIP_COLOR);
                 graphics2D.fillArc(location.x + size.height / 2, location.y, size.width, size.height, 90, 180);
                 break;
-            case SHIP_SEGMENT_BOTTOM:
+            case SHIP_BOTTOM:
                 graphics2D.setColor(SHIP_COLOR);
                 graphics2D.fillArc(location.x, location.y + size.height / 2, size.width, size.height, 0, 180);
                 break;
-            case SHIP_SEGMENT_LEFT:
+            case SHIP_LEFT:
                 graphics2D.setColor(SHIP_COLOR);
                 graphics2D.fillArc(location.x - size.height / 2, location.y, size.width, size.height, 270, 180);
                 break;
-            case SHIP_SEGMENT_MIDDLE:
+            case SHIP_MIDDLE:
                 graphics2D.setColor(SHIP_COLOR);
                 graphics2D.fillRect(location.x, location.y, size.width, size.height);
                 break;

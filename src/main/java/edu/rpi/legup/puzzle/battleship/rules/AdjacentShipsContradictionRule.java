@@ -30,7 +30,7 @@ public class AdjacentShipsContradictionRule extends ContradictionRule {
      * @param puzzleElement equivalent {@link PuzzleElement}
      * @return              <code>null</code> if the transition contains a
      *                      contradiction at the specified {@link PuzzleElement},
-     *                      otherwise error message
+     *                      otherwise error message.
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
@@ -42,6 +42,15 @@ public class AdjacentShipsContradictionRule extends ContradictionRule {
                 = bsBoard.getAdjacent(cell);
 
         BattleshipCell up = orthoAdjCells.get(0);
+        BattleshipCell right = orthoAdjCells.get(1);
+        BattleshipCell down = orthoAdjCells.get(2);
+        BattleshipCell left = orthoAdjCells.get(3);
+
+        boolean isVertical = (up != null && BattleshipType.isShip(up.getData()))
+                || (down != null && BattleshipType.isShip(down.getData()));
+
+        boolean isHorizontal = (left != null && BattleshipType.isShip(left.getData()))
+                || (right != null && BattleshipType.isShip(right.getData()));
 
         return null;
     }
