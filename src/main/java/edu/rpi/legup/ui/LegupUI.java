@@ -587,11 +587,14 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
          *    |       | -> Proofs
          */
         folderBrowser = new JFileChooser();
+
+        folderBrowser.showOpenDialog(this);
+        folderBrowser.setVisible(true);
         folderBrowser.setCurrentDirectory(new java.io.File("."));
         folderBrowser.setDialogTitle("Select Directory");
         folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         folderBrowser.setAcceptAllFileFilterUsed(false);
-        folderBrowser.showOpenDialog(this);
+
         File folder = folderBrowser.getSelectedFile();
 
         // Write csv file (Path,File-Name,Puzzle-Type,Score,Solved?)
@@ -680,30 +683,19 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
             }
         }
 
-//        fileDialog.setMode(FileDialog.LOAD);
-//        fileDialog.setTitle("Select Puzzle");
-//        fileDialog.setVisible(true);
-//        String fileName = null;
-//        File puzzleFile = null;
-//        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
-//            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
-//            puzzleFile = new File(fileName);
-//        }
         folderBrowser = new JFileChooser();
-        folderBrowser.setCurrentDirectory(new java.io.File("."));
-        folderBrowser.setDialogTitle("Select Directory");
-        folderBrowser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        folderBrowser.setAcceptAllFileFilterUsed(true);
+
         folderBrowser.showOpenDialog(this);
         folderBrowser.setVisible(true);
-        File puzzleFile = folderBrowser.getSelectedFile();
+        folderBrowser.setCurrentDirectory(new java.io.File("."));
+        folderBrowser.setDialogTitle("Select Directory");
+        folderBrowser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        folderBrowser.setAcceptAllFileFilterUsed(true);
 
         String fileName = null;
-
-
-        if (folderBrowser.getCurrentDirectory().getName() != null && folderBrowser.getSelectedFile().getName() != null) {
-            fileName = puzzleFile.getAbsolutePath() + File.separator;
-
+        File puzzleFile = folderBrowser.getSelectedFile();
+        if (folderBrowser.getCurrentDirectory() != null && folderBrowser.getSelectedFile().getName() != null) {
+            fileName = puzzleFile.getAbsolutePath()+ File.separator;
             puzzleFile = new File(fileName);
         }
 
