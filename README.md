@@ -29,7 +29,7 @@ An example for the Battleship puzzle demonstrates the proper format for XML file
 
 ```
 <edu.rpi.legup.Legup>
-    <edu.rpi.legup.puzzle qualifiedClassName="edu.rpi.legup.puzzle.battleship.BattleShip">
+    <edu.rpi.legup.puzzle qualifiedClassName="edu.rpi.legup.puzzle.battleship.Battleship">
         <board size="10">
             <puzzleElement>
                 <puzzleElement value="1" x="2" y="0"/>

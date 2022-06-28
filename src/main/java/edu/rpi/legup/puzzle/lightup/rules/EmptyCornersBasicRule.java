@@ -16,7 +16,7 @@ import java.util.List;
 public class EmptyCornersBasicRule extends BasicRule {
 
     public EmptyCornersBasicRule() {
-        super("Empty Corners",
+        super("LTUP-BASC-0003", "Empty Corners",
                 "Cells on the corners of a number must be empty if placing bulbs would prevent the number from being satisfied.",
                 "edu/rpi/legup/images/lightup/rules/EmptyCorners.png");
     }

@@ -17,7 +17,7 @@ import java.util.Set;
 public class LinkTreeCaseRule extends CaseRule {
 
     public LinkTreeCaseRule() {
-        super("Links from tree",
+        super("TREE-CASE-0003", "Links from tree",
                 "A tree must link to exactly one adjacent tent.",
                 "edu/rpi/legup/images/treetent/caseLinkTree.png");
     }

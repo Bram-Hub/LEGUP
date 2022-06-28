@@ -198,7 +198,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 
 	//Getters (recursive)
 
-	//returns all cells in this statement with the symbol 'symbol'; runs recursivly on both sides of the tree
+	//returns all cells in this statement with the symbol 'symbol'; runs recursively on both sides of the tree
 	public Set<ShortTruthTableCell> getCellsWithSymbol(char symbol){
 		Set<ShortTruthTableCell> set = new HashSet(getLength());
 		if(cell.getSymbol() == symbol) set.add(cell);
@@ -226,7 +226,9 @@ public class ShortTruthTableStatement extends PuzzleElement<String>{
 	public ShortTruthTableCellType[] getCellTypePattern(){
 		//get this type and the right type, they will always be used
 		ShortTruthTableCellType type = this.cell.getType();
+		System.out.println("Right statement: " + rightStatement.getCell());
 		ShortTruthTableCellType rightType = this.rightStatement.getCell().getType();
+		System.out.println("Right type: " + rightType);
 		//if this is a not statement, there is no left side
 		if(cell.getSymbol() == ShortTruthTableOperation.NOT)
 			return new ShortTruthTableCellType[]{null, type, rightType};

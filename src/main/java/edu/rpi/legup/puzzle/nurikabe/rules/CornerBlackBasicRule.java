@@ -18,7 +18,8 @@ import java.util.Set;
 public class CornerBlackBasicRule extends BasicRule {
 
     public CornerBlackBasicRule() {
-        super("Corners Black",
+        super("NURI-BASC-0003",
+                "Corners Black",
                 "If there is only one white square connected to unknowns and one more white is needed then the angles of that white square are black",
                 "edu/rpi/legup/images/nurikabe/rules/CornerBlack.png");
     }

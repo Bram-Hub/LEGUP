@@ -9,7 +9,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 public class NearWhiteBasicRule extends BasicRule {
 
     public NearWhiteBasicRule() {
-        super("Near White",
+        super("MASY-BASC-0005", "Near White",
                 "",
                 "edu/rpi/legup/images/masyu/RuleNearWhite.png");
     }

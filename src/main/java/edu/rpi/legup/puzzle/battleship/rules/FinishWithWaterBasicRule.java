@@ -9,7 +9,8 @@ import edu.rpi.legup.model.tree.TreeTransition;
 public class FinishWithWaterBasicRule extends BasicRule {
 
     public FinishWithWaterBasicRule() {
-        super("Finish with Water",
+        super("BTSP-BASC-0003",
+                "Finish with Water",
                 "",
                 "edu/rpi/legup/images/battleship/rules/finishWater.png");
     }

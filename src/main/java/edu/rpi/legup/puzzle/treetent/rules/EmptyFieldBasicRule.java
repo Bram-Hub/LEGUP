@@ -14,7 +14,7 @@ import java.util.List;
 
 public class EmptyFieldBasicRule extends BasicRule {
     public EmptyFieldBasicRule() {
-        super("Empty Field",
+        super("TREE-BASC-0001", "Empty Field",
                 "Blank cells not adjacent to an unlinked tree are grass.",
                 "edu/rpi/legup/images/treetent/noTreesAround.png");
     }
