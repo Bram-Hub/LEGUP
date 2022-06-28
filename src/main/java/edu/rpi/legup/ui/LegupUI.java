@@ -555,12 +555,15 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                     facade = GameBoardFacade.getInstance();
                     Puzzle puzzle = facade.getPuzzleModule();
                     
-                    // Write data 
+                    // Write data
                     writer.append(fName).append(",");
-                    if(puzzle.isPuzzleComplete()) writer.append("1,Solved\n");
-                    else writer.append("0,Unsolved\n");
+                    writer.append(puzzle.getName()).append(",");
+                    if (puzzle.isPuzzleComplete())
+                        writer.append("1,Solved\n");
+                    else
+                        writer.append("0,Unsolved\n");
                 } catch (InvalidFileFormatException e) {
-                    writer.append(fName).append(" - invalid type,,Ungradeable\n");
+                    writer.append(fName).append(",Invalid,,Ungradeable\n");
                 }
             } else {
                 LOGGER.debug("Failed to run sim");
@@ -584,17 +587,20 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
          *    |       | -> Proofs
          */
         folderBrowser = new JFileChooser();
+
+        folderBrowser.showOpenDialog(this);
+        folderBrowser.setVisible(true);
         folderBrowser.setCurrentDirectory(new java.io.File("."));
         folderBrowser.setDialogTitle("Select Directory");
         folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         folderBrowser.setAcceptAllFileFilterUsed(false);
-        folderBrowser.showOpenDialog(this);
+
         File folder = folderBrowser.getSelectedFile();
 
-        // Write csv file (Path,File-Name,Score,Solved?)
+        // Write csv file (Path,File-Name,Puzzle-Type,Score,Solved?)
         File resultFile = new File(folder.getAbsolutePath() + File.separator + "result.csv");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
-            writer.append("Name,File Name,Score,Solved?\n");
+            writer.append("Name,File Name,Puzzle Type,Score,Solved?\n");
 
             // Go through student folders
             for (final File folderEntry : Objects.requireNonNull(folder.listFiles(File::isDirectory))) {
@@ -677,13 +683,19 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
             }
         }
 
-        fileDialog.setMode(FileDialog.LOAD);
-        fileDialog.setTitle("Select Puzzle");
-        fileDialog.setVisible(true);
+        folderBrowser = new JFileChooser();
+
+        folderBrowser.showOpenDialog(this);
+        folderBrowser.setVisible(true);
+        folderBrowser.setCurrentDirectory(new java.io.File("."));
+        folderBrowser.setDialogTitle("Select Directory");
+        folderBrowser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        folderBrowser.setAcceptAllFileFilterUsed(true);
+
         String fileName = null;
-        File puzzleFile = null;
-        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
-            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
+        File puzzleFile = folderBrowser.getSelectedFile();
+        if (folderBrowser.getCurrentDirectory() != null && folderBrowser.getSelectedFile().getName() != null) {
+            fileName = puzzleFile.getAbsolutePath()+ File.separator;
             puzzleFile = new File(fileName);
         }
 

@@ -4,15 +4,15 @@ import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import org.w3c.dom.Document;
 
-public class BattleShipExporter extends PuzzleExporter {
+public class BattleshipExporter extends PuzzleExporter {
 
-    public BattleShipExporter(BattleShip battleShip) {
+    public BattleshipExporter(Battleship battleShip) {
         super(battleShip);
     }
 
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
-        BattleShipBoard board = (BattleShipBoard) puzzle.getTree().getRootNode().getBoard();
+        BattleshipBoard board = (BattleshipBoard) puzzle.getTree().getRootNode().getBoard();
 
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("width", String.valueOf(board.getWidth()));
@@ -20,8 +20,8 @@ public class BattleShipExporter extends PuzzleExporter {
 
         org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
-            BattleShipCell cell = (BattleShipCell) puzzleElement;
-            if (cell.getData() != BattleShipType.getType(0)) {
+            BattleshipCell cell = (BattleshipCell) puzzleElement;
+            if (cell.getData() != BattleshipType.getType(0)) {
                 org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
                 cellsElement.appendChild(cellElement);
             }
@@ -30,17 +30,17 @@ public class BattleShipExporter extends PuzzleExporter {
 
         org.w3c.dom.Element axisEast = newDocument.createElement("axis");
         axisEast.setAttribute("side", "east");
-        for (BattleShipClue clue : board.getEast()) {
+        for (BattleshipClue clue : board.getEast()) {
             org.w3c.dom.Element clueElement = newDocument.createElement("clue");
             clueElement.setAttribute("value", String.valueOf(clue.getData()));
-            clueElement.setAttribute("index", BattleShipClue.colNumToString(clue.getIndex()));
+            clueElement.setAttribute("index", BattleshipClue.colNumToString(clue.getIndex()));
             axisEast.appendChild(clueElement);
         }
         boardElement.appendChild(axisEast);
 
         org.w3c.dom.Element axisSouth = newDocument.createElement("axis");
         axisSouth.setAttribute("side", "south");
-        for (BattleShipClue clue : board.getEast()) {
+        for (BattleshipClue clue : board.getEast()) {
             org.w3c.dom.Element clueElement = newDocument.createElement("clue");
             clueElement.setAttribute("value", String.valueOf(clue.getData()));
             clueElement.setAttribute("index", String.valueOf(clue.getIndex()));

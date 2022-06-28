@@ -305,4 +305,20 @@ public class ScrollView extends JScrollPane {
         graphics2D.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
         canvas.paint(graphics2D);
     }
+
+    /**
+     * Scroll up or down on the ScrollView
+     *
+     * @param mag The magnitude for scroll up
+     *            positive is scroll up, negative is scroll down,
+     *            recommend to use getWheelRotation() as the mag
+     * */
+    public void scroll(int mag){
+        Point point = super.viewport.getViewPosition();
+        // the point changing speed changes with the scale
+        point.y += mag*getZoom()/20;
+        viewport.setViewPosition(point);
+        updateSize();
+        revalidate();
+    }
 }
