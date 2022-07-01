@@ -1,7 +1,6 @@
 package edu.rpi.legup.model;
 
-import edu.rpi.legup.model.elements.NonPlaceableElement;
-import edu.rpi.legup.model.elements.PlaceableElement;
+import edu.rpi.legup.model.elements.*;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.observer.IBoardListener;
@@ -13,6 +12,7 @@ import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.model.tree.TreeElementType;
 import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 import edu.rpi.legup.ui.puzzleeditorui.elementsview.NonPlaceableElementPanel;
 import edu.rpi.legup.utility.LegupUtils;
 import org.w3c.dom.Document;
@@ -74,6 +74,24 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         this.nonPlaceableElements = new ArrayList<>();
 
         registerRules();
+    }
+
+    private void registerPuzzleElements() {
+        ArrayList<Enum> PlaceableTypes = getPlaceableElementTypes();
+        ArrayList<Enum> NonPlaceableTypes = getNonPlaceableElementTypes();
+    }
+
+    private ArrayList<Enum> getPlaceableElementTypes() {
+        ArrayList<Enum> r = new ArrayList<Enum>();
+
+
+        return r;
+    }
+    private ArrayList<Enum> getNonPlaceableElementTypes() {
+        ArrayList<Enum> r = new ArrayList<Enum>();
+
+
+        return r;
     }
 
     private void registerRules() {
