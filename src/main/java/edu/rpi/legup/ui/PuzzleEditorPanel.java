@@ -23,7 +23,7 @@ import java.net.URL;
 
 public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
-    private final static Logger LOGGER = LogManager.getLogger(ProofEditorPanel.class.getName());
+    private final static Logger LOGGER = LogManager.getLogger(PuzzleEditorPanel.class.getName());
     private JMenu[] menus;
     private JMenuBar menuBar;
     private JToolBar toolBar;
@@ -72,7 +72,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         this.add(elementBox);
 
         splitPanel.setDividerLocation(splitPanel.getMaximumDividerLocation()+100);
-
+        this.splitPanel = splitPanel;
         revalidate();
     }
 
@@ -246,8 +246,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     public void setPuzzleView(Puzzle puzzle) {
         this.boardView = puzzle.getBoardView();
-
         dynamicBoardView = new DynamicView(boardView);
+
         this.splitPanel.setRightComponent(dynamicBoardView);
         this.splitPanel.setVisible(true);
 

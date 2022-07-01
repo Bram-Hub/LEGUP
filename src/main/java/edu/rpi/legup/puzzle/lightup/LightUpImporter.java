@@ -14,6 +14,18 @@ public class LightUpImporter extends PuzzleImporter {
     }
 
     /**
+     * Creates an empty board for building
+     *
+     * @param width width of puzzle
+     * @param height height of puzzle
+     * @throws RuntimeException
+     */
+    @Override
+    public void initializeBoard(int width, int height) throws RuntimeException {
+
+    }
+
+    /**
      * Creates the board for building
      *
      * @param node xml document node

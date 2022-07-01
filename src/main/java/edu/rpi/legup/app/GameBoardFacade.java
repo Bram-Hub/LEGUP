@@ -82,14 +82,20 @@ public class GameBoardFacade implements IHistorySubject {
             puzzleSolver = legupUI.getProofEditor();
             puzzleEditor = legupUI.getPuzzleEditor();
             addHistoryListener(legupUI.getProofEditor());
+            addHistoryListener(legupUI.getPuzzleEditor());
         });
     }
 
     public void setPuzzle(Puzzle puzzle) {
         this.puzzle = puzzle;
         this.puzzleSolver.setPuzzleView(puzzle);
-        this.puzzleEditor.setPuzzleView((puzzle));
         this.history.clear();
+    }
+
+    public void setPuzzleEditor(Puzzle puzzle) {
+        this.puzzle = puzzle;
+        this.puzzleEditor.setPuzzleView((puzzle));
+//        this.history.clear();
     }
 
     public void setConfig(Config config) {
@@ -121,8 +127,8 @@ public class GameBoardFacade implements IHistorySubject {
 
             importer.initializePuzzle(width, height);
             puzzle.initializeView();
-            puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
-            setPuzzle(puzzle);
+//            puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
+            setPuzzleEditor(puzzle);
         }
         catch(ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
               IllegalAccessException | InstantiationException e) {
