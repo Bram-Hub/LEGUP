@@ -82,6 +82,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         menus = new JMenu[3];
 
         // create menus
+
         // FILE
         menus[0] = new JMenu("File");
         // file>new
@@ -91,9 +92,15 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         else newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
         // file>save
         JMenuItem savePuzzle = new JMenuItem("Save");
-
+        JMenuItem exit = new JMenuItem("Exit");
+        exit.addActionListener((ActionEvent) -> this.legupUI.displayPanel(0));
+        if (os.equals("mac"))
+            exit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        else
+            exit.setAccelerator(KeyStroke.getKeyStroke('Q', InputEvent.CTRL_DOWN_MASK));
         menus[0].add(newPuzzle);
         menus[0].add(savePuzzle);
+        menus[0].add(exit);
 
         // EDIT
         menus[1] = new JMenu("Edit");
