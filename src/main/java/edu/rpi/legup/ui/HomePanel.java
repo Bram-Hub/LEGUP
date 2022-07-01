@@ -156,11 +156,12 @@ public class HomePanel extends LegupPanel {
         batchGraderButton.add(this.buttons[3]);
         batchGraderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // this.add(welcomeText);
+        this.add(Box.createRigidArea(new Dimension(0, 5)));
         for (int i = 0; i < this.text.length; i++)
             this.add(this.text[i]);
         this.add(buttons);
         this.add(batchGraderButton);
+        this.add(Box.createRigidArea(new Dimension(0, 5)));
     }
 
     private void openNewPuzzleDialog() {
