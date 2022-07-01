@@ -50,12 +50,14 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private BoardView boardView;
     private JFileChooser folderBrowser;
     private JMenuItem undo, redo;
+    private LegupUI legupUI;
 
     final static int[] TOOLBAR_SEPARATOR_BEFORE = {2, 4, 8};
 
-    public ProofEditorPanel(FileDialog fileDialog, JFrame frame) {
+    public ProofEditorPanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
         this.fileDialog = fileDialog;
         this.frame = frame;
+        this.legupUI = legupUI;
         setLayout(new BorderLayout());
     }
 
@@ -187,7 +189,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         file.addSeparator();
 
         file.add(exit);
-        exit.addActionListener((ActionEvent) -> System.exit(0));
+        exit.addActionListener((ActionEvent) -> this.legupUI.displayPanel(0));
         if(os.equals("mac")) exit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         else exit.setAccelerator(KeyStroke.getKeyStroke('Q', InputEvent.CTRL_DOWN_MASK));
         mBar.add(edit);
