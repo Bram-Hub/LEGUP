@@ -48,8 +48,7 @@ public class HomePanel extends LegupPanel {
     public void makeVisible()
     {
         render();
-        this.frame.setVisible(true);
-        this.frame.setJMenuBar(this.getMenuBar());
+        frame.setJMenuBar(this.getMenuBar());
     }
 
     private static ImageIcon resizeButtonIcon(ImageIcon icon, int width, int height)
@@ -136,26 +135,30 @@ public class HomePanel extends LegupPanel {
 
     private void render()
     {
+        /* Removing this line will cause random whitespace to be added every time you return to
+           the home screen. However, this line does not seem to be present in other makeVisible()
+           methods. We should look into this in the future.
+         */
+        this.removeAll();
+
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        
-        //JPanel welcomeText = new JPanel();
-        //for (JLabel label : this.text)
-        //    welcomeText.add(label);
 
         JPanel buttons = new JPanel();
+        buttons.add(Box.createRigidArea(new Dimension(5, 0)));
         buttons.add(this.buttons[0]);
         buttons.add(Box.createRigidArea(new Dimension(5, 0)));
         buttons.add(this.buttons[1]);
         buttons.add(Box.createRigidArea(new Dimension(5, 0)));
         buttons.add(this.buttons[2]);
+        buttons.add(Box.createRigidArea(new Dimension(5, 0)));
 
         JPanel batchGraderButton = new JPanel();
         batchGraderButton.add(this.buttons[3]);
         batchGraderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         // this.add(welcomeText);
-        for (JLabel label : this.text)
-            this.add(label);
+        for (int i = 0; i < this.text.length; i++)
+            this.add(this.text[i]);
         this.add(buttons);
         this.add(batchGraderButton);
     }
