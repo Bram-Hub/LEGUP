@@ -14,8 +14,8 @@ public class CreatePuzzleDialog extends JDialog implements ActionListener {
     JLabel puzzleLabel = new JLabel("Puzzle:");
     JButton ok = new JButton("Ok");
     JButton cancel = new JButton("Cancel");
-    JTextField width;
-    JTextField height;
+    JTextField rows;
+    JTextField columns;
     private HomePanel homePanel;
 
     public CreatePuzzleDialog(JFrame parent, HomePanel homePanel) {
@@ -42,23 +42,23 @@ public class CreatePuzzleDialog extends JDialog implements ActionListener {
         c.add(puzzleLabel);
         c.add(gameBox);
 
-        width = new JTextField();
-        height = new JTextField();
+        rows = new JTextField();
+        columns = new JTextField();
 
-        JLabel widthLabel = new JLabel("Rows:");
-        JLabel heightLabel = new JLabel("Columns:");
+        JLabel rowsLabel = new JLabel("Rows:");
+        JLabel columnsLabel = new JLabel("Columns:");
 
-        widthLabel.setBounds(30, 70, 60, 25);
-        heightLabel.setBounds(30, 95, 60, 25);
+        rowsLabel.setBounds(30, 70, 60, 25);
+        columnsLabel.setBounds(30, 95, 60, 25);
 
-        width.setBounds(100, 70, 60, 25);
-        height.setBounds(100, 95, 60, 25);
+        rows.setBounds(100, 70, 60, 25);
+        columns.setBounds(100, 95, 60, 25);
 
-        c.add(widthLabel);
-        c.add(heightLabel);
+        c.add(rowsLabel);
+        c.add(columnsLabel);
 
-        c.add(width);
-        c.add(height);
+        c.add(rows);
+        c.add(columns);
 
         c.add(ok);
         c.add(cancel);
@@ -83,5 +83,10 @@ public class CreatePuzzleDialog extends JDialog implements ActionListener {
         else if (e.getSource() == cancel) {
             setVisible(false);
         }
+    }
+
+    private boolean isValidDimensions()
+    {
+        // Needs to be implemented
     }
 }
