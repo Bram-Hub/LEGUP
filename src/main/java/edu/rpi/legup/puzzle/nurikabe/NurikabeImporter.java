@@ -16,12 +16,12 @@ public class NurikabeImporter extends PuzzleImporter {
     /**
      * Creates an empty board for building
      *
-     * @param width width of puzzle
-     * @param height height of puzzle
+     * @param rows width of puzzle
+     * @param columns height of puzzle
      * @throws RuntimeException
      */
     @Override
-    public void initializeBoard(int width, int height) throws RuntimeException {
+    public void initializeBoard(int rows, int columns) throws RuntimeException {
 
     }
 

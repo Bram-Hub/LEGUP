@@ -32,12 +32,12 @@ public abstract class PuzzleImporter {
     /**
      * Initializes an empty puzzle
      *
-     * @param width width of puzzle
-     * @param height height of puzzle
+     * @param rows      number of rows on the puzzle
+     * @param columns   number of columns on the puzzle
      * @throws RuntimeException
      */
-    public void initializePuzzle(int width, int height) throws RuntimeException {
-        initializeBoard(width, height);
+    public void initializePuzzle(int rows, int columns) throws RuntimeException {
+        initializeBoard(rows, columns);
     }
 
     /**
@@ -91,11 +91,11 @@ public abstract class PuzzleImporter {
     /**
      * Creates the board for building
      *
-     * @param width width of puzzle
-     * @param height height of puzzle
+     * @param rows      number of rows on the puzzle
+     * @param columns   number of columns on the puzzle
      * @throws RuntimeException
      */
-    public abstract void initializeBoard(int width, int height) throws RuntimeException;
+    public abstract void initializeBoard(int rows, int columns) throws RuntimeException;
 
     /**
      * Creates an empty board for building
