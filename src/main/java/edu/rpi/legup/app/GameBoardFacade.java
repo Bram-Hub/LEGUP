@@ -82,18 +82,59 @@ public class GameBoardFacade implements IHistorySubject {
             puzzleSolver = legupUI.getProofEditor();
             puzzleEditor = legupUI.getPuzzleEditor();
             addHistoryListener(legupUI.getProofEditor());
+            addHistoryListener(legupUI.getPuzzleEditor());
         });
     }
 
     public void setPuzzle(Puzzle puzzle) {
         this.puzzle = puzzle;
         this.puzzleSolver.setPuzzleView(puzzle);
-        this.puzzleEditor.setPuzzleView((puzzle));
         this.history.clear();
+    }
+
+    public void setPuzzleEditor(Puzzle puzzle) {
+        this.puzzle = puzzle;
+        this.puzzleEditor.setPuzzleView((puzzle));
+//        this.history.clear();
     }
 
     public void setConfig(Config config) {
         this.config = config;
+    }
+
+    /**
+     * Loads an empty puzzle
+     *
+     * @param game name of the puzzle
+     * @param width width of the puzzle
+     * @param height height of the puzzle
+     */
+    public void loadPuzzle(String game, int width, int height) throws RuntimeException {
+        String qualifiedClassName = config.getPuzzleClassForName(game);
+        LOGGER.debug("Loading " + qualifiedClassName);
+
+        try {
+            Class<?> c = Class.forName(qualifiedClassName);
+            Constructor<?> cons = c.getConstructor();
+            Puzzle puzzle = (Puzzle) cons.newInstance();
+            setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
+
+            PuzzleImporter importer = puzzle.getImporter();
+            if (importer == null) {
+                LOGGER.error("Puzzle importer is null");
+                throw new RuntimeException("Puzzle importer null");
+            }
+
+            importer.initializePuzzle(width, height);
+            puzzle.initializeView();
+//            puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
+            setPuzzleEditor(puzzle);
+        }
+        catch(ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+              IllegalAccessException | InstantiationException e) {
+            LOGGER.error(e);
+            throw new RuntimeException("Puzzle creation error");
+        }
     }
 
     /**

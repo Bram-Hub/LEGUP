@@ -4,13 +4,11 @@ import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.EditorElementController;
 import edu.rpi.legup.controller.ElementController;
-import edu.rpi.legup.controller.RuleController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
-import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.puzzleeditorui.elementsview.ElementFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +23,7 @@ import java.net.URL;
 
 public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
-    private final static Logger LOGGER = LogManager.getLogger(ProofEditorPanel.class.getName());
+    private final static Logger LOGGER = LogManager.getLogger(PuzzleEditorPanel.class.getName());
     private JMenu[] menus;
     private JMenuBar menuBar;
     private JToolBar toolBar;
@@ -77,7 +75,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         this.add(elementBox);
 
         splitPanel.setDividerLocation(splitPanel.getMaximumDividerLocation()+100);
-
+        this.splitPanel = splitPanel;
         revalidate();
     }
 
@@ -182,7 +180,15 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         this.add(toolBar, BorderLayout.NORTH);
     }
-
+    public void loadPuzzleFromHome(String game, int width, int height) {
+        GameBoardFacade facade = GameBoardFacade.getInstance();
+        try {
+            facade.loadPuzzle(game, width, height);
+        }
+        catch (RuntimeException e){
+            LOGGER.error(e.getMessage());
+        }
+    }
     public void promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
@@ -250,8 +256,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     public void setPuzzleView(Puzzle puzzle) {
         this.boardView = puzzle.getBoardView();
-
         dynamicBoardView = new DynamicView(boardView);
+
         this.splitPanel.setRightComponent(dynamicBoardView);
         this.splitPanel.setVisible(true);
 
