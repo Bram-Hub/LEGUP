@@ -21,10 +21,9 @@ public class SudokuImporter extends PuzzleImporter {
      * @throws RuntimeException
      */
     @Override
-    public void initializeBoard(int rows, int columns) throws RuntimeException {
+    public void initializeBoard(int rows, int columns) {
         SudokuBoard sudokuBoard;
         int minorSize = (int) Math.sqrt(rows);
-        if(rows != columns || minorSize * minorSize != rows) throw new RuntimeException("Sudoku Importer: invalid board dimensions");
         sudokuBoard = new SudokuBoard(rows);
 
         for (int y = 0; y < columns; y++) {

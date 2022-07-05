@@ -22,7 +22,7 @@ public class HeyawakeImporter extends PuzzleImporter {
      * @throws RuntimeException
      */
     @Override
-    public void initializeBoard(int rows, int columns) throws RuntimeException {
+    public void initializeBoard(int rows, int columns) {
 
     }
 

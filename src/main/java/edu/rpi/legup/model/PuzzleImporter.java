@@ -98,7 +98,7 @@ public abstract class PuzzleImporter {
      * @param columns   number of columns on the puzzle
      * @throws RuntimeException
      */
-    public abstract void initializeBoard(int rows, int columns) throws RuntimeException;
+    public abstract void initializeBoard(int rows, int columns);
 
     /**
      * Creates an empty board for building
