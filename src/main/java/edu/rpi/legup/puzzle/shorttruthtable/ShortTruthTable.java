@@ -49,7 +49,7 @@ public class ShortTruthTable extends Puzzle {
      */
     public boolean isValidDimensions(int rows, int columns) {
         // This is a placeholder, this method needs to be implemented
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     /**
