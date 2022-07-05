@@ -125,21 +125,19 @@ public class GameBoardFacade implements IHistorySubject {
                 throw new RuntimeException("Puzzle importer null");
             }
 
-            try
-            {
-                importer.initializePuzzle(rows, columns);
-            }
-            catch (IllegalArgumentException exception)
-            {
-                throw new IllegalArgumentException(exception.getMessage());
-            }
+            importer.initializePuzzle(rows, columns);
 
             puzzle.initializeView();
 //            puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
             setPuzzleEditor(puzzle);
         }
+        catch (IllegalArgumentException exception)
+        {
+            throw new IllegalArgumentException(exception.getMessage());
+        }
         catch(ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
-              IllegalAccessException | InstantiationException e) {
+              IllegalAccessException | InstantiationException e)
+        {
             LOGGER.error(e);
             throw new RuntimeException("Puzzle creation error");
         }
