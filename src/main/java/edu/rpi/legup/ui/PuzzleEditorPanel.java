@@ -127,6 +127,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     @Override
     public void makeVisible() {
+        this.removeAll();
+
         setupToolBar();
         setupContent();
         setMenuBar();

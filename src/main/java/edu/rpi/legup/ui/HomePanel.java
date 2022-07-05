@@ -135,13 +135,10 @@ public class HomePanel extends LegupPanel {
 
     private void render()
     {
-        /* Removing this line will cause random whitespace to be added every time you return to
-           the home screen. However, this line does not seem to be present in other makeVisible()
-           methods. We should look into this in the future.
-         */
         this.removeAll();
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        this.legupUI.setTitle("Legup: A Better Way to Learn Formal Logic");
 
         JPanel buttons = new JPanel();
         buttons.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -173,18 +170,18 @@ public class HomePanel extends LegupPanel {
         // Set game type on the puzzle editor
         try
         {
-            this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, width, height);
             this.legupUI.displayPanel(2);
+            this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, width, height);
         }
         catch (IllegalArgumentException exception)
         {
+            this.legupUI.displayPanel(0);
             JOptionPane.showMessageDialog(null,
                     "The dimensions you entered are invalid. Please double check \n" +
                             "the number of rows and columns and try again.",
                     "ERROR: Invalid Dimensions",
                     JOptionPane.ERROR_MESSAGE);
             throw new IllegalArgumentException(exception.getMessage());
-            // this.legupUI.displayPanel(0);
         }
     }
 }

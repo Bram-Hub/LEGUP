@@ -94,7 +94,7 @@ public class GameBoardFacade implements IHistorySubject {
 
     public void setPuzzleEditor(Puzzle puzzle) {
         this.puzzle = puzzle;
-        this.puzzleEditor.setPuzzleView((puzzle));
+        this.puzzleEditor.setPuzzleView(puzzle);
 //        this.history.clear();
     }
 
