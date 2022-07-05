@@ -55,8 +55,8 @@ public class Sudoku extends Puzzle {
      * @return          true if the given dimensions are valid for Sudoku, false otherwise
      */
     public boolean isValidDimensions(int rows, int columns) {
-        // The number of rows and columns must be greater than 0
-        if (rows <= 0 || columns <= 0)
+        // The number of rows and columns must be greater than 1
+        if (rows <= 1 || columns <= 1)
             return false;
 
         // The number of rows and columns must be equal
