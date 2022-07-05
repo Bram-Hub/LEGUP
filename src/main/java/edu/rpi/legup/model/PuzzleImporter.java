@@ -30,6 +30,17 @@ public abstract class PuzzleImporter {
     }
 
     /**
+     * Initializes an empty puzzle
+     *
+     * @param width width of puzzle
+     * @param height height of puzzle
+     * @throws RuntimeException
+     */
+    public void initializePuzzle(int width, int height) throws RuntimeException {
+        initializeBoard(width, height);
+    }
+
+    /**
      * Initializes the puzzle attributes
      *
      * @param node xml document node
@@ -79,6 +90,15 @@ public abstract class PuzzleImporter {
 
     /**
      * Creates the board for building
+     *
+     * @param width width of puzzle
+     * @param height height of puzzle
+     * @throws RuntimeException
+     */
+    public abstract void initializeBoard(int width, int height) throws RuntimeException;
+
+    /**
+     * Creates an empty board for building
      *
      * @param node xml document node
      * @throws InvalidFileFormatException

@@ -214,7 +214,17 @@ class ShortTruthTableImporter extends PuzzleImporter{
 
     }
 
+    /**
+     * Creates an empty board for building
+     *
+     * @param width width of puzzle
+     * @param height height of puzzle
+     * @throws RuntimeException
+     */
+    @Override
+    public void initializeBoard(int width, int height) throws RuntimeException {
 
+    }
 
     //STATEMENT IMPORTER
 
