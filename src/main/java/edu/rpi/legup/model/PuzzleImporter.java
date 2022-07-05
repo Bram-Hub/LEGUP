@@ -37,7 +37,10 @@ public abstract class PuzzleImporter {
      * @throws RuntimeException
      */
     public void initializePuzzle(int rows, int columns) throws RuntimeException {
-        initializeBoard(rows, columns);
+        if (this.puzzle.isValidDimensions(rows, columns))
+            initializeBoard(rows, columns);
+        else
+            throw new IllegalArgumentException("Invalid dimensions provided");
     }
 
     /**

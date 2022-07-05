@@ -180,10 +180,14 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         this.add(toolBar, BorderLayout.NORTH);
     }
-    public void loadPuzzleFromHome(String game, int width, int height) {
+    public void loadPuzzleFromHome(String game, int rows, int columns) throws IllegalArgumentException {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         try {
-            facade.loadPuzzle(game, width, height);
+            facade.loadPuzzle(game, rows, columns);
+        }
+        catch (IllegalArgumentException exception)
+        {
+            throw new IllegalArgumentException(exception.getMessage());
         }
         catch (RuntimeException e){
             LOGGER.error(e.getMessage());

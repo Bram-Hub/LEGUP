@@ -169,9 +169,22 @@ public class HomePanel extends LegupPanel {
         cpd.setVisible(true);
     }
 
-    public void openEditorWithNewPuzzle(String game, int width, int height) {
+    public void openEditorWithNewPuzzle(String game, int width, int height) throws IllegalArgumentException {
         // Set game type on the puzzle editor
-        this.legupUI.displayPanel(2);
-        this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, width, height);
+        try
+        {
+            this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, width, height);
+            this.legupUI.displayPanel(2);
+        }
+        catch (IllegalArgumentException exception)
+        {
+            JOptionPane.showMessageDialog(null,
+                    "The dimensions you entered are invalid. Please double check \n" +
+                            "the number of rows and columns and try again.",
+                    "ERROR: Invalid Dimensions",
+                    JOptionPane.ERROR_MESSAGE);
+            throw new IllegalArgumentException(exception.getMessage());
+            // this.legupUI.displayPanel(0);
+        }
     }
 }

@@ -77,8 +77,15 @@ public class CreatePuzzleDialog extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == ok) {
             String game = (String) gameBox.getSelectedItem();
-            this.homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(this.rows.getText()), Integer.valueOf(this.columns.getText()));
-            setVisible(false);
+            try
+            {
+                this.homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(this.rows.getText()), Integer.valueOf(this.columns.getText()));
+                setVisible(false);
+            }
+            catch (IllegalArgumentException exception)
+            {
+                // Don't do anything. This is here to prevent the dialog from closing if the dimensions are invalid.
+            }
         }
         else if (e.getSource() == cancel) {
             setVisible(false);
