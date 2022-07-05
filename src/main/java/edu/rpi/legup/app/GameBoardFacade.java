@@ -110,7 +110,6 @@ public class GameBoardFacade implements IHistorySubject {
      * @param height height of the puzzle
      */
     public void loadPuzzle(String game, int width, int height) throws RuntimeException {
-        setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
         String qualifiedClassName = config.getPuzzleClassForName(game);
         LOGGER.debug("Loading " + qualifiedClassName);
 
@@ -118,6 +117,7 @@ public class GameBoardFacade implements IHistorySubject {
             Class<?> c = Class.forName(qualifiedClassName);
             Constructor<?> cons = c.getConstructor();
             Puzzle puzzle = (Puzzle) cons.newInstance();
+            setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
 
             PuzzleImporter importer = puzzle.getImporter();
             if (importer == null) {
