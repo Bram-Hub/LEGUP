@@ -38,6 +38,19 @@ public class LightUp extends Puzzle {
         return null;
     }
 
+    @Override
+    /**
+     * Determines if the given dimensions are valid for Light Up
+     *
+     * @param rows      the number of rows
+     * @param columns   the number of columns
+     * @return          true if the given dimensions are valid for Light Up, false otherwise
+     */
+    public boolean isValidDimensions(int rows, int columns) {
+        // This is a placeholder, this method needs to be implemented
+        return false;
+    }
+
     /**
      * Determines if the current board is a valid state
      *
