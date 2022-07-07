@@ -426,17 +426,21 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 //        JPanel consoleBox = new JPanel(new BorderLayout());
         JPanel treeBox = new JPanel(new BorderLayout());
         JPanel ruleBox = new JPanel(new BorderLayout());
-
+        JButton b=new JButton("Resize");
+        b.setBounds(375,315,95,30);
         RuleController ruleController = new RuleController();
         ruleFrame = new RuleFrame(ruleController);
         ruleBox.add(ruleFrame, BorderLayout.WEST);
 
         treePanel = new TreePanel(this);
 
+
         dynamicBoardView = new DynamicView(new ScrollView(new BoardController()));
         TitledBorder titleBoard = BorderFactory.createTitledBorder("Board");
         titleBoard.setTitleJustification(TitledBorder.CENTER);
         dynamicBoardView.setBorder(titleBoard);
+
+
 
         JPanel boardPanel = new JPanel(new BorderLayout());
         topHalfPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, ruleFrame, dynamicBoardView);
@@ -444,13 +448,17 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         topHalfPanel.setPreferredSize(new Dimension(600, 400));
         mainPanel.setPreferredSize(new Dimension(600, 600));
 
+        boardPanel.add(b);
         boardPanel.add(mainPanel);
         boardBorder = BorderFactory.createTitledBorder("Board");
         boardBorder.setTitleJustification(TitledBorder.CENTER);
 
+
         ruleBox.add(boardPanel);
         treeBox.add(ruleBox);
+
         contentPane.add(treeBox);
+
 //        consoleBox.add(treeBox);
 //
 //        getContentPane().add(consoleBox);
@@ -872,6 +880,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 
     public void setPuzzleView(Puzzle puzzle) {
         this.boardView = puzzle.getBoardView();
+
 
         dynamicBoardView = new DynamicView(boardView);
         this.topHalfPanel.setRightComponent(dynamicBoardView);
