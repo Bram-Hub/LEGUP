@@ -428,6 +428,14 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         JPanel ruleBox = new JPanel(new BorderLayout());
         JButton b=new JButton("Resize");
         b.setBounds(375,315,95,30);
+        b.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("The resize bottom be click");
+                
+            }
+        });
+
         RuleController ruleController = new RuleController();
         ruleFrame = new RuleFrame(ruleController);
         ruleBox.add(ruleFrame, BorderLayout.WEST);
@@ -450,6 +458,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 
         boardPanel.add(b);
         boardPanel.add(mainPanel);
+        boardPanel.setVisible(true);
         boardBorder = BorderFactory.createTitledBorder("Board");
         boardBorder.setTitleJustification(TitledBorder.CENTER);
 
