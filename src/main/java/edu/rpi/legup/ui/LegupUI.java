@@ -16,6 +16,7 @@ import java.util.List;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.controller.BoardController;
+import edu.rpi.legup.controller.Controller;
 import edu.rpi.legup.controller.RuleController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
@@ -431,8 +432,17 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //JButton btn = (JButton) e.getSource();
                 System.out.println("The resize bottom be click");
-                
+                //Dimension dd = new Dimension(100, 100);
+                reset();
+
+
+//                dynamicBoardView.resetStatus();
+//                dynamicBoardView.getScrollView();
+//                dynamicBoardView.getAutoscrolls();
+                //dynamicBoardView.setPreferredSize(Dimension new c);
+
             }
         });
 
@@ -484,6 +494,18 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     /**
      * Saves a proof
      */
+    public  void reset()
+    {
+        System.out.println("get into the reset");
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+        Board board1 = GameBoardFacade.getInstance().getBoard();
+        board1.setModifiable(true);
+        Dimension bi = new Dimension(1200,900);
+        this.getDynamicBoardView().getScrollView().zoomTo(1);
+        System.out.println("Finish into the reset");
+
+
+    }
     private void saveProof() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
