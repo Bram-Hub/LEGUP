@@ -1,5 +1,8 @@
 package edu.rpi.legup.ui;
 
+import edu.rpi.legup.app.GameBoardFacade;
+import edu.rpi.legup.model.Puzzle;
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 
@@ -8,6 +11,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.io.IOException;
@@ -41,10 +45,19 @@ public class DynamicView extends JPanel {
         zoomWrapper = new JPanel();
         try {
             zoomer = new JPanel();
-
+            JButton b=new JButton("Resize");
+            b.setEnabled(true);
             JLabel zoomLabel = new JLabel("100%");
             zoomLabel.setFont(MaterialFonts.getRegularFont(16f));
+            zoomer.add(b);
+            b.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("The resize bottom be click");
+                    reset();
 
+                }
+            });
             JSlider zoomSlider = new JSlider(25, 400, 100);
 
             JButton plus = new JButton(new ImageIcon(ImageIO.read(ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/imgs/add.png"))));
@@ -135,5 +148,19 @@ public class DynamicView extends JPanel {
 
     public void resetStatus() {
         status.setText("");
+    }
+    public  void reset()
+    {
+        System.out.println("get into the reset");
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+        Board board1 = GameBoardFacade.getInstance().getBoard();
+        board1.setModifiable(true);
+        Dimension bi = new Dimension(1200,900);
+        this.getScrollView().zoomFit();
+//        System.out.println("get into the reset"+UIhight+"    "+this.getHeight()+"   "+this.getWidth());
+//        this.getScrollView().zoomTo(UIhight);
+        System.out.println("Finish into the reset");
+
+
     }
 }

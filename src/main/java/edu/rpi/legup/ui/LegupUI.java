@@ -427,24 +427,6 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 //        JPanel consoleBox = new JPanel(new BorderLayout());
         JPanel treeBox = new JPanel(new BorderLayout());
         JPanel ruleBox = new JPanel(new BorderLayout());
-        JButton b=new JButton("Resize");
-        b.setBounds(375,315,95,30);
-        b.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //JButton btn = (JButton) e.getSource();
-                System.out.println("The resize bottom be click");
-                //Dimension dd = new Dimension(100, 100);
-                reset();
-
-
-//                dynamicBoardView.resetStatus();
-//                dynamicBoardView.getScrollView();
-//                dynamicBoardView.getAutoscrolls();
-                //dynamicBoardView.setPreferredSize(Dimension new c);
-
-            }
-        });
 
         RuleController ruleController = new RuleController();
         ruleFrame = new RuleFrame(ruleController);
@@ -457,7 +439,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         TitledBorder titleBoard = BorderFactory.createTitledBorder("Board");
         titleBoard.setTitleJustification(TitledBorder.CENTER);
         dynamicBoardView.setBorder(titleBoard);
-
+        //dynamicBoardView.add(b);
 
 
         JPanel boardPanel = new JPanel(new BorderLayout());
@@ -466,7 +448,8 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         topHalfPanel.setPreferredSize(new Dimension(600, 400));
         mainPanel.setPreferredSize(new Dimension(600, 600));
 
-        boardPanel.add(b);
+
+
         boardPanel.add(mainPanel);
         boardPanel.setVisible(true);
         boardBorder = BorderFactory.createTitledBorder("Board");
@@ -478,14 +461,6 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 
         contentPane.add(treeBox);
 
-//        consoleBox.add(treeBox);
-//
-//        getContentPane().add(consoleBox);
-
-//        JPopupPanel popupPanel = new JPopupPanel();
-//        setGlassPane(popupPanel);
-//        popupPanel.setVisible(true);
-
         mainPanel.setDividerLocation(mainPanel.getMaximumDividerLocation() + 100);
         pack();
         revalidate();
@@ -494,18 +469,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     /**
      * Saves a proof
      */
-    public  void reset()
-    {
-        System.out.println("get into the reset");
-        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
-        Board board1 = GameBoardFacade.getInstance().getBoard();
-        board1.setModifiable(true);
-        Dimension bi = new Dimension(1200,900);
-        this.getDynamicBoardView().getScrollView().zoomTo(1);
-        System.out.println("Finish into the reset");
 
-
-    }
     private void saveProof() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
