@@ -10,7 +10,7 @@ import org.w3c.dom.Node;
 
 import java.awt.*;
 
-public class BattleShipCellFactory extends ElementFactory {
+public class BattleshipCellFactory extends ElementFactory {
     /**
      * Creates a puzzleElement based on the xml document Node and adds it to the board
      *
@@ -20,17 +20,17 @@ public class BattleShipCellFactory extends ElementFactory {
      * @throws InvalidFileFormatException
      */
     @Override
-    public PuzzleElement importCell(Node node, Board board) throws InvalidFileFormatException {
+    public PuzzleElement<BattleshipType> importCell(Node node, Board board) throws InvalidFileFormatException {
         try {
-            BattleShipBoard battleShipBoard = (BattleShipBoard) board;
+            BattleshipBoard battleShipBoard = (BattleshipBoard) board;
             int width = battleShipBoard.getWidth();
             int height = battleShipBoard.getHeight();
             NamedNodeMap attributeList = node.getAttributes();
             if (node.getNodeName().equalsIgnoreCase("cell")) {
 
-                int value = Integer.valueOf(attributeList.getNamedItem("value").getNodeValue());
-                int x = Integer.valueOf(attributeList.getNamedItem("x").getNodeValue());
-                int y = Integer.valueOf(attributeList.getNamedItem("y").getNodeValue());
+                int value = Integer.parseInt(attributeList.getNamedItem("value").getNodeValue());
+                int x = Integer.parseInt(attributeList.getNamedItem("x").getNodeValue());
+                int y = Integer.parseInt(attributeList.getNamedItem("y").getNodeValue());
                 if (x >= width || y >= height) {
                     throw new InvalidFileFormatException("BattleShip Factory: cell location out of bounds");
                 }
@@ -38,7 +38,7 @@ public class BattleShipCellFactory extends ElementFactory {
                     throw new InvalidFileFormatException("BattleShip Factory: cell unknown value");
                 }
 
-                BattleShipCell cell = new BattleShipCell(value, new Point(x, y));
+                BattleshipCell cell = new BattleshipCell(BattleshipType.getType(value), new Point(x, y));
                 cell.setIndex(y * height + x);
                 return cell;
             } else {
@@ -61,7 +61,7 @@ public class BattleShipCellFactory extends ElementFactory {
     public org.w3c.dom.Element exportCell(Document document, PuzzleElement puzzleElement) {
         org.w3c.dom.Element cellElement = document.createElement("cell");
 
-        BattleShipCell cell = (BattleShipCell) puzzleElement;
+        BattleshipCell cell = (BattleshipCell) puzzleElement;
         Point loc = cell.getLocation();
 
         cellElement.setAttribute("value", String.valueOf(cell.getData()));

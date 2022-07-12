@@ -8,8 +8,8 @@ import org.w3c.dom.NodeList;
 
 import java.awt.*;
 
-public class BattleShipImporter extends PuzzleImporter {
-    public BattleShipImporter(BattleShip battleShip) {
+public class BattleshipImporter extends PuzzleImporter {
+    public BattleshipImporter(Battleship battleShip) {
         super(battleShip);
     }
 
@@ -32,14 +32,14 @@ public class BattleShipImporter extends PuzzleImporter {
             Element dataElement = (Element) boardElement.getElementsByTagName("cells").item(0);
             NodeList elementDataList = dataElement.getElementsByTagName("cell");
 
-            BattleShipBoard battleShipBoard = null;
+            BattleshipBoard battleShipBoard = null;
             if (!boardElement.getAttribute("size").isEmpty()) {
                 int size = Integer.valueOf(boardElement.getAttribute("size"));
-                battleShipBoard = new BattleShipBoard(size);
+                battleShipBoard = new BattleshipBoard(size);
             } else if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
                 int width = Integer.valueOf(boardElement.getAttribute("width"));
                 int height = Integer.valueOf(boardElement.getAttribute("height"));
-                battleShipBoard = new BattleShipBoard(width, height);
+                battleShipBoard = new BattleshipBoard(width, height);
             }
 
             if (battleShipBoard == null) {
@@ -50,9 +50,10 @@ public class BattleShipImporter extends PuzzleImporter {
             int height = battleShipBoard.getHeight();
 
             for (int i = 0; i < elementDataList.getLength(); i++) {
-                BattleShipCell cell = (BattleShipCell) puzzle.getFactory().importCell(elementDataList.item(i), battleShipBoard);
+                BattleshipCell cell = (BattleshipCell) puzzle.getFactory().importCell(
+                        elementDataList.item(i), battleShipBoard);
                 Point loc = cell.getLocation();
-                if (cell.getData() != 0) {
+                if (cell.getData() != BattleshipType.getType(0)) {
                     cell.setModifiable(false);
                     cell.setGiven(true);
                 }
@@ -62,7 +63,7 @@ public class BattleShipImporter extends PuzzleImporter {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     if (battleShipBoard.getCell(x, y) == null) {
-                        BattleShipCell cell = new BattleShipCell(BattleShipCellType.UNKNOWN.value, new Point(x, y));
+                        BattleshipCell cell = new BattleshipCell(BattleshipType.UNKNOWN, new Point(x, y));
                         cell.setIndex(y * height + x);
                         cell.setModifiable(true);
                         battleShipBoard.setCell(x, y, cell);
@@ -97,7 +98,7 @@ public class BattleShipImporter extends PuzzleImporter {
             for (int i = 0; i < eastClues.getLength(); i++) {
                 Element clue = (Element) eastClues.item(i);
                 int value = Integer.valueOf(clue.getAttribute("value"));
-                int index = BattleShipClue.colStringToColNum(clue.getAttribute("index"));
+                int index = BattleshipClue.colStringToColNum(clue.getAttribute("index"));
 
                 if (index - 1 < 0 || index - 1 > battleShipBoard.getHeight()) {
                     throw new InvalidFileFormatException("BattleShip Importer: clue index out of bounds");
@@ -106,7 +107,7 @@ public class BattleShipImporter extends PuzzleImporter {
                 if (battleShipBoard.getEast().get(index - 1) != null) {
                     throw new InvalidFileFormatException("BattleShip Importer: duplicate clue index");
                 }
-                battleShipBoard.getEast().set(index - 1, new BattleShipClue(value, index, BattleShipCellType.CLUE_EAST));
+                battleShipBoard.getEast().set(index - 1, new BattleshipClue(value, index, BattleshipType.CLUE_EAST));
             }
 
             for (int i = 0; i < southClues.getLength(); i++) {
@@ -121,7 +122,7 @@ public class BattleShipImporter extends PuzzleImporter {
                 if (battleShipBoard.getSouth().get(index - 1) != null) {
                     throw new InvalidFileFormatException("BattleShip Importer: duplicate clue index");
                 }
-                battleShipBoard.getSouth().set(index - 1, new BattleShipClue(value, index, BattleShipCellType.CLUE_SOUTH));
+                battleShipBoard.getSouth().set(index - 1, new BattleshipClue(value, index, BattleshipType.CLUE_SOUTH));
             }
 
             puzzle.setCurrentBoard(battleShipBoard);
