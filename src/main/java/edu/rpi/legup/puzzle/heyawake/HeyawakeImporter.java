@@ -17,8 +17,8 @@ public class HeyawakeImporter extends PuzzleImporter {
     /**
      * Creates an empty board for building
      *
-     * @param rows width of puzzle
-     * @param columns height of puzzle
+     * @param rows      the number of rows on the board
+     * @param columns   the number of columns on the board
      * @throws RuntimeException
      */
     @Override

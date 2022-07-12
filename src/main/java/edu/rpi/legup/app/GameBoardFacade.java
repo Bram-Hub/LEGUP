@@ -105,9 +105,9 @@ public class GameBoardFacade implements IHistorySubject {
     /**
      * Loads an empty puzzle
      *
-     * @param game name of the puzzle
-     * @param rows width of the puzzle
-     * @param columns height of the puzzle
+     * @param game      name of the puzzle
+     * @param rows      the number of rows on the board
+     * @param columns   the number of columns on the board
      */
     public void loadPuzzle(String game, int rows, int columns) throws RuntimeException {
         String qualifiedClassName = config.getPuzzleClassForName(game);
