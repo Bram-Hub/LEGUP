@@ -83,7 +83,10 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     protected JCheckBoxMenuItem allowDefault, caseRuleGen, imdFeedback;
 
     protected JMenu about;
-    protected JMenuItem checkUpdates, helpLegup, aboutLegup;
+    protected JMenuItem checkUpdates, contribute, aboutLegup;
+
+    protected JMenu help;
+    protected JMenuItem leguphelp, puzzlehelp;
 
     protected JMenu proofMode = new JMenu("Proof Mode");
     protected JCheckBoxMenuItem[] proofModeItems = new JCheckBoxMenuItem[PROF_FLAGS.length];
@@ -93,8 +96,6 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
     protected JMenuItem setpAI = new JMenuItem("Run AI one Step");
     protected JMenuItem testAI = new JMenuItem("Test AI!");
     protected JMenuItem hintAI = new JMenuItem("Hint");
-
-    protected JMenu help;
 
     protected JToolBar toolBar;
 
@@ -245,11 +246,12 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
 
         about = new JMenu("About");
         checkUpdates = new JMenuItem("Check for Updates...");
-        helpLegup = new JMenuItem("Help Legup");
+        contribute = new JMenuItem("Help Legup");
         aboutLegup = new JMenuItem("About Legup");
 
-        // unused
-        // help = new JMenu("Help");
+        help = new JMenu("Help");
+        leguphelp = new JMenuItem("Legup Help");
+        puzzlehelp = new JMenuItem("Puzzle Help");
 
         mBar.add(file);
         file.add(newPuzzle);
@@ -333,8 +335,8 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
             JOptionPane.showMessageDialog(null, "Version: 2.0.0");
         });
 
-        about.add(helpLegup);
-        helpLegup.addActionListener(l -> {
+        about.add(contribute);
+        contribute.addActionListener(l -> {
             try {
                 java.awt.Desktop.getDesktop().browse(URI.create("https://github.com/jpoegs/Legup2.0"));
             } catch (IOException e) {
@@ -343,6 +345,72 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
         });
 
         mBar.add(about);
+
+        help.add(leguphelp);
+        leguphelp.addActionListener(l -> {
+            JOptionPane.showMessageDialog(null, "Open the puzzle\nFinish the puzzle\nThen check");
+        });
+
+        help.add(puzzlehelp);
+        puzzlehelp.addActionListener(l -> {
+            String puzzle_name = " ";
+            try {
+                puzzle_name = GameBoardFacade.getInstance().getPuzzleModule().getName();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Open the puzzle first please");
+            }
+            if(puzzle_name == "Fillapix"){
+                try {
+                    java.awt.Desktop.getDesktop().browse(URI.create("https://www.conceptispuzzles.com/index.aspx?uri=puzzle/fill-a-pix/rules#:~:text=Each%20puzzle%20consists%20of%20a,the%20value%20of%20the%20clue."));
+                } catch (IOException e) {
+                    LOGGER.error("Can't open web page");
+                }
+            }else if(puzzle_name == "LightUp"){
+                try {
+                    java.awt.Desktop.getDesktop().browse(URI.create("https://en.wikipedia.org/wiki/Light_Up_(puzzle)"));
+                } catch (IOException e) {
+                    LOGGER.error("Can't open web page");
+                }
+            }else if(puzzle_name == "Masyu"){
+                try {
+                    java.awt.Desktop.getDesktop().browse(URI.create("https://www.instructables.com/How-To-Do-A-Masyu-Puzzle/#:~:text=The%20rules%20are%20simple%3A,or%20both%20of%20the%20ends."));
+                } catch (IOException e) {
+                    LOGGER.error("Can't open web page");
+                }
+            }else if(puzzle_name == "Nurikabe"){
+                try {
+                    java.awt.Desktop.getDesktop().browse(URI.create("https://en.wikipedia.org/wiki/Nurikabe"));
+                } catch (IOException e) {
+                    LOGGER.error("Can't open web page");
+                }
+            }else if(puzzle_name == "ShortTruthTable"){
+                try {
+                    java.awt.Desktop.getDesktop().browse(URI.create("https://en.wikipedia.org/wiki/Truth_table"));
+                } catch (IOException e) {
+                    LOGGER.error("Can't open web page");
+                }
+            }else if(puzzle_name == "Skyscrapers"){
+                try {
+                    java.awt.Desktop.getDesktop().browse(URI.create("https://www.conceptispuzzles.com/index.aspx?uri=puzzle/skyscrapers/rules"));
+                } catch (IOException e) {
+                    LOGGER.error("Can't open web page");
+                }
+            }else if(puzzle_name == "Sudoku"){
+                try {
+                    java.awt.Desktop.getDesktop().browse(URI.create("https://en.wikipedia.org/wiki/Sudoku"));
+                } catch (IOException e) {
+                    LOGGER.error("Can't open web page");
+                }
+            }else if(puzzle_name == "TreeTent"){
+                try{
+                    java.awt.Desktop.getDesktop().browse(URI.create("https://dkmgames.com/Tents/TentsHelp.htm"));
+                } catch (IOException e) {
+                    LOGGER.error("Can't open web page");
+                }
+            }
+        });
+
+        mBar.add(help);
 
         setJMenuBar(mBar);
     }
