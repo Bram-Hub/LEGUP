@@ -379,7 +379,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                 }
             }else if(puzzle_name == "Nurikabe"){
                 try {
-                    java.awt.Desktop.getDesktop().browse(URI.create("https://en.wikipedia.org/wiki/Nurikabe"));
+                    java.awt.Desktop.getDesktop().browse(URI.create("https://www.conceptispuzzles.com/index.aspx?uri=puzzle/nurikabe/rules"));
                 } catch (IOException e) {
                     LOGGER.error("Can't open web page");
                 }
@@ -397,7 +397,7 @@ public class LegupUI extends JFrame implements WindowListener, IHistoryListener 
                 }
             }else if(puzzle_name == "Sudoku"){
                 try {
-                    java.awt.Desktop.getDesktop().browse(URI.create("https://en.wikipedia.org/wiki/Sudoku"));
+                    java.awt.Desktop.getDesktop().browse(URI.create("https://www.conceptispuzzles.com/index.aspx?uri=puzzle/sudoku/sum#:~:text=or%20dotted%20lines.-,The%20object%20is%20to%20fill%20all%20empty%20squares%20so%20that,same%20area%20more%20than%20once."));
                 } catch (IOException e) {
                     LOGGER.error("Can't open web page");
                 }
