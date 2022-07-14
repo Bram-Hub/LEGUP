@@ -50,19 +50,6 @@ public class LastCampingSpotBasicRule extends BasicRule {
         }
     }
 
-    // private boolean isForced(TreeTentBoard board, TreeTentCell cell) {
-    //     List<TreeTentCell> adjTents = board.getAdjacent(cell, TreeTentType.TREE);
-    //     for (TreeTentCell c : adjTents) {
-    //         Point loc = c.getLocation();
-    //         for (TreeTentLine line : board.getLines()) {
-    //             if (line.getC1().getLocation().equals(loc) || line.getC2().getLocation().equals(loc)) {
-    //                 return false;
-    //             }
-    //         }
-    //     }
-    //     return false;
-    // }
-
     private boolean isForced(TreeTentBoard board, TreeTentCell cell) {
         List<TreeTentCell> adjTrees = board.getAdjacent(cell, TreeTentType.TREE);
         for (TreeTentCell c : adjTrees) {
