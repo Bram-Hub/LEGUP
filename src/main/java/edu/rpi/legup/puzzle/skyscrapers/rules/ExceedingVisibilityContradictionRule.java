@@ -72,7 +72,7 @@ public class ExceedingVisibilityContradictionRule extends ContradictionRule {
 					//System.out.print(c.getData());
 					//System.out.println(cell.getData());
 					max = c.getData();
-					count = count + 1;
+					count++;
 				}
 			}
 			if (count > east) {
@@ -91,10 +91,11 @@ public class ExceedingVisibilityContradictionRule extends ContradictionRule {
         		//System.out.print(c.getData());
             	//System.out.println(cell.getData());
         		max = c.getData();
-                count = count + 1;
+                count++;
             }
         	if (c.getType() == SkyscrapersType.UNKNOWN) {
             	complete = false;
+				break;
             }
         }
         if (count > north && complete) {
@@ -111,7 +112,7 @@ public class ExceedingVisibilityContradictionRule extends ContradictionRule {
 					//System.out.print(c.getData());
 					//System.out.println(cell.getData());
 					max = c.getData();
-					count = count + 1;
+					count++;
 				}
 			}
 			if (count > south) {
