@@ -7,9 +7,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseWheelEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Objects;
@@ -75,6 +73,14 @@ public class DynamicView extends JPanel {
             });*/
 
             zoomSlider.setPreferredSize(new Dimension(160, 30));
+
+            scrollView.addComponentListener(new ComponentAdapter() {
+                @Override
+                public void componentResized(ComponentEvent e) {
+                    zoomSlider.setValue(scrollView.getZoom() );
+                    zoomLabel.setText(zoomSlider.getValue() + "%");
+                }
+            });
 
             zoomSlider.addChangeListener((ChangeEvent e) -> {
                 scrollView.zoomTo(zoomSlider.getValue() / 100.0);
