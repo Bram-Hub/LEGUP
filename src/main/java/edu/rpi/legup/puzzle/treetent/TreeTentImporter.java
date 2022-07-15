@@ -16,12 +16,12 @@ public class TreeTentImporter extends PuzzleImporter {
     /**
      * Creates an empty board for building
      *
-     * @param width width of puzzle
-     * @param height height of puzzle
+     * @param rows      the number of rows on the board
+     * @param columns   the number of columns on the board
      * @throws RuntimeException
      */
     @Override
-    public void initializeBoard(int width, int height) throws RuntimeException {
+    public void initializeBoard(int rows, int columns) {
 
     }
 

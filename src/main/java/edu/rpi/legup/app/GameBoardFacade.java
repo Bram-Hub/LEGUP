@@ -94,7 +94,7 @@ public class GameBoardFacade implements IHistorySubject {
 
     public void setPuzzleEditor(Puzzle puzzle) {
         this.puzzle = puzzle;
-        this.puzzleEditor.setPuzzleView((puzzle));
+        this.puzzleEditor.setPuzzleView(puzzle);
 //        this.history.clear();
     }
 
@@ -105,11 +105,11 @@ public class GameBoardFacade implements IHistorySubject {
     /**
      * Loads an empty puzzle
      *
-     * @param game name of the puzzle
-     * @param width width of the puzzle
-     * @param height height of the puzzle
+     * @param game      name of the puzzle
+     * @param rows      the number of rows on the board
+     * @param columns   the number of columns on the board
      */
-    public void loadPuzzle(String game, int width, int height) throws RuntimeException {
+    public void loadPuzzle(String game, int rows, int columns) throws RuntimeException {
         String qualifiedClassName = config.getPuzzleClassForName(game);
         LOGGER.debug("Loading " + qualifiedClassName);
 
@@ -125,13 +125,19 @@ public class GameBoardFacade implements IHistorySubject {
                 throw new RuntimeException("Puzzle importer null");
             }
 
-            importer.initializePuzzle(width, height);
+            importer.initializePuzzle(rows, columns);
+
             puzzle.initializeView();
 //            puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
             setPuzzleEditor(puzzle);
         }
+        catch (IllegalArgumentException exception)
+        {
+            throw new IllegalArgumentException(exception.getMessage());
+        }
         catch(ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
-              IllegalAccessException | InstantiationException e) {
+              IllegalAccessException | InstantiationException e)
+        {
             LOGGER.error(e);
             throw new RuntimeException("Puzzle creation error");
         }

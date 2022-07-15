@@ -16,23 +16,22 @@ public class SudokuImporter extends PuzzleImporter {
     /**
      * Creates an empty board for building
      *
-     * @param width width of puzzle
-     * @param height height of puzzle
+     * @param rows      the number of rows on the board
+     * @param columns   the number of columns on the board
      * @throws RuntimeException
      */
     @Override
-    public void initializeBoard(int width, int height) throws RuntimeException {
+    public void initializeBoard(int rows, int columns) {
         SudokuBoard sudokuBoard;
-        int minorSize = (int) Math.sqrt(width);
-        if(width != height || minorSize * minorSize != width) throw new RuntimeException("Sudoku Importer: invalid board dimensions");
-        sudokuBoard = new SudokuBoard(width);
+        int minorSize = (int) Math.sqrt(rows);
+        sudokuBoard = new SudokuBoard(rows);
 
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
+        for (int y = 0; y < columns; y++) {
+            for (int x = 0; x < rows; x++) {
                 if (sudokuBoard.getCell(x, y) == null) {
                     int groupIndex = x / minorSize + y / minorSize * minorSize;
-                    SudokuCell cell = new SudokuCell(0, new Point(x, y), groupIndex, width);
-                    cell.setIndex(y * width + x);
+                    SudokuCell cell = new SudokuCell(0, new Point(x, y), groupIndex, rows);
+                    cell.setIndex(y * rows + x);
                     cell.setModifiable(true);
                     sudokuBoard.setCell(x, y, cell);
                 }
