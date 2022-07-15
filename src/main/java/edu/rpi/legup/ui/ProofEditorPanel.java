@@ -63,6 +63,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     @Override
     public void makeVisible() {
+        this.removeAll();
+
         setupToolBar();
         setupContent();
         frame.setJMenuBar(getMenuBar());

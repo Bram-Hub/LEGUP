@@ -160,6 +160,15 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     public abstract Board generatePuzzle(int difficulty);
 
     /**
+     * Checks if the given height and width are valid board dimensions for the given puzzle
+     *
+     * @param rows      the number of rows on the board
+     * @param columns   the number of columns on the board
+     * @return          true if the given dimensions are valid for the given puzzle, false otherwise
+     */
+    public abstract boolean isValidDimensions(int rows, int columns);
+
+    /**
      * Determines if the edu.rpi.legup.puzzle was solves correctly
      *
      * @return true if the board was solved correctly, false otherwise

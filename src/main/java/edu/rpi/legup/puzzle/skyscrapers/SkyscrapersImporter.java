@@ -14,6 +14,18 @@ public class SkyscrapersImporter extends PuzzleImporter {
     }
 
     /**
+     * Creates an empty board for building
+     *
+     * @param rows      the number of rows on the board
+     * @param columns   the number of columns on the board
+     * @throws RuntimeException
+     */
+    @Override
+    public void initializeBoard(int rows, int columns) {
+
+    }
+
+    /**
      * Creates the board for building
      *
      * @param node xml document node
