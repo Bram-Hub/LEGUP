@@ -16,7 +16,7 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 import edu.rpi.legup.ui.puzzleeditorui.elementsview.NonPlaceableElementPanel;
 import edu.rpi.legup.utility.LegupUtils;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import edu.rpi.legup.model.elements.Element;
 import org.w3c.dom.Node;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
@@ -74,24 +74,54 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         this.nonPlaceableElements = new ArrayList<>();
 
         registerRules();
+        registerPuzzleElements();
     }
 
     private void registerPuzzleElements() {
-        ArrayList<Enum> PlaceableTypes = getPlaceableElementTypes();
-        ArrayList<Enum> NonPlaceableTypes = getNonPlaceableElementTypes();
-    }
+        String packageName = this.getClass().getPackage().toString().replace("package ", "");
 
-    private ArrayList<Enum> getPlaceableElementTypes() {
-        ArrayList<Enum> r = new ArrayList<Enum>();
+        try {
+            Class[] possElements = LegupUtils.getClasses(packageName);
 
+            for (Class c : possElements) {
 
-        return r;
-    }
-    private ArrayList<Enum> getNonPlaceableElementTypes() {
-        ArrayList<Enum> r = new ArrayList<Enum>();
+                System.out.println("possible element: " + c.getName());
 
+                //check that the element is not abstract
+                if (Modifier.isAbstract(c.getModifiers())) continue;
 
-        return r;
+                for (Annotation a : c.getAnnotations()) {
+                    if (a.annotationType() == RegisterElement.class) {
+                        RegisterElement registerElement = (RegisterElement) a;
+                        Constructor<?> cons = c.getConstructor();
+                        try {
+                            Element element = (Element) cons.newInstance();
+
+                            switch (element.getElementType()) {
+                                case PLACEABLE:
+                                    this.addPlaceableElement((PlaceableElement) element);
+                                    break;
+                                case NONPLACEABLE:
+                                    this.addNonPlaceableElement((NonPlaceableElement) element);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        } catch (InvocationTargetException e) {
+                            System.out.println("    Failed ");
+                            e.getTargetException().printStackTrace();
+                        }
+                    }
+                }
+            }
+
+//        } catch (IOException | ClassNotFoundException | NoSuchMethodException |
+//                InstantiationException | IllegalAccessException | InvocationTargetException e) {
+//            LOGGER.error("Unable to find rules for " + this.getClass().getSimpleName(), e);
+//        }
+        }catch(Exception e){
+            LOGGER.error("Unable to find elements for " + this.getClass().getSimpleName(), e);
+        }
     }
 
     private void registerRules() {
@@ -243,7 +273,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             throw new InvalidFileFormatException("Could not find file");
         }
 
-        Element rootNode = document.getDocumentElement();
+        org.w3c.dom.Element rootNode = document.getDocumentElement();
         if (rootNode.getTagName().equals("Legup")) {
             Node node = rootNode.getElementsByTagName("puzzle").item(0);
             if (importer == null) {

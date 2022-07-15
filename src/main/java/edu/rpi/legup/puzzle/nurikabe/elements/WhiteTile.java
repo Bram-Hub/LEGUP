@@ -1,4 +1,9 @@
 package edu.rpi.legup.puzzle.nurikabe.elements;
 
-public class WhiteTile {
+import edu.rpi.legup.model.elements.PlaceableElement;
+
+public class WhiteTile extends PlaceableElement {
+    public WhiteTile() {
+        super("NURI-PLAC-0002", "White Tile", "The white tile", "edu/rpi/legup/images/nurikabe/rules/BetweenRegions.png");
+    }
 }
