@@ -162,10 +162,10 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             getToolBarButtons()[i].setHorizontalTextPosition(SwingConstants.CENTER);
         }
 
-        toolBarButtons[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent e) -> promptPuzzle());
-        //toolBarButtons[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e) -> saveProof());
-        toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e) -> GameBoardFacade.getInstance().getHistory().undo());
-        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e) -> GameBoardFacade.getInstance().getHistory().redo());
+//        toolBarButtons[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent e) -> promptPuzzle());
+//        toolBarButtons[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e) -> saveProof());
+//        toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e) -> GameBoardFacade.getInstance().getHistory().undo());
+//        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e) -> GameBoardFacade.getInstance().getHistory().redo());
         toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e) -> {
         });
         toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e) -> {
@@ -173,9 +173,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e) -> {
         });
 
-        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
+//        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
+//        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
+//        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.HINT.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.SUBMIT.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].setEnabled(false);
@@ -277,7 +277,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         elementFrame.getPlaceableElementPanel().setElements(puzzle.getPlaceableElements());
 
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
-        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
+//        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
     }
 
 }
