@@ -53,7 +53,7 @@ public class TreePanel extends JPanel {
         status.setPreferredSize(new Dimension(150, 15));
         dynamicTreeView.getZoomWrapper().add(status, BorderLayout.CENTER);
 
-        TitledBorder title = BorderFactory.createTitledBorder("TreePanel");
+        TitledBorder title = BorderFactory.createTitledBorder("Proof Tree");
         title.setTitleJustification(TitledBorder.CENTER);
         main.setBorder(title);
 
