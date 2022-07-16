@@ -42,27 +42,10 @@ public class PreferencesDialog extends JDialog {
         setTitle("Preferences");
 
         JPanel mainPanel = new JPanel();
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         mainPanel.setLayout(new BorderLayout());
 
-        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
-        JScrollPane generalTab = createGeneralTab();
-
-        tabbedPane.addTab("General", generalTab);
-
-        Config config = GameBoardFacade.getInstance().getConfig();
-        try {
-            for (String puzzleName : config.getPuzzleNames()) {
-                String qualifiedClassName = config.getPuzzleClassForName(puzzleName);
-
-                Class<?> c = Class.forName(qualifiedClassName);
-                Constructor<?> cons = c.getConstructor();
-                Puzzle puzzle = (Puzzle) cons.newInstance();
-//                tabbedPane.addTab(puzzleName, createPuzzleTab(puzzle));
-            }
-        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            LOGGER.log(Level.SEVERE, "Cannot create puzzle preferences");
-        }
-        mainPanel.add(tabbedPane, BorderLayout.CENTER);
+        mainPanel.add(createGeneralTab());
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setBorder(null);
@@ -190,6 +173,15 @@ public class PreferencesDialog extends JDialog {
         immFeedback = new JCheckBox("Provide Immediate Feedback", Boolean.valueOf(prefs.getUserPref(LegupPreferences.IMMEDIATE_FEEDBACK)));
         immFeedback.setToolTipText("If checked this will update the colors of the tree view elements immediately");
         JPanel immFeedbackRow = new JPanel();
+        immFeedbackRow.setLayout(new BorderLayout());
+        immFeedbackRow.add(immFeedback, BorderLayout.WEST);
+        immFeedbackRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, immFeedbackRow.getPreferredSize().height));
+        contentPane.add(immFeedbackRow);
+
+        contentPane.add(createLeftLabel("Instructor Preferences"));
+        contentPane.add(createLineSeparator());
+        immFeedback = new JCheckBox("Instructor Mode", Boolean.valueOf(prefs.getUserPref(LegupPreferences.IMMEDIATE_FEEDBACK)));
+        immFeedback.setToolTipText("Currently unimplemented, this does nothing right now");
         immFeedbackRow.setLayout(new BorderLayout());
         immFeedbackRow.add(immFeedback, BorderLayout.WEST);
         immFeedbackRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, immFeedbackRow.getPreferredSize().height));

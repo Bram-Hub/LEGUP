@@ -2,11 +2,11 @@ package edu.rpi.legup.puzzle.battleship;
 
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 
-public class BattleShipClue extends PuzzleElement {
+public class BattleshipClue extends PuzzleElement {
 
-    private BattleShipCellType type;
+    private BattleshipType type;
 
-    public BattleShipClue(int value, int index, BattleShipCellType type) {
+    public BattleshipClue(int value, int index, BattleshipType type) {
         super(value);
         this.index = index;
         this.type = type;
@@ -42,15 +42,15 @@ public class BattleShipClue extends PuzzleElement {
         return (Integer) super.getData();
     }
 
-    public BattleShipCellType getType() {
+    public BattleshipType getType() {
         return type;
     }
 
-    public void setType(BattleShipCellType type) {
+    public void setType(BattleshipType type) {
         this.type = type;
     }
 
-    public BattleShipClue copy() {
+    public BattleshipClue copy() {
         return null;
     }
 }
