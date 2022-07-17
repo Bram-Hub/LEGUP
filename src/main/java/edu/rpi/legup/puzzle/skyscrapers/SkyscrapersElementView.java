@@ -1,11 +1,8 @@
 package edu.rpi.legup.puzzle.skyscrapers;
 
-import edu.rpi.legup.app.LegupPreferences;
-import edu.rpi.legup.puzzle.sudoku.SudokuCell;
 import edu.rpi.legup.ui.boardview.GridElementView;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 public class SkyscrapersElementView extends GridElementView {
 	private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);

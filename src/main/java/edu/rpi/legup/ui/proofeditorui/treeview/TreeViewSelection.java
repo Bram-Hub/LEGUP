@@ -1,4 +1,4 @@
-package edu.rpi.legup.ui.treeview;
+package edu.rpi.legup.ui.proofeditorui.treeview;
 
 import java.awt.*;
 import java.util.List;

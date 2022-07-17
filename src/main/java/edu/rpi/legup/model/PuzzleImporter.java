@@ -30,6 +30,20 @@ public abstract class PuzzleImporter {
     }
 
     /**
+     * Initializes an empty puzzle
+     *
+     * @param rows      number of rows on the puzzle
+     * @param columns   number of columns on the puzzle
+     * @throws RuntimeException
+     */
+    public void initializePuzzle(int rows, int columns) throws RuntimeException {
+        if (this.puzzle.isValidDimensions(rows, columns))
+            initializeBoard(rows, columns);
+        else
+            throw new IllegalArgumentException("Invalid dimensions provided");
+    }
+
+    /**
      * Initializes the puzzle attributes
      *
      * @param node xml document node
@@ -79,6 +93,15 @@ public abstract class PuzzleImporter {
 
     /**
      * Creates the board for building
+     *
+     * @param rows      number of rows on the puzzle
+     * @param columns   number of columns on the puzzle
+     * @throws RuntimeException
+     */
+    public abstract void initializeBoard(int rows, int columns);
+
+    /**
+     * Creates an empty board for building
      *
      * @param node xml document node
      * @throws InvalidFileFormatException
