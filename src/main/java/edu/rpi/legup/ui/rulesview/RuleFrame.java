@@ -4,6 +4,7 @@ import edu.rpi.legup.controller.RuleController;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.rules.Rule;
+import edu.rpi.legup.ui.lookandfeel.components.MaterialTabbedPaneUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -34,11 +35,23 @@ public class RuleFrame extends JPanel {
     private RuleController controller;
 
     public RuleFrame(RuleController controller) {
+
+        MaterialTabbedPaneUI tabOverride = new MaterialTabbedPaneUI(){
+            @Override protected boolean shouldRotateTabRuns(int i){
+                return false;
+            }
+        };
+
         this.controller = controller;
 
         this.tabbedPane = new JTabbedPane();
+        this.tabbedPane.setUI(tabOverride);
         this.status = new JLabel();
         this.buttonGroup = new ButtonGroup();
+
+
+
+        this.tabbedPane.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
 
         basicRulePanel = new BasicRulePanel(this);
 
@@ -46,6 +59,9 @@ public class RuleFrame extends JPanel {
 
         casePanel = new CaseRulePanel(this);
         tabbedPane.addTab(casePanel.name, casePanel.icon, new JScrollPane(casePanel), casePanel.toolTip);
+
+        contradictionPanel = new ContradictionRulePanel(this);
+        tabbedPane.addTab(contradictionPanel.name, contradictionPanel.icon, new JScrollPane(contradictionPanel), contradictionPanel.toolTip);
 
         contradictionPanel = new ContradictionRulePanel(this);
         tabbedPane.addTab(contradictionPanel.name, contradictionPanel.icon, new JScrollPane(contradictionPanel), contradictionPanel.toolTip);

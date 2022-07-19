@@ -28,11 +28,13 @@ public abstract class RulePanel extends JPanel {
         setLayout(new WrapLayout());
     }
 
+
     /**
      * Gets the rule rule buttons
      *
      * @return rule ruleButtons
      */
+
     public RuleButton[] getRuleButtons() {
         return ruleButtons;
     }
