@@ -282,6 +282,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         folderBrowser = new JFileChooser();
 
         folderBrowser.showOpenDialog(this);
+        
         folderBrowser.setCurrentDirectory((new File(System.getProperty("user.dir"))));
         folderBrowser.setDialogTitle("Select Directory");
         folderBrowser.setFileSelectionMode(JFileChooser.FILES_ONLY);
