@@ -192,6 +192,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             throw new IllegalArgumentException(exception.getMessage());
         }
         catch (RuntimeException e){
+            e.printStackTrace();
             LOGGER.error(e.getMessage());
         }
     }
