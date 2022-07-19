@@ -37,6 +37,7 @@ public class RuleFrame extends JPanel {
     public RuleFrame(RuleController controller) {
 
         MaterialTabbedPaneUI tabOverride = new MaterialTabbedPaneUI(){
+            //this prevents the tabs from moving around when you select them
             @Override protected boolean shouldRotateTabRuns(int i){
                 return false;
             }
@@ -49,19 +50,12 @@ public class RuleFrame extends JPanel {
         this.status = new JLabel();
         this.buttonGroup = new ButtonGroup();
 
-
-
-        this.tabbedPane.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
-
         basicRulePanel = new BasicRulePanel(this);
 
         tabbedPane.addTab(basicRulePanel.getName(), basicRulePanel.getIcon(), new JScrollPane(basicRulePanel), basicRulePanel.getToolTip());
 
         casePanel = new CaseRulePanel(this);
         tabbedPane.addTab(casePanel.name, casePanel.icon, new JScrollPane(casePanel), casePanel.toolTip);
-
-        contradictionPanel = new ContradictionRulePanel(this);
-        tabbedPane.addTab(contradictionPanel.name, contradictionPanel.icon, new JScrollPane(contradictionPanel), contradictionPanel.toolTip);
 
         contradictionPanel = new ContradictionRulePanel(this);
         tabbedPane.addTab(contradictionPanel.name, contradictionPanel.icon, new JScrollPane(contradictionPanel), contradictionPanel.toolTip);

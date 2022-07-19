@@ -10,8 +10,6 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicLookAndFeel;
 import java.awt.*;
 
-
-
 public class LegupLookAndFeel extends BasicLookAndFeel {
     /**
      * Return a short string that identifies this look and feel, e.g.
@@ -155,12 +153,7 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
         table.put ("ToolTipUI", MaterialToolTipUI.class.getCanonicalName());
         table.put ("SplitPaneUI", MaterialSplitPaneUI.class.getCanonicalName());
 //        table.put ("ColorChooserUI", );
-
-
     }
-
-
-
 
     @Override
     protected void initComponentDefaults (UIDefaults table) {
