@@ -69,7 +69,7 @@ public class HomePanel extends LegupPanel {
             }
         };
 
-        ImageIcon button0Icon = new ImageIcon("src/main/resources/edu/rpi/legup/homepanel/openproof.png");
+        ImageIcon button0Icon = new ImageIcon("src/main/resources/edu/rpi/legup/images/Legup/homepanel/proof_file.png");
         this.buttons[0].setIcon(resizeButtonIcon(button0Icon, this.buttonSize, this.buttonSize));
         this.buttons[0].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[0].setVerticalTextPosition(AbstractButton.BOTTOM);
@@ -82,7 +82,7 @@ public class HomePanel extends LegupPanel {
                 setMaximumSize(getSize());
             }
         };
-        ImageIcon button1Icon = new ImageIcon("src/main/resources/edu/rpi/legup/homepanel/edit.png");
+        ImageIcon button1Icon = new ImageIcon("src/main/resources/edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.png");
         this.buttons[1].setIcon(resizeButtonIcon(button1Icon, this.buttonSize, this.buttonSize));
         this.buttons[1].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[1].setVerticalTextPosition(AbstractButton.BOTTOM);
@@ -95,7 +95,7 @@ public class HomePanel extends LegupPanel {
                 setMaximumSize(getSize());
             }
         };
-        ImageIcon button2Icon = new ImageIcon("src/main/resources/edu/rpi/legup/homepanel/edit.png"); // PLACEHOLDER
+        ImageIcon button2Icon = new ImageIcon("src/main/resources/edu/rpi/legup/images/Legup/homepanel/puzzle_file.png");
         this.buttons[2].setIcon(resizeButtonIcon(button2Icon, this.buttonSize, this.buttonSize));
         this.buttons[2].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[2].setVerticalTextPosition(AbstractButton.BOTTOM);
