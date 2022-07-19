@@ -32,6 +32,7 @@ public abstract class ElementPanel extends JPanel {
             Element element = elements.get(i);
             elementButtons[i] = new ElementButton(element);
             elementFrame.getButtonGroup().add(elementButtons[i]);
+            System.out.printf("added button: %d, element %s\n", i, element.getElementName());
 
             elementButtons[i].setToolTipText(element.getElementName() + ": " + element.getDescription());
             elementButtons[i].addActionListener(elementFrame.getController());

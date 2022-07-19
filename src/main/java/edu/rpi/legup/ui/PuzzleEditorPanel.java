@@ -88,6 +88,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         // FILE
         menus[0] = new JMenu("File");
+
         // file>new
         JMenuItem newPuzzle = new JMenuItem("New");
         newPuzzle.addActionListener((ActionEvent) -> promptPuzzle());
@@ -203,7 +204,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 return;
             }
         }
-
+        if (fileDialog == null) {
+            fileDialog = new FileDialog(this.frame);
+        }
         fileDialog.setMode(FileDialog.LOAD);
         fileDialog.setTitle("Select Puzzle");
         fileDialog.setVisible(true);

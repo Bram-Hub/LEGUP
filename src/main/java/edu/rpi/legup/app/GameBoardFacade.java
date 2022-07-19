@@ -89,6 +89,7 @@ public class GameBoardFacade implements IHistorySubject {
     public void setPuzzle(Puzzle puzzle) {
         this.puzzle = puzzle;
         this.puzzleSolver.setPuzzleView(puzzle);
+        this.puzzleEditor.setPuzzleView(puzzle);
         this.history.clear();
     }
 
