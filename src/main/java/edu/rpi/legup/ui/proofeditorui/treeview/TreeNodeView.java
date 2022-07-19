@@ -1,4 +1,4 @@
-package edu.rpi.legup.ui.treeview;
+package edu.rpi.legup.ui.proofeditorui.treeview;
 
 import edu.rpi.legup.model.rules.RuleType;
 import edu.rpi.legup.model.tree.TreeElementType;

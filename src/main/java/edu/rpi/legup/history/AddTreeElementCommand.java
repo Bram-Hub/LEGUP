@@ -2,11 +2,10 @@ package edu.rpi.legup.history;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.model.Puzzle;
-import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.tree.*;
-import edu.rpi.legup.ui.treeview.TreeElementView;
-import edu.rpi.legup.ui.treeview.TreeView;
-import edu.rpi.legup.ui.treeview.TreeViewSelection;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeElementView;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 
 import java.util.HashMap;
 import java.util.List;

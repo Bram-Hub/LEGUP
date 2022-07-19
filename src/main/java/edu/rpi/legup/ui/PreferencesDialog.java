@@ -36,8 +36,8 @@ public class PreferencesDialog extends JDialog {
         }
     }
 
-    public PreferencesDialog(LegupUI legupUI) {
-        super(legupUI);
+    public PreferencesDialog(Frame frame) {
+        super(frame);
 
         setTitle("Preferences");
 
@@ -76,7 +76,7 @@ public class PreferencesDialog extends JDialog {
         setContentPane(mainPanel);
 
         setSize(600, 400);
-        setLocationRelativeTo(legupUI);
+        setLocationRelativeTo(frame);
         setVisible(true);
     }
 

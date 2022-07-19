@@ -88,7 +88,7 @@ public class BattleshipBoard extends GridBoard {
      * @return      List of adjacent cells in clockwise order:
      *              <code>{ up, right, down, left }</code>
      */
-    public List<BattleshipCell> getAdjacent(BattleshipCell cell) {
+    public List<BattleshipCell> getAdjOrthogonals(BattleshipCell cell) {
         List<BattleshipCell> adj = new ArrayList<>();
         Point loc = cell.getLocation();
         BattleshipCell up = getCell(loc.x, loc.y - 1);

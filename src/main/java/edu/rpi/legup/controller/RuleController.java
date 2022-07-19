@@ -7,9 +7,9 @@ import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.rules.*;
 import edu.rpi.legup.model.tree.*;
-import edu.rpi.legup.ui.rulesview.RuleButton;
-import edu.rpi.legup.ui.rulesview.RulePanel;
-import edu.rpi.legup.ui.treeview.*;
+import edu.rpi.legup.ui.proofeditorui.rulesview.RuleButton;
+import edu.rpi.legup.ui.proofeditorui.rulesview.RulePanel;
+import edu.rpi.legup.ui.proofeditorui.treeview.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

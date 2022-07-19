@@ -7,7 +7,7 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.boardview.ElementView;
-import edu.rpi.legup.ui.treeview.*;
+import edu.rpi.legup.ui.proofeditorui.treeview.*;
 
 import java.awt.event.MouseEvent;
 import java.util.*;

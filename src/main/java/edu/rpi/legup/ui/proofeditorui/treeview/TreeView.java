@@ -1,4 +1,4 @@
-package edu.rpi.legup.ui.treeview;
+package edu.rpi.legup.ui.proofeditorui.treeview;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.TreeController;
@@ -21,8 +21,8 @@ import org.apache.logging.log4j.Logger;
 
 import static edu.rpi.legup.model.tree.TreeElementType.NODE;
 import static edu.rpi.legup.model.tree.TreeElementType.TRANSITION;
-import static edu.rpi.legup.ui.treeview.TreeNodeView.DIAMETER;
-import static edu.rpi.legup.ui.treeview.TreeNodeView.RADIUS;
+import static edu.rpi.legup.ui.proofeditorui.treeview.TreeNodeView.DIAMETER;
+import static edu.rpi.legup.ui.proofeditorui.treeview.TreeNodeView.RADIUS;
 
 public class TreeView extends ScrollView implements ITreeListener {
     private final static Logger LOGGER = LogManager.getLogger(TreeView.class.getName());

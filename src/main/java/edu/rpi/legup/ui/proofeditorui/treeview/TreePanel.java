@@ -1,4 +1,4 @@
-package edu.rpi.legup.ui.treeview;
+package edu.rpi.legup.ui.proofeditorui.treeview;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.TreeController;
@@ -7,7 +7,6 @@ import edu.rpi.legup.history.DeleteTreeElementCommand;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.MergeCommand;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.ui.DynamicView;
 import edu.rpi.legup.ui.LegupUI;
@@ -33,8 +32,8 @@ public class TreePanel extends JPanel {
 
     private JLabel status;
 
-    public TreePanel(LegupUI legupUI) {
-        this.legupUI = legupUI;
+    public TreePanel(/*LegupUI legupUI*/) {
+        //this.legupUI = legupUI;
 
         main = new JPanel();
 

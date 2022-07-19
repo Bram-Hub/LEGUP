@@ -46,6 +46,33 @@ public class Sudoku extends Puzzle {
         return null;
     }
 
+    @Override
+    /**
+     * Determines if the given dimensions are valid for Sudoku
+     *
+     * @param rows      the number of rows
+     * @param columns   the number of columns
+     * @return          true if the given dimensions are valid for Sudoku, false otherwise
+     */
+    public boolean isValidDimensions(int rows, int columns) {
+        // The number of rows and columns must be greater than 1
+        if (rows <= 1 || columns <= 1)
+            return false;
+
+        // The number of rows and columns must be equal
+        if (rows != columns)
+            return false;
+
+        // For Sudoku, the number of rows and columns must be a perfect square
+        // Note: we don't need to check the columns since by this point, we have verified that the number of rows
+        // equals the number of columns
+        double sqrtRows = Math.sqrt(rows);
+        if (sqrtRows - Math.floor(sqrtRows) != 0)
+            return false;
+
+        return true;
+    }
+
     /**
      * Determines if the current board is a valid state
      *

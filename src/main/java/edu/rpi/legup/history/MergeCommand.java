@@ -5,7 +5,7 @@ import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.rules.MergeRule;
 import edu.rpi.legup.model.tree.*;
-import edu.rpi.legup.ui.treeview.*;
+import edu.rpi.legup.ui.proofeditorui.treeview.*;
 
 import java.util.ArrayList;
 import java.util.List;

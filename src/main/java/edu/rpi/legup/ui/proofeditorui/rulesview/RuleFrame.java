@@ -1,4 +1,4 @@
-package edu.rpi.legup.ui.rulesview;
+package edu.rpi.legup.ui.proofeditorui.rulesview;
 
 import edu.rpi.legup.controller.RuleController;
 import edu.rpi.legup.model.Puzzle;
@@ -41,14 +41,19 @@ public class RuleFrame extends JPanel {
         this.buttonGroup = new ButtonGroup();
 
         basicRulePanel = new BasicRulePanel(this);
-
-        tabbedPane.addTab(basicRulePanel.getName(), basicRulePanel.getIcon(), new JScrollPane(basicRulePanel), basicRulePanel.getToolTip());
+        JScrollPane newbrp = new JScrollPane(basicRulePanel);
+        newbrp.getVerticalScrollBar().setUnitIncrement(16);
+        tabbedPane.addTab(basicRulePanel.getName(), basicRulePanel.getIcon(), newbrp, basicRulePanel.getToolTip());
 
         casePanel = new CaseRulePanel(this);
-        tabbedPane.addTab(casePanel.name, casePanel.icon, new JScrollPane(casePanel), casePanel.toolTip);
+        JScrollPane newcp = new JScrollPane(casePanel);
+        newcp.getVerticalScrollBar().setUnitIncrement(16);
+        tabbedPane.addTab(casePanel.name, casePanel.icon, newcp, casePanel.toolTip);
 
         contradictionPanel = new ContradictionRulePanel(this);
-        tabbedPane.addTab(contradictionPanel.name, contradictionPanel.icon, new JScrollPane(contradictionPanel), contradictionPanel.toolTip);
+        JScrollPane newp = new JScrollPane(contradictionPanel);
+        newp.getVerticalScrollBar().setUnitIncrement(16);
+        tabbedPane.addTab(contradictionPanel.name, contradictionPanel.icon, newp, contradictionPanel.toolTip);
 
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(250, 256));
