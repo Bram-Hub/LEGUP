@@ -2,22 +2,28 @@ package edu.rpi.legup.puzzle.battleship;
 
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.rules.ContradictionRule;
 
-public class BattleShip extends Puzzle {
-    public BattleShip() {
+public class Battleship extends Puzzle {
+    public Battleship() {
         super();
 
-        this.name = "BattleShip";
+        this.name = "Battleship";
 
-        this.importer = new BattleShipImporter(this);
-        this.exporter = new BattleShipExporter(this);
+        this.importer = new BattleshipImporter(this);
+        this.exporter = new BattleshipExporter(this);
 
-        this.factory = new BattleShipCellFactory();
+        this.factory = new BattleshipCellFactory();
     }
 
+    /**
+     * Initializes the game board. Called by the invoker of the class
+     */
     @Override
     public void initializeView() {
-        boardView = new BattleShipView((BattleShipBoard) currentBoard);
+        boardView = new BattleshipView((BattleshipBoard) currentBoard);
+        addBoardListener(boardView);
     }
 
     @Override
@@ -46,9 +52,27 @@ public class BattleShip extends Puzzle {
      */
     @Override
     public boolean isBoardComplete(Board board) {
-        return false;
+        BattleshipBoard battleShipBoard = (BattleshipBoard) board;
+
+        for (ContradictionRule rule : contradictionRules) {
+            if (rule.checkContradiction(battleShipBoard) == null) {
+                return false;
+            }
+        }
+        for (PuzzleElement data : battleShipBoard.getPuzzleElements()) {
+            BattleshipCell cell = (BattleshipCell) data;
+            if (cell.getType() == BattleshipType.UNKNOWN) {
+                return false;
+            }
+        }
+        return true;
     }
 
+    /**
+     * Callback for when the board puzzleElement changes
+     *
+     * @param board the board that has changed
+     */
     @Override
     public void onBoardChange(Board board) {
 
@@ -111,7 +135,7 @@ public class BattleShip extends Puzzle {
 //                int y = Integer.valueOf(cells.item(i).getAttributes().getNamedItem("y").getNodeValue());
 //                String value = cells.item(i).getAttributes().getNamedItem("value").getNodeValue().toUpperCase();
 //
-//                BattleShipCell cell = new BattleShipCell(BattleShipCellType.valueOf(value).ordinal(), new Point(x, y));
+//                BattleShipCell cell = new BattleShipCell(BattleShipType.valueOf(value).ordinal(), new Point(x, y));
 //                battleShipBoard.setCell(x, y, cell);
 //                cell.setModifiable(false);
 //                cell.setGiven(true);
