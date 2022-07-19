@@ -282,11 +282,12 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         folderBrowser = new JFileChooser();
 
         folderBrowser.showOpenDialog(this);
-        folderBrowser.setVisible(true);
-        folderBrowser.setCurrentDirectory(new java.io.File("."));
+        folderBrowser.setCurrentDirectory((new File(System.getProperty("user.dir"))));
         folderBrowser.setDialogTitle("Select Directory");
         folderBrowser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         folderBrowser.setAcceptAllFileFilterUsed(true);
+        folderBrowser.setVisible(true);
+        folderBrowser.showOpenDialog(this);
 
         String fileName = null;
         File puzzleFile = folderBrowser.getSelectedFile();
