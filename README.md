@@ -27,6 +27,11 @@ Legup also provides a single interface that is capable of supporting many differ
 ## Documentation
 
 ## Contributing
+All contributions to Legup will be greatly appreciated. Currently, we need the most help in the following areas:
+- Documentation
+- Test suites
+
+Please read our [contribution guidelines](CONTRIBUTING.md) for more detailed guidelines on how to contribute to Legup.
 
 ## License
 Legup is licensed under the GPL-3.0 license, which can be viewed [here](LICENSE).
