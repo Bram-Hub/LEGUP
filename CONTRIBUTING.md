@@ -2,7 +2,7 @@
 Thank you for investing your time and contributing to Legup! In this guide, you will get an overview of the general principles you should follow when contributing to Legup.
 
 ## New Contributor Guide
-To get an overview of the project, please reference the [README](https://github.com/Bram-Hub/Legup/blob/master/README.md).
+To get an overview of the project, please reference the [README](README.md).
 
 ### Programming Standards
 Before you begin coding, please familiarize yourself with our [programming standards](https://github.com/Bram-Hub/Legup/wiki/Programming-Principles). This will cover our standards for commenting, documenting and reporting issues, and creating and merging branches.
