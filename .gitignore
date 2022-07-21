@@ -44,8 +44,7 @@ bin/
 
 # Native files generated on build, not needed in git
 native/windows/lib
-native/windows/bin/Legup.exe
-native/windows/bin/legup_installer.exe
+native/windows/bin/*
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
