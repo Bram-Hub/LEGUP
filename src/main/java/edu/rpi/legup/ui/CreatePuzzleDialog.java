@@ -20,7 +20,7 @@ public class CreatePuzzleDialog extends JDialog {
     private JTextField columns;
 
     private JButton ok = new JButton("Ok");
-    private ActionListener okButtonerListener = new ActionListener()
+    private ActionListener okButtonListener = new ActionListener()
     {
         /**
          * Attempts to open the puzzle editor interface for the given game with the given dimensions
@@ -102,7 +102,7 @@ public class CreatePuzzleDialog extends JDialog {
         c.add(ok);
         c.add(cancel);
 
-        ActionListener cursorPressedOk = CursorController.createListener(this, okButtonerListener);
+        ActionListener cursorPressedOk = CursorController.createListener(this, okButtonListener);
         ok.addActionListener(cursorPressedOk);
         ActionListener cursorPressedCancel = CursorController.createListener(this, cancelButtonListener);
         cancel.addActionListener(cursorPressedCancel);
