@@ -34,6 +34,19 @@ public class Fillapix extends Puzzle {
     }
 
     @Override
+    /**
+     * Determines if the given dimensions are valid for Fillapix
+     *
+     * @param rows      the number of rows
+     * @param columns   the number of columns
+     * @return          true if the given dimensions are valid for Fillapix, false otherwise
+     */
+    public boolean isValidDimensions(int rows, int columns) {
+        // This is a placeholder, this method needs to be implemented
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public boolean isBoardComplete(Board board) {
         FillapixBoard fillapixBoard = (FillapixBoard) board;
         for (ContradictionRule rule : contradictionRules) {

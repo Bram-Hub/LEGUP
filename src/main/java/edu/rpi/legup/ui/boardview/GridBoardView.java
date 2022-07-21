@@ -5,7 +5,6 @@ import edu.rpi.legup.controller.ElementController;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Point;
 
 public class GridBoardView extends BoardView {
     protected Dimension gridSize;

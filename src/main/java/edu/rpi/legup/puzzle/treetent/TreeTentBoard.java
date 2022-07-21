@@ -101,6 +101,14 @@ public class TreeTentBoard extends GridBoard {
         }
     }
 
+    /**
+     * Get a list of all orthogonally adjacent cells.
+     *
+     * @param cell  The cell to get adjacent cells from.
+     * @param type  The cell types to get.
+     * @return      List of adjacent cells in the form { up, right, down, left }.
+     *              If an adjacent cell is null, it will not be added to the list.
+     */
     public List<TreeTentCell> getAdjacent(TreeTentCell cell, TreeTentType type) {
         List<TreeTentCell> adj = new ArrayList<>();
         Point loc = cell.getLocation();

@@ -3,8 +3,9 @@ package edu.rpi.legup.controller;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.ui.boardview.BoardView;
-import edu.rpi.legup.ui.treeview.*;
+import edu.rpi.legup.ui.proofeditorui.treeview.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -149,6 +150,6 @@ public class TreeController extends Controller {
      */
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        super.mouseWheelMoved(e);
+        super.viewer.scroll(e.getWheelRotation());
     }
 }

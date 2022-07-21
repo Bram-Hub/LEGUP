@@ -10,9 +10,9 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.boardview.ElementView;
-import edu.rpi.legup.ui.treeview.TreePanel;
-import edu.rpi.legup.ui.treeview.TreeView;
-import edu.rpi.legup.ui.treeview.TreeViewSelection;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 
 import java.awt.event.MouseEvent;
 

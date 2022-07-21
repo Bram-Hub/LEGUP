@@ -1,7 +1,7 @@
 package edu.rpi.legup.model.observer;
 
 import edu.rpi.legup.model.tree.TreeElement;
-import edu.rpi.legup.ui.treeview.TreeViewSelection;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 
 public interface ITreeListener {
     /**
