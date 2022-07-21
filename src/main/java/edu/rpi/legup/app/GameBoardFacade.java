@@ -102,6 +102,22 @@ public class GameBoardFacade implements IHistorySubject {
         this.config = config;
     }
 
+    public boolean validateDimensions(String game, int rows, int columns) throws RuntimeException {
+        String qualifiedClassName = config.getPuzzleClassForName(game);
+        try
+        {
+            Class<?> c = Class.forName(qualifiedClassName);
+            Constructor<?> constructor = c.getConstructor();
+            Puzzle puzzle = (Puzzle) constructor.newInstance();
+            return puzzle.isValidDimensions(rows, columns);
+        }
+        catch(ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e)
+        {
+            LOGGER.error(e);
+            throw new RuntimeException("Error validating puzzle dimensions");
+        }
+    }
+
     /**
      * Loads an empty puzzle
      *
