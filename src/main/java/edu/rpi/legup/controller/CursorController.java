@@ -11,7 +11,7 @@ public class CursorController
 {
     public static final Cursor BUSY_CURSOR = new Cursor(Cursor.WAIT_CURSOR);
     public static final Cursor DEFAULT_CURSOR = new Cursor(Cursor.DEFAULT_CURSOR);
-    public static final int delay = 500;    // in milliseconds
+    public static final int DELAY = 200;    // in milliseconds
 
     private CursorController()
     {
@@ -20,31 +20,26 @@ public class CursorController
 
     public static ActionListener createListener(final Component component, final ActionListener mainActionListener)
     {
-        ActionListener actionListener = new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
+        ActionListener actionListener = e -> {
+            TimerTask timerTask = new TimerTask()
             {
-                TimerTask timerTask = new TimerTask()
+                @Override
+                public void run()
                 {
-                    @Override
-                    public void run()
-                    {
-                        component.setCursor(BUSY_CURSOR);
-                    }
-                };
+                    component.setCursor(BUSY_CURSOR);
+                }
+            };
 
-                Timer timer = new Timer();
-                try
-                {
-                    timer.schedule(timerTask, delay);
-                    mainActionListener.actionPerformed(e);
-                }
-                finally
-                {
-                    timer.cancel();
-                    component.setCursor(DEFAULT_CURSOR);
-                }
+            Timer timer = new Timer();
+            try
+            {
+                timer.schedule(timerTask, DELAY);
+                mainActionListener.actionPerformed(e);
+            }
+            finally
+            {
+                timer.cancel();
+                component.setCursor(DEFAULT_CURSOR);
             }
         };
 
