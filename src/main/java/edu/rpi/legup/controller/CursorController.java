@@ -18,6 +18,18 @@ public class CursorController
         // Intentionally left empty
     }
 
+    /**
+     * Creates an ActionListener that will still do the same action processing as the given
+     * ActionListener while also displaying a loading cursor if the time it takes to execute
+     * the given process exceeds the time (in milliseconds) specified in this.DELAY
+     *
+     * Sources consulted: http://www.catalysoft.com/articles/busycursor.html
+     *
+     * @param component             The component you want to set the cursor for
+     * @param mainActionListener    The ActionListener that does the intended action processing
+     * @return                      An ActionListener object that does the same action processing
+     *                              as mainActionListener while also modifying the cursor if needed
+     */
     public static ActionListener createListener(final Component component, final ActionListener mainActionListener)
     {
         ActionListener actionListener = e -> {
@@ -46,5 +58,3 @@ public class CursorController
         return actionListener;
     }
 }
-
-// Sources consulted: http://www.catalysoft.com/articles/busycursor.html
