@@ -102,6 +102,15 @@ public class GameBoardFacade implements IHistorySubject {
         this.config = config;
     }
 
+    /**
+     * Validates the given dimensions for the given puzzle
+     * @param game              name of the puzzle
+     * @param rows              the number of rows on the board
+     * @param columns           the number of columns on the board
+     * @return                  true if it is possible to create a board for the given game with the given number of
+     *                          rows and columns, false otherwise
+     * @throws RuntimeException if any of the given input is invalid
+     */
     public boolean validateDimensions(String game, int rows, int columns) throws RuntimeException {
         String qualifiedClassName = config.getPuzzleClassForName(game);
         try

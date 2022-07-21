@@ -17,11 +17,15 @@ public class CreatePuzzleDialog extends JDialog {
 
     private JLabel puzzleLabel = new JLabel("Puzzle:");
     private JTextField rows;
-    private TextField columns;
+    private JTextField columns;
 
     private JButton ok = new JButton("Ok");
     private ActionListener okButtonerListener = new ActionListener()
     {
+        /**
+         * Attempts to open the puzzle editor interface for the given game with the given dimensions
+         * @param e the event to be processed
+         */
         @Override
         public void actionPerformed(ActionEvent e)
         {
@@ -40,6 +44,11 @@ public class CreatePuzzleDialog extends JDialog {
     private JButton cancel = new JButton("Cancel");
     private ActionListener cancelButtonListener = new ActionListener()
     {
+        /**
+         * Hides the puzzle creation dialog
+         *
+         * @param e the event to be processed
+         */
         @Override
         public void actionPerformed(ActionEvent e)
         {
