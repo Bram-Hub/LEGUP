@@ -150,7 +150,7 @@
             this.text[1] = version;
             this.text[2] = credits;
         }
-
+        
         private void render()
         {
             this.removeAll();
