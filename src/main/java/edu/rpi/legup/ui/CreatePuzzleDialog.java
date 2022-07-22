@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 
-public class CreatePuzzleDialog extends JDialog {
+public class CreatePuzzleDialog extends JDialog implements ActionListener {
     private HomePanel homePanel;
 
     private String[] games;
@@ -102,10 +102,8 @@ public class CreatePuzzleDialog extends JDialog {
         c.add(ok);
         c.add(cancel);
 
-        ActionListener cursorPressedOk = CursorController.createListener(this, okButtonListener);
-        ok.addActionListener(cursorPressedOk);
-        ActionListener cursorPressedCancel = CursorController.createListener(this, cancelButtonListener);
-        cancel.addActionListener(cursorPressedCancel);
+        ok.addActionListener(this);
+        cancel.addActionListener(this);
     }
 
     public void initPuzzles()
@@ -113,5 +111,30 @@ public class CreatePuzzleDialog extends JDialog {
         this.games = GameBoardFacade.getInstance().getConfig().getFileCreationEnabledPuzzles().toArray(new String[0]);
         Arrays.sort(this.games);
         gameBox = new JComboBox(games);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == ok) {
+            String game = (String) gameBox.getSelectedItem();
+            try
+            {
+                this.homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(this.rows.getText()), Integer.valueOf(this.columns.getText()));
+                setVisible(false);
+            }
+            catch (IllegalArgumentException exception)
+            {
+                // Don't do anything. This is here to prevent the dialog from closing if the dimensions are invalid.
+            }
+        }
+        else if (e.getSource() == cancel) {
+            setVisible(false);
+        }
+    }
+
+    private boolean isValidDimensions()
+    {
+        // Needs to be implemented
+        return false;
     }
 }
