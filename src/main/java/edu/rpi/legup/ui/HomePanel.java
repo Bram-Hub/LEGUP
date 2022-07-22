@@ -4,6 +4,8 @@ import edu.rpi.legup.app.GameBoardFacade;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class HomePanel extends LegupPanel {
     private LegupUI legupUI;
@@ -17,6 +19,20 @@ public class HomePanel extends LegupPanel {
     public HomePanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
         this.legupUI = legupUI;
         this.frame = frame;
+
+        this.frame.addComponentListener(new ComponentAdapter() {
+                                       @Override
+                                       public void componentResized(ComponentEvent e) {
+                                           Dimension minimum = new Dimension(500,300);
+                                           if(frame.getWidth() < minimum.width){
+                                               frame.setSize(minimum.width, frame.getHeight());
+                                           }
+                                           if(frame.getHeight() < minimum.height){
+                                                frame.setSize(frame.getHeight(), minimum.height);
+                                           }
+                                       }
+                                   });
+
         setLayout(new GridLayout(1, 2));
         initText();
         initButtons();
