@@ -43,17 +43,16 @@ public class DynamicView extends JPanel {
         zoomWrapper = new JPanel();
         try {
             zoomer = new JPanel();
-            JButton b=new JButton("Resize");
-            b.setEnabled(true);
+            JButton resizeButton = new JButton("Resize");
+            resizeButton.setEnabled(true);
             JLabel zoomLabel = new JLabel("100%");
             zoomLabel.setFont(MaterialFonts.getRegularFont(16f));
-            zoomer.add(b);
-            b.addActionListener(new ActionListener() {
+            zoomer.add(resizeButton);
+            resizeButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println("The resize bottom be click");
+                    // System.out.println("The resize bottom be click");
                     reset();
-
                 }
             });
             JSlider zoomSlider = new JSlider(25, 400, 100);
@@ -158,7 +157,7 @@ public class DynamicView extends JPanel {
 
     public void reset()
     {
-        System.out.println("get into the reset");
+        // System.out.println("get into the reset");
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         Board board1 = GameBoardFacade.getInstance().getBoard();
         board1.setModifiable(true);
@@ -166,7 +165,7 @@ public class DynamicView extends JPanel {
         this.getScrollView().zoomFit();
 //        System.out.println("get into the reset"+UIhight+"    "+this.getHeight()+"   "+this.getWidth());
 //        this.getScrollView().zoomTo(UIhight);
-        System.out.println("Finish into the reset");
+        // System.out.println("Finish into the reset");
 
 
     }
