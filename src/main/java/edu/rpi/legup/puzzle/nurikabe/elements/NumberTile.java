@@ -5,7 +5,7 @@ import edu.rpi.legup.model.elements.NonPlaceableElement;
 public class NumberTile extends NonPlaceableElement {
     private int object_num;
     public NumberTile( int num ) {
-        super("NURI-UNPL-0001", "Number Tile", "A numbered tile", "edu/rpi/legup/images/nurikabe/rules/BetweenRegions.png");
+        super("NURI-UNPL-0001", "Number Tile", "A numbered tile", "edu/rpi/legup/images/nurikabe/tiles/NumberTile.png");
         object_num = num;
     }
 
