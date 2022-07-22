@@ -16,7 +16,7 @@ import java.util.List;
 public class LastCampingSpotBasicRule extends BasicRule {
 
     public LastCampingSpotBasicRule() {
-        super("Last Camping Spot",
+        super("TREE-BASC-0004", "Last Camping Spot",
                 "If an unlinked tree is adjacent to only one blank cell and not adjacent to any unlinked tents, the blank cell must be a tent.",
                 "edu/rpi/legup/images/treetent/oneTentPosition.png");
     }
@@ -43,7 +43,7 @@ public class LastCampingSpotBasicRule extends BasicRule {
             return super.getInvalidUseOfRuleMessage() + ": This cell must be a tent.";
         }
 
-        if (isForced(initialBoard, initCell)) {
+        if (isForced(finalBoard, finalCell)) {
             return null;
         } else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be tent.";
@@ -51,12 +51,25 @@ public class LastCampingSpotBasicRule extends BasicRule {
     }
 
     private boolean isForced(TreeTentBoard board, TreeTentCell cell) {
-        List<TreeTentCell> adjTents = board.getAdjacent(cell, TreeTentType.TREE);
-        for (TreeTentCell c : adjTents) {
-            Point loc = c.getLocation();
-            for (TreeTentLine line : board.getLines()) {
-                if (line.getC1().getLocation().equals(loc) || line.getC2().getLocation().equals(loc)) {
-                    return false;
+        List<TreeTentCell> adjTrees = board.getAdjacent(cell, TreeTentType.TREE);
+        for (TreeTentCell c : adjTrees) {
+            List<TreeTentCell> unkAroundTree = board.getAdjacent(c, TreeTentType.UNKNOWN);
+            List<TreeTentCell> tntAroundTree = board.getAdjacent(c, TreeTentType.TENT);
+            if(unkAroundTree.size() == 0) 
+            {
+                if(tntAroundTree.size() == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    for(TreeTentCell t : tntAroundTree)
+                    {
+                        if(t == cell) {continue;}
+                        List<TreeTentCell> treesAroundTents = board.getAdjacent(t, TreeTentType.TREE);
+                        if(treesAroundTents.size() == 1) {return false;}
+                    }
+                    return true;
                 }
             }
         }

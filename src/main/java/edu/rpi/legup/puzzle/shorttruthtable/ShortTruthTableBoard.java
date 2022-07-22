@@ -93,6 +93,7 @@ public class ShortTruthTableBoard extends GridBoard {
 
     @Override
     public String toString(){
+        System.out.println("ShortTruthTableBoard toString() called");
         StringBuilder str = new StringBuilder();
         for(int i = 0; i<dimension.height; i+=2){
             for(int j = 0; j<dimension.width; j++){

@@ -5,7 +5,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.rules.contradiction.ContradictionRul
 public class BasicRuleNotElimination extends BasicRule_GenericElimination {
 
     public BasicRuleNotElimination() {
-        super("Not", new ContradictionRuleNot());
+        super("STTT-BASC-0005", "Not", new ContradictionRuleNot());
     }
 
 }

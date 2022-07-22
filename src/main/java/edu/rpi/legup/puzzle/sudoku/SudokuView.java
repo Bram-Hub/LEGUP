@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.sudoku;
 
 import edu.rpi.legup.controller.BoardController;
-import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.ui.boardview.DataSelectionView;
 import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.boardview.GridBoardView;

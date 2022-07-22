@@ -10,7 +10,8 @@ import java.util.List;
 
 public class SegmentTypeCaseRule extends CaseRule {
     public SegmentTypeCaseRule() {
-        super("Segment Type",
+        super("BTSP-CASE-0001",
+                "Segment Type",
                 "",
                 "edu/rpi/legup/images/battleship/cases/SegmentType.png");
     }

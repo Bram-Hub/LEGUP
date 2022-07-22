@@ -9,7 +9,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 public class OnlyOneChoiceBasicRule extends BasicRule {
 
     public OnlyOneChoiceBasicRule() {
-        super("Only One Choice",
+        super("MASY-BASC-0006", "Only One Choice",
                 "",
                 "edu/rpi/legup/images/masyu/RuleOnlyOneChoice.png");
     }

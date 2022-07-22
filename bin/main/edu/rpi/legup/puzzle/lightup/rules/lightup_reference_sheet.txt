@@ -1,0 +1,14 @@
+LTUP-BASC-0001 : BulbsOutsideDiagonalBasicRule
+LTUP-BASC-0002 : EmptyCellInLightBasicRule
+LTUP-BASC-0003 : EmptyCornersBasicRule
+LTUP-BASC-0004 : FinishWithBulbsBasicRule
+LTUP-BASC-0005 : FinishWithEmptyBasicRule
+LTUP-BASC-0006 : MustLightBasicRule
+
+LTUP-CONT-0001 : BulbsInPathContradictionRule
+LTUP-CONT-0002 : CannotLightACellContradictionRule
+LTUP-CONT-0003 : TooFewBulbsContradictionRule
+LTUP-CONT-0004 : TooManyBulbsContradictionRule
+
+LTUP-CASE-0001 : LightOrEmptyCaseRule
+LTUP-CASE-0002 : SatisfyNumberCaseRule
