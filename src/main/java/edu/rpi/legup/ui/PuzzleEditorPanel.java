@@ -184,7 +184,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
     public void loadPuzzleFromHome(String game, int rows, int columns) throws IllegalArgumentException {
         GameBoardFacade facade = GameBoardFacade.getInstance();
-        try {
+        try
+        {
             facade.loadPuzzle(game, rows, columns);
         }
         catch (IllegalArgumentException exception)
