@@ -17,6 +17,7 @@ Legup (Logic Engine for Grid-Using Puzzles) is a better way to learn formal logi
 - [Background](#background)
 - [Use Cases](#use-cases)
 - [For Educators](#for-educators)
+- [For Students](#for-students)
 - [Documentation](#documentation)
 - [Contributing](#contributing)
 - [License](#license)
@@ -37,6 +38,8 @@ Legup also provides a single interface that is capable of supporting many differ
 
 ## For Educators
 If you are an educator interested in using Legup, go to the [releases page](https://github.com/Bram-Hub/Legup/releases) to download the latest release of Legup. You can have your students download Legup from the same page. Some sample puzzle files can be found in the [puzzle files folder](https://github.com/Bram-Hub/Legup/tree/master/puzzles%20files).
+
+## For Students
 
 ## Documentation
 
