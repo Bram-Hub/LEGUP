@@ -17,7 +17,7 @@ public class HomePanel extends LegupPanel {
     public HomePanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
         this.legupUI = legupUI;
         this.frame = frame;
-        setLayout(new GridLayout(1, 2));
+        setLayout(new GridLayout(2, 3));
         initText();
         initButtons();
     }
@@ -76,6 +76,8 @@ public class HomePanel extends LegupPanel {
         this.buttons[0].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[0].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[0].addActionListener(l -> this.legupUI.displayPanel(1));
+        this.buttons[0].setBackground(Color.WHITE);
+        this.buttons[0].setOpaque(false);
 
         this.buttons[1] = new JButton("New Puzzle")
         {
@@ -89,6 +91,8 @@ public class HomePanel extends LegupPanel {
         this.buttons[1].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[1].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[1].addActionListener(l -> this.openNewPuzzleDialog());
+        this.buttons[1].setBackground(Color.WHITE);
+        this.buttons[1].setOpaque(false);
 
         this.buttons[2] = new JButton("Edit Puzzle")
         {
@@ -102,6 +106,8 @@ public class HomePanel extends LegupPanel {
         this.buttons[2].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[2].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[2].addActionListener(l -> this.legupUI.displayPanel(2)); // PLACEHOLDER
+        this.buttons[2].setBackground(Color.WHITE);
+        this.buttons[2].setOpaque(false);
 
         for (int i = 0; i < this.buttons.length - 1; i++) // -1 to avoid the batch grader button
         {
@@ -112,6 +118,8 @@ public class HomePanel extends LegupPanel {
         this.buttons[3] = new JButton("Batch Grader");
         this.buttons[3].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[3].setVerticalTextPosition(AbstractButton.BOTTOM);
+        this.buttons[3].setBackground(Color.WHITE);
+        this.buttons[3].setOpaque(false);
     }
 
     private void initText()
@@ -138,29 +146,34 @@ public class HomePanel extends LegupPanel {
     private void render()
     {
         this.removeAll();
-
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        //this.setLayout(new GridLayout(2, 3));
+        this.setLayout(new BoxLayout(this, 3));
         this.legupUI.setTitle("Legup: A Better Way to Learn Formal Logic");
+        JPanel temp =new JPanel();
+        temp.add(buttons[3]);
 
         JPanel buttons = new JPanel();
-        buttons.add(Box.createRigidArea(new Dimension(5, 0)));
+
         buttons.add(this.buttons[0]);
-        buttons.add(Box.createRigidArea(new Dimension(5, 0)));
+
         buttons.add(this.buttons[1]);
-        buttons.add(Box.createRigidArea(new Dimension(5, 0)));
+
         buttons.add(this.buttons[2]);
+        buttons.add(Box.createRigidArea(new Dimension(5, 0)));//empty box to hold the space
+
         buttons.add(Box.createRigidArea(new Dimension(5, 0)));
 
-        JPanel batchGraderButton = new JPanel();
-        batchGraderButton.add(this.buttons[3]);
-        batchGraderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        this.add(Box.createRigidArea(new Dimension(0, 5)));
+        buttons.setBackground(Color.WHITE);
+        buttons.add(temp);
+
+        buttons.setLayout(new GridLayout(2,3)); //set the layout which let the batch below the left one
+
+
         for (int i = 0; i < this.text.length; i++)
             this.add(this.text[i]);
         this.add(buttons);
-        this.add(batchGraderButton);
-        this.add(Box.createRigidArea(new Dimension(0, 5)));
+
     }
 
     private void openNewPuzzleDialog() {
