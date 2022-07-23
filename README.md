@@ -33,10 +33,5 @@ All contributions to Legup will be greatly appreciated. Currently, we need the m
 
 Please read our [contribution guidelines](CONTRIBUTING.md) for more detailed guidelines on how to contribute to Legup.
 
-## Code of Conduct
-> Note: The Code of Conduct is being worked on, the link below does not exist right now.
-
-You can find our code of conduct and how it is enforced here.
-
 ## License
 Legup is licensed under the GPL-3.0 license, which can be viewed [here](LICENSE).
