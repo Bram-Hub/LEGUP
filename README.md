@@ -1,5 +1,15 @@
-# Legup
-Legup (Logic Engine for Grid-Using Puzzles), is a better way to learn formal logic. It was created by Dr. Bram van Heuveln, whose goal for this project is to provide a better interface for students to learn the basic principles of logical reasoning.
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/46334090/180582690-a65937c6-6766-40f7-a21e-c1d8bbb3b26a.png"></a>
+    <br />
+    <br />
+    <a href="https://choosealicense.com/licenses/gpl-3.0/"><img src="https://img.shields.io/badge/license-GPL%203.0-red" alt="GPL 3.0 License"></a>
+    <a href="https://discord.gg/Ym5p6zUQjE"><img src="https://img.shields.io/discord/882735190785527848.svg?label=discord&color=yellow&logo=discord" alt="Discord"></a>
+    <br />
+    <i>A tool to teach formal logic using puzzles</i>
+</p>
+<hr />
+
+Legup (Logic Engine for Grid-Using Puzzles), is a better way to learn formal logic. It was created by [Dr. Bram van Heuveln](https://science.rpi.edu/itws/faculty/bram-van-heuveln), whose goal for this project is to provide a better interface for students to learn the basic principles of logical reasoning.
 
 > Note: A web version of Legup ([Bram-Hub/LegupWeb](https://github.com/Bram-Hub/LegupWeb)) based on this app version of Legup is actively being developed. However, it is very much in the early stages of development and will not be ready for general use for quite a while. Contributions to both versions of Legup are greatly appreciated. If you are interested in using Legup for educational purposes, please use this app version.
 
