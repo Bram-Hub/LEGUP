@@ -196,7 +196,9 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * @param columns   the number of columns on the board
      * @return          true if the given dimensions are valid for the given puzzle, false otherwise
      */
-    public abstract boolean isValidDimensions(int rows, int columns);
+    public boolean isValidDimensions(int rows, int columns) {
+        return rows > 0 && columns > 0;
+    }
 
     /**
      * Determines if the edu.rpi.legup.puzzle was solves correctly
