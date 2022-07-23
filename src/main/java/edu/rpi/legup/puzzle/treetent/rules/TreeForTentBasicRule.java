@@ -1,6 +1,7 @@
 package edu.rpi.legup.puzzle.treetent.rules;
 
 import java.util.List;
+import java.util.ArrayList;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.BasicRule;
@@ -44,7 +45,7 @@ public class TreeForTentBasicRule extends BasicRule {
         } else {
             return super.getInvalidUseOfRuleMessage() + ": This line must connect a tree to a tent.";
         }
-        int forced = isForced(board, tree, tent);
+        int forced = isForced(board, tree, tent, line);
         if(forced == 1)
         {
             return null;
@@ -63,28 +64,32 @@ public class TreeForTentBasicRule extends BasicRule {
         }
     }
 
-    private Integer isForced(TreeTentBoard board, TreeTentCell tree, TreeTentCell tent)
+    private Integer isForced(TreeTentBoard board, TreeTentCell tree, TreeTentCell tent, TreeTentLine line)
     {
         List<TreeTentCell> adjTrees = board.getAdjacent(tent, TreeTentType.TREE);
         adjTrees.remove(tree);
         List<TreeTentLine> lines = board.getLines();
+        lines.remove(line);
         for(TreeTentLine l : lines)
         {
+            ArrayList<TreeTentCell> toRemove = new ArrayList<>();
         	if(l.getC1().getLocation().equals(tree.getLocation()) || l.getC2().getLocation().equals(tree.getLocation())) {return -2;}
             for(TreeTentCell c : adjTrees)
             {
             	if(l.getC1().getLocation().equals(c.getLocation()))
             	{
             		if(l.getC2().getLocation().equals(tent.getLocation())) {return -1;}
-            		adjTrees.remove(c);
+            		toRemove.add(c);
             		
             	}
             	else if(l.getC2().getLocation().equals(c.getLocation()))
             	{
             		if(l.getC1().getLocation().equals(tent.getLocation())) {return -1;}
-            		adjTrees.remove(c);
+            		toRemove.add(c);
             	}
             }
+            for(TreeTentCell c : toRemove) {adjTrees.remove(c);}
+            toRemove.clear();
         }
         if(adjTrees.size() == 0) {return 1;}
         else {return 0;}

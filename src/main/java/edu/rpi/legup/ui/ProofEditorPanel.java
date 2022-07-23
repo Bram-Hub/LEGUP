@@ -380,6 +380,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         mainPanel.setPreferredSize(new Dimension(600, 600));
 
         boardPanel.add(mainPanel);
+        boardPanel.setVisible(true);
         boardBorder = BorderFactory.createTitledBorder("Board");
         boardBorder.setTitleJustification(TitledBorder.CENTER);
 
