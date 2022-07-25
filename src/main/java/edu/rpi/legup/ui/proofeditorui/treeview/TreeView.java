@@ -49,6 +49,7 @@ public class TreeView extends ScrollView implements ITreeListener {
 
     private TreeViewSelection selection;
 
+
     public TreeView(TreeController treeController) {
         super(treeController);
         currentStateBoxes = new ArrayList<>();
@@ -156,13 +157,13 @@ public class TreeView extends ScrollView implements ITreeListener {
     }
 
     public void zoomFit() {
-        zoomTo(1.0);
-        updateTreeSize();
+//        zoomTo(1.0);
+
         double fitwidth = (viewport.getWidth() - 8.0) / (getSize().width - 200);
         double fitheight = (viewport.getHeight() - 8.0) / (getSize().height - 120);
-        // choose the smaller of the two and zoom
-        zoomTo((fitwidth < fitheight) ? fitwidth : fitheight);
-        viewport.setViewPosition(new Point(0, 0));
+
+        zoomTo(Math.min(fitwidth , fitheight) );
+        viewport.setViewPosition(new Point(0,0));
     }
 
     /**
@@ -757,4 +758,5 @@ public class TreeView extends ScrollView implements ITreeListener {
         newOrder.forEach(l -> newChildren.addAll(l));
         node.setChildren(newChildren);
     }
+    public TreeView gettreeview(){return this ;}
 }

@@ -1,8 +1,11 @@
 package edu.rpi.legup.ui;
 
+
 import edu.rpi.legup.app.GameBoardFacade;
+import edu.rpi.legup.controller.TreeController;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 
@@ -17,11 +20,18 @@ import java.util.Objects;
 
 import static java.awt.BorderLayout.*;
 
+import  edu.rpi.legup.model.tree.*;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+
 public class DynamicView extends JPanel {
 
     private ScrollView scrollView;
     private JPanel zoomWrapper;
     private JPanel zoomer;
+
+    private TreeView treeview;
+
     private JLabel status;
 
     private static final Font ERROR_FONT = MaterialFonts.ITALIC;
@@ -157,15 +167,27 @@ public class DynamicView extends JPanel {
 
     public void reset()
     {
-        // System.out.println("get into the reset");
+        System.out.println("get into the reset");
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         Board board1 = GameBoardFacade.getInstance().getBoard();
+        Tree tree= GameBoardFacade.getInstance().getTree();
+        //System.out.println("tree view "+ treeView.getZoom()+"puzzle view "+this.getScrollView().getZoom());
         board1.setModifiable(true);
         Dimension bi = new Dimension(1200,900);
-        this.getScrollView().zoomFit();
-//        System.out.println("get into the reset"+UIhight+"    "+this.getHeight()+"   "+this.getWidth());
-//        this.getScrollView().zoomTo(UIhight);
-        // System.out.println("Finish into the reset");
+
+
+        scrollView.zoomFit();
+
+
+        treeview=GameBoardFacade.getInstance().getLegupUI().getTreePanel().returntreeview();
+        treeview.zoomFit();
+
+
+
+
+
+
+         System.out.println("Finish into the reset");
 
 
     }

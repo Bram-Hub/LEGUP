@@ -140,4 +140,5 @@ public class TreePanel extends JPanel {
             view.setCollapsed(!view.isCollapsed());
         }
     }
+    public TreeView returntreeview(){return this.treeView;}
 }
