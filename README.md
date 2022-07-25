@@ -9,7 +9,7 @@
 </p>
 <hr />
 
-Legup (Logic Engine for Grid-Using Puzzles) is a better way to learn formal logic. It was created by [Dr. Bram van Heuveln](https://science.rpi.edu/itws/faculty/bram-van-heuveln), whose goal for this project is to provide a better interface for students to learn the basic principles of logical reasoning.
+Legup (**L**ogic **E**ngine for **G**rid-**U**sing **P**uzzles) is a better way to learn formal logic. It was created by [Dr. Bram van Heuveln](https://science.rpi.edu/itws/faculty/bram-van-heuveln), whose goal for this project is to provide a better interface for students to learn the basic principles of logical reasoning.
 
 > Note: A web version of Legup ([Bram-Hub/LegupWeb](https://github.com/Bram-Hub/LegupWeb)) based on this app version of Legup is actively being developed. However, it is very much in the early stages of development and will not be ready for general use for quite a while. Contributions to both versions of Legup are greatly appreciated. If you are interested in using Legup for educational purposes, please use this app version.
 
