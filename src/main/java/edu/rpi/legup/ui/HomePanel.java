@@ -1,5 +1,7 @@
 package edu.rpi.legup.ui;
 
+import edu.rpi.legup.app.GameBoardFacade;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -168,13 +170,10 @@ public class HomePanel extends LegupPanel {
 
     public void openEditorWithNewPuzzle(String game, int width, int height) throws IllegalArgumentException {
         // Set game type on the puzzle editor
-        try
-        {
+        try {
             this.legupUI.displayPanel(2);
             this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, width, height);
-        }
-        catch (IllegalArgumentException exception)
-        {
+        } catch (IllegalArgumentException exception) {
             this.legupUI.displayPanel(0);
             JOptionPane.showMessageDialog(null,
                     "The dimensions you entered are invalid. Please double check \n" +
