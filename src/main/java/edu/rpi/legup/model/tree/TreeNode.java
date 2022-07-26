@@ -104,7 +104,8 @@ public class TreeNode extends TreeElement {
                         it.add(transition);
                     }
                 }
-            } else {
+            }
+            else {
                 TreeTransition trans = (TreeTransition) next;
                 TreeNode childNode = trans.getChildNode();
                 if (childNode != null && !descendants.contains(childNode)) {
@@ -142,7 +143,8 @@ public class TreeNode extends TreeElement {
                     if (element.getType() == TreeElementType.NODE) {
                         TreeNode node = (TreeNode) element;
                         nodes.addAll(node.getChildren());
-                    } else {
+                    }
+                    else {
                         TreeTransition childTran = (TreeTransition) element;
                         if (childTran.getChildNode() != null) {
                             nodes.add(childTran.getChildNode());
@@ -184,14 +186,14 @@ public class TreeNode extends TreeElement {
             mergeSet.createSet(element);
             if (element.getType() == TreeElementType.NODE) {
                 TreeNode node = (TreeNode) element;
-                node.getDescendants().forEach((TreeElement e) ->
-                {
+                node.getDescendants().forEach((TreeElement e) -> {
                     if (!mergeSet.contains(e)) {
                         mergeSet.createSet(e);
                     }
                     mergeSet.union(element, e);
                 });
-            } else {
+            }
+            else {
                 TreeTransition transition = (TreeTransition) element;
                 TreeNode childNode = transition.getChildNode();
                 if (childNode != null) {
@@ -226,7 +228,8 @@ public class TreeNode extends TreeElement {
             if (element.getType() == TreeElementType.NODE) {
                 TreeNode node = (TreeNode) element;
                 next.addAll(node.getChildren());
-            } else {
+            }
+            else {
                 TreeTransition tran = (TreeTransition) element;
                 next.add(tran.getChildNode());
             }

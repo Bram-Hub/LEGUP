@@ -55,8 +55,11 @@ public class LastNumberForCellBasicRule extends BasicRule {
         }
         if (numbers.size() > 1) {
             return super.getInvalidUseOfRuleMessage() + ": The number at the index is not forced";
-        } else if (numbers.size() == 1 && numbers.iterator().next() != finalBoard.getPuzzleElement(puzzleElement).getData()) {
-            return super.getInvalidUseOfRuleMessage() + ": The number at the index is forced but not correct";
+        }
+        else {
+            if (numbers.size() == 1 && numbers.iterator().next() != finalBoard.getPuzzleElement(puzzleElement).getData()) {
+                return super.getInvalidUseOfRuleMessage() + ": The number at the index is forced but not correct";
+            }
         }
         return null;
     }

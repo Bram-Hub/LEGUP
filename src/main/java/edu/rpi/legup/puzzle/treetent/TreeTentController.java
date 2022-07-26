@@ -56,10 +56,12 @@ public class TreeTentController extends ElementController {
                         autoCaseRuleCommand.execute();
                         getInstance().getHistory().pushChange(autoCaseRuleCommand);
                         treePanel.updateError("");
-                    } else {
+                    }
+                    else {
                         treePanel.updateError(autoCaseRuleCommand.getError());
                     }
-                } else {
+                }
+                else {
                     if (dragStart == lastCellPressed) {
                         if (dragStart.getPuzzleElement().getIndex() >= 0) {
                             ICommand edit = new EditDataCommand(lastCellPressed, selection, e);
@@ -67,27 +69,34 @@ public class TreeTentController extends ElementController {
                                 edit.execute();
                                 getInstance().getHistory().pushChange(edit);
                                 treePanel.updateError("");
-                            } else {
+                            }
+                            else {
                                 treePanel.updateError(edit.getError());
                             }
-                        } else {
+                        }
+                        else {
                             ClueCommand edit = new ClueCommand(selection, (TreeTentClueView) dragStart);
                             if (edit.canExecute()) {
                                 edit.execute();
                                 getInstance().getHistory().pushChange(edit);
                                 treePanel.updateError("");
-                            } else {
+                            }
+                            else {
                                 treePanel.updateError(edit.getError());
                             }
                         }
-                    } else if (lastCellPressed != null) {
-                        if (dragStart instanceof TreeTentElementView) {
-                            ICommand editLine = new EditLineCommand(selection, (TreeTentElementView) dragStart, lastCellPressed);
-                            if (editLine.canExecute()) {
-                                editLine.execute();
-                                getInstance().getHistory().pushChange(editLine);
-                            } else {
-                                treePanel.updateError(editLine.getError());
+                    }
+                    else {
+                        if (lastCellPressed != null) {
+                            if (dragStart instanceof TreeTentElementView) {
+                                ICommand editLine = new EditLineCommand(selection, (TreeTentElementView) dragStart, lastCellPressed);
+                                if (editLine.canExecute()) {
+                                    editLine.execute();
+                                    getInstance().getHistory().pushChange(editLine);
+                                }
+                                else {
+                                    treePanel.updateError(editLine.getError());
+                                }
                             }
                         }
                     }
@@ -104,18 +113,29 @@ public class TreeTentController extends ElementController {
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (cell.getData() == 0) {
                 element.setData(2);
-            } else if (cell.getData() == 2) {
-                element.setData(3);
-            } else {
-                element.setData(0);
             }
-        } else if (e.getButton() == MouseEvent.BUTTON3) {
-            if (cell.getData() == 0) {
-                element.setData(3);
-            } else if (cell.getData() == 2) {
-                element.setData(0);
-            } else {
-                element.setData(2);
+            else {
+                if (cell.getData() == 2) {
+                    element.setData(3);
+                }
+                else {
+                    element.setData(0);
+                }
+            }
+        }
+        else {
+            if (e.getButton() == MouseEvent.BUTTON3) {
+                if (cell.getData() == 0) {
+                    element.setData(3);
+                }
+                else {
+                    if (cell.getData() == 2) {
+                        element.setData(0);
+                    }
+                    else {
+                        element.setData(2);
+                    }
+                }
             }
         }
     }

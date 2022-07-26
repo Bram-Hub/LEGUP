@@ -16,23 +16,20 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 
 import java.awt.*;
 
-public class AdjacentShipsContradictionRuleTest
-{
+public class AdjacentShipsContradictionRuleTest {
     private static final AdjacentShipsContradictionRule RULE
             = new AdjacentShipsContradictionRule();
 
     private static Battleship battleship;
 
     @BeforeClass
-    public static void setUp()
-    {
+    public static void setUp() {
         MockGameBoardFacade.getInstance();
         battleship = new Battleship();
     }
 
     @Test
-    public void OrthogonalAdjacentTest() throws InvalidFileFormatException
-    {
+    public void OrthogonalAdjacentTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/battleship/rules" +
                         "/AdjacentShipsContradictionRule/OrthogonalAdjacentBoards",
                 battleship);
@@ -40,31 +37,29 @@ public class AdjacentShipsContradictionRuleTest
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
-        BattleshipBoard board = (BattleshipBoard)transition.getBoard();
+        BattleshipBoard board = (BattleshipBoard) transition.getBoard();
 
         Assert.assertNotNull(RULE.checkContradiction(
                 board));
     }
 
     @Test
-    public void InvalidOrthogonalAdjacentTest() throws InvalidFileFormatException
-    {
+    public void InvalidOrthogonalAdjacentTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/battleship/rules" +
-                        "/AdjacentShipsContradictionRule" +
-                        "/InvalidOrthogonalAdjacentBoards", battleship);
+                "/AdjacentShipsContradictionRule" +
+                "/InvalidOrthogonalAdjacentBoards", battleship);
         TreeNode rootNode = battleship.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
-        BattleshipBoard board = (BattleshipBoard)transition.getBoard();
+        BattleshipBoard board = (BattleshipBoard) transition.getBoard();
 
         Assert.assertNull(RULE.checkContradiction(
                 board));
     }
 
     @Test
-    public void DiagonalAdjacentTest() throws InvalidFileFormatException
-    {
+    public void DiagonalAdjacentTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/battleship/rules" +
                 "/AdjacentShipsContradictionRule" +
                 "/DiagonalAdjacentBoards", battleship);
@@ -72,7 +67,7 @@ public class AdjacentShipsContradictionRuleTest
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
-        BattleshipBoard board = (BattleshipBoard)transition.getBoard();
+        BattleshipBoard board = (BattleshipBoard) transition.getBoard();
 
         Assert.assertNull(RULE.checkContradiction(
                 board));

@@ -58,32 +58,44 @@ public class SatisfyNumberCaseRule extends CaseRule {
         if (checkCell != null) {
             if (checkCell.getType() == LightUpCellType.UNKNOWN && !checkCell.isLite()) {
                 openSpots.add(checkCell);
-            } else if (checkCell.getType() == LightUpCellType.BULB) {
-                numNeeded--;
+            }
+            else {
+                if (checkCell.getType() == LightUpCellType.BULB) {
+                    numNeeded--;
+                }
             }
         }
         checkCell = lightUpBoard.getCell(loc.x, loc.y + 1);
         if (checkCell != null) {
             if (checkCell.getType() == LightUpCellType.UNKNOWN && !checkCell.isLite()) {
                 openSpots.add(checkCell);
-            } else if (checkCell.getType() == LightUpCellType.BULB) {
-                numNeeded--;
+            }
+            else {
+                if (checkCell.getType() == LightUpCellType.BULB) {
+                    numNeeded--;
+                }
             }
         }
         checkCell = lightUpBoard.getCell(loc.x - 1, loc.y);
         if (checkCell != null) {
             if (checkCell.getType() == LightUpCellType.UNKNOWN && !checkCell.isLite()) {
                 openSpots.add(checkCell);
-            } else if (checkCell.getType() == LightUpCellType.BULB) {
-                numNeeded--;
+            }
+            else {
+                if (checkCell.getType() == LightUpCellType.BULB) {
+                    numNeeded--;
+                }
             }
         }
         checkCell = lightUpBoard.getCell(loc.x, loc.y - 1);
         if (checkCell != null) {
             if (checkCell.getType() == LightUpCellType.UNKNOWN && !checkCell.isLite()) {
                 openSpots.add(checkCell);
-            } else if (checkCell.getType() == LightUpCellType.BULB) {
-                numNeeded--;
+            }
+            else {
+                if (checkCell.getType() == LightUpCellType.BULB) {
+                    numNeeded--;
+                }
             }
         }
 
@@ -236,7 +248,8 @@ public class SatisfyNumberCaseRule extends CaseRule {
         int size = modCells.size();
         if (size == 0 || size > 4) {
             return null;
-        } else {
+        }
+        else {
             Iterator<PuzzleElement> it = modCells.iterator();
             List<LightUpCell> spots = getAdjacentCells(board, (LightUpCell) it.next());
 
