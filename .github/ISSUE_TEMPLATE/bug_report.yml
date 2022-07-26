@@ -20,9 +20,7 @@ body:
       
         2. Click on '....'
         
-        3. Scroll down to '....'
-        
-        4. See error"
+        3. See error"
     validations:
       required: true
   - type: textarea
