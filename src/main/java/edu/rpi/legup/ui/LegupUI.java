@@ -28,13 +28,13 @@ public class LegupUI extends JFrame implements WindowListener {
     protected LegupPanel[] panels;
 
     /**
-     * Identifies operating system 
+     * Identifies operating system
      */
     public static String getOS() {
-        String os = System.getProperty("os.name").toLowerCase(); 
-        if(os.contains("mac")) os = "mac"; 
-        else os = "win"; 
-        return os;  
+        String os = System.getProperty("os.name").toLowerCase();
+        if(os.contains("mac")) os = "mac";
+        else os = "win";
+        return os;
     }
 
     /**
