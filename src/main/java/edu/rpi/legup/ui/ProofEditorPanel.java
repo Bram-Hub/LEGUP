@@ -279,14 +279,14 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             }
         }
 
-        folderBrowser = new JFileChooser();
-
+        LegupPreferences preferences = LegupPreferences.getInstance();
+        File preferredDirectory = new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
+        folderBrowser = new JFileChooser(preferredDirectory);
+        folderBrowser.setDialogTitle("Select Proof File");
         folderBrowser.showOpenDialog(this);
-        folderBrowser.setVisible(true);
-        folderBrowser.setCurrentDirectory(new java.io.File("."));
-        folderBrowser.setDialogTitle("Select Directory");
         folderBrowser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         folderBrowser.setAcceptAllFileFilterUsed(true);
+        folderBrowser.setVisible(true);
 
         String fileName = null;
         File puzzleFile = folderBrowser.getSelectedFile();
@@ -557,11 +557,14 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
          *    |       |
          *    |       | -> Proofs
          */
-        folderBrowser = new JFileChooser();
+
+        LegupPreferences preferences = LegupPreferences.getInstance();
+        File preferredDirectory = new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
+        folderBrowser = new JFileChooser(preferredDirectory);
 
         folderBrowser.showOpenDialog(this);
         folderBrowser.setVisible(true);
-        folderBrowser.setCurrentDirectory(new java.io.File("."));
+        folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
         folderBrowser.setDialogTitle("Select Directory");
         folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         folderBrowser.setAcceptAllFileFilterUsed(false);
