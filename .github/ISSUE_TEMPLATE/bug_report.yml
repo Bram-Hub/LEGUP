@@ -39,7 +39,7 @@ body:
       value: |
         ![DESCRIPTION](LINK.png)
        render: bash
-     validations:
+    validations:
         required: false
   - type: textarea
     id: files
