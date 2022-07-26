@@ -9,7 +9,7 @@ body:
       label: "Describe the bug"
       description: "A clear and concise description of what the bug is."
       placeholder: "If your issue relates to a particular puzzle, make sure to remember to add the corresponding label to the issue."
-      validations:
+    validations:
         required: true
   - type: textarea
     id: reproduce
