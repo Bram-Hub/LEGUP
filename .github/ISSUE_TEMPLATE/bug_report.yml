@@ -6,7 +6,7 @@ body:
   - type: textarea
     id: description
     attributes:
-      label: "Describe the bug"
+      label: "Description"
       description: "A clear and concise description of what the bug is."
       placeholder: "If your issue relates to a particular puzzle, make sure to remember to add the corresponding label to the issue."
     validations:
@@ -27,7 +27,7 @@ body:
   - type: textarea
     id: expected_behavior
     attributes:
-      label: "Expected behavior"
+      label: "Expected Behavior"
       description: "A clear and concise description of what you expected to happen."
     validations:
       required: true
