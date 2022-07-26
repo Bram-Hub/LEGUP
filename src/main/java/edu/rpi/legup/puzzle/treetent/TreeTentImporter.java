@@ -34,6 +34,15 @@ public class TreeTentImporter extends PuzzleImporter {
                 }
             }
         }
+
+        for(int i = 0; i < rows; i++) {
+            treeTentBoard.getRowClues().set(i, new TreeTentClue(0, i, TreeTentType.CLUE_EAST));
+        }
+
+        for(int i = 0; i < columns; i++) {
+            treeTentBoard.getColClues().set(i, new TreeTentClue(0, i, TreeTentType.CLUE_SOUTH));
+        }
+
         puzzle.setCurrentBoard(treeTentBoard);
     }
 
