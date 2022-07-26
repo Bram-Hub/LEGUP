@@ -39,7 +39,7 @@ body:
       value: |
         ![DESCRIPTION](LINK.png)
        render: bash
-      validations:
+     validations:
         required: false
   - type: textarea
     id: files
@@ -47,12 +47,12 @@ body:
       label: "Puzzle Files"
       description: "If applicable, add any puzzle files to help explain your problem."
       placeholder: You will need to zip up the puzzle files before you can attach them to your issue.
-      validations:
+    validations:
         required: false
   - type: textarea
     id: additional_context
     attributes:
       label: "Additional Context"
       description: "Add any other context about the problem here."
-      validations:
+    validations:
         required: false
