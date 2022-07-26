@@ -24,8 +24,10 @@ public class LinkTentCaseRule extends CaseRule {
         TreeTentBoard treeTentBoard = (TreeTentBoard) board.copy();
         treeTentBoard.setModifiable(false);
         CaseBoard caseBoard = new CaseBoard(treeTentBoard, this);
-        for(PuzzleElement element : treeTentBoard.getPuzzleElements()) {
-            if(((TreeTentCell) element).getType() == TreeTentType.TENT) {caseBoard.addPickableElement(element);}
+        for (PuzzleElement element : treeTentBoard.getPuzzleElements()) {
+            if (((TreeTentCell) element).getType() == TreeTentType.TENT) {
+                caseBoard.addPickableElement(element);
+            }
         }
         return caseBoard;
     }

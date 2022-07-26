@@ -42,12 +42,13 @@ public class Config {
         return new ArrayList<>(puzzles.keySet());
     }
 
-    public List<String> getFileCreationEnabledPuzzles()
-    {
+    public List<String> getFileCreationEnabledPuzzles() {
         LinkedList<String> puzzles = new LinkedList<String>();
-        for (String puzzle : this.puzzles.keySet())
-            if (!this.fileCreationDisabledStatuses.get(puzzle))
+        for (String puzzle : this.puzzles.keySet()) {
+            if (!this.fileCreationDisabledStatuses.get(puzzle)) {
                 puzzles.add(puzzle);
+            }
+        }
         return puzzles;
     }
 
@@ -90,12 +91,13 @@ public class Config {
                 String name = puzzle.getAttribute("name");
                 String className = puzzle.getAttribute("qualifiedClassName");
                 boolean status = Boolean.parseBoolean(puzzle.getAttribute("fileCreationDisabled").toLowerCase());
-                Logger.debug("Class Name: "+className);
+                Logger.debug("Class Name: " + className);
                 this.puzzles.put(name, className);
                 this.fileCreationDisabledStatuses.put(name, Boolean.valueOf(status));
             }
 
-        } catch (ParserConfigurationException | SAXException | IOException e) {
+        }
+        catch (ParserConfigurationException | SAXException | IOException e) {
             throw new InvalidConfigException(e.getMessage());
         }
     }

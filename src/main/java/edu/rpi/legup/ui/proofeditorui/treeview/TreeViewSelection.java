@@ -66,7 +66,8 @@ public class TreeViewSelection {
         if (selectedViews.contains(treeElementView)) {
             selectedViews.remove(treeElementView);
             treeElementView.setSelected(false);
-        } else {
+        }
+        else {
             selectedViews.add(treeElementView);
             treeElementView.setSelected(true);
         }

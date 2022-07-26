@@ -100,25 +100,29 @@ public class TreeTransitionView extends TreeElementView {
             graphics2D.setStroke(SELECTION_STROKE);
             graphics2D.setColor(OUTLINE_SELECTION_COLOR);
             graphics2D.drawPolygon(selection_triangle);
-        } else if (isHover) {
-            graphics2D.setColor(HOVER_COLOR);
-            graphics2D.fillPolygon(arrowhead);
+        }
+        else {
+            if (isHover) {
+                graphics2D.setColor(HOVER_COLOR);
+                graphics2D.fillPolygon(arrowhead);
 
-            graphics2D.setColor(OUTLINE_COLOR);
-            graphics2D.drawPolygon(arrowhead);
+                graphics2D.setColor(OUTLINE_COLOR);
+                graphics2D.drawPolygon(arrowhead);
 
-            Polygon selection_triangle = createTransitionTriangle(RADIUS + 10);
-            selection_triangle.translate(7, 0);
+                Polygon selection_triangle = createTransitionTriangle(RADIUS + 10);
+                selection_triangle.translate(7, 0);
 
-            graphics2D.setStroke(SELECTION_STROKE);
-            graphics2D.setColor(OUTLINE_HOVER_COLOR);
-            graphics2D.drawPolygon(selection_triangle);
-        } else {
-            graphics2D.setColor(getTreeElement().isJustified() ? getTreeElement().isCorrect() ? CORRECT_COLOR : INCORRECT_COLOR : DEFAULT_COLOR);
-            graphics2D.fillPolygon(arrowhead);
+                graphics2D.setStroke(SELECTION_STROKE);
+                graphics2D.setColor(OUTLINE_HOVER_COLOR);
+                graphics2D.drawPolygon(selection_triangle);
+            }
+            else {
+                graphics2D.setColor(getTreeElement().isJustified() ? getTreeElement().isCorrect() ? CORRECT_COLOR : INCORRECT_COLOR : DEFAULT_COLOR);
+                graphics2D.fillPolygon(arrowhead);
 
-            graphics2D.setColor(OUTLINE_COLOR);
-            graphics2D.drawPolygon(arrowhead);
+                graphics2D.setColor(OUTLINE_COLOR);
+                graphics2D.drawPolygon(arrowhead);
+            }
         }
     }
 
