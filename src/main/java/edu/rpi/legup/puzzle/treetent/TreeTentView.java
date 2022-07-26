@@ -64,7 +64,7 @@ public class TreeTentView extends GridBoardView {
             row.setSize(elementSize);
 
             TreeTentClueView clue = new TreeTentClueView(board.getRowClues().get(i));
-            clue.setLocation(new Point((gridSize.height + 1) * elementSize.height, (i + 1) * elementSize.height));
+            clue.setLocation(new Point((gridSize.width + 1) * elementSize.width, (i + 1) * elementSize.height));
             clue.setSize(elementSize);
 
             westClues.add(row);
@@ -77,7 +77,7 @@ public class TreeTentView extends GridBoardView {
             col.setSize(elementSize);
 
             TreeTentClueView clue = new TreeTentClueView(board.getColClues().get(i));
-            clue.setLocation(new Point((i + 1) * elementSize.width, (gridSize.width + 1) * elementSize.width));
+            clue.setLocation(new Point((i + 1) * elementSize.width, (gridSize.height + 1) * elementSize.height));
             clue.setSize(elementSize);
 
             northClues.add(col);
