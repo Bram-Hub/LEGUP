@@ -22,7 +22,28 @@ public class TreeTentImporter extends PuzzleImporter {
      */
     @Override
     public void initializeBoard(int rows, int columns) {
+        TreeTentBoard treeTentBoard = new TreeTentBoard(columns, rows);
 
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++) {
+                if (treeTentBoard.getCell(x, y) == null) {
+                    TreeTentCell cell = new TreeTentCell(0, new Point(x, y));
+                    cell.setIndex(y * columns + x);
+                    cell.setModifiable(true);
+                    treeTentBoard.setCell(x, y, cell);
+                }
+            }
+        }
+
+        for(int i = 0; i < rows; i++) {
+            treeTentBoard.getRowClues().set(i, new TreeTentClue(0, i, TreeTentType.CLUE_EAST));
+        }
+
+        for(int i = 0; i < columns; i++) {
+            treeTentBoard.getColClues().set(i, new TreeTentClue(0, i, TreeTentType.CLUE_SOUTH));
+        }
+
+        puzzle.setCurrentBoard(treeTentBoard);
     }
 
     /**
