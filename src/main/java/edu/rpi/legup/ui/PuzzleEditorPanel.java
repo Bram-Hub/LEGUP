@@ -74,7 +74,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         elementBox.add(boardPanel);
         this.add(elementBox);
 
-        splitPanel.setDividerLocation(splitPanel.getMaximumDividerLocation()+100);
+        splitPanel.setDividerLocation(splitPanel.getMaximumDividerLocation() + 100);
         this.splitPanel = splitPanel;
         revalidate();
     }
@@ -91,16 +91,22 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         // file>new
         JMenuItem newPuzzle = new JMenuItem("New");
         newPuzzle.addActionListener((ActionEvent) -> promptPuzzle());
-        if(os.equals("mac")) newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        else newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
+        if (os.equals("mac")) {
+            newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        }
+        else {
+            newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
+        }
         // file>save
         JMenuItem savePuzzle = new JMenuItem("Save");
         JMenuItem exit = new JMenuItem("Exit");
         exit.addActionListener((ActionEvent) -> this.legupUI.displayPanel(0));
-        if (os.equals("mac"))
+        if (os.equals("mac")) {
             exit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        else
+        }
+        else {
             exit.setAccelerator(KeyStroke.getKeyStroke('Q', InputEvent.CTRL_DOWN_MASK));
+        }
         menus[0].add(newPuzzle);
         menus[0].add(savePuzzle);
         menus[0].add(exit);
@@ -188,24 +194,24 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         this.add(toolBar, BorderLayout.NORTH);
     }
+
     public void loadPuzzleFromHome(String game, int rows, int columns) throws IllegalArgumentException {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         try {
             facade.loadPuzzle(game, rows, columns);
         }
-        catch (IllegalArgumentException exception)
-        {
+        catch (IllegalArgumentException exception) {
             throw new IllegalArgumentException(exception.getMessage());
         }
-        catch (RuntimeException e){
+        catch (RuntimeException e) {
             LOGGER.error(e.getMessage());
         }
     }
+
     public void promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
-            if (noQuit("Opening a new puzzle to edit?")) // !noquit or noquit?
-            {
+            if (noQuit("Opening a new puzzle to edit?")) { // !noquit or noquit?
                 return;
             }
         }
@@ -225,11 +231,13 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 GameBoardFacade.getInstance().loadPuzzle(fileName);
                 String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
                 frame.setTitle(puzzleName + " - " + puzzleFile.getName());
-            } catch (InvalidFileFormatException e) {
+            }
+            catch (InvalidFileFormatException e) {
                 LOGGER.error(e.getMessage());
             }
         }
     }
+
     public boolean noQuit(String instr) {
         int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
         return n != JOptionPane.YES_OPTION;
@@ -258,6 +266,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     public JButton[] getToolBarButtons() {
         return toolBarButtons;
     }
+
     public void setToolBarButtons(JButton[] toolBarButtons) {
         this.toolBarButtons = toolBarButtons;
     }

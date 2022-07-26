@@ -15,24 +15,24 @@ import java.awt.Graphics;
 //TODO cambio colore del radio button.
 public class MaterialRadioButtonUI extends BasicRadioButtonUI {
 
-	public static ComponentUI createUI (JComponent c) {
-		return new MaterialRadioButtonUI ();
-	}
+    public static ComponentUI createUI(JComponent c) {
+        return new MaterialRadioButtonUI();
+    }
 
-	@Override
-	public void installUI (JComponent c) {
-		super.installUI (c);
+    @Override
+    public void installUI(JComponent c) {
+        super.installUI(c);
 
-		JRadioButton radioButton = (JRadioButton) c;
-		radioButton.setFont (UIManager.getFont ("RadioButton.font"));
-		radioButton.setBackground (UIManager.getColor ("RadioButton.background"));
-		radioButton.setForeground (UIManager.getColor ("RadioButton.foreground"));
-		radioButton.setIcon (UIManager.getIcon ("RadioButton.icon"));
-		radioButton.setSelectedIcon (UIManager.getIcon ("RadioButton.selectedIcon"));
-	}
+        JRadioButton radioButton = (JRadioButton) c;
+        radioButton.setFont(UIManager.getFont("RadioButton.font"));
+        radioButton.setBackground(UIManager.getColor("RadioButton.background"));
+        radioButton.setForeground(UIManager.getColor("RadioButton.foreground"));
+        radioButton.setIcon(UIManager.getIcon("RadioButton.icon"));
+        radioButton.setSelectedIcon(UIManager.getIcon("RadioButton.selectedIcon"));
+    }
 
-	@Override
-	public void paint (Graphics g, JComponent c) {
-		super.paint (MaterialDrawingUtils.getAliasedGraphics (g), c);
-	}
+    @Override
+    public void paint(Graphics g, JComponent c) {
+        super.paint(MaterialDrawingUtils.getAliasedGraphics(g), c);
+    }
 }

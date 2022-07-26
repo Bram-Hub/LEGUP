@@ -64,7 +64,8 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
                 puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(transition));
                 newSelection.addToSelection(treeView.getElementView(childNode));
             }
-        } else {
+        }
+        else {
             for (final TreeTransition transition : caseTrans) {
                 tree.addTreeElement(node, transition);
                 TreeNode childNode = transition.getChildNode();

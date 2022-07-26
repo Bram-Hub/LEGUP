@@ -88,7 +88,7 @@ public class DynamicView extends JPanel {
             scrollView.addComponentListener(new ComponentAdapter() {
                 @Override
                 public void componentResized(ComponentEvent e) {
-                    zoomSlider.setValue(scrollView.getZoom() );
+                    zoomSlider.setValue(scrollView.getZoom());
                     zoomLabel.setText(zoomSlider.getValue() + "%");
                 }
             });
@@ -121,7 +121,8 @@ public class DynamicView extends JPanel {
             zoomWrapper.setLayout(new BorderLayout());
             zoomWrapper.add(status, WEST);
             zoomWrapper.add(zoomer, EAST);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
         return zoomWrapper;
@@ -155,13 +156,12 @@ public class DynamicView extends JPanel {
         status.setText("");
     }
 
-    public void reset()
-    {
+    public void reset() {
         // System.out.println("get into the reset");
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         Board board1 = GameBoardFacade.getInstance().getBoard();
         board1.setModifiable(true);
-        Dimension bi = new Dimension(1200,900);
+        Dimension bi = new Dimension(1200, 900);
         this.getScrollView().zoomFit();
 //        System.out.println("get into the reset"+UIhight+"    "+this.getHeight()+"   "+this.getWidth());
 //        this.getScrollView().zoomTo(UIhight);

@@ -67,25 +67,31 @@ public class PuzzleKeyAccelerator implements KeyListener {
             String update = "";
             if (rule.getRuleType() == RuleType.CASE) {
 //                handleCaseRule((CaseRule)rule);
-            } else if (rule.getRuleType() == RuleType.CONTRADICTION) {
-                TreeViewSelection selection = treeView.getSelection();
+            }
+            else {
+                if (rule.getRuleType() == RuleType.CONTRADICTION) {
+                    TreeViewSelection selection = treeView.getSelection();
 
-                ICommand validate = new ValidateContradictionRuleCommand(selection, (ContradictionRule) rule);
-                if (validate.canExecute()) {
-                    getInstance().getHistory().pushChange(validate);
-                    validate.execute();
-                } else {
-                    update = validate.getError();
+                    ICommand validate = new ValidateContradictionRuleCommand(selection, (ContradictionRule) rule);
+                    if (validate.canExecute()) {
+                        getInstance().getHistory().pushChange(validate);
+                        validate.execute();
+                    }
+                    else {
+                        update = validate.getError();
+                    }
                 }
-            } else {
-                TreeViewSelection selection = treeView.getSelection();
+                else {
+                    TreeViewSelection selection = treeView.getSelection();
 
-                ICommand validate = new ValidateBasicRuleCommand(selection, (BasicRule) rule);
-                if (validate.canExecute()) {
-                    getInstance().getHistory().pushChange(validate);
-                    validate.execute();
-                } else {
-                    update = validate.getError();
+                    ICommand validate = new ValidateBasicRuleCommand(selection, (BasicRule) rule);
+                    if (validate.canExecute()) {
+                        getInstance().getHistory().pushChange(validate);
+                        validate.execute();
+                    }
+                    else {
+                        update = validate.getError();
+                    }
                 }
             }
             GameBoardFacade.getInstance().getLegupUI().getTreePanel().updateError(update);

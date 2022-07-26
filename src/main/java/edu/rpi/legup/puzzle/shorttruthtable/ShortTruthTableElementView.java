@@ -38,14 +38,20 @@ public class ShortTruthTableElementView extends GridElementView {
         ShortTruthTableCellType type = cell.getData();
 
         //do not draw the cell if it is not in play
-        if(type == ShortTruthTableCellType.NOT_IN_PLAY) return;
+        if (type == ShortTruthTableCellType.NOT_IN_PLAY) return;
 
         //fill in background color of the cell
         graphics2D.setStroke(new BasicStroke(1));
-        switch (type){
-            case TRUE:    graphics2D.setColor(TRUE_COLOR); break;
-            case FALSE:   graphics2D.setColor(FALSE_COLOR); break;
-            default: graphics2D.setColor(UNKNOWN_COLOR); break;
+        switch (type) {
+            case TRUE:
+                graphics2D.setColor(TRUE_COLOR);
+                break;
+            case FALSE:
+                graphics2D.setColor(FALSE_COLOR);
+                break;
+            default:
+                graphics2D.setColor(UNKNOWN_COLOR);
+                break;
         }
         graphics2D.fillRect(location.x, location.y, size.width, size.height);
 

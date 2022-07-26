@@ -7,10 +7,8 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.save.InvalidFileFormatException;
 
-public final class TestUtilities
-{
-    public static void importTestBoard(String fileName, Puzzle puzzle) throws InvalidFileFormatException
-    {
+public final class TestUtilities {
+    public static void importTestBoard(String fileName, Puzzle puzzle) throws InvalidFileFormatException {
         puzzle.importPuzzle(ClassLoader.getSystemResourceAsStream(fileName));
         Tree tree = puzzle.getTree();
         TreeNode rootNode = tree.getRootNode();
