@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+@RegisterElement
 public abstract class Element {
     protected String elementID;
     protected String elementName;

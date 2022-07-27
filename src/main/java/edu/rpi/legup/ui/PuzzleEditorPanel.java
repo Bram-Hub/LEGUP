@@ -88,6 +88,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         // FILE
         menus[0] = new JMenu("File");
+
         // file>new
         JMenuItem newPuzzle = new JMenuItem("New");
         newPuzzle.addActionListener((ActionEvent) -> promptPuzzle());
@@ -184,7 +185,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
     public void loadPuzzleFromHome(String game, int rows, int columns) throws IllegalArgumentException {
         GameBoardFacade facade = GameBoardFacade.getInstance();
-        try {
+        try
+        {
             facade.loadPuzzle(game, rows, columns);
         }
         catch (IllegalArgumentException exception)
@@ -192,6 +194,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             throw new IllegalArgumentException(exception.getMessage());
         }
         catch (RuntimeException e){
+            e.printStackTrace();
             LOGGER.error(e.getMessage());
         }
     }
@@ -203,7 +206,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 return;
             }
         }
-
+        if (fileDialog == null) {
+            fileDialog = new FileDialog(this.frame);
+        }
         fileDialog.setMode(FileDialog.LOAD);
         fileDialog.setTitle("Select Puzzle");
         fileDialog.setVisible(true);
@@ -216,7 +221,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         if (puzzleFile != null && puzzleFile.exists()) {
             try {
-                GameBoardFacade.getInstance().loadPuzzle(fileName);
+                GameBoardFacade.getInstance().loadPuzzleEditor(fileName);
                 String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
                 frame.setTitle(puzzleName + " - " + puzzleFile.getName());
             } catch (InvalidFileFormatException e) {
@@ -249,6 +254,10 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     }
 
+    public BoardView getBoardView() {
+        return boardView;
+    }
+
     public JButton[] getToolBarButtons() {
         return toolBarButtons;
     }
@@ -272,12 +281,15 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         dynamicBoardView.setBorder(titleBoard);
 
         puzzle.addBoardListener(puzzle.getBoardView());
-
-        elementFrame.getNonPlaceableElementPanel().setElements(puzzle.getNonPlaceableElements());
-        elementFrame.getPlaceableElementPanel().setElements(puzzle.getPlaceableElements());
+        System.out.println("Setting elements");
+        elementFrame.setElements(puzzle);
 
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
 //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
+    }
+
+    public DynamicView getDynamicBoardView() {
+        return dynamicBoardView;
     }
 
 }

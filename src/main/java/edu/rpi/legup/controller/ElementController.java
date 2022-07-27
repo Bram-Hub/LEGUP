@@ -72,6 +72,9 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         TreePanel treePanel = GameBoardFacade.getInstance().getLegupUI().getTreePanel();
         TreeView treeView = treePanel.getTreeView();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
+        if (boardView == null) {
+            boardView = getInstance().getLegupUI().getEditorBoardView();
+        }
         Board board = boardView.getBoard();
         ElementView elementView = boardView.getElement(e.getPoint());
         TreeViewSelection selection = treeView.getSelection();
@@ -112,6 +115,12 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         TreeElement treeElement = boardView.getTreeElement();
         DynamicView dynamicView =  getInstance().getLegupUI().getDynamicBoardView();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
+        if (boardView == null) {
+            boardView = getInstance().getLegupUI().getEditorBoardView();
+        }
+        if (dynamicView == null) {
+            dynamicView =  getInstance().getLegupUI().getEditorDynamicBoardView();
+        }
         Board board = boardView.getBoard();
         ElementView elementView = boardView.getElement(e.getPoint());
         ElementSelection selection = boardView.getSelection();
@@ -146,6 +155,12 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         boardView.setFocusable(false);
         DynamicView dynamicView =  getInstance().getLegupUI().getDynamicBoardView();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
+        if (boardView == null) {
+            boardView = getInstance().getLegupUI().getEditorBoardView();
+        }
+        if (dynamicView == null) {
+            dynamicView =  getInstance().getLegupUI().getEditorDynamicBoardView();
+        }
         ElementView element = boardView.getElement(e.getPoint());
         if (element != null) {
             boardView.getSelection().clearHover();
@@ -172,9 +187,15 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     @Override
     public void mouseMoved(MouseEvent e) {
         BoardView boardView = getInstance().getLegupUI().getBoardView();
+        if (boardView == null) {
+            boardView = getInstance().getLegupUI().getEditorBoardView();
+        }
         Board board = boardView.getBoard();
         TreeElement treeElement = boardView.getTreeElement();
         DynamicView dynamicView =  getInstance().getLegupUI().getDynamicBoardView();
+        if (dynamicView == null) {
+            dynamicView =  getInstance().getLegupUI().getEditorDynamicBoardView();
+        }
         ElementView elementView = boardView.getElement(e.getPoint());
         ElementSelection selection = boardView.getSelection();
         String error = null;
@@ -211,6 +232,9 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     @Override
     public void actionPerformed(ActionEvent e) {
         BoardView boardView = getInstance().getLegupUI().getBoardView();
+        if (boardView == null) {
+            boardView = getInstance().getLegupUI().getEditorBoardView();
+        }
         ElementView selectedElement = boardView.getSelection().getFirstSelection();
         PuzzleElement puzzleElement = selectedElement.getPuzzleElement();
 
@@ -271,6 +295,9 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     public void keyReleased(KeyEvent e) {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
+        if (boardView == null) {
+            boardView = getInstance().getLegupUI().getEditorBoardView();
+        }
         Board board = boardView.getBoard();
         if (board instanceof CaseBoard) {
             CaseBoard caseBoard = (CaseBoard) board;
