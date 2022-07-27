@@ -4,9 +4,9 @@ import edu.rpi.legup.model.elements.NonPlaceableElement;
 
 public class NumberTile extends NonPlaceableElement {
     private int object_num;
-    public NumberTile( int num ) {
+    public NumberTile() {
         super("NURI-UNPL-0001", "Number Tile", "A numbered tile", "edu/rpi/legup/images/nurikabe/tiles/NumberTile.png");
-        object_num = num;
+        object_num = 0;
     }
 
     /**
@@ -17,11 +17,11 @@ public class NumberTile extends NonPlaceableElement {
 
     /**
      *      @return none
-     *      @param amount Amount to increment object tile by.
+     *      @param num Amount to increment object tile by.
      * */
-    public void incrementTile( int amount )
+    public void setTileNumber( int num )
     {
-        object_num += amount;
+        object_num = num;
     }
 
 }
