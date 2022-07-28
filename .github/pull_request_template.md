@@ -1,4 +1,4 @@
-# Description
+## Description
 
 <!-- Please include a summary of the changes and the related issue. Please also include relevant motivation and context. List any dependencies that are required for this change. -->
 
@@ -12,11 +12,11 @@ Closes #(issue)
 - [ ] Enhancement (improvement to an already existing feature)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 
-# How Has This Been Tested?
+## How Has This Been Tested?
 
 <!-- Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration. -->
 
-# Checklist:
+## Checklist:
 
 - [ ] I have performed a self-review of my code
 - [ ] I have commented my code, particularly in hard-to-understand areas
