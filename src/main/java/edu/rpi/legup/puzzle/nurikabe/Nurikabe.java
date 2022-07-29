@@ -43,7 +43,7 @@ public class Nurikabe extends Puzzle {
      *
      * @param rows      the number of rows
      * @param columns   the number of columns
-     * @return          true if the given dimensions are valid for Nurikabe, false otherwise
+     * @return true if the given dimensions are valid for Nurikabe, false otherwise
      */
     public boolean isValidDimensions(int rows, int columns) {
         // This is a placeholder, this method needs to be implemented

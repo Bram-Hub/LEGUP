@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class NurikabeCell extends GridCell<Integer> {
 
-/**
+    /**
      * NurikabeCell Constructor - creates a NurikabeCell from the specified value and location
      *
      * @param value    value of the NurikabeCell
