@@ -4,6 +4,9 @@ import edu.rpi.legup.app.GameBoardFacade;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 public class HomePanel extends LegupPanel {
     private LegupUI legupUI;
@@ -13,6 +16,17 @@ public class HomePanel extends LegupPanel {
     private JMenuBar menuBar;
 
     private final int buttonSize = 100;
+
+    private ActionListener openProofListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Object[] items = legupUI.getProofEditor().promptPuzzle();
+            String fileName = (String) items[0];
+            File puzzleFile = (File) items[1];
+            legupUI.displayPanel(1);
+            legupUI.getProofEditor().loadPuzzle(fileName, puzzleFile);
+        }
+    };
 
     public HomePanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
         this.legupUI = legupUI;
@@ -75,7 +89,8 @@ public class HomePanel extends LegupPanel {
         this.buttons[0].setIcon(resizeButtonIcon(button0Icon, this.buttonSize, this.buttonSize));
         this.buttons[0].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[0].setVerticalTextPosition(AbstractButton.BOTTOM);
-        this.buttons[0].addActionListener(l -> this.legupUI.displayPanel(1));
+        CursorController
+        this.buttons[0].addActionListener(openProofListener);
 
         this.buttons[1] = new JButton("New Puzzle")
         {
