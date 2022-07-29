@@ -86,11 +86,18 @@ public class LegupUI extends JFrame implements WindowListener {
         add(window);
         panels = new LegupPanel[3];
 
+
+        this.setPreferredSize(new Dimension(600,450));
         panels[0] = new HomePanel(this.fileDialog, this, this);
         panels[1] = new ProofEditorPanel(this.fileDialog, this, this);
         panels[2] = new PuzzleEditorPanel(this.fileDialog, this, this);
 
+
     }
+
+
+
+
 
     protected void displayPanel(int option) {
         if (option > panels.length || option < 0) {
@@ -99,7 +106,7 @@ public class LegupUI extends JFrame implements WindowListener {
         this.window.removeAll();
         panels[option].makeVisible();
         this.window.add(panels[option]);
-        pack();
+        //pack();
         revalidate();
         repaint();
     }
@@ -139,7 +146,7 @@ public class LegupUI extends JFrame implements WindowListener {
 
     @Override
     public void windowOpened(WindowEvent e) {
-
+        this.setPreferredSize(new Dimension(100,100));
     }
 
     public void windowClosing(WindowEvent e) {

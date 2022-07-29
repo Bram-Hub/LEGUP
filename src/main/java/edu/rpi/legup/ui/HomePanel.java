@@ -4,6 +4,8 @@ import edu.rpi.legup.app.GameBoardFacade;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class HomePanel extends LegupPanel {
     private LegupUI legupUI;
@@ -20,6 +22,10 @@ public class HomePanel extends LegupPanel {
         setLayout(new GridLayout(1, 2));
         initText();
         initButtons();
+    }
+
+    public void setMinimumSizeButItActuallyWorks(Dimension d){
+        this.frame.setPreferredSize(d);
     }
 
     public JMenuBar getMenuBar()
