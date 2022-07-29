@@ -7,7 +7,11 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.battleship.BattleshipBoard;
 import edu.rpi.legup.puzzle.battleship.BattleshipCell;
+import edu.rpi.legup.puzzle.battleship.BattleshipClue;
 import edu.rpi.legup.puzzle.battleship.BattleshipType;
+
+import java.awt.*;
+import java.util.List;
 
 public class FinishWithShipsBasicRule extends BasicRule {
 
@@ -32,9 +36,9 @@ public class FinishWithShipsBasicRule extends BasicRule {
     @Override
     protected String checkRuleRawAt(TreeTransition transition,
                                     PuzzleElement puzzleElement) {
-        BattleshipBoard initialBoard = (BattleshipBoard) transition.getParents()
+        BattleshipBoard initBoard = (BattleshipBoard) transition.getParents()
                 .get(0).getBoard();
-        BattleshipCell initCell = (BattleshipCell) initialBoard
+        BattleshipCell initCell = (BattleshipCell) initBoard
                 .getPuzzleElement(puzzleElement);
         BattleshipBoard finalBoard = (BattleshipBoard) transition.getBoard();
         BattleshipCell finalCell = (BattleshipCell) finalBoard
@@ -43,7 +47,37 @@ public class FinishWithShipsBasicRule extends BasicRule {
                 && BattleshipType.isShip(finalCell.getType())))
             return super.getInvalidUseOfRuleMessage() + ": This cell must be a ship.";
 
-        return null;
+        if (isForced(initBoard, initCell))
+            return null;
+        else 
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to" +
+                    "be a ship segment.";
+    }
+    
+    private boolean isForced(BattleshipBoard board, BattleshipCell cell) {
+        Point loc = cell.getLocation();
+
+        // count the number of ship segments and unknowns in the row
+        List<BattleshipCell> row = board.getRow(loc.y);
+        int rowCount = 0;
+        for (BattleshipCell c : row)
+            if (c.getType() == BattleshipType.SHIP_UNKNOWN
+                || BattleshipType.isShip(c.getType()))
+                rowCount++;
+
+        // count the number of ship segments and unknowns in the column
+        List<BattleshipCell> col = board.getColumn(loc.x);
+        int colCount = 0;
+        for (BattleshipCell c : col)
+            if (c.getType() == BattleshipType.SHIP_UNKNOWN
+                || BattleshipType.isShip(c.getType()))
+                colCount++;
+
+        // compare the counts with the clues
+        BattleshipClue east = board.getEast().get(loc.y);
+        BattleshipClue south = board.getSouth().get(loc.x);
+
+        return rowCount <= east.getData() && colCount <= south.getData();
     }
 
     /**
@@ -56,6 +90,18 @@ public class FinishWithShipsBasicRule extends BasicRule {
      */
     @Override
     public Board getDefaultBoard(TreeNode node) {
-        return null;
+        BattleshipBoard board = (BattleshipBoard) node.getBoard().copy();
+        for (PuzzleElement element : board.getPuzzleElements()) {
+            BattleshipCell cell = (BattleshipCell) element;
+            if (cell.getType() == BattleshipType.UNKNOWN && isForced(board, cell)) {
+                cell.setData(BattleshipType.SHIP_UNKNOWN);
+                board.addModifiedData(cell);
+            }
+        }
+
+        if (board.getModifiedData().isEmpty())
+            return null;
+        else
+            return board;
     }
 }
