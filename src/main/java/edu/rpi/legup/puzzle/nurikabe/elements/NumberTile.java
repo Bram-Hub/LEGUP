@@ -17,7 +17,7 @@ public class NumberTile extends NonPlaceableElement {
 
     /**
      *      @return none
-     *      @param num Amount to increment object tile by.
+     *      @param num Amount to set tile object to.
      * */
     public void setTileNumber( int num )
     {
