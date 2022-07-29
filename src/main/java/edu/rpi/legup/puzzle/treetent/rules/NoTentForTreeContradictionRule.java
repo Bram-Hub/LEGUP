@@ -59,7 +59,7 @@ public class NoTentForTreeContradictionRule extends ContradictionRule {
                         }
                     }
                 }
-                if(adjTents.size() == 0) {return null;}
+                if(adjTents.size() == 0 && adjUnknown == 0) {return null;}
             }
             return super.getNoContradictionMessage();
         }
