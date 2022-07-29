@@ -1,7 +1,5 @@
 package edu.rpi.legup.ui;
 
-import edu.rpi.legup.app.GameBoardFacade;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -17,7 +15,7 @@ public class HomePanel extends LegupPanel {
     public HomePanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
         this.legupUI = legupUI;
         this.frame = frame;
-        setLayout(new GridLayout(2, 3));
+        setLayout(new GridLayout(2, 6));
         initText();
         initButtons();
     }
@@ -76,8 +74,10 @@ public class HomePanel extends LegupPanel {
         this.buttons[0].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[0].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[0].addActionListener(l -> this.legupUI.displayPanel(1));
-        this.buttons[0].setBackground(Color.WHITE);
+        //this.buttons[0].setSize(new Dimension(10,10));
+        this.buttons[0].setBounds(5,5,5,5);
         this.buttons[0].setOpaque(false);
+
 
         this.buttons[1] = new JButton("New Puzzle")
         {
@@ -91,7 +91,8 @@ public class HomePanel extends LegupPanel {
         this.buttons[1].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[1].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[1].addActionListener(l -> this.openNewPuzzleDialog());
-        this.buttons[1].setBackground(Color.WHITE);
+        // this.buttons[1].setSize(new Dimension(10,10));
+        this.buttons[1].setBounds(5,5,5,5);
         this.buttons[1].setOpaque(false);
 
         this.buttons[2] = new JButton("Edit Puzzle")
@@ -106,7 +107,8 @@ public class HomePanel extends LegupPanel {
         this.buttons[2].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[2].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[2].addActionListener(l -> this.legupUI.displayPanel(2)); // PLACEHOLDER
-        this.buttons[2].setBackground(Color.WHITE);
+        //this.buttons[2].setSize(new Dimension(1,1));
+        this.buttons[2].setBounds(5,5,5,5);
         this.buttons[2].setOpaque(false);
 
         for (int i = 0; i < this.buttons.length - 1; i++) // -1 to avoid the batch grader button
@@ -118,14 +120,12 @@ public class HomePanel extends LegupPanel {
         this.buttons[3] = new JButton("Batch Grader");
         this.buttons[3].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[3].setVerticalTextPosition(AbstractButton.BOTTOM);
-        this.buttons[3].setBackground(Color.WHITE);
-        this.buttons[3].setOpaque(false);
     }
 
     private void initText()
     {
         this.text = new JLabel[3];
-        
+
         JLabel welcome = new JLabel("Welcome to Legup");
         welcome.setFont(new Font("Roboto", Font.BOLD, 23));
         welcome.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -137,7 +137,7 @@ public class HomePanel extends LegupPanel {
         JLabel credits = new JLabel("A project by Dr. Bram van Heuveln");
         credits.setFont(new Font("Roboto", Font.PLAIN, 12));
         credits.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
+
         this.text[0] = welcome;
         this.text[1] = version;
         this.text[2] = credits;
@@ -146,34 +146,50 @@ public class HomePanel extends LegupPanel {
     private void render()
     {
         this.removeAll();
-        //this.setLayout(new GridLayout(2, 3));
-        this.setLayout(new BoxLayout(this, 3));
+
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.legupUI.setTitle("Legup: A Better Way to Learn Formal Logic");
-        JPanel temp =new JPanel();
-        temp.add(buttons[3]);
 
         JPanel buttons = new JPanel();
-
+        Dimension minSize = new Dimension(20,100);
+        Dimension prefSize = new Dimension(50, 100);
+        Dimension maxSize = new Dimension(100, 100);
+        //container.add(new Box.Filler(minSize, prefSize, maxSize));
+        //buttons.add(Box.createRigidArea(new Dimension(5, 0)));
         buttons.add(this.buttons[0]);
+        //buttons.add(new Box.Filler(minSize, prefSize, maxSize));
 
         buttons.add(this.buttons[1]);
+        //buttons.add(new Box.Filler(minSize, prefSize, maxSize));
 
         buttons.add(this.buttons[2]);
-        buttons.add(Box.createRigidArea(new Dimension(5, 0)));//empty box to hold the space
-
-        buttons.add(Box.createRigidArea(new Dimension(5, 0)));
-
-
-        buttons.setBackground(Color.WHITE);
-        buttons.add(temp);
-
-        buttons.setLayout(new GridLayout(2,3)); //set the layout which let the batch below the left one
+        //buttons.add(new Box.Filler(minSize, prefSize, maxSize));
+        //buttons.add(Box.createRigidArea(new Dimension(1, 0)));
 
 
+        buttons.add(Box.createRigidArea(new Dimension(1, 0)));
+        buttons.add(Box.createRigidArea(new Dimension(1, 0)));
+        //buttons.add(new Box.Filler(minSize, prefSize, maxSize));
+        //buttons.add(new Box.Filler(minSize, prefSize, maxSize));
+        //buttons.add(new Box.Filler(minSize, prefSize, maxSize));
+        //buttons.add(new Box.Filler(minSize, prefSize, maxSize));
+        //buttons.add(new Box.Filler(minSize, prefSize, maxSize));
         for (int i = 0; i < this.text.length; i++)
             this.add(this.text[i]);
-        this.add(buttons);
+        JPanel batchGraderButton = new JPanel();
+        batchGraderButton.add(this.buttons[3]);
+        batchGraderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 
+
+        //buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
+        buttons.add(batchGraderButton);
+        //buttons.setLayout(new BoxLayout(buttons,BoxLayout.Y_AXIS));
+        buttons.setLayout(new GridLayout(2,3,5,5));
+        this.add(buttons);
+        //this.add(batchGraderButton);
+        //setLayout(new GridLayout(2, 6));
+//        this.add(batchGraderButton);
+//        this.add(Box.createRigidArea(new Dimension(0, 5)));
     }
 
     private void openNewPuzzleDialog() {
@@ -183,10 +199,13 @@ public class HomePanel extends LegupPanel {
 
     public void openEditorWithNewPuzzle(String game, int width, int height) throws IllegalArgumentException {
         // Set game type on the puzzle editor
-        try {
+        try
+        {
             this.legupUI.displayPanel(2);
             this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, width, height);
-        } catch (IllegalArgumentException exception) {
+        }
+        catch (IllegalArgumentException exception)
+        {
             this.legupUI.displayPanel(0);
             JOptionPane.showMessageDialog(null,
                     "The dimensions you entered are invalid. Please double check \n" +
