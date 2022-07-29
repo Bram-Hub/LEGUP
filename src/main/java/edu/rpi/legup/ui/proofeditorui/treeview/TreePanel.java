@@ -28,7 +28,7 @@ public class TreePanel extends JPanel {
     private JPanel main;
     private TreeView treeView;
     private TreeToolbarPanel toolbar;
-    private LegupUI legupUI;
+    // private LegupUI legupUI;
 
     private JLabel status;
 

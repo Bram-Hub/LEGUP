@@ -43,3 +43,6 @@ An example for the Battleship puzzle demonstrates the proper format for XML file
 </edu.rpi.legup.Legup>
 ```
 Element values are dependent on the type of `edu.rpi.legup.puzzle`.
+
+## Licensing
+Some of the icons used in Legup were taken from or derived from the icons found on https://fonts.google.com/icons, which is licensed under the [Apache-2.0 license](https://www.apache.org/licenses/LICENSE-2.0.html).

@@ -145,7 +145,13 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         for (int i = 0; i < ToolbarName.values().length; i++) {
             String toolBarName = ToolbarName.values()[i].toString();
             URL resourceLocation = ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/" + toolBarName + ".png");
-            JButton button = new JButton(toolBarName, new ImageIcon(resourceLocation));
+
+            // Scale the image icons down to make the buttons smaller
+            ImageIcon imageIcon = new ImageIcon(resourceLocation);
+            Image image = imageIcon.getImage();
+            imageIcon = new ImageIcon(image.getScaledInstance(this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE, Image.SCALE_SMOOTH));
+
+            JButton button = new JButton(toolBarName, imageIcon);
             button.setFocusPainted(false);
             getToolBarButtons()[i] = button;
         }
