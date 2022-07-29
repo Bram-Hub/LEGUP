@@ -91,7 +91,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         // file>new
         JMenuItem newPuzzle = new JMenuItem("New");
-        newPuzzle.addActionListener((ActionEvent) -> promptPuzzle());
+        newPuzzle.addActionListener((ActionEvent) -> loadPuzzle());
         if(os.equals("mac")) newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         else newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
         // file>save
@@ -198,12 +198,12 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             LOGGER.error(e.getMessage());
         }
     }
-    public void promptPuzzle() {
+    public Object[] promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
             if (noQuit("Opening a new puzzle to edit?")) // !noquit or noquit?
             {
-                return;
+                return new Object[0];
             }
         }
         if (fileDialog == null) {
@@ -219,6 +219,19 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             puzzleFile = new File(fileName);
         }
 
+        return new Object[]{fileName, puzzleFile};
+    }
+
+    public void loadPuzzle()
+    {
+        Object[] items = promptPuzzle();
+        String fileName = (String) items[0];
+        File puzzleFile = (File) items[1];
+        loadPuzzle(fileName, puzzleFile);
+    }
+
+    public void loadPuzzle(String fileName, File puzzleFile)
+    {
         if (puzzleFile != null && puzzleFile.exists()) {
             try {
                 GameBoardFacade.getInstance().loadPuzzleEditor(fileName);

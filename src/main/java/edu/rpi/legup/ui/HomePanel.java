@@ -1,6 +1,7 @@
 package edu.rpi.legup.ui;
 
 import edu.rpi.legup.app.GameBoardFacade;
+import edu.rpi.legup.controller.CursorController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,6 +26,17 @@ public class HomePanel extends LegupPanel {
             File puzzleFile = (File) items[1];
             legupUI.displayPanel(1);
             legupUI.getProofEditor().loadPuzzle(fileName, puzzleFile);
+        }
+    };
+
+    private ActionListener openPuzzleListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Object[] items = legupUI.getPuzzleEditor().promptPuzzle();
+            String fileName = (String) items[0];
+            File puzzleFile = (File) items[1];
+            legupUI.displayPanel(2);
+            legupUI.getPuzzleEditor().loadPuzzle(fileName, puzzleFile);
         }
     };
 
@@ -89,8 +101,7 @@ public class HomePanel extends LegupPanel {
         this.buttons[0].setIcon(resizeButtonIcon(button0Icon, this.buttonSize, this.buttonSize));
         this.buttons[0].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[0].setVerticalTextPosition(AbstractButton.BOTTOM);
-        CursorController
-        this.buttons[0].addActionListener(openProofListener);
+        this.buttons[0].addActionListener(CursorController.createListener(this, openProofListener));
 
         this.buttons[1] = new JButton("New Puzzle")
         {
@@ -116,7 +127,7 @@ public class HomePanel extends LegupPanel {
         this.buttons[2].setIcon(resizeButtonIcon(button2Icon, this.buttonSize, this.buttonSize));
         this.buttons[2].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[2].setVerticalTextPosition(AbstractButton.BOTTOM);
-        this.buttons[2].addActionListener(l -> this.legupUI.displayPanel(2)); // PLACEHOLDER
+        this.buttons[2].addActionListener(CursorController.createListener(this, openPuzzleListener)); // PLACEHOLDER
 
         for (int i = 0; i < this.buttons.length - 1; i++) // -1 to avoid the batch grader button
         {
