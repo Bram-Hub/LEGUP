@@ -27,6 +27,8 @@ public class PreferencesDialog extends JDialog {
     private JTextField workDirectory;
 
     private static Image folderIcon;
+    private LegupPreferences prefs2;
+
 
     static {
         try {
@@ -48,11 +50,12 @@ public class PreferencesDialog extends JDialog {
         mainPanel.add(createGeneralTab());
 
         JPanel bottomPanel = new JPanel();
-        bottomPanel.setBorder(null);
-        bottomPanel.setLayout(new BorderLayout());
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+        bottomPanel.setLayout(new GridLayout(1,3));
 
-        JToolBar toolbar = new JToolBar();
+        JPanel toolbar = new JPanel();
         toolbar.setBorder(null);
+
         JButton okButton = new JButton("Ok");
         okButton.addActionListener(l -> {
             applyPreferences();
@@ -64,9 +67,25 @@ public class PreferencesDialog extends JDialog {
             this.setVisible(false);
         });
         toolbar.add(cancelButton);
+        LegupPreferences prefs1 = LegupPreferences.getInstance();
         JButton applyButton = new JButton("Apply");
+        applyButton.setBackground(Color.gray);
+        //applyButton.setForeground(Color.gray);
+
+        //applyButton.setSelected(false);
         applyButton.addActionListener(l -> {
+            prefs2 = LegupPreferences.getInstance();
+            applyButton.setBackground(Color.gray);
+            applyButton.setForeground(Color.gray);
+            applyButton.setSelected(false);
             applyPreferences();
+            System.out.println("The result of "+checkPreferences(prefs2));
+            if(checkPreferences(prefs2)){
+
+
+                applyButton.setEnabled(false);
+            }
+
         });
         toolbar.add(applyButton);
         bottomPanel.add(toolbar, BorderLayout.EAST);
@@ -119,14 +138,15 @@ public class PreferencesDialog extends JDialog {
         JPanel fullScreenRow = new JPanel();
         fullScreenRow.setLayout(new BorderLayout());
         fullScreenRow.add(fullScreen, BorderLayout.WEST);
-        fullScreenRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, fullScreenRow.getPreferredSize().height));
+        fullScreenRow.setMaximumSize(new Dimension(1000,15));
+        //fullScreenRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, fullScreenRow.getPreferredSize().height));
         contentPane.add(fullScreenRow);
         autoUpdate = new JCheckBox("Automatically Check for Updates", Boolean.valueOf(prefs.getUserPref(LegupPreferences.AUTO_UPDATE)));
         autoUpdate.setToolTipText("If checked this automatically checks for updates on startup of Legup");
         JPanel autoUpdateRow = new JPanel();
         autoUpdateRow.setLayout(new BorderLayout());
         autoUpdateRow.add(autoUpdate, BorderLayout.WEST);
-        autoUpdateRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, autoUpdateRow.getPreferredSize().height));
+        autoUpdateRow.setMaximumSize(new Dimension(1000,15));
         contentPane.add(autoUpdateRow);
         contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
 
@@ -137,7 +157,7 @@ public class PreferencesDialog extends JDialog {
         JPanel showMistakesRow = new JPanel();
         showMistakesRow.setLayout(new BorderLayout());
         showMistakesRow.add(showMistakes, BorderLayout.WEST);
-        showMistakesRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, showMistakesRow.getPreferredSize().height));
+        showMistakesRow.setMaximumSize(new Dimension(1000,15));
         contentPane.add(showMistakesRow);
 
         showAnnotations = new JCheckBox("Show Annotations", Boolean.valueOf(prefs.getUserPref(LegupPreferences.SHOW_ANNOTATIONS)));
@@ -145,7 +165,7 @@ public class PreferencesDialog extends JDialog {
         JPanel showAnnotationsRow = new JPanel();
         showAnnotationsRow.setLayout(new BorderLayout());
         showAnnotationsRow.add(showAnnotations, BorderLayout.WEST);
-        showAnnotationsRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, showAnnotationsRow.getPreferredSize().height));
+        showAnnotationsRow.setMaximumSize(new Dimension(1000,15));
         contentPane.add(showAnnotationsRow);
         contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
 
@@ -159,7 +179,7 @@ public class PreferencesDialog extends JDialog {
         JPanel allowDefaultRow = new JPanel();
         allowDefaultRow.setLayout(new BorderLayout());
         allowDefaultRow.add(allowDefault, BorderLayout.WEST);
-        allowDefaultRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, allowDefaultRow.getPreferredSize().height));
+        allowDefaultRow.setMaximumSize(new Dimension(1000,15));
         contentPane.add(allowDefaultRow);
 
         generateCases = new JCheckBox("Automatically Generate Cases", Boolean.valueOf(prefs.getUserPref(LegupPreferences.AUTO_GENERATE_CASES)));
@@ -167,7 +187,7 @@ public class PreferencesDialog extends JDialog {
         JPanel generateCasesRow = new JPanel();
         generateCasesRow.setLayout(new BorderLayout());
         generateCasesRow.add(generateCases, BorderLayout.WEST);
-        generateCasesRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, generateCasesRow.getPreferredSize().height));
+        generateCasesRow.setMaximumSize(new Dimension(1000,15));
         contentPane.add(generateCasesRow);
 
         immFeedback = new JCheckBox("Provide Immediate Feedback", Boolean.valueOf(prefs.getUserPref(LegupPreferences.IMMEDIATE_FEEDBACK)));
@@ -175,7 +195,7 @@ public class PreferencesDialog extends JDialog {
         JPanel immFeedbackRow = new JPanel();
         immFeedbackRow.setLayout(new BorderLayout());
         immFeedbackRow.add(immFeedback, BorderLayout.WEST);
-        immFeedbackRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, immFeedbackRow.getPreferredSize().height));
+        immFeedbackRow.setMaximumSize(new Dimension(1000,15));
         contentPane.add(immFeedbackRow);
 
         contentPane.add(createLeftLabel("Instructor Preferences"));
@@ -184,7 +204,7 @@ public class PreferencesDialog extends JDialog {
         immFeedback.setToolTipText("Currently unimplemented, this does nothing right now");
         immFeedbackRow.setLayout(new BorderLayout());
         immFeedbackRow.add(immFeedback, BorderLayout.WEST);
-        immFeedbackRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, immFeedbackRow.getPreferredSize().height));
+        immFeedbackRow.setMaximumSize(new Dimension(1000,15));
         contentPane.add(immFeedbackRow);
 
         scrollPane.setViewportView(contentPane);
@@ -304,5 +324,42 @@ public class PreferencesDialog extends JDialog {
         prefs.setUserPref(LegupPreferences.ALLOW_DEFAULT_RULES, Boolean.toString(allowDefault.isSelected()));
         prefs.setUserPref(LegupPreferences.AUTO_GENERATE_CASES, Boolean.toString(generateCases.isSelected()));
         prefs.setUserPref(LegupPreferences.IMMEDIATE_FEEDBACK, Boolean.toString(immFeedback.isSelected()));
+    }
+    public boolean checkPreferences(LegupPreferences prefs1){
+        LegupPreferences prefs = LegupPreferences.getInstance();
+        if(prefs.getUserPrefAsBool(LegupPreferences.START_FULL_SCREEN)!= prefs1.getUserPrefAsBool(LegupPreferences.START_FULL_SCREEN)){
+            System.out.println("the full screen is not the same");
+            return true;
+        }
+        if(prefs.getUserPrefAsBool(LegupPreferences.AUTO_UPDATE)!= prefs1.getUserPrefAsBool(LegupPreferences.AUTO_UPDATE)){
+            return true;
+        }
+        if(prefs.getUserPrefAsBool(LegupPreferences.WORK_DIRECTORY)!= prefs1.getUserPrefAsBool(LegupPreferences.WORK_DIRECTORY)){
+            return true;
+        }
+        if(prefs.getUserPrefAsBool(LegupPreferences.SHOW_MISTAKES)!= prefs1.getUserPrefAsBool(LegupPreferences.SHOW_MISTAKES)){
+            return true;
+        }
+        if(prefs.getUserPrefAsBool(LegupPreferences.SHOW_ANNOTATIONS)!= prefs1.getUserPrefAsBool(LegupPreferences.SHOW_ANNOTATIONS)){
+            return true;
+        }
+        if(prefs.getUserPrefAsBool(LegupPreferences.ALLOW_DEFAULT_RULES)!= prefs1.getUserPrefAsBool(LegupPreferences.ALLOW_DEFAULT_RULES)){
+            return true;
+        }
+        if(prefs.getUserPrefAsBool(LegupPreferences.AUTO_GENERATE_CASES)!= prefs1.getUserPrefAsBool(LegupPreferences.AUTO_GENERATE_CASES)){
+            return true;
+        }
+        if(prefs.getUserPrefAsBool(LegupPreferences.IMMEDIATE_FEEDBACK)!= prefs1.getUserPrefAsBool(LegupPreferences.IMMEDIATE_FEEDBACK)){
+            return true;
+        }
+        return false;
+        //prefs.setUserPref(LegupPreferences.WORK_DIRECTORY, workDirectory.getText());
+        //prefs.setUserPref(LegupPreferences.START_FULL_SCREEN, Boolean.toString(fullScreen.isSelected()));
+        //prefs.setUserPref(LegupPreferences.AUTO_UPDATE, Boolean.toString(autoUpdate.isSelected()));
+        //prefs.setUserPref(LegupPreferences.SHOW_MISTAKES, Boolean.toString(showMistakes.isSelected()));
+        //prefs.setUserPref(LegupPreferences.SHOW_ANNOTATIONS, Boolean.toString(showAnnotations.isSelected()));
+        //prefs.setUserPref(LegupPreferences.ALLOW_DEFAULT_RULES, Boolean.toString(allowDefault.isSelected()));
+        //prefs.setUserPref(LegupPreferences.AUTO_GENERATE_CASES, Boolean.toString(generateCases.isSelected()));
+        //prefs.setUserPref(LegupPreferences.IMMEDIATE_FEEDBACK, Boolean.toString(immFeedback.isSelected()));
     }
 }
