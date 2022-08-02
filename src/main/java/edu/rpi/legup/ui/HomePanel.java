@@ -1,11 +1,16 @@
 package edu.rpi.legup.ui;
 
 import edu.rpi.legup.app.GameBoardFacade;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
 
 public class HomePanel extends LegupPanel {
+    private final static Logger LOGGER = LogManager.getLogger(HomePanel.class.getName());
     private LegupUI legupUI;
     private JFrame frame;
     private JButton[] buttons;
@@ -32,21 +37,14 @@ public class HomePanel extends LegupPanel {
         });
         settings.add(preferences);
 
-        JMenuItem about = new JMenuItem("About");
-        about.addActionListener(a -> {
-            System.out.println("About clicked");
-        });
-        settings.add(about);
-
-        JMenuItem help = new JMenuItem("Help");
-        about.addActionListener(a -> {
-            System.out.println("Help clicked");
-        });
-        settings.add(help);
-
         JMenuItem contribute = new JMenuItem("Contribute to Legup");
-        contribute.addActionListener(a -> {
-            System.out.println("Contribute to Legup clicked");
+        contribute.addActionListener(l -> {
+            try {
+                java.awt.Desktop.getDesktop().browse(URI.create("https://github.com/Bram-Hub/Legup"));
+            }
+            catch (IOException e) {
+                LOGGER.error("Can't open web page");
+            }
         });
         settings.add(contribute);
 
