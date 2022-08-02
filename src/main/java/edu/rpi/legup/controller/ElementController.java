@@ -106,10 +106,14 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                     if (treePanel != null) {
                         treePanel.updateError("");
                     }
-                } else if (treePanel != null) {
-                    treePanel.updateError(autoCaseRuleCommand.getError());
                 }
-            } else if (selection != null){
+                else {
+                    if (treePanel != null) {
+                        treePanel.updateError(autoCaseRuleCommand.getError());
+                    }
+                }
+            }
+            else if (selection != null){
                 ICommand edit = new EditDataCommand(elementView, selection, e);
                 if (edit.canExecute()) {
                     edit.execute();
@@ -117,8 +121,11 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                     if (treePanel != null) {
                         treePanel.updateError("");
                     }
-                } else if (treePanel != null) {
-                    treePanel.updateError(edit.getError());
+                }
+                else {
+                    if (treePanel != null) {
+                        treePanel.updateError(edit.getError());
+                    }
                 }
             }
         }
@@ -147,13 +154,13 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         boardView.setFocusable(true);
         boardView.requestFocusInWindow();
         TreeElement treeElement = boardView.getTreeElement();
-        DynamicView dynamicView =  getInstance().getLegupUI().getDynamicBoardView();
+        DynamicView dynamicView = getInstance().getLegupUI().getDynamicBoardView();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         if (boardView == null) {
             boardView = getInstance().getLegupUI().getEditorBoardView();
         }
         if (dynamicView == null) {
-            dynamicView =  getInstance().getLegupUI().getEditorDynamicBoardView();
+            dynamicView = getInstance().getLegupUI().getEditorDynamicBoardView();
         }
         Board board = boardView.getBoard();
         ElementView elementView = boardView.getElement(e.getPoint());
@@ -161,7 +168,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         String error = null;
         if (elementView != null) {
             selection.newHover(elementView);
-            if(LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.SHOW_MISTAKES)) {
+            if (LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.SHOW_MISTAKES)) {
                 PuzzleElement element = elementView.getPuzzleElement();
                 if (treeElement != null && treeElement.getType() == TreeElementType.TRANSITION && board.getModifiedData().contains(element)) {
                     TreeTransition transition = (TreeTransition) treeElement;
@@ -171,7 +178,8 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                 }
                 if (error != null) {
                     dynamicView.updateError(error);
-                } else {
+                }
+                else {
                     dynamicView.resetStatus();
                 }
             }
@@ -187,13 +195,13 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     @Override
     public void mouseExited(MouseEvent e) {
         boardView.setFocusable(false);
-        DynamicView dynamicView =  getInstance().getLegupUI().getDynamicBoardView();
+        DynamicView dynamicView = getInstance().getLegupUI().getDynamicBoardView();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         if (boardView == null) {
             boardView = getInstance().getLegupUI().getEditorBoardView();
         }
         if (dynamicView == null) {
-            dynamicView =  getInstance().getLegupUI().getEditorDynamicBoardView();
+            dynamicView = getInstance().getLegupUI().getEditorDynamicBoardView();
         }
         ElementView element = boardView.getElement(e.getPoint());
         if (element != null) {
@@ -226,16 +234,16 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         }
         Board board = boardView.getBoard();
         TreeElement treeElement = boardView.getTreeElement();
-        DynamicView dynamicView =  getInstance().getLegupUI().getDynamicBoardView();
+        DynamicView dynamicView = getInstance().getLegupUI().getDynamicBoardView();
         if (dynamicView == null) {
-            dynamicView =  getInstance().getLegupUI().getEditorDynamicBoardView();
+            dynamicView = getInstance().getLegupUI().getEditorDynamicBoardView();
         }
         ElementView elementView = boardView.getElement(e.getPoint());
         ElementSelection selection = boardView.getSelection();
         String error = null;
         if (elementView != null && elementView != selection.getHover()) {
             selection.newHover(elementView);
-            if(LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.SHOW_MISTAKES)) {
+            if (LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.SHOW_MISTAKES)) {
                 PuzzleElement element = elementView.getPuzzleElement();
                 if (treeElement != null && treeElement.getType() == TreeElementType.TRANSITION && board.getModifiedData().contains(element)) {
                     TreeTransition transition = (TreeTransition) treeElement;
@@ -245,7 +253,8 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                 }
                 if (error != null) {
                     dynamicView.updateError(error);
-                } else {
+                }
+                else {
                     dynamicView.resetStatus();
                 }
             }
@@ -283,10 +292,12 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
 
         puzzleElement.setData(value);
 
-        if (puzzleElement.equalsData(prevBord.getPuzzleElement(puzzleElement)))
+        if (puzzleElement.equalsData(prevBord.getPuzzleElement(puzzleElement))) {
             puzzleElement.setModified(false);
-        else
+        }
+        else {
             puzzleElement.setModified(true);
+        }
 
         transitionView.getTreeElement().propagateChange(puzzleElement);
 

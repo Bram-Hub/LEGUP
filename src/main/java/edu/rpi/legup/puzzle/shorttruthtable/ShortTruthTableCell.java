@@ -6,20 +6,20 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableStatement;
 
 import java.awt.Point;
 
-public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
+public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType> {
 
     //The symbol on the cell
-	private final char symbol;
+    private final char symbol;
 
-	//This is a reference to the statement that contains this cell
-	private ShortTruthTableStatement statement;
+    //This is a reference to the statement that contains this cell
+    private ShortTruthTableStatement statement;
 
-	//Constructors
+    //Constructors
 
-	public ShortTruthTableCell(char symbol, ShortTruthTableCellType cellType, Point location){
-		super(cellType, location);
-		this.symbol = symbol;
-	}
+    public ShortTruthTableCell(char symbol, ShortTruthTableCellType cellType, Point location) {
+        super(cellType, location);
+        this.symbol = symbol;
+    }
 
 
     /**
@@ -27,8 +27,8 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
      *
      * @param location the location of this cell on the board
      */
-    public ShortTruthTableCell(Point location){
-	    this(' ', ShortTruthTableCellType.NOT_IN_PLAY, location);
+    public ShortTruthTableCell(Point location) {
+        this(' ', ShortTruthTableCellType.NOT_IN_PLAY, location);
     }
 
 
@@ -42,8 +42,8 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
         return data;
     }
 
-    public char getSymbol(){
-    	return symbol;
+    public char getSymbol() {
+        return symbol;
     }
 
     /**
@@ -51,31 +51,34 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
      *
      * @return true if cell is a variable; false otherwise
      */
-    public boolean isVariable(){ return Character.isLetter(symbol); }
+    public boolean isVariable() {
+        return Character.isLetter(symbol);
+    }
 
-    public int getX(){
+    public int getX() {
         return (int) location.getX();
     }
-    public int getY(){
+
+    public int getY() {
         return (int) location.getY();
     }
 
 
-    public boolean isAssigned(){
-        return getType()==ShortTruthTableCellType.TRUE || getType()==ShortTruthTableCellType.FALSE;
+    public boolean isAssigned() {
+        return getType() == ShortTruthTableCellType.TRUE || getType() == ShortTruthTableCellType.FALSE;
     }
 
     //Setters
 
-    void setStatementReference(ShortTruthTableStatement statement){
+    void setStatementReference(ShortTruthTableStatement statement) {
         this.statement = statement;
     }
 
-    public void setType(ShortTruthTableCellType type){
+    public void setType(ShortTruthTableCellType type) {
         data = type;
     }
 
-    public void setGiven(ShortTruthTableCellType type){
+    public void setGiven(ShortTruthTableCellType type) {
         setType(type);
         setModifiable(false);
         setGiven(true);
@@ -83,34 +86,34 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
 
     //Modifiers
 
-    public void cycleTypeForward(){
-        switch(data){
-            case UNKNOWN: data = ShortTruthTableCellType.TRUE;    break;
-            case TRUE:    data = ShortTruthTableCellType.FALSE;   break;
-            case FALSE:   data = ShortTruthTableCellType.UNKNOWN; break;
-            default: break;
+    public void cycleTypeForward() {
+        switch (data) {
+            case UNKNOWN:
+                data = ShortTruthTableCellType.TRUE;
+                break;
+            case TRUE:
+                data = ShortTruthTableCellType.FALSE;
+                break;
+            case FALSE:
+                data = ShortTruthTableCellType.UNKNOWN;
+                break;
+            default:
+                break;
         }
     }
 
-    public void cycleTypeBackward(){
+    public void cycleTypeBackward() {
         cycleTypeForward();
         cycleTypeForward();
     }
-
-
 
 
     //TO STRING
 
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("STTCell: %c %2d %-11s %s", symbol, index, data, location.toString());
     }
-
-
-
-
-
 
 
     //Copy function
@@ -123,7 +126,6 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType>{
         copy.setGiven(isGiven);
         return copy;
     }
-
 
 
 }

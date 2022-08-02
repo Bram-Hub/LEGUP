@@ -21,18 +21,27 @@ public class TreeTentElementView extends GridElementView {
             graphics2D.fill(new Rectangle2D.Double(location.x + 0.5f, location.y + 0.5f, size.width - 1, size.height - 1));
             graphics2D.setColor(Color.BLACK);
             graphics2D.draw(new Rectangle2D.Double(location.x + 0.5f, location.y + 0.5f, size.width - 1, size.height - 1));
-        } else if (type == TreeTentType.TREE) {
-            graphics2D.drawImage(TreeTentView.TREE, location.x, location.y, size.width, size.height, null, null);
-            graphics2D.setColor(Color.BLACK);
-            graphics2D.drawRect(location.x, location.y, size.width, size.height);
-        } else if (type == TreeTentType.GRASS) {
-            graphics2D.drawImage(TreeTentView.GRASS, location.x, location.y, size.width, size.height, null, null);
-            graphics2D.setColor(Color.BLACK);
-            graphics2D.drawRect(location.x, location.y, size.width, size.height);
-        } else if (type == TreeTentType.TENT) {
-            graphics2D.drawImage(TreeTentView.TENT, location.x, location.y, size.width, size.height, null, null);
-            graphics2D.setColor(Color.BLACK);
-            graphics2D.drawRect(location.x, location.y, size.width, size.height);
+        }
+        else {
+            if (type == TreeTentType.TREE) {
+                graphics2D.drawImage(TreeTentView.TREE, location.x, location.y, size.width, size.height, null, null);
+                graphics2D.setColor(Color.BLACK);
+                graphics2D.drawRect(location.x, location.y, size.width, size.height);
+            }
+            else {
+                if (type == TreeTentType.GRASS) {
+                    graphics2D.drawImage(TreeTentView.GRASS, location.x, location.y, size.width, size.height, null, null);
+                    graphics2D.setColor(Color.BLACK);
+                    graphics2D.drawRect(location.x, location.y, size.width, size.height);
+                }
+                else {
+                    if (type == TreeTentType.TENT) {
+                        graphics2D.drawImage(TreeTentView.TENT, location.x, location.y, size.width, size.height, null, null);
+                        graphics2D.setColor(Color.BLACK);
+                        graphics2D.drawRect(location.x, location.y, size.width, size.height);
+                    }
+                }
+            }
         }
     }
 }
