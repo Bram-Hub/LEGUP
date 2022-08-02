@@ -45,7 +45,8 @@ public class Tree {
         if (element.getType() == TreeElementType.NODE) {
             TreeNode treeNode = (TreeNode) element;
             return addTreeElement(treeNode, new TreeTransition(treeNode, treeNode.getBoard().copy()));
-        } else {
+        }
+        else {
             TreeTransition transition = (TreeTransition) element;
             Board copyBoard = transition.board.copy();
             copyBoard.setModifiable(false);
@@ -69,7 +70,8 @@ public class Tree {
         if (element.getType() == TreeElementType.NODE) {
             TreeNode node = (TreeNode) element;
             node.getParent().setChildNode(null);
-        } else {
+        }
+        else {
             TreeTransition transition = (TreeTransition) element;
             transition.getParents().forEach(n -> n.removeChild(transition));
             transition.getParents().get(0).getChildren().forEach(TreeTransition::reverify);
@@ -111,24 +113,27 @@ public class Tree {
     /**
      * Recursively gets a Set of TreeNodes that are leaf nodes
      *
-     * @param leafs Set of TreeNodes that are leaf nodes
-     * @param element  current TreeNode being evaluated
+     * @param leafs   Set of TreeNodes that are leaf nodes
+     * @param element current TreeNode being evaluated
      */
     private void getLeafTreeElements(Set<TreeElement> leafs, TreeElement element) {
-        if(element.getType() == TreeElementType.NODE) {
-            TreeNode node = (TreeNode)element;
+        if (element.getType() == TreeElementType.NODE) {
+            TreeNode node = (TreeNode) element;
             List<TreeTransition> childTrans = node.getChildren();
-            if(childTrans.isEmpty()) {
+            if (childTrans.isEmpty()) {
                 leafs.add(node);
-            } else {
+            }
+            else {
                 childTrans.forEach(t -> getLeafTreeElements(leafs, t));
             }
-        } else {
-            TreeTransition transition = (TreeTransition)element;
+        }
+        else {
+            TreeTransition transition = (TreeTransition) element;
             TreeNode childNode = transition.getChildNode();
-            if(childNode == null) {
+            if (childNode == null) {
                 leafs.add(transition);
-            } else {
+            }
+            else {
                 getLeafTreeElements(leafs, childNode);
             }
         }
@@ -146,24 +151,28 @@ public class Tree {
     public static TreeNode getLowestCommonAncestor(List<TreeNode> nodes) {
         if (nodes.isEmpty()) {
             return null;
-        } else if (nodes.size() == 1) {
-            return nodes.get(0);
-        } else {
-            List<List<TreeNode>> ancestors = new ArrayList<>();
-            for (TreeNode node : nodes) {
-                ancestors.add(node.getAncestors());
+        }
+        else {
+            if (nodes.size() == 1) {
+                return nodes.get(0);
             }
-
-            List<TreeNode> first = ancestors.get(0);
-
-            for (TreeNode node : first) {
-                boolean isCommon = true;
-                for (List<TreeNode> nList : ancestors) {
-                    isCommon &= nList.contains(node);
+            else {
+                List<List<TreeNode>> ancestors = new ArrayList<>();
+                for (TreeNode node : nodes) {
+                    ancestors.add(node.getAncestors());
                 }
 
-                if (isCommon) {
-                    return node;
+                List<TreeNode> first = ancestors.get(0);
+
+                for (TreeNode node : first) {
+                    boolean isCommon = true;
+                    for (List<TreeNode> nList : ancestors) {
+                        isCommon &= nList.contains(node);
+                    }
+
+                    if (isCommon) {
+                        return node;
+                    }
                 }
             }
         }

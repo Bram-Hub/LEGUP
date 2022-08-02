@@ -42,36 +42,48 @@ public class CannotLightACellContradictionRule extends ContradictionRule {
             LightUpCell c = lightUpBoard.getCell(i, location.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            } else if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
-                hor_count += 1;
+            }
+            else {
+                if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
+                    hor_count += 1;
+                }
             }
         }
         for (int i = location.x - 1; i >= 0; i--) {
             LightUpCell c = lightUpBoard.getCell(i, location.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            } else if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
-                hor_count += 1;
+            }
+            else {
+                if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
+                    hor_count += 1;
+                }
             }
         }
         for (int i = location.y + 1; i < lightUpBoard.getHeight(); i++) {
             LightUpCell c = lightUpBoard.getCell(location.x, i);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            } else if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
-                ver_count += 1;
+            }
+            else {
+                if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
+                    ver_count += 1;
+                }
             }
         }
         for (int i = location.y - 1; i >= 0; i--) {
             LightUpCell c = lightUpBoard.getCell(location.x, i);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            } else if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
-                ver_count += 1;
+            }
+            else {
+                if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
+                    ver_count += 1;
+                }
             }
         }
         System.out.printf("%d, %d, %d, %d\n", location.x, location.y, hor_count, ver_count);
-        if(hor_count == 0 && ver_count == 0) {
+        if (hor_count == 0 && ver_count == 0) {
             return null;
         }
         return super.getNoContradictionMessage();

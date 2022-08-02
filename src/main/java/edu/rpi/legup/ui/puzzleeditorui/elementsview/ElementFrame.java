@@ -68,6 +68,11 @@ public class ElementFrame extends JPanel {
         return tabbedPane;
     }
 
-    public NonPlaceableElementPanel getNonPlaceableElementPanel() { return nonPlaceableElementPanel; }
-    public PlaceableElementPanel getPlaceableElementPanel() { return placeableElementPanel; }
+    public NonPlaceableElementPanel getNonPlaceableElementPanel() {
+        return nonPlaceableElementPanel;
+    }
+
+    public PlaceableElementPanel getPlaceableElementPanel() {
+        return placeableElementPanel;
+    }
 }

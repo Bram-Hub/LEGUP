@@ -18,6 +18,7 @@ public enum CommandError {
     DEFAULT_APPLICATION("[Apply Default Rule Application]");
 
     private String value;
+
     CommandError(String value) {
         this.value = value;
     }

@@ -51,46 +51,58 @@ public class RuleController implements ActionListener {
                     if (caseRuleCommand.canExecute()) {
                         caseRuleCommand.execute();
                         getInstance().getHistory().pushChange(caseRuleCommand);
-                    } else {
+                    }
+                    else {
                         updateErrorString = caseRuleCommand.getError();
                     }
-                } else {
+                }
+                else {
                     if (LegupPreferences.getInstance().getUserPref(LegupPreferences.AUTO_GENERATE_CASES).equalsIgnoreCase(Boolean.toString(true))) {
                         CaseBoard caseBoard = caseRule.getCaseBoard(element.getBoard());
                         if (caseBoard != null && caseBoard.getCount() > 0) {
                             puzzle.notifyBoardListeners(listener -> listener.onCaseBoardAdded(caseBoard));
-                        } else {
+                        }
+                        else {
                             updateErrorString = "This board cannot be applied with this case rule.";
                         }
-                    } else {
+                    }
+                    else {
                         updateErrorString = "Auto generated case rules are turned off in preferences.";
                     }
                 }
-            } else {
+            }
+            else {
                 ICommand caseRuleCommand = new ValidateCaseRuleCommand(selection, caseRule);
                 if (caseRuleCommand.canExecute()) {
                     caseRuleCommand.execute();
                     getInstance().getHistory().pushChange(caseRuleCommand);
-                } else {
+                }
+                else {
                     updateErrorString = caseRuleCommand.getError();
                 }
             }
-        } else if (rule.getRuleType() == RuleType.CONTRADICTION) {
-            ICommand validate = new ValidateContradictionRuleCommand(selection, (ContradictionRule) rule);
-            if (validate.canExecute()) {
-                getInstance().getHistory().pushChange(validate);
-                validate.execute();
-            } else {
-                updateErrorString = validate.getError();
+        }
+        else {
+            if (rule.getRuleType() == RuleType.CONTRADICTION) {
+                ICommand validate = new ValidateContradictionRuleCommand(selection, (ContradictionRule) rule);
+                if (validate.canExecute()) {
+                    getInstance().getHistory().pushChange(validate);
+                    validate.execute();
+                }
+                else {
+                    updateErrorString = validate.getError();
+                }
             }
-        } else {
-            boolean def = LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.ALLOW_DEFAULT_RULES);
-            ICommand validate = def ? new ApplyDefaultBasicRuleCommand(selection, (BasicRule) rule) : new ValidateBasicRuleCommand(selection, (BasicRule) rule);
-            if (validate.canExecute()) {
-                getInstance().getHistory().pushChange(validate);
-                validate.execute();
-            } else {
-                updateErrorString = validate.getError();
+            else {
+                boolean def = LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.ALLOW_DEFAULT_RULES);
+                ICommand validate = def ? new ApplyDefaultBasicRuleCommand(selection, (BasicRule) rule) : new ValidateBasicRuleCommand(selection, (BasicRule) rule);
+                if (validate.canExecute()) {
+                    getInstance().getHistory().pushChange(validate);
+                    validate.execute();
+                }
+                else {
+                    updateErrorString = validate.getError();
+                }
             }
         }
         GameBoardFacade.getInstance().getLegupUI().getTreePanel().updateError(updateErrorString);

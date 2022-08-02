@@ -21,13 +21,14 @@ import java.nio.file.Paths;
 public class Legup {
     static {
         String logPath = "";
-		try {
-			logPath = Paths.get(Legup.class.getProtectionDomain().getCodeSource().getLocation().toURI()).toFile().getParent();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.exit(0);
-		}
+        try {
+            logPath = Paths.get(Legup.class.getProtectionDomain().getCodeSource().getLocation().toURI()).toFile().getParent();
+        }
+        catch (URISyntaxException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            System.exit(0);
+        }
         logPath += logPath.endsWith(File.separator) ? "" : File.separator;
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         Configuration config = context.getConfiguration();
@@ -66,7 +67,8 @@ public class Legup {
         Config config = null;
         try {
             config = new Config();
-        } catch (InvalidConfigException e) {
+        }
+        catch (InvalidConfigException e) {
             System.exit(1);
         }
         GameBoardFacade.getInstance().setConfig(config);
