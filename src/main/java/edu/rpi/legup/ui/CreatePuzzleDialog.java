@@ -1,6 +1,7 @@
 package edu.rpi.legup.ui;
 
 import edu.rpi.legup.app.GameBoardFacade;
+import edu.rpi.legup.controller.CursorController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,15 +9,47 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 
-public class CreatePuzzleDialog extends JDialog implements ActionListener {
-    private String[] games;
-    JComboBox gameBox;
-    JLabel puzzleLabel = new JLabel("Puzzle:");
-    JButton ok = new JButton("Ok");
-    JButton cancel = new JButton("Cancel");
-    JTextField rows;
-    JTextField columns;
+public class CreatePuzzleDialog extends JDialog {
     private HomePanel homePanel;
+
+    private String[] games;
+    private JComboBox gameBox;
+
+    private JLabel puzzleLabel = new JLabel("Puzzle:");
+    private JTextField rows;
+    private JTextField columns;
+
+    private JButton ok = new JButton("Ok");
+    private ActionListener okButtonListener = new ActionListener() {
+        /**
+         * Attempts to open the puzzle editor interface for the given game with the given dimensions
+         * @param e the event to be processed
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String game = (String) gameBox.getSelectedItem();
+            try {
+                homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(rows.getText()), Integer.valueOf(columns.getText()));
+                setVisible(false);
+            }
+            catch (IllegalArgumentException exception) {
+                // Don't do anything. This is here to prevent the dialog from closing if the dimensions are invalid.
+            }
+        }
+    };
+    private JButton cancel = new JButton("Cancel");
+    private ActionListener cancelButtonListener = new ActionListener() {
+        /**
+         * Hides the puzzle creation dialog
+         *
+         * @param e the event to be processed
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            setVisible(false);
+        }
+    };
+
 
     public CreatePuzzleDialog(JFrame parent, HomePanel homePanel) {
         super(parent, true);
@@ -63,8 +96,10 @@ public class CreatePuzzleDialog extends JDialog implements ActionListener {
         c.add(ok);
         c.add(cancel);
 
-        ok.addActionListener(this);
-        cancel.addActionListener(this);
+        ActionListener cursorPressedOk = CursorController.createListener(this, okButtonListener);
+        ok.addActionListener(cursorPressedOk);
+        ActionListener cursorPressedCancel = CursorController.createListener(this, cancelButtonListener);
+        cancel.addActionListener(cursorPressedCancel);
     }
 
     public void initPuzzles() {
@@ -73,7 +108,6 @@ public class CreatePuzzleDialog extends JDialog implements ActionListener {
         gameBox = new JComboBox(games);
     }
 
-    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == ok) {
             String game = (String) gameBox.getSelectedItem();

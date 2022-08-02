@@ -22,7 +22,17 @@ public class NurikabeImporter extends PuzzleImporter {
      */
     @Override
     public void initializeBoard(int rows, int columns) {
+        NurikabeBoard nurikabeBoard = new NurikabeBoard(columns, rows);
 
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++) {
+                NurikabeCell cell = new NurikabeCell(NurikabeType.UNKNOWN.toValue(), new Point(x, y));
+                cell.setIndex(y * columns + x);
+                cell.setModifiable(true);
+                nurikabeBoard.setCell(x, y, cell);
+            }
+        }
+        puzzle.setCurrentBoard(nurikabeBoard);
     }
 
     /**

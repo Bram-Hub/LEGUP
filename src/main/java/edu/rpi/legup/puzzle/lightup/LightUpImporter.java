@@ -22,7 +22,19 @@ public class LightUpImporter extends PuzzleImporter {
      */
     @Override
     public void initializeBoard(int rows, int columns) {
+        LightUpBoard lightUpBoard = new LightUpBoard(columns, rows);
 
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++) {
+                if (lightUpBoard.getCell(x, y) == null) {
+                    LightUpCell cell = new LightUpCell(-2, new Point(x, y));
+                    cell.setIndex(y * columns + x);
+                    cell.setModifiable(true);
+                    lightUpBoard.setCell(x, y, cell);
+                }
+            }
+        }
+        puzzle.setCurrentBoard(lightUpBoard);
     }
 
     /**
