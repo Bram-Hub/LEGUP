@@ -55,7 +55,7 @@ public class NoTentForTreeContradictionRule extends ContradictionRule {
                         }
                     }
                 }
-                if (adjTents.size() == 0) {
+                if (adjTents.size() == 0 && adjUnknown == 0) {
                     return null;
                 }
             }
