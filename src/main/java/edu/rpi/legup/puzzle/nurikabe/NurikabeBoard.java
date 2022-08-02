@@ -1,5 +1,6 @@
 package edu.rpi.legup.puzzle.nurikabe;
 
+import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 
