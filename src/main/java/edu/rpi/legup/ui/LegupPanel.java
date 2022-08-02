@@ -8,5 +8,6 @@ public abstract class LegupPanel extends JPanel {
      */
 
     protected final int TOOLBAR_ICON_SCALE = 40;
+
     public abstract void makeVisible();
 }

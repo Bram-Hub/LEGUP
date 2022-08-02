@@ -10,7 +10,8 @@
         <module name="LeftCurly"/>
         <module name="RightCurly">
             <property name="option" value="alone"/>
-            <property name="tokens" value="LITERAL_IF, LITERAL_ELSE, LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_WHILE, LITERAL_DO, LITERAL_FOR, METHOD_DEF"/>
+            <property name="tokens"
+                      value="LITERAL_IF, LITERAL_ELSE, LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_WHILE, LITERAL_DO, LITERAL_FOR, METHOD_DEF"/>
         </module>
         <module name="NeedBraces">
             <property name="allowSingleLineStatement" value="true"/>
