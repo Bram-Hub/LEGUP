@@ -196,23 +196,24 @@ public class HomePanel extends LegupPanel {
         CreatePuzzleDialog cpd = new CreatePuzzleDialog(this.frame, this);
         cpd.setVisible(true);
     }
-
-    public void openEditorWithNewPuzzle(String game, int width, int height) throws IllegalArgumentException {
-        // Set game type on the puzzle editor
-        try
+    
+    public void openEditorWithNewPuzzle(String game, int rows, int columns) throws IllegalArgumentException
+    {
+        // Validate the dimensions
+        GameBoardFacade facade = GameBoardFacade.getInstance();
+        boolean isValidDimensions = facade.validateDimensions(game, rows, columns);
+        if (!isValidDimensions)
         {
-            this.legupUI.displayPanel(2);
-            this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, width, height);
-        }
-        catch (IllegalArgumentException exception)
-        {
-            this.legupUI.displayPanel(0);
             JOptionPane.showMessageDialog(null,
                     "The dimensions you entered are invalid. Please double check \n" +
                             "the number of rows and columns and try again.",
                     "ERROR: Invalid Dimensions",
                     JOptionPane.ERROR_MESSAGE);
-            throw new IllegalArgumentException(exception.getMessage());
+            throw new IllegalArgumentException("ERROR: Invalid dimensions given");
         }
+
+        // Set game type on the puzzle editor
+        this.legupUI.displayPanel(2);
+        this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, rows, columns);
     }
 }
