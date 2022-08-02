@@ -31,7 +31,8 @@ public class CreatePuzzleDialog extends JDialog {
             try {
                 homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(rows.getText()), Integer.valueOf(columns.getText()));
                 setVisible(false);
-            } catch (IllegalArgumentException exception) {
+            }
+            catch (IllegalArgumentException exception) {
                 // Don't do anything. This is here to prevent the dialog from closing if the dimensions are invalid.
             }
         }

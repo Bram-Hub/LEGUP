@@ -168,13 +168,11 @@ public class HomePanel extends LegupPanel {
         cpd.setVisible(true);
     }
 
-    public void openEditorWithNewPuzzle(String game, int rows, int columns) throws IllegalArgumentException
-    {
+    public void openEditorWithNewPuzzle(String game, int rows, int columns) throws IllegalArgumentException {
         // Validate the dimensions
         GameBoardFacade facade = GameBoardFacade.getInstance();
         boolean isValidDimensions = facade.validateDimensions(game, rows, columns);
-        if (!isValidDimensions)
-        {
+        if (!isValidDimensions) {
             JOptionPane.showMessageDialog(null,
                     "The dimensions you entered are invalid. Please double check \n" +
                             "the number of rows and columns and try again.",

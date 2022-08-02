@@ -96,8 +96,11 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                     if (treePanel != null) {
                         treePanel.updateError("");
                     }
-                } else if (treePanel != null) {
-                    treePanel.updateError(autoCaseRuleCommand.getError());
+                }
+                else {
+                    if (treePanel != null) {
+                        treePanel.updateError(autoCaseRuleCommand.getError());
+                    }
                 }
             }
             else {
@@ -108,8 +111,11 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                     if (treePanel != null) {
                         treePanel.updateError("");
                     }
-                } else if (treePanel != null) {
-                    treePanel.updateError(edit.getError());
+                }
+                else {
+                    if (treePanel != null) {
+                        treePanel.updateError(edit.getError());
+                    }
                 }
             }
         }
@@ -131,7 +137,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
             boardView = getInstance().getLegupUI().getEditorBoardView();
         }
         if (dynamicView == null) {
-            dynamicView =  getInstance().getLegupUI().getEditorDynamicBoardView();
+            dynamicView = getInstance().getLegupUI().getEditorDynamicBoardView();
         }
         Board board = boardView.getBoard();
         ElementView elementView = boardView.getElement(e.getPoint());
@@ -172,7 +178,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
             boardView = getInstance().getLegupUI().getEditorBoardView();
         }
         if (dynamicView == null) {
-            dynamicView =  getInstance().getLegupUI().getEditorDynamicBoardView();
+            dynamicView = getInstance().getLegupUI().getEditorDynamicBoardView();
         }
         ElementView element = boardView.getElement(e.getPoint());
         if (element != null) {
@@ -205,9 +211,9 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         }
         Board board = boardView.getBoard();
         TreeElement treeElement = boardView.getTreeElement();
-        DynamicView dynamicView =  getInstance().getLegupUI().getDynamicBoardView();
+        DynamicView dynamicView = getInstance().getLegupUI().getDynamicBoardView();
         if (dynamicView == null) {
-            dynamicView =  getInstance().getLegupUI().getEditorDynamicBoardView();
+            dynamicView = getInstance().getLegupUI().getEditorDynamicBoardView();
         }
         ElementView elementView = boardView.getElement(e.getPoint());
         ElementSelection selection = boardView.getSelection();

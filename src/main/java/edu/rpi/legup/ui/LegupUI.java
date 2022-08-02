@@ -185,6 +185,7 @@ public class LegupUI extends JFrame implements WindowListener {
     public BoardView getBoardView() {
         return getProofEditor().getBoardView();
     }
+
     public BoardView getEditorBoardView() {
         return getPuzzleEditor().getBoardView();
     }
@@ -192,6 +193,7 @@ public class LegupUI extends JFrame implements WindowListener {
     public DynamicView getDynamicBoardView() {
         return getProofEditor().getDynamicBoardView();
     }
+
     public DynamicView getEditorDynamicBoardView() {
         return getPuzzleEditor().getDynamicBoardView();
     }

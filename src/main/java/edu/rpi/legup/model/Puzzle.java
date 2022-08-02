@@ -107,7 +107,8 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                                 default:
                                     break;
                             }
-                        } catch (InvocationTargetException e) {
+                        }
+                        catch (InvocationTargetException e) {
                             System.out.println("    Failed ");
                             e.getTargetException().printStackTrace();
                         }
@@ -119,7 +120,8 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 //                InstantiationException | IllegalAccessException | InvocationTargetException e) {
 //            LOGGER.error("Unable to find rules for " + this.getClass().getSimpleName(), e);
 //        }
-        }catch(Exception e){
+        }
+        catch (Exception e) {
             LOGGER.error("Unable to find elements for " + this.getClass().getSimpleName(), e);
         }
     }
