@@ -30,18 +30,19 @@ public class LinkTreeCaseRule extends CaseRule {
         for (PuzzleElement element : treeTentBoard.getPuzzleElements()) {
             if (((TreeTentCell) element).getType() == TreeTentType.TREE &&
                     !getCases(treeTentBoard, element).isEmpty()) {
-                
+
                 Boolean canAdd = true;
                 List<TreeTentLine> lines = treeTentBoard.getLines();
-                for(TreeTentLine l : lines) {
-                    if(l.getC1().getLocation().equals(((TreeTentCell)element).getLocation()) || l.getC2().getLocation().equals(((TreeTentCell)element).getLocation()))
-                    {
+                for (TreeTentLine l : lines) {
+                    if (l.getC1().getLocation().equals(((TreeTentCell) element).getLocation()) || l.getC2().getLocation().equals(((TreeTentCell) element).getLocation())) {
                         canAdd = false;
                         break;
                     }
                 }
-                if(canAdd) {caseBoard.addPickableElement(element);}
-                
+                if (canAdd) {
+                    caseBoard.addPickableElement(element);
+                }
+
             }
         }
         return caseBoard;
@@ -62,15 +63,12 @@ public class LinkTreeCaseRule extends CaseRule {
         List<TreeTentCell> adjCells = treeTentBoard.getAdjacent(cell, TreeTentType.TENT);
         for (TreeTentCell c : adjCells) {
             Boolean makeline = true;
-            for(TreeTentLine l : treeTentBoard.getLines())
-            {
-                if(l.getC1().getLocation().equals(c.getLocation()) || l.getC2().getLocation().equals(c.getLocation()))
-                {
+            for (TreeTentLine l : treeTentBoard.getLines()) {
+                if (l.getC1().getLocation().equals(c.getLocation()) || l.getC2().getLocation().equals(c.getLocation())) {
                     makeline = false;
                 }
             }
-            if(makeline)
-            {
+            if (makeline) {
                 TreeTentBoard caseBoard = (TreeTentBoard) board.copy();
                 TreeTentLine line = new TreeTentLine(cell, c);
                 caseBoard.getLines().add(line);

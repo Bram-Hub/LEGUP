@@ -28,19 +28,19 @@ public class LinkTentCaseRule extends CaseRule {
         TreeTentBoard treeTentBoard = (TreeTentBoard) board.copy();
         treeTentBoard.setModifiable(false);
         CaseBoard caseBoard = new CaseBoard(treeTentBoard, this);
-        for(PuzzleElement element : treeTentBoard.getPuzzleElements()) {
-            if(((TreeTentCell) element).getType() == TreeTentType.TENT && !getCases(board,element).isEmpty())
-            {
+        for (PuzzleElement element : treeTentBoard.getPuzzleElements()) {
+            if (((TreeTentCell) element).getType() == TreeTentType.TENT && !getCases(board, element).isEmpty()) {
                 Boolean canAdd = true;
                 List<TreeTentLine> lines = treeTentBoard.getLines();
-                for(TreeTentLine l : lines) {
-                    if(l.getC1().getLocation().equals(((TreeTentCell)element).getLocation()) || l.getC2().getLocation().equals(((TreeTentCell)element).getLocation()))
-                    {
+                for (TreeTentLine l : lines) {
+                    if (l.getC1().getLocation().equals(((TreeTentCell) element).getLocation()) || l.getC2().getLocation().equals(((TreeTentCell) element).getLocation())) {
                         canAdd = false;
                         break;
                     }
                 }
-                if(canAdd) {caseBoard.addPickableElement(element);}
+                if (canAdd) {
+                    caseBoard.addPickableElement(element);
+                }
             }
         }
         return caseBoard;
@@ -57,23 +57,19 @@ public class LinkTentCaseRule extends CaseRule {
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<Board>();
         TreeTentCell cell = (TreeTentCell) puzzleElement;
-        List<TreeTentCell> adj = ((TreeTentBoard)board).getAdjacent(cell, TreeTentType.TREE);
-        List<TreeTentLine> lines = ((TreeTentBoard)board).getLines();
+        List<TreeTentCell> adj = ((TreeTentBoard) board).getAdjacent(cell, TreeTentType.TREE);
+        List<TreeTentLine> lines = ((TreeTentBoard) board).getLines();
 
-        for(TreeTentCell tree : adj)
-        {
+        for (TreeTentCell tree : adj) {
             Boolean makeline = true;
-            for(TreeTentLine l : ((TreeTentBoard)board).getLines())
-            {
-                if(l.getC1().getLocation().equals(tree.getLocation()) || l.getC2().getLocation().equals(tree.getLocation()))
-                {
+            for (TreeTentLine l : ((TreeTentBoard) board).getLines()) {
+                if (l.getC1().getLocation().equals(tree.getLocation()) || l.getC2().getLocation().equals(tree.getLocation())) {
                     makeline = false;
                 }
             }
-            if(makeline)
-            {
-                TreeTentBoard temp = ((TreeTentBoard)board).copy();
-                TreeTentLine l = new TreeTentLine((TreeTentCell)temp.getPuzzleElement(cell), (TreeTentCell)temp.getPuzzleElement(tree));
+            if (makeline) {
+                TreeTentBoard temp = ((TreeTentBoard) board).copy();
+                TreeTentLine l = new TreeTentLine((TreeTentCell) temp.getPuzzleElement(cell), (TreeTentCell) temp.getPuzzleElement(tree));
                 temp.getLines().add(l);
                 temp.addModifiedData(l);
                 cases.add(temp);
