@@ -95,7 +95,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         if (treeView != null) {
             selection = treeView.getSelection();
         }
-
+    // funny
         if (elementView != null) {
             if (board instanceof CaseBoard) {
                 CaseBoard caseBoard = (CaseBoard) board;
