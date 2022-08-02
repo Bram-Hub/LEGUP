@@ -9,7 +9,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 public class BlockedBlackBasicRule extends BasicRule {
 
     public BlockedBlackBasicRule() {
-        super("MASY-BASC-0002","Blocked Black",
+        super("MASY-BASC-0002", "Blocked Black",
                 "",
                 "edu/rpi/legup/images/masyu/RuleBlockedBlack.gif");
     }

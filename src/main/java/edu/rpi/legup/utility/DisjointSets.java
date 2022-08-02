@@ -26,7 +26,8 @@ public class DisjointSets<T> {
     public boolean createSet(T u) {
         if (u == null || parents.containsKey(u)) {
             return false;
-        } else {
+        }
+        else {
             parents.put(u, u);
             depths.put(u, 0);
             Set<T> newSet = new HashSet<>();
@@ -45,8 +46,11 @@ public class DisjointSets<T> {
     public T find(T p) {
         if (p == null || parents.get(p) == null) {
             return null;
-        } else if (p != parents.get(p)) {
-            parents.put(p, find(parents.get(p)));
+        }
+        else {
+            if (p != parents.get(p)) {
+                parents.put(p, find(parents.get(p)));
+            }
         }
         return parents.get(p);
     }
@@ -63,12 +67,14 @@ public class DisjointSets<T> {
         T qid = find(q);
         if (pid == null || qid == null || pid == qid) {
             return false;
-        } else {
+        }
+        else {
             if (depths.get(pid) > depths.get(qid)) {
                 parents.put(qid, pid);
                 sets.get(pid).addAll(sets.get(qid));
                 sets.remove(qid);
-            } else {
+            }
+            else {
                 parents.put(pid, qid);
                 sets.get(qid).addAll(sets.get(pid));
                 sets.remove(pid);
@@ -121,7 +127,8 @@ public class DisjointSets<T> {
         T pid = find(p);
         if (pid != null) {
             return new HashSet<>(sets.get(pid));
-        } else {
+        }
+        else {
             return null;
         }
     }

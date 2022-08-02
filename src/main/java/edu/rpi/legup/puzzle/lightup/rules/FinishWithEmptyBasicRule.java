@@ -96,7 +96,8 @@ public class FinishWithEmptyBasicRule extends BasicRule {
         }
         if (lightUpBoard.getModifiedData().isEmpty()) {
             return null;
-        } else {
+        }
+        else {
             return lightUpBoard;
         }
     }

@@ -87,12 +87,12 @@ public abstract class Rule {
             this.image = new ImageIcon(ClassLoader.getSystemResource(imageName));
             //Resize images to be 100px wide
             Image image = this.image.getImage();
-            if(this.image.getIconWidth() < 120) return;
+            if (this.image.getIconWidth() < 120) return;
             int height = (int) (100 * ((double) this.image.getIconHeight() / this.image.getIconWidth()));
-            if(height==0){
+            if (height == 0) {
                 System.out.println("height is 0 error");
-                System.out.println("height: "+this.image.getIconHeight());
-                System.out.println("width:  "+this.image.getIconWidth());
+                System.out.println("height: " + this.image.getIconHeight());
+                System.out.println("width:  " + this.image.getIconWidth());
                 return;
             }
             BufferedImage bimage = new BufferedImage(100, height, BufferedImage.TYPE_INT_RGB);
@@ -156,8 +156,7 @@ public abstract class Rule {
         return ruleType;
     }
 
-    public String getInvalidUseOfRuleMessage()
-    {
+    public String getInvalidUseOfRuleMessage() {
         return this.INVALID_USE_MESSAGE;
     }
 }

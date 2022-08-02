@@ -27,8 +27,8 @@ public enum BattleshipType {
     /**
      * Checks if the type is a ship.
      *
-     * @param type  the {@link BattleshipType} to check
-     * @return      <tt>true</tt> if the type is a ship, <tt>false</tt> otherwise
+     * @param type the {@link BattleshipType} to check
+     * @return <tt>true</tt> if the type is a ship, <tt>false</tt> otherwise
      */
     public static boolean isShip(BattleshipType type) {
         return type == SHIP_UNKNOWN || type == SHIP_TOP || type == SHIP_RIGHT
