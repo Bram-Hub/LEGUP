@@ -30,8 +30,8 @@ public class FinishWithShipsBasicRule extends BasicRule {
      *
      * @param transition    transition to check
      * @param puzzleElement equivalent puzzleElement
-     * @return              null if the child node logically follow from the parent node
-     *                      at the specified puzzleElement, otherwise error message.
+     * @return null if the child node logically follow from the parent node
+     * at the specified puzzleElement, otherwise error message.
      */
     @Override
     protected String checkRuleRawAt(TreeTransition transition,
@@ -44,34 +44,41 @@ public class FinishWithShipsBasicRule extends BasicRule {
         BattleshipCell finalCell = (BattleshipCell) finalBoard
                 .getPuzzleElement(puzzleElement);
         if (!(initCell.getType() == BattleshipType.UNKNOWN
-                && BattleshipType.isShip(finalCell.getType())))
+                && BattleshipType.isShip(finalCell.getType()))) {
             return super.getInvalidUseOfRuleMessage() + ": This cell must be a ship.";
+        }
 
-        if (isForced(initBoard, initCell))
+        if (isForced(initBoard, initCell)) {
             return null;
-        else 
+        }
+        else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to" +
                     "be a ship segment.";
+        }
     }
-    
+
     private boolean isForced(BattleshipBoard board, BattleshipCell cell) {
         Point loc = cell.getLocation();
 
         // count the number of ship segments and unknowns in the row
         List<BattleshipCell> row = board.getRow(loc.y);
         int rowCount = 0;
-        for (BattleshipCell c : row)
+        for (BattleshipCell c : row) {
             if (c.getType() == BattleshipType.SHIP_UNKNOWN
-                || BattleshipType.isShip(c.getType()))
+                    || BattleshipType.isShip(c.getType())) {
                 rowCount++;
+            }
+        }
 
         // count the number of ship segments and unknowns in the column
         List<BattleshipCell> col = board.getColumn(loc.x);
         int colCount = 0;
-        for (BattleshipCell c : col)
+        for (BattleshipCell c : col) {
             if (c.getType() == BattleshipType.SHIP_UNKNOWN
-                || BattleshipType.isShip(c.getType()))
+                    || BattleshipType.isShip(c.getType())) {
                 colCount++;
+            }
+        }
 
         // compare the counts with the clues
         BattleshipClue east = board.getEast().get(loc.y);
@@ -84,9 +91,9 @@ public class FinishWithShipsBasicRule extends BasicRule {
      * Creates a transition {@link Board} that has this rule applied to it using the
      * {@link TreeNode}.
      *
-     * @param node  tree node used to create default transition board.
-     * @return      default board or null if this rule cannot be applied to this tree
-     *              node.
+     * @param node tree node used to create default transition board.
+     * @return default board or null if this rule cannot be applied to this tree
+     * node.
      */
     @Override
     public Board getDefaultBoard(TreeNode node) {
@@ -99,9 +106,11 @@ public class FinishWithShipsBasicRule extends BasicRule {
             }
         }
 
-        if (board.getModifiedData().isEmpty())
+        if (board.getModifiedData().isEmpty()) {
             return null;
-        else
+        }
+        else {
             return board;
+        }
     }
 }
