@@ -108,7 +108,6 @@ public class CreatePuzzleDialog extends JDialog {
         gameBox = new JComboBox(games);
     }
 
-    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == ok) {
             String game = (String) gameBox.getSelectedItem();
