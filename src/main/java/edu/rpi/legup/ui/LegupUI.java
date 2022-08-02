@@ -54,7 +54,9 @@ public class LegupUI extends JFrame implements WindowListener {
         catch (UnsupportedLookAndFeelException e) {
             System.err.println("Not supported ui look and feel");
         }
-
+        if(fileDialog == null) {
+            fileDialog = new FileDialog(this);
+        }
         initPanels();
         displayPanel(0);
 
