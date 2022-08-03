@@ -70,7 +70,8 @@ public class TreeNodeView extends TreeElementView {
                 graphics2D.setColor(NODE_COLOR_CONTRADICTION);
                 graphics2D.drawLine(location.x - RADIUS, location.y - RADIUS, location.x + RADIUS, location.y + RADIUS);
                 graphics2D.drawLine(location.x + RADIUS, location.y - RADIUS, location.x - RADIUS, location.y + RADIUS);
-            } else {
+            }
+            else {
                 isContradictoryState = false;
                 graphics2D.setStroke(MAIN_STROKE);
                 boolean isContraBranch = getTreeElement().isContradictoryBranch();
@@ -85,22 +86,26 @@ public class TreeNodeView extends TreeElementView {
                     graphics2D.setStroke(SELECTION_STROKE);
                     graphics2D.setColor(OUTLINE_SELECTION_COLOR);
                     graphics2D.drawOval(location.x - RADIUS - 4, location.y - RADIUS - 4, DIAMETER + 8, DIAMETER + 8);
-                } else if (isHover) {
-                    graphics2D.setColor(HOVER_COLOR);
-                    graphics2D.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
+                }
+                else {
+                    if (isHover) {
+                        graphics2D.setColor(HOVER_COLOR);
+                        graphics2D.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
 
-                    graphics2D.setColor(OUTLINE_COLOR);
-                    graphics2D.drawOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
+                        graphics2D.setColor(OUTLINE_COLOR);
+                        graphics2D.drawOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
 
-                    graphics2D.setStroke(SELECTION_STROKE);
-                    graphics2D.setColor(OUTLINE_HOVER_COLOR);
-                    graphics2D.drawOval(location.x - RADIUS - 4, location.y - RADIUS - 4, DIAMETER + 8, DIAMETER + 8);
-                } else {
-                    graphics2D.setColor(isContraBranch ? NODE_COLOR_CONTRADICTION : NODE_COLOR_DEFAULT);
-                    graphics2D.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
+                        graphics2D.setStroke(SELECTION_STROKE);
+                        graphics2D.setColor(OUTLINE_HOVER_COLOR);
+                        graphics2D.drawOval(location.x - RADIUS - 4, location.y - RADIUS - 4, DIAMETER + 8, DIAMETER + 8);
+                    }
+                    else {
+                        graphics2D.setColor(isContraBranch ? NODE_COLOR_CONTRADICTION : NODE_COLOR_DEFAULT);
+                        graphics2D.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
 
-                    graphics2D.setColor(OUTLINE_COLOR);
-                    graphics2D.drawOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
+                        graphics2D.setColor(OUTLINE_COLOR);
+                        graphics2D.drawOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
+                    }
                 }
             }
         }

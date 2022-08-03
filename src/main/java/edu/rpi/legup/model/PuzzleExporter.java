@@ -65,9 +65,11 @@ public abstract class PuzzleExporter {
             StreamResult result = new StreamResult(new File(fileName));
 
             transformer.transform(source, result);
-        } catch (ParserConfigurationException | TransformerException e) {
+        }
+        catch (ParserConfigurationException | TransformerException e) {
             throw new ExportFileException("Puzzle Exporter: parser configuration exception");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw e;
             //throw new ExportFileException(e.getMessage());
         }

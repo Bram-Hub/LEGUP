@@ -8,6 +8,7 @@ import javax.swing.*;
 public class ElementButton extends JButton {
 
     private Element element;
+
     ElementButton(Element e) {
         super(e.getImageIcon());
         this.element = e;

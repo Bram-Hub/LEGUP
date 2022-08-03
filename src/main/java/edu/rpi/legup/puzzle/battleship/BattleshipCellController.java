@@ -12,18 +12,24 @@ public class BattleshipCellController extends ElementController {
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (e.isControlDown()) {
                 this.boardView.getSelectionPopupMenu().show(boardView, this.boardView.getCanvas().getX() + e.getX(), this.boardView.getCanvas().getY() + e.getY());
-            } else {
+            }
+            else {
                 if (cell.getData() == BattleshipType.SHIP_MIDDLE) {
                     cell.setData(BattleshipType.UNKNOWN);
-                } else {
+                }
+                else {
                     cell.setData(BattleshipType.getType(cell.getData().value + 1));
                 }
             }
-        } else if (e.getButton() == MouseEvent.BUTTON3) {
-            if (cell.getData() == BattleshipType.UNKNOWN) {
-                cell.setData(BattleshipType.SHIP_MIDDLE);
-            } else {
-                cell.setData(BattleshipType.getType(cell.getData().value - 1));
+        }
+        else {
+            if (e.getButton() == MouseEvent.BUTTON3) {
+                if (cell.getData() == BattleshipType.UNKNOWN) {
+                    cell.setData(BattleshipType.SHIP_MIDDLE);
+                }
+                else {
+                    cell.setData(BattleshipType.getType(cell.getData().value - 1));
+                }
             }
         }
     }

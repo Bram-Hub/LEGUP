@@ -16,22 +16,19 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 
 import java.awt.*;
 
-public class WhiteBottleNeckBasicRuleTest
-{
+public class WhiteBottleNeckBasicRuleTest {
 
     private static final WhiteBottleNeckBasicRule RULE = new WhiteBottleNeckBasicRule();
     private static Nurikabe nurikabe;
 
     @BeforeClass
-    public static void setUp()
-    {
+    public static void setUp() {
         MockGameBoardFacade.getInstance();
         nurikabe = new Nurikabe();
     }
 
     @Test
-    public void WhiteBottleNeckBasicRule_SimpleWhiteBottleNeckTest() throws InvalidFileFormatException
-    {
+    public void WhiteBottleNeckBasicRule_SimpleWhiteBottleNeckTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/WhiteBottleNeckBasicRule/SimpleWhiteBottleNeck", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -44,12 +41,13 @@ public class WhiteBottleNeckBasicRuleTest
 
         Assert.assertNull(RULE.checkRule(transition));
 
-        for(int i = 0; i < board.getHeight(); i++) {
-            for(int k = 0; k < board.getWidth(); k++) {
-                Point point  = new Point(k, i);
-                if(point.equals(cell.getLocation())) {
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Point point = new Point(k, i);
+                if (point.equals(cell.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                } else {
+                }
+                else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
@@ -57,8 +55,7 @@ public class WhiteBottleNeckBasicRuleTest
     }
 
     @Test
-    public void WhiteBottleNeckBasicRule_NurikabeBoard1Test() throws InvalidFileFormatException
-    {
+    public void WhiteBottleNeckBasicRule_NurikabeBoard1Test() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/WhiteBottleNeckBasicRule/NurikabeBoard1", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -71,8 +68,8 @@ public class WhiteBottleNeckBasicRuleTest
 
         Assert.assertNotNull(RULE.checkRule(transition));
 
-        for(int i = 0; i < board.getHeight(); i++) {
-            for(int k = 0; k < board.getWidth(); k++) {
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
                 Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
             }
         }

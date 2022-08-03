@@ -28,9 +28,9 @@ public class AdjacentShipsContradictionRule extends ContradictionRule {
      *
      * @param board         board to check contradiction
      * @param puzzleElement equivalent {@link PuzzleElement}
-     * @return              <code>null</code> if the transition contains a
-     *                      contradiction at the specified {@link PuzzleElement},
-     *                      otherwise return a no contradiction message.
+     * @return <code>null</code> if the transition contains a
+     * contradiction at the specified {@link PuzzleElement},
+     * otherwise return a no contradiction message.
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
@@ -38,8 +38,9 @@ public class AdjacentShipsContradictionRule extends ContradictionRule {
         BattleshipCell cell = (BattleshipCell) bsBoard.getPuzzleElement(puzzleElement);
 
         // rule only applies to battleship cells
-        if (!BattleshipType.isShip(cell.getType()))
+        if (!BattleshipType.isShip(cell.getType())) {
             return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
+        }
 
         // check orthogonally adjacent cells
         List<BattleshipCell> orthoAdjCells
@@ -57,8 +58,9 @@ public class AdjacentShipsContradictionRule extends ContradictionRule {
                 || (right != null && BattleshipType.isShip(right.getData()));
 
         // ships cannot be both vertical and horizontal
-        if (isVertical && isHorizontal)
+        if (isVertical && isHorizontal) {
             return null;
+        }
 
         // check diagonally adjacent cells
         List<BattleshipCell> diagAdjCells
@@ -70,14 +72,18 @@ public class AdjacentShipsContradictionRule extends ContradictionRule {
         BattleshipCell upLeft = diagAdjCells.get(3);
 
         // diagonally adjacent cells must be water
-        if (upRight != null && BattleshipType.isShip(upRight.getData()))
+        if (upRight != null && BattleshipType.isShip(upRight.getData())) {
             return null;
-        if (downRight != null && BattleshipType.isShip(downRight.getData()))
+        }
+        if (downRight != null && BattleshipType.isShip(downRight.getData())) {
             return null;
-        if (downLeft != null && BattleshipType.isShip(downLeft.getData()))
+        }
+        if (downLeft != null && BattleshipType.isShip(downLeft.getData())) {
             return null;
-        if (upLeft != null && BattleshipType.isShip(upLeft.getData()))
+        }
+        if (upLeft != null && BattleshipType.isShip(upLeft.getData())) {
             return null;
+        }
 
         return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
     }
