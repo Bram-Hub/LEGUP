@@ -13,7 +13,7 @@ public class CellForNumberCaseRule extends CaseRule {
     //select a certain row/col? select a certain number?
     public CellForNumberCaseRule() {
         super("SKYS-CASE-0002", "Cell For Number",
-                "Each blank cell is could have height of 1 to n.",
+                "A number (1-n) must appear in any given row/column",
                 "edu/rpi/legup/images/skyscrapers/cases/CellForNumber.png");
     }
 

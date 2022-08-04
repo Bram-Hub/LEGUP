@@ -18,7 +18,7 @@ public class PossibleContentsCaseRule extends CaseRule {
 
     public PossibleContentsCaseRule() {
         super("SKYS-CASE-0001", "Possible Contents",
-                "Each blank cell is could have height of 1 to n.",
+                "A blank cell must have height of 1 to n.",
                 "edu/rpi/legup/images/skyscrapers/cases/PossibleContents.png");
     }
 
