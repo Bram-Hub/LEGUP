@@ -31,12 +31,10 @@ public class InsufficientVisibilityContradictionRule extends ContradictionRule {
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
-		//why is this run for every cell? maybe:override checkcontradiction to every row/col
     	SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
         SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board;
         Point loc = cell.getLocation();
 
-        
         //get borders
         int west  = skyscrapersboard.getRow().get(loc.y).getData();
     	int east  = skyscrapersboard.getRowClues().get(loc.y).getData();
@@ -118,4 +116,23 @@ public class InsufficientVisibilityContradictionRule extends ContradictionRule {
         //System.out.print("Does not contain a contradiction at this index");
         return super.getNoContradictionMessage();
     }
+
+	/**
+	 * Checks whether the tree node has a contradiction using this rule
+	 *
+	 * @param board board to check contradiction
+	 * @return null if the tree node contains a contradiction, otherwise error message
+	 */
+	@Override
+	public String checkContradiction(Board board) {
+		SkyscrapersBoard skyscrapersBoard = (SkyscrapersBoard) board;
+		for (int i = 0; i < skyscrapersBoard.getWidth(); i++) {
+			//checks the middle diagonal (checkContradictionAt checks row/col off each)
+			String checkStr = checkContradictionAt(board, skyscrapersBoard.getCell(i,i));
+			if (checkStr == null) {
+				return checkStr;
+			}
+		}
+		return "No instance of the contradiction " + this.ruleName + " here";
+	}
 }
