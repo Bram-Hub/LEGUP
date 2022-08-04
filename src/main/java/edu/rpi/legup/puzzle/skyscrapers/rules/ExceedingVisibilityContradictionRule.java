@@ -31,7 +31,7 @@ public class ExceedingVisibilityContradictionRule extends ContradictionRule {
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
-		//why is this called for every cell?
+		//why is this called for every cell? maybe:override checkcontradiction
     	SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
         SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board;
         Point loc = cell.getLocation();

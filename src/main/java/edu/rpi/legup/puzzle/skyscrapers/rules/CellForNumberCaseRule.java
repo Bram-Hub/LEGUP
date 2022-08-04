@@ -5,10 +5,7 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersBoard;
-import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersCell;
-import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersLine;
-import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType;
+import edu.rpi.legup.puzzle.skyscrapers.*;
 
 import java.util.List;
 
@@ -22,7 +19,18 @@ public class CellForNumberCaseRule extends CaseRule {
 
     @Override
     public CaseBoard getCaseBoard(Board board) {
-        return null;
+        SkyscrapersBoard currentBoard = (SkyscrapersBoard) board.copy();
+        currentBoard.setModifiable(false);
+        CaseBoard caseBoard = new CaseBoard(currentBoard, this);
+        for (SkyscrapersClue data : currentBoard.getRow()) {
+            System.out.println(data.getType());
+            caseBoard.addPickableElement(data);
+        }
+        for (SkyscrapersClue data : currentBoard.getCol()) {
+            System.out.println(data.getType());
+            caseBoard.addPickableElement(data);
+        }
+        return caseBoard;
     }
 
     @Override
