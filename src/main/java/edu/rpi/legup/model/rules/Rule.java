@@ -84,7 +84,7 @@ public abstract class Rule {
      */
     private void loadImage() {
         if (imageName != null) {
-            this.image = new ImageIcon(ClassLoader.getSystemResource(imageName));
+            this.image = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(imageName));
             //Resize images to be 100px wide
             Image image = this.image.getImage();
             if (this.image.getIconWidth() < 120) return;
