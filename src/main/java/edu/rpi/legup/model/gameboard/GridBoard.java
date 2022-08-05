@@ -1,6 +1,7 @@
 package edu.rpi.legup.model.gameboard;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class GridBoard extends Board {
 
@@ -59,6 +60,17 @@ public class GridBoard extends Board {
         }
         puzzleElements.set(y * dimension.width + x, cell);
     }
+<<<<<<< Updated upstream
+=======
+    public void setCell(int x, int y, Element e, MouseEvent m) {
+        if (y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
+                y >= dimension.height || x < 0 || y < 0) {
+            return;
+        }
+        ((NurikabeCell) puzzleElements.get(y * dimension.width + x)).setType(e, m);
+        puzzleElements.set(y * dimension.width + x, puzzleElements.get(y * dimension.width + x));
+    }
+>>>>>>> Stashed changes
 
     /**
      * Gets the width of the board.

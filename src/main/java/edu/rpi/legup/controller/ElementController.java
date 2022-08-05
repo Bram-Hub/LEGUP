@@ -98,6 +98,21 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                 }
             }
         }
+<<<<<<< Updated upstream
+=======
+        if (selectedElement != null) {
+            GridBoard b = (GridBoard) this.boardView.getBoard();
+            Point point = e.getPoint();
+            Point scaledPoint = new Point((int) Math.floor(point.x / (30*this.boardView.getScale())), (int) Math.floor(point.y / (30*this.boardView.getScale())));
+            System.out.printf("selected Element is NOT null, attempting to change board at (%d, %d)\n", scaledPoint.x, scaledPoint.y);
+            System.out.println("Before: " + b.getCell(scaledPoint.x, scaledPoint.y).getData());
+            b.setCell(scaledPoint.x, scaledPoint.y, this.selectedElement, e);
+            System.out.println("After: " + b.getCell(scaledPoint.x, scaledPoint.y).getData());
+        } else {
+            System.out.println("selected Element is null!");
+        }
+        boardView.repaint();
+>>>>>>> Stashed changes
     }
 
     /**
