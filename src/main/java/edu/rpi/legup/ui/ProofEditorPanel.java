@@ -17,6 +17,7 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 import edu.rpi.legup.user.Submission;
 import org.apache.logging.log4j.LogManager;
@@ -51,7 +52,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private JMenu file;
     private JMenuItem newPuzzle, resetPuzzle, saveProof, preferences, exit;
     private JMenu edit;
-    private JMenuItem undo, redo;
+    private JMenuItem undo, redo, fitBoardToScreen, fitTreeToScreen;
 
     private JMenu view;
 
@@ -121,6 +122,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         edit = new JMenu("Edit");
         undo = new JMenuItem("Undo");
         redo = new JMenuItem("Redo");
+        fitBoardToScreen = new JMenuItem("Fit Board to Screen");
+        fitTreeToScreen = new JMenuItem("Fit Tree to Screen");
 
         view = new JMenu("View");
 
@@ -284,6 +287,12 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         else {
             redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
         }
+
+        edit.add(fitBoardToScreen);
+        fitBoardToScreen.addActionListener((ActionEvent) -> dynamicBoardView.fitBoardViewToScreen());
+
+        edit.add(fitTreeToScreen);
+        fitTreeToScreen.addActionListener((ActionEvent) -> this.fitTreeViewToScreen());
 
         mBar.add(proof);
 
@@ -819,5 +828,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     public void showStatus(String status, boolean error, int timer) {
         // TODO: implement
+    }
+
+    private void fitTreeViewToScreen() {
+        this.treePanel.getTreeView().zoomFit();
     }
 }

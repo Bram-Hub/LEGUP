@@ -43,18 +43,9 @@ public class DynamicView extends JPanel {
         zoomWrapper = new JPanel();
         try {
             zoomer = new JPanel();
-            JButton resizeButton = new JButton("Resize");
-            resizeButton.setEnabled(true);
             JLabel zoomLabel = new JLabel("100%");
             zoomLabel.setFont(MaterialFonts.getRegularFont(16f));
-            zoomer.add(resizeButton);
-            resizeButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // System.out.println("The resize bottom be click");
-                    reset();
-                }
-            });
+
             JSlider zoomSlider = new JSlider(25, 400, 100);
 
             JButton plus = new JButton(new ImageIcon(ImageIO.read(
@@ -72,16 +63,6 @@ public class DynamicView extends JPanel {
             minus.setFont(MaterialFonts.getRegularFont(10f));
             minus.addActionListener((ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() - 25));
             this.scrollView.setWheelScrollingEnabled(true);
-            /*this.scrollView.getViewport().addMouseWheelListener(new MouseAdapter() {
-                public void mouseWheelMoved(MouseWheelEvent e) {
-                    if (e.isControlDown()) {
-                        scrollView.zoom(e.getWheelRotation() * 2, e.getPoint());
-                    } else {
-                        scrollView.zoom(e.getWheelRotation(), e.getPoint());
-                    }
-                    zoomSlider.setValue((int) (scrollView.getScale() * 100));
-                }
-            });*/
 
             zoomSlider.setPreferredSize(new Dimension(160, 30));
 
@@ -163,10 +144,9 @@ public class DynamicView extends JPanel {
         board1.setModifiable(true);
         Dimension bi = new Dimension(1200, 900);
         this.getScrollView().zoomFit();
-//        System.out.println("get into the reset"+UIhight+"    "+this.getHeight()+"   "+this.getWidth());
-//        this.getScrollView().zoomTo(UIhight);
-        // System.out.println("Finish into the reset");
+    }
 
-
+    protected void fitBoardViewToScreen() {
+        scrollView.zoomFit();
     }
 }
