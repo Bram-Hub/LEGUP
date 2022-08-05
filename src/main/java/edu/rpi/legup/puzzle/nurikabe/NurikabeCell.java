@@ -4,6 +4,7 @@ import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.model.elements.Element;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class NurikabeCell extends GridCell<Integer> {
 
@@ -43,13 +44,20 @@ public class NurikabeCell extends GridCell<Integer> {
      *
      * @param e element to set the type of this nurikabe cell to
      */
-    public void setType(Element e) {
+    public void setType(Element e, MouseEvent m) {
         if (e.getElementName().equals("Black Tile")) {
             this.data = -1;
         } else if (e.getElementName().equals("White Tile")) {
             this.data = 0;
         } else if (e.getElementName().equals("Number Tile")) {
-            this.data = 1;
+            if(m.getButton() == MouseEvent.BUTTON1) {
+                if(this.data <= 0 || this.data > 8) this.data = 1;
+                else this.data = this.data + 1;
+            }
+            else if(m.getButton() == MouseEvent.BUTTON3) {
+                if(this.data > 1) this.data = this.data - 1;
+                else this.data = 9;
+            }
         } else { // unknown tile
             this.data = -2;
         }
