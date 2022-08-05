@@ -16,7 +16,6 @@ public class ElementFrame extends JPanel {
     private PlaceableElementPanel placeableElementPanel;
     private NonPlaceableElementPanel nonPlaceableElementPanel;
     private JTabbedPane tabbedPane;
-    private JLabel status;
     private ButtonGroup buttonGroup;
 
     private EditorElementController controller;
@@ -25,7 +24,7 @@ public class ElementFrame extends JPanel {
         this.controller = controller;
 
         this.tabbedPane = new JTabbedPane();
-        this.status = new JLabel("", SwingConstants.CENTER);
+        JLabel status = new JLabel("", SwingConstants.CENTER);
         this.buttonGroup = new ButtonGroup();
 
         nonPlaceableElementPanel = new NonPlaceableElementPanel(this);
