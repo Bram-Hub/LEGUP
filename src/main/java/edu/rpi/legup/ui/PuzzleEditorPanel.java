@@ -1,12 +1,15 @@
 package edu.rpi.legup.ui;
 
 import edu.rpi.legup.app.GameBoardFacade;
+import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.EditorElementController;
 import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.model.Puzzle;
+import edu.rpi.legup.model.PuzzleExporter;
+import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.puzzleeditorui.elementsview.ElementFrame;
@@ -101,6 +104,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
         // file>save
         JMenuItem savePuzzle = new JMenuItem("Save");
+        savePuzzle.addActionListener((ActionEvent) -> savePuzzle());
         JMenuItem exit = new JMenuItem("Exit");
         exit.addActionListener((ActionEvent) -> this.legupUI.displayPanel(0));
         if (os.equals("mac")) {
@@ -319,6 +323,50 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
 //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
+    }
+
+    /**
+     * Saves a puzzle
+     */
+    private void savePuzzle() {
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+        if (puzzle == null) {
+            return;
+        }
+
+        if (fileDialog == null) {
+            fileDialog = new FileDialog(this.frame);
+        }
+
+        fileDialog.setMode(FileDialog.SAVE);
+        fileDialog.setTitle("Save Proof");
+        String curFileName = GameBoardFacade.getInstance().getCurFileName();
+        if (curFileName == null) {
+            fileDialog.setDirectory(LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY));
+        }
+        else {
+            File curFile = new File(curFileName);
+            fileDialog.setDirectory(curFile.getParent());
+        }
+        fileDialog.setVisible(true);
+
+        String fileName = null;
+        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
+            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
+        }
+
+        if (fileName != null) {
+            try {
+                PuzzleExporter exporter = puzzle.getExporter();
+                if (exporter == null) {
+                    throw new ExportFileException("Puzzle exporter null");
+                }
+                exporter.exportPuzzle(fileName);
+            }
+            catch (ExportFileException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public DynamicView getDynamicBoardView() {
