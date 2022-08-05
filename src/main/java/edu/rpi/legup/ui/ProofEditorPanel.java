@@ -295,7 +295,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         about.add(helpLegup);
         helpLegup.addActionListener(l -> {
             try {
-                java.awt.Desktop.getDesktop().browse(URI.create("https://github.com/jpoegs/Legup2.0"));
+                java.awt.Desktop.getDesktop().browse(URI.create("https://github.com/Bram-Hub/Legup"));
             }
             catch (IOException e) {
                 LOGGER.error("Can't open web page");
@@ -320,12 +320,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         folderBrowser = new JFileChooser(preferredDirectory);
         folderBrowser.setDialogTitle("Select Proof File");
         folderBrowser.showOpenDialog(this);
-        folderBrowser.setCurrentDirectory((new File(System.getProperty("user.dir"))));
-        folderBrowser.setDialogTitle("Select Directory");
         folderBrowser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         folderBrowser.setAcceptAllFileFilterUsed(true);
         folderBrowser.setVisible(true);
-        folderBrowser.showOpenDialog(this);
 
         String fileName = null;
         File puzzleFile = folderBrowser.getSelectedFile();
