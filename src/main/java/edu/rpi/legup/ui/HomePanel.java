@@ -116,23 +116,27 @@ public class HomePanel extends LegupPanel {
     }
 
     private void initText() {
-        this.text = new JLabel[3];
+        // Note: until an auto-changing version label is implemented in the future, I removed
+        // the version text from the home screen to avoid confusion
+
+        // this.text = new JLabel[3];
+        this.text = new JLabel[2];
 
         JLabel welcome = new JLabel("Welcome to Legup");
         welcome.setFont(new Font("Roboto", Font.BOLD, 23));
         welcome.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel version = new JLabel("Version 3.0.0"); // This should be autochanged in the future
-        version.setFont(new Font("Roboto", Font.ITALIC, 10));
-        version.setAlignmentX(Component.CENTER_ALIGNMENT);
-
         JLabel credits = new JLabel("A project by Dr. Bram van Heuveln");
         credits.setFont(new Font("Roboto", Font.PLAIN, 12));
         credits.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        JLabel version = new JLabel("Version 3.0.0"); // This should be autochanged in the future
+        version.setFont(new Font("Roboto", Font.ITALIC, 10));
+        version.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         this.text[0] = welcome;
-        this.text[1] = version;
-        this.text[2] = credits;
+        this.text[1] = credits;
+        // this.text[2] = version;
     }
 
     private void render() {
