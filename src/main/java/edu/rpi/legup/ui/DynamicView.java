@@ -47,22 +47,43 @@ public class DynamicView extends JPanel {
 
         add(scrollView, CENTER);
         add(setUpZoomer(), SOUTH);
+
     }
 
     private JPanel setUpZoomer() {
         zoomWrapper = new JPanel();
         try {
             zoomer = new JPanel();
-            JButton resizeButton = new JButton("Resize");
-            resizeButton.setEnabled(true);
+            JButton resizeButton1 = new JButton("Resize puzzle");
+            JButton resizeButton2 = new JButton("Resize treeview");
+            resizeButton1.setEnabled(true);
+            resizeButton2.setEnabled(true);
+            resizeButton1.setSize(100,50);
+            resizeButton1.setSize(100,50);
             JLabel zoomLabel = new JLabel("100%");
             zoomLabel.setFont(MaterialFonts.getRegularFont(16f));
-            zoomer.add(resizeButton);
-            resizeButton.addActionListener(new ActionListener() {
+            zoomer.add(resizeButton1);
+            zoomer.add(resizeButton2);
+            resizeButton2.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // System.out.println("The resize bottom be click");
-                    reset();
+                    if(true){
+                        rest_for_treeview();
+                        System.out.println("The lower resize bottom be click");
+                    }
+                }
+            });
+            resizeButton1.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    //System.out.println("The resize bottom be click");
+                    if (true){
+                        reset_for_puzzle();
+                        System.out.println("The upper resize bottom be click");
+                    }
+
+
+
                 }
             });
             JSlider zoomSlider = new JSlider(25, 400, 100);
@@ -166,17 +187,20 @@ public class DynamicView extends JPanel {
         status.setText("");
     }
 
-    public void reset() {
+    public void reset_for_puzzle() {
         // System.out.println("get into the reset");
-        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
-        Board board1 = GameBoardFacade.getInstance().getBoard();
-        Tree tree= GameBoardFacade.getInstance().getTree();
-        //System.out.println("tree view "+ treeView.getZoom()+"puzzle view "+this.getScrollView().getZoom());
-        board1.setModifiable(true);
-        Dimension bi = new Dimension(1200,900);
+//        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+//        Board board1 = GameBoardFacade.getInstance().getBoard();
+//        Tree tree= GameBoardFacade.getInstance().getTree();
+//        //System.out.println("tree view "+ treeView.getZoom()+"puzzle view "+this.getScrollView().getZoom());
+//        board1.setModifiable(true);
+//        Dimension bi = new Dimension(1200,900);
         scrollView.zoomFit();
+
+        // System.out.println("Finish into the reset");
+    }
+    public void rest_for_treeview(){
         treeview=GameBoardFacade.getInstance().getLegupUI().getTreePanel().returntreeview();
         treeview.zoomFit();
-        // System.out.println("Finish into the reset");
     }
 }
