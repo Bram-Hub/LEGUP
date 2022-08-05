@@ -37,8 +37,8 @@ public class OneEdgeBasicRule extends BasicRule {
     	SkyscrapersCell initCell = (SkyscrapersCell) initialBoard.getPuzzleElement(puzzleElement);
     	SkyscrapersBoard finalBoard = (SkyscrapersBoard) transition.getBoard();
         SkyscrapersCell finalCell = (SkyscrapersCell) finalBoard.getPuzzleElement(puzzleElement);
-        if (!(initCell.getType() == SkyscrapersType.UNKNOWN && finalCell.getType() == SkyscrapersType.Number)) {
-            return super.getInvalidUseOfRuleMessage() + ": Modified cells must be number";
+        if (initCell.getType() != SkyscrapersType.UNKNOWN || finalCell.getType() != SkyscrapersType.Number) {
+            return super.getInvalidUseOfRuleMessage() + ": Modified cells must transition from unknown to number";
         }
 
         SkyscrapersBoard emptyCase = initialBoard.copy();
@@ -65,9 +65,8 @@ public class OneEdgeBasicRule extends BasicRule {
         else if (loc.y == initialBoard.getHeight() - 1 && initialBoard.getColClues().get(loc.x).getData() == 1) {
         	return null;
         } else {
-        	return "This cell is not forced.";
+            return "This cell is not forced.";
         }
-        
     }
 
     private boolean isForced(SkyscrapersBoard board, SkyscrapersCell cell) {

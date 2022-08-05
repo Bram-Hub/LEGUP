@@ -37,8 +37,8 @@ public class FixedMaxBasicRule extends BasicRule {
     	SkyscrapersCell initCell = (SkyscrapersCell) initialBoard.getPuzzleElement(puzzleElement);
     	SkyscrapersBoard finalBoard = (SkyscrapersBoard) transition.getBoard();
         SkyscrapersCell finalCell = (SkyscrapersCell) finalBoard.getPuzzleElement(puzzleElement);
-        if (!(initCell.getType() == SkyscrapersType.UNKNOWN && finalCell.getType() == SkyscrapersType.Number)) {
-            return super.getInvalidUseOfRuleMessage() + ": Modified cells must be number";
+        if (initCell.getType() != SkyscrapersType.UNKNOWN || finalCell.getType() != SkyscrapersType.Number) {
+            return super.getInvalidUseOfRuleMessage() + ": Modified cells must transition from unknown to number";
         }
 
         SkyscrapersBoard emptyCase = initialBoard.copy();
@@ -91,20 +91,21 @@ public class FixedMaxBasicRule extends BasicRule {
     @Override
     public Board getDefaultBoard(TreeNode node) {
     	SkyscrapersBoard initialBoard = (SkyscrapersBoard) node.getBoard();
-    	SkyscrapersBoard lightUpBoard = (SkyscrapersBoard) node.getBoard().copy();
-    	System.out.println(lightUpBoard.getPuzzleElements().size());
-        for (PuzzleElement element : lightUpBoard.getPuzzleElements()) {
-        	System.out.println("123");
+    	SkyscrapersBoard modBoard = (SkyscrapersBoard) node.getBoard().copy();
+    	System.out.println(modBoard.getPuzzleElements().size());
+        for (PuzzleElement element : modBoard.getPuzzleElements()) {
+            System.out.println("123");
         	SkyscrapersCell cell = (SkyscrapersCell) element;
             if (cell.getType() == SkyscrapersType.UNKNOWN && isForced(initialBoard, cell)) {
                 //cell.setData(SkyscrapersType.BULB.value);
-                lightUpBoard.addModifiedData(cell);
+                modBoard.addModifiedData(cell);
             }
         }
-        if (lightUpBoard.getModifiedData().isEmpty()) {
+        System.out.println(modBoard.getModifiedData().isEmpty());
+        if (modBoard.getModifiedData().isEmpty()) {
             return null;
         } else {
-            return lightUpBoard;
+            return modBoard;
         }
     }
 }

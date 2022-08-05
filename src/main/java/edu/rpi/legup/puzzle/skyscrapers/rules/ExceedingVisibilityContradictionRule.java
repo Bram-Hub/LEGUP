@@ -8,7 +8,9 @@ import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersCell;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType;
 
 import java.awt.*;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ExceedingVisibilityContradictionRule extends ContradictionRule {
@@ -29,7 +31,6 @@ public class ExceedingVisibilityContradictionRule extends ContradictionRule {
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
-		//why is this called for every cell?
     	SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
         SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board;
         Point loc = cell.getLocation();
@@ -41,38 +42,33 @@ public class ExceedingVisibilityContradictionRule extends ContradictionRule {
     	int south  = skyscrapersboard.getColClues().get(loc.x).getData();
 
 		//check row
-		//from west border
     	int max = 0;
     	int count = 0;
-    	boolean complete = true;
-    	for (int i = 0; i < skyscrapersboard.getWidth(); i++) {
-        	SkyscrapersCell c = skyscrapersboard.getCell(i, loc.y);
-            if (c.getType() == SkyscrapersType.Number && c.getData() > max) {
-            	//System.out.print(c.getData());
-            	//System.out.println(cell.getData());
-                max = c.getData();
-                count++;
-            }
-            if (c.getType() == SkyscrapersType.UNKNOWN) {
-            	complete = false;
-				break;
-            }
-        }
-    	if (count > west && complete) {
-    		return null;
-    	}
-
-		if(complete) {
-			//from east border
-			max = 0;
-			count = 0;
-			for (int i = skyscrapersboard.getWidth() - 1; i >= 0; i--) {
-				SkyscrapersCell c = skyscrapersboard.getCell(i, loc.y);
-				if (c.getType() == SkyscrapersType.Number && c.getData() > max) {
-					//System.out.print(c.getData());
+		List<SkyscrapersCell> row = skyscrapersboard.getRowCol(loc.y,SkyscrapersType.Number,true);
+		if(row.size()==skyscrapersboard.getWidth()){
+			//from west border
+			for(SkyscrapersCell c : row){
+				if (c.getData() > max) {
+					System.out.print(c.getData());
 					//System.out.println(cell.getData());
 					max = c.getData();
-					count = count + 1;
+					count++;
+				}
+			}
+			if (count > west) {
+				return null;
+			}
+
+			max = 0;
+			count = 0;
+			//from east border
+			Collections.reverse(row);
+			for(SkyscrapersCell c : row){
+				if (c.getData() > max) {
+					System.out.print(c.getData());
+					//System.out.println(cell.getData());
+					max = c.getData();
+					count++;
 				}
 			}
 			if (count > east) {
@@ -81,37 +77,35 @@ public class ExceedingVisibilityContradictionRule extends ContradictionRule {
 		}
         
         //check column
-		//from north border
-    	max = 0;
-    	count = 0;
-    	complete = true;
-        for (int i = 0; i < skyscrapersboard.getHeight(); i++) {
-        	SkyscrapersCell c = skyscrapersboard.getCell(loc.x, i);
-        	if (c.getType() == SkyscrapersType.Number && c.getData() > max) {
-        		//System.out.print(c.getData());
-            	//System.out.println(cell.getData());
-        		max = c.getData();
-                count = count + 1;
-            }
-        	if (c.getType() == SkyscrapersType.UNKNOWN) {
-            	complete = false;
-            }
-        }
-        if (count > north && complete) {
-    		return null;
-    	}
+		List<SkyscrapersCell> col = skyscrapersboard.getRowCol(loc.x,SkyscrapersType.Number,false);
+		if(col.size()==skyscrapersboard.getHeight()){
+			//from north border
+			max = 0;
+			count = 0;
+			for(SkyscrapersCell c : col){
+				System.out.println(c.getData());
+				if (c.getData() > max) {
 
-		if(complete) {
+					//System.out.println(cell.getData());
+					max = c.getData();
+					count++;
+				}
+			}
+			if (count > north) {
+				return null;
+			}
+
 			//from south border
 			max = 0;
 			count = 0;
-			for (int i = skyscrapersboard.getHeight() - 1; i >= 0; i--) {
-				SkyscrapersCell c = skyscrapersboard.getCell(loc.x, i);
-				if (c.getType() == SkyscrapersType.Number && c.getData() > max) {
-					//System.out.print(c.getData());
+			Collections.reverse(col);
+			for(SkyscrapersCell c : col){
+				System.out.println(c.getData());
+				if (c.getData() > max) {
+
 					//System.out.println(cell.getData());
 					max = c.getData();
-					count = count + 1;
+					count++;
 				}
 			}
 			if (count > south) {
@@ -122,4 +116,25 @@ public class ExceedingVisibilityContradictionRule extends ContradictionRule {
         //System.out.print("Does not contain a contradiction at this index");
         return super.getNoContradictionMessage();
     }
+
+	/**
+	 * Checks whether the tree node has a contradiction using this rule
+	 *
+	 * @param board board to check contradiction
+	 * @return null if the tree node contains a contradiction, otherwise error message
+	 */
+	@Override
+	public String checkContradiction(Board board) {
+		SkyscrapersBoard skyscrapersBoard = (SkyscrapersBoard) board;
+		for (int i = 0; i < skyscrapersBoard.getWidth(); i++) {
+			//checks the middle diagonal (checkContradictionAt checks row/col off each)
+			String checkStr = checkContradictionAt(board, skyscrapersBoard.getCell(i,i));
+			if (checkStr == null) {
+				return checkStr;
+			}
+		}
+		return "No instance of the contradiction " + this.ruleName + " here";
+	}
+
 }
+

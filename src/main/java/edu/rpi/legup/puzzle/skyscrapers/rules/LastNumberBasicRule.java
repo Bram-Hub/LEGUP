@@ -18,7 +18,7 @@ public class LastNumberBasicRule extends BasicRule {
 
     public LastNumberBasicRule() {
         super("SKYS-BASC-0003", "Last Number",
-                "A certain cell must contain a certain number since that number is the only one that can possibly appear in that cell.",
+                "A certain cell must contain a certain number since that number is the only one that does not create a duplicate contradiction.",
                 "edu/rpi/legup/images/skyscrapers/rules/LastNumber.png");
     }
 
@@ -37,39 +37,39 @@ public class LastNumberBasicRule extends BasicRule {
     	SkyscrapersCell initCell = (SkyscrapersCell) initialBoard.getPuzzleElement(puzzleElement);
     	SkyscrapersBoard finalBoard = (SkyscrapersBoard) transition.getBoard();
         SkyscrapersCell finalCell = (SkyscrapersCell) finalBoard.getPuzzleElement(puzzleElement);
-        if (!(initCell.getType() == SkyscrapersType.UNKNOWN && finalCell.getType() == SkyscrapersType.Number)) {
-            return super.getInvalidUseOfRuleMessage() + ": Modified cells must be number";
+        if (initCell.getType() != SkyscrapersType.UNKNOWN || finalCell.getType() != SkyscrapersType.Number) {
+            return super.getInvalidUseOfRuleMessage() + ": Modified cells must transition from unknown to number";
         }
 
         SkyscrapersBoard emptyCase = initialBoard.copy();
         emptyCase.getPuzzleElement(finalCell).setData(0);
         Point loc = finalCell.getLocation();
-        
+
+        //init with all possible numbers
         Set<Integer> candidates = new HashSet<Integer>();
         for (int i = 1; i <= initialBoard.getWidth(); i++) {
         	candidates.add(i);
         }
         
-        //check row
+        //remove any existing numbers
         for (int i = 0; i < initialBoard.getWidth(); i++) {
+            //check row
         	SkyscrapersCell c = initialBoard.getCell(i, loc.y);
             if (i != loc.x && c.getType() == SkyscrapersType.Number) {
             	candidates.remove(c.getData());
             	//System.out.print(c.getData());
             	//System.out.println(finalCell.getData());
             }
-        }
-        
-        // check column
-        for (int i = 0; i < initialBoard.getHeight(); i++) {
-        	SkyscrapersCell c = initialBoard.getCell(loc.x, i);
-        	if (i != loc.y && c.getType() == SkyscrapersType.Number) {
-        		candidates.remove(c.getData());
-        		//System.out.print(c.getData());
-            	//System.out.println(finalCell.getData());
+            // check column
+            c = initialBoard.getCell(loc.x, i);
+            if (i != loc.y && c.getType() == SkyscrapersType.Number) {
+                candidates.remove(c.getData());
+                //System.out.print(c.getData());
+                //System.out.println(finalCell.getData());
             }
         }
-        
+
+        //check if given value is the only remaining value
         DuplicateNumberContradictionRule duplicate = new DuplicateNumberContradictionRule();
         if (candidates.size() == 1 && duplicate.checkContradictionAt(emptyCase, finalCell) != null) {
         	Iterator<Integer> it = candidates.iterator();
