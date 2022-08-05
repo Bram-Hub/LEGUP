@@ -32,15 +32,17 @@ public abstract class PuzzleImporter {
     /**
      * Initializes an empty puzzle
      *
-     * @param rows      number of rows on the puzzle
-     * @param columns   number of columns on the puzzle
+     * @param rows    number of rows on the puzzle
+     * @param columns number of columns on the puzzle
      * @throws RuntimeException
      */
     public void initializePuzzle(int rows, int columns) throws RuntimeException {
-        if (this.puzzle.isValidDimensions(rows, columns))
+        if (this.puzzle.isValidDimensions(rows, columns)) {
             initializeBoard(rows, columns);
-        else
+        }
+        else {
             throw new IllegalArgumentException("Invalid dimensions provided");
+        }
     }
 
     /**
@@ -64,18 +66,22 @@ public abstract class PuzzleImporter {
                     }
                     initializeBoard(n);
                     initBoard = true;
-                } else if (n.getNodeName().equalsIgnoreCase("proof")) {
-                    if (initProof) {
-                        throw new InvalidFileFormatException("Puzzle creation error: duplicate proof puzzleElement found");
+                }
+                else {
+                    if (n.getNodeName().equalsIgnoreCase("proof")) {
+                        if (initProof) {
+                            throw new InvalidFileFormatException("Puzzle creation error: duplicate proof puzzleElement found");
+                        }
+                        if (!initBoard) {
+                            throw new InvalidFileFormatException("Puzzle creation error: could not find board puzzleElement");
+                        }
+                        initializeProof(n);
+                        initProof = true;
                     }
-                    if (!initBoard) {
-                        throw new InvalidFileFormatException("Puzzle creation error: could not find board puzzleElement");
-                    }
-                    initializeProof(n);
-                    initProof = true;
-                } else {
-                    if (!n.getNodeName().equalsIgnoreCase("#text")) {
-                        throw new InvalidFileFormatException("Puzzle creation error: unknown node found in file");
+                    else {
+                        if (!n.getNodeName().equalsIgnoreCase("#text")) {
+                            throw new InvalidFileFormatException("Puzzle creation error: unknown node found in file");
+                        }
                     }
                 }
             }
@@ -86,7 +92,8 @@ public abstract class PuzzleImporter {
             if (!initProof) {
                 createDefaultTree();
             }
-        } else {
+        }
+        else {
             throw new InvalidFileFormatException("Invalid file format; does not contain \"puzzle\" node");
         }
     }
@@ -94,8 +101,8 @@ public abstract class PuzzleImporter {
     /**
      * Creates the board for building
      *
-     * @param rows      number of rows on the puzzle
-     * @param columns   number of columns on the puzzle
+     * @param rows    number of rows on the puzzle
+     * @param columns number of columns on the puzzle
      * @throws RuntimeException
      */
     public abstract void initializeBoard(int rows, int columns);
@@ -128,14 +135,16 @@ public abstract class PuzzleImporter {
                     }
                     createTree(n);
                     initTree = true;
-                } else {
+                }
+                else {
                     throw new InvalidFileFormatException("Proof Tree construction error: unknown puzzleElement found");
                 }
             }
             if (!initTree) {
                 createDefaultTree();
             }
-        } else {
+        }
+        else {
             throw new InvalidFileFormatException("Invalid file format; does not contain \"proof\" node");
         }
     }
@@ -209,7 +218,8 @@ public abstract class PuzzleImporter {
                         transition.addParent(treeNode);
                         treeNode.addChild(transition);
                         continue;
-                    } else {
+                    }
+                    else {
                         throw new InvalidFileFormatException("Proof Tree construction error: duplicate transition ID found");
                     }
 
@@ -290,7 +300,8 @@ public abstract class PuzzleImporter {
                 for (TreeTransition trans : treeNode.getChildren()) {
                     treeElements.add(trans);
                 }
-            } else {
+            }
+            else {
                 TreeTransition treeTransition = (TreeTransition) element;
 
                 if (connectedTransitions.get(treeTransition)) {
@@ -318,13 +329,13 @@ public abstract class PuzzleImporter {
     }
 
     protected void makeTransitionChanges(TreeTransition transition, Node transElement) throws InvalidFileFormatException {
-        if(transition.getRule() instanceof MergeRule) {
+        if (transition.getRule() instanceof MergeRule) {
             List<TreeNode> mergingNodes = transition.getParents();
             List<Board> mergingBoards = new ArrayList<>();
             mergingNodes.forEach(n -> mergingBoards.add(n.getBoard()));
 
             TreeNode lca = Tree.getLowestCommonAncestor(mergingNodes);
-            if(lca == null) {
+            if (lca == null) {
                 throw new InvalidFileFormatException("Proof Tree construction error: unable to find merge node");
             }
             Board lcaBoard = lca.getBoard();
@@ -333,10 +344,11 @@ public abstract class PuzzleImporter {
 
             transition.setBoard(mergedBoard);
             TreeNode childNode = transition.getChildNode();
-            if(childNode != null) {
+            if (childNode != null) {
                 childNode.setBoard(mergedBoard.copy());
             }
-        } else {
+        }
+        else {
             NodeList cellList = transElement.getChildNodes();
             for (int i = 0; i < cellList.getLength(); i++) {
                 Node node = cellList.item(i);
@@ -347,7 +359,8 @@ public abstract class PuzzleImporter {
                     board.setPuzzleElement(cell.getIndex(), cell);
                     board.addModifiedData(cell);
                     transition.propagateChange(cell);
-                } else {
+                }
+                else {
                     if (!node.getNodeName().equalsIgnoreCase("#text")) {
                         throw new InvalidFileFormatException("Proof Tree construction error: unknown node in transition");
                     }

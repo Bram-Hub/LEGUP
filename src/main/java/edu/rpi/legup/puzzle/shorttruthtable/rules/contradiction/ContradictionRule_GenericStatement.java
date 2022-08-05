@@ -11,7 +11,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableStatement;
 
 
-public abstract class ContradictionRule_GenericStatement extends ContradictionRule{
+public abstract class ContradictionRule_GenericStatement extends ContradictionRule {
 
     private final char operationSymbol;
 
@@ -25,7 +25,7 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
     private final String NOT_TRUE_FALSE_ERROR_MESSAGE = "Can only check for a contradiction on a cell that is assigned a value of True or False";
 
     public ContradictionRule_GenericStatement(String ruleID, String ruleName, String description, String imageName,
-                                              char operationSymbol, ShortTruthTableCellType[][] contradictionPatterns){
+                                              char operationSymbol, ShortTruthTableCellType[][] contradictionPatterns) {
         super(ruleID, ruleName, description, imageName);
         this.operationSymbol = operationSymbol;
         this.contradictionPatterns = contradictionPatterns;
@@ -41,34 +41,38 @@ public abstract class ContradictionRule_GenericStatement extends ContradictionRu
         ShortTruthTableCell cell = board.getCellFromElement(operatorPuzzleElement);
         ShortTruthTableStatement statement = cell.getStatementReference();
 
-        if(cell.getSymbol() != this.operationSymbol)
+        if (cell.getSymbol() != this.operationSymbol) {
             return super.getInvalidUseOfRuleMessage() + ": " + this.NOT_RIGHT_OPERATOR_ERROR_MESSAGE;
+        }
 
         // check that the initial statement is assigned
         ShortTruthTableCellType cellType = cell.getType();
 
-        if(!cellType.isTrueOrFalse())
+        if (!cellType.isTrueOrFalse()) {
             return super.getInvalidUseOfRuleMessage() + ": " + this.NOT_TRUE_FALSE_ERROR_MESSAGE;
+        }
 
         // get the pattern for this sub-statement
         ShortTruthTableCellType[] testPattern = statement.getCellTypePattern();
 
         // if the board pattern matches any contradiction pattern, it is a valid contradiction
-        for(ShortTruthTableCellType[] pattern : contradictionPatterns){
+        for (ShortTruthTableCellType[] pattern : contradictionPatterns) {
             boolean matches = true;
-            for(int i = 0; i < 3; i++){
+            for (int i = 0; i < 3; i++) {
                 // ull means that part does not affect the statement
-                if(pattern[i] == null)
+                if (pattern[i] == null) {
                     continue;
+                }
                 //if it is not null, it must match the test pattern
-                if(pattern[i] != testPattern[i]){
+                if (pattern[i] != testPattern[i]) {
                     matches = false;
                     break;
                 }
             }
             // if testPattern matches one of the valid contradiction patterns, the contradiction is correct
-            if (matches)
+            if (matches) {
                 return null;
+            }
         }
 
         return super.getNoContradictionMessage();

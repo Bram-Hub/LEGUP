@@ -14,22 +14,19 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 
 import java.awt.*;
 
-public class IsolateBlackContradictionRuleTest
-{
+public class IsolateBlackContradictionRuleTest {
 
     private static final IsolateBlackContradictionRule RULE = new IsolateBlackContradictionRule();
     private static Nurikabe nurikabe;
 
     @BeforeClass
-    public static void setUp()
-    {
+    public static void setUp() {
         MockGameBoardFacade.getInstance();
         nurikabe = new Nurikabe();
     }
 
     @Test
-    public void IsolateBlackContradictionRule_SimpleIsolateBlackTest() throws InvalidFileFormatException
-    {
+    public void IsolateBlackContradictionRule_SimpleIsolateBlackTest() throws InvalidFileFormatException {
 //        TestUtilities.importTestBoard("puzzles/nurikabe/rules/IsolateBlackContradictionRule/SimpleIsolateBlack", nurikabe);
 //        TreeNode rootNode = nurikabe.getTree().getRootNode();
 //        TreeTransition transition = rootNode.getChildren().get(0);

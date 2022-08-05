@@ -12,25 +12,25 @@ import java.awt.Graphics;
 
 public class MaterialMenuItemUI extends BasicMenuItemUI {
 
-	public static ComponentUI createUI (JComponent c) {
-		return new MaterialMenuItemUI ();
-	}
+    public static ComponentUI createUI(JComponent c) {
+        return new MaterialMenuItemUI();
+    }
 
-	@Override
-	public void installUI (JComponent c) {
-		super.installUI (c);
+    @Override
+    public void installUI(JComponent c) {
+        super.installUI(c);
 
-		JMenuItem menuItem = (JMenuItem) c;
-		menuItem.setFont (UIManager.getFont ("MenuItem.font"));
-		menuItem.setBackground (UIManager.getColor ("MenuItem.background"));
-		menuItem.setForeground (UIManager.getColor ("MenuItem.foreground"));
-		menuItem.setHorizontalAlignment (SwingConstants.LEFT);
-		menuItem.setVerticalAlignment (SwingConstants.CENTER);
-		menuItem.setBorder (UIManager.getBorder ("MenuItem.border"));
-	}
+        JMenuItem menuItem = (JMenuItem) c;
+        menuItem.setFont(UIManager.getFont("MenuItem.font"));
+        menuItem.setBackground(UIManager.getColor("MenuItem.background"));
+        menuItem.setForeground(UIManager.getColor("MenuItem.foreground"));
+        menuItem.setHorizontalAlignment(SwingConstants.LEFT);
+        menuItem.setVerticalAlignment(SwingConstants.CENTER);
+        menuItem.setBorder(UIManager.getBorder("MenuItem.border"));
+    }
 
-	@Override
-	public void paint (Graphics g, JComponent c) {
-		super.paint (MaterialDrawingUtils.getAliasedGraphics (g), c);
-	}
+    @Override
+    public void paint(Graphics g, JComponent c) {
+        super.paint(MaterialDrawingUtils.getAliasedGraphics(g), c);
+    }
 }

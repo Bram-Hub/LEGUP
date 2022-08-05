@@ -48,7 +48,7 @@ public class HeyawakeBoard extends GridBoard {
             }
             copy.regions.put(region.get(0).getRegionIndex(), newCpy);
         }
-        for(PuzzleElement e : modifiedData) {
+        for (PuzzleElement e : modifiedData) {
             copy.getPuzzleElement(e).setModifiable(false);
         }
         return copy;

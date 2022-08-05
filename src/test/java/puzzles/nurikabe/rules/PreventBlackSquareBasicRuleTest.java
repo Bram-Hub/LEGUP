@@ -16,40 +16,38 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 
 import java.awt.*;
 
-public class PreventBlackSquareBasicRuleTest
-{
+public class PreventBlackSquareBasicRuleTest {
 
     private static final PreventBlackSquareBasicRule RULE = new PreventBlackSquareBasicRule();
     private static Nurikabe nurikabe;
 
     @BeforeClass
-    public static void setUp()
-    {
+    public static void setUp() {
         MockGameBoardFacade.getInstance();
         nurikabe = new Nurikabe();
     }
 
     @Test
-    public void PreventBlackSquareBasicRule_BottomLeftWhiteBlackSquareTest() throws InvalidFileFormatException
-    {
+    public void PreventBlackSquareBasicRule_BottomLeftWhiteBlackSquareTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareBasicRule/BottomLeftWhiteBlackSquare", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
-        NurikabeCell cell = board.getCell(0,1);
+        NurikabeCell cell = board.getCell(0, 1);
         cell.setData(NurikabeType.WHITE.toValue());
         board.addModifiedData(cell);
 
         Assert.assertNull(RULE.checkRule(transition));
 
-        for(int i = 0; i < board.getHeight(); i++) {
-            for(int k = 0; k < board.getWidth(); k++) {
-                Point point  = new Point(k, i);
-                if(point.equals(cell.getLocation())) {
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Point point = new Point(k, i);
+                if (point.equals(cell.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                } else {
+                }
+                else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
@@ -57,26 +55,26 @@ public class PreventBlackSquareBasicRuleTest
     }
 
     @Test
-    public void PreventBlackSquareBasicRule_BottomRightWhiteBlackSquareTest() throws InvalidFileFormatException
-    {
+    public void PreventBlackSquareBasicRule_BottomRightWhiteBlackSquareTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareBasicRule/BottomRightWhiteBlackSquare", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
-        NurikabeCell cell = board.getCell(1,1);
+        NurikabeCell cell = board.getCell(1, 1);
         cell.setData(NurikabeType.WHITE.toValue());
         board.addModifiedData(cell);
 
         Assert.assertNull(RULE.checkRule(transition));
 
-        for(int i = 0; i < board.getHeight(); i++) {
-            for(int k = 0; k < board.getWidth(); k++) {
-                Point point  = new Point(k, i);
-                if(point.equals(cell.getLocation())) {
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Point point = new Point(k, i);
+                if (point.equals(cell.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                } else {
+                }
+                else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
@@ -84,26 +82,26 @@ public class PreventBlackSquareBasicRuleTest
     }
 
     @Test
-    public void PreventBlackSquareBasicRule_TopLeftWhiteBlackSquareTest() throws InvalidFileFormatException
-    {
+    public void PreventBlackSquareBasicRule_TopLeftWhiteBlackSquareTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareBasicRule/TopLeftWhiteBlackSquare", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
-        NurikabeCell cell = board.getCell(0,0);
+        NurikabeCell cell = board.getCell(0, 0);
         cell.setData(NurikabeType.WHITE.toValue());
         board.addModifiedData(cell);
 
         Assert.assertNull(RULE.checkRule(transition));
 
-        for(int i = 0; i < board.getHeight(); i++) {
-            for(int k = 0; k < board.getWidth(); k++) {
-                Point point  = new Point(k, i);
-                if(point.equals(cell.getLocation())) {
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Point point = new Point(k, i);
+                if (point.equals(cell.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                } else {
+                }
+                else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
@@ -111,26 +109,26 @@ public class PreventBlackSquareBasicRuleTest
     }
 
     @Test
-    public void PreventBlackSquareBasicRule_TopRightWhiteBlackSquareTest() throws InvalidFileFormatException
-    {
+    public void PreventBlackSquareBasicRule_TopRightWhiteBlackSquareTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareBasicRule/TopRightWhiteBlackSquare", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
-        NurikabeCell cell = board.getCell(1,0);
+        NurikabeCell cell = board.getCell(1, 0);
         cell.setData(NurikabeType.WHITE.toValue());
         board.addModifiedData(cell);
 
         Assert.assertNull(RULE.checkRule(transition));
 
-        for(int i = 0; i < board.getHeight(); i++) {
-            for(int k = 0; k < board.getWidth(); k++) {
-                Point point  = new Point(k, i);
-                if(point.equals(cell.getLocation())) {
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Point point = new Point(k, i);
+                if (point.equals(cell.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                } else {
+                }
+                else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }

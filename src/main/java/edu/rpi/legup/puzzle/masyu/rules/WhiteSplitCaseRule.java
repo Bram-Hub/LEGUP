@@ -11,7 +11,7 @@ import java.util.List;
 public class WhiteSplitCaseRule extends CaseRule {
 
     public WhiteSplitCaseRule() {
-        super("MASY-CASE-0003","White Split",
+        super("MASY-CASE-0003", "White Split",
                 "",
                 "edu/rpi/legup/images/masyu/CaseWhiteSplit.png");
     }

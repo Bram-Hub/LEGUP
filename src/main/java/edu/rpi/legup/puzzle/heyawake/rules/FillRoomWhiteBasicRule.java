@@ -9,7 +9,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 public class FillRoomWhiteBasicRule extends BasicRule {
 
     public FillRoomWhiteBasicRule() {
-        super("HEYA-BASC-0004", 
+        super("HEYA-BASC-0004",
                 "Fill Room White",
                 "",
                 "edu/rpi/legup/images/heyawake/rules/FillRoomWhite.png");
