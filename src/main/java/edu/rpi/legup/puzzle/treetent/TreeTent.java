@@ -46,7 +46,7 @@ public class TreeTent extends Puzzle {
      */
     public boolean isValidDimensions(int rows, int columns) {
         // This is a placeholder, this method needs to be implemented
-        throw new UnsupportedOperationException();
+        return rows > 0 && columns > 0;
     }
 
     /**
