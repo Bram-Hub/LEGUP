@@ -1,12 +1,13 @@
 package edu.rpi.legup.puzzle.nurikabe;
 
 import edu.rpi.legup.model.gameboard.GridCell;
+import edu.rpi.legup.model.elements.Element;
 
 import java.awt.*;
 
 public class NurikabeCell extends GridCell<Integer> {
 
-/**
+    /**
      * NurikabeCell Constructor - creates a NurikabeCell from the specified value and location
      *
      * @param value    value of the NurikabeCell
@@ -35,6 +36,23 @@ public class NurikabeCell extends GridCell<Integer> {
                 }
         }
         return null;
+    }
+
+    /**
+     * Sets the type of this NurikabeCell
+     *
+     * @param e element to set the type of this nurikabe cell to
+     */
+    public void setType(Element e) {
+        if (e.getElementName().equals("Black Tile")) {
+            this.data = -1;
+        } else if (e.getElementName().equals("White Tile")) {
+            this.data = 0;
+        } else if (e.getElementName().equals("Number Tile")) {
+            this.data = 1;
+        } else { // unknown tile
+            this.data = -2;
+        }
     }
 
     /**

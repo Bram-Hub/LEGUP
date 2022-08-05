@@ -1,5 +1,8 @@
 package edu.rpi.legup.model.gameboard;
 
+import edu.rpi.legup.model.elements.Element;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
+
 import java.awt.*;
 
 public class GridBoard extends Board {
@@ -39,6 +42,7 @@ public class GridBoard extends Board {
     public GridCell getCell(int x, int y) {
         if (y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
                 y >= dimension.height || x < 0 || y < 0) {
+            System.err.printf("not in bounds, bounds are %dx%d\n", dimension.width, dimension.height);
             return null;
         }
         return (GridCell) puzzleElements.get(y * dimension.width + x);
@@ -58,6 +62,14 @@ public class GridBoard extends Board {
             return;
         }
         puzzleElements.set(y * dimension.width + x, cell);
+    }
+    public void setCell(int x, int y, Element e) {
+        if (y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
+                y >= dimension.height || x < 0 || y < 0) {
+            return;
+        }
+        ((NurikabeCell) puzzleElements.get(y * dimension.width + x)).setType(e);
+        puzzleElements.set(y * dimension.width + x, puzzleElements.get(y * dimension.width + x));
     }
 
     /**

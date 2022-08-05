@@ -32,8 +32,12 @@ public class LegupUI extends JFrame implements WindowListener {
      */
     public static String getOS() {
         String os = System.getProperty("os.name").toLowerCase();
-        if(os.contains("mac")) os = "mac";
-        else os = "win";
+        if (os.contains("mac")) {
+            os = "mac";
+        }
+        else {
+            os = "win";
+        }
         return os;
     }
 
@@ -46,7 +50,8 @@ public class LegupUI extends JFrame implements WindowListener {
 
         try {
             UIManager.setLookAndFeel(new LegupLookAndFeel());
-        } catch (UnsupportedLookAndFeelException e) {
+        }
+        catch (UnsupportedLookAndFeelException e) {
             System.err.println("Not supported ui look and feel");
         }
 
@@ -114,6 +119,7 @@ public class LegupUI extends JFrame implements WindowListener {
     public ProofEditorPanel getProofEditor() {
         return (ProofEditorPanel) panels[1];
     }
+
     public PuzzleEditorPanel getPuzzleEditor() {
         return (PuzzleEditorPanel) panels[2];
     }
@@ -153,10 +159,12 @@ public class LegupUI extends JFrame implements WindowListener {
         if (GameBoardFacade.getInstance().getHistory().getIndex() > -1) {
             if (noquit("Exiting LEGUP?")) {
                 this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-            } else {
+            }
+            else {
                 this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             }
-        } else {
+        }
+        else {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         }
     }
@@ -184,6 +192,7 @@ public class LegupUI extends JFrame implements WindowListener {
     public BoardView getBoardView() {
         return getProofEditor().getBoardView();
     }
+
     public BoardView getEditorBoardView() {
         return getPuzzleEditor().getBoardView();
     }
@@ -191,6 +200,7 @@ public class LegupUI extends JFrame implements WindowListener {
     public DynamicView getDynamicBoardView() {
         return getProofEditor().getDynamicBoardView();
     }
+
     public DynamicView getEditorDynamicBoardView() {
         return getPuzzleEditor().getDynamicBoardView();
     }

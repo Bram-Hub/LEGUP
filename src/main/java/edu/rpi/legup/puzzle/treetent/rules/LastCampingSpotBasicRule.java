@@ -45,7 +45,8 @@ public class LastCampingSpotBasicRule extends BasicRule {
 
         if (isForced(finalBoard, finalCell)) {
             return null;
-        } else {
+        }
+        else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be tent.";
         }
     }
@@ -55,19 +56,19 @@ public class LastCampingSpotBasicRule extends BasicRule {
         for (TreeTentCell c : adjTrees) {
             List<TreeTentCell> unkAroundTree = board.getAdjacent(c, TreeTentType.UNKNOWN);
             List<TreeTentCell> tntAroundTree = board.getAdjacent(c, TreeTentType.TENT);
-            if(unkAroundTree.size() == 0) 
-            {
-                if(tntAroundTree.size() == 1)
-                {
+            if (unkAroundTree.size() == 0) {
+                if (tntAroundTree.size() == 1) {
                     return true;
                 }
-                else
-                {
-                    for(TreeTentCell t : tntAroundTree)
-                    {
-                        if(t == cell) {continue;}
+                else {
+                    for (TreeTentCell t : tntAroundTree) {
+                        if (t == cell) {
+                            continue;
+                        }
                         List<TreeTentCell> treesAroundTents = board.getAdjacent(t, TreeTentType.TREE);
-                        if(treesAroundTents.size() == 1) {return false;}
+                        if (treesAroundTents.size() == 1) {
+                            return false;
+                        }
                     }
                     return true;
                 }
@@ -94,7 +95,8 @@ public class LastCampingSpotBasicRule extends BasicRule {
         }
         if (treeTentBoard.getModifiedData().isEmpty()) {
             return null;
-        } else {
+        }
+        else {
             return treeTentBoard;
         }
     }

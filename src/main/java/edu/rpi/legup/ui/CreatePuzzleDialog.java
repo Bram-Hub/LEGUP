@@ -31,7 +31,8 @@ public class CreatePuzzleDialog extends JDialog {
             try {
                 homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(rows.getText()), Integer.valueOf(columns.getText()));
                 setVisible(false);
-            } catch (IllegalArgumentException exception) {
+            }
+            catch (IllegalArgumentException exception) {
                 // Don't do anything. This is here to prevent the dialog from closing if the dimensions are invalid.
             }
         }
@@ -105,5 +106,28 @@ public class CreatePuzzleDialog extends JDialog {
         this.games = GameBoardFacade.getInstance().getConfig().getFileCreationEnabledPuzzles().toArray(new String[0]);
         Arrays.sort(this.games);
         gameBox = new JComboBox(games);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == ok) {
+            String game = (String) gameBox.getSelectedItem();
+            try {
+                this.homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(this.rows.getText()), Integer.valueOf(this.columns.getText()));
+                setVisible(false);
+            }
+            catch (IllegalArgumentException exception) {
+                // Don't do anything. This is here to prevent the dialog from closing if the dimensions are invalid.
+            }
+        }
+        else {
+            if (e.getSource() == cancel) {
+                setVisible(false);
+            }
+        }
+    }
+
+    private boolean isValidDimensions() {
+        // Needs to be implemented
+        return false;
     }
 }
