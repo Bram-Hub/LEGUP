@@ -49,7 +49,8 @@ public class EditLineCommand extends PuzzleCommand {
             puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(transition));
 
             board = (TreeTentBoard) transition.getBoard();
-        } else {
+        }
+        else {
             transition = (TreeTransition) treeElement;
         }
 
@@ -72,7 +73,8 @@ public class EditLineCommand extends PuzzleCommand {
             board.getLines().add(line);
             notifyLine = line;
             transition.propagateAddition(notifyLine);
-        } else {
+        }
+        else {
             board.removeModifiedData(dupLine);
             board.getLines().remove(dupLine);
             notifyLine = dupLine;
@@ -112,7 +114,8 @@ public class EditLineCommand extends PuzzleCommand {
             if (!node.getChildren().isEmpty()) {
                 return CommandError.UNMODIFIABLE_BOARD.toString();
             }
-        } else {
+        }
+        else {
             if (!board.isModifiable()) {
                 return CommandError.UNMODIFIABLE_BOARD.toString();
             }
@@ -156,7 +159,8 @@ public class EditLineCommand extends PuzzleCommand {
             puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(transition));
 
             board = (TreeTentBoard) transition.getBoard();
-        } else {
+        }
+        else {
             transition = (TreeTransition) treeElement;
         }
 
@@ -178,7 +182,8 @@ public class EditLineCommand extends PuzzleCommand {
             board.addModifiedData(line);
             board.getLines().add(line);
             notifyLine = line;
-        } else {
+        }
+        else {
             board.removeModifiedData(dupLine);
             board.getLines().remove(dupLine);
             notifyLine = dupLine;
@@ -204,18 +209,25 @@ public class EditLineCommand extends PuzzleCommand {
             //up
             xIndex = startLoc.x / size.width;
             yIndex = (startLoc.y / size.height) - 1;
-        } else if (radians >= -Math.PI / 4 && radians < Math.PI / 4) {
-            //right
-            xIndex = (startLoc.x / size.width) + 1;
-            yIndex = startLoc.y / size.height;
-        } else if (radians >= -3 * Math.PI / 4 && radians < -Math.PI / 4) {
-            //down
-            xIndex = startLoc.x / size.width;
-            yIndex = (startLoc.y / size.height) + 1;
-        } else {
-            //left
-            xIndex = (startLoc.x / size.width) - 1;
-            yIndex = startLoc.y / size.height;
+        }
+        else {
+            if (radians >= -Math.PI / 4 && radians < Math.PI / 4) {
+                //right
+                xIndex = (startLoc.x / size.width) + 1;
+                yIndex = startLoc.y / size.height;
+            }
+            else {
+                if (radians >= -3 * Math.PI / 4 && radians < -Math.PI / 4) {
+                    //down
+                    xIndex = startLoc.x / size.width;
+                    yIndex = (startLoc.y / size.height) + 1;
+                }
+                else {
+                    //left
+                    xIndex = (startLoc.x / size.width) - 1;
+                    yIndex = startLoc.y / size.height;
+                }
+            }
         }
         return (TreeTentElementView) boardView.getElement(xIndex - 1, yIndex - 1);
     }

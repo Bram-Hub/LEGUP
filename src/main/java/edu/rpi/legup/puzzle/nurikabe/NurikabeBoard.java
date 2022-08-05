@@ -1,5 +1,6 @@
 package edu.rpi.legup.puzzle.nurikabe;
 
+import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 
@@ -41,7 +42,7 @@ public class NurikabeBoard extends GridBoard {
                 copy.setCell(x, y, getCell(x, y).copy());
             }
         }
-        for(PuzzleElement e : modifiedData) {
+        for (PuzzleElement e : modifiedData) {
             copy.getPuzzleElement(e).setModifiable(false);
         }
         return copy;

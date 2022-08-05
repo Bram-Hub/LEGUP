@@ -98,7 +98,7 @@ public class DynamicView extends JPanel {
             scrollView.addComponentListener(new ComponentAdapter() {
                 @Override
                 public void componentResized(ComponentEvent e) {
-                    zoomSlider.setValue(scrollView.getZoom() );
+                    zoomSlider.setValue(scrollView.getZoom());
                     zoomLabel.setText(zoomSlider.getValue() + "%");
                 }
             });
@@ -131,7 +131,8 @@ public class DynamicView extends JPanel {
             zoomWrapper.setLayout(new BorderLayout());
             zoomWrapper.add(status, WEST);
             zoomWrapper.add(zoomer, EAST);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
         return zoomWrapper;
@@ -165,30 +166,17 @@ public class DynamicView extends JPanel {
         status.setText("");
     }
 
-    public void reset()
-    {
-        System.out.println("get into the reset");
+    public void reset() {
+        // System.out.println("get into the reset");
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         Board board1 = GameBoardFacade.getInstance().getBoard();
         Tree tree= GameBoardFacade.getInstance().getTree();
         //System.out.println("tree view "+ treeView.getZoom()+"puzzle view "+this.getScrollView().getZoom());
         board1.setModifiable(true);
         Dimension bi = new Dimension(1200,900);
-
-
         scrollView.zoomFit();
-
-
         treeview=GameBoardFacade.getInstance().getLegupUI().getTreePanel().returntreeview();
         treeview.zoomFit();
-
-
-
-
-
-
-         System.out.println("Finish into the reset");
-
-
+        // System.out.println("Finish into the reset");
     }
 }

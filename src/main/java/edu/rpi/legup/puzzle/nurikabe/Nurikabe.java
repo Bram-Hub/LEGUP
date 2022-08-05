@@ -37,6 +37,19 @@ public class Nurikabe extends Puzzle {
         return null;
     }
 
+    @Override
+    /**
+     * Determines if the given dimensions are valid for Nurikabe
+     *
+     * @param rows      the number of rows
+     * @param columns   the number of columns
+     * @return true if the given dimensions are valid for Nurikabe, false otherwise
+     */
+    public boolean isValidDimensions(int rows, int columns) {
+        // This is a placeholder, this method needs to be implemented
+        throw new UnsupportedOperationException();
+    }
+
     /**
      * Determines if the current board is a valid state
      *

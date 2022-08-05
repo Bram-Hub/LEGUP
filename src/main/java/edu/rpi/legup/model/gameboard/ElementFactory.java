@@ -20,8 +20,8 @@ public abstract class ElementFactory {
     /**
      * Creates a xml document {@link PuzzleElement} from a cell for exporting.
      *
-     * @param document xml document
-     * @param puzzleElement     PuzzleElement cell
+     * @param document      xml document
+     * @param puzzleElement PuzzleElement cell
      * @return xml PuzzleElement
      */
     public abstract Element exportCell(Document document, PuzzleElement puzzleElement);

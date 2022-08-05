@@ -104,23 +104,28 @@ public class TreeView extends ScrollView implements ITreeListener {
     private TreeElementView getTreeElementView(Point point, TreeElementView elementView) {
         if (elementView == null) {
             return null;
-        } else if (elementView.contains(point) && elementView.isVisible()) {
-            if (elementView.getType() == NODE && ((TreeNodeView) elementView).isContradictoryState()) {
-                return null;
+        }
+        else {
+            if (elementView.contains(point) && elementView.isVisible()) {
+                if (elementView.getType() == NODE && ((TreeNodeView) elementView).isContradictoryState()) {
+                    return null;
+                }
+                return elementView;
             }
-            return elementView;
-        } else {
-            if (elementView.getType() == NODE) {
-                TreeNodeView nodeView = (TreeNodeView) elementView;
-                for (TreeTransitionView transitionView : nodeView.getChildrenViews()) {
-                    TreeElementView view = getTreeElementView(point, transitionView);
-                    if (view != null) {
-                        return view;
+            else {
+                if (elementView.getType() == NODE) {
+                    TreeNodeView nodeView = (TreeNodeView) elementView;
+                    for (TreeTransitionView transitionView : nodeView.getChildrenViews()) {
+                        TreeElementView view = getTreeElementView(point, transitionView);
+                        if (view != null) {
+                            return view;
+                        }
                     }
                 }
-            } else {
-                TreeTransitionView transitionView = (TreeTransitionView) elementView;
-                return getTreeElementView(point, transitionView.getChildView());
+                else {
+                    TreeTransitionView transitionView = (TreeTransitionView) elementView;
+                    return getTreeElementView(point, transitionView.getChildView());
+                }
             }
         }
         return null;
@@ -249,7 +254,8 @@ public class TreeView extends ScrollView implements ITreeListener {
         if (view.getType() == NODE) {
             TreeNodeView nodeView = (TreeNodeView) view;
             nodeView.getParentView().setChildView(null);
-        } else {
+        }
+        else {
             TreeTransitionView transitionView = (TreeTransitionView) view;
             transitionView.getParentViews().forEach((TreeNodeView n) -> n.removeChildrenView(transitionView));
         }
@@ -289,7 +295,8 @@ public class TreeView extends ScrollView implements ITreeListener {
     public void onTreeElementAdded(TreeElement treeElement) {
         if (treeElement.getType() == NODE) {
             addTreeNode((TreeNode) treeElement);
-        } else {
+        }
+        else {
             addTreeTransition((TreeTransition) treeElement);
         }
         repaint();
@@ -308,7 +315,8 @@ public class TreeView extends ScrollView implements ITreeListener {
 
             nodeView.getParentView().setChildView(null);
             removeTreeNode(node);
-        } else {
+        }
+        else {
             TreeTransition trans = (TreeTransition) element;
             TreeTransitionView transView = (TreeTransitionView) viewMap.get(trans);
 
@@ -427,7 +435,8 @@ public class TreeView extends ScrollView implements ITreeListener {
     public void drawTree(Graphics2D graphics2D) {
         if (tree == null) {
             LOGGER.error("Unable to draw tree.");
-        } else {
+        }
+        else {
             if (rootNodeView == null) {
                 rootNodeView = new TreeNodeView(tree.getRootNode());
 
@@ -456,7 +465,7 @@ public class TreeView extends ScrollView implements ITreeListener {
             TreeNode node = nodeView.getTreeElement();
             for (TreeTransition trans : node.getChildren()) {
                 TreeTransitionView transView = (TreeTransitionView) viewMap.get(trans);
-                if(transView != null) {
+                if (transView != null) {
                     nodeView.addChildrenView(transView);
                     transView.addParentView(nodeView);
                     break;
@@ -516,29 +525,32 @@ public class TreeView extends ScrollView implements ITreeListener {
                     if (childNodeView != null) {
                         calculateViewLocations(childNodeView, depth + 1);
                     }
-                } else if (parentsViews.size() > 1 && parentsViews.get(parentsViews.size() - 1) == nodeView) {
-                    int yAvg = 0;
-                    for (int i = 0; i < parentsViews.size(); i++) {
-                        TreeNodeView parentNodeView = parentsViews.get(i);
-                        depth = Math.max(depth, parentNodeView.getDepth());
-                        yAvg += parentNodeView.getY();
+                }
+                else {
+                    if (parentsViews.size() > 1 && parentsViews.get(parentsViews.size() - 1) == nodeView) {
+                        int yAvg = 0;
+                        for (int i = 0; i < parentsViews.size(); i++) {
+                            TreeNodeView parentNodeView = parentsViews.get(i);
+                            depth = Math.max(depth, parentNodeView.getDepth());
+                            yAvg += parentNodeView.getY();
 
-                        Point lineStartPoint = childView.getLineStartPoint(i);
-                        lineStartPoint.x = parentNodeView.getX() + RADIUS + TRANS_GAP / 2;
-                        lineStartPoint.y = parentNodeView.getY();
-                    }
-                    yAvg /= parentsViews.size();
-                    childView.setEndY(yAvg);
+                            Point lineStartPoint = childView.getLineStartPoint(i);
+                            lineStartPoint.x = parentNodeView.getX() + RADIUS + TRANS_GAP / 2;
+                            lineStartPoint.y = parentNodeView.getY();
+                        }
+                        yAvg /= parentsViews.size();
+                        childView.setEndY(yAvg);
 
-                    childView.setDepth(depth);
+                        childView.setDepth(depth);
 
-                    childView.setEndX((NODE_GAP_WIDTH + DIAMETER) * (depth + 1) + RADIUS - TRANS_GAP / 2);
+                        childView.setEndX((NODE_GAP_WIDTH + DIAMETER) * (depth + 1) + RADIUS - TRANS_GAP / 2);
 
-                    dimension.width = Math.max(dimension.width, childView.getEndX());
+                        dimension.width = Math.max(dimension.width, childView.getEndX());
 
-                    TreeNodeView childNodeView = childView.getChildView();
-                    if (childNodeView != null) {
-                        calculateViewLocations(childNodeView, depth + 1);
+                        TreeNodeView childNodeView = childView.getChildView();
+                        if (childNodeView != null) {
+                            calculateViewLocations(childNodeView, depth + 1);
+                        }
                     }
                 }
                 break;
@@ -578,57 +590,65 @@ public class TreeView extends ScrollView implements ITreeListener {
             TreeNode node = nodeView.getTreeElement();
             if (nodeView.getChildrenViews().size() == 0) {
                 nodeView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
-            } else if (nodeView.getChildrenViews().size() == 1) {
-                TreeTransitionView childView = nodeView.getChildrenViews().get(0);
-                calcSpan(childView);
-                if (childView.getParentViews().size() > 1) {
-                    nodeView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
-                } else {
-                    nodeView.setSpan(childView.getSpan());
-                }
-            } else {
-                DisjointSets<TreeTransition> branches = node.findMergingBranches();
-                List<TreeTransition> children = node.getChildren();
-
-                if (node == children.get(0).getParents().get(0)) {
-                    reorderBranches(node, branches);
-                    ArrayList<TreeTransitionView> newChildrenViews = new ArrayList<>();
-                    for (TreeTransition trans : node.getChildren()) {
-                        newChildrenViews.add((TreeTransitionView) viewMap.get(trans));
-                    }
-                    nodeView.setChildrenViews(newChildrenViews);
-                }
-
-                List<Set<TreeTransition>> mergingSets = branches.getAllSets();
-
-                double span = 0.0;
-                for (Set<TreeTransition> mergeSet : mergingSets) {
-                    if (mergeSet.size() > 1) {
-                        TreeTransition mergePoint = TreeNode.findMergingPoint(mergeSet);
-                        TreeTransitionView mergePointView = (TreeTransitionView) viewMap.get(mergePoint);
-                        double subSpan = 0.0;
-                        for (TreeTransition branch : mergeSet) {
-                            TreeTransitionView branchView = (TreeTransitionView) viewMap.get(branch);
-                            subCalcSpan(branchView, mergePointView);
-                            subSpan += branchView.getSpan();
-                        }
-                        calcSpan(mergePointView);
-                        span += Math.max(mergePointView.getSpan(), subSpan);
-                    } else {
-                        TreeTransition trans = mergeSet.iterator().next();
-                        TreeTransitionView transView = (TreeTransitionView) viewMap.get(trans);
-                        calcSpan(transView);
-                        span += transView.getSpan();
-                    }
-                }
-                nodeView.setSpan(span);
             }
-        } else {
+            else {
+                if (nodeView.getChildrenViews().size() == 1) {
+                    TreeTransitionView childView = nodeView.getChildrenViews().get(0);
+                    calcSpan(childView);
+                    if (childView.getParentViews().size() > 1) {
+                        nodeView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
+                    }
+                    else {
+                        nodeView.setSpan(childView.getSpan());
+                    }
+                }
+                else {
+                    DisjointSets<TreeTransition> branches = node.findMergingBranches();
+                    List<TreeTransition> children = node.getChildren();
+
+                    if (node == children.get(0).getParents().get(0)) {
+                        reorderBranches(node, branches);
+                        ArrayList<TreeTransitionView> newChildrenViews = new ArrayList<>();
+                        for (TreeTransition trans : node.getChildren()) {
+                            newChildrenViews.add((TreeTransitionView) viewMap.get(trans));
+                        }
+                        nodeView.setChildrenViews(newChildrenViews);
+                    }
+
+                    List<Set<TreeTransition>> mergingSets = branches.getAllSets();
+
+                    double span = 0.0;
+                    for (Set<TreeTransition> mergeSet : mergingSets) {
+                        if (mergeSet.size() > 1) {
+                            TreeTransition mergePoint = TreeNode.findMergingPoint(mergeSet);
+                            TreeTransitionView mergePointView = (TreeTransitionView) viewMap.get(mergePoint);
+                            double subSpan = 0.0;
+                            for (TreeTransition branch : mergeSet) {
+                                TreeTransitionView branchView = (TreeTransitionView) viewMap.get(branch);
+                                subCalcSpan(branchView, mergePointView);
+                                subSpan += branchView.getSpan();
+                            }
+                            calcSpan(mergePointView);
+                            span += Math.max(mergePointView.getSpan(), subSpan);
+                        }
+                        else {
+                            TreeTransition trans = mergeSet.iterator().next();
+                            TreeTransitionView transView = (TreeTransitionView) viewMap.get(trans);
+                            calcSpan(transView);
+                            span += transView.getSpan();
+                        }
+                    }
+                    nodeView.setSpan(span);
+                }
+            }
+        }
+        else {
             TreeTransitionView transView = (TreeTransitionView) view;
             TreeNodeView nodeView = transView.getChildView();
             if (nodeView == null) {
                 transView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
-            } else {
+            }
+            else {
                 calcSpan(nodeView);
                 transView.setSpan(nodeView.getSpan());
             }
@@ -653,57 +673,66 @@ public class TreeView extends ScrollView implements ITreeListener {
             TreeNode node = nodeView.getTreeElement();
             if (nodeView.getChildrenViews().size() == 0) {
                 nodeView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
-            } else if (nodeView.getChildrenViews().size() == 1) {
-                TreeTransitionView childView = nodeView.getChildrenViews().get(0);
-                if (childView == stop) {
-                    nodeView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
-                } else {
-                    subCalcSpan(childView, stop);
-                    if (childView.getParentViews().size() > 1) {
-                        nodeView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
-                    } else {
-                        nodeView.setSpan(childView.getSpan());
-                    }
-                }
-            } else {
-                DisjointSets<TreeTransition> branches = node.findMergingBranches();
-                List<TreeTransition> children = node.getChildren();
-
-                if (node == children.get(0).getParents().get(0)) {
-                    reorderBranches(node, branches);
-                }
-
-                List<Set<TreeTransition>> mergingSets = branches.getAllSets();
-
-                double span = 0.0;
-                for (Set<TreeTransition> mergeSet : mergingSets) {
-                    if (mergeSet.size() > 1) {
-                        TreeTransition mergePoint = TreeNode.findMergingPoint(mergeSet);
-                        TreeTransitionView mergePointView = (TreeTransitionView) viewMap.get(mergePoint);
-                        double subSpan = 0.0;
-                        for (TreeTransition branch : mergeSet) {
-                            TreeTransitionView branchView = (TreeTransitionView) viewMap.get(branch);
-                            subCalcSpan(branchView, mergePointView);
-                            subSpan += branchView.getSpan();
-                        }
-                        subCalcSpan(mergePointView, stop);
-                        span += Math.max(mergePointView.getSpan(), subSpan);
-                    } else {
-                        TreeTransition trans = mergeSet.iterator().next();
-                        TreeTransitionView transView = (TreeTransitionView) viewMap.get(trans);
-                        subCalcSpan(transView, stop);
-                        span += transView.getSpan();
-                    }
-                }
-
-                nodeView.setSpan(span);
             }
-        } else {
+            else {
+                if (nodeView.getChildrenViews().size() == 1) {
+                    TreeTransitionView childView = nodeView.getChildrenViews().get(0);
+                    if (childView == stop) {
+                        nodeView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
+                    }
+                    else {
+                        subCalcSpan(childView, stop);
+                        if (childView.getParentViews().size() > 1) {
+                            nodeView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
+                        }
+                        else {
+                            nodeView.setSpan(childView.getSpan());
+                        }
+                    }
+                }
+                else {
+                    DisjointSets<TreeTransition> branches = node.findMergingBranches();
+                    List<TreeTransition> children = node.getChildren();
+
+                    if (node == children.get(0).getParents().get(0)) {
+                        reorderBranches(node, branches);
+                    }
+
+                    List<Set<TreeTransition>> mergingSets = branches.getAllSets();
+
+                    double span = 0.0;
+                    for (Set<TreeTransition> mergeSet : mergingSets) {
+                        if (mergeSet.size() > 1) {
+                            TreeTransition mergePoint = TreeNode.findMergingPoint(mergeSet);
+                            TreeTransitionView mergePointView = (TreeTransitionView) viewMap.get(mergePoint);
+                            double subSpan = 0.0;
+                            for (TreeTransition branch : mergeSet) {
+                                TreeTransitionView branchView = (TreeTransitionView) viewMap.get(branch);
+                                subCalcSpan(branchView, mergePointView);
+                                subSpan += branchView.getSpan();
+                            }
+                            subCalcSpan(mergePointView, stop);
+                            span += Math.max(mergePointView.getSpan(), subSpan);
+                        }
+                        else {
+                            TreeTransition trans = mergeSet.iterator().next();
+                            TreeTransitionView transView = (TreeTransitionView) viewMap.get(trans);
+                            subCalcSpan(transView, stop);
+                            span += transView.getSpan();
+                        }
+                    }
+
+                    nodeView.setSpan(span);
+                }
+            }
+        }
+        else {
             TreeTransitionView transView = (TreeTransitionView) view;
             TreeNodeView nodeView = transView.getChildView();
             if (nodeView == null || nodeView == stop) {
                 transView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
-            } else {
+            }
+            else {
                 calcSpan(nodeView);
                 transView.setSpan(nodeView.getSpan());
             }
@@ -725,8 +754,7 @@ public class TreeView extends ScrollView implements ITreeListener {
         for (Set<TreeTransition> set : mergingSets) {
             List<TreeTransition> mergeBranch = new ArrayList<>();
             newOrder.add(mergeBranch);
-            children.forEach(t ->
-            {
+            children.forEach(t -> {
                 if (set.contains(t)) {
                     mergeBranch.add(t);
                 }
@@ -735,8 +763,7 @@ public class TreeView extends ScrollView implements ITreeListener {
                     children.indexOf(t1) <= children.indexOf(t2) ? -1 : 1);
         }
 
-        newOrder.sort((List<TreeTransition> b1, List<TreeTransition> b2) ->
-        {
+        newOrder.sort((List<TreeTransition> b1, List<TreeTransition> b2) -> {
             int low1 = -1;
             int low2 = -1;
             for (TreeTransition t1 : b1) {
