@@ -91,62 +91,11 @@ public class LegupUI extends JFrame implements WindowListener {
         add(window);
         panels = new LegupPanel[3];
 
-
-//
-//        this.setContentPane(window);
-//        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//        this.setLocationByPlatform(true);
-//        this.pack();
-//        this.setPreferredSize(new Dimension(600,450));
-//        this.setVisible(false);
-
-       // window.setPreferredSize(new Dimension(600,450));
-
-        this.setResizable(false);
-//        this.addComponentListener(new ComponentAdapter() {
-//            @Override
-//            public void componentResized(ComponentEvent e) {
-//                System.out.println(getSize());
-//                Dimension minimum = new Dimension(500,340);
-//                setPreferredSize(new Dimension(600,450));
-//                if(getWidth() < minimum.width){
-//                    //setSize(minimum.width, getHeight());
-//                    setPreferredSize(new Dimension(600,450));
-//                    pack();
-//                }
-//                if(getHeight() < minimum.height){
-//                    //setSize(getHeight(), minimum.height);
-//                    setPreferredSize(new Dimension(600,450));
-//                    pack();
-//                }
-//            }
-//        });
-
-
-        //this.setSize(new Dimension(400,200));
-//        this.setSize(new Dimension(100,100));
-//        this.pack();
-        //this.setPreferredSize(new Dimension(600,450));
-        //this.setMinimumSize(new Dimension(300,300));
-
         panels[0] = new HomePanel(this.fileDialog, this, this);
         panels[1] = new ProofEditorPanel(this.fileDialog, this, this);
         panels[2] = new PuzzleEditorPanel(this.fileDialog, this, this);
 
-
     }
-
-
-    @Override
-    public Dimension getPreferredSize(){
-        Dimension pref = super.getPreferredSize();
-        Dimension min = getMinimumSize();
-        pref.width = Math.min(pref.width, min.width);
-        pref.height = Math.min(pref.height, min.height);
-        return pref;
-        //return new Dimension(10,10)
-    }
-
 
     protected void displayPanel(int option) {
         if (option > panels.length || option < 0) {
@@ -155,7 +104,7 @@ public class LegupUI extends JFrame implements WindowListener {
         this.window.removeAll();
         panels[option].makeVisible();
         this.window.add(panels[option]);
-        //pack();
+        pack();
         revalidate();
         repaint();
     }
@@ -196,7 +145,7 @@ public class LegupUI extends JFrame implements WindowListener {
 
     @Override
     public void windowOpened(WindowEvent e) {
-        this.setPreferredSize(new Dimension(100,100));
+
     }
 
     public void windowClosing(WindowEvent e) {
