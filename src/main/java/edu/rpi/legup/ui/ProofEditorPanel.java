@@ -51,7 +51,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private JMenu file;
     private JMenuItem newPuzzle, resetPuzzle, saveProof, preferences, exit;
     private JMenu edit;
-    private JMenuItem undo, redo;
+    private JMenuItem undo, redo, fitBoardViewToScreen, fitTreeViewToScreen;
 
     private JMenu view;
 
@@ -121,6 +121,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         edit = new JMenu("Edit");
         undo = new JMenuItem("Undo");
         redo = new JMenuItem("Redo");
+        fitBoardViewToScreen = new JMenuItem("Fit Board to Screen");
+        fitTreeViewToScreen = new JMenuItem("Fit Proof Tree to Screen");
 
         view = new JMenu("View");
 
@@ -284,6 +286,12 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         else {
             redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
         }
+
+        edit.add(fitBoardViewToScreen);
+        fitBoardViewToScreen.addActionListener((ActionEvent) -> this.getDynamicBoardView().fitBoardViewToScreen());
+
+        edit.add(fitTreeViewToScreen);
+        fitTreeViewToScreen.addActionListener((ActionEvent) -> this.getDynamicBoardView().fitTreeViewToScreen());
 
         mBar.add(proof);
 

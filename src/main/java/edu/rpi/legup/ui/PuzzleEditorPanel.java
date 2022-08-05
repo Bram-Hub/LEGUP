@@ -37,7 +37,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private TitledBorder boardBorder;
     //private JSplitPane splitPanel, topHalfPanel;
     private FileDialog fileDialog;
-    private JMenuItem undo, redo;
+    private JMenuItem undo, redo, fitBoardViewToScreen;
     private ElementFrame elementFrame;
     private JPanel treePanel;
     private LegupUI legupUI;
@@ -116,14 +116,27 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         // EDIT
         menus[1] = new JMenu("Edit");
         // edit>undo
-        undo = new JMenuItem("Undo");
-        // edit>redo
-        redo = new JMenuItem("Redo");
-
         menus[1].add(undo);
-        menus[1].add(redo);
+        undo.addActionListener((ActionEvent) -> GameBoardFacade.getInstance().getHistory().undo());
+        if (os.equals("mac")) {
+            undo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        }
+        else {
+            undo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK));
+        }
 
-        // HELP
+        menus[1].add(redo);
+        redo.addActionListener((ActionEvent) -> GameBoardFacade.getInstance().getHistory().redo());
+        if (os.equals("mac")) {
+            redo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK));
+        }
+        else {
+            redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
+        }
+
+        menus[1].add(fitBoardViewToScreen);
+        fitBoardViewToScreen.addActionListener((ActionEvent) -> this.getDynamicBoardView().fitBoardViewToScreen());
+
         menus[2] = new JMenu("Help");
 
         // add menus to menubar

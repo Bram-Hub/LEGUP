@@ -2,10 +2,6 @@ package edu.rpi.legup.ui;
 
 
 import edu.rpi.legup.app.GameBoardFacade;
-import edu.rpi.legup.controller.TreeController;
-import edu.rpi.legup.model.Puzzle;
-import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 
@@ -20,8 +16,6 @@ import java.util.Objects;
 
 import static java.awt.BorderLayout.*;
 
-import  edu.rpi.legup.model.tree.*;
-import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
 
 public class DynamicView extends JPanel {
@@ -54,38 +48,8 @@ public class DynamicView extends JPanel {
         zoomWrapper = new JPanel();
         try {
             zoomer = new JPanel();
-            JButton resizeButton1 = new JButton("Resize puzzle");
-            JButton resizeButton2 = new JButton("Resize treeview");
-            resizeButton1.setEnabled(true);
-            resizeButton2.setEnabled(true);
-            resizeButton1.setSize(100,50);
-            resizeButton1.setSize(100,50);
             JLabel zoomLabel = new JLabel("100%");
             zoomLabel.setFont(MaterialFonts.getRegularFont(16f));
-            zoomer.add(resizeButton1);
-            zoomer.add(resizeButton2);
-            resizeButton2.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if(true){
-                        rest_for_treeview();
-                        System.out.println("The lower resize bottom be click");
-                    }
-                }
-            });
-            resizeButton1.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    //System.out.println("The resize bottom be click");
-                    if (true){
-                        reset_for_puzzle();
-                        System.out.println("The upper resize bottom be click");
-                    }
-
-
-
-                }
-            });
             JSlider zoomSlider = new JSlider(25, 400, 100);
 
             JButton plus = new JButton(new ImageIcon(ImageIO.read(
@@ -159,16 +123,8 @@ public class DynamicView extends JPanel {
         return zoomWrapper;
     }
 
-    public ScrollView getScrollView() {
-        return this.scrollView;
-    }
-
     public JPanel getZoomWrapper() {
         return this.zoomWrapper;
-    }
-
-    public JPanel getZoomer() {
-        return this.zoomer;
     }
 
     public void updateInfo(String message) {
@@ -187,20 +143,12 @@ public class DynamicView extends JPanel {
         status.setText("");
     }
 
-    public void reset_for_puzzle() {
-        // System.out.println("get into the reset");
-//        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
-//        Board board1 = GameBoardFacade.getInstance().getBoard();
-//        Tree tree= GameBoardFacade.getInstance().getTree();
-//        //System.out.println("tree view "+ treeView.getZoom()+"puzzle view "+this.getScrollView().getZoom());
-//        board1.setModifiable(true);
-//        Dimension bi = new Dimension(1200,900);
+    public void fitBoardViewToScreen() {
         scrollView.zoomFit();
-
-        // System.out.println("Finish into the reset");
     }
-    public void rest_for_treeview(){
-        treeview=GameBoardFacade.getInstance().getLegupUI().getTreePanel().returntreeview();
+
+    public void fitTreeViewToScreen() {
+        treeview = GameBoardFacade.getInstance().getLegupUI().getTreePanel().returntreeview();
         treeview.zoomFit();
     }
 }
