@@ -33,8 +33,10 @@ public class HomePanel extends LegupPanel {
         menuBar.add(settings);
         JMenuItem preferences = new JMenuItem("Preferences");
         preferences.addActionListener(a -> {
+            PreferencesDialog preferencesDialog = new PreferencesDialog(this.frame);
             System.out.println("Preferences clicked");
         });
+        settings.addSeparator();
         settings.add(preferences);
 
         JMenuItem contribute = new JMenuItem("Contribute to Legup");
