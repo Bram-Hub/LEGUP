@@ -14,6 +14,34 @@ public class SudokuImporter extends PuzzleImporter {
     }
 
     /**
+     * Creates an empty board for building
+     *
+     * @param rows    the number of rows on the board
+     * @param columns the number of columns on the board
+     * @throws RuntimeException
+     */
+    @Override
+    public void initializeBoard(int rows, int columns) {
+        SudokuBoard sudokuBoard;
+        int minorSize = (int) Math.sqrt(rows);
+        sudokuBoard = new SudokuBoard(rows);
+
+        for (int y = 0; y < columns; y++) {
+            for (int x = 0; x < rows; x++) {
+                if (sudokuBoard.getCell(x, y) == null) {
+                    int groupIndex = x / minorSize + y / minorSize * minorSize;
+                    SudokuCell cell = new SudokuCell(0, new Point(x, y), groupIndex, rows);
+                    cell.setIndex(y * rows + x);
+                    cell.setModifiable(true);
+                    sudokuBoard.setCell(x, y, cell);
+                }
+            }
+        }
+
+        puzzle.setCurrentBoard(sudokuBoard);
+    }
+
+    /**
      * Creates the board for building
      *
      * @param node xml document node
@@ -42,7 +70,8 @@ public class SudokuImporter extends PuzzleImporter {
                     throw new InvalidFileFormatException("Sudoku Importer: invalid board dimensions");
                 }
                 sudokuBoard = new SudokuBoard(size);
-            } else {
+            }
+            else {
                 throw new InvalidFileFormatException("Sudoku Importer: invalid board dimensions");
             }
 
@@ -78,7 +107,8 @@ public class SudokuImporter extends PuzzleImporter {
 //            }
 
             puzzle.setCurrentBoard(sudokuBoard);
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             throw new InvalidFileFormatException("Sudoku Importer: unknown value where integer expected");
         }
     }

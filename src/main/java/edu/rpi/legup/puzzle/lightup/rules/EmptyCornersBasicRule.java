@@ -16,7 +16,7 @@ import java.util.List;
 public class EmptyCornersBasicRule extends BasicRule {
 
     public EmptyCornersBasicRule() {
-        super("Empty Corners",
+        super("LTUP-BASC-0003", "Empty Corners",
                 "Cells on the corners of a number must be empty if placing bulbs would prevent the number from being satisfied.",
                 "edu/rpi/legup/images/lightup/rules/EmptyCorners.png");
     }
@@ -75,7 +75,8 @@ public class EmptyCornersBasicRule extends BasicRule {
         }
         if (createsContra) {
             return null;
-        } else {
+        }
+        else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty";
         }
     }
@@ -99,13 +100,15 @@ public class EmptyCornersBasicRule extends BasicRule {
                 LightUpCell modCell = (LightUpCell) lightUpBoard.getPuzzleElement(cell);
                 modCell.setData(LightUpCellType.EMPTY.value);
                 lightUpBoard.addModifiedData(modCell);
-            } else {
+            }
+            else {
                 cell.setData(temp);
             }
         }
         if (lightUpBoard.getModifiedData().isEmpty()) {
             return null;
-        } else {
+        }
+        else {
             return lightUpBoard;
         }
     }

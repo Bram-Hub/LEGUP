@@ -12,7 +12,7 @@ import java.awt.*;
 public class BulbsInPathContradictionRule extends ContradictionRule {
 
     public BulbsInPathContradictionRule() {
-        super("Bulbs In Path",
+        super("LTUP-CONT-0001", "Bulbs In Path",
                 "A bulb cannot be placed in another bulb's path.",
                 "edu/rpi/legup/images/lightup/contradictions/BulbsInPath.png");
     }
@@ -38,32 +38,44 @@ public class BulbsInPathContradictionRule extends ContradictionRule {
             LightUpCell c = lightUpBoard.getCell(i, location.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            } else if (c.getType() == LightUpCellType.BULB) {
-                return null;
+            }
+            else {
+                if (c.getType() == LightUpCellType.BULB) {
+                    return null;
+                }
             }
         }
         for (int i = location.x - 1; i >= 0; i--) {
             LightUpCell c = lightUpBoard.getCell(i, location.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            } else if (c.getType() == LightUpCellType.BULB) {
-                return null;
+            }
+            else {
+                if (c.getType() == LightUpCellType.BULB) {
+                    return null;
+                }
             }
         }
         for (int i = location.y + 1; i < lightUpBoard.getHeight(); i++) {
             LightUpCell c = lightUpBoard.getCell(location.x, i);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            } else if (c.getType() == LightUpCellType.BULB) {
-                return null;
+            }
+            else {
+                if (c.getType() == LightUpCellType.BULB) {
+                    return null;
+                }
             }
         }
         for (int i = location.y - 1; i >= 0; i--) {
             LightUpCell c = lightUpBoard.getCell(location.x, i);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            } else if (c.getType() == LightUpCellType.BULB) {
-                return null;
+            }
+            else {
+                if (c.getType() == LightUpCellType.BULB) {
+                    return null;
+                }
             }
         }
         return super.getNoContradictionMessage();

@@ -9,7 +9,8 @@ import edu.rpi.legup.model.tree.TreeTransition;
 public class SurroundShipBasicRule extends BasicRule {
 
     public SurroundShipBasicRule() {
-        super("Surround Ship",
+        super("BTSP-BASC-0005",
+                "Surround Ship",
                 "",
                 "edu/rpi/legup/images/battleship/rules/SurroundShip.png");
     }

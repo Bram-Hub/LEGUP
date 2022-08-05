@@ -6,6 +6,8 @@ import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.tree.Tree;
+import edu.rpi.legup.ui.ProofEditorPanel;
+import edu.rpi.legup.ui.PuzzleEditorPanel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -42,6 +44,10 @@ public class GameBoardFacade implements IHistorySubject {
 
     private LegupUI legupUI;
 
+    private ProofEditorPanel puzzleSolver;
+
+    private PuzzleEditorPanel puzzleEditor;
+
     private String curFileName;
 
     private History history;
@@ -71,20 +77,93 @@ public class GameBoardFacade implements IHistorySubject {
     }
 
     public void initializeUI() {
-        EventQueue.invokeLater(() ->{
+        EventQueue.invokeLater(() -> {
             legupUI = new LegupUI();
-            addHistoryListener(legupUI);
+            puzzleSolver = legupUI.getProofEditor();
+            puzzleEditor = legupUI.getPuzzleEditor();
+            addHistoryListener(legupUI.getProofEditor());
+            addHistoryListener(legupUI.getPuzzleEditor());
         });
     }
 
     public void setPuzzle(Puzzle puzzle) {
         this.puzzle = puzzle;
-        this.legupUI.setPuzzleView(puzzle);
+        this.puzzleSolver.setPuzzleView(puzzle);
         this.history.clear();
+    }
+
+    public void setPuzzleEditor(Puzzle puzzle) {
+        this.puzzle = puzzle;
+        this.puzzleEditor.setPuzzleView(puzzle);
+        //this.history.clear();
     }
 
     public void setConfig(Config config) {
         this.config = config;
+    }
+
+    /**
+     * Validates the given dimensions for the given puzzle
+     *
+     * @param game    name of the puzzle
+     * @param rows    the number of rows on the board
+     * @param columns the number of columns on the board
+     * @return true if it is possible to create a board for the given game with the given number of
+     * rows and columns, false otherwise
+     * @throws RuntimeException if any of the given input is invalid
+     */
+    public boolean validateDimensions(String game, int rows, int columns) throws RuntimeException {
+        String qualifiedClassName = config.getPuzzleClassForName(game);
+        try {
+            Class<?> c = Class.forName(qualifiedClassName);
+            Constructor<?> constructor = c.getConstructor();
+            Puzzle puzzle = (Puzzle) constructor.newInstance();
+            return puzzle.isValidDimensions(rows, columns);
+        }
+        catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException |
+               InstantiationException e) {
+            LOGGER.error(e);
+            throw new RuntimeException("Error validating puzzle dimensions");
+        }
+    }
+
+    /**
+     * Loads an empty puzzle
+     *
+     * @param game    name of the puzzle
+     * @param rows    the number of rows on the board
+     * @param columns the number of columns on the board
+     */
+    public void loadPuzzle(String game, int rows, int columns) throws RuntimeException {
+        String qualifiedClassName = config.getPuzzleClassForName(game);
+        LOGGER.debug("Loading " + qualifiedClassName);
+
+        try {
+            Class<?> c = Class.forName(qualifiedClassName);
+            Constructor<?> cons = c.getConstructor();
+            Puzzle puzzle = (Puzzle) cons.newInstance();
+            setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
+
+            PuzzleImporter importer = puzzle.getImporter();
+            if (importer == null) {
+                LOGGER.error("Puzzle importer is null");
+                throw new RuntimeException("Puzzle importer null");
+            }
+
+            importer.initializePuzzle(rows, columns);
+
+            puzzle.initializeView();
+//            puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
+            setPuzzleEditor(puzzle);
+        }
+        catch (IllegalArgumentException exception) {
+            throw new IllegalArgumentException(exception.getMessage());
+        }
+        catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+               IllegalAccessException | InstantiationException e) {
+            LOGGER.error(e);
+            throw new RuntimeException("Puzzle creation error");
+        }
     }
 
     /**
@@ -97,9 +176,70 @@ public class GameBoardFacade implements IHistorySubject {
             loadPuzzle(new FileInputStream(fileName));
             curFileName = fileName;
             setWindowTitle(puzzle.getName(), fileName);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             LOGGER.error("Invalid file " + fileName, e);
             throw new InvalidFileFormatException("Could not find file");
+        }
+    }
+
+    public void loadPuzzleEditor(String fileName) throws InvalidFileFormatException {
+        try {
+            loadPuzzleEditor(new FileInputStream(fileName));
+            curFileName = fileName;
+            setWindowTitle(puzzle.getName(), fileName);
+        }
+        catch (IOException e) {
+            LOGGER.error("Invalid file " + fileName, e);
+            throw new InvalidFileFormatException("Could not find file");
+        }
+    }
+
+    public void loadPuzzleEditor(InputStream inputStream) throws InvalidFileFormatException {
+        Document document;
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            document = builder.parse(inputStream);
+        }
+        catch (IOException | SAXException | ParserConfigurationException e) {
+            LOGGER.error("Invalid file", e);
+            throw new InvalidFileFormatException("Could not find file");
+        }
+
+        Element rootNode = document.getDocumentElement();
+        if (rootNode.getTagName().equals("Legup")) {
+            try {
+                Node node = rootNode.getElementsByTagName("puzzle").item(0);
+                String qualifiedClassName = config.getPuzzleClassForName(node.getAttributes().getNamedItem("name").getNodeValue());
+                if (qualifiedClassName == null) {
+                    throw new InvalidFileFormatException("Puzzle creation error: cannot find puzzle with that name");
+                }
+                LOGGER.debug("Loading " + qualifiedClassName);
+
+                Class<?> c = Class.forName(qualifiedClassName);
+                Constructor<?> cons = c.getConstructor();
+                Puzzle puzzle = (Puzzle) cons.newInstance();
+
+                PuzzleImporter importer = puzzle.getImporter();
+                if (importer == null) {
+                    LOGGER.error("Puzzle importer is null");
+                    throw new InvalidFileFormatException("Puzzle importer null");
+                }
+                importer.initializePuzzle(node);
+                puzzle.initializeView();
+                puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
+                setPuzzleEditor(puzzle);
+            }
+            catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+                   IllegalAccessException | InstantiationException e) {
+                LOGGER.error(e);
+                throw new InvalidFileFormatException("Puzzle creation error");
+            }
+        }
+        else {
+            LOGGER.error("Invalid file");
+            throw new InvalidFileFormatException("Invalid file: must be a Legup file");
         }
     }
 
@@ -114,7 +254,8 @@ public class GameBoardFacade implements IHistorySubject {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             document = builder.parse(inputStream);
-        } catch (IOException | SAXException | ParserConfigurationException e) {
+        }
+        catch (IOException | SAXException | ParserConfigurationException e) {
             LOGGER.error("Invalid file", e);
             throw new InvalidFileFormatException("Could not find file");
         }
@@ -142,12 +283,14 @@ public class GameBoardFacade implements IHistorySubject {
                 puzzle.initializeView();
                 puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
                 setPuzzle(puzzle);
-            } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
-                    IllegalAccessException | InstantiationException e) {
+            }
+            catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+                   IllegalAccessException | InstantiationException e) {
                 LOGGER.error(e);
                 throw new InvalidFileFormatException("Puzzle creation error");
             }
-        } else {
+        }
+        else {
             LOGGER.error("Invalid file");
             throw new InvalidFileFormatException("Invalid file: must be a Legup file");
         }

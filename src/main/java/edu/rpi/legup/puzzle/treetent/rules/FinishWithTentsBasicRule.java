@@ -16,7 +16,7 @@ import java.util.List;
 public class FinishWithTentsBasicRule extends BasicRule {
 
     public FinishWithTentsBasicRule() {
-        super("Finish with Tents",
+        super("TREE-BASC-0003", "Finish with Tents",
                 "Tents can be added to finish a row or column that has one open spot per required tent.",
                 "edu/rpi/legup/images/treetent/finishTent.png");
     }
@@ -45,7 +45,8 @@ public class FinishWithTentsBasicRule extends BasicRule {
 
         if (isForced(initialBoard, initCell)) {
             return null;
-        } else {
+        }
+        else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be tent.";
         }
     }
@@ -79,7 +80,8 @@ public class FinishWithTentsBasicRule extends BasicRule {
         }
         if (treeTentBoard.getModifiedData().isEmpty()) {
             return null;
-        } else {
+        }
+        else {
             return treeTentBoard;
         }
     }

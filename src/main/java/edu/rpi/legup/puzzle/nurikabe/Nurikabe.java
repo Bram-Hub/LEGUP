@@ -38,8 +38,6 @@ public class Nurikabe extends Puzzle {
         return null;
     }
 
-<<<<<<< Updated upstream
-=======
 //    @Override
 //    /**
 //     * Determines if the given dimensions are valid for Nurikabe
@@ -53,7 +51,6 @@ public class Nurikabe extends Puzzle {
 //        throw new UnsupportedOperationException();
 //    }
 
->>>>>>> Stashed changes
     /**
      * Determines if the current board is a valid state
      *

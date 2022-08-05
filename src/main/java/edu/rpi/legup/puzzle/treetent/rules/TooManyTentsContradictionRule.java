@@ -12,7 +12,7 @@ import java.awt.*;
 public class TooManyTentsContradictionRule extends ContradictionRule {
 
     public TooManyTentsContradictionRule() {
-        super("Too Many Tents",
+        super("TREE-CONT-0004", "Too Many Tents",
                 "Rows and columns cannot have more tents than their clue.",
                 "edu/rpi/legup/images/treetent/too_many_tents.png");
     }
@@ -37,7 +37,8 @@ public class TooManyTentsContradictionRule extends ContradictionRule {
         if (rowTents > treeTentBoard.getRowClues().get(loc.y).getData() ||
                 colTents > treeTentBoard.getColClues().get(loc.x).getData()) {
             return null;
-        } else {
+        }
+        else {
             return super.getNoContradictionMessage();
         }
     }

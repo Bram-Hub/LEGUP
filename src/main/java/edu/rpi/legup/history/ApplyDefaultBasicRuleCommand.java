@@ -5,7 +5,7 @@ import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.rules.BasicRule;
 import edu.rpi.legup.model.tree.*;
-import edu.rpi.legup.ui.treeview.*;
+import edu.rpi.legup.ui.proofeditorui.treeview.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +21,7 @@ public class ApplyDefaultBasicRuleCommand extends PuzzleCommand {
      * ApplyDefaultBasicRuleCommand Constructor creates a command for applying the default of a basic rule
      *
      * @param selection selection of tree element views
-     * @param rule basic rule for the command
+     * @param rule      basic rule for the command
      */
     public ApplyDefaultBasicRuleCommand(TreeViewSelection selection, BasicRule rule) {
         this.selection = selection.copy();
@@ -40,17 +40,22 @@ public class ApplyDefaultBasicRuleCommand extends PuzzleCommand {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         if (selectedViews.isEmpty()) {
             return CommandError.DEFAULT_APPLICATION + " - " + CommandError.NO_SELECTED_VIEWS.toString();
-        } else {
+        }
+        else {
             for (TreeElementView view : selectedViews) {
                 TreeElement element = view.getTreeElement();
                 if (element.getType() == TreeElementType.NODE) {
                     TreeNode node = (TreeNode) element;
                     if (!node.getChildren().isEmpty()) {
                         return CommandError.DEFAULT_APPLICATION + " - " + CommandError.NO_CHILDREN.toString();
-                    } else if (rule.getDefaultBoard(node) == null) {
-                        return CommandError.DEFAULT_APPLICATION + " - " + "This selection contains a tree element that this rule cannot be applied to.";
                     }
-                } else {
+                    else {
+                        if (rule.getDefaultBoard(node) == null) {
+                            return CommandError.DEFAULT_APPLICATION + " - " + "This selection contains a tree element that this rule cannot be applied to.";
+                        }
+                    }
+                }
+                else {
                     return CommandError.DEFAULT_APPLICATION + " - " + CommandError.SELECTION_CONTAINS_TRANSITION.toString();
                 }
             }
@@ -77,7 +82,8 @@ public class ApplyDefaultBasicRuleCommand extends PuzzleCommand {
                 transition = (TreeTransition) tree.addTreeElement(node);
                 childNode = (TreeNode) tree.addTreeElement(transition);
                 addMap.put(node, transition);
-            } else {
+            }
+            else {
                 tree.addTreeElement(node, transition);
                 childNode = transition.getChildNode();
             }

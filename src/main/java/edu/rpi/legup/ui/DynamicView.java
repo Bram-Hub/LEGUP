@@ -1,5 +1,8 @@
 package edu.rpi.legup.ui;
 
+import edu.rpi.legup.app.GameBoardFacade;
+import edu.rpi.legup.model.Puzzle;
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 
@@ -7,11 +10,10 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseWheelEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.util.Hashtable;
+import java.util.Objects;
 
 import static java.awt.BorderLayout.*;
 
@@ -41,26 +43,34 @@ public class DynamicView extends JPanel {
         zoomWrapper = new JPanel();
         try {
             zoomer = new JPanel();
-
+            JButton resizeButton = new JButton("Resize");
+            resizeButton.setEnabled(true);
             JLabel zoomLabel = new JLabel("100%");
             zoomLabel.setFont(MaterialFonts.getRegularFont(16f));
-
+            zoomer.add(resizeButton);
+            resizeButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // System.out.println("The resize bottom be click");
+                    reset();
+                }
+            });
             JSlider zoomSlider = new JSlider(25, 400, 100);
 
-            JButton plus = new JButton(new ImageIcon(ImageIO.read(ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/imgs/add.png"))));
+            JButton plus = new JButton(new ImageIcon(ImageIO.read(
+                    Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(
+                            "edu/rpi/legup/imgs/add.png")))));
             plus.setFont(MaterialFonts.getRegularFont(10f));
             plus.setPreferredSize(new Dimension(20, 20));
-            plus.addActionListener((ActionEvent e) -> {
-                zoomSlider.setValue(zoomSlider.getValue() + 25);
-            });
+            plus.addActionListener((ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() + 25));
 
 
-            JButton minus = new JButton(new ImageIcon(ImageIO.read(ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/imgs/remove.png"))));
+            JButton minus = new JButton(new ImageIcon(ImageIO.read(
+                    Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(
+                            "edu/rpi/legup/imgs/remove.png")))));
             minus.setPreferredSize(new Dimension(20, 20));
             minus.setFont(MaterialFonts.getRegularFont(10f));
-            minus.addActionListener((ActionEvent e) -> {
-                zoomSlider.setValue(zoomSlider.getValue() - 25);
-            });
+            minus.addActionListener((ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() - 25));
             this.scrollView.setWheelScrollingEnabled(true);
             /*this.scrollView.getViewport().addMouseWheelListener(new MouseAdapter() {
                 public void mouseWheelMoved(MouseWheelEvent e) {
@@ -74,6 +84,14 @@ public class DynamicView extends JPanel {
             });*/
 
             zoomSlider.setPreferredSize(new Dimension(160, 30));
+
+            scrollView.addComponentListener(new ComponentAdapter() {
+                @Override
+                public void componentResized(ComponentEvent e) {
+                    zoomSlider.setValue(scrollView.getZoom());
+                    zoomLabel.setText(zoomSlider.getValue() + "%");
+                }
+            });
 
             zoomSlider.addChangeListener((ChangeEvent e) -> {
                 scrollView.zoomTo(zoomSlider.getValue() / 100.0);
@@ -103,8 +121,9 @@ public class DynamicView extends JPanel {
             zoomWrapper.setLayout(new BorderLayout());
             zoomWrapper.add(status, WEST);
             zoomWrapper.add(zoomer, EAST);
-        } catch (IOException e) {
-
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
         return zoomWrapper;
     }
@@ -135,5 +154,19 @@ public class DynamicView extends JPanel {
 
     public void resetStatus() {
         status.setText("");
+    }
+
+    public void reset() {
+        // System.out.println("get into the reset");
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+        Board board1 = GameBoardFacade.getInstance().getBoard();
+        board1.setModifiable(true);
+        Dimension bi = new Dimension(1200, 900);
+        this.getScrollView().zoomFit();
+//        System.out.println("get into the reset"+UIhight+"    "+this.getHeight()+"   "+this.getWidth());
+//        this.getScrollView().zoomTo(UIhight);
+        // System.out.println("Finish into the reset");
+
+
     }
 }

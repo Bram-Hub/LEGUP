@@ -14,7 +14,7 @@ import java.util.Set;
 public class FinishWithBulbsBasicRule extends BasicRule {
 
     public FinishWithBulbsBasicRule() {
-        super("Finish with Bulbs",
+        super("LTUP-BASC-0004", "Finish with Bulbs",
                 "The remaining unknowns around a block must be bulbs to satisfy the number.",
                 "edu/rpi/legup/images/lightup/rules/FinishWithBulbs.png");
     }
@@ -92,7 +92,8 @@ public class FinishWithBulbsBasicRule extends BasicRule {
         }
         if (lightUpBoard.getModifiedData().isEmpty()) {
             return null;
-        } else {
+        }
+        else {
             return lightUpBoard;
         }
     }

@@ -17,13 +17,13 @@ import java.util.List;
 public class CaseRuleAtomic extends CaseRule_Generic {
 
     public CaseRuleAtomic() {
-        super("Atomic",
+        super("STTT-CASE-0002", "Atomic",
                 "Atomic Case",
                 "Each unknown cell must either be true or false");
         System.out.println("Case Rule T/F constructor");
     }
 
-    //Adds all elements that can be selected for this caserule
+    // Adds all elements that can be selected for this case rule
     @Override
     public CaseBoard getCaseBoard(Board board) {
         ShortTruthTableBoard sttBoard = (ShortTruthTableBoard) board.copy();
@@ -65,8 +65,7 @@ public class CaseRuleAtomic extends CaseRule_Generic {
     }
 
     @Override
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement)
-    {
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         return null;
     }
 }

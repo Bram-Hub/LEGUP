@@ -18,11 +18,9 @@ import java.util.List;
 
 public abstract class CaseRule_Generic extends CaseRule {
 
-    public CaseRule_Generic(String ruleName, String title, String description) {
-        super(title, description, "edu/rpi/legup/images/shorttruthtable/ruleimages/case/"+ruleName+".png");
-//        System.out.println("Case Rule Generic constructor");
+    public CaseRule_Generic(String ruleID, String ruleName, String title, String description) {
+        super(ruleID, title, description, "edu/rpi/legup/images/shorttruthtable/ruleimages/case/" + ruleName + ".png");
     }
-
 
 
     /**
@@ -40,8 +38,7 @@ public abstract class CaseRule_Generic extends CaseRule {
 
         TreeTransition case1 = childTransitions.get(0);
         TreeTransition case2 = childTransitions.get(1);
-        if (case1.getBoard().getModifiedData().size() != 1 ||
-                case2.getBoard().getModifiedData().size() != 1) {
+        if (case1.getBoard().getModifiedData().size() != 1 || case2.getBoard().getModifiedData().size() != 1) {
             return "This case rule must have 1 modified cell for each case.";
         }
 
@@ -51,11 +48,12 @@ public abstract class CaseRule_Generic extends CaseRule {
             return "This case rule must modify the same cell for each case.";
         }
 
-        if (!((mod1.getType() == ShortTruthTableCellType.TRUE && mod2.getType() == ShortTruthTableCellType.FALSE) ||
-                (mod2.getType() == ShortTruthTableCellType.FALSE && mod1.getType() == ShortTruthTableCellType.TRUE))) {
+        boolean firstPossibility = mod1.getType() == ShortTruthTableCellType.TRUE && mod2.getType() == ShortTruthTableCellType.FALSE;
+        boolean secondPossibility = mod1.getType() == ShortTruthTableCellType.FALSE && mod2.getType() == ShortTruthTableCellType.TRUE;
+        if (!firstPossibility && !secondPossibility) {
             return "This case rule must an empty true or false cell.";
         }
-      
+
         return null;
     }
 
@@ -70,7 +68,6 @@ public abstract class CaseRule_Generic extends CaseRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-//        System.out.println("checkRuleRawAt case rule");
         return checkRuleRaw(transition);
     }
 }

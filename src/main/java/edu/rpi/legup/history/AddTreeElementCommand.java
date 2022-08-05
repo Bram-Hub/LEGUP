@@ -2,11 +2,10 @@ package edu.rpi.legup.history;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.model.Puzzle;
-import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.tree.*;
-import edu.rpi.legup.ui.treeview.TreeElementView;
-import edu.rpi.legup.ui.treeview.TreeView;
-import edu.rpi.legup.ui.treeview.TreeViewSelection;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeElementView;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,12 +41,14 @@ public class AddTreeElementCommand extends PuzzleCommand {
         for (TreeElementView view : selectedViews) {
             TreeElement treeElement = view.getTreeElement();
             TreeElement child = addChild.get(treeElement);
-            if(child == null) {
+            if (child == null) {
                 child = tree.addTreeElement(treeElement);
-            } else {
+            }
+            else {
                 if (treeElement.getType() == TreeElementType.NODE) {
-                    child = tree.addTreeElement((TreeNode)treeElement, (TreeTransition)child);
-                } else {
+                    child = tree.addTreeElement((TreeNode) treeElement, (TreeTransition) child);
+                }
+                else {
                     child = tree.addTreeElement((TreeTransition) treeElement, (TreeNode) child);
                 }
             }
@@ -75,7 +76,8 @@ public class AddTreeElementCommand extends PuzzleCommand {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         if (selectedViews.isEmpty()) {
             return CommandError.NO_SELECTED_VIEWS.toString();
-        } else {
+        }
+        else {
             for (TreeElementView view : selectedViews) {
                 TreeElement element = view.getTreeElement();
                 if (element.getType() == TreeElementType.TRANSITION) {
@@ -83,11 +85,12 @@ public class AddTreeElementCommand extends PuzzleCommand {
                     if (transition.getChildNode() != null) {
                         return CommandError.ADD_WITH_CHILD.toString();
                     }
-                } else {
-                    TreeNode node = (TreeNode)element;
-                    if(!node.getChildren().isEmpty()) {
+                }
+                else {
+                    TreeNode node = (TreeNode) element;
+                    if (!node.getChildren().isEmpty()) {
                         TreeTransition transition = node.getChildren().get(0);
-                        if(transition.getParents().size() > 1) {
+                        if (transition.getParents().size() > 1) {
                             return CommandError.ADD_TO_MERGE.toString();
                         }
                     }

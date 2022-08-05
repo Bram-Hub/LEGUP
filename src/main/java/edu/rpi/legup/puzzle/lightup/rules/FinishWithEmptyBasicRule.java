@@ -14,7 +14,7 @@ import java.awt.*;
 public class FinishWithEmptyBasicRule extends BasicRule {
 
     public FinishWithEmptyBasicRule() {
-        super("Finish with Empty",
+        super("LTUP-BASC-0005", "Finish with Empty",
                 "The remaining unknowns around a block must be empty if the number is satisfied.",
                 "edu/rpi/legup/images/lightup/rules/FinishWithEmpty.png");
     }
@@ -96,7 +96,8 @@ public class FinishWithEmptyBasicRule extends BasicRule {
         }
         if (lightUpBoard.getModifiedData().isEmpty()) {
             return null;
-        } else {
+        }
+        else {
             return lightUpBoard;
         }
     }

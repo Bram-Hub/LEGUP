@@ -11,7 +11,7 @@ import java.util.List;
 public class NormalSplitCaseRule extends CaseRule {
 
     public NormalSplitCaseRule() {
-        super("Normal Split",
+        super("MASY-CASE-0002", "Normal Split",
                 "",
                 "edu/rpi/legup/images/masyu/CaseNormalSplit.png");
     }

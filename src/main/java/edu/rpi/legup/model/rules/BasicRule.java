@@ -11,12 +11,13 @@ public abstract class BasicRule extends Rule {
     /**
      * BasicRule Constructor creates a new basic rule.
      *
+     * @param ruleID      ID of the rule
      * @param ruleName    name of the rule
      * @param description description of the rule
      * @param imageName   file name of the image
      */
-    public BasicRule(String ruleName, String description, String imageName) {
-        super(ruleName, description, imageName);
+    public BasicRule(String ruleID, String ruleName, String description, String imageName) {
+        super(ruleID, ruleName, description, imageName);
         this.ruleType = BASIC;
     }
 
@@ -31,11 +32,15 @@ public abstract class BasicRule extends Rule {
 
         if (!finalBoard.isModified()) {
             return "State must be modified";
-        } else if (transition.getParents().size() != 1 ||
-                transition.getParents().get(0).getChildren().size() != 1) {
-            return "State must have only 1 parent and 1 child";
-        } else {
-            return checkRuleRaw(transition);
+        }
+        else {
+            if (transition.getParents().size() != 1 ||
+                    transition.getParents().get(0).getChildren().size() != 1) {
+                return "State must have only 1 parent and 1 child";
+            }
+            else {
+                return checkRuleRaw(transition);
+            }
         }
     }
 
@@ -73,11 +78,15 @@ public abstract class BasicRule extends Rule {
         String checkStr;
         if (!puzzleElement.isModified()) {
             checkStr = "PuzzleElement must be modified";
-        } else if (transition.getParents().size() != 1 ||
-                transition.getParents().get(0).getChildren().size() != 1) {
-            checkStr = "State must have only 1 parent and 1 child";
-        } else {
-            checkStr = checkRuleRawAt(transition, puzzleElement);
+        }
+        else {
+            if (transition.getParents().size() != 1 ||
+                    transition.getParents().get(0).getChildren().size() != 1) {
+                checkStr = "State must have only 1 parent and 1 child";
+            }
+            else {
+                checkStr = checkRuleRawAt(transition, puzzleElement);
+            }
         }
         puzzleElement.setValid(checkStr == null);
         return checkStr;

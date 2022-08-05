@@ -15,7 +15,7 @@ import java.util.List;
 public class SurroundTentWithGrassBasicRule extends BasicRule {
 
     public SurroundTentWithGrassBasicRule() {
-        super("Surround Tent with Grass",
+        super("TREE-BASC-0005", "Surround Tent with Grass",
                 "Blank cells adjacent or diagonal to a tent are grass.",
                 "edu/rpi/legup/images/treetent/aroundTent.png");
     }
@@ -44,7 +44,8 @@ public class SurroundTentWithGrassBasicRule extends BasicRule {
 
         if (isForced(initialBoard, initCell)) {
             return null;
-        } else {
+        }
+        else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be tent.";
         }
     }
@@ -73,7 +74,8 @@ public class SurroundTentWithGrassBasicRule extends BasicRule {
         }
         if (treeTentBoard.getModifiedData().isEmpty()) {
             return null;
-        } else {
+        }
+        else {
             return treeTentBoard;
         }
     }

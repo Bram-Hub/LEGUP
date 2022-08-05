@@ -16,7 +16,7 @@ import java.util.List;
 public class FinishWithGrassBasicRule extends BasicRule {
 
     public FinishWithGrassBasicRule() {
-        super("Finish with Grass",
+        super("TREE-BASC-0002", "Finish with Grass",
                 "Grass can be added to finish a row or column that has reached its tent limit.",
                 "edu/rpi/legup/images/treetent/finishGrass.png");
     }
@@ -45,7 +45,8 @@ public class FinishWithGrassBasicRule extends BasicRule {
 
         if (isForced(initialBoard, initCell)) {
             return null;
-        } else {
+        }
+        else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be grass.";
         }
     }
@@ -77,7 +78,8 @@ public class FinishWithGrassBasicRule extends BasicRule {
         }
         if (treeTentBoard.getModifiedData().isEmpty()) {
             return null;
-        } else {
+        }
+        else {
             return treeTentBoard;
         }
     }

@@ -1,5 +1,8 @@
 package edu.rpi.legup.model.gameboard;
 
+import edu.rpi.legup.model.elements.Element;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -40,6 +43,7 @@ public class GridBoard extends Board {
     public GridCell getCell(int x, int y) {
         if (y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
                 y >= dimension.height || x < 0 || y < 0) {
+            System.err.printf("not in bounds, bounds are %dx%d\n", dimension.width, dimension.height);
             return null;
         }
         return (GridCell) puzzleElements.get(y * dimension.width + x);
@@ -60,8 +64,7 @@ public class GridBoard extends Board {
         }
         puzzleElements.set(y * dimension.width + x, cell);
     }
-<<<<<<< Updated upstream
-=======
+
     public void setCell(int x, int y, Element e, MouseEvent m) {
         if (y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
                 y >= dimension.height || x < 0 || y < 0) {
@@ -70,7 +73,6 @@ public class GridBoard extends Board {
         ((NurikabeCell) puzzleElements.get(y * dimension.width + x)).setType(e, m);
         puzzleElements.set(y * dimension.width + x, puzzleElements.get(y * dimension.width + x));
     }
->>>>>>> Stashed changes
 
     /**
      * Gets the width of the board.

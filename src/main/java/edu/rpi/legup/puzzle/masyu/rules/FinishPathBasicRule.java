@@ -9,7 +9,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 public class FinishPathBasicRule extends BasicRule {
 
     public FinishPathBasicRule() {
-        super("Finished Path",
+        super("MASY-BASC-0004", "Finished Path",
                 "",
                 "edu/rpi/legup/images/masyu/RuleFinishPath.png");
     }

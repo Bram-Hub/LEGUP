@@ -11,7 +11,7 @@ import edu.rpi.legup.puzzle.sudoku.SudokuCell;
 public class AdvancedDeductionBasicRule extends BasicRule {
 
     public AdvancedDeductionBasicRule() {
-        super("Advanced Deduction",
+        super("SUDO-BASC-0001", "Advanced Deduction",
                 "Use of group logic deduces more answers by means of forced by Location and forced by Deduction",
                 "edu/rpi/legup/images/sudoku/AdvancedDeduction.png");
     }
@@ -69,8 +69,11 @@ public class AdvancedDeductionBasicRule extends BasicRule {
             for (int x = 0; x < groupDim; x++) {
                 if (possible[y][x] && !isForced) {
                     isForced = true;
-                } else if (possible[y][x]) {
-                    return super.getInvalidUseOfRuleMessage() + ": Not forced";
+                }
+                else {
+                    if (possible[y][x]) {
+                        return super.getInvalidUseOfRuleMessage() + ": Not forced";
+                    }
                 }
             }
         }

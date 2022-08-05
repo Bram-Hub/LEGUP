@@ -14,11 +14,11 @@ import java.util.Set;
 import java.util.Iterator;
 
 
-public class ContradictionRuleAtomic extends ContradictionRule{
+public class ContradictionRuleAtomic extends ContradictionRule {
 
 
-    public ContradictionRuleAtomic(){
-        super("Contradicting Variable",
+    public ContradictionRuleAtomic() {
+        super("STTT-CONT-0002", "Contradicting Variable",
                 "A single variable can not be both True and False",
                 "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/Atomic.png");
     }
@@ -33,13 +33,13 @@ public class ContradictionRuleAtomic extends ContradictionRule{
         //get the cell that contradicts another cell in the board
         ShortTruthTableCell cell = (ShortTruthTableCell) board.getPuzzleElement(puzzleElement);
 
-        if(!cell.isVariable()){
+        if (!cell.isVariable()) {
             System.out.println("  Not Var");
             return "Can not check for contradiction on a non-variable element";
         }
 
         ShortTruthTableCellType cellType = cell.getType();
-        if(!cellType.isTrueOrFalse()){
+        if (!cellType.isTrueOrFalse()) {
             return "Can only check for a contradiction against a cell that is assigned a value of True or False";
         }
 
@@ -48,16 +48,17 @@ public class ContradictionRuleAtomic extends ContradictionRule{
 
         //check if there are any contradictions
         Iterator<ShortTruthTableCell> itr = varCells.iterator();
-        while(itr.hasNext()){
+        while (itr.hasNext()) {
             ShortTruthTableCell checkCell = itr.next();
             ShortTruthTableCellType checkCellType = checkCell.getType();
             //if there is an assigned contradiction, return null
-            if(checkCellType.isTrueOrFalse() && checkCellType!=cellType)
+            if (checkCellType.isTrueOrFalse() && checkCellType != cellType) {
                 return null;
+            }
         }
 
         //if it made it through the while loop, thene there is no contradiction
-        return "There is no contradiction for the variable "+cell.getSymbol();
+        return "There is no contradiction for the variable " + cell.getSymbol();
 
     }
 

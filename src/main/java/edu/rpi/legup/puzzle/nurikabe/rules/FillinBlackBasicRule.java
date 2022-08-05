@@ -13,7 +13,8 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 public class FillinBlackBasicRule extends BasicRule {
 
     public FillinBlackBasicRule() {
-        super("Fill In Black",
+        super("NURI-BASC-0004",
+                "Fill In Black",
                 "If there an unknown region surrounded by black, it must be black.",
                 "edu/rpi/legup/images/nurikabe/rules/FillInBlack.png");
     }
