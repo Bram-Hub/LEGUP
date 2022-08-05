@@ -315,11 +315,12 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         return mBar;
     }
 
-    public void promptPuzzle() {
+    public Object[] promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
-            if (noquit("Opening a new puzzle?")) { // !noquit or noquit?
-                return;
+            if (noquit("Opening a new puzzle?")) // !noquit or noquit?
+            {
+                return new Object[0];
             }
         }
 
@@ -339,6 +340,19 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             puzzleFile = new File(fileName);
         }
 
+        return new Object[]{fileName, puzzleFile};
+    }
+
+    public void loadPuzzle()
+    {
+        Object[] items = promptPuzzle();
+        String fileName = (String) items[0];
+        File puzzleFile = (File) items[1];
+        loadPuzzle(fileName, puzzleFile);
+    }
+
+    public void loadPuzzle(String fileName, File puzzleFile)
+    {
         if (puzzleFile != null && puzzleFile.exists()) {
             try {
                 GameBoardFacade.getInstance().loadPuzzle(fileName);

@@ -52,7 +52,7 @@ public abstract class PuzzleExporter {
             legupElement.appendChild(puzzleElement);
 
             puzzleElement.appendChild(createBoardElement(newDocument));
-            if (!puzzle.getTree().getRootNode().getChildren().isEmpty()) {
+            if (puzzle.getTree() != null && !puzzle.getTree().getRootNode().getChildren().isEmpty()) {
                 puzzleElement.appendChild(createProofElement(newDocument));
             }
 
