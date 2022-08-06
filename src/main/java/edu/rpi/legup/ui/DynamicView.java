@@ -40,39 +40,45 @@ public class DynamicView extends JPanel {
     private static final Font INFO_FONT = MaterialFonts.REGULAR;
     private static final Color INFO_COLOR = MaterialColors.GRAY_900;
 
-    public DynamicView(ScrollView scrollView) {
+    public DynamicView(ScrollView scrollView, int i) {
         this.scrollView = scrollView;
 
         setLayout(new BorderLayout());
 
         add(scrollView, CENTER);
-        add(setUpZoomer(), SOUTH);
+        if (i == 1){
+            add(setUpZoomer1(), SOUTH);
+        }
+        else{
+            add(setUpZoomer2(),SOUTH);
+        }
+
 
     }
 
-    private JPanel setUpZoomer() {
+    private JPanel setUpZoomer1() {
         zoomWrapper = new JPanel();
         try {
             zoomer = new JPanel();
             JButton resizeButton1 = new JButton("Resize puzzle");
-            JButton resizeButton2 = new JButton("Resize treeview");
+            //JButton resizeButton2 = new JButton("Resize treeview");
             resizeButton1.setEnabled(true);
-            resizeButton2.setEnabled(true);
+           // resizeButton2.setEnabled(true);
             resizeButton1.setSize(100,50);
-            resizeButton1.setSize(100,50);
+            //resizeButton2.setSize(100,50);
             JLabel zoomLabel = new JLabel("100%");
             zoomLabel.setFont(MaterialFonts.getRegularFont(16f));
             zoomer.add(resizeButton1);
-            zoomer.add(resizeButton2);
-            resizeButton2.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if(true){
-                        rest_for_treeview();
-                        System.out.println("The lower resize bottom be click");
-                    }
-                }
-            });
+            //zoomer.add(resizeButton2);
+//            resizeButton2.addActionListener(new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    if(true){
+//                        rest_for_treeview();
+//                        System.out.println("The lower resize bottom be click");
+//                    }
+//                }
+//            });
             resizeButton1.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -86,6 +92,114 @@ public class DynamicView extends JPanel {
 
                 }
             });
+            JSlider zoomSlider = new JSlider(25, 400, 100);
+
+            JButton plus = new JButton(new ImageIcon(ImageIO.read(
+                    Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(
+                            "edu/rpi/legup/imgs/add.png")))));
+            plus.setFont(MaterialFonts.getRegularFont(10f));
+            plus.setPreferredSize(new Dimension(20, 20));
+            plus.addActionListener((ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() + 25));
+
+
+            JButton minus = new JButton(new ImageIcon(ImageIO.read(
+                    Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(
+                            "edu/rpi/legup/imgs/remove.png")))));
+            minus.setPreferredSize(new Dimension(20, 20));
+            minus.setFont(MaterialFonts.getRegularFont(10f));
+            minus.addActionListener((ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() - 25));
+            this.scrollView.setWheelScrollingEnabled(true);
+            /*this.scrollView.getViewport().addMouseWheelListener(new MouseAdapter() {
+                public void mouseWheelMoved(MouseWheelEvent e) {
+                    if (e.isControlDown()) {
+                        scrollView.zoom(e.getWheelRotation() * 2, e.getPoint());
+                    } else {
+                        scrollView.zoom(e.getWheelRotation(), e.getPoint());
+                    }
+                    zoomSlider.setValue((int) (scrollView.getScale() * 100));
+                }
+            });*/
+
+            zoomSlider.setPreferredSize(new Dimension(160, 30));
+
+            scrollView.addComponentListener(new ComponentAdapter() {
+                @Override
+                public void componentResized(ComponentEvent e) {
+                    zoomSlider.setValue(scrollView.getZoom());
+                    zoomLabel.setText(zoomSlider.getValue() + "%");
+                }
+            });
+
+            zoomSlider.addChangeListener((ChangeEvent e) -> {
+                scrollView.zoomTo(zoomSlider.getValue() / 100.0);
+                zoomLabel.setText(zoomSlider.getValue() + "%");
+            });
+
+
+            zoomSlider.setMajorTickSpacing(100);
+            zoomSlider.setMinorTickSpacing(25);
+            zoomSlider.setPaintTicks(true);
+
+            Hashtable<Integer, JLabel> labelTable = new Hashtable<>();
+            labelTable.put(0, new JLabel("25%"));
+            labelTable.put(100, new JLabel("100%"));
+            labelTable.put(400, new JLabel("400%"));
+            zoomSlider.setLabelTable(labelTable);
+
+            zoomer.setLayout(new FlowLayout());
+
+            zoomer.add(minus);
+            zoomer.add(zoomSlider);
+            zoomer.add(plus);
+            zoomer.add(zoomLabel);
+
+            status = new JLabel();
+
+            zoomWrapper.setLayout(new BorderLayout());
+            zoomWrapper.add(status, WEST);
+            zoomWrapper.add(zoomer, EAST);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return zoomWrapper;
+    }
+    private JPanel setUpZoomer2() {
+        zoomWrapper = new JPanel();
+        try {
+            zoomer = new JPanel();
+            //JButton resizeButton1 = new JButton("Resize puzzle");
+            JButton resizeButton2 = new JButton("Resize treeview");
+            //resizeButton1.setEnabled(true);
+            resizeButton2.setEnabled(true);
+//            resizeButton1.setSize(100,50);
+            resizeButton2.setSize(100,50);
+            JLabel zoomLabel = new JLabel("100%");
+            zoomLabel.setFont(MaterialFonts.getRegularFont(16f));
+            //zoomer.add(resizeButton1);
+            zoomer.add(resizeButton2);
+            resizeButton2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(true){
+                        rest_for_treeview();
+                        System.out.println("The lower resize bottom be click");
+                    }
+                }
+            });
+//            resizeButton1.addActionListener(new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    //System.out.println("The resize bottom be click");
+//                    if (true){
+//                        reset_for_puzzle();
+//                        System.out.println("The upper resize bottom be click");
+//                    }
+//
+//
+//
+//                }
+//            });
             JSlider zoomSlider = new JSlider(25, 400, 100);
 
             JButton plus = new JButton(new ImageIcon(ImageIO.read(

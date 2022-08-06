@@ -45,7 +45,7 @@ public class TreePanel extends JPanel {
 
         toolbar = new TreeToolbarPanel(this);
 
-        DynamicView dynamicTreeView = new DynamicView(treeView);
+        DynamicView dynamicTreeView = new DynamicView(treeView,2);
         main.add(dynamicTreeView, BorderLayout.CENTER);
         dynamicTreeView.add(toolbar, BorderLayout.WEST);
 

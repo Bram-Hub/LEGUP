@@ -409,7 +409,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         treePanel = new TreePanel();
 
-        dynamicBoardView = new DynamicView(new ScrollView(new BoardController()));
+        dynamicBoardView = new DynamicView(new ScrollView(new BoardController()),1);
         TitledBorder titleBoard = BorderFactory.createTitledBorder("Board");
         titleBoard.setTitleJustification(TitledBorder.CENTER);
         dynamicBoardView.setBorder(titleBoard);
@@ -557,7 +557,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     public void setPuzzleView(Puzzle puzzle) {
         this.boardView = puzzle.getBoardView();
 
-        dynamicBoardView = new DynamicView(boardView);
+        dynamicBoardView = new DynamicView(boardView,1);
         this.topHalfPanel.setRightComponent(dynamicBoardView);
         this.topHalfPanel.setVisible(true);
         String boardType = boardView.getBoard().getClass().getSimpleName();
