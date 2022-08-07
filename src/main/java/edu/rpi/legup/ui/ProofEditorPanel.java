@@ -295,7 +295,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         about.add(helpLegup);
         helpLegup.addActionListener(l -> {
             try {
-                java.awt.Desktop.getDesktop().browse(URI.create("https://github.com/jpoegs/Legup2.0"));
+                java.awt.Desktop.getDesktop().browse(URI.create("https://github.com/Bram-Hub/Legup"));
             }
             catch (IOException e) {
                 LOGGER.error("Can't open web page");

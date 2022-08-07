@@ -9,7 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.net.URI;
+
 public class HomePanel extends LegupPanel {
+    private final static Logger LOGGER = LogManager.getLogger(HomePanel.class.getName());
     private LegupUI legupUI;
     private JFrame frame;
     private JButton[] buttons;
@@ -54,25 +61,20 @@ public class HomePanel extends LegupPanel {
         menuBar.add(settings);
         JMenuItem preferences = new JMenuItem("Preferences");
         preferences.addActionListener(a -> {
+            PreferencesDialog preferencesDialog = new PreferencesDialog(this.frame);
             System.out.println("Preferences clicked");
         });
+        settings.addSeparator();
         settings.add(preferences);
 
-        JMenuItem about = new JMenuItem("About");
-        about.addActionListener(a -> {
-            System.out.println("About clicked");
-        });
-        settings.add(about);
-
-        JMenuItem help = new JMenuItem("Help");
-        about.addActionListener(a -> {
-            System.out.println("Help clicked");
-        });
-        settings.add(help);
-
         JMenuItem contribute = new JMenuItem("Contribute to Legup");
-        contribute.addActionListener(a -> {
-            System.out.println("Contribute to Legup clicked");
+        contribute.addActionListener(l -> {
+            try {
+                java.awt.Desktop.getDesktop().browse(URI.create("https://github.com/Bram-Hub/Legup"));
+            }
+            catch (IOException e) {
+                LOGGER.error("Can't open web page");
+            }
         });
         settings.add(contribute);
 
