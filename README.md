@@ -40,8 +40,14 @@ Legup also provides a single interface that is capable of supporting many differ
 If you are an educator interested in using Legup, go to the [releases page](https://github.com/Bram-Hub/Legup/releases) to download the latest release of Legup. You can have your students download Legup from the same page. Some sample puzzle files can be found in the [puzzle files folder](https://github.com/Bram-Hub/Legup/tree/master/puzzles%20files).
 
 ## For Students
+If you are a student interested in learning the basics of logic, Legup is a great way for you to get started. If your instructor is using Legup in the classroom and you are looking for extra practice, you can reference the sample puzzle files can be found in the [puzzle files folder](https://github.com/Bram-Hub/Legup/tree/master/puzzles%20files) to get more practice.
+
+Additionally, if you are interested in computer science and programming, please consider contributing to Legup! Not only would it a great way to practice logical reasoning, but it is also a great way to dip your toes into open source software and contributing to open source projects. 
 
 ## Documentation
+Documentation is actively being worked on on the [Legup wiki](https://github.com/Bram-Hub/Legup/wiki). 
+
+Documentation is very much in the early stages, and we would greatly appreciate anyone who is willing to help write and structure the documentation. Currently, the priority is to write detailed documentation on how Nurikabe works, as it is the puzzle that is the most developed within Legup.
 
 ## Contributing
 All contributions to Legup will be greatly appreciated. Currently, we need the most help in the following areas:
