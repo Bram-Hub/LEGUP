@@ -79,7 +79,7 @@ public class Config {
     public static String convertDisplayNameToClassName(String displayName) {
         String className = "";
         for (int i = 0; i < displayName.length(); i++)
-            if (displayName.charAt(i) == ' ')
+            if (displayName.charAt(i) != ' ')
                 className += displayName;
         return className;
     }
