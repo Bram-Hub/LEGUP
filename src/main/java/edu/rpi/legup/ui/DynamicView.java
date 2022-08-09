@@ -17,6 +17,11 @@ import java.util.Objects;
 
 import static java.awt.BorderLayout.*;
 
+enum DynamicViewType {
+    BOARD,
+    PROOF_TREE
+}
+
 public class DynamicView extends JPanel {
 
     private ScrollView scrollView;
@@ -30,20 +35,61 @@ public class DynamicView extends JPanel {
     private static final Font INFO_FONT = MaterialFonts.REGULAR;
     private static final Color INFO_COLOR = MaterialColors.GRAY_900;
 
-    public DynamicView(ScrollView scrollView) {
+    public DynamicView(ScrollView scrollView, DynamicViewType type) {
         this.scrollView = scrollView;
 
         setLayout(new BorderLayout());
 
         add(scrollView, CENTER);
-        add(setUpZoomer(), SOUTH);
+        add(setUpZoomer(type), SOUTH);
     }
 
-    private JPanel setUpZoomer() {
+    /**
+     * Sets up the zoomer for the given DynamicViewType
+     * @param type The DynamicView that we are setting up the zoomer for (so
+     *             the zoomer for the board view or the zoomer for the proof
+     *             tree view)
+     * @return A JPanel containing the zoomer
+     */
+    private JPanel setUpZoomer(DynamicViewType type) {
+        if (type == DynamicViewType.BOARD)
+            return setUpBoardZoomer();
+        else if (type == DynamicViewType.PROOF_TREE)
+            return setUpProofTreeZoomer();
+
+        // Should never reach here; if you reach here, that's a problem!
+        return null;
+    }
+
+    /**
+     * Sets up the zoomer for the board view
+     * @return A JPanel containing the zoomer
+     */
+    private JPanel setUpBoardZoomer() {
+        final String label = "Resize Board";
+        return this.setUpZoomerHelper(label);
+    }
+
+    /**
+     * Sets up the zoomer for the proof tree view
+     * @return A JPanel containing the zoomer
+     */
+    private JPanel setUpProofTreeZoomer() {
+        final String label = "Resize Proof";
+        return this.setUpZoomerHelper(label);
+    }
+
+    /**
+     * Creates the zoomer
+     * @param label A string containing the label to be displayed
+     *              on the fit to screen button
+     * @return A JPanel containing the zoomer
+     */
+    private JPanel setUpZoomerHelper(final String label) {
         zoomWrapper = new JPanel();
         try {
             zoomer = new JPanel();
-            JButton resizeButton = new JButton("Resize");
+            JButton resizeButton = new JButton(label);
             resizeButton.setEnabled(true);
             JLabel zoomLabel = new JLabel("100%");
             zoomLabel.setFont(MaterialFonts.getRegularFont(16f));
