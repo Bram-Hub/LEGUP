@@ -17,11 +17,6 @@ import java.util.Objects;
 
 import static java.awt.BorderLayout.*;
 
-enum DynamicViewType {
-    BOARD,
-    PROOF_TREE
-}
-
 public class DynamicView extends JPanel {
 
     private ScrollView scrollView;
