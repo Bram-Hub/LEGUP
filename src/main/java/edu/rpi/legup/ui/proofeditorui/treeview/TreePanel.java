@@ -9,6 +9,7 @@ import edu.rpi.legup.history.MergeCommand;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.ui.DynamicView;
+import edu.rpi.legup.ui.DynamicViewType;
 import edu.rpi.legup.ui.LegupUI;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 
@@ -45,7 +46,7 @@ public class TreePanel extends JPanel {
 
         toolbar = new TreeToolbarPanel(this);
 
-        DynamicView dynamicTreeView = new DynamicView(treeView);
+        DynamicView dynamicTreeView = new DynamicView(treeView, DynamicViewType.PROOF_TREE);
         main.add(dynamicTreeView, BorderLayout.CENTER);
         dynamicTreeView.add(toolbar, BorderLayout.WEST);
 

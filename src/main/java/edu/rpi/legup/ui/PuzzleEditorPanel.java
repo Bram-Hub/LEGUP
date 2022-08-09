@@ -62,7 +62,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         elementFrame = new ElementFrame(editorElementController);
         elementBox.add(elementFrame, BorderLayout.WEST);
 
-        dynamicBoardView = new DynamicView(new ScrollView(new BoardController()));
+        dynamicBoardView = new DynamicView(new ScrollView(new BoardController()), DynamicViewType.BOARD);
         TitledBorder titleBoard = BorderFactory.createTitledBorder("Board");
         titleBoard.setTitleJustification(TitledBorder.CENTER);
         dynamicBoardView.setBorder(titleBoard);
@@ -326,7 +326,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     public void setPuzzleView(Puzzle puzzle) {
         this.boardView = puzzle.getBoardView();
         editorElementController.setElementController(boardView.getElementController());
-        dynamicBoardView = new DynamicView(boardView);
+        dynamicBoardView = new DynamicView(boardView, DynamicViewType.BOARD);
         if (this.splitPanel != null) {
             this.splitPanel.setRightComponent(dynamicBoardView);
             this.splitPanel.setVisible(true);

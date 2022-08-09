@@ -1,5 +1,6 @@
 package edu.rpi.legup.ui;
 
+import edu.rpi.legup.app.Config;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.CursorController;
 
@@ -105,12 +106,12 @@ public class CreatePuzzleDialog extends JDialog {
     public void initPuzzles() {
         this.games = GameBoardFacade.getInstance().getConfig().getFileCreationEnabledPuzzles().toArray(new String[0]);
         Arrays.sort(this.games);
-        gameBox = new JComboBox(games);
+        gameBox = new JComboBox(GameBoardFacade.getInstance().getConfig().getFileCreationEnabledPuzzleNames().toArray(new String[0]));
     }
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == ok) {
-            String game = (String) gameBox.getSelectedItem();
+            String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
             try {
                 this.homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(this.rows.getText()), Integer.valueOf(this.columns.getText()));
                 setVisible(false);
@@ -124,10 +125,5 @@ public class CreatePuzzleDialog extends JDialog {
                 setVisible(false);
             }
         }
-    }
-
-    private boolean isValidDimensions() {
-        // Needs to be implemented
-        return false;
     }
 }
