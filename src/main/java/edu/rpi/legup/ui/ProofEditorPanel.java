@@ -844,7 +844,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         // TODO: implement
     }
 
-    private void fitTreeViewToScreen() {
+    protected void fitTreeViewToScreen() {
         this.treePanel.getTreeView().zoomFit();
     }
 }

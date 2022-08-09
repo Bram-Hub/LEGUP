@@ -62,7 +62,8 @@ public class DynamicView extends JPanel {
      */
     private JPanel setUpBoardZoomer() {
         final String label = "Resize Board";
-        return this.setUpZoomerHelper(label);
+        ActionListener listener = (ActionListener) -> this.fitBoardViewToScreen();
+        return this.setUpZoomerHelper(label, listener);
     }
 
     /**
@@ -71,22 +72,29 @@ public class DynamicView extends JPanel {
      */
     private JPanel setUpProofTreeZoomer() {
         final String label = "Resize Proof";
-        return this.setUpZoomerHelper(label);
+        ActionListener listener = (ActionListener) -> GameBoardFacade.getInstance().getLegupUI().getProofEditor().fitTreeViewToScreen();
+        return this.setUpZoomerHelper(label, listener);
     }
 
     /**
      * Creates the zoomer
      * @param label A string containing the label to be displayed
      *              on the fit to screen button
+     * @param listener A listener that determines what the resize
+     *                 button will do
      * @return A JPanel containing the zoomer
      */
-    private JPanel setUpZoomerHelper(final String label) {
+    private JPanel setUpZoomerHelper(final String label, ActionListener listener) {
         zoomWrapper = new JPanel();
         try {
             zoomer = new JPanel();
-            
+
+            // Create and add the resize button to the zoomer
             JButton resizeButton = new JButton(label);
             resizeButton.setEnabled(true);
+            resizeButton.setSize(100, 50);
+            resizeButton.addActionListener(listener);
+            zoomer.add(resizeButton);
 
             JLabel zoomLabel = new JLabel("100%");
             zoomLabel.setFont(MaterialFonts.getRegularFont(16f));
