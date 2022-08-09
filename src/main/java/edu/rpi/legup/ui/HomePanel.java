@@ -11,7 +11,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
+
 public class HomePanel extends LegupPanel {
+    private final static Logger LOGGER = LogManager.getLogger(HomePanel.class.getName());
     private LegupUI legupUI;
     private JFrame frame;
     private JButton[] buttons;
@@ -60,25 +68,20 @@ public class HomePanel extends LegupPanel {
         menuBar.add(settings);
         JMenuItem preferences = new JMenuItem("Preferences");
         preferences.addActionListener(a -> {
+            PreferencesDialog preferencesDialog = new PreferencesDialog(this.frame);
             System.out.println("Preferences clicked");
         });
+        settings.addSeparator();
         settings.add(preferences);
 
-        JMenuItem about = new JMenuItem("About");
-        about.addActionListener(a -> {
-            System.out.println("About clicked");
-        });
-        settings.add(about);
-
-        JMenuItem help = new JMenuItem("Help");
-        about.addActionListener(a -> {
-            System.out.println("Help clicked");
-        });
-        settings.add(help);
-
         JMenuItem contribute = new JMenuItem("Contribute to Legup");
-        contribute.addActionListener(a -> {
-            System.out.println("Contribute to Legup clicked");
+        contribute.addActionListener(l -> {
+            try {
+                java.awt.Desktop.getDesktop().browse(URI.create("https://github.com/Bram-Hub/Legup"));
+            }
+            catch (IOException e) {
+                LOGGER.error("Can't open web page");
+            }
         });
         settings.add(contribute);
 
@@ -107,7 +110,8 @@ public class HomePanel extends LegupPanel {
             }
         };
 
-        ImageIcon button0Icon = new ImageIcon("src/main/resources/edu/rpi/legup/images/Legup/homepanel/proof_file.png");
+        URL button0IconLocation = ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/homepanel/proof_file.png");
+        ImageIcon button0Icon = new ImageIcon(button0IconLocation);
         this.buttons[0].setIcon(resizeButtonIcon(button0Icon, this.buttonSize, this.buttonSize));
         this.buttons[0].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[0].setVerticalTextPosition(AbstractButton.BOTTOM);
@@ -119,7 +123,8 @@ public class HomePanel extends LegupPanel {
                 setMaximumSize(getSize());
             }
         };
-        ImageIcon button1Icon = new ImageIcon("src/main/resources/edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.png");
+        URL button1IconLocation = ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.png");
+        ImageIcon button1Icon = new ImageIcon(button1IconLocation);
         this.buttons[1].setIcon(resizeButtonIcon(button1Icon, this.buttonSize, this.buttonSize));
         this.buttons[1].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[1].setVerticalTextPosition(AbstractButton.BOTTOM);
@@ -131,7 +136,8 @@ public class HomePanel extends LegupPanel {
                 setMaximumSize(getSize());
             }
         };
-        ImageIcon button2Icon = new ImageIcon("src/main/resources/edu/rpi/legup/images/Legup/homepanel/puzzle_file.png");
+        URL button2IconLocation = ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/homepanel/puzzle_file.png");
+        ImageIcon button2Icon = new ImageIcon(button2IconLocation);
         this.buttons[2].setIcon(resizeButtonIcon(button2Icon, this.buttonSize, this.buttonSize));
         this.buttons[2].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[2].setVerticalTextPosition(AbstractButton.BOTTOM);
@@ -141,30 +147,33 @@ public class HomePanel extends LegupPanel {
             //this.buttons[i].setPreferredSize(new Dimension(100, 100));
             this.buttons[i].setBounds(200, 200, 700, 700);
         }
-
         this.buttons[3] = new JButton("Batch Grader");
         this.buttons[3].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[3].setVerticalTextPosition(AbstractButton.BOTTOM);
     }
 
     private void initText() {
-        this.text = new JLabel[3];
+        // Note: until an auto-changing version label is implemented in the future, I removed
+        // the version text from the home screen to avoid confusion
+
+        // this.text = new JLabel[3];
+        this.text = new JLabel[2];
 
         JLabel welcome = new JLabel("Welcome to Legup");
         welcome.setFont(new Font("Roboto", Font.BOLD, 23));
         welcome.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel version = new JLabel("Version 3.0.0"); // This should be autochanged in the future
-        version.setFont(new Font("Roboto", Font.ITALIC, 10));
-        version.setAlignmentX(Component.CENTER_ALIGNMENT);
-
         JLabel credits = new JLabel("A project by Dr. Bram van Heuveln");
         credits.setFont(new Font("Roboto", Font.PLAIN, 12));
         credits.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        JLabel version = new JLabel("Version 3.0.0"); // This should be autochanged in the future
+        version.setFont(new Font("Roboto", Font.ITALIC, 10));
+        version.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         this.text[0] = welcome;
-        this.text[1] = version;
-        this.text[2] = credits;
+        this.text[1] = credits;
+        // this.text[2] = version;
     }
 
     private void render() {
