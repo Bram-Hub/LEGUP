@@ -30,31 +30,75 @@ public class DynamicView extends JPanel {
     private static final Font INFO_FONT = MaterialFonts.REGULAR;
     private static final Color INFO_COLOR = MaterialColors.GRAY_900;
 
-    public DynamicView(ScrollView scrollView) {
+    public DynamicView(ScrollView scrollView, DynamicViewType type) {
         this.scrollView = scrollView;
 
         setLayout(new BorderLayout());
 
         add(scrollView, CENTER);
-        add(setUpZoomer(), SOUTH);
+        add(setUpZoomer(type), SOUTH);
     }
 
-    private JPanel setUpZoomer() {
+    /**
+     * Sets up the zoomer for the given DynamicViewType
+     * @param type The DynamicView that we are setting up the zoomer for (so
+     *             the zoomer for the board view or the zoomer for the proof
+     *             tree view)
+     * @return A JPanel containing the zoomer
+     */
+    private JPanel setUpZoomer(DynamicViewType type) {
+        if (type == DynamicViewType.BOARD)
+            return setUpBoardZoomer();
+        else if (type == DynamicViewType.PROOF_TREE)
+            return setUpProofTreeZoomer();
+
+        // Should never reach here; if you reach here, that's a problem!
+        return null;
+    }
+
+    /**
+     * Sets up the zoomer for the board view
+     * @return A JPanel containing the zoomer
+     */
+    private JPanel setUpBoardZoomer() {
+        final String label = "Resize Board";
+        ActionListener listener = (ActionListener) -> this.fitBoardViewToScreen();
+        return this.setUpZoomerHelper(label, listener);
+    }
+
+    /**
+     * Sets up the zoomer for the proof tree view
+     * @return A JPanel containing the zoomer
+     */
+    private JPanel setUpProofTreeZoomer() {
+        final String label = "Resize Proof";
+        ActionListener listener = (ActionListener) -> GameBoardFacade.getInstance().getLegupUI().getProofEditor().fitTreeViewToScreen();
+        return this.setUpZoomerHelper(label, listener);
+    }
+
+    /**
+     * Creates the zoomer
+     * @param label A string containing the label to be displayed
+     *              on the fit to screen button
+     * @param listener A listener that determines what the resize
+     *                 button will do
+     * @return A JPanel containing the zoomer
+     */
+    private JPanel setUpZoomerHelper(final String label, ActionListener listener) {
         zoomWrapper = new JPanel();
         try {
             zoomer = new JPanel();
-            JButton resizeButton = new JButton("Resize");
+
+            // Create and add the resize button to the zoomer
+            JButton resizeButton = new JButton(label);
             resizeButton.setEnabled(true);
+            resizeButton.setSize(100, 50);
+            resizeButton.addActionListener(listener);
+            zoomer.add(resizeButton);
+
             JLabel zoomLabel = new JLabel("100%");
             zoomLabel.setFont(MaterialFonts.getRegularFont(16f));
-            zoomer.add(resizeButton);
-            resizeButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // System.out.println("The resize bottom be click");
-                    reset();
-                }
-            });
+
             JSlider zoomSlider = new JSlider(25, 400, 100);
 
             JButton plus = new JButton(new ImageIcon(ImageIO.read(
@@ -72,16 +116,6 @@ public class DynamicView extends JPanel {
             minus.setFont(MaterialFonts.getRegularFont(10f));
             minus.addActionListener((ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() - 25));
             this.scrollView.setWheelScrollingEnabled(true);
-            /*this.scrollView.getViewport().addMouseWheelListener(new MouseAdapter() {
-                public void mouseWheelMoved(MouseWheelEvent e) {
-                    if (e.isControlDown()) {
-                        scrollView.zoom(e.getWheelRotation() * 2, e.getPoint());
-                    } else {
-                        scrollView.zoom(e.getWheelRotation(), e.getPoint());
-                    }
-                    zoomSlider.setValue((int) (scrollView.getScale() * 100));
-                }
-            });*/
 
             zoomSlider.setPreferredSize(new Dimension(160, 30));
 
@@ -163,10 +197,9 @@ public class DynamicView extends JPanel {
         board1.setModifiable(true);
         Dimension bi = new Dimension(1200, 900);
         this.getScrollView().zoomFit();
-//        System.out.println("get into the reset"+UIhight+"    "+this.getHeight()+"   "+this.getWidth());
-//        this.getScrollView().zoomTo(UIhight);
-        // System.out.println("Finish into the reset");
+    }
 
-
+    protected void fitBoardViewToScreen() {
+        scrollView.zoomFit();
     }
 }

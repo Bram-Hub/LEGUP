@@ -40,7 +40,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private TitledBorder boardBorder;
     //private JSplitPane splitPanel, topHalfPanel;
     private FileDialog fileDialog;
-    private JMenuItem undo, redo;
+    private JMenuItem undo, redo, fitBoardToScreen;
     private ElementFrame elementFrame;
     private JPanel treePanel;
     private LegupUI legupUI;
@@ -62,7 +62,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         elementFrame = new ElementFrame(editorElementController);
         elementBox.add(elementFrame, BorderLayout.WEST);
 
-        dynamicBoardView = new DynamicView(new ScrollView(new BoardController()));
+        dynamicBoardView = new DynamicView(new ScrollView(new BoardController()), DynamicViewType.BOARD);
         TitledBorder titleBoard = BorderFactory.createTitledBorder("Board");
         titleBoard.setTitleJustification(TitledBorder.CENTER);
         dynamicBoardView.setBorder(titleBoard);
@@ -123,9 +123,30 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         undo = new JMenuItem("Undo");
         // edit>redo
         redo = new JMenuItem("Redo");
+        fitBoardToScreen = new JMenuItem("Fit Board to Screen");
 
         menus[1].add(undo);
+        undo.addActionListener((ActionEvent) ->
+                GameBoardFacade.getInstance().getHistory().undo());
+        if (os.equals("mac")) {
+            undo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        }
+        else {
+            undo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK));
+        }
+
         menus[1].add(redo);
+        redo.addActionListener((ActionEvent) ->
+                GameBoardFacade.getInstance().getHistory().redo());
+        if (os.equals("mac")) {
+            redo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK));
+        }
+        else {
+            redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
+        }
+
+        menus[1].add(fitBoardToScreen);
+        fitBoardToScreen.addActionListener((ActionEvent) -> dynamicBoardView.fitBoardViewToScreen());
 
         // HELP
         menus[2] = new JMenu("Help");
@@ -305,7 +326,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     public void setPuzzleView(Puzzle puzzle) {
         this.boardView = puzzle.getBoardView();
         editorElementController.setElementController(boardView.getElementController());
-        dynamicBoardView = new DynamicView(boardView);
+        dynamicBoardView = new DynamicView(boardView, DynamicViewType.BOARD);
         if (this.splitPanel != null) {
             this.splitPanel.setRightComponent(dynamicBoardView);
             this.splitPanel.setVisible(true);
