@@ -5,8 +5,6 @@ import edu.rpi.legup.controller.CursorController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -56,10 +54,6 @@ public class HomePanel extends LegupPanel {
         setLayout(new GridLayout(1, 2));
         initText();
         initButtons();
-    }
-
-    public void setMinimumSizeButItActuallyWorks(Dimension d){
-        this.frame.setPreferredSize(d);
     }
 
     public JMenuBar getMenuBar() {

@@ -84,7 +84,7 @@ public class DynamicView extends JPanel {
         zoomWrapper = new JPanel();
         try {
             zoomer = new JPanel();
-
+            
             JButton resizeButton = new JButton(label);
             resizeButton.setEnabled(true);
 
