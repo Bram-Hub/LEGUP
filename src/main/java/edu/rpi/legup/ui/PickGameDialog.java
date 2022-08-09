@@ -115,7 +115,7 @@ public class PickGameDialog extends JDialog implements ActionListener {
     }
 
     public void initPuzzles() {
-        Object[] o = GameBoardFacade.getInstance().getConfig().getPuzzleNames().toArray();
+        Object[] o = GameBoardFacade.getInstance().getConfig().getPuzzleClassNames().toArray();
 
         games = new String[o.length];
 
