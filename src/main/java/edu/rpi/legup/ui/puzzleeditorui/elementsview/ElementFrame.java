@@ -16,7 +16,6 @@ public class ElementFrame extends JPanel {
     private PlaceableElementPanel placeableElementPanel;
     private NonPlaceableElementPanel nonPlaceableElementPanel;
     private JTabbedPane tabbedPane;
-    private JLabel status;
     private ButtonGroup buttonGroup;
 
     private EditorElementController controller;
@@ -25,14 +24,14 @@ public class ElementFrame extends JPanel {
         this.controller = controller;
 
         this.tabbedPane = new JTabbedPane();
-        this.status = new JLabel("", SwingConstants.CENTER);
+        JLabel status = new JLabel("", SwingConstants.CENTER);
         this.buttonGroup = new ButtonGroup();
-
-        placeableElementPanel = new PlaceableElementPanel(this);
-        tabbedPane.addTab(placeableElementPanel.getName(), placeableElementPanel.getIcon(), new JScrollPane(placeableElementPanel), placeableElementPanel.getToolTip());
 
         nonPlaceableElementPanel = new NonPlaceableElementPanel(this);
         tabbedPane.addTab(nonPlaceableElementPanel.getName(), nonPlaceableElementPanel.getIcon(), new JScrollPane(nonPlaceableElementPanel), nonPlaceableElementPanel.getToolTip());
+
+        placeableElementPanel = new PlaceableElementPanel(this);
+        tabbedPane.addTab(placeableElementPanel.getName(), placeableElementPanel.getIcon(), new JScrollPane(placeableElementPanel), placeableElementPanel.getToolTip());
 
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(250, 256));
@@ -56,8 +55,9 @@ public class ElementFrame extends JPanel {
     }
 
     public void setElements(Puzzle puzzle) {
-        placeableElementPanel.setElements(puzzle.getPlaceableElements());
         nonPlaceableElementPanel.setElements(puzzle.getNonPlaceableElements());
+        placeableElementPanel.setElements(puzzle.getPlaceableElements());
+
     }
 
     public EditorElementController getController() {

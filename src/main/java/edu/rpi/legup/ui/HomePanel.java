@@ -1,11 +1,17 @@
 package edu.rpi.legup.ui;
 
 import edu.rpi.legup.app.GameBoardFacade;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import edu.rpi.legup.controller.CursorController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -19,6 +25,28 @@ public class HomePanel extends LegupPanel {
     private JMenuBar menuBar;
 
     private final int buttonSize = 100;
+
+    private ActionListener openProofListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Object[] items = legupUI.getProofEditor().promptPuzzle();
+            String fileName = (String) items[0];
+            File puzzleFile = (File) items[1];
+            legupUI.displayPanel(1);
+            legupUI.getProofEditor().loadPuzzle(fileName, puzzleFile);
+        }
+    };
+
+    private ActionListener openPuzzleListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Object[] items = legupUI.getPuzzleEditor().promptPuzzle();
+            String fileName = (String) items[0];
+            File puzzleFile = (File) items[1];
+            legupUI.displayPanel(2);
+            legupUI.getPuzzleEditor().loadPuzzle(fileName, puzzleFile);
+        }
+    };
 
     public HomePanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
         this.legupUI = legupUI;
@@ -81,7 +109,7 @@ public class HomePanel extends LegupPanel {
         this.buttons[0].setIcon(resizeButtonIcon(button0Icon, this.buttonSize, this.buttonSize));
         this.buttons[0].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[0].setVerticalTextPosition(AbstractButton.BOTTOM);
-        this.buttons[0].addActionListener(l -> this.legupUI.displayPanel(1));
+        this.buttons[0].addActionListener(CursorController.createListener(this, openProofListener));
 
         this.buttons[1] = new JButton("New Puzzle") {
             {
@@ -107,7 +135,7 @@ public class HomePanel extends LegupPanel {
         this.buttons[2].setIcon(resizeButtonIcon(button2Icon, this.buttonSize, this.buttonSize));
         this.buttons[2].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[2].setVerticalTextPosition(AbstractButton.BOTTOM);
-        this.buttons[2].addActionListener(l -> this.legupUI.displayPanel(2)); // PLACEHOLDER
+        this.buttons[2].addActionListener(CursorController.createListener(this, openPuzzleListener)); // PLACEHOLDER
 
         for (int i = 0; i < this.buttons.length - 1; i++) { // -1 to avoid the batch grader button
             //this.buttons[i].setPreferredSize(new Dimension(100, 100));
