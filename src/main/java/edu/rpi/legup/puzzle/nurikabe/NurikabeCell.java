@@ -44,6 +44,7 @@ public class NurikabeCell extends GridCell<Integer> {
      *
      * @param e element to set the type of this nurikabe cell to
      */
+    @Override
     public void setType(Element e, MouseEvent m) {
         if (e.getElementName().equals("Black Tile")) {
             this.data = -1;
