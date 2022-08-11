@@ -25,11 +25,9 @@ Legup (**L**ogic **E**ngine for **G**rid-**U**sing **P**uzzles) is a better way 
 ## Background
 Dr. van Heuveln has taught logic courses on a frequent basis for the past 15 years, and noted that a good number of students struggle with the systems of modern formal logic that were developed in the late 1800's and early 1900's, and that have been universally used in logic courses since. These traditional systems use abstract linear symbol strings such as `(P & Q) -> (R v S)`, and deploy even more abstract rules such as & Elim to infer new symbol strings from old ones, thus engaging the user in logical reasoning. 
 
-This project brings about the idea that there are more pedagogically effective ways for students to learn the basic and
-important principles of logical reasoning.
+This project brings about the idea that there are more pedagogically effective ways for students to learn the basic and important principles of logical reasoning. 
 
-Legup uses a more visual representation in a more concrete and engaging environment. These and other features of the
-Legup interface are suspected to have several advantages over more traditional interfaces in terms of learning logic.
+Legup uses a more visual representation in a more concrete and engaging environment. These and other features of the Legup interface are suspected to have several advantages over more traditional interfaces in terms of learning logic.
 
 ## Use Cases
 The Legup interface allows the user to solve different types of grid-based logical puzzles. Probably the best known example of such a puzzle is the popular Sudoku puzzle, but there are many other types of puzzles that are based on the principle of filling in cells of a square or rectangular grid with different kinds of objects. In all cases, the user is provided certain clues that will force a unique configuration of objects in the grid. These types of puzzles are often advertised as "logic puzzles," and are claimed to train one's logical mind as, using deduction, users should be able to infer which object goes where.
