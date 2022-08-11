@@ -29,17 +29,23 @@ public class TreeTentCell extends GridCell<Integer> {
 
     @Override
     public void setType(Element e, MouseEvent m) {
-        if(e.getElementName().equals("Unknown Tile")) {
+        if (e.getElementName().equals("Unknown Tile")) {
             this.data = 0;
         }
-        else if(e.getElementName().equals("Tree Tile")) {
-            this.data = 1;
-        }
-        else if(e.getElementName().equals("Grass Tile")) {
-            this.data = 2;
-        }
-        else if(e.getElementName().equals("Tent Tile")) {
-            this.data = 3;
+        else {
+            if (e.getElementName().equals("Tree Tile")) {
+                this.data = 1;
+            }
+            else {
+                if (e.getElementName().equals("Grass Tile")) {
+                    this.data = 2;
+                }
+                else {
+                    if (e.getElementName().equals("Tent Tile")) {
+                        this.data = 3;
+                    }
+                }
+            }
         }
     }
 

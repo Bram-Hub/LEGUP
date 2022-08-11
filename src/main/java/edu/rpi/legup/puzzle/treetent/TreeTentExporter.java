@@ -13,7 +13,7 @@ public class TreeTentExporter extends PuzzleExporter {
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
         TreeTentBoard board;
-        if(puzzle.getTree() != null) {
+        if (puzzle.getTree() != null) {
             board = (TreeTentBoard) puzzle.getTree().getRootNode().getBoard();
         }
         else {

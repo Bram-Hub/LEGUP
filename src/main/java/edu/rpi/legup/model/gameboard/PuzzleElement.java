@@ -52,7 +52,9 @@ public abstract class PuzzleElement<T> {
         this.data = data;
     }
 
-    public void setType(Element e, MouseEvent m) { return; }
+    public void setType(Element e, MouseEvent m) {
+        return;
+    }
 
     /**
      * Gets whether this puzzle element is modifiable.

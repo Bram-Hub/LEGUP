@@ -73,11 +73,13 @@ public class TreeTentBoard extends GridBoard {
     }
 
     public TreeTentClue getClue(int x, int y) {
-        if(x == getWidth() && 0 <= y && y < getHeight()) {
+        if (x == getWidth() && 0 <= y && y < getHeight()) {
             return rowClues.get(y);
         }
-        else if(y == getHeight() && 0 <= x && x < getWidth()) {
-            return colClues.get(x);
+        else {
+            if (y == getHeight() && 0 <= x && x < getWidth()) {
+                return colClues.get(x);
+            }
         }
         return null;
     }
