@@ -97,7 +97,7 @@ public class HomePanel extends LegupPanel {
     private void initButtons() {
         this.buttons = new JButton[4];
 
-        this.buttons[0] = new JButton("Open Proof") {
+        this.buttons[0] = new JButton("Solve Puzzle") {
             {
                 setSize(buttonSize, buttonSize);
                 setMaximumSize(getSize());
@@ -111,7 +111,7 @@ public class HomePanel extends LegupPanel {
         this.buttons[0].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[0].addActionListener(CursorController.createListener(this, openProofListener));
 
-        this.buttons[1] = new JButton("New Puzzle") {
+        this.buttons[1] = new JButton("Create Puzzle") {
             {
                 setSize(buttonSize, buttonSize);
                 setMaximumSize(getSize());

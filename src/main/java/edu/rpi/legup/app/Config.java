@@ -81,7 +81,7 @@ public class Config {
         String className = "";
         for (int i = 0; i < displayName.length(); i++) {
             if (displayName.charAt(i) != ' ') {
-                className += displayName;
+                className += displayName.charAt(i);
             }
         }
         return className;

@@ -72,6 +72,18 @@ public class TreeTentBoard extends GridBoard {
         }
     }
 
+    public TreeTentClue getClue(int x, int y) {
+        if (x == getWidth() && 0 <= y && y < getHeight()) {
+            return rowClues.get(y);
+        }
+        else {
+            if (y == getHeight() && 0 <= x && x < getWidth()) {
+                return colClues.get(x);
+            }
+        }
+        return null;
+    }
+
     /**
      * Called when a {@link PuzzleElement} has been added and passes in the equivalent puzzle element with the data.
      *

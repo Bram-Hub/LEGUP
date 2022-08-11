@@ -1,5 +1,6 @@
 package edu.rpi.legup.controller;
 
+import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.ui.ScrollView;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
@@ -131,18 +132,20 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                 }
             }
         }
-        if (selectedElement != null) {
-            GridBoard b = (GridBoard) this.boardView.getBoard();
-            Point point = e.getPoint();
-            Point scaledPoint = new Point((int) Math.floor(point.x / (30 * this.boardView.getScale())), (int) Math.floor(point.y / (30 * this.boardView.getScale())));
-            System.out.printf("selected Element is NOT null, attempting to change board at (%d, %d)\n", scaledPoint.x, scaledPoint.y);
-            System.out.println("Before: " + b.getCell(scaledPoint.x, scaledPoint.y).getData());
-            b.setCell(scaledPoint.x, scaledPoint.y, this.selectedElement, e);
-            System.out.println("After: " + b.getCell(scaledPoint.x, scaledPoint.y).getData());
+//        if (selectedElement != null) {
+        GridBoard b = (GridBoard) this.boardView.getBoard();
+        Point point = e.getPoint();
+        Point scaledPoint = new Point((int) Math.floor(point.x / (30 * this.boardView.getScale())), (int) Math.floor(point.y / (30 * this.boardView.getScale())));
+        if (this.boardView.getBoard() instanceof TreeTentBoard) {
+            scaledPoint.setLocation(scaledPoint.getX() - 1, scaledPoint.getY() - 1);
         }
-        else {
-            System.out.println("selected Element is null!");
-        }
+        System.out.printf("selected Element is NOT null, attempting to change board at (%d, %d)\n", scaledPoint.x, scaledPoint.y);
+//            System.out.println("Before: " + b.getCell(scaledPoint.x, scaledPoint.y).getData());
+        b.setCell(scaledPoint.x, scaledPoint.y, this.selectedElement, e);
+//            System.out.println("After: " + b.getCell(scaledPoint.x, scaledPoint.y).getData());
+//        } else {
+//            System.out.println("selected Element is null!");
+//        }
         boardView.repaint();
     }
 
