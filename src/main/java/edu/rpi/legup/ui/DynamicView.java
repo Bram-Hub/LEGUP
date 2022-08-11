@@ -41,16 +41,21 @@ public class DynamicView extends JPanel {
 
     /**
      * Sets up the zoomer for the given DynamicViewType
+     *
      * @param type The DynamicView that we are setting up the zoomer for (so
      *             the zoomer for the board view or the zoomer for the proof
      *             tree view)
      * @return A JPanel containing the zoomer
      */
     private JPanel setUpZoomer(DynamicViewType type) {
-        if (type == DynamicViewType.BOARD)
+        if (type == DynamicViewType.BOARD) {
             return setUpBoardZoomer();
-        else if (type == DynamicViewType.PROOF_TREE)
-            return setUpProofTreeZoomer();
+        }
+        else {
+            if (type == DynamicViewType.PROOF_TREE) {
+                return setUpProofTreeZoomer();
+            }
+        }
 
         // Should never reach here; if you reach here, that's a problem!
         return null;
@@ -58,6 +63,7 @@ public class DynamicView extends JPanel {
 
     /**
      * Sets up the zoomer for the board view
+     *
      * @return A JPanel containing the zoomer
      */
     private JPanel setUpBoardZoomer() {
@@ -68,6 +74,7 @@ public class DynamicView extends JPanel {
 
     /**
      * Sets up the zoomer for the proof tree view
+     *
      * @return A JPanel containing the zoomer
      */
     private JPanel setUpProofTreeZoomer() {
@@ -78,8 +85,9 @@ public class DynamicView extends JPanel {
 
     /**
      * Creates the zoomer
-     * @param label A string containing the label to be displayed
-     *              on the fit to screen button
+     *
+     * @param label    A string containing the label to be displayed
+     *                 on the fit to screen button
      * @param listener A listener that determines what the resize
      *                 button will do
      * @return A JPanel containing the zoomer

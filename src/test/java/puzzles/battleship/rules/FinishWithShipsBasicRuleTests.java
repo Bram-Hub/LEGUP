@@ -26,7 +26,7 @@ public class FinishWithShipsBasicRuleTests {
     public void HorizontalValidTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/battleship/rules" +
                         "/FinishWithShipsBasicRuleTests/HorizontalValidBoard",
-                        battleship);
+                battleship);
         TreeNode rootNode = battleship.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -38,7 +38,7 @@ public class FinishWithShipsBasicRuleTests {
     public void VerticaValidTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/battleship/rules" +
                         "/FinishWithShipsBasicRuleTests/VerticalValidBoard",
-                        battleship);
+                battleship);
         TreeNode rootNode = battleship.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -50,7 +50,7 @@ public class FinishWithShipsBasicRuleTests {
     public void HorizontalInvalidTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/battleship/rules" +
                         "/FinishWithShipsBasicRuleTests/HorizontalInvalidBoard",
-                        battleship);
+                battleship);
         TreeNode rootNode = battleship.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -62,7 +62,7 @@ public class FinishWithShipsBasicRuleTests {
     public void VerticalInvalidTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/battleship/rules" +
                         "/FinishWithShipsBasicRuleTests/VerticalInvalidBoard",
-                        battleship);
+                battleship);
         TreeNode rootNode = battleship.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);

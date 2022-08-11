@@ -45,6 +45,7 @@ public class Config {
     /**
      * Returns a list of the names of the puzzles which can have puzzles created and edited
      * within the proof editor.
+     *
      * @return the aforementioned list of Strings
      */
     public List<String> getFileCreationEnabledPuzzles() {
@@ -67,10 +68,10 @@ public class Config {
      */
     public static String convertClassNameToDisplayName(String className) {
         String displayName = "";
-        for (int i = 0; i < className.length(); i++)
-        {
-            if (Character.isUpperCase(className.charAt(i)) && i != 0)
+        for (int i = 0; i < className.length(); i++) {
+            if (Character.isUpperCase(className.charAt(i)) && i != 0) {
                 displayName += " ";
+            }
             displayName += className.charAt(i);
         }
         return displayName;
@@ -78,23 +79,27 @@ public class Config {
 
     public static String convertDisplayNameToClassName(String displayName) {
         String className = "";
-        for (int i = 0; i < displayName.length(); i++)
-            if (displayName.charAt(i) != ' ')
+        for (int i = 0; i < displayName.length(); i++) {
+            if (displayName.charAt(i) != ' ') {
                 className += displayName;
+            }
+        }
         return className;
     }
 
     public List<String> getPuzzleNames() {
         List<String> names = new LinkedList<String>();
-        for (String puzzle : this.getPuzzleClassNames())
+        for (String puzzle : this.getPuzzleClassNames()) {
             names.add(Config.convertClassNameToDisplayName(puzzle));
+        }
         return names;
     }
 
     public List<String> getFileCreationEnabledPuzzleNames() {
         List<String> names = new LinkedList<String>();
-        for (String puzzle : this.getFileCreationEnabledPuzzles())
+        for (String puzzle : this.getFileCreationEnabledPuzzles()) {
             names.add(Config.convertClassNameToDisplayName(puzzle));
+        }
         return names;
     }
 
