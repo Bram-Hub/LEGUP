@@ -2,6 +2,8 @@ package edu.rpi.legup.model.gameboard;
 
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
+import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
+import edu.rpi.legup.puzzle.treetent.TreeTentClue;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -66,12 +68,27 @@ public class GridBoard extends Board {
     }
 
     public void setCell(int x, int y, Element e, MouseEvent m) {
-        if (y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
+        if(this instanceof TreeTentBoard && ((y == dimension.height && 0 <= x && x < dimension.width) || (x == dimension.width && 0 <= y && y < dimension.height))) {
+            TreeTentBoard treeTentBoard = ((TreeTentBoard) this);
+            TreeTentClue clue = treeTentBoard.getClue(x, y);
+            if(y == dimension.height && clue.getData() < dimension.width) {
+                clue.setData(clue.getData() + 1);
+            }
+            else if(x == dimension.width && clue.getData() < dimension.height) {
+                clue.setData(clue.getData() + 1);
+            }
+            else {
+                clue.setData(0);
+            }
+        }
+        else if (e != null && y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
                 y >= dimension.height || x < 0 || y < 0) {
             return;
         }
-        ((NurikabeCell) puzzleElements.get(y * dimension.width + x)).setType(e, m);
-        puzzleElements.set(y * dimension.width + x, puzzleElements.get(y * dimension.width + x));
+        else if(e != null){
+            puzzleElements.get(y * dimension.width + x).setType(e, m);
+        }
+//        puzzleElements.set(y * dimension.width + x, puzzleElements.get(y * dimension.width + x));
     }
 
     /**

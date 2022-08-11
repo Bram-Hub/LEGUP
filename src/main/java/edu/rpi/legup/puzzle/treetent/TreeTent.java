@@ -23,6 +23,7 @@ public class TreeTent extends Puzzle {
     public void initializeView() {
         TreeTentBoard board = (TreeTentBoard) currentBoard;
         boardView = new TreeTentView((TreeTentBoard) currentBoard);
+        boardView.setBoard(board);
     }
 
     /**

@@ -28,7 +28,7 @@ public class CreatePuzzleDialog extends JDialog {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            String game = (String) gameBox.getSelectedItem();
+            String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
             try {
                 homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(rows.getText()), Integer.valueOf(columns.getText()));
                 setVisible(false);

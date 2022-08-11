@@ -1,5 +1,9 @@
 package edu.rpi.legup.model.gameboard;
 
+import edu.rpi.legup.model.elements.Element;
+
+import java.awt.event.MouseEvent;
+
 public abstract class PuzzleElement<T> {
     protected int index;
     protected T data;
@@ -47,6 +51,8 @@ public abstract class PuzzleElement<T> {
     public void setData(T data) {
         this.data = data;
     }
+
+    public void setType(Element e, MouseEvent m) { return; }
 
     /**
      * Gets whether this puzzle element is modifiable.
