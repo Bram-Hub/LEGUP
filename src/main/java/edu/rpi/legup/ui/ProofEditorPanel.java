@@ -270,9 +270,12 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 GameBoardFacade.getInstance().getHistory().undo());
         if (os.equals("mac")) {
             undo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+            undo.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
         else {
             undo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK));
+            undo.setAccelerator(KeyStroke.getKeyStroke('Y',InputEvent.CTRL_DOWN_MASK));
+
         }
 
         edit.add(redo);
@@ -280,8 +283,12 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 GameBoardFacade.getInstance().getHistory().redo());
         if (os.equals("mac")) {
             redo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK));
+            redo.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK));
+
         }
         else {
+            redo.setAccelerator(KeyStroke.getKeyStroke('Y', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
+
             redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
         }
 
