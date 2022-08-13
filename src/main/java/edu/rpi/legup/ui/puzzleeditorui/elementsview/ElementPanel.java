@@ -22,16 +22,18 @@ public abstract class ElementPanel extends JPanel {
         this.elements = new ArrayList<>();
         setLayout(new WrapLayout());
     }
+
     public void setElements(List<? extends Element> elements) {
         this.elements = elements;
         clearButtons();
 
         elementButtons = new ElementButton[elements.size()];
-
+        System.out.println("adding " + elements.size() + " elements to panel");
         for (int i = 0; i < elements.size(); i++) {
             Element element = elements.get(i);
             elementButtons[i] = new ElementButton(element);
             elementFrame.getButtonGroup().add(elementButtons[i]);
+            System.out.printf("added button: %d, element %s\n", i, element.getElementName());
 
             elementButtons[i].setToolTipText(element.getElementName() + ": " + element.getDescription());
             elementButtons[i].addActionListener(elementFrame.getController());

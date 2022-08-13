@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class MaterialToolTipUI extends BasicToolTipUI {
 
-    public static ComponentUI createUI(JComponent c){
+    public static ComponentUI createUI(JComponent c) {
         return new MaterialToolTipUI();
     }
 

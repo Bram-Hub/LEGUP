@@ -25,13 +25,23 @@ import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class EditorElementController implements ActionListener {
     protected Object lastSource;
+    protected ElementController elementController;
 
     public EditorElementController() {
         super();
+        elementController = null;
+    }
+
+    public void setElementController(ElementController elementController) {
+        this.elementController = elementController;
     }
 
     public void buttonPressed(Element element) {
         // TODO: implement what happens when element is pressed
+        System.out.printf("%s button pressed!\n", element.getElementName());
+        if (elementController != null) {
+            elementController.setSelectedElement(element);
+        }
     }
 
     @Override

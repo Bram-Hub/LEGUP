@@ -1,12 +1,15 @@
 package edu.rpi.legup.ui;
 
 import edu.rpi.legup.app.GameBoardFacade;
+import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.EditorElementController;
 import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.model.Puzzle;
+import edu.rpi.legup.model.PuzzleExporter;
+import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.puzzleeditorui.elementsview.ElementFrame;
@@ -37,10 +40,11 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private TitledBorder boardBorder;
     //private JSplitPane splitPanel, topHalfPanel;
     private FileDialog fileDialog;
-    private JMenuItem undo, redo;
+    private JMenuItem undo, redo, fitBoardToScreen;
     private ElementFrame elementFrame;
     private JPanel treePanel;
     private LegupUI legupUI;
+    private EditorElementController editorElementController;
     final static int[] TOOLBAR_SEPARATOR_BEFORE = {2, 4, 8};
 
     public PuzzleEditorPanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
@@ -54,11 +58,11 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         JSplitPane splitPanel;
         JPanel elementBox = new JPanel(new BorderLayout());
 
-        EditorElementController elementController = new EditorElementController();
-        elementFrame = new ElementFrame(elementController);
+        editorElementController = new EditorElementController();
+        elementFrame = new ElementFrame(editorElementController);
         elementBox.add(elementFrame, BorderLayout.WEST);
 
-        dynamicBoardView = new DynamicView(new ScrollView(new BoardController()));
+        dynamicBoardView = new DynamicView(new ScrollView(new BoardController()), DynamicViewType.BOARD);
         TitledBorder titleBoard = BorderFactory.createTitledBorder("Board");
         titleBoard.setTitleJustification(TitledBorder.CENTER);
         dynamicBoardView.setBorder(titleBoard);
@@ -74,7 +78,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         elementBox.add(boardPanel);
         this.add(elementBox);
 
-        splitPanel.setDividerLocation(splitPanel.getMaximumDividerLocation()+100);
+        splitPanel.setDividerLocation(splitPanel.getMaximumDividerLocation() + 100);
         this.splitPanel = splitPanel;
         revalidate();
     }
@@ -88,19 +92,27 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         // FILE
         menus[0] = new JMenu("File");
+
         // file>new
         JMenuItem newPuzzle = new JMenuItem("New");
         newPuzzle.addActionListener((ActionEvent) -> promptPuzzle());
-        if(os.equals("mac")) newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        else newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
+        if (os.equals("mac")) {
+            newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        }
+        else {
+            newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
+        }
         // file>save
         JMenuItem savePuzzle = new JMenuItem("Save");
+        savePuzzle.addActionListener((ActionEvent) -> savePuzzle());
         JMenuItem exit = new JMenuItem("Exit");
         exit.addActionListener((ActionEvent) -> this.legupUI.displayPanel(0));
-        if (os.equals("mac"))
+        if (os.equals("mac")) {
             exit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        else
+        }
+        else {
             exit.setAccelerator(KeyStroke.getKeyStroke('Q', InputEvent.CTRL_DOWN_MASK));
+        }
         menus[0].add(newPuzzle);
         menus[0].add(savePuzzle);
         menus[0].add(exit);
@@ -111,9 +123,30 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         undo = new JMenuItem("Undo");
         // edit>redo
         redo = new JMenuItem("Redo");
+        fitBoardToScreen = new JMenuItem("Fit Board to Screen");
 
         menus[1].add(undo);
+        undo.addActionListener((ActionEvent) ->
+                GameBoardFacade.getInstance().getHistory().undo());
+        if (os.equals("mac")) {
+            undo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        }
+        else {
+            undo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK));
+        }
+
         menus[1].add(redo);
+        redo.addActionListener((ActionEvent) ->
+                GameBoardFacade.getInstance().getHistory().redo());
+        if (os.equals("mac")) {
+            redo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK));
+        }
+        else {
+            redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
+        }
+
+        menus[1].add(fitBoardToScreen);
+        fitBoardToScreen.addActionListener((ActionEvent) -> dynamicBoardView.fitBoardViewToScreen());
 
         // HELP
         menus[2] = new JMenu("Help");
@@ -139,7 +172,13 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         for (int i = 0; i < ToolbarName.values().length; i++) {
             String toolBarName = ToolbarName.values()[i].toString();
             URL resourceLocation = ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/" + toolBarName + ".png");
-            JButton button = new JButton(toolBarName, new ImageIcon(resourceLocation));
+
+            // Scale the image icons down to make the buttons smaller
+            ImageIcon imageIcon = new ImageIcon(resourceLocation);
+            Image image = imageIcon.getImage();
+            imageIcon = new ImageIcon(image.getScaledInstance(this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE, Image.SCALE_SMOOTH));
+
+            JButton button = new JButton(toolBarName, imageIcon);
             button.setFocusPainted(false);
             getToolBarButtons()[i] = button;
         }
@@ -182,28 +221,31 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         this.add(toolBar, BorderLayout.NORTH);
     }
+
     public void loadPuzzleFromHome(String game, int rows, int columns) throws IllegalArgumentException {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         try {
             facade.loadPuzzle(game, rows, columns);
         }
-        catch (IllegalArgumentException exception)
-        {
+        catch (IllegalArgumentException exception) {
             throw new IllegalArgumentException(exception.getMessage());
         }
-        catch (RuntimeException e){
+        catch (RuntimeException e) {
+            e.printStackTrace();
             LOGGER.error(e.getMessage());
         }
     }
-    public void promptPuzzle() {
+
+    public Object[] promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
-            if (noQuit("Opening a new puzzle to edit?")) // !noquit or noquit?
-            {
-                return;
+            if (noQuit("Opening a new puzzle to edit?")) {
+                return new Object[0];
             }
         }
-
+        if (fileDialog == null) {
+            fileDialog = new FileDialog(this.frame);
+        }
         fileDialog.setMode(FileDialog.LOAD);
         fileDialog.setTitle("Select Puzzle");
         fileDialog.setVisible(true);
@@ -214,16 +256,29 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             puzzleFile = new File(fileName);
         }
 
+        return new Object[]{fileName, puzzleFile};
+    }
+
+    public void loadPuzzle() {
+        Object[] items = promptPuzzle();
+        String fileName = (String) items[0];
+        File puzzleFile = (File) items[1];
+        loadPuzzle(fileName, puzzleFile);
+    }
+
+    public void loadPuzzle(String fileName, File puzzleFile) {
         if (puzzleFile != null && puzzleFile.exists()) {
             try {
-                GameBoardFacade.getInstance().loadPuzzle(fileName);
+                GameBoardFacade.getInstance().loadPuzzleEditor(fileName);
                 String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
                 frame.setTitle(puzzleName + " - " + puzzleFile.getName());
-            } catch (InvalidFileFormatException e) {
+            }
+            catch (InvalidFileFormatException e) {
                 LOGGER.error(e.getMessage());
             }
         }
     }
+
     public boolean noQuit(String instr) {
         int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
         return n != JOptionPane.YES_OPTION;
@@ -249,9 +304,14 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     }
 
+    public BoardView getBoardView() {
+        return boardView;
+    }
+
     public JButton[] getToolBarButtons() {
         return toolBarButtons;
     }
+
     public void setToolBarButtons(JButton[] toolBarButtons) {
         this.toolBarButtons = toolBarButtons;
     }
@@ -262,22 +322,73 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     public void setPuzzleView(Puzzle puzzle) {
         this.boardView = puzzle.getBoardView();
-        dynamicBoardView = new DynamicView(boardView);
-
-        this.splitPanel.setRightComponent(dynamicBoardView);
-        this.splitPanel.setVisible(true);
+        editorElementController.setElementController(boardView.getElementController());
+        dynamicBoardView = new DynamicView(boardView, DynamicViewType.BOARD);
+        if (this.splitPanel != null) {
+            this.splitPanel.setRightComponent(dynamicBoardView);
+            this.splitPanel.setVisible(true);
+        }
 
         TitledBorder titleBoard = BorderFactory.createTitledBorder(boardView.getClass().getSimpleName());
         titleBoard.setTitleJustification(TitledBorder.CENTER);
         dynamicBoardView.setBorder(titleBoard);
 
         puzzle.addBoardListener(puzzle.getBoardView());
-
-        elementFrame.getNonPlaceableElementPanel().setElements(puzzle.getNonPlaceableElements());
-        elementFrame.getPlaceableElementPanel().setElements(puzzle.getPlaceableElements());
+        System.out.println("Setting elements");
+        if (this.elementFrame != null) {
+            elementFrame.setElements(puzzle);
+        }
 
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
 //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
+    }
+
+    /**
+     * Saves a puzzle
+     */
+    private void savePuzzle() {
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+        if (puzzle == null) {
+            return;
+        }
+
+        if (fileDialog == null) {
+            fileDialog = new FileDialog(this.frame);
+        }
+
+        fileDialog.setMode(FileDialog.SAVE);
+        fileDialog.setTitle("Save Proof");
+        String curFileName = GameBoardFacade.getInstance().getCurFileName();
+        if (curFileName == null) {
+            fileDialog.setDirectory(LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY));
+        }
+        else {
+            File curFile = new File(curFileName);
+            fileDialog.setDirectory(curFile.getParent());
+        }
+        fileDialog.setVisible(true);
+
+        String fileName = null;
+        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
+            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
+        }
+
+        if (fileName != null) {
+            try {
+                PuzzleExporter exporter = puzzle.getExporter();
+                if (exporter == null) {
+                    throw new ExportFileException("Puzzle exporter null");
+                }
+                exporter.exportPuzzle(fileName);
+            }
+            catch (ExportFileException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public DynamicView getDynamicBoardView() {
+        return dynamicBoardView;
     }
 
 }

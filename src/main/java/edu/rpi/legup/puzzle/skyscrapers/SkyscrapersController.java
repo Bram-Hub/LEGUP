@@ -56,10 +56,12 @@ public class SkyscrapersController extends ElementController {
                         autoCaseRuleCommand.execute();
                         getInstance().getHistory().pushChange(autoCaseRuleCommand);
                         treePanel.updateError("");
-                    } else {
+                    }
+                    else {
                         treePanel.updateError(autoCaseRuleCommand.getError());
                     }
-                } else {
+                }
+                else {
                     if (dragStart == lastCellPressed) {
                         if (dragStart.getPuzzleElement().getIndex() >= 0) {
                             ICommand edit = new EditDataCommand(lastCellPressed, selection, e);
@@ -67,16 +69,19 @@ public class SkyscrapersController extends ElementController {
                                 edit.execute();
                                 getInstance().getHistory().pushChange(edit);
                                 treePanel.updateError("");
-                            } else {
+                            }
+                            else {
                                 treePanel.updateError(edit.getError());
                             }
-                        } else {
+                        }
+                        else {
                             ClueCommand edit = new ClueCommand(selection, (SkyscrapersClueView) dragStart);
                             if (edit.canExecute()) {
                                 edit.execute();
                                 getInstance().getHistory().pushChange(edit);
                                 treePanel.updateError("");
-                            } else {
+                            }
+                            else {
                                 treePanel.updateError(edit.getError());
                             }
                         }
@@ -100,18 +105,23 @@ public class SkyscrapersController extends ElementController {
 
     @Override
     public void changeCell(MouseEvent e, PuzzleElement element) {
-    	SkyscrapersCell cell = (SkyscrapersCell) element;
+        SkyscrapersCell cell = (SkyscrapersCell) element;
         if (e.getButton() == MouseEvent.BUTTON1) {
-        	if (cell.getData() < cell.getMax()) {
-                cell.setData(cell.getData()+1);
-            } else {
+            if (cell.getData() < cell.getMax()) {
+                cell.setData(cell.getData() + 1);
+            }
+            else {
                 cell.setData(0);
             }
-        } else if (e.getButton() == MouseEvent.BUTTON3) {
-        	if (cell.getData() > 0) {
-                cell.setData(cell.getData()-1);
-            } else {
-                cell.setData(cell.getMax());
+        }
+        else {
+            if (e.getButton() == MouseEvent.BUTTON3) {
+                if (cell.getData() > 0) {
+                    cell.setData(cell.getData() - 1);
+                }
+                else {
+                    cell.setData(cell.getMax());
+                }
             }
         }
     }

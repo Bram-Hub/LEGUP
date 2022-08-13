@@ -16,7 +16,7 @@ public class SkyscrapersLineView extends ElementView {
     @Override
     public void draw(Graphics2D graphics2D) {
 
-    	SkyscrapersLine line = (SkyscrapersLine) puzzleElement;
+        SkyscrapersLine line = (SkyscrapersLine) puzzleElement;
         Point p1 = line.getC1().getLocation();
         Point p2 = line.getC2().getLocation();
         int x1 = (p1.x + 1) * size.width + size.width / 2;

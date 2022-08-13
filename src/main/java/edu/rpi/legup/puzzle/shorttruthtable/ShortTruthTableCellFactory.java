@@ -36,14 +36,16 @@ public class ShortTruthTableCellFactory extends ElementFactory {
             String cellType = attributeList.getNamedItem("type").getNodeValue();
 
             //modify the appropriet cell
-            ShortTruthTableCell cell = (ShortTruthTableCell) sttBoard.getCell(charIndex, rowIndex*2);
+            ShortTruthTableCell cell = (ShortTruthTableCell) sttBoard.getCell(charIndex, rowIndex * 2);
             cell.setData(ShortTruthTableCellType.valueOf(cellType));
 
             return cell;
 
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             throw new InvalidFileFormatException("nurikabe Factory: unknown value where integer expected");
-        } catch (NullPointerException e) {
+        }
+        catch (NullPointerException e) {
             throw new InvalidFileFormatException("nurikabe Factory: could not find attribute(s)");
         }
 
@@ -52,8 +54,8 @@ public class ShortTruthTableCellFactory extends ElementFactory {
     /**
      * Creates a xml document puzzleElement from a cell for exporting
      *
-     * @param document xml document
-     * @param puzzleElement     PuzzleElement cell
+     * @param document      xml document
+     * @param puzzleElement PuzzleElement cell
      * @return xml PuzzleElement
      */
     public org.w3c.dom.Element exportCell(Document document, PuzzleElement puzzleElement) {
@@ -61,7 +63,7 @@ public class ShortTruthTableCellFactory extends ElementFactory {
         ShortTruthTableCell cell = (ShortTruthTableCell) puzzleElement;
 
         org.w3c.dom.Element cellElement = document.createElement("cell");
-        cellElement.setAttribute("row_index",  String.valueOf(cell.getY()/2));
+        cellElement.setAttribute("row_index", String.valueOf(cell.getY() / 2));
         cellElement.setAttribute("char_index", String.valueOf(cell.getX()));
         cellElement.setAttribute("type", String.valueOf(cell.getType()));
 

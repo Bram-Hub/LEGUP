@@ -75,7 +75,8 @@ public class EmptyCornersBasicRule extends BasicRule {
         }
         if (createsContra) {
             return null;
-        } else {
+        }
+        else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty";
         }
     }
@@ -99,13 +100,15 @@ public class EmptyCornersBasicRule extends BasicRule {
                 LightUpCell modCell = (LightUpCell) lightUpBoard.getPuzzleElement(cell);
                 modCell.setData(LightUpCellType.EMPTY.value);
                 lightUpBoard.addModifiedData(modCell);
-            } else {
+            }
+            else {
                 cell.setData(temp);
             }
         }
         if (lightUpBoard.getModifiedData().isEmpty()) {
             return null;
-        } else {
+        }
+        else {
             return lightUpBoard;
         }
     }

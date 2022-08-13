@@ -45,7 +45,8 @@ public class FinishWithTentsBasicRule extends BasicRule {
 
         if (isForced(initialBoard, initCell)) {
             return null;
-        } else {
+        }
+        else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be tent.";
         }
     }
@@ -79,7 +80,8 @@ public class FinishWithTentsBasicRule extends BasicRule {
         }
         if (treeTentBoard.getModifiedData().isEmpty()) {
             return null;
-        } else {
+        }
+        else {
             return treeTentBoard;
         }
     }

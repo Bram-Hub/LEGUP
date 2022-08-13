@@ -4,6 +4,7 @@ import edu.rpi.legup.controller.RuleController;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.rules.Rule;
+import edu.rpi.legup.ui.lookandfeel.components.MaterialTabbedPaneUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -34,9 +35,19 @@ public class RuleFrame extends JPanel {
     private RuleController controller;
 
     public RuleFrame(RuleController controller) {
+
+        MaterialTabbedPaneUI tabOverride = new MaterialTabbedPaneUI() {
+            //this prevents the tabs from moving around when you select them
+            @Override
+            protected boolean shouldRotateTabRuns(int i) {
+                return false;
+            }
+        };
+
         this.controller = controller;
 
         this.tabbedPane = new JTabbedPane();
+        this.tabbedPane.setUI(tabOverride);
         this.status = new JLabel();
         this.buttonGroup = new ButtonGroup();
 

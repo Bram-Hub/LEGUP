@@ -79,7 +79,7 @@ public class LegupPreferences {
     /**
      * Gets the user preference by the string key, value pair
      *
-     * @param key key name of the preference
+     * @param key   key name of the preference
      * @param value value of the preference
      */
     public void setUserPref(String key, String value) {
@@ -88,12 +88,16 @@ public class LegupPreferences {
     }
 
     public boolean getUserPrefAsBool(String key) {
-        if(preferencesMap.get(key).equalsIgnoreCase(Boolean.toString(true))) {
+        if (preferencesMap.get(key).equalsIgnoreCase(Boolean.toString(true))) {
             return true;
-        } else if (preferencesMap.get(key).equalsIgnoreCase(Boolean.toString(false))) {
-            return false;
-        } else {
-            throw new RuntimeException("Cannot get user preference - " + key);
+        }
+        else {
+            if (preferencesMap.get(key).equalsIgnoreCase(Boolean.toString(false))) {
+                return false;
+            }
+            else {
+                throw new RuntimeException("Cannot get user preference - " + key);
+            }
         }
     }
 }

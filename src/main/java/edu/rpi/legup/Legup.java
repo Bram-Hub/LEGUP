@@ -1,5 +1,6 @@
 package edu.rpi.legup;
 
+import edu.rpi.legup.app.Config;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.utility.Logger;
 
@@ -15,6 +16,4 @@ public class Legup {
         GameBoardFacade.getInstance();
         GameBoardFacade.setupConfig();
     }
-
-
 }

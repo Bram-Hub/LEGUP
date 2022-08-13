@@ -38,19 +38,70 @@ public class Config {
      *
      * @return Vector of Puzzle names which are Strings
      */
-    public List<String> getPuzzleNames() {
-        return new ArrayList<>(puzzles.keySet());
+    public List<String> getPuzzleClassNames() {
+        return new LinkedList<>(puzzles.keySet());
     }
 
-    public List<String> getFileCreationEnabledPuzzles()
-    {
+    /**
+     * Returns a list of the names of the puzzles which can have puzzles created and edited
+     * within the proof editor.
+     *
+     * @return the aforementioned list of Strings
+     */
+    public List<String> getFileCreationEnabledPuzzles() {
         LinkedList<String> puzzles = new LinkedList<String>();
-        for (String puzzle : this.puzzles.keySet())
-            if (!this.fileCreationDisabledStatuses.get(puzzle))
+        for (String puzzle : this.getPuzzleClassNames()) {
+            if (!this.fileCreationDisabledStatuses.get(puzzle)) {
                 puzzles.add(puzzle);
+            }
+        }
         return puzzles;
     }
 
+    /**
+     * Converts the class name of the puzzles to their display names. Some examples of the conversion:
+     * convertClassNameToDisplayName("TreeTent") will return "Tree Tent"
+     * convertClassNameToDisplayName("Nurikabe") will return "Nurikabe"
+     *
+     * @param className the name of the class
+     * @return
+     */
+    public static String convertClassNameToDisplayName(String className) {
+        String displayName = "";
+        for (int i = 0; i < className.length(); i++) {
+            if (Character.isUpperCase(className.charAt(i)) && i != 0) {
+                displayName += " ";
+            }
+            displayName += className.charAt(i);
+        }
+        return displayName;
+    }
+
+    public static String convertDisplayNameToClassName(String displayName) {
+        String className = "";
+        for (int i = 0; i < displayName.length(); i++) {
+            if (displayName.charAt(i) != ' ') {
+                className += displayName.charAt(i);
+            }
+        }
+        return className;
+    }
+
+    public List<String> getPuzzleNames() {
+        List<String> names = new LinkedList<String>();
+        for (String puzzle : this.getPuzzleClassNames()) {
+            names.add(Config.convertClassNameToDisplayName(puzzle));
+        }
+        return names;
+    }
+
+    public List<String> getFileCreationEnabledPuzzleNames() {
+        List<String> names = new LinkedList<String>();
+        for (String puzzle : this.getFileCreationEnabledPuzzles()) {
+            names.add(Config.convertClassNameToDisplayName(puzzle));
+        }
+        return names;
+    }
 
     /**
      * Gets a {@link edu.rpi.legup.model.Puzzle} class for a puzzle name
@@ -90,12 +141,13 @@ public class Config {
                 String name = puzzle.getAttribute("name");
                 String className = puzzle.getAttribute("qualifiedClassName");
                 boolean status = Boolean.parseBoolean(puzzle.getAttribute("fileCreationDisabled").toLowerCase());
-                Logger.debug("Class Name: "+className);
+                Logger.debug("Class Name: " + className);
                 this.puzzles.put(name, className);
                 this.fileCreationDisabledStatuses.put(name, Boolean.valueOf(status));
             }
 
-        } catch (ParserConfigurationException | SAXException | IOException e) {
+        }
+        catch (ParserConfigurationException | SAXException | IOException e) {
             throw new InvalidConfigException(e.getMessage());
         }
     }

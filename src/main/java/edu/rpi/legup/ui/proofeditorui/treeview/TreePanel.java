@@ -9,6 +9,7 @@ import edu.rpi.legup.history.MergeCommand;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.ui.DynamicView;
+import edu.rpi.legup.ui.DynamicViewType;
 import edu.rpi.legup.ui.LegupUI;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 
@@ -28,7 +29,7 @@ public class TreePanel extends JPanel {
     private JPanel main;
     private TreeView treeView;
     private TreeToolbarPanel toolbar;
-    private LegupUI legupUI;
+    // private LegupUI legupUI;
 
     private JLabel status;
 
@@ -45,7 +46,7 @@ public class TreePanel extends JPanel {
 
         toolbar = new TreeToolbarPanel(this);
 
-        DynamicView dynamicTreeView = new DynamicView(treeView);
+        DynamicView dynamicTreeView = new DynamicView(treeView, DynamicViewType.PROOF_TREE);
         main.add(dynamicTreeView, BorderLayout.CENTER);
         dynamicTreeView.add(toolbar, BorderLayout.WEST);
 
@@ -105,7 +106,8 @@ public class TreePanel extends JPanel {
         if (add.canExecute()) {
             add.execute();
             GameBoardFacade.getInstance().getHistory().pushChange(add);
-        } else {
+        }
+        else {
             updateError(add.getError());
         }
     }
@@ -117,7 +119,8 @@ public class TreePanel extends JPanel {
         if (del.canExecute()) {
             del.execute();
             GameBoardFacade.getInstance().getHistory().pushChange(del);
-        } else {
+        }
+        else {
             updateError(del.getError());
         }
     }
@@ -129,7 +132,8 @@ public class TreePanel extends JPanel {
         if (merge.canExecute()) {
             merge.execute();
             GameBoardFacade.getInstance().getHistory().pushChange(merge);
-        } else {
+        }
+        else {
             updateError(merge.getError());
         }
     }

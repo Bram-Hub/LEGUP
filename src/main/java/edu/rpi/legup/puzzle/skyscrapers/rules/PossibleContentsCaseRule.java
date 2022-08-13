@@ -24,7 +24,7 @@ public class PossibleContentsCaseRule extends CaseRule {
 
     @Override
     public CaseBoard getCaseBoard(Board board) {
-    	SkyscrapersBoard lightUpBoard = (SkyscrapersBoard) board.copy();
+        SkyscrapersBoard lightUpBoard = (SkyscrapersBoard) board.copy();
         lightUpBoard.setModifiable(false);
         CaseBoard caseBoard = new CaseBoard(lightUpBoard, this);
         for (PuzzleElement data : lightUpBoard.getPuzzleElements()) {
@@ -45,32 +45,32 @@ public class PossibleContentsCaseRule extends CaseRule {
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
-        
+
         SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
         SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board;
         Point loc = cell.getLocation();
-        
+
         Set<Integer> candidates = new HashSet<Integer>();
         for (int i = 1; i <= skyscrapersboard.getWidth(); i++) {
-        	candidates.add(i);
+            candidates.add(i);
         }
-        
+
         for (int i = 0; i < skyscrapersboard.getWidth(); i++) {
-        	SkyscrapersCell c = skyscrapersboard.getCell(i, loc.y);
+            SkyscrapersCell c = skyscrapersboard.getCell(i, loc.y);
             if (c.getType() == SkyscrapersType.Number) {
                 candidates.remove(c.getData());
             }
         }
         for (int i = 0; i < skyscrapersboard.getHeight(); i++) {
-        	SkyscrapersCell c = skyscrapersboard.getCell(loc.x, i);
-        	if (c.getType() == SkyscrapersType.Number) {
+            SkyscrapersCell c = skyscrapersboard.getCell(loc.x, i);
+            if (c.getType() == SkyscrapersType.Number) {
                 candidates.remove(c.getData());
             }
         }
-        
+
         Iterator<Integer> it = candidates.iterator();
         while (it.hasNext()) {
-        	Board case1 = board.copy();
+            Board case1 = board.copy();
             PuzzleElement data = case1.getPuzzleElement(puzzleElement);
             data.setData(it.next());
             case1.addModifiedData(data);
@@ -90,28 +90,28 @@ public class PossibleContentsCaseRule extends CaseRule {
     public String checkRuleRaw(TreeTransition transition) {
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
         if (childTransitions.size() == 0) {
-        	//System.out.println("0");
+            //System.out.println("0");
             return "This case rule must have at least one child.";
         }
-        
-        
+
+
         //TreeTransition case1 = childTransitions.get(0);
         //TreeTransition case2 = childTransitions.get(1);
         TreeTransition case1 = childTransitions.get(0);
         SkyscrapersCell mod1 = (SkyscrapersCell) case1.getBoard().getModifiedData().iterator().next();
         for (int i = 0; i < childTransitions.size(); i++) {
-        	TreeTransition case2 = childTransitions.get(i);
-        	if (case2.getBoard().getModifiedData().size() != 1) {
-        		//System.out.println("1");
+            TreeTransition case2 = childTransitions.get(i);
+            if (case2.getBoard().getModifiedData().size() != 1) {
+                //System.out.println("1");
                 return super.getInvalidUseOfRuleMessage() + ": This case rule must have 1 modified cell for each case.";
             }
-        	SkyscrapersCell mod2 = (SkyscrapersCell) case2.getBoard().getModifiedData().iterator().next();
+            SkyscrapersCell mod2 = (SkyscrapersCell) case2.getBoard().getModifiedData().iterator().next();
             if (!mod1.getLocation().equals(mod2.getLocation())) {
-            	//System.out.println("2");
+                //System.out.println("2");
                 return super.getInvalidUseOfRuleMessage() + ": This case rule must modify the same cell for each case.";
             }
             if (!(mod2.getType() == SkyscrapersType.Number)) {
-            	//System.out.println("3");
+                //System.out.println("3");
                 return super.getInvalidUseOfRuleMessage() + ": This case rule must assign a number.";
             }
         }

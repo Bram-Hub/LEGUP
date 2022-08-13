@@ -7,11 +7,14 @@ version '2.0.0'
 
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: 'checkstyle'
 mainClassName = 'edu.rpi.legup.Legup'
 
 sourceCompatibility = 1.8
 
 dependencies {
+    implementation 'org.jetbrains:annotations:20.1.0'
+    implementation 'org.jetbrains:annotations:20.1.0'
     compile project(':legup-update')
     compile 'com.google.firebase:firebase-admin:6.3.0'
     compile 'org.apache.httpcomponents:httpclient:4.5.1'

@@ -36,18 +36,14 @@ public class NoTreeForTentContradictionRule extends ContradictionRule {
         }
         List<TreeTentCell> adjTrees = treeTentBoard.getAdjacent(cell, TreeTentType.TREE);
         List<TreeTentLine> lines = treeTentBoard.getLines();
-        for(TreeTentLine l : lines)
-        {
+        for (TreeTentLine l : lines) {
             Iterator<TreeTentCell> i = adjTrees.iterator();
-            while(i.hasNext())
-            {
+            while (i.hasNext()) {
                 TreeTentCell t = i.next();
-                if (t.getLocation().equals(l.getC1().getLocation()) && !(cell.getLocation().equals(l.getC2().getLocation())))
-                {
+                if (t.getLocation().equals(l.getC1().getLocation()) && !(cell.getLocation().equals(l.getC2().getLocation()))) {
                     i.remove();
                 }
-                if (t.getLocation().equals(l.getC2().getLocation()) && !(cell.getLocation().equals(l.getC2().getLocation())))
-                {
+                if (t.getLocation().equals(l.getC2().getLocation()) && !(cell.getLocation().equals(l.getC2().getLocation()))) {
                     i.remove();
                 }
             }
@@ -55,7 +51,8 @@ public class NoTreeForTentContradictionRule extends ContradictionRule {
         int adjTree = adjTrees.size();
         if (adjTree == 0) {
             return null;
-        } else {
+        }
+        else {
             return super.getNoContradictionMessage();
         }
     }
