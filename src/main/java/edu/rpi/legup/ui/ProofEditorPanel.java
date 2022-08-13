@@ -294,10 +294,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         edit.add(fitTreeToScreen);
         fitTreeToScreen.addActionListener((ActionEvent) -> this.fitTreeViewToScreen());
-
         {
             GameBoardFacade.getInstance().getHistory().redo();
-        });
+        }
         if(os.equals("mac")) {
             redo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK));
             redo.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK));
