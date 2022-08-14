@@ -7,6 +7,8 @@ import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.skyscrapers.*;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CellForNumberCaseRule extends CaseRule {
@@ -33,9 +35,28 @@ public class CellForNumberCaseRule extends CaseRule {
         return caseBoard;
     }
 
+    public List<Board> getCasesFor(Board board, PuzzleElement puzzleElement, Integer number){
+        //return null;
+        ArrayList<Board> cases = new ArrayList<>();
+
+        SkyscrapersClue clue = (SkyscrapersClue) puzzleElement;
+        SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board;
+
+
+        List<SkyscrapersCell> openCells = skyscrapersboard.getRowCol(clue.getClueIndex(),SkyscrapersType.UNKNOWN,clue.getType()==SkyscrapersType.CLUE_WEST);
+        for(SkyscrapersCell cell : openCells){
+            Board newCase = board.copy();
+            newCase.getPuzzleElement(cell).setData(number);
+            //if flags
+            cases.add(newCase);
+        }
+        return cases;
+    }
+
     @Override
     public List<Board> getCases(Board board, PuzzleElement puzzleElement) {
-        return null;
+        int number = 1; //hard-coded for now
+        return getCasesFor(board,puzzleElement,number);
     }
 
     @Override
