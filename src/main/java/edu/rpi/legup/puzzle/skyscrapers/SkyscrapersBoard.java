@@ -17,6 +17,10 @@ public class SkyscrapersBoard extends GridBoard {
     private ArrayList<SkyscrapersClue> row;
     private ArrayList<SkyscrapersClue> col;
 
+    private boolean viewFlag = false;
+    private boolean dupeFlag = true;
+    private boolean unresolvedFlag = false;
+
     public SkyscrapersBoard(int width, int height) {
         super(width, height);
 
