@@ -143,6 +143,12 @@ public class TreeTentBoard extends GridBoard {
         return adj;
     }
 
+    /**
+     * Gets all cells of a specified type that are diagonals of a specified cell
+     * @param cell the base cell
+     * @param type the type to look for
+     * @return a list of TreeTentCells that are diagonals of the given TreeTentCell and are of the given TreeTentType
+     */
     public List<TreeTentCell> getDiagonals(TreeTentCell cell, TreeTentType type) {
         List<TreeTentCell> dia = new ArrayList<>();
         Point loc = cell.getLocation();
@@ -165,6 +171,13 @@ public class TreeTentBoard extends GridBoard {
         return dia;
     }
 
+    /**
+     * Creates and returns a list of TreeTentCells that match the given TreeTentType
+     * @param index the row or column number
+     * @param type type of TreeTent element
+     * @param isRow boolean value beased on whether a row of column is being checked
+     * @return List of TreeTentCells that match the given TreeTentType
+     */
     public List<TreeTentCell> getRowCol(int index, TreeTentType type, boolean isRow) {
         List<TreeTentCell> list = new ArrayList<>();
         if (isRow) {
@@ -209,6 +222,10 @@ public class TreeTentBoard extends GridBoard {
         return super.equalsBoard(treeTentBoard);
     }
 
+    /**
+     * Performs a deep copy of the TreeTentBoard
+     * @return a TreeTentBoard object that is a deep copy of the current TreeTentBoard
+     */
     @Override
     public TreeTentBoard copy() {
         TreeTentBoard copy = new TreeTentBoard(dimension.width, dimension.height);

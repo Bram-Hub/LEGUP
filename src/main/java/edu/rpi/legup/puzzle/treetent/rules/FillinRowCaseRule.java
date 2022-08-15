@@ -22,6 +22,11 @@ public class FillinRowCaseRule extends CaseRule {
                 "edu/rpi/legup/images/treetent/case_rowcount.png");
     }
 
+    /**
+     * Gets the case board that indicates where this case rule can be applied on the given Board.
+     * @param board the given board
+     * @return the case board object
+     */
     @Override
     public CaseBoard getCaseBoard(Board board) {
         TreeTentBoard treeTentBoard = (TreeTentBoard) board.copy();
