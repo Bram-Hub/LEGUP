@@ -43,6 +43,12 @@ public class FinishWithEmptyBasicRule extends BasicRule {
         return super.getInvalidUseOfRuleMessage() + ": Empty is not forced";
     }
 
+    /**
+     * 
+     * @param board
+     * @param location
+     * @return
+     */
     private boolean isForced(LightUpBoard board, Point location) {
         return isForcedEmpty(board, new Point(location.x + 1, location.y)) ||
                 isForcedEmpty(board, new Point(location.x, location.y + 1)) ||
@@ -50,6 +56,12 @@ public class FinishWithEmptyBasicRule extends BasicRule {
                 isForcedEmpty(board, new Point(location.x, location.y - 1));
     }
 
+    /**
+     * Checks whether a certain cell is forced to be 
+     * @param board
+     * @param loc
+     * @return
+     */
     private boolean isForcedEmpty(LightUpBoard board, Point loc) {
         LightUpCell cell = board.getCell(loc.x, loc.y);
         if (cell == null || cell.getType() != LightUpCellType.NUMBER) {

@@ -241,6 +241,11 @@ public class SatisfyNumberCaseRule extends CaseRule {
         return null;
     }
 
+    /**
+     * 
+     * @param transition
+     * @return
+     */
     private List<LightUpCell> getPossibleSpots(TreeTransition transition) {
         LightUpBoard board = (LightUpBoard) transition.getBoard();
         Set<PuzzleElement> modCells = transition.getBoard().getModifiedData();
