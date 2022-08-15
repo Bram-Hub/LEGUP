@@ -20,6 +20,10 @@ public class BattleshipElementView extends GridElementView {
     }
 
     @Override
+    /**
+     * Draws on the given frame based on the type of the cell of the current puzzleElement
+     * @param graphics2D the frame to be drawn on
+     */
     public void drawElement(Graphics2D graphics2D) {
         BattleshipCell cell = (BattleshipCell) puzzleElement;
         BattleshipType type = cell.getType();

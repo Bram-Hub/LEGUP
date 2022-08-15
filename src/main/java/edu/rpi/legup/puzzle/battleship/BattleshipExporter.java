@@ -11,6 +11,11 @@ public class BattleshipExporter extends PuzzleExporter {
     }
 
     @Override
+    /**
+     * Creates and returns 
+     * @param newDocument 
+     * @return 
+     */
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
         BattleshipBoard board = (BattleshipBoard) puzzle.getTree().getRootNode().getBoard();
 
