@@ -5,18 +5,14 @@ import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.ui.lookandfeel.components.MaterialTabbedPaneUI;
+import org.graalvm.compiler.nodes.debug.BlackholeNode;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 
-import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 public class RuleFrame extends JPanel {
     private static final String checkBox = "<font style=\"color:#00CD00\"> \u2714 </font>";
@@ -43,12 +39,22 @@ public class RuleFrame extends JPanel {
             }
         };
 
+
+
+
+
+
         this.controller = controller;
 
         this.tabbedPane = new JTabbedPane();
         this.tabbedPane.setUI(tabOverride);
+        UIManager.getDefaults().put("TabbedPane.tabRunOverlay", 0);
         this.status = new JLabel();
         this.buttonGroup = new ButtonGroup();
+
+
+        System.out.println(this.tabbedPane.getLayout());
+        //this.tabbedPane.setLayout(new FlowLayout());
 
         basicRulePanel = new BasicRulePanel(this);
 
@@ -57,8 +63,14 @@ public class RuleFrame extends JPanel {
         casePanel = new CaseRulePanel(this);
         tabbedPane.addTab(casePanel.name, casePanel.icon, new JScrollPane(casePanel), casePanel.toolTip);
 
+        BlankBufferPanel b = new BlankBufferPanel(this);
+        tabbedPane.addTab(b.name, b.icon, new JScrollPane(b), b.toolTip);
+
         contradictionPanel = new ContradictionRulePanel(this);
         tabbedPane.addTab(contradictionPanel.name, contradictionPanel.icon, new JScrollPane(contradictionPanel), contradictionPanel.toolTip);
+
+
+
 
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(250, 256));
