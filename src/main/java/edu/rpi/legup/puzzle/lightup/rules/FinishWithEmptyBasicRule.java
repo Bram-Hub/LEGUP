@@ -44,10 +44,10 @@ public class FinishWithEmptyBasicRule extends BasicRule {
     }
 
     /**
-     * 
-     * @param board
-     * @param location
-     * @return
+     * Checks whether a certain cell is forced to not be a bulb
+     * @param board specified board
+     * @param location location of cell to check
+     * @return boolean value based on whether a certain cell has an adjacent cell that has the required amount of adjacent bulbs
      */
     private boolean isForced(LightUpBoard board, Point location) {
         return isForcedEmpty(board, new Point(location.x + 1, location.y)) ||
@@ -57,10 +57,10 @@ public class FinishWithEmptyBasicRule extends BasicRule {
     }
 
     /**
-     * Checks whether a certain cell is forced to be 
-     * @param board
-     * @param loc
-     * @return
+     * Checks whether a certain cell has the required amount of adjacent bulbs 
+     * @param board specified board
+     * @param loc location of cell to check
+     * @return boolean value based on whether a certain cell has the required amount of adjacent bulbs 
      */
     private boolean isForcedEmpty(LightUpBoard board, Point loc) {
         LightUpCell cell = board.getCell(loc.x, loc.y);
