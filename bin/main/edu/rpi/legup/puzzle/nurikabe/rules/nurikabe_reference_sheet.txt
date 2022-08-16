@@ -5,11 +5,11 @@ NURI-BASC-0004 : FillinBlackBasicRule
 NURI-BASC-0005 : FillinWhiteBasicRule
 NURI-BASC-0006 : PreventBlackSquareBasicRule
 NURI-BASC-0007 : SurroundRegionBasicRule
-NURI-BASC-0008 : CannotReachCellBasicRule
+NURI-BASC-0008 : UnreachableBasicRule
 NURI-BASC-0009 : WhiteBottleNeckBasicRule
 
 NURI-CONT-0001 : BlackSquareContradictionRule
-NURI-CONT-0002 : UnreachableWhiteCellContradictionRule
+NURI-CONT-0002 : CantReachWhiteContradictionRule
 NURI-CONT-0003 : IsolateBlackContradictionRule
 NURI-CONT-0004 : MultipleNumbersContradictionRule
 NURI-CONT-0005 : NoNumberContradictionRule
