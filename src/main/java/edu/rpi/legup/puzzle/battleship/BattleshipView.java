@@ -7,6 +7,7 @@ import edu.rpi.legup.ui.boardview.GridBoardView;
 import java.awt.*;
 
 public class BattleshipView extends GridBoardView {
+
     public BattleshipView(BattleshipBoard board) {
         super(new BoardController(), new BattleshipCellController(), board.getDimension());
 

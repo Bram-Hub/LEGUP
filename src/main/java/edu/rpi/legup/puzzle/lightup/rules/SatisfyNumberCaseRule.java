@@ -241,6 +241,11 @@ public class SatisfyNumberCaseRule extends CaseRule {
         return null;
     }
 
+    /**
+     * Gets all cells in the TreeTransition board that are adjacent to all modified cells
+     * @param transition TreeTransition object
+     * @return list of cells that are adjacent to all modified cells, returns null if the number of modified cells is =0 || >4
+     */
     private List<LightUpCell> getPossibleSpots(TreeTransition transition) {
         LightUpBoard board = (LightUpBoard) transition.getBoard();
         Set<PuzzleElement> modCells = transition.getBoard().getModifiedData();

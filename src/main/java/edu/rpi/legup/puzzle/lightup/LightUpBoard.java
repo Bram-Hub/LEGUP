@@ -16,6 +16,9 @@ public class LightUpBoard extends GridBoard {
         super(size, size);
     }
 
+    /**
+     * Sets cells in board to lite depending on whether there is a bulb cell in the current row or column
+     */
     public void fillWithLight() {
         for (int y = 0; y < this.dimension.height; y++) {
             for (int x = 0; x < this.dimension.width; x++) {
@@ -61,6 +64,11 @@ public class LightUpBoard extends GridBoard {
         }
     }
 
+    /**
+     * Gets adjancent cells to the specified cell
+     * @param cell LightUpCell 
+     * @return Set of adjacent LightUpCells
+     */
     public Set<LightUpCell> getAdj(LightUpCell cell) {
         Set<LightUpCell> adjCells = new HashSet<>();
         cell = (LightUpCell) getPuzzleElement(cell);
@@ -85,6 +93,12 @@ public class LightUpBoard extends GridBoard {
         return adjCells;
     }
 
+    /**
+     * Gets the number of adjacent cells of the specified type
+     * @param cell base cell
+     * @param type specified type
+     * @return the number of adjacent cells
+     */
     public int getNumAdj(LightUpCell cell, LightUpCellType type) {
         int num = 0;
         Set<LightUpCell> adjCells = getAdj(cell);
@@ -96,6 +110,11 @@ public class LightUpBoard extends GridBoard {
         return num;
     }
 
+    /**
+     * Gets the number of adjacent cells
+     * @param cell LightUpCell
+     * @return number of adjacent cells
+     */
     public int getNumAdjLite(LightUpCell cell) {
         int num = 0;
         Set<LightUpCell> adjCells = getAdj(cell);
@@ -107,6 +126,11 @@ public class LightUpBoard extends GridBoard {
         return num;
     }
 
+    /**
+     * Gets the number of adjacent cells that are placable
+     * @param cell specified cell
+     * @return number of adjacent cells that are placable
+     */
     public int getNumPlacble(LightUpCell cell) {
         int num = 0;
         Set<LightUpCell> adjCells = getAdj(cell);

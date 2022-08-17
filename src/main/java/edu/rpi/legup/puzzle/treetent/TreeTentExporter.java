@@ -10,6 +10,11 @@ public class TreeTentExporter extends PuzzleExporter {
         super(treeTent);
     }
 
+    /**
+     * Creates and returns a new board element in the XML document specified
+     * @param newDocument the XML document to append to
+     * @return the new board element
+     */
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
         TreeTentBoard board;
