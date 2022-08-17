@@ -77,7 +77,7 @@ public class GameBoardFacade implements IHistorySubject {
     }
 
     public void initializeUI() {
-        EventQueue.invokeLater(() -> {
+        EventQueue.invokeLater(() ->{
             legupUI = new LegupUI();
             puzzleSolver = legupUI.getProofEditor();
             puzzleEditor = legupUI.getPuzzleEditor();
@@ -92,10 +92,22 @@ public class GameBoardFacade implements IHistorySubject {
         this.history.clear();
     }
 
+    public static void setupConfig() {
+        Config config = null;
+        try {
+            config = new Config();
+        }
+        catch (InvalidConfigException e) {
+            System.exit(1);
+        }
+        GameBoardFacade.getInstance().setConfig(config);
+    }
+
+
     public void setPuzzleEditor(Puzzle puzzle) {
         this.puzzle = puzzle;
         this.puzzleEditor.setPuzzleView(puzzle);
-        //this.history.clear();
+//        this.history.clear();
     }
 
     public void setConfig(Config config) {
