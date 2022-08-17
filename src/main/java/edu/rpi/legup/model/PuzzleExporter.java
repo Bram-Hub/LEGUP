@@ -44,7 +44,7 @@ public abstract class PuzzleExporter {
             Document newDocument = docBuilder.newDocument();
 
             org.w3c.dom.Element legupElement = newDocument.createElement("Legup");
-            legupElement.setAttribute("version", "2.0.0");
+            legupElement.setAttribute("version", "3.0.0");
             newDocument.appendChild(legupElement);
 
             org.w3c.dom.Element puzzleElement = newDocument.createElement("puzzle");
@@ -52,7 +52,7 @@ public abstract class PuzzleExporter {
             legupElement.appendChild(puzzleElement);
 
             puzzleElement.appendChild(createBoardElement(newDocument));
-            if (!puzzle.getTree().getRootNode().getChildren().isEmpty()) {
+            if (puzzle.getTree() != null && !puzzle.getTree().getRootNode().getChildren().isEmpty()) {
                 puzzleElement.appendChild(createProofElement(newDocument));
             }
 
@@ -65,9 +65,11 @@ public abstract class PuzzleExporter {
             StreamResult result = new StreamResult(new File(fileName));
 
             transformer.transform(source, result);
-        } catch (ParserConfigurationException | TransformerException e) {
+        }
+        catch (ParserConfigurationException | TransformerException e) {
             throw new ExportFileException("Puzzle Exporter: parser configuration exception");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw e;
             //throw new ExportFileException(e.getMessage());
         }
@@ -112,6 +114,7 @@ public abstract class PuzzleExporter {
 
                     if (transition.isJustified()) {
                         transElement.setAttribute("rule", transition.getRule().getRuleName());
+                        transElement.setAttribute("rule_id", transition.getRule().getRuleID());
                     }
 
                     for (PuzzleElement data : transition.getBoard().getModifiedData()) {

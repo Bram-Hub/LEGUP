@@ -1,7 +1,11 @@
 name: Feature request
 description: Suggest an idea for this project
 title: "[FEATURE] <description>"
-labels: [new feature]
+  <<<<<<< HEAD
+labels: [ new feature ]
+  =======
+labels: [ enhancement, new feature ]
+  >>>>>>> b28ba6c38166142ecd457ffee2797fffc89a51b4
 body:
   - type: textarea
     id: description

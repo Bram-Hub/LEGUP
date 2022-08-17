@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 @RegisterRule
 public abstract class Rule {
+    protected String ruleID;
     protected String ruleName;
     protected String description;
     protected String imageName;
@@ -24,14 +25,16 @@ public abstract class Rule {
     /**
      * Rule Constructor creates a new rule
      *
+     * @param ruleID      ID of the rule
      * @param ruleName    name of the rule
      * @param description description of the rule
      * @param imageName   file name of the image
      */
-    public Rule(String ruleName, String description, String imageName) {
-        this.imageName = imageName;
+    public Rule(String ruleID, String ruleName, String description, String imageName) {
+        this.ruleID = ruleID;
         this.ruleName = ruleName;
         this.description = description;
+        this.imageName = imageName;
         this.INVALID_USE_MESSAGE = "Invalid use of the rule " + this.ruleName;
         loadImage();
     }
@@ -81,15 +84,15 @@ public abstract class Rule {
      */
     private void loadImage() {
         if (imageName != null) {
-            this.image = new ImageIcon(ClassLoader.getSystemResource(imageName));
+            this.image = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(imageName));
             //Resize images to be 100px wide
             Image image = this.image.getImage();
-            if(this.image.getIconWidth() < 120) return;
+            if (this.image.getIconWidth() < 120) return;
             int height = (int) (100 * ((double) this.image.getIconHeight() / this.image.getIconWidth()));
-            if(height==0){
+            if (height == 0) {
                 System.out.println("height is 0 error");
-                System.out.println("height: "+this.image.getIconHeight());
-                System.out.println("width:  "+this.image.getIconWidth());
+                System.out.println("height: " + this.image.getIconHeight());
+                System.out.println("width:  " + this.image.getIconWidth());
                 return;
             }
             BufferedImage bimage = new BufferedImage(100, height, BufferedImage.TYPE_INT_RGB);
@@ -106,6 +109,15 @@ public abstract class Rule {
      */
     public String getRuleName() {
         return ruleName;
+    }
+
+    /**
+     * Gets the name of the rule
+     *
+     * @return name of the rule
+     */
+    public String getRuleID() {
+        return ruleID;
     }
 
     /**
@@ -144,8 +156,7 @@ public abstract class Rule {
         return ruleType;
     }
 
-    public String getInvalidUseOfRuleMessage()
-    {
+    public String getInvalidUseOfRuleMessage() {
         return this.INVALID_USE_MESSAGE;
     }
 }

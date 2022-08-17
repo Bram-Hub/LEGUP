@@ -1,5 +1,6 @@
 package edu.rpi.legup.model;
 
+import edu.rpi.legup.model.elements.*;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.observer.IBoardListener;
@@ -11,9 +12,11 @@ import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.model.tree.TreeElementType;
 import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
+import edu.rpi.legup.ui.puzzleeditorui.elementsview.NonPlaceableElementPanel;
 import edu.rpi.legup.utility.LegupUtils;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import edu.rpi.legup.model.elements.Element;
 import org.w3c.dom.Node;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
@@ -53,6 +56,8 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     protected List<BasicRule> basicRules;
     protected List<ContradictionRule> contradictionRules;
     protected List<CaseRule> caseRules;
+    protected List<PlaceableElement> placeableElements;
+    protected List<NonPlaceableElement> nonPlaceableElements;
 
     /**
      * Puzzle Constructor - creates a new Puzzle
@@ -65,7 +70,60 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         this.contradictionRules = new ArrayList<>();
         this.caseRules = new ArrayList<>();
 
+        this.placeableElements = new ArrayList<>();
+        this.nonPlaceableElements = new ArrayList<>();
+
         registerRules();
+        registerPuzzleElements();
+    }
+
+    private void registerPuzzleElements() {
+        String packageName = this.getClass().getPackage().toString().replace("package ", "");
+
+        try {
+            Class[] possElements = LegupUtils.getClasses(packageName);
+
+            for (Class c : possElements) {
+
+                System.out.println("possible element: " + c.getName());
+
+                //check that the element is not abstract
+                if (Modifier.isAbstract(c.getModifiers())) continue;
+
+                for (Annotation a : c.getAnnotations()) {
+                    if (a.annotationType() == RegisterElement.class) {
+                        RegisterElement registerElement = (RegisterElement) a;
+                        Constructor<?> cons = c.getConstructor();
+                        try {
+                            Element element = (Element) cons.newInstance();
+
+                            switch (element.getElementType()) {
+                                case PLACEABLE:
+                                    this.addPlaceableElement((PlaceableElement) element);
+                                    break;
+                                case NONPLACEABLE:
+                                    this.addNonPlaceableElement((NonPlaceableElement) element);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        catch (InvocationTargetException e) {
+                            System.out.println("    Failed ");
+                            e.getTargetException().printStackTrace();
+                        }
+                    }
+                }
+            }
+
+//        } catch (IOException | ClassNotFoundException | NoSuchMethodException |
+//                InstantiationException | IllegalAccessException | InvocationTargetException e) {
+//            LOGGER.error("Unable to find rules for " + this.getClass().getSimpleName(), e);
+//        }
+        }
+        catch (Exception e) {
+            LOGGER.error("Unable to find elements for " + this.getClass().getSimpleName(), e);
+        }
     }
 
     private void registerRules() {
@@ -103,7 +161,8 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                                 default:
                                     break;
                             }
-                        } catch (InvocationTargetException e) {
+                        }
+                        catch (InvocationTargetException e) {
                             System.out.println("    Failed ");
                             e.getTargetException().printStackTrace();
                         }
@@ -115,7 +174,8 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 //                InstantiationException | IllegalAccessException | InvocationTargetException e) {
 //            LOGGER.error("Unable to find rules for " + this.getClass().getSimpleName(), e);
 //        }
-        }catch(Exception e){
+        }
+        catch (Exception e) {
             LOGGER.error("Unable to find rules for " + this.getClass().getSimpleName(), e);
         }
     }
@@ -134,6 +194,17 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     public abstract Board generatePuzzle(int difficulty);
 
     /**
+     * Checks if the given height and width are valid board dimensions for the given puzzle
+     *
+     * @param rows    the number of rows on the board
+     * @param columns the number of columns on the board
+     * @return true if the given dimensions are valid for the given puzzle, false otherwise
+     */
+    public boolean isValidDimensions(int rows, int columns) {
+        return rows > 0 && columns > 0;
+    }
+
+    /**
      * Determines if the edu.rpi.legup.puzzle was solves correctly
      *
      * @return true if the board was solved correctly, false otherwise
@@ -142,14 +213,16 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         boolean isComplete = tree.isValid();
         if (isComplete) {
             for (TreeElement leaf : tree.getLeafTreeElements()) {
-                if(leaf.getType() == TreeElementType.NODE) {
-                    TreeNode node = (TreeNode)leaf;
+                if (leaf.getType() == TreeElementType.NODE) {
+                    TreeNode node = (TreeNode) leaf;
                     if (!node.isRoot()) {
                         isComplete &= node.getParent().isContradictoryBranch() || isBoardComplete(node.getBoard());
-                    } else {
+                    }
+                    else {
                         isComplete &= isBoardComplete(node.getBoard());
                     }
-                } else {
+                }
+                else {
                     isComplete = false;
                 }
             }
@@ -183,7 +256,8 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     public void importPuzzle(String fileName) throws InvalidFileFormatException {
         try {
             importPuzzle(new FileInputStream(fileName));
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             LOGGER.error("Importing puzzle error", e);
             throw new InvalidFileFormatException("Could not find file");
         }
@@ -203,19 +277,21 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             document = builder.parse(inputStream);
-        } catch (IOException | SAXException | ParserConfigurationException e) {
+        }
+        catch (IOException | SAXException | ParserConfigurationException e) {
             LOGGER.error("Importing puzzle error", e);
             throw new InvalidFileFormatException("Could not find file");
         }
 
-        Element rootNode = document.getDocumentElement();
+        org.w3c.dom.Element rootNode = document.getDocumentElement();
         if (rootNode.getTagName().equals("Legup")) {
             Node node = rootNode.getElementsByTagName("puzzle").item(0);
             if (importer == null) {
                 throw new InvalidFileFormatException("Puzzle importer null");
             }
             importer.initializePuzzle(node);
-        } else {
+        }
+        else {
             LOGGER.error("Invalid file");
             throw new InvalidFileFormatException("Invalid file: must be a Legup file");
         }
@@ -257,6 +333,15 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         return basicRules;
     }
 
+    public List<PlaceableElement> getPlaceableElements() {
+        return placeableElements;
+    }
+
+    public List<NonPlaceableElement> getNonPlaceableElements() {
+        return nonPlaceableElements;
+    }
+
+
     /**
      * Sets the list of basic rules
      *
@@ -273,6 +358,14 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      */
     public void addBasicRule(BasicRule rule) {
         basicRules.add(rule);
+    }
+
+    public void addPlaceableElement(PlaceableElement element) {
+        placeableElements.add(element);
+    }
+
+    public void addNonPlaceableElement(NonPlaceableElement element) {
+        nonPlaceableElements.add(element);
     }
 
     /**
@@ -380,6 +473,35 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         }
         Rule mergeRule = new MergeRule();
         if (mergeRule.getRuleName().equals(name)) {
+            return mergeRule;
+        }
+        return null;
+    }
+
+    /**
+     * Gets the rule using the specified name
+     *
+     * @param id name of the rule
+     * @return Rule
+     */
+    public Rule getRuleByID(String id) {
+        for (Rule rule : basicRules) {
+            if (rule.getRuleID().equals(id)) {
+                return rule;
+            }
+        }
+        for (Rule rule : contradictionRules) {
+            if (rule.getRuleID().equals(id)) {
+                return rule;
+            }
+        }
+        for (Rule rule : caseRules) {
+            if (rule.getRuleID().equals(id)) {
+                return rule;
+            }
+        }
+        Rule mergeRule = new MergeRule();
+        if (mergeRule.getRuleID().equals(id)) {
             return mergeRule;
         }
         return null;

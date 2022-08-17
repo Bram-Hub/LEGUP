@@ -17,7 +17,7 @@ import java.util.Set;
 public class PossibleNumberCaseRule extends CaseRule {
 
     public PossibleNumberCaseRule() {
-        super("Possible Numbers for Cell",
+        super("SUDO-CASE-0002", "Possible Numbers for Cell",
                 "An empty cell has a limited set of possible numbers that can fill it.",
                 "edu/rpi/legup/images/sudoku/PossibleValues.png");
     }
@@ -89,10 +89,14 @@ public class PossibleNumberCaseRule extends CaseRule {
         Set<SudokuCell> group;
         if (groupType == GroupType.REGION) {
             group = sudokuBoard.getRegion(cell.getGroupIndex());
-        } else if (groupType == GroupType.ROW) {
-            group = sudokuBoard.getRow(cell.getLocation().y);
-        } else {
-            group = sudokuBoard.getCol(cell.getLocation().x);
+        }
+        else {
+            if (groupType == GroupType.ROW) {
+                group = sudokuBoard.getRow(cell.getLocation().y);
+            }
+            else {
+                group = sudokuBoard.getCol(cell.getLocation().x);
+            }
         }
 
         for (SudokuCell c : group) {

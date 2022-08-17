@@ -31,38 +31,22 @@ public class PreferencesDialog extends JDialog {
     static {
         try {
             folderIcon = ImageIO.read(PreferencesDialog.class.getResource("/edu/rpi/legup/imgs/folder.png"));
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Unable to locate icons");
         }
     }
 
-    public PreferencesDialog(LegupUI legupUI) {
-        super(legupUI);
+    public PreferencesDialog(Frame frame) {
+        super(frame);
 
         setTitle("Preferences");
 
         JPanel mainPanel = new JPanel();
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         mainPanel.setLayout(new BorderLayout());
 
-        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
-        JScrollPane generalTab = createGeneralTab();
-
-        tabbedPane.addTab("General", generalTab);
-
-        Config config = GameBoardFacade.getInstance().getConfig();
-        try {
-            for (String puzzleName : config.getPuzzleNames()) {
-                String qualifiedClassName = config.getPuzzleClassForName(puzzleName);
-
-                Class<?> c = Class.forName(qualifiedClassName);
-                Constructor<?> cons = c.getConstructor();
-                Puzzle puzzle = (Puzzle) cons.newInstance();
-//                tabbedPane.addTab(puzzleName, createPuzzleTab(puzzle));
-            }
-        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            LOGGER.log(Level.SEVERE, "Cannot create puzzle preferences");
-        }
-        mainPanel.add(tabbedPane, BorderLayout.CENTER);
+        mainPanel.add(createGeneralTab());
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setBorder(null);
@@ -93,7 +77,7 @@ public class PreferencesDialog extends JDialog {
         setContentPane(mainPanel);
 
         setSize(600, 400);
-        setLocationRelativeTo(legupUI);
+        setLocationRelativeTo(frame);
         setVisible(true);
     }
 
@@ -195,6 +179,15 @@ public class PreferencesDialog extends JDialog {
         immFeedbackRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, immFeedbackRow.getPreferredSize().height));
         contentPane.add(immFeedbackRow);
 
+        contentPane.add(createLeftLabel("Instructor Preferences"));
+        contentPane.add(createLineSeparator());
+        immFeedback = new JCheckBox("Instructor Mode", Boolean.valueOf(prefs.getUserPref(LegupPreferences.IMMEDIATE_FEEDBACK)));
+        immFeedback.setToolTipText("Currently unimplemented, this does nothing right now");
+        immFeedbackRow.setLayout(new BorderLayout());
+        immFeedbackRow.add(immFeedback, BorderLayout.WEST);
+        immFeedbackRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, immFeedbackRow.getPreferredSize().height));
+        contentPane.add(immFeedbackRow);
+
         scrollPane.setViewportView(contentPane);
         return scrollPane;
     }
@@ -265,10 +258,16 @@ public class PreferencesDialog extends JDialog {
                 String combo = "";
                 if (e.isControlDown()) {
                     combo += "Ctrl + ";
-                } else if (e.isShiftDown()) {
-                    combo += "Shift + ";
-                } else if (e.isAltDown()) {
-                    combo += "Alt + ";
+                }
+                else {
+                    if (e.isShiftDown()) {
+                        combo += "Shift + ";
+                    }
+                    else {
+                        if (e.isAltDown()) {
+                            combo += "Alt + ";
+                        }
+                    }
                 }
                 if (keyCode == KeyEvent.VK_CONTROL || keyCode == KeyEvent.VK_SHIFT || keyCode == KeyEvent.VK_ALT) {
                     return;

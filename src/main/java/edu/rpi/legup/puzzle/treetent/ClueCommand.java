@@ -4,9 +4,9 @@ import edu.rpi.legup.history.CommandError;
 import edu.rpi.legup.history.PuzzleCommand;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.tree.*;
-import edu.rpi.legup.ui.treeview.TreeElementView;
-import edu.rpi.legup.ui.treeview.TreeView;
-import edu.rpi.legup.ui.treeview.TreeViewSelection;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeElementView;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,7 +52,8 @@ public class ClueCommand extends PuzzleCommand {
                 if (transition == null) {
                     transition = tree.addNewTransition(treeNode);
                     addTran.put(treeNode, transition);
-                } else {
+                }
+                else {
                     treeNode.addChild(transition);
                 }
 
@@ -61,7 +62,8 @@ public class ClueCommand extends PuzzleCommand {
 
                 newSelection.addToSelection(treeView.getElementView(finalTran));
                 board = (TreeTentBoard) finalTran.getBoard();
-            } else {
+            }
+            else {
                 finalTran = (TreeTransition) treeElement;
                 newSelection.addToSelection(treeView.getElementView(treeElement));
             }
@@ -103,7 +105,8 @@ public class ClueCommand extends PuzzleCommand {
                 if (!node.getChildren().isEmpty()) {
                     return CommandError.UNMODIFIABLE_BOARD.toString();
                 }
-            } else {
+            }
+            else {
                 if (!board.isModifiable()) {
                     return CommandError.UNMODIFIABLE_BOARD.toString();
                 }
@@ -119,7 +122,8 @@ public class ClueCommand extends PuzzleCommand {
                         tempList.add(cell);
                     }
                 }
-            } else {
+            }
+            else {
                 int row = clue.getType() == TreeTentType.CLUE_WEST ? clue.getClueIndex() : clue.getClueIndex() - 1;
                 for (int i = 0; i < board.getWidth(); i++) {
                     TreeTentCell cell = board.getCell(i, row);
@@ -159,7 +163,8 @@ public class ClueCommand extends PuzzleCommand {
                 puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(finalTran));
 
                 board = (TreeTentBoard) finalTran.getBoard();
-            } else {
+            }
+            else {
                 finalTran = (TreeTransition) treeElement;
             }
 

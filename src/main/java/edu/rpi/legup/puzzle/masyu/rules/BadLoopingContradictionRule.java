@@ -7,7 +7,7 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 public class BadLoopingContradictionRule extends ContradictionRule {
 
     public BadLoopingContradictionRule() {
-        super("Bad Looping",
+        super("MASY-CONT-0001", "Bad Looping",
                 "",
                 "edu/rpi/legup/images/masyu/ContradictionBadLooping.png");
     }

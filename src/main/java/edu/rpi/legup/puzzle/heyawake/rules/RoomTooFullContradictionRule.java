@@ -7,7 +7,8 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 public class RoomTooFullContradictionRule extends ContradictionRule {
 
     public RoomTooFullContradictionRule() {
-        super("Room too Full",
+        super("HEYA-CONT-0003",
+                "Room too Full",
                 "",
                 "edu/rpi/legup/images/heyawake/contradictions/RoomTooFull.png");
     }

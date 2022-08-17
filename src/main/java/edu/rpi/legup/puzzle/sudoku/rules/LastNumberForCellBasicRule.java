@@ -13,7 +13,7 @@ import java.util.HashSet;
 public class LastNumberForCellBasicRule extends BasicRule {
 
     public LastNumberForCellBasicRule() {
-        super("Last Number for Cell",
+        super("SUDO-BASC-0003", "Last Number for Cell",
                 "This is the only number left that can fit in the cell of a group.",
                 "edu/rpi/legup/images/sudoku/forcedByDeduction.png");
     }
@@ -55,8 +55,11 @@ public class LastNumberForCellBasicRule extends BasicRule {
         }
         if (numbers.size() > 1) {
             return super.getInvalidUseOfRuleMessage() + ": The number at the index is not forced";
-        } else if (numbers.size() == 1 && numbers.iterator().next() != finalBoard.getPuzzleElement(puzzleElement).getData()) {
-            return super.getInvalidUseOfRuleMessage() + ": The number at the index is forced but not correct";
+        }
+        else {
+            if (numbers.size() == 1 && numbers.iterator().next() != finalBoard.getPuzzleElement(puzzleElement).getData()) {
+                return super.getInvalidUseOfRuleMessage() + ": The number at the index is forced but not correct";
+            }
         }
         return null;
     }

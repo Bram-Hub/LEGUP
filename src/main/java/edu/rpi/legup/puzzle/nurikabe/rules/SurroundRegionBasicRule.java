@@ -13,7 +13,7 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 public class SurroundRegionBasicRule extends BasicRule {
 
     public SurroundRegionBasicRule() {
-        super("Surround Region",
+        super("NURI-BASC-0007", "Surround Region",
                 "Surround Region",
                 "edu/rpi/legup/images/nurikabe/rules/SurroundBlack.png");
     }
@@ -46,7 +46,8 @@ public class SurroundRegionBasicRule extends BasicRule {
 
         if (contraRule.checkContradiction(modified) == null) {
             return null;
-        } else {
+        }
+        else {
             return "Does not follow from this rule at this index";
         }
     }

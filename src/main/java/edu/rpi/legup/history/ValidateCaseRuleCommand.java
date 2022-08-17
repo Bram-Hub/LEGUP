@@ -2,11 +2,10 @@ package edu.rpi.legup.history;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.model.Puzzle;
-import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.tree.*;
-import edu.rpi.legup.ui.treeview.*;
+import edu.rpi.legup.ui.proofeditorui.treeview.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +57,8 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
                 if (childNode == null) {
                     childNode = (TreeNode) tree.addTreeElement(transition);
                     addNode.put(transition, childNode);
-                } else {
+                }
+                else {
                     childNode = (TreeNode) tree.addTreeElement(transition, childNode);
                 }
 
@@ -74,7 +74,8 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
         if (firstSelectedView.getType() == TreeElementType.NODE) {
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
             finalTreeElement = nodeView.getChildrenViews().get(0).getTreeElement();
-        } else {
+        }
+        else {
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
             finalTreeElement = transitionView.getChildView().getTreeElement();
         }
@@ -98,7 +99,8 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
         for (TreeElementView view : selectedViews) {
             if (view.getType() == TreeElementType.NODE) {
                 return CommandError.SELECTION_CONTAINS_NODE.toString();
-            } else {
+            }
+            else {
                 TreeTransitionView transView = (TreeTransitionView) view;
                 if (transView.getParentViews().size() > 1) {
                     return CommandError.CONTAINS_MERGE.toString();

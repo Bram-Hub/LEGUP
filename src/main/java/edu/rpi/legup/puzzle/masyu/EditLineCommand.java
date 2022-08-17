@@ -11,7 +11,7 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.boardview.ElementView;
-import edu.rpi.legup.ui.treeview.*;
+import edu.rpi.legup.ui.proofeditorui.treeview.*;
 
 import java.awt.event.MouseEvent;
 
@@ -71,7 +71,8 @@ public class EditLineCommand extends PuzzleCommand {
             board = (MasyuBoard) transition.getBoard();
             getInstance().getPuzzleModule().setCurrentBoard(board);
             oldData = newData.copy();
-        } else {
+        }
+        else {
             transitionView = (TreeTransitionView) selectedView;
             transition = transitionView.getTreeElement();
         }
@@ -100,7 +101,8 @@ public class EditLineCommand extends PuzzleCommand {
             board.getModifiedData().remove(dup_line);
             board.getLines().remove(dup_line);
 //            puzzle.notifyBoardListeners((IBoardListener listener) -> listener.onTreeElementChanged(editBoard));
-        } else {
+        }
+        else {
             System.out.println("adding");
             board.getModifiedData().add(newData);
             board.getLines().add((MasyuLine) newData);
@@ -121,8 +123,11 @@ public class EditLineCommand extends PuzzleCommand {
         Board board = selectedView.getTreeElement().getBoard();
         if (!board.isModifiable()) {
             return "Board is not modifiable";
-        } else if (!board.getPuzzleElement(elementView.getPuzzleElement()).isModifiable()) {
-            return "Data is not modifiable";
+        }
+        else {
+            if (!board.getPuzzleElement(elementView.getPuzzleElement()).isModifiable()) {
+                return "Data is not modifiable";
+            }
         }
         return null;
     }
@@ -160,7 +165,8 @@ public class EditLineCommand extends PuzzleCommand {
 
         if (prevBoard.getPuzzleElement(elementView.getPuzzleElement()).equalsData(newData)) {
             board.removeModifiedData(newData);
-        } else {
+        }
+        else {
             board.addModifiedData(newData);
         }
         transition.propagateChange(newData);

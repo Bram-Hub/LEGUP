@@ -17,7 +17,7 @@ import java.util.Set;
 public class FixedMaxBasicRule extends BasicRule {
 
     public FixedMaxBasicRule() {
-        super("Fixed Max",
+        super("SKYS-BASC-0001", "Fixed Max",
                 "If the sum of two opposing edges is n+1, the maximum number appears at a position k spaces away from the edge, where k is the number at that edge.",
                 "edu/rpi/legup/images/skyscrapers/FixedMax.png");
     }
@@ -33,9 +33,9 @@ public class FixedMaxBasicRule extends BasicRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-    	SkyscrapersBoard initialBoard = (SkyscrapersBoard) transition.getParents().get(0).getBoard();
-    	SkyscrapersCell initCell = (SkyscrapersCell) initialBoard.getPuzzleElement(puzzleElement);
-    	SkyscrapersBoard finalBoard = (SkyscrapersBoard) transition.getBoard();
+        SkyscrapersBoard initialBoard = (SkyscrapersBoard) transition.getParents().get(0).getBoard();
+        SkyscrapersCell initCell = (SkyscrapersCell) initialBoard.getPuzzleElement(puzzleElement);
+        SkyscrapersBoard finalBoard = (SkyscrapersBoard) transition.getBoard();
         SkyscrapersCell finalCell = (SkyscrapersCell) finalBoard.getPuzzleElement(puzzleElement);
         if (!(initCell.getType() == SkyscrapersType.UNKNOWN && finalCell.getType() == SkyscrapersType.Number)) {
             return super.getInvalidUseOfRuleMessage() + ": Modified cells must be number";
@@ -52,23 +52,23 @@ public class FixedMaxBasicRule extends BasicRule {
         System.out.println(north);
         System.out.println(south);
         if (north + south != max + 1 && west + east != max + 1) {
-        	System.out.println("111");
-        	return super.getInvalidUseOfRuleMessage() + ": Opposing clues must add up to max";
+            System.out.println("111");
+            return super.getInvalidUseOfRuleMessage() + ": Opposing clues must add up to max";
         }
-        
+
         if (finalCell.getData() != initialBoard.getWidth()) {
-        	return super.getInvalidUseOfRuleMessage() + ": Modified cells must be the max";
+            return super.getInvalidUseOfRuleMessage() + ": Modified cells must be the max";
         }
-        
+
         if (north + south == max + 1 && loc.y + 1 == north) {
-        	return null;
+            return null;
         }
         if (west + east == max + 1 && loc.x + 1 == west) {
-        	return null;
+            return null;
         }
-        
+
         return super.getInvalidUseOfRuleMessage() + ": This cell is not forced.";
-                
+
     }
 
     private boolean isForced(SkyscrapersBoard board, SkyscrapersCell cell) {
@@ -76,7 +76,7 @@ public class FixedMaxBasicRule extends BasicRule {
         emptyCase.getPuzzleElement(cell).setData(0);
         DuplicateNumberContradictionRule duplicate = new DuplicateNumberContradictionRule();
         if (duplicate.checkContradictionAt(emptyCase, cell) == null) {
-        	System.out.println("no contradiction ln");
+            System.out.println("no contradiction ln");
             return true;
         }
         return false;
@@ -90,12 +90,12 @@ public class FixedMaxBasicRule extends BasicRule {
      */
     @Override
     public Board getDefaultBoard(TreeNode node) {
-    	SkyscrapersBoard initialBoard = (SkyscrapersBoard) node.getBoard();
-    	SkyscrapersBoard lightUpBoard = (SkyscrapersBoard) node.getBoard().copy();
-    	System.out.println(lightUpBoard.getPuzzleElements().size());
+        SkyscrapersBoard initialBoard = (SkyscrapersBoard) node.getBoard();
+        SkyscrapersBoard lightUpBoard = (SkyscrapersBoard) node.getBoard().copy();
+        System.out.println(lightUpBoard.getPuzzleElements().size());
         for (PuzzleElement element : lightUpBoard.getPuzzleElements()) {
-        	System.out.println("123");
-        	SkyscrapersCell cell = (SkyscrapersCell) element;
+            System.out.println("123");
+            SkyscrapersCell cell = (SkyscrapersCell) element;
             if (cell.getType() == SkyscrapersType.UNKNOWN && isForced(initialBoard, cell)) {
                 //cell.setData(SkyscrapersType.BULB.value);
                 lightUpBoard.addModifiedData(cell);
@@ -103,7 +103,8 @@ public class FixedMaxBasicRule extends BasicRule {
         }
         if (lightUpBoard.getModifiedData().isEmpty()) {
             return null;
-        } else {
+        }
+        else {
             return lightUpBoard;
         }
     }

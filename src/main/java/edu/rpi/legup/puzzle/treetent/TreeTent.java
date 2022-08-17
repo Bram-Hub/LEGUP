@@ -23,6 +23,7 @@ public class TreeTent extends Puzzle {
     public void initializeView() {
         TreeTentBoard board = (TreeTentBoard) currentBoard;
         boardView = new TreeTentView((TreeTentBoard) currentBoard);
+        boardView.setBoard(board);
     }
 
     /**
@@ -34,6 +35,19 @@ public class TreeTent extends Puzzle {
     @Override
     public Board generatePuzzle(int difficulty) {
         return null;
+    }
+
+    @Override
+    /**
+     * Determines if the given dimensions are valid for Tree Tent
+     *
+     * @param rows      the number of rows
+     * @param columns   the number of columns
+     * @return true if the given dimensions are valid for Tree Tent, false otherwise
+     */
+    public boolean isValidDimensions(int rows, int columns) {
+        // This is a placeholder, this method needs to be implemented
+        return rows > 0 && columns > 0;
     }
 
     /**

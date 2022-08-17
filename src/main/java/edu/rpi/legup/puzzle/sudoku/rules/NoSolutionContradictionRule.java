@@ -12,7 +12,7 @@ import java.util.Set;
 public class NoSolutionContradictionRule extends ContradictionRule {
 
     public NoSolutionContradictionRule() {
-        super("No Solution for Cell",
+        super("SUDO-CONT-0001", "No Solution for Cell",
                 "Process of elimination yields no valid numbers for an empty cell.",
                 "edu/rpi/legup/images/sudoku/NoSolution.png");
     }

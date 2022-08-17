@@ -5,8 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.AWTEvent;
 
-public class ZoomablePane extends JLayeredPane
-{
+public class ZoomablePane extends JLayeredPane {
     private ScrollView viewer;
 
     /**
@@ -14,8 +13,7 @@ public class ZoomablePane extends JLayeredPane
      *
      * @param viewer dynamic dynamicView
      */
-    public ZoomablePane(ScrollView viewer)
-    {
+    public ZoomablePane(ScrollView viewer) {
         this.viewer = viewer;
     }
 
@@ -24,9 +22,8 @@ public class ZoomablePane extends JLayeredPane
      *
      * @param graphics graphics object used to paint the JComponent
      */
-    public void paint(Graphics graphics)
-    {
-        Graphics2D graphics2D = (Graphics2D)graphics;
+    public void paint(Graphics graphics) {
+        Graphics2D graphics2D = (Graphics2D) graphics;
         graphics2D.scale(viewer.getScale(), viewer.getScale());
         viewer.draw(graphics2D);
     }
@@ -36,8 +33,7 @@ public class ZoomablePane extends JLayeredPane
      *
      * @param e AWTEvent to process
      */
-    protected void processEvent(AWTEvent e)
-    {
+    protected void processEvent(AWTEvent e) {
         viewer.dispatchEvent(e);
         super.processEvent(e);
     }

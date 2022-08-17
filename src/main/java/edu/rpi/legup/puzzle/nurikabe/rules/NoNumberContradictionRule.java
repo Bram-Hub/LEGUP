@@ -18,7 +18,8 @@ public class NoNumberContradictionRule extends ContradictionRule {
     private final String NOT_SURROUNDED_BY_BLACK_MESSAGE = "Must be surrounded by black cells";
 
     public NoNumberContradictionRule() {
-        super("No Number",
+        super("NURI-CONT-0005",
+                "No Number",
                 "All enclosed white regions must have a number.",
                 "edu/rpi/legup/images/nurikabe/contradictions/NoNumber.png");
     }
@@ -48,13 +49,14 @@ public class NoNumberContradictionRule extends ContradictionRule {
         }
         for (NurikabeCell c : whiteRegion) {
             // System.out.println(c.getLocation().x + "\t" + c.getLocation().y);
-            NurikabeCell top = nurikabeBoard.getCell(c.getLocation().x, c.getLocation().y+1);
-            NurikabeCell left = nurikabeBoard.getCell(c.getLocation().x-1, c.getLocation().y);
-            NurikabeCell right = nurikabeBoard.getCell(c.getLocation().x+1, c.getLocation().y);
-            NurikabeCell bottom = nurikabeBoard.getCell(c.getLocation().x, c.getLocation().y-1);
+            NurikabeCell top = nurikabeBoard.getCell(c.getLocation().x, c.getLocation().y + 1);
+            NurikabeCell left = nurikabeBoard.getCell(c.getLocation().x - 1, c.getLocation().y);
+            NurikabeCell right = nurikabeBoard.getCell(c.getLocation().x + 1, c.getLocation().y);
+            NurikabeCell bottom = nurikabeBoard.getCell(c.getLocation().x, c.getLocation().y - 1);
 
-            if (isEmptyCell(top) || isEmptyCell(left) || isEmptyCell(right) || isEmptyCell(bottom))
+            if (isEmptyCell(top) || isEmptyCell(left) || isEmptyCell(right) || isEmptyCell(bottom)) {
                 return super.getInvalidUseOfRuleMessage() + ": " + this.NOT_SURROUNDED_BY_BLACK_MESSAGE;
+            }
         }
         return null;
     }
@@ -62,13 +64,13 @@ public class NoNumberContradictionRule extends ContradictionRule {
     /**
      * Checks whether a give NurikabeCell is empty.
      *
-     * @param cell  NurikabeCell to check if empty
-     * @return      false if the NurikabeCell is not empty or null, true otherwise
+     * @param cell NurikabeCell to check if empty
+     * @return false if the NurikabeCell is not empty or null, true otherwise
      */
-    private boolean isEmptyCell(NurikabeCell cell)
-    {
-        if (cell == null)
+    private boolean isEmptyCell(NurikabeCell cell) {
+        if (cell == null) {
             return false;
+        }
         NurikabeType cellType = cell.getType();
         return cellType != NurikabeType.BLACK && cellType != NurikabeType.WHITE;
     }

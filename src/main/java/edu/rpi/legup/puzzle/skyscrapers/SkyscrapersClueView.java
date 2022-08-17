@@ -22,6 +22,7 @@ public class SkyscrapersClueView extends ElementView {
     public SkyscrapersClue getPuzzleElement() {
         return (SkyscrapersClue) super.getPuzzleElement();
     }
+
     @Override
     public void draw(Graphics2D graphics2D) {
         drawElement(graphics2D);
@@ -46,7 +47,7 @@ public class SkyscrapersClueView extends ElementView {
                 value = String.valueOf(clue.getData());
                 break;
             case CLUE_WEST:
-            	value = String.valueOf(clue.getData());
+                value = String.valueOf(clue.getData());
                 //value = SkyscrapersClue.colNumToString(clue.getData() + 1);
                 break;
             default:

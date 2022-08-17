@@ -11,7 +11,8 @@ import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
 
 public class FinishWithWhiteBasicRule extends BasicRule {
     public FinishWithWhiteBasicRule() {
-        super("Finish with White",
+        super("FFIX-BASC-0002",
+                "Finish with White",
                 "The remaining unknowns around and on a cell must be white to satisfy the number",
                 "edu/rpi/legup/images/fillapix/rules/FinishWithWhite.png");
     }
@@ -29,7 +30,8 @@ public class FinishWithWhiteBasicRule extends BasicRule {
 
         if (isForcedWhite(parentBoard, cell)) {
             return null;
-        } else {
+        }
+        else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be white";
         }
     }
@@ -60,7 +62,8 @@ public class FinishWithWhiteBasicRule extends BasicRule {
         }
         if (fillapixBoard.getModifiedData().isEmpty()) {
             return null;
-        } else {
+        }
+        else {
             return fillapixBoard;
         }
     }

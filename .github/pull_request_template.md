@@ -3,7 +3,7 @@
 <!-- Please include a summary of the changes and the related issue. Please also include relevant motivation and context. List any dependencies that are required for this change. -->
 
 <!-- If your pull request is not related to a particular issue, delete the statement below. -->
-Closes #(issue) 
+Closes #(issue)
 
 ## Type of change
 

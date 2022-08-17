@@ -14,7 +14,7 @@ import java.util.Set;
 public class DuplicateNumberContradictionRule extends ContradictionRule {
 
     public DuplicateNumberContradictionRule() {
-        super("Duplicate Number",
+        super("SKYS-CONT-0001", "Duplicate Number",
                 "Skyscrapers of same height cannot be placed in the same row or column.",
                 "edu/rpi/legup/images/skyscrapers/DuplicateNumber.png");
     }
@@ -29,32 +29,32 @@ public class DuplicateNumberContradictionRule extends ContradictionRule {
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
-    	SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
+        SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
         SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board;
         Point loc = cell.getLocation();
-        
+
         Set<Integer> candidates = new HashSet<Integer>();
-        
+
         //check row
         for (int i = 0; i < skyscrapersboard.getWidth(); i++) {
-        	SkyscrapersCell c = skyscrapersboard.getCell(i, loc.y);
+            SkyscrapersCell c = skyscrapersboard.getCell(i, loc.y);
             if (i != loc.x && cell.getType() == SkyscrapersType.Number && c.getType() == SkyscrapersType.Number && c.getData() == cell.getData()) {
-            	System.out.print(c.getData());
-            	System.out.println(cell.getData());
+                System.out.print(c.getData());
+                System.out.println(cell.getData());
                 return null;
             }
         }
-        
+
         // check column
         for (int i = 0; i < skyscrapersboard.getHeight(); i++) {
-        	SkyscrapersCell c = skyscrapersboard.getCell(loc.x, i);
-        	if (i != loc.y && cell.getType() == SkyscrapersType.Number && c.getType() == SkyscrapersType.Number && c.getData() == cell.getData()) {
-        		System.out.print(c.getData());
-            	System.out.println(cell.getData());
+            SkyscrapersCell c = skyscrapersboard.getCell(loc.x, i);
+            if (i != loc.y && cell.getType() == SkyscrapersType.Number && c.getType() == SkyscrapersType.Number && c.getData() == cell.getData()) {
+                System.out.print(c.getData());
+                System.out.println(cell.getData());
                 return null;
             }
         }
-    	
+
         return super.getNoContradictionMessage();
     }
 }

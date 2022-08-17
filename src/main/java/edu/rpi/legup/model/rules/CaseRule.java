@@ -20,12 +20,13 @@ public abstract class CaseRule extends Rule {
     /**
      * CaseRule Constructor creates a new case rule.
      *
+     * @param ruleID      ID of the rule
      * @param ruleName    name of the rule
      * @param description description of the rule
      * @param imageName   file name of the image
      */
-    public CaseRule(String ruleName, String description, String imageName) {
-        super(ruleName, description, imageName);
+    public CaseRule(String ruleID, String ruleName, String description, String imageName) {
+        super(ruleID, ruleName, description, imageName);
         this.ruleType = CASE;
         this.INVALID_USE_MESSAGE = "Invalid use of the case rule " + this.ruleName;
     }
@@ -68,8 +69,11 @@ public abstract class CaseRule extends Rule {
         for (TreeTransition childTrans : parentNodes.get(0).getChildren()) {
             if (childTrans.getRule() == null || !childTrans.getRule().getClass().equals(this.getClass())) {
                 return "All children nodes must be justified with the same case rule.";
-            } else if (childTrans.getBoard().getModifiedData().isEmpty()) {
-                return "You must modify the board in each case node";
+            }
+            else {
+                if (childTrans.getBoard().getModifiedData().isEmpty()) {
+                    return "You must modify the board in each case node";
+                }
             }
         }
 

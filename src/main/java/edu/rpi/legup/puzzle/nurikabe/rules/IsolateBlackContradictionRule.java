@@ -17,18 +17,21 @@ public class IsolateBlackContradictionRule extends ContradictionRule {
     private final String INVALID_USE_MESSAGE = "Contradiction must be a black cell";
 
     public IsolateBlackContradictionRule() {
-        super("Isolated Black",
+        super("NURI-CONT-0003",
+                "Isolated Black",
                 "There must still be a possibility to connect every Black cell",
                 "edu/rpi/legup/images/nurikabe/contradictions/BlackArea.png");
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific
+     * {@link PuzzleElement} index using this rule.
      *
      * @param board         board to check contradiction
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the transition contains a contradiction at the specified puzzleElement,
-     * otherwise error message
+     * @return <code>null</code> if the transition contains a
+     * contradiction at the specified {@link PuzzleElement},
+     * otherwise return a no contradiction message.
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
@@ -45,7 +48,8 @@ public class IsolateBlackContradictionRule extends ContradictionRule {
                 if (c.getType() == NurikabeType.BLACK) {
                     if (oneRegion) {
                         return null;
-                    } else {
+                    }
+                    else {
                         oneRegion = true;
                         break;
                     }

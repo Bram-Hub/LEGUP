@@ -5,11 +5,11 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 
 public abstract class BasicRule_GenericIntroduction extends BasicRule_Generic {
 
-    protected BasicRule_GenericIntroduction(String ruleName, ContradictionRule contradictionRule) {
+    protected BasicRule_GenericIntroduction(String ruleID, String ruleName, ContradictionRule contradictionRule) {
 
-        super(ruleName+" Introduction",
-                ruleName+" statements must have a valid pattern",
-                "introduction/"+ruleName,
+        super(ruleID, ruleName + " Introduction",
+                ruleName + " statements must have a valid pattern",
+                "introduction/" + ruleName,
                 contradictionRule,
                 false
         );

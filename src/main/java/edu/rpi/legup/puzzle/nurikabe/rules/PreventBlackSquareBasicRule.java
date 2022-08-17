@@ -13,7 +13,8 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 public class PreventBlackSquareBasicRule extends BasicRule {
 
     public PreventBlackSquareBasicRule() {
-        super("Prevent Black Square",
+        super("NURI-BASC-0006",
+                "Prevent Black Square",
                 "There cannot be a 2x2 square of black. (3 blacks = fill in last corner white)",
                 "edu/rpi/legup/images/nurikabe/rules/NoBlackSquare.png");
     }
@@ -46,7 +47,8 @@ public class PreventBlackSquareBasicRule extends BasicRule {
 
         if (contraRule.checkContradiction(modified) == null) {
             return null;
-        } else {
+        }
+        else {
             return "Does not contain a contradiction at this index";
         }
     }

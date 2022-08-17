@@ -9,7 +9,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 public class BlackEdgeBasicRule extends BasicRule {
 
     public BlackEdgeBasicRule() {
-        super("Black Edge",
+        super("MASY-BASC-0001", "Black Edge",
                 "",
                 "edu/rpi/legup/images/masyu/RuleBlackEdge.png");
     }

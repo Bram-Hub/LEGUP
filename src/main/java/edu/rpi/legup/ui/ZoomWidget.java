@@ -42,7 +42,7 @@ public class ZoomWidget extends JLabel {
         private JSlider slider;
 
         public PopupSlider() {
-            slider = new JSlider(SwingConstants.VERTICAL, 25, 400, 100);
+            slider = new JSlider(SwingConstants.VERTICAL, 0, 400, 200);
             slider.setMajorTickSpacing(25);
             slider.setPaintTicks(true);
 
