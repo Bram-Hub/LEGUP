@@ -66,6 +66,11 @@ public class BattleshipBoard extends GridBoard {
     }
 
     @Override
+    /**
+     * Creates a copy of the current board
+     *
+     * @return the copy of the board
+     */
     public BattleshipBoard copy() {
         BattleshipBoard copy = new BattleshipBoard(dimension.width, dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {
