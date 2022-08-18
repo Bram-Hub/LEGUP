@@ -1,12 +1,27 @@
-SKYS-BASC-0001 : FixedMaxBasicRule
-SKYS-BASC-0002 : LastCellBasicRule
-SKYS-BASC-0003 : LastNUmberBasicRule
-SKYS-BASC-0004 : NEdgeBasicRule
-SKYS-BASC-0005 : OneEdgeBasicRule
+RULE LIST:
+    SKYS-BASC-0001 : FixedMaxBasicRule
+    SKYS-BASC-0002 : LastCellBasicRule
+    SKYS-BASC-0003 : LastNumberBasicRule
+    SKYS-BASC-0004 : NEdgeBasicRule
+    SKYS-BASC-0005 : OneEdgeBasicRule
 
-SKYS-CONT-0001 : DuplicateNumbersContradictionRule
-SKYS-CONT-0002 : ExceedingVisibilityContradictionRule
-SKYS-CONT-0003 : InsufficientVisibilityContradictionRule
-SKYS-CONT-0004 : UnresolvedCellContradictionRule
+    SKYS-CONT-0001 : DuplicateNumbersContradictionRule
+    SKYS-CONT-0002 : ExceedingVisibilityContradictionRule
+    SKYS-CONT-0003 : InsufficientVisibilityContradictionRule
+    SKYS-CONT-0004 : NoNumberForCellContradictionRule/UnresoveldCell
+    SKYS-CONT-0005 : NoCellForNumberContradictionRule/UnresoveldNumber
 
-SKYS-CASE-0001 : PossibleContentsCaseRule
+    SKYS-CASE-0001 : NumberForCellCaseRule
+    SKYS-CASE-0002 : CellForNumberCaseRule
+
+HELPER FUNCTIONS:
+    -getRowCol
+        Location: skyscrapersBoard
+        Use: returns all elements in a row or col
+        Notes: more than one element type?
+
+CODE MOURGE:
+    - isForced, getDefaultBoard
+      Locations:
+      Uses?: Unknown
+      Notes:
