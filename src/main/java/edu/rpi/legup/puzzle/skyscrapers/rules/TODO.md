@@ -1,16 +1,22 @@
 ## TODO
 
+spreadsheet : https://docs.google.com/spreadsheets/d/1l7aUZtavtysM8dtGnaEIXhBKMRGxekhnLIVoYIHYZi8/edit#gid=0
+
  1. Basic Rules:
-	 - Last Cell
-	 - Last Number
-	 - 1-Edge
-	 - N-Edge
-	 - Fixed Max
+     - Check spreadsheet
  2. Contradiction Rules:
-	 - Duplicate Number
-	 - Unresolved Cell
-	 - Exceeding Visibility
-	 - Insufficient Visibility
+     - check spreadsheet
+     - UnresovedCell vs. NoNumberForCell (don't need both)
+     - No Cell for Number - implement w/ flags
  3. Case Rules:
-	 - Possible Contents
-	 - Possible Places
+     - Cell for number - waiting on ui, needs checkrule
+ 4. Refactoring:
+    - Remove references to lightup and treetent in variable names
+    - document utility functions in the reference sheet, COMMENTS!
+    - review and identify dead code
+    - create and add rule icons
+    - check for overrides of by cell functions (ie checkContradiction)
+ 5. Flags
+    - add to all case rules
+    - review all basic/contradiction rules to put in terms of the new cases / add flags
+    - edit importer and exporter to include flags in xml file format
