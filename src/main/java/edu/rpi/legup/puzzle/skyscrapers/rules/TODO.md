@@ -16,7 +16,10 @@ spreadsheet : https://docs.google.com/spreadsheets/d/1l7aUZtavtysM8dtGnaEIXhBKMR
     - review and identify dead code
     - create and add rule icons
     - check for overrides of by cell functions (ie checkContradiction)
+    - replace row,col,rowClues,colClues and corresponding functions with appropriate names
  5. Flags
     - add to all case rules
     - review all basic/contradiction rules to put in terms of the new cases / add flags
     - edit importer and exporter to include flags in xml file format
+ 6. Documentation
+    - UML diagram(s)
