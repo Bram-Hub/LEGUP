@@ -14,14 +14,22 @@ RULE LIST:
     SKYS-CASE-0001 : NumberForCellCaseRule
     SKYS-CASE-0002 : CellForNumberCaseRule
 
-HELPER FUNCTIONS:
+HELPER FUNCTIONS: (check morgue for unused helpers, ctrl+f "helper function")
     -getRowCol
         Location: skyscrapersBoard
-        Use: returns all elements in a row or col
+        Use: returns elements in a row or col
         Notes: more than one element type?
 
-CODE MOURGE:
+CODE MORGUE:
     - isForced, getDefaultBoard
-      Locations:
-      Uses?: Unknown
-      Notes:
+        Locations:
+        Uses?: Unknown
+        Notes: Seems like a sanity check, but I cannot find a situation where it runs
+    -getDiagonals
+        Location: skyscrapersBoard
+        Use: helper function - gets cells immediately diagonal to a cell
+        Note: If you implement this, move it from morgue to helper functions section!
+    -getAdjacent
+        Location: skyscrapersBoard
+        Use: helper function - gets cells immediately adjacent to a cell
+        Note: If you implement this, move it from morgue to helper functions section!

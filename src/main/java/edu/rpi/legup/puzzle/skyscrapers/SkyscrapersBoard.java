@@ -12,10 +12,15 @@ public class SkyscrapersBoard extends GridBoard {
 
     private ArrayList<SkyscrapersLine> lines;
 
+
     private ArrayList<SkyscrapersClue> rowClues;
+    //EAST clues
     private ArrayList<SkyscrapersClue> colClues;
+    //SOUTH clues
     private ArrayList<SkyscrapersClue> row;
+    //WEST clues
     private ArrayList<SkyscrapersClue> col;
+    //NORTH clues
 
     private boolean viewFlag = false;
     private boolean dupeFlag = true;
@@ -53,19 +58,31 @@ public class SkyscrapersBoard extends GridBoard {
         return lines;
     }
 
-    public ArrayList<SkyscrapersClue> getRowClues() { //EAST CLUE
+    /**
+    * Returns a list of the eastern clues ordered from loc.y = 0->max
+    */
+    public ArrayList<SkyscrapersClue> getRowClues() {
         return rowClues;
     }
 
-    public ArrayList<SkyscrapersClue> getColClues() { //SOUTH CLUE
+    /**
+     * Returns a list of the southern clues ordered from loc.x = 0->max
+     */
+    public ArrayList<SkyscrapersClue> getColClues() {
         return colClues;
     }
-    
-    public ArrayList<SkyscrapersClue> getRow() { //WEST CLUE
+
+    /**
+     * Returns a list of the western clues ordered from loc.y = 0->max
+     */
+    public ArrayList<SkyscrapersClue> getRow() {
         return row;
     }
 
-    public ArrayList<SkyscrapersClue> getCol() { //NORTH CLUE
+    /**
+     * Returns a list of the northern clues ordered from loc.x = 0->max
+     */
+    public ArrayList<SkyscrapersClue> getCol() {
         return col;
     }
 
@@ -123,6 +140,13 @@ public class SkyscrapersBoard extends GridBoard {
         }
     }
 
+    /**
+     * Gets the cells of a certain type directly adjacent to a given cell
+     *
+     * @param cell at the center,
+     *        type of cell to collect
+     * @return list of cells of the given type
+     */
     public List<SkyscrapersCell> getAdjacent(SkyscrapersCell cell, SkyscrapersType type) {
         List<SkyscrapersCell> adj = new ArrayList<>();
         Point loc = cell.getLocation();
@@ -130,21 +154,28 @@ public class SkyscrapersBoard extends GridBoard {
         SkyscrapersCell right = getCell(loc.x + 1, loc.y);
         SkyscrapersCell down = getCell(loc.x, loc.y + 1);
         SkyscrapersCell left = getCell(loc.x - 1, loc.y);
-        if (up != null && up.getType() == type) {
+        if (up != null && (up.getType() == type || type == SkyscrapersType.ANY)) {
             adj.add(up);
         }
-        if (right != null && right.getType() == type) {
+        if (right != null && (right.getType() == type || type == SkyscrapersType.ANY)) {
             adj.add(right);
         }
-        if (down != null && down.getType() == type) {
+        if (down != null && (down.getType() == type || type == SkyscrapersType.ANY)) {
             adj.add(down);
         }
-        if (left != null && left.getType() == type) {
+        if (left != null && (left.getType() == type || type == SkyscrapersType.ANY)) {
             adj.add(left);
         }
         return adj;
     }
 
+    /**
+     * Gets the cells of a certain type directly diagonal to a given cell
+     *
+     * @param cell at the center,
+     *        type of cell to collect
+     * @return list of cells of the given type
+     */
     public List<SkyscrapersCell> getDiagonals(SkyscrapersCell cell, SkyscrapersType type) {
         List<SkyscrapersCell> dia = new ArrayList<>();
         Point loc = cell.getLocation();
@@ -152,16 +183,16 @@ public class SkyscrapersBoard extends GridBoard {
         SkyscrapersCell downRight = getCell(loc.x + 1, loc.y + 1);
         SkyscrapersCell downLeft = getCell(loc.x - 1, loc.y + 1);
         SkyscrapersCell upLeft = getCell(loc.x - 1, loc.y - 1);
-        if (upRight != null && upRight.getType() == type) {
+        if (upRight != null && (upRight.getType() == type || type == SkyscrapersType.ANY)) {
             dia.add(upRight);
         }
-        if (downLeft != null && downLeft.getType() == type) {
+        if (downLeft != null && (downLeft.getType() == type || type == SkyscrapersType.ANY)) {
             dia.add(downLeft);
         }
-        if (downRight != null && downRight.getType() == type) {
+        if (downRight != null && (downRight.getType() == type || type == SkyscrapersType.ANY)) {
             dia.add(downRight);
         }
-        if (upLeft != null && upLeft.getType() == type) {
+        if (upLeft != null && (upLeft.getType() == type || type == SkyscrapersType.ANY)) {
             dia.add(upLeft);
         }
         return dia;
@@ -177,19 +208,17 @@ public class SkyscrapersBoard extends GridBoard {
      */
     public List<SkyscrapersCell> getRowCol(int index, SkyscrapersType type, boolean isRow) {
         List<SkyscrapersCell> list = new ArrayList<>();
-        if (isRow) {
-            for (int i = 0; i < dimension.height; i++) {
-            	SkyscrapersCell cell = getCell(i, index);
-                if (cell.getType() == type) {
-                    list.add(cell);
-                }
+        for (int i = 0; i < dimension.height; i++) {
+            SkyscrapersCell cell;
+            if (isRow) {
+                cell = getCell(i, index);
             }
-        } else {
-            for (int i = 0; i < dimension.width; i++) {
-            	SkyscrapersCell cell = getCell(index, i);
-                if (cell.getType() == type) {
-                    list.add(cell);
-                }
+            else {
+                cell = getCell(index, i);
+            }
+
+            if (cell.getType() == type || type == SkyscrapersType.ANY) {
+                list.add(cell);
             }
         }
         return list;
