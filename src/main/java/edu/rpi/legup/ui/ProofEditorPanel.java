@@ -388,6 +388,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         ruleBox.add(boardPanel);
         treeBox.add(ruleBox);
         this.add(treeBox);
+        this.add(treeBox);
 //        consoleBox.add(treeBox);
 //
 //        getContentPane().add(consoleBox);
