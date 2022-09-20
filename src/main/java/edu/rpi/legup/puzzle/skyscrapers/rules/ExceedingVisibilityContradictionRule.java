@@ -31,7 +31,7 @@ public class ExceedingVisibilityContradictionRule extends ContradictionRule {
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
-    	SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
+        SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
         SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board;
         Point loc = cell.getLocation();
         
@@ -137,4 +137,3 @@ public class ExceedingVisibilityContradictionRule extends ContradictionRule {
 	}
 
 }
-

@@ -33,9 +33,9 @@ public class LastNumberBasicRule extends BasicRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-    	SkyscrapersBoard initialBoard = (SkyscrapersBoard) transition.getParents().get(0).getBoard();
-    	SkyscrapersCell initCell = (SkyscrapersCell) initialBoard.getPuzzleElement(puzzleElement);
-    	SkyscrapersBoard finalBoard = (SkyscrapersBoard) transition.getBoard();
+        SkyscrapersBoard initialBoard = (SkyscrapersBoard) transition.getParents().get(0).getBoard();
+        SkyscrapersCell initCell = (SkyscrapersCell) initialBoard.getPuzzleElement(puzzleElement);
+        SkyscrapersBoard finalBoard = (SkyscrapersBoard) transition.getBoard();
         SkyscrapersCell finalCell = (SkyscrapersCell) finalBoard.getPuzzleElement(puzzleElement);
         if (initCell.getType() != SkyscrapersType.UNKNOWN || finalCell.getType() != SkyscrapersType.Number) {
             return super.getInvalidUseOfRuleMessage() + ": Modified cells must transition from unknown to number";
@@ -45,10 +45,13 @@ public class LastNumberBasicRule extends BasicRule {
         emptyCase.getPuzzleElement(finalCell).setData(0);
         Point loc = finalCell.getLocation();
 
+<<<<<<< HEAD
         //init with all possible numbers
+=======
+>>>>>>> dev
         Set<Integer> candidates = new HashSet<Integer>();
         for (int i = 1; i <= initialBoard.getWidth(); i++) {
-        	candidates.add(i);
+            candidates.add(i);
         }
         
         //remove any existing numbers
@@ -56,9 +59,9 @@ public class LastNumberBasicRule extends BasicRule {
             //check row
         	SkyscrapersCell c = initialBoard.getCell(i, loc.y);
             if (i != loc.x && c.getType() == SkyscrapersType.Number) {
-            	candidates.remove(c.getData());
-            	//System.out.print(c.getData());
-            	//System.out.println(finalCell.getData());
+                candidates.remove(c.getData());
+                //System.out.print(c.getData());
+                //System.out.println(finalCell.getData());
             }
             // check column
             c = initialBoard.getCell(loc.x, i);
@@ -69,16 +72,19 @@ public class LastNumberBasicRule extends BasicRule {
             }
         }
 
+<<<<<<< HEAD
         //check if given value is the only remaining value
+=======
+>>>>>>> dev
         DuplicateNumberContradictionRule duplicate = new DuplicateNumberContradictionRule();
         if (candidates.size() == 1 && duplicate.checkContradictionAt(emptyCase, finalCell) != null) {
-        	Iterator<Integer> it = candidates.iterator();
-        	if (it.next() == finalCell.getData()) {
-        		return null;
-        	}
-        	return super.getInvalidUseOfRuleMessage() + ": Wrong number in the cell.";
+            Iterator<Integer> it = candidates.iterator();
+            if (it.next() == finalCell.getData()) {
+                return null;
+            }
+            return super.getInvalidUseOfRuleMessage() + ": Wrong number in the cell.";
         }
-        
+
         return super.getInvalidUseOfRuleMessage() + ":This cell is not forced.";
     }
 
@@ -87,7 +93,7 @@ public class LastNumberBasicRule extends BasicRule {
         emptyCase.getPuzzleElement(cell).setData(0);
         DuplicateNumberContradictionRule duplicate = new DuplicateNumberContradictionRule();
         if (duplicate.checkContradictionAt(emptyCase, cell) == null) {
-        	System.out.println("no contradiction ln");
+            System.out.println("no contradiction ln");
             return true;
         }
         return false;
@@ -101,12 +107,12 @@ public class LastNumberBasicRule extends BasicRule {
      */
     @Override
     public Board getDefaultBoard(TreeNode node) {
-    	SkyscrapersBoard initialBoard = (SkyscrapersBoard) node.getBoard();
-    	SkyscrapersBoard lightUpBoard = (SkyscrapersBoard) node.getBoard().copy();
-    	System.out.println(lightUpBoard.getPuzzleElements().size());
+        SkyscrapersBoard initialBoard = (SkyscrapersBoard) node.getBoard();
+        SkyscrapersBoard lightUpBoard = (SkyscrapersBoard) node.getBoard().copy();
+        System.out.println(lightUpBoard.getPuzzleElements().size());
         for (PuzzleElement element : lightUpBoard.getPuzzleElements()) {
-        	System.out.println("123");
-        	SkyscrapersCell cell = (SkyscrapersCell) element;
+            System.out.println("123");
+            SkyscrapersCell cell = (SkyscrapersCell) element;
             if (cell.getType() == SkyscrapersType.UNKNOWN && isForced(initialBoard, cell)) {
                 //cell.setData(SkyscrapersType.BULB.value);
                 lightUpBoard.addModifiedData(cell);
@@ -114,7 +120,8 @@ public class LastNumberBasicRule extends BasicRule {
         }
         if (lightUpBoard.getModifiedData().isEmpty()) {
             return null;
-        } else {
+        }
+        else {
             return lightUpBoard;
         }
     }

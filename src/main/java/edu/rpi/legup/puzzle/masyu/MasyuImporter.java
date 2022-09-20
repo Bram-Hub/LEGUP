@@ -14,6 +14,18 @@ public class MasyuImporter extends PuzzleImporter {
     }
 
     /**
+     * Creates an empty board for building
+     *
+     * @param rows    the number of rows on the board
+     * @param columns the number of columns on the board
+     * @throws RuntimeException
+     */
+    @Override
+    public void initializeBoard(int rows, int columns) {
+
+    }
+
+    /**
      * Creates the board for building
      *
      * @param node xml document node
@@ -36,10 +48,13 @@ public class MasyuImporter extends PuzzleImporter {
             if (!boardElement.getAttribute("size").isEmpty()) {
                 int size = Integer.valueOf(boardElement.getAttribute("size"));
                 masyuBoard = new MasyuBoard(size);
-            } else if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
-                int width = Integer.valueOf(boardElement.getAttribute("width"));
-                int height = Integer.valueOf(boardElement.getAttribute("height"));
-                masyuBoard = new MasyuBoard(width, height);
+            }
+            else {
+                if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
+                    int width = Integer.valueOf(boardElement.getAttribute("width"));
+                    int height = Integer.valueOf(boardElement.getAttribute("height"));
+                    masyuBoard = new MasyuBoard(width, height);
+                }
             }
 
             if (masyuBoard == null) {
@@ -70,7 +85,8 @@ public class MasyuImporter extends PuzzleImporter {
                 }
             }
             puzzle.setCurrentBoard(masyuBoard);
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             throw new InvalidFileFormatException("Masyu Importer: unknown value where integer expected");
         }
     }

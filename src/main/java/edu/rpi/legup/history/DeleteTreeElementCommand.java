@@ -4,7 +4,7 @@ import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.observer.ITreeListener;
 import edu.rpi.legup.model.tree.*;
-import edu.rpi.legup.ui.treeview.*;
+import edu.rpi.legup.ui.proofeditorui.treeview.*;
 
 import java.util.List;
 
@@ -35,7 +35,8 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
         if (firstSelectedView.getType() == TreeElementType.NODE) {
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
             newSelectedView = nodeView.getParentView();
-        } else {
+        }
+        else {
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
             newSelectedView = transitionView.getParentViews().get(0);
         }
@@ -88,7 +89,8 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
                 node.getParent().setChildNode(node);
 
                 puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(node));
-            } else {
+            }
+            else {
                 TreeTransition transition = (TreeTransition) element;
                 transition.getParents().forEach(node -> node.addChild(transition));
                 transition.getParents().get(0).getChildren().forEach(TreeTransition::reverify);

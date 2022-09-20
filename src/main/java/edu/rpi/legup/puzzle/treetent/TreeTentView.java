@@ -6,6 +6,8 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,6 +15,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class TreeTentView extends GridBoardView {
+    private final static Logger LOGGER = LogManager.getLogger(TreeTentView.class.getName());
+
     static Image TREE, GRASS, TENT;
 
     static {
@@ -20,8 +24,9 @@ public class TreeTentView extends GridBoardView {
             TREE = ImageIO.read(ClassLoader.getSystemResourceAsStream("edu/rpi/legup/images/treetent/tree.png"));
             GRASS = ImageIO.read(ClassLoader.getSystemResourceAsStream("edu/rpi/legup/images/treetent/grass.png"));
             TENT = ImageIO.read(ClassLoader.getSystemResourceAsStream("edu/rpi/legup/images/treetent/tent.png"));
-        } catch (IOException e) {
-
+        }
+        catch (IOException e) {
+            LOGGER.error("Failed to open TreeTent images");
         }
     }
 
@@ -64,7 +69,7 @@ public class TreeTentView extends GridBoardView {
             row.setSize(elementSize);
 
             TreeTentClueView clue = new TreeTentClueView(board.getRowClues().get(i));
-            clue.setLocation(new Point((gridSize.height + 1) * elementSize.height, (i + 1) * elementSize.height));
+            clue.setLocation(new Point((gridSize.width + 1) * elementSize.width, (i + 1) * elementSize.height));
             clue.setSize(elementSize);
 
             westClues.add(row);
@@ -77,7 +82,7 @@ public class TreeTentView extends GridBoardView {
             col.setSize(elementSize);
 
             TreeTentClueView clue = new TreeTentClueView(board.getColClues().get(i));
-            clue.setLocation(new Point((i + 1) * elementSize.width, (gridSize.width + 1) * elementSize.width));
+            clue.setLocation(new Point((i + 1) * elementSize.width, (gridSize.height + 1) * elementSize.height));
             clue.setSize(elementSize);
 
             northClues.add(col);
@@ -162,7 +167,8 @@ public class TreeTentView extends GridBoardView {
         TreeTentBoard treeTentBoard;
         if (board instanceof CaseBoard) {
             treeTentBoard = (TreeTentBoard) ((CaseBoard) board).getBaseBoard();
-        } else {
+        }
+        else {
             treeTentBoard = (TreeTentBoard) board;
         }
 

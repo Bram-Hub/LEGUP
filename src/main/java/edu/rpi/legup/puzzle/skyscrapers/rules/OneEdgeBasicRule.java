@@ -33,9 +33,9 @@ public class OneEdgeBasicRule extends BasicRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-    	SkyscrapersBoard initialBoard = (SkyscrapersBoard) transition.getParents().get(0).getBoard();
-    	SkyscrapersCell initCell = (SkyscrapersCell) initialBoard.getPuzzleElement(puzzleElement);
-    	SkyscrapersBoard finalBoard = (SkyscrapersBoard) transition.getBoard();
+        SkyscrapersBoard initialBoard = (SkyscrapersBoard) transition.getParents().get(0).getBoard();
+        SkyscrapersCell initCell = (SkyscrapersCell) initialBoard.getPuzzleElement(puzzleElement);
+        SkyscrapersBoard finalBoard = (SkyscrapersBoard) transition.getBoard();
         SkyscrapersCell finalCell = (SkyscrapersCell) finalBoard.getPuzzleElement(puzzleElement);
         if (initCell.getType() != SkyscrapersType.UNKNOWN || finalCell.getType() != SkyscrapersType.Number) {
             return super.getInvalidUseOfRuleMessage() + ": Modified cells must transition from unknown to number";
@@ -44,17 +44,17 @@ public class OneEdgeBasicRule extends BasicRule {
         SkyscrapersBoard emptyCase = initialBoard.copy();
         emptyCase.getPuzzleElement(finalCell).setData(0);
         Point loc = finalCell.getLocation();
-        
+
         if (loc.x != 0 && loc.x != initialBoard.getWidth() - 1 && loc.y != 0 && loc.y != initialBoard.getHeight() - 1) {
-        	return super.getInvalidUseOfRuleMessage() + ": Modified cells must be on the edge";
+            return super.getInvalidUseOfRuleMessage() + ": Modified cells must be on the edge";
         }
-        
+
         if (finalCell.getData() != initialBoard.getWidth()) {
-        	return super.getInvalidUseOfRuleMessage() + ": Modified cells must be the max";
+            return super.getInvalidUseOfRuleMessage() + ": Modified cells must be the max";
         }
-        
+
         if (loc.x == 0 && initialBoard.getRow().get(loc.y).getData() == 1) {
-        	return null;
+            return null;
         }
         else if (loc.x == initialBoard.getWidth() - 1 && initialBoard.getRowClues().get(loc.y).getData() == 1) {
         	return null;
@@ -74,7 +74,7 @@ public class OneEdgeBasicRule extends BasicRule {
         emptyCase.getPuzzleElement(cell).setData(0);
         DuplicateNumberContradictionRule duplicate = new DuplicateNumberContradictionRule();
         if (duplicate.checkContradictionAt(emptyCase, cell) == null) {
-        	System.out.println("no contradiction ln");
+            System.out.println("no contradiction ln");
             return true;
         }
         return false;
@@ -88,12 +88,12 @@ public class OneEdgeBasicRule extends BasicRule {
      */
     @Override
     public Board getDefaultBoard(TreeNode node) {
-    	SkyscrapersBoard initialBoard = (SkyscrapersBoard) node.getBoard();
-    	SkyscrapersBoard lightUpBoard = (SkyscrapersBoard) node.getBoard().copy();
-    	System.out.println(lightUpBoard.getPuzzleElements().size());
+        SkyscrapersBoard initialBoard = (SkyscrapersBoard) node.getBoard();
+        SkyscrapersBoard lightUpBoard = (SkyscrapersBoard) node.getBoard().copy();
+        System.out.println(lightUpBoard.getPuzzleElements().size());
         for (PuzzleElement element : lightUpBoard.getPuzzleElements()) {
-        	System.out.println("123");
-        	SkyscrapersCell cell = (SkyscrapersCell) element;
+            System.out.println("123");
+            SkyscrapersCell cell = (SkyscrapersCell) element;
             if (cell.getType() == SkyscrapersType.UNKNOWN && isForced(initialBoard, cell)) {
                 //cell.setData(SkyscrapersType.BULB.value);
                 lightUpBoard.addModifiedData(cell);
@@ -101,7 +101,8 @@ public class OneEdgeBasicRule extends BasicRule {
         }
         if (lightUpBoard.getModifiedData().isEmpty()) {
             return null;
-        } else {
+        }
+        else {
             return lightUpBoard;
         }
     }

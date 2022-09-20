@@ -14,6 +14,18 @@ public class SkyscrapersImporter extends PuzzleImporter {
     }
 
     /**
+     * Creates an empty board for building
+     *
+     * @param rows    the number of rows on the board
+     * @param columns the number of columns on the board
+     * @throws RuntimeException
+     */
+    @Override
+    public void initializeBoard(int rows, int columns) {
+
+    }
+
+    /**
      * Creates the board for building
      *
      * @param node xml document node
@@ -36,10 +48,13 @@ public class SkyscrapersImporter extends PuzzleImporter {
             if (!boardElement.getAttribute("size").isEmpty()) {
                 int size = Integer.valueOf(boardElement.getAttribute("size"));
                 treeTentBoard = new SkyscrapersBoard(size);
-            } else if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
-                int width = Integer.valueOf(boardElement.getAttribute("width"));
-                int height = Integer.valueOf(boardElement.getAttribute("height"));
-                treeTentBoard = new SkyscrapersBoard(width, height);
+            }
+            else {
+                if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
+                    int width = Integer.valueOf(boardElement.getAttribute("width"));
+                    int height = Integer.valueOf(boardElement.getAttribute("height"));
+                    treeTentBoard = new SkyscrapersBoard(width, height);
+                }
             }
 
             if (treeTentBoard == null) {
@@ -50,7 +65,7 @@ public class SkyscrapersImporter extends PuzzleImporter {
             int height = treeTentBoard.getHeight();
 
             for (int i = 0; i < elementDataList.getLength(); i++) {
-            	SkyscrapersCell cell = (SkyscrapersCell) puzzle.getFactory().importCell(elementDataList.item(i), treeTentBoard);
+                SkyscrapersCell cell = (SkyscrapersCell) puzzle.getFactory().importCell(elementDataList.item(i), treeTentBoard);
                 Point loc = cell.getLocation();
                 if (cell.getData() != 0) {
                     cell.setModifiable(false);
@@ -62,7 +77,7 @@ public class SkyscrapersImporter extends PuzzleImporter {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     if (treeTentBoard.getCell(x, y) == null) {
-                    	SkyscrapersCell cell = new SkyscrapersCell(0, new Point(x, y), width);
+                        SkyscrapersCell cell = new SkyscrapersCell(0, new Point(x, y), width);
                         cell.setIndex(y * height + x);
                         cell.setModifiable(true);
                         treeTentBoard.setCell(x, y, cell);
@@ -135,7 +150,8 @@ public class SkyscrapersImporter extends PuzzleImporter {
             }
 
             puzzle.setCurrentBoard(treeTentBoard);
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             throw new InvalidFileFormatException("TreeTent Importer: unknown value where integer expected");
         }
     }

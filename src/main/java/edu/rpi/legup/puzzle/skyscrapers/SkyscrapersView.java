@@ -6,6 +6,8 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class SkyscrapersView extends GridBoardView {
+    private final static Logger LOGGER = LogManager.getLogger(SkyscrapersView.class.getName());
     static Image TREE, GRASS, TENT;
 
     static {
@@ -20,8 +23,9 @@ public class SkyscrapersView extends GridBoardView {
             TREE = ImageIO.read(ClassLoader.getSystemResourceAsStream("edu/rpi/legup/images/treetent/tree.png"));
             GRASS = ImageIO.read(ClassLoader.getSystemResourceAsStream("edu/rpi/legup/images/treetent/grass.png"));
             TENT = ImageIO.read(ClassLoader.getSystemResourceAsStream("edu/rpi/legup/images/treetent/tent.png"));
-        } catch (IOException e) {
-
+        }
+        catch (IOException e) {
+            LOGGER.error("Failed to open TreeTent images");
         }
     }
 
@@ -43,7 +47,7 @@ public class SkyscrapersView extends GridBoardView {
         this.westClues = new ArrayList<>();
 
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
-        	SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
+            SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
             Point loc = cell.getLocation();
             SkyscrapersElementView elementView = new SkyscrapersElementView(cell);
             elementView.setIndex(cell.getIndex());
@@ -53,14 +57,14 @@ public class SkyscrapersView extends GridBoardView {
         }
 
         for (SkyscrapersLine line : board.getLines()) {
-        	SkyscrapersLineView lineView = new SkyscrapersLineView(line);
+            SkyscrapersLineView lineView = new SkyscrapersLineView(line);
             lineView.setSize(elementSize);
             lineViews.add(lineView);
         }
 
         for (int i = 0; i < gridSize.height; i++) {
-        	//SkyscrapersClueView row = new SkyscrapersClueView(new SkyscrapersClue(i, i, SkyscrapersType.CLUE_WEST));
-        	SkyscrapersClueView row = new SkyscrapersClueView(board.getRow().get(i));
+            //SkyscrapersClueView row = new SkyscrapersClueView(new SkyscrapersClue(i, i, SkyscrapersType.CLUE_WEST));
+            SkyscrapersClueView row = new SkyscrapersClueView(board.getRow().get(i));
             row.setLocation(new Point(0, (i + 1) * elementSize.height));
             row.setSize(elementSize);
 
@@ -73,8 +77,8 @@ public class SkyscrapersView extends GridBoardView {
         }
 
         for (int i = 0; i < gridSize.width; i++) {
-        	//SkyscrapersClueView col = new SkyscrapersClueView(new SkyscrapersClue(i, i, SkyscrapersType.CLUE_NORTH));
-        	SkyscrapersClueView col = new SkyscrapersClueView(board.getCol().get(i));
+            //SkyscrapersClueView col = new SkyscrapersClueView(new SkyscrapersClue(i, i, SkyscrapersType.CLUE_NORTH));
+            SkyscrapersClueView col = new SkyscrapersClueView(board.getCol().get(i));
             col.setLocation(new Point((i + 1) * elementSize.width, 0));
             col.setSize(elementSize);
 
@@ -164,13 +168,14 @@ public class SkyscrapersView extends GridBoardView {
         SkyscrapersBoard treeTentBoard;
         if (board instanceof CaseBoard) {
             treeTentBoard = (SkyscrapersBoard) ((CaseBoard) board).getBaseBoard();
-        } else {
+        }
+        else {
             treeTentBoard = (SkyscrapersBoard) board;
         }
 
         lineViews.clear();
         for (SkyscrapersLine line : treeTentBoard.getLines()) {
-        	SkyscrapersLineView lineView = new SkyscrapersLineView(line);
+            SkyscrapersLineView lineView = new SkyscrapersLineView(line);
             lineView.setSize(elementSize);
             lineViews.add(lineView);
         }

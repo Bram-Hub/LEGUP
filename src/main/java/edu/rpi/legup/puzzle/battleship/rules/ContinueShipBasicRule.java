@@ -18,7 +18,7 @@ public class ContinueShipBasicRule extends BasicRule {
     /**
      * Checks whether the child node logically follows from the parent node
      * at the specific puzzleElement index using this rule
-     * This method is the one that should overridden in child classes
+     * This method is the one that should be overridden in child classes
      *
      * @param transition    transition to check
      * @param puzzleElement equivalent puzzleElement

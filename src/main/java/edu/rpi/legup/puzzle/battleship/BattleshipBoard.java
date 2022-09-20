@@ -44,8 +44,8 @@ public class BattleshipBoard extends GridBoard {
     /**
      * Gets the east {@link BattleshipClue}
      *
-     * @return  List of <code>BattleShipClue</code> objects on the east
-     *          side of the board
+     * @return List of <code>BattleShipClue</code> objects on the east
+     * side of the board
      */
     public List<BattleshipClue> getEast() {
         return east;
@@ -66,6 +66,11 @@ public class BattleshipBoard extends GridBoard {
     }
 
     @Override
+    /**
+     * Creates a copy of the current board
+     *
+     * @return the copy of the board
+     */
     public BattleshipBoard copy() {
         BattleshipBoard copy = new BattleshipBoard(dimension.width, dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {
@@ -73,7 +78,7 @@ public class BattleshipBoard extends GridBoard {
                 copy.setCell(x, y, getCell(x, y).copy());
             }
         }
-        for(PuzzleElement e : modifiedData) {
+        for (PuzzleElement e : modifiedData) {
             copy.getPuzzleElement(e).setModifiable(false);
         }
         copy.east = this.east;
@@ -83,12 +88,12 @@ public class BattleshipBoard extends GridBoard {
 
     /**
      * Get a list of all orthogonally adjacent cells.
-     * 
-     * @param cell  The cell to get adjacent cells from.
-     * @return      List of adjacent cells in clockwise order:
-     *              <code>{ up, right, down, left }</code>
+     *
+     * @param cell The cell to get adjacent cells from.
+     * @return List of adjacent cells in clockwise order:
+     * <code>{ up, right, down, left }</code>
      */
-    public List<BattleshipCell> getAdjacent(BattleshipCell cell) {
+    public List<BattleshipCell> getAdjOrthogonals(BattleshipCell cell) {
         List<BattleshipCell> adj = new ArrayList<>();
         Point loc = cell.getLocation();
         BattleshipCell up = getCell(loc.x, loc.y - 1);
@@ -105,9 +110,9 @@ public class BattleshipBoard extends GridBoard {
     /**
      * Get a list of all diagonally adjacent cells.
      *
-     * @param cell  The cell to get diagonally adjacent cells from.
-     * @return      List of diagonally adjacent cells in clockwise order:
-     *              <code>{ upRight, downRight, downLeft, upLeft }</code>
+     * @param cell The cell to get diagonally adjacent cells from.
+     * @return List of diagonally adjacent cells in clockwise order:
+     * <code>{ upRight, downRight, downLeft, upLeft }</code>
      */
     public List<BattleshipCell> getAdjDiagonals(BattleshipCell cell) {
         List<BattleshipCell> dia = new ArrayList<>();
@@ -127,7 +132,7 @@ public class BattleshipBoard extends GridBoard {
      * Get a list of cells in a row.
      *
      * @param y The y-coordinate of the row.
-     * @return  List of cells in the row in increasing x-coordinate order.
+     * @return List of cells in the row in increasing x-coordinate order.
      */
     public List<BattleshipCell> getRow(int y) {
         List<BattleshipCell> row = new ArrayList<>();
@@ -141,7 +146,7 @@ public class BattleshipBoard extends GridBoard {
      * Get a list of cells in a column.
      *
      * @param x The x-coordinate of the column.
-     * @return  List of cells in the column in increasing y-coordinate order.
+     * @return List of cells in the column in increasing y-coordinate order.
      */
     public List<BattleshipCell> getColumn(int x) {
         List<BattleshipCell> column = new ArrayList<>();

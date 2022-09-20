@@ -24,12 +24,14 @@ public class IsolateBlackContradictionRule extends ContradictionRule {
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific
+     * {@link PuzzleElement} index using this rule.
      *
      * @param board         board to check contradiction
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the transition contains a contradiction at the specified puzzleElement,
-     * otherwise error message
+     * @return <code>null</code> if the transition contains a
+     * contradiction at the specified {@link PuzzleElement},
+     * otherwise return a no contradiction message.
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
@@ -46,7 +48,8 @@ public class IsolateBlackContradictionRule extends ContradictionRule {
                 if (c.getType() == NurikabeType.BLACK) {
                     if (oneRegion) {
                         return null;
-                    } else {
+                    }
+                    else {
                         oneRegion = true;
                         break;
                     }

@@ -1,17 +1,15 @@
 package edu.rpi.legup.puzzle.skyscrapers;
 
-import edu.rpi.legup.app.LegupPreferences;
-import edu.rpi.legup.puzzle.sudoku.SudokuCell;
 import edu.rpi.legup.ui.boardview.GridElementView;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 public class SkyscrapersElementView extends GridElementView {
-	private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
+    private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
     private static final Color FONT_COLOR = new Color(0x212121);
     private static final Color BORDER_COLOR = new Color(0x424242);
     private static final Color BACKGROUND_COLOR = new Color(0xEEEEEE);
+
     public SkyscrapersElementView(SkyscrapersCell cell) {
         super(cell);
     }
@@ -40,8 +38,8 @@ public class SkyscrapersElementView extends GridElementView {
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
         }*/
-    	
-    	graphics2D.setStroke(new BasicStroke(1));
+
+        graphics2D.setStroke(new BasicStroke(1));
         graphics2D.setColor(BACKGROUND_COLOR);
         graphics2D.fillRect(location.x, location.y, size.width, size.height);
         graphics2D.setColor(BORDER_COLOR);

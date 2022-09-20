@@ -5,7 +5,11 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentCell;
+import edu.rpi.legup.puzzle.treetent.TreeTentLine;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
+
+import java.util.List;
+import java.util.Iterator;
 
 public class NoTreeForTentContradictionRule extends ContradictionRule {
 
@@ -30,11 +34,25 @@ public class NoTreeForTentContradictionRule extends ContradictionRule {
         if (cell.getType() != TreeTentType.TENT) {
             return super.getNoContradictionMessage();
         }
-        int adjTree = treeTentBoard.getAdjacent(cell, TreeTentType.TREE).size();
-        int adjUnknown = treeTentBoard.getAdjacent(cell, TreeTentType.UNKNOWN).size();
-        if (adjTree == 0 && adjUnknown == 0) {
+        List<TreeTentCell> adjTrees = treeTentBoard.getAdjacent(cell, TreeTentType.TREE);
+        List<TreeTentLine> lines = treeTentBoard.getLines();
+        for (TreeTentLine l : lines) {
+            Iterator<TreeTentCell> i = adjTrees.iterator();
+            while (i.hasNext()) {
+                TreeTentCell t = i.next();
+                if (t.getLocation().equals(l.getC1().getLocation()) && !(cell.getLocation().equals(l.getC2().getLocation()))) {
+                    i.remove();
+                }
+                if (t.getLocation().equals(l.getC2().getLocation()) && !(cell.getLocation().equals(l.getC2().getLocation()))) {
+                    i.remove();
+                }
+            }
+        }
+        int adjTree = adjTrees.size();
+        if (adjTree == 0) {
             return null;
-        } else {
+        }
+        else {
             return super.getNoContradictionMessage();
         }
     }

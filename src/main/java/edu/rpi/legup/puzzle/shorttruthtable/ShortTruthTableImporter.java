@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-class ShortTruthTableImporter extends PuzzleImporter{
+class ShortTruthTableImporter extends PuzzleImporter {
 
     public ShortTruthTableImporter(ShortTruthTable stt) {
         super(stt);
@@ -28,10 +28,10 @@ class ShortTruthTableImporter extends PuzzleImporter{
      * @param y
      * @return
      */
-    private List<ShortTruthTableCell> getCells(String statement, int y){
+    private List<ShortTruthTableCell> getCells(String statement, int y) {
         List<ShortTruthTableCell> cells = new ArrayList<ShortTruthTableCell>();
         //go through each char in the statment and make a cell for it
-        for(int i = 0; i<statement.length(); i++){
+        for (int i = 0; i < statement.length(); i++) {
             char c = statement.charAt(i);
             ShortTruthTableCell cell = new ShortTruthTableCell(c, ShortTruthTableCellType.getDefaultType(c), new Point(i, y));
             //it is modifiable if the type is unknown
@@ -46,17 +46,17 @@ class ShortTruthTableImporter extends PuzzleImporter{
      * Parses the statementData into all the cells (with symbols) and statements for the
      * puzzle. All cells are set to UNKNWON, it their value is given, it will be set later
      * in the import process.
-     *
+     * <p>
      * Both allCells and statements act as returns, They should be passed as empty arrays
      *
      * @param statementData The data to be imported
-     * @param allCells returns all the cells as a jagged 2d array
-     * @param statements returns all the statements
+     * @param allCells      returns all the cells as a jagged 2d array
+     * @param statements    returns all the statements
      * @return the length, in chars, of the longest statement
      */
     private int parseAllStatmentsAndCells(final NodeList statementData,
-                                        List<List<ShortTruthTableCell>> allCells,
-                                        List<ShortTruthTableStatement> statements) throws InvalidFileFormatException{
+                                          List<List<ShortTruthTableCell>> allCells,
+                                          List<ShortTruthTableStatement> statements) throws InvalidFileFormatException {
 
         int maxStatementLength = 0;
 
@@ -68,14 +68,14 @@ class ShortTruthTableImporter extends PuzzleImporter{
             String statementRep = attributeList.getNamedItem("representation").getNodeValue();
             //parser time (on statementRep)
             //if (!validGrammar(statementRep)) throw some error
-            if(!validGrammar(statementRep)){
+            if (!validGrammar(statementRep)) {
                 JOptionPane.showMessageDialog(null, "ERROR: Invalid file syntax");
                 throw new InvalidFileFormatException("shorttruthtable importer: invalid sentence syntax");
             }
             int rowIndex = Integer.valueOf(attributeList.getNamedItem("row_index").getNodeValue());
 
             //get the cells for the statement
-            List<ShortTruthTableCell> rowOfCells = getCells(statementRep, rowIndex*2);
+            List<ShortTruthTableCell> rowOfCells = getCells(statementRep, rowIndex * 2);
             allCells.add(rowOfCells);
             statements.add(new ShortTruthTableStatement(statementRep, rowOfCells));
 
@@ -91,10 +91,10 @@ class ShortTruthTableImporter extends PuzzleImporter{
     private boolean validGrammar(String sentence) {
         int open = 0;
         int close = 0;
-        char[] valid_characters = new char[] {'^', 'v', '!', '>', '-', '&', '|', '~', '$', '%'};
-        for(int i = 0; i < sentence.length(); i++) {
+        char[] valid_characters = new char[]{'^', 'v', '!', '>', '-', '&', '|', '~', '$', '%'};
+        for (int i = 0; i < sentence.length(); i++) {
             char s = sentence.charAt(i);
-            if(s == '(' || s == ')'){
+            if (s == '(' || s == ')') {
                 switch (s) {
                     case ')':
                         close++;
@@ -105,24 +105,24 @@ class ShortTruthTableImporter extends PuzzleImporter{
                 }
                 continue;
             }
-            if(!Character.isLetter(s)) {
+            if (!Character.isLetter(s)) {
                 boolean valid = false;
-                for(char c: valid_characters) {
-                    if(c == s) {
+                for (char c : valid_characters) {
+                    if (c == s) {
                         valid = true;
                         break;
                     }
                 }
-                if(!valid) {
+                if (!valid) {
                     System.out.println("Invalid character");
                     System.out.println(s);
                     return false;
                 }
-                if(i != sentence.length() - 1) {
-                    char next = sentence.charAt(i+1);
-                    if(next != '!' && next != '~') {
-                        for(char c: valid_characters) {
-                            if(c == next) {
+                if (i != sentence.length() - 1) {
+                    char next = sentence.charAt(i + 1);
+                    if (next != '!' && next != '~') {
+                        for (char c : valid_characters) {
+                            if (c == next) {
                                 System.out.println("Invalid next character");
                                 System.out.println(s);
                                 System.out.println(next);
@@ -131,26 +131,27 @@ class ShortTruthTableImporter extends PuzzleImporter{
                         }
                     }
                 }
-            } else {
-                if(i != sentence.length() - 1) {
-                    if(Character.isLetter(sentence.charAt(i+1))) {
+            }
+            else {
+                if (i != sentence.length() - 1) {
+                    if (Character.isLetter(sentence.charAt(i + 1))) {
                         System.out.println("Invalid next character");
                         System.out.println(s);
-                        System.out.println(sentence.charAt(i+1));
+                        System.out.println(sentence.charAt(i + 1));
                         return false;
-                    } 
+                    }
                 }
             }
         }
         return open == close;
-    } 
+    }
 
     private ShortTruthTableBoard generateBoard(List<List<ShortTruthTableCell>> allCells,
                                                List<ShortTruthTableStatement> statements,
-                                               int width){
+                                               int width) {
 
         //calculate the height for the board
-        int height = statements.size()*2-1;
+        int height = statements.size() * 2 - 1;
 
         //instantiate the board with the correct width and height
         ShortTruthTableBoard sttBoard = new ShortTruthTableBoard(width, height,
@@ -161,16 +162,17 @@ class ShortTruthTableImporter extends PuzzleImporter{
             for (int x = 0; x < width; x++) {
 
                 //get the statement index for this row of the table
-                int statementIndex = y/2;
+                int statementIndex = y / 2;
 
                 //get the cell at this location; or create a not_in_play one if necessary
                 ShortTruthTableCell cell = null;
 
                 //for a cell to exist at (x, y), it must be a valid row and within the statment length
-                if(y%2==0 && x < statements.get(statementIndex).getLength()) {
+                if (y % 2 == 0 && x < statements.get(statementIndex).getLength()) {
                     cell = allCells.get(statementIndex).get(x);
-                    System.out.println("Importer: check cell statement ref: "+cell.getStatementReference());
-                }else{
+                    System.out.println("Importer: check cell statement ref: " + cell.getStatementReference());
+                }
+                else {
                     //if it is not a valid cell space, add a NOT_IN_PLAY cell
                     cell = new ShortTruthTableCell(' ', ShortTruthTableCellType.NOT_IN_PLAY, new Point(x, y));
                     cell.setModifiable(false);
@@ -190,20 +192,21 @@ class ShortTruthTableImporter extends PuzzleImporter{
     private void setGivenCells(ShortTruthTableBoard sttBoard,
                                Element dataElement,
                                NodeList cellData,
-                               List<ShortTruthTableStatement> statements) throws InvalidFileFormatException{
+                               List<ShortTruthTableStatement> statements) throws InvalidFileFormatException {
 
 
         //if it is normal, set all predicats to true and the conclusion to false
-        if(dataElement.getAttribute("normal").equalsIgnoreCase("true")){
+        if (dataElement.getAttribute("normal").equalsIgnoreCase("true")) {
             //set all predicates to true (all but the last one)
-            for(int i = 0; i<statements.size()-1; i++)
+            for (int i = 0; i < statements.size() - 1; i++) {
                 statements.get(i).getCell().setGiven(ShortTruthTableCellType.TRUE);
+            }
             //set the conclusion to false (the last one)
-            statements.get(statements.size()-1).getCell().setGiven(ShortTruthTableCellType.FALSE);
+            statements.get(statements.size() - 1).getCell().setGiven(ShortTruthTableCellType.FALSE);
         }
 
         //set the given cell values
-        for(int i = 0; i<cellData.getLength(); i++){
+        for (int i = 0; i < cellData.getLength(); i++) {
             //set the value with the factory importer
             ShortTruthTableCell cell = (ShortTruthTableCell) puzzle.getFactory().importCell(cellData.item(i), sttBoard);
             //set the modifiable and given flags
@@ -214,7 +217,17 @@ class ShortTruthTableImporter extends PuzzleImporter{
 
     }
 
+    /**
+     * Creates an empty board for building
+     *
+     * @param rows    the number of rows on the board
+     * @param columns the number of columns on the board
+     * @throws RuntimeException
+     */
+    @Override
+    public void initializeBoard(int rows, int columns) {
 
+    }
 
     //STATEMENT IMPORTER
 
@@ -261,14 +274,13 @@ class ShortTruthTableImporter extends PuzzleImporter{
 
             puzzle.setCurrentBoard(sttBoard);
 
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             throw new InvalidFileFormatException("short truth table Importer: unknown value where integer expected");
         }
 
 
     }
-
-
 
 
 }

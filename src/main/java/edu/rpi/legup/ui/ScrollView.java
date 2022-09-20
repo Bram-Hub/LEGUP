@@ -15,7 +15,7 @@ public class ScrollView extends JScrollPane {
 
     private static final double minScale = 0.25;
     private static final double maxScale = 4.0;
-    private static final double[] levels = { 0.25, 1.0 / 3.0, 0.50, 2.0 / 3.0, 1.0, 2.0, 3.0, 4.0 };
+    private static final double[] levels = {0.25, 1.0 / 3.0, 0.50, 2.0 / 3.0, 1.0, 2.0, 3.0, 4.0};
 
     private Dimension viewSize;
     private Dimension zoomSize;
@@ -153,7 +153,8 @@ public class ScrollView extends JScrollPane {
             updateSize();
             updatePosition(point, mag);
             // zoom out
-        } else {
+        }
+        else {
             mag = 1 / mag;
             // check zoom bounds
             if (scale * mag < minScale) {
@@ -193,7 +194,8 @@ public class ScrollView extends JScrollPane {
             updateSize();
             updatePosition(p, mag);
             // zoom out
-        } else {
+        }
+        else {
             updatePosition(p, mag);
             updateSize();
         }
@@ -312,11 +314,11 @@ public class ScrollView extends JScrollPane {
      * @param mag The magnitude for scroll up
      *            positive is scroll up, negative is scroll down,
      *            recommend to use getWheelRotation() as the mag
-     * */
-    public void scroll(int mag){
+     */
+    public void scroll(int mag) {
         Point point = super.viewport.getViewPosition();
         // the point changing speed changes with the scale
-        point.y += mag*getZoom()/20;
+        point.y += mag * getZoom() / 20;
         viewport.setViewPosition(point);
         updateSize();
         revalidate();

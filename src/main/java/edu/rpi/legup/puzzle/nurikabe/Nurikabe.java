@@ -23,6 +23,7 @@ public class Nurikabe extends Puzzle {
     @Override
     public void initializeView() {
         boardView = new NurikabeView((NurikabeBoard) currentBoard);
+        boardView.setBoard(currentBoard);
         addBoardListener(boardView);
     }
 
@@ -35,6 +36,18 @@ public class Nurikabe extends Puzzle {
     @Override
     public Board generatePuzzle(int difficulty) {
         return null;
+    }
+
+    @Override
+    /**
+     * Determines if the given dimensions are valid for Nurikabe
+     *
+     * @param rows      the number of rows
+     * @param columns   the number of columns
+     * @return true if the given dimensions are valid for Nurikabe, false otherwise
+     */
+    public boolean isValidDimensions(int rows, int columns) {
+        return rows >= 2 && columns >= 2;
     }
 
     /**

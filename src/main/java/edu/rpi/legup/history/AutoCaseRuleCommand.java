@@ -7,7 +7,7 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.boardview.ElementView;
-import edu.rpi.legup.ui.treeview.*;
+import edu.rpi.legup.ui.proofeditorui.treeview.*;
 
 import java.awt.event.MouseEvent;
 import java.util.*;
@@ -64,7 +64,8 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
                 puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(transition));
                 newSelection.addToSelection(treeView.getElementView(childNode));
             }
-        } else {
+        }
+        else {
             for (final TreeTransition transition : caseTrans) {
                 tree.addTreeElement(node, transition);
                 TreeNode childNode = transition.getChildNode();
