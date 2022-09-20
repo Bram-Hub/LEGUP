@@ -45,10 +45,7 @@ public class LastNumberBasicRule extends BasicRule {
         emptyCase.getPuzzleElement(finalCell).setData(0);
         Point loc = finalCell.getLocation();
 
-<<<<<<< HEAD
         //init with all possible numbers
-=======
->>>>>>> dev
         Set<Integer> candidates = new HashSet<Integer>();
         for (int i = 1; i <= initialBoard.getWidth(); i++) {
             candidates.add(i);
@@ -72,10 +69,7 @@ public class LastNumberBasicRule extends BasicRule {
             }
         }
 
-<<<<<<< HEAD
         //check if given value is the only remaining value
-=======
->>>>>>> dev
         DuplicateNumberContradictionRule duplicate = new DuplicateNumberContradictionRule();
         if (candidates.size() == 1 && duplicate.checkContradictionAt(emptyCase, finalCell) != null) {
             Iterator<Integer> it = candidates.iterator();
