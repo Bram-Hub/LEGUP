@@ -51,7 +51,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private JMenu file;
     private JMenuItem newPuzzle, resetPuzzle, saveProof, preferences, exit;
     private JMenu edit;
-    private JMenuItem undo, redo;
+    private JMenuItem undo, redo, redo1;
 
     private JMenu view;
 
@@ -121,7 +121,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         edit = new JMenu("Edit");
         undo = new JMenuItem("Undo");
         redo = new JMenuItem("Redo");
-
+        redo1 = new JMenuItem("Redo");
         view = new JMenu("View");
 
         proof = new JMenu("Proof");
@@ -248,7 +248,12 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         });
         if(os.equals("mac")) redo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK));
         else redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
-
+        edit.add(redo1);
+        redo1.addActionListener((ActionEvent)->{
+            GameBoardFacade.getInstance().getHistory().redo();
+        });
+        if(os.equals("mac")) redo1.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.CTRL_DOWN_MASK));
+        else redo1.setAccelerator(KeyStroke.getKeyStroke('Y', InputEvent.CTRL_DOWN_MASK ));
         mBar.add(proof);
 
         about.add(aboutLegup);
@@ -388,7 +393,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         ruleBox.add(boardPanel);
         treeBox.add(ruleBox);
         this.add(treeBox);
-        this.add(treeBox);
+
 //        consoleBox.add(treeBox);
 //
 //        getContentPane().add(consoleBox);
