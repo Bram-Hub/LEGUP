@@ -20,6 +20,6 @@ spreadsheet : https://docs.google.com/spreadsheets/d/1l7aUZtavtysM8dtGnaEIXhBKMR
  5. Flags
     - add to all case rules
     - review all basic/contradiction rules to put in terms of the new cases / add flags
-    - edit importer and exporter to include flags in xml file format
+    - edit exporter to include flags in xml file format
  6. Documentation
     - UML diagram(s)
