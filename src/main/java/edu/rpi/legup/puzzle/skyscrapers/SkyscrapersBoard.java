@@ -274,6 +274,10 @@ public class SkyscrapersBoard extends GridBoard {
         copy.colClues = colClues;
         copy.row = row;
         copy.col = col;
+
+        copy.dupeFlag=dupeFlag;
+        copy.viewFlag=viewFlag;
+        copy.unresolvedFlag=unresolvedFlag;
         return copy;
     }
 }

@@ -10,6 +10,7 @@ import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersCell;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -41,44 +42,25 @@ public class LastNumberBasicRule extends BasicRule {
             return super.getInvalidUseOfRuleMessage() + ": Modified cells must transition from unknown to number";
         }
 
-        SkyscrapersBoard emptyCase = initialBoard.copy();
-        emptyCase.getPuzzleElement(finalCell).setData(0);
-        Point loc = finalCell.getLocation();
-
-        //init with all possible numbers
-        Set<Integer> candidates = new HashSet<Integer>();
-        for (int i = 1; i <= initialBoard.getWidth(); i++) {
-            candidates.add(i);
-        }
-        
-        //remove any existing numbers
-        for (int i = 0; i < initialBoard.getWidth(); i++) {
-            //check row
-        	SkyscrapersCell c = initialBoard.getCell(i, loc.y);
-            if (i != loc.x && c.getType() == SkyscrapersType.Number) {
-                candidates.remove(c.getData());
-                //System.out.print(c.getData());
-                //System.out.println(finalCell.getData());
-            }
-            // check column
-            c = initialBoard.getCell(loc.x, i);
-            if (i != loc.y && c.getType() == SkyscrapersType.Number) {
-                candidates.remove(c.getData());
-                //System.out.print(c.getData());
-                //System.out.println(finalCell.getData());
-            }
-        }
+        //set all rules used by case rule to false except for dupe, get all cases
+        boolean dupeTemp = initialBoard.getDupeFlag();
+        boolean viewTemp = initialBoard.getViewFlag();
+        initialBoard.setDupeFlag(true);
+        initialBoard.setViewFlag(false);
+        PossibleContentsCaseRule caseRule = new PossibleContentsCaseRule();
+        ArrayList<Board> candidates = caseRule.getCases(initialBoard,puzzleElement);
+        initialBoard.setDupeFlag(dupeTemp);
+        initialBoard.setViewFlag(viewTemp);
 
         //check if given value is the only remaining value
-        DuplicateNumberContradictionRule duplicate = new DuplicateNumberContradictionRule();
-        if (candidates.size() == 1 && duplicate.checkContradictionAt(emptyCase, finalCell) != null) {
-            Iterator<Integer> it = candidates.iterator();
-            if (it.next() == finalCell.getData()) {
+        System.out.println("HERE" + candidates.size());
+        System.out.println(candidates.get(0).getPuzzleElement(puzzleElement).getData());
+        if(candidates.size() == 1){
+            if(candidates.get(0).getPuzzleElement(puzzleElement).getData() == finalCell.getData()){
                 return null;
             }
             return super.getInvalidUseOfRuleMessage() + ": Wrong number in the cell.";
         }
-
         return super.getInvalidUseOfRuleMessage() + ":This cell is not forced.";
     }
 
