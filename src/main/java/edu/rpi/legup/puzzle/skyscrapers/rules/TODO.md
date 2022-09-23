@@ -4,6 +4,7 @@ spreadsheet : https://docs.google.com/spreadsheets/d/1l7aUZtavtysM8dtGnaEIXhBKMR
 
  1. Basic Rules:
      - Check spreadsheet
+     - 1Edge - generalize to last number w/ view flag?
  2. Contradiction Rules:
      - check spreadsheet
      - UnresovedCell vs. NoNumberForCell (don't need both)
@@ -23,5 +24,6 @@ spreadsheet : https://docs.google.com/spreadsheets/d/1l7aUZtavtysM8dtGnaEIXhBKMR
     - add to all case rules
     - review all basic/contradiction rules to put in terms of the new cases / add flags
     - edit exporter to include flags in xml file format
+    - discuss use/not of unresolved flag
  6. Documentation
     - UML diagram(s)
