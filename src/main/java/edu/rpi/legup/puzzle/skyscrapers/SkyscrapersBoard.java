@@ -23,7 +23,7 @@ public class SkyscrapersBoard extends GridBoard {
     //NORTH clues
 
     private boolean viewFlag = false;
-    private boolean dupeFlag = true;
+    private boolean dupeFlag = false;
     private boolean unresolvedFlag = false;
 
     public SkyscrapersBoard(int width, int height) {
@@ -85,6 +85,13 @@ public class SkyscrapersBoard extends GridBoard {
     public ArrayList<SkyscrapersClue> getCol() {
         return col;
     }
+
+    public boolean getDupeFlag(){return dupeFlag;}
+    public boolean getViewFlag(){return viewFlag;}
+    public boolean getUnresolvedFlag(){return unresolvedFlag;}
+    public void setDupeFlag(boolean newFlag){dupeFlag = newFlag ;}
+    public void setViewFlag(boolean newFlag){viewFlag = newFlag;}
+    public void setUnresolvedFlag(boolean newFlag){unresolvedFlag = newFlag;}
 
     @Override
     public SkyscrapersCell getCell(int x, int y) {

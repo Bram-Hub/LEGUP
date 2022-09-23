@@ -49,13 +49,6 @@ public class SkyscrapersImporter extends PuzzleImporter {
                 int size = Integer.valueOf(boardElement.getAttribute("size"));
                 treeTentBoard = new SkyscrapersBoard(size);
             }
-            else {
-                if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
-                    int width = Integer.valueOf(boardElement.getAttribute("width"));
-                    int height = Integer.valueOf(boardElement.getAttribute("height"));
-                    treeTentBoard = new SkyscrapersBoard(width, height);
-                }
-            }
 
             if (treeTentBoard == null) {
                 throw new InvalidFileFormatException("TreeTent Importer: invalid board dimensions");
@@ -147,6 +140,15 @@ public class SkyscrapersImporter extends PuzzleImporter {
                 for (int i = 0; i < linesList.getLength(); i++) {
                     treeTentBoard.getLines().add((SkyscrapersLine) puzzle.getFactory().importCell(linesList.item(i), treeTentBoard));
                 }
+            }
+
+            //Initialize present flags
+            NodeList flagList = boardElement.getElementsByTagName("flags");
+            if(flagList.getLength()==1){
+                Element flags = (Element) flagList.item(0);
+                if(flags.hasAttribute("dupe")){treeTentBoard.setDupeFlag(Boolean.parseBoolean(flags.getAttribute("dupe")));}
+                if(flags.hasAttribute("view")){treeTentBoard.setViewFlag(Boolean.parseBoolean(flags.getAttribute("view")));}
+                if(flags.hasAttribute("empty")){treeTentBoard.setUnresolvedFlag(Boolean.parseBoolean(flags.getAttribute("empty")));}
             }
 
             puzzle.setCurrentBoard(treeTentBoard);

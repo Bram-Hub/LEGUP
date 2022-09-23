@@ -21,6 +21,11 @@ HELPER FUNCTIONS: (check morgue for unused helpers, ctrl+f "helper function")
         Notes: more than one element type?
 
 CODE MORGUE:
+    - SkyscapersLine, SkyscrapersLineView
+        Locations: above classes, Board, Importer, CellFactory, View
+        Uses: drawing lines between cells on the board
+        Note: No purpose for lines in this puzzle yet,
+              probably should remove all instances of their use for cleanliness' sake
     - isForced, getDefaultBoard
         Locations:
         Uses?: Unknown
