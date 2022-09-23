@@ -46,9 +46,24 @@ public class CellForNumberCaseRule extends CaseRule {
         List<SkyscrapersCell> openCells = skyscrapersboard.getRowCol(clue.getClueIndex(),SkyscrapersType.UNKNOWN,clue.getType()==SkyscrapersType.CLUE_WEST);
         for(SkyscrapersCell cell : openCells){
             Board newCase = board.copy();
-            newCase.getPuzzleElement(cell).setData(number);
+            PuzzleElement newCell = newCase.getPuzzleElement(cell);
+            newCell.setData(number);
+            newCase.addModifiedData(newCell);
             //if flags
-            cases.add(newCase);
+            boolean passed = true;
+            if(skyscrapersboard.getDupeFlag()){
+                DuplicateNumberContradictionRule DupeRule = new DuplicateNumberContradictionRule();
+                passed = passed && DupeRule.checkContradictionAt(newCase,newCell)!=null;
+            }
+            if(skyscrapersboard.getViewFlag()){
+                InsufficientVisibilityContradictionRule fewRule = new InsufficientVisibilityContradictionRule();
+                ExceedingVisibilityContradictionRule moreRule = new ExceedingVisibilityContradictionRule();
+                passed = passed && fewRule.checkContradictionAt(newCase,newCell)!=null && moreRule.checkContradictionAt(newCase,newCell)!=null;
+            }
+            //how should unresolved be handled? should it be?
+            if(passed){cases.add(newCase);}
+
+
         }
         return cases;
     }

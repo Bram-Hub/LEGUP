@@ -52,29 +52,24 @@ public class PossibleContentsCaseRule extends CaseRule {
 
         Set<Integer> candidates = new HashSet<Integer>();
         for (int i = 1; i <= skyscrapersboard.getWidth(); i++) {
-            candidates.add(i);
-        }
+            Board newCase = board.copy();
+            PuzzleElement newCell = newCase.getPuzzleElement(puzzleElement);
+            newCell.setData(i);
+            newCase.addModifiedData(newCell);
 
-        for (int i = 0; i < skyscrapersboard.getWidth(); i++) {
-            SkyscrapersCell c = skyscrapersboard.getCell(i, loc.y);
-            if (c.getType() == SkyscrapersType.Number) {
-                candidates.remove(c.getData());
+            //if flags
+            boolean passed = true;
+            if(skyscrapersboard.getDupeFlag()){
+                DuplicateNumberContradictionRule DupeRule = new DuplicateNumberContradictionRule();
+                passed = passed && DupeRule.checkContradictionAt(newCase,newCell)!=null;
             }
-        }
-        for (int i = 0; i < skyscrapersboard.getHeight(); i++) {
-            SkyscrapersCell c = skyscrapersboard.getCell(loc.x, i);
-            if (c.getType() == SkyscrapersType.Number) {
-                candidates.remove(c.getData());
+            if(skyscrapersboard.getViewFlag()){
+                InsufficientVisibilityContradictionRule fewRule = new InsufficientVisibilityContradictionRule();
+                ExceedingVisibilityContradictionRule moreRule = new ExceedingVisibilityContradictionRule();
+                passed = passed && fewRule.checkContradictionAt(newCase,newCell)!=null && moreRule.checkContradictionAt(newCase,newCell)!=null;
             }
-        }
-
-        Iterator<Integer> it = candidates.iterator();
-        while (it.hasNext()) {
-            Board case1 = board.copy();
-            PuzzleElement data = case1.getPuzzleElement(puzzleElement);
-            data.setData(it.next());
-            case1.addModifiedData(data);
-            cases.add(case1);
+            //how should unresolved be handled? should it be?
+            if(passed){cases.add(newCase);}
         }
 
         return cases;
