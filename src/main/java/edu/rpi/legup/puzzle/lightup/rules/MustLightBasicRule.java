@@ -52,7 +52,6 @@ public class MustLightBasicRule extends BasicRule {
     }
 
     private boolean isForcedBulb(LightUpBoard board, Point loc) {
-        CannotLightACellContradictionRule cannotLite = new CannotLightACellContradictionRule();
         LightUpCell cell = board.getCell(loc.x, loc.y);
         //Check if this cell itself (the one with the bulb) has no other lighting option
         if ((cell.getType() == LightUpCellType.EMPTY || cell.getType() == LightUpCellType.UNKNOWN) &&
@@ -114,6 +113,14 @@ public class MustLightBasicRule extends BasicRule {
         return false;
     }
 
+    /**
+     * Checks the number of cells that can contain a bulb that lights the given cell
+     *
+     * @param board    transition to check
+     * @param cell index of the puzzleElement
+     * @return -1 if the cell is already lit,
+     * otherwise the number of that can contain a bulb that lights the given cell
+     */
     public int countPossibleBulbs(LightUpBoard board, LightUpCell cell) {
         if (cell.isLite()) {
             return -1;
@@ -121,6 +128,7 @@ public class MustLightBasicRule extends BasicRule {
         Point location = cell.getLocation();
         int ver_count = 0;
         int hor_count = 0;
+        //Look right
         for (int i = location.x + 1; i < board.getWidth(); i++) {
             LightUpCell c = board.getCell(i, location.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
@@ -132,6 +140,7 @@ public class MustLightBasicRule extends BasicRule {
                 }
             }
         }
+        //Look left
         for (int i = location.x - 1; i >= 0; i--) {
             LightUpCell c = board.getCell(i, location.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
@@ -143,6 +152,7 @@ public class MustLightBasicRule extends BasicRule {
                 }
             }
         }
+        //Look down
         for (int i = location.y + 1; i < board.getHeight(); i++) {
             LightUpCell c = board.getCell(location.x, i);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
@@ -154,6 +164,7 @@ public class MustLightBasicRule extends BasicRule {
                 }
             }
         }
+        //Look up
         for (int i = location.y - 1; i >= 0; i--) {
             LightUpCell c = board.getCell(location.x, i);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
