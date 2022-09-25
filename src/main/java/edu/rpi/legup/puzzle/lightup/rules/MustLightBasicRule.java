@@ -38,7 +38,6 @@ public class MustLightBasicRule extends BasicRule {
             return super.getInvalidUseOfRuleMessage() + ": Modified cells must be bulbs";
         }
 
-        finalCell.setData(LightUpCellType.EMPTY.value);
         finalBoard.fillWithLight();
         boolean isForced = isForcedBulb(parentBoard, finalCell.getLocation());
         finalCell.setData(LightUpCellType.BULB.value);
@@ -55,10 +54,12 @@ public class MustLightBasicRule extends BasicRule {
     private boolean isForcedBulb(LightUpBoard board, Point loc) {
         CannotLightACellContradictionRule cannotLite = new CannotLightACellContradictionRule();
         LightUpCell cell = board.getCell(loc.x, loc.y);
+        //Check if this cell itself (the one with the bulb) has no other lighting option
         if ((cell.getType() == LightUpCellType.EMPTY || cell.getType() == LightUpCellType.UNKNOWN) &&
-                !cell.isLite() && cannotLite.checkContradictionAt(board, cell) == null) {
+                !cell.isLite() && countPossibleBulbs(board, cell) == 0) {
             return true;
         }
+        //Look right
         for (int i = loc.x + 1; i < board.getWidth(); i++) {
             LightUpCell c = board.getCell(i, loc.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
@@ -66,11 +67,12 @@ public class MustLightBasicRule extends BasicRule {
             }
             else {
                 if (c.getType() == LightUpCellType.EMPTY &&
-                        !c.isLite() && cannotLite.checkContradictionAt(board, c) == null) {
+                        !c.isLite() && countPossibleBulbs(board, c) == 1) {
                     return true;
                 }
             }
         }
+        //Look left
         for (int i = loc.x - 1; i >= 0; i--) {
             LightUpCell c = board.getCell(i, loc.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
@@ -78,11 +80,12 @@ public class MustLightBasicRule extends BasicRule {
             }
             else {
                 if (c.getType() == LightUpCellType.EMPTY &&
-                        !c.isLite() && cannotLite.checkContradictionAt(board, c) == null) {
+                        !c.isLite() && countPossibleBulbs(board, c) == 1) {
                     return true;
                 }
             }
         }
+        //Look down
         for (int i = loc.y + 1; i < board.getHeight(); i++) {
             LightUpCell c = board.getCell(loc.x, i);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
@@ -90,11 +93,12 @@ public class MustLightBasicRule extends BasicRule {
             }
             else {
                 if (c.getType() == LightUpCellType.EMPTY &&
-                        !c.isLite() && cannotLite.checkContradictionAt(board, c) == null) {
+                        !c.isLite() && countPossibleBulbs(board, c) == 1) {
                     return true;
                 }
             }
         }
+        //Look up
         for (int i = loc.y - 1; i >= 0; i--) {
             LightUpCell c = board.getCell(loc.x, i);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
@@ -102,12 +106,66 @@ public class MustLightBasicRule extends BasicRule {
             }
             else {
                 if (c.getType() == LightUpCellType.EMPTY &&
-                        !c.isLite() && cannotLite.checkContradictionAt(board, c) == null) {
+                        !c.isLite() && countPossibleBulbs(board, c) == 1) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    public int countPossibleBulbs(LightUpBoard board, LightUpCell cell) {
+        if (cell.isLite()) {
+            return -1;
+        }
+        Point location = cell.getLocation();
+        int ver_count = 0;
+        int hor_count = 0;
+        for (int i = location.x + 1; i < board.getWidth(); i++) {
+            LightUpCell c = board.getCell(i, location.y);
+            if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
+                break;
+            }
+            else {
+                if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
+                    hor_count += 1;
+                }
+            }
+        }
+        for (int i = location.x - 1; i >= 0; i--) {
+            LightUpCell c = board.getCell(i, location.y);
+            if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
+                break;
+            }
+            else {
+                if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
+                    hor_count += 1;
+                }
+            }
+        }
+        for (int i = location.y + 1; i < board.getHeight(); i++) {
+            LightUpCell c = board.getCell(location.x, i);
+            if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
+                break;
+            }
+            else {
+                if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
+                    ver_count += 1;
+                }
+            }
+        }
+        for (int i = location.y - 1; i >= 0; i--) {
+            LightUpCell c = board.getCell(location.x, i);
+            if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
+                break;
+            }
+            else {
+                if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
+                    ver_count += 1;
+                }
+            }
+        }
+        return hor_count + ver_count;
     }
 
     /**
