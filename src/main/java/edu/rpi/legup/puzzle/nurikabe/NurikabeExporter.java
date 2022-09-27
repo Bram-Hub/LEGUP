@@ -12,7 +12,13 @@ public class NurikabeExporter extends PuzzleExporter {
 
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
-        NurikabeBoard board = (NurikabeBoard) puzzle.getTree().getRootNode().getBoard();
+        NurikabeBoard board;
+        if (puzzle.getTree() != null) {
+            board = (NurikabeBoard) puzzle.getTree().getRootNode().getBoard();
+        }
+        else {
+            board = (NurikabeBoard) puzzle.getBoardView().getBoard();
+        }
 
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("width", String.valueOf(board.getWidth()));

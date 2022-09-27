@@ -7,17 +7,14 @@ import edu.rpi.legup.model.rules.BasicRule;
 import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.rules.RuleType;
-import edu.rpi.legup.ui.treeview.TreeView;
-import edu.rpi.legup.ui.treeview.TreeViewSelection;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
@@ -70,25 +67,31 @@ public class PuzzleKeyAccelerator implements KeyListener {
             String update = "";
             if (rule.getRuleType() == RuleType.CASE) {
 //                handleCaseRule((CaseRule)rule);
-            } else if (rule.getRuleType() == RuleType.CONTRADICTION) {
-                TreeViewSelection selection = treeView.getSelection();
+            }
+            else {
+                if (rule.getRuleType() == RuleType.CONTRADICTION) {
+                    TreeViewSelection selection = treeView.getSelection();
 
-                ICommand validate = new ValidateContradictionRuleCommand(selection, (ContradictionRule) rule);
-                if (validate.canExecute()) {
-                    getInstance().getHistory().pushChange(validate);
-                    validate.execute();
-                } else {
-                    update = validate.getError();
+                    ICommand validate = new ValidateContradictionRuleCommand(selection, (ContradictionRule) rule);
+                    if (validate.canExecute()) {
+                        getInstance().getHistory().pushChange(validate);
+                        validate.execute();
+                    }
+                    else {
+                        update = validate.getError();
+                    }
                 }
-            } else {
-                TreeViewSelection selection = treeView.getSelection();
+                else {
+                    TreeViewSelection selection = treeView.getSelection();
 
-                ICommand validate = new ValidateBasicRuleCommand(selection, (BasicRule) rule);
-                if (validate.canExecute()) {
-                    getInstance().getHistory().pushChange(validate);
-                    validate.execute();
-                } else {
-                    update = validate.getError();
+                    ICommand validate = new ValidateBasicRuleCommand(selection, (BasicRule) rule);
+                    if (validate.canExecute()) {
+                        getInstance().getHistory().pushChange(validate);
+                        validate.execute();
+                    }
+                    else {
+                        update = validate.getError();
+                    }
                 }
             }
             GameBoardFacade.getInstance().getLegupUI().getTreePanel().updateError(update);

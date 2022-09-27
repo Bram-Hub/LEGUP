@@ -26,7 +26,7 @@ public class Skyscrapers extends Puzzle {
      */
     @Override
     public void initializeView() {
-    	SkyscrapersBoard board = (SkyscrapersBoard) currentBoard;
+        SkyscrapersBoard board = (SkyscrapersBoard) currentBoard;
         boardView = new SkyscrapersView((SkyscrapersBoard) currentBoard);
     }
 
@@ -41,6 +41,19 @@ public class Skyscrapers extends Puzzle {
         return null;
     }
 
+    @Override
+    /**
+     * Determines if the given dimensions are valid for Skyscrapers
+     *
+     * @param rows      the number of rows
+     * @param columns   the number of columns
+     * @return true if the given dimensions are valid for Skyscrapers, false otherwise
+     */
+    public boolean isValidDimensions(int rows, int columns) {
+        // This is a placeholder, this method needs to be implemented
+        throw new UnsupportedOperationException();
+    }
+
     /**
      * Determines if the current board is a valid state
      *
@@ -49,11 +62,11 @@ public class Skyscrapers extends Puzzle {
      */
     @Override
     public boolean isBoardComplete(Board board) {
-    	SkyscrapersBoard SkyscraperBoard = (SkyscrapersBoard) board;
+        SkyscrapersBoard SkyscraperBoard = (SkyscrapersBoard) board;
 
         for (ContradictionRule rule : contradictionRules) {
             if (rule.checkContradiction(SkyscraperBoard) == null) {
-            	System.out.println(rule.getRuleName());
+                System.out.println(rule.getRuleName());
                 return false;
             }
         }

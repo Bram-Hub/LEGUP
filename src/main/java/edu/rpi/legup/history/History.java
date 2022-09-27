@@ -53,7 +53,7 @@ public class History {
     public void undo() {
         synchronized (lock) {
             if (curIndex > -1) {
-                ICommand command =  history.get(curIndex--);
+                ICommand command = history.get(curIndex--);
                 command.undo();
                 LOGGER.info("Undoed " + command.getClass().getSimpleName());
                 GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onUndo(curIndex < 0, curIndex == history.size() - 1));
@@ -67,7 +67,7 @@ public class History {
     public void redo() {
         synchronized (lock) {
             if (curIndex < history.size() - 1) {
-                ICommand command =  history.get(++curIndex);
+                ICommand command = history.get(++curIndex);
                 command.redo();
                 LOGGER.info("Redoed " + command.getClass().getSimpleName());
                 GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onRedo(curIndex < 0, curIndex == history.size() - 1));

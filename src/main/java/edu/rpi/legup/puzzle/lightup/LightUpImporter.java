@@ -14,6 +14,30 @@ public class LightUpImporter extends PuzzleImporter {
     }
 
     /**
+     * Creates an empty board for building
+     *
+     * @param rows    the number of rows on the board
+     * @param columns the number of columns on the board
+     * @throws RuntimeException
+     */
+    @Override
+    public void initializeBoard(int rows, int columns) {
+        LightUpBoard lightUpBoard = new LightUpBoard(columns, rows);
+
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++) {
+                if (lightUpBoard.getCell(x, y) == null) {
+                    LightUpCell cell = new LightUpCell(-2, new Point(x, y));
+                    cell.setIndex(y * columns + x);
+                    cell.setModifiable(true);
+                    lightUpBoard.setCell(x, y, cell);
+                }
+            }
+        }
+        puzzle.setCurrentBoard(lightUpBoard);
+    }
+
+    /**
      * Creates the board for building
      *
      * @param node xml document node
@@ -36,10 +60,13 @@ public class LightUpImporter extends PuzzleImporter {
             if (!boardElement.getAttribute("size").isEmpty()) {
                 int size = Integer.valueOf(boardElement.getAttribute("size"));
                 lightUpBoard = new LightUpBoard(size);
-            } else if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
-                int width = Integer.valueOf(boardElement.getAttribute("width"));
-                int height = Integer.valueOf(boardElement.getAttribute("height"));
-                lightUpBoard = new LightUpBoard(width, height);
+            }
+            else {
+                if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
+                    int width = Integer.valueOf(boardElement.getAttribute("width"));
+                    int height = Integer.valueOf(boardElement.getAttribute("height"));
+                    lightUpBoard = new LightUpBoard(width, height);
+                }
             }
 
             if (lightUpBoard == null) {
@@ -70,7 +97,8 @@ public class LightUpImporter extends PuzzleImporter {
                 }
             }
             puzzle.setCurrentBoard(lightUpBoard);
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             throw new InvalidFileFormatException("lightup Importer: unknown value where integer expected");
         }
     }

@@ -56,7 +56,8 @@ public class EmptyCellinLightBasicRule extends BasicRule {
         }
         if (lightUpBoard.getModifiedData().isEmpty()) {
             return null;
-        } else {
+        }
+        else {
             return lightUpBoard;
         }
     }

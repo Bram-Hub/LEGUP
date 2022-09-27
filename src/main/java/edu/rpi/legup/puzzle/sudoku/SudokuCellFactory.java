@@ -44,9 +44,11 @@ public class SudokuCellFactory extends ElementFactory {
             SudokuCell cell = new SudokuCell(value, new Point(x, y), groupIndex, size);
             cell.setIndex(y * size + x);
             return cell;
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             throw new InvalidFileFormatException("Sudoku Factory: unknown value where integer expected");
-        } catch (NullPointerException e) {
+        }
+        catch (NullPointerException e) {
             throw new InvalidFileFormatException("Sudoku Factory: could not find attribute(s)");
         }
     }
@@ -54,8 +56,8 @@ public class SudokuCellFactory extends ElementFactory {
     /**
      * Creates a xml document puzzleElement from a cell for exporting
      *
-     * @param document xml document
-     * @param puzzleElement     PuzzleElement cell
+     * @param document      xml document
+     * @param puzzleElement PuzzleElement cell
      * @return xml PuzzleElement
      */
     public org.w3c.dom.Element exportCell(Document document, PuzzleElement puzzleElement) {

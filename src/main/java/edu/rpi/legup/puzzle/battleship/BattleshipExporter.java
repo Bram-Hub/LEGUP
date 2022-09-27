@@ -10,6 +10,11 @@ public class BattleshipExporter extends PuzzleExporter {
         super(battleShip);
     }
 
+    /**
+     * Creates and returns a new board element in the XML document specified
+     * @param newDocument the XML document to append to
+     * @return the new board element
+     */
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
         BattleshipBoard board = (BattleshipBoard) puzzle.getTree().getRootNode().getBoard();
