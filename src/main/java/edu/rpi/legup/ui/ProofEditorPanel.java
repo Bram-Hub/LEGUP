@@ -552,7 +552,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     /**
      * Checks the proof for all files
      */
-    private void checkProofAll() {
+    public void checkProofAll() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
 
         /*

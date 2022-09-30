@@ -1,14 +1,22 @@
 package edu.rpi.legup.ui;
 
-import javax.swing.*;
-import java.awt.*;
+import edu.rpi.legup.Legup;
 
-public class HomePanel extends LegupPanel {
+import javax.swing.*;
+import javax.swing.plaf.FileChooserUI;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+
+public class HomePanel extends LegupPanel  {
     private LegupUI legupUI;
     private JFrame frame;
     private JButton[] buttons;
     private JLabel[] text;
     private JMenuBar menuBar;
+
+
 
     private final int buttonSize = 100;
 
@@ -108,6 +116,15 @@ public class HomePanel extends LegupPanel {
         }
 
         this.buttons[3] = new JButton("Batch Grader");
+        this.buttons[3].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ProofEditorPanel panel=new ProofEditorPanel(new FileDialog(new Frame()),new JFrame(), legupUI);
+                //legupUI.setVisible(false);
+                panel.checkProofAll();
+
+            }
+        });
         this.buttons[3].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[3].setVerticalTextPosition(AbstractButton.BOTTOM);
     }
