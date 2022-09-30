@@ -57,10 +57,14 @@ public class EditorElementController implements ActionListener {
         ElementButton button = (ElementButton) lastSource;
         buttonPressed(button.getElement());
 
+        // reset border in previous selected button
         if (this.prevButton != null) {
             this.prevButton.resetBorder();
         }
+
+        // change border color when select a button
         button.setBorderToSelected();
+
         this.prevButton = button;
 
     }
