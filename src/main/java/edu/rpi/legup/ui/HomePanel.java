@@ -119,7 +119,7 @@ public class HomePanel extends LegupPanel  {
         this.buttons[3].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProofEditorPanel panel=new ProofEditorPanel(new FileDialog(new Frame()),new JFrame(), legupUI);
+                ProofEditorPanel panel=new ProofEditorPanel(new FileDialog(frame),new JFrame(), legupUI);
                 //legupUI.setVisible(false);
                 panel.checkProofAll();
 
