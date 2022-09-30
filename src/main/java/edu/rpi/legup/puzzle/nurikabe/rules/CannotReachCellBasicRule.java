@@ -53,7 +53,7 @@ public class CannotReachCellBasicRule extends BasicRule {
         if (contraRule.checkContradiction(modified) == null) {
             return null;
         }
-        return super.getInvalidUseOfRuleMessage() + ": This is not the only way for black to escape!";
+        return super.getInvalidUseOfRuleMessage() + ": Cell at this index can be reached";
     }
 
     /**
