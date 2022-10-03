@@ -49,7 +49,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     private JButton[] toolBarButtons;
     private JMenu file;
-    private JMenuItem newPuzzle, resetPuzzle, saveProof, preferences, exit;
+    private JMenuItem newPuzzle, resetPuzzle, saveProof, preferences, exit, direct_save;
     private JMenu edit;
     private JMenuItem undo, redo, redo1;
 
@@ -114,7 +114,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         newPuzzle = new JMenuItem("Open");
         resetPuzzle = new JMenuItem("Reset Puzzle");
 //        genPuzzle = new JMenuItem("Puzzle Generators");
-        saveProof = new JMenuItem("Save Proof");
+        saveProof = new JMenuItem("Save Proof As");
+        direct_save= new JMenuItem("Save Proof");
         preferences = new JMenuItem("Preferences");
         exit = new JMenuItem("Exit");
 
@@ -217,8 +218,14 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         file.add(saveProof);
         saveProof.addActionListener((ActionEvent) -> saveProof());
+        if(os.equals("mac")) saveProof.setAccelerator(KeyStroke.getKeyStroke('A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        else saveProof.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_DOWN_MASK));
+
+        file.add(direct_save);
+        direct_save.addActionListener((ActionEvent)-> direct_save());
         if(os.equals("mac")) saveProof.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         else saveProof.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK));
+
 
         file.add(preferences);
         preferences.addActionListener(a -> {
@@ -275,6 +282,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         return mBar;
     }
 
+
     public void promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
@@ -312,6 +320,25 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                     JOptionPane.showMessageDialog(null, "This file runs on an outdated version of Legup\nand is not compatible with the current version.", "Error", JOptionPane.ERROR_MESSAGE);
                 else
                     JOptionPane.showMessageDialog(null, "File does not exist or it cannot be read", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private void direct_save(){
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+        if (puzzle == null) {
+            return;
+        }
+        String fileName = GameBoardFacade.getInstance().getCurFileName();
+        if (fileName != null) {
+            try {
+                PuzzleExporter exporter = puzzle.getExporter();
+                if (exporter == null) {
+                    throw new ExportFileException("Puzzle exporter null");
+                }
+                exporter.exportPuzzle(fileName);
+            } catch (ExportFileException e) {
+                e.printStackTrace();
             }
         }
     }
