@@ -80,8 +80,20 @@ public class MasyuController extends ElementController {
         masyuLine.clear();
     }
 
+    /**
+     * Alters the cells as they are being dragged over or clicked
+     * @param e Mouse event being used
+     * @param data Data of selected cell
+     */
     @Override
     public void changeCell(MouseEvent e, PuzzleElement data) {
-
+        MasyuCell cell = (MasyuCell) data;
+        if(cell.getData() == 1 || cell.getData() == 2)
+            return;
+        if(cell.getData() == 0) {
+            data.setData(3);
+        } else {
+            data.setData(0);
+        }
     }
 }
