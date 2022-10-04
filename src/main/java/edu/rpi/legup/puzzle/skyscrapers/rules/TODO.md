@@ -13,6 +13,7 @@ spreadsheet : https://docs.google.com/spreadsheets/d/1l7aUZtavtysM8dtGnaEIXhBKMR
      - Figure out why these aren't static methods
  3. Case Rules:
      - Cell for number - waiting on ui, needs checkrule
+     - For both (probably), checkRuleRaw to deny deleting branches
  4. Refactoring:
     - Remove references to lightup and treetent in variable names
     - document utility functions in the reference sheet, COMMENTS!

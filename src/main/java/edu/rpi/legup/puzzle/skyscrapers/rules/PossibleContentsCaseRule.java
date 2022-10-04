@@ -88,6 +88,9 @@ public class PossibleContentsCaseRule extends CaseRule {
             //System.out.println("0");
             return "This case rule must have at least one child.";
         }
+        else if (childTransitions.size() != getCases(transition.getBoard(), childTransitions.get(0).getBoard().getModifiedData().iterator().next()).size()){
+            return "Wrong number of children.";
+        }
 
 
         //TreeTransition case1 = childTransitions.get(0);
