@@ -43,10 +43,8 @@ public class UnreachableWhiteCellContradictionRule extends ContradictionRule {
         ArrayList<Set<NurikabeCell>> regions = NurikabeUtilities.getFloodFillWhite(nurikabeBoard);
 
         for (Set<NurikabeCell> region : regions) {
-            for (NurikabeCell c : region) {
-                if (c == cell) {
-                    return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
-                }
+            if (region.contains(cell)) {
+                return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
             }
         }
 
