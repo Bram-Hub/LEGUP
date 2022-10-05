@@ -29,15 +29,16 @@ public class CreatePuzzleDialog extends JDialog {
         @Override
         public void actionPerformed(ActionEvent e) {
             String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
+            
             try {
                 homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(rows.getText()), Integer.valueOf(columns.getText()));
                 setVisible(false);
-            }
-            catch (IllegalArgumentException exception) {
+            } catch (IllegalArgumentException exception) {
                 // Don't do anything. This is here to prevent the dialog from closing if the dimensions are invalid.
             }
         }
     };
+    
     private JButton cancel = new JButton("Cancel");
     private ActionListener cancelButtonListener = new ActionListener() {
         /**
@@ -50,7 +51,6 @@ public class CreatePuzzleDialog extends JDialog {
             setVisible(false);
         }
     };
-
 
     public CreatePuzzleDialog(JFrame parent, HomePanel homePanel) {
         super(parent, true);
@@ -106,24 +106,23 @@ public class CreatePuzzleDialog extends JDialog {
     public void initPuzzles() {
         this.games = GameBoardFacade.getInstance().getConfig().getFileCreationEnabledPuzzles().toArray(new String[0]);
         Arrays.sort(this.games);
-        gameBox = new JComboBox(GameBoardFacade.getInstance().getConfig().getFileCreationEnabledPuzzleNames().toArray(new String[0]));
+        gameBox = new JComboBox(this.games);
     }
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == ok) {
             String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
+            
             try {
                 this.homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(this.rows.getText()), Integer.valueOf(this.columns.getText()));
-                setVisible(false);
-            }
-            catch (IllegalArgumentException exception) {
+                this.setVisible(false);
+            } catch (IllegalArgumentException exception) {
                 // Don't do anything. This is here to prevent the dialog from closing if the dimensions are invalid.
             }
-        }
-        else {
-            if (e.getSource() == cancel) {
-                setVisible(false);
-            }
+        } else if (e.getSource() == cancel) {
+            this.setVisible(false);
+        } else {
+            // Unknown Action Event
         }
     }
 }
