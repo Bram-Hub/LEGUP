@@ -8,8 +8,8 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeUtilities;
 
-import java.util.ArrayList;
-import java.util.Set;
+import java.awt.*;
+import java.util.*;
 
 public class UnreachableWhiteCellContradictionRule extends ContradictionRule {
 
@@ -40,12 +40,73 @@ public class UnreachableWhiteCellContradictionRule extends ContradictionRule {
             return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
         }
 
-        ArrayList<Set<NurikabeCell>> regions = NurikabeUtilities.getFloodFillWhite(nurikabeBoard);
+        int height = nurikabeBoard.getHeight();
+        int width = nurikabeBoard.getWidth();
 
-        for (Set<NurikabeCell> region : regions) {
-            if (region.contains(cell)) {
-                return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
+        // Get regions
+        HashMap<NurikabeCell,Integer> whiteRegionMap = NurikabeUtilities.getWhiteRegionMap(nurikabeBoard);
+        // BFS to a region
+
+        // Create a queue for BFS
+        LinkedList<NurikabeCell> queue = new LinkedList<>();
+
+        // Mark the current node as visited and enqueue it
+        HashMap<NurikabeCell,Boolean> visited= new HashMap<>();
+        visited.put(cell,true);
+        queue.add(cell);
+        int pathLength = 1;
+        while (queue.size() != 0)
+        {
+            // Dequeue a vertex from queue and print it
+            NurikabeCell s = queue.poll();
+            System.out.print(s+" ");
+
+            // Get all adjacent vertices of the dequeued vertex s
+            // If a adjacent has not been visited, then mark it
+            // visited and enqueue it
+
+            // Make a linked list of all adjacent squares
+            Set<NurikabeCell> adj = new HashSet<>();
+
+            Point loc = s.getLocation();
+            // First check if the side is on the board
+            if (loc.x >= 1)
+            {
+                adj.add(nurikabeBoard.getCell(loc.x-1, loc.y));
             }
+            if (loc.x < width-1)
+            {
+                adj.add(nurikabeBoard.getCell(loc.x+1, loc.y));
+            }
+            if (loc.y >= 1)
+            {
+                adj.add(nurikabeBoard.getCell(loc.x, loc.y-1));
+            }
+            if (loc.y < height-1)
+            {
+                adj.add(nurikabeBoard.getCell(loc.x, loc.y+1));
+            }
+
+            for (NurikabeCell n :adj)
+            {
+                int regionNeed = whiteRegionMap.getOrDefault(n,-1);
+                if (pathLength <= regionNeed)
+                {
+                    return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
+                }
+            }
+
+            for (NurikabeCell n : adj)
+            {
+                if (!visited.getOrDefault(n,false)
+                        && (n.getType() == NurikabeType.UNKNOWN ||
+                        n.getType() == NurikabeType.WHITE))
+                {
+                    visited.put(n,true);
+                    queue.add(n);
+                }
+            }
+            ++pathLength;
         }
 
         return null;

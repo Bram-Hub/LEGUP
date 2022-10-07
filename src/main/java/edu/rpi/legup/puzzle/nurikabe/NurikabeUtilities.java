@@ -276,7 +276,7 @@ public class NurikabeUtilities {
                 System.out.print(s+" ");
 
                 // Make a linked list of all adjacent squares
-                LinkedList<NurikabeCell> adj = new LinkedList<>();
+                Set<NurikabeCell> adj = new HashSet<>();
 
                 Point loc = s.getLocation();
                 // First check if the side is on the board
@@ -311,11 +311,11 @@ public class NurikabeUtilities {
                     }
                 }
             }
-            // Map the cells to the size-center (including the center)
-            whiteRegionMap.put(center,size-center.getType().toValue());
+            // Map the cells to the center-size (including the center)
+            whiteRegionMap.put(center,center.getType().toValue()-size);
             for (NurikabeCell member : connected)
             {
-                whiteRegionMap.put(member,size-center.getType().toValue());
+                whiteRegionMap.put(member,center.getType().toValue()-size);
             }
         }
         return whiteRegionMap;
