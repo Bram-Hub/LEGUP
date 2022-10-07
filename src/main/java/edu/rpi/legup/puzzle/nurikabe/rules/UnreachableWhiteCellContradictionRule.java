@@ -45,6 +45,10 @@ public class UnreachableWhiteCellContradictionRule extends ContradictionRule {
 
         // Get regions
         HashMap<NurikabeCell,Integer> whiteRegionMap = NurikabeUtilities.getWhiteRegionMap(nurikabeBoard);
+        if (whiteRegionMap.containsKey(cell))
+        {
+            return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
+        }
         // BFS to a region
 
         // Create a queue for BFS
@@ -57,42 +61,39 @@ public class UnreachableWhiteCellContradictionRule extends ContradictionRule {
         int pathLength = 1;
         while (queue.size() != 0)
         {
-            // Dequeue a vertex from queue and print it
-            NurikabeCell s = queue.poll();
-            System.out.print(s+" ");
-
-            // Get all adjacent vertices of the dequeued vertex s
-            // If a adjacent has not been visited, then mark it
-            // visited and enqueue it
-
-            // Make a linked list of all adjacent squares
+            // Set of adjacent squares
             Set<NurikabeCell> adj = new HashSet<>();
+            while (queue.size() != 0)
+            {
+                // Dequeue a vertex from queue and print it
+                NurikabeCell s = queue.poll();
 
-            Point loc = s.getLocation();
-            // First check if the side is on the board
-            if (loc.x >= 1)
-            {
-                adj.add(nurikabeBoard.getCell(loc.x-1, loc.y));
-            }
-            if (loc.x < width-1)
-            {
-                adj.add(nurikabeBoard.getCell(loc.x+1, loc.y));
-            }
-            if (loc.y >= 1)
-            {
-                adj.add(nurikabeBoard.getCell(loc.x, loc.y-1));
-            }
-            if (loc.y < height-1)
-            {
-                adj.add(nurikabeBoard.getCell(loc.x, loc.y+1));
-            }
-
-            for (NurikabeCell n :adj)
-            {
-                int regionNeed = whiteRegionMap.getOrDefault(n,-1);
-                if (pathLength <= regionNeed)
+                Point loc = s.getLocation();
+                // First check if the side is on the board
+                if (loc.x >= 1)
                 {
-                    return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
+                    adj.add(nurikabeBoard.getCell(loc.x-1, loc.y));
+                }
+                if (loc.x < width-1)
+                {
+                    adj.add(nurikabeBoard.getCell(loc.x+1, loc.y));
+                }
+                if (loc.y >= 1)
+                {
+                    adj.add(nurikabeBoard.getCell(loc.x, loc.y-1));
+                }
+                if (loc.y < height-1)
+                {
+                    adj.add(nurikabeBoard.getCell(loc.x, loc.y+1));
+                }
+
+                for (NurikabeCell n :adj)
+                {
+                    int regionNeed = whiteRegionMap.getOrDefault(n,-1);
+                    if (pathLength <= regionNeed)
+                    {
+                        return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
+                    }
                 }
             }
 

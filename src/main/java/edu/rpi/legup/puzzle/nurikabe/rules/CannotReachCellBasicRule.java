@@ -42,7 +42,7 @@ public class CannotReachCellBasicRule extends BasicRule {
 
         NurikabeCell modifiedCell = (NurikabeCell) modified.getPuzzleElement(puzzleElement);
         modifiedCell.setData(NurikabeType.WHITE.toValue());
-        if (contraRule.checkContradiction(modified) == null) {
+        if (contraRule.checkContradictionAt(modified,modifiedCell) == null) {
             return null;
         }
         return super.getInvalidUseOfRuleMessage() + ": Cell at this index can be reached";
