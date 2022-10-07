@@ -6,9 +6,6 @@ spreadsheet : https://docs.google.com/spreadsheets/d/1l7aUZtavtysM8dtGnaEIXhBKMR
      - Rename to fit uses 
        - Last visible/singular number/cell?
  2. Contradiction Rules:
-     - check spreadsheet
-     - UnresovedCell vs. NoNumberForCell (don't need both)
-     - No Cell for Number - implement w/ flags
      - Generalize visibility rules to non-full lines
      - Figure out why these aren't static methods
  3. Case Rules:
