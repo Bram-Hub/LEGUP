@@ -47,7 +47,7 @@ public class LastNumberBasicRule extends BasicRule {
         boolean viewTemp = initialBoard.getViewFlag();
         initialBoard.setDupeFlag(true);
         initialBoard.setViewFlag(false);
-        PossibleContentsCaseRule caseRule = new PossibleContentsCaseRule();
+        NumberForCellCaseRule caseRule = new NumberForCellCaseRule();
         ArrayList<Board> candidates = caseRule.getCases(initialBoard,puzzleElement);
         initialBoard.setDupeFlag(dupeTemp);
         initialBoard.setViewFlag(viewTemp);

@@ -9,17 +9,18 @@ import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersBoard;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersCell;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.*;
+import java.util.Set;
 
-public class PossibleContentsCaseRule extends CaseRule {
+public class NumberForCellCaseRule extends CaseRule {
 
-    public PossibleContentsCaseRule() {
-        super("SKYS-CASE-0001", "Possible Contents",
+    public NumberForCellCaseRule() {
+        super("SKYS-CASE-0001", "Number For Cell",
                 "A blank cell must have height of 1 to n.",
-                "edu/rpi/legup/images/skyscrapers/cases/PossibleContents.png");
+                "edu/rpi/legup/images/skyscrapers/cases/NumberForCell.png");
     }
 
     @Override
