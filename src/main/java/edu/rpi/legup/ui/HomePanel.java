@@ -147,7 +147,7 @@ public class HomePanel extends LegupPanel {
         buttons.add(this.buttons[1]);
         buttons.add(Box.createRigidArea(new Dimension(5, 0)));
         buttons.add(this.buttons[2]);
-        buttons.add(Box.createRigidArea(new Dimension(5, 0)));     
+        buttons.add(Box.createRigidArea(new Dimension(5, 0)));
 
         JPanel batchGraderButton = new JPanel();
         batchGraderButton.add(this.buttons[3]);
@@ -159,6 +159,7 @@ public class HomePanel extends LegupPanel {
         this.add(buttons);
         this.add(batchGraderButton);
         this.add(Box.createRigidArea(new Dimension(0, 5)));
+        
     }
 
     private void openNewPuzzleDialog() {
