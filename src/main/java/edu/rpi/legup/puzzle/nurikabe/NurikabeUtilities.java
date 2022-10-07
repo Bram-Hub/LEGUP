@@ -249,7 +249,6 @@ public class NurikabeUtilities {
         int height = board.getHeight();
 
         Set<NurikabeCell> numberedCells = getNurikabeNumberedCells(board);
-        //HashMap<NurikabeCell,NurikabeCell> cellCenterMap = new HashMap<NurikabeCell,NurikabeCell>();
         // Final mapping of cell to size
         HashMap<NurikabeCell,Integer> whiteRegionMap = new HashMap<>();
         for (NurikabeCell center: numberedCells) {
@@ -305,7 +304,6 @@ public class NurikabeUtilities {
                     if (!visited.getOrDefault(n,false)
                             && n.getType() == NurikabeType.WHITE)
                     {
-                        //cellCenterMap.put(n,center);
                         connected.add(n);
                         visited.put(n,true);
                         queue.add(n);
@@ -313,6 +311,7 @@ public class NurikabeUtilities {
                     }
                 }
             }
+            // Map the cells to the size-center (including the center)
             whiteRegionMap.put(center,size-center.getType().toValue());
             for (NurikabeCell member : connected)
             {
