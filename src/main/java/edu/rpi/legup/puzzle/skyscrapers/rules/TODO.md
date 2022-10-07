@@ -3,8 +3,8 @@
 spreadsheet : https://docs.google.com/spreadsheets/d/1l7aUZtavtysM8dtGnaEIXhBKMRGxekhnLIVoYIHYZi8/edit#gid=0
 
  1. Basic Rules:
-     - Check spreadsheet
-     - 1Edge - generalize to last number w/ view flag?
+     - Rename to fit uses 
+       - Last visible/singular number/cell?
  2. Contradiction Rules:
      - check spreadsheet
      - UnresovedCell vs. NoNumberForCell (don't need both)
@@ -12,8 +12,7 @@ spreadsheet : https://docs.google.com/spreadsheets/d/1l7aUZtavtysM8dtGnaEIXhBKMR
      - Generalize visibility rules to non-full lines
      - Figure out why these aren't static methods
  3. Case Rules:
-     - Cell for number - waiting on ui, needs checkrule
-     - For both (probably), checkRuleRaw to deny deleting branches
+     - Cell for number - waiting on ui
  4. Refactoring:
     - Remove references to lightup and treetent in variable names
     - document utility functions in the reference sheet, COMMENTS!
@@ -22,7 +21,6 @@ spreadsheet : https://docs.google.com/spreadsheets/d/1l7aUZtavtysM8dtGnaEIXhBKMR
     - check for overrides of by cell functions (ie checkContradiction)
     - replace row,col,rowClues,colClues and corresponding functions with appropriate names
  5. Flags
-    - add to all case rules
     - review all basic/contradiction rules to put in terms of the new cases / add flags
     - edit exporter to include flags in xml file format
     - discuss use/not of unresolved flag
