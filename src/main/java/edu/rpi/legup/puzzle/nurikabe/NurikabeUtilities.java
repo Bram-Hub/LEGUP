@@ -312,10 +312,10 @@ public class NurikabeUtilities {
                 }
             }
             // Map the cells to the center-size (including the center)
-            whiteRegionMap.put(center,center.getType().toValue()-size);
+            whiteRegionMap.put(center,center.getData()-size);
             for (NurikabeCell member : connected)
             {
-                whiteRegionMap.put(member,center.getType().toValue()-size);
+                whiteRegionMap.put(member,center.getData()-size);
             }
         }
         return whiteRegionMap;
