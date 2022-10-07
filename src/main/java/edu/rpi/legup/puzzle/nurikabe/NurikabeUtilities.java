@@ -4,7 +4,6 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.utility.DisjointSets;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -167,82 +166,12 @@ public class NurikabeUtilities {
     }
 
     /**
-     * Gets a list of flood filled white regions with remaining white cells
-     *
-     * @param board nurikabe board
-     * @return a list of flood filled white regions
-     */
-    public static ArrayList<Set<NurikabeCell>> getFloodFillWhite(NurikabeBoard board) {
-        int width = board.getWidth();
-        int height = board.getHeight();
-
-        DisjointSets<NurikabeCell> whiteRegions = new DisjointSets<>();
-        for (PuzzleElement data : board.getPuzzleElements()) {
-            NurikabeCell cell = (NurikabeCell) data;
-            whiteRegions.createSet(cell);
-        }
-
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                NurikabeCell cell = board.getCell(x, y);
-                NurikabeCell rightCell = board.getCell(x + 1, y);
-                NurikabeCell downCell = board.getCell(x, y + 1);
-                if (cell.getType() == NurikabeType.WHITE || cell.getType() == NurikabeType.NUMBER) {
-                    if (rightCell != null && (rightCell.getType() == NurikabeType.WHITE ||
-                            rightCell.getType() == NurikabeType.NUMBER)) {
-                        whiteRegions.union(cell, rightCell);
-                    }
-                    if (downCell != null && (downCell.getType() == NurikabeType.WHITE ||
-                            downCell.getType() == NurikabeType.NUMBER)) {
-                        whiteRegions.union(cell, downCell);
-                    }
-                }
-            }
-        }
-
-        Set<NurikabeCell> numberedCells = getNurikabeNumberedCells(board);
-        ArrayList<Set<NurikabeCell>> floodFilledRegions = new ArrayList<>();
-        for (NurikabeCell numberCell : numberedCells) {
-            int number = numberCell.getData();
-            Set<NurikabeCell> region = whiteRegions.getSet(numberCell);
-            floodFilledRegions.add(region);
-
-            int flood = number - region.size();
-            for (int i = 0; i < flood; i++) {
-                Set<NurikabeCell> newSet = new HashSet<>();
-                for (NurikabeCell c : region) {
-                    Point loc = c.getLocation();
-                    NurikabeCell upCell = board.getCell(loc.x, loc.y - 1);
-                    NurikabeCell rightCell = board.getCell(loc.x + 1, loc.y);
-                    NurikabeCell downCell = board.getCell(loc.x, loc.y + 1);
-                    NurikabeCell leftCell = board.getCell(loc.x - 1, loc.y);
-                    if (upCell != null) {
-                        newSet.add(upCell);
-                    }
-                    if (rightCell != null) {
-                        newSet.add(rightCell);
-                    }
-                    if (downCell != null) {
-                        newSet.add(downCell);
-                    }
-                    if (leftCell != null) {
-                        newSet.add(leftCell);
-                    }
-                }
-                region.addAll(newSet);
-            }
-        }
-
-        return floodFilledRegions;
-    }
-
-    /**
-     * Gets a map where the keys are white/numbered cells
+     * Makes a map where the keys are white/numbered cells
      * and the values are the amount of cells that need
      * to be added to the region
      *
      * @param board nurikabe board
-     * @return a list of flood filled white regions
+     * @return a map of cell keys to integer values
      */
     public static HashMap<NurikabeCell,Integer> getWhiteRegionMap(NurikabeBoard board) {
         int width = board.getWidth();
