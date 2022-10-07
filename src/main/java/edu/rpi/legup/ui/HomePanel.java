@@ -212,8 +212,6 @@ public class HomePanel extends LegupPanel {
     }
 
     private void checkProofAll() {
-        GameBoardFacade facade = GameBoardFacade.getInstance();
-
         /*
          * Select dir to grade; recursively grade sub-dirs using traverseDir()
          * Selected dir must have sub-dirs for each student:
