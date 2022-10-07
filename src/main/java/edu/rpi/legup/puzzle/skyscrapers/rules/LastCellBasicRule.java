@@ -10,6 +10,7 @@ import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersCell;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -18,7 +19,7 @@ public class LastCellBasicRule extends BasicRule {
 
     public LastCellBasicRule() {
         super("SKYS-BASC-0002", "Last Cell",
-                "A certain number must go in a certain cell, because that cell is the last place that number can appear in that row/column.",
+                "A certain number must go in a certain cell, because that cell is only cell in that row/col that does not create a duplicate contradiction",
                 "edu/rpi/legup/images/skyscrapers/rules/LastCell.png");
     }
 
@@ -41,55 +42,41 @@ public class LastCellBasicRule extends BasicRule {
             return super.getInvalidUseOfRuleMessage() + ": Modified cells must be number";
         }
 
-        SkyscrapersBoard emptyCase = initialBoard.copy();
-        emptyCase.getPuzzleElement(finalCell).setData(0);
-        Point loc = finalCell.getLocation();
+        //set all rules used by case rule to false except for dupe, get all cases
+        boolean dupeTemp = initialBoard.getDupeFlag();
+        boolean viewTemp = initialBoard.getViewFlag();
+        initialBoard.setDupeFlag(true);
+        initialBoard.setViewFlag(false);
+        CellForNumberCaseRule caseRule = new CellForNumberCaseRule();
+        ArrayList<Board> XCandidates = caseRule.getCasesFor(initialBoard,initialBoard.getRow().get(finalCell.getLocation().y),(Integer)finalCell.getData());
+        ArrayList<Board> YCandidates = caseRule.getCasesFor(initialBoard,initialBoard.getCol().get(finalCell.getLocation().x),(Integer)finalCell.getData());
+        initialBoard.setDupeFlag(dupeTemp);
+        initialBoard.setViewFlag(viewTemp);
 
-        Set<Integer> candidates = new HashSet<Integer>();
-        for (int i = 1; i <= initialBoard.getWidth(); i++) {
-            candidates.add(i);
+        System.out.println(XCandidates.size());
+        System.out.println(YCandidates.size());
+
+        //return null if either pass, both messages otherwise
+        String xCheck = candidateCheck(XCandidates,puzzleElement,finalCell);
+        String yCheck = candidateCheck(YCandidates,puzzleElement,finalCell);
+        if(xCheck==null || yCheck==null){
+            return null;
         }
+        return super.getInvalidUseOfRuleMessage() + "\nRow" + xCheck + "\nCol" + yCheck;
+    }
 
-        //check row
-        for (int i = 0; i < initialBoard.getWidth(); i++) {
-            SkyscrapersCell c = initialBoard.getCell(i, loc.y);
-            if (i != loc.x && c.getType() == SkyscrapersType.Number) {
-                candidates.remove(c.getData());
-                //System.out.print(c.getData());
-                //System.out.println(finalCell.getData());
+    //helper to check if candidate list is valid
+    private String candidateCheck(ArrayList<Board> candidates,PuzzleElement puzzleElement, SkyscrapersCell finalCell){
+        if(candidates.size() == 1){
+            if(((SkyscrapersCell) candidates.get(0).getPuzzleElement(puzzleElement)).getType() == SkyscrapersType.Number) {
+                if (candidates.get(0).getPuzzleElement(puzzleElement).getData() == finalCell.getData()) {
+                    return null;
+                }
+                return ": Wrong number in the cell.";
             }
+            return ": No case for this cell.";
         }
-        if (candidates.size() == 1) {
-            Iterator<Integer> it = candidates.iterator();
-            if (it.next() == finalCell.getData()) {
-                return null;
-            }
-            return super.getInvalidUseOfRuleMessage() + ": Wrong number in the cell.";
-        }
-
-        candidates.clear();
-        for (int i = 1; i <= initialBoard.getWidth(); i++) {
-            candidates.add(i);
-        }
-
-        // check column
-        for (int i = 0; i < initialBoard.getHeight(); i++) {
-            SkyscrapersCell c = initialBoard.getCell(loc.x, i);
-            if (i != loc.y && c.getType() == SkyscrapersType.Number) {
-                candidates.remove(c.getData());
-                //System.out.print(c.getData());
-                //System.out.println(finalCell.getData());
-            }
-        }
-        if (candidates.size() == 1) {
-            Iterator<Integer> it = candidates.iterator();
-            if (it.next() == finalCell.getData()) {
-                return null;
-            }
-            return super.getInvalidUseOfRuleMessage() + ": Wrong number in the cell.";
-        }
-
-        return super.getInvalidUseOfRuleMessage() + ": This cell is not forced.";
+        return ": This cell is not forced.";
     }
 
     private boolean isForced(SkyscrapersBoard board, SkyscrapersCell cell) {

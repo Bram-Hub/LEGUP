@@ -33,6 +33,7 @@ public class FixedMaxBasicRule extends BasicRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+        //last cell for number based on preemptive visibility rules
         SkyscrapersBoard initialBoard = (SkyscrapersBoard) transition.getParents().get(0).getBoard();
         SkyscrapersCell initCell = (SkyscrapersCell) initialBoard.getPuzzleElement(puzzleElement);
         SkyscrapersBoard finalBoard = (SkyscrapersBoard) transition.getBoard();

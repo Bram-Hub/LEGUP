@@ -15,7 +15,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class CellForNumberCaseRule extends CaseRule {
-    //select a certain row/col? select a certain number?
     public CellForNumberCaseRule() {
         super("SKYS-CASE-0002", "Cell For Number",
                 "A number (1-n) must appear in any given row/column",
@@ -38,7 +37,7 @@ public class CellForNumberCaseRule extends CaseRule {
         return caseBoard;
     }
 
-    public List<Board> getCasesFor(Board board, PuzzleElement puzzleElement, Integer number){
+    public ArrayList<Board> getCasesFor(Board board, PuzzleElement puzzleElement, Integer number){
         //return null;
         ArrayList<Board> cases = new ArrayList<>();
 
@@ -66,7 +65,6 @@ public class CellForNumberCaseRule extends CaseRule {
                 ExceedingVisibilityContradictionRule moreRule = new ExceedingVisibilityContradictionRule();
                 passed = passed && fewRule.checkContradictionAt(newCase,newCell)!=null && moreRule.checkContradictionAt(newCase,newCell)!=null;
             }
-            //how should unresolved be handled? should it be?
             if(passed){cases.add(newCase);}
 
 
@@ -75,7 +73,7 @@ public class CellForNumberCaseRule extends CaseRule {
     }
 
     @Override
-    public List<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         int number = 1; //hard-coded for now
         return getCasesFor(board,puzzleElement,number);
     }
