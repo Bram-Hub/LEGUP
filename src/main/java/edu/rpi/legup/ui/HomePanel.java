@@ -159,14 +159,14 @@ public class HomePanel extends LegupPanel {
         this.add(buttons);
         this.add(batchGraderButton);
         this.add(Box.createRigidArea(new Dimension(0, 5)));
-        
+
     }
 
     private void openNewPuzzleDialog() {
         CreatePuzzleDialog cpd = new CreatePuzzleDialog(this.frame, this);
         cpd.setVisible(true);
     }
-
+              
     public void openEditorWithNewPuzzle(String game, int width, int height) throws IllegalArgumentException {
         // Set game type on the puzzle editor
         try
