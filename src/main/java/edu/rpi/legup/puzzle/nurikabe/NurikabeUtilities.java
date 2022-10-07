@@ -5,7 +5,9 @@ import edu.rpi.legup.utility.DisjointSets;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 public class NurikabeUtilities {
@@ -232,5 +234,91 @@ public class NurikabeUtilities {
         }
 
         return floodFilledRegions;
+    }
+
+    /**
+     * Gets a map where the keys are white/numbered cells
+     * and the values are the amount of cells that need
+     * to be added to the region
+     *
+     * @param board nurikabe board
+     * @return a list of flood filled white regions
+     */
+    public static HashMap<NurikabeCell,Integer> getWhiteRegionMap(NurikabeBoard board) {
+        int width = board.getWidth();
+        int height = board.getHeight();
+
+        Set<NurikabeCell> numberedCells = getNurikabeNumberedCells(board);
+        //HashMap<NurikabeCell,NurikabeCell> cellCenterMap = new HashMap<NurikabeCell,NurikabeCell>();
+        // Final mapping of cell to size
+        HashMap<NurikabeCell,Integer> whiteRegionMap = new HashMap<>();
+        for (NurikabeCell center: numberedCells) {
+            //BFS for each center to find the size of the region
+            int size = 1;
+            // Mark all the vertices as not visited(By default
+            // set as false)
+            HashMap<NurikabeCell,Boolean> visited= new HashMap<>();
+
+            // Create a queue for BFS
+            LinkedList<NurikabeCell> queue = new LinkedList<>();
+
+            // Mark the current node as visited and enqueue it
+            visited.put(center,true);
+            queue.add(center);
+
+            // Set of cells in the current region
+            Set<NurikabeCell> connected = new HashSet<>();
+
+            while (queue.size() != 0)
+            {
+                // Dequeue a vertex from queue and print it
+                // s is the source node in the graph
+                NurikabeCell s = queue.poll();
+                System.out.print(s+" ");
+
+                // Make a linked list of all adjacent squares
+                LinkedList<NurikabeCell> adj = new LinkedList<>();
+
+                Point loc = s.getLocation();
+                // First check if the side is on the board
+                if (loc.x >= 1)
+                {
+                    adj.add(board.getCell(loc.x-1, loc.y));
+                }
+                if (loc.x < width-1)
+                {
+                    adj.add(board.getCell(loc.x+1, loc.y));
+                }
+                if (loc.y >= 1)
+                {
+                    adj.add(board.getCell(loc.x, loc.y-1));
+                }
+                if (loc.y < height-1)
+                {
+                    adj.add(board.getCell(loc.x, loc.y+1));
+                }
+                // Get all adjacent vertices of the dequeued vertex s
+                // If a adjacent has not been visited, then mark it
+                // visited and enqueue it
+                for (NurikabeCell n : adj)
+                {
+                    if (!visited.getOrDefault(n,false)
+                            && n.getType() == NurikabeType.WHITE)
+                    {
+                        //cellCenterMap.put(n,center);
+                        connected.add(n);
+                        visited.put(n,true);
+                        queue.add(n);
+                        ++size;
+                    }
+                }
+            }
+            whiteRegionMap.put(center,size-center.getType().toValue());
+            for (NurikabeCell member : connected)
+            {
+                whiteRegionMap.put(member,size-center.getType().toValue());
+            }
+        }
+        return whiteRegionMap;
     }
 }
