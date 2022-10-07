@@ -329,6 +329,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         if (puzzle == null) {
             return;
         }
+        
         String fileName = GameBoardFacade.getInstance().getCurFileName();
         if (fileName != null) {
             try {
