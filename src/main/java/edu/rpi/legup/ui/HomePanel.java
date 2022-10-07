@@ -41,6 +41,9 @@ public class HomePanel extends LegupPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             Object[] items = legupUI.getPuzzleEditor().promptPuzzle();
+            if (items == null) {
+                return;
+            }
             String fileName = (String) items[0];
             File puzzleFile = (File) items[1];
             legupUI.displayPanel(2);

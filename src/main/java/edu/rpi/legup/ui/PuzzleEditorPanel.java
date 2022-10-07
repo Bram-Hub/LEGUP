@@ -255,6 +255,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
             puzzleFile = new File(fileName);
         }
+        else {
+            return null;
+        }
 
         return new Object[]{fileName, puzzleFile};
     }
