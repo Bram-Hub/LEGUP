@@ -53,8 +53,6 @@ public class LastNumberBasicRule extends BasicRule {
         initialBoard.setViewFlag(viewTemp);
 
         //check if given value is the only remaining value
-        System.out.println("HERE" + candidates.size());
-        System.out.println(candidates.get(0).getPuzzleElement(puzzleElement).getData());
         if(candidates.size() == 1){
             if(candidates.get(0).getPuzzleElement(puzzleElement).getData() == finalCell.getData()){
                 return null;
