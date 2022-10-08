@@ -197,8 +197,7 @@ public class NurikabeUtilities {
             // Set of cells in the current region
             Set<NurikabeCell> connected = new HashSet<>();
 
-            while (queue.size() != 0)
-            {
+            while (queue.size() != 0) {
                 // Dequeue a vertex from queue and print it
                 // s is the source node in the graph
                 NurikabeCell s = queue.poll();
@@ -209,30 +208,24 @@ public class NurikabeUtilities {
 
                 Point loc = s.getLocation();
                 // First check if the side is on the board
-                if (loc.x >= 1)
-                {
+                if (loc.x >= 1) {
                     adj.add(board.getCell(loc.x-1, loc.y));
                 }
-                if (loc.x < width-1)
-                {
+                if (loc.x < width-1) {
                     adj.add(board.getCell(loc.x+1, loc.y));
                 }
-                if (loc.y >= 1)
-                {
+                if (loc.y >= 1) {
                     adj.add(board.getCell(loc.x, loc.y-1));
                 }
-                if (loc.y < height-1)
-                {
+                if (loc.y < height-1) {
                     adj.add(board.getCell(loc.x, loc.y+1));
                 }
                 // Get all adjacent vertices of the dequeued vertex s
                 // If a adjacent has not been visited, then mark it
                 // visited and enqueue it
-                for (NurikabeCell n : adj)
-                {
+                for (NurikabeCell n : adj) {
                     if (!visited.getOrDefault(n,false)
-                            && n.getType() == NurikabeType.WHITE)
-                    {
+                            && n.getType() == NurikabeType.WHITE) {
                         connected.add(n);
                         visited.put(n,true);
                         queue.add(n);
@@ -242,8 +235,7 @@ public class NurikabeUtilities {
             }
             // Map the cells to the center-size (including the center)
             whiteRegionMap.put(center,center.getData()-size);
-            for (NurikabeCell member : connected)
-            {
+            for (NurikabeCell member : connected) {
                 whiteRegionMap.put(member,center.getData()-size);
             }
         }
