@@ -215,8 +215,11 @@ public class HomePanel extends LegupPanel {
                     JOptionPane.ERROR_MESSAGE);
             throw new IllegalArgumentException("ERROR: Invalid dimensions given");
         }
-        //this is test for the commit which just test
+
+
         
+        //this is test for the commit which just test
+
         // Set game type on the puzzle editor
         this.legupUI.displayPanel(2);
         this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, rows, columns);
