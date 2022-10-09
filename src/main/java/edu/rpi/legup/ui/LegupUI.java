@@ -91,7 +91,7 @@ public class LegupUI extends JFrame implements WindowListener {
         panels[2] = new PuzzleEditorPanel(this.fileDialog, this, this);
 
     }
-
+//test commit
     protected void displayPanel(int option) {
         if (option > panels.length || option < 0) {
             throw new InvalidParameterException("Invalid option");
