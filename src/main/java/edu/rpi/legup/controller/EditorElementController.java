@@ -46,9 +46,9 @@ public class EditorElementController implements ActionListener {
         // TODO: implement what happens when element is pressed
 
         System.out.printf("%s button pressed!\n", element.getElementName());
-        if (elementController != null) {
-            elementController.setSelectedElement(element);
-        }
+//        if (elementController != null) {
+//            elementController.setSelectedElement(element);
+//        }
     }
 
     @Override
