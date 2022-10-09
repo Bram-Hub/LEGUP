@@ -59,25 +59,19 @@ public class NurikabeUtilities {
                             downCell.getType() == NurikabeType.WHITE)) {
                         regions.union(cell, downCell);
                     }
-                }
-                else {
-                    if (cell.getType() == NurikabeType.BLACK) {
-                        if (rightCell != null && rightCell.getType() == NurikabeType.BLACK) {
-                            regions.union(cell, rightCell);
-                        }
-                        if (downCell != null && downCell.getType() == NurikabeType.BLACK) {
-                            regions.union(cell, downCell);
-                        }
+                } else if (cell.getType() == NurikabeType.BLACK) {
+                    if (rightCell != null && rightCell.getType() == NurikabeType.BLACK) {
+                        regions.union(cell, rightCell);
                     }
-                    else {
-                        if (cell.getType() == NurikabeType.UNKNOWN) {
-                            if (rightCell != null && rightCell.getType() == NurikabeType.UNKNOWN) {
-                                regions.union(cell, rightCell);
-                            }
-                            if (downCell != null && downCell.getType() == NurikabeType.UNKNOWN) {
-                                regions.union(cell, downCell);
-                            }
-                        }
+                    if (downCell != null && downCell.getType() == NurikabeType.BLACK) {
+                        regions.union(cell, downCell);
+                    }
+                } else if (cell.getType() == NurikabeType.UNKNOWN) {
+                    if (rightCell != null && rightCell.getType() == NurikabeType.UNKNOWN) {
+                        regions.union(cell, rightCell);
+                    }
+                    if (downCell != null && downCell.getType() == NurikabeType.UNKNOWN) {
+                        regions.union(cell, downCell);
                     }
                 }
             }

@@ -72,18 +72,6 @@ public class TreeTentBoard extends GridBoard {
         }
     }
 
-    public TreeTentClue getClue(int x, int y) {
-        if (x == getWidth() && 0 <= y && y < getHeight()) {
-            return rowClues.get(y);
-        }
-        else {
-            if (y == getHeight() && 0 <= x && x < getWidth()) {
-                return colClues.get(x);
-            }
-        }
-        return null;
-    }
-
     /**
      * Called when a {@link PuzzleElement} has been added and passes in the equivalent puzzle element with the data.
      *
@@ -91,7 +79,7 @@ public class TreeTentBoard extends GridBoard {
      */
     @Override
     public void notifyAddition(PuzzleElement puzzleElement) {
-        if (puzzleElement instanceof TreeTentLine) {
+        if(puzzleElement instanceof TreeTentLine) {
             lines.add((TreeTentLine) puzzleElement);
         }
     }
@@ -103,9 +91,9 @@ public class TreeTentBoard extends GridBoard {
      */
     @Override
     public void notifyDeletion(PuzzleElement puzzleElement) {
-        if (puzzleElement instanceof TreeTentLine) {
-            for (TreeTentLine line : lines) {
-                if (line.compare((TreeTentLine) puzzleElement)) {
+        if(puzzleElement instanceof TreeTentLine) {
+            for(TreeTentLine line : lines) {
+                if(line.compare((TreeTentLine)puzzleElement)) {
                     lines.remove(line);
                     break;
                 }
@@ -116,10 +104,10 @@ public class TreeTentBoard extends GridBoard {
     /**
      * Get a list of all orthogonally adjacent cells.
      *
-     * @param cell The cell to get adjacent cells from.
-     * @param type The cell types to get.
-     * @return List of adjacent cells in the form { up, right, down, left }.
-     * If an adjacent cell is null, it will not be added to the list.
+     * @param cell  The cell to get adjacent cells from.
+     * @param type  The cell types to get.
+     * @return      List of adjacent cells in the form { up, right, down, left }.
+     *              If an adjacent cell is null, it will not be added to the list.
      */
     public List<TreeTentCell> getAdjacent(TreeTentCell cell, TreeTentType type) {
         List<TreeTentCell> adj = new ArrayList<>();
@@ -143,12 +131,6 @@ public class TreeTentBoard extends GridBoard {
         return adj;
     }
 
-    /**
-     * Gets all cells of a specified type that are diagonals of a specified cell
-     * @param cell the base cell
-     * @param type the type to look for
-     * @return a list of TreeTentCells that are diagonals of the given TreeTentCell and are of the given TreeTentType
-     */
     public List<TreeTentCell> getDiagonals(TreeTentCell cell, TreeTentType type) {
         List<TreeTentCell> dia = new ArrayList<>();
         Point loc = cell.getLocation();
@@ -171,13 +153,6 @@ public class TreeTentBoard extends GridBoard {
         return dia;
     }
 
-    /**
-     * Creates and returns a list of TreeTentCells that match the given TreeTentType
-     * @param index the row or column number
-     * @param type type of TreeTent element
-     * @param isRow boolean value beased on whether a row of column is being checked
-     * @return List of TreeTentCells that match the given TreeTentType
-     */
     public List<TreeTentCell> getRowCol(int index, TreeTentType type, boolean isRow) {
         List<TreeTentCell> list = new ArrayList<>();
         if (isRow) {
@@ -187,8 +162,7 @@ public class TreeTentBoard extends GridBoard {
                     list.add(cell);
                 }
             }
-        }
-        else {
+        } else {
             for (int i = 0; i < dimension.width; i++) {
                 TreeTentCell cell = getCell(index, i);
                 if (cell.getType() == type) {
@@ -222,10 +196,6 @@ public class TreeTentBoard extends GridBoard {
         return super.equalsBoard(treeTentBoard);
     }
 
-    /**
-     * Performs a deep copy of the TreeTentBoard
-     * @return a TreeTentBoard object that is a deep copy of the current TreeTentBoard
-     */
     @Override
     public TreeTentBoard copy() {
         TreeTentBoard copy = new TreeTentBoard(dimension.width, dimension.height);
@@ -239,7 +209,7 @@ public class TreeTentBoard extends GridBoard {
             lineCpy.setModifiable(false);
             copy.getLines().add(lineCpy);
         }
-        for (PuzzleElement e : modifiedData) {
+        for(PuzzleElement e : modifiedData) {
             copy.getPuzzleElement(e).setModifiable(false);
         }
         copy.rowClues = rowClues;

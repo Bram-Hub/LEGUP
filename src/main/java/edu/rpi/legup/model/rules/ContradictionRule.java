@@ -91,14 +91,15 @@ public abstract class ContradictionRule extends Rule {
         return this.NO_CONTRADICTION_MESSAGE;
     }
 
-    public String getNoContradictionMessage() {
+    public String getNoContradictionMessage()
+    {
         return this.NO_CONTRADICTION_MESSAGE;
     }
 
     /**
      * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
      *
-     * @param board         board to check contradiction
+     * @param board    board to check contradiction
      * @param puzzleElement equivalent puzzleElement
      * @return null if the transition contains a contradiction at the specified puzzleElement,
      * otherwise error message

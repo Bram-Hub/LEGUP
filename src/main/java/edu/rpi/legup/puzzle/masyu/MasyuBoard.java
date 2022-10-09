@@ -36,8 +36,7 @@ public class MasyuBoard extends GridBoard {
     public void notifyChange(PuzzleElement puzzleElement) {
         if (puzzleElement instanceof MasyuLine) {
             lines.add((MasyuLine) puzzleElement);
-        }
-        else {
+        } else {
             super.notifyChange(puzzleElement);
         }
     }
@@ -53,7 +52,7 @@ public class MasyuBoard extends GridBoard {
         for (MasyuLine line : lines) {
             copy.lines.add(line.copy());
         }
-        for (PuzzleElement e : modifiedData) {
+        for(PuzzleElement e : modifiedData) {
             copy.getPuzzleElement(e).setModifiable(false);
         }
         return copy;

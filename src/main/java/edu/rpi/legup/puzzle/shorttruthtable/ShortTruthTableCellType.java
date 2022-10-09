@@ -3,9 +3,9 @@ package edu.rpi.legup.puzzle.shorttruthtable;
 import java.util.Map;
 import java.util.HashMap;
 
-public enum ShortTruthTableCellType {
+public enum ShortTruthTableCellType{
 
-    FALSE(0), TRUE(1), UNKNOWN(-1), NOT_IN_PLAY(-2), PARENTHESIS(-3);
+	FALSE(0), TRUE(1), UNKNOWN(-1), NOT_IN_PLAY(-2), PARENTHESIS(-3);
 
     public int value;
     private static Map map = new HashMap<>();
@@ -27,10 +27,10 @@ public enum ShortTruthTableCellType {
     /**
      * Gets the char value of a cell, Used for debugging
      */
-    public static char toChar(ShortTruthTableCellType type) {
-        if (type == TRUE) return 'T';
-        if (type == FALSE) return 'F';
-        if (type == UNKNOWN) return '?';
+    public static char toChar(ShortTruthTableCellType type){
+        if(type == TRUE)    return 'T';
+        if(type == FALSE)   return 'F';
+        if(type == UNKNOWN) return '?';
         return ' ';
     }
 
@@ -40,24 +40,21 @@ public enum ShortTruthTableCellType {
      *
      * @return
      */
-    public boolean isTrueOrFalse() {
-        return value == 0 || value == 1;
+    public boolean isTrueOrFalse(){
+        return value==0 || value==1;
     }
 
 
-    public ShortTruthTableCellType getNegation() {
-        switch (value) {
-            case 1:
-                return ShortTruthTableCellType.FALSE;
-            case 0:
-                return ShortTruthTableCellType.TRUE;
-            default:
-                throw new RuntimeException("Trying to negate a cell not assigned to true or false");
+    public ShortTruthTableCellType getNegation(){
+        switch(value){
+            case 1: return ShortTruthTableCellType.FALSE;
+            case 0: return ShortTruthTableCellType.TRUE;
+            default: throw new RuntimeException("Trying to negate a cell not assigned to true or false");
         }
     }
 
-    public static ShortTruthTableCellType getDefaultType(char c) {
-        if (c == '(' || c == ')') return PARENTHESIS;
+    public static ShortTruthTableCellType getDefaultType(char c){
+        if( c == '(' || c == ')' ) return PARENTHESIS;
         return UNKNOWN;
     }
 

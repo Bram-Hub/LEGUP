@@ -43,18 +43,11 @@ public class EmptyFieldBasicRule extends BasicRule {
 
         if (isForced(finalBoard, finalCell)) {
             return null;
-        }
-        else {
+        } else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty.";
         }
     }
 
-    /**
-     * Returns a boolean value based on whether the specified cell has adjacent cells (true - no adjacent, false - has adjacent)
-     * @param board the TreeTent board
-     * @param cell the specified TreeTent cell
-     * @return true - no adjacent, false - has adjacent
-     */
     private boolean isForced(TreeTentBoard board, TreeTentCell cell) {
         List<TreeTentCell> adjCells = board.getAdjacent(cell, TreeTentType.TREE);
         return adjCells.isEmpty();
@@ -78,8 +71,7 @@ public class EmptyFieldBasicRule extends BasicRule {
         }
         if (treeTentBoard.getModifiedData().isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return treeTentBoard;
         }
     }

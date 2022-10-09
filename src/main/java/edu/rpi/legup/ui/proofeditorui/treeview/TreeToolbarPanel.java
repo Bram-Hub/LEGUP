@@ -12,8 +12,7 @@ public class TreeToolbarPanel extends JPanel {
      */
     public TreeToolbarPanel(TreePanel treePanel) {
         this.treePanel = treePanel;
-        this.setLayout(new GridLayout(4, 1, 0, 2));
-
+        this.setLayout(new GridLayout(4, 1));
 
         addChild = new TreeToolBarButton(new ImageIcon(ClassLoader.getSystemResource("edu/rpi/legup/images/Legup/AddChild.png")), TreeToolBarName.ADD_CHILD);
         delChild = new TreeToolBarButton(new ImageIcon(ClassLoader.getSystemResource("edu/rpi/legup/images/Legup/DelChild.png")), TreeToolBarName.DEL_CHILD);

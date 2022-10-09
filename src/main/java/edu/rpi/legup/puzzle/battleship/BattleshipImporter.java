@@ -16,8 +16,8 @@ public class BattleshipImporter extends PuzzleImporter {
     /**
      * Creates an empty board for building
      *
-     * @param rows    the number of rows on the board
-     * @param columns the number of columns on the board
+     * @param rows      the number of rows on the board
+     * @param columns   the number of columns on the board
      * @throws RuntimeException
      */
     @Override
@@ -52,16 +52,13 @@ public class BattleshipImporter extends PuzzleImporter {
                 int size = Integer.valueOf(boardElement.getAttribute(
                         "size"));
                 battleShipBoard = new BattleshipBoard(size);
-            }
-            else {
-                if (!boardElement.getAttribute("width").isEmpty()
-                        && !boardElement.getAttribute("height").isEmpty()) {
-                    int width = Integer.valueOf(boardElement.getAttribute(
-                            "width"));
-                    int height = Integer.valueOf(boardElement.getAttribute(
-                            "height"));
-                    battleShipBoard = new BattleshipBoard(width, height);
-                }
+            } else if (!boardElement.getAttribute("width").isEmpty()
+                    && !boardElement.getAttribute("height").isEmpty()) {
+                int width = Integer.valueOf(boardElement.getAttribute(
+                        "width"));
+                int height = Integer.valueOf(boardElement.getAttribute(
+                        "height"));
+                battleShipBoard = new BattleshipBoard(width, height);
             }
 
             if (battleShipBoard == null) {
@@ -171,8 +168,7 @@ public class BattleshipImporter extends PuzzleImporter {
             }
 
             puzzle.setCurrentBoard(battleShipBoard);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new InvalidFileFormatException("BattleShip Importer: " +
                     "unknown value where integer expected");
         }

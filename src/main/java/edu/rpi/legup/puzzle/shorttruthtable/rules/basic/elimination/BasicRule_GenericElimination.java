@@ -7,9 +7,9 @@ public abstract class BasicRule_GenericElimination extends BasicRule_Generic {
 
     public BasicRule_GenericElimination(String ruleID, String ruleName, ContradictionRule contradictionRule) {
 
-        super(ruleID, ruleName + " Elimination",
-                ruleName + " statements must have a valid pattern",
-                "elimination/" + ruleName,
+        super(ruleID,ruleName+" Elimination",
+                ruleName+" statements must have a valid pattern",
+                "elimination/"+ruleName,
                 contradictionRule,
                 true
         );

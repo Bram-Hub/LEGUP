@@ -4,16 +4,19 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import edu.rpi.legup.puzzle.lightup.LightUp;
 
-public class BulbsOutsideDiagonalBasicRuleTest {
+public class BulbsOutsideDiagonalBasicRuleTest
+{
     private static LightUp lightUp;
 
     @BeforeClass
-    public static void setUp() {
+    public static void setUp()
+    {
         lightUp = new LightUp();
     }
 
     @Test
-    public void simpleCaseTest() {
+    public void simpleCaseTest()
+    {
 
     }
 }

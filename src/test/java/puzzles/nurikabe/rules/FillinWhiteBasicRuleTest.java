@@ -16,18 +16,21 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 
 import java.awt.*;
 
-public class FillinWhiteBasicRuleTest {
+public class FillinWhiteBasicRuleTest
+{
     private static final FillinWhiteBasicRule RULE = new FillinWhiteBasicRule();
     private static Nurikabe nurikabe;
 
     @BeforeClass
-    public static void setUp() {
+    public static void setUp()
+    {
         MockGameBoardFacade.getInstance();
         nurikabe = new Nurikabe();
     }
 
     @Test
-    public void FillinWhiteBasicRule_UnknownSurroundWhiteTest() throws InvalidFileFormatException {
+    public void FillinWhiteBasicRule_UnknownSurroundWhiteTest() throws InvalidFileFormatException
+    {
 //        TestUtilities.importTestBoard("puzzles/nurikabe/rules/FillinWhiteBasicRule/UnknownSurroundWhite", nurikabe);
 //        TreeNode rootNode = nurikabe.getTree().getRootNode();
 //        TreeTransition transition = rootNode.getChildren().get(0);

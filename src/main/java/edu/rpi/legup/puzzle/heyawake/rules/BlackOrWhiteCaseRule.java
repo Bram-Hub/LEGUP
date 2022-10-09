@@ -11,7 +11,7 @@ import java.util.List;
 public class BlackOrWhiteCaseRule extends CaseRule {
 
     public BlackOrWhiteCaseRule() {
-        super("HEYA-CASE-0001",
+        super("HEYA-CASE-0001", 
                 "Black or White",
                 "",
                 "edu/rpi/legup/images/heyawake/cases/BlackOrWhite.png");

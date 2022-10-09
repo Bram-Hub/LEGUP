@@ -16,23 +16,13 @@ public class NurikabeImporter extends PuzzleImporter {
     /**
      * Creates an empty board for building
      *
-     * @param rows    the number of rows on the board
-     * @param columns the number of columns on the board
+     * @param rows      the number of rows on the board
+     * @param columns   the number of columns on the board
      * @throws RuntimeException
      */
     @Override
     public void initializeBoard(int rows, int columns) {
-        NurikabeBoard nurikabeBoard = new NurikabeBoard(columns, rows);
 
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < columns; x++) {
-                NurikabeCell cell = new NurikabeCell(NurikabeType.UNKNOWN.toValue(), new Point(x, y));
-                cell.setIndex(y * columns + x);
-                cell.setModifiable(true);
-                nurikabeBoard.setCell(x, y, cell);
-            }
-        }
-        puzzle.setCurrentBoard(nurikabeBoard);
     }
 
     /**
@@ -58,13 +48,10 @@ public class NurikabeImporter extends PuzzleImporter {
             if (!boardElement.getAttribute("size").isEmpty()) {
                 int size = Integer.valueOf(boardElement.getAttribute("size"));
                 nurikabeBoard = new NurikabeBoard(size);
-            }
-            else {
-                if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
-                    int width = Integer.valueOf(boardElement.getAttribute("width"));
-                    int height = Integer.valueOf(boardElement.getAttribute("height"));
-                    nurikabeBoard = new NurikabeBoard(width, height);
-                }
+            } else if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
+                int width = Integer.valueOf(boardElement.getAttribute("width"));
+                int height = Integer.valueOf(boardElement.getAttribute("height"));
+                nurikabeBoard = new NurikabeBoard(width, height);
             }
 
             if (nurikabeBoard == null) {
@@ -95,8 +82,7 @@ public class NurikabeImporter extends PuzzleImporter {
                 }
             }
             puzzle.setCurrentBoard(nurikabeBoard);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new InvalidFileFormatException("nurikabe Importer: unknown value where integer expected");
         }
     }

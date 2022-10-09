@@ -7,7 +7,7 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 public class WhiteLineContradictionRule extends ContradictionRule {
 
     public WhiteLineContradictionRule() {
-        super("HEYA-CONT-0005",
+        super("HEYA-CONT-0005", 
                 "White Line",
                 "",
                 "edu/rpi/legup/images/heyawake/contradictions/WhiteLine.png");

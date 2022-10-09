@@ -36,10 +36,9 @@ public class RuleFrame extends JPanel {
 
     public RuleFrame(RuleController controller) {
 
-        MaterialTabbedPaneUI tabOverride = new MaterialTabbedPaneUI() {
+        MaterialTabbedPaneUI tabOverride = new MaterialTabbedPaneUI(){
             //this prevents the tabs from moving around when you select them
-            @Override
-            protected boolean shouldRotateTabRuns(int i) {
+            @Override protected boolean shouldRotateTabRuns(int i){
                 return false;
             }
         };

@@ -16,34 +16,13 @@ public class TreeTentImporter extends PuzzleImporter {
     /**
      * Creates an empty board for building
      *
-     * @param rows    the number of rows on the board
-     * @param columns the number of columns on the board
+     * @param rows      the number of rows on the board
+     * @param columns   the number of columns on the board
      * @throws RuntimeException
      */
     @Override
     public void initializeBoard(int rows, int columns) {
-        TreeTentBoard treeTentBoard = new TreeTentBoard(columns, rows);
 
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < columns; x++) {
-                if (treeTentBoard.getCell(x, y) == null) {
-                    TreeTentCell cell = new TreeTentCell(0, new Point(x, y));
-                    cell.setIndex(y * columns + x);
-                    cell.setModifiable(true);
-                    treeTentBoard.setCell(x, y, cell);
-                }
-            }
-        }
-
-        for (int i = 0; i < rows; i++) {
-            treeTentBoard.getRowClues().set(i, new TreeTentClue(0, i + 1, TreeTentType.CLUE_EAST));
-        }
-
-        for (int i = 0; i < columns; i++) {
-            treeTentBoard.getColClues().set(i, new TreeTentClue(0, i + 1, TreeTentType.CLUE_SOUTH));
-        }
-
-        puzzle.setCurrentBoard(treeTentBoard);
     }
 
     /**
@@ -69,13 +48,10 @@ public class TreeTentImporter extends PuzzleImporter {
             if (!boardElement.getAttribute("size").isEmpty()) {
                 int size = Integer.valueOf(boardElement.getAttribute("size"));
                 treeTentBoard = new TreeTentBoard(size);
-            }
-            else {
-                if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
-                    int width = Integer.valueOf(boardElement.getAttribute("width"));
-                    int height = Integer.valueOf(boardElement.getAttribute("height"));
-                    treeTentBoard = new TreeTentBoard(width, height);
-                }
+            } else if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
+                int width = Integer.valueOf(boardElement.getAttribute("width"));
+                int height = Integer.valueOf(boardElement.getAttribute("height"));
+                treeTentBoard = new TreeTentBoard(width, height);
             }
 
             if (treeTentBoard == null) {
@@ -169,8 +145,7 @@ public class TreeTentImporter extends PuzzleImporter {
             }
 
             puzzle.setCurrentBoard(treeTentBoard);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new InvalidFileFormatException("TreeTent Importer: unknown value where integer expected");
         }
     }

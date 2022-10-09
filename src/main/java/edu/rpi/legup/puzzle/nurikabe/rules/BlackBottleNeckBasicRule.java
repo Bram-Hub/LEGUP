@@ -46,8 +46,7 @@ public class BlackBottleNeckBasicRule extends BasicRule {
 
         if (contraRule.checkContradiction(modified) == null) {
             return null;
-        }
-        else {
+        } else {
             return super.getInvalidUseOfRuleMessage() + ": This is not the only way for black to escape!";
         }
     }

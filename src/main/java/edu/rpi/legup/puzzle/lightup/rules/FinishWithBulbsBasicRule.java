@@ -55,12 +55,6 @@ public class FinishWithBulbsBasicRule extends BasicRule {
         return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be a bulb";
     }
 
-    /**
-     * Determines whether the specified cell is forced to be a bulb or not
-     * @param board the entire board
-     * @param cell specified cell
-     * @return whether cell is forced to be a bulb or not
-     */
     private boolean isForced(LightUpBoard board, LightUpCell cell) {
         Set<LightUpCell> adjCells = board.getAdj(cell);
         adjCells.removeIf(c -> c.getType() != LightUpCellType.NUMBER);
@@ -98,8 +92,7 @@ public class FinishWithBulbsBasicRule extends BasicRule {
         }
         if (lightUpBoard.getModifiedData().isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return lightUpBoard;
         }
     }

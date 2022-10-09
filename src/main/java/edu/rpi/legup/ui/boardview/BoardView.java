@@ -20,6 +20,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
     protected ElementSelection selection;
 
 
+
     /**
      * BoardView Constructor creates a view for the board object using the controller handle the ui events
      *
@@ -113,8 +114,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
 
             if (board instanceof CaseBoard) {
                 setCasePickable();
-            }
-            else {
+            } else {
                 for (ElementView elementView : elementViews) {
                     elementView.setPuzzleElement(board.getPuzzleElement(elementView.getPuzzleElement()));
                     elementView.setShowCasePicker(false);

@@ -21,9 +21,9 @@ public class TouchingTentsContradictionRule extends ContradictionRule {
      *
      * @param board         board to check contradiction
      * @param puzzleElement equivalent {@link PuzzleElement}
-     * @return <code>null</code> if the transition contains a
-     * contradiction at the specified puzzleElement,
-     * otherwise error message.
+     * @return              <code>null</code> if the transition contains a
+     *                      contradiction at the specified puzzleElement,
+     *                      otherwise error message.
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
@@ -36,8 +36,7 @@ public class TouchingTentsContradictionRule extends ContradictionRule {
         int diagTree = treeTentBoard.getDiagonals(cell, TreeTentType.TENT).size();
         if (adjTree > 0 || diagTree > 0) {
             return null;
-        }
-        else {
+        } else {
             return super.getNoContradictionMessage();
         }
     }

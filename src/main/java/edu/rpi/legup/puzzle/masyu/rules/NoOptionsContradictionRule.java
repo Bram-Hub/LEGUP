@@ -7,7 +7,7 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 public class NoOptionsContradictionRule extends ContradictionRule {
 
     public NoOptionsContradictionRule() {
-        super("MASY-CONT-0003", "No Options",
+        super("MASY-CONT-0003","No Options",
                 "",
                 "edu/rpi/legup/images/masyu/ContradictionNoOptions.png");
     }

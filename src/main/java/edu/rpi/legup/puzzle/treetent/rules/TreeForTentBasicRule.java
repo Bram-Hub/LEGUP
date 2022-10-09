@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.treetent.rules;
 
 import java.util.List;
 import java.util.ArrayList;
-
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.BasicRule;
@@ -34,79 +33,66 @@ public class TreeForTentBasicRule extends BasicRule {
         if (!(puzzleElement instanceof TreeTentLine)) {
             return super.getInvalidUseOfRuleMessage() + ": Lines must be created for this rule.";
         }
-        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
-        TreeTentLine line = (TreeTentLine) board.getPuzzleElement(puzzleElement);
-        TreeTentCell tree, tent;
+        TreeTentBoard board = (TreeTentBoard)transition.getBoard();
+        TreeTentLine line = (TreeTentLine)board.getPuzzleElement(puzzleElement);
+        TreeTentCell tree,tent;
         if (line.getC1().getType() == TreeTentType.TREE && line.getC2().getType() == TreeTentType.TENT) {
             tree = line.getC1();
             tent = line.getC2();
-        }
-        else {
-            if (line.getC2().getType() == TreeTentType.TREE && line.getC1().getType() == TreeTentType.TENT) {
-                tree = line.getC2();
-                tent = line.getC1();
-            }
-            else {
-                return super.getInvalidUseOfRuleMessage() + ": This line must connect a tree to a tent.";
-            }
+        } else if (line.getC2().getType() == TreeTentType.TREE && line.getC1().getType() == TreeTentType.TENT) {
+            tree = line.getC2();
+            tent = line.getC1();
+        } else {
+            return super.getInvalidUseOfRuleMessage() + ": This line must connect a tree to a tent.";
         }
         int forced = isForced(board, tree, tent, line);
-        if (forced == 1) {
+        if(forced == 1)
+        {
             return null;
         }
-        else {
-            if (forced == -1) {
-                return super.getInvalidUseOfRuleMessage() + ": This tent already has a link";
-            }
-            else {
-                if (forced == -2) {
-                    return super.getInvalidUseOfRuleMessage() + ": This tree already has a link";
-                }
-                else {
-                    return super.getInvalidUseOfRuleMessage() + ": This tree and tent don't need to be linked.";
-                }
-            }
+        else if (forced == -1)
+        {
+        	return super.getInvalidUseOfRuleMessage() + ": This tent already has a link";
+        }
+        else if (forced == -2)
+        {
+        	return super.getInvalidUseOfRuleMessage() + ": This tree already has a link";
+        }
+        else
+        {
+            return super.getInvalidUseOfRuleMessage() + ": This tree and tent don't need to be linked.";
         }
     }
 
-    private Integer isForced(TreeTentBoard board, TreeTentCell tree, TreeTentCell tent, TreeTentLine line) {
+    private Integer isForced(TreeTentBoard board, TreeTentCell tree, TreeTentCell tent, TreeTentLine line)
+    {
         List<TreeTentCell> adjTrees = board.getAdjacent(tent, TreeTentType.TREE);
         adjTrees.remove(tree);
         List<TreeTentLine> lines = board.getLines();
         lines.remove(line);
-        for (TreeTentLine l : lines) {
+        for(TreeTentLine l : lines)
+        {
             ArrayList<TreeTentCell> toRemove = new ArrayList<>();
-            if (l.getC1().getLocation().equals(tree.getLocation()) || l.getC2().getLocation().equals(tree.getLocation())) {
-                return -2;
+        	if(l.getC1().getLocation().equals(tree.getLocation()) || l.getC2().getLocation().equals(tree.getLocation())) {return -2;}
+            for(TreeTentCell c : adjTrees)
+            {
+            	if(l.getC1().getLocation().equals(c.getLocation()))
+            	{
+            		if(l.getC2().getLocation().equals(tent.getLocation())) {return -1;}
+            		toRemove.add(c);
+            		
+            	}
+            	else if(l.getC2().getLocation().equals(c.getLocation()))
+            	{
+            		if(l.getC1().getLocation().equals(tent.getLocation())) {return -1;}
+            		toRemove.add(c);
+            	}
             }
-            for (TreeTentCell c : adjTrees) {
-                if (l.getC1().getLocation().equals(c.getLocation())) {
-                    if (l.getC2().getLocation().equals(tent.getLocation())) {
-                        return -1;
-                    }
-                    toRemove.add(c);
-
-                }
-                else {
-                    if (l.getC2().getLocation().equals(c.getLocation())) {
-                        if (l.getC1().getLocation().equals(tent.getLocation())) {
-                            return -1;
-                        }
-                        toRemove.add(c);
-                    }
-                }
-            }
-            for (TreeTentCell c : toRemove) {
-                adjTrees.remove(c);
-            }
+            for(TreeTentCell c : toRemove) {adjTrees.remove(c);}
             toRemove.clear();
         }
-        if (adjTrees.size() == 0) {
-            return 1;
-        }
-        else {
-            return 0;
-        }
+        if(adjTrees.size() == 0) {return 1;}
+        else {return 0;}
     }
 
     /**

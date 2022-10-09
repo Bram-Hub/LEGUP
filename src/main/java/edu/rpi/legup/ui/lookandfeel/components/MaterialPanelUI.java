@@ -11,23 +11,23 @@ import java.awt.Graphics;
 
 public class MaterialPanelUI extends BasicPanelUI {
 
-    public static ComponentUI createUI(JComponent c) {
-        return new MaterialPanelUI();
-    }
+	public static ComponentUI createUI (JComponent c) {
+		return new MaterialPanelUI ();
+	}
 
-    @Override
-    public void installUI(JComponent c) {
-        super.installUI(c);
+	@Override
+	public void installUI (JComponent c) {
+		super.installUI (c);
 
-        JPanel panel = (JPanel) c;
-        panel.setOpaque(true);
-        panel.setFont(UIManager.getFont("Panel.font"));
-        panel.setBackground(UIManager.getColor("Panel.background"));
-        panel.setBorder(UIManager.getBorder("Panel.border"));
-    }
+		JPanel panel = (JPanel) c;
+		panel.setOpaque (true);
+		panel.setFont (UIManager.getFont ("Panel.font"));
+		panel.setBackground (UIManager.getColor ("Panel.background"));
+		panel.setBorder (UIManager.getBorder ("Panel.border"));
+	}
 
-    @Override
-    public void paint(Graphics g, JComponent c) {
-        super.paint(MaterialDrawingUtils.getAliasedGraphics(g), c);
-    }
+	@Override
+	public void paint (Graphics g, JComponent c) {
+		super.paint (MaterialDrawingUtils.getAliasedGraphics (g), c);
+	}
 }

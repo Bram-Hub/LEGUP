@@ -39,8 +39,7 @@ public class TooFewTentsContradictionRule extends ContradictionRule {
         if (rowTents + rowUnknowns < treeTentBoard.getRowClues().get(loc.y).getData() ||
                 colTents + colUnknowns < treeTentBoard.getColClues().get(loc.x).getData()) {
             return null;
-        }
-        else {
+        } else {
             return super.getNoContradictionMessage();
         }
     }

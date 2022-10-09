@@ -56,7 +56,7 @@ public class SkyscrapersBoard extends GridBoard {
     public ArrayList<SkyscrapersClue> getColClues() { //SOUTH CLUE
         return colClues;
     }
-
+    
     public ArrayList<SkyscrapersClue> getRow() { //WEST CLUE
         return row;
     }
@@ -76,8 +76,8 @@ public class SkyscrapersBoard extends GridBoard {
             case -2:
                 return element;
             case -1:
-                SkyscrapersLine line = (SkyscrapersLine) element;
-                SkyscrapersLine thisLine = null;
+            	SkyscrapersLine line = (SkyscrapersLine) element;
+            	SkyscrapersLine thisLine = null;
                 for (SkyscrapersLine l : lines) {
                     if (line.compare(l)) {
                         thisLine = l;
@@ -97,7 +97,7 @@ public class SkyscrapersBoard extends GridBoard {
      */
     @Override
     public void notifyAddition(PuzzleElement puzzleElement) {
-        if (puzzleElement instanceof SkyscrapersLine) {
+        if(puzzleElement instanceof SkyscrapersLine) {
             lines.add((SkyscrapersLine) puzzleElement);
         }
     }
@@ -109,9 +109,9 @@ public class SkyscrapersBoard extends GridBoard {
      */
     @Override
     public void notifyDeletion(PuzzleElement puzzleElement) {
-        if (puzzleElement instanceof SkyscrapersLine) {
-            for (SkyscrapersLine line : lines) {
-                if (line.compare((SkyscrapersLine) puzzleElement)) {
+        if(puzzleElement instanceof SkyscrapersLine) {
+            for(SkyscrapersLine line : lines) {
+                if(line.compare((SkyscrapersLine)puzzleElement)) {
                     lines.remove(line);
                     break;
                 }
@@ -167,15 +167,14 @@ public class SkyscrapersBoard extends GridBoard {
         List<SkyscrapersCell> list = new ArrayList<>();
         if (isRow) {
             for (int i = 0; i < dimension.height; i++) {
-                SkyscrapersCell cell = getCell(i, index);
+            	SkyscrapersCell cell = getCell(i, index);
                 if (cell.getType() == type) {
                     list.add(cell);
                 }
             }
-        }
-        else {
+        } else {
             for (int i = 0; i < dimension.width; i++) {
-                SkyscrapersCell cell = getCell(index, i);
+            	SkyscrapersCell cell = getCell(index, i);
                 if (cell.getType() == type) {
                     list.add(cell);
                 }
@@ -192,7 +191,7 @@ public class SkyscrapersBoard extends GridBoard {
      */
     @Override
     public boolean equalsBoard(Board board) {
-        SkyscrapersBoard treeTentBoard = (SkyscrapersBoard) board;
+    	SkyscrapersBoard treeTentBoard = (SkyscrapersBoard) board;
         for (SkyscrapersLine l1 : lines) {
             boolean hasLine = false;
             for (SkyscrapersLine l2 : treeTentBoard.lines) {
@@ -209,18 +208,18 @@ public class SkyscrapersBoard extends GridBoard {
 
     @Override
     public SkyscrapersBoard copy() {
-        SkyscrapersBoard copy = new SkyscrapersBoard(dimension.width, dimension.height);
+    	SkyscrapersBoard copy = new SkyscrapersBoard(dimension.width, dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {
                 copy.setCell(x, y, getCell(x, y).copy());
             }
         }
         for (SkyscrapersLine line : lines) {
-            SkyscrapersLine lineCpy = line.copy();
+        	SkyscrapersLine lineCpy = line.copy();
             lineCpy.setModifiable(false);
             copy.getLines().add(lineCpy);
         }
-        for (PuzzleElement e : modifiedData) {
+        for(PuzzleElement e : modifiedData) {
             copy.getPuzzleElement(e).setModifiable(false);
         }
         copy.rowClues = rowClues;

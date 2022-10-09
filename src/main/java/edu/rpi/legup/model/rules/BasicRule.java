@@ -32,15 +32,11 @@ public abstract class BasicRule extends Rule {
 
         if (!finalBoard.isModified()) {
             return "State must be modified";
-        }
-        else {
-            if (transition.getParents().size() != 1 ||
-                    transition.getParents().get(0).getChildren().size() != 1) {
-                return "State must have only 1 parent and 1 child";
-            }
-            else {
-                return checkRuleRaw(transition);
-            }
+        } else if (transition.getParents().size() != 1 ||
+                transition.getParents().get(0).getChildren().size() != 1) {
+            return "State must have only 1 parent and 1 child";
+        } else {
+            return checkRuleRaw(transition);
         }
     }
 
@@ -78,15 +74,11 @@ public abstract class BasicRule extends Rule {
         String checkStr;
         if (!puzzleElement.isModified()) {
             checkStr = "PuzzleElement must be modified";
-        }
-        else {
-            if (transition.getParents().size() != 1 ||
-                    transition.getParents().get(0).getChildren().size() != 1) {
-                checkStr = "State must have only 1 parent and 1 child";
-            }
-            else {
-                checkStr = checkRuleRawAt(transition, puzzleElement);
-            }
+        } else if (transition.getParents().size() != 1 ||
+                transition.getParents().get(0).getChildren().size() != 1) {
+            checkStr = "State must have only 1 parent and 1 child";
+        } else {
+            checkStr = checkRuleRawAt(transition, puzzleElement);
         }
         puzzleElement.setValid(checkStr == null);
         return checkStr;

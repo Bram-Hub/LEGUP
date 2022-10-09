@@ -22,11 +22,6 @@ public class FillinRowCaseRule extends CaseRule {
                 "edu/rpi/legup/images/treetent/case_rowcount.png");
     }
 
-    /**
-     * Gets the case board that indicates where this case rule can be applied on the given Board.
-     * @param board the given board
-     * @return the case board object
-     */
     @Override
     public CaseBoard getCaseBoard(Board board) {
         TreeTentBoard treeTentBoard = (TreeTentBoard) board.copy();
@@ -57,14 +52,13 @@ public class FillinRowCaseRule extends CaseRule {
         List<TreeTentCell> group;
         int tentsLeft;
         TreeTentClue clue = ((TreeTentClue) puzzleElement);
-        int clueIndex = clue.getClueIndex() - 1;
-        TreeTentBoard tBoard = (TreeTentBoard) board;
-        if (clue.getType() == TreeTentType.CLUE_SOUTH) {
+        int clueIndex = clue.getClueIndex()-1;
+        TreeTentBoard tBoard = (TreeTentBoard)board;
+        if(clue.getType() == TreeTentType.CLUE_SOUTH) {
             group = tBoard.getRowCol(clueIndex, TreeTentType.UNKNOWN, false);
             tentsLeft = tBoard.getRowClues().get(clueIndex).getData() - tBoard.getRowCol(clueIndex, TreeTentType.TENT, false).size();
             cases = genCombinations(tBoard, group, tentsLeft, clueIndex, false);
-        }
-        else {
+        } else {
             group = tBoard.getRowCol(clueIndex, TreeTentType.UNKNOWN, true);
             tentsLeft = tBoard.getRowClues().get(clueIndex).getData() - tBoard.getRowCol(clueIndex, TreeTentType.TENT, true).size();
             cases = genCombinations(tBoard, group, tentsLeft, clueIndex, true);
@@ -73,64 +67,69 @@ public class FillinRowCaseRule extends CaseRule {
         //generate every combination (nCr)
         //call goodBoard for each generated combination
         //alternitive would be to implement collision avoidance while generating instead of after
-        if (cases.size() > 0) {
-            return cases;
-        }
+        if(cases.size() > 0) {return cases;}
         return null;
     }
 
-    private ArrayList<Board> genCombinations(TreeTentBoard iBoard, List<TreeTentCell> tiles, int target, Integer index, boolean isRow) {
+    private ArrayList<Board> genCombinations(TreeTentBoard iBoard, List<TreeTentCell> tiles, int target, Integer index, boolean isRow)
+    {
         return genCombRecursive(iBoard, tiles, tiles, target, 0, new ArrayList<TreeTentCell>(), index, isRow);
     }
 
-    private ArrayList<Board> genCombRecursive(TreeTentBoard iBoard, List<TreeTentCell> original, List<TreeTentCell> tiles, int target, int current, List<TreeTentCell> selected, Integer index, boolean isRow) {
+    private ArrayList<Board> genCombRecursive(TreeTentBoard iBoard, List<TreeTentCell> original, List<TreeTentCell> tiles, int target, int current, List<TreeTentCell> selected, Integer index, boolean isRow)
+    {
         ArrayList<Board> b = new ArrayList<>();
-        if (target == current) {
+        if(target == current)
+        {
             TreeTentBoard temp = iBoard.copy();
-            for (TreeTentCell c : original) {
-                if (selected.contains(c)) {
+            for(TreeTentCell c : original)
+            {
+                if(selected.contains(c))
+                {
                     PuzzleElement change = temp.getPuzzleElement(c);
                     change.setData(TreeTentType.TENT.value);
                     temp.addModifiedData(change);
                 }
-                else {
+                else
+                {
                     PuzzleElement change = temp.getPuzzleElement(c);
                     change.setData(TreeTentType.GRASS.value);
                     temp.addModifiedData(change);
                 }
-
+                
             }
-            if (goodBoard(temp, index, isRow)) {
-                b.add(temp);
-            }
+            if(goodBoard(temp, index, isRow)) {b.add(temp);}
             return b;
         }
-        for (int i = 0; i < tiles.size(); ++i) {
-            List<TreeTentCell> sub = tiles.subList(i + 1, tiles.size());
+        for(int i = 0; i < tiles.size(); ++i)
+        {
+            List<TreeTentCell> sub = tiles.subList(i+1, tiles.size());
             List<TreeTentCell> next = new ArrayList<TreeTentCell>(selected);
             next.add(tiles.get(i));
-            b.addAll(genCombRecursive(iBoard, original, sub, target, current + 1, next, index, isRow));
+            b.addAll(genCombRecursive(iBoard, original, sub, target, current+1, next, index, isRow));
         }
         return b;
     }
 
     //Effectively runs TouchingTents check on all the added tents to make sure that the proposed board is valid.
     //Could check more or less in the future depending on how "smart" this case rule should be.
-    private boolean goodBoard(TreeTentBoard board, Integer index, boolean isRow) {
+    private boolean goodBoard(TreeTentBoard board, Integer index, boolean isRow)
+    {
         List<TreeTentCell> tents;
-        if (isRow) {
+        if(isRow)
+        {
             tents = board.getRowCol(index, TreeTentType.TENT, true);
         }
-        else {
+        else
+        {
             tents = board.getRowCol(index, TreeTentType.TENT, false);
         }
 
-        for (TreeTentCell t : tents) {
+        for(TreeTentCell t : tents)
+        {
             List<TreeTentCell> adj = board.getAdjacent(t, TreeTentType.TENT);
             List<TreeTentCell> diag = board.getDiagonals(t, TreeTentType.TENT);
-            if (adj.size() > 0 || diag.size() > 0) {
-                return false;
-            }
+            if(adj.size() > 0 || diag.size() > 0) {return false;}
         }
         return true;
     }

@@ -45,13 +45,11 @@ public class UsageStatistics {
 
                 try {
 //                    System.err.println(new String(instream.readAllBytes()));
-                }
-                finally {
+                } finally {
                     instream.close();
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             return false;
         }
         return false;

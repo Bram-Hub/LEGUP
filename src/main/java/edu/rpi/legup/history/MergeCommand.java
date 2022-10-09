@@ -55,8 +55,7 @@ public class MergeCommand extends PuzzleCommand {
             transition.setRule(new MergeRule());
             transition.setChildNode(mergedNode);
             mergedNode.setParent(transition);
-        }
-        else {
+        } else {
             mergedNode = transition.getChildNode();
         }
 
@@ -112,8 +111,7 @@ public class MergeCommand extends PuzzleCommand {
                     return CommandError.NO_CHILDREN.toString();
                 }
                 nodeList.add(nodeView.getTreeElement());
-            }
-            else {
+            } else {
                 return CommandError.SELECTION_CONTAINS_TRANSITION.toString();
             }
         }
@@ -129,12 +127,12 @@ public class MergeCommand extends PuzzleCommand {
             return "Unable to merge tree elements.";
         }
         Set<TreeElement> leafNodes = tree.getLeafTreeElements(lca);
-        if (leafNodes.size() != mergingNodes.size()) {
+        if(leafNodes.size() != mergingNodes.size()) {
 //            return "Unable to merge tree elements.";
         }
 
-        for (TreeNode node : mergingNodes) {
-            if (!leafNodes.contains(node)) {
+        for(TreeNode node : mergingNodes) {
+            if(!leafNodes.contains(node)) {
 //                return "Unable to merge tree elements.";
             }
         }

@@ -69,11 +69,8 @@ public class AdvancedDeductionBasicRule extends BasicRule {
             for (int x = 0; x < groupDim; x++) {
                 if (possible[y][x] && !isForced) {
                     isForced = true;
-                }
-                else {
-                    if (possible[y][x]) {
-                        return super.getInvalidUseOfRuleMessage() + ": Not forced";
-                    }
+                } else if (possible[y][x]) {
+                    return super.getInvalidUseOfRuleMessage() + ": Not forced";
                 }
             }
         }

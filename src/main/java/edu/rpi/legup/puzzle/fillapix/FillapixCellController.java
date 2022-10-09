@@ -12,20 +12,13 @@ public class FillapixCellController extends ElementController {
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (e.isControlDown()) {
                 this.boardView.getSelectionPopupMenu().show(boardView, this.boardView.getCanvas().getX() + e.getX(), this.boardView.getCanvas().getY() + e.getY());
-            }
-            else {
+            } else {
                 if (cell.getType() == FillapixCellType.UNKNOWN) {
                     cell.setType(FillapixCellType.BLACK);
-                }
-                else {
-                    if (cell.getType() == FillapixCellType.BLACK) {
-                        cell.setType(FillapixCellType.WHITE);
-                    }
-                    else {
-                        if (cell.getType() == FillapixCellType.WHITE) {
-                            cell.setType(FillapixCellType.UNKNOWN);
-                        }
-                    }
+                } else if (cell.getType() == FillapixCellType.BLACK) {
+                    cell.setType(FillapixCellType.WHITE);
+                } else if (cell.getType() == FillapixCellType.WHITE) {
+                    cell.setType(FillapixCellType.UNKNOWN);
                 }
             }
         }

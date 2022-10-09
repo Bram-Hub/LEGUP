@@ -19,7 +19,7 @@ public class ShortTruthTableExporter extends PuzzleExporter {
         org.w3c.dom.Element dataElement = newDocument.createElement("data");
 
         ShortTruthTableStatement[] statements = board.getStatements();
-        for (int i = 0; i < statements.length; i++) {
+        for (int i = 0; i<statements.length; i++) {
             org.w3c.dom.Element statementElement = newDocument.createElement("statement");
             statementElement.setAttribute("representation", statements[i].getStringRep());
             statementElement.setAttribute("row_index", String.valueOf(i));
@@ -29,7 +29,7 @@ public class ShortTruthTableExporter extends PuzzleExporter {
 
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             ShortTruthTableCell cell = board.getCellFromElement(puzzleElement);
-            if (!cell.getType().isTrueOrFalse()) continue;
+            if(!cell.getType().isTrueOrFalse()) continue;
 
             org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
             dataElement.appendChild(cellElement);

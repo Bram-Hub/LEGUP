@@ -48,7 +48,7 @@ public class TreeTransition extends TreeElement {
      */
     @SuppressWarnings("unchecked")
     public void propagateChange(PuzzleElement element) {
-        if (isJustified() && rule.getRuleType() == RuleType.MERGE) {
+        if(isJustified() && rule.getRuleType() == RuleType.MERGE) {
             TreeNode lca = Tree.getLowestCommonAncestor(parents);
             Board lcaBoard = lca.getBoard();
             List<Board> boards = new ArrayList<>();
@@ -62,19 +62,16 @@ public class TreeTransition extends TreeElement {
             if (isSame) {
                 boolean changed = false;
                 PuzzleElement mergedData = board.getPuzzleElement(element);
-                if (lcaElement.equalsData(element) && !mergedData.equalsData(element)) {
+                if(lcaElement.equalsData(element) && !mergedData.equalsData(element)) {
                     mergedData.setData(element.getData());
                     board.removeModifiedData(element);
                     board.notifyChange(element);
                     changed = true;
-                }
-                else {
-                    if (!lcaElement.equalsData(element)) {
-                        mergedData.setData(element.getData());
-                        board.addModifiedData(mergedData);
-                        board.notifyChange(element);
-                        changed = true;
-                    }
+                } else if (!lcaElement.equalsData(element)){
+                    mergedData.setData(element.getData());
+                    board.addModifiedData(mergedData);
+                    board.notifyChange(element);
+                    changed = true;
                 }
                 if (changed && childNode != null) {
                     childNode.getBoard().notifyChange(element.copy());
@@ -85,16 +82,13 @@ public class TreeTransition extends TreeElement {
                     }
                 }
             }
-        }
-        else {
-            if (childNode != null) {
-                board.notifyChange(element);
-                childNode.getBoard().notifyChange(element.copy());
-                for (TreeTransition child : childNode.getChildren()) {
-                    PuzzleElement copy = element.copy();
-                    copy.setModifiable(false);
-                    child.propagateChange(copy);
-                }
+        } else if (childNode != null) {
+            board.notifyChange(element);
+            childNode.getBoard().notifyChange(element.copy());
+            for (TreeTransition child : childNode.getChildren()) {
+                PuzzleElement copy = element.copy();
+                copy.setModifiable(false);
+                child.propagateChange(copy);
             }
         }
         reverify();
@@ -107,7 +101,7 @@ public class TreeTransition extends TreeElement {
      */
     @SuppressWarnings("unchecked")
     public void propagateAddition(PuzzleElement element) {
-        if (isJustified() && rule.getRuleType() == RuleType.MERGE) {
+        if(isJustified() && rule.getRuleType() == RuleType.MERGE) {
             TreeNode lca = Tree.getLowestCommonAncestor(parents);
             Board lcaBoard = lca.getBoard();
             List<Board> boards = new ArrayList<>();
@@ -121,19 +115,16 @@ public class TreeTransition extends TreeElement {
             if (isSame) {
                 boolean changed = false;
                 PuzzleElement mergedData = board.getPuzzleElement(element);
-                if (lcaElement.equalsData(element) && !mergedData.equalsData(element)) {
+                if(lcaElement.equalsData(element) && !mergedData.equalsData(element)) {
                     mergedData.setData(element.getData());
                     board.removeModifiedData(element);
                     board.notifyDeletion(element);
                     changed = true;
-                }
-                else {
-                    if (!lcaElement.equalsData(element)) {
-                        mergedData.setData(element.getData());
-                        board.addModifiedData(mergedData);
-                        board.notifyAddition(element);
-                        changed = true;
-                    }
+                } else if (!lcaElement.equalsData(element)){
+                    mergedData.setData(element.getData());
+                    board.addModifiedData(mergedData);
+                    board.notifyAddition(element);
+                    changed = true;
                 }
                 if (changed && childNode != null) {
                     childNode.getBoard().notifyAddition(element.copy());
@@ -142,14 +133,11 @@ public class TreeTransition extends TreeElement {
                     }
                 }
             }
-        }
-        else {
-            if (childNode != null) {
-                board.notifyAddition(element);
-                childNode.getBoard().notifyAddition(element.copy());
-                for (TreeTransition child : childNode.getChildren()) {
-                    child.propagateAddition(element.copy());
-                }
+        } else if (childNode != null) {
+            board.notifyAddition(element);
+            childNode.getBoard().notifyAddition(element.copy());
+            for (TreeTransition child : childNode.getChildren()) {
+                child.propagateAddition(element.copy());
             }
         }
         reverify();
@@ -162,7 +150,7 @@ public class TreeTransition extends TreeElement {
      */
     @SuppressWarnings("unchecked")
     public void propagateDeletion(PuzzleElement element) {
-        if (isJustified() && rule.getRuleType() == RuleType.MERGE) {
+        if(isJustified() && rule.getRuleType() == RuleType.MERGE) {
             TreeNode lca = Tree.getLowestCommonAncestor(parents);
             Board lcaBoard = lca.getBoard();
             List<Board> boards = new ArrayList<>();
@@ -176,19 +164,16 @@ public class TreeTransition extends TreeElement {
             if (isSame) {
                 boolean changed = false;
                 PuzzleElement mergedData = board.getPuzzleElement(element);
-                if (lcaElement.equalsData(element) && !mergedData.equalsData(element)) {
+                if(lcaElement.equalsData(element) && !mergedData.equalsData(element)) {
                     mergedData.setData(element.getData());
                     board.removeModifiedData(element);
                     board.notifyDeletion(element);
                     changed = true;
-                }
-                else {
-                    if (!lcaElement.equalsData(element)) {
-                        mergedData.setData(element.getData());
-                        board.addModifiedData(mergedData);
-                        board.notifyAddition(element);
-                        changed = true;
-                    }
+                } else if (!lcaElement.equalsData(element)){
+                    mergedData.setData(element.getData());
+                    board.addModifiedData(mergedData);
+                    board.notifyAddition(element);
+                    changed = true;
                 }
                 if (changed && childNode != null) {
                     childNode.getBoard().notifyDeletion(element.copy());
@@ -197,14 +182,11 @@ public class TreeTransition extends TreeElement {
                     }
                 }
             }
-        }
-        else {
-            if (childNode != null) {
-                board.notifyDeletion(element);
-                childNode.getBoard().notifyDeletion(element.copy());
-                for (TreeTransition child : childNode.getChildren()) {
-                    child.propagateDeletion(element.copy());
-                }
+        } else if (childNode != null) {
+            board.notifyDeletion(element);
+            childNode.getBoard().notifyDeletion(element.copy());
+            for (TreeTransition child : childNode.getChildren()) {
+                child.propagateDeletion(element.copy());
             }
         }
         reverify();
@@ -220,14 +202,10 @@ public class TreeTransition extends TreeElement {
     public boolean isContradictoryBranch() {
         if (isJustified() && isCorrect() && rule.getRuleType() == RuleType.CONTRADICTION) {
             return true;
-        }
-        else {
-            if (childNode == null) {
-                return false;
-            }
-            else {
-                return childNode.isContradictoryBranch() && isJustified() && isCorrect();
-            }
+        } else if (childNode == null) {
+            return false;
+        } else {
+            return childNode.isContradictoryBranch() && isJustified() && isCorrect();
         }
     }
 

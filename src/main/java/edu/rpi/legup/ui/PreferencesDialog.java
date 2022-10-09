@@ -31,8 +31,7 @@ public class PreferencesDialog extends JDialog {
     static {
         try {
             folderIcon = ImageIO.read(PreferencesDialog.class.getResource("/edu/rpi/legup/imgs/folder.png"));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Unable to locate icons");
         }
     }
@@ -43,7 +42,7 @@ public class PreferencesDialog extends JDialog {
         setTitle("Preferences");
 
         JPanel mainPanel = new JPanel();
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         mainPanel.setLayout(new BorderLayout());
 
         mainPanel.add(createGeneralTab());
@@ -258,16 +257,10 @@ public class PreferencesDialog extends JDialog {
                 String combo = "";
                 if (e.isControlDown()) {
                     combo += "Ctrl + ";
-                }
-                else {
-                    if (e.isShiftDown()) {
-                        combo += "Shift + ";
-                    }
-                    else {
-                        if (e.isAltDown()) {
-                            combo += "Alt + ";
-                        }
-                    }
+                } else if (e.isShiftDown()) {
+                    combo += "Shift + ";
+                } else if (e.isAltDown()) {
+                    combo += "Alt + ";
                 }
                 if (keyCode == KeyEvent.VK_CONTROL || keyCode == KeyEvent.VK_SHIFT || keyCode == KeyEvent.VK_ALT) {
                     return;

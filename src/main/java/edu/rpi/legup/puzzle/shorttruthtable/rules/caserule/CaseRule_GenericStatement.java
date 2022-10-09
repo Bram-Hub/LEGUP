@@ -19,8 +19,8 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
                                      ShortTruthTableCellType[][] trueCases,
                                      ShortTruthTableCellType[][] falseCases) {
         super(ruleID, ShortTruthTableOperation.getRuleName(operation),
-                title + " case",
-                "A known " + title.toUpperCase() + " statement can have multiple forms");
+                title+" case",
+                "A known "+title.toUpperCase()+" statement can have multiple forms");
 
         this.operation = operation;
 
@@ -48,24 +48,22 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
         //add all elements that can be selected for the case rule statement
         for (PuzzleElement element : sttBoard.getPuzzleElements()) {
 
-            System.out.println("GetCaseBoard Testing: " + element);
+            System.out.println("GetCaseBoard Testing: "+element);
 
             //get the cell object
             ShortTruthTableCell cell = sttBoard.getCellFromElement(element);
             //the cell must match the symbol
-            if (cell.getSymbol() != this.operation) continue;
+            if(cell.getSymbol() != this.operation) continue;
 
             System.out.println("  Selectable... checking logic");
 
             //the statement must be assigned with unassigned sub-statements
-            if (!cell.getType().isTrueOrFalse()) continue;
+            if(!cell.getType().isTrueOrFalse()) continue;
             System.out.println("  Operation is known");
-            if (cell.getStatementReference().getRightStatement().getCell().getType().isTrueOrFalse()) continue;
+            if(cell.getStatementReference().getRightStatement().getCell().getType().isTrueOrFalse()) continue;
             System.out.println("  right side is unknown");
-            if (this.operation != ShortTruthTableOperation.NOT &&
-                    cell.getStatementReference().getRightStatement().getCell().getType().isTrueOrFalse()) {
-                continue;
-            }
+            if(this.operation != ShortTruthTableOperation.NOT &&
+                    cell.getStatementReference().getRightStatement().getCell().getType().isTrueOrFalse()) continue;
             System.out.println("  left side is unknown");
 
             System.out.println("    Valid choice");
@@ -92,22 +90,21 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
         ShortTruthTableCell cell = sttBoard.getCellFromElement(puzzleElement);
 
         //if the statement is set to true
-        if (cell.getType() == ShortTruthTableCellType.TRUE) {
+        if(cell.getType() == ShortTruthTableCellType.TRUE)
             return getCasesFromCell(sttBoard, puzzleElement, trueCases);
-        }
 
         //if the statement is set to false
         return getCasesFromCell(sttBoard, puzzleElement, falseCases);
 
     }
 
-    private ArrayList<Board> getCasesFromCell(ShortTruthTableBoard board, PuzzleElement puzzleElement, ShortTruthTableCellType[][] possibilities) {
+    private ArrayList<Board> getCasesFromCell(ShortTruthTableBoard board, PuzzleElement puzzleElement, ShortTruthTableCellType[][] possibilities){
 
         //store all possible boards
         ArrayList<Board> cases = new ArrayList<>();
 
         //go through all the possibilities
-        for (int i = 0; i < possibilities.length; i++) {
+        for(int i = 0; i<possibilities.length; i++){
             //create a new board
             ShortTruthTableBoard b = board.copy();
 
@@ -117,14 +114,14 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
 
             //modify its children
             //avoid error if it is a NOT statement
-            if (possibilities[i][0] != null) {
+            if(possibilities[i][0] != null){
                 ShortTruthTableCell leftCell = statement.getLeftStatement().getCell();
                 leftCell.setData(possibilities[i][0]);
                 b.addModifiedData(leftCell);
             }
 
             //always modify the right side of the statement
-            if (possibilities[i][1] != null) {
+            if(possibilities[i][1] != null) {
                 ShortTruthTableCell rightCell = statement.getRightStatement().getCell();
                 rightCell.setData(possibilities[i][1]);
                 b.addModifiedData(rightCell);

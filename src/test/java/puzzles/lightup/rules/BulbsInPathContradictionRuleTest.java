@@ -14,20 +14,23 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class BulbsInPathContradictionRuleTest {
+public class BulbsInPathContradictionRuleTest
+{
     private static final BulbsInPathContradictionRule RULE = new BulbsInPathContradictionRule();
     private static LightUp lightUp;
     private static PuzzleImporter importer;
 
     @BeforeClass
-    public static void setUp() {
+    public static void setUp()
+    {
         MockGameBoardFacade.getInstance();
         lightUp = new LightUp();
         importer = lightUp.getImporter();
     }
 
     @Test
-    public void BulbsInPathContradictionRule_LightInHorizontalPath() throws InvalidFileFormatException {
+    public void BulbsInPathContradictionRule_LightInHorizontalPath() throws InvalidFileFormatException
+    {
         TestUtilities.importTestBoard("puzzles/lightup/rules/BulbsInPathContradictionRule/LightInHorizontalPath", lightUp);
         TreeNode rootNode = lightUp.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -35,14 +38,15 @@ public class BulbsInPathContradictionRuleTest {
 
         LightUpBoard board = (LightUpBoard) transition.getBoard();
         Assert.assertNull(RULE.checkContradiction(board));
-        Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(0, 0)));
-        Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(2, 0)));
+        Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(0,0)));
+        Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(2,0)));
 
-        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 1)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0,1)));
     }
 
     @Test
-    public void BulbsInPathContradictionRule_LightInVerticalPath() throws InvalidFileFormatException {
+    public void BulbsInPathContradictionRule_LightInVerticalPath() throws InvalidFileFormatException
+    {
         TestUtilities.importTestBoard("puzzles/lightup/rules/BulbsInPathContradictionRule/LightInVerticalPath", lightUp);
         TreeNode rootNode = lightUp.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -50,9 +54,9 @@ public class BulbsInPathContradictionRuleTest {
 
         LightUpBoard board = (LightUpBoard) transition.getBoard();
         Assert.assertNull(RULE.checkContradiction(board));
-        Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(0, 0)));
-        Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(0, 2)));
+        Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(0,0)));
+        Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(0,2)));
 
-        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 1)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1,1)));
     }
 }

@@ -14,19 +14,22 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 
 import java.awt.*;
 
-public class CornerBlackBasicRuleTest {
+public class CornerBlackBasicRuleTest
+{
 
     private static final CornerBlackBasicRule RULE = new CornerBlackBasicRule();
     private static Nurikabe nurikabe;
 
     @BeforeClass
-    public static void setUp() {
+    public static void setUp()
+    {
         MockGameBoardFacade.getInstance();
         nurikabe = new Nurikabe();
     }
 
     @Test
-    public void CornerBlackContradictionRule_SimpleCornerBlackTest() throws InvalidFileFormatException {
+    public void CornerBlackContradictionRule_SimpleCornerBlackTest() throws InvalidFileFormatException
+    {
 //        TestUtilities.importTestBoard("puzzles/nurikabe/rules/TooFewSpacesContradictionRule/TwoSurroundBlack", nurikabe);
 //        TreeNode rootNode = nurikabe.getTree().getRootNode();
 //        TreeTransition transition = rootNode.getChildren().get(0);

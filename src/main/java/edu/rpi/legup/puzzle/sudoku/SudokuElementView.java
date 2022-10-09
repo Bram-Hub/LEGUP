@@ -52,8 +52,7 @@ public class SudokuElementView extends GridElementView {
             int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
             graphics2D.drawString(value, xText, yText);
-        }
-        else {
+        } else {
             boolean annotate = LegupPreferences.getInstance().getUserPref(LegupPreferences.SHOW_ANNOTATIONS).equalsIgnoreCase(Boolean.toString(true));
             if (annotate) {
                 graphics2D.setColor(FONT_COLOR);

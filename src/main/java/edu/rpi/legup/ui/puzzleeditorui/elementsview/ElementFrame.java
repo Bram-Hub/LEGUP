@@ -16,6 +16,7 @@ public class ElementFrame extends JPanel {
     private PlaceableElementPanel placeableElementPanel;
     private NonPlaceableElementPanel nonPlaceableElementPanel;
     private JTabbedPane tabbedPane;
+    private JLabel status;
     private ButtonGroup buttonGroup;
 
     private EditorElementController controller;
@@ -24,14 +25,14 @@ public class ElementFrame extends JPanel {
         this.controller = controller;
 
         this.tabbedPane = new JTabbedPane();
-        JLabel status = new JLabel("", SwingConstants.CENTER);
+        this.status = new JLabel("", SwingConstants.CENTER);
         this.buttonGroup = new ButtonGroup();
-
-        nonPlaceableElementPanel = new NonPlaceableElementPanel(this);
-        tabbedPane.addTab(nonPlaceableElementPanel.getName(), nonPlaceableElementPanel.getIcon(), new JScrollPane(nonPlaceableElementPanel), nonPlaceableElementPanel.getToolTip());
 
         placeableElementPanel = new PlaceableElementPanel(this);
         tabbedPane.addTab(placeableElementPanel.getName(), placeableElementPanel.getIcon(), new JScrollPane(placeableElementPanel), placeableElementPanel.getToolTip());
+
+        nonPlaceableElementPanel = new NonPlaceableElementPanel(this);
+        tabbedPane.addTab(nonPlaceableElementPanel.getName(), nonPlaceableElementPanel.getIcon(), new JScrollPane(nonPlaceableElementPanel), nonPlaceableElementPanel.getToolTip());
 
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(250, 256));
@@ -55,9 +56,8 @@ public class ElementFrame extends JPanel {
     }
 
     public void setElements(Puzzle puzzle) {
-        nonPlaceableElementPanel.setElements(puzzle.getNonPlaceableElements());
         placeableElementPanel.setElements(puzzle.getPlaceableElements());
-
+        nonPlaceableElementPanel.setElements(puzzle.getNonPlaceableElements());
     }
 
     public EditorElementController getController() {
@@ -68,11 +68,6 @@ public class ElementFrame extends JPanel {
         return tabbedPane;
     }
 
-    public NonPlaceableElementPanel getNonPlaceableElementPanel() {
-        return nonPlaceableElementPanel;
-    }
-
-    public PlaceableElementPanel getPlaceableElementPanel() {
-        return placeableElementPanel;
-    }
+    public NonPlaceableElementPanel getNonPlaceableElementPanel() { return nonPlaceableElementPanel; }
+    public PlaceableElementPanel getPlaceableElementPanel() { return placeableElementPanel; }
 }

@@ -37,8 +37,7 @@ public class TooManyTentsContradictionRule extends ContradictionRule {
         if (rowTents > treeTentBoard.getRowClues().get(loc.y).getData() ||
                 colTents > treeTentBoard.getColClues().get(loc.x).getData()) {
             return null;
-        }
-        else {
+        } else {
             return super.getNoContradictionMessage();
         }
     }

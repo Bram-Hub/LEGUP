@@ -10,20 +10,9 @@ public class TreeTentExporter extends PuzzleExporter {
         super(treeTent);
     }
 
-    /**
-     * Creates and returns a new board element in the XML document specified
-     * @param newDocument the XML document to append to
-     * @return the new board element
-     */
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
-        TreeTentBoard board;
-        if (puzzle.getTree() != null) {
-            board = (TreeTentBoard) puzzle.getTree().getRootNode().getBoard();
-        }
-        else {
-            board = (TreeTentBoard) puzzle.getBoardView().getBoard();
-        }
+        TreeTentBoard board = (TreeTentBoard) puzzle.getTree().getRootNode().getBoard();
 
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("width", String.valueOf(board.getWidth()));
@@ -44,7 +33,7 @@ public class TreeTentExporter extends PuzzleExporter {
         for (TreeTentClue clue : board.getRowClues()) {
             org.w3c.dom.Element clueElement = newDocument.createElement("clue");
             clueElement.setAttribute("value", String.valueOf(clue.getData()));
-            clueElement.setAttribute("index", TreeTentClue.colNumToString(clue.getClueIndex()));
+            clueElement.setAttribute("index", TreeTentClue.colNumToString(clue.getIndex()));
             axisEast.appendChild(clueElement);
         }
         boardElement.appendChild(axisEast);
@@ -54,7 +43,7 @@ public class TreeTentExporter extends PuzzleExporter {
         for (TreeTentClue clue : board.getRowClues()) {
             org.w3c.dom.Element clueElement = newDocument.createElement("clue");
             clueElement.setAttribute("value", String.valueOf(clue.getData()));
-            clueElement.setAttribute("index", String.valueOf(clue.getClueIndex()));
+            clueElement.setAttribute("index", String.valueOf(clue.getIndex()));
             axisSouth.appendChild(clueElement);
         }
         boardElement.appendChild(axisSouth);

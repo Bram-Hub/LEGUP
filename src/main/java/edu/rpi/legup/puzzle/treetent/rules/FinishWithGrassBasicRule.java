@@ -45,8 +45,7 @@ public class FinishWithGrassBasicRule extends BasicRule {
 
         if (isForced(initialBoard, initCell)) {
             return null;
-        }
-        else {
+        } else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be grass.";
         }
     }
@@ -78,8 +77,7 @@ public class FinishWithGrassBasicRule extends BasicRule {
         }
         if (treeTentBoard.getModifiedData().isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return treeTentBoard;
         }
     }

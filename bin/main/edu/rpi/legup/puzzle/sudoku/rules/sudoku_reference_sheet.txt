@@ -1,0 +1,9 @@
+SUDO-BASC-0001 : AdvancedDeductionBasicRule
+SUDO-BASC-0002 : LastCellForNumberBasicRule
+SUDO-BASC-0003 : LastNumberForCellBasicRule
+
+SUDO-CONT-0001 : NoSolutionContradictionRule
+SUDO-CONT-0002 : RepeatedNumberContradictionRule
+
+SUDO-CASE-0001 : PossibleCellCaseRule
+SUDO-CASE-0002 : PossibleNumberCaseRule

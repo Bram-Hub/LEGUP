@@ -47,8 +47,7 @@ public class PreventBlackSquareBasicRule extends BasicRule {
 
         if (contraRule.checkContradiction(modified) == null) {
             return null;
-        }
-        else {
+        } else {
             return "Does not contain a contradiction at this index";
         }
     }

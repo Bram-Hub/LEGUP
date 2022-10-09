@@ -7,8 +7,6 @@ import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.ui.boardview.DataSelectionView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 import edu.rpi.legup.ui.boardview.SelectionItemView;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,15 +14,13 @@ import java.awt.*;
 import java.io.IOException;
 
 public class LightUpView extends GridBoardView {
-    private final static Logger LOGGER = LogManager.getLogger(LightUpView.class.getName());
     static Image lightImage;
 
     static {
         try {
             lightImage = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/lightup/light.png"));
-        }
-        catch (IOException e) {
-            LOGGER.error("Failed to open TreeTent images");
+        } catch (IOException e) {
+
         }
     }
 
@@ -55,9 +51,6 @@ public class LightUpView extends GridBoardView {
         repaint();
     }
 
-    /**
-     * Returns a DataSelectionView popup menu
-     */
     public DataSelectionView getSelectionPopupMenu() {
         DataSelectionView selectionView = new DataSelectionView(elementController);
         GridLayout layout = new GridLayout(3, 1);

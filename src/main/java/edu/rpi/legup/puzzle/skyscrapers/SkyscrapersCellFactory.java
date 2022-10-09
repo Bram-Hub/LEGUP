@@ -22,7 +22,7 @@ public class SkyscrapersCellFactory extends ElementFactory {
     @Override
     public PuzzleElement importCell(Node node, Board board) throws InvalidFileFormatException {
         try {
-            SkyscrapersBoard treeTentBoard = (SkyscrapersBoard) board;
+        	SkyscrapersBoard treeTentBoard = (SkyscrapersBoard) board;
             int width = treeTentBoard.getWidth();
             int height = treeTentBoard.getHeight();
             NamedNodeMap attributeList = node.getAttributes();
@@ -41,30 +41,24 @@ public class SkyscrapersCellFactory extends ElementFactory {
                 SkyscrapersCell cell = new SkyscrapersCell(value, new Point(x, y), width);
                 cell.setIndex(y * height + x);
                 return cell;
-            }
-            else {
-                if (node.getNodeName().equalsIgnoreCase("line")) {
-                    int x1 = Integer.valueOf(attributeList.getNamedItem("x1").getNodeValue());
-                    int y1 = Integer.valueOf(attributeList.getNamedItem("y1").getNodeValue());
-                    int x2 = Integer.valueOf(attributeList.getNamedItem("x2").getNodeValue());
-                    int y2 = Integer.valueOf(attributeList.getNamedItem("y2").getNodeValue());
-                    if (x1 >= width || y1 >= height || x2 >= width || y2 >= height) {
-                        throw new InvalidFileFormatException("TreeTent Factory: line location out of bounds");
-                    }
+            } else if (node.getNodeName().equalsIgnoreCase("line")) {
+                int x1 = Integer.valueOf(attributeList.getNamedItem("x1").getNodeValue());
+                int y1 = Integer.valueOf(attributeList.getNamedItem("y1").getNodeValue());
+                int x2 = Integer.valueOf(attributeList.getNamedItem("x2").getNodeValue());
+                int y2 = Integer.valueOf(attributeList.getNamedItem("y2").getNodeValue());
+                if (x1 >= width || y1 >= height || x2 >= width || y2 >= height) {
+                    throw new InvalidFileFormatException("TreeTent Factory: line location out of bounds");
+                }
 
-                    SkyscrapersCell c1 = treeTentBoard.getCell(x1, y1);
-                    SkyscrapersCell c2 = treeTentBoard.getCell(x2, y2);
-                    return new SkyscrapersLine(c1, c2);
-                }
-                else {
-                    throw new InvalidFileFormatException("TreeTent Factory: unknown puzzleElement puzzleElement");
-                }
+                SkyscrapersCell c1 = treeTentBoard.getCell(x1, y1);
+                SkyscrapersCell c2 = treeTentBoard.getCell(x2, y2);
+                return new SkyscrapersLine(c1, c2);
+            } else {
+                throw new InvalidFileFormatException("TreeTent Factory: unknown puzzleElement puzzleElement");
             }
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new InvalidFileFormatException("TreeTent Factory: unknown value where integer expected");
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             throw new InvalidFileFormatException("TreeTent Factory: could not find attribute(s)");
         }
     }
@@ -72,8 +66,8 @@ public class SkyscrapersCellFactory extends ElementFactory {
     /**
      * Creates a xml document puzzleElement from a cell for exporting
      *
-     * @param document      xml document
-     * @param puzzleElement PuzzleElement cell
+     * @param document xml document
+     * @param puzzleElement     PuzzleElement cell
      * @return xml PuzzleElement
      */
     public org.w3c.dom.Element exportCell(Document document, PuzzleElement puzzleElement) {
@@ -88,8 +82,7 @@ public class SkyscrapersCellFactory extends ElementFactory {
             cellElement.setAttribute("y", String.valueOf(loc.y));
 
             return cellElement;
-        }
-        else {
+        } else {
             org.w3c.dom.Element lineElement = document.createElement("line");
 
             SkyscrapersLine line = (SkyscrapersLine) puzzleElement;

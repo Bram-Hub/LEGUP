@@ -12,11 +12,6 @@ public class BattleshipClue extends PuzzleElement {
         this.type = type;
     }
 
-    /**
-     * Returns the column number as a string
-     * @param col the column number that is to be converted and returned
-     * @return int value
-     */
     public static String colNumToString(int col) {
         final StringBuilder sb = new StringBuilder();
         col--;
@@ -28,11 +23,6 @@ public class BattleshipClue extends PuzzleElement {
         return sb.reverse().toString();
     }
 
-    /**
-     * Returns the column string as an integer
-     * @param col the column number as a string that is to be converted and returned
-     * @return string value
-     */
     public static int colStringToColNum(String col) {
         int result = 0;
         for (int i = 0; i < col.length(); i++) {
@@ -52,18 +42,10 @@ public class BattleshipClue extends PuzzleElement {
         return (Integer) super.getData();
     }
 
-    /**
-     * Returns the type of the battleship object (ship or clue)
-     * @return BattleshipType type
-     */
     public BattleshipType getType() {
         return type;
     }
 
-    /**
-     * Sets the type of the battleship object (ship or clue) to the given type
-     * @param type given Battleship type
-     */
     public void setType(BattleshipType type) {
         this.type = type;
     }

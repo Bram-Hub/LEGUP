@@ -30,8 +30,7 @@ public class FinishWithWhiteBasicRule extends BasicRule {
 
         if (isForcedWhite(parentBoard, cell)) {
             return null;
-        }
-        else {
+        } else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be white";
         }
     }
@@ -62,8 +61,7 @@ public class FinishWithWhiteBasicRule extends BasicRule {
         }
         if (fillapixBoard.getModifiedData().isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return fillapixBoard;
         }
     }

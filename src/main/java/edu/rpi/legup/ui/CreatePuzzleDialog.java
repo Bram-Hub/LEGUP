@@ -1,8 +1,6 @@
 package edu.rpi.legup.ui;
 
-import edu.rpi.legup.app.Config;
 import edu.rpi.legup.app.GameBoardFacade;
-import edu.rpi.legup.controller.CursorController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,47 +8,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 
-public class CreatePuzzleDialog extends JDialog {
-    private HomePanel homePanel;
-
+public class CreatePuzzleDialog extends JDialog implements ActionListener {
     private String[] games;
-    private JComboBox gameBox;
-
-    private JLabel puzzleLabel = new JLabel("Puzzle:");
-    private JTextField rows;
-    private JTextField columns;
-
-    private JButton ok = new JButton("Ok");
-    private ActionListener okButtonListener = new ActionListener() {
-        /**
-         * Attempts to open the puzzle editor interface for the given game with the given dimensions
-         * @param e the event to be processed
-         */
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
-            try {
-                homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(rows.getText()), Integer.valueOf(columns.getText()));
-                setVisible(false);
-            }
-            catch (IllegalArgumentException exception) {
-                // Don't do anything. This is here to prevent the dialog from closing if the dimensions are invalid.
-            }
-        }
-    };
-    private JButton cancel = new JButton("Cancel");
-    private ActionListener cancelButtonListener = new ActionListener() {
-        /**
-         * Hides the puzzle creation dialog
-         *
-         * @param e the event to be processed
-         */
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            setVisible(false);
-        }
-    };
-
+    JComboBox gameBox;
+    JLabel puzzleLabel = new JLabel("Puzzle:");
+    JButton ok = new JButton("Ok");
+    JButton cancel = new JButton("Cancel");
+    JTextField rows;
+    JTextField columns;
+    private HomePanel homePanel;
 
     public CreatePuzzleDialog(JFrame parent, HomePanel homePanel) {
         super(parent, true);
@@ -97,33 +63,38 @@ public class CreatePuzzleDialog extends JDialog {
         c.add(ok);
         c.add(cancel);
 
-        ActionListener cursorPressedOk = CursorController.createListener(this, okButtonListener);
-        ok.addActionListener(cursorPressedOk);
-        ActionListener cursorPressedCancel = CursorController.createListener(this, cancelButtonListener);
-        cancel.addActionListener(cursorPressedCancel);
+        ok.addActionListener(this);
+        cancel.addActionListener(this);
     }
 
     public void initPuzzles() {
         this.games = GameBoardFacade.getInstance().getConfig().getFileCreationEnabledPuzzles().toArray(new String[0]);
         Arrays.sort(this.games);
-        gameBox = new JComboBox(GameBoardFacade.getInstance().getConfig().getFileCreationEnabledPuzzleNames().toArray(new String[0]));
+        gameBox = new JComboBox(games);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == ok) {
-            String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
-            try {
+            String game = (String) gameBox.getSelectedItem();
+            try
+            {
                 this.homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(this.rows.getText()), Integer.valueOf(this.columns.getText()));
                 setVisible(false);
             }
-            catch (IllegalArgumentException exception) {
+            catch (IllegalArgumentException exception)
+            {
                 // Don't do anything. This is here to prevent the dialog from closing if the dimensions are invalid.
             }
         }
-        else {
-            if (e.getSource() == cancel) {
-                setVisible(false);
-            }
+        else if (e.getSource() == cancel) {
+            setVisible(false);
         }
+    }
+
+    private boolean isValidDimensions()
+    {
+        // Needs to be implemented
+        return false;
     }
 }

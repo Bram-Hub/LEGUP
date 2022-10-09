@@ -22,7 +22,7 @@ public class ValidateBasicRuleCommand extends PuzzleCommand {
      * ValidateBasicRuleCommand Constructor creates a command for verifying a basic rule
      *
      * @param selection selection of tree elements
-     * @param rule      basic rule
+     * @param rule basic rule
      */
     public ValidateBasicRuleCommand(TreeViewSelection selection, BasicRule rule) {
         this.selection = selection.copy();
@@ -48,8 +48,7 @@ public class ValidateBasicRuleCommand extends PuzzleCommand {
             if (element.getType() == TreeElementType.NODE) {
                 TreeNodeView nodeView = (TreeNodeView) selectedView;
                 transitionView = nodeView.getChildrenViews().get(0);
-            }
-            else {
+            } else {
                 transitionView = (TreeTransitionView) selectedView;
             }
             TreeTransition transition = transitionView.getTreeElement();
@@ -63,8 +62,7 @@ public class ValidateBasicRuleCommand extends PuzzleCommand {
                 if (childNode == null) {
                     childNode = (TreeNode) tree.addTreeElement(transition);
                     addNode.put(transition, childNode);
-                }
-                else {
+                } else {
                     tree.addTreeElement(transition, childNode);
                 }
 
@@ -78,8 +76,7 @@ public class ValidateBasicRuleCommand extends PuzzleCommand {
         if (firstSelectedView.getType() == TreeElementType.NODE) {
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
             finalTreeElement = nodeView.getChildrenViews().get(0).getTreeElement();
-        }
-        else {
+        } else {
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
             finalTreeElement = transitionView.getChildView().getTreeElement();
         }
@@ -106,8 +103,7 @@ public class ValidateBasicRuleCommand extends PuzzleCommand {
                 if (nodeView.getChildrenViews().size() != 1) {
                     return CommandError.ONE_CHILD.toString();
                 }
-            }
-            else {
+            } else {
                 TreeTransitionView transView = (TreeTransitionView) view;
                 if (transView.getParentViews().size() > 1) {
                     return CommandError.CONTAINS_MERGE.toString();
@@ -131,8 +127,7 @@ public class ValidateBasicRuleCommand extends PuzzleCommand {
             if (element.getType() == TreeElementType.NODE) {
                 TreeNodeView nodeView = (TreeNodeView) selectedView;
                 transitionView = nodeView.getChildrenViews().get(0);
-            }
-            else {
+            } else {
                 transitionView = (TreeTransitionView) selectedView;
             }
             TreeTransition transition = transitionView.getTreeElement();

@@ -41,7 +41,7 @@ public class Heyawake extends Puzzle {
      *
      * @param rows      the number of rows
      * @param columns   the number of columns
-     * @return true if the given dimensions are valid for HeyAwake, false otherwise
+     * @return          true if the given dimensions are valid for HeyAwake, false otherwise
      */
     public boolean isValidDimensions(int rows, int columns) {
         // This is a placeholder, this method needs to be implemented

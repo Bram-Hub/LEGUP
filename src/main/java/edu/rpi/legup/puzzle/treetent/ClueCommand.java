@@ -52,8 +52,7 @@ public class ClueCommand extends PuzzleCommand {
                 if (transition == null) {
                     transition = tree.addNewTransition(treeNode);
                     addTran.put(treeNode, transition);
-                }
-                else {
+                } else {
                     treeNode.addChild(transition);
                 }
 
@@ -62,8 +61,7 @@ public class ClueCommand extends PuzzleCommand {
 
                 newSelection.addToSelection(treeView.getElementView(finalTran));
                 board = (TreeTentBoard) finalTran.getBoard();
-            }
-            else {
+            } else {
                 finalTran = (TreeTransition) treeElement;
                 newSelection.addToSelection(treeView.getElementView(treeElement));
             }
@@ -105,8 +103,7 @@ public class ClueCommand extends PuzzleCommand {
                 if (!node.getChildren().isEmpty()) {
                     return CommandError.UNMODIFIABLE_BOARD.toString();
                 }
-            }
-            else {
+            } else {
                 if (!board.isModifiable()) {
                     return CommandError.UNMODIFIABLE_BOARD.toString();
                 }
@@ -122,8 +119,7 @@ public class ClueCommand extends PuzzleCommand {
                         tempList.add(cell);
                     }
                 }
-            }
-            else {
+            } else {
                 int row = clue.getType() == TreeTentType.CLUE_WEST ? clue.getClueIndex() : clue.getClueIndex() - 1;
                 for (int i = 0; i < board.getWidth(); i++) {
                     TreeTentCell cell = board.getCell(i, row);
@@ -163,8 +159,7 @@ public class ClueCommand extends PuzzleCommand {
                 puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(finalTran));
 
                 board = (TreeTentBoard) finalTran.getBoard();
-            }
-            else {
+            } else {
                 finalTran = (TreeTransition) treeElement;
             }
 

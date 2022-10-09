@@ -29,9 +29,9 @@ public class IsolateBlackContradictionRule extends ContradictionRule {
      *
      * @param board         board to check contradiction
      * @param puzzleElement equivalent puzzleElement
-     * @return <code>null</code> if the transition contains a
-     * contradiction at the specified {@link PuzzleElement},
-     * otherwise return a no contradiction message.
+     * @return              <code>null</code> if the transition contains a
+     *                      contradiction at the specified {@link PuzzleElement},
+     *                      otherwise return a no contradiction message.
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
@@ -48,8 +48,7 @@ public class IsolateBlackContradictionRule extends ContradictionRule {
                 if (c.getType() == NurikabeType.BLACK) {
                     if (oneRegion) {
                         return null;
-                    }
-                    else {
+                    } else {
                         oneRegion = true;
                         break;
                     }

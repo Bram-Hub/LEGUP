@@ -44,11 +44,9 @@ public class LightUpCellFactory extends ElementFactory {
             LightUpCell cell = new LightUpCell(value, new Point(x, y));
             cell.setIndex(y * height + x);
             return cell;
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new InvalidFileFormatException("lightup Factory: unknown value where integer expected");
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             throw new InvalidFileFormatException("lightup Factory: could not find attribute(s)");
         }
     }
@@ -56,8 +54,8 @@ public class LightUpCellFactory extends ElementFactory {
     /**
      * Creates a xml document puzzleElement from a cell for exporting
      *
-     * @param document      xml document
-     * @param puzzleElement PuzzleElement cell
+     * @param document xml document
+     * @param puzzleElement     PuzzleElement cell
      * @return xml PuzzleElement
      */
     public org.w3c.dom.Element exportCell(Document document, PuzzleElement puzzleElement) {

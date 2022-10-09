@@ -29,35 +29,35 @@ public class UnresolvedCellContradictionRule extends ContradictionRule {
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
-        SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
+    	SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
         SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board;
         Point loc = cell.getLocation();
-
+        
         Set<Integer> candidates = new HashSet<Integer>();
-
+        
         //check row
         for (int i = 0; i < skyscrapersboard.getWidth(); i++) {
-            SkyscrapersCell c = skyscrapersboard.getCell(i, loc.y);
+        	SkyscrapersCell c = skyscrapersboard.getCell(i, loc.y);
             if (i != loc.x && cell.getType() == SkyscrapersType.UNKNOWN && c.getType() == SkyscrapersType.Number) {
-                //System.out.print(c.getData());
-                //System.out.println(cell.getData());
+            	//System.out.print(c.getData());
+            	//System.out.println(cell.getData());
                 candidates.add(c.getData());
             }
         }
-
+        
         // check column
         for (int i = 0; i < skyscrapersboard.getHeight(); i++) {
-            SkyscrapersCell c = skyscrapersboard.getCell(loc.x, i);
-            if (i != loc.y && cell.getType() == SkyscrapersType.UNKNOWN && c.getType() == SkyscrapersType.Number) {
-                //System.out.print(c.getData());
-                //System.out.println(cell.getData());
+        	SkyscrapersCell c = skyscrapersboard.getCell(loc.x, i);
+        	if (i != loc.y && cell.getType() == SkyscrapersType.UNKNOWN && c.getType() == SkyscrapersType.Number) {
+        		//System.out.print(c.getData());
+            	//System.out.println(cell.getData());
                 candidates.add(c.getData());
             }
         }
-
+        
         if (candidates.size() == skyscrapersboard.getWidth()) {
-            System.out.print("violation");
-            return null;
+        	System.out.print("violation");
+        	return null;
         }
         //System.out.print("Does not contain a contradiction at this index");
         return super.getNoContradictionMessage();

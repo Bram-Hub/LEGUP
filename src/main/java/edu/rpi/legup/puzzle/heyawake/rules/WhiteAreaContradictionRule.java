@@ -7,7 +7,7 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 public class WhiteAreaContradictionRule extends ContradictionRule {
 
     public WhiteAreaContradictionRule() {
-        super("HEYA-CONT-0004",
+        super("HEYA-CONT-0004", 
                 "White Area",
                 "",
                 "edu/rpi/legup/images/heyawake/contradictions/WhiteArea.png");

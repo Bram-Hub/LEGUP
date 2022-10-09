@@ -12,7 +12,7 @@ public class SkyscrapersExporter extends PuzzleExporter {
 
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
-        SkyscrapersBoard board = (SkyscrapersBoard) puzzle.getTree().getRootNode().getBoard();
+    	SkyscrapersBoard board = (SkyscrapersBoard) puzzle.getTree().getRootNode().getBoard();
 
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("width", String.valueOf(board.getWidth()));
@@ -20,7 +20,7 @@ public class SkyscrapersExporter extends PuzzleExporter {
 
         org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
-            SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
+        	SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
             if (cell.getData() != 0) {
                 org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
                 cellsElement.appendChild(cellElement);

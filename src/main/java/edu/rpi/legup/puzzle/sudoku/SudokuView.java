@@ -79,18 +79,15 @@ public class SudokuView extends GridBoardView {
         for (int i = 0; i < gridSize.height; i++) {
             for (int k = 0; k < gridSize.width; k++) {
                 ElementView element = elementViews.get(i * gridSize.height + k);
-                if (!element.isHover()) {
+                if (!element.isHover())
                     element.draw(graphics2D);
-                }
-                else {
+                else
                     hover = element;
-                }
             }
         }
 
-        if (hover != null) {
+        if (hover != null)
             hover.draw(graphics2D);
-        }
     }
 
     public void drawCaseBoard(Graphics2D graphics2D) {
@@ -105,12 +102,10 @@ public class SudokuView extends GridBoardView {
         for (int i = 0; i < gridSize.height; i++) {
             for (int k = 0; k < gridSize.width; k++) {
                 ElementView element = elementViews.get(i * gridSize.height + k);
-                if (!element.isHover()) {
+                if (!element.isHover())
                     element.draw(graphics2D);
-                }
-                else {
+                else
                     hover = element;
-                }
             }
         }
 

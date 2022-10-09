@@ -166,7 +166,7 @@ public class SudokuBoard extends GridBoard {
                 copy.setCell(x, y, getCell(x, y).copy());
             }
         }
-        for (PuzzleElement e : modifiedData) {
+        for(PuzzleElement e : modifiedData) {
             copy.getPuzzleElement(e).setModifiable(false);
         }
         return copy;

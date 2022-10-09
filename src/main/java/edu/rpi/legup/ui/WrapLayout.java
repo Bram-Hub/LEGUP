@@ -91,9 +91,8 @@ public class WrapLayout extends FlowLayout {
 
             int targetWidth = target.getSize().width;
 
-            if (targetWidth == 0) {
+            if (targetWidth == 0)
                 targetWidth = Integer.MAX_VALUE;
-            }
 
             int hgap = getHgap();
             int vgap = getVgap();
@@ -155,12 +154,12 @@ public class WrapLayout extends FlowLayout {
     }
 
     /**
-     * A new row has been completed. Use the dimensions of this row
-     * to update the preferred dimension for the container.
+     *  A new row has been completed. Use the dimensions of this row
+     *  to update the preferred dimension for the container.
      *
-     * @param dim       update the width and height when appropriate
-     * @param rowWidth  the width of the row to add
-     * @param rowHeight the height of the row to add
+     *  @param dim update the width and height when appropriate
+     *  @param rowWidth the width of the row to add
+     *  @param rowHeight the height of the row to add
      */
     private void addRow(Dimension dim, int rowWidth, int rowHeight) {
         dim.width = Math.max(dim.width, rowWidth);

@@ -38,26 +38,28 @@ public class NoTentForTreeContradictionRule extends ContradictionRule {
         int adjUnknown = treeTentBoard.getAdjacent(cell, TreeTentType.UNKNOWN).size();
         if (adjTent == 0 && adjUnknown == 0) {
             return null;
-        }
-        else {
-            if (adjTent != 0) {
+        } else {
+            if(adjTent != 0)
+            {
                 List<TreeTentLine> lines = treeTentBoard.getLines();
                 List<TreeTentCell> adjTents = treeTentBoard.getAdjacent(cell, TreeTentType.TENT);
-                for (TreeTentLine l : lines) {
+                for(TreeTentLine l : lines)
+                {
                     Iterator<TreeTentCell> i = adjTents.iterator();
-                    while (i.hasNext()) {
+                    while(i.hasNext())
+                    {
                         TreeTentCell t = i.next();
-                        if (t.getLocation().equals(l.getC1().getLocation()) && !(cell.getLocation().equals(l.getC2().getLocation()))) {
+                        if (t.getLocation().equals(l.getC1().getLocation()) && !(cell.getLocation().equals(l.getC2().getLocation())))
+                        {
                             i.remove();
                         }
-                        if (t.getLocation().equals(l.getC2().getLocation()) && !(cell.getLocation().equals(l.getC2().getLocation()))) {
+                        if (t.getLocation().equals(l.getC2().getLocation()) && !(cell.getLocation().equals(l.getC2().getLocation())))
+                        {
                             i.remove();
                         }
                     }
                 }
-                if (adjTents.size() == 0 && adjUnknown == 0) {
-                    return null;
-                }
+                if(adjTents.size() == 0) {return null;}
             }
             return super.getNoContradictionMessage();
         }

@@ -48,8 +48,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
             if (treeElement.getType() == TreeElementType.TRANSITION) {
                 TreeTransition transition = (TreeTransition) treeElement;
                 treeNode = transition.getParents().get(0);
-            }
-            else {
+            } else {
                 treeNode = (TreeNode) treeElement;
             }
 
@@ -67,8 +66,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
                 transition = tree.addNewTransition(treeNode);
                 transition.setRule(newRule);
                 tree.addTreeElement(transition);
-            }
-            else {
+            } else {
                 tree.addTreeElement(treeNode, transition);
             }
 
@@ -83,8 +81,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
         if (firstSelectedView.getType() == TreeElementType.NODE) {
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
             finalTreeElement = nodeView.getChildrenViews().get(0).getTreeElement();
-        }
-        else {
+        } else {
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
             finalTreeElement = transitionView.getChildView().getTreeElement();
         }
@@ -130,8 +127,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
             if (element.getType() == TreeElementType.TRANSITION) {
                 TreeTransition transition = (TreeTransition) element;
                 node = transition.getParents().get(0);
-            }
-            else {
+            } else {
                 node = (TreeNode) element;
             }
             node.getChildren().forEach(n -> puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(n)));

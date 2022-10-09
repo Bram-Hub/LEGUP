@@ -36,24 +36,24 @@ public class ZoomWidget extends JLabel {
     /**
      *
      */
-    private class PopupSlider extends JPopupMenu implements ChangeListener {
-        private static final long serialVersionUID = 8225019381200459814L;
+        private class PopupSlider extends JPopupMenu implements ChangeListener {
+            private static final long serialVersionUID = 8225019381200459814L;
 
-        private JSlider slider;
+            private JSlider slider;
 
-        public PopupSlider() {
-            slider = new JSlider(SwingConstants.VERTICAL, 0, 400, 200);
-            slider.setMajorTickSpacing(25);
-            slider.setPaintTicks(true);
+            public PopupSlider() {
+                slider = new JSlider(SwingConstants.VERTICAL, 0, 400, 200);
+                slider.setMajorTickSpacing(25);
+                slider.setPaintTicks(true);
 
-            add(slider);
-            slider.addChangeListener(this);
-        }
+                add(slider);
+                slider.addChangeListener(this);
+            }
 
-        public void stateChanged(ChangeEvent e) {
-            if (slider.getValueIsAdjusting()) {
-                parent.zoomTo((double) slider.getValue() / 100.0);
+            public void stateChanged(ChangeEvent e) {
+                if (slider.getValueIsAdjusting()) {
+                    parent.zoomTo((double) slider.getValue() / 100.0);
+                }
             }
         }
-    }
 }

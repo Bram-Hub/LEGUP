@@ -46,8 +46,7 @@ public class Update {
         try {
             version = reader.readLine();
             reader.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             logger.severe("An error occurred while attempting to read the version\n" + e.getMessage());
         }
         VERSION = version;
@@ -76,22 +75,18 @@ public class Update {
                  InputStreamReader reader = new InputStreamReader(in)) {
                 releaseData = new JsonParser().parse(reader).getAsJsonObject();
                 JsonElement tagElement = releaseData.get("tag_name");
-                if (tagElement == null) {
+                if (tagElement == null)
                     return false;
-                }
                 updateVersion = tagElement.getAsString();
                 logger.info("Current version: " + VERSION);
                 logger.info("Latest version:  " + updateVersion);
                 if (NetUtil.versionCompare(VERSION, updateVersion) < 0) {
                     logger.info("Update available");
                     return true;
-                }
-                else {
+                } else
                     logger.info("No update available");
-                }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             logger.severe("Failed to check for update\n" + e.getMessage());
         }
         return false;
@@ -99,14 +94,12 @@ public class Update {
 
     private String getAssetUrl(String assetName) {
         JsonArray array = releaseData.get("assets").getAsJsonArray();
-        if (array == null) {
+        if (array == null)
             return null;
-        }
         for (int i = 0; i < array.size(); ++i) {
             JsonObject asset = array.get(i).getAsJsonObject();
-            if (asset.get("name").getAsString().equals(assetName)) {
+            if (asset.get("name").getAsString().equals(assetName))
                 return asset.get("browser_download_url").getAsString();
-            }
         }
         return null;
     }
@@ -118,18 +111,15 @@ public class Update {
              BufferedReader reader = new BufferedReader(isr)) {
             String line;
             while ((line = reader.readLine()) != null) {
-                if (!line.contains(LIBRARY_LINE_ID)) {
+                if (!line.contains(LIBRARY_LINE_ID))
                     continue;
-                }
                 Matcher m = LIB_PATTERN.matcher(line);
-                if (!m.find()) {
+                if (!m.find())
                     continue;
-                }
                 line = m.group();
                 String[] split = line.split(":");
-                if (split.length != 3) {
+                if (split.length != 3)
                     throw new IOException("Invalid library list in remote repository");
-                }
                 String groupId = split[0].replaceAll("\\.", "/");
                 String artifactId = split[1];
                 String version = split[2];
@@ -156,9 +146,8 @@ public class Update {
     }
 
     public boolean update() {
-        if (releaseData == null) {
+        if (releaseData == null)
             return false;
-        }
         if (guessDevEnvironment()) {
             logger.warning("Legup appears to be running in a development environment so automatic updating has been disabled");
 //            return false;
@@ -170,9 +159,8 @@ public class Update {
             progress.setDescription("Starting update");
         }
         String jarUrl = getAssetUrl(updateStream.assetName);
-        if (jarUrl == null) {
+        if (jarUrl == null)
             return false;
-        }
         try {
             HashMap<String, String> libs = getLibs();
             if (!downloadDir.exists() && !downloadDir.mkdirs()) {
@@ -196,14 +184,13 @@ public class Update {
                 downloadFile(lib.getValue(), new File(libDir, lib.getKey()));
                 current++;
             }
-            if (progress != null) {
+            if(progress != null) {
                 progress.setCurrentDownload(current);
                 progress.setDescription("Download complete!");
             }
             logger.info("Download complete");
             return true;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             logger.severe("Failed to update Legup\n" + e.getMessage());
             return false;
         }
@@ -216,14 +203,11 @@ public class Update {
                 ZipEntry entry = entries.nextElement();
                 File entryDestination = new File(downloadDir, entry.getName());
                 if (entry.isDirectory()) {
-                    if (!entryDestination.exists() && !entryDestination.mkdirs()) {
+                    if (!entryDestination.exists() && !entryDestination.mkdirs())
                         throw new IOException("Failed to unzip file: " + file.getCanonicalPath());
-                    }
-                }
-                else {
-                    if (!entryDestination.getParentFile().exists() && !entryDestination.getParentFile().mkdirs()) {
+                } else {
+                    if (!entryDestination.getParentFile().exists() && !entryDestination.getParentFile().mkdirs())
                         throw new IOException("Failed to unzip file: " + file.getCanonicalPath());
-                    }
                     try (InputStream in = zipFile.getInputStream(entry);
                          OutputStream out = new FileOutputStream(entryDestination)) {
                         IOUtils.copy(in, out);

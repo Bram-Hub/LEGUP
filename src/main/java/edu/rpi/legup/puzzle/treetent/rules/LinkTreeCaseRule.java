@@ -30,19 +30,7 @@ public class LinkTreeCaseRule extends CaseRule {
         for (PuzzleElement element : treeTentBoard.getPuzzleElements()) {
             if (((TreeTentCell) element).getType() == TreeTentType.TREE &&
                     !getCases(treeTentBoard, element).isEmpty()) {
-
-                Boolean canAdd = true;
-                List<TreeTentLine> lines = treeTentBoard.getLines();
-                for (TreeTentLine l : lines) {
-                    if (l.getC1().getLocation().equals(((TreeTentCell) element).getLocation()) || l.getC2().getLocation().equals(((TreeTentCell) element).getLocation())) {
-                        canAdd = false;
-                        break;
-                    }
-                }
-                if (canAdd) {
-                    caseBoard.addPickableElement(element);
-                }
-
+                caseBoard.addPickableElement(element);
             }
         }
         return caseBoard;
@@ -62,19 +50,11 @@ public class LinkTreeCaseRule extends CaseRule {
         TreeTentCell cell = (TreeTentCell) puzzleElement;
         List<TreeTentCell> adjCells = treeTentBoard.getAdjacent(cell, TreeTentType.TENT);
         for (TreeTentCell c : adjCells) {
-            Boolean makeline = true;
-            for (TreeTentLine l : treeTentBoard.getLines()) {
-                if (l.getC1().getLocation().equals(c.getLocation()) || l.getC2().getLocation().equals(c.getLocation())) {
-                    makeline = false;
-                }
-            }
-            if (makeline) {
-                TreeTentBoard caseBoard = (TreeTentBoard) board.copy();
-                TreeTentLine line = new TreeTentLine(cell, c);
-                caseBoard.getLines().add(line);
-                caseBoard.addModifiedData(line);
-                cases.add(caseBoard);
-            }
+            TreeTentBoard caseBoard = (TreeTentBoard) board.copy();
+            TreeTentLine line = new TreeTentLine(cell, c);
+            caseBoard.getLines().add(line);
+            caseBoard.addModifiedData(line);
+            cases.add(caseBoard);
         }
         return cases;
     }
@@ -123,7 +103,7 @@ public class LinkTreeCaseRule extends CaseRule {
                     return super.getInvalidUseOfRuleMessage();
                 }
                 PuzzleElement tElement = tBoard.getModifiedData().iterator().next();
-                if (!(tElement instanceof TreeTentLine)) {
+                if (tElement instanceof TreeTentLine) {
                     return super.getInvalidUseOfRuleMessage() + ": This case rule only involves tree and tent connection lines";
                 }
                 if (cLine.compare((TreeTentLine) tElement)) {

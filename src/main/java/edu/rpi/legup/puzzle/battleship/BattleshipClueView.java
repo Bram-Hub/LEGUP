@@ -24,10 +24,6 @@ public class BattleshipClueView extends ElementView {
     }
 
     @Override
-    /**
-     * Draws the clue from the PuzzleElement associated with this view on the given frame
-     * @param graphics2D the frame the clue is to be drawn on
-     */
     public void draw(Graphics2D graphics2D) {
         graphics2D.setColor(FONT_COLOR);
         graphics2D.setFont(FONT);

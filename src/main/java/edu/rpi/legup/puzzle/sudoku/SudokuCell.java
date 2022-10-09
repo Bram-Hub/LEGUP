@@ -33,7 +33,7 @@ public class SudokuCell extends GridCell<Integer> {
     public int getGroupIndex() {
         return groupIndex;
     }
-
+    
     public int getMax() {
         return max;
     }

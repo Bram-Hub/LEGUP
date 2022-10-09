@@ -14,19 +14,22 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 
 import java.awt.*;
 
-public class TooManySpacesContradictionRuleTest {
+public class TooManySpacesContradictionRuleTest
+{
 
     private static final TooManySpacesContradictionRule RULE = new TooManySpacesContradictionRule();
     private static Nurikabe nurikabe;
 
     @BeforeClass
-    public static void setUp() {
+    public static void setUp()
+    {
         MockGameBoardFacade.getInstance();
         nurikabe = new Nurikabe();
     }
 
     @Test
-    public void TooManySpacesContradictionRule_TwoSurroundBlackTest() throws InvalidFileFormatException {
+    public void TooManySpacesContradictionRule_TwoSurroundBlackTest() throws InvalidFileFormatException
+    {
 //        TestUtilities.importTestBoard("puzzles/nurikabe/rules/TooManySpacesContradictionRule/TwoSurroundWhite", nurikabe);
 //        TreeNode rootNode = nurikabe.getTree().getRootNode();
 //        TreeTransition transition = rootNode.getChildren().get(0);

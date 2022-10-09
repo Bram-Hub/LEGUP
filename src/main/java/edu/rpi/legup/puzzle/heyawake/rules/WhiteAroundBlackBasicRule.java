@@ -9,7 +9,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 public class WhiteAroundBlackBasicRule extends BasicRule {
 
     public WhiteAroundBlackBasicRule() {
-        super("HEYA-BASC-0009",
+        super("HEYA-BASC-0009", 
                 "White Around Black",
                 "",
                 "edu/rpi/legup/images/heyawake/rules/WhiteAroundBlack.png");

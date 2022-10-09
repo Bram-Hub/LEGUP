@@ -5,14 +5,18 @@ import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.InvalidConfigException;
 import edu.rpi.legup.model.Puzzle;
 
-public class MockGameBoardFacade extends GameBoardFacade {
-    protected MockGameBoardFacade() {
+public class MockGameBoardFacade extends GameBoardFacade
+{
+    protected MockGameBoardFacade()
+    {
         super();
         Config config = null;
-        try {
+        try
+        {
             config = new Config();
         }
-        catch (InvalidConfigException e) {
+        catch(InvalidConfigException e)
+        {
             System.exit(1);
         }
         setConfig(config);
@@ -23,25 +27,30 @@ public class MockGameBoardFacade extends GameBoardFacade {
      *
      * @return single instance of GameBoardFacade
      */
-    public synchronized static GameBoardFacade getInstance() {
-        if (instance == null) {
+    public synchronized static GameBoardFacade getInstance()
+    {
+        if(instance == null)
+        {
             instance = new MockGameBoardFacade();
         }
         return instance;
     }
 
     @Override
-    public void initializeUI() {
+    public void initializeUI()
+    {
 
     }
 
     @Override
-    public void setPuzzle(Puzzle puzzle) {
+    public void setPuzzle(Puzzle puzzle)
+    {
         this.puzzle = puzzle;
     }
 
     @Override
-    public void setWindowTitle(String puzzleName, String fileName) {
+    public void setWindowTitle(String puzzleName, String fileName)
+    {
 
     }
 }
