@@ -370,7 +370,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                     throw new ExportFileException("Puzzle exporter null");
                 }
                 exporter.exportPuzzle(fileName);
-            } catch (ExportFileException e) {
+            }
+            catch (ExportFileException e) {
                 e.printStackTrace();
             }
         }
