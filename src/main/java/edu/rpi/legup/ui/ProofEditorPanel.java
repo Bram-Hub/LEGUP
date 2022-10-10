@@ -50,7 +50,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     private JButton[] toolBarButtons;
     private JMenu file;
-    private JMenuItem newPuzzle, resetPuzzle, saveProof, preferences, exit;
+    private JMenuItem newPuzzle, resetPuzzle, saveProof, preferences, exit, directSave;
     private JMenu edit;
     private JMenuItem undo, redo, fitBoardToScreen, fitTreeToScreen;
 
@@ -115,7 +115,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         newPuzzle = new JMenuItem("Open");
         resetPuzzle = new JMenuItem("Reset Puzzle");
 //        genPuzzle = new JMenuItem("Puzzle Generators");
-        saveProof = new JMenuItem("Save Proof");
+        saveProof = new JMenuItem("Save Proof As");
+        directSave= new JMenuItem("Direct Save proof");
         preferences = new JMenuItem("Preferences");
         exit = new JMenuItem("Exit");
 
@@ -250,7 +251,14 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         else {
             saveProof.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK));
         }
-
+        file.add(directSave);
+        directSave.addActionListener((ActionEvent) -> direct_save());
+        if (os.equals("mac")) {
+            directSave.setAccelerator(KeyStroke.getKeyStroke('D', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        }
+        else {
+            directSave.setAccelerator(KeyStroke.getKeyStroke('D', InputEvent.CTRL_DOWN_MASK));
+        }
         file.add(preferences);
         preferences.addActionListener(a -> {
             PreferencesDialog preferencesDialog = new PreferencesDialog(this.frame);
@@ -369,6 +377,27 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
     }
 
+    /**
+     * direct Saves the current prdoof in current file
+     */
+    private void direct_save(){
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+        if (puzzle == null) {
+            return;
+        }
+        String fileName = GameBoardFacade.getInstance().getCurFileName();
+        if (fileName != null) {
+            try {
+                PuzzleExporter exporter = puzzle.getExporter();
+                if (exporter == null) {
+                    throw new ExportFileException("Puzzle exporter null");
+                }
+                exporter.exportPuzzle(fileName);
+            } catch (ExportFileException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     /**
      * Saves a proof
      */
