@@ -369,8 +369,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 LOGGER.error(e.getMessage());
                 if (e.getMessage().contains("Proof Tree construction error: could not find rule by ID")) { // TO DO: make error message not hardcoded
                     JOptionPane.showMessageDialog(null, "This file runs on an outdated version of Legup\nand is not compatible with the current version.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                else {
+                }else {
                     JOptionPane.showMessageDialog(null, "File does not exist or it cannot be read", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -393,7 +392,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                     throw new ExportFileException("Puzzle exporter null");
                 }
                 exporter.exportPuzzle(fileName);
-            } catch (ExportFileException e) {
+            }
+            catch (ExportFileException e) {
                 e.printStackTrace();
             }
         }
