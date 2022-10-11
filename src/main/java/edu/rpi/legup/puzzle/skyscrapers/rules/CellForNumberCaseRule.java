@@ -26,11 +26,11 @@ public class CellForNumberCaseRule extends CaseRule {
         SkyscrapersBoard currentBoard = (SkyscrapersBoard) board.copy();
         currentBoard.setModifiable(false);
         CaseBoard caseBoard = new CaseBoard(currentBoard, this);
-        for (SkyscrapersClue data : currentBoard.getRow()) {
+        for (SkyscrapersClue data : currentBoard.getWestClues()) {
             System.out.println(data.getType());
             caseBoard.addPickableElement(data);
         }
-        for (SkyscrapersClue data : currentBoard.getCol()) {
+        for (SkyscrapersClue data : currentBoard.getNorthClues()) {
             System.out.println(data.getType());
             caseBoard.addPickableElement(data);
         }
@@ -88,14 +88,14 @@ public class CellForNumberCaseRule extends CaseRule {
 
         //find changed row/col
         SkyscrapersClue modClue = null;
-        for(SkyscrapersClue clue : ((SkyscrapersBoard)childTransitions.get(0).getBoard()).getRow()){
+        for(SkyscrapersClue clue : ((SkyscrapersBoard)childTransitions.get(0).getBoard()).getWestClues()){
             if(clue.isModified()){
                 modClue = clue;
                 break;
             }
         }
         if(modClue!=null){
-            for(SkyscrapersClue clue : ((SkyscrapersBoard)childTransitions.get(0).getBoard()).getCol()){
+            for(SkyscrapersClue clue : ((SkyscrapersBoard)childTransitions.get(0).getBoard()).getNorthClues()){
                 if(clue.isModified()){
                     modClue = clue;
                     break;

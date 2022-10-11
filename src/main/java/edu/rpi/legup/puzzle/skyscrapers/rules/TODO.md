@@ -12,10 +12,12 @@ spreadsheet : https://docs.google.com/spreadsheets/d/1l7aUZtavtysM8dtGnaEIXhBKMR
      - Cell for number - waiting on ui
  4. Refactoring:
     - Remove references to lightup and treetent in variable names
+      - View contains a few of these
     - document utility functions in the reference sheet, COMMENTS!
     - review and identify dead code
     - create and add rule icons
     - check for overrides of by cell functions (ie checkContradiction)
+    - replace height/width with size (never not square)
     - replace row,col,rowClues,colClues and corresponding functions with appropriate names
  5. Flags
     - review all basic/contradiction rules to put in terms of the new cases / add flags

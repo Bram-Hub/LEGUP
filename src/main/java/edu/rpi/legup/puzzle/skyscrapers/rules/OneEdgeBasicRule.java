@@ -54,16 +54,16 @@ public class OneEdgeBasicRule extends BasicRule {
             return super.getInvalidUseOfRuleMessage() + ": Modified cells must be the max";
         }
 
-        if (loc.x == 0 && initialBoard.getRow().get(loc.y).getData() == 1) {
+        if (loc.x == 0 && initialBoard.getWestClues().get(loc.y).getData() == 1) {
             return null;
         }
-        else if (loc.x == initialBoard.getWidth() - 1 && initialBoard.getRowClues().get(loc.y).getData() == 1) {
+        else if (loc.x == initialBoard.getWidth() - 1 && initialBoard.getEastClues().get(loc.y).getData() == 1) {
         	return null;
         }
-        else if (loc.y == 0 && initialBoard.getCol().get(loc.x).getData() == 1) {
+        else if (loc.y == 0 && initialBoard.getNorthClues().get(loc.x).getData() == 1) {
         	return null;
         }
-        else if (loc.y == initialBoard.getHeight() - 1 && initialBoard.getColClues().get(loc.x).getData() == 1) {
+        else if (loc.y == initialBoard.getHeight() - 1 && initialBoard.getSouthClues().get(loc.x).getData() == 1) {
         	return null;
         } else {
             return "This cell is not forced.";

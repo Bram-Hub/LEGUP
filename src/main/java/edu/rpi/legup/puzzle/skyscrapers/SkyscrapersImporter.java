@@ -114,8 +114,8 @@ public class SkyscrapersImporter extends PuzzleImporter {
                 if (treeTentBoard.getRowClues().get(index - 1) != null) {
                     throw new InvalidFileFormatException("TreeTent Importer: duplicate clue index");
                 }*/
-                treeTentBoard.getRow().set(/*index - 1*/i, new SkyscrapersClue(index, i, SkyscrapersType.CLUE_WEST));
-                treeTentBoard.getRowClues().set(/*index - 1*/i, new SkyscrapersClue(value, i, SkyscrapersType.CLUE_EAST));
+                treeTentBoard.getWestClues().set(/*index - 1*/i, new SkyscrapersClue(index, i, SkyscrapersType.CLUE_WEST));
+                treeTentBoard.getEastClues().set(/*index - 1*/i, new SkyscrapersClue(value, i, SkyscrapersType.CLUE_EAST));
             }
 
             for (int i = 0; i < southClues.getLength(); i++) {
@@ -130,8 +130,8 @@ public class SkyscrapersImporter extends PuzzleImporter {
                 if (treeTentBoard.getColClues().get(index - 1) != null) {
                     throw new InvalidFileFormatException("TreeTent Importer: duplicate clue index");
                 }*/
-                treeTentBoard.getCol().set(/*index - 1*/i, new SkyscrapersClue(index, i, SkyscrapersType.CLUE_NORTH));
-                treeTentBoard.getColClues().set(/*index - 1*/i, new SkyscrapersClue(value, i, SkyscrapersType.CLUE_SOUTH));
+                treeTentBoard.getNorthClues().set(/*index - 1*/i, new SkyscrapersClue(index, i, SkyscrapersType.CLUE_NORTH));
+                treeTentBoard.getSouthClues().set(/*index - 1*/i, new SkyscrapersClue(value, i, SkyscrapersType.CLUE_SOUTH));
             }
 
             if (boardElement.getElementsByTagName("lines").getLength() == 1) {

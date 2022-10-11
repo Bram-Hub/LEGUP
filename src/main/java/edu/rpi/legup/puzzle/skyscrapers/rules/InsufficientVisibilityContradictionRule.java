@@ -36,10 +36,10 @@ public class InsufficientVisibilityContradictionRule extends ContradictionRule {
         Point loc = cell.getLocation();
 
         //get borders
-        int west  = skyscrapersboard.getRow().get(loc.y).getData();
-    	int east  = skyscrapersboard.getRowClues().get(loc.y).getData();
-    	int north  = skyscrapersboard.getCol().get(loc.x).getData();
-    	int south  = skyscrapersboard.getColClues().get(loc.x).getData();
+        int west  = skyscrapersboard.getWestClues().get(loc.y).getData();
+    	int east  = skyscrapersboard.getEastClues().get(loc.y).getData();
+    	int north  = skyscrapersboard.getNorthClues().get(loc.x).getData();
+    	int south  = skyscrapersboard.getSouthClues().get(loc.x).getData();
 
 		//check row
 		int max = 0;

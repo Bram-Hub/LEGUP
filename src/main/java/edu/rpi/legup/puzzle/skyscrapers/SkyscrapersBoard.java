@@ -13,13 +13,13 @@ public class SkyscrapersBoard extends GridBoard {
     private ArrayList<SkyscrapersLine> lines;
 
 
-    private ArrayList<SkyscrapersClue> rowClues;
+    private ArrayList<SkyscrapersClue> eastClues;
     //EAST clues
-    private ArrayList<SkyscrapersClue> colClues;
+    private ArrayList<SkyscrapersClue> southClues;
     //SOUTH clues
-    private ArrayList<SkyscrapersClue> row;
+    private ArrayList<SkyscrapersClue> westClues;
     //WEST clues
-    private ArrayList<SkyscrapersClue> col;
+    private ArrayList<SkyscrapersClue> northClues;
     //NORTH clues
 
     private boolean viewFlag = false;
@@ -31,22 +31,16 @@ public class SkyscrapersBoard extends GridBoard {
 
         this.lines = new ArrayList<>();
 
-        this.rowClues = new ArrayList<>();
-        this.colClues = new ArrayList<>();
-        this.row = new ArrayList<>();
-        this.col = new ArrayList<>();
+        this.eastClues = new ArrayList<>();
+        this.southClues = new ArrayList<>();
+        this.westClues = new ArrayList<>();
+        this.northClues = new ArrayList<>();
 
         for (int i = 0; i < height; i++) {
-            rowClues.add(null);
-        }
-        for (int i = 0; i < width; i++) {
-            colClues.add(null);
-        }
-        for (int i = 0; i < height; i++) {
-            row.add(null);
-        }
-        for (int i = 0; i < width; i++) {
-            col.add(null);
+            eastClues.add(null);
+            southClues.add(null);
+            westClues.add(null);
+            northClues.add(null);
         }
     }
 
@@ -61,29 +55,27 @@ public class SkyscrapersBoard extends GridBoard {
     /**
     * Returns a list of the eastern clues ordered from loc.y = 0->max
     */
-    public ArrayList<SkyscrapersClue> getRowClues() {
-        return rowClues;
+    public ArrayList<SkyscrapersClue> getEastClues() {
+        return eastClues;
     }
 
     /**
      * Returns a list of the southern clues ordered from loc.x = 0->max
      */
-    public ArrayList<SkyscrapersClue> getColClues() {
-        return colClues;
+    public ArrayList<SkyscrapersClue> getSouthClues() {
+        return southClues;
     }
 
     /**
      * Returns a list of the western clues ordered from loc.y = 0->max
      */
-    public ArrayList<SkyscrapersClue> getRow() {
-        return row;
-    }
+    public ArrayList<SkyscrapersClue> getWestClues() {return westClues;}
 
     /**
      * Returns a list of the northern clues ordered from loc.x = 0->max
      */
-    public ArrayList<SkyscrapersClue> getCol() {
-        return col;
+    public ArrayList<SkyscrapersClue> getNorthClues() {
+        return northClues;
     }
 
     public boolean getDupeFlag(){return dupeFlag;}
@@ -270,10 +262,10 @@ public class SkyscrapersBoard extends GridBoard {
         for (PuzzleElement e : modifiedData) {
             copy.getPuzzleElement(e).setModifiable(false);
         }
-        copy.rowClues = rowClues;
-        copy.colClues = colClues;
-        copy.row = row;
-        copy.col = col;
+        copy.eastClues = eastClues;
+        copy.southClues = southClues;
+        copy.westClues = westClues;
+        copy.northClues = northClues;
 
         copy.dupeFlag=dupeFlag;
         copy.viewFlag=viewFlag;
