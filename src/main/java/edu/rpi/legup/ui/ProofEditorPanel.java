@@ -441,7 +441,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 }
                 exporter.exportPuzzle(fileName);
                 JOptionPane.showMessageDialog(null, "Successfully Saved","Confirm",JOptionPane.INFORMATION_MESSAGE);
-            } catch (ExportFileException e) {
+            }
+            catch (ExportFileException e) {
                 e.printStackTrace();
             }
         }
