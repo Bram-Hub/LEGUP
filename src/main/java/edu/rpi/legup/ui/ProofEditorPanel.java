@@ -50,7 +50,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     private JButton[] toolBarButtons;
     private JMenu file;
-    private JMenuItem newPuzzle, resetPuzzle, saveProof, preferences, exit;
+    private JMenuItem newPuzzle, resetPuzzle, saveProofAs,saveProofChange, preferences, exit;
     private JMenu edit;
     private JMenuItem undo, redo, fitBoardToScreen, fitTreeToScreen;
 
@@ -115,7 +115,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         newPuzzle = new JMenuItem("Open");
         resetPuzzle = new JMenuItem("Reset Puzzle");
 //        genPuzzle = new JMenuItem("Puzzle Generators");
-        saveProof = new JMenuItem("Save Proof");
+        saveProofAs = new JMenuItem("Save Proof As");
+        saveProofChange = new JMenuItem("Save Proof Change");
         preferences = new JMenuItem("Preferences");
         exit = new JMenuItem("Exit");
 
@@ -242,15 +243,32 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
         file.addSeparator();
 
-        file.add(saveProof);
-        saveProof.addActionListener((ActionEvent) -> saveProof());
+        file.add(saveProofAs);
+        saveProofAs.addActionListener((ActionEvent) -> saveProofAs());
+
+
+        //save proof as
         if (os.equals("mac")) {
-            saveProof.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+            saveProofAs.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
         else {
-            saveProof.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK));
+            saveProofAs.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK));
         }
 
+        // save proof change
+        if (os.equals("mac")) {
+            saveProofChange.setAccelerator(KeyStroke.getKeyStroke('A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        }
+        else {
+            saveProofChange.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_DOWN_MASK));
+        }
+
+
+        file.add(saveProofChange);
+        saveProofChange.addActionListener((ActionEvent) -> saveProofChange());
+        file.addSeparator();
+
+        // preference
         file.add(preferences);
         preferences.addActionListener(a -> {
             PreferencesDialog preferencesDialog = new PreferencesDialog(this.frame);
@@ -372,14 +390,14 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     /**
      * Saves a proof
      */
-    private void saveProof() {
+    private void saveProofAs() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
             return;
         }
 
         fileDialog.setMode(FileDialog.SAVE);
-        fileDialog.setTitle("Save Proof");
+        fileDialog.setTitle("Save Proof As");
         String curFileName = GameBoardFacade.getInstance().getCurFileName();
         if (curFileName == null) {
             fileDialog.setDirectory(LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY));
@@ -408,6 +426,28 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             }
         }
     }
+
+    private void saveProofChange(){
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+        if (puzzle == null) {
+            return;
+        }
+        String fileName = GameBoardFacade.getInstance().getCurFileName();
+        if (fileName != null) {
+            try {
+                PuzzleExporter exporter = puzzle.getExporter();
+                if (exporter == null) {
+                    throw new ExportFileException("Puzzle exporter null");
+                }
+                exporter.exportPuzzle(fileName);
+                JOptionPane.showMessageDialog(null, "Successfully Saved","Confirm",JOptionPane.INFORMATION_MESSAGE);
+            } catch (ExportFileException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
 
     //ask to edu.rpi.legup.save current proof
     public boolean noquit(String instr) {
