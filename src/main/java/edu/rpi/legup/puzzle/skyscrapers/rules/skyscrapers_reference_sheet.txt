@@ -21,6 +21,7 @@ HELPER FUNCTIONS: (check morgue for unused helpers, ctrl+f "helper function")
         Notes: more than one element type?
 
 CODE MORGUE:
+    - Exporter has no known use, to has not been updated
     - SkyscapersLine, SkyscrapersLineView
         Locations: above classes, Board, Importer, CellFactory, View
         Uses: drawing lines between cells on the board

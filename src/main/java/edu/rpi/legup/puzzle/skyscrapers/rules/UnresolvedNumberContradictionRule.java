@@ -50,7 +50,7 @@ public class UnresolvedNumberContradictionRule extends ContradictionRule {
             }
             if(!exists){
                 //and no possible cases
-                if(caseRule.getCasesFor(board,skyscrapersBoard.getRow().get(loc.y),num).size()==0) {
+                if(caseRule.getCasesFor(board,skyscrapersBoard.getWestClues().get(loc.y),num).size()==0) {
                     return null;
                 }
             }
@@ -65,7 +65,7 @@ public class UnresolvedNumberContradictionRule extends ContradictionRule {
                 }
             }
             if(!exists){
-                if(caseRule.getCasesFor(board,skyscrapersBoard.getCol().get(loc.x),num).size()==0) {
+                if(caseRule.getCasesFor(board,skyscrapersBoard.getNorthClues().get(loc.x),num).size()==0) {
                     return null;
                 }
             }

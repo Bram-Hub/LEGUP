@@ -64,11 +64,11 @@ public class SkyscrapersView extends GridBoardView {
 
         for (int i = 0; i < gridSize.height; i++) {
             //SkyscrapersClueView row = new SkyscrapersClueView(new SkyscrapersClue(i, i, SkyscrapersType.CLUE_WEST));
-            SkyscrapersClueView row = new SkyscrapersClueView(board.getRow().get(i));
+            SkyscrapersClueView row = new SkyscrapersClueView(board.getWestClues().get(i));
             row.setLocation(new Point(0, (i + 1) * elementSize.height));
             row.setSize(elementSize);
 
-            SkyscrapersClueView clue = new SkyscrapersClueView(board.getRowClues().get(i));
+            SkyscrapersClueView clue = new SkyscrapersClueView(board.getEastClues().get(i));
             clue.setLocation(new Point((gridSize.height + 1) * elementSize.height, (i + 1) * elementSize.height));
             clue.setSize(elementSize);
 
@@ -78,11 +78,11 @@ public class SkyscrapersView extends GridBoardView {
 
         for (int i = 0; i < gridSize.width; i++) {
             //SkyscrapersClueView col = new SkyscrapersClueView(new SkyscrapersClue(i, i, SkyscrapersType.CLUE_NORTH));
-            SkyscrapersClueView col = new SkyscrapersClueView(board.getCol().get(i));
+            SkyscrapersClueView col = new SkyscrapersClueView(board.getNorthClues().get(i));
             col.setLocation(new Point((i + 1) * elementSize.width, 0));
             col.setSize(elementSize);
 
-            SkyscrapersClueView clue = new SkyscrapersClueView(board.getColClues().get(i));
+            SkyscrapersClueView clue = new SkyscrapersClueView(board.getSouthClues().get(i));
             clue.setLocation(new Point((i + 1) * elementSize.width, (gridSize.width + 1) * elementSize.width));
             clue.setSize(elementSize);
 

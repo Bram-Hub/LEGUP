@@ -45,10 +45,10 @@ public class FixedMaxBasicRule extends BasicRule {
         SkyscrapersBoard emptyCase = initialBoard.copy();
         emptyCase.getPuzzleElement(finalCell).setData(0);
         Point loc = finalCell.getLocation();
-        int north = initialBoard.getCol().get(loc.x).getData();
-        int south = initialBoard.getColClues().get(loc.x).getData();
-        int west = initialBoard.getRow().get(loc.y).getData();
-        int east = initialBoard.getRowClues().get(loc.y).getData();
+        int north = initialBoard.getNorthClues().get(loc.x).getData();
+        int south = initialBoard.getSouthClues().get(loc.x).getData();
+        int west = initialBoard.getWestClues().get(loc.y).getData();
+        int east = initialBoard.getEastClues().get(loc.y).getData();
         int max = initialBoard.getHeight();
         System.out.println(north);
         System.out.println(south);
