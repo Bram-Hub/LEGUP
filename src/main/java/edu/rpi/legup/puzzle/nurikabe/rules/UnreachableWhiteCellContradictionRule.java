@@ -82,8 +82,7 @@ public class UnreachableWhiteCellContradictionRule extends ContradictionRule {
 
                 for (NurikabeCell n :adj) {
                     int regionNeed = whiteRegionMap.getOrDefault(n,-1);
-                    if (pathLength <= regionNeed)
-                    {
+                    if (pathLength <= regionNeed) {
                         return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
                     }
                 }
