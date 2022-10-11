@@ -280,6 +280,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             }
             catch (InvalidFileFormatException e) {
                 LOGGER.error(e.getMessage());
+                JOptionPane.showMessageDialog(null, "File does not exist or it cannot be read", "Error", JOptionPane.ERROR_MESSAGE);
+                loadPuzzle();
             }
         }
     }

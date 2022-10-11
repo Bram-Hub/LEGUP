@@ -367,6 +367,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 }
                 else {
                     JOptionPane.showMessageDialog(null, "File does not exist or it cannot be read", "Error", JOptionPane.ERROR_MESSAGE);
+                    loadPuzzle();
                 }
             }
         }
