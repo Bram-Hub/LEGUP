@@ -55,6 +55,8 @@ public abstract class PuzzleExporter {
             if (puzzle.getTree() != null && !puzzle.getTree().getRootNode().getChildren().isEmpty()) {
                 puzzleElement.appendChild(createProofElement(newDocument));
             }
+            legupElement.appendChild(createFlagElement(newDocument));
+
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
@@ -126,5 +128,11 @@ public abstract class PuzzleExporter {
             }
         }
         return treeElement;
+    }
+
+    protected Element createFlagElement(Document newDocument){
+        org.w3c.dom.Element flagElement = newDocument.createElement("Solved");
+        flagElement.setAttribute("isSolved", String.valueOf( puzzle.isPuzzleComplete() ) );
+        return flagElement;
     }
 }

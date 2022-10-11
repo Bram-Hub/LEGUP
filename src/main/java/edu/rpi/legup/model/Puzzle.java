@@ -58,7 +58,6 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     protected List<CaseRule> caseRules;
     protected List<PlaceableElement> placeableElements;
     protected List<NonPlaceableElement> nonPlaceableElements;
-    protected Boolean isSolved;
 
     /**
      * Puzzle Constructor - creates a new Puzzle
@@ -73,8 +72,6 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
         this.placeableElements = new ArrayList<>();
         this.nonPlaceableElements = new ArrayList<>();
-
-        this.isSolved = false;
 
         registerRules();
         registerPuzzleElements();
@@ -230,7 +227,6 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                 }
             }
         }
-        isSolved = isComplete;
         return isComplete;
     }
 
