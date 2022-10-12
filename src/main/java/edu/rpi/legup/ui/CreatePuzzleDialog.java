@@ -49,13 +49,13 @@ public class CreatePuzzleDialog extends JDialog {
     private JButton cancel = new JButton("Cancel");
     private ActionListener cancelButtonListener = new ActionListener() {
         /**
-         * Hides the puzzle creation dialog
+         * Dispose the puzzle creation dialog
          *
          * @param e the event to be processed
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            setVisible(false);
+            dispose();
         }
     };
 
