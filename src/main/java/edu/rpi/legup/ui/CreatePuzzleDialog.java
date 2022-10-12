@@ -27,14 +27,21 @@ public class CreatePuzzleDialog extends JDialog {
          * @param e the event to be processed
          */
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent ae) {
             String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
+            
+            // Check if all 3 TextFields are filled
+            if (game.equals("") || rows.getText().equals("") || columns.getText().equals("")) {
+                System.out.println("Unfilled fields");
+                return;
+            }
             
             try {
                 homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(rows.getText()), Integer.valueOf(columns.getText()));
                 setVisible(false);
-            } catch (IllegalArgumentException exception) {
-                // Don't do anything. This is here to prevent the dialog from closing if the dimensions are invalid.
+            } catch (IllegalArgumentException e) {
+                System.out.println("Failed to open editor with new puzzle");
+                e.printStackTrace(System.out);
             }
         }
     };
@@ -109,6 +116,7 @@ public class CreatePuzzleDialog extends JDialog {
         gameBox = new JComboBox(this.games);
     }
 
+    // ^This method seems useless and never got covered
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == ok) {
             String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
