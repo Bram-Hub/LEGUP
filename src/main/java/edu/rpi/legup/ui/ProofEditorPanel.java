@@ -426,7 +426,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private void helpTutorial() {
 
         Runtime rt = Runtime.getRuntime();
-        String url = "https://github.com/Bram-Hub/Legup"; // further you may put the real tutorial web page
+        String url = "https://github.com/Bram-Hub/Legup/wiki/LEGUP-Tutorial"; // empty page, Oct 17th
         try{
             //rt.exec("rundll32 url.dll,FileProtocolHandler "+url);
             java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
