@@ -61,9 +61,8 @@ public class CellForNumberCaseRule extends CaseRule {
                 passed = passed && DupeRule.checkContradictionAt(newCase,newCell)!=null;
             }
             if(skyscrapersboard.getViewFlag()){
-                InsufficientVisibilityContradictionRule fewRule = new InsufficientVisibilityContradictionRule();
-                ExceedingVisibilityContradictionRule moreRule = new ExceedingVisibilityContradictionRule();
-                passed = passed && fewRule.checkContradictionAt(newCase,newCell)!=null && moreRule.checkContradictionAt(newCase,newCell)!=null;
+                PreemptiveTooFewContradictionRule ViewRule = new PreemptiveTooFewContradictionRule();
+                passed = passed && ViewRule.checkContradictionAt(newCase,newCell)!=null;
             }
             if(passed){cases.add(newCase);}
 

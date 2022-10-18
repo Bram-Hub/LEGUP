@@ -18,10 +18,8 @@ spreadsheet : https://docs.google.com/spreadsheets/d/1l7aUZtavtysM8dtGnaEIXhBKMR
     - create and add rule icons
     - check for overrides of by cell functions (ie checkContradiction)
     - replace height/width with size (never not square)
-    - replace row,col,rowClues,colClues and corresponding functions with appropriate names
  5. Flags
     - review all basic/contradiction rules to put in terms of the new cases / add flags
-    - edit exporter to include flags in xml file format
-    - discuss use/not of unresolved flag
+    - edit exporter to include flags in xml file format (if needed)
  6. Documentation
     - UML diagram(s)

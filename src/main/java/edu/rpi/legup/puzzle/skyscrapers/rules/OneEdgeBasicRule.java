@@ -10,6 +10,7 @@ import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersCell;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -18,7 +19,7 @@ public class OneEdgeBasicRule extends BasicRule {
 
     public OneEdgeBasicRule() {
         super("SKYS-BASC-0005", "One Edge",
-                "If you have a 1 on an edge, put n in the adjacent square.",
+                "This is the last number for this cell that does not create a visibility contradiction",
                 "edu/rpi/legup/images/skyscrapers/rules/OneEdge.png");
     }
 
@@ -42,32 +43,24 @@ public class OneEdgeBasicRule extends BasicRule {
             return super.getInvalidUseOfRuleMessage() + ": Modified cells must transition from unknown to number";
         }
 
-        SkyscrapersBoard emptyCase = initialBoard.copy();
-        emptyCase.getPuzzleElement(finalCell).setData(0);
-        Point loc = finalCell.getLocation();
+        //set all rules used by case rule to false except for dupe, get all cases
+        boolean dupeTemp = initialBoard.getDupeFlag();
+        boolean viewTemp = initialBoard.getViewFlag();
+        initialBoard.setDupeFlag(false);
+        initialBoard.setViewFlag(true);
+        NumberForCellCaseRule caseRule = new NumberForCellCaseRule();
+        ArrayList<Board> candidates = caseRule.getCases(initialBoard,puzzleElement);
+        initialBoard.setDupeFlag(dupeTemp);
+        initialBoard.setViewFlag(viewTemp);
 
-        if (loc.x != 0 && loc.x != initialBoard.getWidth() - 1 && loc.y != 0 && loc.y != initialBoard.getHeight() - 1) {
-            return super.getInvalidUseOfRuleMessage() + ": Modified cells must be on the edge";
+        //check if given value is the only remaining value
+        if(candidates.size() == 1){
+            if(candidates.get(0).getPuzzleElement(puzzleElement).getData() == finalCell.getData()){
+                return null;
+            }
+            return super.getInvalidUseOfRuleMessage() + ": Wrong number in the cell.";
         }
-
-        if (finalCell.getData() != initialBoard.getWidth()) {
-            return super.getInvalidUseOfRuleMessage() + ": Modified cells must be the max";
-        }
-
-        if (loc.x == 0 && initialBoard.getWestClues().get(loc.y).getData() == 1) {
-            return null;
-        }
-        else if (loc.x == initialBoard.getWidth() - 1 && initialBoard.getEastClues().get(loc.y).getData() == 1) {
-        	return null;
-        }
-        else if (loc.y == 0 && initialBoard.getNorthClues().get(loc.x).getData() == 1) {
-        	return null;
-        }
-        else if (loc.y == initialBoard.getHeight() - 1 && initialBoard.getSouthClues().get(loc.x).getData() == 1) {
-        	return null;
-        } else {
-            return "This cell is not forced.";
-        }
+        return super.getInvalidUseOfRuleMessage() + ":This cell is not forced.";
     }
 
     private boolean isForced(SkyscrapersBoard board, SkyscrapersCell cell) {
