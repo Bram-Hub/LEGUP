@@ -22,6 +22,8 @@ public class CellForNumberCaseRule extends CaseRule {
                 "edu/rpi/legup/images/skyscrapers/cases/CellForNumber.png");
     }
 
+    private Integer selectedNumber;
+
     @Override
     public CaseBoard getCaseBoard(Board board) {
         SkyscrapersBoard currentBoard = (SkyscrapersBoard) board.copy();
@@ -35,11 +37,26 @@ public class CellForNumberCaseRule extends CaseRule {
             System.out.println(data.getType());
             caseBoard.addPickableElement(data);
         }
+
+        //selects integer before checking Command.canExecute for use in Command.getErrorString
+        int size = ((SkyscrapersBoard)board).getWidth();
+        Object[] possibleValues = new Object[size];
+        for(int i=0; i<size; i++){
+            possibleValues[i] = i+1;
+        }
+        Object selectedValue;
+        do{
+            selectedValue = JOptionPane.showInputDialog(null,
+                    "Pick the number to be added", "Cell For Number",
+                    JOptionPane.INFORMATION_MESSAGE, null,
+                    possibleValues, possibleValues[0]);
+        }while(selectedValue==null);
+        selectedNumber = (Integer)selectedValue;
+
         return caseBoard;
     }
 
     public ArrayList<Board> getCasesFor(Board board, PuzzleElement puzzleElement, Integer number){
-        //return null;
         ArrayList<Board> cases = new ArrayList<>();
 
         SkyscrapersClue clue = (SkyscrapersClue) puzzleElement;
@@ -72,21 +89,7 @@ public class CellForNumberCaseRule extends CaseRule {
 
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
-        int size = ((SkyscrapersBoard)board).getWidth();
-       Object[] possibleValues = new Object[size];
-       for(int i=0; i<size; i++){
-           possibleValues[i] = i+1;
-       }
-       Object selectedValue;
-       do{
-           selectedValue = JOptionPane.showInputDialog(null,
-                "Choose one", "Input",
-                JOptionPane.INFORMATION_MESSAGE, null,
-                possibleValues, possibleValues[0]);
-            System.out.println(selectedValue);
-       }while(selectedValue==null);
-
-        return getCasesFor(board,puzzleElement,(Integer)selectedValue);
+        return getCasesFor(board,puzzleElement,selectedNumber);
     }
 
     @Override
