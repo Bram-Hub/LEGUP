@@ -8,6 +8,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.skyscrapers.*;
 import org.apache.commons.lang3.ObjectUtils;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,6 @@ public class CellForNumberCaseRule extends CaseRule {
         SkyscrapersClue clue = (SkyscrapersClue) puzzleElement;
         SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board;
 
-
         List<SkyscrapersCell> openCells = skyscrapersboard.getRowCol(clue.getClueIndex(),SkyscrapersType.UNKNOWN,clue.getType()==SkyscrapersType.CLUE_WEST);
         for(SkyscrapersCell cell : openCells){
             Board newCase = board.copy();
@@ -73,8 +73,21 @@ public class CellForNumberCaseRule extends CaseRule {
 
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
-        int number = 1; //hard-coded for now
-        return getCasesFor(board,puzzleElement,number);
+        int size = ((SkyscrapersBoard)board).getWidth();
+       Object[] possibleValues = new Object[size];
+       for(int i=0; i<size; i++){
+           possibleValues[i] = i+1;
+       }
+       Object selectedValue;
+       do{
+           selectedValue = JOptionPane.showInputDialog(null,
+                "Choose one", "Input",
+                JOptionPane.INFORMATION_MESSAGE, null,
+                possibleValues, possibleValues[0]);
+            System.out.println(selectedValue);
+       }while(selectedValue==null);
+
+        return getCasesFor(board,puzzleElement,(Integer)selectedValue);
     }
 
     @Override
@@ -102,6 +115,8 @@ public class CellForNumberCaseRule extends CaseRule {
             }
         }
 
+        System.out.println(modClue.getType());
+        System.out.println(modClue.getClueIndex());
         if(childTransitions.size() != getCasesFor(oldBoard,modClue,(Integer) childTransitions.get(0).getBoard().getModifiedData().iterator().next().getData()).size()){
             System.out.println("Wrong number of cases.");
             return "Wrong number of cases.";

@@ -10,6 +10,7 @@ spreadsheet : https://docs.google.com/spreadsheets/d/1l7aUZtavtysM8dtGnaEIXhBKMR
      - Figure out why these aren't static methods
  3. Case Rules:
      - Cell for number - waiting on ui
+     - Bug where modClue is incorrect after modifying preceding row/col
  4. Refactoring:
     - Remove references to lightup and treetent in variable names
       - View contains a few of these
