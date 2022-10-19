@@ -24,7 +24,9 @@ public class SkyscrapersBoard extends GridBoard {
 
     private boolean viewFlag = false;
     private boolean dupeFlag = false;
-    private boolean unresolvedFlag = false;
+
+    private SkyscrapersClue modClue = null;
+    //helper variable for case rule verification, tracks recently modified row/col
 
     public SkyscrapersBoard(int width, int height) {
         super(width, height);
@@ -80,10 +82,11 @@ public class SkyscrapersBoard extends GridBoard {
 
     public boolean getDupeFlag(){return dupeFlag;}
     public boolean getViewFlag(){return viewFlag;}
-    public boolean getUnresolvedFlag(){return unresolvedFlag;}
     public void setDupeFlag(boolean newFlag){dupeFlag = newFlag ;}
     public void setViewFlag(boolean newFlag){viewFlag = newFlag;}
-    public void setUnresolvedFlag(boolean newFlag){unresolvedFlag = newFlag;}
+
+    public SkyscrapersClue getmodClue(){return modClue;}
+    public void setModClue(SkyscrapersClue newClue){modClue = newClue ;}
 
     @Override
     public SkyscrapersCell getCell(int x, int y) {
@@ -269,7 +272,6 @@ public class SkyscrapersBoard extends GridBoard {
 
         copy.dupeFlag=dupeFlag;
         copy.viewFlag=viewFlag;
-        copy.unresolvedFlag=unresolvedFlag;
         return copy;
     }
 }

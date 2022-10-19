@@ -47,12 +47,11 @@ public class CellForNumberCaseRule extends CaseRule {
 
         List<SkyscrapersCell> openCells = skyscrapersboard.getRowCol(clue.getClueIndex(),SkyscrapersType.UNKNOWN,clue.getType()==SkyscrapersType.CLUE_WEST);
         for(SkyscrapersCell cell : openCells){
-            Board newCase = board.copy();
+            SkyscrapersBoard newCase = skyscrapersboard.copy();
             PuzzleElement newCell = newCase.getPuzzleElement(cell);
             newCell.setData(number);
-
-            newCase.getPuzzleElement(clue).setModified(true);
             newCase.addModifiedData(newCell);
+            newCase.setModClue((SkyscrapersClue)newCase.getPuzzleElement(clue));
 
             //if flags
             boolean passed = true;
@@ -99,21 +98,7 @@ public class CellForNumberCaseRule extends CaseRule {
         }
 
         //find changed row/col
-        SkyscrapersClue modClue = null;
-        for(SkyscrapersClue clue : ((SkyscrapersBoard)childTransitions.get(0).getBoard()).getWestClues()){
-            if(clue.isModified()){
-                modClue = clue;
-                break;
-            }
-        }
-        if(modClue!=null){
-            for(SkyscrapersClue clue : ((SkyscrapersBoard)childTransitions.get(0).getBoard()).getNorthClues()){
-                if(clue.isModified()){
-                    modClue = clue;
-                    break;
-                }
-            }
-        }
+        SkyscrapersClue modClue = ((SkyscrapersBoard)childTransitions.get(0).getBoard()).getmodClue();
 
         System.out.println(modClue.getType());
         System.out.println(modClue.getClueIndex());
