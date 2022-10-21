@@ -316,6 +316,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         return mBar;
     }
 
+    // File opener
     public Object[] promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
@@ -324,19 +325,21 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             }
         }
 
+        if (fileDialog == null) {
+            fileDialog = new FileDialog(this.frame);
+        }
         LegupPreferences preferences = LegupPreferences.getInstance();
-        File preferredDirectory = new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
-        folderBrowser = new JFileChooser(preferredDirectory);
-        folderBrowser.setDialogTitle("Select Proof File");
-        folderBrowser.showOpenDialog(this);
-        folderBrowser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        folderBrowser.setAcceptAllFileFilterUsed(true);
-        folderBrowser.setVisible(true);
+        String preferredDirectory = preferences.getUserPref(LegupPreferences.WORK_DIRECTORY);
 
+        fileDialog.setMode(FileDialog.LOAD);
+        fileDialog.setTitle("Select Proof File");
+        fileDialog.setDirectory(preferredDirectory);
+        fileDialog.setVisible(true);
         String fileName = null;
-        File puzzleFile = folderBrowser.getSelectedFile();
-        if (folderBrowser.getCurrentDirectory() != null && folderBrowser.getSelectedFile().getName() != null) {
-            fileName = puzzleFile.getAbsolutePath() + File.separator;
+        File puzzleFile = null;
+
+        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
+            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
             puzzleFile = new File(fileName);
         }
 
@@ -361,9 +364,11 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 LOGGER.error(e.getMessage());
                 if (e.getMessage().contains("Proof Tree construction error: could not find rule by ID")) { // TO DO: make error message not hardcoded
                     JOptionPane.showMessageDialog(null, "This file runs on an outdated version of Legup\nand is not compatible with the current version.", "Error", JOptionPane.ERROR_MESSAGE);
+                    loadPuzzle();
                 }
                 else {
                     JOptionPane.showMessageDialog(null, "File does not exist or it cannot be read", "Error", JOptionPane.ERROR_MESSAGE);
+                    loadPuzzle();
                 }
             }
         }
