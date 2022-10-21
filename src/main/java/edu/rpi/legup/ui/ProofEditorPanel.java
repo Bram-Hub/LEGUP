@@ -115,7 +115,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         newPuzzle = new JMenuItem("Open");
         resetPuzzle = new JMenuItem("Reset Puzzle");
         saveProof = new JMenuItem("Save Proof As");
-        directSave= new JMenuItem("Save Proof");
+        directSave= new JMenuItem("Direct Save Proof");
         preferences = new JMenuItem("Preferences");
         exit = new JMenuItem("Exit");
 
