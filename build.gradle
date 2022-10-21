@@ -12,17 +12,16 @@ mainClassName = "edu.rpi.legup.Legup"
 
 dependencies {
     implementation("org.jetbrains:annotations:23.0.0")
-    compile(project(":legup-update"))
-    compile("com.google.firebase:firebase-admin:6.3.0")
-    compile("org.apache.httpcomponents:httpclient:4.5.13")
+    implementation("com.google.firebase:firebase-admin:6.3.0")
+    implementation("org.apache.httpcomponents:httpclient:4.5.13")
+
     compile("org.slf4j:slf4j-api:2.0.3")
     compile("org.slf4j:slf4j-simple:2.0.3")
 
-    compile("org.apache.commons:commons-lang3:3.12.0")
     compile("org.apache.logging.log4j:log4j-api:2.19.0")
     compile("org.apache.logging.log4j:log4j-core:2.19.0")
 
-    testCompile("junit:junit:4.13.2")
+    testImplementation("junit:junit:4.13.2")
 }
 
 task customFatJar(type: Jar) {
