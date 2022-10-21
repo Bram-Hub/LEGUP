@@ -246,6 +246,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
     }
 
+    // File opener
     public Object[] promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
@@ -256,8 +257,12 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         if (fileDialog == null) {
             fileDialog = new FileDialog(this.frame);
         }
+        LegupPreferences preferences = LegupPreferences.getInstance();
+        String preferredDirectory = preferences.getUserPref(LegupPreferences.WORK_DIRECTORY);
+
         fileDialog.setMode(FileDialog.LOAD);
         fileDialog.setTitle("Select Puzzle");
+        fileDialog.setDirectory(preferredDirectory);
         fileDialog.setVisible(true);
         String fileName = null;
         File puzzleFile = null;
@@ -285,6 +290,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             }
             catch (InvalidFileFormatException e) {
                 LOGGER.error(e.getMessage());
+                JOptionPane.showMessageDialog(null, "File does not exist or it cannot be read", "Error", JOptionPane.ERROR_MESSAGE);
+                loadPuzzle();
             }
         }
     }
