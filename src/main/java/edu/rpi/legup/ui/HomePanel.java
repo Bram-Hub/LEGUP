@@ -222,7 +222,7 @@ public void checkfolder(){
                 if (puzzleFile != null && puzzleFile.exists()) {
                     try {
                         legupUI.displayPanel(1);
-                        legupUI.getProofEditor().loadPuzzle(null, null);
+                        legupUI.getProofEditor();
                         GameBoardFacade.getInstance().loadPuzzle(fileName);
                         String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
                         legupUI.setTitle(puzzleName + " - " + puzzleFile.getName());
