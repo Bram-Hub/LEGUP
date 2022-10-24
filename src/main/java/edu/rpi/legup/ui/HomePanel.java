@@ -1,20 +1,26 @@
 package edu.rpi.legup.ui;
 
 import edu.rpi.legup.app.GameBoardFacade;
+import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.controller.CursorController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
 
+import edu.rpi.legup.model.Puzzle;
+import edu.rpi.legup.save.InvalidFileFormatException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.util.Objects;
 
 public class HomePanel extends LegupPanel {
     private final static Logger LOGGER = LogManager.getLogger(HomePanel.class.getName());
@@ -144,8 +150,124 @@ public class HomePanel extends LegupPanel {
         this.buttons[3] = new JButton("Batch Grader");
         this.buttons[3].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[3].setVerticalTextPosition(AbstractButton.BOTTOM);
+        this.buttons[3].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+//                ProofEditorPanel panel=new ProofEditorPanel(new FileDialog(new Frame()),new JFrame(), legupUI);
+//                //legupUI.setVisible(false);
+//                panel.checkProofAll();
+                checkfile();
+                System.out.println("finished checking the folder");
+
+            }
+        });
+    }
+public void checkfile(){
+    GameBoardFacade facade = GameBoardFacade.getInstance();
+
+    /*
+     * Select dir to grade; recursively grade sub-dirs using traverseDir()
+     * Selected dir must have sub-dirs for each student:
+     * GradeThis
+     *    |
+     *    | -> Student 1
+     *    |       |
+     *    |       | -> Proofs
+     */
+
+    LegupPreferences preferences = LegupPreferences.getInstance();
+    File preferredDirectory = new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
+    JFileChooser folderBrowser = new JFileChooser();
+    folderBrowser = new JFileChooser(preferredDirectory);
+
+    folderBrowser.showOpenDialog(this);
+    folderBrowser.setVisible(true);
+    folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+    folderBrowser.setDialogTitle("Select Directory");
+    folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+    folderBrowser.setAcceptAllFileFilterUsed(true);
+
+    int option = folderBrowser.showOpenDialog(frame);
+    File folder= new File(".");
+    if (option == JFileChooser.APPROVE_OPTION) {
+
+        folder = folderBrowser.getCurrentDirectory();
     }
 
+    System.out.println(folder.getAbsolutePath());
+    // Write csv file (Path,File-Name,Puzzle-Type,Score,Solved?)
+    File resultFile = new File(folder.getAbsolutePath() + File.separator + "result.csv");
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
+        writer.append("Name,File Name,Puzzle Type,Score,Solved?\n");
+
+        // Go through student folders
+        for (final File folderEntry : Objects.requireNonNull(folder.listFiles(File::isDirectory))) {
+            // Write path
+            String path = folderEntry.getName();
+            traverseDir1(folderEntry, writer, path);
+        }
+    }
+    catch (IOException ex) {
+        LOGGER.error(ex.getMessage());
+    }
+    JOptionPane.showMessageDialog(null, "Batch grading complete.");
+    }
+
+    public void traverseDir1(File folder, BufferedWriter writer, String path) throws IOException{
+        GameBoardFacade facade = GameBoardFacade.getInstance();
+
+        // Folder is empty
+        if (Objects.requireNonNull(folder.listFiles()).length == 0) {
+            writer.append(path).append(",Empty folder,,Ungradeable\n");
+            return;
+        }
+
+        // Travese directory, recurse if sub-directory found
+        // If ungradeable, do not leave a score (0, 1)
+        for (final File f : Objects.requireNonNull(folder.listFiles())) {
+            // Recurse
+            if (f.isDirectory()) {
+                traverseDir1(f, writer, path + "/" + f.getName());
+                continue;
+            }
+
+            // Set path name
+            writer.append(path).append(",");
+
+            // Load puzzle, run checker
+            // If wrong file type, ungradeable
+            String fName = f.getName();
+            String fPath = f.getAbsolutePath();
+            File puzzleFile = new File(fPath);
+            if (puzzleFile.exists()) {
+                // Try to load file. If invalid, note in csv
+                try {
+                    // Load puzzle, run checker
+                    GameBoardFacade.getInstance().loadPuzzle(fPath);
+                    String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+                    frame.setTitle(puzzleName + " - " + puzzleFile.getName());
+                    facade = GameBoardFacade.getInstance();
+                    Puzzle puzzle = facade.getPuzzleModule();
+
+                    // Write data
+                    writer.append(fName).append(",");
+                    writer.append(puzzle.getName()).append(",");
+                    if (puzzle.isPuzzleComplete()) {
+                        writer.append("1,Solved\n");
+                    }
+                    else {
+                        writer.append("0,Unsolved\n");
+                    }
+                }
+                catch (InvalidFileFormatException e) {
+                    writer.append(fName).append(",Invalid,,Ungradeable\n");
+                }
+            }
+            else {
+                LOGGER.debug("Failed to run sim");
+            }
+        }
+    }
     private void initText() {
         // Note: until an auto-changing version label is implemented in the future, I removed
         // the version text from the home screen to avoid confusion
@@ -188,6 +310,7 @@ public class HomePanel extends LegupPanel {
         JPanel batchGraderButton = new JPanel();
         batchGraderButton.add(this.buttons[3]);
         batchGraderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+
 
         this.add(Box.createRigidArea(new Dimension(0, 5)));
         for (int i = 0; i < this.text.length; i++) {
