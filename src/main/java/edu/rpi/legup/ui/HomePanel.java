@@ -252,7 +252,8 @@ public void checkfolder(){
             }
             if (count1 == 0){
                 writer.append("No file");
-                writer.append("\n");}
+                writer.append("\n");
+            }
         }
     }catch (IOException ex){
         LOGGER.error(ex.getMessage());
