@@ -255,7 +255,8 @@ public void checkfolder(){
                 writer.append("\n");
             }
         }
-    }catch (IOException ex){
+    }
+    catch (IOException ex){
         LOGGER.error(ex.getMessage());
 
         this.buttons[3].addActionListener((ActionEvent e) -> checkProofAll());
