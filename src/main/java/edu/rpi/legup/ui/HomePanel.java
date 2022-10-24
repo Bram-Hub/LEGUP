@@ -238,20 +238,21 @@ public void checkfolder(){
                         if (puzzle.isPuzzleComplete()) {
                             writer.append("Solved");
                             System.out.println(fileEntry.getName() + "  solved");
-                        } else {
+                        }
+                        else {
                             writer.append("Not solved");
                             System.out.println(fileEntry.getName() + "  not solved");
                         }
                         writer.append("\n");
-                    } catch (InvalidFileFormatException e) {
+                    }
+                    catch (InvalidFileFormatException e) {
                         LOGGER.error(e.getMessage());
                     }
                 }
             }
             if (count1 == 0){
                 writer.append("No file");
-                writer.append("\n");
-            }
+                writer.append("\n");}
         }
     }catch (IOException ex){
         LOGGER.error(ex.getMessage());
