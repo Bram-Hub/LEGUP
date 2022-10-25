@@ -639,8 +639,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         treeListeners.forEach(algorithm);
     }
 
-    public boolean checkValidity()
-    {
-        return true;
-    }
+    /**
+     * Check if the puzzle is valid
+     *
+     * @return if the puzzle is valid
+     */
+    public abstract boolean checkValidity();
 }
