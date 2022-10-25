@@ -1,5 +1,5 @@
 plugins {
-    id("java")
+    id("java-library")
     id("application")
     id("checkstyle")
     id("edu.sc.seis.launch4j") version("2.5.3")
@@ -14,12 +14,10 @@ dependencies {
     implementation("org.jetbrains:annotations:23.0.0")
     implementation("com.google.firebase:firebase-admin:6.3.0")
     implementation("org.apache.httpcomponents:httpclient:4.5.13")
-
-    compile("org.slf4j:slf4j-api:2.0.3")
-    compile("org.slf4j:slf4j-simple:2.0.3")
-
-    compile("org.apache.logging.log4j:log4j-api:2.19.0")
-    compile("org.apache.logging.log4j:log4j-core:2.19.0")
+    api("org.slf4j:slf4j-api:2.0.3")
+    api("org.slf4j:slf4j-simple:2.0.3")
+    api("org.apache.logging.log4j:log4j-api:2.19.0")
+    api("org.apache.logging.log4j:log4j-core:2.19.0")
 
     testImplementation("junit:junit:4.13.2")
 }
@@ -31,10 +29,10 @@ task customFatJar(type: Jar) {
                 "Main-Class": mainClassName,
                 "SplashScreen-Image": "edu/rpi/legup/images/Legup/LegupSplash.png")
     }
-    archiveName = "Legup.jar"
-    baseName = "Legup.jar"
+    archiveFileName = "Legup.jar"
+
     from {
-        configurations.compile.collect {
+        configurations.compileClasspath.collect {
             it.isDirectory() ? it : zipTree(it)
         }
     }
@@ -42,14 +40,6 @@ task customFatJar(type: Jar) {
 }
 
 jar {
-    from {
-        configurations.compile.collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
-        configurations.runtime.collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
-    }
     manifest {
         attributes("Implementation-Title": "Legup",
                 "Implementation-Version": version,
@@ -57,6 +47,12 @@ jar {
                 "SplashScreen-Image": "edu/rpi/legup/images/Legup/LegupSplash.png")
     }
     archiveName = "Legup.jar"
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
 }
 
 /*
@@ -96,4 +92,5 @@ task buildNativeWindows(type: Exec, dependsOn: "createExe") {
 
 repositories {
     mavenCentral()
+    gradlePluginPortal()
 }
