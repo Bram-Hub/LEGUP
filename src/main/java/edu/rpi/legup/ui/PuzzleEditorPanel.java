@@ -362,7 +362,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         //  for TreeTent, need to check validity before saving
         if (Objects.equals(puzzle.getName(), "TreeTent")) {
-            if (!check_validity(puzzle)) {
+            if (!puzzle.checkValidity()) {
                 int input = JOptionPane.showConfirmDialog(null, "The puzzle you edited is not " +
                         "valid, would you still like to save? ");
                 if (input != 0) {
@@ -406,24 +406,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
     }
 
-    /**
-     * @param puzzle
-     * @return if it is valid
-     * TreeTent puzzle must have same number of clues as the dimension size
-     */
-    private boolean check_validity(Puzzle puzzle) {
-        TreeTentBoard b = (TreeTentBoard) puzzle.getBoardView().getBoard();
-        List<PuzzleElement> elements = b.getPuzzleElements();
-        int puzzleElementCount = 0;
-        for (PuzzleElement element : elements) {
-            TreeTentCell c = (TreeTentCell) element;
-            if (c.getType() != TreeTentType.UNKNOWN) {
-                puzzleElementCount++;
-            }
-        }
-        int dim = b.getHeight();
-        return puzzleElementCount == dim;
-    }
+
 
     public DynamicView getDynamicBoardView() {
         return dynamicBoardView;

@@ -123,7 +123,7 @@ public class DynamicView extends JPanel {
             minus.setPreferredSize(new Dimension(20, 20));
             minus.setFont(MaterialFonts.getRegularFont(10f));
             minus.addActionListener((ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() - 25));
-            this.scrollView.setWheelScrollingEnabled(false);
+            this.scrollView.setWheelScrollingEnabled(true);
 
             zoomSlider.setPreferredSize(new Dimension(160, 30));
 
