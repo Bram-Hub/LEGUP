@@ -50,7 +50,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     private JButton[] toolBarButtons;
     private JMenu file;
-    private JMenuItem newPuzzle, resetPuzzle, saveProof, preferences, exit, directSave;
+    private JMenuItem newPuzzle, resetPuzzle, saveProof, preferences, helpTutorial, exit, directSave;
     private JMenu edit;
     private JMenuItem undo, redo, fitBoardToScreen, fitTreeToScreen;
 
