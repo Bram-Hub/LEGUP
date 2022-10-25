@@ -259,23 +259,18 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         return new Object[]{fileName, puzzleFile};
     }
 
-    public void loadPuzzle() {
+    public void loadPuzzle() throws InvalidFileFormatException {
         Object[] items = promptPuzzle();
         String fileName = (String) items[0];
         File puzzleFile = (File) items[1];
         loadPuzzle(fileName, puzzleFile);
     }
 
-    public void loadPuzzle(String fileName, File puzzleFile) {
+    public void loadPuzzle(String fileName, File puzzleFile) throws InvalidFileFormatException {
         if (puzzleFile != null && puzzleFile.exists()) {
-            try {
-                GameBoardFacade.getInstance().loadPuzzleEditor(fileName);
-                String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
-                frame.setTitle(puzzleName + " - " + puzzleFile.getName());
-            }
-            catch (InvalidFileFormatException e) {
-                LOGGER.error(e.getMessage());
-            }
+            GameBoardFacade.getInstance().loadPuzzleEditor(fileName);
+            String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+            frame.setTitle(puzzleName + " - " + puzzleFile.getName());
         }
     }
 
