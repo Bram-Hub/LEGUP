@@ -4,11 +4,14 @@ import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.EditorElementController;
-import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
+import edu.rpi.legup.puzzle.treetent.TreeTentCell;
+import edu.rpi.legup.puzzle.treetent.TreeTentType;
 import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
@@ -23,6 +26,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.io.File;
 import java.net.URL;
+import java.util.List;
+import java.util.Objects;
 
 public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
@@ -355,6 +360,17 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             return;
         }
 
+        //  for TreeTent, need to check validity before saving
+        if (Objects.equals(puzzle.getName(), "TreeTent")) {
+            if (!check_validity(puzzle)) {
+                int input = JOptionPane.showConfirmDialog(null, "The puzzle you edited is not " +
+                        "valid, would you still like to save? ");
+                if (input != 0) {
+                    return;
+                }
+            }
+        }
+
         if (fileDialog == null) {
             fileDialog = new FileDialog(this.frame);
         }
@@ -388,6 +404,25 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * @param puzzle
+     * @return if it is valid
+     * TreeTent puzzle must have same number of clues as the dimension size
+     */
+    private boolean check_validity(Puzzle puzzle) {
+        TreeTentBoard b = (TreeTentBoard) puzzle.getBoardView().getBoard();
+        List<PuzzleElement> elements = b.getPuzzleElements();
+        int puzzleElementCount = 0;
+        for (PuzzleElement element : elements) {
+            TreeTentCell c = (TreeTentCell) element;
+            if (c.getType() != TreeTentType.UNKNOWN) {
+                puzzleElementCount++;
+            }
+        }
+        int dim = b.getHeight();
+        return puzzleElementCount == dim;
     }
 
     public DynamicView getDynamicBoardView() {
