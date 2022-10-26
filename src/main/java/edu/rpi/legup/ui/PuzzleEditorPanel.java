@@ -29,6 +29,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
+import static java.lang.System.exit;
+
 public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     private final static Logger LOGGER = LogManager.getLogger(PuzzleEditorPanel.class.getName());
@@ -110,8 +112,10 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         // file>save
         JMenuItem savePuzzle = new JMenuItem("Save");
         savePuzzle.addActionListener((ActionEvent) -> savePuzzle());
+        JMenuItem close = new JMenuItem("Close Editor");
+        close.addActionListener((ActionEvent) -> this.legupUI.displayPanel(0));
         JMenuItem exit = new JMenuItem("Exit");
-        exit.addActionListener((ActionEvent) -> this.legupUI.displayPanel(0));
+        exit.addActionListener((ActionEvent) -> System.exit(0));
         if (os.equals("mac")) {
             exit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
@@ -120,6 +124,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
         menus[0].add(newPuzzle);
         menus[0].add(savePuzzle);
+        menus[0].add(close);
         menus[0].add(exit);
 
         // EDIT

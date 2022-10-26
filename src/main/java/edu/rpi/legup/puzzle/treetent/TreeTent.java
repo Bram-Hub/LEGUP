@@ -79,6 +79,7 @@ public class TreeTent extends Puzzle {
      * @return if it is valid
      * TreeTent puzzle must have same number of clues as the dimension size
      */
+    @Override
     public boolean checkValidity() {
         TreeTentBoard b = (TreeTentBoard) this.getBoardView().getBoard();
         List<PuzzleElement> elements = b.getPuzzleElements();

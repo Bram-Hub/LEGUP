@@ -644,5 +644,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      *
      * @return if the puzzle is valid
      */
-    public abstract boolean checkValidity();
+    public boolean checkValidity() {
+        return true;
+    }
 }
