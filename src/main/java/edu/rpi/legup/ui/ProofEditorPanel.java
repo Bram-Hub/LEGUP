@@ -17,9 +17,7 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
-import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
-import edu.rpi.legup.user.Submission;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -836,30 +834,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
         else {
             frame.setTitle(puzzleName + " - " + puzzleFile.getName() + " *");
-        }
-    }
-
-    /**
-     * Submits the proof file
-     */
-    private void submit() {
-        GameBoardFacade facade = GameBoardFacade.getInstance();
-        Board board = facade.getBoard();
-        boolean delayStatus = true; //board.evalDelayStatus();
-        repaintAll();
-
-        Puzzle pm = facade.getPuzzleModule();
-        if (pm.isPuzzleComplete() && delayStatus) {
-            // 0 means yes, 1 means no (Java's fault...)
-            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you wish to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
-            if (confirm == 0) {
-                Submission submission = new Submission(board);
-                submission.submit();
-            }
-        }
-        else {
-            JOptionPane.showConfirmDialog(null, "Your proof is incorrect! Are you sure you wish to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
-            Submission submit = new Submission(board);
         }
     }
 
