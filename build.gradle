@@ -1,3 +1,9 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
 plugins {
     id("java-library")
     id("application")
@@ -6,61 +12,45 @@ plugins {
     id("kr.motd.sphinx") version("2.10.0")
 }
 
-sourceCompatibility = 1.8
-version = "2.0.0"
-mainClassName = "edu.rpi.legup.Legup"
-
 dependencies {
     implementation("org.jetbrains:annotations:23.0.0")
-    implementation("com.google.firebase:firebase-admin:6.3.0")
     implementation("org.apache.httpcomponents:httpclient:4.5.13")
     api("org.slf4j:slf4j-api:2.0.3")
     api("org.slf4j:slf4j-simple:2.0.3")
     api("org.apache.logging.log4j:log4j-api:2.19.0")
     api("org.apache.logging.log4j:log4j-core:2.19.0")
-
     testImplementation("junit:junit:4.13.2")
 }
 
-task customFatJar(type: Jar) {
-    manifest {
-        attributes("Implementation-Title": "Legup",
-                "Implementation-Version": version,
-                "Main-Class": mainClassName,
-                "SplashScreen-Image": "edu/rpi/legup/images/Legup/LegupSplash.png")
-    }
-    archiveFileName = "Legup.jar"
 
+sourceCompatibility = 1.8
+version = "2.0.0"
+mainClassName = "edu.rpi.legup.Legup"
+
+
+task customFatJar(type: Jar) {
+    archiveFileName = "Legup.jar"
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes(
+                "Implementation-Title"   : "Legup",
+                "Implementation-Version" : archiveVersion,
+                "Main-Class"             : mainClassName,
+                "SplashScreen-Image"     : "edu/rpi/legup/images/Legup/LegupSplash.png"
+        )
+    }
     from {
-        configurations.compileClasspath.collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
+        configurations.runtimeClasspath.collect {it.isDirectory() ? it : zipTree(it) }
     }
     with jar
 }
 
-jar {
-    manifest {
-        attributes("Implementation-Title": "Legup",
-                "Implementation-Version": version,
-                "Main-Class": mainClassName,
-                "SplashScreen-Image": "edu/rpi/legup/images/Legup/LegupSplash.png")
-    }
-    archiveName = "Legup.jar"
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from {
-        configurations.runtimeClasspath.collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
-    }
-}
-
 /*
- * CREATES NATIVE WINDOWS EXECUTABLE
- * Launches launch4j to create an executable (.exe) file wrapping the jar
- * THIS IS NOT THE INSTALLER
- * Add "icon = "path/to/icon.ico"" to set an icon for the executable
- */
+     * CREATES NATIVE WINDOWS EXECUTABLE
+     * Launches launch4j to create an executable (.exe) file wrapping the jar
+     * THIS IS NOT THE INSTALLER
+     * Add "icon = "path/to/icon.ico"" to set an icon for the executable
+     */
 createExe() {
     mainClassName = mainClassName
     outputDir = "../native/windows"
@@ -82,15 +72,9 @@ createExe() {
  * the path to the Java installation you want to ship inside the executable.
  */
 task buildNativeWindows(type: Exec, dependsOn: "createExe") {
-    jar
+    customFatJar
     createExe
 
     workingDir = "${buildDir}/../native/windows"
     commandLine("cmd", "/c", "make_windows_installer.bat")
-}
-
-
-repositories {
-    mavenCentral()
-    gradlePluginPortal()
 }
