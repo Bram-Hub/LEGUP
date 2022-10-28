@@ -77,7 +77,7 @@ public class CellForNumberCaseRule extends CaseRule {
                 passed = passed && DupeRule.checkContradictionAt(newCase,newCell)!=null;
             }
             if(skyscrapersboard.getViewFlag()){
-                PreemptiveTooFewContradictionRule ViewRule = new PreemptiveTooFewContradictionRule();
+                PreemptiveVisibilityContradictionRule ViewRule = new PreemptiveVisibilityContradictionRule();
                 passed = passed && ViewRule.checkContradictionAt(newCase,newCell)!=null;
             }
             if(passed){cases.add(newCase);}
