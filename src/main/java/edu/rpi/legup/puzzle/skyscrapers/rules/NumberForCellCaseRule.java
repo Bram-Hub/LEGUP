@@ -65,9 +65,8 @@ public class NumberForCellCaseRule extends CaseRule {
                 passed = passed && DupeRule.checkContradictionAt(newCase,newCell)!=null;
             }
             if(skyscrapersboard.getViewFlag()){
-                InsufficientVisibilityContradictionRule fewRule = new InsufficientVisibilityContradictionRule();
-                ExceedingVisibilityContradictionRule moreRule = new ExceedingVisibilityContradictionRule();
-                passed = passed && fewRule.checkContradictionAt(newCase,newCell)!=null && moreRule.checkContradictionAt(newCase,newCell)!=null;
+                PreemptiveVisibilityContradictionRule ViewRule = new PreemptiveVisibilityContradictionRule();
+                passed = passed && ViewRule.checkContradictionAt(newCase,newCell)!=null;
             }
             //how should unresolved be handled? should it be?
             if(passed){cases.add(newCase);}
