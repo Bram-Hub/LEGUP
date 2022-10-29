@@ -10,6 +10,7 @@ RULE LIST:
     SKYS-CONT-0003 : InsufficientVisibilityContradictionRule
     SKYS-CONT-0004 : NoNumberForCellContradictionRule/UnresoveldCell
     SKYS-CONT-0005 : NoCellForNumberContradictionRule/UnresoveldNumber
+    SKYS-CONT-0006 : PreemptiveVisibilityContradictionRule
 
     SKYS-CASE-0001 : NumberForCellCaseRule
     SKYS-CASE-0002 : CellForNumberCaseRule
@@ -18,7 +19,11 @@ HELPER FUNCTIONS: (check morgue for unused helpers, ctrl+f "helper function")
     -getRowCol
         Location: skyscrapersBoard
         Use: returns elements in a row or col
-        Notes: more than one element type?
+        Notes: more than one element type? (Added an Any type to help with this!)
+    -printBoard
+        Location: skyscrapersBoard
+        Use: Prints the data array to console
+        Notes: Pretty useful for debugging where boards aren't printed
 
 CODE MORGUE:
     - Exporter has no known use, to has not been updated
