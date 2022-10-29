@@ -227,6 +227,23 @@ public class SkyscrapersBoard extends GridBoard {
     }
 
     /**
+     * Prints a semblance of the board to console (helps in debugging)
+     */
+    public void printBoard(){
+        for(int i =0; i<this.dimension.height; i++){
+            for(SkyscrapersCell cell : this.getRowCol(i, SkyscrapersType.ANY,true)){
+                if(cell.getType() == SkyscrapersType.Number){
+                    System.out.print(cell.getData()+" ");
+                }
+                else {
+                    System.out.print(0+ " ");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    /**
      * Determines if this board contains the equivalent puzzle elements as the one specified
      *
      * @param board board to check equivalence
