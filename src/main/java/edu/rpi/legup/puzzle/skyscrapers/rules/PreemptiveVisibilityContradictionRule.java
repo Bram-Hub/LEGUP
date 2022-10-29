@@ -5,6 +5,7 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersBoard;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersCell;
+import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType;
 
 import java.awt.*;
 import java.util.Queue;
@@ -54,84 +55,108 @@ public class PreemptiveVisibilityContradictionRule extends ContradictionRule {
             //check row west clue
             List<Board> rows;
 
-            for(int j = 0; j < rowQ.size(); j++) {
+            int size = rowQ.size();
+            for(int j = 0; j < size; j++) {
                 SkyscrapersBoard temp = rowQ.poll(); //get row from the top of the stack
 
-                //set flags
-                boolean dupeTemp = temp.getDupeFlag();
-                boolean viewTemp = temp.getViewFlag();
-                temp.setDupeFlag(true);
-                temp.setViewFlag(false);
+                //don't do anything if already in row
+                boolean exists = false;
+                for(SkyscrapersCell c : temp.getRowCol(loc.y,SkyscrapersType.Number,true)){
+                    if(c.getData()==num) {
+                        exists = true;
+                        break;
+                    }
+                }
 
-                //get all cases for corresponding row based on west clue
-                rows = caseRule.getCasesFor(temp, skyscrapersBoard.getWestClues().get(loc.y), num);
-
-                //reset flags
-                temp.setDupeFlag(dupeTemp);
-                temp.setViewFlag(viewTemp);
-
-                //add all row cases to row queue
-                if (rows.size() == 0)
+                if(exists) {
                     rowQ.add(temp);
-                else {
+                }
+                else{
+                    //set flags
+                    boolean dupeTemp = temp.getDupeFlag();
+                    boolean viewTemp = temp.getViewFlag();
+                    temp.setDupeFlag(false);
+                    temp.setViewFlag(false);
+
+                    //get all cases for corresponding row based on west clue
+                    rows = caseRule.getCasesFor(temp, skyscrapersBoard.getWestClues().get(loc.y), num);
+
+                    //reset flags
+                    temp.setDupeFlag(dupeTemp);
+                    temp.setViewFlag(viewTemp);
+
+                    //add all row cases to row queue
                     for (Board k : rows) {
                         rowQ.add((SkyscrapersBoard) k);
                     }
                 }
             }
 
-
             //check col north clue
             List<Board> cols;
 
-            for(int j = 0; j < colQ.size(); j++) {
+            size = colQ.size();
+            for(int j = 0; j < size; j++) {
                 SkyscrapersBoard temp = colQ.poll(); //get row from the top of the stack
 
-                //set flags
-                boolean dupeTemp = temp.getDupeFlag();
-                boolean viewTemp = temp.getViewFlag();
-                temp.setDupeFlag(true);
-                temp.setViewFlag(false);
+                //don't do anything if already in col
+                boolean exists = false;
+                for(SkyscrapersCell c : temp.getRowCol(loc.x,SkyscrapersType.Number,false)){
+                    if(c.getData()==num) {
+                        exists = true;
+                        break;
+                    }
+                }
 
-                //get all cases for corresponding col based on north clue
-                cols = caseRule.getCasesFor(temp, skyscrapersBoard.getNorthClues().get(loc.x), num);
-
-                //reset flags
-                temp.setDupeFlag(dupeTemp);
-                temp.setViewFlag(viewTemp);
-
-                //add all row cases to row queue
-                if(cols.size() == 0)
+                if(exists){
                     colQ.add(temp);
-                else {
+                }
+                else{
+                    //set flags
+                    boolean dupeTemp = temp.getDupeFlag();
+                    boolean viewTemp = temp.getViewFlag();
+                    temp.setDupeFlag(false);
+                    temp.setViewFlag(false);
+
+                    //get all cases for corresponding col based on north clue
+                    cols = caseRule.getCasesFor(temp, skyscrapersBoard.getNorthClues().get(loc.x), num);
+
+                    //reset flags
+                    temp.setDupeFlag(dupeTemp);
+                    temp.setViewFlag(viewTemp);
+
+                    //add all row cases to row queue
                     for(Board k : cols)
                         colQ.add((SkyscrapersBoard) k);
                 }
             }
-
         }
 
         String rowTooFew;
         String rowTooMany;
         boolean rowContradiction = true;
         //check if each case board has a contradiction
-        for(int j = 0; j < rowQ.size(); j++) {
+        while(rowQ.size()>0) {
             SkyscrapersBoard fullRow = rowQ.poll();
+
             //checks if there is a contradiction given the row based on the west clue
             rowTooFew = tooFew.checkContradictionAt(fullRow, cell); // is cell the correct puzzle element to check?
             rowTooMany = tooMany.checkContradictionAt(fullRow, cell);
+
             //boolean that checks if there is a contradiction within all rows
-            rowContradiction = rowContradiction && (rowTooFew == null || rowTooMany == null); // !null means there isn't a contradiction, so there must be a valid permutation of the array
+            rowContradiction = rowContradiction && (rowTooFew == null || rowTooMany == null);// !null means there isn't a contradiction, so there must be a valid permutation of the array
         }
 
         String colTooFew;
         String colTooMany;
         boolean colContradiction = true;
-        for(int j = 0; j < colQ.size(); j++) {
+        while(colQ.size()>0) {
             SkyscrapersBoard fullCol = colQ.poll();
+
             //checks if there is a contradiction given the col baesd on the north clue
             colTooFew = tooFew.checkContradictionAt(fullCol, cell);
             colTooMany = tooMany.checkContradictionAt(fullCol, cell);
+
             //boolean that checks if there is a contradiction within all the cols
             colContradiction = colContradiction && (colTooFew == null || colTooMany == null);
         }
