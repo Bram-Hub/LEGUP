@@ -9,24 +9,29 @@ import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.Puzzle;
 
 import javax.swing.*;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.Objects;
 
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import jdk.javadoc.internal.tool.Main;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.util.Objects;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 public class HomePanel extends LegupPanel {
     private final static Logger LOGGER = LogManager.getLogger(HomePanel.class.getName());
@@ -164,7 +169,14 @@ public class HomePanel extends LegupPanel {
 //                ProofEditorPanel panel=new ProofEditorPanel(new FileDialog(new Frame()),new JFrame(), legupUI);
 //                //legupUI.setVisible(false);
 //                panel.checkProofAll();
-                checkfolder();
+               //checkfolder();
+
+                try {
+                    use_xml_to_check();
+                }
+                catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
                 //checkallproof1();
                 System.out.println("finished checking the folder");
 
@@ -263,7 +275,152 @@ public void checkfolder(){
 
     }
     }
+    public void use_xml_to_check() throws Exception{
+        GameBoardFacade facade = GameBoardFacade.getInstance();
 
+        /*
+         * Select dir to grade; recursively grade sub-dirs using traverseDir()
+         * Selected dir must have sub-dirs for each student:
+         * GradeThis
+         *    |
+         *    | -> Student 1
+         *    |       |
+         *    |       | -> Proofs
+         */
+
+        LegupPreferences preferences = LegupPreferences.getInstance();
+        File preferredDirectory = new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
+        JFileChooser folderBrowser = new JFileChooser(preferredDirectory);
+
+
+        folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+        folderBrowser.setDialogTitle("Select Directory");
+        folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        folderBrowser.setAcceptAllFileFilterUsed(false);
+        folderBrowser.showOpenDialog(this);
+        folderBrowser.setVisible(true);
+        File folder = folderBrowser.getSelectedFile();
+
+        File resultFile = new File(folder.getAbsolutePath() + File.separator +"result.csv");
+        SAXParserFactory spf = SAXParserFactory.newInstance();
+        SAXParser saxParser = spf.newSAXParser();
+//        String path = "C:\\Users\\LiWeiJun\\Desktop\\TestSet\\TestSet\\roseh";
+        //read the xml file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
+            writer.write("Name");
+            writer.write(",");
+            writer.write("File Name");
+            writer.write(",");
+            writer.write("Solved or not");
+            writer.write("\n");
+            for (final File folderEntry : folder.listFiles(File::isDirectory)) {
+                writer.write(folderEntry.getName());
+                writer.write(",");
+                int count1 = 0;
+                for (final File fileEntry : folderEntry.listFiles()) {
+                    if (fileEntry.getName().charAt(0) == '.') {
+                        continue;
+                    }
+                    count1++;
+                    if (count1 > 1) {
+                        writer.write(folderEntry.getName());
+                        writer.write(",");
+                    }
+                    writer.write(fileEntry.getName());
+                    writer.write(",");
+                    String path =folderEntry.getAbsolutePath() + File.separator + fileEntry.getName();
+                    System.out.println(path);
+                    boolean is_xml_file = isxmlfile(fileEntry);
+                    if(is_xml_file){
+                        saxParser.parse(path, new DefaultHandler(){
+                            @Override
+                            public void startDocument() throws SAXException {
+                                System.out.println("start doc");
+                            }
+
+                            @Override
+                            public void endDocument() throws SAXException {
+                                System.out.println("end doc");
+                            }
+
+                            @Override
+                            public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+                                int length = attributes.getLength();
+                                for (int i = 0 ;i<length;i++){
+                                    String name = attributes.getQName(i);
+                                    String value = attributes.getValue(i);
+                                    if(name.equals("flag")){
+                                        if (value.equals("true")){
+                                            try {
+                                                writer.write("Solve\n");
+                                            }
+                                            catch (IOException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        }
+                                        else if(value.equals("false")){
+                                            try {
+                                                writer.write("Unsolve\n");
+                                            }
+                                            catch (IOException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        }
+                                        else{
+                                            try {
+                                                writer.write("Ungradeale\n");
+                                            }
+                                            catch (IOException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        }
+
+                                    }
+
+                                }
+
+                            }
+                            @Override
+                            public void endElement(String uri, String localName, String qName) throws SAXException {
+                                System.out.println(qName);
+
+
+                            }
+                            //文本节点数据
+                            @Override
+                            public void characters(char[] ch, int start, int length) throws SAXException {
+                                System.out.println(new String(ch,start,length));
+                            }
+                        });
+                    }
+                    else{writer.write("wrong file ungradable");}
+                    writer.write("\n");
+                }
+            }
+
+
+
+
+        }
+        catch (IOException ex){
+            LOGGER.error(ex.getMessage());
+        };
+//
+
+
+    };
+    public  boolean isxmlfile(File file){
+        boolean flag= true;
+        try{
+            DocumentBuilderFactory factory= DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder= factory.newDocumentBuilder();
+            builder.parse(file);
+            flag=true;
+        }catch (Exception e){
+            flag = false;
+        }
+        return flag;
+    }
     public void checkallproof1(){
         GameBoardFacade facade = GameBoardFacade.getInstance();
 
