@@ -19,7 +19,7 @@ import java.util.Objects;
 
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.save.InvalidFileFormatException;
-import jdk.javadoc.internal.tool.Main;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
