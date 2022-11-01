@@ -3,8 +3,8 @@ package edu.rpi.legup.ui.proofeditorui.rulesview;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.ui.WrapLayout;
 
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +55,19 @@ public abstract class RulePanel extends JPanel {
 
             ruleButtons[i].setToolTipText(rule.getRuleName() + ": " + rule.getDescription());
             ruleButtons[i].addActionListener(ruleFrame.getController());
+
+            String rulename = rule.getRuleName();
+            JLabel name_lable= new JLabel(rulename);
+            name_lable.setBounds(120,120,150,30);
+            name_lable.setVerticalTextPosition(SwingConstants.BOTTOM);
+            name_lable.setLayout(new GridLayout(1,1));
+
+            ruleButtons[i].setLayout(new BoxLayout(ruleButtons[i],BoxLayout.Y_AXIS));
+            ruleButtons[i].add(name_lable);
+            ruleButtons[i].setPreferredSize(new Dimension(150,150));
+            //ruleButtons[i].setIcon(new ImageIcon("Desktop/pic" ));
             add(ruleButtons[i]);
+
         }
         revalidate();
     }
