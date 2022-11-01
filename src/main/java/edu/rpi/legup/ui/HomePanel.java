@@ -393,19 +393,17 @@ public void checkfolder(){
                             }
                         });
                     }
-                    else{writer.write("wrong file ungradable");}
+                    else{
+                        writer.write("wrong file ungradable");
+                    }
                     writer.write("\n");
                 }
             }
-
-
-
-
         }
         catch (IOException ex){
             LOGGER.error(ex.getMessage());
         };
-//
+
 
 
     };
@@ -416,7 +414,8 @@ public void checkfolder(){
             DocumentBuilder builder= factory.newDocumentBuilder();
             builder.parse(file);
             flag=true;
-        }catch (Exception e){
+        }
+        catch (Exception e){
             flag = false;
         }
         return flag;
