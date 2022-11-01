@@ -60,10 +60,12 @@ public abstract class RulePanel extends JPanel {
             JLabel name_lable= new JLabel(rulename);
             name_lable.setBounds(120,120,150,30);
             name_lable.setVerticalTextPosition(SwingConstants.BOTTOM);
+            name_lable.setBackground( Color.LIGHT_GRAY);
             name_lable.setLayout(new GridLayout(1,1));
 
-            ruleButtons[i].setLayout(new BoxLayout(ruleButtons[i],BoxLayout.Y_AXIS));
-            ruleButtons[i].add(name_lable);
+            //ruleButtons[i].setLayout(new BoxLayout(ruleButtons[i],BoxLayout.Y_AXIS));
+            ruleButtons[i].setLayout(new BorderLayout());
+            ruleButtons[i].add(name_lable,new BorderLayout().SOUTH);
             ruleButtons[i].setPreferredSize(new Dimension(150,150));
             //ruleButtons[i].setIcon(new ImageIcon("Desktop/pic" ));
             add(ruleButtons[i]);
