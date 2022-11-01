@@ -50,7 +50,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     private JButton[] toolBarButtons;
     private JMenu file;
-    private JMenuItem newPuzzle, resetPuzzle, saveProof, preferences, exit, directSave;
+    private JMenuItem newPuzzle, resetPuzzle, saveProof, preferences, helpTutorial, exit, directSave;
     private JMenu edit;
     private JMenuItem undo, redo, fitBoardToScreen, fitTreeToScreen;
 
@@ -117,6 +117,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         saveProof = new JMenuItem("Save Proof As");
         directSave= new JMenuItem("Direct Save Proof");
         preferences = new JMenuItem("Preferences");
+        helpTutorial = new JMenuItem("Help");
         exit = new JMenuItem("Exit");
 
         edit = new JMenu("Edit");
@@ -264,6 +265,19 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         });
         file.addSeparator();
 
+        // help function
+        if (os.equals("mac")) {
+            helpTutorial.setAccelerator(KeyStroke.getKeyStroke('H', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        }
+        else {
+            helpTutorial.setAccelerator(KeyStroke.getKeyStroke('H', InputEvent.CTRL_DOWN_MASK));
+        }
+        file.add(helpTutorial);
+        helpTutorial.addActionListener((ActionEvent) -> helpTutorial());
+        file.addSeparator();
+
+
+        //exit
         file.add(exit);
         exit.addActionListener((ActionEvent) -> this.legupUI.displayPanel(0));
         if (os.equals("mac")) {
@@ -442,6 +456,20 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             }
         }
     }
+
+    private void helpTutorial() {
+
+        Runtime rt = Runtime.getRuntime();
+        String url = "https://github.com/Bram-Hub/Legup/wiki/LEGUP-Tutorial"; // empty page, Oct 17th
+        try{
+            //rt.exec("rundll32 url.dll,FileProtocolHandler "+url);
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
 
     //ask to edu.rpi.legup.save current proof
     public boolean noquit(String instr) {
