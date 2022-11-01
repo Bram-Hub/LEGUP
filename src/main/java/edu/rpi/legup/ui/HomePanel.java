@@ -406,7 +406,7 @@ public void checkfolder(){
         catch (IOException ex){
             LOGGER.error(ex.getMessage());
         }
-    };
+    }
     public  boolean isxmlfile(File file){
         boolean flag= true;
         try{
