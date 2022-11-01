@@ -349,7 +349,7 @@ public void checkfolder(){
                                 for (int i = 0 ;i<length;i++){
                                     String name = attributes.getQName(i);
                                     String value = attributes.getValue(i);
-                                    if(name.equals("flag")){
+                                    if(name.equals("isSolved")){
                                         if (value.equals("true")){
                                             try {
                                                 writer.write("Solve\n");
