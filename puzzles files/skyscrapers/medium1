@@ -6,16 +6,16 @@
 
             </cells>
             <axis side="east">
-                <clue index="2" value="2"/>
+                <clue index="1" value="4"/>
                 <clue index="2" value="3"/>
-                <clue index="1" value="3"/>
-                <clue index="4" value="1"/>
+                <clue index="2" value="1"/>
+                <clue index="2" value="2"/>
             </axis>
             <axis side="south">
-                <clue index="3" value="2"/>
+                <clue index="1" value="3"/>
                 <clue index="2" value="3"/>
-                <clue index="1" value="2"/>
-                <clue index="2" value="1"/>
+                <clue index="3" value="1"/>
+                <clue index="3" value="2"/>
             </axis>
             <flags dupe="true" view="false" empty="false"/>
         </board>
