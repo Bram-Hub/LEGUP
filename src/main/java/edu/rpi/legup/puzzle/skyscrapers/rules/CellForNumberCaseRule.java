@@ -30,11 +30,11 @@ public class CellForNumberCaseRule extends CaseRule {
         currentBoard.setModifiable(false);
         CaseBoard caseBoard = new CaseBoard(currentBoard, this);
         for (SkyscrapersClue data : currentBoard.getWestClues()) {
-            System.out.println(data.getType());
+            //System.out.println(data.getType());
             caseBoard.addPickableElement(data);
         }
         for (SkyscrapersClue data : currentBoard.getNorthClues()) {
-            System.out.println(data.getType());
+            //System.out.println(data.getType());
             caseBoard.addPickableElement(data);
         }
 
@@ -103,22 +103,22 @@ public class CellForNumberCaseRule extends CaseRule {
         //find changed row/col
         SkyscrapersClue modClue = ((SkyscrapersBoard)childTransitions.get(0).getBoard()).getmodClue();
 
-        System.out.println(modClue.getType());
-        System.out.println(modClue.getClueIndex());
+        //System.out.println(modClue.getType());
+        //System.out.println(modClue.getClueIndex());
         if(childTransitions.size() != getCasesFor(oldBoard,modClue,(Integer) childTransitions.get(0).getBoard().getModifiedData().iterator().next().getData()).size()){
-            System.out.println("Wrong number of cases.");
+            //System.out.println("Wrong number of cases.");
             return "Wrong number of cases.";
         }
 
         for(TreeTransition newTree : childTransitions){
             SkyscrapersBoard newBoard = (SkyscrapersBoard) newTree.getBoard();
             if(newBoard.getModifiedData().size()!=1){
-                System.out.println("Only one cell should be modified.");
+               //System.out.println("Only one cell should be modified.");
                 return "Only one cell should be modified.";
             }
             SkyscrapersCell newCell = (SkyscrapersCell) newBoard.getModifiedData().iterator().next();
             if(newCell.getType() != SkyscrapersType.Number){
-                System.out.println("Changed value should be a number.");
+                //System.out.println("Changed value should be a number.");
                 return "Changed value should be a number.";
             }
         }
