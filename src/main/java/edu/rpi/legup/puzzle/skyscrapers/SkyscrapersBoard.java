@@ -28,8 +28,8 @@ public class SkyscrapersBoard extends GridBoard {
     private SkyscrapersClue modClue = null;
     //helper variable for case rule verification, tracks recently modified row/col
 
-    public SkyscrapersBoard(int width, int height) {
-        super(width, height);
+    public SkyscrapersBoard(int size) {
+        super(size, size);
 
         this.lines = new ArrayList<>();
 
@@ -38,16 +38,12 @@ public class SkyscrapersBoard extends GridBoard {
         this.westClues = new ArrayList<>();
         this.northClues = new ArrayList<>();
 
-        for (int i = 0; i < height; i++) {
+        for (int i = 0; i < size; i++) {
             eastClues.add(null);
             southClues.add(null);
             westClues.add(null);
             northClues.add(null);
         }
-    }
-
-    public SkyscrapersBoard(int size) {
-        this(size, size);
     }
 
     public ArrayList<SkyscrapersLine> getLines() {
@@ -92,6 +88,8 @@ public class SkyscrapersBoard extends GridBoard {
     public SkyscrapersCell getCell(int x, int y) {
         return (SkyscrapersCell) super.getCell(x, y);
     }
+
+    public int getSize() {return this.getWidth(); }
 
     @Override
     public PuzzleElement getPuzzleElement(PuzzleElement element) {
@@ -268,7 +266,7 @@ public class SkyscrapersBoard extends GridBoard {
 
     @Override
     public SkyscrapersBoard copy() {
-        SkyscrapersBoard copy = new SkyscrapersBoard(dimension.width, dimension.height);
+        SkyscrapersBoard copy = new SkyscrapersBoard(dimension.width);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {
                 copy.setCell(x, y, getCell(x, y).copy());
