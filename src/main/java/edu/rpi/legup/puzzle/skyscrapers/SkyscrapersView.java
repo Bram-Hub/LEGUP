@@ -1,6 +1,7 @@
 package edu.rpi.legup.puzzle.skyscrapers;
 
 import edu.rpi.legup.controller.BoardController;
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeElement;
@@ -178,6 +179,61 @@ public class SkyscrapersView extends GridBoardView {
             SkyscrapersLineView lineView = new SkyscrapersLineView(line);
             lineView.setSize(elementSize);
             lineViews.add(lineView);
+        }
+    }
+
+    /**
+     * Sets the board associated with this view
+     *
+     * @param board board
+     */
+    @Override
+    public void setBoard(Board board) {
+        if (this.board != board) {
+            this.board = board;
+
+            if (board instanceof CaseBoard) {
+                setCasePickable();
+            }
+            else {
+                for (ElementView elementView : elementViews) {
+                    elementView.setPuzzleElement(board.getPuzzleElement(elementView.getPuzzleElement()));
+                    elementView.setShowCasePicker(false);
+                }
+                for (SkyscrapersClueView clueView : northClues) {
+                    clueView.setPuzzleElement(board.getPuzzleElement(clueView.getPuzzleElement()));
+                    clueView.setShowCasePicker(false);
+                }
+                for (SkyscrapersClueView clueView : westClues) {
+                    clueView.setPuzzleElement(board.getPuzzleElement(clueView.getPuzzleElement()));
+                    clueView.setShowCasePicker(false);
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void setCasePickable() {
+        CaseBoard caseBoard = (CaseBoard) board;
+        Board baseBoard = caseBoard.getBaseBoard();
+
+        for (ElementView elementView : elementViews) {
+            PuzzleElement puzzleElement = baseBoard.getPuzzleElement(elementView.getPuzzleElement());
+            elementView.setPuzzleElement(puzzleElement);
+            elementView.setShowCasePicker(true);
+            elementView.setCaseRulePickable(caseBoard.isPickable(puzzleElement, null));
+        }
+        for (SkyscrapersClueView clueView : northClues) {
+            PuzzleElement puzzleElement = baseBoard.getPuzzleElement(clueView.getPuzzleElement());
+            clueView.setPuzzleElement(puzzleElement);
+            clueView.setShowCasePicker(true);
+            clueView.setCaseRulePickable(caseBoard.isPickable(puzzleElement, null));
+        }
+        for (SkyscrapersClueView clueView : westClues) {
+            PuzzleElement puzzleElement = baseBoard.getPuzzleElement(clueView.getPuzzleElement());
+            clueView.setPuzzleElement(puzzleElement);
+            clueView.setShowCasePicker(true);
+            clueView.setCaseRulePickable(caseBoard.isPickable(puzzleElement, null));
         }
     }
 
