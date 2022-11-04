@@ -13,6 +13,7 @@ spreadsheet : https://docs.google.com/spreadsheets/d/1l7aUZtavtysM8dtGnaEIXhBKMR
     - review and identify dead code
     - Save rule icons from compression
     - replace height/width with size (never not square)
+    - remove all these damn print statments (commented ones too if they aren't useful)
  5. Flags
     - edit exporter to include flags in xml file format (if needed)
  6. Documentation
