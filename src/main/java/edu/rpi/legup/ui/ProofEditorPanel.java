@@ -50,7 +50,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     private JButton[] toolBarButtons;
     private JMenu file;
-    private JMenuItem newPuzzle, resetPuzzle, saveProof, preferences, exit, directSave;
+    private JMenuItem newPuzzle, resetPuzzle, saveProofAs,saveProofChange,helpTutorial, preferences, exit;
     private JMenu edit;
     private JMenuItem undo, redo, fitBoardToScreen, fitTreeToScreen;
 
@@ -115,9 +115,10 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         newPuzzle = new JMenuItem("Open");
         resetPuzzle = new JMenuItem("Reset Puzzle");
 //        genPuzzle = new JMenuItem("Puzzle Generators");
-        saveProof = new JMenuItem("Save Proof As");
-        directSave= new JMenuItem("Direct Save proof");
+        saveProofAs = new JMenuItem("Save Proof As");
+        saveProofChange = new JMenuItem("Save Proof Change");
         preferences = new JMenuItem("Preferences");
+        helpTutorial = new JMenuItem("Help");
         exit = new JMenuItem("Exit");
 
         edit = new JMenu("Edit");
@@ -243,28 +244,51 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
         file.addSeparator();
 
-        file.add(saveProof);
-        saveProof.addActionListener((ActionEvent) -> saveProof());
+        file.add(saveProofAs);
+        saveProofAs.addActionListener((ActionEvent) -> saveProofAs());
+
+
+        //save proof as
         if (os.equals("mac")) {
-            saveProof.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+            saveProofAs.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
         else {
-            saveProof.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK));
+            saveProofAs.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK));
         }
-        file.add(directSave);
-        directSave.addActionListener((ActionEvent) -> direct_save());
+
+        // save proof change
         if (os.equals("mac")) {
-            directSave.setAccelerator(KeyStroke.getKeyStroke('D', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+            saveProofChange.setAccelerator(KeyStroke.getKeyStroke('A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
         else {
-            directSave.setAccelerator(KeyStroke.getKeyStroke('D', InputEvent.CTRL_DOWN_MASK));
+            saveProofChange.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_DOWN_MASK));
         }
+
+
+        file.add(saveProofChange);
+        saveProofChange.addActionListener((ActionEvent) -> saveProofChange());
+        file.addSeparator();
+
+        // preference
         file.add(preferences);
         preferences.addActionListener(a -> {
             PreferencesDialog preferencesDialog = new PreferencesDialog(this.frame);
         });
         file.addSeparator();
 
+        // help function
+        if (os.equals("mac")) {
+            helpTutorial.setAccelerator(KeyStroke.getKeyStroke('H', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        }
+        else {
+            helpTutorial.setAccelerator(KeyStroke.getKeyStroke('H', InputEvent.CTRL_DOWN_MASK));
+        }
+        file.add(helpTutorial);
+        helpTutorial.addActionListener((ActionEvent) -> helpTutorial());
+        file.addSeparator();
+
+
+        //exit
         file.add(exit);
         exit.addActionListener((ActionEvent) -> this.legupUI.displayPanel(0));
         if (os.equals("mac")) {
@@ -324,6 +348,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         return mBar;
     }
 
+    // File opener
     public Object[] promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
@@ -332,19 +357,21 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             }
         }
 
+        if (fileDialog == null) {
+            fileDialog = new FileDialog(this.frame);
+        }
         LegupPreferences preferences = LegupPreferences.getInstance();
-        File preferredDirectory = new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
-        folderBrowser = new JFileChooser(preferredDirectory);
-        folderBrowser.setDialogTitle("Select Proof File");
-        folderBrowser.showOpenDialog(this);
-        folderBrowser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        folderBrowser.setAcceptAllFileFilterUsed(true);
-        folderBrowser.setVisible(true);
+        String preferredDirectory = preferences.getUserPref(LegupPreferences.WORK_DIRECTORY);
 
+        fileDialog.setMode(FileDialog.LOAD);
+        fileDialog.setTitle("Select Proof File");
+        fileDialog.setDirectory(preferredDirectory);
+        fileDialog.setVisible(true);
         String fileName = null;
-        File puzzleFile = folderBrowser.getSelectedFile();
-        if (folderBrowser.getCurrentDirectory() != null && folderBrowser.getSelectedFile().getName() != null) {
-            fileName = puzzleFile.getAbsolutePath() + File.separator;
+        File puzzleFile = null;
+
+        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
+            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
             puzzleFile = new File(fileName);
         }
 
@@ -369,9 +396,11 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 LOGGER.error(e.getMessage());
                 if (e.getMessage().contains("Proof Tree construction error: could not find rule by ID")) { // TO DO: make error message not hardcoded
                     JOptionPane.showMessageDialog(null, "This file runs on an outdated version of Legup\nand is not compatible with the current version.", "Error", JOptionPane.ERROR_MESSAGE);
+                    loadPuzzle();
                 }
                 else {
                     JOptionPane.showMessageDialog(null, "File does not exist or it cannot be read", "Error", JOptionPane.ERROR_MESSAGE);
+                    loadPuzzle();
                 }
             }
         }
@@ -402,14 +431,14 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     /**
      * Saves a proof
      */
-    private void saveProof() {
+    private void saveProofAs() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
             return;
         }
 
         fileDialog.setMode(FileDialog.SAVE);
-        fileDialog.setTitle("Save Proof");
+        fileDialog.setTitle("Save Proof As");
         String curFileName = GameBoardFacade.getInstance().getCurFileName();
         if (curFileName == null) {
             fileDialog.setDirectory(LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY));
@@ -438,6 +467,45 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             }
         }
     }
+
+    // Hyperlink for help button; links to wiki page for tutorials
+    private void helpTutorial() {
+
+        Runtime rt = Runtime.getRuntime();
+        String url = "https://github.com/Bram-Hub/Legup/wiki/LEGUP-Tutorial"; // empty page, Oct 17th
+        try{
+            //rt.exec("rundll32 url.dll,FileProtocolHandler "+url);
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    // Quick save, does not prompt user for name chane
+    private void saveProofChange(){
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+        if (puzzle == null) {
+            return;
+        }
+        String fileName = GameBoardFacade.getInstance().getCurFileName();
+        if (fileName != null) {
+            try {
+                PuzzleExporter exporter = puzzle.getExporter();
+                if (exporter == null) {
+                    throw new ExportFileException("Puzzle exporter null");
+                }
+                exporter.exportPuzzle(fileName);
+                // Save confirmation
+                JOptionPane.showMessageDialog(null, "Successfully Saved","Confirm",JOptionPane.INFORMATION_MESSAGE);
+            }
+            catch (ExportFileException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
 
     //ask to edu.rpi.legup.save current proof
     public boolean noquit(String instr) {
