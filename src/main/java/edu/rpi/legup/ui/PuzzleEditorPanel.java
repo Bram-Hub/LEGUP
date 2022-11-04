@@ -180,7 +180,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
             JButton button = new JButton(toolBarName, imageIcon);
             button.setFocusPainted(false);
-            getToolBarButtons()[i] = button;
+            getToolBarButtons()[i] = button;    
         }
         toolBar = new JToolBar();
         toolBar.setFloatable(false);
