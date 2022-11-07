@@ -39,7 +39,7 @@ public class MustLightBasicRule extends BasicRule {
         }
 
         finalBoard.fillWithLight();
-        boolean isForced = isForcedBulb(finalBoard, finalCell.getLocation());
+        boolean isForced = isForcedBulb(parentBoard, parentCell.getLocation());
         finalCell.setData(LightUpCellType.BULB.value);
         finalBoard.fillWithLight();
 
