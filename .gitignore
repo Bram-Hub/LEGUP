@@ -92,4 +92,4 @@ gradle-app.setting
 gradle/wrapper/gradle-wrapper.properties
 
 # Visual Studio Code configs
-.vscode/
+.vscode/*
