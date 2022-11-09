@@ -83,14 +83,14 @@ public class TreeTent extends Puzzle {
     public boolean checkValidity() {
         TreeTentBoard b = (TreeTentBoard) this.getBoardView().getBoard();
         List<PuzzleElement> elements = b.getPuzzleElements();
-        int puzzleElementCount = 0;
+        int treeCount = 0;
         for (PuzzleElement element : elements) {
             TreeTentCell c = (TreeTentCell) element;
-            if (c.getType() != TreeTentType.UNKNOWN) {
-                puzzleElementCount++;
+            if (c.getType() == TreeTentType.TREE) {
+                treeCount++;
             }
         }
-        int dim = b.getHeight();
-        return puzzleElementCount == dim;
+        System.out.println("treecount" + treeCount);
+        return treeCount != 0;
     }
 }
