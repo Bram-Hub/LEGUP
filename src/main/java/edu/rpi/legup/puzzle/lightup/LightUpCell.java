@@ -1,8 +1,10 @@
 package edu.rpi.legup.puzzle.lightup;
 
+import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class LightUpCell extends GridCell<Integer> {
     private boolean isLite;
@@ -28,6 +30,18 @@ public class LightUpCell extends GridCell<Integer> {
                 }
         }
         return null;
+    }
+    @Override
+    public void setType(Element e, MouseEvent m) {
+        if (e.getElementName().equals("Black Tile")) {
+            this.data = -1;
+        }
+        else {
+            if (e.getElementName().equals("Bulb Tile")) {
+                this.data = -4;
+            }
+        }
+
     }
 
     public boolean isLite() {

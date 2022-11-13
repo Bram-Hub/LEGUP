@@ -45,9 +45,10 @@ public class EditorElementController implements ActionListener {
     public void buttonPressed(Element element) {
         // TODO: implement what happens when element is pressed
 
-        System.out.printf("%s button pressed!\n", element.getElementName());
+        //System.out.printf("%s button pressed!\n", element.getElementName());
         if (elementController != null) {
             elementController.setSelectedElement(element);
+            System.out.printf("%s button pressed!\n", element.getElementName());
         }
     }
 
