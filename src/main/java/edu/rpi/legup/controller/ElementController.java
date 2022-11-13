@@ -70,7 +70,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
      */
     @Override
     public void mousePressed(MouseEvent e) {
-
+        System.out.println("Get in to the Mouse Pressed event.");
     }
 
     /**
@@ -80,6 +80,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
      */
     @Override
     public void mouseReleased(MouseEvent e) {
+        System.out.println("Get in to the Mouse released event.");
         TreePanel treePanel = GameBoardFacade.getInstance().getLegupUI().getTreePanel();
         TreeView treeView = null;
         if (treePanel != null) {
@@ -90,6 +91,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         if (boardView == null) {
             boardView = getInstance().getLegupUI().getEditorBoardView();
         }
+
         Board board = boardView.getBoard();
         ElementView elementView = boardView.getElement(e.getPoint());
         TreeViewSelection selection = null;
@@ -132,6 +134,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                 }
             }
         }
+        System.out.println("The selected Eelement is " + this.selectedElement.getElementName());
 //        if (selectedElement != null) {
         GridBoard b = (GridBoard) this.boardView.getBoard();
         Point point = e.getPoint();
@@ -139,14 +142,14 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         if (this.boardView.getBoard() instanceof TreeTentBoard) {
             scaledPoint.setLocation(scaledPoint.getX() - 1, scaledPoint.getY() - 1);
         }
-        System.out.printf("selected Element is NOT null, attempting to change board at (%d, %d)\n", scaledPoint.x, scaledPoint.y);
-//            System.out.println("Before: " + b.getCell(scaledPoint.x, scaledPoint.y).getData());
+        System.out.printf("selected Element( %s )is NOT null, attempting to change board at (%d, %d)\n", this.selectedElement.getElementName() , scaledPoint.x, scaledPoint.y);
+        System.out.println("Before: " + b.getCell(scaledPoint.x, scaledPoint.y).getData());
         b.setCell(scaledPoint.x, scaledPoint.y, this.selectedElement, e);
-//            System.out.println("After: " + b.getCell(scaledPoint.x, scaledPoint.y).getData());
+        System.out.println("After: " + b.getCell(scaledPoint.x, scaledPoint.y).getData());
 //        } else {
 //            System.out.println("selected Element is null!");
 //        }
-        boardView.repaint();
+        this.boardView.repaint();
     }
 
     /**

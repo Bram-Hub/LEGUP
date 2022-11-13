@@ -68,7 +68,9 @@ public class GridBoard extends Board {
     }
 
     public void setCell(int x, int y, Element e, MouseEvent m) {
+        System.out.println("This come to the set cell function.");
         if (this instanceof TreeTentBoard && ((y == dimension.height && 0 <= x && x < dimension.width) || (x == dimension.width && 0 <= y && y < dimension.height))) {
+            System.out.println("The choice one");
             TreeTentBoard treeTentBoard = ((TreeTentBoard) this);
             TreeTentClue clue = treeTentBoard.getClue(x, y);
             if (y == dimension.height && clue.getData() < dimension.width) {
@@ -84,12 +86,15 @@ public class GridBoard extends Board {
             }
         }
         else {
+            System.out.println("The choice two");
             if (e != null && y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
                     y >= dimension.height || x < 0 || y < 0) {
+                System.out.println("The choice two 1 not change ");
                 return;
             }
             else {
                 if (e != null) {
+                    System.out.println("The choice two 2 change");
                     puzzleElements.get(y * dimension.width + x).setType(e, m);
                 }
             }
