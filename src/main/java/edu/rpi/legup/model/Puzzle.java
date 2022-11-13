@@ -79,6 +79,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
     private void registerPuzzleElements() {
         String packageName = this.getClass().getPackage().toString().replace("package ", "");
+        System.out.println(packageName);
 
         try {
             Class[] possElements = LegupUtils.getClasses(packageName);
@@ -96,10 +97,11 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                         Constructor<?> cons = c.getConstructor();
                         try {
                             Element element = (Element) cons.newInstance();
-
+                            System.out.println("this is a type " + element.getElementType());
                             switch (element.getElementType()) {
                                 case PLACEABLE:
                                     this.addPlaceableElement((PlaceableElement) element);
+
                                     break;
                                 case NONPLACEABLE:
                                     this.addNonPlaceableElement((NonPlaceableElement) element);
