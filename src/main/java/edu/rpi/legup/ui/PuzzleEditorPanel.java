@@ -4,6 +4,7 @@ import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.EditorElementController;
+import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.model.Puzzle;
@@ -115,7 +116,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         JMenuItem close = new JMenuItem("Close Editor");
         close.addActionListener((ActionEvent) -> this.legupUI.displayPanel(0));
         JMenuItem exit = new JMenuItem("Exit");
-        exit.addActionListener((ActionEvent) -> System.exit(0));
+        exit.addActionListener((ActionEvent) -> this.legupUI.displayPanel(0));
         if (os.equals("mac")) {
             exit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
@@ -124,7 +125,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
         menus[0].add(newPuzzle);
         menus[0].add(savePuzzle);
-        menus[0].add(close);
         menus[0].add(exit);
 
         // EDIT
