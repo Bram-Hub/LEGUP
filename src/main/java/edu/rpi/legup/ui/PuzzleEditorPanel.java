@@ -113,8 +113,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         // file>save
         JMenuItem savePuzzle = new JMenuItem("Save");
         savePuzzle.addActionListener((ActionEvent) -> savePuzzle());
-        JMenuItem close = new JMenuItem("Close Editor");
-        close.addActionListener((ActionEvent) -> this.legupUI.displayPanel(0));
         JMenuItem exit = new JMenuItem("Exit");
         exit.addActionListener((ActionEvent) -> this.legupUI.displayPanel(0));
         if (os.equals("mac")) {

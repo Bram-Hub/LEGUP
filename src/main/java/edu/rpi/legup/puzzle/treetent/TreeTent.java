@@ -89,7 +89,6 @@ public class TreeTent extends Puzzle {
                 treeCount++;
             }
         }
-        System.out.println("treecount" + treeCount);
         return treeCount != 0;
     }
 }
