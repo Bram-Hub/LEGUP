@@ -383,7 +383,7 @@ public void checkfolder(){
 
 
                             }
-                            //文本节点数据
+
                             @Override
                             public void characters(char[] ch, int start, int length) throws SAXException {
                                 System.out.println(new String(ch,start,length));
