@@ -51,16 +51,7 @@ public class HomePanel extends LegupPanel {
             Object[] items = legupUI.getPuzzleEditor().promptPuzzle();
             String fileName = (String) items[0];
             File puzzleFile = (File) items[1];
-            try {
-                legupUI.getPuzzleEditor().loadPuzzle(fileName, puzzleFile);
-            }
-            catch (InvalidFileFormatException exception) {
-                JOptionPane.showMessageDialog(null,
-                        "The file you selected has an invalid format.",
-                        "ERROR: Invalid File Format",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+            legupUI.getPuzzleEditor().loadPuzzle(fileName, puzzleFile);
             legupUI.displayPanel(2);
         }
     };
