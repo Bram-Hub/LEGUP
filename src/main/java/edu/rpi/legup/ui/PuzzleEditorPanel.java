@@ -279,6 +279,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     public boolean loadPuzzle() {
         Object[] items = promptPuzzle();
+        if (items == null) {
+            return false;
+        }
         String fileName = (String) items[0];
         File puzzleFile = (File) items[1];
         return loadPuzzle(fileName, puzzleFile);
