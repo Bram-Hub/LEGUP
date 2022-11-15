@@ -40,20 +40,12 @@ public class CannotReachCellBasicRule extends BasicRule {
         NurikabeBoard origBoardState = (NurikabeBoard) transition.getParents().get(0).getBoard();
         NurikabeBoard modified = origBoardState.copy();
 
-        for (int i = 0; i < modified.getWidth(); i++) {
-            for (int j = 0; j < modified.getHeight(); j++) {
-                NurikabeCell currentCell = modified.getCell(i, j);
-                if (currentCell.getType() == NurikabeType.WHITE) {
-                    currentCell.setData(NurikabeType.UNKNOWN.toValue());
-                }
-            }
-        }
         NurikabeCell modifiedCell = (NurikabeCell) modified.getPuzzleElement(puzzleElement);
         modifiedCell.setData(NurikabeType.WHITE.toValue());
-        if (contraRule.checkContradiction(modified) == null) {
+        if (contraRule.checkContradictionAt(modified,modifiedCell) == null) {
             return null;
         }
-        return super.getInvalidUseOfRuleMessage() + ": This is not the only way for black to escape!";
+        return super.getInvalidUseOfRuleMessage() + ": Cell at this index can be reached";
     }
 
     /**
