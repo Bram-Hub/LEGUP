@@ -9,6 +9,10 @@ import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
+import edu.rpi.legup.puzzle.treetent.TreeTentCell;
+import edu.rpi.legup.puzzle.treetent.TreeTentType;
 import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
@@ -23,6 +27,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.io.File;
 import java.net.URL;
+import java.util.List;
+import java.util.Objects;
+
+import static java.lang.System.exit;
 
 public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
@@ -270,6 +278,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
             puzzleFile = new File(fileName);
         }
+        else {
+            return null;
+        }
 
         return new Object[]{fileName, puzzleFile};
     }
@@ -389,6 +400,17 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             return;
         }
 
+        //  for TreeTent, need to check validity before saving
+        if (Objects.equals(puzzle.getName(), "TreeTent")) {
+            if (!puzzle.checkValidity()) {
+                int input = JOptionPane.showConfirmDialog(null, "The puzzle you edited is not " +
+                        "valid, would you still like to save? ");
+                if (input != 0) {
+                    return;
+                }
+            }
+        }
+
         if (fileDialog == null) {
             fileDialog = new FileDialog(this.frame);
         }
@@ -423,6 +445,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             }
         }
     }
+
+
 
     public DynamicView getDynamicBoardView() {
         return dynamicBoardView;

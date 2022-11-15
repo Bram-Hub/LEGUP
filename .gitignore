@@ -90,3 +90,6 @@ gradle-app.setting
 
 **/.DS_Store
 gradle/wrapper/gradle-wrapper.properties
+
+# Visual Studio Code configs
+.vscode/*
