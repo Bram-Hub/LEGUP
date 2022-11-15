@@ -37,11 +37,10 @@ public class HomePanel extends LegupPanel {
     private ActionListener openProofListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Object[] items = legupUI.getProofEditor().promptPuzzle();
-            String fileName = (String) items[0];
-            File puzzleFile = (File) items[1];
-            legupUI.displayPanel(1);
-            legupUI.getProofEditor().loadPuzzle(fileName, puzzleFile);
+            boolean loaded = legupUI.getProofEditor().loadPuzzle();
+            if (loaded) {
+                legupUI.displayPanel(1);
+            }
         }
     };
 

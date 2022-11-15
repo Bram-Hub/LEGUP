@@ -17,7 +17,6 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
-import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 import edu.rpi.legup.user.Submission;
 import org.apache.logging.log4j.LogManager;
@@ -378,14 +377,17 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         return new Object[]{fileName, puzzleFile};
     }
 
-    public void loadPuzzle() {
+    public boolean loadPuzzle() {
         Object[] items = promptPuzzle();
+        if (items == null) {
+            return false;
+        }
         String fileName = (String) items[0];
         File puzzleFile = (File) items[1];
-        loadPuzzle(fileName, puzzleFile);
+        return loadPuzzle(fileName, puzzleFile);
     }
 
-    public void loadPuzzle(String fileName, File puzzleFile) {
+    public boolean loadPuzzle(String fileName, File puzzleFile) {
         if (puzzleFile != null && puzzleFile.exists()) {
             try {
                 GameBoardFacade.getInstance().loadPuzzle(fileName);
@@ -396,14 +398,15 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 LOGGER.error(e.getMessage());
                 if (e.getMessage().contains("Proof Tree construction error: could not find rule by ID")) { // TO DO: make error message not hardcoded
                     JOptionPane.showMessageDialog(null, "This file runs on an outdated version of Legup\nand is not compatible with the current version.", "Error", JOptionPane.ERROR_MESSAGE);
-                    loadPuzzle();
                 }
                 else {
                     JOptionPane.showMessageDialog(null, "File does not exist or it cannot be read", "Error", JOptionPane.ERROR_MESSAGE);
-                    loadPuzzle();
                 }
+                return loadPuzzle();
             }
+            return true;
         }
+        return false;
     }
 
     /**
