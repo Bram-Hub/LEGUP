@@ -4,15 +4,10 @@ import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.EditorElementController;
-import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
-import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
-import edu.rpi.legup.puzzle.treetent.TreeTentCell;
-import edu.rpi.legup.puzzle.treetent.TreeTentType;
 import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
@@ -27,10 +22,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.io.File;
 import java.net.URL;
-import java.util.List;
 import java.util.Objects;
-
-import static java.lang.System.exit;
 
 public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
@@ -285,14 +277,14 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         return new Object[]{fileName, puzzleFile};
     }
 
-    public void loadPuzzle() {
+    public boolean loadPuzzle() {
         Object[] items = promptPuzzle();
         String fileName = (String) items[0];
         File puzzleFile = (File) items[1];
-        loadPuzzle(fileName, puzzleFile);
+        return loadPuzzle(fileName, puzzleFile);
     }
 
-    public void loadPuzzle(String fileName, File puzzleFile) {
+    public boolean loadPuzzle(String fileName, File puzzleFile) {
         if (puzzleFile != null && puzzleFile.exists()) {
             try {
                 GameBoardFacade.getInstance().loadPuzzleEditor(fileName);
@@ -302,9 +294,11 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             catch (InvalidFileFormatException e) {
                 LOGGER.error(e.getMessage());
                 JOptionPane.showMessageDialog(null, "File does not exist or it cannot be read", "Error", JOptionPane.ERROR_MESSAGE);
-                loadPuzzle();
+                return loadPuzzle();
             }
+            return true;
         }
+        return false;
     }
 
     public boolean noQuit(String instr) {
