@@ -693,6 +693,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         ruleFrame.getBasicRulePanel().setRules(puzzle.getBasicRules());
         ruleFrame.getCasePanel().setRules(puzzle.getCaseRules());
         ruleFrame.getContradictionPanel().setRules(puzzle.getContradictionRules());
+        ruleFrame.getSearchPanel().setSearchBar();
 
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
 //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);

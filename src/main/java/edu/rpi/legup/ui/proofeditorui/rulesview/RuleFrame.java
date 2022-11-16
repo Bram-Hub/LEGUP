@@ -93,6 +93,7 @@ public class RuleFrame extends JPanel {
         basicRulePanel.setSelectionByRule(rule);
         casePanel.setSelectionByRule(rule);
         contradictionPanel.setSelectionByRule(rule);
+
     }
 
     /**
@@ -138,6 +139,7 @@ public class RuleFrame extends JPanel {
         basicRulePanel.setRules(puzzle.getBasicRules());
         contradictionPanel.setRules(puzzle.getContradictionRules());
         casePanel.setRules(puzzle.getCaseRules());
+
     }
 
     /**
@@ -173,4 +175,5 @@ public class RuleFrame extends JPanel {
     public ContradictionRulePanel getContradictionPanel() {
         return contradictionPanel;
     }
+    public SearchBarPanel getSearchPanel() { return searchPanel;}
 }

@@ -3,8 +3,8 @@ package edu.rpi.legup.ui.proofeditorui.rulesview;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.ui.WrapLayout;
 
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +14,8 @@ public abstract class RulePanel extends JPanel {
     protected String toolTip;
 
     protected RuleButton[] ruleButtons;
+    protected JPanel searchBarPanel;
+    JTextField textField;
     protected RuleFrame ruleFrame;
     protected List<? extends Rule> rules;
 
@@ -58,6 +60,27 @@ public abstract class RulePanel extends JPanel {
             add(ruleButtons[i]);
         }
         revalidate();
+    }
+
+
+    /**
+     * UnFinished
+     *
+     * Sets the search bar for SearchBarPanel
+     *
+     */
+    public void setSearchBar(){
+
+        searchBarPanel = new JPanel(new FlowLayout(SwingConstants.LEADING, 6, 6));
+        add(searchBarPanel);
+        JLabel findLabel = new JLabel("Search:");
+        searchBarPanel.add(findLabel);
+        searchBarPanel.add(Box.createRigidArea(new Dimension(1, 0)));
+        textField = new JTextField(8);
+        searchBarPanel.add(textField);
+        searchBarPanel.add(Box.createRigidArea(new Dimension(1, 0)));
+        JButton findButton = new JButton("Go");
+        searchBarPanel.add(findButton);
     }
 
     /**
