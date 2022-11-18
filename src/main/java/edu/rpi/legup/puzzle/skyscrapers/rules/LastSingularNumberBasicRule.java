@@ -9,18 +9,14 @@ import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersBoard;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersCell;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType;
 
-import java.awt.Point;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
-public class FixedMaxBasicRule extends BasicRule {
+public class LastSingularNumberBasicRule extends BasicRule {
 
-    public FixedMaxBasicRule() {
-        super("SKYS-BASC-0001", "Fixed Max",
-                "This is the last cell for this number that does not create a visibility contradiction.",
-                "edu/rpi/legup/images/skyscrapers/rules/FixedMax.png");
+    public LastSingularNumberBasicRule() {
+        super("SKYS-BASC-0003", "Last Non-Duplicate Number",
+                "There is only one number for this cell that does not create a duplicate contradiction",
+                "edu/rpi/legup/images/skyscrapers/rules/LastNumber.png");
     }
 
     /**
@@ -34,7 +30,6 @@ public class FixedMaxBasicRule extends BasicRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        //last cell for number based on preemptive visibility rules
         SkyscrapersBoard initialBoard = (SkyscrapersBoard) transition.getParents().get(0).getBoard();
         SkyscrapersCell initCell = (SkyscrapersCell) initialBoard.getPuzzleElement(puzzleElement);
         SkyscrapersBoard finalBoard = (SkyscrapersBoard) transition.getBoard();
@@ -46,38 +41,21 @@ public class FixedMaxBasicRule extends BasicRule {
         //set all rules used by case rule to false except for dupe, get all cases
         boolean dupeTemp = initialBoard.getDupeFlag();
         boolean viewTemp = initialBoard.getViewFlag();
-        initialBoard.setDupeFlag(false);
-        initialBoard.setViewFlag(true);
-        CellForNumberCaseRule caseRule = new CellForNumberCaseRule();
-        ArrayList<Board> XCandidates = caseRule.getCasesFor(initialBoard,initialBoard.getWestClues().get(finalCell.getLocation().y),(Integer)finalCell.getData());
-        ArrayList<Board> YCandidates = caseRule.getCasesFor(initialBoard,initialBoard.getNorthClues().get(finalCell.getLocation().x),(Integer)finalCell.getData());
+        initialBoard.setDupeFlag(true);
+        initialBoard.setViewFlag(false);
+        NumberForCellCaseRule caseRule = new NumberForCellCaseRule();
+        ArrayList<Board> candidates = caseRule.getCases(initialBoard,puzzleElement);
         initialBoard.setDupeFlag(dupeTemp);
         initialBoard.setViewFlag(viewTemp);
 
-        System.out.println(XCandidates.size());
-        System.out.println(YCandidates.size());
-
-        //return null if either pass, both messages otherwise
-        String xCheck = candidateCheck(XCandidates,puzzleElement,finalCell);
-        String yCheck = candidateCheck(YCandidates,puzzleElement,finalCell);
-        if(xCheck==null || yCheck==null){
-            return null;
-        }
-        return super.getInvalidUseOfRuleMessage() + "\nRow" + xCheck + "\nCol" + yCheck;
-    }
-
-    //helper to check if candidate list is valid
-    private String candidateCheck(ArrayList<Board> candidates,PuzzleElement puzzleElement, SkyscrapersCell finalCell){
+        //check if given value is the only remaining value
         if(candidates.size() == 1){
-            if(((SkyscrapersCell) candidates.get(0).getPuzzleElement(puzzleElement)).getType() == SkyscrapersType.Number) {
-                if (candidates.get(0).getPuzzleElement(puzzleElement).getData() == finalCell.getData()) {
-                    return null;
-                }
-                return ": Wrong number in the cell.";
+            if(candidates.get(0).getPuzzleElement(puzzleElement).getData() == finalCell.getData()){
+                return null;
             }
-            return ": No case for this cell.";
+            return super.getInvalidUseOfRuleMessage() + ": Wrong number in the cell.";
         }
-        return ": This cell is not forced.";
+        return super.getInvalidUseOfRuleMessage() + ":This cell is not forced.";
     }
 
     private boolean isForced(SkyscrapersBoard board, SkyscrapersCell cell) {
@@ -99,22 +77,22 @@ public class FixedMaxBasicRule extends BasicRule {
      */
     @Override
     public Board getDefaultBoard(TreeNode node) {
-    	SkyscrapersBoard initialBoard = (SkyscrapersBoard) node.getBoard();
-    	SkyscrapersBoard modBoard = (SkyscrapersBoard) node.getBoard().copy();
-    	System.out.println(modBoard.getPuzzleElements().size());
-        for (PuzzleElement element : modBoard.getPuzzleElements()) {
+        SkyscrapersBoard initialBoard = (SkyscrapersBoard) node.getBoard();
+        SkyscrapersBoard lightUpBoard = (SkyscrapersBoard) node.getBoard().copy();
+        System.out.println(lightUpBoard.getPuzzleElements().size());
+        for (PuzzleElement element : lightUpBoard.getPuzzleElements()) {
             System.out.println("123");
-        	SkyscrapersCell cell = (SkyscrapersCell) element;
+            SkyscrapersCell cell = (SkyscrapersCell) element;
             if (cell.getType() == SkyscrapersType.UNKNOWN && isForced(initialBoard, cell)) {
                 //cell.setData(SkyscrapersType.BULB.value);
-                modBoard.addModifiedData(cell);
+                lightUpBoard.addModifiedData(cell);
             }
         }
-        System.out.println(modBoard.getModifiedData().isEmpty());
-        if (modBoard.getModifiedData().isEmpty()) {
+        if (lightUpBoard.getModifiedData().isEmpty()) {
             return null;
-        } else {
-            return modBoard;
+        }
+        else {
+            return lightUpBoard;
         }
     }
 }
