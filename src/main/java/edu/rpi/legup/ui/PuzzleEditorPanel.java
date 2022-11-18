@@ -440,7 +440,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 int input = JOptionPane.showConfirmDialog(null, "The puzzle you edited is not " +
                         "valid, would you still like to save? ");
                 if (input != 0) {
-                    return;
+                    return "";
                 }
             }
         }
