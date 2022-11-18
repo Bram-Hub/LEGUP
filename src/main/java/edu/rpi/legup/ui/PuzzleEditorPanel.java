@@ -24,6 +24,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.io.File;
 import java.net.URL;
@@ -186,8 +187,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     private void setupToolBar() {
-        setToolBarButtons(new JButton[ToolbarName.values().length]);
-        for (int i = 0; i < ToolbarName.values().length; i++) {
+        setToolBarButtons(new JButton[ToolbarName.values().length+1]);
+        int lastone=0;
+        for (int i = 0; i < ToolbarName.values().length-1; i++) {
             String toolBarName = ToolbarName.values()[i].toString();
             URL resourceLocation = ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/" + toolBarName + ".png");
 
@@ -199,12 +201,44 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             JButton button = new JButton(toolBarName, imageIcon);
             button.setFocusPainted(false);
             getToolBarButtons()[i] = button;
+            lastone=i;
         }
+
+
+
+            URL check_and_save= ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/Check.png");
+            ImageIcon imageIcon= new ImageIcon(check_and_save);
+            Image image = imageIcon.getImage();
+            imageIcon = new ImageIcon(image.getScaledInstance(this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE, Image.SCALE_SMOOTH));
+
+             JButton checkandsave= new JButton("check and Save",imageIcon);
+             checkandsave.setFocusPainted(false);
+             checkandsave.addActionListener(new ActionListener() {
+                 @Override
+                 public void actionPerformed(ActionEvent e) {
+                     //savePuzzle();
+                     String filename = savePuzzle();
+                     File puzzlename= new File(filename);
+                     System.out.println(filename);
+
+
+                     GameBoardFacade.getInstance().getLegupUI().displayPanel(1);
+                     GameBoardFacade.getInstance().getLegupUI().getProofEditor().loadPuzzle(filename,new File(filename));
+                     String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+                     frame.setTitle(puzzleName + " - " + puzzlename.getName());
+                 }
+             });
+            getToolBarButtons()[lastone+1]=checkandsave;
+            System.out.println("it is create new file");
+
+
+
+
         toolBar = new JToolBar();
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
 
-        for (int i = 0; i < getToolBarButtons().length; i++) {
+        for (int i = 0; i < getToolBarButtons().length-1; i++) {
             for (int s = 0; s < TOOLBAR_SEPARATOR_BEFORE.length; s++) {
                 if (i == TOOLBAR_SEPARATOR_BEFORE[s]) {
                     toolBar.addSeparator();
@@ -394,10 +428,10 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             }
         }
     }
-    private void savePuzzle() {
+    private String savePuzzle() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
-            return;
+            return"";
         }
 
         //  for TreeTent, need to check validity before saving
@@ -406,7 +440,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 int input = JOptionPane.showConfirmDialog(null, "The puzzle you edited is not " +
                         "valid, would you still like to save? ");
                 if (input != 0) {
-                    return;
+                    return "";
                 }
             }
         }
@@ -444,6 +478,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 e.printStackTrace();
             }
         }
+        return fileName;
     }
 
 
