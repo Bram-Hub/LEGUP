@@ -109,6 +109,7 @@ public class TreeTentController extends ElementController {
 
     @Override
     public void changeCell(MouseEvent e, PuzzleElement element) {
+        System.out.println("get in change cell function");
         TreeTentCell cell = (TreeTentCell) element;
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (cell.getData() == 0) {
