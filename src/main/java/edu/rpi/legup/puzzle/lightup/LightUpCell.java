@@ -16,6 +16,8 @@ public class LightUpCell extends GridCell<Integer> {
 
     public LightUpCellType getType() {
         switch (data) {
+            case -5:
+                return LightUpCellType.YellowTile;
             case -4:
                 return LightUpCellType.BULB;
             case -3:
@@ -36,10 +38,17 @@ public class LightUpCell extends GridCell<Integer> {
         if (e.getElementName().equals("Black Tile")) {
             this.data = -1;
         }
-        else {
-            if (e.getElementName().equals("Bulb Tile")) {
-                this.data = -4;
-            }
+        if (e.getElementName().equals("Yellow Tile")) {
+            this.data = -5;
+        }
+        if (e.getElementName().equals("Dot")) {
+            this.data = -3;
+        }
+        if (e.getElementName().equals("Gray Tile")){
+            this.data=-2;
+        }
+        if (e.getElementName().equals("Bulb Tile")) {
+            this.data = -4;
         }
 
     }
