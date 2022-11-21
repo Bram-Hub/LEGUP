@@ -1,10 +1,10 @@
 package edu.rpi.legup.puzzle.lightup.elements;
 
-import edu.rpi.legup.model.elements.PlaceableElement;
+import edu.rpi.legup.model.elements.NonPlaceableElement;
 
-public class YelloTile extends PlaceableElement {
+public class YelloTile extends NonPlaceableElement {
     public YelloTile (){
-        super("LTUP-PLAC-0003", "Yellow Tile", "The lit space tile", "edu/rpi/legup/images/lightup/light.gif");
+        super("LTUP-UNPL-0005", "Yellow Tile", "The lit space tile", "edu/rpi/legup/images/lightup/light1.gif");
 
     }
 }
