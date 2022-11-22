@@ -17,7 +17,7 @@
                 <clue index="3" value="1"/>
                 <clue index="3" value="2"/>
             </axis>
-            <flags dupe="true" view="false" empty="false"/>
+            <flags dupe="true" view="false"/>
         </board>
     </puzzle>
 </Legup>

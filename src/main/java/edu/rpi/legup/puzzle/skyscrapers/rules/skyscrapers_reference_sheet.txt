@@ -1,15 +1,15 @@
 RULE LIST:
-    SKYS-BASC-0001 : FixedMaxBasicRule
-    SKYS-BASC-0002 : LastCellBasicRule
-    SKYS-BASC-0003 : LastNumberBasicRule
+    SKYS-BASC-0001 : LastVisibleNumberBasicRule
+    SKYS-BASC-0002 : LastSingularCellBasicRule
+    SKYS-BASC-0003 : LastSingularNumberBasicRule
     SKYS-BASC-0004 : NEdgeBasicRule
-    SKYS-BASC-0005 : OneEdgeBasicRule
+    SKYS-BASC-0005 : LastVisibleNumberBasicRule
 
     SKYS-CONT-0001 : DuplicateNumbersContradictionRule
     SKYS-CONT-0002 : ExceedingVisibilityContradictionRule
     SKYS-CONT-0003 : InsufficientVisibilityContradictionRule
-    SKYS-CONT-0004 : NoNumberForCellContradictionRule/UnresoveldCell
-    SKYS-CONT-0005 : NoCellForNumberContradictionRule/UnresoveldNumber
+    SKYS-CONT-0004 : UnresolvedCellContradictionRule
+    SKYS-CONT-0005 : UnresolvedNumberContradictionRule
     SKYS-CONT-0006 : PreemptiveVisibilityContradictionRule
 
     SKYS-CASE-0001 : NumberForCellCaseRule
