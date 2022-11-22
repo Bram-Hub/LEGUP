@@ -6,8 +6,8 @@ import org.w3c.dom.Document;
 
 public class SkyscrapersExporter extends PuzzleExporter {
 
-    public SkyscrapersExporter(Skyscrapers treeTent) {
-        super(treeTent);
+    public SkyscrapersExporter(Skyscrapers skyscrapers) {
+        super(skyscrapers);
     }
 
     @Override

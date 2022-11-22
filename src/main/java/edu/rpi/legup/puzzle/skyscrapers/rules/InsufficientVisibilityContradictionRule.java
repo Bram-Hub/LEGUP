@@ -118,10 +118,10 @@ public class InsufficientVisibilityContradictionRule extends ContradictionRule {
     }
 
 	/**
-	 * Checks whether the tree node has a contradiction using this rule
+	 * Checks whether the Skyscraper cell has a contradiction using this rule
 	 *
 	 * @param board board to check contradiction
-	 * @return null if the tree node contains a contradiction, otherwise error message
+	 * @return null if the Skyscraper cell contains a contradiction, otherwise error message
 	 */
 	@Override
 	public String checkContradiction(Board board) {

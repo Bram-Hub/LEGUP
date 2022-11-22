@@ -249,10 +249,10 @@ public class SkyscrapersBoard extends GridBoard {
      */
     @Override
     public boolean equalsBoard(Board board) {
-        SkyscrapersBoard treeTentBoard = (SkyscrapersBoard) board;
+        SkyscrapersBoard skyscrapersBoard= (SkyscrapersBoard) board;
         for (SkyscrapersLine l1 : lines) {
             boolean hasLine = false;
-            for (SkyscrapersLine l2 : treeTentBoard.lines) {
+            for (SkyscrapersLine l2 : skyscrapersBoard.lines) {
                 if (l1.compare(l2)) {
                     hasLine = true;
                 }
@@ -261,7 +261,7 @@ public class SkyscrapersBoard extends GridBoard {
                 return false;
             }
         }
-        return super.equalsBoard(treeTentBoard);
+        return super.equalsBoard(skyscrapersBoard);
     }
 
     @Override
