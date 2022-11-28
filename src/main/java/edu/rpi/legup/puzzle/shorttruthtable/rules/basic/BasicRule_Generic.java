@@ -31,38 +31,29 @@ public abstract class BasicRule_Generic extends BasicRule {
             return super.getInvalidUseOfRuleMessage() + ": Only assigned cells are allowed for basic rules";
         }
 
-        if (this.ELIMINATION_RULE) {
-            // Strategy: If this is an elimination rule, simply check if there is a contradiction at the specified statement
+        // Strategy: Negate the modified cell and check if there is a contradiction. If there is one, then the
+        // original statement must be true. If there isn't one, then the original statement must be false.
 
-            // This gets the operator of the parent statement, which is what we need for checking the contradiction
-            PuzzleElement checkElement = cell.getStatementReference().getParentStatement().getCell();
+        ShortTruthTableBoard modifiedBoard = board.copy();
 
-            String contradictionMessage = CORRESPONDING_CONTRADICTION_RULE.checkContradictionAt(board, checkElement);
-            if (contradictionMessage != null) {
-                if (contradictionMessage.startsWith(CORRESPONDING_CONTRADICTION_RULE.getNoContradictionMessage())) {
-                    return null;
-                }
-                else {
-                    return super.getInvalidUseOfRuleMessage() + ": " + contradictionMessage;
-                }
-            }
-            else {
-                return super.getInvalidUseOfRuleMessage();
-            }
+        PuzzleElement checkElement =
+                this.ELIMINATION_RULE
+                ? cell.getStatementReference().getParentStatement().getCell()
+                : element;
+
+        ShortTruthTableCell checkCell =
+                this.ELIMINATION_RULE
+                ? (ShortTruthTableCell) modifiedBoard.getCell(cell.getX(), cell.getY())
+                : (ShortTruthTableCell) modifiedBoard.getPuzzleElement(element);
+
+        checkCell.setType(checkCell.getType().getNegation());
+
+        String contradictionMessage = CORRESPONDING_CONTRADICTION_RULE.checkContradictionAt(modifiedBoard, checkElement);
+        if (contradictionMessage == null) { // A contradiction exists in the modified statement; this is good!
+            return null;
         }
-        else {
-            // Strategy: Negate the modified cell and check if there is a contradiction. If there is one, then the
-            // original statement must be true. If there isn't one, then the original statement must be false.
 
-            ShortTruthTableBoard modifiedBoard = board.copy();
-            ((ShortTruthTableCell) modifiedBoard.getPuzzleElement(element)).setType(cell.getType().getNegation());
-
-            String contradictionMessage = CORRESPONDING_CONTRADICTION_RULE.checkContradictionAt(modifiedBoard, element);
-            if (contradictionMessage == null) { // A contradiction exists in the modified statement; this is good!
-                return null;
-            }
-            return super.getInvalidUseOfRuleMessage() + ": " + contradictionMessage;
-        }
+        return super.getInvalidUseOfRuleMessage();
     }
 
     /**

@@ -640,4 +640,13 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     public void notifyTreeListeners(Consumer<? super ITreeListener> algorithm) {
         treeListeners.forEach(algorithm);
     }
+
+    /**
+     * Check if the puzzle is valid
+     *
+     * @return if the puzzle is valid
+     */
+    public boolean checkValidity() {
+        return true;
+    }
 }
