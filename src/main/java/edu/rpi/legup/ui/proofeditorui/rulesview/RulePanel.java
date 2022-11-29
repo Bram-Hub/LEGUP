@@ -1,10 +1,13 @@
 package edu.rpi.legup.ui.proofeditorui.rulesview;
 
+import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.ui.WrapLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +17,8 @@ public abstract class RulePanel extends JPanel {
     protected String toolTip;
 
     protected RuleButton[] ruleButtons;
+    protected JPanel searchBarPanel;
+    JTextField textField;
     protected RuleFrame ruleFrame;
     protected List<? extends Rule> rules;
 
@@ -63,6 +68,85 @@ public abstract class RulePanel extends JPanel {
 
         }
         revalidate();
+    }
+
+
+    /**
+     * Search a certain rule in all the puzzles and set it for the searchBarPanel
+     *
+     * @param puzzle, ruleName
+     */
+    public void searchForRule(Puzzle puzzle, String ruleName) {
+
+        List<List<? extends Rule>> allrules = new ArrayList<List<? extends Rule>>(3);
+        allrules.add(0, puzzle.getBasicRules());
+        allrules.add(1, puzzle.getCaseRules());
+        allrules.add(2, puzzle.getContradictionRules());
+
+        for(int i = 0; i < allrules.size(); i++) {
+            for (int j = 0; j < allrules.get(i).size(); j++) {
+                Rule rule = allrules.get(i).get(j);
+                if ((ruleName).equals(rule.getRuleName().toUpperCase())) {
+                    ruleButtons = new RuleButton[1];
+                    ruleButtons[0] = new RuleButton(rule);
+                    ruleFrame.getButtonGroup().add(ruleButtons[0]);
+
+                    ruleButtons[0].setToolTipText(rule.getRuleName() + ": " + rule.getDescription());
+                    ruleButtons[0].addActionListener(ruleFrame.getController());
+                    add(ruleButtons[0]);
+                    revalidate();
+                    return;
+
+                }
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, "Please input the correct rule name","Confirm",JOptionPane.INFORMATION_MESSAGE);
+    }
+
+
+    /**
+     * UnFinished
+     *
+     * Sets the search bar for SearchBarPanel
+     *
+     */
+    public void setSearchBar(Puzzle allPuzzle){
+
+        searchBarPanel = new JPanel(new FlowLayout(SwingConstants.LEADING, 6, 6));
+        add(searchBarPanel);
+        JLabel findLabel = new JLabel("Search:");
+        searchBarPanel.add(findLabel);
+        searchBarPanel.add(Box.createRigidArea(new Dimension(1, 0)));
+        textField = new JTextField(8);
+        searchBarPanel.add(textField);
+        searchBarPanel.add(Box.createRigidArea(new Dimension(1, 0)));
+        JButton findButton = new JButton("Go");
+        findButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                if (ruleButtons != null) {
+
+                    ruleButtons[0].removeActionListener(ruleFrame.getController());
+                }
+                String inputRule = textField.getText().toUpperCase().trim();
+
+                if (!inputRule.isEmpty()) {
+                    if (ruleButtons != null) {
+
+                        for (int x = 0; x < ruleButtons.length; ++x) {
+                            remove(ruleButtons[x]);
+                        }
+                    }
+                    searchForRule(allPuzzle, inputRule);
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Please give a name","Confirm",JOptionPane.INFORMATION_MESSAGE);
+                }
+
+            }
+        });
+        searchBarPanel.add(findButton);
     }
 
     /**
