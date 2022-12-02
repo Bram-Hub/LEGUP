@@ -29,6 +29,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -483,8 +484,26 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             e.printStackTrace();
         }
     }
+    //add the new function need to implement
+    public void add_drop(){
+        // add the mouse event then we can use the new listener to implement and
+        // we should create a need jbuttom for it to ship the rule we select.
+        JPanel panel= new JPanel();
+        JButton moveing_buttom= new JButton();
+        moveing_buttom.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //get the selected rule
+            }
+        });
+        panel.add(moveing_buttom);
 
-    // Quick save, does not prompt user for name chane
+    }
+    
+    
+    
+    
+    // Quick save, does not prompt user for name change
     private void saveProofChange(){
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
