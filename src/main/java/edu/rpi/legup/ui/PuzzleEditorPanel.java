@@ -406,7 +406,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     /**
-     * Saves a puzzle
+     * Saves a puzzle in the current file.
      */
 
     private void direct_save(){

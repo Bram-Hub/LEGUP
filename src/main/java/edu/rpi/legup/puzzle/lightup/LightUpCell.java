@@ -34,6 +34,8 @@ public class LightUpCell extends GridCell<Integer> {
         return null;
     }
     @Override
+    //we have different 5 type of tile we we change use it to cheang in the dynamic borad
+    //this is the factory design pattern.
     public void setType(Element e, MouseEvent m) {
         if (e.getElementName().equals("Black Tile")) {
             this.data = -1;

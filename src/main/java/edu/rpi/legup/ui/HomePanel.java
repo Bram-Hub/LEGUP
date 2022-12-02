@@ -277,6 +277,10 @@ public void checkfolder(){
 
     }
     }
+    /*
+    This function is use to check each function xml proof file have the flag = true.
+    Also, we will go to check each file is xml file or not which we have 3 result solve, unsolve and ungradeable
+     */
     public void use_xml_to_check() throws Exception{
         GameBoardFacade facade = GameBoardFacade.getInstance();
 
@@ -333,6 +337,7 @@ public void checkfolder(){
                     String path =folderEntry.getAbsolutePath() + File.separator + fileEntry.getName();
                     System.out.println(path);
                     boolean is_xml_file = isxmlfile(fileEntry);
+                    //if it is xml we can direct check the flag
                     if(is_xml_file){
                         saxParser.parse(path, new DefaultHandler(){
                             @Override
