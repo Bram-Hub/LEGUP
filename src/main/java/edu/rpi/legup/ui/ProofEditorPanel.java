@@ -496,8 +496,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 //get the selected rule
             }
         });
-        panel.add(moveing_buttom);
-        
+        panel.add(moveing_buttom);//add to the tree
+        //maybe we can return in the rule we selected
     }
 
 
