@@ -11,12 +11,12 @@ public class LightUp extends Puzzle {
 
     public LightUp() {
         super();
-        name = "LightUp";
+        this.name = "LightUp";
 
-        importer = new LightUpImporter(this);
-        exporter = new LightUpExporter(this);
+        this.importer = new LightUpImporter(this);
+        this.exporter = new LightUpExporter(this);
 
-        factory = new LightUpCellFactory();
+        this.factory = new LightUpCellFactory();
     }
 
     /**
@@ -47,8 +47,7 @@ public class LightUp extends Puzzle {
      * @return true if the given dimensions are valid for Light Up, false otherwise
      */
     public boolean isValidDimensions(int rows, int columns) {
-        // This is a placeholder, this method needs to be implemented
-        throw new UnsupportedOperationException();
+        return rows > 0 && columns > 0;
     }
 
     /**
