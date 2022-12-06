@@ -83,11 +83,15 @@ public abstract class RulePanel extends JPanel {
         allrules.add(1, puzzle.getCaseRules());
         allrules.add(2, puzzle.getContradictionRules());
 
+        ruleButtons = new RuleButton[100];
+        int similarfound = 0;
+
+
         for(int i = 0; i < allrules.size(); i++) {
             for (int j = 0; j < allrules.get(i).size(); j++) {
                 Rule rule = allrules.get(i).get(j);
                 if ((ruleName).equals(rule.getRuleName().toUpperCase())) {
-                    ruleButtons = new RuleButton[1];
+
                     ruleButtons[0] = new RuleButton(rule);
                     ruleFrame.getButtonGroup().add(ruleButtons[0]);
 
@@ -98,12 +102,75 @@ public abstract class RulePanel extends JPanel {
                     return;
 
                 }
+                else if(similarityCheck(ruleName, rule.getRuleName().toUpperCase())>0.2){
+                    ruleButtons[similarfound] = new RuleButton(rule);
+                    ruleFrame.getButtonGroup().add(ruleButtons[similarfound]);
+
+                    ruleButtons[similarfound].setToolTipText(rule.getRuleName() + ": " + rule.getDescription());
+                    ruleButtons[similarfound].addActionListener(ruleFrame.getController());
+                    add(ruleButtons[similarfound]);
+                    similarfound+=1;
+                    revalidate();
+                }
+                else if((ruleName.charAt(0)) == (rule.getRuleName().toUpperCase()).charAt(0)){
+                    ruleButtons[similarfound] = new RuleButton(rule);
+                    ruleFrame.getButtonGroup().add(ruleButtons[similarfound]);
+
+                    ruleButtons[similarfound].setToolTipText(rule.getRuleName() + ": " + rule.getDescription());
+                    ruleButtons[similarfound].addActionListener(ruleFrame.getController());
+                    add(ruleButtons[similarfound]);
+                    similarfound+=1;
+                    revalidate();
+                }
             }
         }
 
-        JOptionPane.showMessageDialog(null, "Please input the correct rule name","Confirm",JOptionPane.INFORMATION_MESSAGE);
+        if(ruleButtons[0] == null) {
+            JOptionPane.showMessageDialog(null, "Please input the correct rule name", "Confirm", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
+    /**
+     * Calculates the similarity (a number within 0 and 1) between two strings.
+     */
+    public static double similarityCheck(String s1, String s2) {
+        String longer = s1, shorter = s2;
+        if (s1.length() < s2.length()) { // longer should always have greater length
+            longer = s2; shorter = s1;
+        }
+        int longerLength = longer.length();
+        if (longerLength == 0) { return 1.0; /* both strings are zero length */ }
+        return (longerLength - editDistance(longer, shorter)) / (double) longerLength;
+    }
+    /**
+     * Help function for similarityCheck();
+     */
+    public static int editDistance(String s1, String s2) {
+        s1 = s1.toLowerCase();
+        s2 = s2.toLowerCase();
+
+        int[] costs = new int[s2.length() + 1];
+        for (int i = 0; i <= s1.length(); i++) {
+            int lastValue = i;
+            for (int j = 0; j <= s2.length(); j++) {
+                if (i == 0)
+                    costs[j] = j;
+                else {
+                    if (j > 0) {
+                        int newValue = costs[j - 1];
+                        if (s1.charAt(i - 1) != s2.charAt(j - 1))
+                            newValue = Math.min(Math.min(newValue, lastValue),
+                                    costs[j]) + 1;
+                        costs[j - 1] = lastValue;
+                        lastValue = newValue;
+                    }
+                }
+            }
+            if (i > 0)
+                costs[s2.length()] = lastValue;
+        }
+        return costs[s2.length()];
+    }
 
     /**
      * UnFinished
@@ -126,8 +193,12 @@ public abstract class RulePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent event) {
                 if (ruleButtons != null) {
-
-                    ruleButtons[0].removeActionListener(ruleFrame.getController());
+                    for(int i = 0; i != ruleButtons.length; i++) {
+                        if(ruleButtons[i]==null){
+                            continue;
+                        }
+                        ruleButtons[i].removeActionListener(ruleFrame.getController());
+                    }
                 }
                 String inputRule = textField.getText().toUpperCase().trim();
 
@@ -135,6 +206,9 @@ public abstract class RulePanel extends JPanel {
                     if (ruleButtons != null) {
 
                         for (int x = 0; x < ruleButtons.length; ++x) {
+                            if(ruleButtons[x]==null){
+                                continue;
+                            }
                             remove(ruleButtons[x]);
                         }
                     }
