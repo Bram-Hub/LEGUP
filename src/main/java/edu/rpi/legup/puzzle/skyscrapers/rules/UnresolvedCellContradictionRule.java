@@ -34,7 +34,9 @@ public class UnresolvedCellContradictionRule extends ContradictionRule {
         NumberForCellCaseRule caseRule = new NumberForCellCaseRule();
         ArrayList<Board> cases = caseRule.getCases(board,puzzleElement);
 
-        if(cases.size()==0){ return null; }
+        if(cases.size()==0){
+            return null;
+        }
 
         return super.getNoContradictionMessage();
     }

@@ -67,7 +67,9 @@ public class SkyscrapersBoard extends GridBoard {
     /**
      * Returns a list of the western clues ordered from loc.y = 0->max
      */
-    public ArrayList<SkyscrapersClue> getWestClues() { return westClues; }
+    public ArrayList<SkyscrapersClue> getWestClues() {
+        return westClues;
+    }
 
     /**
      * Returns a list of the northern clues ordered from loc.x = 0->max
@@ -76,20 +78,34 @@ public class SkyscrapersBoard extends GridBoard {
         return northClues;
     }
 
-    public boolean getDupeFlag(){ return dupeFlag; }
-    public boolean getViewFlag(){ return viewFlag; }
-    public void setDupeFlag(boolean newFlag){ dupeFlag = newFlag ; }
-    public void setViewFlag(boolean newFlag){ viewFlag = newFlag; }
+    public boolean getDupeFlag(){
+        return dupeFlag;
+    }
+    public boolean getViewFlag(){
+        return viewFlag;
+    }
+    public void setDupeFlag(boolean newFlag){
+        dupeFlag = newFlag;
+    }
+    public void setViewFlag(boolean newFlag){
+        viewFlag = newFlag;
+    }
 
-    public SkyscrapersClue getmodClue(){ return modClue; }
-    public void setModClue(SkyscrapersClue newClue){ modClue = newClue ; }
+    public SkyscrapersClue getmodClue(){
+        return modClue;
+    }
+    public void setModClue(SkyscrapersClue newClue){
+        modClue = newClue;
+    }
 
     @Override
     public SkyscrapersCell getCell(int x, int y) {
         return (SkyscrapersCell) super.getCell(x, y);
     }
 
-    public int getSize() { return this.getWidth(); }
+    public int getSize() {
+        return this.getWidth();
+    }
 
     @Override
     public PuzzleElement getPuzzleElement(PuzzleElement element) {

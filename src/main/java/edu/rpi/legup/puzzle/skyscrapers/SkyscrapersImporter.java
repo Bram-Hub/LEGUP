@@ -137,8 +137,12 @@ public class SkyscrapersImporter extends PuzzleImporter {
             NodeList flagList = boardElement.getElementsByTagName("flags");
             if(flagList.getLength()==1){
                 Element flags = (Element) flagList.item(0);
-                if(flags.hasAttribute("dupe")){ skyscrapersBoard.setDupeFlag(Boolean.parseBoolean(flags.getAttribute("dupe"))); }
-                if(flags.hasAttribute("view")){ skyscrapersBoard.setViewFlag(Boolean.parseBoolean(flags.getAttribute("view"))); }
+                if(flags.hasAttribute("dupe")){
+                    skyscrapersBoard.setDupeFlag(Boolean.parseBoolean(flags.getAttribute("dupe")));
+                }
+                if(flags.hasAttribute("view")){
+                    skyscrapersBoard.setViewFlag(Boolean.parseBoolean(flags.getAttribute("view")));
+                }
             }
 
             puzzle.setCurrentBoard(skyscrapersBoard);

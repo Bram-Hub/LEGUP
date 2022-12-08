@@ -69,7 +69,9 @@ public class NumberForCellCaseRule extends CaseRule {
                 passed = passed && ViewRule.checkContradictionAt(newCase,newCell)!=null;
             }
             //how should unresolved be handled? should it be?
-            if(passed){ cases.add(newCase); }
+            if(passed){
+                cases.add(newCase);
+            }
         }
 
         return cases;

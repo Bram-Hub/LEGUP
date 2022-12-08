@@ -81,7 +81,9 @@ public class CellForNumberCaseRule extends CaseRule {
                 PreemptiveVisibilityContradictionRule ViewRule = new PreemptiveVisibilityContradictionRule();
                 passed = passed && ViewRule.checkContradictionAt(newCase,newCell)!=null;
             }
-            if(passed){ cases.add(newCase); }
+            if(passed){
+                cases.add(newCase);
+            }
 
 
         }
