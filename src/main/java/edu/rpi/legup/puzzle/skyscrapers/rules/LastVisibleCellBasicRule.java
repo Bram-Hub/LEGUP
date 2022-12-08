@@ -109,7 +109,8 @@ public class LastVisibleCellBasicRule extends BasicRule {
         System.out.println(modBoard.getModifiedData().isEmpty());
         if (modBoard.getModifiedData().isEmpty()) {
             return null;
-        } else {
+        }
+        else {
             return modBoard;
         }
     }
