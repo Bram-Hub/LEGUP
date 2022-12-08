@@ -50,7 +50,8 @@ public class CellForNumberCaseRule extends CaseRule {
                     "Pick the number to be added", "Cell For Number",
                     JOptionPane.INFORMATION_MESSAGE, null,
                     possibleValues, possibleValues[0]);
-        }while(selectedValue==null);
+        }
+        while(selectedValue==null);
         selectedNumber = (Integer)selectedValue;
 
         return caseBoard;
@@ -80,7 +81,9 @@ public class CellForNumberCaseRule extends CaseRule {
                 PreemptiveVisibilityContradictionRule ViewRule = new PreemptiveVisibilityContradictionRule();
                 passed = passed && ViewRule.checkContradictionAt(newCase,newCell)!=null;
             }
-            if(passed){cases.add(newCase);}
+            if(passed){
+                cases.add(newCase);
+            }
 
 
         }

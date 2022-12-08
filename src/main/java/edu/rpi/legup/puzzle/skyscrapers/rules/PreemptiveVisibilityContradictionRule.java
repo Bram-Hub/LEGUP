@@ -126,8 +126,9 @@ public class PreemptiveVisibilityContradictionRule extends ContradictionRule {
                     temp.setViewFlag(viewTemp);
 
                     //add all row cases to row queue
-                    for(Board k : cols)
+                    for(Board k : cols) {
                         colQ.add((SkyscrapersBoard) k);
+                    }
                 }
             }
         }
@@ -162,8 +163,9 @@ public class PreemptiveVisibilityContradictionRule extends ContradictionRule {
         }
 
         //if every possible permutation results in contradictions return null, else no contradiction
-        if(rowContradiction || colContradiction)
+        if(rowContradiction || colContradiction) {
             return null;
+        }
         return super.getNoContradictionMessage();
     }
 
