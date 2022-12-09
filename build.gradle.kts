@@ -51,6 +51,11 @@ tasks {
         }
     }
 
+    javadoc {
+        // prevent javadoc task failure from semantic errors in Javadoc -- errors will still be logged
+        isFailOnError = false
+    }
+
     /*
      * CREATES NATIVE WINDOWS EXECUTABLE
      * Launches launch4j to create an executable (.exe) file wrapping the jar
