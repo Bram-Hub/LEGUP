@@ -35,6 +35,7 @@ dependencies {
     api("org.slf4j:slf4j-simple:2.0.4")
     api("org.apache.logging.log4j:log4j-api:2.19.0")
     api("org.apache.logging.log4j:log4j-core:2.19.0")
+    api("org.apache.commons:commons-lang3:3.12.0")
     testImplementation("junit:junit:4.13.2")
 }
 
