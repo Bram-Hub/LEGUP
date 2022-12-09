@@ -9,17 +9,14 @@ import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersBoard;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersCell;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType;
 
-import java.awt.Point;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.ArrayList;
 
-public class FixedMaxBasicRule extends BasicRule {
+public class LastSingularCellBasicRule extends BasicRule {
 
-    public FixedMaxBasicRule() {
-        super("SKYS-BASC-0001", "Fixed Max",
-                "If the sum of two opposing edges is n+1, the maximum number appears at a position k spaces away from the edge, where k is the number at that edge.",
-                "edu/rpi/legup/images/skyscrapers/FixedMax.png");
+    public LastSingularCellBasicRule() {
+        super("SKYS-BASC-0002", "Last Non-Duplicate Cell",
+                "There is only one cell on this row/col for this number that does not create a duplicate contradiction",
+                "edu/rpi/legup/images/skyscrapers/rules/LastCell.png");
     }
 
     /**
@@ -41,34 +38,41 @@ public class FixedMaxBasicRule extends BasicRule {
             return super.getInvalidUseOfRuleMessage() + ": Modified cells must be number";
         }
 
-        SkyscrapersBoard emptyCase = initialBoard.copy();
-        emptyCase.getPuzzleElement(finalCell).setData(0);
-        Point loc = finalCell.getLocation();
-        int north = initialBoard.getCol().get(loc.x).getData();
-        int south = initialBoard.getColClues().get(loc.x).getData();
-        int west = initialBoard.getRow().get(loc.y).getData();
-        int east = initialBoard.getRowClues().get(loc.y).getData();
-        int max = initialBoard.getHeight();
-        System.out.println(north);
-        System.out.println(south);
-        if (north + south != max + 1 && west + east != max + 1) {
-            System.out.println("111");
-            return super.getInvalidUseOfRuleMessage() + ": Opposing clues must add up to max";
-        }
+        //set all rules used by case rule to false except for dupe, get all cases
+        boolean dupeTemp = initialBoard.getDupeFlag();
+        boolean viewTemp = initialBoard.getViewFlag();
+        initialBoard.setDupeFlag(true);
+        initialBoard.setViewFlag(false);
+        CellForNumberCaseRule caseRule = new CellForNumberCaseRule();
+        ArrayList<Board> XCandidates = caseRule.getCasesFor(initialBoard,initialBoard.getWestClues().get(finalCell.getLocation().y),(Integer)finalCell.getData());
+        ArrayList<Board> YCandidates = caseRule.getCasesFor(initialBoard,initialBoard.getNorthClues().get(finalCell.getLocation().x),(Integer)finalCell.getData());
+        initialBoard.setDupeFlag(dupeTemp);
+        initialBoard.setViewFlag(viewTemp);
 
-        if (finalCell.getData() != initialBoard.getWidth()) {
-            return super.getInvalidUseOfRuleMessage() + ": Modified cells must be the max";
-        }
+        System.out.println(XCandidates.size());
+        System.out.println(YCandidates.size());
 
-        if (north + south == max + 1 && loc.y + 1 == north) {
+        //return null if either pass, both messages otherwise
+        String xCheck = candidateCheck(XCandidates,puzzleElement,finalCell);
+        String yCheck = candidateCheck(YCandidates,puzzleElement,finalCell);
+        if(xCheck==null || yCheck==null){
             return null;
         }
-        if (west + east == max + 1 && loc.x + 1 == west) {
-            return null;
+        return super.getInvalidUseOfRuleMessage() + "\nRow" + xCheck + "\nCol" + yCheck;
+    }
+
+    //helper to check if candidate list is valid
+    private String candidateCheck(ArrayList<Board> candidates,PuzzleElement puzzleElement, SkyscrapersCell finalCell){
+        if(candidates.size() == 1){
+            if(((SkyscrapersCell) candidates.get(0).getPuzzleElement(puzzleElement)).getType() == SkyscrapersType.Number) {
+                if (candidates.get(0).getPuzzleElement(puzzleElement).getData() == finalCell.getData()) {
+                    return null;
+                }
+                return ": Wrong number in the cell.";
+            }
+            return ": No case for this cell.";
         }
-
-        return super.getInvalidUseOfRuleMessage() + ": This cell is not forced.";
-
+        return ": This cell is not forced.";
     }
 
     private boolean isForced(SkyscrapersBoard board, SkyscrapersCell cell) {
