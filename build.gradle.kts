@@ -77,7 +77,7 @@ tasks {
      * Edit the "CHANGE ME" line in native/windows/legup_inno_setup.iss to reflect
      * the path to the Java installation you want to ship inside the executable.
      */
-    val buildNativeWindows = register<Exec>("buildNativeWindows") {
+    register<Exec>("buildNativeWindows") {
         dependsOn(shadowJar, createExe)
         workingDir = File("${project.buildDir}/../native/windows")
         commandLine("cmd", "/c", "make_windows_installer.bat")
