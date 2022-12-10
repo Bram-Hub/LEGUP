@@ -75,6 +75,12 @@ public abstract class RulePanel extends JPanel {
      * Search a certain rule in all the puzzles and set it for the searchBarPanel
      *
      * @param puzzle, ruleName
+     *
+     * This function is the searching algorithm for "public void setSearchBar(Puzzle allPuzzle)" (below)
+     *
+     * It takes two param Puzzle puzzle and String ruleName
+     * puzzle contains rules, this function will compare each rule of puzzle with ruleName,
+     * to find exact same, similar rules, or all the rules with same start letter (if input is a signal letter)
      */
     public void searchForRule(Puzzle puzzle, String ruleName) {
 
@@ -182,10 +188,10 @@ public abstract class RulePanel extends JPanel {
     }
 
     /**
-     * UnFinished
-     *
      * Sets the search bar for SearchBarPanel
-     *
+     * search bar allows user to input a name to get relative rules
+     * once a name is entered and click ok will load (a/several) rule icon,
+     * which has all the functions just as other rule icons.
      */
     public void setSearchBar(Puzzle allPuzzle){
 
