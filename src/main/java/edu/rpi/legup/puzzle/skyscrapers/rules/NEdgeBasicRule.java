@@ -19,7 +19,7 @@ public class NEdgeBasicRule extends BasicRule {
     public NEdgeBasicRule() {
         super("SKYS-BASC-0004", "N Edge",
                 "If the maximum number appears on an edge, the row or column��s numbers appear in ascending order, starting at that edge.",
-                "edu/rpi/legup/images/skyscrapers/NEdge.png");
+                "edu/rpi/legup/images/skyscrapers/rules/NEdge.png");
     }
 
     /**
@@ -46,16 +46,16 @@ public class NEdgeBasicRule extends BasicRule {
         Point loc = finalCell.getLocation();
         int max = initialBoard.getHeight();
 
-        if (initialBoard.getRow().get(loc.y).getData() == max && finalCell.getData() == loc.x + 1) {
+        if (initialBoard.getWestClues().get(loc.y).getData() == max && finalCell.getData() == loc.x + 1) {
             return null;
         }
-        if (initialBoard.getRowClues().get(loc.y).getData() == max && finalCell.getData() == max - loc.x) {
+        if (initialBoard.getEastClues().get(loc.y).getData() == max && finalCell.getData() == max - loc.x) {
             return null;
         }
-        if (initialBoard.getCol().get(loc.x).getData() == max && finalCell.getData() == loc.y + 1) {
+        if (initialBoard.getNorthClues().get(loc.x).getData() == max && finalCell.getData() == loc.y + 1) {
             return null;
         }
-        if (initialBoard.getColClues().get(loc.x).getData() == max && finalCell.getData() == max - loc.y) {
+        if (initialBoard.getSouthClues().get(loc.x).getData() == max && finalCell.getData() == max - loc.y) {
             return null;
         }
 

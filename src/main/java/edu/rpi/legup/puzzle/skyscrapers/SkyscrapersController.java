@@ -85,17 +85,7 @@ public class SkyscrapersController extends ElementController {
                                 treePanel.updateError(edit.getError());
                             }
                         }
-                    } /*else if (lastCellPressed != null) {
-                        if (dragStart instanceof SkyscrapersElementView) {
-                            ICommand editLine = new EditLineCommand(selection, (SkyscrapersElementView) dragStart, lastCellPressed);
-                            if (editLine.canExecute()) {
-                                editLine.execute();
-                                getInstance().getHistory().pushChange(editLine);
-                            } else {
-                                treePanel.updateError(editLine.getError());
-                            }
-                        }
-                    }*/
+                    }
                 }
             }
             dragStart = null;

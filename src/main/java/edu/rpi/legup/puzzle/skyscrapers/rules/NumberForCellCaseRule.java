@@ -9,17 +9,18 @@ import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersBoard;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersCell;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.*;
+import java.util.Set;
 
-public class PossibleContentsCaseRule extends CaseRule {
+public class NumberForCellCaseRule extends CaseRule {
 
-    public PossibleContentsCaseRule() {
-        super("SKYS-CASE-0001", "Possible Contents",
-                "Each blank cell is could have height of 1 to n.",
-                "edu/rpi/legup/images/skyscrapers/PossibleContents.png");
+    public NumberForCellCaseRule() {
+        super("SKYS-CASE-0001", "Number For Cell",
+                "A blank cell must have height of 1 to n.",
+                "edu/rpi/legup/images/skyscrapers/cases/NumberForCell.png");
     }
 
     @Override
@@ -52,29 +53,25 @@ public class PossibleContentsCaseRule extends CaseRule {
 
         Set<Integer> candidates = new HashSet<Integer>();
         for (int i = 1; i <= skyscrapersboard.getWidth(); i++) {
-            candidates.add(i);
-        }
+            Board newCase = board.copy();
+            PuzzleElement newCell = newCase.getPuzzleElement(puzzleElement);
+            newCell.setData(i);
+            newCase.addModifiedData(newCell);
 
-        for (int i = 0; i < skyscrapersboard.getWidth(); i++) {
-            SkyscrapersCell c = skyscrapersboard.getCell(i, loc.y);
-            if (c.getType() == SkyscrapersType.Number) {
-                candidates.remove(c.getData());
+            //if flags
+            boolean passed = true;
+            if(skyscrapersboard.getDupeFlag()){
+                DuplicateNumberContradictionRule DupeRule = new DuplicateNumberContradictionRule();
+                passed = passed && DupeRule.checkContradictionAt(newCase,newCell)!=null;
             }
-        }
-        for (int i = 0; i < skyscrapersboard.getHeight(); i++) {
-            SkyscrapersCell c = skyscrapersboard.getCell(loc.x, i);
-            if (c.getType() == SkyscrapersType.Number) {
-                candidates.remove(c.getData());
+            if(skyscrapersboard.getViewFlag()){
+                PreemptiveVisibilityContradictionRule ViewRule = new PreemptiveVisibilityContradictionRule();
+                passed = passed && ViewRule.checkContradictionAt(newCase,newCell)!=null;
             }
-        }
-
-        Iterator<Integer> it = candidates.iterator();
-        while (it.hasNext()) {
-            Board case1 = board.copy();
-            PuzzleElement data = case1.getPuzzleElement(puzzleElement);
-            data.setData(it.next());
-            case1.addModifiedData(data);
-            cases.add(case1);
+            //how should unresolved be handled? should it be?
+            if(passed){
+                cases.add(newCase);
+            }
         }
 
         return cases;
@@ -92,6 +89,9 @@ public class PossibleContentsCaseRule extends CaseRule {
         if (childTransitions.size() == 0) {
             //System.out.println("0");
             return "This case rule must have at least one child.";
+        }
+        else if (childTransitions.size() != getCases(transition.getBoard(), childTransitions.get(0).getBoard().getModifiedData().iterator().next()).size()){
+            return "Wrong number of children.";
         }
 
 
