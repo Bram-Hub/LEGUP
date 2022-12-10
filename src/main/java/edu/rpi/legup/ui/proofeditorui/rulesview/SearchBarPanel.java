@@ -4,9 +4,11 @@ import javax.swing.*;
 
 public class SearchBarPanel extends RulePanel {
     /**
-     * ContradictionRulePanel Constructor creates a ContradictionRulePanel
+     * SearchBarPanel Constructor creates a SearchBarPanel
      *
-     * @param ruleFrame rule frame that this ContradictionRulePanel is contained in
+     * @param ruleFrame rule frame that this SearchBarPanel is contained in
+     *
+     * This class is used to create a panel named "search bar"
      */
     SearchBarPanel(RuleFrame ruleFrame) {
         super(ruleFrame);

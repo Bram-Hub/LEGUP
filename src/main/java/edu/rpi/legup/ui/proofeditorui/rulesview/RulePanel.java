@@ -57,14 +57,14 @@ public abstract class RulePanel extends JPanel {
             Rule rule = rules.get(i);
 
             ruleButtons[i] = new RuleButton(rule);
-            ruleButtons[i].setPreferredSize(new Dimension(150,150));
+            ruleButtons[i].setPreferredSize(new Dimension(150,150));// adjust the size of each RuleButton
             ruleButtons[i].setHorizontalTextPosition(JButton.CENTER);
             ruleButtons[i].setVerticalTextPosition(JButton.BOTTOM);
+
             ruleFrame.getButtonGroup().add(ruleButtons[i]);
-            ruleButtons[i].setToolTipText(rule.getRuleName() + ": " + rule.getDescription());
+            ruleButtons[i].setToolTipText(rule.getRuleName() + ": " + rule.getDescription()); // showing description
             ruleButtons[i].addActionListener(ruleFrame.getController());
             add(ruleButtons[i]);
-            //add(new JButton(rule.getRuleName())); // add name under relative rule
 
         }
         revalidate();
