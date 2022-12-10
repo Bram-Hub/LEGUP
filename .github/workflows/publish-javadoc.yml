@@ -5,7 +5,7 @@ name: Publish Javadoc
 on:
   push:
     branches:
-      - gradle
+      - dev
 
 jobs:
   publish:
