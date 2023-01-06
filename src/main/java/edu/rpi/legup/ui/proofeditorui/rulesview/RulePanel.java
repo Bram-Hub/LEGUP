@@ -57,14 +57,14 @@ public abstract class RulePanel extends JPanel {
             Rule rule = rules.get(i);
 
             ruleButtons[i] = new RuleButton(rule);
-            ruleButtons[i].setPreferredSize(new Dimension(150,150));
+            ruleButtons[i].setPreferredSize(new Dimension(150,150));// adjust the size of each RuleButton
             ruleButtons[i].setHorizontalTextPosition(JButton.CENTER);
             ruleButtons[i].setVerticalTextPosition(JButton.BOTTOM);
+
             ruleFrame.getButtonGroup().add(ruleButtons[i]);
-            ruleButtons[i].setToolTipText(rule.getRuleName() + ": " + rule.getDescription());
+            ruleButtons[i].setToolTipText(rule.getRuleName() + ": " + rule.getDescription()); // showing description
             ruleButtons[i].addActionListener(ruleFrame.getController());
             add(ruleButtons[i]);
-            //add(new JButton(rule.getRuleName())); // add name under relative rule
 
         }
         revalidate();
@@ -75,6 +75,12 @@ public abstract class RulePanel extends JPanel {
      * Search a certain rule in all the puzzles and set it for the searchBarPanel
      *
      * @param puzzle, ruleName
+     *
+     * This function is the searching algorithm for "public void setSearchBar(Puzzle allPuzzle)" (below)
+     *
+     * It takes two param Puzzle puzzle and String ruleName
+     * puzzle contains rules, this function will compare each rule of puzzle with ruleName,
+     * to find exact same, similar rules, or all the rules with same start letter (if input is a signal letter)
      */
     public void searchForRule(Puzzle puzzle, String ruleName) {
 
@@ -132,6 +138,11 @@ public abstract class RulePanel extends JPanel {
 
     /**
      * Calculates the similarity (a number within 0 and 1) between two strings.
+     * This funtion will take two para String s1 and String s2, which s1 is the user's input
+     * and s2 is the compared really rule name
+     *
+     * similarityCheck will use a helper function to calculate a similarity degree(from 0 to 1).
+     * closer to 0 means less similar, and closer to 1 means more similar.
      */
     public static double similarityCheck(String s1, String s2) {
         String longer = s1, shorter = s2;
@@ -177,10 +188,10 @@ public abstract class RulePanel extends JPanel {
     }
 
     /**
-     * UnFinished
-     *
      * Sets the search bar for SearchBarPanel
-     *
+     * search bar allows user to input a name to get relative rules
+     * once a name is entered and click ok will load (a/several) rule icon,
+     * which has all the functions just as other rule icons.
      */
     public void setSearchBar(Puzzle allPuzzle){
 

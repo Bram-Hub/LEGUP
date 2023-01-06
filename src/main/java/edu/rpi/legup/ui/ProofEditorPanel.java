@@ -114,10 +114,10 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         newPuzzle = new JMenuItem("Open");
         resetPuzzle = new JMenuItem("Reset Puzzle");
 //        genPuzzle = new JMenuItem("Puzzle Generators");
-        saveProofAs = new JMenuItem("Save Proof As");
-        saveProofChange = new JMenuItem("Save Proof Change");
+        saveProofAs = new JMenuItem("Save Proof As"); // create a new file to save
+        saveProofChange = new JMenuItem("Save Proof Change"); // save to the current file
         preferences = new JMenuItem("Preferences");
-        helpTutorial = new JMenuItem("Help");
+        helpTutorial = new JMenuItem("Help"); // jump to web page
         exit = new JMenuItem("Exit");
 
         edit = new JMenu("Edit");
@@ -428,7 +428,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
     }
     /**
-     * Saves a proof
+     * Create a new file and save proof to it
      */
     private void saveProofAs() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
@@ -471,7 +471,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private void helpTutorial() {
 
         Runtime rt = Runtime.getRuntime();
-        String url = "https://github.com/Bram-Hub/Legup/wiki/LEGUP-Tutorial"; // empty page, Oct 17th
+        String url = "https://github.com/Bram-Hub/Legup/wiki/LEGUP-Tutorial"; // empty page 2022 Fall semester
         try{
             //rt.exec("rundll32 url.dll,FileProtocolHandler "+url);
             java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
@@ -495,11 +495,11 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         panel.add(moveing_buttom);
 
     }
-    
-    
-    
-    
-    // Quick save, does not prompt user for name change
+
+
+
+
+    // Quick save proof to the current file with a pop window to show "successfully saved"
     private void saveProofChange(){
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
