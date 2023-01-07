@@ -2,8 +2,6 @@ package edu.rpi.legup.puzzle.treetent;
 
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.PuzzleElement;
-import java.util.List;
 
 public class TreeTent extends Puzzle {
 
@@ -71,24 +69,5 @@ public class TreeTent extends Puzzle {
     @Override
     public void onBoardChange(Board board) {
 
-    }
-
-    /**
-
-     * @return if it is valid
-     * TreeTent puzzle must have same number of clues as the dimension size
-     */
-    @Override
-    public boolean checkValidity() {
-        TreeTentBoard b = (TreeTentBoard) this.getBoardView().getBoard();
-        List<PuzzleElement> elements = b.getPuzzleElements();
-        int treeCount = 0;
-        for (PuzzleElement element : elements) {
-            TreeTentCell c = (TreeTentCell) element;
-            if (c.getType() == TreeTentType.TREE) {
-                treeCount++;
-            }
-        }
-        return treeCount != 0;
     }
 }
