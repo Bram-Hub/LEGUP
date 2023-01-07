@@ -14,6 +14,8 @@ import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.ui.lookandfeel.LegupLookAndFeel;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
+import edu.rpi.legupupdate.Update;
+import edu.rpi.legupupdate.UpdateProgress;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
