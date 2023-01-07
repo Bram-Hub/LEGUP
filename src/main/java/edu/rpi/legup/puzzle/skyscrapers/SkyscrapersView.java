@@ -1,9 +1,9 @@
 package edu.rpi.legup.puzzle.skyscrapers;
 
 import edu.rpi.legup.controller.BoardController;
-import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 import org.apache.logging.log4j.LogManager;
@@ -16,8 +16,21 @@ import java.util.ArrayList;
 
 public class SkyscrapersView extends GridBoardView {
     private final static Logger LOGGER = LogManager.getLogger(SkyscrapersView.class.getName());
+    static Image TREE, GRASS, TENT;
+
+    static {
+        try {
+            TREE = ImageIO.read(ClassLoader.getSystemResourceAsStream("edu/rpi/legup/images/treetent/tree.png"));
+            GRASS = ImageIO.read(ClassLoader.getSystemResourceAsStream("edu/rpi/legup/images/treetent/grass.png"));
+            TENT = ImageIO.read(ClassLoader.getSystemResourceAsStream("edu/rpi/legup/images/treetent/tent.png"));
+        }
+        catch (IOException e) {
+            LOGGER.error("Failed to open TreeTent images");
+        }
+    }
 
     private ArrayList<SkyscrapersLineView> lineViews;
+
     private ArrayList<SkyscrapersClueView> northClues;
     private ArrayList<SkyscrapersClueView> eastClues;
     private ArrayList<SkyscrapersClueView> southClues;
@@ -50,11 +63,12 @@ public class SkyscrapersView extends GridBoardView {
         }
 
         for (int i = 0; i < gridSize.height; i++) {
-            SkyscrapersClueView row = new SkyscrapersClueView(board.getWestClues().get(i));
+            //SkyscrapersClueView row = new SkyscrapersClueView(new SkyscrapersClue(i, i, SkyscrapersType.CLUE_WEST));
+            SkyscrapersClueView row = new SkyscrapersClueView(board.getRow().get(i));
             row.setLocation(new Point(0, (i + 1) * elementSize.height));
             row.setSize(elementSize);
 
-            SkyscrapersClueView clue = new SkyscrapersClueView(board.getEastClues().get(i));
+            SkyscrapersClueView clue = new SkyscrapersClueView(board.getRowClues().get(i));
             clue.setLocation(new Point((gridSize.height + 1) * elementSize.height, (i + 1) * elementSize.height));
             clue.setSize(elementSize);
 
@@ -63,11 +77,12 @@ public class SkyscrapersView extends GridBoardView {
         }
 
         for (int i = 0; i < gridSize.width; i++) {
-            SkyscrapersClueView col = new SkyscrapersClueView(board.getNorthClues().get(i));
+            //SkyscrapersClueView col = new SkyscrapersClueView(new SkyscrapersClue(i, i, SkyscrapersType.CLUE_NORTH));
+            SkyscrapersClueView col = new SkyscrapersClueView(board.getCol().get(i));
             col.setLocation(new Point((i + 1) * elementSize.width, 0));
             col.setSize(elementSize);
 
-            SkyscrapersClueView clue = new SkyscrapersClueView(board.getSouthClues().get(i));
+            SkyscrapersClueView clue = new SkyscrapersClueView(board.getColClues().get(i));
             clue.setLocation(new Point((i + 1) * elementSize.width, (gridSize.width + 1) * elementSize.width));
             clue.setSize(elementSize);
 
@@ -114,8 +129,20 @@ public class SkyscrapersView extends GridBoardView {
         return null;
     }
 
+    public ArrayList<SkyscrapersLineView> getLineViews() {
+        return lineViews;
+    }
+
     public ArrayList<SkyscrapersClueView> getNorthClues() {
         return northClues;
+    }
+
+    public ArrayList<SkyscrapersClueView> getEastClues() {
+        return eastClues;
+    }
+
+    public ArrayList<SkyscrapersClueView> getSouthClues() {
+        return southClues;
     }
 
     public ArrayList<SkyscrapersClueView> getWestClues() {
@@ -131,57 +158,26 @@ public class SkyscrapersView extends GridBoardView {
     }
 
     /**
-     * Sets the board associated with this view
+     * Called when the tree element has changed.
      *
-     * @param board board
+     * @param treeElement tree element
      */
     @Override
-    public void setBoard(Board board) {
-        if (this.board != board) {
-            this.board = board;
-
-            if (board instanceof CaseBoard) {
-                setCasePickable();
-            }
-            else {
-                for (ElementView elementView : elementViews) {
-                    elementView.setPuzzleElement(board.getPuzzleElement(elementView.getPuzzleElement()));
-                    elementView.setShowCasePicker(false);
-                }
-                for (SkyscrapersClueView clueView : northClues) {
-                    clueView.setPuzzleElement(board.getPuzzleElement(clueView.getPuzzleElement()));
-                    clueView.setShowCasePicker(false);
-                }
-                for (SkyscrapersClueView clueView : westClues) {
-                    clueView.setPuzzleElement(board.getPuzzleElement(clueView.getPuzzleElement()));
-                    clueView.setShowCasePicker(false);
-                }
-            }
+    public void onTreeElementChanged(TreeElement treeElement) {
+        super.onTreeElementChanged(treeElement);
+        SkyscrapersBoard treeTentBoard;
+        if (board instanceof CaseBoard) {
+            treeTentBoard = (SkyscrapersBoard) ((CaseBoard) board).getBaseBoard();
         }
-    }
-
-    @Override
-    protected void setCasePickable() {
-        CaseBoard caseBoard = (CaseBoard) board;
-        Board baseBoard = caseBoard.getBaseBoard();
-
-        for (ElementView elementView : elementViews) {
-            PuzzleElement puzzleElement = baseBoard.getPuzzleElement(elementView.getPuzzleElement());
-            elementView.setPuzzleElement(puzzleElement);
-            elementView.setShowCasePicker(true);
-            elementView.setCaseRulePickable(caseBoard.isPickable(puzzleElement, null));
+        else {
+            treeTentBoard = (SkyscrapersBoard) board;
         }
-        for (SkyscrapersClueView clueView : northClues) {
-            PuzzleElement puzzleElement = baseBoard.getPuzzleElement(clueView.getPuzzleElement());
-            clueView.setPuzzleElement(puzzleElement);
-            clueView.setShowCasePicker(true);
-            clueView.setCaseRulePickable(caseBoard.isPickable(puzzleElement, null));
-        }
-        for (SkyscrapersClueView clueView : westClues) {
-            PuzzleElement puzzleElement = baseBoard.getPuzzleElement(clueView.getPuzzleElement());
-            clueView.setPuzzleElement(puzzleElement);
-            clueView.setShowCasePicker(true);
-            clueView.setCaseRulePickable(caseBoard.isPickable(puzzleElement, null));
+
+        lineViews.clear();
+        for (SkyscrapersLine line : treeTentBoard.getLines()) {
+            SkyscrapersLineView lineView = new SkyscrapersLineView(line);
+            lineView.setSize(elementSize);
+            lineViews.add(lineView);
         }
     }
 

@@ -6,8 +6,8 @@ import org.w3c.dom.Document;
 
 public class SkyscrapersExporter extends PuzzleExporter {
 
-    public SkyscrapersExporter(Skyscrapers skyscrapers) {
-        super(skyscrapers);
+    public SkyscrapersExporter(Skyscrapers treeTent) {
+        super(treeTent);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class SkyscrapersExporter extends PuzzleExporter {
 
         org.w3c.dom.Element axisEast = newDocument.createElement("axis");
         axisEast.setAttribute("side", "east");
-        for (SkyscrapersClue clue : board.getEastClues()) {
+        for (SkyscrapersClue clue : board.getRowClues()) {
             org.w3c.dom.Element clueElement = newDocument.createElement("clue");
             clueElement.setAttribute("value", String.valueOf(clue.getData()));
             clueElement.setAttribute("index", SkyscrapersClue.colNumToString(clue.getIndex()));
@@ -40,7 +40,7 @@ public class SkyscrapersExporter extends PuzzleExporter {
 
         org.w3c.dom.Element axisSouth = newDocument.createElement("axis");
         axisSouth.setAttribute("side", "south");
-        for (SkyscrapersClue clue : board.getSouthClues()) {
+        for (SkyscrapersClue clue : board.getRowClues()) {
             org.w3c.dom.Element clueElement = newDocument.createElement("clue");
             clueElement.setAttribute("value", String.valueOf(clue.getData()));
             clueElement.setAttribute("index", String.valueOf(clue.getIndex()));
