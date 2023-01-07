@@ -9,8 +9,8 @@ import org.w3c.dom.NodeList;
 import java.awt.*;
 
 public class SkyscrapersImporter extends PuzzleImporter {
-    public SkyscrapersImporter(Skyscrapers treeTent) {
-        super(treeTent);
+    public SkyscrapersImporter(Skyscrapers skyscrapers) {
+        super(skyscrapers);
     }
 
     /**
@@ -35,78 +35,74 @@ public class SkyscrapersImporter extends PuzzleImporter {
     public void initializeBoard(Node node) throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("board")) {
-                throw new InvalidFileFormatException("TreeTent Importer: cannot find board puzzleElement");
+                throw new InvalidFileFormatException("Skyscrapers Importer: cannot find board puzzleElement");
             }
             Element boardElement = (Element) node;
             if (boardElement.getElementsByTagName("cells").getLength() == 0) {
-                throw new InvalidFileFormatException("TreeTent Importer: no puzzleElement found for board");
+                throw new InvalidFileFormatException("Skyscrapers Importer: no puzzleElement found for board");
             }
             Element dataElement = (Element) boardElement.getElementsByTagName("cells").item(0);
             NodeList elementDataList = dataElement.getElementsByTagName("cell");
 
-            SkyscrapersBoard treeTentBoard = null;
+
+
+            SkyscrapersBoard skyscrapersBoard = null;
+
             if (!boardElement.getAttribute("size").isEmpty()) {
                 int size = Integer.valueOf(boardElement.getAttribute("size"));
-                treeTentBoard = new SkyscrapersBoard(size);
-            }
-            else {
-                if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
-                    int width = Integer.valueOf(boardElement.getAttribute("width"));
-                    int height = Integer.valueOf(boardElement.getAttribute("height"));
-                    treeTentBoard = new SkyscrapersBoard(width, height);
-                }
+                skyscrapersBoard = new SkyscrapersBoard(size);
             }
 
-            if (treeTentBoard == null) {
-                throw new InvalidFileFormatException("TreeTent Importer: invalid board dimensions");
+            if (skyscrapersBoard == null) {
+                throw new InvalidFileFormatException("Skyscraper Importer: invalid board dimensions");
             }
 
-            int width = treeTentBoard.getWidth();
-            int height = treeTentBoard.getHeight();
+            int size = skyscrapersBoard.getSize();
+
 
             for (int i = 0; i < elementDataList.getLength(); i++) {
-                SkyscrapersCell cell = (SkyscrapersCell) puzzle.getFactory().importCell(elementDataList.item(i), treeTentBoard);
+                SkyscrapersCell cell = (SkyscrapersCell) puzzle.getFactory().importCell(elementDataList.item(i), skyscrapersBoard);
                 Point loc = cell.getLocation();
                 if (cell.getData() != 0) {
                     cell.setModifiable(false);
                     cell.setGiven(true);
                 }
-                treeTentBoard.setCell(loc.x, loc.y, cell);
+                skyscrapersBoard.setCell(loc.x, loc.y, cell);
             }
 
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-                    if (treeTentBoard.getCell(x, y) == null) {
-                        SkyscrapersCell cell = new SkyscrapersCell(0, new Point(x, y), width);
-                        cell.setIndex(y * height + x);
+            for (int y = 0; y < size; y++) {
+                for (int x = 0; x < size; x++) {
+                    if (skyscrapersBoard.getCell(x, y) == null) {
+                        SkyscrapersCell cell = new SkyscrapersCell(0, new Point(x, y), size);
+                        cell.setIndex(y * size + x);
                         cell.setModifiable(true);
-                        treeTentBoard.setCell(x, y, cell);
+                        skyscrapersBoard.setCell(x, y, cell);
                     }
                 }
             }
 
             NodeList axes = boardElement.getElementsByTagName("axis");
             if (axes.getLength() != 2) {
-                throw new InvalidFileFormatException("TreeTent Importer: cannot find axes");
+                throw new InvalidFileFormatException("Skyscraper Importer: cannot find axes");
             }
 
             Element axis1 = (Element) axes.item(0);
             Element axis2 = (Element) axes.item(1);
 
             if (!axis1.hasAttribute("side") || !axis1.hasAttribute("side")) {
-                throw new InvalidFileFormatException("TreeTent Importer: side attribute of axis not specified");
+                throw new InvalidFileFormatException("Skyscraper Importer: side attribute of axis not specified");
             }
             String side1 = axis1.getAttribute("side");
             String side2 = axis2.getAttribute("side");
             if (side1.equalsIgnoreCase(side2) || !(side1.equalsIgnoreCase("east") || side1.equalsIgnoreCase("south")) ||
                     !(side2.equalsIgnoreCase("east") || side2.equalsIgnoreCase("south"))) {
-                throw new InvalidFileFormatException("TreeTent Importer: axes must be different and be {east | south}");
+                throw new InvalidFileFormatException("Skyscraper Importer: axes must be different and be {east | south}");
             }
             NodeList eastClues = side1.equalsIgnoreCase("east") ? axis1.getElementsByTagName("clue") : axis2.getElementsByTagName("clue");
             NodeList southClues = side1.equalsIgnoreCase("south") ? axis1.getElementsByTagName("clue") : axis2.getElementsByTagName("clue");
 
-            if (eastClues.getLength() != treeTentBoard.getHeight() || southClues.getLength() != treeTentBoard.getWidth()) {
-                throw new InvalidFileFormatException("TreeTent Importer: there must be same number of clues as the dimension of the board");
+            if (eastClues.getLength() != skyscrapersBoard.getHeight() || southClues.getLength() != skyscrapersBoard.getWidth()) {
+                throw new InvalidFileFormatException("Skyscraper Importer: there must be same number of clues as the dimension of the board");
             }
 
             for (int i = 0; i < eastClues.getLength(); i++) {
@@ -114,15 +110,9 @@ public class SkyscrapersImporter extends PuzzleImporter {
                 int value = Integer.valueOf(clue.getAttribute("value"));
                 //int index = SkyscrapersClue.colStringToColNum(clue.getAttribute("index"));
                 int index = Integer.valueOf(clue.getAttribute("index"));
-                /*if (index - 1 < 0 || index - 1 > treeTentBoard.getHeight()) {
-                    throw new InvalidFileFormatException("TreeTent Importer: clue index out of bounds");
-                }
 
-                if (treeTentBoard.getRowClues().get(index - 1) != null) {
-                    throw new InvalidFileFormatException("TreeTent Importer: duplicate clue index");
-                }*/
-                treeTentBoard.getRow().set(/*index - 1*/i, new SkyscrapersClue(index, index, SkyscrapersType.CLUE_WEST));
-                treeTentBoard.getRowClues().set(/*index - 1*/i, new SkyscrapersClue(value, index, SkyscrapersType.CLUE_EAST));
+                skyscrapersBoard.getWestClues().set(/*index - 1*/i, new SkyscrapersClue(index, i, SkyscrapersType.CLUE_WEST));
+                skyscrapersBoard.getEastClues().set(/*index - 1*/i, new SkyscrapersClue(value, i, SkyscrapersType.CLUE_EAST));
             }
 
             for (int i = 0; i < southClues.getLength(); i++) {
@@ -130,29 +120,35 @@ public class SkyscrapersImporter extends PuzzleImporter {
                 int value = Integer.valueOf(clue.getAttribute("value"));
                 int index = Integer.valueOf(clue.getAttribute("index"));
 
-                /*if (index - 1 < 0 || index - 1 > treeTentBoard.getWidth()) {
-                    throw new InvalidFileFormatException("TreeTent Importer: clue index out of bounds");
-                }
 
-                if (treeTentBoard.getColClues().get(index - 1) != null) {
-                    throw new InvalidFileFormatException("TreeTent Importer: duplicate clue index");
-                }*/
-                treeTentBoard.getCol().set(/*index - 1*/i, new SkyscrapersClue(index, index, SkyscrapersType.CLUE_NORTH));
-                treeTentBoard.getColClues().set(/*index - 1*/i, new SkyscrapersClue(value, index, SkyscrapersType.CLUE_SOUTH));
+                skyscrapersBoard.getNorthClues().set(/*index - 1*/i, new SkyscrapersClue(index, i, SkyscrapersType.CLUE_NORTH));
+                skyscrapersBoard.getSouthClues().set(/*index - 1*/i, new SkyscrapersClue(value, i, SkyscrapersType.CLUE_SOUTH));
             }
 
             if (boardElement.getElementsByTagName("lines").getLength() == 1) {
                 Element linesElement = (Element) boardElement.getElementsByTagName("lines").item(0);
                 NodeList linesList = linesElement.getElementsByTagName("line");
                 for (int i = 0; i < linesList.getLength(); i++) {
-                    treeTentBoard.getLines().add((SkyscrapersLine) puzzle.getFactory().importCell(linesList.item(i), treeTentBoard));
+                    skyscrapersBoard.getLines().add((SkyscrapersLine) puzzle.getFactory().importCell(linesList.item(i), skyscrapersBoard));
                 }
             }
 
-            puzzle.setCurrentBoard(treeTentBoard);
+            //Initialize present flags
+            NodeList flagList = boardElement.getElementsByTagName("flags");
+            if(flagList.getLength()==1){
+                Element flags = (Element) flagList.item(0);
+                if(flags.hasAttribute("dupe")){
+                    skyscrapersBoard.setDupeFlag(Boolean.parseBoolean(flags.getAttribute("dupe")));
+                }
+                if(flags.hasAttribute("view")){
+                    skyscrapersBoard.setViewFlag(Boolean.parseBoolean(flags.getAttribute("view")));
+                }
+            }
+
+            puzzle.setCurrentBoard(skyscrapersBoard);
         }
         catch (NumberFormatException e) {
-            throw new InvalidFileFormatException("TreeTent Importer: unknown value where integer expected");
+            throw new InvalidFileFormatException("Skyscraper Importer: unknown value where integer expected");
         }
     }
 }

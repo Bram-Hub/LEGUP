@@ -13,7 +13,7 @@ public class RuleButton extends JButton {
      * @param rule rule to create the button
      */
     RuleButton(Rule rule) {
-        super(rule.getImageIcon());
+        super(rule.getRuleName(), rule.getImageIcon()); // display rules' name under rule when load the icon
         this.rule = rule;
     }
 

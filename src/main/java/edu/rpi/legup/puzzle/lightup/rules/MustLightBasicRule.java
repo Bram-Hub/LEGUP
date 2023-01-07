@@ -38,11 +38,8 @@ public class MustLightBasicRule extends BasicRule {
             return super.getInvalidUseOfRuleMessage() + ": Modified cells must be bulbs";
         }
 
-        finalCell.setData(LightUpCellType.EMPTY.value);
         finalBoard.fillWithLight();
-
         boolean isForced = isForcedBulb(parentBoard, parentCell.getLocation());
-
         finalCell.setData(LightUpCellType.BULB.value);
         finalBoard.fillWithLight();
 
@@ -56,7 +53,6 @@ public class MustLightBasicRule extends BasicRule {
 
     private boolean isForcedBulb(LightUpBoard board, Point loc) {
         CannotLightACellContradictionRule cannotLite = new CannotLightACellContradictionRule();
-
         LightUpBoard modifiedBoard = board.copy();
         LightUpCell modifiedCell = modifiedBoard.getCell(loc.x, loc.y);
         modifiedCell.setData(LightUpCellType.EMPTY.value);
@@ -68,18 +64,17 @@ public class MustLightBasicRule extends BasicRule {
         //Look right
         for (int i = loc.x + 1; i < modifiedBoard.getWidth(); i++) {
             LightUpCell c = modifiedBoard.getCell(i, loc.y);
-
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
             }
             else {
                 if (c.getType() == LightUpCellType.EMPTY &&
                         !c.isLite() && cannotLite.checkContradictionAt(modifiedBoard, c) == null) {
-
                     return true;
                 }
             }
         }
+        //Look left
         for (int i = loc.x - 1; i >= 0; i--) {
             LightUpCell c = modifiedBoard.getCell(i, loc.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
@@ -87,29 +82,25 @@ public class MustLightBasicRule extends BasicRule {
             }
             else {
                 if (c.getType() == LightUpCellType.EMPTY &&
-
                         !c.isLite() && cannotLite.checkContradictionAt(modifiedBoard, c) == null) {
                     return true;
                 }
             }
         }
-
         //Look down
         for (int i = loc.y + 1; i < modifiedBoard.getHeight(); i++) {
             LightUpCell c = modifiedBoard.getCell(loc.x, i);
-
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
             }
             else {
                 if (c.getType() == LightUpCellType.EMPTY &&
-
                         !c.isLite() && cannotLite.checkContradictionAt(modifiedBoard, c) == null) {
-
                     return true;
                 }
             }
         }
+        //Look up
         for (int i = loc.y - 1; i >= 0; i--) {
             LightUpCell c = modifiedBoard.getCell(loc.x, i);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
@@ -117,9 +108,7 @@ public class MustLightBasicRule extends BasicRule {
             }
             else {
                 if (c.getType() == LightUpCellType.EMPTY &&
-
                         !c.isLite() && cannotLite.checkContradictionAt(modifiedBoard, c) == null) {
-
                     return true;
                 }
             }
