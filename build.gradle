@@ -105,4 +105,3 @@ task buildNativeWindows(type: Exec, dependsOn: 'createExe') {
 
 repositories {
     mavenCentral()
-}
