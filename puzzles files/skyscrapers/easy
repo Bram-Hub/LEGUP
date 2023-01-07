@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="2.0.0">
+    <puzzle name="Skyscrapers">
+        <board height="4" width="4">
+            <cells>
+
+            </cells>
+            <axis side="east">
+                <clue index="1" value="3"/>
+                <clue index="2" value="3"/>
+                <clue index="4" value="1"/>
+                <clue index="2" value="2"/>
+            </axis>
+            <axis side="south">
+                <clue index="1" value="3"/>
+                <clue index="2" value="3"/>
+                <clue index="4" value="1"/>
+                <clue index="2" value="2"/>
+            </axis>
+        </board>
+    </puzzle>
+</Legup>

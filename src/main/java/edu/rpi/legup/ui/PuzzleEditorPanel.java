@@ -112,17 +112,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
         }
         // file>save
-        JMenuItem savePuzzle = new JMenuItem("Save Proof As");
+        JMenuItem savePuzzle = new JMenuItem("Save");
         savePuzzle.addActionListener((ActionEvent) -> savePuzzle());
-        JMenuItem directSavePuzzle = new JMenuItem("Direct Save Proof ");
-        directSavePuzzle.addActionListener((ActionEvent) -> direct_save());
-        if (os.equals("mac")) {
-            newPuzzle.setAccelerator(KeyStroke.getKeyStroke('D', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        }
-        else {
-            newPuzzle.setAccelerator(KeyStroke.getKeyStroke('D', InputEvent.CTRL_DOWN_MASK));
-        }
-
         JMenuItem exit = new JMenuItem("Exit");
         exit.addActionListener((ActionEvent) -> this.legupUI.displayPanel(0));
         if (os.equals("mac")) {
@@ -133,7 +124,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
         menus[0].add(newPuzzle);
         menus[0].add(savePuzzle);
-        menus[0].add(directSavePuzzle);
         menus[0].add(exit);
 
         // EDIT
@@ -288,7 +278,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
     }
 
-    // File opener
     public Object[] promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
@@ -299,12 +288,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         if (fileDialog == null) {
             fileDialog = new FileDialog(this.frame);
         }
-        LegupPreferences preferences = LegupPreferences.getInstance();
-        String preferredDirectory = preferences.getUserPref(LegupPreferences.WORK_DIRECTORY);
-
         fileDialog.setMode(FileDialog.LOAD);
         fileDialog.setTitle("Select Puzzle");
-        fileDialog.setDirectory(preferredDirectory);
         fileDialog.setVisible(true);
         String fileName = null;
         File puzzleFile = null;
@@ -335,8 +320,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             }
             catch (InvalidFileFormatException e) {
                 LOGGER.error(e.getMessage());
-                JOptionPane.showMessageDialog(null, "File does not exist or it cannot be read", "Error", JOptionPane.ERROR_MESSAGE);
-                loadPuzzle();
             }
         }
     }
@@ -409,6 +392,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      * Saves a puzzle
      */
 
+
     private void direct_save(){
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
@@ -429,6 +413,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
     }
     private String savePuzzle() {
+
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
             return"";
@@ -486,7 +471,5 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     public DynamicView getDynamicBoardView() {
         return dynamicBoardView;
     }
-
-
 
 }

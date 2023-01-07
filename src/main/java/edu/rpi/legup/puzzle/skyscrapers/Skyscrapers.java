@@ -4,6 +4,9 @@ import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
+import edu.rpi.legup.puzzle.lightup.LightUpBoard;
+import edu.rpi.legup.puzzle.lightup.LightUpCell;
+import edu.rpi.legup.puzzle.lightup.LightUpCellType;
 
 public class Skyscrapers extends Puzzle {
 
@@ -23,6 +26,7 @@ public class Skyscrapers extends Puzzle {
      */
     @Override
     public void initializeView() {
+        SkyscrapersBoard board = (SkyscrapersBoard) currentBoard;
         boardView = new SkyscrapersView((SkyscrapersBoard) currentBoard);
     }
 

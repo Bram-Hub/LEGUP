@@ -12,99 +12,62 @@ public class SkyscrapersBoard extends GridBoard {
 
     private ArrayList<SkyscrapersLine> lines;
 
+    private ArrayList<SkyscrapersClue> rowClues;
+    private ArrayList<SkyscrapersClue> colClues;
+    private ArrayList<SkyscrapersClue> row;
+    private ArrayList<SkyscrapersClue> col;
 
-    private ArrayList<SkyscrapersClue> eastClues;
-    //EAST clues
-    private ArrayList<SkyscrapersClue> southClues;
-    //SOUTH clues
-    private ArrayList<SkyscrapersClue> westClues;
-    //WEST clues
-    private ArrayList<SkyscrapersClue> northClues;
-    //NORTH clues
-
-    private boolean viewFlag = false;
-    private boolean dupeFlag = false;
-
-    private SkyscrapersClue modClue = null;
-    //helper variable for case rule verification, tracks recently modified row/col
-
-    public SkyscrapersBoard(int size) {
-        super(size, size);
+    public SkyscrapersBoard(int width, int height) {
+        super(width, height);
 
         this.lines = new ArrayList<>();
 
-        this.eastClues = new ArrayList<>();
-        this.southClues = new ArrayList<>();
-        this.westClues = new ArrayList<>();
-        this.northClues = new ArrayList<>();
+        this.rowClues = new ArrayList<>();
+        this.colClues = new ArrayList<>();
+        this.row = new ArrayList<>();
+        this.col = new ArrayList<>();
 
-        for (int i = 0; i < size; i++) {
-            eastClues.add(null);
-            southClues.add(null);
-            westClues.add(null);
-            northClues.add(null);
+        for (int i = 0; i < height; i++) {
+            rowClues.add(null);
         }
+        for (int i = 0; i < width; i++) {
+            colClues.add(null);
+        }
+        for (int i = 0; i < height; i++) {
+            row.add(null);
+        }
+        for (int i = 0; i < width; i++) {
+            col.add(null);
+        }
+    }
+
+    public SkyscrapersBoard(int size) {
+        this(size, size);
     }
 
     public ArrayList<SkyscrapersLine> getLines() {
         return lines;
     }
 
-    /**
-    * Returns a list of the eastern clues ordered from loc.y = 0->max
-    */
-    public ArrayList<SkyscrapersClue> getEastClues() {
-        return eastClues;
+    public ArrayList<SkyscrapersClue> getRowClues() { //EAST CLUE
+        return rowClues;
     }
 
-    /**
-     * Returns a list of the southern clues ordered from loc.x = 0->max
-     */
-    public ArrayList<SkyscrapersClue> getSouthClues() {
-        return southClues;
+    public ArrayList<SkyscrapersClue> getColClues() { //SOUTH CLUE
+        return colClues;
     }
 
-    /**
-     * Returns a list of the western clues ordered from loc.y = 0->max
-     */
-    public ArrayList<SkyscrapersClue> getWestClues() {
-        return westClues;
+    public ArrayList<SkyscrapersClue> getRow() { //WEST CLUE
+        return row;
     }
 
-    /**
-     * Returns a list of the northern clues ordered from loc.x = 0->max
-     */
-    public ArrayList<SkyscrapersClue> getNorthClues() {
-        return northClues;
-    }
-
-    public boolean getDupeFlag(){
-        return dupeFlag;
-    }
-    public boolean getViewFlag(){
-        return viewFlag;
-    }
-    public void setDupeFlag(boolean newFlag){
-        dupeFlag = newFlag;
-    }
-    public void setViewFlag(boolean newFlag){
-        viewFlag = newFlag;
-    }
-
-    public SkyscrapersClue getmodClue(){
-        return modClue;
-    }
-    public void setModClue(SkyscrapersClue newClue){
-        modClue = newClue;
+    public ArrayList<SkyscrapersClue> getCol() { //NORTH CLUE
+        return col;
     }
 
     @Override
     public SkyscrapersCell getCell(int x, int y) {
         return (SkyscrapersCell) super.getCell(x, y);
-    }
-
-    public int getSize() {
-        return this.getWidth();
     }
 
     @Override
@@ -156,13 +119,6 @@ public class SkyscrapersBoard extends GridBoard {
         }
     }
 
-    /**
-     * Gets the cells of a certain type directly adjacent to a given cell
-     *
-     * @param cell at the center,
-     *        type of cell to collect
-     * @return list of cells of the given type
-     */
     public List<SkyscrapersCell> getAdjacent(SkyscrapersCell cell, SkyscrapersType type) {
         List<SkyscrapersCell> adj = new ArrayList<>();
         Point loc = cell.getLocation();
@@ -170,28 +126,21 @@ public class SkyscrapersBoard extends GridBoard {
         SkyscrapersCell right = getCell(loc.x + 1, loc.y);
         SkyscrapersCell down = getCell(loc.x, loc.y + 1);
         SkyscrapersCell left = getCell(loc.x - 1, loc.y);
-        if (up != null && (up.getType() == type || type == SkyscrapersType.ANY)) {
+        if (up != null && up.getType() == type) {
             adj.add(up);
         }
-        if (right != null && (right.getType() == type || type == SkyscrapersType.ANY)) {
+        if (right != null && right.getType() == type) {
             adj.add(right);
         }
-        if (down != null && (down.getType() == type || type == SkyscrapersType.ANY)) {
+        if (down != null && down.getType() == type) {
             adj.add(down);
         }
-        if (left != null && (left.getType() == type || type == SkyscrapersType.ANY)) {
+        if (left != null && left.getType() == type) {
             adj.add(left);
         }
         return adj;
     }
 
-    /**
-     * Gets the cells of a certain type directly diagonal to a given cell
-     *
-     * @param cell at the center,
-     *        type of cell to collect
-     * @return list of cells of the given type
-     */
     public List<SkyscrapersCell> getDiagonals(SkyscrapersCell cell, SkyscrapersType type) {
         List<SkyscrapersCell> dia = new ArrayList<>();
         Point loc = cell.getLocation();
@@ -199,62 +148,40 @@ public class SkyscrapersBoard extends GridBoard {
         SkyscrapersCell downRight = getCell(loc.x + 1, loc.y + 1);
         SkyscrapersCell downLeft = getCell(loc.x - 1, loc.y + 1);
         SkyscrapersCell upLeft = getCell(loc.x - 1, loc.y - 1);
-        if (upRight != null && (upRight.getType() == type || type == SkyscrapersType.ANY)) {
+        if (upRight != null && upRight.getType() == type) {
             dia.add(upRight);
         }
-        if (downLeft != null && (downLeft.getType() == type || type == SkyscrapersType.ANY)) {
+        if (downLeft != null && downLeft.getType() == type) {
             dia.add(downLeft);
         }
-        if (downRight != null && (downRight.getType() == type || type == SkyscrapersType.ANY)) {
+        if (downRight != null && downRight.getType() == type) {
             dia.add(downRight);
         }
-        if (upLeft != null && (upLeft.getType() == type || type == SkyscrapersType.ANY)) {
+        if (upLeft != null && upLeft.getType() == type) {
             dia.add(upLeft);
         }
         return dia;
     }
 
-    /**
-     * Gets the cells of a certain type in a given row/column
-     *
-     * @param index: y pos of row or x pos of col,
-     *        type of cell to collect,
-     *        boolean true if row, false if col
-     * @return list of cells of the given type, ordered west to east or north to south
-     */
     public List<SkyscrapersCell> getRowCol(int index, SkyscrapersType type, boolean isRow) {
         List<SkyscrapersCell> list = new ArrayList<>();
-        for (int i = 0; i < dimension.height; i++) {
-            SkyscrapersCell cell;
-            if (isRow) {
-                cell = getCell(i, index);
+        if (isRow) {
+            for (int i = 0; i < dimension.height; i++) {
+                SkyscrapersCell cell = getCell(i, index);
+                if (cell.getType() == type) {
+                    list.add(cell);
+                }
             }
-            else {
-                cell = getCell(index, i);
-            }
-
-            if (cell.getType() == type || type == SkyscrapersType.ANY) {
-                list.add(cell);
+        }
+        else {
+            for (int i = 0; i < dimension.width; i++) {
+                SkyscrapersCell cell = getCell(index, i);
+                if (cell.getType() == type) {
+                    list.add(cell);
+                }
             }
         }
         return list;
-    }
-
-    /**
-     * Prints a semblance of the board to console (helps in debugging)
-     */
-    public void printBoard(){
-        for(int i =0; i<this.dimension.height; i++){
-            for(SkyscrapersCell cell : this.getRowCol(i, SkyscrapersType.ANY,true)){
-                if(cell.getType() == SkyscrapersType.Number){
-                    System.out.print(cell.getData()+" ");
-                }
-                else {
-                    System.out.print(0+ " ");
-                }
-            }
-            System.out.println();
-        }
     }
 
     /**
@@ -265,10 +192,10 @@ public class SkyscrapersBoard extends GridBoard {
      */
     @Override
     public boolean equalsBoard(Board board) {
-        SkyscrapersBoard skyscrapersBoard= (SkyscrapersBoard) board;
+        SkyscrapersBoard treeTentBoard = (SkyscrapersBoard) board;
         for (SkyscrapersLine l1 : lines) {
             boolean hasLine = false;
-            for (SkyscrapersLine l2 : skyscrapersBoard.lines) {
+            for (SkyscrapersLine l2 : treeTentBoard.lines) {
                 if (l1.compare(l2)) {
                     hasLine = true;
                 }
@@ -277,12 +204,12 @@ public class SkyscrapersBoard extends GridBoard {
                 return false;
             }
         }
-        return super.equalsBoard(skyscrapersBoard);
+        return super.equalsBoard(treeTentBoard);
     }
 
     @Override
     public SkyscrapersBoard copy() {
-        SkyscrapersBoard copy = new SkyscrapersBoard(dimension.width);
+        SkyscrapersBoard copy = new SkyscrapersBoard(dimension.width, dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {
                 copy.setCell(x, y, getCell(x, y).copy());
@@ -296,13 +223,10 @@ public class SkyscrapersBoard extends GridBoard {
         for (PuzzleElement e : modifiedData) {
             copy.getPuzzleElement(e).setModifiable(false);
         }
-        copy.eastClues = eastClues;
-        copy.southClues = southClues;
-        copy.westClues = westClues;
-        copy.northClues = northClues;
-
-        copy.dupeFlag=dupeFlag;
-        copy.viewFlag=viewFlag;
+        copy.rowClues = rowClues;
+        copy.colClues = colClues;
+        copy.row = row;
+        copy.col = col;
         return copy;
     }
 }

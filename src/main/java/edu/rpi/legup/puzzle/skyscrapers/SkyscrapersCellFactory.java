@@ -22,10 +22,9 @@ public class SkyscrapersCellFactory extends ElementFactory {
     @Override
     public PuzzleElement importCell(Node node, Board board) throws InvalidFileFormatException {
         try {
-            //SkyscrapersBoard treeTentBoard = (SkyscrapersBoard) board;
-            SkyscrapersBoard skyscrapersBoard = (SkyscrapersBoard) board;
-            int width = skyscrapersBoard.getWidth();
-            int height = skyscrapersBoard.getHeight();
+            SkyscrapersBoard treeTentBoard = (SkyscrapersBoard) board;
+            int width = treeTentBoard.getWidth();
+            int height = treeTentBoard.getHeight();
             NamedNodeMap attributeList = node.getAttributes();
             if (node.getNodeName().equalsIgnoreCase("cell")) {
 
@@ -53,8 +52,8 @@ public class SkyscrapersCellFactory extends ElementFactory {
                         throw new InvalidFileFormatException("TreeTent Factory: line location out of bounds");
                     }
 
-                    SkyscrapersCell c1 = skyscrapersBoard.getCell(x1, y1);
-                    SkyscrapersCell c2 = skyscrapersBoard.getCell(x2, y2);
+                    SkyscrapersCell c1 = treeTentBoard.getCell(x1, y1);
+                    SkyscrapersCell c2 = treeTentBoard.getCell(x2, y2);
                     return new SkyscrapersLine(c1, c2);
                 }
                 else {
