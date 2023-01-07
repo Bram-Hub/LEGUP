@@ -339,9 +339,10 @@ extends javax.swing.JPanel</pre>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../edu/rpi/legup/ui/proofeditorui/rulesview/RulePanel.html#setSearchBar-edu.rpi.legup.model.Puzzle-">setSearchBar</a></span>(<a href="../../../../../../edu/rpi/legup/model/Puzzle.html" title="class in edu.rpi.legup.model">Puzzle</a>&nbsp;allPuzzle)</code>
-<div class="block">UnFinished
-
- Sets the search bar for SearchBarPanel</div>
+<div class="block">Sets the search bar for SearchBarPanel
+ search bar allows user to input a name to get relative rules
+ once a name is entered and click ok will load (a/several) rule icon,
+ which has all the functions just as other rule icons.</div>
 </td>
 </tr>
 <tr id="i12" class="altColor">
@@ -543,7 +544,13 @@ extends javax.swing.JPanel</pre>
 <div class="block">Search a certain rule in all the puzzles and set it for the searchBarPanel</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>puzzle,</code> - ruleName</dd>
+<dd><code>puzzle,</code> - ruleName
+
+ This function is the searching algorithm for "public void setSearchBar(Puzzle allPuzzle)" (below)
+
+ It takes two param Puzzle puzzle and String ruleName
+ puzzle contains rules, this function will compare each rule of puzzle with ruleName,
+ to find exact same, similar rules, or all the rules with same start letter (if input is a signal letter)</dd>
 </dl>
 </li>
 </ul>
@@ -555,7 +562,12 @@ extends javax.swing.JPanel</pre>
 <h4>similarityCheck</h4>
 <pre>public static&nbsp;double&nbsp;similarityCheck(java.lang.String&nbsp;s1,
                                      java.lang.String&nbsp;s2)</pre>
-<div class="block">Calculates the similarity (a number within 0 and 1) between two strings.</div>
+<div class="block">Calculates the similarity (a number within 0 and 1) between two strings.
+ This funtion will take two para String s1 and String s2, which s1 is the user's input
+ and s2 is the compared really rule name
+
+ similarityCheck will use a helper function to calculate a similarity degree(from 0 to 1).
+ closer to 0 means less similar, and closer to 1 means more similar.</div>
 </li>
 </ul>
 <a name="editDistance-java.lang.String-java.lang.String-">
@@ -576,9 +588,10 @@ extends javax.swing.JPanel</pre>
 <li class="blockList">
 <h4>setSearchBar</h4>
 <pre>public&nbsp;void&nbsp;setSearchBar(<a href="../../../../../../edu/rpi/legup/model/Puzzle.html" title="class in edu.rpi.legup.model">Puzzle</a>&nbsp;allPuzzle)</pre>
-<div class="block">UnFinished
-
- Sets the search bar for SearchBarPanel</div>
+<div class="block">Sets the search bar for SearchBarPanel
+ search bar allows user to input a name to get relative rules
+ once a name is entered and click ok will load (a/several) rule icon,
+ which has all the functions just as other rule icons.</div>
 </li>
 </ul>
 <a name="setSelectionByRule-edu.rpi.legup.model.rules.Rule-">
