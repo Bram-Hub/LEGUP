@@ -273,6 +273,8 @@ public class HomePanel extends LegupPanel {
                     writer.write("\n");
                 }
             }
+        }
+    }
 
 
 
