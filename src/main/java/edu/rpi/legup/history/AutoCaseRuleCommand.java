@@ -105,6 +105,10 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
             return "The selected data element is not pickable with this case rule.";
         }
 
+        if(caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size() == 0){
+            return "The selection must produce at least one case";
+        }
+
         return null;
     }
 
