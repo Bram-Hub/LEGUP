@@ -8,9 +8,7 @@ import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersCell;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType;
 
 import java.awt.*;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class InsufficientVisibilityContradictionRule extends ContradictionRule {
@@ -18,7 +16,7 @@ public class InsufficientVisibilityContradictionRule extends ContradictionRule {
     public InsufficientVisibilityContradictionRule() {
         super("SKYS-CONT-0003", "Insufficient Visibility",
                 "Less skyscrapers are visible than there should be.",
-                "edu/rpi/legup/images/skyscrapers/contradictions/InsufficientVisibility.png");
+                "edu/rpi/legup/images/skyscrapers/InsufficientVisibility.png");
     }
 
     /**
@@ -35,104 +33,91 @@ public class InsufficientVisibilityContradictionRule extends ContradictionRule {
         SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board;
         Point loc = cell.getLocation();
 
-        //get borders
-        int west  = skyscrapersboard.getWestClues().get(loc.y).getData();
-    	int east  = skyscrapersboard.getEastClues().get(loc.y).getData();
-    	int north  = skyscrapersboard.getNorthClues().get(loc.x).getData();
-    	int south  = skyscrapersboard.getSouthClues().get(loc.x).getData();
+        Set<Integer> candidates = new HashSet<Integer>();
 
-		//check row
-		int max = 0;
-		int count = 0;
-		java.util.List<SkyscrapersCell> row = skyscrapersboard.getRowCol(loc.y,SkyscrapersType.Number,true);
-		if(row.size()==skyscrapersboard.getWidth()){
-			//from west border
-			for(SkyscrapersCell c : row){
-				if (c.getData() > max) {
-					System.out.print(c.getData());
-					//System.out.println(cell.getData());
-					max = c.getData();
-					count++;
-				}
-			}
-			if (count < west) {
-				return null;
-			}
+        //check row
+        int west = skyscrapersboard.getRow().get(loc.y).getData();
+        int east = skyscrapersboard.getRowClues().get(loc.y).getData();
+        int north = skyscrapersboard.getCol().get(loc.x).getData();
+        int south = skyscrapersboard.getColClues().get(loc.x).getData();
+        int max = 0;
+        int count = 0;
+        boolean complete = true;
+        for (int i = 0; i < skyscrapersboard.getWidth(); i++) {
+            SkyscrapersCell c = skyscrapersboard.getCell(i, loc.y);
+            if (c.getType() == SkyscrapersType.Number && c.getData() > max) {
+                //System.out.print(c.getData());
+                //System.out.println(cell.getData());
+                max = c.getData();
+                count++;
+            }
+            if (c.getType() == SkyscrapersType.UNKNOWN) {
+                complete = false;
+            }
+        }
+        if (count < west && complete == true) {
+            return null;
+        }
 
-			max = 0;
-			count = 0;
-			//from east border
-			Collections.reverse(row);
-			for(SkyscrapersCell c : row){
-				if (c.getData() > max) {
-					System.out.print(c.getData());
-					//System.out.println(cell.getData());
-					max = c.getData();
-					count++;
-				}
-			}
-			if (count < east) {
-				return null;
-			}
-		}
+        max = 0;
+        count = 0;
+        complete = true;
+        for (int i = skyscrapersboard.getWidth() - 1; i >= 0; i--) {
+            SkyscrapersCell c = skyscrapersboard.getCell(i, loc.y);
+            if (c.getType() == SkyscrapersType.Number && c.getData() > max) {
+                //System.out.print(c.getData());
+                //System.out.println(cell.getData());
+                max = c.getData();
+                count = count + 1;
+            }
+            if (c.getType() == SkyscrapersType.UNKNOWN) {
+                complete = false;
+            }
+        }
+        if (count < east && complete == true) {
+            return null;
+        }
 
-		//check column
-		List<SkyscrapersCell> col = skyscrapersboard.getRowCol(loc.x,SkyscrapersType.Number,false);
-		if(col.size()==skyscrapersboard.getHeight()){
-			//from north border
-			max = 0;
-			count = 0;
-			for(SkyscrapersCell c : col){
-				System.out.println(c.getData());
-				if (c.getData() > max) {
+        // check column
+        max = 0;
+        count = 0;
+        complete = true;
+        for (int i = 0; i < skyscrapersboard.getHeight(); i++) {
+            SkyscrapersCell c = skyscrapersboard.getCell(loc.x, i);
+            if (c.getType() == SkyscrapersType.Number && c.getData() > max) {
+                //System.out.print(c.getData());
+                //System.out.println(cell.getData());
+                max = c.getData();
+                count = count + 1;
+            }
+            if (c.getType() == SkyscrapersType.UNKNOWN) {
+                complete = false;
+            }
+        }
+        if (count < north && complete == true) {
+            return null;
+        }
 
-					//System.out.println(cell.getData());
-					max = c.getData();
-					count++;
-				}
-			}
-			if (count < north) {
-				return null;
-			}
+        max = 0;
+        count = 0;
+        complete = true;
+        for (int i = skyscrapersboard.getHeight() - 1; i >= 0; i--) {
+            SkyscrapersCell c = skyscrapersboard.getCell(loc.x, i);
+            if (c.getType() == SkyscrapersType.Number && c.getData() > max) {
+                //System.out.print(c.getData());
+                //System.out.println(cell.getData());
+                max = c.getData();
+                count = count + 1;
+            }
+            if (c.getType() == SkyscrapersType.UNKNOWN) {
+                complete = false;
+            }
+        }
+        if (count < south && complete == true) {
+            return null;
+        }
 
-			//from south border
-			max = 0;
-			count = 0;
-			Collections.reverse(col);
-			for(SkyscrapersCell c : col){
-				System.out.println(c.getData());
-				if (c.getData() > max) {
-
-					//System.out.println(cell.getData());
-					max = c.getData();
-					count++;
-				}
-			}
-			if (count < south) {
-				return null;
-			}
-		}
-        
         //System.out.print("Does not contain a contradiction at this index");
         return super.getNoContradictionMessage();
     }
-
-	/**
-	 * Checks whether the Skyscraper cell has a contradiction using this rule
-	 *
-	 * @param board board to check contradiction
-	 * @return null if the Skyscraper cell contains a contradiction, otherwise error message
-	 */
-	@Override
-	public String checkContradiction(Board board) {
-		SkyscrapersBoard skyscrapersBoard = (SkyscrapersBoard) board;
-		for (int i = 0; i < skyscrapersBoard.getWidth(); i++) {
-			//checks the middle diagonal (checkContradictionAt checks row/col off each)
-			String checkStr = checkContradictionAt(board, skyscrapersBoard.getCell(i,i));
-			if (checkStr == null) {
-				return checkStr;
-			}
-		}
-		return "No instance of the contradiction " + this.ruleName + " here";
-	}
 }

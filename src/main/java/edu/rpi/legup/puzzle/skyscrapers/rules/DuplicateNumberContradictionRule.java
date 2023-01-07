@@ -16,7 +16,7 @@ public class DuplicateNumberContradictionRule extends ContradictionRule {
     public DuplicateNumberContradictionRule() {
         super("SKYS-CONT-0001", "Duplicate Number",
                 "Skyscrapers of same height cannot be placed in the same row or column.",
-                "edu/rpi/legup/images/skyscrapers/contradictions/DuplicateNumber.png");
+                "edu/rpi/legup/images/skyscrapers/DuplicateNumber.png");
     }
 
     /**
@@ -29,8 +29,7 @@ public class DuplicateNumberContradictionRule extends ContradictionRule {
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
-        //TODO:? Refactor to count each row/col once rather than per cell (override checkContradiction)
-    	SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
+        SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
         SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board;
         Point loc = cell.getLocation();
 

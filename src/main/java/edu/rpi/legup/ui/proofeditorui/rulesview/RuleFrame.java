@@ -9,8 +9,13 @@ import edu.rpi.legup.ui.lookandfeel.components.MaterialTabbedPaneUI;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 
+import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
 
 public class RuleFrame extends JPanel {
@@ -22,8 +27,6 @@ public class RuleFrame extends JPanel {
     private BasicRulePanel basicRulePanel;
     private ContradictionRulePanel contradictionPanel;
     private CaseRulePanel casePanel;
-
-    private SearchBarPanel searchPanel;
 
     private JTabbedPane tabbedPane;
     private JLabel status;
@@ -63,11 +66,6 @@ public class RuleFrame extends JPanel {
         newp.getVerticalScrollBar().setUnitIncrement(16);
         tabbedPane.addTab(contradictionPanel.name, contradictionPanel.icon, newp, contradictionPanel.toolTip);
 
-        searchPanel = new SearchBarPanel(this);
-        JScrollPane newsp = new JScrollPane(searchPanel);
-        newsp.getVerticalScrollBar().setUnitIncrement(16);
-        tabbedPane.addTab(searchPanel.name, searchPanel.icon, newsp, searchPanel.toolTip);
-
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(250, 256));
         setPreferredSize(new Dimension(330, 256));
@@ -93,7 +91,6 @@ public class RuleFrame extends JPanel {
         basicRulePanel.setSelectionByRule(rule);
         casePanel.setSelectionByRule(rule);
         contradictionPanel.setSelectionByRule(rule);
-
     }
 
     /**
@@ -139,7 +136,6 @@ public class RuleFrame extends JPanel {
         basicRulePanel.setRules(puzzle.getBasicRules());
         contradictionPanel.setRules(puzzle.getContradictionRules());
         casePanel.setRules(puzzle.getCaseRules());
-
     }
 
     /**
@@ -174,8 +170,5 @@ public class RuleFrame extends JPanel {
 
     public ContradictionRulePanel getContradictionPanel() {
         return contradictionPanel;
-    }
-    public SearchBarPanel getSearchPanel() {
-        return searchPanel;
     }
 }

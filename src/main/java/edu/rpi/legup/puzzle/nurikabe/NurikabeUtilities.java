@@ -4,9 +4,8 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.utility.DisjointSets;
 
 import java.awt.*;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
 
 public class NurikabeUtilities {
@@ -166,79 +165,72 @@ public class NurikabeUtilities {
     }
 
     /**
-     * Makes a map where the keys are white/numbered cells
-     * and the values are the amount of cells that need
-     * to be added to the region
+     * Gets a list of flood filled white regions with remaining white cells
      *
      * @param board nurikabe board
-     * @return a map of cell keys to integer values
+     * @return a list of flood filled white regions
      */
-    public static HashMap<NurikabeCell,Integer> getWhiteRegionMap(NurikabeBoard board) {
+    public static ArrayList<Set<NurikabeCell>> getFloodFillWhite(NurikabeBoard board) {
         int width = board.getWidth();
         int height = board.getHeight();
 
-        Set<NurikabeCell> numberedCells = getNurikabeNumberedCells(board);
-        // Final mapping of cell to size
-        HashMap<NurikabeCell,Integer> whiteRegionMap = new HashMap<>();
-        for (NurikabeCell center: numberedCells) {
-            //BFS for each center to find the size of the region
-            int size = 1;
-            // Mark all the vertices as not visited(By default
-            // set as false)
-            HashMap<NurikabeCell,Boolean> visited= new HashMap<>();
+        DisjointSets<NurikabeCell> whiteRegions = new DisjointSets<>();
+        for (PuzzleElement data : board.getPuzzleElements()) {
+            NurikabeCell cell = (NurikabeCell) data;
+            whiteRegions.createSet(cell);
+        }
 
-            // Create a queue for BFS
-            LinkedList<NurikabeCell> queue = new LinkedList<>();
-
-            // Mark the current node as visited and enqueue it
-            visited.put(center,true);
-            queue.add(center);
-
-            // Set of cells in the current region
-            Set<NurikabeCell> connected = new HashSet<>();
-
-            while (queue.size() != 0) {
-                // Dequeue a vertex from queue and print it
-                // s is the source node in the graph
-                NurikabeCell s = queue.poll();
-                System.out.print(s+" ");
-
-                // Make a linked list of all adjacent squares
-                Set<NurikabeCell> adj = new HashSet<>();
-
-                Point loc = s.getLocation();
-                // First check if the side is on the board
-                if (loc.x >= 1) {
-                    adj.add(board.getCell(loc.x-1, loc.y));
-                }
-                if (loc.x < width-1) {
-                    adj.add(board.getCell(loc.x+1, loc.y));
-                }
-                if (loc.y >= 1) {
-                    adj.add(board.getCell(loc.x, loc.y-1));
-                }
-                if (loc.y < height-1) {
-                    adj.add(board.getCell(loc.x, loc.y+1));
-                }
-                // Get all adjacent vertices of the dequeued vertex s
-                // If a adjacent has not been visited, then mark it
-                // visited and enqueue it
-                for (NurikabeCell n : adj) {
-                    if (!visited.getOrDefault(n,false)
-                            && n.getType() == NurikabeType.WHITE) {
-                        connected.add(n);
-                        visited.put(n,true);
-                        queue.add(n);
-                        ++size;
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                NurikabeCell cell = board.getCell(x, y);
+                NurikabeCell rightCell = board.getCell(x + 1, y);
+                NurikabeCell downCell = board.getCell(x, y + 1);
+                if (cell.getType() == NurikabeType.WHITE || cell.getType() == NurikabeType.NUMBER) {
+                    if (rightCell != null && (rightCell.getType() == NurikabeType.WHITE ||
+                            rightCell.getType() == NurikabeType.NUMBER)) {
+                        whiteRegions.union(cell, rightCell);
+                    }
+                    if (downCell != null && (downCell.getType() == NurikabeType.WHITE ||
+                            downCell.getType() == NurikabeType.NUMBER)) {
+                        whiteRegions.union(cell, downCell);
                     }
                 }
             }
-            // Map the cells to the center-size (including the center)
-            whiteRegionMap.put(center,center.getData()-size);
-            for (NurikabeCell member : connected) {
-                whiteRegionMap.put(member,center.getData()-size);
+        }
+
+        Set<NurikabeCell> numberedCells = getNurikabeNumberedCells(board);
+        ArrayList<Set<NurikabeCell>> floodFilledRegions = new ArrayList<>();
+        for (NurikabeCell numberCell : numberedCells) {
+            int number = numberCell.getData();
+            Set<NurikabeCell> region = whiteRegions.getSet(numberCell);
+            floodFilledRegions.add(region);
+
+            int flood = number - region.size();
+            for (int i = 0; i < flood; i++) {
+                Set<NurikabeCell> newSet = new HashSet<>();
+                for (NurikabeCell c : region) {
+                    Point loc = c.getLocation();
+                    NurikabeCell upCell = board.getCell(loc.x, loc.y - 1);
+                    NurikabeCell rightCell = board.getCell(loc.x + 1, loc.y);
+                    NurikabeCell downCell = board.getCell(loc.x, loc.y + 1);
+                    NurikabeCell leftCell = board.getCell(loc.x - 1, loc.y);
+                    if (upCell != null) {
+                        newSet.add(upCell);
+                    }
+                    if (rightCell != null) {
+                        newSet.add(rightCell);
+                    }
+                    if (downCell != null) {
+                        newSet.add(downCell);
+                    }
+                    if (leftCell != null) {
+                        newSet.add(leftCell);
+                    }
+                }
+                region.addAll(newSet);
             }
         }
-        return whiteRegionMap;
+
+        return floodFilledRegions;
     }
 }

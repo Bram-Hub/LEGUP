@@ -2,7 +2,6 @@ package edu.rpi.legup.ui.puzzleeditorui.elementsview;
 
 import edu.rpi.legup.controller.EditorElementController;
 import edu.rpi.legup.model.Puzzle;
-import edu.rpi.legup.ui.lookandfeel.components.MaterialTabbedPaneUI;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -23,28 +22,16 @@ public class ElementFrame extends JPanel {
 
     public ElementFrame(EditorElementController controller) {
         this.controller = controller;
-        MaterialTabbedPaneUI tabOverride = new MaterialTabbedPaneUI() {
-            //this prevents the tabs from moving around when you select them
-            @Override
-            protected boolean shouldRotateTabRuns(int i) {
-                return false;
-            }
-        };
 
         this.tabbedPane = new JTabbedPane();
-        tabbedPane.setUI(tabOverride);
         JLabel status = new JLabel("", SwingConstants.CENTER);
         this.buttonGroup = new ButtonGroup();
 
         nonPlaceableElementPanel = new NonPlaceableElementPanel(this);
-        //nonPlaceableElementPanel.setMinimumSize(new Dimension(100,200));
         tabbedPane.addTab(nonPlaceableElementPanel.getName(), nonPlaceableElementPanel.getIcon(), new JScrollPane(nonPlaceableElementPanel), nonPlaceableElementPanel.getToolTip());
 
         placeableElementPanel = new PlaceableElementPanel(this);
-        //placeableElementPanel.setMinimuSize(new Dimension(100,200));
         tabbedPane.addTab(placeableElementPanel.getName(), placeableElementPanel.getIcon(), new JScrollPane(placeableElementPanel), placeableElementPanel.getToolTip());
-        tabbedPane.setTabPlacement(JTabbedPane.TOP);
-
 
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(250, 256));
