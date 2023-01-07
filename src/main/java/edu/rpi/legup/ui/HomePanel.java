@@ -2,22 +2,15 @@ package edu.rpi.legup.ui;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.CursorController;
-import edu.rpi.legup.app.LegupPreferences;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
-import java.util.jar.Attributes;
-import java.util.jar.Attributes.*;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.net.URI;
