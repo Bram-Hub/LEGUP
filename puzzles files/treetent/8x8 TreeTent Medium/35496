@@ -37,4 +37,5 @@
             </axis>
         </board>
     </puzzle>
+    <Solved isSolved="false"/>
 </Legup>

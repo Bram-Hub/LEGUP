@@ -27,30 +27,38 @@ public class CreatePuzzleDialog extends JDialog {
          * @param e the event to be processed
          */
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent ae) {
             String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
+            
+            // Check if all 3 TextFields are filled
+            if (game.equals("") || rows.getText().equals("") || columns.getText().equals("")) {
+                System.out.println("Unfilled fields");
+                return;
+            }
+            
             try {
                 homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(rows.getText()), Integer.valueOf(columns.getText()));
                 setVisible(false);
             }
-            catch (IllegalArgumentException exception) {
-                // Don't do anything. This is here to prevent the dialog from closing if the dimensions are invalid.
+             catch (IllegalArgumentException e) {
+                System.out.println("Failed to open editor with new puzzle");
+                e.printStackTrace(System.out);
             }
         }
     };
+    
     private JButton cancel = new JButton("Cancel");
     private ActionListener cancelButtonListener = new ActionListener() {
         /**
-         * Hides the puzzle creation dialog
+         * Dispose the puzzle creation dialog
          *
          * @param e the event to be processed
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            setVisible(false);
+            dispose();
         }
     };
-
 
     public CreatePuzzleDialog(JFrame parent, HomePanel homePanel) {
         super(parent, true);
@@ -106,24 +114,27 @@ public class CreatePuzzleDialog extends JDialog {
     public void initPuzzles() {
         this.games = GameBoardFacade.getInstance().getConfig().getFileCreationEnabledPuzzles().toArray(new String[0]);
         Arrays.sort(this.games);
-        gameBox = new JComboBox(GameBoardFacade.getInstance().getConfig().getFileCreationEnabledPuzzleNames().toArray(new String[0]));
+        gameBox = new JComboBox(this.games);
     }
 
+    // ^This method seems useless and never got covered
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == ok) {
             String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
+            
             try {
                 this.homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(this.rows.getText()), Integer.valueOf(this.columns.getText()));
-                setVisible(false);
+                this.setVisible(false);
             }
-            catch (IllegalArgumentException exception) {
+             catch (IllegalArgumentException exception) {
                 // Don't do anything. This is here to prevent the dialog from closing if the dimensions are invalid.
             }
         }
-        else {
-            if (e.getSource() == cancel) {
-                setVisible(false);
-            }
+         else if (e.getSource() == cancel) {
+            this.setVisible(false);
+        }
+         else {
+            // Unknown Action Event
         }
     }
 }
