@@ -376,7 +376,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
             fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
             puzzleFile = new File(fileName);
-        } else {
+        }
+        else {
             // The attempt to prompt a puzzle ended gracefully (cancel)
             return null;
         }
