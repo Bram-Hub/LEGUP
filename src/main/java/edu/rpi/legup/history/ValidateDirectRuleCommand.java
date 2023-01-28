@@ -19,7 +19,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
     private DirectRule newRule;
 
     /**
-     * ValidateBasicRuleCommand Constructor creates a command for verifying a basic rule
+     * ValidateDesireRuleCommand Constructor creates a command for verifying a basic rule
      *
      * @param selection selection of tree elements
      * @param rule      basic rule

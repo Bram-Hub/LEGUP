@@ -202,7 +202,7 @@ public class PreferencesDialog extends JDialog {
         contentPane.add(createLeftLabel("Rules"));
         contentPane.add(createLineSeparator());
 
-        contentPane.add(createLeftLabel("Basic Rules"));
+        contentPane.add(createLeftLabel("Direct Rules"));
         contentPane.add(createLineSeparator());
         contentPane.add(Box.createRigidArea(new Dimension(0, 5)));
         for (Rule rule : puzzle.getDirectRules()) {

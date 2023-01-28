@@ -325,7 +325,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     }
 
     /**
-     * Gets the list of basic rules
+     * Gets the list of direct rules
      *
      * @return list of basic rules
      */
@@ -343,7 +343,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
 
     /**
-     * Sets the list of basic rules
+     * Sets the list of direct rules
      *
      * @param directRules list of basic rules
      */
