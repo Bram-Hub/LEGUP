@@ -4,7 +4,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import edu.rpi.legup.puzzle.lightup.LightUp;
 
-public class EmptyCellinLightBasicRuleTest {
+public class EmptyCellinLightDirectRuleTest {
     private static LightUp lightUp;
 
     @BeforeClass

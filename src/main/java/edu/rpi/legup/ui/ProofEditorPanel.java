@@ -711,7 +711,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         puzzle.addTreeListener(treePanel.getTreeView());
         puzzle.addBoardListener(puzzle.getBoardView());
 
-        ruleFrame.getBasicRulePanel().setRules(puzzle.getBasicRules());
+        ruleFrame.getDirectRulePanel().setRules(puzzle.getDirectRules());
         ruleFrame.getCasePanel().setRules(puzzle.getCaseRules());
         ruleFrame.getContradictionPanel().setRules(puzzle.getContradictionRules());
         //ruleFrame.getSearchPanel().setRules(puzzle.getContradictionRules());

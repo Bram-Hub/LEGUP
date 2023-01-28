@@ -11,7 +11,7 @@ import edu.rpi.legup.puzzle.nurikabe.Nurikabe;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
-import edu.rpi.legup.puzzle.nurikabe.rules.FillinBlackBasicRule;
+import edu.rpi.legup.puzzle.nurikabe.rules.FillinBlackDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
 
 import java.awt.*;

@@ -4,7 +4,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import edu.rpi.legup.puzzle.lightup.LightUp;
 
-public class MustLightBasicRuleTest {
+public class MustLightDirectRuleTest {
     private static LightUp lightUp;
 
     @BeforeClass

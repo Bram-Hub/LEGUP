@@ -53,7 +53,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     private List<IBoardListener> boardListeners;
     private List<ITreeListener> treeListeners;
 
-    protected List<BasicRule> basicRules;
+    protected List<DirectRule> directRules;
     protected List<ContradictionRule> contradictionRules;
     protected List<CaseRule> caseRules;
     protected List<PlaceableElement> placeableElements;
@@ -66,7 +66,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         this.boardListeners = new ArrayList<>();
         this.treeListeners = new ArrayList<>();
 
-        this.basicRules = new ArrayList<>();
+        this.directRules = new ArrayList<>();
         this.contradictionRules = new ArrayList<>();
         this.caseRules = new ArrayList<>();
 
@@ -148,7 +148,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
                             switch (rule.getRuleType()) {
                                 case BASIC:
-                                    this.addBasicRule((BasicRule) rule);
+                                    this.addDirectRule((DirectRule) rule);
                                     break;
                                 case CASE:
                                     this.addCaseRule((CaseRule) rule);
@@ -329,8 +329,8 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      *
      * @return list of basic rules
      */
-    public List<BasicRule> getBasicRules() {
-        return basicRules;
+    public List<DirectRule> getDirectRules() {
+        return directRules;
     }
 
     public List<PlaceableElement> getPlaceableElements() {
@@ -345,10 +345,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     /**
      * Sets the list of basic rules
      *
-     * @param basicRules list of basic rules
+     * @param directRules list of basic rules
      */
-    public void setBasicRules(List<BasicRule> basicRules) {
-        this.basicRules = basicRules;
+    public void setDirectRules(List<DirectRule> directRules) {
+        this.directRules = directRules;
     }
 
     /**
@@ -356,8 +356,8 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      *
      * @param rule basic rule to add
      */
-    public void addBasicRule(BasicRule rule) {
-        basicRules.add(rule);
+    public void addDirectRule(DirectRule rule) {
+        directRules.add(rule);
     }
 
     public void addPlaceableElement(PlaceableElement element) {
@@ -373,8 +373,8 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      *
      * @param rule basic rule to remove
      */
-    public void removeBasicRule(BasicRule rule) {
-        basicRules.remove(rule);
+    public void removeDirectRule(DirectRule rule) {
+        directRules.remove(rule);
     }
 
     /**
@@ -456,7 +456,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * @return Rule
      */
     public Rule getRuleByName(String name) {
-        for (Rule rule : basicRules) {
+        for (Rule rule : directRules) {
             if (rule.getRuleName().equals(name)) {
                 return rule;
             }
@@ -485,7 +485,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * @return Rule
      */
     public Rule getRuleByID(String id) {
-        for (Rule rule : basicRules) {
+        for (Rule rule : directRules) {
             if (rule.getRuleID().equals(id)) {
                 return rule;
             }
