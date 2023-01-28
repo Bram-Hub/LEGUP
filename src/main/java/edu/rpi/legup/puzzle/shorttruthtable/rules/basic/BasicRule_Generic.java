@@ -6,6 +6,7 @@ import edu.rpi.legup.model.rules.BasicRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 
+import edu.rpi.legup.puzzle.lightup.LightUpBoard;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCell;
 import edu.rpi.legup.model.rules.ContradictionRule;
@@ -24,29 +25,31 @@ public abstract class BasicRule_Generic extends BasicRule {
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement element) {
 
         // Check that the puzzle element is not unknown
-        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
-        ShortTruthTableCell cell = (ShortTruthTableCell) board.getPuzzleElement(element);
+        ShortTruthTableBoard parentBoard = (ShortTruthTableBoard) transition.getParents().get(0).getBoard();
+        ShortTruthTableBoard finalBoard = (ShortTruthTableBoard) transition.getBoard();
+        ShortTruthTableCell parentCell = (ShortTruthTableCell) parentBoard.getPuzzleElement(element);
+        ShortTruthTableCell finalCell = (ShortTruthTableCell) finalBoard.getPuzzleElement(element);
 
-        if (!cell.isAssigned()) {
+        if (!finalCell.isAssigned()) {
             return super.getInvalidUseOfRuleMessage() + ": Only assigned cells are allowed for basic rules";
         }
 
         // Strategy: Negate the modified cell and check if there is a contradiction. If there is one, then the
         // original statement must be true. If there isn't one, then the original statement must be false.
 
-        ShortTruthTableBoard modifiedBoard = board.copy();
+        ShortTruthTableBoard modifiedBoard = parentBoard.copy();
 
         PuzzleElement checkElement =
                 this.ELIMINATION_RULE
-                ? cell.getStatementReference().getParentStatement().getCell()
+                ? parentCell.getStatementReference().getParentStatement().getCell()
                 : element;
 
         ShortTruthTableCell checkCell =
                 this.ELIMINATION_RULE
-                ? (ShortTruthTableCell) modifiedBoard.getCell(cell.getX(), cell.getY())
+                ? (ShortTruthTableCell) modifiedBoard.getCell(parentCell.getX(), parentCell.getY())
                 : (ShortTruthTableCell) modifiedBoard.getPuzzleElement(element);
 
-        checkCell.setType(checkCell.getType().getNegation());
+        checkCell.setType(finalCell.getType().getNegation());
 
         String contradictionMessage = CORRESPONDING_CONTRADICTION_RULE.checkContradictionAt(modifiedBoard, checkElement);
         if (contradictionMessage == null) { // A contradiction exists in the modified statement; this is good!
