@@ -28,8 +28,8 @@ public class WhiteBottleNeckDirectRuleTest {
     }
 
     @Test
-    public void WhiteBottleNeckBasicRule_SimpleWhiteBottleNeckTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/WhiteBottleNeckBasicRule/SimpleWhiteBottleNeck", nurikabe);
+    public void WhiteBottleNeckDirectRule_SimpleWhiteBottleNeckTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/WhiteBottleNeckDirectRule/SimpleWhiteBottleNeck", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
@@ -55,8 +55,8 @@ public class WhiteBottleNeckDirectRuleTest {
     }
 
     @Test
-    public void WhiteBottleNeckBasicRule_NurikabeBoard1Test() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/WhiteBottleNeckBasicRule/NurikabeBoard1", nurikabe);
+    public void WhiteBottleNeckDirectRule_NurikabeBoard1Test() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/WhiteBottleNeckDirectRule/NurikabeBoard1", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();

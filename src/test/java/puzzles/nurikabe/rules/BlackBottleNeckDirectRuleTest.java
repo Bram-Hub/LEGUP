@@ -1,24 +1,15 @@
 package puzzles.nurikabe.rules;
 
 import legup.MockGameBoardFacade;
-import legup.TestUtilities;
-import edu.rpi.legup.model.tree.TreeNode;
-import edu.rpi.legup.model.tree.TreeTransition;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import edu.rpi.legup.puzzle.nurikabe.Nurikabe;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
-import edu.rpi.legup.puzzle.nurikabe.rules.BlackBottleNeckBasicRule;
+import edu.rpi.legup.puzzle.nurikabe.rules.BlackBottleNeckDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
 
-import java.awt.*;
+public class BlackBottleNeckDirectRuleTest {
 
-public class BlackBottleNeckBasicRuleTest {
-
-    private static final BlackBottleNeckBasicRule RULE = new BlackBottleNeckBasicRule();
+    private static final BlackBottleNeckDirectRule RULE = new BlackBottleNeckDirectRule();
     private static Nurikabe nurikabe;
 
     @BeforeClass
@@ -28,8 +19,8 @@ public class BlackBottleNeckBasicRuleTest {
     }
 
     @Test
-    public void BlackBottleNeckBasicRule_TwoSurroundBlackTest() throws InvalidFileFormatException {
-//        TestUtilities.importTestBoard("puzzles/nurikabe/rules/BlackBottleNeckBasicRule/SimpleBlackBottleNeck", nurikabe);
+    public void BlackBottleNeckDirectRule_TwoSurroundBlackTest() throws InvalidFileFormatException {
+//        TestUtilities.importTestBoard("puzzles/nurikabe/rules/BlackBottleNeckDirectRule/SimpleBlackBottleNeck", nurikabe);
 //        TreeNode rootNode = nurikabe.getTree().getRootNode();
 //        TreeTransition transition = rootNode.getChildren().get(0);
 //        transition.setRule(RULE);

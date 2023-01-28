@@ -124,8 +124,8 @@ public class BlackBetweenRegionsDirectRuleTest {
     }
 
     @Test
-    public void BlackBetweenRegionsBasicRule_VerticalBlackBetweenRegionsTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/BlackBetweenRegionsBasicRule/VerticalBlackBetweenRegions", nurikabe);
+    public void BlackBetweenRegionsDirectRule_VerticalBlackBetweenRegionsTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/BlackBetweenRegionsDirectRule/VerticalBlackBetweenRegions", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);

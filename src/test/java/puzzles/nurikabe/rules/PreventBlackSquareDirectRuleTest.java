@@ -56,7 +56,7 @@ public class PreventBlackSquareDirectRuleTest {
 
     @Test
     public void PreventBlackSquareDirectRule_BottomRightWhiteBlackSquareTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareBasicRule/BottomRightWhiteBlackSquare", nurikabe);
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareDirectRule/BottomRightWhiteBlackSquare", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -82,8 +82,8 @@ public class PreventBlackSquareDirectRuleTest {
     }
 
     @Test
-    public void PreventBlackSquareBasicRule_TopLeftWhiteBlackSquareTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareBasicRule/TopLeftWhiteBlackSquare", nurikabe);
+    public void PreventBlackSquareDirectRule_TopLeftWhiteBlackSquareTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareDirectRule/TopLeftWhiteBlackSquare", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -109,8 +109,8 @@ public class PreventBlackSquareDirectRuleTest {
     }
 
     @Test
-    public void PreventBlackSquareBasicRule_TopRightWhiteBlackSquareTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareBasicRule/TopRightWhiteBlackSquare", nurikabe);
+    public void PreventBlackSquareDirectRule_TopRightWhiteBlackSquareTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareDirectRule/TopRightWhiteBlackSquare", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);

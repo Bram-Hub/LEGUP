@@ -16,9 +16,9 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 
 import java.awt.*;
 
-public class FillinBlackBasicRuleTest {
+public class FillinBlackDirectRuleTest {
 
-    private static final FillinBlackBasicRule RULE = new FillinBlackBasicRule();
+    private static final FillinBlackDirectRule RULE = new FillinBlackDirectRule();
     private static Nurikabe nurikabe;
 
     @BeforeClass
@@ -28,8 +28,8 @@ public class FillinBlackBasicRuleTest {
     }
 
     @Test
-    public void FillinBlackBasicRule_UnknownSurroundBlackTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/FillinBlackBasicRule/UnknownSurroundBlack", nurikabe);
+    public void FillinBlackDirectRule_UnknownSurroundBlackTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/FillinBlackDirectRule/UnknownSurroundBlack", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);

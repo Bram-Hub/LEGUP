@@ -10,9 +10,9 @@ import edu.rpi.legup.puzzle.battleship.*;
 import edu.rpi.legup.puzzle.battleship.rules.*;
 import edu.rpi.legup.save.InvalidFileFormatException;
 
-public class FinishWithShipsBasicRuleTests {
-    private static final FinishWithShipsBasicRule RULE
-            = new FinishWithShipsBasicRule();
+public class FinishWithShipsDirectRuleTests {
+    private static final FinishWithShipsDirectRule RULE
+            = new FinishWithShipsDirectRule();
 
     private static Battleship battleship;
 
