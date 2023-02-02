@@ -15,7 +15,7 @@ public class DirectRulePanel extends RulePanel {
      */
     DirectRulePanel(RuleFrame ruleFrame) {
         super(ruleFrame);
-        this.icon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/Basic Rules.gif"));
+        this.icon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/Direct Rules.gif"));
         this.name = "Direct Rules";
         this.toolTip = "Direct Rules";
     }
