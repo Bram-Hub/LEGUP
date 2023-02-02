@@ -85,7 +85,7 @@ public abstract class RulePanel extends JPanel {
     public void searchForRule(Puzzle puzzle, String ruleName) {
 
         List<List<? extends Rule>> allrules = new ArrayList<List<? extends Rule>>(3);
-        allrules.add(0, puzzle.getBasicRules());
+        allrules.add(0, puzzle.getDirectRules());
         allrules.add(1, puzzle.getCaseRules());
         allrules.add(2, puzzle.getContradictionRules());
 
