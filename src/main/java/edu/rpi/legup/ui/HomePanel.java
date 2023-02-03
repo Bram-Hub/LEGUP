@@ -63,6 +63,19 @@ public class HomePanel extends LegupPanel {
             }
             String fileName = (String) items[0];
             File puzzleFile = (File) items[1];
+            String parentFolderName = puzzleFile.getParentFile().getParent();
+            System.out.println("Puzzle Parent Folder: "+parentFolderName);
+            String[] editablePuzzles = GameBoardFacade.getInstance().getConfig().getFileCreationEnabledPuzzles().toArray(new String[0]);
+            boolean isEditablePuzzle = false;
+            for (int i = 0; i < editablePuzzles.length; i++) {
+                if (parentFolderName.toLowerCase().contains(editablePuzzles[i].toLowerCase())) {
+                    isEditablePuzzle = true;
+                }
+            }
+            if (!isEditablePuzzle){
+                System.out.println("Puzzle type is uneditable");
+                return;
+            }
             legupUI.displayPanel(2);
             legupUI.getPuzzleEditor().loadPuzzle(fileName, puzzleFile);
         }
