@@ -23,9 +23,15 @@ public class SkyscrapersClueView extends ElementView {
         return (SkyscrapersClue) super.getPuzzleElement();
     }
 
-    @Override
+   @Override
     public void draw(Graphics2D graphics2D) {
         drawElement(graphics2D);
+       if (this.isShowCasePicker() && this.isCaseRulePickable()) {
+           drawCase(graphics2D);
+           if(this.isHover()){
+               drawHover(graphics2D);
+           }
+       }
     }
 
     @Override

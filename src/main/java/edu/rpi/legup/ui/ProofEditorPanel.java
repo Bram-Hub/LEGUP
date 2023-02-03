@@ -1,5 +1,7 @@
 package edu.rpi.legup.ui;
-
+import org.xml.sax.*;
+import org.xml.sax.helpers.*;
+import javax.xml.parsers.*;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.controller.BoardController;
@@ -27,6 +29,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -115,10 +118,10 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         newPuzzle = new JMenuItem("Open");
         resetPuzzle = new JMenuItem("Reset Puzzle");
 //        genPuzzle = new JMenuItem("Puzzle Generators");
-        saveProofAs = new JMenuItem("Save Proof As");
-        saveProofChange = new JMenuItem("Save Proof Change");
+        saveProofAs = new JMenuItem("Save Proof As"); // create a new file to save
+        saveProofChange = new JMenuItem("Save Proof Change"); // save to the current file
         preferences = new JMenuItem("Preferences");
-        helpTutorial = new JMenuItem("Help");
+        helpTutorial = new JMenuItem("Help"); // jump to web page
         exit = new JMenuItem("Exit");
 
         edit = new JMenu("Edit");
@@ -429,7 +432,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
     }
     /**
-     * Saves a proof
+     * Create a new file and save proof to it
      */
     private void saveProofAs() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
@@ -472,7 +475,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private void helpTutorial() {
 
         Runtime rt = Runtime.getRuntime();
-        String url = "https://github.com/Bram-Hub/Legup/wiki/LEGUP-Tutorial"; // empty page, Oct 17th
+        String url = "https://github.com/Bram-Hub/Legup/wiki/LEGUP-Tutorial"; // empty page 2022 Fall semester
         try{
             //rt.exec("rundll32 url.dll,FileProtocolHandler "+url);
             java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
@@ -481,8 +484,26 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             e.printStackTrace();
         }
     }
+    //add the new function need to implement
+    public void add_drop(){
+        // add the mouse event then we can use the new listener to implement and
+        // we should create a need jbuttom for it to ship the rule we select.
+        JPanel panel= new JPanel();
+        JButton moveing_buttom= new JButton();
+        moveing_buttom.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //get the selected rule
+            }
+        });
+        panel.add(moveing_buttom);
 
-    // Quick save, does not prompt user for name chane
+    }
+
+
+
+
+    // Quick save proof to the current file with a pop window to show "successfully saved"
     private void saveProofChange(){
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
@@ -690,9 +711,11 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         puzzle.addTreeListener(treePanel.getTreeView());
         puzzle.addBoardListener(puzzle.getBoardView());
 
-        ruleFrame.getBasicRulePanel().setRules(puzzle.getBasicRules());
+        ruleFrame.getDirectRulePanel().setRules(puzzle.getDirectRules());
         ruleFrame.getCasePanel().setRules(puzzle.getCaseRules());
         ruleFrame.getContradictionPanel().setRules(puzzle.getContradictionRules());
+        //ruleFrame.getSearchPanel().setRules(puzzle.getContradictionRules());
+        ruleFrame.getSearchPanel().setSearchBar(puzzle);
 
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
 //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);

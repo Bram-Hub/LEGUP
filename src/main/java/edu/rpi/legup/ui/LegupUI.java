@@ -2,7 +2,6 @@ package edu.rpi.legup.ui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
 import java.security.InvalidParameterException;
 import java.util.Objects;
 
@@ -15,8 +14,6 @@ import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.ui.lookandfeel.LegupLookAndFeel;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
-import edu.rpi.legupupdate.Update;
-import edu.rpi.legupupdate.UpdateProgress;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -62,7 +59,7 @@ public class LegupUI extends JFrame implements WindowListener {
         displayPanel(0);
 
         setIconImage(new ImageIcon(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(
-                "edu/rpi/legup/images/Legup/Basic Rules.gif"))).getImage());
+                "edu/rpi/legup/images/Legup/Direct Rules.gif"))).getImage());
 
         if (LegupPreferences.getInstance().getUserPref(LegupPreferences.START_FULL_SCREEN).equals(Boolean.toString(true))) {
             setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
