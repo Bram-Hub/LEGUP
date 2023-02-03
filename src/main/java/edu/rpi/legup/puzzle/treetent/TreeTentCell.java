@@ -6,7 +6,7 @@ import edu.rpi.legup.model.gameboard.GridCell;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class TreeTentCell extends GridCell<Integer> {
+public class TreeTentCell extends GridCell<TreeTentType> {
 
     public TreeTentCell(int valueInt, Point location) {
         super(valueInt, location);

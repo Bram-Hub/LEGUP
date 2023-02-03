@@ -4,7 +4,7 @@ import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.awt.*;
 
-public class SkyscrapersCell extends GridCell<Integer> {
+public class SkyscrapersCell extends GridCell<SkyscrapersType> {
     private int max;
 
     public SkyscrapersCell(int valueInt, Point location, int size) {

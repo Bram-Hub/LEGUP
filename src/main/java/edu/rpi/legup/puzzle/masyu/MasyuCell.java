@@ -4,7 +4,7 @@ import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.awt.*;
 
-public class MasyuCell extends GridCell<Integer> {
+public class MasyuCell extends GridCell<MasyuType> {
 
     public MasyuCell(int value, Point location) {
         super(value, location);

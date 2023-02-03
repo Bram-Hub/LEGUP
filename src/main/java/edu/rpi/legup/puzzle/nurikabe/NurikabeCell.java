@@ -6,7 +6,7 @@ import edu.rpi.legup.model.elements.Element;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class NurikabeCell extends GridCell<Integer> {
+public class NurikabeCell extends GridCell<NurikabeType> {
 
     /**
      * NurikabeCell Constructor - creates a NurikabeCell from the specified value and location
