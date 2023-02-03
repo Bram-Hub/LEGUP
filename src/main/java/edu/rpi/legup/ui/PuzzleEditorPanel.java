@@ -313,6 +313,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             puzzleFile = new File(fileName);
         }
         else {
+            // The attempt to prompt a puzzle ended gracefully (cancel)
             return null;
         }
 
