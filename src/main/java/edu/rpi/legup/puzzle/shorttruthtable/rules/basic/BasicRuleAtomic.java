@@ -5,7 +5,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.rules.contradiction.ContradictionRul
 public class BasicRuleAtomic extends BasicRule_Generic {
 
     public BasicRuleAtomic() {
-        super("STTT-BASC-0001", "Atomic Rule",
+        super("STTT-BASC-0001", "True or False",
                 "All identical atoms have the same T/F value",
                 "Atomic",
                 new ContradictionRuleAtomic(),
