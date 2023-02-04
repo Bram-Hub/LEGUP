@@ -227,6 +227,18 @@ public class GameBoardFacade implements IHistorySubject {
                 if (qualifiedClassName == null) {
                     throw new InvalidFileFormatException("Puzzle creation error: cannot find puzzle with that name");
                 }
+                String[] editablePuzzles = GameBoardFacade.getInstance().getConfig().getFileCreationEnabledPuzzles().toArray(new String[0]);
+                boolean isEditablePuzzle = false;
+                for (int i = 0; i < editablePuzzles.length; i++) {
+                    if (qualifiedClassName.contains(editablePuzzles[i])) {
+                        isEditablePuzzle = true;
+                        break;
+                    }
+                }
+                if (!isEditablePuzzle){
+                    LOGGER.error("Puzzle is not editable");
+                    throw new InvalidFileFormatException("Puzzle is not editable");
+                }
                 LOGGER.debug("Loading " + qualifiedClassName);
 
                 Class<?> c = Class.forName(qualifiedClassName);
