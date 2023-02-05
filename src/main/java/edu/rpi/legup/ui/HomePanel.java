@@ -47,6 +47,10 @@ public class HomePanel extends LegupPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             Object[] items = legupUI.getProofEditor().promptPuzzle();
+            if (items == null) {
+                // The attempt to prompt a puzzle ended gracefully (cancel)
+                return;
+            }
             String fileName = (String) items[0];
             File puzzleFile = (File) items[1];
             legupUI.displayPanel(1);
@@ -59,6 +63,7 @@ public class HomePanel extends LegupPanel {
         public void actionPerformed(ActionEvent e) {
             Object[] items = legupUI.getPuzzleEditor().promptPuzzle();
             if (items == null) {
+                // The attempt to prompt a puzzle ended gracefully (cancel)
                 return;
             }
             String fileName = (String) items[0];
