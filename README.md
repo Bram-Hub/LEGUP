@@ -75,6 +75,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
  ```
+ 
+The look and feel of LEGUP uses [FlatLaf](https://github.com/JFormDesigner/FlatLaf), which is licensed under the [Apache-2.0 license](https://www.apache.org/licenses/LICENSE-2.0.html).
 
-Some of the icons used in Legup were taken from or derived from the icons found on https://fonts.google.com/icons, which
-is licensed under the [Apache-2.0 license](https://www.apache.org/licenses/LICENSE-2.0.html).
+Some of the icons used in Legup were taken from or derived from the icons found on https://fonts.google.com/icons, which is licensed under the [Apache-2.0 license](https://www.apache.org/licenses/LICENSE-2.0.html).
