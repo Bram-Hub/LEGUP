@@ -1,6 +1,7 @@
 package edu.rpi.legup.puzzle.sudoku;
 
 import edu.rpi.legup.model.gameboard.GridCell;
+import edu.rpi.legup.puzzle.sudoku.elements.NumberTile;
 
 import java.awt.*;
 import java.util.HashSet;
