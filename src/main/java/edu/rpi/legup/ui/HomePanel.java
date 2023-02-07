@@ -68,7 +68,6 @@ public class HomePanel extends LegupPanel {
             }
             String fileName = (String) items[0];
             File puzzleFile = (File) items[1];
-            legupUI.displayPanel(2);
             legupUI.getPuzzleEditor().loadPuzzle(fileName, puzzleFile);
         }
     };
