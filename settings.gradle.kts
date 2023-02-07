@@ -1,2 +1,2 @@
-rootProject.name = 'Legup'
-include ':legup'
+rootProject.name = "Legup"
+include(":legup")
