@@ -47,6 +47,8 @@ Additionally, if you are interested in computer science and programming, please 
 ## Documentation
 Documentation is actively being worked on on the [Legup wiki](https://github.com/Bram-Hub/Legup/wiki). 
 
+The Javadocs for our application are currently hosted directly on [our Github Pages site](https://bram-hub.github.io/LEGUP/).
+
 Documentation is very much in the early stages, and we would greatly appreciate anyone who is willing to help write and structure the documentation. Currently, the priority is to write detailed documentation on how Nurikabe works, as it is the puzzle that is the most developed within Legup.
 
 ## Contributing
