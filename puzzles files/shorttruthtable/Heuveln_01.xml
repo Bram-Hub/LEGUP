@@ -4,9 +4,13 @@
         <board>
             <data normal="true">
                 <statement representation="A>(B^C)" row_index="0"/>
+                    <statement boolean_values="_T_____" row_index="0"/>
                 <statement representation="C-B" row_index="1"/>
+                    <statement boolean_values="_T_" row_index="1"/>
                 <statement representation="~C" row_index="2"/>
+                    <statement boolean_values="T_" row_index="2"/>
                 <statement representation="~A" row_index="3"/>
+                    <statement boolean_values="F_" row_index="1"/>
             </data>
         </board>
     </puzzle>
