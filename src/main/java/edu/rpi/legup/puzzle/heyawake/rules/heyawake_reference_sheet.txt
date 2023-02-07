@@ -1,14 +1,14 @@
-HEYA-BASC-0001 : BlackPathBasicRule
-HEYA-BASC-0002 : BottleNeckBasicRule
-HEYA-BASC-0003 : FillRoomBlackBasicRule
-HEYA-BASC-0004 : FillRoomWhiteBasicRule
-HEYA-BASC-0005 : OneRowBasicRule
-HEYA-BASC-0006 : PreventWhiteLineBasicRule
-HEYA-BASC-0007 : ThreeByThreeBasicRule
-HEYA-BASC-0008 : TwoInCornerBasicRule
-HEYA-BASC-0009 : WhiteAroundBlackBasicRule
-HEYA-BASC-0010 : WhiteEscapeBasicRule
-HEYA-BASC-0011 : ZigZagWhiteBasicRule
+HEYA-BASC-0001 : BlackPathDirectRule
+HEYA-BASC-0002 : BottleNeckDirectRule
+HEYA-BASC-0003 : FillRoomBlackDirectRule
+HEYA-BASC-0004 : FillRoomWhiteDirectRule
+HEYA-BASC-0005 : OneRowDirectRule
+HEYA-BASC-0006 : PreventWhiteLineDirectRule
+HEYA-BASC-0007 : ThreeByThreeDirectRule
+HEYA-BASC-0008 : TwoInCornerDirectRule
+HEYA-BASC-0009 : WhiteAroundBlackDirectRule
+HEYA-BASC-0010 : WhiteEscapeDirectRule
+HEYA-BASC-0011 : ZigZagWhiteDirectRule
 
 HEYA-CONT-0001 : AdjacentBlacksContradictionRule
 HEYA-CONT-0002 : RoomTooEmptyContradictionRule

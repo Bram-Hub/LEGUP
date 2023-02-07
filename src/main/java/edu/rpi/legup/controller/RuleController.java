@@ -95,7 +95,7 @@ public class RuleController implements ActionListener {
             }
             else {
                 boolean def = LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.ALLOW_DEFAULT_RULES);
-                ICommand validate = def ? new ApplyDefaultBasicRuleCommand(selection, (BasicRule) rule) : new ValidateBasicRuleCommand(selection, (BasicRule) rule);
+                ICommand validate = def ? new ApplyDefaultDirectRuleCommand(selection, (DirectRule) rule) : new ValidateDirectRuleCommand(selection, (DirectRule) rule);
                 if (validate.canExecute()) {
                     getInstance().getHistory().pushChange(validate);
                     validate.execute();
