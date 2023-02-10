@@ -23,7 +23,7 @@ public class PreferencesDialog extends JDialog {
 
     private final static Logger LOGGER = Logger.getLogger(PreferencesDialog.class.getName());
 
-    private JCheckBox fullScreen, autoUpdate, showMistakes, showAnnotations, allowDefault, generateCases, immFeedback;
+    private JCheckBox fullScreen, autoUpdate, showMistakes, showAnnotations, allowDefault, generateCases, immFeedback, colorBlind;
     private JTextField workDirectory;
 
     private static Image folderIcon;
@@ -187,6 +187,16 @@ public class PreferencesDialog extends JDialog {
         immFeedbackRow.add(immFeedback, BorderLayout.WEST);
         immFeedbackRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, immFeedbackRow.getPreferredSize().height));
         contentPane.add(immFeedbackRow);
+
+        contentPane.add(createLeftLabel("Color Preferences"));
+        contentPane.add(createLineSeparator());
+        colorBlind = new JCheckBox("Color Blind Mode", Boolean.valueOf(prefs.getUserPref(LegupPreferences.COLOR_BLIND)));
+        colorBlind.setToolTipText("Currently unimplemented, this does nothing right now");
+        JPanel colorBlindRow = new JPanel();
+        colorBlindRow.setLayout(new BorderLayout());
+        colorBlindRow.add(colorBlind, BorderLayout.WEST);
+        colorBlindRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, showMistakesRow.getPreferredSize().height));
+        contentPane.add(colorBlindRow);
 
         scrollPane.setViewportView(contentPane);
         return scrollPane;
