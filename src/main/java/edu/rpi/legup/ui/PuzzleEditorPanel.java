@@ -49,7 +49,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private TitledBorder boardBorder;
     //private JSplitPane splitPanel, topHalfPanel;
     private FileDialog fileDialog;
-    private JMenuItem undo, redo, fitBoardToScreen;
+    private JMenuItem undo, redo, redoSecondKeybind, fitBoardToScreen;
     private ElementFrame elementFrame;
     private JPanel treePanel;
     private LegupUI legupUI;
@@ -142,6 +142,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         undo = new JMenuItem("Undo");
         // edit>redo
         redo = new JMenuItem("Redo");
+        redoSecondKeybind = new JMenuItem("Redo");
         fitBoardToScreen = new JMenuItem("Fit Board to Screen");
 
         menus[1].add(undo);
@@ -155,14 +156,20 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
 
         menus[1].add(redo);
+        menus[1].add(redoSecondKeybind);
         redo.addActionListener((ActionEvent) ->
                 GameBoardFacade.getInstance().getHistory().redo());
+        redoSecondKeybind.addActionListener((ActionEvent -> GameBoardFacade.getInstance().getHistory().redo()));
+        redoSecondKeybind.setVisible(false);
         if (os.equals("mac")) {
             redo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK));
+            redoSecondKeybind.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
         else {
-            redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
+            redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK));
+            redoSecondKeybind.setAccelerator(KeyStroke.getKeyStroke('Y', InputEvent.CTRL_DOWN_MASK));
         }
+
 
         menus[1].add(fitBoardToScreen);
         fitBoardToScreen.addActionListener((ActionEvent) -> dynamicBoardView.fitBoardViewToScreen());

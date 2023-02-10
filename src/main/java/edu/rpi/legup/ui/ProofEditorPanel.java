@@ -55,7 +55,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private JMenu file;
     private JMenuItem newPuzzle, resetPuzzle, saveProofAs,saveProofChange,helpTutorial, preferences, exit;
     private JMenu edit;
-    private JMenuItem undo, redo, fitBoardToScreen, fitTreeToScreen;
+    private JMenuItem undo, redo, redoSecondKeybind, fitBoardToScreen, fitTreeToScreen;
 
     private JMenu view;
 
@@ -127,6 +127,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         edit = new JMenu("Edit");
         undo = new JMenuItem("Undo");
         redo = new JMenuItem("Redo");
+        redoSecondKeybind = new JMenuItem("Redo"); // only used for CTRL-Y keybind, is invisible
+
         fitBoardToScreen = new JMenuItem("Fit Board to Screen");
         fitTreeToScreen = new JMenuItem("Fit Tree to Screen");
 
@@ -314,14 +316,21 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
 
         edit.add(redo);
+        edit.add(redoSecondKeybind);
         redo.addActionListener((ActionEvent) ->
                 GameBoardFacade.getInstance().getHistory().redo());
+        redoSecondKeybind.addActionListener((ActionEvent ->
+                GameBoardFacade.getInstance().getHistory().redo()));
+        //redoSecondKeybind.setVisible(false);
         if (os.equals("mac")) {
             redo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK));
+            redoSecondKeybind.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
         else {
-            redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
+            redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK));
+            redoSecondKeybind.setAccelerator(KeyStroke.getKeyStroke('Y', InputEvent.CTRL_DOWN_MASK));
         }
+
 
         edit.add(fitBoardToScreen);
         fitBoardToScreen.addActionListener((ActionEvent) -> dynamicBoardView.fitBoardViewToScreen());
