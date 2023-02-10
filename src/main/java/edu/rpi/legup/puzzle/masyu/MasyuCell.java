@@ -4,21 +4,21 @@ import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.awt.*;
 
-public class MasyuCell extends GridCell<Integer> {
+public class MasyuCell extends GridCell<MasyuType> {
 
-    public MasyuCell(int value, Point location) {
+    public MasyuCell(MasyuType value, Point location) {
         super(value, location);
     }
 
     public MasyuType getType() {
         switch (data) {
-            case 0:
+            case UNKNOWN:
                 return MasyuType.UNKNOWN;
-            case 1:
+            case BLACK:
                 return MasyuType.BLACK;
-            case 2:
+            case WHITE:
                 return MasyuType.WHITE;
-            case 3:
+            case LINE:
                 return MasyuType.LINE;
             default:
                 return null;
