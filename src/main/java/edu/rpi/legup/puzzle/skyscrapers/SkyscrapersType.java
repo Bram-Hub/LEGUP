@@ -10,13 +10,27 @@ public enum SkyscrapersType {
     }
 
     public static SkyscrapersType convertToSkyType(int num) {
-        if (num == 0) return UNKNOWN;
-        else if (num == 1) return Number;
-        else if (num == 2) return ANY;
-        else if (num == -1) return CLUE_NORTH;
-        else if (num == -2) return CLUE_EAST;
-        else if (num == -3) return CLUE_SOUTH;
-        else if (num == -4) return CLUE_WEST;
+        if (num == 0) {
+            return UNKNOWN;
+        }
+        else if (num == 1) {
+            return Number;
+        }
+        else if (num == 2) {
+            return ANY;
+        }
+        else if (num == -1) {
+            return CLUE_NORTH;
+        }
+        else if (num == -2) {
+            return CLUE_EAST;
+        }
+        else if (num == -3) {
+            return CLUE_SOUTH;
+        }
+        else if (num == -4) {
+            return CLUE_WEST;
+        }
         else {
             return UNKNOWN;
         }
