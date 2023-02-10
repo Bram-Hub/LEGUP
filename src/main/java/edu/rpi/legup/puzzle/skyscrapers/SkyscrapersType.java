@@ -18,9 +18,6 @@ public enum SkyscrapersType {
         else if (num == -3) return CLUE_SOUTH;
         else if (num == -4) return CLUE_WEST;
         else {
-            //throw new Exception("conversion from int to SkyscapersType cannot be done; int must be within the range: -4 to 2");
-            // conversion from int to SkyscapersType cannot be done; int must be within the range: -4 to 2"
-            assert (false);
             return UNKNOWN;
         }
     }
