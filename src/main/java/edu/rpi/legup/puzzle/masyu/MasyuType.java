@@ -8,13 +8,17 @@ public enum MasyuType {
     public static MasyuType convertToMasyuType(int num) {
         if (num == 0) {
             return UNKNOWN;
-        } else if (num == 1) {
+        }
+        else if (num == 1) {
             return BLACK;
-        } else if (num == 2) {
+        }
+        else if (num == 2) {
             return WHITE;
-        } else if (num == 3) {
+        }
+        else if (num == 3) {
             return LINE;
-        } else {
+        }
+        else {
             return UNKNOWN;
         }
     }
