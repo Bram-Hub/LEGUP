@@ -29,13 +29,13 @@ public class ShortTruthTableCellFactory extends ElementFactory {
 
             ShortTruthTableBoard sttBoard = (ShortTruthTableBoard) board;
 
-            //get the atributes for the cell
+            //get the attributes for the cell
             NamedNodeMap attributeList = node.getAttributes();
             int rowIndex = Integer.valueOf(attributeList.getNamedItem("row_index").getNodeValue());
             int charIndex = Integer.valueOf(attributeList.getNamedItem("char_index").getNodeValue());
             String cellType = attributeList.getNamedItem("type").getNodeValue();
 
-            //modify the appropriet cell
+            //modify the appropriate cell
             ShortTruthTableCell cell = (ShortTruthTableCell) sttBoard.getCell(charIndex, rowIndex * 2);
             cell.setData(ShortTruthTableCellType.valueOf(cellType));
 
