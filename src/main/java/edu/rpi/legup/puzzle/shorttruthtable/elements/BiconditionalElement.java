@@ -1,4 +1,9 @@
 package edu.rpi.legup.puzzle.shorttruthtable.elements;
 
-public class BiconditionalElement {
+import edu.rpi.legup.model.elements.NonPlaceableElement;
+
+public class BiconditionalElement extends NonPlaceableElement {
+    public BiconditionalElement(String elementID, String elementName, String description, String imageName) {
+        super(elementID, elementName, description, imageName);
+    }
 }

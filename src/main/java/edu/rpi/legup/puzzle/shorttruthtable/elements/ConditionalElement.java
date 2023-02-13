@@ -1,4 +1,6 @@
 package edu.rpi.legup.puzzle.shorttruthtable.elements;
 
-public class ConditionalElement {
+import edu.rpi.legup.model.elements.NonPlaceableElement;
+
+public class ConditionalElement extends NonPlaceableElement {
 }
