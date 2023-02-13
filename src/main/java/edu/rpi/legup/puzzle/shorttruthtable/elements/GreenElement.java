@@ -1,4 +1,5 @@
 package edu.rpi.legup.puzzle.shorttruthtable.elements;
 
-public class AndTile {
+public class GreenElement
+{
 }

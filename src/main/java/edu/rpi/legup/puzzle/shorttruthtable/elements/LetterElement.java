@@ -1,4 +1,5 @@
 package edu.rpi.legup.puzzle.shorttruthtable.elements;
 
-public class NegationTile {
+public class LetterElement
+{
 }

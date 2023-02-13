@@ -1,4 +1,4 @@
 package edu.rpi.legup.puzzle.shorttruthtable.elements;
 
-public class LetterTile {
+public class AndElement {
 }

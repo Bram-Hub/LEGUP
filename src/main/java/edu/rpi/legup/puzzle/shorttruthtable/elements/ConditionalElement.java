@@ -1,4 +1,4 @@
 package edu.rpi.legup.puzzle.shorttruthtable.elements;
 
-public class RedTile {
+public class ConditionalElement {
 }
