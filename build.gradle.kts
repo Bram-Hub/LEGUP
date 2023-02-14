@@ -11,7 +11,7 @@ repositories {
 
 /* Maven artifact coordinates */
 group = "edu.rpi.Legup"
-version = "2.0.0"
+/* version = "5.0.0" */
 val artifactId = "Legup"
 
 /* important / reused build properties */
@@ -31,6 +31,7 @@ java {
 dependencies {
     implementation("org.jetbrains:annotations:23.0.0")
     implementation("org.apache.httpcomponents:httpclient:4.5.13")
+    api("com.formdev:flatlaf:3.0")
     api("org.slf4j:slf4j-api:2.0.4")
     api("org.slf4j:slf4j-simple:2.0.4")
     api("org.apache.logging.log4j:log4j-api:2.19.0")
