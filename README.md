@@ -45,9 +45,9 @@ If you are a student interested in learning the basics of logic, LEGUP is a grea
 Additionally, if you are interested in computer science and programming, please consider contributing to LEGUP! Not only would it a great way to practice logical reasoning, but it is also a great way to dip your toes into open source software and contributing to open source projects. 
 
 ## Documentation
-Documentation is actively being worked on on the [Legup wiki](https://github.com/Bram-Hub/Legup/wiki). 
+Documentation is actively being worked on on the [LEGUP wiki](https://github.com/Bram-Hub/Legup/wiki). 
 
-Documentation is very much in the early stages, and we would greatly appreciate anyone who is willing to help write and structure the documentation. Currently, the priority is to write detailed documentation on how Nurikabe works, as it is the puzzle that is the most developed within Legup.
+Documentation is very much in the early stages, and we would greatly appreciate anyone who is willing to help write and structure the documentation. Currently, the priority is to write detailed documentation on how Nurikabe works, as it is the puzzle that is the most developed within LEGUP.
 
 ## Contributing
 All contributions to LEGUP will be greatly appreciated. Currently, we need the most help in the following areas:
@@ -74,7 +74,8 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
- ```
+```
+ 
+The look and feel of LEGUP uses [FlatLaf](https://github.com/JFormDesigner/FlatLaf), which is licensed under the [Apache-2.0 license](https://www.apache.org/licenses/LICENSE-2.0.html).
 
-Some of the icons used in LEGUP were taken from or derived from the icons found on https://fonts.google.com/icons, which
-is licensed under the [Apache-2.0 license](https://www.apache.org/licenses/LICENSE-2.0.html).
+Some of the icons used in LEGUP were taken from or derived from the icons found on https://fonts.google.com/icons, which is licensed under the [Apache-2.0 license](https://www.apache.org/licenses/LICENSE-2.0.html).
