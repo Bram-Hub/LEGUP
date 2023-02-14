@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -204,7 +205,7 @@ public abstract class RulePanel extends JPanel {
         searchBarPanel.add(textField);
         searchBarPanel.add(Box.createRigidArea(new Dimension(1, 0)));
         JButton findButton = new JButton("Go");
-        findButton.addActionListener(new ActionListener() {
+        ActionListener action = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
                 if (ruleButtons != null) {
@@ -234,7 +235,9 @@ public abstract class RulePanel extends JPanel {
                 }
 
             }
-        });
+        };
+        textField.addActionListener(action);
+        findButton.addActionListener(action);
         searchBarPanel.add(findButton);
     }
 

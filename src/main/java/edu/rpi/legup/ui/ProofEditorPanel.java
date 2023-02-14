@@ -377,6 +377,10 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
             puzzleFile = new File(fileName);
         }
+        else {
+            // The attempt to prompt a puzzle ended gracefully (cancel)
+            return null;
+        }
 
         return new Object[]{fileName, puzzleFile};
     }
@@ -391,11 +395,13 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     public void loadPuzzle(String fileName, File puzzleFile) {
         if (puzzleFile != null && puzzleFile.exists()) {
             try {
+                legupUI.displayPanel(1);
                 GameBoardFacade.getInstance().loadPuzzle(fileName);
                 String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
                 frame.setTitle(puzzleName + " - " + puzzleFile.getName());
             }
             catch (InvalidFileFormatException e) {
+                legupUI.displayPanel(0);
                 LOGGER.error(e.getMessage());
                 if (e.getMessage().contains("Proof Tree construction error: could not find rule by ID")) { // TO DO: make error message not hardcoded
                     JOptionPane.showMessageDialog(null, "This file runs on an outdated version of Legup\nand is not compatible with the current version.", "Error", JOptionPane.ERROR_MESSAGE);
