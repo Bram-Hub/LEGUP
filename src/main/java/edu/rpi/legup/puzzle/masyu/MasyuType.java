@@ -6,6 +6,14 @@ public enum MasyuType {
     UNKNOWN, BLACK, WHITE, LINE;
 
     public static MasyuType convertToMasyuType(int num) {
+        switch (num)
+        {
+            case 0:
+                 return UNKNOWN;
+            case 1:
+                 return BLACK;
+             ...
+        }
         if (num == 0) {
             return UNKNOWN;
         }
