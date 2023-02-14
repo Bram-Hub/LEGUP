@@ -11,18 +11,7 @@ public class MasyuCell extends GridCell<MasyuType> {
     }
 
     public MasyuType getType() {
-        switch (data) {
-            case UNKNOWN:
-                return MasyuType.UNKNOWN;
-            case BLACK:
-                return MasyuType.BLACK;
-            case WHITE:
-                return MasyuType.WHITE;
-            case LINE:
-                return MasyuType.LINE;
-            default:
-                return null;
-        }
+        return data;
     }
 
     @Override
