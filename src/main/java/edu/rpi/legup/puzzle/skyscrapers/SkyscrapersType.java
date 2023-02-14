@@ -8,4 +8,23 @@ public enum SkyscrapersType {
     SkyscrapersType(int value) {
         this.value = value;
     }
+
+    public static SkyscrapersType convertToSkyType(int num) {
+        switch (num) {
+            case 1:
+                return Number;
+            case 2:
+                return ANY;
+            case -1:
+                return CLUE_NORTH;
+            case -2:
+                return CLUE_EAST;
+            case -3:
+                return CLUE_SOUTH;
+            case -4:
+                return CLUE_WEST;
+            default:
+                return UNKNOWN;
+        }
+    }
 }
