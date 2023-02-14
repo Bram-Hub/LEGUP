@@ -2,7 +2,7 @@
 <Legup version="2.0.0">
     <puzzle name="ShortTruthTable">
         <board>
-            <data normal="true">
+            <data type="true">
                 <statement representation="!(A%B)*" row_index="0"/>
                 <statement representation="~`A" row_index="1"/>
                 <statement representation="!B" row_index="2"/>
