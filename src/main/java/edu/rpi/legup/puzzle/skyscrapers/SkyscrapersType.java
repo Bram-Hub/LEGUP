@@ -10,29 +10,21 @@ public enum SkyscrapersType {
     }
 
     public static SkyscrapersType convertToSkyType(int num) {
-        if (num == 0) {
-            return UNKNOWN;
-        }
-        else if (num == 1) {
-            return Number;
-        }
-        else if (num == 2) {
-            return ANY;
-        }
-        else if (num == -1) {
-            return CLUE_NORTH;
-        }
-        else if (num == -2) {
-            return CLUE_EAST;
-        }
-        else if (num == -3) {
-            return CLUE_SOUTH;
-        }
-        else if (num == -4) {
-            return CLUE_WEST;
-        }
-        else {
-            return UNKNOWN;
+        switch (num) {
+            case 1:
+                return Number;
+            case 2:
+                return ANY;
+            case -1:
+                return CLUE_NORTH;
+            case -2:
+                return CLUE_EAST;
+            case -3:
+                return CLUE_SOUTH;
+            case -4:
+                return CLUE_WEST;
+            default:
+                return UNKNOWN;
         }
     }
 }
