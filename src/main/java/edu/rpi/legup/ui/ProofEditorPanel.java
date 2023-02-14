@@ -228,7 +228,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 Tree tree = GameBoardFacade.getInstance().getTree();
                 TreeNode rootNode = tree.getRootNode();
                 if (rootNode != null) {
-                    int confirmReset = JOptionPane.showConfirmDialog(this, "Reset Puzzle to Root Node?", "Confirm Reset", JOptionPane.YES_NO_CANCEL_OPTION);
+                    int confirmReset = JOptionPane.showConfirmDialog(this, "Reset Puzzle to Root Node?", "Confirm Reset", JOptionPane.YES_NO_OPTION);
                     if (confirmReset == JOptionPane.YES_OPTION) {
                         List<TreeTransition> children = rootNode.getChildren();
                         children.forEach(t -> puzzle.notifyTreeListeners(l -> l.onTreeElementRemoved(t)));
@@ -530,7 +530,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     //ask to edu.rpi.legup.save current proof
     public boolean noquit(String instr) {
-        int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
+        int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_OPTION);
         return n != JOptionPane.YES_OPTION;
     }
 

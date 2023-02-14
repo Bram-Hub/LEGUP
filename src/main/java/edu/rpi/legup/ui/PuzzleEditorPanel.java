@@ -342,7 +342,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     public boolean noQuit(String instr) {
-        int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
+        int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_OPTION);
         return n != JOptionPane.YES_OPTION;
     }
 
