@@ -63,7 +63,7 @@ public class SkyscrapersImporter extends PuzzleImporter {
             for (int i = 0; i < elementDataList.getLength(); i++) {
                 SkyscrapersCell cell = (SkyscrapersCell) puzzle.getFactory().importCell(elementDataList.item(i), skyscrapersBoard);
                 Point loc = cell.getLocation();
-                if (cell.getData() != 0) {
+                if (cell.getData().value != 0) {
                     cell.setModifiable(false);
                     cell.setGiven(true);
                 }
@@ -73,7 +73,7 @@ public class SkyscrapersImporter extends PuzzleImporter {
             for (int y = 0; y < size; y++) {
                 for (int x = 0; x < size; x++) {
                     if (skyscrapersBoard.getCell(x, y) == null) {
-                        SkyscrapersCell cell = new SkyscrapersCell(0, new Point(x, y), size);
+                        SkyscrapersCell cell = new SkyscrapersCell(SkyscrapersType.UNKNOWN, new Point(x, y), size);
                         cell.setIndex(y * size + x);
                         cell.setModifiable(true);
                         skyscrapersBoard.setCell(x, y, cell);

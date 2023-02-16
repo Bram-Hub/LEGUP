@@ -48,10 +48,10 @@ public class ExceedingVisibilityContradictionRule extends ContradictionRule {
 		if(row.size()==skyscrapersboard.getWidth()){
 			//from west border
 			for(SkyscrapersCell c : row){
-				if (c.getData() > max) {
+				if (c.getData().value > max) {
 					System.out.print(c.getData());
 					//System.out.println(cell.getData());
-					max = c.getData();
+					max = c.getData().value;
 					count++;
 				}
 			}
@@ -64,10 +64,10 @@ public class ExceedingVisibilityContradictionRule extends ContradictionRule {
 			//from east border
 			Collections.reverse(row);
 			for(SkyscrapersCell c : row){
-				if (c.getData() > max) {
+				if (c.getData().value > max) {
 					System.out.print(c.getData());
 					//System.out.println(cell.getData());
-					max = c.getData();
+					max = c.getData().value;
 					count++;
 				}
 			}
@@ -84,10 +84,10 @@ public class ExceedingVisibilityContradictionRule extends ContradictionRule {
 			count = 0;
 			for(SkyscrapersCell c : col){
 				System.out.println(c.getData());
-				if (c.getData() > max) {
+				if (c.getData().value > max) {
 
 					//System.out.println(cell.getData());
-					max = c.getData();
+					max = c.getData().value;
 					count++;
 				}
 			}
@@ -101,10 +101,10 @@ public class ExceedingVisibilityContradictionRule extends ContradictionRule {
 			Collections.reverse(col);
 			for(SkyscrapersCell c : col){
 				System.out.println(c.getData());
-				if (c.getData() > max) {
+				if (c.getData().value > max) {
 
 					//System.out.println(cell.getData());
-					max = c.getData();
+					max = c.getData().value;
 					count++;
 				}
 			}

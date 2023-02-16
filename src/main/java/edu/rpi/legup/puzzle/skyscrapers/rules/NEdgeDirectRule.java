@@ -43,16 +43,16 @@ public class NEdgeDirectRule extends DirectRule {
         Point loc = finalCell.getLocation();
         int max = initialBoard.getHeight();
 
-        if (initialBoard.getWestClues().get(loc.y).getData() == max && finalCell.getData() == loc.x + 1) {
+        if (initialBoard.getWestClues().get(loc.y).getData() == max && finalCell.getData().value == loc.x + 1) {
             return null;
         }
-        if (initialBoard.getEastClues().get(loc.y).getData() == max && finalCell.getData() == max - loc.x) {
+        if (initialBoard.getEastClues().get(loc.y).getData() == max && finalCell.getData().value == max - loc.x) {
             return null;
         }
-        if (initialBoard.getNorthClues().get(loc.x).getData() == max && finalCell.getData() == loc.y + 1) {
+        if (initialBoard.getNorthClues().get(loc.x).getData() == max && finalCell.getData().value == loc.y + 1) {
             return null;
         }
-        if (initialBoard.getSouthClues().get(loc.x).getData() == max && finalCell.getData() == max - loc.y) {
+        if (initialBoard.getSouthClues().get(loc.x).getData() == max && finalCell.getData().value == max - loc.y) {
             return null;
         }
 
