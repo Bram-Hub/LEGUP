@@ -329,6 +329,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             puzzleFile = new File(fileName);
         }
         else {
+            // The attempt to prompt a puzzle ended gracefully (cancel)
             return null;
         }
 
@@ -345,13 +346,15 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     public void loadPuzzle(String fileName, File puzzleFile) {
         if (puzzleFile != null && puzzleFile.exists()) {
             try {
+                legupUI.displayPanel(2);
                 GameBoardFacade.getInstance().loadPuzzleEditor(fileName);
                 String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
                 frame.setTitle(puzzleName + " - " + puzzleFile.getName());
             }
             catch (InvalidFileFormatException e) {
+                legupUI.displayPanel(0);
                 LOGGER.error(e.getMessage());
-                JOptionPane.showMessageDialog(null, "File does not exist or it cannot be read", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "File does not exist, cannot be read, or cannot be edited", "Error", JOptionPane.ERROR_MESSAGE);
                 loadPuzzle();
             }
         }

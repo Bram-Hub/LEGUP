@@ -1,10 +1,10 @@
-MASY-BASC-0001 : BlackEdgeBasicRule
-MASY-BASC-0002 : BlockedBlackBasicRule
-MASY-BASC-0003 : ConnectedCellsBasicRule
-MASY-BASC-0004 : FinishPathBasicRule
-MASY-BASC-0005 : NearWhiteBasicRule
-MASY-BASC-0006 : OnlyOneChoiceBasicRule
-MASY-BASC-0007 : WhiteEdgeBasicRule
+MASY-BASC-0001 : BlackEdgeDirectRule
+MASY-BASC-0002 : BlockedBlackDirectRule
+MASY-BASC-0003 : ConnectedCellsDirectRule
+MASY-BASC-0004 : FinishPathDirectRule
+MASY-BASC-0005 : NearWhiteDirectRule
+MASY-BASC-0006 : OnlyOneChoiceDirectRule
+MASY-BASC-0007 : WhiteEdgeDirectRule
 
 MASY-CONT-0001 : BadLoopingContradictionRule
 MASY-CONT-0002 : BlackContradictionRule
