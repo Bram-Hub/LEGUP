@@ -16,22 +16,22 @@ sourceCompatibility = 1.8
 dependencies {
     implementation 'org.jetbrains:annotations:20.1.0'
     implementation 'org.jetbrains:annotations:20.1.0'
-    compile 'com.formdev:flatlaf:3.0'
-    compile project(':legup-update')
-    compile 'com.google.firebase:firebase-admin:6.3.0'
-    compile 'org.apache.httpcomponents:httpclient:4.5.1'
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+    implementation 'com.formdev:flatlaf:3.0'
+    implementation project(':legup-update')
+    implementation 'com.google.firebase:firebase-admin:6.3.0'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.1'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
 
 //    compile 'com.google.code.gson:gson:2.8.2'
 //    compile 'commons-cli:commons-cli:1.4'
 //    compile 'commons-io:commons-io:2.6'
-    compile 'org.apache.commons:commons-lang3:3.12.0'
-    compile 'org.apache.logging.log4j:log4j-api:2.17.2'
-    compile 'org.apache.logging.log4j:log4j-core:2.17.2'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'org.apache.logging.log4j:log4j-api:2.17.2'
+    implementation 'org.apache.logging.log4j:log4j-core:2.17.2'
 
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile 'junit:junit:4.+'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    testImplementation 'junit:junit:4.+'
 }
 
 task customFatJar(type: Jar) {
@@ -52,11 +52,13 @@ task customFatJar(type: Jar) {
 }
 
 jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
     from {
-        configurations.compile.collect {
+        configurations.compileClasspath.collect {
             it.isDirectory() ? it : zipTree(it)
         }
-        configurations.runtime.collect {
+        configurations.runtimeClasspath.collect {
             it.isDirectory() ? it : zipTree(it)
         }
     }
