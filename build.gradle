@@ -37,12 +37,12 @@ dependencies {
 task customFatJar(type: Jar) {
     manifest {
         attributes('Implementation-Title': 'Legup',
-                'Implementation-Version': version,
+                'Implementation-Version': archiveVersion,
                 'Main-Class': 'edu.rpi.legup.Legup',
                 'SplashScreen-Image': 'edu/rpi/legup/images/Legup/LegupSplash.png')
     }
-    archiveName = 'Legup.jar'
-    baseName = 'Legup.jar'
+    archiveFileName = 'Legup.jar'
+    archiveBaseName = 'Legup.jar'
     from {
         configurations.compile.collect {
             it.isDirectory() ? it : zipTree(it)
@@ -64,11 +64,11 @@ jar {
     }
     manifest {
         attributes('Implementation-Title': 'Legup',
-                'Implementation-Version': version,
+                'Implementation-Version': archiveVersion,
                 'Main-Class': 'edu.rpi.legup.Legup',
                 'SplashScreen-Image': 'edu/rpi/legup/images/Legup/LegupSplash.png')
     }
-    archiveName = 'Legup.jar'
+    archiveFileName = 'Legup.jar'
 }
 
 /*
