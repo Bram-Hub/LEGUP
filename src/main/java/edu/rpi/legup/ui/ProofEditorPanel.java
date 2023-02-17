@@ -496,6 +496,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         // we should create a need jbuttom for it to ship the rule we select.
         JPanel panel= new JPanel();
         JButton moveing_buttom= new JButton();
+        moveing_buttom.setFocusPainted(false);
         moveing_buttom.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
