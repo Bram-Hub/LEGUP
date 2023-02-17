@@ -6,7 +6,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
 public class ContradictionRuleBiconditional extends ContradictionRule_GenericStatement {
 
     public ContradictionRuleBiconditional() {
-        super("STTT-CONT-0002", "Contradicting Biconditional",
+        super("STTT-CONT-0003", "Contradicting Biconditional",
                 "A Biconditional statement must have a contradicting pattern",
                 "edu/rpi/legup/images/shorttruthtable/ruleimages/contradiction/Biconditional.png",
                 ShortTruthTableOperation.BICONDITIONAL,
