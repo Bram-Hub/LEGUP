@@ -88,10 +88,10 @@ public class MasyuController extends ElementController {
     @Override
     public void changeCell(MouseEvent e, PuzzleElement data) {
         MasyuCell cell = (MasyuCell) data;
-        if(cell.getData() == 1 || cell.getData() == 2) {
+        if(cell.getData() == MasyuType.BLACK || cell.getData() == MasyuType.WHITE) {
             return;
         }
-        if(cell.getData() == 0) {
+        if(cell.getData() == MasyuType.UNKNOWN) {
             data.setData(3);
         }
         else {

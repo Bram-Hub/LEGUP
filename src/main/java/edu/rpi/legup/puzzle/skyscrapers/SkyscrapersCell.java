@@ -7,19 +7,20 @@ import java.awt.*;
 public class SkyscrapersCell extends GridCell<SkyscrapersType> {
     private int max;
 
-    public SkyscrapersCell(int valueInt, Point location, int size) {
-        super(valueInt, location);
+    public SkyscrapersCell(SkyscrapersType value, Point location, int size) {
+        super(value, location);
         this.max = size;
     }
 
     public SkyscrapersType getType() {
         switch (data) {
-            case 0:
+            case UNKNOWN:
                 return SkyscrapersType.UNKNOWN;
             default:
                 return SkyscrapersType.Number;
         }
     }
+
 
     public int getMax() {
         return max;
