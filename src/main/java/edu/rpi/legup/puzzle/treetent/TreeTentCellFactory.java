@@ -38,7 +38,7 @@ public class TreeTentCellFactory extends ElementFactory {
                     throw new InvalidFileFormatException("TreeTent Factory: cell unknown value");
                 }
 
-                TreeTentCell cell = new TreeTentCell(value, new Point(x, y));
+                TreeTentCell cell = new TreeTentCell(TreeTentType.convertToTreeTentType(value), new Point(x, y));
                 cell.setIndex(y * height + x);
                 return cell;
             }
