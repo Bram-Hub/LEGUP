@@ -321,5 +321,6 @@ public class PreferencesDialog extends JDialog {
         prefs.setUserPref(LegupPreferences.ALLOW_DEFAULT_RULES, Boolean.toString(allowDefault.isSelected()));
         prefs.setUserPref(LegupPreferences.AUTO_GENERATE_CASES, Boolean.toString(generateCases.isSelected()));
         prefs.setUserPref(LegupPreferences.IMMEDIATE_FEEDBACK, Boolean.toString(immFeedback.isSelected()));
+        prefs.setUserPref(LegupPreferences.COLOR_BLIND, Boolean.toString(colorBlind.isSelected()));
     }
 }
