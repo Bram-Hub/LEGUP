@@ -512,6 +512,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         // we should create a need jbuttom for it to ship the rule we select.
         JPanel panel= new JPanel();
         JButton moveing_buttom= new JButton();
+        moveing_buttom.setFocusPainted(false);
         moveing_buttom.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -736,8 +737,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         ruleFrame.getDirectRulePanel().setRules(puzzle.getDirectRules());
         ruleFrame.getCasePanel().setRules(puzzle.getCaseRules());
         ruleFrame.getContradictionPanel().setRules(puzzle.getContradictionRules());
-        //ruleFrame.getSearchPanel().setRules(puzzle.getContradictionRules());
         ruleFrame.getSearchPanel().setSearchBar(puzzle);
+//        ruleFrame.getSearchPanel().setRules(puzzle.getBasicRules());
+
 
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
 //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
