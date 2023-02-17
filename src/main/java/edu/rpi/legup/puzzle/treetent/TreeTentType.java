@@ -6,7 +6,7 @@ public enum TreeTentType {
     UNKNOWN, TREE, GRASS, TENT,
     CLUE_NORTH, CLUE_EAST, CLUE_SOUTH, CLUE_WEST;
 
-    public static TreeTentType convertToTreeTentType(int num) {
+    public static TreeTentType valueOf(int num) {
         switch (num) {
             case 1:
                 return TREE;
