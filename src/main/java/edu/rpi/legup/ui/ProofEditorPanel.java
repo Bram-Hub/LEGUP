@@ -127,6 +127,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         edit = new JMenu("Edit");
         undo = new JMenuItem("Undo");
         redo = new JMenuItem("Redo");
+
         fitBoardToScreen = new JMenuItem("Fit Board to Screen");
         fitTreeToScreen = new JMenuItem("Fit Tree to Screen");
 
@@ -314,13 +315,28 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
 
         edit.add(redo);
-        redo.addActionListener((ActionEvent) ->
-                GameBoardFacade.getInstance().getHistory().redo());
+
+        // Created action to support two keybinds (CTRL-SHIFT-Z, CTRL-Y)
+        Action redoAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GameBoardFacade.getInstance().getHistory().redo();
+            }
+        };
         if (os.equals("mac")) {
+            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(
+                    KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK), "redoAction");
+            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(
+                    KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "redoAction");
             redo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK));
         }
         else {
-            redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
+            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('Y', InputEvent.CTRL_DOWN_MASK), "redoAction");
+            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('Z', InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK), "redoAction");
+            redo.getActionMap().put("redoAction", redoAction);
+
+            // Button in menu will show CTRL-SHIFT-Z as primary keybind
+            redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK));
         }
 
         edit.add(fitBoardToScreen);
