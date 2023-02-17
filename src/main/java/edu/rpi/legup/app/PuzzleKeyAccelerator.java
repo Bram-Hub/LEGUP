@@ -66,6 +66,8 @@ public class PuzzleKeyAccelerator implements KeyListener {
 
             String update = "";
             if (rule.getRuleType() == RuleType.CASE) {
+                // TODO: review this line of code and figure out what it's supposed to do:
+                // TODO: remove if necessary
 //                handleCaseRule((CaseRule)rule);
             }
             else {
