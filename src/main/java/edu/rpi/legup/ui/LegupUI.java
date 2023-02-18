@@ -9,6 +9,7 @@ import javax.swing.*;
 
 
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.ui.lookandfeel.LegupLookAndFeel;
@@ -45,9 +46,15 @@ public class LegupUI extends JFrame implements WindowListener {
     public LegupUI() {
         setTitle("LEGUP");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        LegupPreferences prefs = LegupPreferences.getInstance();
 
         try {
-            UIManager.setLookAndFeel(new FlatLightLaf());
+            if(Boolean.valueOf(prefs.getUserPref(LegupPreferences.NIGHT_MODE))) {
+                UIManager.setLookAndFeel(new FlatDarkLaf());
+            }
+            else {
+                UIManager.setLookAndFeel(new FlatLightLaf());
+            }
         }
         catch (UnsupportedLookAndFeelException e) {
             System.err.println("Not supported ui look and feel");
