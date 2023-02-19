@@ -26,7 +26,7 @@ public class NoNumbersContradictionRuleTest {
     }
 
     @Test
-    public void TooFewSpacesContradictionRule_TwoSurroundBlackTest() throws InvalidFileFormatException {
+    public void NoNumberContradictionRule_NoNumberSurroundBlack() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/NoNumberContradictionRule/NoNumberSurroundBlack", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
