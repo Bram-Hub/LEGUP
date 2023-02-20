@@ -191,7 +191,6 @@ public class PreferencesDialog extends JDialog {
         contentPane.add(createLeftLabel("Color Preferences"));
         contentPane.add(createLineSeparator());
         colorBlind = new JCheckBox("Deuteranomaly(red/green colorblindness)", Boolean.valueOf(prefs.getUserPref(LegupPreferences.COLOR_BLIND)));
-        colorBlind.setToolTipText("Currently unimplemented, this does nothing right now");
         JPanel colorBlindRow = new JPanel();
         colorBlindRow.setLayout(new BorderLayout());
         colorBlindRow.add(colorBlind, BorderLayout.WEST);

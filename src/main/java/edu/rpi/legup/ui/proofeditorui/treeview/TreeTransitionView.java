@@ -2,6 +2,7 @@ package edu.rpi.legup.ui.proofeditorui.treeview;
 
 import edu.rpi.legup.model.tree.TreeElementType;
 import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.app.LegupPreferences;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -23,6 +24,9 @@ public class TreeTransitionView extends TreeElementView {
     private static final Color INCORRECT_COLOR = Color.RED;
     private static final Color DEFAULT_COLOR = Color.GRAY;
     private static final Color X_COLOR = Color.RED;
+
+    private static final Color CORRECT_COLOR_COLORBLIND = new Color(0,0,255);
+    private static final Color INCORRECT_COLOR_COLORBLIND = new Color(255,0,0);
 
     private static final Color OUTLINE_SELECTION_COLOR = new Color(0x1976D2);
 
@@ -87,8 +91,31 @@ public class TreeTransitionView extends TreeElementView {
             graphics2D.draw(c);
         }
 
+        LegupPreferences prefs = LegupPreferences.getInstance();
+        boolean colorBlind = prefs.getUserPref(LegupPreferences.COLOR_BLIND).equals("true");
+
         if (isSelected) {
-            graphics2D.setColor(getTreeElement().isJustified() ? getTreeElement().isCorrect() ? CORRECT_COLOR : INCORRECT_COLOR : DEFAULT_COLOR);
+            Color c = DEFAULT_COLOR;
+            if(getTreeElement().isJustified()) {
+                if(getTreeElement().isCorrect()) {
+                    if(colorBlind) {
+                        c = CORRECT_COLOR_COLORBLIND;
+                    }
+                    else {
+                        c = CORRECT_COLOR;
+                    }
+                }
+                else {
+                    if(colorBlind) {
+                        c = INCORRECT_COLOR_COLORBLIND;
+                    }
+                    else {
+                        c = INCORRECT_COLOR;
+                    }
+                }
+            }
+            graphics2D.setColor(c);
+
             graphics2D.fillPolygon(arrowhead);
 
             graphics2D.setColor(OUTLINE_COLOR);
@@ -117,7 +144,26 @@ public class TreeTransitionView extends TreeElementView {
                 graphics2D.drawPolygon(selection_triangle);
             }
             else {
-                graphics2D.setColor(getTreeElement().isJustified() ? getTreeElement().isCorrect() ? CORRECT_COLOR : INCORRECT_COLOR : DEFAULT_COLOR);
+                Color c = DEFAULT_COLOR;
+                if(getTreeElement().isJustified()) {
+                    if(getTreeElement().isCorrect()) {
+                        if(colorBlind) {
+                            c = CORRECT_COLOR_COLORBLIND;
+                        }
+                        else {
+                            c = CORRECT_COLOR;
+                        }
+                    }
+                    else {
+                        if(colorBlind) {
+                            c = INCORRECT_COLOR_COLORBLIND;
+                        }
+                        else {
+                            c = INCORRECT_COLOR;
+                        }
+                    }
+                }
+                graphics2D.setColor(c);
                 graphics2D.fillPolygon(arrowhead);
 
                 graphics2D.setColor(OUTLINE_COLOR);
