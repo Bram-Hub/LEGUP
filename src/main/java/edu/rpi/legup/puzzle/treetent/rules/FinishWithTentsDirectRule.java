@@ -74,7 +74,7 @@ public class FinishWithTentsDirectRule extends DirectRule {
         for (PuzzleElement element : treeTentBoard.getPuzzleElements()) {
             TreeTentCell cell = (TreeTentCell) element;
             if (cell.getType() == TreeTentType.UNKNOWN && isForced(treeTentBoard, cell)) {
-                cell.setData(TreeTentType.TENT.value);
+                cell.setData(TreeTentType.TENT);
                 treeTentBoard.addModifiedData(cell);
             }
         }
