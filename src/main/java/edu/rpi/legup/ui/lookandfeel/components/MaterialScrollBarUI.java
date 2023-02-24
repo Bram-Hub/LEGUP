@@ -43,6 +43,7 @@ public class MaterialScrollBarUI extends BasicScrollBarUI {
     protected JButton createDecreaseButton(int orientation) {
         JButton button = new BasicArrowButton(orientation);
 
+        button.setFocusPainted(false);
         button.setOpaque(true);
         button.setBackground(UIManager.getColor("ScrollBar.arrowButtonBackground"));
         button.setBorder(UIManager.getBorder("ScrollBar.arrowButtonBorder"));
@@ -54,6 +55,7 @@ public class MaterialScrollBarUI extends BasicScrollBarUI {
     protected JButton createIncreaseButton(int orientation) {
         JButton button = new BasicArrowButton(orientation);
 
+        button.setFocusPainted(false);
         button.setOpaque(true);
         button.setBackground(UIManager.getColor("ScrollBar.arrowButtonBackground"));
         button.setBorder(UIManager.getBorder("ScrollBar.arrowButtonBorder"));

@@ -129,6 +129,7 @@ public class HomePanel extends LegupPanel {
 
         URL button0IconLocation = ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/homepanel/proof_file.png");
         ImageIcon button0Icon = new ImageIcon(button0IconLocation);
+        this.buttons[0].setFocusPainted(false);
         this.buttons[0].setIcon(resizeButtonIcon(button0Icon, this.buttonSize, this.buttonSize));
         this.buttons[0].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[0].setVerticalTextPosition(AbstractButton.BOTTOM);
@@ -142,6 +143,7 @@ public class HomePanel extends LegupPanel {
         };
         URL button1IconLocation = ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.png");
         ImageIcon button1Icon = new ImageIcon(button1IconLocation);
+        this.buttons[1].setFocusPainted(false);
         this.buttons[1].setIcon(resizeButtonIcon(button1Icon, this.buttonSize, this.buttonSize));
         this.buttons[1].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[1].setVerticalTextPosition(AbstractButton.BOTTOM);
@@ -155,6 +157,7 @@ public class HomePanel extends LegupPanel {
         };
         URL button2IconLocation = ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/homepanel/puzzle_file.png");
         ImageIcon button2Icon = new ImageIcon(button2IconLocation);
+        this.buttons[2].setFocusPainted(false);
         this.buttons[2].setIcon(resizeButtonIcon(button2Icon, this.buttonSize, this.buttonSize));
         this.buttons[2].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[2].setVerticalTextPosition(AbstractButton.BOTTOM);
@@ -165,6 +168,7 @@ public class HomePanel extends LegupPanel {
             this.buttons[i].setBounds(200, 200, 700, 700);
         }
         this.buttons[3] = new JButton("Batch Grader");
+        this.buttons[3].setFocusPainted(false);
         this.buttons[3].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[3].setVerticalTextPosition(AbstractButton.BOTTOM);
 
