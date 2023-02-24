@@ -964,11 +964,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             Submission submit = new Submission(board);
         }
     }
-
-
-    // TODO: implement
     public void showStatus(String status, boolean error, int timer) {
-
+        // TODO: implement
     }
 
     protected void fitTreeViewToScreen() {

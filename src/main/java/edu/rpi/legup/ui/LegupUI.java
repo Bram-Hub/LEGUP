@@ -139,9 +139,8 @@ public class LegupUI extends JFrame implements WindowListener {
         JOptionPane.showMessageDialog(null, error);
     }
 
-    // TODO: implement
     public void showStatus(String status, boolean error, int timer) {
-
+        // TODO: implement
     }
 
     //ask to edu.rpi.legup.save current proof
