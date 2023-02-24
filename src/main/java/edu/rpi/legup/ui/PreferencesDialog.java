@@ -1,7 +1,5 @@
 package edu.rpi.legup.ui;
 
-import edu.rpi.legup.app.Config;
-import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.Rule;
@@ -14,16 +12,17 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
 
 public class PreferencesDialog extends JDialog {
 
     private final static Logger LOGGER = Logger.getLogger(PreferencesDialog.class.getName());
 
-    private JCheckBox fullScreen, autoUpdate, showMistakes, showAnnotations, allowDefault, generateCases, immFeedback, colorBlind;
+    private JCheckBox fullScreen, autoUpdate, darkMode, showMistakes, showAnnotations, allowDefault, generateCases, immFeedback, colorblind;
+    
     private JTextField workDirectory;
 
     private static Image folderIcon;
@@ -81,6 +80,21 @@ public class PreferencesDialog extends JDialog {
         setVisible(true);
     }
 
+    private void toggleDarkMode(LegupPreferences prefs) {
+        try {
+            if(Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
+                UIManager.setLookAndFeel(new FlatDarkLaf());
+            }
+            else {
+                UIManager.setLookAndFeel(new FlatLightLaf());
+            }
+            com.formdev.flatlaf.FlatLaf.updateUI();
+        }
+        catch (UnsupportedLookAndFeelException e) {
+            System.err.println("Not supported ui look and feel");
+        }
+    }
+
     private JScrollPane createGeneralTab() {
         LegupPreferences prefs = LegupPreferences.getInstance();
         JScrollPane scrollPane = new JScrollPane();
@@ -129,6 +143,15 @@ public class PreferencesDialog extends JDialog {
         autoUpdateRow.add(autoUpdate, BorderLayout.WEST);
         autoUpdateRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, autoUpdateRow.getPreferredSize().height));
         contentPane.add(autoUpdateRow);
+        contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        darkMode = new JCheckBox("Dark Mode", Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE)));
+        darkMode.setToolTipText("This turns dark mode on and off");
+        JPanel darkModeRow = new JPanel();
+        darkModeRow.setLayout(new BorderLayout());
+        darkModeRow.add(darkMode, BorderLayout.WEST);
+        darkModeRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, darkModeRow.getPreferredSize().height));
+        contentPane.add(darkModeRow);
         contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
 
         contentPane.add(createLeftLabel("Board View Preferences"));
@@ -315,11 +338,15 @@ public class PreferencesDialog extends JDialog {
         prefs.setUserPref(LegupPreferences.WORK_DIRECTORY, workDirectory.getText());
         prefs.setUserPref(LegupPreferences.START_FULL_SCREEN, Boolean.toString(fullScreen.isSelected()));
         prefs.setUserPref(LegupPreferences.AUTO_UPDATE, Boolean.toString(autoUpdate.isSelected()));
+        prefs.setUserPref(LegupPreferences.DARK_MODE, Boolean.toString(darkMode.isSelected()));
         prefs.setUserPref(LegupPreferences.SHOW_MISTAKES, Boolean.toString(showMistakes.isSelected()));
         prefs.setUserPref(LegupPreferences.SHOW_ANNOTATIONS, Boolean.toString(showAnnotations.isSelected()));
         prefs.setUserPref(LegupPreferences.ALLOW_DEFAULT_RULES, Boolean.toString(allowDefault.isSelected()));
         prefs.setUserPref(LegupPreferences.AUTO_GENERATE_CASES, Boolean.toString(generateCases.isSelected()));
         prefs.setUserPref(LegupPreferences.IMMEDIATE_FEEDBACK, Boolean.toString(immFeedback.isSelected()));
         prefs.setUserPref(LegupPreferences.COLOR_BLIND, Boolean.toString(colorBlind.isSelected()));
+
+        // toggle dark mode based on updated NIGHT_MODE variable
+        toggleDarkMode(prefs);
     }
 }
