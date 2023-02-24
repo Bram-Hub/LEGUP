@@ -90,12 +90,12 @@ public class FillinRowCaseRule extends CaseRule {
             for (TreeTentCell c : original) {
                 if (selected.contains(c)) {
                     PuzzleElement change = temp.getPuzzleElement(c);
-                    change.setData(TreeTentType.TENT.value);
+                    change.setData(TreeTentType.TENT);
                     temp.addModifiedData(change);
                 }
                 else {
                     PuzzleElement change = temp.getPuzzleElement(c);
-                    change.setData(TreeTentType.GRASS.value);
+                    change.setData(TreeTentType.GRASS);
                     temp.addModifiedData(change);
                 }
 

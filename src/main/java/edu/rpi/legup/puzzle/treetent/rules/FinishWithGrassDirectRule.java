@@ -72,7 +72,7 @@ public class FinishWithGrassDirectRule extends DirectRule {
         for (PuzzleElement element : treeTentBoard.getPuzzleElements()) {
             TreeTentCell cell = (TreeTentCell) element;
             if (cell.getType() == TreeTentType.UNKNOWN && isForced(treeTentBoard, cell)) {
-                cell.setData(TreeTentType.GRASS.value);
+                cell.setData(TreeTentType.GRASS);
                 treeTentBoard.addModifiedData(cell);
             }
         }
