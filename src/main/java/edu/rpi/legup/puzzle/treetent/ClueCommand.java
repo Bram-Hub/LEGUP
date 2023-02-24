@@ -70,7 +70,7 @@ public class ClueCommand extends PuzzleCommand {
 
             for (TreeTentCell cell : tempList) {
                 cell = (TreeTentCell) board.getPuzzleElement(cell);
-                cell.setData(TreeTentType.GRASS.value);
+                cell.setData(TreeTentType.GRASS);
                 board.addModifiedData(cell);
                 finalTran.propagateChange(cell);
 
@@ -170,7 +170,7 @@ public class ClueCommand extends PuzzleCommand {
 
             for (TreeTentCell cell : tempList) {
                 cell = (TreeTentCell) board.getPuzzleElement(cell);
-                cell.setData(TreeTentType.UNKNOWN.value);
+                cell.setData(TreeTentType.UNKNOWN);
                 board.removeModifiedData(cell);
 
                 final TreeTentCell finalCell = cell;
