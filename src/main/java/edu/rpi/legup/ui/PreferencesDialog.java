@@ -1,7 +1,5 @@
 package edu.rpi.legup.ui;
 
-import edu.rpi.legup.app.Config;
-import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.Rule;
@@ -14,8 +12,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -25,7 +21,7 @@ public class PreferencesDialog extends JDialog {
 
     private final static Logger LOGGER = Logger.getLogger(PreferencesDialog.class.getName());
 
-    private JCheckBox fullScreen, autoUpdate, nightMode, showMistakes, showAnnotations, allowDefault, generateCases, immFeedback;
+    private JCheckBox fullScreen, autoUpdate, darkMode, showMistakes, showAnnotations, allowDefault, generateCases, immFeedback;
     private JTextField workDirectory;
 
     private static Image folderIcon;
@@ -83,9 +79,9 @@ public class PreferencesDialog extends JDialog {
         setVisible(true);
     }
 
-    private void toggleNightMode(LegupPreferences prefs) {
+    private void toggleDarkMode(LegupPreferences prefs) {
         try {
-            if(Boolean.valueOf(prefs.getUserPref(LegupPreferences.NIGHT_MODE))) {
+            if(Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
                 UIManager.setLookAndFeel(new FlatDarkLaf());
             }
             else {
@@ -148,13 +144,13 @@ public class PreferencesDialog extends JDialog {
         contentPane.add(autoUpdateRow);
         contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        nightMode = new JCheckBox("Night Mode", Boolean.valueOf(prefs.getUserPref(LegupPreferences.NIGHT_MODE)));
-        nightMode.setToolTipText("This turns night mode on and off");
-        JPanel nightModeRow = new JPanel();
-        nightModeRow.setLayout(new BorderLayout());
-        nightModeRow.add(nightMode, BorderLayout.WEST);
-        nightModeRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, nightModeRow.getPreferredSize().height));
-        contentPane.add(nightModeRow);
+        darkMode = new JCheckBox("Dark Mode", Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE)));
+        darkMode.setToolTipText("This turns dark mode on and off");
+        JPanel darkModeRow = new JPanel();
+        darkModeRow.setLayout(new BorderLayout());
+        darkModeRow.add(darkMode, BorderLayout.WEST);
+        darkModeRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, darkModeRow.getPreferredSize().height));
+        contentPane.add(darkModeRow);
         contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
 
         contentPane.add(createLeftLabel("Board View Preferences"));
@@ -332,14 +328,14 @@ public class PreferencesDialog extends JDialog {
         prefs.setUserPref(LegupPreferences.WORK_DIRECTORY, workDirectory.getText());
         prefs.setUserPref(LegupPreferences.START_FULL_SCREEN, Boolean.toString(fullScreen.isSelected()));
         prefs.setUserPref(LegupPreferences.AUTO_UPDATE, Boolean.toString(autoUpdate.isSelected()));
-        prefs.setUserPref(LegupPreferences.NIGHT_MODE, Boolean.toString(nightMode.isSelected()));
+        prefs.setUserPref(LegupPreferences.DARK_MODE, Boolean.toString(darkMode.isSelected()));
         prefs.setUserPref(LegupPreferences.SHOW_MISTAKES, Boolean.toString(showMistakes.isSelected()));
         prefs.setUserPref(LegupPreferences.SHOW_ANNOTATIONS, Boolean.toString(showAnnotations.isSelected()));
         prefs.setUserPref(LegupPreferences.ALLOW_DEFAULT_RULES, Boolean.toString(allowDefault.isSelected()));
         prefs.setUserPref(LegupPreferences.AUTO_GENERATE_CASES, Boolean.toString(generateCases.isSelected()));
         prefs.setUserPref(LegupPreferences.IMMEDIATE_FEEDBACK, Boolean.toString(immFeedback.isSelected()));
 
-        // toggle night mode based on updated NIGHT_MODE variable
-        toggleNightMode(prefs);
+        // toggle dark mode based on updated NIGHT_MODE variable
+        toggleDarkMode(prefs);
     }
 }

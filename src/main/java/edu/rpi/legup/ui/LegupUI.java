@@ -12,7 +12,6 @@ import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.FlatDarkLaf;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
-import edu.rpi.legup.ui.lookandfeel.LegupLookAndFeel;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
 
@@ -49,7 +48,7 @@ public class LegupUI extends JFrame implements WindowListener {
         LegupPreferences prefs = LegupPreferences.getInstance();
 
         try {
-            if(Boolean.valueOf(prefs.getUserPref(LegupPreferences.NIGHT_MODE))) {
+            if(Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
                 UIManager.setLookAndFeel(new FlatDarkLaf());
             }
             else {
