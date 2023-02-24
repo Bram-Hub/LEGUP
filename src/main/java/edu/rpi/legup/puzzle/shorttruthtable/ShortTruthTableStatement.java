@@ -35,7 +35,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String> {
 
         this.parentStatement = parent;
 
-        //set the string rep to the statement (include parens incase this is a sub statement)
+        //set the string rep to the statement (include parens in case this is a sub statement)
         this.stringRep = statement;
         this.cells = new ArrayList<ShortTruthTableCell>(cells);
 
@@ -58,7 +58,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String> {
         List<ShortTruthTableCell> leftCells = new ArrayList<ShortTruthTableCell>(cells.subList(0, index));
         List<ShortTruthTableCell> rightCells = new ArrayList<ShortTruthTableCell>(cells.subList(index + 1, cells.size()));
 
-        //cunstruct substatements if necessary
+        //construct sub-statements if necessary
         if (left.length() > 0) {
             leftStatement = new ShortTruthTableStatement(left, this, leftCells);
         }
@@ -237,21 +237,13 @@ public class ShortTruthTableStatement extends PuzzleElement<String> {
         return set;
     }
 
-//	public Set<ShortTruthTableCell> getAllCells(){
-//		Set<ShortTruthTableCell> set = new HashSet(getLength());
-//		set.add(cell);
-//		if(leftStatement != null) set.addAll(leftStatement.getAllCells());
-//		if(rightStatement != null) set.addAll(rightStatement.getAllCells());
-//		return set;
-//	}
-
     /**
      * Returns an array of three elements where [0] is the left
      * statement type, [1] is this statement type, and [2] is the
      * right statement type. null means either the statement doesn't
      * exist or is is an unknown value.
      *
-     * @return the assigned values to this statement and its substatements
+     * @return the assigned values to this statement and its sub-statements
      */
     public ShortTruthTableCellType[] getCellTypePattern() {
         //get this type and the right type, they will always be used
@@ -297,7 +289,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String> {
         for (ShortTruthTableCell c : cells) {
             cellsCopy.add(c.copy());
         }
-        //make a copy of the statement with all of the copied cells
+        //make a copy of the statement with all the copied cells
         ShortTruthTableStatement statementCopy = new ShortTruthTableStatement(stringRep, cellsCopy);
         //return the new statement
         return statementCopy;

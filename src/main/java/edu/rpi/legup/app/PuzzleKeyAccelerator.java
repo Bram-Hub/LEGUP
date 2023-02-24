@@ -1,9 +1,9 @@
 package edu.rpi.legup.app;
 
 import edu.rpi.legup.history.ICommand;
-import edu.rpi.legup.history.ValidateBasicRuleCommand;
+import edu.rpi.legup.history.ValidateDirectRuleCommand;
 import edu.rpi.legup.history.ValidateContradictionRuleCommand;
-import edu.rpi.legup.model.rules.BasicRule;
+import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.rules.RuleType;
@@ -84,7 +84,7 @@ public class PuzzleKeyAccelerator implements KeyListener {
                 else {
                     TreeViewSelection selection = treeView.getSelection();
 
-                    ICommand validate = new ValidateBasicRuleCommand(selection, (BasicRule) rule);
+                    ICommand validate = new ValidateDirectRuleCommand(selection, (DirectRule) rule);
                     if (validate.canExecute()) {
                         getInstance().getHistory().pushChange(validate);
                         validate.execute();

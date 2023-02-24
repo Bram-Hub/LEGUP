@@ -30,7 +30,7 @@ class ShortTruthTableImporter extends PuzzleImporter {
      */
     private List<ShortTruthTableCell> getCells(String statement, int y) {
         List<ShortTruthTableCell> cells = new ArrayList<ShortTruthTableCell>();
-        //go through each char in the statment and make a cell for it
+        //go through each char in the statement and make a cell for it
         for (int i = 0; i < statement.length(); i++) {
             char c = statement.charAt(i);
             ShortTruthTableCell cell = new ShortTruthTableCell(c, ShortTruthTableCellType.getDefaultType(c), new Point(i, y));

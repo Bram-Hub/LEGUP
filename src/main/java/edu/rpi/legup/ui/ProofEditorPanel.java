@@ -127,6 +127,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         edit = new JMenu("Edit");
         undo = new JMenuItem("Undo");
         redo = new JMenuItem("Redo");
+
         fitBoardToScreen = new JMenuItem("Fit Board to Screen");
         fitTreeToScreen = new JMenuItem("Fit Tree to Screen");
 
@@ -314,13 +315,28 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
 
         edit.add(redo);
-        redo.addActionListener((ActionEvent) ->
-                GameBoardFacade.getInstance().getHistory().redo());
+
+        // Created action to support two keybinds (CTRL-SHIFT-Z, CTRL-Y)
+        Action redoAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GameBoardFacade.getInstance().getHistory().redo();
+            }
+        };
         if (os.equals("mac")) {
+            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(
+                    KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK), "redoAction");
+            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(
+                    KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "redoAction");
             redo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK));
         }
         else {
-            redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
+            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('Y', InputEvent.CTRL_DOWN_MASK), "redoAction");
+            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('Z', InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK), "redoAction");
+            redo.getActionMap().put("redoAction", redoAction);
+
+            // Button in menu will show CTRL-SHIFT-Z as primary keybind
+            redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK));
         }
 
         edit.add(fitBoardToScreen);
@@ -377,6 +393,10 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
             puzzleFile = new File(fileName);
         }
+        else {
+            // The attempt to prompt a puzzle ended gracefully (cancel)
+            return null;
+        }
 
         return new Object[]{fileName, puzzleFile};
     }
@@ -391,11 +411,13 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     public void loadPuzzle(String fileName, File puzzleFile) {
         if (puzzleFile != null && puzzleFile.exists()) {
             try {
+                legupUI.displayPanel(1);
                 GameBoardFacade.getInstance().loadPuzzle(fileName);
                 String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
                 frame.setTitle(puzzleName + " - " + puzzleFile.getName());
             }
             catch (InvalidFileFormatException e) {
+                legupUI.displayPanel(0);
                 LOGGER.error(e.getMessage());
                 if (e.getMessage().contains("Proof Tree construction error: could not find rule by ID")) { // TO DO: make error message not hardcoded
                     JOptionPane.showMessageDialog(null, "This file runs on an outdated version of Legup\nand is not compatible with the current version.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -490,6 +512,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         // we should create a need jbuttom for it to ship the rule we select.
         JPanel panel= new JPanel();
         JButton moveing_buttom= new JButton();
+        moveing_buttom.setFocusPainted(false);
         moveing_buttom.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -711,11 +734,12 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         puzzle.addTreeListener(treePanel.getTreeView());
         puzzle.addBoardListener(puzzle.getBoardView());
 
-        ruleFrame.getBasicRulePanel().setRules(puzzle.getBasicRules());
+        ruleFrame.getDirectRulePanel().setRules(puzzle.getDirectRules());
         ruleFrame.getCasePanel().setRules(puzzle.getCaseRules());
         ruleFrame.getContradictionPanel().setRules(puzzle.getContradictionRules());
-        //ruleFrame.getSearchPanel().setRules(puzzle.getContradictionRules());
         ruleFrame.getSearchPanel().setSearchBar(puzzle);
+//        ruleFrame.getSearchPanel().setRules(puzzle.getBasicRules());
+
 
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
 //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);

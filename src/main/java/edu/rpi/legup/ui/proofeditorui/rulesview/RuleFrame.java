@@ -19,7 +19,7 @@ public class RuleFrame extends JPanel {
     private static final String htmlHead = "<html>";
     private static final String htmlTail = "</html>";
 
-    private BasicRulePanel basicRulePanel;
+    private DirectRulePanel DirectRulePanel;
     private ContradictionRulePanel contradictionPanel;
     private CaseRulePanel casePanel;
 
@@ -48,10 +48,10 @@ public class RuleFrame extends JPanel {
         this.status = new JLabel();
         this.buttonGroup = new ButtonGroup();
 
-        basicRulePanel = new BasicRulePanel(this);
-        JScrollPane newbrp = new JScrollPane(basicRulePanel);
+        DirectRulePanel = new DirectRulePanel(this);
+        JScrollPane newbrp = new JScrollPane(DirectRulePanel);
         newbrp.getVerticalScrollBar().setUnitIncrement(16);
-        tabbedPane.addTab(basicRulePanel.getName(), basicRulePanel.getIcon(), newbrp, basicRulePanel.getToolTip());
+        tabbedPane.addTab(DirectRulePanel.getName(), DirectRulePanel.getIcon(), newbrp, DirectRulePanel.getToolTip());
 
         casePanel = new CaseRulePanel(this);
         JScrollPane newcp = new JScrollPane(casePanel);
@@ -90,10 +90,9 @@ public class RuleFrame extends JPanel {
     }
 
     public void setSelectionByRule(Rule rule) {
-        basicRulePanel.setSelectionByRule(rule);
+        DirectRulePanel.setSelectionByRule(rule);
         casePanel.setSelectionByRule(rule);
         contradictionPanel.setSelectionByRule(rule);
-
     }
 
     /**
@@ -136,10 +135,9 @@ public class RuleFrame extends JPanel {
      * @param puzzle edu.rpi.legup.puzzle game
      */
     public void setRules(Puzzle puzzle) {
-        basicRulePanel.setRules(puzzle.getBasicRules());
+        DirectRulePanel.setRules(puzzle.getDirectRules());
         contradictionPanel.setRules(puzzle.getContradictionRules());
         casePanel.setRules(puzzle.getCaseRules());
-
     }
 
     /**
@@ -164,8 +162,8 @@ public class RuleFrame extends JPanel {
         return tabbedPane;
     }
 
-    public BasicRulePanel getBasicRulePanel() {
-        return basicRulePanel;
+    public DirectRulePanel getDirectRulePanel() {
+        return DirectRulePanel;
     }
 
     public CaseRulePanel getCasePanel() {
