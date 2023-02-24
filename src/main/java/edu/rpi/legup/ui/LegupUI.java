@@ -145,7 +145,7 @@ public class LegupUI extends JFrame implements WindowListener {
 
     //ask to edu.rpi.legup.save current proof
     public boolean noquit(String instr) {
-        int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
+        int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_OPTION);
         return n != JOptionPane.YES_OPTION;
     }
 

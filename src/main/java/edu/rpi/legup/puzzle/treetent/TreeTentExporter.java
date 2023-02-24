@@ -32,7 +32,7 @@ public class TreeTentExporter extends PuzzleExporter {
         org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             TreeTentCell cell = (TreeTentCell) puzzleElement;
-            if (cell.getData() != 0) {
+            if (cell.getData() != TreeTentType.UNKNOWN) {
                 org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
                 cellsElement.appendChild(cellElement);
             }
