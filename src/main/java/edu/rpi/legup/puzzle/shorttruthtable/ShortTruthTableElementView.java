@@ -36,7 +36,7 @@ public class ShortTruthTableElementView extends GridElementView {
     @Override
     public void drawElement(Graphics2D graphics2D) {
 
-        //get informatino about the cell
+        //get information about the cell
         ShortTruthTableCell cell = (ShortTruthTableCell) puzzleElement;
         ShortTruthTableCellType type = cell.getData();
 
