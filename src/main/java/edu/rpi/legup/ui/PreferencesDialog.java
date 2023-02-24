@@ -217,7 +217,7 @@ public class PreferencesDialog extends JDialog {
 
         JPanel colorBlindRow = new JPanel();
         colorBlindRow.setLayout(new BorderLayout());
-        colorBlindRow.add(colorBlind, BorderLayout.WEST);
+        colorBlindRow.add(colorblind, BorderLayout.WEST);
         colorBlindRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, showMistakesRow.getPreferredSize().height));
         contentPane.add(colorBlindRow);
 
