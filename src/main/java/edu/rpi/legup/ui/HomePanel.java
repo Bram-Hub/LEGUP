@@ -535,7 +535,7 @@ public void checkfolder(){
         // this.text = new JLabel[3];
         this.text = new JLabel[2];
 
-        JLabel welcome = new JLabel("Welcome to Legup");
+        JLabel welcome = new JLabel("Welcome to LEGUP");
         welcome.setFont(new Font("Roboto", Font.BOLD, 23));
         welcome.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -556,7 +556,7 @@ public void checkfolder(){
         this.removeAll();
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        this.legupUI.setTitle("Legup: A Better Way to Learn Formal Logic");
+        this.legupUI.setTitle("LEGUP: A Better Way to Learn Formal Logic");
 
         JPanel buttons = new JPanel();
         buttons.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -569,7 +569,7 @@ public void checkfolder(){
 
         JPanel batchGraderButton = new JPanel();
         batchGraderButton.add(this.buttons[3]);
-        batchGraderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        batchGraderButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
         this.add(Box.createRigidArea(new Dimension(0, 5)));
