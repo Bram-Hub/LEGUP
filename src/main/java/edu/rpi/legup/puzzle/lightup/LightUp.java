@@ -25,6 +25,8 @@ public class LightUp extends Puzzle {
     @Override
     public void initializeView() {
         boardView = new LightUpView((LightUpBoard) currentBoard);
+        boardView.setBoard(currentBoard);
+        addBoardListener(boardView);
     }
 
     /**
