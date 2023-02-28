@@ -303,8 +303,9 @@ public void checkfolder(){
 
         LegupPreferences preferences = LegupPreferences.getInstance();
         File preferredDirectory = new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
+        if (preferredDirectory == null) {return;}
         JFileChooser folderBrowser = new JFileChooser(preferredDirectory);
-
+        if (folderBrowser == null) {return;}
 
         folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
         folderBrowser.setDialogTitle("Select Directory");
@@ -313,8 +314,9 @@ public void checkfolder(){
         folderBrowser.showOpenDialog(this);
         folderBrowser.setVisible(true);
         File folder = folderBrowser.getSelectedFile();
-
+        if (folder == null) {return;}
         File resultFile = new File(folder.getAbsolutePath() + File.separator +"result.csv");
+        if (resultFile == null) {return;}
         SAXParserFactory spf = SAXParserFactory.newInstance();
         SAXParser saxParser = spf.newSAXParser();
 //        String path = "C:\\Users\\LiWeiJun\\Desktop\\TestSet\\TestSet\\roseh";
