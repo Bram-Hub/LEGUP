@@ -1,12 +1,21 @@
 package edu.rpi.legup.puzzle.treetent;
 
+import edu.rpi.legup.puzzle.masyu.MasyuType;
+
 public enum TreeTentType {
-    UNKNOWN(0), TREE(1), GRASS(2), TENT(3),
-    CLUE_NORTH(-1), CLUE_EAST(-2), CLUE_SOUTH(-3), CLUE_WEST(-4);
+    UNKNOWN, TREE, GRASS, TENT,
+    CLUE_NORTH, CLUE_EAST, CLUE_SOUTH, CLUE_WEST;
 
-    public int value;
-
-    TreeTentType(int value) {
-        this.value = value;
+    public static TreeTentType valueOf(int num) {
+        switch (num) {
+            case 1:
+                return TREE;
+            case 2:
+                return GRASS;
+            case 3:
+                return TENT;
+            default:
+                return UNKNOWN;
+        }
     }
 }

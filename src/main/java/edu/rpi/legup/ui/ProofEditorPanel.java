@@ -229,7 +229,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 Tree tree = GameBoardFacade.getInstance().getTree();
                 TreeNode rootNode = tree.getRootNode();
                 if (rootNode != null) {
-                    int confirmReset = JOptionPane.showConfirmDialog(this, "Reset Puzzle to Root Node?", "Confirm Reset", JOptionPane.YES_NO_CANCEL_OPTION);
+                    int confirmReset = JOptionPane.showConfirmDialog(this, "Reset Puzzle to Root Node?", "Confirm Reset", JOptionPane.YES_NO_OPTION);
                     if (confirmReset == JOptionPane.YES_OPTION) {
                         List<TreeTransition> children = rootNode.getChildren();
                         children.forEach(t -> puzzle.notifyTreeListeners(l -> l.onTreeElementRemoved(t)));
@@ -403,6 +403,10 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     public void loadPuzzle() {
         Object[] items = promptPuzzle();
+        // Return if items == null (cancel)
+        if (items == null) {
+            return;
+        }
         String fileName = (String) items[0];
         File puzzleFile = (File) items[1];
         loadPuzzle(fileName, puzzleFile);
@@ -512,6 +516,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         // we should create a need jbuttom for it to ship the rule we select.
         JPanel panel= new JPanel();
         JButton moveing_buttom= new JButton();
+        moveing_buttom.setFocusPainted(false);
         moveing_buttom.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -552,7 +557,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     //ask to edu.rpi.legup.save current proof
     public boolean noquit(String instr) {
-        int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
+        int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_OPTION);
         return n != JOptionPane.YES_OPTION;
     }
 
@@ -736,8 +741,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         ruleFrame.getDirectRulePanel().setRules(puzzle.getDirectRules());
         ruleFrame.getCasePanel().setRules(puzzle.getCaseRules());
         ruleFrame.getContradictionPanel().setRules(puzzle.getContradictionRules());
-        //ruleFrame.getSearchPanel().setRules(puzzle.getContradictionRules());
         ruleFrame.getSearchPanel().setSearchBar(puzzle);
+//        ruleFrame.getSearchPanel().setRules(puzzle.getBasicRules());
+
 
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
 //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
