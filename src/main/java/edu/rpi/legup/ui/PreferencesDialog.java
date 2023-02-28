@@ -21,7 +21,7 @@ public class PreferencesDialog extends JDialog {
 
     private final static Logger LOGGER = Logger.getLogger(PreferencesDialog.class.getName());
 
-    private JCheckBox fullScreen, autoUpdate, darkMode, showMistakes, showAnnotations, allowDefault, generateCases, immFeedback, colorblind;
+    private JCheckBox fullScreen, autoUpdate, darkMode, showMistakes, showAnnotations, allowDefault, generateCases, immFeedback, colorBlind;
     
     private JTextField workDirectory;
 
@@ -214,6 +214,7 @@ public class PreferencesDialog extends JDialog {
         contentPane.add(createLeftLabel("Color Preferences"));
         contentPane.add(createLineSeparator());
         colorBlind = new JCheckBox("Deuteranomaly(red/green colorblindness)", Boolean.valueOf(prefs.getUserPref(LegupPreferences.COLOR_BLIND)));
+
         JPanel colorBlindRow = new JPanel();
         colorBlindRow.setLayout(new BorderLayout());
         colorBlindRow.add(colorBlind, BorderLayout.WEST);
