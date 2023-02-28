@@ -403,6 +403,10 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     public void loadPuzzle() {
         Object[] items = promptPuzzle();
+        // Return if items == null (cancel)
+        if (items == null) {
+            return;
+        }
         String fileName = (String) items[0];
         File puzzleFile = (File) items[1];
         loadPuzzle(fileName, puzzleFile);
