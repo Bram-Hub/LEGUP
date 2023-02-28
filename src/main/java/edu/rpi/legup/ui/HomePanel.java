@@ -164,7 +164,6 @@ public class HomePanel extends LegupPanel {
         this.buttons[2].addActionListener(CursorController.createListener(this, openPuzzleListener)); // PLACEHOLDER
 
         for (int i = 0; i < this.buttons.length - 1; i++) { // -1 to avoid the batch grader button
-            //this.buttons[i].setPreferredSize(new Dimension(100, 100));
             this.buttons[i].setBounds(200, 200, 700, 700);
         }
         this.buttons[3] = new JButton("Batch Grader");
@@ -175,18 +174,12 @@ public class HomePanel extends LegupPanel {
         this.buttons[3].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                ProofEditorPanel panel=new ProofEditorPanel(new FileDialog(new Frame()),new JFrame(), legupUI);
-//                //legupUI.setVisible(false);
-//                panel.checkProofAll();
-               //checkfolder();
-
                 try {
                     use_xml_to_check();
                 }
                 catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
-                //checkallproof1();
                 System.out.println("finished checking the folder");
 
             }
@@ -226,8 +219,6 @@ public void checkfolder(){
         writer.append(",");
         writer.append("Solved or not");
         writer.append("\n");
-        //csvWriter.flush();
-        //csvWriter.close();
 
         for (final File folderEntry : folder.listFiles(File::isDirectory)) {
             writer.append(folderEntry.getName());
@@ -317,7 +308,7 @@ public void checkfolder(){
         File resultFile = new File(folder.getAbsolutePath() + File.separator +"result.csv");
         SAXParserFactory spf = SAXParserFactory.newInstance();
         SAXParser saxParser = spf.newSAXParser();
-//        String path = "C:\\Users\\LiWeiJun\\Desktop\\TestSet\\TestSet\\roseh";
+
         //read the xml file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
             writer.write("Name");
@@ -533,10 +524,7 @@ public void checkfolder(){
         }
     }
     private void initText() {
-        // Note: until an auto-changing version label is implemented in the future, I removed
-        // the version text from the home screen to avoid confusion
-
-        // this.text = new JLabel[3];
+        // TODO: add version text after auto-changing version label is implemented. (text[2] = version)
         this.text = new JLabel[2];
 
         JLabel welcome = new JLabel("Welcome to LEGUP");
@@ -553,7 +541,6 @@ public void checkfolder(){
 
         this.text[0] = welcome;
         this.text[1] = credits;
-        // this.text[2] = version;
     }
 
     private void render() {
