@@ -203,7 +203,6 @@ public class DynamicView extends JPanel {
     }
 
     public void reset() {
-        // System.out.println("get into the reset");
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         Board board1 = GameBoardFacade.getInstance().getBoard();
         board1.setModifiable(true);
