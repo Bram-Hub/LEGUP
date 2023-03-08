@@ -27,7 +27,7 @@ public class TooFewBulbsContradictionRuleTest {
 
     @Test
     public void TooFewBulbsContradictionRule_LightInHorizontalPath() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/lightup/rules/TooFewBulbsContradictionRule/BulbsAroundBlackTile", lightUp);
+        TestUtilities.importTestBoard("puzzles/lightup/rules/TooFewBulbsContradictionRule/TooFew", lightUp);
         TreeNode rootNode = lightUp.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE); 
@@ -44,8 +44,5 @@ public class TooFewBulbsContradictionRuleTest {
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 0)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(4, 4)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(5, 5)));
-        
-        //intentional failure for sanity check
-        //Assert.assertEquals(2, 3);
     }
 }
