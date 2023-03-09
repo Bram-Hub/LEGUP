@@ -117,7 +117,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         file = new JMenu("File");
         newPuzzle = new JMenuItem("Open");
         resetPuzzle = new JMenuItem("Reset Puzzle");
-//        genPuzzle = new JMenuItem("Puzzle Generators");
+//        genPuzzle = new JMenuItem("Puzzle Generators"); // TODO: implement puzzle generator
         saveProofAs = new JMenuItem("Save Proof As"); // create a new file to save
         saveProofChange = new JMenuItem("Save Proof Change"); // save to the current file
         preferences = new JMenuItem("Preferences");
@@ -203,9 +203,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         helpLegup = new JMenuItem("Help Legup");
         aboutLegup = new JMenuItem("About Legup");
 
-        // unused
-        // help = new JMenu("Help");
-
         mBar.add(file);
         file.add(newPuzzle);
         newPuzzle.addActionListener((ActionEvent) -> promptPuzzle());
@@ -216,12 +213,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
         }
 
-//        file.add(genPuzzle);
-////        genPuzzle.addActionListener((ActionEvent) ->
-////        {
-////            pickGameDialog = new PickGameDialog(this, true);
-////            pickGameDialog.setVisible(true);
-////        });
         file.add(resetPuzzle);
         resetPuzzle.addActionListener(a -> {
             Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
@@ -403,6 +394,10 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     public void loadPuzzle() {
         Object[] items = promptPuzzle();
+        // Return if items == null (cancel)
+        if (items == null) {
+            return;
+        }
         String fileName = (String) items[0];
         File puzzleFile = (File) items[1];
         loadPuzzle(fileName, puzzleFile);
@@ -973,15 +968,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             Submission submit = new Submission(board);
         }
     }
-
-    private void directions() {
-        JOptionPane.showMessageDialog(null, "For every move you make, you must provide a rule for it (located in the Rules panel).\n" + "While working on the edu.rpi.legup.puzzle, you may click on the \"Check\" button to test your proof for correctness.", "Directions", JOptionPane.PLAIN_MESSAGE);
-    }
-
-    public void errorEncountered(String error) {
-        JOptionPane.showMessageDialog(null, error);
-    }
-
     public void showStatus(String status, boolean error, int timer) {
         // TODO: implement
     }

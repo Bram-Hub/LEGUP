@@ -164,7 +164,6 @@ public class HomePanel extends LegupPanel {
         this.buttons[2].addActionListener(CursorController.createListener(this, openPuzzleListener)); // PLACEHOLDER
 
         for (int i = 0; i < this.buttons.length - 1; i++) { // -1 to avoid the batch grader button
-            //this.buttons[i].setPreferredSize(new Dimension(100, 100));
             this.buttons[i].setBounds(200, 200, 700, 700);
         }
         this.buttons[3] = new JButton("Batch Grader");
@@ -175,18 +174,12 @@ public class HomePanel extends LegupPanel {
         this.buttons[3].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                ProofEditorPanel panel=new ProofEditorPanel(new FileDialog(new Frame()),new JFrame(), legupUI);
-//                //legupUI.setVisible(false);
-//                panel.checkProofAll();
-               //checkfolder();
-
                 try {
                     use_xml_to_check();
                 }
                 catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
-                //checkallproof1();
                 System.out.println("finished checking the folder");
 
             }
@@ -226,8 +219,6 @@ public void checkfolder(){
         writer.append(",");
         writer.append("Solved or not");
         writer.append("\n");
-        //csvWriter.flush();
-        //csvWriter.close();
 
         for (final File folderEntry : folder.listFiles(File::isDirectory)) {
             writer.append(folderEntry.getName());
@@ -303,8 +294,13 @@ public void checkfolder(){
 
         LegupPreferences preferences = LegupPreferences.getInstance();
         File preferredDirectory = new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
+        if (preferredDirectory == null) {
+            return;
+        }
         JFileChooser folderBrowser = new JFileChooser(preferredDirectory);
-
+        if (folderBrowser == null) {
+            return;
+        }
 
         folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
         folderBrowser.setDialogTitle("Select Directory");
@@ -313,11 +309,16 @@ public void checkfolder(){
         folderBrowser.showOpenDialog(this);
         folderBrowser.setVisible(true);
         File folder = folderBrowser.getSelectedFile();
-
+        if (folder == null) {
+            return;
+        }
         File resultFile = new File(folder.getAbsolutePath() + File.separator +"result.csv");
+        if (resultFile == null) {
+            return;
+        }
         SAXParserFactory spf = SAXParserFactory.newInstance();
         SAXParser saxParser = spf.newSAXParser();
-//        String path = "C:\\Users\\LiWeiJun\\Desktop\\TestSet\\TestSet\\roseh";
+
         //read the xml file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
             writer.write("Name");
@@ -533,13 +534,10 @@ public void checkfolder(){
         }
     }
     private void initText() {
-        // Note: until an auto-changing version label is implemented in the future, I removed
-        // the version text from the home screen to avoid confusion
-
-        // this.text = new JLabel[3];
+        // TODO: add version text after auto-changing version label is implemented. (text[2] = version)
         this.text = new JLabel[2];
 
-        JLabel welcome = new JLabel("Welcome to Legup");
+        JLabel welcome = new JLabel("Welcome to LEGUP");
         welcome.setFont(new Font("Roboto", Font.BOLD, 23));
         welcome.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -553,14 +551,13 @@ public void checkfolder(){
 
         this.text[0] = welcome;
         this.text[1] = credits;
-        // this.text[2] = version;
     }
 
     private void render() {
         this.removeAll();
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        this.legupUI.setTitle("Legup: A Better Way to Learn Formal Logic");
+        this.legupUI.setTitle("LEGUP: A Better Way to Learn Formal Logic");
 
         JPanel buttons = new JPanel();
         buttons.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -573,7 +570,7 @@ public void checkfolder(){
 
         JPanel batchGraderButton = new JPanel();
         batchGraderButton.add(this.buttons[3]);
-        batchGraderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        batchGraderButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
         this.add(Box.createRigidArea(new Dimension(0, 5)));
