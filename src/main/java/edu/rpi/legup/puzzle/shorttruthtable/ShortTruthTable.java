@@ -25,6 +25,7 @@ public class ShortTruthTable extends Puzzle {
     public void initializeView() {
         ShortTruthTableBoard sttBoard = (ShortTruthTableBoard) currentBoard;
         boardView = new ShortTruthTableView(sttBoard);
+        boardView.setBoard(currentBoard);
         addBoardListener(boardView);
     }
 
