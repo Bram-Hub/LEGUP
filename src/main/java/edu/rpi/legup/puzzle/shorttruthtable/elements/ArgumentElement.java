@@ -6,7 +6,7 @@ public class ArgumentElement extends NonPlaceableElement
 {
     private char letter = 'A';
     public ArgumentElement() {
-        super("STTT-UNPL-0004", "Argument Element", "Argument of logic statement element", "edu/rpi/legup/images/shorttruthtable/tiles/LetterTile");
+        super("STTT-UNPL-0004", "Argument Element", "Argument of logic statement element", "edu/rpi/legup/images/shorttruthtable/tiles/LetterTile.png");
     }
 
     public char getLetter() {
