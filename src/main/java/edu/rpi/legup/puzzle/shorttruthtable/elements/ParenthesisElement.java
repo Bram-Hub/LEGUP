@@ -5,8 +5,9 @@ import edu.rpi.legup.model.elements.NonPlaceableElement;
 public class ParenthesisElement extends NonPlaceableElement {
 
     private char parenthesis = '(';
+    
     public ParenthesisElement() {
-        super("STTT-UNPL-0007", "Parenthesis Element", "Parenthesis element", "edu/rpi/legup/images/shorttruthtable/tiles/ParenthesisTile");
+        super("STTT-UNPL-0007", "Parenthesis Element", "Parenthesis element", "edu/rpi/legup/images/shorttruthtable/tiles/ParenthesisTile.png");
     }
 
     public char getParenthesis() {
