@@ -102,6 +102,10 @@ public abstract class RulePanel extends JPanel {
                     ruleButtons[0] = new RuleButton(rule);
                     ruleFrame.getButtonGroup().add(ruleButtons[0]);
 
+                    ruleButtons[0].setPreferredSize(new Dimension(150,150));// adjust the size of each RuleButton
+                    ruleButtons[0].setHorizontalTextPosition(JButton.CENTER);
+                    ruleButtons[0].setVerticalTextPosition(JButton.BOTTOM);
+
                     ruleButtons[0].setToolTipText(rule.getRuleName() + ": " + rule.getDescription());
                     ruleButtons[0].addActionListener(ruleFrame.getController());
                     add(ruleButtons[0]);
@@ -113,6 +117,10 @@ public abstract class RulePanel extends JPanel {
                     ruleButtons[similarfound] = new RuleButton(rule);
                     ruleFrame.getButtonGroup().add(ruleButtons[similarfound]);
 
+                    ruleButtons[similarfound].setPreferredSize(new Dimension(150,150));// adjust the size of each RuleButton
+                    ruleButtons[similarfound].setHorizontalTextPosition(JButton.CENTER);
+                    ruleButtons[similarfound].setVerticalTextPosition(JButton.BOTTOM);
+
                     ruleButtons[similarfound].setToolTipText(rule.getRuleName() + ": " + rule.getDescription());
                     ruleButtons[similarfound].addActionListener(ruleFrame.getController());
                     add(ruleButtons[similarfound]);
@@ -122,6 +130,10 @@ public abstract class RulePanel extends JPanel {
                 else if((ruleName.charAt(0)) == (rule.getRuleName().toUpperCase()).charAt(0)){
                     ruleButtons[similarfound] = new RuleButton(rule);
                     ruleFrame.getButtonGroup().add(ruleButtons[similarfound]);
+
+                    ruleButtons[similarfound].setPreferredSize(new Dimension(150,150));// adjust the size of each RuleButton
+                    ruleButtons[similarfound].setHorizontalTextPosition(JButton.CENTER);
+                    ruleButtons[similarfound].setVerticalTextPosition(JButton.BOTTOM);
 
                     ruleButtons[similarfound].setToolTipText(rule.getRuleName() + ": " + rule.getDescription());
                     ruleButtons[similarfound].addActionListener(ruleFrame.getController());

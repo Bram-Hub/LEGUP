@@ -16,6 +16,7 @@ public class ElementButton extends JButton {
         super(e.getImageIcon());
         this.element = e;
         this.originalBorder = this.getBorder();
+        this.setFocusPainted(false);
     }
 
     public Element getElement() {

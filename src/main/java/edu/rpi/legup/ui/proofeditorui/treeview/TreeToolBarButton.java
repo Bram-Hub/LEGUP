@@ -13,6 +13,7 @@ public class TreeToolBarButton extends JButton {
         this.name = name;
         this.setSize(MINIMUM_DIMENSION.width, MINIMUM_DIMENSION.height);
         this.setMinimumSize(this.MINIMUM_DIMENSION);
+        this.setFocusPainted(false);
     }
 
     public TreeToolBarName getToolBarName() {

@@ -43,6 +43,7 @@ public class MaterialComboBoxUI extends BasicComboBoxUI {
         else {
             button = new BasicArrowButton(SwingConstants.SOUTH);
         }
+        button.setFocusPainted(false);
         button.setOpaque(true);
         button.setBackground(UIManager.getColor("ComboBox.buttonBackground"));
         button.setBorder(BorderFactory.createEmptyBorder());
