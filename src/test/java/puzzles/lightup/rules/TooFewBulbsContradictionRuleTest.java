@@ -26,13 +26,14 @@ public class TooFewBulbsContradictionRuleTest {
     }
 
     @Test
-    public void TooFewBulbsContradictionRule_LightInHorizontalPath() throws InvalidFileFormatException {
+    public void TooFewBulbsContradictionRule() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/lightup/rules/TooFewBulbsContradictionRule/TooFew", lightUp);
         TreeNode rootNode = lightUp.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE); 
 
         LightUpBoard board = (LightUpBoard) transition.getBoard();
+        //confirm there is a contradiction somewhere on the board
         Assert.assertNull(RULE.checkContradiction(board));
 
         //confirm that there arent enough bulbs around the black tiles

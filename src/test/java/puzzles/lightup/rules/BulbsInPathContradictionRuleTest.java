@@ -34,6 +34,7 @@ public class BulbsInPathContradictionRuleTest {
         transition.setRule(RULE);
 
         LightUpBoard board = (LightUpBoard) transition.getBoard();
+        //confirm there is a contradiction somewhere on the board
         Assert.assertNull(RULE.checkContradiction(board));
         Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(0, 0)));
         Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(2, 0)));
@@ -49,6 +50,7 @@ public class BulbsInPathContradictionRuleTest {
         transition.setRule(RULE);
 
         LightUpBoard board = (LightUpBoard) transition.getBoard();
+        //confirm there is a contradiction somewhere on the board
         Assert.assertNull(RULE.checkContradiction(board));
         Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(0, 0)));
         Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(0, 2)));
