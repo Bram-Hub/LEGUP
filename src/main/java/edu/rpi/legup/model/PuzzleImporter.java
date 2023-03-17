@@ -181,6 +181,9 @@ public abstract class PuzzleImporter {
         HashMap<String, TreeTransition> treeTransitions = new HashMap<>();
         HashMap<TreeTransition, Node> nodeChanges = new HashMap<>();
 
+        System.out.println("test1");
+        System.out.print(nodeList.getLength());
+        System.out.println("test2");
         for (int i = 0; i < nodeList.getLength(); i++) {
             org.w3c.dom.Element treeNodeElement = (org.w3c.dom.Element) nodeList.item(i);
             String nodeId = treeNodeElement.getAttribute("id");
