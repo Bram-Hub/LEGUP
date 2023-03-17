@@ -21,10 +21,8 @@ public class MasyuExporter extends PuzzleExporter {
         org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             MasyuCell cell = (MasyuCell) puzzleElement;
-            if (cell.getData() != -2) {
-                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
-                cellsElement.appendChild(cellElement);
-            }
+            org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
+            cellsElement.appendChild(cellElement);
         }
 
         boardElement.appendChild(cellsElement);

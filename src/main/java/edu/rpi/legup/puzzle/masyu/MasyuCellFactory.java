@@ -41,7 +41,7 @@ public class MasyuCellFactory extends ElementFactory {
                 throw new InvalidFileFormatException("Masyu Factory: cell unknown value");
             }
 
-            MasyuCell cell = new MasyuCell(value, new Point(x, y));
+            MasyuCell cell = new MasyuCell(MasyuType.convertToMasyuType(value), new Point(x, y));
             cell.setIndex(y * height + x);
             return cell;
         }
