@@ -1,5 +1,6 @@
 package edu.rpi.legup.ui;
 
+import com.sun.org.apache.bcel.internal.generic.JSR;
 import edu.rpi.legup.app.Config;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.CursorController;
@@ -21,14 +22,14 @@ public class CreatePuzzleDialog extends JDialog {
             JComboBox comboBox = (JComboBox) e.getSource();
             String puzzleName = (String) comboBox.getSelectedItem();
             if (puzzleName.equals("ShortTruthTable")) {
-                shortTruthTableTextArea.setVisible(true);
+                shortTruthTableStatementsScrollPane.setVisible(true);
                 rowsLabel.setVisible(false);
                 rows.setVisible(false);
                 columnsLabel.setVisible(false);
                 columns.setVisible(false);
             }
             else {
-                shortTruthTableTextArea.setVisible(false);
+                shortTruthTableStatementsScrollPane.setVisible(false);
                 rowsLabel.setVisible(true);
                 rows.setVisible(true);
                 columnsLabel.setVisible(true);
@@ -44,6 +45,7 @@ public class CreatePuzzleDialog extends JDialog {
     private JTextField columns;
 
     private JTextArea shortTruthTableTextArea;
+    private JScrollPane shortTruthTableStatementsScrollPane;
 
     private JButton ok = new JButton("Ok");
     private ActionListener okButtonListener = new ActionListener() {
@@ -129,21 +131,22 @@ public class CreatePuzzleDialog extends JDialog {
         c.add(columns);
 
         shortTruthTableTextArea = new JTextArea();
-        shortTruthTableTextArea.setBounds(10, 70, this.getWidth() - 30, 50);
-        c.add(shortTruthTableTextArea);
+        shortTruthTableStatementsScrollPane = new JScrollPane (shortTruthTableTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        shortTruthTableStatementsScrollPane.setBounds(10, 70, this.getWidth() - 30, 50);
+        c.add(shortTruthTableStatementsScrollPane);
 
         c.add(ok);
         c.add(cancel);
 
         if (this.gameBox.getSelectedItem().equals("ShortTruthTable")) {
-            this.shortTruthTableTextArea.setVisible(true);
+            shortTruthTableStatementsScrollPane.setVisible(true);
             rowsLabel.setVisible(false);
             rows.setVisible(false);
             columnsLabel.setVisible(false);
             columns.setVisible(false);
         }
         else {
-            shortTruthTableTextArea.setVisible(false);
+            shortTruthTableStatementsScrollPane.setVisible(false);
             rowsLabel.setVisible(true);
             rows.setVisible(true);
             columnsLabel.setVisible(true);
