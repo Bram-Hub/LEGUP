@@ -21,7 +21,7 @@ public class SkyscrapersExporter extends PuzzleExporter {
         org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
-            if (cell.getData() != 0) {
+            if (cell.getData().value != 0) {
                 org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
                 cellsElement.appendChild(cellElement);
             }
