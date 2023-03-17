@@ -20,12 +20,25 @@ public class CreatePuzzleDialog extends JDialog {
         public void actionPerformed(ActionEvent e) {
             JComboBox comboBox = (JComboBox) e.getSource();
             String puzzleName = (String) comboBox.getSelectedItem();
-            System.out.println(puzzleName);
+            if (puzzleName.equals("ShortTruthTable")) {
+                rowsLabel.setVisible(false);
+                rows.setVisible(false);
+                columnsLabel.setVisible(false);
+                columns.setVisible(false);
+            }
+            else {
+                rowsLabel.setVisible(true);
+                rows.setVisible(true);
+                columnsLabel.setVisible(true);
+                columns.setVisible(true);
+            }
         }
     };
 
     private JLabel puzzleLabel = new JLabel("Puzzle:");
+    private JLabel rowsLabel;
     private JTextField rows;
+    private JLabel columnsLabel;
     private JTextField columns;
 
     private JButton ok = new JButton("Ok");
@@ -95,8 +108,8 @@ public class CreatePuzzleDialog extends JDialog {
         rows = new JTextField();
         columns = new JTextField();
 
-        JLabel rowsLabel = new JLabel("Rows:");
-        JLabel columnsLabel = new JLabel("Columns:");
+        rowsLabel = new JLabel("Rows:");
+        columnsLabel = new JLabel("Columns:");
 
         rowsLabel.setBounds(30, 70, 60, 25);
         columnsLabel.setBounds(30, 95, 60, 25);
