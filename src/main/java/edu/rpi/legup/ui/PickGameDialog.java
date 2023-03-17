@@ -126,7 +126,6 @@ public class PickGameDialog extends JDialog implements ActionListener {
         puzzles = new String[games.length][];
         puzzleBox = new JTextField();
         for (int x = 0; x < games.length; ++x) {
-            // o = GameBoardFacade.getInstance().getConfig().getBoardsForPuzzle(games[x]).toArray();
             puzzles[x] = new String[o.length];
 
             for (int y = 0; y < o.length; ++y) {
