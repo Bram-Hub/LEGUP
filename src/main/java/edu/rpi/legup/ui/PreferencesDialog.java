@@ -136,6 +136,7 @@ public class PreferencesDialog extends JDialog {
         fullScreenRow.add(fullScreen, BorderLayout.WEST);
         fullScreenRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, fullScreenRow.getPreferredSize().height));
         contentPane.add(fullScreenRow);
+
         autoUpdate = new JCheckBox("Automatically Check for Updates", Boolean.valueOf(prefs.getUserPref(LegupPreferences.AUTO_UPDATE)));
         autoUpdate.setToolTipText("If checked this automatically checks for updates on startup of Legup");
         JPanel autoUpdateRow = new JPanel();
@@ -143,7 +144,7 @@ public class PreferencesDialog extends JDialog {
         autoUpdateRow.add(autoUpdate, BorderLayout.WEST);
         autoUpdateRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, autoUpdateRow.getPreferredSize().height));
         contentPane.add(autoUpdateRow);
-        contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
+//        contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
 
         darkMode = new JCheckBox("Dark Mode", Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE)));
         darkMode.setToolTipText("This turns dark mode on and off");
@@ -193,6 +194,7 @@ public class PreferencesDialog extends JDialog {
         generateCasesRow.add(generateCases, BorderLayout.WEST);
         generateCasesRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, generateCasesRow.getPreferredSize().height));
         contentPane.add(generateCasesRow);
+        contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
 
         immFeedback = new JCheckBox("Provide Immediate Feedback", Boolean.valueOf(prefs.getUserPref(LegupPreferences.IMMEDIATE_FEEDBACK)));
         immFeedback.setToolTipText("If checked this will update the colors of the tree view elements immediately");

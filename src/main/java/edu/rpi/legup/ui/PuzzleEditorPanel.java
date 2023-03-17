@@ -104,7 +104,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         // file>new
         JMenuItem newPuzzle = new JMenuItem("New");
-        newPuzzle.addActionListener((ActionEvent) -> promptPuzzle());
+        newPuzzle.addActionListener((ActionEvent) -> loadPuzzle());
         if (os.equals("mac")) {
             newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
@@ -386,7 +386,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     @Override
     public void onClearHistory() {
-
+        undo.setEnabled(false);
+        redo.setEnabled(false);
     }
 
     public BoardView getBoardView() {
