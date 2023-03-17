@@ -15,6 +15,14 @@ public class CreatePuzzleDialog extends JDialog {
 
     private String[] games;
     private JComboBox gameBox;
+    private ActionListener gameBoxListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JComboBox comboBox = (JComboBox) e.getSource();
+            String puzzleName = (String) comboBox.getSelectedItem();
+            System.out.println(puzzleName);
+        }
+    };
 
     private JLabel puzzleLabel = new JLabel("Puzzle:");
     private JTextField rows;
@@ -105,6 +113,8 @@ public class CreatePuzzleDialog extends JDialog {
         c.add(ok);
         c.add(cancel);
 
+        ActionListener cursorSelectedGame = CursorController.createListener(this, gameBoxListener);
+        gameBox.addActionListener(cursorSelectedGame);
         ActionListener cursorPressedOk = CursorController.createListener(this, okButtonListener);
         ok.addActionListener(cursorPressedOk);
         ActionListener cursorPressedCancel = CursorController.createListener(this, cancelButtonListener);
