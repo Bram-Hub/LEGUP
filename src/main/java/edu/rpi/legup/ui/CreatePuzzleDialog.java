@@ -1,5 +1,6 @@
 package edu.rpi.legup.ui;
 
+import com.sun.org.apache.bcel.internal.generic.JSR;
 import edu.rpi.legup.app.Config;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.CursorController;
@@ -15,10 +16,36 @@ public class CreatePuzzleDialog extends JDialog {
 
     private String[] games;
     private JComboBox gameBox;
+    private ActionListener gameBoxListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JComboBox comboBox = (JComboBox) e.getSource();
+            String puzzleName = (String) comboBox.getSelectedItem();
+            if (puzzleName.equals("ShortTruthTable")) {
+                shortTruthTableStatementsScrollPane.setVisible(true);
+                rowsLabel.setVisible(false);
+                rows.setVisible(false);
+                columnsLabel.setVisible(false);
+                columns.setVisible(false);
+            }
+            else {
+                shortTruthTableStatementsScrollPane.setVisible(false);
+                rowsLabel.setVisible(true);
+                rows.setVisible(true);
+                columnsLabel.setVisible(true);
+                columns.setVisible(true);
+            }
+        }
+    };
 
-    private JLabel puzzleLabel = new JLabel("Puzzle:");
+    private JLabel puzzleLabel;
+    private JLabel rowsLabel;
     private JTextField rows;
+    private JLabel columnsLabel;
     private JTextField columns;
+
+    private JTextArea shortTruthTableTextArea;
+    private JScrollPane shortTruthTableStatementsScrollPane;
 
     private JButton ok = new JButton("Ok");
     private ActionListener okButtonListener = new ActionListener() {
@@ -29,24 +56,24 @@ public class CreatePuzzleDialog extends JDialog {
         @Override
         public void actionPerformed(ActionEvent ae) {
             String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
-            
+
             // Check if all 3 TextFields are filled
             if (game.equals("") || rows.getText().equals("") || columns.getText().equals("")) {
                 System.out.println("Unfilled fields");
                 return;
             }
-            
+
             try {
                 homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(rows.getText()), Integer.valueOf(columns.getText()));
                 setVisible(false);
             }
-             catch (IllegalArgumentException e) {
+            catch (IllegalArgumentException e) {
                 System.out.println("Failed to open editor with new puzzle");
                 e.printStackTrace(System.out);
             }
         }
     };
-    
+
     private JButton cancel = new JButton("Cancel");
     private ActionListener cancelButtonListener = new ActionListener() {
         /**
@@ -75,6 +102,7 @@ public class CreatePuzzleDialog extends JDialog {
         Container c = getContentPane();
         c.setLayout(null);
 
+        puzzleLabel = new JLabel("Puzzle:");
         puzzleLabel.setBounds(10, 30, 70, 25);
         gameBox.setBounds(80, 30, 190, 25);
 
@@ -87,8 +115,8 @@ public class CreatePuzzleDialog extends JDialog {
         rows = new JTextField();
         columns = new JTextField();
 
-        JLabel rowsLabel = new JLabel("Rows:");
-        JLabel columnsLabel = new JLabel("Columns:");
+        rowsLabel = new JLabel("Rows:");
+        columnsLabel = new JLabel("Columns:");
 
         rowsLabel.setBounds(30, 70, 60, 25);
         columnsLabel.setBounds(30, 95, 60, 25);
@@ -102,9 +130,31 @@ public class CreatePuzzleDialog extends JDialog {
         c.add(rows);
         c.add(columns);
 
+        shortTruthTableTextArea = new JTextArea();
+        shortTruthTableStatementsScrollPane = new JScrollPane(shortTruthTableTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        shortTruthTableStatementsScrollPane.setBounds(10, 70, this.getWidth() - 30, 50);
+        c.add(shortTruthTableStatementsScrollPane);
+
         c.add(ok);
         c.add(cancel);
 
+        if (this.gameBox.getSelectedItem().equals("ShortTruthTable")) {
+            shortTruthTableStatementsScrollPane.setVisible(true);
+            rowsLabel.setVisible(false);
+            rows.setVisible(false);
+            columnsLabel.setVisible(false);
+            columns.setVisible(false);
+        }
+        else {
+            shortTruthTableStatementsScrollPane.setVisible(false);
+            rowsLabel.setVisible(true);
+            rows.setVisible(true);
+            columnsLabel.setVisible(true);
+            columns.setVisible(true);
+        }
+
+        ActionListener cursorSelectedGame = CursorController.createListener(this, gameBoxListener);
+        gameBox.addActionListener(cursorSelectedGame);
         ActionListener cursorPressedOk = CursorController.createListener(this, okButtonListener);
         ok.addActionListener(cursorPressedOk);
         ActionListener cursorPressedCancel = CursorController.createListener(this, cancelButtonListener);
@@ -121,20 +171,22 @@ public class CreatePuzzleDialog extends JDialog {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == ok) {
             String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
-            
+
             try {
                 this.homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(this.rows.getText()), Integer.valueOf(this.columns.getText()));
                 this.setVisible(false);
             }
-             catch (IllegalArgumentException exception) {
+            catch (IllegalArgumentException exception) {
                 // Don't do anything. This is here to prevent the dialog from closing if the dimensions are invalid.
             }
         }
-         else if (e.getSource() == cancel) {
-            this.setVisible(false);
-        }
-         else {
-            // Unknown Action Event
+        else {
+            if (e.getSource() == cancel) {
+                this.setVisible(false);
+            }
+            else {
+                // Unknown Action Event
+            }
         }
     }
 }
