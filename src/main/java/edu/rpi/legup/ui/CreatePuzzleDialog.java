@@ -21,12 +21,14 @@ public class CreatePuzzleDialog extends JDialog {
             JComboBox comboBox = (JComboBox) e.getSource();
             String puzzleName = (String) comboBox.getSelectedItem();
             if (puzzleName.equals("ShortTruthTable")) {
+                shortTruthTableTextArea.setVisible(true);
                 rowsLabel.setVisible(false);
                 rows.setVisible(false);
                 columnsLabel.setVisible(false);
                 columns.setVisible(false);
             }
             else {
+                shortTruthTableTextArea.setVisible(false);
                 rowsLabel.setVisible(true);
                 rows.setVisible(true);
                 columnsLabel.setVisible(true);
@@ -35,11 +37,13 @@ public class CreatePuzzleDialog extends JDialog {
         }
     };
 
-    private JLabel puzzleLabel = new JLabel("Puzzle:");
+    private JLabel puzzleLabel;
     private JLabel rowsLabel;
     private JTextField rows;
     private JLabel columnsLabel;
     private JTextField columns;
+
+    private JTextArea shortTruthTableTextArea;
 
     private JButton ok = new JButton("Ok");
     private ActionListener okButtonListener = new ActionListener() {
@@ -96,6 +100,7 @@ public class CreatePuzzleDialog extends JDialog {
         Container c = getContentPane();
         c.setLayout(null);
 
+        puzzleLabel = new JLabel("Puzzle:");
         puzzleLabel.setBounds(10, 30, 70, 25);
         gameBox.setBounds(80, 30, 190, 25);
 
@@ -123,8 +128,27 @@ public class CreatePuzzleDialog extends JDialog {
         c.add(rows);
         c.add(columns);
 
+        shortTruthTableTextArea = new JTextArea();
+        shortTruthTableTextArea.setBounds(10, 70, this.getWidth() - 30, 50);
+        c.add(shortTruthTableTextArea);
+
         c.add(ok);
         c.add(cancel);
+
+        if (this.gameBox.getSelectedItem().equals("ShortTruthTable")) {
+            this.shortTruthTableTextArea.setVisible(true);
+            rowsLabel.setVisible(false);
+            rows.setVisible(false);
+            columnsLabel.setVisible(false);
+            columns.setVisible(false);
+        }
+        else {
+            shortTruthTableTextArea.setVisible(false);
+            rowsLabel.setVisible(true);
+            rows.setVisible(true);
+            columnsLabel.setVisible(true);
+            columns.setVisible(true);
+        }
 
         ActionListener cursorSelectedGame = CursorController.createListener(this, gameBoxListener);
         gameBox.addActionListener(cursorSelectedGame);
