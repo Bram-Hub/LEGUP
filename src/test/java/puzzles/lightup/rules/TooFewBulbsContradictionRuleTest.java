@@ -27,7 +27,7 @@ public class TooFewBulbsContradictionRuleTest {
 
     @Test
     public void TooFewBulbsContradictionRule() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/lightup/rules/TooFewBulbsContradictionRule/TooFew", lightUp);
+        TestUtilities.importTestBoard("puzzles/lightup/rules/TooFewBulbsContradictionRule/FullTooFewTest", lightUp);
         TreeNode rootNode = lightUp.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE); 
@@ -45,5 +45,27 @@ public class TooFewBulbsContradictionRuleTest {
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 0)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(4, 4)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(5, 5)));
+    }
+
+    @Test
+    public void TooFewSimpleTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/lightup/rules/TooFewBulbsContradictionRule/TooFew", lightUp);
+        TreeNode rootNode = lightUp.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE); 
+
+        LightUpBoard board = (LightUpBoard) transition.getBoard();
+
+        //confirm it is impossible to satisfy up the center square
+        Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(1, 1)));
+
+        //every square except the center
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 0)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 0)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(2, 0)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 1)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 2)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 2)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(2, 1)));
     }
 }

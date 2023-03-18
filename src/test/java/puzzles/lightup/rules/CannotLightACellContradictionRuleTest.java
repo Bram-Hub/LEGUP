@@ -27,8 +27,9 @@ public class CannotLightACellContradictionRuleTest {
     }
 
     @Test 
-    public void CannotLightaCellContradictionRule() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/lightup/rules/CannotLightACellContradictionRule/CannotLightACell", lightUp);
+    //extensive full testing of null and non-null in a 5x5 board
+    public void FullLightTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/lightup/rules/CannotLightACellContradictionRule/FullLightTest", lightUp);
         TreeNode rootNode = lightUp.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE); 
@@ -46,5 +47,30 @@ public class CannotLightACellContradictionRuleTest {
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 1)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 0)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(3, 2)));
+    }
+
+    @Test 
+    //simple contradiction testing for null and non-null in a 3x3 board
+    public void CannotLightMiddle() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/lightup/rules/CannotLightACellContradictionRule/CannotLight", lightUp);
+        TreeNode rootNode = lightUp.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE); 
+
+        LightUpBoard board = (LightUpBoard) transition.getBoard();
+        //confirm there is a contradiction somewhere on the board
+        Assert.assertNull(RULE.checkContradiction(board));
+
+        //confirm it is impossible to light up the center square
+        Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(1, 1)));
+
+        //every square except the center
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 0)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 0)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(2, 0)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 1)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 2)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 2)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(2, 1)));
     }
 }
