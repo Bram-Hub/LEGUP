@@ -210,7 +210,6 @@ public abstract class PuzzleImporter {
 
             NodeList transList = treeNodeElement.getElementsByTagName("transition");
             for (int k = 0; k < transList.getLength(); k++) {
-                System.out.println("transition "+ k+ " for node "+ i+ "\n");
                 org.w3c.dom.Element trans = (org.w3c.dom.Element) transList.item(k);
                 String transId = trans.getAttribute("id");
                 TreeTransition transition = treeTransitions.get(transId);
