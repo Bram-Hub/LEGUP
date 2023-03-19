@@ -32,7 +32,7 @@ public class TreeTentCell extends GridCell<TreeTentType> {
 
     @Override
     public TreeTentCell copy() {
-        TreeTentCell copy = new TreeTentCell(           data, (Point) location.clone());
+        TreeTentCell copy = new TreeTentCell(data, (Point) location.clone());
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
