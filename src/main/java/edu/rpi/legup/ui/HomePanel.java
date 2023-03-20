@@ -703,4 +703,12 @@ public void checkfolder(){
         this.legupUI.displayPanel(2);
         this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, rows, columns);
     }
+
+    public void openEditorWithShortTruthTable(String[] statements) {
+        GameBoardFacade facade = GameBoardFacade.getInstance();
+
+        // Set game type on the puzzle editor
+        this.legupUI.displayPanel(2);
+        this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, rows, columns);
+    }
 }
