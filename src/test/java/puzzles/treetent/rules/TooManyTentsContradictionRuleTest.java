@@ -29,8 +29,8 @@ public class TooManyTentsContradictionRuleTest {
     }
 
     @Test
-    public void TooManyTentsContradictionRule_Column() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/TooManyTentsContradictionRule/TooManyTentsContradictionRuleColumn", treetent);
+    public void TooManyTentsContradictionRule_Column_Row() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/treetent/rules/TooManyTentsContradictionRule/TooManyTentsContradictionRuleColumn_Row", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
