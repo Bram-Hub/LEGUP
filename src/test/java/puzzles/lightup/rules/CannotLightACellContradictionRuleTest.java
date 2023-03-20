@@ -51,7 +51,7 @@ public class CannotLightACellContradictionRuleTest {
 
     @Test 
     //simple contradiction testing for null and non-null in a 3x3 board
-    public void CannotLightMiddle() throws InvalidFileFormatException {
+    public void CannotLightMiddleTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/lightup/rules/CannotLightACellContradictionRule/CannotLight", lightUp);
         TreeNode rootNode = lightUp.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
