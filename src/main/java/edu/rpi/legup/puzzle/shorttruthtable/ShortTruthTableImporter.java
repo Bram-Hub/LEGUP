@@ -65,7 +65,10 @@ class ShortTruthTableImporter extends PuzzleImporter {
 
             //Get the atributes from the statement i in the file
             NamedNodeMap attributeList = statementData.item(i).getAttributes();
+
             String statementRep = attributeList.getNamedItem("representation").getNodeValue();
+            System.out.println("STATEMENT REP: " + statementRep);
+            System.out.println("ROW INDEX: " + attributeList.getNamedItem("row_index").getNodeValue());
             //parser time (on statementRep)
             //if (!validGrammar(statementRep)) throw some error
             if (!validGrammar(statementRep)) {
