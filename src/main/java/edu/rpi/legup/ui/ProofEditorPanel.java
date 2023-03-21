@@ -287,6 +287,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             helpTutorial.setAccelerator(KeyStroke.getKeyStroke('H', InputEvent.CTRL_DOWN_MASK));
         }
         file.add(helpTutorial);
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+
         helpTutorial.addActionListener((ActionEvent) -> helpTutorial());
         file.addSeparator();
 
@@ -339,7 +341,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         about.add(helpLegup);
         helpLegup.addActionListener(l -> {
             try {
-                java.awt.Desktop.getDesktop().browse(URI.create("https://github.com/Bram-Hub/Legup"));
+                java.awt.Desktop.getDesktop().browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki"));
             }
             catch (IOException e) {
                 LOGGER.error("Can't open web page");
@@ -473,9 +475,33 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     // Hyperlink for help button; links to wiki page for tutorials
     private void helpTutorial() {
-
+        //redirecting to certain help link in wiki
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+        if(puzzle == null){
+            return;
+        }
+        String puz = puzzle.getName();
+        String url;
+        switch (puz){
+            case "LightUp":
+                url = "https://github.com/Bram-Hub/Legup/wiki/Light%20up-Rules";
+                break;
+            case "Nurikabe":
+                url = "https://github.com/Bram-Hub/Legup/wiki/Nurikabe-Rules";
+                break;
+            case "TreeTent":
+                url = "https://github.com/Bram-Hub/Legup/wiki/Tree-Tent-Rules";
+                break;
+            case "Skyscrapers":
+                url = "https://github.com/Bram-Hub/Legup/wiki/Skyscrapers-Rules";
+                break;
+            case "ShortTruthTable":
+                url = "https://github.com/Bram-Hub/Legup/wiki/Short-Truth-Table-Rules";
+                break;
+            default:
+                url = "https://github.com/Bram-Hub/Legup/wiki/LEGUP-Tutorial";
+        }
         Runtime rt = Runtime.getRuntime();
-        String url = "https://github.com/Bram-Hub/Legup/wiki/LEGUP-Tutorial"; // empty page 2022 Fall semester
         try{
             //rt.exec("rundll32 url.dll,FileProtocolHandler "+url);
             java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
