@@ -708,7 +708,7 @@ public void checkfolder(){
         GameBoardFacade facade = GameBoardFacade.getInstance();
 
         // Set game type on the puzzle editor
-        this.legupUI.displayPanel(2);
-        this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, rows, columns);
+        //this.legupUI.displayPanel(2);
+        //this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, rows, columns);
     }
 }
