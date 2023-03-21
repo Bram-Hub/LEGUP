@@ -1,11 +1,9 @@
 package edu.rpi.legup.ui;
 
-import edu.rpi.legup.Legup;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.controller.CursorController;
 import edu.rpi.legup.save.InvalidFileFormatException;
-import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.Puzzle;
 
 import javax.swing.*;
@@ -28,7 +26,6 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.io.FileWriter;
 import java.net.URI;
 import java.net.URL;
-import java.util.Objects;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -704,11 +701,10 @@ public void checkfolder(){
         this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, rows, columns);
     }
 
-    public void openEditorWithShortTruthTable(String[] statements) {
-        GameBoardFacade facade = GameBoardFacade.getInstance();
-
+    public void openEditorWithNewPuzzle(String game, String[] statements) {
         // Set game type on the puzzle editor
-        //this.legupUI.displayPanel(2);
-        //this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, rows, columns);
+        this.legupUI.displayPanel(2);
+        // TODO: finish testing this function
+        this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, statements);
     }
 }

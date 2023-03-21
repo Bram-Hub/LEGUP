@@ -150,12 +150,16 @@ public class GameBoardFacade implements IHistorySubject {
         LOGGER.debug("Loading " + qualifiedClassName);
 
         try {
+            // TODO: test and make sure this doesn't break anything
+            PuzzleImporter importer = puzzle.getImporter();
+            if (!importer.acceptsRowsAndColumnsInput())
+                throw new IllegalArgumentException(puzzle.getName() + " does not accept rows and columns input");
+
             Class<?> c = Class.forName(qualifiedClassName);
             Constructor<?> cons = c.getConstructor();
             Puzzle puzzle = (Puzzle) cons.newInstance();
             setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
 
-            PuzzleImporter importer = puzzle.getImporter();
             if (importer == null) {
                 LOGGER.error("Puzzle importer is null");
                 throw new RuntimeException("Puzzle importer null");
@@ -175,6 +179,10 @@ public class GameBoardFacade implements IHistorySubject {
             LOGGER.error(e);
             throw new RuntimeException("Puzzle creation error");
         }
+    }
+
+    public void loadPuzzle(String game, String[] statements) {
+        // TODO: implement this method
     }
 
     /**

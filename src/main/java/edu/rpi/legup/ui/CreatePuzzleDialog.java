@@ -1,6 +1,5 @@
 package edu.rpi.legup.ui;
 
-import com.sun.org.apache.bcel.internal.generic.JSR;
 import edu.rpi.legup.app.Config;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.CursorController;
@@ -69,7 +68,7 @@ public class CreatePuzzleDialog extends JDialog {
 
             try {
                 if (game.equals("ShortTruthTable")) {
-                    homePanel.openEditorWithShortTruthTable(shortTruthTableTextArea.getText().split("\n"));
+                    homePanel.openEditorWithNewPuzzle("ShortTruthTable", shortTruthTableTextArea.getText().split("\n"));
                 }
                 else {
                     homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(rows.getText()), Integer.valueOf(columns.getText()));
@@ -183,7 +182,7 @@ public class CreatePuzzleDialog extends JDialog {
 
             try {
                 if (game.equals("ShortTruthTable")) {
-                    this.homePanel.openEditorWithShortTruthTable(this.shortTruthTableTextArea.getText().split("\n"));
+                    this.homePanel.openEditorWithNewPuzzle("ShortTruthTable", this.shortTruthTableTextArea.getText().split("\n"));
                 }
                 else {
                     this.homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(this.rows.getText()), Integer.valueOf(this.columns.getText()));

@@ -92,7 +92,7 @@ class ShortTruthTableImporter extends PuzzleImporter {
 
     private int parseAllStatementsAndCells(String[] statementData,
                                            List<List<ShortTruthTableCell>> allCells,
-                                           List<ShortTruthTableStatement> statements) {
+                                           List<ShortTruthTableStatement> statements) throws InvalidFileFormatException {
         int maxStatementLength = 0;
 
         for (int i = 0; i < statementData.length; i++) {
@@ -307,17 +307,17 @@ class ShortTruthTableImporter extends PuzzleImporter {
 
     public void initializeBoard(String[] statementData) throws InvalidFileFormatException {
         // TODO: finish this method, check exception handling
-        
+
         if (statementData.length == 0) {
             throw new InvalidFileFormatException("short truth table Importer: no statements found for board");
         }
 
         // Store all cells and statements
-        List<List<ShortTruthTableCell>> allCells = new ArrayList<List<ShortTruthTableCell>>()
-        List<ShortTruthTableStatement> statements = new ArrayList<ShortTruthTableStatement>();
+        List<List<ShortTruthTableCell>> allCells = new ArrayList<>();
+        List<ShortTruthTableStatement> statements = new ArrayList<>();
 
         // Parse the data
-        int maxStatementLength = parseAllStatementsAndCells(statementData, allCells, statements);\
+        int maxStatementLength = parseAllStatementsAndCells(statementData, allCells, statements);
 
         // Generate and set the board - don't set given cell values since none are given
         ShortTruthTableBoard sttBoard = generateBoard(allCells, statements, maxStatementLength);
