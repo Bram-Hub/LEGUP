@@ -304,9 +304,7 @@ public class GameBoardFacade implements IHistorySubject {
                     LOGGER.error("Puzzle importer is null");
                     throw new InvalidFileFormatException("Puzzle importer null");
                 }
-
                 importer.initializePuzzle(node);
-                // System.out.println("test1");
                 puzzle.initializeView();
                 puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
                 setPuzzle(puzzle);
