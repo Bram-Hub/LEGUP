@@ -22,6 +22,8 @@ public class LegupPreferences {
     public static final String ALLOW_DEFAULT_RULES = "allow-default-rules";
     public static final String AUTO_GENERATE_CASES = "auto-generate-cases";
     public static final String IMMEDIATE_FEEDBACK = "immediate-feedback";
+    public static final String COLOR_BLIND = "color-blind";
+
 
     static {
         defaultPreferencesMap.put(WORK_DIRECTORY, System.getProperty("user.home"));
@@ -33,6 +35,7 @@ public class LegupPreferences {
         defaultPreferencesMap.put(ALLOW_DEFAULT_RULES, Boolean.toString(false));
         defaultPreferencesMap.put(AUTO_GENERATE_CASES, Boolean.toString(true));
         defaultPreferencesMap.put(IMMEDIATE_FEEDBACK, Boolean.toString(true));
+        defaultPreferencesMap.put(COLOR_BLIND, Boolean.toString(false));
     }
 
     static {
@@ -45,6 +48,7 @@ public class LegupPreferences {
         preferencesMap.put(ALLOW_DEFAULT_RULES, preferences.get(ALLOW_DEFAULT_RULES, defaultPreferencesMap.get(ALLOW_DEFAULT_RULES)));
         preferencesMap.put(AUTO_GENERATE_CASES, preferences.get(AUTO_GENERATE_CASES, defaultPreferencesMap.get(AUTO_GENERATE_CASES)));
         preferencesMap.put(IMMEDIATE_FEEDBACK, preferences.get(IMMEDIATE_FEEDBACK, defaultPreferencesMap.get(IMMEDIATE_FEEDBACK)));
+        preferencesMap.put(COLOR_BLIND, preferences.get(COLOR_BLIND, defaultPreferencesMap.get(COLOR_BLIND)));
     }
 
     /**
