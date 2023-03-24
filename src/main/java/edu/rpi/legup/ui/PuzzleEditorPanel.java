@@ -27,6 +27,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +39,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     private final static Logger LOGGER = LogManager.getLogger(PuzzleEditorPanel.class.getName());
     private JMenu[] menus;
+    private JMenuItem helpLegup, aboutLegup;
     private JMenuBar menuBar;
     private JToolBar toolBar;
     private JFrame frame;
@@ -169,7 +172,22 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         // HELP
         menus[2] = new JMenu("Help");
-
+        helpLegup = new JMenuItem("Help Legup");
+        aboutLegup = new JMenuItem("About Legup");
+        menus[2].add(helpLegup);
+        menus[2].add(aboutLegup);
+        helpLegup.addActionListener(l -> {
+            try {
+                java.awt.Desktop.getDesktop().browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki"));
+            }
+            catch (IOException e) {
+                LOGGER.error("Can't open web page");
+            }
+        });
+        menus[2].add(aboutLegup);
+            aboutLegup.addActionListener(l -> {
+                JOptionPane.showMessageDialog(null, "Version: 2.0.0");
+            });
         // add menus to menubar
         for (JMenu menu : menus) {
             menuBar.add(menu);
