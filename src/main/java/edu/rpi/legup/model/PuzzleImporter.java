@@ -49,6 +49,11 @@ public abstract class PuzzleImporter {
         }
     }
 
+    public void initializePuzzle(String[] statements) {
+        // TODO: implement this
+        initializeBoard(statements);
+    }
+
     /**
      * Initializes the puzzle attributes
      *
@@ -118,6 +123,8 @@ public abstract class PuzzleImporter {
      * @throws InvalidFileFormatException
      */
     public abstract void initializeBoard(Node node) throws InvalidFileFormatException;
+
+    public abstract void initializeBoard(String[] statements);
 
     /**
      * Creates the proof for building

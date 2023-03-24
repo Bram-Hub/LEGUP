@@ -182,7 +182,41 @@ public class GameBoardFacade implements IHistorySubject {
     }
 
     public void loadPuzzle(String game, String[] statements) {
-        // TODO: implement this method
+        // TODO: Make sure this method isn't broken
+        String qualifiedClassName = config.getPuzzleClassForName(game);
+        LOGGER.debug("Loading " + qualifiedClassName);
+
+        try {
+            // TODO: test and make sure this doesn't break anything
+            PuzzleImporter importer = puzzle.getImporter();
+            if (!importer.acceptsTextInput())
+                throw new IllegalArgumentException(puzzle.getName() + " does not accept rows and columns input");
+
+            Class<?> c = Class.forName(qualifiedClassName);
+            Constructor<?> cons = c.getConstructor();
+            Puzzle puzzle = (Puzzle) cons.newInstance();
+            setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
+
+            if (importer == null) {
+                LOGGER.error("Puzzle importer is null");
+                throw new RuntimeException("Puzzle importer null");
+            }
+
+            importer.initializePuzzle(statements);
+
+            puzzle.initializeView();
+//            puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
+            setPuzzleEditor(puzzle);
+        }
+        catch (IllegalArgumentException exception) {
+            throw new IllegalArgumentException(exception.getMessage());
+        }
+        catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+               IllegalAccessException | InstantiationException e) {
+            LOGGER.error(e);
+            throw new RuntimeException("Puzzle creation error");
+        }
+
     }
 
     /**
