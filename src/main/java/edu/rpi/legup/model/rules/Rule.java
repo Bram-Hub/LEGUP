@@ -3,6 +3,8 @@ package edu.rpi.legup.model.rules;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeTransition;
 
+import edu.rpi.legup.app.LegupPreferences;
+
 import javax.swing.ImageIcon;
 import java.awt.image.BufferedImage;
 import java.awt.Image;
@@ -84,6 +86,10 @@ public abstract class Rule {
      */
     private void loadImage() {
         if (imageName != null) {
+            LegupPreferences prefs = LegupPreferences.getInstance();
+            if(imageName.contains("shorttruthtable") && prefs.getUserPref(LegupPreferences.COLOR_BLIND).equals("true")) {
+                imageName = imageName.replace("ruleimages", "ruleimages_cb");
+            }
             this.image = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(imageName));
             //Resize images to be 100px wide
             Image image = this.image.getImage();

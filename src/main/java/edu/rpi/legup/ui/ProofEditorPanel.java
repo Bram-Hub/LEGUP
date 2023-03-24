@@ -205,7 +205,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         mBar.add(file);
         file.add(newPuzzle);
-        newPuzzle.addActionListener((ActionEvent) -> promptPuzzle());
+        newPuzzle.addActionListener((ActionEvent) -> loadPuzzle());
         if (os.equals("mac")) {
             newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
