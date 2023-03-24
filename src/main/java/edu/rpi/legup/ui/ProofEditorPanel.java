@@ -287,7 +287,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             helpTutorial.setAccelerator(KeyStroke.getKeyStroke('H', InputEvent.CTRL_DOWN_MASK));
         }
         file.add(helpTutorial);
-        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
         helpTutorial.addActionListener((ActionEvent) -> helpTutorial());
         file.addSeparator();
