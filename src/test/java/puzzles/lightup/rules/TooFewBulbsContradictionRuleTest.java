@@ -1,7 +1,6 @@
 package puzzles.lightup.rules;
 
 import edu.rpi.legup.puzzle.lightup.LightUpBoard;
-import edu.rpi.legup.puzzle.lightup.rules.CannotLightACellContradictionRule;
 import edu.rpi.legup.puzzle.lightup.rules.TooFewBulbsContradictionRule;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
