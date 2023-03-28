@@ -27,6 +27,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +39,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     private final static Logger LOGGER = LogManager.getLogger(PuzzleEditorPanel.class.getName());
     private JMenu[] menus;
+    private JMenuItem helpLegup, aboutLegup;
     private JMenuBar menuBar;
     private JToolBar toolBar;
     private JFrame frame;
@@ -104,7 +107,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         // file>new
         JMenuItem newPuzzle = new JMenuItem("New");
-        newPuzzle.addActionListener((ActionEvent) -> promptPuzzle());
+        newPuzzle.addActionListener((ActionEvent) -> loadPuzzle());
         if (os.equals("mac")) {
             newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
@@ -155,21 +158,52 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
 
         menus[1].add(redo);
-        redo.addActionListener((ActionEvent) ->
-                GameBoardFacade.getInstance().getHistory().redo());
+
+        // Created action to support two keybinds (CTRL-SHIFT-Z, CTRL-Y)
+        Action redoAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GameBoardFacade.getInstance().getHistory().redo();
+            }
+        };
         if (os.equals("mac")) {
+            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(
+                    KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK), "redoAction");
+            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(
+                    KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "redoAction");
             redo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK));
         }
         else {
-            redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
+            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('Y', InputEvent.CTRL_DOWN_MASK), "redoAction");
+            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('Z', InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK), "redoAction");
+            redo.getActionMap().put("redoAction", redoAction);
+
+            // Button in menu will show CTRL-SHIFT-Z as primary keybind
+            redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK));
         }
+
 
         menus[1].add(fitBoardToScreen);
         fitBoardToScreen.addActionListener((ActionEvent) -> dynamicBoardView.fitBoardViewToScreen());
 
         // HELP
         menus[2] = new JMenu("Help");
-
+        helpLegup = new JMenuItem("Help Legup");
+        aboutLegup = new JMenuItem("About Legup");
+        menus[2].add(helpLegup);
+        menus[2].add(aboutLegup);
+        helpLegup.addActionListener(l -> {
+            try {
+                java.awt.Desktop.getDesktop().browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki"));
+            }
+            catch (IOException e) {
+                LOGGER.error("Can't open web page");
+            }
+        });
+        menus[2].add(aboutLegup);
+            aboutLegup.addActionListener(l -> {
+                JOptionPane.showMessageDialog(null, "Version: 2.0.0");
+            });
         // add menus to menubar
         for (JMenu menu : menus) {
             menuBar.add(menu);
@@ -313,6 +347,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             puzzleFile = new File(fileName);
         }
         else {
+            // The attempt to prompt a puzzle ended gracefully (cancel)
             return null;
         }
 
@@ -321,6 +356,10 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     public void loadPuzzle() {
         Object[] items = promptPuzzle();
+        // Return if items == null (cancel)
+        if (items == null) {
+            return;
+        }
         String fileName = (String) items[0];
         File puzzleFile = (File) items[1];
         loadPuzzle(fileName, puzzleFile);
@@ -329,20 +368,22 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     public void loadPuzzle(String fileName, File puzzleFile) {
         if (puzzleFile != null && puzzleFile.exists()) {
             try {
+                legupUI.displayPanel(2);
                 GameBoardFacade.getInstance().loadPuzzleEditor(fileName);
                 String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
                 frame.setTitle(puzzleName + " - " + puzzleFile.getName());
             }
             catch (InvalidFileFormatException e) {
+                legupUI.displayPanel(0);
                 LOGGER.error(e.getMessage());
-                JOptionPane.showMessageDialog(null, "File does not exist or it cannot be read", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "File does not exist, cannot be read, or cannot be edited", "Error", JOptionPane.ERROR_MESSAGE);
                 loadPuzzle();
             }
         }
     }
 
     public boolean noQuit(String instr) {
-        int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
+        int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_OPTION);
         return n != JOptionPane.YES_OPTION;
     }
 
@@ -363,7 +404,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     @Override
     public void onClearHistory() {
-
+        //undo.setEnabled(false);
+        //redo.setEnabled(false);
     }
 
     public BoardView getBoardView() {

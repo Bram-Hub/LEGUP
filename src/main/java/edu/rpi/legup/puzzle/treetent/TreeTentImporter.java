@@ -27,7 +27,7 @@ public class TreeTentImporter extends PuzzleImporter {
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++) {
                 if (treeTentBoard.getCell(x, y) == null) {
-                    TreeTentCell cell = new TreeTentCell(0, new Point(x, y));
+                    TreeTentCell cell = new TreeTentCell(TreeTentType.UNKNOWN, new Point(x, y));
                     cell.setIndex(y * columns + x);
                     cell.setModifiable(true);
                     treeTentBoard.setCell(x, y, cell);
@@ -88,7 +88,7 @@ public class TreeTentImporter extends PuzzleImporter {
             for (int i = 0; i < elementDataList.getLength(); i++) {
                 TreeTentCell cell = (TreeTentCell) puzzle.getFactory().importCell(elementDataList.item(i), treeTentBoard);
                 Point loc = cell.getLocation();
-                if (cell.getData() != 0) {
+                if (cell.getData() != TreeTentType.UNKNOWN) {
                     cell.setModifiable(false);
                     cell.setGiven(true);
                 }
@@ -98,7 +98,7 @@ public class TreeTentImporter extends PuzzleImporter {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     if (treeTentBoard.getCell(x, y) == null) {
-                        TreeTentCell cell = new TreeTentCell(0, new Point(x, y));
+                        TreeTentCell cell = new TreeTentCell(TreeTentType.UNKNOWN, new Point(x, y));
                         cell.setIndex(y * height + x);
                         cell.setModifiable(true);
                         treeTentBoard.setCell(x, y, cell);
