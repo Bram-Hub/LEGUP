@@ -21,7 +21,8 @@ public class PreferencesDialog extends JDialog {
 
     private final static Logger LOGGER = Logger.getLogger(PreferencesDialog.class.getName());
 
-    private JCheckBox fullScreen, autoUpdate, darkMode, showMistakes, showAnnotations, allowDefault, generateCases, immFeedback;
+    private JCheckBox fullScreen, autoUpdate, darkMode, showMistakes, showAnnotations, allowDefault, generateCases, immFeedback, colorBlind;
+    
     private JTextField workDirectory;
 
     private static Image folderIcon;
@@ -212,6 +213,16 @@ public class PreferencesDialog extends JDialog {
         immFeedbackRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, immFeedbackRow.getPreferredSize().height));
         contentPane.add(immFeedbackRow);
 
+        contentPane.add(createLeftLabel("Color Preferences"));
+        contentPane.add(createLineSeparator());
+        colorBlind = new JCheckBox("Deuteranomaly(red/green colorblindness)", Boolean.valueOf(prefs.getUserPref(LegupPreferences.COLOR_BLIND)));
+
+        JPanel colorBlindRow = new JPanel();
+        colorBlindRow.setLayout(new BorderLayout());
+        colorBlindRow.add(colorBlind, BorderLayout.WEST);
+        colorBlindRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, showMistakesRow.getPreferredSize().height));
+        contentPane.add(colorBlindRow);
+
         scrollPane.setViewportView(contentPane);
         return scrollPane;
     }
@@ -336,6 +347,7 @@ public class PreferencesDialog extends JDialog {
         prefs.setUserPref(LegupPreferences.ALLOW_DEFAULT_RULES, Boolean.toString(allowDefault.isSelected()));
         prefs.setUserPref(LegupPreferences.AUTO_GENERATE_CASES, Boolean.toString(generateCases.isSelected()));
         prefs.setUserPref(LegupPreferences.IMMEDIATE_FEEDBACK, Boolean.toString(immFeedback.isSelected()));
+        prefs.setUserPref(LegupPreferences.COLOR_BLIND, Boolean.toString(colorBlind.isSelected()));
 
         // toggle dark mode based on updated NIGHT_MODE variable
         toggleDarkMode(prefs);
