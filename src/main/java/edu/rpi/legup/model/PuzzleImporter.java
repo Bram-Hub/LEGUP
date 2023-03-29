@@ -29,6 +29,7 @@ public abstract class PuzzleImporter {
 
     // TODO: add these methods to all importers
     public abstract boolean acceptsRowsAndColumnsInput();
+
     public abstract boolean acceptsTextInput();
 
     /**

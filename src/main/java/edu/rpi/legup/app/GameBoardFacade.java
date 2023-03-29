@@ -78,7 +78,7 @@ public class GameBoardFacade implements IHistorySubject {
     }
 
     public void initializeUI() {
-        EventQueue.invokeLater(() ->{
+        EventQueue.invokeLater(() -> {
             legupUI = new LegupUI();
             puzzleSolver = legupUI.getProofEditor();
             puzzleEditor = legupUI.getPuzzleEditor();
@@ -153,8 +153,9 @@ public class GameBoardFacade implements IHistorySubject {
         try {
             // TODO: test and make sure this doesn't break anything
             PuzzleImporter importer = puzzle.getImporter();
-            if (!importer.acceptsRowsAndColumnsInput())
+            if (!importer.acceptsRowsAndColumnsInput()) {
                 throw new IllegalArgumentException(puzzle.getName() + " does not accept rows and columns input");
+            }
 
             Class<?> c = Class.forName(qualifiedClassName);
             Constructor<?> cons = c.getConstructor();
@@ -190,8 +191,9 @@ public class GameBoardFacade implements IHistorySubject {
         try {
             // TODO: test and make sure this doesn't break anything
             PuzzleImporter importer = puzzle.getImporter();
-            if (!importer.acceptsTextInput())
+            if (!importer.acceptsTextInput()) {
                 throw new IllegalArgumentException(puzzle.getName() + " does not accept rows and columns input");
+            }
 
             Class<?> c = Class.forName(qualifiedClassName);
             Constructor<?> cons = c.getConstructor();
@@ -278,7 +280,7 @@ public class GameBoardFacade implements IHistorySubject {
                         break;
                     }
                 }
-                if (!isEditablePuzzle){
+                if (!isEditablePuzzle) {
                     LOGGER.error("Puzzle is not editable");
                     throw new InvalidFileFormatException("Puzzle is not editable");
                 }

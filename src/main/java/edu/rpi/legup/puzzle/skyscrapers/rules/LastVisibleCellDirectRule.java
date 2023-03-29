@@ -45,8 +45,8 @@ public class LastVisibleCellDirectRule extends DirectRule {
         initialBoard.setDupeFlag(false);
         initialBoard.setViewFlag(true);
         CellForNumberCaseRule caseRule = new CellForNumberCaseRule();
-        ArrayList<Board> XCandidates = caseRule.getCasesFor(initialBoard,initialBoard.getWestClues().get(finalCell.getLocation().y),(Integer)finalCell.getData().value);
-        ArrayList<Board> YCandidates = caseRule.getCasesFor(initialBoard,initialBoard.getNorthClues().get(finalCell.getLocation().x),(Integer)finalCell.getData().value);
+        ArrayList<Board> XCandidates = caseRule.getCasesFor(initialBoard, initialBoard.getWestClues().get(finalCell.getLocation().y), (Integer) finalCell.getData().value);
+        ArrayList<Board> YCandidates = caseRule.getCasesFor(initialBoard, initialBoard.getNorthClues().get(finalCell.getLocation().x), (Integer) finalCell.getData().value);
         initialBoard.setDupeFlag(dupeTemp);
         initialBoard.setViewFlag(viewTemp);
 
@@ -54,18 +54,18 @@ public class LastVisibleCellDirectRule extends DirectRule {
         System.out.println(YCandidates.size());
 
         //return null if either pass, both messages otherwise
-        String xCheck = candidateCheck(XCandidates,puzzleElement,finalCell);
-        String yCheck = candidateCheck(YCandidates,puzzleElement,finalCell);
-        if(xCheck==null || yCheck==null){
+        String xCheck = candidateCheck(XCandidates, puzzleElement, finalCell);
+        String yCheck = candidateCheck(YCandidates, puzzleElement, finalCell);
+        if (xCheck == null || yCheck == null) {
             return null;
         }
         return super.getInvalidUseOfRuleMessage() + "\nRow" + xCheck + "\nCol" + yCheck;
     }
 
     //helper to check if candidate list is valid
-    private String candidateCheck(ArrayList<Board> candidates,PuzzleElement puzzleElement, SkyscrapersCell finalCell){
-        if(candidates.size() == 1){
-            if(((SkyscrapersCell) candidates.get(0).getPuzzleElement(puzzleElement)).getType() == SkyscrapersType.Number) {
+    private String candidateCheck(ArrayList<Board> candidates, PuzzleElement puzzleElement, SkyscrapersCell finalCell) {
+        if (candidates.size() == 1) {
+            if (((SkyscrapersCell) candidates.get(0).getPuzzleElement(puzzleElement)).getType() == SkyscrapersType.Number) {
                 if (candidates.get(0).getPuzzleElement(puzzleElement).getData() == finalCell.getData()) {
                     return null;
                 }
@@ -95,12 +95,12 @@ public class LastVisibleCellDirectRule extends DirectRule {
      */
     @Override
     public Board getDefaultBoard(TreeNode node) {
-    	SkyscrapersBoard initialBoard = (SkyscrapersBoard) node.getBoard();
-    	SkyscrapersBoard modBoard = (SkyscrapersBoard) node.getBoard().copy();
-    	System.out.println(modBoard.getPuzzleElements().size());
+        SkyscrapersBoard initialBoard = (SkyscrapersBoard) node.getBoard();
+        SkyscrapersBoard modBoard = (SkyscrapersBoard) node.getBoard().copy();
+        System.out.println(modBoard.getPuzzleElements().size());
         for (PuzzleElement element : modBoard.getPuzzleElements()) {
             System.out.println("123");
-        	SkyscrapersCell cell = (SkyscrapersCell) element;
+            SkyscrapersCell cell = (SkyscrapersCell) element;
             if (cell.getType() == SkyscrapersType.UNKNOWN && isForced(initialBoard, cell)) {
                 //cell.setData(SkyscrapersType.BULB.value);
                 modBoard.addModifiedData(cell);

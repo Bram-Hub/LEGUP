@@ -48,7 +48,7 @@ public class LegupUI extends JFrame implements WindowListener {
         LegupPreferences prefs = LegupPreferences.getInstance();
 
         try {
-            if(Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
+            if (Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
                 UIManager.setLookAndFeel(new FlatDarkLaf());
             }
             else {

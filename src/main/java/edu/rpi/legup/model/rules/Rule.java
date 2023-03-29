@@ -87,7 +87,7 @@ public abstract class Rule {
     private void loadImage() {
         if (imageName != null) {
             LegupPreferences prefs = LegupPreferences.getInstance();
-            if(imageName.contains("shorttruthtable") && prefs.getUserPref(LegupPreferences.COLOR_BLIND).equals("true")) {
+            if (imageName.contains("shorttruthtable") && prefs.getUserPref(LegupPreferences.COLOR_BLIND).equals("true")) {
                 imageName = imageName.replace("ruleimages", "ruleimages_cb");
             }
             this.image = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(imageName));

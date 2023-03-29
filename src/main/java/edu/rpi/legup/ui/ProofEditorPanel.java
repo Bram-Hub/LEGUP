@@ -1,7 +1,10 @@
 package edu.rpi.legup.ui;
+
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
+
 import javax.xml.parsers.*;
+
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.controller.BoardController;
@@ -53,7 +56,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     private JButton[] toolBarButtons;
     private JMenu file;
-    private JMenuItem newPuzzle, resetPuzzle, saveProofAs,saveProofChange,helpTutorial, preferences, exit;
+    private JMenuItem newPuzzle, resetPuzzle, saveProofAs, saveProofChange, helpTutorial, preferences, exit;
     private JMenu edit;
     private JMenuItem undo, redo, fitBoardToScreen, fitTreeToScreen;
 
@@ -430,7 +433,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     /**
      * direct Saves the current prdoof in current file
      */
-    private void direct_save(){
+    private void direct_save() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
             return;
@@ -449,6 +452,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             }
         }
     }
+
     /**
      * Create a new file and save proof to it
      */
@@ -493,12 +497,12 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private void helpTutorial() {
         //redirecting to certain help link in wiki
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
-        if(puzzle == null){
+        if (puzzle == null) {
             return;
         }
         String puz = puzzle.getName();
         String url;
-        switch (puz){
+        switch (puz) {
             case "LightUp":
                 url = "https://github.com/Bram-Hub/Legup/wiki/Light%20up-Rules";
                 break;
@@ -518,20 +522,21 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 url = "https://github.com/Bram-Hub/Legup/wiki/LEGUP-Tutorial";
         }
         Runtime rt = Runtime.getRuntime();
-        try{
+        try {
             //rt.exec("rundll32 url.dll,FileProtocolHandler "+url);
             java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
         }
-        catch(IOException e){
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     //add the new function need to implement
-    public void add_drop(){
+    public void add_drop() {
         // add the mouse event then we can use the new listener to implement and
         // we should create a need jbuttom for it to ship the rule we select.
-        JPanel panel= new JPanel();
-        JButton moveing_buttom= new JButton();
+        JPanel panel = new JPanel();
+        JButton moveing_buttom = new JButton();
         moveing_buttom.setFocusPainted(false);
         moveing_buttom.addActionListener(new ActionListener() {
             @Override
@@ -544,10 +549,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
 
-
-
     // Quick save proof to the current file with a pop window to show "successfully saved"
-    private void saveProofChange(){
+    private void saveProofChange() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
             return;
@@ -561,7 +564,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 }
                 exporter.exportPuzzle(fileName);
                 // Save confirmation
-                JOptionPane.showMessageDialog(null, "Successfully Saved","Confirm",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Successfully Saved", "Confirm", JOptionPane.INFORMATION_MESSAGE);
             }
             catch (ExportFileException e) {
                 e.printStackTrace();
@@ -993,6 +996,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             Submission submit = new Submission(board);
         }
     }
+
     public void showStatus(String status, boolean error, int timer) {
         // TODO: implement
     }

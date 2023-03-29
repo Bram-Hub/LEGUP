@@ -57,7 +57,6 @@ public class SkyscrapersImporter extends PuzzleImporter {
             NodeList elementDataList = dataElement.getElementsByTagName("cell");
 
 
-
             SkyscrapersBoard skyscrapersBoard = null;
 
             if (!boardElement.getAttribute("size").isEmpty()) {
@@ -147,12 +146,12 @@ public class SkyscrapersImporter extends PuzzleImporter {
 
             //Initialize present flags
             NodeList flagList = boardElement.getElementsByTagName("flags");
-            if(flagList.getLength()==1){
+            if (flagList.getLength() == 1) {
                 Element flags = (Element) flagList.item(0);
-                if(flags.hasAttribute("dupe")){
+                if (flags.hasAttribute("dupe")) {
                     skyscrapersBoard.setDupeFlag(Boolean.parseBoolean(flags.getAttribute("dupe")));
                 }
-                if(flags.hasAttribute("view")){
+                if (flags.hasAttribute("view")) {
                     skyscrapersBoard.setViewFlag(Boolean.parseBoolean(flags.getAttribute("view")));
                 }
             }
