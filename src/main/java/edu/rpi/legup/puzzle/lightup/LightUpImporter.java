@@ -7,10 +7,21 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.awt.*;
+import java.util.InputMismatchException;
 
 public class LightUpImporter extends PuzzleImporter {
     public LightUpImporter(LightUp lightUp) {
         super(lightUp);
+    }
+
+    @Override
+    public boolean acceptsRowsAndColumnsInput() {
+        return true;
+    }
+
+    @Override
+    public boolean acceptsTextInput() {
+        return false;
     }
 
     /**
@@ -101,5 +112,10 @@ public class LightUpImporter extends PuzzleImporter {
         catch (NumberFormatException e) {
             throw new InvalidFileFormatException("lightup Importer: unknown value where integer expected");
         }
+    }
+
+    @Override
+    public void initializeBoard(String[] statements) throws InputMismatchException {
+        throw new InputMismatchException("Light Up cannot accept text input");
     }
 }

@@ -1,5 +1,6 @@
 package edu.rpi.legup.puzzle.shorttruthtable;
 
+import com.sun.media.sound.InvalidFormatException;
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Element;
@@ -9,6 +10,7 @@ import org.w3c.dom.NamedNodeMap;
 
 import java.awt.*;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -92,13 +94,13 @@ class ShortTruthTableImporter extends PuzzleImporter {
 
     private int parseAllStatementsAndCells(String[] statementData,
                                            List<List<ShortTruthTableCell>> allCells,
-                                           List<ShortTruthTableStatement> statements) throws InvalidFileFormatException {
+                                           List<ShortTruthTableStatement> statements) throws InvalidFormatException {
         int maxStatementLength = 0;
 
         for (int i = 0; i < statementData.length; i++) {
             if (!validGrammar(statementData[i])) {
                 JOptionPane.showMessageDialog(null, "ERROR: Invalid file syntax");
-                throw new InvalidFileFormatException("shorttruthtable importer: invalid sentence syntax");
+                throw new InvalidFormatException("shorttruthtable importer: invalid sentence syntax");
             }
 
             //get the cells for the statement
@@ -242,6 +244,16 @@ class ShortTruthTableImporter extends PuzzleImporter {
 
     }
 
+    @Override
+    public boolean acceptsRowsAndColumnsInput() {
+        return false;
+    }
+
+    @Override
+    public boolean acceptsTextInput() {
+        return true;
+    }
+
     /**
      * Creates an empty board for building
      *
@@ -305,11 +317,11 @@ class ShortTruthTableImporter extends PuzzleImporter {
         }
     }
 
-    public void initializeBoard(String[] statementData) throws InvalidFileFormatException {
+    public void initializeBoard(String[] statementData) throws InputMismatchException, InvalidFormatException {
         // TODO: finish this method, check exception handling
 
         if (statementData.length == 0) {
-            throw new InvalidFileFormatException("short truth table Importer: no statements found for board");
+            throw new InvalidFormatException("short truth table Importer: no statements found for board");
         }
 
         // Store all cells and statements

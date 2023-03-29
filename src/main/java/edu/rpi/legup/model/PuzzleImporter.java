@@ -1,5 +1,6 @@
 package edu.rpi.legup.model;
 
+import com.sun.media.sound.InvalidFormatException;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.MergeRule;
@@ -12,10 +13,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class PuzzleImporter {
     private static final Logger LOGGER = LogManager.getLogger(PuzzleImporter.class.getName());
@@ -49,7 +47,7 @@ public abstract class PuzzleImporter {
         }
     }
 
-    public void initializePuzzle(String[] statements) {
+    public void initializePuzzle(String[] statements) throws InputMismatchException {
         // TODO: implement this
         initializeBoard(statements);
     }
@@ -124,7 +122,7 @@ public abstract class PuzzleImporter {
      */
     public abstract void initializeBoard(Node node) throws InvalidFileFormatException;
 
-    public abstract void initializeBoard(String[] statements);
+    public abstract void initializeBoard(String[] statements) throws InputMismatchException, InvalidFormatException;
 
     /**
      * Creates the proof for building

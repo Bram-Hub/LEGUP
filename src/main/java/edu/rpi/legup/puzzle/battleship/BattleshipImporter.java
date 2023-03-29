@@ -7,10 +7,21 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.awt.*;
+import java.util.InputMismatchException;
 
 public class BattleshipImporter extends PuzzleImporter {
     public BattleshipImporter(Battleship battleShip) {
         super(battleShip);
+    }
+
+    @Override
+    public boolean acceptsRowsAndColumnsInput() {
+        return true;
+    }
+
+    @Override
+    public boolean acceptsTextInput() {
+        return false;
     }
 
     /**
@@ -176,5 +187,10 @@ public class BattleshipImporter extends PuzzleImporter {
             throw new InvalidFileFormatException("BattleShip Importer: " +
                     "unknown value where integer expected");
         }
+    }
+
+    @Override
+    public void initializeBoard(String[] statements) throws InputMismatchException {
+        throw new InputMismatchException("Battleship cannot accept text input");
     }
 }
