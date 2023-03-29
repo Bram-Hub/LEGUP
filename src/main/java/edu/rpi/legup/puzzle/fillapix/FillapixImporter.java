@@ -1,5 +1,6 @@
 package edu.rpi.legup.puzzle.fillapix;
 
+import com.sun.media.sound.InvalidFormatException;
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Element;
@@ -7,10 +8,21 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.awt.*;
+import java.util.InputMismatchException;
 
 public class FillapixImporter extends PuzzleImporter {
     public FillapixImporter(Fillapix fillapix) {
         super(fillapix);
+    }
+
+    @Override
+    public boolean acceptsRowsAndColumnsInput() {
+        return true;
+    }
+
+    @Override
+    public boolean acceptsTextInput() {
+        return false;
     }
 
     /**
@@ -87,5 +99,10 @@ public class FillapixImporter extends PuzzleImporter {
         catch (NumberFormatException e) {
             throw new InvalidFileFormatException("Fillapix Importer: unknown value where integer expected");
         }
+    }
+
+    @Override
+    public void initializeBoard(String[] statements) throws InputMismatchException {
+        throw new InputMismatchException("Fillapix cannot accept text input");
     }
 }

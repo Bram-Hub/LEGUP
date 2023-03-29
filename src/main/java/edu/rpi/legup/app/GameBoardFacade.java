@@ -1,5 +1,6 @@
 package edu.rpi.legup.app;
 
+import com.sun.media.sound.InvalidFormatException;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.history.IHistorySubject;
 import edu.rpi.legup.model.PuzzleImporter;
@@ -212,7 +213,7 @@ public class GameBoardFacade implements IHistorySubject {
             throw new IllegalArgumentException(exception.getMessage());
         }
         catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
-               IllegalAccessException | InstantiationException e) {
+               IllegalAccessException | InstantiationException | InvalidFormatException e) {
             LOGGER.error(e);
             throw new RuntimeException("Puzzle creation error");
         }

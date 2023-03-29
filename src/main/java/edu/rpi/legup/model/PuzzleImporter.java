@@ -47,7 +47,7 @@ public abstract class PuzzleImporter {
         }
     }
 
-    public void initializePuzzle(String[] statements) throws InputMismatchException {
+    public void initializePuzzle(String[] statements) throws InputMismatchException, InvalidFormatException {
         // TODO: implement this
         initializeBoard(statements);
     }
