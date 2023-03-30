@@ -55,7 +55,6 @@ public class EmptyCornersBasicRuleTest {
         LightUpCell c;
         for (int i = 0; i < board.getHeight(); i++) {
             for (int j = 0; j < board.getWidth(); j++) {
-                System.err.printf("getting cell at location %d, %d\n", j, i);
                 c = board.getCell(j, i);
                 if ((i == 2 && j == 0) || (i == 2 && j == 2)){
                     Assert.assertNull(RULE.checkRuleAt(transition, c));
