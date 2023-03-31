@@ -214,7 +214,7 @@ public class GameBoardFacade implements IHistorySubject {
             throw new IllegalArgumentException(exception.getMessage());
         }
         catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
-               IllegalAccessException | InstantiationException | IllegalArgumentException e) {
+               IllegalAccessException | InstantiationException e) {
             LOGGER.error(e);
             throw new RuntimeException("Puzzle creation error");
         }
