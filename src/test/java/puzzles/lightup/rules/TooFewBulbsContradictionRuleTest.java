@@ -4,8 +4,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import edu.rpi.legup.puzzle.lightup.LightUp;
 import edu.rpi.legup.puzzle.lightup.rules.TooFewBulbsContradictionRule;
-import edu.rpi.legup.model.PuzzleImporter;
-import legup.MockGameBoardFacade;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import legup.TestUtilities;
 import edu.rpi.legup.model.tree.TreeNode;
@@ -16,13 +14,10 @@ import org.junit.Assert;
 public class TooFewBulbsContradictionRuleTest {
     private static final TooFewBulbsContradictionRule RULE = new TooFewBulbsContradictionRule();
     private static LightUp lightUp;
-    private static PuzzleImporter importer;
 
     @BeforeClass
     public static void setUp() {
-        MockGameBoardFacade.getInstance();
         lightUp = new LightUp();
-        importer = lightUp.getImporter();
     }
 
     @Test

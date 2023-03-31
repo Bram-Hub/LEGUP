@@ -1,9 +1,7 @@
 package puzzles.lightup.rules;
 
 import edu.rpi.legup.puzzle.lightup.LightUpBoard;
-import legup.MockGameBoardFacade;
 import legup.TestUtilities;
-import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import org.junit.Assert;
@@ -17,13 +15,10 @@ import org.junit.Test;
 public class BulbsInPathContradictionRuleTest {
     private static final BulbsInPathContradictionRule RULE = new BulbsInPathContradictionRule();
     private static LightUp lightUp;
-    private static PuzzleImporter importer;
 
     @BeforeClass
     public static void setUp() {
-        MockGameBoardFacade.getInstance();
         lightUp = new LightUp();
-        importer = lightUp.getImporter();
     }
 
     @Test
