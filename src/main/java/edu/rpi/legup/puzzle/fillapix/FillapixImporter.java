@@ -1,6 +1,5 @@
 package edu.rpi.legup.puzzle.fillapix;
 
-import com.sun.media.sound.InvalidFormatException;
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Element;

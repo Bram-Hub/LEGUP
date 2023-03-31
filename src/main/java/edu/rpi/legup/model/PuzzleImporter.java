@@ -1,6 +1,5 @@
 package edu.rpi.legup.model;
 
-import com.sun.media.sound.InvalidFormatException;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.MergeRule;
@@ -47,7 +46,7 @@ public abstract class PuzzleImporter {
         }
     }
 
-    public void initializePuzzle(String[] statements) throws InputMismatchException, InvalidFormatException {
+    public void initializePuzzle(String[] statements) throws InputMismatchException, IllegalArgumentException {
         // Note: Error checking for the statements will be left up to the puzzles that support
         // text input. For example, some puzzles may be okay with "blank" statements (Strings with
         // length = 0) while others may not.
@@ -124,7 +123,7 @@ public abstract class PuzzleImporter {
      */
     public abstract void initializeBoard(Node node) throws InvalidFileFormatException;
 
-    public abstract void initializeBoard(String[] statements) throws InputMismatchException, InvalidFormatException;
+    public abstract void initializeBoard(String[] statements) throws InputMismatchException, IllegalArgumentException;
 
     /**
      * Creates the proof for building
