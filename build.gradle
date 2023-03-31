@@ -11,7 +11,7 @@ apply plugin: 'application'
 apply plugin: 'checkstyle'
 mainClassName = 'edu.rpi.legup.Legup'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 11
 
 dependencies {
     implementation 'org.jetbrains:annotations:20.1.0'
@@ -109,3 +109,4 @@ task buildNativeWindows(type: Exec, dependsOn: 'createExe') {
 repositories {
     mavenCentral()
 }
+targetCompatibility = JavaVersion.VERSION_11
