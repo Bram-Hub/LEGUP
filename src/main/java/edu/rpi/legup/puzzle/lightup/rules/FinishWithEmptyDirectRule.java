@@ -45,7 +45,8 @@ public class FinishWithEmptyDirectRule extends DirectRule {
 
     /**
      * Checks whether a certain cell is forced to not be a bulb
-     * @param board specified board
+     *
+     * @param board    specified board
      * @param location location of cell to check
      * @return boolean value based on whether a certain cell has an adjacent cell that has the required amount of adjacent bulbs
      */
@@ -57,10 +58,11 @@ public class FinishWithEmptyDirectRule extends DirectRule {
     }
 
     /**
-     * Checks whether a certain cell has the required amount of adjacent bulbs 
+     * Checks whether a certain cell has the required amount of adjacent bulbs
+     *
      * @param board specified board
-     * @param loc location of cell to check
-     * @return boolean value based on whether a certain cell has the required amount of adjacent bulbs 
+     * @param loc   location of cell to check
+     * @return boolean value based on whether a certain cell has the required amount of adjacent bulbs
      */
     private boolean isForcedEmpty(LightUpBoard board, Point loc) {
         LightUpCell cell = board.getCell(loc.x, loc.y);

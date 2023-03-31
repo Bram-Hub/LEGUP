@@ -32,9 +32,9 @@ public class UnresolvedCellContradictionRule extends ContradictionRule {
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
 
         NumberForCellCaseRule caseRule = new NumberForCellCaseRule();
-        ArrayList<Board> cases = caseRule.getCases(board,puzzleElement);
+        ArrayList<Board> cases = caseRule.getCases(board, puzzleElement);
 
-        if(cases.size()==0){
+        if (cases.size() == 0) {
             return null;
         }
 
