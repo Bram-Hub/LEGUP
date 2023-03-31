@@ -1,5 +1,6 @@
 package edu.rpi.legup.puzzle.sudoku;
 
+import com.sun.media.sound.InvalidFormatException;
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Element;
@@ -7,10 +8,21 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.awt.*;
+import java.util.InputMismatchException;
 
 public class SudokuImporter extends PuzzleImporter {
     public SudokuImporter(Sudoku sudoku) {
         super(sudoku);
+    }
+
+    @Override
+    public boolean acceptsRowsAndColumnsInput() {
+        return true;
+    }
+
+    @Override
+    public boolean acceptsTextInput() {
+        return false;
     }
 
     /**
@@ -111,5 +123,10 @@ public class SudokuImporter extends PuzzleImporter {
         catch (NumberFormatException e) {
             throw new InvalidFileFormatException("Sudoku Importer: unknown value where integer expected");
         }
+    }
+
+    @Override
+    public void initializeBoard(String[] statements) throws InputMismatchException {
+        throw new InputMismatchException("Sudoku cannot accept text input");
     }
 }

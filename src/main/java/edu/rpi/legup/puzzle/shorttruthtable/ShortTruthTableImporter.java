@@ -1,5 +1,6 @@
 package edu.rpi.legup.puzzle.shorttruthtable;
 
+import com.sun.media.sound.InvalidFormatException;
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Element;
@@ -9,6 +10,8 @@ import org.w3c.dom.NamedNodeMap;
 
 import java.awt.*;
 
+import java.util.InputMismatchException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -54,9 +57,9 @@ class ShortTruthTableImporter extends PuzzleImporter {
      * @param statements    returns all the statements
      * @return the length, in chars, of the longest statement
      */
-    private int parseAllStatmentsAndCells(final NodeList statementData,
-                                          List<List<ShortTruthTableCell>> allCells,
-                                          List<ShortTruthTableStatement> statements) throws InvalidFileFormatException {
+    private int parseAllStatementsAndCells(final NodeList statementData,
+                                           List<List<ShortTruthTableCell>> allCells,
+                                           List<ShortTruthTableStatement> statements) throws InvalidFileFormatException {
 
         int maxStatementLength = 0;
 
@@ -65,7 +68,10 @@ class ShortTruthTableImporter extends PuzzleImporter {
 
             //Get the atributes from the statement i in the file
             NamedNodeMap attributeList = statementData.item(i).getAttributes();
+
             String statementRep = attributeList.getNamedItem("representation").getNodeValue();
+            System.out.println("STATEMENT REP: " + statementRep);
+            System.out.println("ROW INDEX: " + attributeList.getNamedItem("row_index").getNodeValue());
             //parser time (on statementRep)
             //if (!validGrammar(statementRep)) throw some error
             if (!validGrammar(statementRep)) {
@@ -85,7 +91,29 @@ class ShortTruthTableImporter extends PuzzleImporter {
         }
 
         return maxStatementLength;
+    }
 
+    private int parseAllStatementsAndCells(String[] statementData,
+                                           List<List<ShortTruthTableCell>> allCells,
+                                           List<ShortTruthTableStatement> statements) throws InvalidFormatException {
+        int maxStatementLength = 0;
+
+        for (int i = 0; i < statementData.length; i++) {
+            if (!validGrammar(statementData[i])) {
+                JOptionPane.showMessageDialog(null, "ERROR: Invalid file syntax");
+                throw new InvalidFormatException("shorttruthtable importer: invalid sentence syntax");
+            }
+
+            //get the cells for the statement
+            List<ShortTruthTableCell> rowOfCells = getCells(statementData[i], i * 2);
+            allCells.add(rowOfCells);
+            statements.add(new ShortTruthTableStatement(statementData[i], rowOfCells));
+
+            //keep track of the length of the longest statement
+            maxStatementLength = Math.max(maxStatementLength, statementData[i].length());
+        }
+
+        return maxStatementLength;
     }
 
     private boolean validGrammar(String sentence) {
@@ -217,6 +245,16 @@ class ShortTruthTableImporter extends PuzzleImporter {
 
     }
 
+    @Override
+    public boolean acceptsRowsAndColumnsInput() {
+        return false;
+    }
+
+    @Override
+    public boolean acceptsTextInput() {
+        return true;
+    }
+
     /**
      * Creates an empty board for building
      *
@@ -264,7 +302,7 @@ class ShortTruthTableImporter extends PuzzleImporter {
 
 
             //Parse the data
-            int maxStatementLength = parseAllStatmentsAndCells(statementData, allCells, statements);
+            int maxStatementLength = parseAllStatementsAndCells(statementData, allCells, statements);
 
             //generate the board
             ShortTruthTableBoard sttBoard = generateBoard(allCells, statements, maxStatementLength);
@@ -278,9 +316,28 @@ class ShortTruthTableImporter extends PuzzleImporter {
         catch (NumberFormatException e) {
             throw new InvalidFileFormatException("short truth table Importer: unknown value where integer expected");
         }
-
-
     }
 
+    public void initializeBoard(String[] statementInput) throws InputMismatchException, InvalidFormatException {
+        List<String> statementsList = new LinkedList<>();
+        for (String s : statementInput)
+            if (s.strip().length() != 0)
+                statementsList.add(s);
+        String[] statementData = statementsList.toArray(new String[statementsList.size()]);
 
+        if (statementData.length == 0) {
+            throw new InvalidFormatException("short truth table Importer: no statements found for board");
+        }
+
+        // Store all cells and statements
+        List<List<ShortTruthTableCell>> allCells = new ArrayList<>();
+        List<ShortTruthTableStatement> statements = new ArrayList<>();
+
+        // Parse the data
+        int maxStatementLength = parseAllStatementsAndCells(statementData, allCells, statements);
+
+        // Generate and set the board - don't set given cell values since none are given
+        ShortTruthTableBoard sttBoard = generateBoard(allCells, statements, maxStatementLength);
+        puzzle.setCurrentBoard(sttBoard);
+    }
 }

@@ -39,49 +39,49 @@ public class CellForNumberCaseRule extends CaseRule {
         }
 
         //selects integer before checking Command.canExecute for use in Command.getErrorString
-        int size = ((SkyscrapersBoard)board).getWidth();
+        int size = ((SkyscrapersBoard) board).getWidth();
         Object[] possibleValues = new Object[size];
-        for(int i=0; i<size; i++){
-            possibleValues[i] = i+1;
+        for (int i = 0; i < size; i++) {
+            possibleValues[i] = i + 1;
         }
         Object selectedValue;
-        do{
+        do {
             selectedValue = JOptionPane.showInputDialog(null,
                     "Pick the number to be added", "Cell For Number",
                     JOptionPane.INFORMATION_MESSAGE, null,
                     possibleValues, possibleValues[0]);
         }
-        while(selectedValue==null);
-        selectedNumber = (Integer)selectedValue;
+        while (selectedValue == null);
+        selectedNumber = (Integer) selectedValue;
 
         return caseBoard;
     }
 
-    public ArrayList<Board> getCasesFor(Board board, PuzzleElement puzzleElement, Integer number){
+    public ArrayList<Board> getCasesFor(Board board, PuzzleElement puzzleElement, Integer number) {
         ArrayList<Board> cases = new ArrayList<>();
 
         SkyscrapersClue clue = (SkyscrapersClue) puzzleElement;
         SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board;
 
-        List<SkyscrapersCell> openCells = skyscrapersboard.getRowCol(clue.getClueIndex(),SkyscrapersType.UNKNOWN,clue.getType()==SkyscrapersType.CLUE_WEST);
-        for(SkyscrapersCell cell : openCells){
+        List<SkyscrapersCell> openCells = skyscrapersboard.getRowCol(clue.getClueIndex(), SkyscrapersType.UNKNOWN, clue.getType() == SkyscrapersType.CLUE_WEST);
+        for (SkyscrapersCell cell : openCells) {
             SkyscrapersBoard newCase = skyscrapersboard.copy();
             PuzzleElement newCell = newCase.getPuzzleElement(cell);
             newCell.setData(number);
             newCase.addModifiedData(newCell);
-            newCase.setModClue((SkyscrapersClue)newCase.getPuzzleElement(clue));
+            newCase.setModClue((SkyscrapersClue) newCase.getPuzzleElement(clue));
 
             //if flags
             boolean passed = true;
-            if(skyscrapersboard.getDupeFlag()){
+            if (skyscrapersboard.getDupeFlag()) {
                 DuplicateNumberContradictionRule DupeRule = new DuplicateNumberContradictionRule();
-                passed = passed && DupeRule.checkContradictionAt(newCase,newCell)!=null;
+                passed = passed && DupeRule.checkContradictionAt(newCase, newCell) != null;
             }
-            if(skyscrapersboard.getViewFlag()){
+            if (skyscrapersboard.getViewFlag()) {
                 PreemptiveVisibilityContradictionRule ViewRule = new PreemptiveVisibilityContradictionRule();
-                passed = passed && ViewRule.checkContradictionAt(newCase,newCell)!=null;
+                passed = passed && ViewRule.checkContradictionAt(newCase, newCell) != null;
             }
-            if(passed){
+            if (passed) {
                 cases.add(newCase);
             }
 
@@ -92,7 +92,7 @@ public class CellForNumberCaseRule extends CaseRule {
 
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
-        return getCasesFor(board,puzzleElement,selectedNumber);
+        return getCasesFor(board, puzzleElement, selectedNumber);
     }
 
     @Override
@@ -104,23 +104,23 @@ public class CellForNumberCaseRule extends CaseRule {
         }
 
         //find changed row/col
-        SkyscrapersClue modClue = ((SkyscrapersBoard)childTransitions.get(0).getBoard()).getmodClue();
+        SkyscrapersClue modClue = ((SkyscrapersBoard) childTransitions.get(0).getBoard()).getmodClue();
 
         //System.out.println(modClue.getType());
         //System.out.println(modClue.getClueIndex());
-        if(childTransitions.size() != getCasesFor(oldBoard,modClue,(Integer) childTransitions.get(0).getBoard().getModifiedData().iterator().next().getData()).size()){
+        if (childTransitions.size() != getCasesFor(oldBoard, modClue, (Integer) childTransitions.get(0).getBoard().getModifiedData().iterator().next().getData()).size()) {
             //System.out.println("Wrong number of cases.");
             return "Wrong number of cases.";
         }
 
-        for(TreeTransition newTree : childTransitions){
+        for (TreeTransition newTree : childTransitions) {
             SkyscrapersBoard newBoard = (SkyscrapersBoard) newTree.getBoard();
-            if(newBoard.getModifiedData().size()!=1){
-               //System.out.println("Only one cell should be modified.");
+            if (newBoard.getModifiedData().size() != 1) {
+                //System.out.println("Only one cell should be modified.");
                 return "Only one cell should be modified.";
             }
             SkyscrapersCell newCell = (SkyscrapersCell) newBoard.getModifiedData().iterator().next();
-            if(newCell.getType() != SkyscrapersType.Number){
+            if (newCell.getType() != SkyscrapersType.Number) {
                 //System.out.println("Changed value should be a number.");
                 return "Changed value should be a number.";
             }

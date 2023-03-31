@@ -52,7 +52,7 @@ public class NoNumberContradictionRule extends ContradictionRule {
                     numberExists = true;
                 }
             }
-            if(!numberExists) {
+            if (!numberExists) {
                 return null;
             }
         }

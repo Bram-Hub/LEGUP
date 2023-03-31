@@ -1,6 +1,5 @@
 package edu.rpi.legup.ui;
 
-import com.sun.org.apache.bcel.internal.generic.JSR;
 import edu.rpi.legup.app.Config;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.CursorController;
@@ -51,20 +50,29 @@ public class CreatePuzzleDialog extends JDialog {
     private ActionListener okButtonListener = new ActionListener() {
         /**
          * Attempts to open the puzzle editor interface for the given game with the given dimensions
-         * @param e the event to be processed
+         * @param ae the event to be processed
          */
         @Override
         public void actionPerformed(ActionEvent ae) {
             String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
 
             // Check if all 3 TextFields are filled
-            if (game.equals("") || rows.getText().equals("") || columns.getText().equals("")) {
+            if (game.equals("ShortTruthTable") && shortTruthTableTextArea.getText().equals("")) {
+                System.out.println("Unfilled fields");
+                return;
+            }
+            if (!game.equals("ShortTruthTable") && (game.equals("") || rows.getText().equals("") || columns.getText().equals(""))) {
                 System.out.println("Unfilled fields");
                 return;
             }
 
             try {
-                homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(rows.getText()), Integer.valueOf(columns.getText()));
+                if (game.equals("ShortTruthTable")) {
+                    homePanel.openEditorWithNewPuzzle("ShortTruthTable", shortTruthTableTextArea.getText().split("\n"));
+                }
+                else {
+                    homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(rows.getText()), Integer.valueOf(columns.getText()));
+                }
                 setVisible(false);
             }
             catch (IllegalArgumentException e) {
@@ -173,7 +181,13 @@ public class CreatePuzzleDialog extends JDialog {
             String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
 
             try {
-                this.homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(this.rows.getText()), Integer.valueOf(this.columns.getText()));
+                if (game.equals("ShortTruthTable")) {
+                    this.homePanel.openEditorWithNewPuzzle("ShortTruthTable", this.shortTruthTableTextArea.getText().split("\n"));
+                }
+                else {
+                    this.homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(this.rows.getText()), Integer.valueOf(this.columns.getText()));
+
+                }
                 this.setVisible(false);
             }
             catch (IllegalArgumentException exception) {

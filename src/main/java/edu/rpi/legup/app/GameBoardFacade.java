@@ -1,5 +1,6 @@
 package edu.rpi.legup.app;
 
+import com.sun.media.sound.InvalidFormatException;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.history.IHistorySubject;
 import edu.rpi.legup.model.PuzzleImporter;
@@ -77,7 +78,7 @@ public class GameBoardFacade implements IHistorySubject {
     }
 
     public void initializeUI() {
-        EventQueue.invokeLater(() ->{
+        EventQueue.invokeLater(() -> {
             legupUI = new LegupUI();
             puzzleSolver = legupUI.getProofEditor();
             puzzleEditor = legupUI.getPuzzleEditor();
@@ -153,7 +154,6 @@ public class GameBoardFacade implements IHistorySubject {
             Class<?> c = Class.forName(qualifiedClassName);
             Constructor<?> cons = c.getConstructor();
             Puzzle puzzle = (Puzzle) cons.newInstance();
-            setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
 
             PuzzleImporter importer = puzzle.getImporter();
             if (importer == null) {
@@ -161,6 +161,13 @@ public class GameBoardFacade implements IHistorySubject {
                 throw new RuntimeException("Puzzle importer null");
             }
 
+            // Theoretically, this exception should never be thrown, since LEGUP should not be
+            // allowing the user to give row/column input for a puzzle that doesn't support it
+            if (!importer.acceptsRowsAndColumnsInput()) {
+                throw new IllegalArgumentException(puzzle.getName() + " does not accept rows and columns input");
+            }
+
+            setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
             importer.initializePuzzle(rows, columns);
 
             puzzle.initializeView();
@@ -175,6 +182,45 @@ public class GameBoardFacade implements IHistorySubject {
             LOGGER.error(e);
             throw new RuntimeException("Puzzle creation error");
         }
+    }
+
+    public void loadPuzzle(String game, String[] statements) {
+        String qualifiedClassName = config.getPuzzleClassForName(game);
+        LOGGER.debug("Loading " + qualifiedClassName);
+
+        try {
+            Class<?> c = Class.forName(qualifiedClassName);
+            Constructor<?> cons = c.getConstructor();
+            Puzzle puzzle = (Puzzle) cons.newInstance();
+
+            PuzzleImporter importer = puzzle.getImporter();
+            if (importer == null) {
+                LOGGER.error("Puzzle importer is null");
+                throw new RuntimeException("Puzzle importer null");
+            }
+
+            // Theoretically, this exception should never be thrown, since LEGUP should not be
+            // allowing the user to give text input for a puzzle that doesn't support it
+            if (!importer.acceptsTextInput()) {
+                throw new IllegalArgumentException(puzzle.getName() + " does not accept text input");
+            }
+
+            setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
+            importer.initializePuzzle(statements);
+
+            puzzle.initializeView();
+//            puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
+            setPuzzleEditor(puzzle);
+        }
+        catch (IllegalArgumentException exception) {
+            throw new IllegalArgumentException(exception.getMessage());
+        }
+        catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+               IllegalAccessException | InstantiationException | InvalidFormatException e) {
+            LOGGER.error(e);
+            throw new RuntimeException("Puzzle creation error");
+        }
+
     }
 
     /**
@@ -235,7 +281,7 @@ public class GameBoardFacade implements IHistorySubject {
                         break;
                     }
                 }
-                if (!isEditablePuzzle){
+                if (!isEditablePuzzle) {
                     LOGGER.error("Puzzle is not editable");
                     throw new InvalidFileFormatException("Puzzle is not editable");
                 }

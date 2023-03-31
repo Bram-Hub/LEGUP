@@ -1,5 +1,6 @@
 package edu.rpi.legup.model;
 
+import com.sun.media.sound.InvalidFormatException;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.MergeRule;
@@ -12,10 +13,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class PuzzleImporter {
     private static final Logger LOGGER = LogManager.getLogger(PuzzleImporter.class.getName());
@@ -28,6 +26,10 @@ public abstract class PuzzleImporter {
     public PuzzleImporter(Puzzle puzzle) {
         this.puzzle = puzzle;
     }
+
+    public abstract boolean acceptsRowsAndColumnsInput();
+
+    public abstract boolean acceptsTextInput();
 
     /**
      * Initializes an empty puzzle
@@ -43,6 +45,13 @@ public abstract class PuzzleImporter {
         else {
             throw new IllegalArgumentException("Invalid dimensions provided");
         }
+    }
+
+    public void initializePuzzle(String[] statements) throws InputMismatchException, InvalidFormatException {
+        // Note: Error checking for the statements will be left up to the puzzles that support
+        // text input. For example, some puzzles may be okay with "blank" statements (Strings with
+        // length = 0) while others may not.
+        initializeBoard(statements);
     }
 
     /**
@@ -114,6 +123,8 @@ public abstract class PuzzleImporter {
      * @throws InvalidFileFormatException
      */
     public abstract void initializeBoard(Node node) throws InvalidFileFormatException;
+
+    public abstract void initializeBoard(String[] statements) throws InputMismatchException, InvalidFormatException;
 
     /**
      * Creates the proof for building

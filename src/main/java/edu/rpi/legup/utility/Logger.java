@@ -16,7 +16,7 @@ public class Logger {
 
     private static final String LEGUP_HOME = System.getProperty("user.home") + File.separator + ".legup" + File.separator;
 
-    public static void initLogger(){
+    public static void initLogger() {
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         Configuration config = context.getConfiguration();
         ConsoleAppender consoleAppender = config.getAppender("console");

@@ -1,5 +1,6 @@
 package edu.rpi.legup.puzzle.treetent;
 
+import com.sun.media.sound.InvalidFormatException;
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Element;
@@ -7,10 +8,21 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.awt.*;
+import java.util.InputMismatchException;
 
 public class TreeTentImporter extends PuzzleImporter {
     public TreeTentImporter(TreeTent treeTent) {
         super(treeTent);
+    }
+
+    @Override
+    public boolean acceptsRowsAndColumnsInput() {
+        return true;
+    }
+
+    @Override
+    public boolean acceptsTextInput() {
+        return false;
     }
 
     /**
@@ -173,5 +185,10 @@ public class TreeTentImporter extends PuzzleImporter {
         catch (NumberFormatException e) {
             throw new InvalidFileFormatException("TreeTent Importer: unknown value where integer expected");
         }
+    }
+
+    @Override
+    public void initializeBoard(String[] statements) throws InputMismatchException {
+        throw new InputMismatchException("Tree Tent cannot accept text input");
     }
 }

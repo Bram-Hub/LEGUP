@@ -7,11 +7,22 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.awt.*;
+import java.util.InputMismatchException;
 
 public class HeyawakeImporter extends PuzzleImporter {
 
     public HeyawakeImporter(Heyawake heyawake) {
         super(heyawake);
+    }
+
+    @Override
+    public boolean acceptsRowsAndColumnsInput() {
+        return true;
+    }
+
+    @Override
+    public boolean acceptsTextInput() {
+        return false;
     }
 
     /**
@@ -90,5 +101,10 @@ public class HeyawakeImporter extends PuzzleImporter {
         catch (NumberFormatException e) {
             throw new InvalidFileFormatException("Heyawake Importer: unknown value where integer expected");
         }
+    }
+
+    @Override
+    public void initializeBoard(String[] statements) throws InputMismatchException {
+        throw new InputMismatchException("Hey Awake cannot accept text input");
     }
 }

@@ -1,11 +1,9 @@
 package edu.rpi.legup.ui;
 
-import edu.rpi.legup.Legup;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.controller.CursorController;
 import edu.rpi.legup.save.InvalidFileFormatException;
-import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.Puzzle;
 
 import javax.swing.*;
@@ -18,7 +16,6 @@ import java.io.*;
 import java.util.Objects;
 
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -28,7 +25,6 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.io.FileWriter;
 import java.net.URI;
 import java.net.URL;
-import java.util.Objects;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -185,101 +181,103 @@ public class HomePanel extends LegupPanel {
             }
         });
     }
-public void checkfolder(){
-    GameBoardFacade facade = GameBoardFacade.getInstance();
 
-    /*
-     * Select dir to grade; recursively grade sub-dirs using traverseDir()
-     * Selected dir must have sub-dirs for each student:
-     * GradeThis
-     *    |
-     *    | -> Student 1
-     *    |       |
-     *    |       | -> Proofs
-     */
+    public void checkfolder() {
+        GameBoardFacade facade = GameBoardFacade.getInstance();
 
-    LegupPreferences preferences = LegupPreferences.getInstance();
-    File preferredDirectory = new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
-    JFileChooser folderBrowser = new JFileChooser(preferredDirectory);
+        /*
+         * Select dir to grade; recursively grade sub-dirs using traverseDir()
+         * Selected dir must have sub-dirs for each student:
+         * GradeThis
+         *    |
+         *    | -> Student 1
+         *    |       |
+         *    |       | -> Proofs
+         */
+
+        LegupPreferences preferences = LegupPreferences.getInstance();
+        File preferredDirectory = new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
+        JFileChooser folderBrowser = new JFileChooser(preferredDirectory);
 
 
-    folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
-    folderBrowser.setDialogTitle("Select Directory");
-    folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-    folderBrowser.setAcceptAllFileFilterUsed(false);
-    folderBrowser.showOpenDialog(this);
-    folderBrowser.setVisible(true);
-    File folder = folderBrowser.getSelectedFile();
+        folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+        folderBrowser.setDialogTitle("Select Directory");
+        folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        folderBrowser.setAcceptAllFileFilterUsed(false);
+        folderBrowser.showOpenDialog(this);
+        folderBrowser.setVisible(true);
+        File folder = folderBrowser.getSelectedFile();
 
-    File resultFile = new File(folder.getAbsolutePath() + File.separator +"result.csv");
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
-        writer.append("Name");
-        writer.append(",");
-        writer.append("File Name");
-        writer.append(",");
-        writer.append("Solved or not");
-        writer.append("\n");
-
-        for (final File folderEntry : folder.listFiles(File::isDirectory)) {
-            writer.append(folderEntry.getName());
+        File resultFile = new File(folder.getAbsolutePath() + File.separator + "result.csv");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
+            writer.append("Name");
             writer.append(",");
-            int count1 = 0;
-            for (final File fileEntry : folderEntry.listFiles()) {
-                if (fileEntry.getName().charAt(0) == '.'){
-                    continue;
-                }
-                count1++;
-                if (count1 > 1){
-                    writer.append(folderEntry.getName());
-                    writer.append(",");
-                }
-                writer.append(fileEntry.getName());
+            writer.append("File Name");
+            writer.append(",");
+            writer.append("Solved or not");
+            writer.append("\n");
+
+            for (final File folderEntry : folder.listFiles(File::isDirectory)) {
+                writer.append(folderEntry.getName());
                 writer.append(",");
-                String fileName = folderEntry.getAbsolutePath() + File.separator + fileEntry.getName();
-                System.out.println("This is path "+fileName);
-                File puzzleFile = new File(fileName);
-                if (puzzleFile != null && puzzleFile.exists()) {
-                    try {
-                        legupUI.displayPanel(1);
-                        legupUI.getProofEditor();
-                        GameBoardFacade.getInstance().loadPuzzle(fileName);
-                        String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
-                        legupUI.setTitle(puzzleName + " - " + puzzleFile.getName());
-                        facade = GameBoardFacade.getInstance();
-                        Puzzle puzzle = facade.getPuzzleModule();
-                        if (puzzle.isPuzzleComplete()) {
-                            writer.append("Solved");
-                            System.out.println(fileEntry.getName() + "  solved");
-                        }
-                        else {
-                            writer.append("Not solved");
-                            System.out.println(fileEntry.getName() + "  not solved");
-                        }
-                        writer.append("\n");
+                int count1 = 0;
+                for (final File fileEntry : folderEntry.listFiles()) {
+                    if (fileEntry.getName().charAt(0) == '.') {
+                        continue;
                     }
-                    catch (InvalidFileFormatException e) {
-                        LOGGER.error(e.getMessage());
+                    count1++;
+                    if (count1 > 1) {
+                        writer.append(folderEntry.getName());
+                        writer.append(",");
+                    }
+                    writer.append(fileEntry.getName());
+                    writer.append(",");
+                    String fileName = folderEntry.getAbsolutePath() + File.separator + fileEntry.getName();
+                    System.out.println("This is path " + fileName);
+                    File puzzleFile = new File(fileName);
+                    if (puzzleFile != null && puzzleFile.exists()) {
+                        try {
+                            legupUI.displayPanel(1);
+                            legupUI.getProofEditor();
+                            GameBoardFacade.getInstance().loadPuzzle(fileName);
+                            String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+                            legupUI.setTitle(puzzleName + " - " + puzzleFile.getName());
+                            facade = GameBoardFacade.getInstance();
+                            Puzzle puzzle = facade.getPuzzleModule();
+                            if (puzzle.isPuzzleComplete()) {
+                                writer.append("Solved");
+                                System.out.println(fileEntry.getName() + "  solved");
+                            }
+                            else {
+                                writer.append("Not solved");
+                                System.out.println(fileEntry.getName() + "  not solved");
+                            }
+                            writer.append("\n");
+                        }
+                        catch (InvalidFileFormatException e) {
+                            LOGGER.error(e.getMessage());
+                        }
                     }
                 }
-            }
-            if (count1 == 0){
-                writer.append("No file");
-                writer.append("\n");
+                if (count1 == 0) {
+                    writer.append("No file");
+                    writer.append("\n");
+                }
             }
         }
-    }
-    catch (IOException ex){
-        LOGGER.error(ex.getMessage());
+        catch (IOException ex) {
+            LOGGER.error(ex.getMessage());
 
-        this.buttons[3].addActionListener((ActionEvent e) -> checkProofAll());
+            this.buttons[3].addActionListener((ActionEvent e) -> checkProofAll());
 
+        }
     }
-    }
+
     /*
     This function is use to check each function xml proof file have the flag = true.
     Also, we will go to check each file is xml file or not which we have 3 result solve, unsolve and ungradeable
      */
-    public void use_xml_to_check() throws Exception{
+    public void use_xml_to_check() throws Exception {
         GameBoardFacade facade = GameBoardFacade.getInstance();
 
         /*
@@ -312,7 +310,7 @@ public void checkfolder(){
         if (folder == null) {
             return;
         }
-        File resultFile = new File(folder.getAbsolutePath() + File.separator +"result.csv");
+        File resultFile = new File(folder.getAbsolutePath() + File.separator + "result.csv");
         if (resultFile == null) {
             return;
         }
@@ -342,11 +340,11 @@ public void checkfolder(){
                     }
                     writer.write(fileEntry.getName());
                     writer.write(",");
-                    String path =folderEntry.getAbsolutePath() + File.separator + fileEntry.getName();
+                    String path = folderEntry.getAbsolutePath() + File.separator + fileEntry.getName();
                     System.out.println(path);
                     boolean is_xml_file = isxmlfile(fileEntry);
-                    if(is_xml_file){
-                        saxParser.parse(path, new DefaultHandler(){
+                    if (is_xml_file) {
+                        saxParser.parse(path, new DefaultHandler() {
                             @Override
                             public void startDocument() throws SAXException {
                                 System.out.println("start doc");
@@ -360,11 +358,11 @@ public void checkfolder(){
                             @Override
                             public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
                                 int length = attributes.getLength();
-                                for (int i = 0 ;i<length;i++){
+                                for (int i = 0; i < length; i++) {
                                     String name = attributes.getQName(i);
                                     String value = attributes.getValue(i);
-                                    if(name.equals("isSolved")){
-                                        if (value.equals("true")){
+                                    if (name.equals("isSolved")) {
+                                        if (value.equals("true")) {
                                             try {
                                                 writer.write("Solve\n");
                                             }
@@ -372,20 +370,22 @@ public void checkfolder(){
                                                 throw new RuntimeException(e);
                                             }
                                         }
-                                        else if(value.equals("false")){
-                                            try {
-                                                writer.write("Unsolve\n");
+                                        else {
+                                            if (value.equals("false")) {
+                                                try {
+                                                    writer.write("Unsolve\n");
+                                                }
+                                                catch (IOException e) {
+                                                    throw new RuntimeException(e);
+                                                }
                                             }
-                                            catch (IOException e) {
-                                                throw new RuntimeException(e);
-                                            }
-                                        }
-                                        else{
-                                            try {
-                                                writer.write("Ungradeale\n");
-                                            }
-                                            catch (IOException e) {
-                                                throw new RuntimeException(e);
+                                            else {
+                                                try {
+                                                    writer.write("Ungradeale\n");
+                                                }
+                                                catch (IOException e) {
+                                                    throw new RuntimeException(e);
+                                                }
                                             }
                                         }
 
@@ -394,19 +394,21 @@ public void checkfolder(){
                                 }
 
                             }
+
                             @Override
                             public void endElement(String uri, String localName, String qName) throws SAXException {
                                 System.out.println(qName);
 
 
                             }
+
                             @Override
                             public void characters(char[] ch, int start, int length) throws SAXException {
-                                System.out.println(new String(ch,start,length));
+                                System.out.println(new String(ch, start, length));
                             }
                         });
                     }
-                    else{
+                    else {
                         writer.write("wrong file ungradable");
                     }
                     writer.write("\n");
@@ -414,27 +416,27 @@ public void checkfolder(){
             }
 
 
-
-
         }
-        catch (IOException ex){
+        catch (IOException ex) {
             LOGGER.error(ex.getMessage());
         }
     }
-    public  boolean isxmlfile(File file){
-        boolean flag= true;
-        try{
-            DocumentBuilderFactory factory= DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder= factory.newDocumentBuilder();
+
+    public boolean isxmlfile(File file) {
+        boolean flag = true;
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
             builder.parse(file);
-            flag=true;
+            flag = true;
         }
-        catch (Exception e){
+        catch (Exception e) {
             flag = false;
         }
         return flag;
     }
-    public void checkallproof1(){
+
+    public void checkallproof1() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
 
         /*
@@ -478,7 +480,8 @@ public void checkfolder(){
         }
         JOptionPane.showMessageDialog(null, "Batch grading complete.");
     }
-    public void traverseDir1(File folder, BufferedWriter writer, String path) throws IOException{
+
+    public void traverseDir1(File folder, BufferedWriter writer, String path) throws IOException {
         GameBoardFacade facade = GameBoardFacade.getInstance();
 
         // Folder is empty
@@ -533,6 +536,7 @@ public void checkfolder(){
             }
         }
     }
+
     private void initText() {
         // TODO: add version text after auto-changing version label is implemented. (text[2] = version)
         this.text = new JLabel[2];
@@ -685,7 +689,7 @@ public void checkfolder(){
             }
         }
     }
-    
+
     public void openEditorWithNewPuzzle(String game, int rows, int columns) throws IllegalArgumentException {
         // Validate the dimensions
         GameBoardFacade facade = GameBoardFacade.getInstance();
@@ -702,5 +706,12 @@ public void checkfolder(){
         // Set game type on the puzzle editor
         this.legupUI.displayPanel(2);
         this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, rows, columns);
+    }
+
+    public void openEditorWithNewPuzzle(String game, String[] statements) {
+        // Set game type on the puzzle editor
+        this.legupUI.displayPanel(2);
+        // TODO: finish testing this function
+        this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, statements);
     }
 }
