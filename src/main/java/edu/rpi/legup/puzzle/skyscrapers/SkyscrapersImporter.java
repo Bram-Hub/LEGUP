@@ -45,7 +45,6 @@ public class SkyscrapersImporter extends PuzzleImporter {
             NodeList elementDataList = dataElement.getElementsByTagName("cell");
 
 
-
             SkyscrapersBoard skyscrapersBoard = null;
 
             if (!boardElement.getAttribute("size").isEmpty()) {
@@ -63,7 +62,7 @@ public class SkyscrapersImporter extends PuzzleImporter {
             for (int i = 0; i < elementDataList.getLength(); i++) {
                 SkyscrapersCell cell = (SkyscrapersCell) puzzle.getFactory().importCell(elementDataList.item(i), skyscrapersBoard);
                 Point loc = cell.getLocation();
-                if (cell.getData() != 0) {
+                if (cell.getData().value != 0) {
                     cell.setModifiable(false);
                     cell.setGiven(true);
                 }
@@ -73,7 +72,7 @@ public class SkyscrapersImporter extends PuzzleImporter {
             for (int y = 0; y < size; y++) {
                 for (int x = 0; x < size; x++) {
                     if (skyscrapersBoard.getCell(x, y) == null) {
-                        SkyscrapersCell cell = new SkyscrapersCell(0, new Point(x, y), size);
+                        SkyscrapersCell cell = new SkyscrapersCell(SkyscrapersType.UNKNOWN, new Point(x, y), size);
                         cell.setIndex(y * size + x);
                         cell.setModifiable(true);
                         skyscrapersBoard.setCell(x, y, cell);
@@ -135,12 +134,12 @@ public class SkyscrapersImporter extends PuzzleImporter {
 
             //Initialize present flags
             NodeList flagList = boardElement.getElementsByTagName("flags");
-            if(flagList.getLength()==1){
+            if (flagList.getLength() == 1) {
                 Element flags = (Element) flagList.item(0);
-                if(flags.hasAttribute("dupe")){
+                if (flags.hasAttribute("dupe")) {
                     skyscrapersBoard.setDupeFlag(Boolean.parseBoolean(flags.getAttribute("dupe")));
                 }
-                if(flags.hasAttribute("view")){
+                if (flags.hasAttribute("view")) {
                     skyscrapersBoard.setViewFlag(Boolean.parseBoolean(flags.getAttribute("view")));
                 }
             }

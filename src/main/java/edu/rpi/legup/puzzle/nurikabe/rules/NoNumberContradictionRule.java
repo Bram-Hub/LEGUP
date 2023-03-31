@@ -10,6 +10,7 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeUtilities;
 import edu.rpi.legup.utility.DisjointSets;
 
 import java.util.Set;
+import java.util.List;
 
 public class NoNumberContradictionRule extends ContradictionRule {
 
@@ -40,25 +41,22 @@ public class NoNumberContradictionRule extends ContradictionRule {
         if (cell.getType() != NurikabeType.WHITE) {
             return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
         }
-        DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nurikabeBoard);
-        Set<NurikabeCell> whiteRegion = regions.getSet(cell);
-        for (NurikabeCell c : whiteRegion) {
-            if (c.getType() == NurikabeType.NUMBER) {
-                return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
-            }
-        }
-        for (NurikabeCell c : whiteRegion) {
-            // System.out.println(c.getLocation().x + "\t" + c.getLocation().y);
-            NurikabeCell top = nurikabeBoard.getCell(c.getLocation().x, c.getLocation().y + 1);
-            NurikabeCell left = nurikabeBoard.getCell(c.getLocation().x - 1, c.getLocation().y);
-            NurikabeCell right = nurikabeBoard.getCell(c.getLocation().x + 1, c.getLocation().y);
-            NurikabeCell bottom = nurikabeBoard.getCell(c.getLocation().x, c.getLocation().y - 1);
 
-            if (isEmptyCell(top) || isEmptyCell(left) || isEmptyCell(right) || isEmptyCell(bottom)) {
-                return super.getInvalidUseOfRuleMessage() + ": " + this.NOT_SURROUNDED_BY_BLACK_MESSAGE;
+//        If the transition creates a room of white cells with no number, a contradiction occurs.
+        DisjointSets<NurikabeCell> anotherRegion = NurikabeUtilities.getPossibleWhiteRegions(nurikabeBoard);
+        List<Set<NurikabeCell>> allsets = anotherRegion.getAllSets();
+        for (Set<NurikabeCell> s : allsets) {
+            boolean numberExists = false;
+            for (NurikabeCell c : s) {
+                if (c.getType() == NurikabeType.NUMBER) {
+                    numberExists = true;
+                }
+            }
+            if (!numberExists) {
+                return null;
             }
         }
-        return null;
+        return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
     }
 
     /**

@@ -2,20 +2,18 @@ package edu.rpi.legup.ui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
 import java.security.InvalidParameterException;
 import java.util.Objects;
 
 import javax.swing.*;
 
 
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
-import edu.rpi.legup.ui.lookandfeel.LegupLookAndFeel;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
-import edu.rpi.legupupdate.Update;
-import edu.rpi.legupupdate.UpdateProgress;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,9 +45,15 @@ public class LegupUI extends JFrame implements WindowListener {
     public LegupUI() {
         setTitle("LEGUP");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        LegupPreferences prefs = LegupPreferences.getInstance();
 
         try {
-            UIManager.setLookAndFeel(new LegupLookAndFeel());
+            if (Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
+                UIManager.setLookAndFeel(new FlatDarkLaf());
+            }
+            else {
+                UIManager.setLookAndFeel(new FlatLightLaf());
+            }
         }
         catch (UnsupportedLookAndFeelException e) {
             System.err.println("Not supported ui look and feel");
@@ -61,7 +65,7 @@ public class LegupUI extends JFrame implements WindowListener {
         displayPanel(0);
 
         setIconImage(new ImageIcon(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(
-                "edu/rpi/legup/images/Legup/Basic Rules.gif"))).getImage());
+                "edu/rpi/legup/images/Legup/Direct Rules.gif"))).getImage());
 
         if (LegupPreferences.getInstance().getUserPref(LegupPreferences.START_FULL_SCREEN).equals(Boolean.toString(true))) {
             setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
@@ -141,7 +145,7 @@ public class LegupUI extends JFrame implements WindowListener {
 
     //ask to edu.rpi.legup.save current proof
     public boolean noquit(String instr) {
-        int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
+        int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_OPTION);
         return n != JOptionPane.YES_OPTION;
     }
 

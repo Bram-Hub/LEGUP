@@ -111,11 +111,11 @@ public class TreeTentController extends ElementController {
     public void changeCell(MouseEvent e, PuzzleElement element) {
         TreeTentCell cell = (TreeTentCell) element;
         if (e.getButton() == MouseEvent.BUTTON1) {
-            if (cell.getData() == 0) {
+            if (cell.getData() == TreeTentType.UNKNOWN) {
                 element.setData(2);
             }
             else {
-                if (cell.getData() == 2) {
+                if (cell.getData() == TreeTentType.GRASS) {
                     element.setData(3);
                 }
                 else {
@@ -125,11 +125,11 @@ public class TreeTentController extends ElementController {
         }
         else {
             if (e.getButton() == MouseEvent.BUTTON3) {
-                if (cell.getData() == 0) {
+                if (cell.getData() == TreeTentType.UNKNOWN) {
                     element.setData(3);
                 }
                 else {
-                    if (cell.getData() == 2) {
+                    if (cell.getData() == TreeTentType.GRASS) {
                         element.setData(0);
                     }
                     else {

@@ -30,7 +30,7 @@ public class DuplicateNumberContradictionRule extends ContradictionRule {
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
         //TODO:? Refactor to count each row/col once rather than per cell (override checkContradiction)
-    	SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
+        SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
         SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board;
         Point loc = cell.getLocation();
 

@@ -1,8 +1,8 @@
-LTUP-BASC-0001 : EmptyCellInLightBasicRule
-LTUP-BASC-0002 : EmptyCornersBasicRule
-LTUP-BASC-0003 : FinishWithBulbsBasicRule
-LTUP-BASC-0004 : FinishWithEmptyBasicRule
-LTUP-BASC-0005 : MustLightBasicRule
+LTUP-BASC-0001 : EmptyCellInLightDirectRule
+LTUP-BASC-0002 : EmptyCornersDirectRule
+LTUP-BASC-0003 : FinishWithBulbsDirectRule
+LTUP-BASC-0004 : FinishWithEmptyDirectRule
+LTUP-BASC-0005 : MustLightDirectRule
 
 LTUP-CONT-0001 : BulbsInPathContradictionRule
 LTUP-CONT-0002 : CannotLightACellContradictionRule
