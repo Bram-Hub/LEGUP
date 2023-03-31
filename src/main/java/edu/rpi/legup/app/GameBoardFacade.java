@@ -151,7 +151,6 @@ public class GameBoardFacade implements IHistorySubject {
         LOGGER.debug("Loading " + qualifiedClassName);
 
         try {
-            // TODO: test and make sure this doesn't break anything
             Class<?> c = Class.forName(qualifiedClassName);
             Constructor<?> cons = c.getConstructor();
             Puzzle puzzle = (Puzzle) cons.newInstance();
@@ -186,12 +185,10 @@ public class GameBoardFacade implements IHistorySubject {
     }
 
     public void loadPuzzle(String game, String[] statements) {
-        // TODO: Make sure this method isn't broken
         String qualifiedClassName = config.getPuzzleClassForName(game);
         LOGGER.debug("Loading " + qualifiedClassName);
 
         try {
-            // TODO: test and make sure this doesn't break anything
             Class<?> c = Class.forName(qualifiedClassName);
             Constructor<?> cons = c.getConstructor();
             Puzzle puzzle = (Puzzle) cons.newInstance();
@@ -214,7 +211,6 @@ public class GameBoardFacade implements IHistorySubject {
             puzzle.initializeView();
 //            puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
             setPuzzleEditor(puzzle);
-            System.out.println("Puzzle editor set!");
         }
         catch (IllegalArgumentException exception) {
             throw new IllegalArgumentException(exception.getMessage());

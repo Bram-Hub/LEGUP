@@ -48,7 +48,9 @@ public abstract class PuzzleImporter {
     }
 
     public void initializePuzzle(String[] statements) throws InputMismatchException, InvalidFormatException {
-        // TODO: implement this
+        // Note: Error checking for the statements will be left up to the puzzles that support
+        // text input. For example, some puzzles may be okay with "blank" statements (Strings with
+        // length = 0) while others may not.
         initializeBoard(statements);
     }
 

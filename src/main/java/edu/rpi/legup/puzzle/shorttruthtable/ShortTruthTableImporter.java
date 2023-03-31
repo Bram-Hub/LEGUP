@@ -11,6 +11,7 @@ import org.w3c.dom.NamedNodeMap;
 import java.awt.*;
 
 import java.util.InputMismatchException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -317,8 +318,12 @@ class ShortTruthTableImporter extends PuzzleImporter {
         }
     }
 
-    public void initializeBoard(String[] statementData) throws InputMismatchException, InvalidFormatException {
-        // TODO: finish this method, check exception handling
+    public void initializeBoard(String[] statementInput) throws InputMismatchException, InvalidFormatException {
+        List<String> statementsList = new LinkedList<>();
+        for (String s : statementInput)
+            if (s.strip().length() != 0)
+                statementsList.add(s);
+        String[] statementData = statementsList.toArray(new String[statementsList.size()]);
 
         if (statementData.length == 0) {
             throw new InvalidFormatException("short truth table Importer: no statements found for board");
