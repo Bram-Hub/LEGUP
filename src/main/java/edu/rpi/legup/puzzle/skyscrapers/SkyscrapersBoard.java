@@ -51,28 +51,28 @@ public class SkyscrapersBoard extends GridBoard {
     }
 
     /**
-    * Returns a list of the eastern clues ordered from loc.y = 0->max
+    * Returns a list of the eastern clues ordered from loc.y = 0 to max
     */
     public ArrayList<SkyscrapersClue> getEastClues() {
         return eastClues;
     }
 
     /**
-     * Returns a list of the southern clues ordered from loc.x = 0->max
+     * Returns a list of the southern clues ordered from loc.x = 0 to max
      */
     public ArrayList<SkyscrapersClue> getSouthClues() {
         return southClues;
     }
 
     /**
-     * Returns a list of the western clues ordered from loc.y = 0->max
+     * Returns a list of the western clues ordered from loc.y = 0 to max
      */
     public ArrayList<SkyscrapersClue> getWestClues() {
         return westClues;
     }
 
     /**
-     * Returns a list of the northern clues ordered from loc.x = 0->max
+     * Returns a list of the northern clues ordered from loc.x = 0 to max
      */
     public ArrayList<SkyscrapersClue> getNorthClues() {
         return northClues;
