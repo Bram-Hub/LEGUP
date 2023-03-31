@@ -1,24 +1,22 @@
 package edu.rpi.legup.app;
 
-import com.sun.media.sound.InvalidFormatException;
+import edu.rpi.legup.history.History;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.history.IHistorySubject;
+import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.tree.Tree;
+import edu.rpi.legup.save.InvalidFileFormatException;
+import edu.rpi.legup.ui.LegupUI;
 import edu.rpi.legup.ui.ProofEditorPanel;
 import edu.rpi.legup.ui.PuzzleEditorPanel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-import edu.rpi.legup.save.InvalidFileFormatException;
-import edu.rpi.legup.ui.LegupUI;
-import edu.rpi.legup.history.History;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -216,7 +214,7 @@ public class GameBoardFacade implements IHistorySubject {
             throw new IllegalArgumentException(exception.getMessage());
         }
         catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
-               IllegalAccessException | InstantiationException | InvalidFormatException e) {
+               IllegalAccessException | InstantiationException e) {
             LOGGER.error(e);
             throw new RuntimeException("Puzzle creation error");
         }

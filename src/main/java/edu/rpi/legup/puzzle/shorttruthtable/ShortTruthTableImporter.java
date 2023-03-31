@@ -1,21 +1,18 @@
 package edu.rpi.legup.puzzle.shorttruthtable;
 
-import com.sun.media.sound.InvalidFormatException;
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.NamedNodeMap;
 
+import javax.swing.*;
 import java.awt.*;
-
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ArrayList;
-
-import javax.swing.*;
 
 class ShortTruthTableImporter extends PuzzleImporter {
 
@@ -95,13 +92,13 @@ class ShortTruthTableImporter extends PuzzleImporter {
 
     private int parseAllStatementsAndCells(String[] statementData,
                                            List<List<ShortTruthTableCell>> allCells,
-                                           List<ShortTruthTableStatement> statements) throws InvalidFormatException {
+                                           List<ShortTruthTableStatement> statements) throws IllegalArgumentException {
         int maxStatementLength = 0;
 
         for (int i = 0; i < statementData.length; i++) {
             if (!validGrammar(statementData[i])) {
                 JOptionPane.showMessageDialog(null, "ERROR: Invalid file syntax");
-                throw new InvalidFormatException("shorttruthtable importer: invalid sentence syntax");
+                throw new IllegalArgumentException("shorttruthtable importer: invalid sentence syntax");
             }
 
             //get the cells for the statement
@@ -318,7 +315,7 @@ class ShortTruthTableImporter extends PuzzleImporter {
         }
     }
 
-    public void initializeBoard(String[] statementInput) throws InputMismatchException, InvalidFormatException {
+    public void initializeBoard(String[] statementInput) throws InputMismatchException, IllegalArgumentException {
         List<String> statementsList = new LinkedList<>();
         for (String s : statementInput)
             if (s.strip().length() != 0)
@@ -326,7 +323,7 @@ class ShortTruthTableImporter extends PuzzleImporter {
         String[] statementData = statementsList.toArray(new String[statementsList.size()]);
 
         if (statementData.length == 0) {
-            throw new InvalidFormatException("short truth table Importer: no statements found for board");
+            throw new IllegalArgumentException("short truth table Importer: no statements found for board");
         }
 
         // Store all cells and statements
