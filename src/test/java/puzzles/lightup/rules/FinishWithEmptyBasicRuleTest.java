@@ -45,7 +45,7 @@ public class FinishWithEmptyBasicRuleTest {
         //confirm there is a logical following of the FinishWithBulbs rule
         Assert.assertNull(RULE.checkRule(transition));
 
-        //only the three cells listed above should change following the rule
+        //only the cell listed above should change following the rule
         LightUpCell c;
         for (int i = 0; i < board.getHeight(); i++) {
             for (int j = 0; j < board.getWidth(); j++) {

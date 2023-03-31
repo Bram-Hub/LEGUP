@@ -14,6 +14,6 @@ public class SatisfyNumberCaseRuleTest {
 
     @Test
     public void simpleCaseTest() {
-
+        //branching
     }
 }

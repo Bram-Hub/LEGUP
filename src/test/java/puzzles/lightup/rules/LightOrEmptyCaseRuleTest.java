@@ -14,6 +14,6 @@ public class LightOrEmptyCaseRuleTest {
 
     @Test
     public void simpleCaseTest() {
-
+        //branching
     }
 }

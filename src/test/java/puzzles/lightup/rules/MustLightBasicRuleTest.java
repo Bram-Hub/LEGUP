@@ -3,17 +3,62 @@ package puzzles.lightup.rules;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import edu.rpi.legup.puzzle.lightup.LightUp;
+import edu.rpi.legup.puzzle.lightup.rules.MustLightBasicRule;
+import edu.rpi.legup.model.PuzzleImporter;
+import legup.MockGameBoardFacade;
+import edu.rpi.legup.save.InvalidFileFormatException;
+import legup.TestUtilities;
+import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.puzzle.lightup.LightUpBoard;
+import edu.rpi.legup.puzzle.lightup.LightUpCell;
+import edu.rpi.legup.puzzle.lightup.LightUpCellType;
+import org.junit.Assert;
 
 public class MustLightBasicRuleTest {
+    private static final MustLightBasicRule RULE = new MustLightBasicRule();
     private static LightUp lightUp;
+    private static PuzzleImporter importer;
 
     @BeforeClass
     public static void setUp() {
+        MockGameBoardFacade.getInstance();
         lightUp = new LightUp();
+        importer = lightUp.getImporter();
     }
 
     @Test
-    public void simpleCaseTest() {
+    public void MustLightTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/lightup/rules/MustLightBasicRule/MustLight", lightUp);
+        TreeNode rootNode = lightUp.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE); 
+        
+        //get board state 
+        LightUpBoard board = (LightUpBoard) transition.getBoard();
 
+        //change the board's cells considering the MustLight rule
+        LightUpCell cell1 = board.getCell(1,2);
+        cell1.setData(LightUpCellType.BULB.value);
+        board.addModifiedData(cell1);
+
+        //confirm there is a logical following of the FinishWithBulbs rule
+        Assert.assertNull(RULE.checkRule(transition));
+
+        //only the cell above should change following the rule
+        LightUpCell c;
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int j = 0; j < board.getWidth(); j++) {
+                c = board.getCell(j, i);
+                if (i == 2 && j == 1){
+                    //logically follows
+                    Assert.assertNull(RULE.checkRuleAt(transition, c));
+                }
+                else {
+                    //does not use the rule to logically follow
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, c));
+                }
+            }
+        }
     }
 }
