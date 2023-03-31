@@ -301,7 +301,7 @@ public class DropShadowBorder extends AbstractBorder implements Border {
     }
 
     /**
-     * 
+     *
      */
     public boolean isBorderOpaque() {
         return true;
