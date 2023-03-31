@@ -26,8 +26,7 @@ public abstract class PuzzleImporter {
     public PuzzleImporter(Puzzle puzzle) {
         this.puzzle = puzzle;
     }
-
-    // TODO: add these methods to all importers
+    
     public abstract boolean acceptsRowsAndColumnsInput();
 
     public abstract boolean acceptsTextInput();
