@@ -49,7 +49,7 @@ public class NoNumbersContradictionRuleTest {
         }
     }
 
-//    Checks if a transition produces a room without a number.
+    //    Checks if a transition produces a room without a number.
     @Test
     public void NoNumberContradictionRule_NoNumberReachable() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/NoNumberContradictionRule/NoNumberReachable", nurikabe);

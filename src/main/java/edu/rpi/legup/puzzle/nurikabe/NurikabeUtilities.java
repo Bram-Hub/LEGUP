@@ -173,25 +173,25 @@ public class NurikabeUtilities {
      * @param board nurikabe board
      * @return a map of cell keys to integer values
      */
-    public static HashMap<NurikabeCell,Integer> getWhiteRegionMap(NurikabeBoard board) {
+    public static HashMap<NurikabeCell, Integer> getWhiteRegionMap(NurikabeBoard board) {
         int width = board.getWidth();
         int height = board.getHeight();
 
         Set<NurikabeCell> numberedCells = getNurikabeNumberedCells(board);
         // Final mapping of cell to size
-        HashMap<NurikabeCell,Integer> whiteRegionMap = new HashMap<>();
-        for (NurikabeCell center: numberedCells) {
+        HashMap<NurikabeCell, Integer> whiteRegionMap = new HashMap<>();
+        for (NurikabeCell center : numberedCells) {
             //BFS for each center to find the size of the region
             int size = 1;
             // Mark all the vertices as not visited(By default
             // set as false)
-            HashMap<NurikabeCell,Boolean> visited= new HashMap<>();
+            HashMap<NurikabeCell, Boolean> visited = new HashMap<>();
 
             // Create a queue for BFS
             LinkedList<NurikabeCell> queue = new LinkedList<>();
 
             // Mark the current node as visited and enqueue it
-            visited.put(center,true);
+            visited.put(center, true);
             queue.add(center);
 
             // Set of cells in the current region
@@ -201,7 +201,7 @@ public class NurikabeUtilities {
                 // Dequeue a vertex from queue and print it
                 // s is the source node in the graph
                 NurikabeCell s = queue.poll();
-                System.out.print(s+" ");
+                System.out.print(s + " ");
 
                 // Make a linked list of all adjacent squares
                 Set<NurikabeCell> adj = new HashSet<>();
@@ -209,34 +209,34 @@ public class NurikabeUtilities {
                 Point loc = s.getLocation();
                 // First check if the side is on the board
                 if (loc.x >= 1) {
-                    adj.add(board.getCell(loc.x-1, loc.y));
+                    adj.add(board.getCell(loc.x - 1, loc.y));
                 }
-                if (loc.x < width-1) {
-                    adj.add(board.getCell(loc.x+1, loc.y));
+                if (loc.x < width - 1) {
+                    adj.add(board.getCell(loc.x + 1, loc.y));
                 }
                 if (loc.y >= 1) {
-                    adj.add(board.getCell(loc.x, loc.y-1));
+                    adj.add(board.getCell(loc.x, loc.y - 1));
                 }
-                if (loc.y < height-1) {
-                    adj.add(board.getCell(loc.x, loc.y+1));
+                if (loc.y < height - 1) {
+                    adj.add(board.getCell(loc.x, loc.y + 1));
                 }
                 // Get all adjacent vertices of the dequeued vertex s
                 // If a adjacent has not been visited, then mark it
                 // visited and enqueue it
                 for (NurikabeCell n : adj) {
-                    if (!visited.getOrDefault(n,false)
+                    if (!visited.getOrDefault(n, false)
                             && n.getType() == NurikabeType.WHITE) {
                         connected.add(n);
-                        visited.put(n,true);
+                        visited.put(n, true);
                         queue.add(n);
                         ++size;
                     }
                 }
             }
             // Map the cells to the center-size (including the center)
-            whiteRegionMap.put(center,center.getData()-size);
+            whiteRegionMap.put(center, center.getData() - size);
             for (NurikabeCell member : connected) {
-                whiteRegionMap.put(member,center.getData()-size);
+                whiteRegionMap.put(member, center.getData() - size);
             }
         }
         return whiteRegionMap;

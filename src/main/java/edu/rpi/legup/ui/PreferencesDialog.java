@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.FlatDarkLaf;
 
@@ -22,7 +23,7 @@ public class PreferencesDialog extends JDialog {
     private final static Logger LOGGER = Logger.getLogger(PreferencesDialog.class.getName());
 
     private JCheckBox fullScreen, autoUpdate, darkMode, showMistakes, showAnnotations, allowDefault, generateCases, immFeedback, colorBlind;
-    
+
     private JTextField workDirectory;
 
     private static Image folderIcon;
@@ -82,7 +83,7 @@ public class PreferencesDialog extends JDialog {
 
     private void toggleDarkMode(LegupPreferences prefs) {
         try {
-            if(Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
+            if (Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
                 UIManager.setLookAndFeel(new FlatDarkLaf());
             }
             else {

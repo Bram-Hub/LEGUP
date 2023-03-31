@@ -173,6 +173,7 @@ public class RuleFrame extends JPanel {
     public ContradictionRulePanel getContradictionPanel() {
         return contradictionPanel;
     }
+
     public SearchBarPanel getSearchPanel() {
         return searchPanel;
     }

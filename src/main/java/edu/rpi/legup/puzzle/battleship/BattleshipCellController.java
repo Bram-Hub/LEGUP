@@ -7,10 +7,11 @@ import java.awt.event.MouseEvent;
 
 public class BattleshipCellController extends ElementController {
     /**
-     * Controller class for the Battleship puzzle - 
+     * Controller class for the Battleship puzzle -
      * receives user mouse input and changes what's shown on the GUI
+     *
      * @param data the PuzzleElement to be changed
-     * @param e the user mouse input
+     * @param e    the user mouse input
      */
     @Override
     public void changeCell(MouseEvent e, PuzzleElement data) {

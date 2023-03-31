@@ -60,16 +60,16 @@ public class NumberForCellCaseRule extends CaseRule {
 
             //if flags
             boolean passed = true;
-            if(skyscrapersboard.getDupeFlag()){
+            if (skyscrapersboard.getDupeFlag()) {
                 DuplicateNumberContradictionRule DupeRule = new DuplicateNumberContradictionRule();
-                passed = passed && DupeRule.checkContradictionAt(newCase,newCell)!=null;
+                passed = passed && DupeRule.checkContradictionAt(newCase, newCell) != null;
             }
-            if(skyscrapersboard.getViewFlag()){
+            if (skyscrapersboard.getViewFlag()) {
                 PreemptiveVisibilityContradictionRule ViewRule = new PreemptiveVisibilityContradictionRule();
-                passed = passed && ViewRule.checkContradictionAt(newCase,newCell)!=null;
+                passed = passed && ViewRule.checkContradictionAt(newCase, newCell) != null;
             }
             //how should unresolved be handled? should it be?
-            if(passed){
+            if (passed) {
                 cases.add(newCase);
             }
         }
@@ -90,8 +90,10 @@ public class NumberForCellCaseRule extends CaseRule {
             //System.out.println("0");
             return "This case rule must have at least one child.";
         }
-        else if (childTransitions.size() != getCases(transition.getBoard(), childTransitions.get(0).getBoard().getModifiedData().iterator().next()).size()){
-            return "Wrong number of children.";
+        else {
+            if (childTransitions.size() != getCases(transition.getBoard(), childTransitions.get(0).getBoard().getModifiedData().iterator().next()).size()) {
+                return "Wrong number of children.";
+            }
         }
 
 
