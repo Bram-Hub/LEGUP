@@ -15,6 +15,10 @@ public class NurikabeBoard extends GridBoard {
 
     @Override
     public NurikabeCell getCell(int x, int y) {
+        if (y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
+                y >= dimension.height || x < 0 || y < 0) {
+            return null;
+        }
         return (NurikabeCell) super.getCell(x, y);
     }
 
