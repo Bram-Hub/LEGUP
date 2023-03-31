@@ -152,21 +152,23 @@ public class GameBoardFacade implements IHistorySubject {
 
         try {
             // TODO: test and make sure this doesn't break anything
-            PuzzleImporter importer = puzzle.getImporter();
-            if (!importer.acceptsRowsAndColumnsInput()) {
-                throw new IllegalArgumentException(puzzle.getName() + " does not accept rows and columns input");
-            }
-
             Class<?> c = Class.forName(qualifiedClassName);
             Constructor<?> cons = c.getConstructor();
             Puzzle puzzle = (Puzzle) cons.newInstance();
-            setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
 
+            PuzzleImporter importer = puzzle.getImporter();
             if (importer == null) {
                 LOGGER.error("Puzzle importer is null");
                 throw new RuntimeException("Puzzle importer null");
             }
 
+            // Theoretically, this exception should never be thrown, since LEGUP should not be
+            // allowing the user to give row/column input for a puzzle that doesn't support it
+            if (!importer.acceptsRowsAndColumnsInput()) {
+                throw new IllegalArgumentException(puzzle.getName() + " does not accept rows and columns input");
+            }
+
+            setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
             importer.initializePuzzle(rows, columns);
 
             puzzle.initializeView();
@@ -190,26 +192,29 @@ public class GameBoardFacade implements IHistorySubject {
 
         try {
             // TODO: test and make sure this doesn't break anything
-            PuzzleImporter importer = puzzle.getImporter();
-            if (!importer.acceptsTextInput()) {
-                throw new IllegalArgumentException(puzzle.getName() + " does not accept rows and columns input");
-            }
-
             Class<?> c = Class.forName(qualifiedClassName);
             Constructor<?> cons = c.getConstructor();
             Puzzle puzzle = (Puzzle) cons.newInstance();
-            setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
 
+            PuzzleImporter importer = puzzle.getImporter();
             if (importer == null) {
                 LOGGER.error("Puzzle importer is null");
                 throw new RuntimeException("Puzzle importer null");
             }
 
+            // Theoretically, this exception should never be thrown, since LEGUP should not be
+            // allowing the user to give text input for a puzzle that doesn't support it
+            if (!importer.acceptsTextInput()) {
+                throw new IllegalArgumentException(puzzle.getName() + " does not accept text input");
+            }
+
+            setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
             importer.initializePuzzle(statements);
 
             puzzle.initializeView();
 //            puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
             setPuzzleEditor(puzzle);
+            System.out.println("Puzzle editor set!");
         }
         catch (IllegalArgumentException exception) {
             throw new IllegalArgumentException(exception.getMessage());
