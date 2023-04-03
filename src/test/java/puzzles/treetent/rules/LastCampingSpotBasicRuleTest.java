@@ -6,7 +6,7 @@ import edu.rpi.legup.puzzle.treetent.TreeTent;
 import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
-import edu.rpi.legup.puzzle.treetent.rules.LastCampingSpotBasicRule;
+import edu.rpi.legup.puzzle.treetent.rules.LastCampingSpotDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
@@ -18,7 +18,7 @@ import java.awt.*;
 
 public class LastCampingSpotBasicRuleTest {
 
-    private static final LastCampingSpotBasicRule RULE = new LastCampingSpotBasicRule();
+    private static final LastCampingSpotDirectRule RULE = new LastCampingSpotDirectRule();
     private static TreeTent treetent;
 
     @BeforeClass
@@ -37,7 +37,7 @@ public class LastCampingSpotBasicRuleTest {
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
 
         TreeTentCell cell1 = board.getCell(1, 0);
-        cell1.setData(TreeTentType.TENT.value);
+        cell1.setData(TreeTentType.TENT);
 
         board.addModifiedData(cell1);
 

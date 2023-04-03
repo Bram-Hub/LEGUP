@@ -6,7 +6,7 @@ import edu.rpi.legup.puzzle.treetent.TreeTent;
 import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
-import edu.rpi.legup.puzzle.treetent.rules.TentForTreeBasicRule;
+import edu.rpi.legup.puzzle.treetent.rules.TentForTreeDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;

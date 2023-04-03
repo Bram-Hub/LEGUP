@@ -6,7 +6,7 @@ import edu.rpi.legup.puzzle.treetent.TreeTent;
 import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
-import edu.rpi.legup.puzzle.treetent.rules.FinishWithGrassBasicRule;
+import edu.rpi.legup.puzzle.treetent.rules.FinishWithGrassDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
@@ -18,7 +18,7 @@ import java.awt.*;
 
 public class FinishWithGrassBasicRuleTest {
 
-    private static final FinishWithGrassBasicRule RULE = new FinishWithGrassBasicRule();
+    private static final FinishWithGrassDirectRule RULE = new FinishWithGrassDirectRule();
     private static TreeTent treetent;
 
     @BeforeClass
@@ -37,9 +37,9 @@ public class FinishWithGrassBasicRuleTest {
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
 
         TreeTentCell cell1 = board.getCell(1, 0);
-        cell1.setData(TreeTentType.GRASS.value);
+        cell1.setData(TreeTentType.GRASS);
         TreeTentCell cell2 = board.getCell(2, 0);
-        cell2.setData(TreeTentType.GRASS.value);
+        cell2.setData(TreeTentType.GRASS);
 
         board.addModifiedData(cell1);
         board.addModifiedData(cell2);
