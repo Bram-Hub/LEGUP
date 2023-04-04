@@ -160,7 +160,7 @@ public class SkyscrapersBoard extends GridBoard {
      * Gets the cells of a certain type directly adjacent to a given cell
      *
      * @param cell at the center,
-     *        type of cell to collect
+     * @param type of cell to collect
      * @return list of cells of the given type
      */
     public List<SkyscrapersCell> getAdjacent(SkyscrapersCell cell, SkyscrapersType type) {
