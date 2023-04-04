@@ -51,7 +51,7 @@ public class SkyscrapersBoard extends GridBoard {
     }
 
     /**
-    * Returns a list of the eastern clues ordered from loc.y = 0->max
+    * @return eastClues Returns a list of the eastern clues ordered from loc.y = 0 to max
     */
     public ArrayList<SkyscrapersClue> getEastClues() {
         return eastClues;
