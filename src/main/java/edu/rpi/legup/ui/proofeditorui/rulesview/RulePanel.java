@@ -6,9 +6,7 @@ import edu.rpi.legup.ui.WrapLayout;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -209,11 +207,19 @@ public abstract class RulePanel extends JPanel {
     public void setSearchBar(Puzzle allPuzzle){
 
         searchBarPanel = new JPanel(new FlowLayout(SwingConstants.LEADING, 6, 6));
+        // TODO: VERIFY BELOW LINE
+        textField=new JTextField();
+        ruleFrame.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent componentEvent) {
+                Component c= componentEvent.getComponent();
+                textField.setColumns((8+(c.getWidth()-250)/10)-1);
+            }
+        });
+
         add(searchBarPanel);
         JLabel findLabel = new JLabel("Search:");
         searchBarPanel.add(findLabel);
         searchBarPanel.add(Box.createRigidArea(new Dimension(1, 0)));
-        textField = new JTextField(8);
         searchBarPanel.add(textField);
         searchBarPanel.add(Box.createRigidArea(new Dimension(1, 0)));
         JButton findButton = new JButton("Go");
