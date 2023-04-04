@@ -248,7 +248,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     /**
      * Imports the board using the file stream
      *
-     * @param fileName
+     * @param fileName the file that is imported
      * @throws IOException
      * @throws ParserConfigurationException
      * @throws SAXException
