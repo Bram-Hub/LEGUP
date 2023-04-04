@@ -35,7 +35,7 @@ public abstract class PuzzleExporter {
      * Exports the puzzle to an xml formatted file
      *
      * @param fileName name of file to be exported
-     * @throws ExportFileException
+     * @throws ExportFileException if puzzle can not be exported
      */
     public void exportPuzzle(String fileName) throws ExportFileException {
         try {
