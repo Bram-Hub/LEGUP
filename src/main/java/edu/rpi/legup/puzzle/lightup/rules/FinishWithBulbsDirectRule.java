@@ -59,7 +59,7 @@ public class FinishWithBulbsDirectRule extends DirectRule {
      * Determines whether the specified cell is forced to be a bulb or not
      *
      * @param board the entire board
-     * @param cell specified cell
+     * @param cell  specified cell
      * @return whether cell is forced to be a bulb or not
      */
     private boolean isForced(LightUpBoard board, LightUpCell cell) {
