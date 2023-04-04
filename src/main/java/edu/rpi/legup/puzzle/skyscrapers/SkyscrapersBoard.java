@@ -65,7 +65,7 @@ public class SkyscrapersBoard extends GridBoard {
     }
 
     /**
-     * Returns a list of the western clues ordered from loc.y = 0->max
+     * @return westClues Returns a list of the western clues ordered from loc.y = 0 to max
      */
     public ArrayList<SkyscrapersClue> getWestClues() {
         return westClues;
