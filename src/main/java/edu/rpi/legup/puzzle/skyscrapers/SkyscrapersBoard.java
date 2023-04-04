@@ -218,8 +218,8 @@ public class SkyscrapersBoard extends GridBoard {
      * Gets the cells of a certain type in a given row/column
      *
      * @param index: y pos of row or x pos of col,
-     *        type of cell to collect,
-     *        boolean true if row, false if col
+     * @param type of cell to collect,
+     * @param isRow true if row, false if col
      * @return list of cells of the given type, ordered west to east or north to south
      */
     public List<SkyscrapersCell> getRowCol(int index, SkyscrapersType type, boolean isRow) {
