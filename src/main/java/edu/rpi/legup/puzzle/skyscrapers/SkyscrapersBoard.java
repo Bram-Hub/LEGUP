@@ -58,7 +58,7 @@ public class SkyscrapersBoard extends GridBoard {
     }
 
     /**
-     * Returns a list of the southern clues ordered from loc.x = 0->max
+     * @return southClues Returns a list of the southern clues ordered from loc.x = 0 to max
      */
     public ArrayList<SkyscrapersClue> getSouthClues() {
         return southClues;
