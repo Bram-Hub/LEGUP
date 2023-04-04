@@ -1,6 +1,7 @@
 package edu.rpi.legup.puzzle.shorttruthtable;
 
 import edu.rpi.legup.ui.boardview.GridElementView;
+import edu.rpi.legup.app.LegupPreferences;
 
 import java.awt.*;
 
@@ -11,8 +12,11 @@ public class ShortTruthTableElementView extends GridElementView {
     private static final Color FONT_COLOR = Color.BLACK;
 
     //Square Colors
-    private static final Color TRUE_COLOR = new Color(0, 130, 0);
-    private static final Color FALSE_COLOR = new Color(200, 0, 0);
+    private static final Color TRUE_COLOR = new Color(0, 130, 0);//green
+    private static final Color TRUE_COLOR_COLORBLIND = new Color(0, 0, 255);
+    private static final Color FALSE_COLOR = new Color(200, 0, 0);//red
+
+    private static final Color FALSE_COLOR_COLORBLIND = new Color(255, 0, 0);
     private static final Color UNKNOWN_COLOR = Color.WHITE;
 
     public ShortTruthTableElementView(ShortTruthTableCell cell) {
@@ -42,11 +46,20 @@ public class ShortTruthTableElementView extends GridElementView {
 
         //fill in background color of the cell
         graphics2D.setStroke(new BasicStroke(1));
+        LegupPreferences prefs = LegupPreferences.getInstance();
         switch (type) {
             case TRUE:
+                if (prefs.getUserPref(LegupPreferences.COLOR_BLIND).equals("true")) {
+                    graphics2D.setColor(TRUE_COLOR_COLORBLIND);
+                    break;
+                }
                 graphics2D.setColor(TRUE_COLOR);
                 break;
             case FALSE:
+                if (prefs.getUserPref(LegupPreferences.COLOR_BLIND).equals("true")) {
+                    graphics2D.setColor(FALSE_COLOR_COLORBLIND);
+                    break;
+                }
                 graphics2D.setColor(FALSE_COLOR);
                 break;
             default:

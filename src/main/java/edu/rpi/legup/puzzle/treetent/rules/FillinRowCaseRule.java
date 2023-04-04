@@ -24,6 +24,7 @@ public class FillinRowCaseRule extends CaseRule {
 
     /**
      * Gets the case board that indicates where this case rule can be applied on the given Board.
+     *
      * @param board the given board
      * @return the case board object
      */
