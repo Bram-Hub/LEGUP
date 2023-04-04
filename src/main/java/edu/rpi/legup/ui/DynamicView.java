@@ -99,6 +99,8 @@ public class DynamicView extends JPanel {
 
             // Create and add the resize button to the zoomer
             JButton resizeButton = new JButton(label);
+            resizeButton.setFocusPainted(false);
+            resizeButton.setFocusPainted(false);
             resizeButton.setEnabled(true);
             resizeButton.setSize(100, 50);
             resizeButton.addActionListener(listener);
@@ -112,6 +114,7 @@ public class DynamicView extends JPanel {
             JButton plus = new JButton(new ImageIcon(ImageIO.read(
                     Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(
                             "edu/rpi/legup/imgs/add.png")))));
+            plus.setFocusPainted(false);
             plus.setFont(MaterialFonts.getRegularFont(10f));
             plus.setPreferredSize(new Dimension(20, 20));
             plus.addActionListener((ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() + 25));
@@ -120,6 +123,7 @@ public class DynamicView extends JPanel {
             JButton minus = new JButton(new ImageIcon(ImageIO.read(
                     Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(
                             "edu/rpi/legup/imgs/remove.png")))));
+            minus.setFocusPainted(false);
             minus.setPreferredSize(new Dimension(20, 20));
             minus.setFont(MaterialFonts.getRegularFont(10f));
             minus.addActionListener((ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() - 25));
@@ -199,7 +203,6 @@ public class DynamicView extends JPanel {
     }
 
     public void reset() {
-        // System.out.println("get into the reset");
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         Board board1 = GameBoardFacade.getInstance().getBoard();
         board1.setModifiable(true);

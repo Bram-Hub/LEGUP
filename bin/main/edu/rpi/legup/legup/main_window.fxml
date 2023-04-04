@@ -52,7 +52,7 @@
     <left>
         <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
             <tabs>
-                <Tab text="Basic Rules">
+                <Tab text="Direct Rules">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="186.0" prefWidth="169.0"/>
                     </content>

@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +58,7 @@ public abstract class RulePanel extends JPanel {
             Rule rule = rules.get(i);
 
             ruleButtons[i] = new RuleButton(rule);
-            ruleButtons[i].setPreferredSize(new Dimension(150,150));// adjust the size of each RuleButton
+            ruleButtons[i].setPreferredSize(new Dimension(150, 150));// adjust the size of each RuleButton
             ruleButtons[i].setHorizontalTextPosition(JButton.CENTER);
             ruleButtons[i].setVerticalTextPosition(JButton.BOTTOM);
 
@@ -75,17 +76,17 @@ public abstract class RulePanel extends JPanel {
      * Search a certain rule in all the puzzles and set it for the searchBarPanel
      *
      * @param puzzle, ruleName
-     *
-     * This function is the searching algorithm for "public void setSearchBar(Puzzle allPuzzle)" (below)
-     *
-     * It takes two param Puzzle puzzle and String ruleName
-     * puzzle contains rules, this function will compare each rule of puzzle with ruleName,
-     * to find exact same, similar rules, or all the rules with same start letter (if input is a signal letter)
+     *                <p>
+     *                This function is the searching algorithm for "public void setSearchBar(Puzzle allPuzzle)" (below)
+     *                <p>
+     *                It takes two param Puzzle puzzle and String ruleName
+     *                puzzle contains rules, this function will compare each rule of puzzle with ruleName,
+     *                to find exact same, similar rules, or all the rules with same start letter (if input is a signal letter)
      */
     public void searchForRule(Puzzle puzzle, String ruleName) {
 
         List<List<? extends Rule>> allrules = new ArrayList<List<? extends Rule>>(3);
-        allrules.add(0, puzzle.getBasicRules());
+        allrules.add(0, puzzle.getDirectRules());
         allrules.add(1, puzzle.getCaseRules());
         allrules.add(2, puzzle.getContradictionRules());
 
@@ -93,13 +94,17 @@ public abstract class RulePanel extends JPanel {
         int similarfound = 0;
 
 
-        for(int i = 0; i < allrules.size(); i++) {
+        for (int i = 0; i < allrules.size(); i++) {
             for (int j = 0; j < allrules.get(i).size(); j++) {
                 Rule rule = allrules.get(i).get(j);
                 if ((ruleName).equals(rule.getRuleName().toUpperCase())) {
 
                     ruleButtons[0] = new RuleButton(rule);
                     ruleFrame.getButtonGroup().add(ruleButtons[0]);
+
+                    ruleButtons[0].setPreferredSize(new Dimension(150, 150));// adjust the size of each RuleButton
+                    ruleButtons[0].setHorizontalTextPosition(JButton.CENTER);
+                    ruleButtons[0].setVerticalTextPosition(JButton.BOTTOM);
 
                     ruleButtons[0].setToolTipText(rule.getRuleName() + ": " + rule.getDescription());
                     ruleButtons[0].addActionListener(ruleFrame.getController());
@@ -108,30 +113,42 @@ public abstract class RulePanel extends JPanel {
                     return;
 
                 }
-                else if(similarityCheck(ruleName, rule.getRuleName().toUpperCase())>0.2){
-                    ruleButtons[similarfound] = new RuleButton(rule);
-                    ruleFrame.getButtonGroup().add(ruleButtons[similarfound]);
+                else {
+                    if (similarityCheck(ruleName, rule.getRuleName().toUpperCase()) > 0.2) {
+                        ruleButtons[similarfound] = new RuleButton(rule);
+                        ruleFrame.getButtonGroup().add(ruleButtons[similarfound]);
 
-                    ruleButtons[similarfound].setToolTipText(rule.getRuleName() + ": " + rule.getDescription());
-                    ruleButtons[similarfound].addActionListener(ruleFrame.getController());
-                    add(ruleButtons[similarfound]);
-                    similarfound+=1;
-                    revalidate();
-                }
-                else if((ruleName.charAt(0)) == (rule.getRuleName().toUpperCase()).charAt(0)){
-                    ruleButtons[similarfound] = new RuleButton(rule);
-                    ruleFrame.getButtonGroup().add(ruleButtons[similarfound]);
+                        ruleButtons[similarfound].setPreferredSize(new Dimension(150, 150));// adjust the size of each RuleButton
+                        ruleButtons[similarfound].setHorizontalTextPosition(JButton.CENTER);
+                        ruleButtons[similarfound].setVerticalTextPosition(JButton.BOTTOM);
 
-                    ruleButtons[similarfound].setToolTipText(rule.getRuleName() + ": " + rule.getDescription());
-                    ruleButtons[similarfound].addActionListener(ruleFrame.getController());
-                    add(ruleButtons[similarfound]);
-                    similarfound+=1;
-                    revalidate();
+                        ruleButtons[similarfound].setToolTipText(rule.getRuleName() + ": " + rule.getDescription());
+                        ruleButtons[similarfound].addActionListener(ruleFrame.getController());
+                        add(ruleButtons[similarfound]);
+                        similarfound += 1;
+                        revalidate();
+                    }
+                    else {
+                        if ((ruleName.charAt(0)) == (rule.getRuleName().toUpperCase()).charAt(0)) {
+                            ruleButtons[similarfound] = new RuleButton(rule);
+                            ruleFrame.getButtonGroup().add(ruleButtons[similarfound]);
+
+                            ruleButtons[similarfound].setPreferredSize(new Dimension(150, 150));// adjust the size of each RuleButton
+                            ruleButtons[similarfound].setHorizontalTextPosition(JButton.CENTER);
+                            ruleButtons[similarfound].setVerticalTextPosition(JButton.BOTTOM);
+
+                            ruleButtons[similarfound].setToolTipText(rule.getRuleName() + ": " + rule.getDescription());
+                            ruleButtons[similarfound].addActionListener(ruleFrame.getController());
+                            add(ruleButtons[similarfound]);
+                            similarfound += 1;
+                            revalidate();
+                        }
+                    }
                 }
             }
         }
 
-        if(ruleButtons[0] == null) {
+        if (ruleButtons[0] == null) {
             JOptionPane.showMessageDialog(null, "Please input the correct rule name", "Confirm", JOptionPane.INFORMATION_MESSAGE);
         }
     }
@@ -140,14 +157,15 @@ public abstract class RulePanel extends JPanel {
      * Calculates the similarity (a number within 0 and 1) between two strings.
      * This funtion will take two para String s1 and String s2, which s1 is the user's input
      * and s2 is the compared really rule name
-     *
+     * <p>
      * similarityCheck will use a helper function to calculate a similarity degree(from 0 to 1).
      * closer to 0 means less similar, and closer to 1 means more similar.
      */
     public static double similarityCheck(String s1, String s2) {
         String longer = s1, shorter = s2;
         if (s1.length() < s2.length()) { // longer should always have greater length
-            longer = s2; shorter = s1;
+            longer = s2;
+            shorter = s1;
         }
         int longerLength = longer.length();
         if (longerLength == 0) {
@@ -155,6 +173,7 @@ public abstract class RulePanel extends JPanel {
         }
         return (longerLength - editDistance(longer, shorter)) / (double) longerLength;
     }
+
     /**
      * Help function for similarityCheck();
      */
@@ -193,7 +212,7 @@ public abstract class RulePanel extends JPanel {
      * once a name is entered and click ok will load (a/several) rule icon,
      * which has all the functions just as other rule icons.
      */
-    public void setSearchBar(Puzzle allPuzzle){
+    public void setSearchBar(Puzzle allPuzzle) {
 
         searchBarPanel = new JPanel(new FlowLayout(SwingConstants.LEADING, 6, 6));
         add(searchBarPanel);
@@ -204,12 +223,12 @@ public abstract class RulePanel extends JPanel {
         searchBarPanel.add(textField);
         searchBarPanel.add(Box.createRigidArea(new Dimension(1, 0)));
         JButton findButton = new JButton("Go");
-        findButton.addActionListener(new ActionListener() {
+        ActionListener action = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
                 if (ruleButtons != null) {
-                    for(int i = 0; i != ruleButtons.length; i++) {
-                        if(ruleButtons[i]==null){
+                    for (int i = 0; i != ruleButtons.length; i++) {
+                        if (ruleButtons[i] == null) {
                             continue;
                         }
                         ruleButtons[i].removeActionListener(ruleFrame.getController());
@@ -221,7 +240,7 @@ public abstract class RulePanel extends JPanel {
                     if (ruleButtons != null) {
 
                         for (int x = 0; x < ruleButtons.length; ++x) {
-                            if(ruleButtons[x]==null){
+                            if (ruleButtons[x] == null) {
                                 continue;
                             }
                             remove(ruleButtons[x]);
@@ -230,11 +249,13 @@ public abstract class RulePanel extends JPanel {
                     searchForRule(allPuzzle, inputRule);
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "Please give a name","Confirm",JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Please give a name", "Confirm", JOptionPane.INFORMATION_MESSAGE);
                 }
 
             }
-        });
+        };
+        textField.addActionListener(action);
+        findButton.addActionListener(action);
         searchBarPanel.add(findButton);
     }
 

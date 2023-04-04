@@ -49,29 +49,29 @@ public class PreemptiveVisibilityContradictionRule extends ContradictionRule {
         // find all cases for the corresponding row and column for each possible skyscraper height
 
         //Add every possible case for all heights for each corresponding row and column
-        for(int i = 0; i < skyscrapersBoard.getWidth(); i++) {
+        for (int i = 0; i < skyscrapersBoard.getWidth(); i++) {
             int num = i + 1;
 
             //check row west clue
             List<Board> rows;
 
             int size = rowQ.size();
-            for(int j = 0; j < size; j++) {
+            for (int j = 0; j < size; j++) {
                 SkyscrapersBoard temp = rowQ.poll(); //get row from the top of the stack
 
                 //don't do anything if already in row
                 boolean exists = false;
-                for(SkyscrapersCell c : temp.getRowCol(loc.y,SkyscrapersType.Number,true)){
-                    if(c.getData()==num) {
+                for (SkyscrapersCell c : temp.getRowCol(loc.y, SkyscrapersType.Number, true)) {
+                    if (c.getData().value == num) {
                         exists = true;
                         break;
                     }
                 }
 
-                if(exists) {
+                if (exists) {
                     rowQ.add(temp);
                 }
-                else{
+                else {
                     //set flags
                     boolean dupeTemp = temp.getDupeFlag();
                     boolean viewTemp = temp.getViewFlag();
@@ -96,22 +96,22 @@ public class PreemptiveVisibilityContradictionRule extends ContradictionRule {
             List<Board> cols;
 
             size = colQ.size();
-            for(int j = 0; j < size; j++) {
+            for (int j = 0; j < size; j++) {
                 SkyscrapersBoard temp = colQ.poll(); //get row from the top of the stack
 
                 //don't do anything if already in col
                 boolean exists = false;
-                for(SkyscrapersCell c : temp.getRowCol(loc.x,SkyscrapersType.Number,false)){
-                    if(c.getData()==num) {
+                for (SkyscrapersCell c : temp.getRowCol(loc.x, SkyscrapersType.Number, false)) {
+                    if (c.getData().value == num) {
                         exists = true;
                         break;
                     }
                 }
 
-                if(exists){
+                if (exists) {
                     colQ.add(temp);
                 }
-                else{
+                else {
                     //set flags
                     boolean dupeTemp = temp.getDupeFlag();
                     boolean viewTemp = temp.getViewFlag();
@@ -126,7 +126,7 @@ public class PreemptiveVisibilityContradictionRule extends ContradictionRule {
                     temp.setViewFlag(viewTemp);
 
                     //add all row cases to row queue
-                    for(Board k : cols) {
+                    for (Board k : cols) {
                         colQ.add((SkyscrapersBoard) k);
                     }
                 }
@@ -137,7 +137,7 @@ public class PreemptiveVisibilityContradictionRule extends ContradictionRule {
         String rowTooMany;
         boolean rowContradiction = true;
         //check if each case board has a contradiction
-        while(rowQ.size()>0) {
+        while (rowQ.size() > 0) {
             SkyscrapersBoard fullRow = rowQ.poll();
 
             //checks if there is a contradiction given the row based on the west clue
@@ -151,7 +151,7 @@ public class PreemptiveVisibilityContradictionRule extends ContradictionRule {
         String colTooFew;
         String colTooMany;
         boolean colContradiction = true;
-        while(colQ.size()>0) {
+        while (colQ.size() > 0) {
             SkyscrapersBoard fullCol = colQ.poll();
 
             //checks if there is a contradiction given the col baesd on the north clue
@@ -163,7 +163,7 @@ public class PreemptiveVisibilityContradictionRule extends ContradictionRule {
         }
 
         //if every possible permutation results in contradictions return null, else no contradiction
-        if(rowContradiction || colContradiction) {
+        if (rowContradiction || colContradiction) {
             return null;
         }
         return super.getNoContradictionMessage();
@@ -180,14 +180,13 @@ public class PreemptiveVisibilityContradictionRule extends ContradictionRule {
         SkyscrapersBoard skyscrapersBoard = (SkyscrapersBoard) board;
         for (int i = 0; i < skyscrapersBoard.getWidth(); i++) {
             //checks the middle diagonal (checkContradictionAt checks row/col off each)
-            String checkStr = checkContradictionAt(board, skyscrapersBoard.getCell(i,i));
+            String checkStr = checkContradictionAt(board, skyscrapersBoard.getCell(i, i));
             if (checkStr == null) {
                 return checkStr;
             }
         }
         return "No instance of the contradiction " + this.ruleName + " here";
     }
-
 
 
 }

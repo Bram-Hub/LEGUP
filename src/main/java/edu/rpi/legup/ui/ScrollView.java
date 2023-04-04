@@ -170,8 +170,6 @@ public class ScrollView extends JScrollPane {
     }
 
     public void zoomTo(double newScale) {
-        //System.out.println("Zooming to " + newScale);
-
         // check zoom bounds
         if (newScale < minScale) {
             newScale = minScale;
