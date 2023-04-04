@@ -72,7 +72,7 @@ public class SkyscrapersBoard extends GridBoard {
     }
 
     /**
-     * Returns a list of the northern clues ordered from loc.x = 0->max
+     * @return northClues Returns a list of the northern clues ordered from loc.x = 0 to max
      */
     public ArrayList<SkyscrapersClue> getNorthClues() {
         return northClues;
