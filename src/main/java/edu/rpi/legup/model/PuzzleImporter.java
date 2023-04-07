@@ -35,7 +35,7 @@ public abstract class PuzzleImporter {
      *
      * @param rows    number of rows on the puzzle
      * @param columns number of columns on the puzzle
-     * @throws RuntimeException
+     * @throws RuntimeException if puzzle can not be made
      */
     public void initializePuzzle(int rows, int columns) throws RuntimeException {
         if (this.puzzle.isValidDimensions(rows, columns)) {
