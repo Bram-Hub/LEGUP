@@ -64,7 +64,7 @@ public class Config {
      * convertClassNameToDisplayName("Nurikabe") will return "Nurikabe"
      *
      * @param className the name of the class
-     * @return
+     * @return displayName the name of the puzzle
      */
     public static String convertClassNameToDisplayName(String className) {
         String displayName = "";
