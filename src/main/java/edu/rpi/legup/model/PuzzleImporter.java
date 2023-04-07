@@ -120,7 +120,7 @@ public abstract class PuzzleImporter {
      * Creates the proof for building
      *
      * @param node xml document node
-     * @throws InvalidFileFormatException
+     * @throws InvalidFileFormatException if file is invalid
      */
     public void initializeProof(Node node) throws InvalidFileFormatException {
         if (node.getNodeName().equalsIgnoreCase("proof")) {
