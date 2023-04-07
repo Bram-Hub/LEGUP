@@ -1,11 +1,7 @@
-STTT-UNPL-0001 : AndElement
-STTT-UNPL-0002 : BiconditionalElement
-STTT-UNPL-0003 : ConditionalElement
-STTT-UNPL-0004 : LetterElement
-STTT-UNPL-0005 : NegationElement
-STTT-UNPL-0006 : OrElement
-STTT-UNPL-0007 : ParenthesisElement
-STTT-UNPL-0008 : UnknownElement
+STTT-UNPL-0001 : AndOrElement
+STTT-UNPL-0002 : ArgumentElement
+STTT-UNPL-0003 : ConditionalBiconditionalElement
+STTT-UNPL-0004 : UnknownElement
 
 STTT-PLAC-0001 : GreenElement
 STTT-PLAC-0002 : RedElement
