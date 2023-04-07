@@ -11,7 +11,7 @@ apply plugin: 'application'
 apply plugin: 'checkstyle'
 mainClassName = 'edu.rpi.legup.Legup'
 
-sourceCompatibility = 11
+sourceCompatibility = JavaVersion.VERSION_11
 
 dependencies {
     implementation 'org.jetbrains:annotations:20.1.0'
@@ -84,7 +84,7 @@ createExe() {
     bundledJrePath = 'jre'
     bundledJre64Bit = true
     jdkPreference = 'preferJre'
-    jreMinVersion = '1.8.0'
+    jreMinVersion = '11'
     jreRuntimeBits = '64/32'
 }
 
