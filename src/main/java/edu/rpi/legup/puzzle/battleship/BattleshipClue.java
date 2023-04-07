@@ -14,6 +14,7 @@ public class BattleshipClue extends PuzzleElement {
 
     /**
      * Returns the column number as a string
+     *
      * @param col the column number that is to be converted and returned
      * @return int value
      */
@@ -30,6 +31,7 @@ public class BattleshipClue extends PuzzleElement {
 
     /**
      * Returns the column string as an integer
+     *
      * @param col the column number as a string that is to be converted and returned
      * @return string value
      */
@@ -54,6 +56,7 @@ public class BattleshipClue extends PuzzleElement {
 
     /**
      * Returns the type of the battleship object (ship or clue)
+     *
      * @return BattleshipType type
      */
     public BattleshipType getType() {
@@ -62,6 +65,7 @@ public class BattleshipClue extends PuzzleElement {
 
     /**
      * Sets the type of the battleship object (ship or clue) to the given type
+     *
      * @param type given Battleship type
      */
     public void setType(BattleshipType type) {

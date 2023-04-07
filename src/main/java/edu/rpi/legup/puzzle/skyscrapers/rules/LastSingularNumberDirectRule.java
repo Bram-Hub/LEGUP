@@ -44,13 +44,13 @@ public class LastSingularNumberDirectRule extends DirectRule {
         initialBoard.setDupeFlag(true);
         initialBoard.setViewFlag(false);
         NumberForCellCaseRule caseRule = new NumberForCellCaseRule();
-        ArrayList<Board> candidates = caseRule.getCases(initialBoard,puzzleElement);
+        ArrayList<Board> candidates = caseRule.getCases(initialBoard, puzzleElement);
         initialBoard.setDupeFlag(dupeTemp);
         initialBoard.setViewFlag(viewTemp);
 
         //check if given value is the only remaining value
-        if(candidates.size() == 1){
-            if(candidates.get(0).getPuzzleElement(puzzleElement).getData() == finalCell.getData()){
+        if (candidates.size() == 1) {
+            if (candidates.get(0).getPuzzleElement(puzzleElement).getData() == finalCell.getData()) {
                 return null;
             }
             return super.getInvalidUseOfRuleMessage() + ": Wrong number in the cell.";

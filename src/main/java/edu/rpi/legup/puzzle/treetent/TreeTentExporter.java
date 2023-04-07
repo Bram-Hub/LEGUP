@@ -12,6 +12,7 @@ public class TreeTentExporter extends PuzzleExporter {
 
     /**
      * Creates and returns a new board element in the XML document specified
+     *
      * @param newDocument the XML document to append to
      * @return the new board element
      */
