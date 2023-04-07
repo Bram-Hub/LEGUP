@@ -169,7 +169,7 @@ public abstract class PuzzleImporter {
      * Creates the tree for the edu.rpi.legup.puzzle
      *
      * @param node tree created
-     * @throws InvalidFileFormatException 
+     * @throws InvalidFileFormatException if file is invalid
      */
     protected void createTree(Node node) throws InvalidFileFormatException {
         Element treeElement = (org.w3c.dom.Element) node;
