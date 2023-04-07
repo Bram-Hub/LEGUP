@@ -29,7 +29,7 @@ public class FillapixImporter extends PuzzleImporter {
      * Creates the board for building
      *
      * @param node xml document node
-     * @throws InvalidFileFormatException
+     * @throws InvalidFileFormatException if file is invalid
      */
     @Override
     public void initializeBoard(Node node) throws InvalidFileFormatException {
