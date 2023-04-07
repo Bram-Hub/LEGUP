@@ -173,12 +173,20 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType> {
                 this.symbol = '|';
             else if (this.symbol == '|')
                 this.symbol = '^';
+            // If it was a conditional/biconditional logical element, by default, change it to an
+            // and logical element
+            else if (this.symbol == '>' || this.symbol == '-')
+                this.symbol = '^';
         }
         // Conditional/Biconditional Element
         else if (e.getElementID().equals("STTT-UNPL-0003")) {
             if (this.symbol == '>')
                 this.symbol = '-';
             else if (this.symbol == '-')
+                this.symbol = '>';
+            // If it was an and/or logical element, by default, change it to a conditional
+            // logical element
+            else if (this.symbol == '^' || this.symbol == '|')
                 this.symbol = '>';
         }
     }
