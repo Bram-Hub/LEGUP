@@ -112,28 +112,28 @@ public class TreeTentController extends ElementController {
         TreeTentCell cell = (TreeTentCell) element;
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (cell.getData() == TreeTentType.UNKNOWN) {
-                element.setData(2);
+                element.setData(TreeTentType.GRASS);
             }
             else {
                 if (cell.getData() == TreeTentType.GRASS) {
-                    element.setData(3);
+                    element.setData(TreeTentType.TENT);
                 }
                 else {
-                    element.setData(0);
+                    element.setData(TreeTentType.UNKNOWN);
                 }
             }
         }
         else {
             if (e.getButton() == MouseEvent.BUTTON3) {
                 if (cell.getData() == TreeTentType.UNKNOWN) {
-                    element.setData(3);
+                    element.setData(TreeTentType.TENT);
                 }
                 else {
                     if (cell.getData() == TreeTentType.GRASS) {
-                        element.setData(0);
+                        element.setData(TreeTentType.UNKNOWN);
                     }
                     else {
-                        element.setData(2);
+                        element.setData(TreeTentType.GRASS);
                     }
                 }
             }
