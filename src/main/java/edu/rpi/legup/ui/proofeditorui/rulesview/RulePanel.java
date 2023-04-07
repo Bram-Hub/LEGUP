@@ -71,6 +71,13 @@ public abstract class RulePanel extends JPanel {
         revalidate();
     }
 
+    public void updateRules() {
+        for (Rule rule : rules){
+            rule.loadImage();
+        }
+        setRules(rules);
+    }
+
 
     /**
      * Search a certain rule in all the puzzles and set it for the searchBarPanel

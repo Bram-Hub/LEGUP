@@ -49,7 +49,7 @@ public class WrapLayout extends FlowLayout {
 
     /**
      * Returns the preferred dimensions for this layout given the
-     * <image>visible</image> components in the specified target container.
+     * visible components in the specified target container.
      *
      * @param target the component which needs to be laid out
      * @return the preferred dimensions to lay out the
