@@ -27,6 +27,7 @@ public enum ShortTruthTableCellType {
     /**
      * Gets the char value of a cell, Used for debugging
      * @param type cell type input
+     * @return true if value is 1, false if value is 0, ? if value is -1, or blank otherwise
      */
     public static char toChar(ShortTruthTableCellType type) {
         if (type == TRUE) return 'T';
