@@ -198,6 +198,7 @@ public abstract class RulePanel extends JPanel {
      * search bar allows user to input a name to get relative rules
      * once a name is entered and click ok will load (a/several) rule icon,
      * which has all the functions just as other rule icons.
+     * @param allPuzzle name of rule input
      */
     public void setSearchBar(Puzzle allPuzzle){
 
