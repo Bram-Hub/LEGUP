@@ -112,7 +112,7 @@ public abstract class PuzzleImporter {
      * Creates an empty board for building
      *
      * @param node xml document node
-     * @throws InvalidFileFormatException
+     * @throws InvalidFileFormatException if file is invalid
      */
     public abstract void initializeBoard(Node node) throws InvalidFileFormatException;
 
