@@ -11,7 +11,7 @@ apply plugin: 'application'
 apply plugin: 'checkstyle'
 mainClassName = 'edu.rpi.legup.Legup'
 
-sourceCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = '11'
 
 dependencies {
     implementation 'org.jetbrains:annotations:20.1.0'
