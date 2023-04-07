@@ -401,8 +401,10 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     @Override
     public void onClearHistory() {
-        //undo.setEnabled(false);
-        //redo.setEnabled(false);
+        // These buttons are never created and set to null if the user
+        // goes straight to the Proof Editor after running LEGUP
+        if (undo != null) undo.setEnabled(false);
+        if (redo != null) redo.setEnabled(false);
     }
 
     public BoardView getBoardView() {
