@@ -40,7 +40,7 @@ public enum ShortTruthTableCellType {
     /**
      * Returns true if this cell holds the value either TRUE or FALSE
      *
-     * @return
+     * @return true if this cell holds the value either TRUE or FALSE
      */
     public boolean isTrueOrFalse() {
         return value == 0 || value == 1;
