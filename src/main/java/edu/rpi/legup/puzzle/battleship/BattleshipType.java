@@ -13,7 +13,7 @@ public enum BattleshipType {
 
     /**
      * Gets the enum of this BattleShipType
-     *
+     * @param value the integer value input
      * @return enum equivalent BattleShipType of integer value
      */
     public static BattleshipType getType(int value) {
