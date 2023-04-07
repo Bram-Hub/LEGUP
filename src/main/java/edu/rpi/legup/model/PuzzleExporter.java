@@ -26,6 +26,7 @@ public abstract class PuzzleExporter {
 
     /**
      * PuzzleExporter Constructor exports the puzzle object to a file
+     * @param puzzle puzzle that is to be exported
      */
     public PuzzleExporter(Puzzle puzzle) {
         this.puzzle = puzzle;
