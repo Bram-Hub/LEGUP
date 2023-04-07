@@ -50,7 +50,7 @@ public abstract class PuzzleImporter {
      * Initializes the puzzle attributes
      *
      * @param node xml document node
-     * @throws InvalidFileFormatException
+     * @throws InvalidFileFormatException if file is invalid
      */
     public void initializePuzzle(Node node) throws InvalidFileFormatException {
         if (node.getNodeName().equalsIgnoreCase("puzzle")) {
