@@ -9,6 +9,7 @@ public class TreeToolbarPanel extends JPanel {
 
     /**
      * TreeToolbarPanel Constructor - creates the tree tool mBar panel
+     * @param treePanel treePanel input
      */
     public TreeToolbarPanel(TreePanel treePanel) {
         this.treePanel = treePanel;
