@@ -220,7 +220,7 @@ public abstract class RulePanel extends JPanel {
     public void setSearchBar(Puzzle allPuzzle) {
 
         searchBarPanel = new JPanel(new FlowLayout(SwingConstants.LEADING, 6, 6));
-        // TODO: VERIFY BELOW LINE
+
         textField=new JTextField();
         ruleFrame.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent componentEvent) {
