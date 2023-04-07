@@ -141,7 +141,9 @@ public abstract class RulePanel extends JPanel {
      * Calculates the similarity (a number within 0 and 1) between two strings.
      * This function will take two para String s1 and String s2, which s1 is the user's input
      * and s2 is the compared really rule name
-     *
+     * @param s1 user's input
+     * @param s2 the compared really rule name
+     * @return a similarity degree between 0 and 1
      * similarityCheck will use a helper function to calculate a similarity degree(from 0 to 1).
      * closer to 0 means less similar, and closer to 1 means more similar.
      */
