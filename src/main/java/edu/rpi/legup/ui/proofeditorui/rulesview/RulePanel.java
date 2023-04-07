@@ -74,7 +74,8 @@ public abstract class RulePanel extends JPanel {
     /**
      * Search a certain rule in all the puzzles and set it for the searchBarPanel
      *
-     * @param puzzle, ruleName
+     * @param puzzle puzzle where the rule is being searched for
+     * @param ruleName rule that is being compared to each puzzle
      *
      * This function is the searching algorithm for "public void setSearchBar(Puzzle allPuzzle)" (below)
      *
