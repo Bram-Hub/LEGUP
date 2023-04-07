@@ -61,7 +61,7 @@ public class WrapLayout extends FlowLayout {
     }
 
     /**
-     * Returns the minimum dimensions needed to layout the <image>visible</image>
+     * Returns the minimum dimensions needed to layout the visible
      * components contained in the specified target container.
      *
      * @param target the component which needs to be laid out
