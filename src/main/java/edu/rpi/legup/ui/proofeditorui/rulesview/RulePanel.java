@@ -160,6 +160,7 @@ public abstract class RulePanel extends JPanel {
      * Help function for similarityCheck();
      * @param s1 user's input
      * @param s2 the compared really rule name
+     * @return a similarity degree between 0 and 1
      */
     public static int editDistance(String s1, String s2) {
         s1 = s1.toLowerCase();
