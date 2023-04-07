@@ -18,7 +18,7 @@ public class FillapixImporter extends PuzzleImporter {
      *
      * @param rows    the number of rows on the board
      * @param columns the number of columns on the board
-     * @throws RuntimeException
+     * @throws RuntimeException if board can not be made
      */
     @Override
     public void initializeBoard(int rows, int columns) {
