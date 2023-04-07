@@ -1,10 +1,5 @@
 package edu.rpi.legup.ui;
 
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
-
-import javax.xml.parsers.*;
-
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.controller.BoardController;
@@ -270,7 +265,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         // preference
         file.add(preferences);
         preferences.addActionListener(a -> {
-            PreferencesDialog preferencesDialog = new PreferencesDialog(this.frame);
+            PreferencesDialog preferencesDialog = PreferencesDialog.CreateDialogForProofEditor(this.frame, this.ruleFrame);
         });
         file.addSeparator();
 
@@ -761,7 +756,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         ruleFrame.getCasePanel().setRules(puzzle.getCaseRules());
         ruleFrame.getContradictionPanel().setRules(puzzle.getContradictionRules());
         ruleFrame.getSearchPanel().setSearchBar(puzzle);
-//        ruleFrame.getSearchPanel().setRules(puzzle.getBasicRules());
 
 
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
