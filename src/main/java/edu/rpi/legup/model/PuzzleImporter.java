@@ -154,6 +154,7 @@ public abstract class PuzzleImporter {
      * Sets the puzzleElement from the xml document node
      *
      * @param node xml document node
+     * @throws InvalidFileFormatException if file is invalid
      */
     protected void setCells(Node node) throws InvalidFileFormatException {
         NodeList dataList = ((org.w3c.dom.Element) node).getElementsByTagName("cell");
