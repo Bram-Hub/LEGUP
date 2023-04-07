@@ -328,4 +328,6 @@ public class TreeNode extends TreeElement {
     public void setRoot(boolean isRoot) {
         this.isRoot = isRoot;
     }
+
+    public void clearChildren(){this.children.clear();}
 }
