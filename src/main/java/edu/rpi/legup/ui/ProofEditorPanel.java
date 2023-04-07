@@ -1,4 +1,7 @@
 package edu.rpi.legup.ui;
+import edu.rpi.legup.model.observer.ITreeListener;
+import edu.rpi.legup.model.tree.*;
+import edu.rpi.legup.ui.proofeditorui.treeview.*;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 import javax.xml.parsers.*;
@@ -11,16 +14,10 @@ import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.tree.Tree;
-import edu.rpi.legup.model.tree.TreeNode;
-import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
-import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
-import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
-import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 import edu.rpi.legup.user.Submission;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -215,12 +212,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
         }
 
-//        file.add(genPuzzle);
-////        genPuzzle.addActionListener((ActionEvent) ->
-////        {
-////            pickGameDialog = new PickGameDialog(this, true);
-////            pickGameDialog.setVisible(true);
-////        });
         file.add(resetPuzzle);
         resetPuzzle.addActionListener(a -> {
             Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
@@ -230,11 +221,41 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 if (rootNode != null) {
                     int confirmReset = JOptionPane.showConfirmDialog(this, "Reset Puzzle to Root Node?", "Confirm Reset", JOptionPane.YES_NO_CANCEL_OPTION);
                     if (confirmReset == JOptionPane.YES_OPTION) {
+
                         List<TreeTransition> children = rootNode.getChildren();
                         children.forEach(t -> puzzle.notifyTreeListeners(l -> l.onTreeElementRemoved(t)));
+                        children.forEach(t -> puzzle.notifyBoardListeners(l -> l.onTreeElementChanged(t)));
                         final TreeViewSelection selection = new TreeViewSelection(treePanel.getTreeView().getElementView(rootNode));
                         puzzle.notifyTreeListeners(l -> l.onTreeSelectionChanged(selection));
+                        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(selection.getFirstSelection().getTreeElement()));
                         GameBoardFacade.getInstance().getHistory().clear();
+
+                        /*
+                        final TreeViewSelection selection = new TreeViewSelection(treePanel.getTreeView().getElementView(rootNode));
+                        List<TreeElementView> selectedViews = selection.getSelectedViews();
+
+                        TreeElementView firstSelectedView = selectedViews.get(0);
+                        TreeElementView newSelectedView;
+                        //while(selectedViews != firstSelectedView ){
+                        if (firstSelectedView.getType() == TreeElementType.NODE) {
+                            TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
+                            newSelectedView = nodeView.getParentView();
+                        }
+                        else {
+                            TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
+                            newSelectedView = transitionView.getParentViews().get(0);
+                        }
+
+                        for (TreeElementView selectedView : selectedViews) {
+                            TreeElement element = selectedView.getTreeElement();
+                            tree.removeTreeElement(element);
+                            puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(element));
+                        }
+                        puzzle.notifyTreeListeners(l -> l.onTreeSelectionChanged(selection));
+                        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(selection.getFirstSelection().getTreeElement()));
+                        GameBoardFacade.getInstance().getHistory().clear();
+
+                         */
                     }
                 }
             }
