@@ -29,6 +29,7 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
      *
      * @param elementView currently selected puzzle puzzleElement view that is being edited
      * @param selection   currently selected tree puzzleElement views that is being edited
+     * @param caseRule currently selected caseRule puzzleElement view that is being edited
      */
     public AutoCaseRuleCommand(ElementView elementView, TreeViewSelection selection, CaseRule caseRule, CaseBoard caseBoard, MouseEvent mouseEvent) {
         this.elementView = elementView;
