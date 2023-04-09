@@ -100,6 +100,7 @@ public class GameBoardFacade implements IHistorySubject {
         this.puzzleEditor = null;
         this.curFileName = null;
         this.history.clear();
+        setupConfig();
     }
 
     public static void setupConfig() {
