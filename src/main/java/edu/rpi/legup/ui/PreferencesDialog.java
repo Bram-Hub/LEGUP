@@ -17,8 +17,13 @@ import java.util.logging.Logger;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.FlatDarkLaf;
+import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
+import edu.rpi.legup.ui.proofeditorui.rulesview.RulePanel;
 
 public class PreferencesDialog extends JDialog {
+
+
+    private RuleFrame rulesFrame;
 
     private final static Logger LOGGER = Logger.getLogger(PreferencesDialog.class.getName());
 
@@ -35,6 +40,12 @@ public class PreferencesDialog extends JDialog {
         catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Unable to locate icons");
         }
+    }
+
+    public static PreferencesDialog CreateDialogForProofEditor(Frame frame, RuleFrame rules) {
+        PreferencesDialog p = new PreferencesDialog(frame);
+        p.rulesFrame = rules;
+        return p;
     }
 
     public PreferencesDialog(Frame frame) {
@@ -58,11 +69,13 @@ public class PreferencesDialog extends JDialog {
         okButton.addActionListener(l -> {
             applyPreferences();
             this.setVisible(false);
+            this.dispose();
         });
         toolbar.add(okButton);
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(l -> {
             this.setVisible(false);
+            this.dispose();
         });
         toolbar.add(cancelButton);
         JButton applyButton = new JButton("Apply");
@@ -349,6 +362,12 @@ public class PreferencesDialog extends JDialog {
         prefs.setUserPref(LegupPreferences.AUTO_GENERATE_CASES, Boolean.toString(generateCases.isSelected()));
         prefs.setUserPref(LegupPreferences.IMMEDIATE_FEEDBACK, Boolean.toString(immFeedback.isSelected()));
         prefs.setUserPref(LegupPreferences.COLOR_BLIND, Boolean.toString(colorBlind.isSelected()));
+
+        if(rulesFrame != null) {
+            rulesFrame.getCasePanel().updateRules();
+            rulesFrame.getDirectRulePanel().updateRules();
+            rulesFrame.getContradictionPanel().updateRules();
+        }
 
         // toggle dark mode based on updated NIGHT_MODE variable
         toggleDarkMode(prefs);
