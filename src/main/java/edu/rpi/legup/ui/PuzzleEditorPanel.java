@@ -212,6 +212,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     public void exitEditor() {
+        // Wipes the puzzle entirely as if LEGUP just started
         GameBoardFacade.getInstance().clearPuzzle();
         this.legupUI.displayPanel(0);
         treePanel = null;
