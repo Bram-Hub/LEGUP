@@ -920,9 +920,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      */
     @Override
     public void onClearHistory() {
-        undo.setEnabled(false);
+        //undo.setEnabled(false);
 //        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
-        redo.setEnabled(false);
+        //redo.setEnabled(false);
 //        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
     }
 
