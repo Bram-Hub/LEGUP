@@ -93,14 +93,9 @@ public class GameBoardFacade implements IHistorySubject {
     }
 
     public void clearPuzzle() {
-        this.config = null;
         this.puzzle = null;
-        this.legupUI = null;
-        this.puzzleSolver = null;
-        this.puzzleEditor = null;
         this.curFileName = null;
         this.history.clear();
-        setupConfig();
     }
 
     public static void setupConfig() {
