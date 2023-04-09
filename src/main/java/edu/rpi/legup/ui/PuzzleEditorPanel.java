@@ -214,6 +214,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     public void exitEditor() {
         GameBoardFacade.getInstance().clearPuzzle();
         this.legupUI.displayPanel(0);
+        treePanel = null;
+        boardView = null;
     }
 
     @Override
