@@ -138,6 +138,30 @@ public class GameBoardFacade implements IHistorySubject {
     }
 
     /**
+     * Validates the given text input for the given puzzle
+     *
+     * @param game          the name of the puzzle
+     * @param statements    an array of statements
+     * @return true if it is possible to create a board for the given game with the given statements,
+     * false otherwise
+     * @throws RuntimeException if any of the input is invalid
+     */
+    public boolean validateTextInput(String game, String[] statements) throws RuntimeException {
+        String qualifiedClassName = config.getPuzzleClassForName(game);
+        try {
+            Class<?> c = Class.forName(qualifiedClassName);
+            Constructor<?> constructor = c.getConstructor();
+            Puzzle puzzle = (Puzzle) constructor.newInstance();
+            return puzzle.isValidTextInput(statements);
+        }
+        catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException |
+               InstantiationException e) {
+            LOGGER.error(e);
+            throw new RuntimeException("Error validating puzzle text input");
+        }
+    }
+
+    /**
      * Loads an empty puzzle
      *
      * @param game    name of the puzzle

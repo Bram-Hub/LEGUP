@@ -113,7 +113,7 @@ class ShortTruthTableImporter extends PuzzleImporter {
         return maxStatementLength;
     }
 
-    private boolean validGrammar(String sentence) {
+    protected boolean validGrammar(String sentence) {
         int open = 0;
         int close = 0;
         char[] valid_characters = new char[]{'^', 'v', '!', '>', '-', '&', '|', '~', '$', '%'};
@@ -315,11 +315,20 @@ class ShortTruthTableImporter extends PuzzleImporter {
         }
     }
 
+    /**
+     * Creates the board for building using statements
+     *
+     * @param statementInput
+     * @throws InputMismatchException
+     * @throws IllegalArgumentException
+     */
     public void initializeBoard(String[] statementInput) throws InputMismatchException, IllegalArgumentException {
         List<String> statementsList = new LinkedList<>();
-        for (String s : statementInput)
-            if (s.strip().length() != 0)
+        for (String s : statementInput) {
+            if (s.strip().length() > 0) {
                 statementsList.add(s);
+            }
+        }
         String[] statementData = statementsList.toArray(new String[statementsList.size()]);
 
         if (statementData.length == 0) {
