@@ -152,12 +152,12 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType> {
             }
             // Unknown Element
             else {
-                if (e.getElementID().equals("STTT-UNPL-0004")) {
+                if (e.getElementID().equals("STTT-UNPL-0003")) {
                     this.data = ShortTruthTableCellType.UNKNOWN;
                 }
                 // Argument Element
                 else {
-                    if (e.getElementID().equals("STTT-UNPL-0002")) {
+                    if (e.getElementID().equals("STTT-UNPL-0001")) {
                         // Prevents non-argument symbols from being changed
                         if (!(this.symbol >= 'A' && this.symbol <= 'Z')) {
                             return;
@@ -180,38 +180,45 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType> {
                     }
                     // And/Or Element
                     else {
-                        if (e.getElementID().equals("STTT-UNPL-0001")) {
-                            if (this.symbol == '^') {
-                                this.symbol = '|';
-                            }
-                            else {
-                                if (this.symbol == '|') {
-                                    this.symbol = '^';
-                                }
-                                // If it was a conditional/biconditional logical element, by default, change it to an
-                                // and logical element
-                                else {
-                                    if (this.symbol == '>' || this.symbol == '-') {
-                                        this.symbol = '^';
-                                    }
-                                }
-                            }
-                        }
-                        // Conditional/Biconditional Element
-                        else {
-                            if (e.getElementID().equals("STTT-UNPL-0003")) {
-                                if (this.symbol == '>') {
-                                    this.symbol = '-';
+                        if (e.getElementID().equals("STTT-UNPL-0002")) {
+                            if (m.getButton() == MouseEvent.BUTTON1) {
+                                if (this.symbol == '^') {
+                                    this.symbol = '|';
                                 }
                                 else {
-                                    if (this.symbol == '-') {
+                                    if (this.symbol == '|') {
                                         this.symbol = '>';
                                     }
-                                    // If it was an and/or logical element, by default, change it to a conditional
-                                    // logical element
                                     else {
-                                        if (this.symbol == '^' || this.symbol == '|') {
-                                            this.symbol = '>';
+                                        if (this.symbol == '>') {
+                                            this.symbol = '-';
+                                        }
+                                        else {
+                                            if (this.symbol == '-') {
+                                                this.symbol = '^';
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else {
+                                if (m.getButton() == MouseEvent.BUTTON3) {
+                                    if (this.symbol == '^') {
+                                        this.symbol = '-';
+                                    }
+                                    else {
+                                        if (this.symbol == '|') {
+                                            this.symbol = '^';
+                                        }
+                                        else {
+                                            if (this.symbol == '>') {
+                                                this.symbol = '|';
+                                            }
+                                            else {
+                                                if (this.symbol == '-') {
+                                                    this.symbol = '>';
+                                                }
+                                            }
                                         }
                                     }
                                 }

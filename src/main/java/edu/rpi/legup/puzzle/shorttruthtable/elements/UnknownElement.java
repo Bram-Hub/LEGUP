@@ -4,6 +4,6 @@ import edu.rpi.legup.model.elements.NonPlaceableElement;
 
 public class UnknownElement extends NonPlaceableElement {
     public UnknownElement() {
-        super("STTT-UNPL-0004", "Unknown Element", "A blank tile", "edu/rpi/legup/images/shorttruthtable/tiles/UnknownTile.png");
+        super("STTT-UNPL-0003", "Unknown Element", "A blank tile", "edu/rpi/legup/images/shorttruthtable/tiles/UnknownTile.png");
     }
 }
