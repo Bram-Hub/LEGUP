@@ -136,6 +136,10 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType> {
      */
     @Override
     public void setType(Element e, MouseEvent m) {
+        // Do not allow odd rows to be modified since they are spacer rows
+        if (this.getLocation().getY() % 2 == 1)
+            return;
+
         // Red Element
         if (e.getElementID().equals("STTT-PLAC-0002")) {
             this.data = ShortTruthTableCellType.FALSE;
