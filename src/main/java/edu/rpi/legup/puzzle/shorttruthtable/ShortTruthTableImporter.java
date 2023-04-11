@@ -324,9 +324,11 @@ class ShortTruthTableImporter extends PuzzleImporter {
      */
     public void initializeBoard(String[] statementInput) throws InputMismatchException, IllegalArgumentException {
         List<String> statementsList = new LinkedList<>();
-        for (String s : statementInput)
-            if (s.strip().length() > 0)
+        for (String s : statementInput) {
+            if (s.strip().length() > 0) {
                 statementsList.add(s);
+            }
+        }
         String[] statementData = statementsList.toArray(new String[statementsList.size()]);
 
         if (statementData.length == 0) {

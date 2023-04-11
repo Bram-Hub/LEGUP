@@ -137,61 +137,89 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType> {
     @Override
     public void setType(Element e, MouseEvent m) {
         // Do not allow odd rows to be modified since they are spacer rows
-        if (this.getLocation().getY() % 2 == 1)
+        if (this.getLocation().getY() % 2 == 1) {
             return;
+        }
 
         // Red Element
         if (e.getElementID().equals("STTT-PLAC-0002")) {
             this.data = ShortTruthTableCellType.FALSE;
         }
         // Green Element
-        else if (e.getElementID().equals("STTT-PLAC-0001")) {
-            this.data = ShortTruthTableCellType.TRUE;
-        }
-        // Unknown Element
-        else if (e.getElementID().equals("STTT-UNPL-0004")) {
-            this.data = ShortTruthTableCellType.UNKNOWN;
-        }
-        // Argument Element
-        else if (e.getElementID().equals("STTT-UNPL-0002")) {
-            // Prevents non-argument symbols from being changed
-            if (!(this.symbol >= 'A' && this.symbol <= 'Z'))
-                return;
+        else {
+            if (e.getElementID().equals("STTT-PLAC-0001")) {
+                this.data = ShortTruthTableCellType.TRUE;
+            }
+            // Unknown Element
+            else {
+                if (e.getElementID().equals("STTT-UNPL-0004")) {
+                    this.data = ShortTruthTableCellType.UNKNOWN;
+                }
+                // Argument Element
+                else {
+                    if (e.getElementID().equals("STTT-UNPL-0002")) {
+                        // Prevents non-argument symbols from being changed
+                        if (!(this.symbol >= 'A' && this.symbol <= 'Z')) {
+                            return;
+                        }
 
-            if (m.getButton() == MouseEvent.BUTTON1) {
-                this.symbol += 1;
-                if (this.symbol > 'Z') {
-                    this.symbol = 'A';
+                        if (m.getButton() == MouseEvent.BUTTON1) {
+                            this.symbol += 1;
+                            if (this.symbol > 'Z') {
+                                this.symbol = 'A';
+                            }
+                        }
+                        else {
+                            if (m.getButton() == MouseEvent.BUTTON3) {
+                                this.symbol -= 1;
+                                if (this.symbol < 'A') {
+                                    this.symbol = 'Z';
+                                }
+                            }
+                        }
+                    }
+                    // And/Or Element
+                    else {
+                        if (e.getElementID().equals("STTT-UNPL-0001")) {
+                            if (this.symbol == '^') {
+                                this.symbol = '|';
+                            }
+                            else {
+                                if (this.symbol == '|') {
+                                    this.symbol = '^';
+                                }
+                                // If it was a conditional/biconditional logical element, by default, change it to an
+                                // and logical element
+                                else {
+                                    if (this.symbol == '>' || this.symbol == '-') {
+                                        this.symbol = '^';
+                                    }
+                                }
+                            }
+                        }
+                        // Conditional/Biconditional Element
+                        else {
+                            if (e.getElementID().equals("STTT-UNPL-0003")) {
+                                if (this.symbol == '>') {
+                                    this.symbol = '-';
+                                }
+                                else {
+                                    if (this.symbol == '-') {
+                                        this.symbol = '>';
+                                    }
+                                    // If it was an and/or logical element, by default, change it to a conditional
+                                    // logical element
+                                    else {
+                                        if (this.symbol == '^' || this.symbol == '|') {
+                                            this.symbol = '>';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
-            else if (m.getButton() == MouseEvent.BUTTON3) {
-                this.symbol -= 1;
-                if (this.symbol < 'A') {
-                    this.symbol = 'Z';
-                }
-            }
-        }
-        // And/Or Element
-        else if (e.getElementID().equals("STTT-UNPL-0001")) {
-            if (this.symbol == '^')
-                this.symbol = '|';
-            else if (this.symbol == '|')
-                this.symbol = '^';
-            // If it was a conditional/biconditional logical element, by default, change it to an
-            // and logical element
-            else if (this.symbol == '>' || this.symbol == '-')
-                this.symbol = '^';
-        }
-        // Conditional/Biconditional Element
-        else if (e.getElementID().equals("STTT-UNPL-0003")) {
-            if (this.symbol == '>')
-                this.symbol = '-';
-            else if (this.symbol == '-')
-                this.symbol = '>';
-            // If it was an and/or logical element, by default, change it to a conditional
-            // logical element
-            else if (this.symbol == '^' || this.symbol == '|')
-                this.symbol = '>';
         }
     }
 }
