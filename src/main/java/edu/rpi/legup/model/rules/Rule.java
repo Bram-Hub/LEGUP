@@ -84,13 +84,14 @@ public abstract class Rule {
     /**
      * Loads the image file
      */
-    private void loadImage() {
+    public void loadImage() {
         if (imageName != null) {
+            String name = imageName;
             LegupPreferences prefs = LegupPreferences.getInstance();
-            if(imageName.contains("shorttruthtable") && prefs.getUserPref(LegupPreferences.COLOR_BLIND).equals("true")) {
-                imageName = imageName.replace("ruleimages", "ruleimages_cb");
+            if (name.contains("shorttruthtable") && prefs.getUserPref(LegupPreferences.COLOR_BLIND).equals("true")) {
+                name = name.replace("ruleimages", "ruleimages_cb");
             }
-            this.image = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(imageName));
+            this.image = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(name));
             //Resize images to be 100px wide
             Image image = this.image.getImage();
             if (this.image.getIconWidth() < 120) return;

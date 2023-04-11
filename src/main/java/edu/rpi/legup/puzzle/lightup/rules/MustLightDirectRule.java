@@ -58,7 +58,7 @@ public class MustLightDirectRule extends DirectRule {
         modifiedCell.setData(LightUpCellType.EMPTY.value);
         //Check if this cell itself (the one with the bulb) has no other lighting option
         if ((modifiedCell.getType() == LightUpCellType.EMPTY || modifiedCell.getType() == LightUpCellType.UNKNOWN) &&
-            !modifiedCell.isLite() && cannotLite.checkContradictionAt(modifiedBoard, modifiedCell) == null) {
+                !modifiedCell.isLite() && cannotLite.checkContradictionAt(modifiedBoard, modifiedCell) == null) {
             return true;
         }
         //Look right

@@ -16,7 +16,7 @@ public class SkyscrapersElementView extends GridElementView {
 
     @Override
     public void drawElement(Graphics2D graphics2D) {
-    	graphics2D.setStroke(new BasicStroke(1));
+        graphics2D.setStroke(new BasicStroke(1));
         graphics2D.setColor(BACKGROUND_COLOR);
         graphics2D.fillRect(location.x, location.y, size.width, size.height);
         graphics2D.setColor(BORDER_COLOR);

@@ -3,6 +3,7 @@ package edu.rpi.legup.puzzle.treetent;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+
 import java.util.List;
 
 public class TreeTent extends Puzzle {
@@ -74,7 +75,6 @@ public class TreeTent extends Puzzle {
     }
 
     /**
-
      * @return if it is valid
      * TreeTent puzzle must have same number of clues as the dimension size
      */

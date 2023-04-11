@@ -44,7 +44,7 @@ public class UnreachableWhiteCellContradictionRule extends ContradictionRule {
         int width = nurikabeBoard.getWidth();
 
         // Get regions
-        HashMap<NurikabeCell,Integer> whiteRegionMap = NurikabeUtilities.getWhiteRegionMap(nurikabeBoard);
+        HashMap<NurikabeCell, Integer> whiteRegionMap = NurikabeUtilities.getWhiteRegionMap(nurikabeBoard);
         if (whiteRegionMap.containsKey(cell)) {
             return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
         }
@@ -54,8 +54,8 @@ public class UnreachableWhiteCellContradictionRule extends ContradictionRule {
         LinkedList<NurikabeCell> queue = new LinkedList<>();
 
         // Mark the current node as visited and enqueue it
-        HashMap<NurikabeCell,Boolean> visited= new HashMap<>();
-        visited.put(cell,true);
+        HashMap<NurikabeCell, Boolean> visited = new HashMap<>();
+        visited.put(cell, true);
         queue.add(cell);
         int pathLength = 1;
         while (queue.size() != 0) {
@@ -68,20 +68,20 @@ public class UnreachableWhiteCellContradictionRule extends ContradictionRule {
                 Point loc = s.getLocation();
                 // First check if the side is on the board
                 if (loc.x >= 1) {
-                    adj.add(nurikabeBoard.getCell(loc.x-1, loc.y));
+                    adj.add(nurikabeBoard.getCell(loc.x - 1, loc.y));
                 }
-                if (loc.x < width-1) {
-                    adj.add(nurikabeBoard.getCell(loc.x+1, loc.y));
+                if (loc.x < width - 1) {
+                    adj.add(nurikabeBoard.getCell(loc.x + 1, loc.y));
                 }
                 if (loc.y >= 1) {
-                    adj.add(nurikabeBoard.getCell(loc.x, loc.y-1));
+                    adj.add(nurikabeBoard.getCell(loc.x, loc.y - 1));
                 }
-                if (loc.y < height-1) {
-                    adj.add(nurikabeBoard.getCell(loc.x, loc.y+1));
+                if (loc.y < height - 1) {
+                    adj.add(nurikabeBoard.getCell(loc.x, loc.y + 1));
                 }
 
-                for (NurikabeCell n :adj) {
-                    int regionNeed = whiteRegionMap.getOrDefault(n,-1);
+                for (NurikabeCell n : adj) {
+                    int regionNeed = whiteRegionMap.getOrDefault(n, -1);
                     if (pathLength <= regionNeed) {
                         return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
                     }
@@ -89,10 +89,10 @@ public class UnreachableWhiteCellContradictionRule extends ContradictionRule {
             }
 
             for (NurikabeCell n : adj) {
-                if (!visited.getOrDefault(n,false)
+                if (!visited.getOrDefault(n, false)
                         && (n.getType() == NurikabeType.UNKNOWN ||
                         n.getType() == NurikabeType.WHITE)) {
-                    visited.put(n,true);
+                    visited.put(n, true);
                     queue.add(n);
                 }
             }

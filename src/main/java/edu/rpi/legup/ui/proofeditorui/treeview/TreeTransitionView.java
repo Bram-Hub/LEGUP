@@ -25,8 +25,8 @@ public class TreeTransitionView extends TreeElementView {
     private static final Color DEFAULT_COLOR = Color.GRAY;
     private static final Color X_COLOR = Color.RED;
 
-    private static final Color CORRECT_COLOR_COLORBLIND = new Color(0,0,255);
-    private static final Color INCORRECT_COLOR_COLORBLIND = new Color(255,0,0);
+    private static final Color CORRECT_COLOR_COLORBLIND = new Color(0, 0, 255);
+    private static final Color INCORRECT_COLOR_COLORBLIND = new Color(255, 0, 0);
 
     private static final Color OUTLINE_SELECTION_COLOR = new Color(0x1976D2);
 
@@ -96,9 +96,9 @@ public class TreeTransitionView extends TreeElementView {
 
         if (isSelected) {
             Color c = DEFAULT_COLOR;
-            if(getTreeElement().isJustified()) {
-                if(getTreeElement().isCorrect()) {
-                    if(colorBlind) {
+            if (getTreeElement().isJustified()) {
+                if (getTreeElement().isCorrect()) {
+                    if (colorBlind) {
                         c = CORRECT_COLOR_COLORBLIND;
                     }
                     else {
@@ -106,7 +106,7 @@ public class TreeTransitionView extends TreeElementView {
                     }
                 }
                 else {
-                    if(colorBlind) {
+                    if (colorBlind) {
                         c = INCORRECT_COLOR_COLORBLIND;
                     }
                     else {
@@ -145,9 +145,9 @@ public class TreeTransitionView extends TreeElementView {
             }
             else {
                 Color c = DEFAULT_COLOR;
-                if(getTreeElement().isJustified()) {
-                    if(getTreeElement().isCorrect()) {
-                        if(colorBlind) {
+                if (getTreeElement().isJustified()) {
+                    if (getTreeElement().isCorrect()) {
+                        if (colorBlind) {
                             c = CORRECT_COLOR_COLORBLIND;
                         }
                         else {
@@ -155,7 +155,7 @@ public class TreeTransitionView extends TreeElementView {
                         }
                     }
                     else {
-                        if(colorBlind) {
+                        if (colorBlind) {
                             c = INCORRECT_COLOR_COLORBLIND;
                         }
                         else {

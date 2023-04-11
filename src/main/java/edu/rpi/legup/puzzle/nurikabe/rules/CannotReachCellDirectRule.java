@@ -42,7 +42,7 @@ public class CannotReachCellDirectRule extends DirectRule {
 
         NurikabeCell modifiedCell = (NurikabeCell) modified.getPuzzleElement(puzzleElement);
         modifiedCell.setData(NurikabeType.WHITE.toValue());
-        if (contraRule.checkContradictionAt(modified,modifiedCell) == null) {
+        if (contraRule.checkContradictionAt(modified, modifiedCell) == null) {
             return null;
         }
         return super.getInvalidUseOfRuleMessage() + ": Cell at this index can be reached";
