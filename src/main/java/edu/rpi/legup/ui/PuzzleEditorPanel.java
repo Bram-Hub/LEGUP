@@ -322,7 +322,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     public void loadPuzzleFromHome(String game, String[] statements) {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         try {
-            // TODO: finish implementing this function and testing this part
             facade.loadPuzzle(game, statements);
         }
         catch (IllegalArgumentException exception) {

@@ -708,10 +708,27 @@ public class HomePanel extends LegupPanel {
         this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, rows, columns);
     }
 
+    /**
+     * Opens the puzzle editor for the specified game with the given statements
+     *
+     * @param game          a String containing the name of the game
+     * @param statements    an array of statements
+     */
     public void openEditorWithNewPuzzle(String game, String[] statements) {
+        // Validate the text input
+        GameBoardFacade facade = GameBoardFacade.getInstance();
+        boolean isValidTextInput = facade.validateTextInput(game, statements);
+        if (!isValidTextInput) {
+            JOptionPane.showMessageDialog(null,
+                    "The input you entered is invalid. Please double check \n" +
+                            "your statements and try again.",
+                    "ERROR: Invalid Text Input",
+                    JOptionPane.ERROR_MESSAGE);
+            throw new IllegalArgumentException("ERROR: Invalid dimensions given");
+        }
+
         // Set game type on the puzzle editor
         this.legupUI.displayPanel(2);
-        // TODO: finish testing this function
         this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, statements);
     }
 }

@@ -58,6 +58,23 @@ public class ShortTruthTable extends Puzzle {
     }
 
     /**
+     * Determines if the given statements are valid for Short Truth Table
+     *
+     * @param statements
+     * @return true if the statements are valid for Short Truth Table, false otherwise
+     */
+    public boolean isValidTextInput(String[] statements) {
+        if (statements.length == 0)
+            return false;
+
+        ShortTruthTableImporter importer = (ShortTruthTableImporter) this.getImporter();
+        for (String s : statements)
+            if (!importer.validGrammar(s))
+                return false;
+        return true;
+    }
+
+    /**
      * Determines if the current board is a valid state
      *
      * @param board board to check for validity
