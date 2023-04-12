@@ -61,16 +61,3 @@ public class EmptyCornersBasicRuleTest {
         }
     }
 }
-/*
- * public GridCell getCell(int x, int y) {
-        if (y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
-                y >= dimension.height || x < 0 || y < 0) {
-            System.err.printf("not in bounds, bounds are %dx%d\n", dimension.width, dimension.height);        
-            return null;
-        }
-        return (GridCell) puzzleElements.get(y * dimension.width + x);
-    }
- * 
- * 
- * 
- */

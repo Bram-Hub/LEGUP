@@ -39,6 +39,7 @@ public class MustLightBasicRuleTest {
 
         //confirm there is a logical following of the FinishWithBulbs rule
         Assert.assertNull(RULE.checkRule(transition));
+
         //only the cell above should change following the rule
         LightUpCell c;
         for (int i = 0; i < board.getHeight(); i++) {
