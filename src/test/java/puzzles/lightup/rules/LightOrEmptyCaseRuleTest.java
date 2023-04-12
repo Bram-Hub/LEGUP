@@ -49,20 +49,20 @@ public class LightOrEmptyCaseRuleTest {
         //change the cells of the first new case board
         change_cell = case1.getCell(0,0);
         change_cell.setData(LightUpCellType.BULB.value);
-        case1.addModifiedData(change_cell);
+        //case1.addModifiedData(change_cell);
 
         change_cell = case1.getCell(1,1);
         change_cell.setData(LightUpCellType.BULB.value);
-        case1.addModifiedData(change_cell);
+        //case1.addModifiedData(change_cell);
 
         //change the cells of the second new case board
-        change_cell = case2.getCell(0,0);
+        change_cell = case2.getCell(0,1);
         change_cell.setData(LightUpCellType.BULB.value);
-        case2.addModifiedData(change_cell);
+        //case2.addModifiedData(change_cell);
 
-        change_cell = case2.getCell(1,1);
+        change_cell = case2.getCell(1,0);
         change_cell.setData(LightUpCellType.BULB.value);
-        case2.addModifiedData(change_cell);
+        //case2.addModifiedData(change_cell);
 
         //check each board I expect and make sure it exists in returned board list  
         //currently cases is not made correctly, so the getCases function is flawed. 
