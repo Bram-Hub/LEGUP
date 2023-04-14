@@ -15,7 +15,7 @@
         <puzzle name="LightUp"
             qualifiedClassName="edu.rpi.legup.puzzle.lightup.LightUp"
             fileType=".xml"
-            fileCreationDisabled="true"/>
+            fileCreationDisabled="false"/>
         <puzzle name="Masyu"
             qualifiedClassName="edu.rpi.legup.puzzle.masyu.Masyu"
             fileType=".xml"
