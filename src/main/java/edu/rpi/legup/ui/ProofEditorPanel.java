@@ -284,7 +284,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         //exit
         file.add(exit);
-        exit.addActionListener((ActionEvent) -> this.legupUI.displayPanel(0));
+        exit.addActionListener((ActionEvent) -> exitEditor());
         if (os.equals("mac")) {
             exit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
@@ -355,6 +355,14 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         mBar.add(about);
 
         return mBar;
+    }
+
+    public void exitEditor() {
+        // Wipes the puzzle entirely as if LEGUP just started
+        GameBoardFacade.getInstance().clearPuzzle();
+        this.legupUI.displayPanel(0);
+        treePanel = null;
+        boardView = null;
     }
 
     // File opener
@@ -920,9 +928,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      */
     @Override
     public void onClearHistory() {
-        undo.setEnabled(false);
+        //undo.setEnabled(false);
 //        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
-        redo.setEnabled(false);
+        //redo.setEnabled(false);
 //        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
     }
 
