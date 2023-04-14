@@ -16,14 +16,14 @@ public class SkyscrapersElementView extends GridElementView {
 
     @Override
     public void drawElement(Graphics2D graphics2D) {
-    	graphics2D.setStroke(new BasicStroke(1));
+        graphics2D.setStroke(new BasicStroke(1));
         graphics2D.setColor(BACKGROUND_COLOR);
         graphics2D.fillRect(location.x, location.y, size.width, size.height);
         graphics2D.setColor(BORDER_COLOR);
         graphics2D.drawRect(location.x, location.y, size.width, size.height);
 
         SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
-        int val = cell.getData();
+        int val = cell.getData().value;
         if (val != 0) {
             graphics2D.setColor(FONT_COLOR);
             graphics2D.setFont(FONT);

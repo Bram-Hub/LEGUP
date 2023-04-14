@@ -24,6 +24,7 @@ public class FillinRowCaseRule extends CaseRule {
 
     /**
      * Gets the case board that indicates where this case rule can be applied on the given Board.
+     *
      * @param board the given board
      * @return the case board object
      */
@@ -90,12 +91,12 @@ public class FillinRowCaseRule extends CaseRule {
             for (TreeTentCell c : original) {
                 if (selected.contains(c)) {
                     PuzzleElement change = temp.getPuzzleElement(c);
-                    change.setData(TreeTentType.TENT.value);
+                    change.setData(TreeTentType.TENT);
                     temp.addModifiedData(change);
                 }
                 else {
                     PuzzleElement change = temp.getPuzzleElement(c);
-                    change.setData(TreeTentType.GRASS.value);
+                    change.setData(TreeTentType.GRASS);
                     temp.addModifiedData(change);
                 }
 

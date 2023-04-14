@@ -131,7 +131,7 @@ public class ScrollView extends JScrollPane {
     /**
      * Zooms in or out on a position within the dynamicView
      *
-     * @param n     level of zoom - n < 0 is zoom in, n > 0 is zoom out
+     * @param n     level of zoom - n less than 0 is zoom in, n greater than 0 is zoom out
      * @param point position to zoom in on
      */
     public void zoom(int n, Point point) {
@@ -170,8 +170,6 @@ public class ScrollView extends JScrollPane {
     }
 
     public void zoomTo(double newScale) {
-        //System.out.println("Zooming to " + newScale);
-
         // check zoom bounds
         if (newScale < minScale) {
             newScale = minScale;

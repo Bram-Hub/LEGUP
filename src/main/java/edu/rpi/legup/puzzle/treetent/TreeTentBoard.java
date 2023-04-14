@@ -145,6 +145,7 @@ public class TreeTentBoard extends GridBoard {
 
     /**
      * Gets all cells of a specified type that are diagonals of a specified cell
+     *
      * @param cell the base cell
      * @param type the type to look for
      * @return a list of TreeTentCells that are diagonals of the given TreeTentCell and are of the given TreeTentType
@@ -173,8 +174,9 @@ public class TreeTentBoard extends GridBoard {
 
     /**
      * Creates and returns a list of TreeTentCells that match the given TreeTentType
+     *
      * @param index the row or column number
-     * @param type type of TreeTent element
+     * @param type  type of TreeTent element
      * @param isRow boolean value beased on whether a row of column is being checked
      * @return List of TreeTentCells that match the given TreeTentType
      */
@@ -224,6 +226,7 @@ public class TreeTentBoard extends GridBoard {
 
     /**
      * Performs a deep copy of the TreeTentBoard
+     *
      * @return a TreeTentBoard object that is a deep copy of the current TreeTentBoard
      */
     @Override

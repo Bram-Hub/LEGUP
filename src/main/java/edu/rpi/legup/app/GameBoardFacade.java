@@ -77,7 +77,7 @@ public class GameBoardFacade implements IHistorySubject {
     }
 
     public void initializeUI() {
-        EventQueue.invokeLater(() ->{
+        EventQueue.invokeLater(() -> {
             legupUI = new LegupUI();
             puzzleSolver = legupUI.getProofEditor();
             puzzleEditor = legupUI.getPuzzleEditor();
@@ -107,7 +107,6 @@ public class GameBoardFacade implements IHistorySubject {
     public void setPuzzleEditor(Puzzle puzzle) {
         this.puzzle = puzzle;
         this.puzzleEditor.setPuzzleView(puzzle);
-//        this.history.clear();
     }
 
     public void setConfig(Config config) {
@@ -228,6 +227,20 @@ public class GameBoardFacade implements IHistorySubject {
                 if (qualifiedClassName == null) {
                     throw new InvalidFileFormatException("Puzzle creation error: cannot find puzzle with that name");
                 }
+                //Check if puzzle is a "FileCreationEnabled" puzzle (meaning it is editable).
+                String[] editablePuzzles = config.getFileCreationEnabledPuzzles().toArray(new String[0]);
+                boolean isEditablePuzzle = false;
+                for (int i = 0; i < editablePuzzles.length; i++) {
+                    if (qualifiedClassName.contains(editablePuzzles[i])) {
+                        isEditablePuzzle = true;
+                        break;
+                    }
+                }
+                if (!isEditablePuzzle) {
+                    LOGGER.error("Puzzle is not editable");
+                    throw new InvalidFileFormatException("Puzzle is not editable");
+                }
+                //If it is editable, start loading it
                 LOGGER.debug("Loading " + qualifiedClassName);
 
                 Class<?> c = Class.forName(qualifiedClassName);

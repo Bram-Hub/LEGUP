@@ -1,12 +1,12 @@
-NURI-BASC-0001 : BlackBetweenRegionsBasicRule
-NURI-BASC-0002 : BlackBottleNeckBasicRule
-NURI-BASC-0003 : CornerBlackBasicRule
-NURI-BASC-0004 : FillinBlackBasicRule
-NURI-BASC-0005 : FillinWhiteBasicRule
-NURI-BASC-0006 : PreventBlackSquareBasicRule
-NURI-BASC-0007 : SurroundRegionBasicRule
-NURI-BASC-0008 : CannotReachCellBasicRule
-NURI-BASC-0009 : WhiteBottleNeckBasicRule
+NURI-BASC-0001 : BlackBetweenRegionsDirectRule
+NURI-BASC-0002 : BlackBottleNeckDirectRule
+NURI-BASC-0003 : CornerBlackDirectRule
+NURI-BASC-0004 : FillinBlackDirectRule
+NURI-BASC-0005 : FillinWhiteDirectRule
+NURI-BASC-0006 : PreventBlackSquareDirectRule
+NURI-BASC-0007 : SurroundRegionDirectRule
+NURI-BASC-0008 : CannotReachCellDirectRule
+NURI-BASC-0009 : WhiteBottleNeckDirectRule
 
 NURI-CONT-0001 : BlackSquareContradictionRule
 NURI-CONT-0002 : UnreachableWhiteCellContradictionRule

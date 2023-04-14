@@ -55,4 +55,19 @@ public class BulbsInPathContradictionRuleTest {
 
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 1)));
     }
+
+    @Test
+    public void BulbsInPathContradictionRule_BlockInVerticalPath() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/lightup/rules/BulbsInPathContradictionRule/BlockInVerticalPath", lightUp);
+        TreeNode rootNode = lightUp.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        LightUpBoard board = (LightUpBoard) transition.getBoard();
+        Assert.assertNotNull(RULE.checkContradiction(board));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 0)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 2)));
+
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 1)));
+    }
 }

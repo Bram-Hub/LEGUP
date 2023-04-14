@@ -1,9 +1,9 @@
 RULE LIST:
-    SKYS-BASC-0001 : LastVisibleNumberBasicRule
-    SKYS-BASC-0002 : LastSingularCellBasicRule
-    SKYS-BASC-0003 : LastSingularNumberBasicRule
-    SKYS-BASC-0004 : NEdgeBasicRule
-    SKYS-BASC-0005 : LastVisibleNumberBasicRule
+    SKYS-BASC-0001 : LastVisibleNumberDirectRule
+    SKYS-BASC-0002 : LastSingularCellDirectRule
+    SKYS-BASC-0003 : LastSingularNumberDirectRule
+    SKYS-BASC-0004 : NEdgeDirectRule
+    SKYS-BASC-0005 : LastVisibleNumberDirectRule
 
     SKYS-CONT-0001 : DuplicateNumbersContradictionRule
     SKYS-CONT-0002 : ExceedingVisibilityContradictionRule

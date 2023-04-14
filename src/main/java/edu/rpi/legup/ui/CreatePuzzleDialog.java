@@ -29,24 +29,24 @@ public class CreatePuzzleDialog extends JDialog {
         @Override
         public void actionPerformed(ActionEvent ae) {
             String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
-            
+
             // Check if all 3 TextFields are filled
             if (game.equals("") || rows.getText().equals("") || columns.getText().equals("")) {
                 System.out.println("Unfilled fields");
                 return;
             }
-            
+
             try {
                 homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(rows.getText()), Integer.valueOf(columns.getText()));
                 setVisible(false);
             }
-             catch (IllegalArgumentException e) {
+            catch (IllegalArgumentException e) {
                 System.out.println("Failed to open editor with new puzzle");
                 e.printStackTrace(System.out);
             }
         }
     };
-    
+
     private JButton cancel = new JButton("Cancel");
     private ActionListener cancelButtonListener = new ActionListener() {
         /**
@@ -121,20 +121,22 @@ public class CreatePuzzleDialog extends JDialog {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == ok) {
             String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
-            
+
             try {
                 this.homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(this.rows.getText()), Integer.valueOf(this.columns.getText()));
                 this.setVisible(false);
             }
-             catch (IllegalArgumentException exception) {
+            catch (IllegalArgumentException exception) {
                 // Don't do anything. This is here to prevent the dialog from closing if the dimensions are invalid.
             }
         }
-         else if (e.getSource() == cancel) {
-            this.setVisible(false);
-        }
-         else {
-            // Unknown Action Event
+        else {
+            if (e.getSource() == cancel) {
+                this.setVisible(false);
+            }
+            else {
+                // Unknown Action Event
+            }
         }
     }
 }
