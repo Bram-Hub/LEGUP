@@ -366,22 +366,27 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             }
         }
 
-        if (fileDialog == null) {
-            fileDialog = new FileDialog(this.frame);
-        }
         LegupPreferences preferences = LegupPreferences.getInstance();
         String preferredDirectory = preferences.getUserPref(LegupPreferences.WORK_DIRECTORY);
 
-        fileDialog.setMode(FileDialog.LOAD);
-        fileDialog.setTitle("Select Proof File");
-        fileDialog.setDirectory(preferredDirectory);
-        fileDialog.setVisible(true);
+        File preferredDirectoryFile = new File(preferredDirectory);
+        JFileChooser fileBrowser = new JFileChooser(preferredDirectoryFile);
         String fileName = null;
         File puzzleFile = null;
 
-        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
-            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
-            puzzleFile = new File(fileName);
+        fileBrowser.showOpenDialog(this);
+        fileBrowser.setVisible(true);
+        fileBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+        fileBrowser.setDialogTitle("Select Proof File");
+        fileBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileBrowser.setAcceptAllFileFilterUsed(false);
+
+        File puzzlePath = fileBrowser.getSelectedFile();
+        System.out.println(puzzlePath.getAbsolutePath());
+
+        if (puzzlePath != null) {
+            fileName = puzzlePath.getAbsolutePath();
+            puzzleFile = puzzlePath;
         }
         else {
             // The attempt to prompt a puzzle ended gracefully (cancel)
