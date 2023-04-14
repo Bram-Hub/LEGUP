@@ -19,7 +19,6 @@ public class NumberTile extends NonPlaceableElement {
 
     /**
      * @param num Amount to set tile object to.
-     * @return none
      */
     public void setTileNumber(int num) {
         object_num = num;
