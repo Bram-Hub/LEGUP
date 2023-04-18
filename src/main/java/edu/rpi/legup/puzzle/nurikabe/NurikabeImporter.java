@@ -7,7 +7,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.awt.*;
-import java.util.InputMismatchException;
 
 public class NurikabeImporter extends PuzzleImporter {
     public NurikabeImporter(Nurikabe nurikabe) {
@@ -113,7 +112,7 @@ public class NurikabeImporter extends PuzzleImporter {
     }
 
     @Override
-    public void initializeBoard(String[] statements) throws InputMismatchException {
-        throw new InputMismatchException("Nurikabe cannot accept text input");
+    public void initializeBoard(String[] statements) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Nurikabe cannot accept text input");
     }
 }

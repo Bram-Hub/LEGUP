@@ -7,7 +7,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.awt.*;
-import java.util.InputMismatchException;
 
 public class HeyawakeImporter extends PuzzleImporter {
 
@@ -104,7 +103,7 @@ public class HeyawakeImporter extends PuzzleImporter {
     }
 
     @Override
-    public void initializeBoard(String[] statements) throws InputMismatchException {
-        throw new InputMismatchException("Hey Awake cannot accept text input");
+    public void initializeBoard(String[] statements) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Hey Awake cannot accept text input");
     }
 }

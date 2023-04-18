@@ -7,7 +7,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.awt.*;
-import java.util.InputMismatchException;
 
 public class SkyscrapersImporter extends PuzzleImporter {
     public SkyscrapersImporter(Skyscrapers skyscrapers) {
@@ -163,7 +162,7 @@ public class SkyscrapersImporter extends PuzzleImporter {
     }
 
     @Override
-    public void initializeBoard(String[] statements) throws InputMismatchException {
-        throw new InputMismatchException("Skyscrapers cannot accept text input");
+    public void initializeBoard(String[] statements) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Skyscrapers cannot accept text input");
     }
 }

@@ -7,7 +7,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.awt.*;
-import java.util.InputMismatchException;
 
 public class MasyuImporter extends PuzzleImporter {
     public MasyuImporter(Masyu masyu) {
@@ -103,7 +102,7 @@ public class MasyuImporter extends PuzzleImporter {
     }
 
     @Override
-    public void initializeBoard(String[] statements) throws InputMismatchException {
-        throw new InputMismatchException("Masyu cannot accept text input");
+    public void initializeBoard(String[] statements) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Masyu cannot accept text input");
     }
 }

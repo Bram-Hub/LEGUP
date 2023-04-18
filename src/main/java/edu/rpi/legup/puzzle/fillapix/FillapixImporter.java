@@ -7,7 +7,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.awt.*;
-import java.util.InputMismatchException;
 
 public class FillapixImporter extends PuzzleImporter {
     public FillapixImporter(Fillapix fillapix) {
@@ -101,7 +100,7 @@ public class FillapixImporter extends PuzzleImporter {
     }
 
     @Override
-    public void initializeBoard(String[] statements) throws InputMismatchException {
-        throw new InputMismatchException("Fillapix cannot accept text input");
+    public void initializeBoard(String[] statements) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Fillapix cannot accept text input");
     }
 }

@@ -7,7 +7,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.awt.*;
-import java.util.InputMismatchException;
 
 public class TreeTentImporter extends PuzzleImporter {
     public TreeTentImporter(TreeTent treeTent) {
@@ -187,7 +186,7 @@ public class TreeTentImporter extends PuzzleImporter {
     }
 
     @Override
-    public void initializeBoard(String[] statements) throws InputMismatchException {
-        throw new InputMismatchException("Tree Tent cannot accept text input");
+    public void initializeBoard(String[] statements) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Tree Tent cannot accept text input");
     }
 }
