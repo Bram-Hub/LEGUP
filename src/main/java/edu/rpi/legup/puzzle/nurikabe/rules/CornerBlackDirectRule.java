@@ -46,7 +46,7 @@ public class CornerBlackDirectRule extends DirectRule {
         for (int i = -1; i < 2; i += 2) {
             for (int j = -1; j < 2; j += 2) {
                 // If the corner does not exist, skip the corner
-                if (!(cellLocation.x + i >= 0 && cellLocation.x + i < board.getWidth() && cellLocation.y + j >= 0 && cellLocation.x + i < board.getHeight())) {
+                if (!(cellLocation.x + i >= 0 && cellLocation.x + i < board.getWidth() && cellLocation.y + j >= 0 && cellLocation.y + j < board.getHeight())) {
                     continue;
                 }
 

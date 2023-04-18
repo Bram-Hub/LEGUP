@@ -26,7 +26,7 @@ public class NoNumbersContradictionRuleTest {
     }
 
     @Test
-    public void TooFewSpacesContradictionRule_TwoSurroundBlackTest() throws InvalidFileFormatException {
+    public void NoNumberContradictionRule_NoNumberSurroundBlack() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/NoNumberContradictionRule/NoNumberSurroundBlack", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -48,4 +48,21 @@ public class NoNumbersContradictionRuleTest {
             }
         }
     }
+
+    //    Checks if a transition produces a room without a number.
+    @Test
+    public void NoNumberContradictionRule_NoNumberReachable() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/NoNumberContradictionRule/NoNumberReachable", nurikabe);
+        TreeNode rootNode = nurikabe.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+            }
+        }
+    }
+
 }

@@ -37,20 +37,20 @@ public class UnresolvedNumberContradictionRule extends ContradictionRule {
         Point loc = cell.getLocation();
 
         CellForNumberCaseRule caseRule = new CellForNumberCaseRule();
-        for(int i=0;i<skyscrapersBoard.getWidth();i++){
-            int num = i+1;
+        for (int i = 0; i < skyscrapersBoard.getWidth(); i++) {
+            int num = i + 1;
             //check row
             //isn't already present
             boolean exists = false;
-            for(SkyscrapersCell presentCell : skyscrapersBoard.getRowCol(loc.y,SkyscrapersType.Number,true)) {
-                if (presentCell.getData() == num) {
+            for (SkyscrapersCell presentCell : skyscrapersBoard.getRowCol(loc.y, SkyscrapersType.Number, true)) {
+                if (presentCell.getData().value == num) {
                     exists = true;
                     break;
                 }
             }
-            if(!exists){
+            if (!exists) {
                 //and no possible cases
-                if(caseRule.getCasesFor(board,skyscrapersBoard.getWestClues().get(loc.y),num).size()==0) {
+                if (caseRule.getCasesFor(board, skyscrapersBoard.getWestClues().get(loc.y), num).size() == 0) {
                     return null;
                 }
             }
@@ -58,14 +58,14 @@ public class UnresolvedNumberContradictionRule extends ContradictionRule {
             //check col
             //same process as for row
             exists = false;
-            for(SkyscrapersCell presentCell : skyscrapersBoard.getRowCol(loc.x,SkyscrapersType.Number,false)) {
-                if(presentCell.getData() == num) {
+            for (SkyscrapersCell presentCell : skyscrapersBoard.getRowCol(loc.x, SkyscrapersType.Number, false)) {
+                if (presentCell.getData().value == num) {
                     exists = true;
                     break;
                 }
             }
-            if(!exists){
-                if(caseRule.getCasesFor(board,skyscrapersBoard.getNorthClues().get(loc.x),num).size()==0) {
+            if (!exists) {
+                if (caseRule.getCasesFor(board, skyscrapersBoard.getNorthClues().get(loc.x), num).size() == 0) {
                     return null;
                 }
             }
@@ -86,7 +86,7 @@ public class UnresolvedNumberContradictionRule extends ContradictionRule {
         SkyscrapersBoard skyscrapersBoard = (SkyscrapersBoard) board;
         for (int i = 0; i < skyscrapersBoard.getWidth(); i++) {
             //checks the middle diagonal (checkContradictionAt checks row/col off each)
-            String checkStr = checkContradictionAt(board, skyscrapersBoard.getCell(i,i));
+            String checkStr = checkContradictionAt(board, skyscrapersBoard.getCell(i, i));
             if (checkStr == null) {
                 return null;
             }

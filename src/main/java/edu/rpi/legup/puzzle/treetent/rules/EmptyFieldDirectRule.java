@@ -51,8 +51,9 @@ public class EmptyFieldDirectRule extends DirectRule {
 
     /**
      * Returns a boolean value based on whether the specified cell has adjacent cells (true - no adjacent, false - has adjacent)
+     *
      * @param board the TreeTent board
-     * @param cell the specified TreeTent cell
+     * @param cell  the specified TreeTent cell
      * @return true - no adjacent, false - has adjacent
      */
     private boolean isForced(TreeTentBoard board, TreeTentCell cell) {
@@ -72,7 +73,7 @@ public class EmptyFieldDirectRule extends DirectRule {
         for (PuzzleElement element : treeTentBoard.getPuzzleElements()) {
             TreeTentCell cell = (TreeTentCell) element;
             if (cell.getType() == TreeTentType.UNKNOWN && isForced(treeTentBoard, cell)) {
-                cell.setData(TreeTentType.GRASS.value);
+                cell.setData(TreeTentType.GRASS);
                 treeTentBoard.addModifiedData(cell);
             }
         }

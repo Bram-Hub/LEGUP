@@ -77,7 +77,7 @@ public class GameBoardFacade implements IHistorySubject {
     }
 
     public void initializeUI() {
-        EventQueue.invokeLater(() ->{
+        EventQueue.invokeLater(() -> {
             legupUI = new LegupUI();
             puzzleSolver = legupUI.getProofEditor();
             puzzleEditor = legupUI.getPuzzleEditor();
@@ -89,6 +89,12 @@ public class GameBoardFacade implements IHistorySubject {
     public void setPuzzle(Puzzle puzzle) {
         this.puzzle = puzzle;
         this.puzzleSolver.setPuzzleView(puzzle);
+        this.history.clear();
+    }
+
+    public void clearPuzzle() {
+        this.puzzle = null;
+        this.curFileName = null;
         this.history.clear();
     }
 
@@ -107,7 +113,6 @@ public class GameBoardFacade implements IHistorySubject {
     public void setPuzzleEditor(Puzzle puzzle) {
         this.puzzle = puzzle;
         this.puzzleEditor.setPuzzleView(puzzle);
-//        this.history.clear();
     }
 
     public void setConfig(Config config) {
@@ -236,7 +241,7 @@ public class GameBoardFacade implements IHistorySubject {
                         break;
                     }
                 }
-                if (!isEditablePuzzle){
+                if (!isEditablePuzzle) {
                     LOGGER.error("Puzzle is not editable");
                     throw new InvalidFileFormatException("Puzzle is not editable");
                 }

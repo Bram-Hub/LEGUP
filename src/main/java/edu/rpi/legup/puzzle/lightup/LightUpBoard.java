@@ -66,7 +66,8 @@ public class LightUpBoard extends GridBoard {
 
     /**
      * Gets adjancent cells to the specified cell
-     * @param cell LightUpCell 
+     *
+     * @param cell LightUpCell
      * @return Set of adjacent LightUpCells
      */
     public Set<LightUpCell> getAdj(LightUpCell cell) {
@@ -95,6 +96,7 @@ public class LightUpBoard extends GridBoard {
 
     /**
      * Gets the number of adjacent cells of the specified type
+     *
      * @param cell base cell
      * @param type specified type
      * @return the number of adjacent cells
@@ -112,6 +114,7 @@ public class LightUpBoard extends GridBoard {
 
     /**
      * Gets the number of adjacent cells
+     *
      * @param cell LightUpCell
      * @return number of adjacent cells
      */
@@ -128,6 +131,7 @@ public class LightUpBoard extends GridBoard {
 
     /**
      * Gets the number of adjacent cells that are placable
+     *
      * @param cell specified cell
      * @return number of adjacent cells that are placable
      */

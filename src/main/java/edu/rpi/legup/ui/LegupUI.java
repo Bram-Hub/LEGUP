@@ -9,9 +9,9 @@ import javax.swing.*;
 
 
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
-import edu.rpi.legup.ui.lookandfeel.LegupLookAndFeel;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
 
@@ -45,9 +45,15 @@ public class LegupUI extends JFrame implements WindowListener {
     public LegupUI() {
         setTitle("LEGUP");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        LegupPreferences prefs = LegupPreferences.getInstance();
 
         try {
-            UIManager.setLookAndFeel(new FlatLightLaf());
+            if (Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
+                UIManager.setLookAndFeel(new FlatDarkLaf());
+            }
+            else {
+                UIManager.setLookAndFeel(new FlatLightLaf());
+            }
         }
         catch (UnsupportedLookAndFeelException e) {
             System.err.println("Not supported ui look and feel");
@@ -139,7 +145,7 @@ public class LegupUI extends JFrame implements WindowListener {
 
     //ask to edu.rpi.legup.save current proof
     public boolean noquit(String instr) {
-        int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
+        int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_OPTION);
         return n != JOptionPane.YES_OPTION;
     }
 

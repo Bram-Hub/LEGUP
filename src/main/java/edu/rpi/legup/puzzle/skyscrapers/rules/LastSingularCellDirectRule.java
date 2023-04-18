@@ -44,8 +44,8 @@ public class LastSingularCellDirectRule extends DirectRule {
         initialBoard.setDupeFlag(true);
         initialBoard.setViewFlag(false);
         CellForNumberCaseRule caseRule = new CellForNumberCaseRule();
-        ArrayList<Board> XCandidates = caseRule.getCasesFor(initialBoard,initialBoard.getWestClues().get(finalCell.getLocation().y),(Integer)finalCell.getData());
-        ArrayList<Board> YCandidates = caseRule.getCasesFor(initialBoard,initialBoard.getNorthClues().get(finalCell.getLocation().x),(Integer)finalCell.getData());
+        ArrayList<Board> XCandidates = caseRule.getCasesFor(initialBoard, initialBoard.getWestClues().get(finalCell.getLocation().y), (Integer) finalCell.getData().value);
+        ArrayList<Board> YCandidates = caseRule.getCasesFor(initialBoard, initialBoard.getNorthClues().get(finalCell.getLocation().x), (Integer) finalCell.getData().value);
         initialBoard.setDupeFlag(dupeTemp);
         initialBoard.setViewFlag(viewTemp);
 
@@ -53,18 +53,18 @@ public class LastSingularCellDirectRule extends DirectRule {
         System.out.println(YCandidates.size());
 
         //return null if either pass, both messages otherwise
-        String xCheck = candidateCheck(XCandidates,puzzleElement,finalCell);
-        String yCheck = candidateCheck(YCandidates,puzzleElement,finalCell);
-        if(xCheck==null || yCheck==null){
+        String xCheck = candidateCheck(XCandidates, puzzleElement, finalCell);
+        String yCheck = candidateCheck(YCandidates, puzzleElement, finalCell);
+        if (xCheck == null || yCheck == null) {
             return null;
         }
         return super.getInvalidUseOfRuleMessage() + "\nRow" + xCheck + "\nCol" + yCheck;
     }
 
     //helper to check if candidate list is valid
-    private String candidateCheck(ArrayList<Board> candidates,PuzzleElement puzzleElement, SkyscrapersCell finalCell){
-        if(candidates.size() == 1){
-            if(((SkyscrapersCell) candidates.get(0).getPuzzleElement(puzzleElement)).getType() == SkyscrapersType.Number) {
+    private String candidateCheck(ArrayList<Board> candidates, PuzzleElement puzzleElement, SkyscrapersCell finalCell) {
+        if (candidates.size() == 1) {
+            if (((SkyscrapersCell) candidates.get(0).getPuzzleElement(puzzleElement)).getType() == SkyscrapersType.Number) {
                 if (candidates.get(0).getPuzzleElement(puzzleElement).getData() == finalCell.getData()) {
                     return null;
                 }
