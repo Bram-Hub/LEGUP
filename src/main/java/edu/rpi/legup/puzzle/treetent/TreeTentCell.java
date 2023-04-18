@@ -21,12 +21,16 @@ public class TreeTentCell extends GridCell<TreeTentType> {
         switch (e.getElementName()) {
             case "Unknown Tile":
                 this.data = TreeTentType.UNKNOWN;
+                break;
             case "Tree Tile":
                 this.data = TreeTentType.TREE;
+                break;
             case "Grass Tile":
                 this.data = TreeTentType.GRASS;
+                break;
             case "Tent Tile":
                 this.data = TreeTentType.TENT;
+                break;
         }
     }
 

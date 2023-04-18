@@ -28,7 +28,7 @@ public class TreeTentCellFactory extends ElementFactory {
             NamedNodeMap attributeList = node.getAttributes();
             if (node.getNodeName().equalsIgnoreCase("cell")) {
 
-                int value = Integer.valueOf(attributeList.getNamedItem("value").getNodeValue());
+                int value = TreeTentType.valueToInt(attributeList.getNamedItem("value").getNodeValue());
                 int x = Integer.valueOf(attributeList.getNamedItem("x").getNodeValue());
                 int y = Integer.valueOf(attributeList.getNamedItem("y").getNodeValue());
                 if (x >= width || y >= height) {

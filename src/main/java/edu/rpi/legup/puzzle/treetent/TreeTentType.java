@@ -18,4 +18,17 @@ public enum TreeTentType {
                 return UNKNOWN;
         }
     }
+
+    public static int valueToInt(String value) {
+        switch(value) {
+            case "TREE":
+                return 1;
+            case "GRASS":
+                return 2;
+            case "TENT":
+                return 3;
+            default:
+                return 0;
+        }
+    }
 }
