@@ -330,4 +330,5 @@ public class TreeNode extends TreeElement {
     }
 
     public void clearChildren() { this.children.clear(); }
+
 }
