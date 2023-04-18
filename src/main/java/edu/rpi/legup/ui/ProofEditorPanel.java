@@ -284,7 +284,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         //exit
         file.add(exit);
-        exit.addActionListener((ActionEvent) -> this.legupUI.displayPanel(0));
+        exit.addActionListener((ActionEvent) -> exitEditor());
         if (os.equals("mac")) {
             exit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
@@ -357,6 +357,14 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         return mBar;
     }
 
+    public void exitEditor() {
+        // Wipes the puzzle entirely as if LEGUP just started
+        GameBoardFacade.getInstance().clearPuzzle();
+        this.legupUI.displayPanel(0);
+        treePanel = null;
+        boardView = null;
+    }
+
     // File opener
     public Object[] promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
@@ -366,22 +374,27 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             }
         }
 
-        if (fileDialog == null) {
-            fileDialog = new FileDialog(this.frame);
-        }
         LegupPreferences preferences = LegupPreferences.getInstance();
         String preferredDirectory = preferences.getUserPref(LegupPreferences.WORK_DIRECTORY);
 
-        fileDialog.setMode(FileDialog.LOAD);
-        fileDialog.setTitle("Select Proof File");
-        fileDialog.setDirectory(preferredDirectory);
-        fileDialog.setVisible(true);
+        File preferredDirectoryFile = new File(preferredDirectory);
+        JFileChooser fileBrowser = new JFileChooser(preferredDirectoryFile);
         String fileName = null;
         File puzzleFile = null;
 
-        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
-            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
-            puzzleFile = new File(fileName);
+        fileBrowser.showOpenDialog(this);
+        fileBrowser.setVisible(true);
+        fileBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+        fileBrowser.setDialogTitle("Select Proof File");
+        fileBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileBrowser.setAcceptAllFileFilterUsed(false);
+
+        File puzzlePath = fileBrowser.getSelectedFile();
+        System.out.println(puzzlePath.getAbsolutePath());
+
+        if (puzzlePath != null) {
+            fileName = puzzlePath.getAbsolutePath();
+            puzzleFile = puzzlePath;
         }
         else {
             // The attempt to prompt a puzzle ended gracefully (cancel)
@@ -915,9 +928,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      */
     @Override
     public void onClearHistory() {
-        undo.setEnabled(false);
+        //undo.setEnabled(false);
 //        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
-        redo.setEnabled(false);
+        //redo.setEnabled(false);
 //        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
     }
 

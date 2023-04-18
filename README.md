@@ -11,7 +11,7 @@
 
 LEGUP (**L**ogic **E**ngine for **G**rid-**U**sing **P**uzzles) is a better way to learn formal logic. It was created by [Dr. Bram van Heuveln](https://science.rpi.edu/itws/faculty/bram-van-heuveln), whose goal for this project is to provide a better interface for students to learn the basic principles of logical reasoning.
 
-> Note: A web version of LEGUP ([Bram-Hub/LegupWeb](https://github.com/Bram-Hub/LegupWeb)) based on this app version of LEGUP is actively being developed. However, it is very much in the early stages of development and will not be ready for general use for quite a while. Contributions to both versions of LEGUP are greatly appreciated. If you are interested in using LEGUP for educational purposes, please use this app version.
+> Note: A web version of LEGUP ([Bram-Hub/LegupWeb](https://github.com/Bram-Hub/LegupWeb)) based on this app version of LEGUP was being developed. It is very much in the early stages of development and will not be ready for general use for quite a while. Development on this web version has halted for a while, as no one has been actively working on the project. Contributions to both versions of LEGUP are greatly appreciated. However, if you are interested in using LEGUP for educational purposes, please use this app version.
 
 ## Table of Contents
 - [Background](#background)
