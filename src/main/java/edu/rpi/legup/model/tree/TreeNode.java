@@ -329,5 +329,8 @@ public class TreeNode extends TreeElement {
         this.isRoot = isRoot;
     }
 
-    public void clearChildren() { this.children.clear(); }
+    public void clearChildren() {
+        this.children.clear();
+    }
+
 }
