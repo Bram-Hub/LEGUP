@@ -27,6 +27,7 @@ public class LegupUI extends JFrame implements WindowListener {
 
     /**
      * Identifies operating system
+     * @return operating system, either mac or win
      */
     public static String getOS() {
         String os = System.getProperty("os.name").toLowerCase();

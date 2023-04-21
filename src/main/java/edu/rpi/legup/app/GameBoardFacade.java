@@ -187,6 +187,7 @@ public class GameBoardFacade implements IHistorySubject {
      * Loads a puzzle file
      *
      * @param fileName file name of the board file
+     * @throws InvalidFileFormatException if input is invalid
      */
     public void loadPuzzle(String fileName) throws InvalidFileFormatException {
         try {
@@ -276,7 +277,7 @@ public class GameBoardFacade implements IHistorySubject {
 
     /**
      * Loads a puzzle file from the input stream
-     *
+     * @throws InvalidFileFormatException if input is invalid
      * @param inputStream input stream for the puzzle file
      */
     public void loadPuzzle(InputStream inputStream) throws InvalidFileFormatException {

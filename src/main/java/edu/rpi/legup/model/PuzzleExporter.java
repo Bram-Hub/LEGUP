@@ -26,6 +26,7 @@ public abstract class PuzzleExporter {
 
     /**
      * PuzzleExporter Constructor exports the puzzle object to a file
+     * @param puzzle puzzle that is to be exported
      */
     public PuzzleExporter(Puzzle puzzle) {
         this.puzzle = puzzle;
@@ -35,7 +36,7 @@ public abstract class PuzzleExporter {
      * Exports the puzzle to an xml formatted file
      *
      * @param fileName name of file to be exported
-     * @throws ExportFileException
+     * @throws ExportFileException if puzzle can not be exported
      */
     public void exportPuzzle(String fileName) throws ExportFileException {
         try {
