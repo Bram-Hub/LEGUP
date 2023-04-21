@@ -80,13 +80,14 @@ public abstract class RulePanel extends JPanel {
     /**
      * Search a certain rule in all the puzzles and set it for the searchBarPanel
      *
-     * @param puzzle, ruleName
-     *                <p>
-     *                This function is the searching algorithm for "public void setSearchBar(Puzzle allPuzzle)" (below)
-     *                <p>
-     *                It takes two param Puzzle puzzle and String ruleName
-     *                puzzle contains rules, this function will compare each rule of puzzle with ruleName,
-     *                to find exact same, similar rules, or all the rules with same start letter (if input is a signal letter)
+     * @param puzzle puzzle where the rule is being searched for
+     * @param ruleName rule that is being compared to each puzzle
+     *
+     * This function is the searching algorithm for "public void setSearchBar(Puzzle allPuzzle)" (below)
+     *
+     * It takes two param Puzzle puzzle and String ruleName
+     * puzzle contains rules, this function will compare each rule of puzzle with ruleName,
+     * to find exact same, similar rules, or all the rules with same start letter (if input is a signal letter)
      */
     public void searchForRule(Puzzle puzzle, String ruleName) {
 
@@ -160,9 +161,11 @@ public abstract class RulePanel extends JPanel {
 
     /**
      * Calculates the similarity (a number within 0 and 1) between two strings.
-     * This funtion will take two para String s1 and String s2, which s1 is the user's input
+     * This function will take two para String s1 and String s2, which s1 is the user's input
      * and s2 is the compared really rule name
-     * <p>
+     * @param s1 user's input
+     * @param s2 the compared really rule name
+     * @return a similarity degree between 0 and 1
      * similarityCheck will use a helper function to calculate a similarity degree(from 0 to 1).
      * closer to 0 means less similar, and closer to 1 means more similar.
      */
@@ -181,6 +184,9 @@ public abstract class RulePanel extends JPanel {
 
     /**
      * Help function for similarityCheck();
+     * @param s1 user's input
+     * @param s2 the compared really rule name
+     * @return a similarity degree between 0 and 1
      */
     public static int editDistance(String s1, String s2) {
         s1 = s1.toLowerCase();
@@ -216,6 +222,7 @@ public abstract class RulePanel extends JPanel {
      * search bar allows user to input a name to get relative rules
      * once a name is entered and click ok will load (a/several) rule icon,
      * which has all the functions just as other rule icons.
+     * @param allPuzzle name of rule input
      */
     public void setSearchBar(Puzzle allPuzzle) {
 

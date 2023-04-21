@@ -220,10 +220,14 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 if (rootNode != null) {
                     int confirmReset = JOptionPane.showConfirmDialog(this, "Reset Puzzle to Root Node?", "Confirm Reset", JOptionPane.YES_NO_OPTION);
                     if (confirmReset == JOptionPane.YES_OPTION) {
+
                         List<TreeTransition> children = rootNode.getChildren();
                         children.forEach(t -> puzzle.notifyTreeListeners(l -> l.onTreeElementRemoved(t)));
+                        children.forEach(t -> puzzle.notifyBoardListeners(l -> l.onTreeElementChanged(t)));
+                        rootNode.clearChildren();
                         final TreeViewSelection selection = new TreeViewSelection(treePanel.getTreeView().getElementView(rootNode));
                         puzzle.notifyTreeListeners(l -> l.onTreeSelectionChanged(selection));
+                        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(selection.getFirstSelection().getTreeElement()));
                         GameBoardFacade.getInstance().getHistory().clear();
                     }
                 }
