@@ -123,7 +123,7 @@ public abstract class PuzzleImporter {
      */
     public abstract void initializeBoard(Node node) throws InvalidFileFormatException;
 
-    public abstract void initializeBoard(String[] statements) throws InputMismatchException, IllegalArgumentException;
+    public abstract void initializeBoard(String[] statements) throws UnsupportedOperationException, IllegalArgumentException;
 
     /**
      * Creates the proof for building

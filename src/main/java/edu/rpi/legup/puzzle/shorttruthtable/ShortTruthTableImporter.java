@@ -10,7 +10,6 @@ import org.w3c.dom.NodeList;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -319,10 +318,10 @@ class ShortTruthTableImporter extends PuzzleImporter {
      * Creates the board for building using statements
      *
      * @param statementInput
-     * @throws InputMismatchException
+     * @throws UnsupportedOperationException
      * @throws IllegalArgumentException
      */
-    public void initializeBoard(String[] statementInput) throws InputMismatchException, IllegalArgumentException {
+    public void initializeBoard(String[] statementInput) throws UnsupportedOperationException, IllegalArgumentException {
         List<String> statementsList = new LinkedList<>();
         for (String s : statementInput) {
             if (s.strip().length() > 0) {

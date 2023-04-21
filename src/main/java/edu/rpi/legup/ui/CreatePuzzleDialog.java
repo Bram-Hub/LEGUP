@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class CreatePuzzleDialog extends JDialog {
     private HomePanel homePanel;
@@ -21,14 +22,14 @@ public class CreatePuzzleDialog extends JDialog {
             JComboBox comboBox = (JComboBox) e.getSource();
             String puzzleName = (String) comboBox.getSelectedItem();
             if (puzzleName.equals("ShortTruthTable")) {
-                shortTruthTableStatementsScrollPane.setVisible(true);
+                textInputScrollPane.setVisible(true);
                 rowsLabel.setVisible(false);
                 rows.setVisible(false);
                 columnsLabel.setVisible(false);
                 columns.setVisible(false);
             }
             else {
-                shortTruthTableStatementsScrollPane.setVisible(false);
+                textInputScrollPane.setVisible(false);
                 rowsLabel.setVisible(true);
                 rows.setVisible(true);
                 columnsLabel.setVisible(true);
@@ -43,8 +44,8 @@ public class CreatePuzzleDialog extends JDialog {
     private JLabel columnsLabel;
     private JTextField columns;
 
-    private JTextArea shortTruthTableTextArea;
-    private JScrollPane shortTruthTableStatementsScrollPane;
+    private JTextArea textArea;
+    private JScrollPane textInputScrollPane;
 
     private JButton ok = new JButton("Ok");
     private ActionListener okButtonListener = new ActionListener() {
@@ -57,7 +58,7 @@ public class CreatePuzzleDialog extends JDialog {
             String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
 
             // Check if all 3 TextFields are filled
-            if (game.equals("ShortTruthTable") && shortTruthTableTextArea.getText().equals("")) {
+            if (game.equals("ShortTruthTable") && textArea.getText().equals("")) {
                 System.out.println("Unfilled fields");
                 return;
             }
@@ -68,7 +69,7 @@ public class CreatePuzzleDialog extends JDialog {
 
             try {
                 if (game.equals("ShortTruthTable")) {
-                    homePanel.openEditorWithNewPuzzle("ShortTruthTable", shortTruthTableTextArea.getText().split("\n"));
+                    homePanel.openEditorWithNewPuzzle("ShortTruthTable", textArea.getText().split("\n"));
                 }
                 else {
                     homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(rows.getText()), Integer.valueOf(columns.getText()));
@@ -138,23 +139,23 @@ public class CreatePuzzleDialog extends JDialog {
         c.add(rows);
         c.add(columns);
 
-        shortTruthTableTextArea = new JTextArea();
-        shortTruthTableStatementsScrollPane = new JScrollPane(shortTruthTableTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        shortTruthTableStatementsScrollPane.setBounds(10, 70, this.getWidth() - 30, 50);
-        c.add(shortTruthTableStatementsScrollPane);
+        textArea = new JTextArea();
+        textInputScrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        textInputScrollPane.setBounds(10, 70, this.getWidth() - 30, 50);
+        c.add(textInputScrollPane);
 
         c.add(ok);
         c.add(cancel);
 
-        if (this.gameBox.getSelectedItem().equals("ShortTruthTable")) {
-            shortTruthTableStatementsScrollPane.setVisible(true);
+        if (Objects.equals(this.gameBox.getSelectedItem(), "ShortTruthTable")) {
+            textInputScrollPane.setVisible(true);
             rowsLabel.setVisible(false);
             rows.setVisible(false);
             columnsLabel.setVisible(false);
             columns.setVisible(false);
         }
         else {
-            shortTruthTableStatementsScrollPane.setVisible(false);
+            textInputScrollPane.setVisible(false);
             rowsLabel.setVisible(true);
             rows.setVisible(true);
             columnsLabel.setVisible(true);
@@ -182,7 +183,7 @@ public class CreatePuzzleDialog extends JDialog {
 
             try {
                 if (game.equals("ShortTruthTable")) {
-                    this.homePanel.openEditorWithNewPuzzle("ShortTruthTable", this.shortTruthTableTextArea.getText().split("\n"));
+                    this.homePanel.openEditorWithNewPuzzle("ShortTruthTable", this.textArea.getText().split("\n"));
                 }
                 else {
                     this.homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(this.rows.getText()), Integer.valueOf(this.columns.getText()));
