@@ -249,9 +249,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * Imports the board using the file stream
      *
      * @param fileName
-     * @throws IOException
-     * @throws ParserConfigurationException
-     * @throws SAXException
+     * @throws InvalidFileFormatException
      */
     public void importPuzzle(String fileName) throws InvalidFileFormatException {
         try {
@@ -267,9 +265,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * Imports the board using the file stream
      *
      * @param inputStream
-     * @throws IOException
-     * @throws ParserConfigurationException
-     * @throws SAXException
+     * @throws InvalidFileFormatException
      */
     public void importPuzzle(InputStream inputStream) throws InvalidFileFormatException {
         Document document;
