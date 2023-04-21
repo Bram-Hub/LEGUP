@@ -6,7 +6,7 @@ import edu.rpi.legup.puzzle.treetent.TreeTent;
 import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
-import edu.rpi.legup.puzzle.treetent.rules.SurroundTentWithGrassDirectRule;
+import edu.rpi.legup.puzzle.treetent.rules.FinishWithTentsDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
@@ -16,9 +16,9 @@ import org.junit.Test;
 
 import java.awt.*;
 
-public class SurroundTentWithGrassBasicRuleTest {
+public class FinishWithTentsDirectRuleTest {
 
-    private static final SurroundTentWithGrassDirectRule RULE = new SurroundTentWithGrassDirectRule();
+    private static final FinishWithTentsDirectRule RULE = new FinishWithTentsDirectRule();
     private static TreeTent treetent;
 
     @BeforeClass
@@ -28,8 +28,8 @@ public class SurroundTentWithGrassBasicRuleTest {
     }
 
     @Test
-    public void SurroundTentWithGrassBasicRuleTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/SurroundTentWithGrassBasicRule/SurroundTentWithGrass", treetent);
+    public void EmptyFieldTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithTents", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -37,9 +37,9 @@ public class SurroundTentWithGrassBasicRuleTest {
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
 
         TreeTentCell cell1 = board.getCell(1, 0);
-        cell1.setData(TreeTentType.GRASS);
-        TreeTentCell cell2 = board.getCell(0, 2);
-        cell2.setData(TreeTentType.GRASS);
+        cell1.setData(TreeTentType.TENT);
+        TreeTentCell cell2 = board.getCell(2, 0);
+        cell2.setData(TreeTentType.TENT);
 
         board.addModifiedData(cell1);
         board.addModifiedData(cell2);

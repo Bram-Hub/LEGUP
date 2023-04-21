@@ -25,7 +25,7 @@ public class Config {
     /**
      * Config Constructor for logic puzzles
      *
-     * @throws InvalidConfigException
+     * @throws InvalidConfigException if configuration is invalid
      */
     public Config() throws InvalidConfigException {
         this.puzzles = new Hashtable<>();

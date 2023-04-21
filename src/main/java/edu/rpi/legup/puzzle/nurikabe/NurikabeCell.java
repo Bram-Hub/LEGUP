@@ -46,7 +46,7 @@ public class NurikabeCell extends GridCell<Integer> {
      */
     @Override
     public void setType(Element e, MouseEvent m) {
-        switch (e.getElementName()){
+        switch (e.getElementID()){
             case "Black Tile":
                 this.data = -1;
             case "White Tile":
