@@ -3,7 +3,7 @@ package puzzles.lightup.rules;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import edu.rpi.legup.puzzle.lightup.LightUp;
-import edu.rpi.legup.puzzle.lightup.rules.MustLightBasicRule;
+import edu.rpi.legup.puzzle.lightup.rules.MustLightDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import legup.TestUtilities;
 import edu.rpi.legup.model.tree.TreeNode;
@@ -13,8 +13,8 @@ import edu.rpi.legup.puzzle.lightup.LightUpCell;
 import edu.rpi.legup.puzzle.lightup.LightUpCellType;
 import org.junit.Assert;
 
-public class MustLightBasicRuleTest {
-    private static final MustLightBasicRule RULE = new MustLightBasicRule();
+public class MustLightDirectRuleTest {
+    private static final MustLightDirectRule RULE = new MustLightDirectRule();
     private static LightUp lightUp;
 
     @BeforeClass
@@ -24,7 +24,7 @@ public class MustLightBasicRuleTest {
 
     @Test
     public void MustLightTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/lightup/rules/MustLightBasicRule/MustLight", lightUp);
+        TestUtilities.importTestBoard("puzzles/lightup/rules/MustLightDirectRule/MustLight", lightUp);
         TreeNode rootNode = lightUp.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE); 
