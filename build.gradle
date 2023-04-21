@@ -84,7 +84,7 @@ createExe() {
     bundledJrePath = 'jre'
     bundledJre64Bit = true
     jdkPreference = 'preferJre'
-    jreMinVersion = '1.8.0'
+    jreMinVersion = '11'
     jreRuntimeBits = '64/32'
 }
 
