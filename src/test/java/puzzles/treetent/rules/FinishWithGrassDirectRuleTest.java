@@ -29,7 +29,7 @@ public class FinishWithGrassDirectRuleTest {
 
     @Test
     public void EmptyFieldTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassBasicRule/FinishWithGrass", treetent);
+        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/FinishWithGrass", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);

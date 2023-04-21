@@ -29,7 +29,7 @@ public class FinishWithTentsDirectRuleTest {
 
     @Test
     public void EmptyFieldTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsBasicRule/FinishWithTents", treetent);
+        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithTents", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);

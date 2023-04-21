@@ -29,7 +29,7 @@ public class LastCampingSpotDirectRuleTest {
 
     @Test
     public void EmptyFieldTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/LastCampingSpotBasicRule/LastCampingSpot", treetent);
+        TestUtilities.importTestBoard("puzzles/treetent/rules/LastCampingSpotDirectRule/LastCampingSpot", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);

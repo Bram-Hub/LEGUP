@@ -29,7 +29,7 @@ public class SurroundTentWithGrassDirectRuleTest {
 
     @Test
     public void SurroundTentWithGrassBasicRuleTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/SurroundTentWithGrassBasicRule/SurroundTentWithGrass", treetent);
+        TestUtilities.importTestBoard("puzzles/treetent/rules/SurroundTentWithGrassDirectRule/SurroundTentWithGrass", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
