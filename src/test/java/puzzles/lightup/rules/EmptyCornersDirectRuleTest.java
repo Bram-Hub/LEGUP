@@ -3,7 +3,7 @@ package puzzles.lightup.rules;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import edu.rpi.legup.puzzle.lightup.LightUp;
-import edu.rpi.legup.puzzle.lightup.rules.EmptyCornersBasicRule;
+import edu.rpi.legup.puzzle.lightup.rules.EmptyCornersDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import legup.TestUtilities;
 import edu.rpi.legup.model.tree.TreeNode;
@@ -13,8 +13,8 @@ import edu.rpi.legup.puzzle.lightup.LightUpCell;
 import edu.rpi.legup.puzzle.lightup.LightUpCellType;
 import org.junit.Assert;
 
-public class EmptyCornersBasicRuleTest {
-    private static final EmptyCornersBasicRule RULE = new EmptyCornersBasicRule();
+public class EmptyCornersDirectRuleTest {
+    private static final EmptyCornersDirectRule RULE = new EmptyCornersDirectRule();
     private static LightUp lightUp;
 
 
@@ -25,7 +25,7 @@ public class EmptyCornersBasicRuleTest {
 
     @Test
     public void EmptyCornersTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/lightup/rules/EmptyCornersBasicRule/EmptyCorners", lightUp);
+        TestUtilities.importTestBoard("puzzles/lightup/rules/EmptyCornersDirectRule/EmptyCorners", lightUp);
         TreeNode rootNode = lightUp.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE); 
