@@ -46,15 +46,15 @@ public class NurikabeCell extends GridCell<Integer> {
      */
     @Override
     public void setType(Element e, MouseEvent m) {
-        if (e.getElementName().equals("Black Tile")) {
+        if (e.getElementID().equals("NURI-PLAC-0001")) {
             this.data = -1;
         }
         else {
-            if (e.getElementName().equals("White Tile")) {
+            if (e.getElementID().equals("NURI-PLAC-0002")) {
                 this.data = 0;
             }
             else {
-                if (e.getElementName().equals("Number Tile")) {
+                if (e.getElementID().equals("NURI-UNPL-0001")) {
                     if (m.getButton() == MouseEvent.BUTTON1) {
                         if (this.data <= 0 || this.data > 8) {
                             this.data = 1;
