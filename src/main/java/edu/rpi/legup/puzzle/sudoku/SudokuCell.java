@@ -17,6 +17,7 @@ public class SudokuCell extends GridCell<Integer> {
      * @param value      value of the sudoku cell
      * @param location   location of the cell on the board
      * @param groupIndex index of the group the cell is in on the board
+     * @param size       size of the sudoku cell
      */
     public SudokuCell(int value, Point location, int groupIndex, int size) {
         super(value, location);

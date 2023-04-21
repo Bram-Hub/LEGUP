@@ -21,8 +21,8 @@ public class LegupUtils {
      *
      * @param packageName The base package
      * @return The classes
-     * @throws ClassNotFoundException
-     * @throws IOException
+     * @throws ClassNotFoundException if class is not in package
+     * @throws IOException if file is not found
      */
     public static Class[] getClasses(String packageName)
             throws ClassNotFoundException, IOException {
