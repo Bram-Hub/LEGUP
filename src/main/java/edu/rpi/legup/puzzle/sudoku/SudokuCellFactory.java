@@ -17,7 +17,7 @@ public class SudokuCellFactory extends ElementFactory {
      * @param node  node that represents the puzzleElement
      * @param board board to add the newly created cell
      * @return newly created cell from the xml document Node
-     * @throws InvalidFileFormatException
+     * @throws InvalidFileFormatException if file is invalid
      */
     @Override
     public SudokuCell importCell(Node node, Board board) throws InvalidFileFormatException {
