@@ -46,38 +46,30 @@ public class NurikabeCell extends GridCell<Integer> {
      */
     @Override
     public void setType(Element e, MouseEvent m) {
-        if (e.getElementID().equals("NURI-PLAC-0001")) {
-            this.data = -1;
-        }
-        else {
-            if (e.getElementID().equals("NURI-PLAC-0002")) {
+        switch (e.getElementID()){
+            case "NURI-PLAC-0001":
+                this.data = -1;
+            case "NURI-PLAC-0002":
                 this.data = 0;
-            }
-            else {
-                if (e.getElementID().equals("NURI-UNPL-0001")) {
-                    if (m.getButton() == MouseEvent.BUTTON1) {
+            case "NURI-UNPL-0001":
+                switch (m.getButton()){
+                    case MouseEvent.BUTTON1:
                         if (this.data <= 0 || this.data > 8) {
                             this.data = 1;
                         }
                         else {
                             this.data = this.data + 1;
                         }
-                    }
-                    else {
-                        if (m.getButton() == MouseEvent.BUTTON3) {
-                            if (this.data > 1) {
-                                this.data = this.data - 1;
-                            }
-                            else {
-                                this.data = 9;
-                            }
+                    case MouseEvent.BUTTON3:
+                        if (this.data > 1) {
+                            this.data = this.data - 1;
                         }
-                    }
+                        else {
+                            this.data = 9;
+                        }
                 }
-                else { // unknown tile
-                    this.data = -2;
-                }
-            }
+            default:
+                this.data = -2;
         }
     }
 
