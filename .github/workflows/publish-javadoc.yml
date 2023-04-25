@@ -6,8 +6,8 @@ on:
   push:
     branches:
       - dev
-  permissions:
-    contents: write
+permissions:
+  contents: write
 
 jobs:
   publish:
