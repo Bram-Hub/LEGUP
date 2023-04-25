@@ -22,7 +22,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
      * ValidateContradictionRuleCommand Constructor creates a puzzle command for verifying a contradiction rule
      *
      * @param selection currently selected tree puzzleElement views
-     * @param rule      contradiction rule to set to all of the tree elements
+     * @param rule      contradiction rule to be set to all the tree elements
      */
     public ValidateContradictionRuleCommand(TreeViewSelection selection, ContradictionRule rule) {
         this.selection = selection.copy();
@@ -32,7 +32,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
     }
 
     /**
-     * Executes an command
+     * Executes a command
      */
     @Override
     public void executeCommand() {
@@ -117,7 +117,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
     }
 
     /**
-     * Undoes an command
+     * Undoes a command
      */
     @Override
     public void undoCommand() {

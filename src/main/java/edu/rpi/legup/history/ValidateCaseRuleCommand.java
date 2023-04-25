@@ -25,6 +25,7 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
      * AutoCaseRuleCommand Constructor creates a command for verifying a case rule
      *
      * @param selection currently selected tree puzzleElement views that is being edited
+     * @param caseRule currently selected caseRule puzzleElement view that is being edited
      */
     public ValidateCaseRuleCommand(TreeViewSelection selection, CaseRule caseRule) {
         this.selection = selection.copy();
