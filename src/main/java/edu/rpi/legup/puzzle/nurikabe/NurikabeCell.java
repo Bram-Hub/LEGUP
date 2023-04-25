@@ -49,8 +49,10 @@ public class NurikabeCell extends GridCell<Integer> {
         switch (e.getElementID()){
             case "NURI-PLAC-0001":
                 this.data = -1;
+                break;
             case "NURI-PLAC-0002":
                 this.data = 0;
+                break;
             case "NURI-UNPL-0001":
                 switch (m.getButton()){
                     case MouseEvent.BUTTON1:
@@ -60,6 +62,7 @@ public class NurikabeCell extends GridCell<Integer> {
                         else {
                             this.data = this.data + 1;
                         }
+                        break;
                     case MouseEvent.BUTTON3:
                         if (this.data > 1) {
                             this.data = this.data - 1;
@@ -67,9 +70,12 @@ public class NurikabeCell extends GridCell<Integer> {
                         else {
                             this.data = 9;
                         }
+                        break;
                 }
+                break;
             default:
                 this.data = -2;
+                break;
         }
     }
 
