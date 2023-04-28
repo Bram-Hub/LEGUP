@@ -26,6 +26,12 @@ public class ShortTruthTableBoard extends GridBoard {
 
     }
 
+    /**
+     * Sets ShortTruthTable cell at position (x,y)
+     * @param x position on the x axis
+     * @param y position on the y axis
+     * @param e element to set the type of this ShortTruthTable cell to
+     */
     @Override
     public void setCell(int x, int y, Element e, MouseEvent m) {
         System.out.println("Setting Cell");
@@ -37,11 +43,12 @@ public class ShortTruthTableBoard extends GridBoard {
             if (e != null) {
                 puzzleElements.get(y * dimension.width + x).setType(e, m);
                 int count = 0;
+                // remakes statement that included original cell to include new cell
                 for (ShortTruthTableStatement s : statements) {
                     for (int i = 0; i < s.getLength(); i++) {
                         if (s.getCell(i).getX() == x && s.getCell(i).getY() == y) {
-
                             List<ShortTruthTableCell> cells = new ArrayList<ShortTruthTableCell>();
+                            // adds new cell to cell list
                             for (int c = 0; c < s.getLength(); c++) {
                                 if (i == c) {
                                     ShortTruthTableCell newC = new ShortTruthTableCell(s.getCell(i).getSymbol(), s.getCell(i).getType(), s.getCell(i).getLocation());
@@ -51,7 +58,9 @@ public class ShortTruthTableBoard extends GridBoard {
                                 }
                             }
 
+                            // modifies StringRep
                             String newS = s.getStringRep().substring(0, i) + cells.get(i).getSymbol() + s.getStringRep().substring(i + 1);
+                            // makes modified statement
                             ShortTruthTableStatement temp = new ShortTruthTableStatement(newS, cells);
                             statements[count] = temp;
                         }
