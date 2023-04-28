@@ -52,7 +52,8 @@ public class ShortTruthTableBoard extends GridBoard {
                                 if (i == c) {
                                     ShortTruthTableCell newC = new ShortTruthTableCell(s.getCell(i).getSymbol(), s.getCell(i).getType(), s.getCell(i).getLocation());
                                     cells.add(newC);
-                                } else {
+                                }
+                                else {
                                     cells.add(s.getCell(c));
                                 }
                             }
