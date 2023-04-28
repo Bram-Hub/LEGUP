@@ -13,7 +13,6 @@ public class ShortTruthTableExporter extends PuzzleExporter {
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
         ShortTruthTableBoard board = (ShortTruthTableBoard) puzzle.getTree().getRootNode().getBoard();
-
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
 
         org.w3c.dom.Element dataElement = newDocument.createElement("data");
