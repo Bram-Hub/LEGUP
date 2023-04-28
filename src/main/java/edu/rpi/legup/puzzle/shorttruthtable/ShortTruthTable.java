@@ -64,15 +64,13 @@ public class ShortTruthTable extends Puzzle {
      * @return true if the statements are valid for Short Truth Table, false otherwise
      */
     public boolean isValidTextInput(String[] statements) {
-        if (statements.length == 0) {
+        if (statements.length == 0)
             return false;
-        }
+
         ShortTruthTableImporter importer = (ShortTruthTableImporter) this.getImporter();
-        for (String s : statements) {
-            if (!importer.validGrammar(s)) {
+        for (String s : statements)
+            if (!importer.validGrammar(s))
                 return false;
-            }
-        }
         return true;
     }
 
