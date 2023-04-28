@@ -1,5 +1,6 @@
 package edu.rpi.legup.puzzle.shorttruthtable;
 
+import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -7,6 +8,7 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.puzzle.shorttruthtable.*;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +26,28 @@ public class ShortTruthTableBoard extends GridBoard {
 
     }
 
+    @Override
+    public void setCell(int x, int y, Element e, MouseEvent m) {
+        System.out.println("Setting Cell");
+        if (e != null && y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
+                y >= dimension.height || x < 0 || y < 0) {
+            return;
+        }
+        else {
+            if (e != null) {
+                puzzleElements.get(y * dimension.width + x).setType(e, m);
+                for (ShortTruthTableStatement s : statements) {
+                    for (int i = 0; i < s.getLength(); i++) {
+                        if (s.getCell(i).getX() == x && s.getCell(i).getY() == y) {
+                            System.out.println("Setting Statement");
+                            s.getCell(i).setType(e, m);
+                            //s.getStringRep().
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     public Set<ShortTruthTableCell> getCellsWithSymbol(char symbol) {
         Set<ShortTruthTableCell> cells = new HashSet<ShortTruthTableCell>();

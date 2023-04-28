@@ -13,7 +13,7 @@ public class ShortTruthTableExporter extends PuzzleExporter {
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
         ShortTruthTableBoard board = (ShortTruthTableBoard) puzzle.getTree().getRootNode().getBoard();
-
+        System.out.println(board.toString());
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
 
         org.w3c.dom.Element dataElement = newDocument.createElement("data");
@@ -21,6 +21,7 @@ public class ShortTruthTableExporter extends PuzzleExporter {
         ShortTruthTableStatement[] statements = board.getStatements();
         for (int i = 0; i < statements.length; i++) {
             org.w3c.dom.Element statementElement = newDocument.createElement("statement");
+            System.out.println(statements[i].toString());
             statementElement.setAttribute("representation", statements[i].getStringRep());
             statementElement.setAttribute("row_index", String.valueOf(i));
             dataElement.appendChild(statementElement);
