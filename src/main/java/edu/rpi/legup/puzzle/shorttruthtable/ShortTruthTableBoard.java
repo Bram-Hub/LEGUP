@@ -34,7 +34,6 @@ public class ShortTruthTableBoard extends GridBoard {
      */
     @Override
     public void setCell(int x, int y, Element e, MouseEvent m) {
-        System.out.println("Setting Cell");
         if (e != null && y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
                 y >= dimension.height || x < 0 || y < 0) {
             return;
