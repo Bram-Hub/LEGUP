@@ -36,13 +36,38 @@ public class ShortTruthTableBoard extends GridBoard {
         else {
             if (e != null) {
                 puzzleElements.get(y * dimension.width + x).setType(e, m);
+                int count = 0;
                 for (ShortTruthTableStatement s : statements) {
                     for (int i = 0; i < s.getLength(); i++) {
                         if (s.getCell(i).getX() == x && s.getCell(i).getY() == y) {
                             System.out.println("Setting Statement");
-                            s.getCell(i).setType(e, m);
+
+                            List<ShortTruthTableCell> cells = new ArrayList<ShortTruthTableCell>();
+                            for (int c = 0; c < s.getLength(); c++) {
+                                System.out.println(c);
+                                if (i == c) {
+                                    ShortTruthTableCell newC = new ShortTruthTableCell(s.getCell(i).getSymbol(), s.getCell(i).getType(), s.getCell(i).getLocation());
+                                    newC.setType(e,m);
+                                    cells.add(newC);
+                                } else {
+                                    cells.add(s.getCell(c));
+                                }
+                            }
+
+
+                            System.out.println(s.getStringRep());
+                            String newS = s.getStringRep().substring(0, i) + cells.get(i).getSymbol() + s.getStringRep().substring(i + 1);
+                            System.out.println(newS);
+                            //ShortTruthTableStatement parent = s.getParentStatement();
+
+                            ShortTruthTableStatement temp = new ShortTruthTableStatement(newS, cells);
+                            System.out.println(temp.getStringRep());
+                            statements[count] = temp;
+                            System.out.println(statements[count]);
+                            //s.getCell(i).setType(e, m);
                             //s.getStringRep().
                         }
+                        count++;
                     }
                 }
             }
