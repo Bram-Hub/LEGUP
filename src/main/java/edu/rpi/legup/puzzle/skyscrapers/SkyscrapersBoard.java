@@ -51,50 +51,54 @@ public class SkyscrapersBoard extends GridBoard {
     }
 
     /**
-    * Returns a list of the eastern clues ordered from loc.y = 0->max
+    * @return eastClues a list of the eastern clues ordered from loc.y = 0 to max
     */
     public ArrayList<SkyscrapersClue> getEastClues() {
         return eastClues;
     }
 
     /**
-     * Returns a list of the southern clues ordered from loc.x = 0->max
+     * @return southClues a list of the southern clues ordered from loc.x = 0 to max
      */
     public ArrayList<SkyscrapersClue> getSouthClues() {
         return southClues;
     }
 
     /**
-     * Returns a list of the western clues ordered from loc.y = 0->max
+     * @return westClues a list of the western clues ordered from loc.y = 0 to max
      */
     public ArrayList<SkyscrapersClue> getWestClues() {
         return westClues;
     }
 
     /**
-     * Returns a list of the northern clues ordered from loc.x = 0->max
+     * @return northClues a list of the northern clues ordered from loc.x = 0 to max
      */
     public ArrayList<SkyscrapersClue> getNorthClues() {
         return northClues;
     }
 
-    public boolean getDupeFlag(){
+    public boolean getDupeFlag() {
         return dupeFlag;
     }
-    public boolean getViewFlag(){
+
+    public boolean getViewFlag() {
         return viewFlag;
     }
-    public void setDupeFlag(boolean newFlag){
+
+    public void setDupeFlag(boolean newFlag) {
         dupeFlag = newFlag;
     }
-    public void setViewFlag(boolean newFlag){
+
+    public void setViewFlag(boolean newFlag) {
         viewFlag = newFlag;
     }
 
-    public SkyscrapersClue getmodClue(){
+    public SkyscrapersClue getmodClue() {
         return modClue;
     }
-    public void setModClue(SkyscrapersClue newClue){
+
+    public void setModClue(SkyscrapersClue newClue) {
         modClue = newClue;
     }
 
@@ -160,7 +164,7 @@ public class SkyscrapersBoard extends GridBoard {
      * Gets the cells of a certain type directly adjacent to a given cell
      *
      * @param cell at the center,
-     *        type of cell to collect
+     * @param type of cell to collect
      * @return list of cells of the given type
      */
     public List<SkyscrapersCell> getAdjacent(SkyscrapersCell cell, SkyscrapersType type) {
@@ -189,7 +193,7 @@ public class SkyscrapersBoard extends GridBoard {
      * Gets the cells of a certain type directly diagonal to a given cell
      *
      * @param cell at the center,
-     *        type of cell to collect
+     * @param type of cell to collect
      * @return list of cells of the given type
      */
     public List<SkyscrapersCell> getDiagonals(SkyscrapersCell cell, SkyscrapersType type) {
@@ -218,8 +222,8 @@ public class SkyscrapersBoard extends GridBoard {
      * Gets the cells of a certain type in a given row/column
      *
      * @param index: y pos of row or x pos of col,
-     *        type of cell to collect,
-     *        boolean true if row, false if col
+     * @param type of cell to collect,
+     * @param isRow true if row, false if col
      * @return list of cells of the given type, ordered west to east or north to south
      */
     public List<SkyscrapersCell> getRowCol(int index, SkyscrapersType type, boolean isRow) {
@@ -243,14 +247,14 @@ public class SkyscrapersBoard extends GridBoard {
     /**
      * Prints a semblance of the board to console (helps in debugging)
      */
-    public void printBoard(){
-        for(int i =0; i<this.dimension.height; i++){
-            for(SkyscrapersCell cell : this.getRowCol(i, SkyscrapersType.ANY,true)){
-                if(cell.getType() == SkyscrapersType.Number){
-                    System.out.print(cell.getData()+" ");
+    public void printBoard() {
+        for (int i = 0; i < this.dimension.height; i++) {
+            for (SkyscrapersCell cell : this.getRowCol(i, SkyscrapersType.ANY, true)) {
+                if (cell.getType() == SkyscrapersType.Number) {
+                    System.out.print(cell.getData() + " ");
                 }
                 else {
-                    System.out.print(0+ " ");
+                    System.out.print(0 + " ");
                 }
             }
             System.out.println();
@@ -265,7 +269,7 @@ public class SkyscrapersBoard extends GridBoard {
      */
     @Override
     public boolean equalsBoard(Board board) {
-        SkyscrapersBoard skyscrapersBoard= (SkyscrapersBoard) board;
+        SkyscrapersBoard skyscrapersBoard = (SkyscrapersBoard) board;
         for (SkyscrapersLine l1 : lines) {
             boolean hasLine = false;
             for (SkyscrapersLine l2 : skyscrapersBoard.lines) {
@@ -301,8 +305,8 @@ public class SkyscrapersBoard extends GridBoard {
         copy.westClues = westClues;
         copy.northClues = northClues;
 
-        copy.dupeFlag=dupeFlag;
-        copy.viewFlag=viewFlag;
+        copy.dupeFlag = dupeFlag;
+        copy.viewFlag = viewFlag;
         return copy;
     }
 }

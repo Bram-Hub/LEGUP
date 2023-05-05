@@ -17,7 +17,7 @@ public class SkyscrapersCellFactory extends ElementFactory {
      * @param node  node that represents the puzzleElement
      * @param board board to add the newly created cell
      * @return newly created cell from the xml document Node
-     * @throws InvalidFileFormatException
+     * @throws InvalidFileFormatException if input is invalid
      */
     @Override
     public PuzzleElement importCell(Node node, Board board) throws InvalidFileFormatException {
@@ -39,7 +39,7 @@ public class SkyscrapersCellFactory extends ElementFactory {
                     throw new InvalidFileFormatException("TreeTent Factory: cell unknown value");
                 }
 
-                SkyscrapersCell cell = new SkyscrapersCell(value, new Point(x, y), width);
+                SkyscrapersCell cell = new SkyscrapersCell(SkyscrapersType.convertToSkyType(value), new Point(x, y), width);
                 cell.setIndex(y * height + x);
                 return cell;
             }

@@ -25,7 +25,7 @@ public class Config {
     /**
      * Config Constructor for logic puzzles
      *
-     * @throws InvalidConfigException
+     * @throws InvalidConfigException if configuration is invalid
      */
     public Config() throws InvalidConfigException {
         this.puzzles = new Hashtable<>();
@@ -64,7 +64,7 @@ public class Config {
      * convertClassNameToDisplayName("Nurikabe") will return "Nurikabe"
      *
      * @param className the name of the class
-     * @return
+     * @return displayName the name of the puzzle
      */
     public static String convertClassNameToDisplayName(String className) {
         String displayName = "";

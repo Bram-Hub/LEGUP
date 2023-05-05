@@ -181,8 +181,8 @@ public class SatisfyNumberCaseRule extends CaseRule {
         for (LightUpCell c : spots) {
             ArrayList<Board> cases = getCases(parent.getBoard(), c);
 
-            // We want to return false if cases.size() is equal to 1 because case rules aren't supposed to have only 1 option
-            if (cases.size() == childTransitions.size() && cases.size() > 1) {
+            // We will allow case rules to have only one option
+            if (cases.size() == childTransitions.size() && cases.size() >= 1) {
                 boolean foundSpot = true;
                 for (TreeTransition childTrans : childTransitions) {
                     LightUpBoard actCase = (LightUpBoard) childTrans.getBoard();
@@ -243,6 +243,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
 
     /**
      * Gets all cells in the TreeTransition board that are adjacent to all modified cells
+     *
      * @param transition TreeTransition object
      * @return list of cells that are adjacent to all modified cells, returns null if the number of modified cells is =0 || >4
      */

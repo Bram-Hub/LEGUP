@@ -17,7 +17,7 @@ public class TreeTentCellFactory extends ElementFactory {
      * @param node  node that represents the puzzleElement
      * @param board board to add the newly created cell
      * @return newly created cell from the xml document Node
-     * @throws InvalidFileFormatException
+     * @throws InvalidFileFormatException if file is invalid
      */
     @Override
     public PuzzleElement importCell(Node node, Board board) throws InvalidFileFormatException {
@@ -38,7 +38,7 @@ public class TreeTentCellFactory extends ElementFactory {
                     throw new InvalidFileFormatException("TreeTent Factory: cell unknown value");
                 }
 
-                TreeTentCell cell = new TreeTentCell(value, new Point(x, y));
+                TreeTentCell cell = new TreeTentCell(TreeTentType.valueOf(value), new Point(x, y));
                 cell.setIndex(y * height + x);
                 return cell;
             }

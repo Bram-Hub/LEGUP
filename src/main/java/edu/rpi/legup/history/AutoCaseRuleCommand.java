@@ -29,6 +29,9 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
      *
      * @param elementView currently selected puzzle puzzleElement view that is being edited
      * @param selection   currently selected tree puzzleElement views that is being edited
+     * @param caseRule currently selected caseRule puzzleElement view that is being edited
+     * @param caseBoard currently selected caseBoard puzzleElement view that is being edited
+     * @param mouseEvent currently selected mouseEvent puzzleElement view that is being edited
      */
     public AutoCaseRuleCommand(ElementView elementView, TreeViewSelection selection, CaseRule caseRule, CaseBoard caseBoard, MouseEvent mouseEvent) {
         this.elementView = elementView;
@@ -105,7 +108,7 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
             return "The selected data element is not pickable with this case rule.";
         }
 
-        if(caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size() == 0){
+        if (caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size() == 0) {
             return "The selection must produce at least one case";
         }
 

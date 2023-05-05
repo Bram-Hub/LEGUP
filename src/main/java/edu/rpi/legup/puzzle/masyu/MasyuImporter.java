@@ -18,7 +18,7 @@ public class MasyuImporter extends PuzzleImporter {
      *
      * @param rows    the number of rows on the board
      * @param columns the number of columns on the board
-     * @throws RuntimeException
+     * @throws RuntimeException if board can not be created
      */
     @Override
     public void initializeBoard(int rows, int columns) {
@@ -29,7 +29,7 @@ public class MasyuImporter extends PuzzleImporter {
      * Creates the board for building
      *
      * @param node xml document node
-     * @throws InvalidFileFormatException
+     * @throws InvalidFileFormatException if file is invalid
      */
     @Override
     public void initializeBoard(Node node) throws InvalidFileFormatException {
@@ -67,7 +67,7 @@ public class MasyuImporter extends PuzzleImporter {
             for (int i = 0; i < elementDataList.getLength(); i++) {
                 MasyuCell cell = (MasyuCell) puzzle.getFactory().importCell(elementDataList.item(i), masyuBoard);
                 Point loc = cell.getLocation();
-                if (cell.getData() != 0) {
+                if (cell.getData() != MasyuType.UNKNOWN) {
                     cell.setModifiable(false);
                     cell.setGiven(true);
                 }
@@ -77,7 +77,7 @@ public class MasyuImporter extends PuzzleImporter {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     if (masyuBoard.getCell(x, y) == null) {
-                        MasyuCell cell = new MasyuCell(0, new Point(x, y));
+                        MasyuCell cell = new MasyuCell(MasyuType.UNKNOWN, new Point(x, y));
                         cell.setIndex(y * height + x);
                         cell.setModifiable(true);
                         masyuBoard.setCell(x, y, cell);

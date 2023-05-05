@@ -77,7 +77,7 @@ public class GameBoardFacade implements IHistorySubject {
     }
 
     public void initializeUI() {
-        EventQueue.invokeLater(() ->{
+        EventQueue.invokeLater(() -> {
             legupUI = new LegupUI();
             puzzleSolver = legupUI.getProofEditor();
             puzzleEditor = legupUI.getPuzzleEditor();
@@ -89,6 +89,12 @@ public class GameBoardFacade implements IHistorySubject {
     public void setPuzzle(Puzzle puzzle) {
         this.puzzle = puzzle;
         this.puzzleSolver.setPuzzleView(puzzle);
+        this.history.clear();
+    }
+
+    public void clearPuzzle() {
+        this.puzzle = null;
+        this.curFileName = null;
         this.history.clear();
     }
 
@@ -107,7 +113,6 @@ public class GameBoardFacade implements IHistorySubject {
     public void setPuzzleEditor(Puzzle puzzle) {
         this.puzzle = puzzle;
         this.puzzleEditor.setPuzzleView(puzzle);
-//        this.history.clear();
     }
 
     public void setConfig(Config config) {
@@ -182,6 +187,7 @@ public class GameBoardFacade implements IHistorySubject {
      * Loads a puzzle file
      *
      * @param fileName file name of the board file
+     * @throws InvalidFileFormatException if input is invalid
      */
     public void loadPuzzle(String fileName) throws InvalidFileFormatException {
         try {
@@ -227,6 +233,20 @@ public class GameBoardFacade implements IHistorySubject {
                 if (qualifiedClassName == null) {
                     throw new InvalidFileFormatException("Puzzle creation error: cannot find puzzle with that name");
                 }
+                //Check if puzzle is a "FileCreationEnabled" puzzle (meaning it is editable).
+                String[] editablePuzzles = config.getFileCreationEnabledPuzzles().toArray(new String[0]);
+                boolean isEditablePuzzle = false;
+                for (int i = 0; i < editablePuzzles.length; i++) {
+                    if (qualifiedClassName.contains(editablePuzzles[i])) {
+                        isEditablePuzzle = true;
+                        break;
+                    }
+                }
+                if (!isEditablePuzzle) {
+                    LOGGER.error("Puzzle is not editable");
+                    throw new InvalidFileFormatException("Puzzle is not editable");
+                }
+                //If it is editable, start loading it
                 LOGGER.debug("Loading " + qualifiedClassName);
 
                 Class<?> c = Class.forName(qualifiedClassName);
@@ -257,7 +277,7 @@ public class GameBoardFacade implements IHistorySubject {
 
     /**
      * Loads a puzzle file from the input stream
-     *
+     * @throws InvalidFileFormatException if input is invalid
      * @param inputStream input stream for the puzzle file
      */
     public void loadPuzzle(InputStream inputStream) throws InvalidFileFormatException {

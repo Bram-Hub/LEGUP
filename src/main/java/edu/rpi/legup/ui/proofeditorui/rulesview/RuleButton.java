@@ -15,6 +15,7 @@ public class RuleButton extends JButton {
     RuleButton(Rule rule) {
         super(rule.getRuleName(), rule.getImageIcon()); // display rules' name under rule when load the icon
         this.rule = rule;
+        this.setFocusPainted(false);
     }
 
     /**
