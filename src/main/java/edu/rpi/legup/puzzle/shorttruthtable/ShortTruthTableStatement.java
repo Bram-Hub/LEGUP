@@ -295,4 +295,19 @@ public class ShortTruthTableStatement extends PuzzleElement<String> {
         return statementCopy;
     }
 
+    public ShortTruthTableStatement replace(int column, ShortTruthTableCell cell) {
+        //copy all the cells (replacing one)
+        List<ShortTruthTableCell> cellsCopy = new ArrayList<>();
+        for (ShortTruthTableCell c : cells) {
+            if (c.getX() == column) {
+                cellsCopy.add(cell);
+            } else {
+                cellsCopy.add(c.copy());
+            }
+        }
+        //make a copy of the statement with all the copied cells
+        //return the new statement
+        return new ShortTruthTableStatement(stringRep, cellsCopy);
+    }
+
 }

@@ -99,6 +99,17 @@ public class ShortTruthTableBoard extends GridBoard {
 //        cell.setType(cellElement.getType());
 //    }
 
+    @Override
+    public void notifyChange(PuzzleElement puzzleElement) {
+        ShortTruthTableCell cell = (ShortTruthTableCell) puzzleElement;
+        int r = cell.getY();
+        int c = cell.getX();
+        if (r % 2 == 0 && c < statements[r / 2].getLength()) {
+            statements[r / 2] = statements[r / 2].replace(c, cell);
+            setCell(c, r, statements[r / 2].getCell(c));
+        }
+        super.notifyChange(cell);
+    }
 
     @Override
     public String toString() {
