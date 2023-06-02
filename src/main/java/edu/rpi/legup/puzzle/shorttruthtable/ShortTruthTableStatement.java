@@ -302,7 +302,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String> {
                 cellsCopy.add(cell);
             }
             else {
-                cellsCopy.add(c.copy());
+                cellsCopy.add(c);
             }
         }
         //make a copy of the statement with all the copied cells
