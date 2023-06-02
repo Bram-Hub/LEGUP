@@ -301,7 +301,8 @@ public class ShortTruthTableStatement extends PuzzleElement<String> {
         for (ShortTruthTableCell c : cells) {
             if (c.getX() == column) {
                 cellsCopy.add(cell);
-            } else {
+            }
+            else {
                 cellsCopy.add(c.copy());
             }
         }
