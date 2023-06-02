@@ -95,7 +95,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String> {
                 if (c == ')') openParenCount--;
             }
 
-            //if the first paren has been closed and it is not the end of the string,
+            //if the first paren has been closed, and it is not the end of the string,
             //then there is no whole statement parens to remove
             if (openParenCount == 0 && i != statement.length() - 1) {
                 return statement;
@@ -164,7 +164,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String> {
                 if (c == ')') openParenCount--;
             }
 
-            //if the first paren has been closed and it is not the end of the string,
+            //if the first paren has been closed, and it is not the end of the string,
             //then there is no whole statement parens to remove
             if (openParenCount == 0 && i != cells.size() - 1) {
                 return;
@@ -241,7 +241,7 @@ public class ShortTruthTableStatement extends PuzzleElement<String> {
      * Returns an array of three elements where [0] is the left
      * statement type, [1] is this statement type, and [2] is the
      * right statement type. null means either the statement doesn't
-     * exist or is is an unknown value.
+     * exist or is an unknown value.
      *
      * @return the assigned values to this statement and its sub-statements
      */
@@ -285,14 +285,13 @@ public class ShortTruthTableStatement extends PuzzleElement<String> {
 
     public ShortTruthTableStatement copy() {
         //copy all the cells
-        List<ShortTruthTableCell> cellsCopy = new ArrayList<ShortTruthTableCell>();
+        List<ShortTruthTableCell> cellsCopy = new ArrayList<>();
         for (ShortTruthTableCell c : cells) {
             cellsCopy.add(c.copy());
         }
         //make a copy of the statement with all the copied cells
-        ShortTruthTableStatement statementCopy = new ShortTruthTableStatement(stringRep, cellsCopy);
         //return the new statement
-        return statementCopy;
+        return new ShortTruthTableStatement(stringRep, cellsCopy);
     }
 
     public ShortTruthTableStatement replace(int column, ShortTruthTableCell cell) {
