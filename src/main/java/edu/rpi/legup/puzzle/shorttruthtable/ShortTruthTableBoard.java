@@ -4,6 +4,7 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 
+import edu.rpi.legup.puzzle.lightup.LightUpCell;
 import edu.rpi.legup.puzzle.shorttruthtable.*;
 
 import java.awt.*;
@@ -40,6 +41,11 @@ public class ShortTruthTableBoard extends GridBoard {
 
     public ShortTruthTableCell getCellFromElement(PuzzleElement element) {
         return (ShortTruthTableCell) getPuzzleElement(element);
+    }
+
+    @Override
+    public ShortTruthTableCell getCell(int x, int y) {
+        return (ShortTruthTableCell) super.getCell(x, y);
     }
 
 
