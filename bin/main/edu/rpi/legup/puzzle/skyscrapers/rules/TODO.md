@@ -11,7 +11,7 @@ spreadsheet : https://docs.google.com/spreadsheets/d/1l7aUZtavtysM8dtGnaEIXhBKMR
  4. Refactoring:
     - document utility functions in the reference sheet, COMMENTS!
     - review and identify dead code
-    - remove all these damn print statments (commented ones too if they aren't useful)
+    - remove all these damn print statements (commented ones too if they aren't useful)
     - Edit to allow blank clues
     - Display flags somewhere
  5. Flags
