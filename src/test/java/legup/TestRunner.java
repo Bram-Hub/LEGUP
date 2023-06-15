@@ -1,9 +1,10 @@
-package puzzles.battleship.rules;
+package legup;
 
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
+import puzzles.battleship.rules.*;
 import puzzles.lightup.rules.*;
 import puzzles.nurikabe.rules.*;
 import puzzles.treetent.rules.*;
