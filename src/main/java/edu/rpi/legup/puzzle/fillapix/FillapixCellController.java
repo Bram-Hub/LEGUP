@@ -29,5 +29,22 @@ public class FillapixCellController extends ElementController {
                 }
             }
         }
+        else {
+            if (e.getButton() == MouseEvent.BUTTON3) {
+                if (cell.getType() == FillapixCellType.UNKNOWN) {
+                    cell.setType(FillapixCellType.WHITE);
+                }
+                else {
+                    if (cell.getType() == FillapixCellType.BLACK) {
+                        cell.setType(FillapixCellType.UNKNOWN);
+                    }
+                    else {
+                        if (cell.getType() == FillapixCellType.WHITE) {
+                            cell.setType(FillapixCellType.BLACK);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
