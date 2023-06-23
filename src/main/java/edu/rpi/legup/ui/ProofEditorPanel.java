@@ -343,7 +343,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         about.add(aboutLegup);
         aboutLegup.addActionListener(l -> {
-            JOptionPane.showMessageDialog(null, "Version: 2.0.0");
+            JOptionPane.showMessageDialog(null, "Version: 5.1.0");
         });
 
         about.add(helpLegup);
