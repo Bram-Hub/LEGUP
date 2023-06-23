@@ -552,7 +552,7 @@ public class HomePanel extends LegupPanel {
         credits.setFont(new Font("Roboto", Font.PLAIN, 12));
         credits.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel version = new JLabel("Version 3.0.0"); // This should be autochanged in the future
+        JLabel version = new JLabel("Version 5.1.0"); // This should be autochanged in the future
         version.setFont(new Font("Roboto", Font.ITALIC, 10));
         version.setAlignmentX(Component.CENTER_ALIGNMENT);
 

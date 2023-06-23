@@ -6,6 +6,7 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.ui.lookandfeel.components.MaterialTabbedPaneUI;
 
+import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
@@ -70,7 +71,7 @@ public class RuleFrame extends JPanel {
 
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(250, 256));
-        setPreferredSize(new Dimension(340, 256));
+        setPreferredSize(new Dimension(355, 256));
 
         add(tabbedPane);
         add(status, BorderLayout.SOUTH);
