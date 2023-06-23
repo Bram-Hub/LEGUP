@@ -97,6 +97,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         this.frame = frame;
         this.legupUI = legupUI;
         setLayout(new BorderLayout());
+        setPreferredSize(new Dimension(800, 700));
     }
 
     @Override

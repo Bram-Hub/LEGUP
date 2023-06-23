@@ -87,9 +87,7 @@ public class LegupUI extends JFrame implements WindowListener {
             }
         });
         setMinimumSize(getPreferredSize());
-        setPreferredSize(new Dimension(800, 750));
         setVisible(true);
-
     }
 
     private void initPanels() {
@@ -109,11 +107,10 @@ public class LegupUI extends JFrame implements WindowListener {
             throw new InvalidParameterException("Invalid option");
         }
         this.window.removeAll();
-        this.window.add(panels[option]);
         panels[option].makeVisible();
+        this.window.add(panels[option]);
         pack();
         setLocationRelativeTo(null);
-        setPreferredSize(new Dimension(450, 250));
         revalidate();
         repaint();
     }
