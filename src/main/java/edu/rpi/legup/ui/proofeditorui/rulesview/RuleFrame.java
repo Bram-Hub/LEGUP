@@ -70,7 +70,7 @@ public class RuleFrame extends JPanel {
 
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(250, 256));
-        setPreferredSize(new Dimension(330, 256));
+        setPreferredSize(new Dimension(340, 256));
 
         add(tabbedPane);
         add(status, BorderLayout.SOUTH);
