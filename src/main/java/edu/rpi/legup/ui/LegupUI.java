@@ -109,10 +109,11 @@ public class LegupUI extends JFrame implements WindowListener {
             throw new InvalidParameterException("Invalid option");
         }
         this.window.removeAll();
-        panels[option].makeVisible();
         this.window.add(panels[option]);
+        panels[option].makeVisible();
         pack();
         setLocationRelativeTo(null);
+        setPreferredSize(new Dimension(450, 250));
         revalidate();
         repaint();
     }
