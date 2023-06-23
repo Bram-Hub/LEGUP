@@ -80,7 +80,12 @@ public class CompleteClueCaseRule extends CaseRule {
             return null;
         } 
         int numberCases = 1;
-        // TODO: IMPLEMENT FINDING CASES
+        for (int i=n; i > n-k; i--) {
+            numberCases *= i;
+        }
+        for (int i=0; i < k; i++) {
+            numberCases /= i;
+        }
 
         // do not want to entertain more than 9 cases
         if (numberCases >= 9) {
@@ -89,6 +94,7 @@ public class CompleteClueCaseRule extends CaseRule {
 
         // find all cases
         for (int i=0; i < numberCases; i++) {
+            // TODO: Find all cases
         }
 
         return cases;
