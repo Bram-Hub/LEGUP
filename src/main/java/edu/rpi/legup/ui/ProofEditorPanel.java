@@ -380,6 +380,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         LegupPreferences preferences = LegupPreferences.getInstance();
         String preferredDirectory = preferences.getUserPref(LegupPreferences.WORK_DIRECTORY);
+        if (preferences.getSavedPath() != "") {
+            preferredDirectory = preferences.getSavedPath();
+        }
 
         File preferredDirectoryFile = new File(preferredDirectory);
         JFileChooser fileBrowser = new JFileChooser(preferredDirectoryFile);
@@ -388,7 +391,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         fileBrowser.showOpenDialog(this);
         fileBrowser.setVisible(true);
-        fileBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+        fileBrowser.setCurrentDirectory(new File(preferredDirectory));
         fileBrowser.setDialogTitle("Select Proof File");
         fileBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileBrowser.setAcceptAllFileFilterUsed(false);
@@ -398,6 +401,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         if (puzzlePath != null) {
             fileName = puzzlePath.getAbsolutePath();
+            String lastDirectoryPath =  fileName.substring(0, fileName.lastIndexOf(File.separator));
+            preferences.setSavedPath(lastDirectoryPath);
             puzzleFile = puzzlePath;
         }
         else {
