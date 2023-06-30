@@ -32,12 +32,35 @@ public class FillapixUtilities {
         Point cellLoc = cell.getLocation();
         for (int i=-1; i <= 1; i++) {
             for (int j=-1; j <= 1; j++) {
-                if (fillapixBoard.getCell(cellLoc.x + i, cellLoc.y + j).getType() == FillapixCellType.BLACK) {
+                FillapixCell adjCell = fillapixBoard.getCell(cellLoc.x + i, cellLoc.y + j);
+                // cell is not in board
+                if (adjCell == null) {
+                    continue;
+                }
+                if (adjCell.getType() == FillapixCellType.BLACK) {
                     cellTouchBlack++;
                 }
             }
         }
         return cellNum == cellTouchBlack;
+    }
+
+    public static boolean hasEmptyAdjacent(Board board, FillapixCell cell) {
+        FillapixBoard fillapixBoard = (FillapixBoard) board.copy();
+        Point cellLoc = cell.getLocation();
+        for (int i=-1; i <= 1; i++) {
+            for (int j=-1; j <= 1; j++) {
+                FillapixCell adjCell = fillapixBoard.getCell(cellLoc.x + i, cellLoc.y + j);
+                // cell is not in board
+                if (adjCell == null) {
+                    continue;
+                }
+                if (adjCell.getType() == FillapixCellType.UNKNOWN) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

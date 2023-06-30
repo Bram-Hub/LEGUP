@@ -28,7 +28,7 @@ public class CompleteClueCaseRule extends CaseRule {
         fillapixBoard.setModifiable(false);
         for (PuzzleElement data : fillapixBoard.getPuzzleElements()) {
             FillapixCell cell = (FillapixCell) data;
-            if (cell.getNumber() >= 0 && cell.getNumber() <= 9 /*&& !FillapixUtilities.isComplete(fillapixBoard, cell)*/) {
+            if (cell.getNumber() >= 0 && cell.getNumber() <= 9 && FillapixUtilities.hasEmptyAdjacent(fillapixBoard, cell)) {
                 // TODO: make sure cell is not complete
                 caseBoard.addPickableElement(data);
             }
