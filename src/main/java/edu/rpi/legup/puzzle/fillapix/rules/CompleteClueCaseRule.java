@@ -28,7 +28,8 @@ public class CompleteClueCaseRule extends CaseRule {
         fillapixBoard.setModifiable(false);
         for (PuzzleElement data : fillapixBoard.getPuzzleElements()) {
             FillapixCell cell = (FillapixCell) data;
-            if (cell.getNumber() >= 0 && cell.getNumber() <= 9 && !FillapixUtilities.isComplete(fillapixBoard, cell)) {
+            if (cell.getNumber() >= 0 && cell.getNumber() <= 9 /*&& !FillapixUtilities.isComplete(fillapixBoard, cell)*/) {
+                // TODO: make sure cell is not complete
                 caseBoard.addPickableElement(data);
             }
         }
@@ -37,7 +38,7 @@ public class CompleteClueCaseRule extends CaseRule {
 
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
-        ArrayList<Board> cases = new ArrayList<>();
+        ArrayList<Board> cases = new ArrayList<Board>();
 
         // get value of cell
         FillapixCell cell = (FillapixCell) board.getPuzzleElement(puzzleElement);
@@ -49,8 +50,10 @@ public class CompleteClueCaseRule extends CaseRule {
         // find number of black & empty squares
         int cellNumBlack = 0;
         int cellNumEmpty = 0;
+        ArrayList<FillapixCell> emptyCells = new ArrayList<FillapixCell>();
         Point cellLoc = cell.getLocation();
         FillapixBoard fillapixBoard = (FillapixBoard) board.copy();
+        // TODO: make sure adjacent cell is in bounds
         for (int i=-1; i <= 1; i++) {
             for (int j=-1; j <= 1; j++) {
                 FillapixCell adjCell = fillapixBoard.getCell(cellLoc.x + i, cellLoc.y + j);
@@ -59,44 +62,33 @@ public class CompleteClueCaseRule extends CaseRule {
                 }
                 if (adjCell.getType() == FillapixCellType.UNKNOWN) {
                     cellNumEmpty++;
+                    emptyCells.add(adjCell);
                 }
             }
         }
-
-        /* calculate the total number of cases possible
-         * 
-         * this is the same as having a set the size of the number of empty 
-         * cells and choosing the number of missing 
-         * black cells (cellMaxBlack - cellNumBlack)
-         * 
-         * i.e. this is a n-choose-k problem
-         * 
-         * solution:
-         * n! / (k! * (n-k)!)
-         */
-        int k = cellMaxBlack - cellNumBlack;
-        int n = cellNumEmpty;
-        if (k <= 0) {
-            return null;
-        } 
-        int numberCases = 1;
-        for (int i=n; i > n-k; i--) {
-            numberCases *= i;
-        }
-        for (int i=0; i < k; i++) {
-            numberCases /= i;
-        }
-
-        // do not want to entertain more than 9 cases
-        if (numberCases >= 9) {
+        // no cases if no empty or if too many black already
+        if (cellNumBlack > cellMaxBlack || cellNumEmpty == 0) {
             return cases;
         }
+        
+        // generate all cases as boolean expressions
+        ArrayList<boolean[]> combinations;
+        combinations = FillapixUtilities.getCombinations(cellMaxBlack - cellNumBlack, cellNumEmpty); 
 
-        // find all cases
-        for (int i=0; i < numberCases; i++) {
-            // TODO: Find all cases
+        for (int i=0; i < combinations.size(); i++) {
+            Board case_ = board.copy();
+            for (int j=0; j < combinations.get(i).length; j++) {
+                cell = (FillapixCell) case_.getPuzzleElement(emptyCells.get(j));
+                if (combinations.get(i)[j]) {
+                    cell.setType(FillapixCellType.BLACK);
+                } else {
+                    cell.setType(FillapixCellType.WHITE);
+                }
+                case_.addModifiedData(cell);
+            }
+            cases.add(case_);
         }
-
+        
         return cases;
     }
 
