@@ -53,10 +53,12 @@ public class CompleteClueCaseRule extends CaseRule {
         ArrayList<FillapixCell> emptyCells = new ArrayList<FillapixCell>();
         Point cellLoc = cell.getLocation();
         FillapixBoard fillapixBoard = (FillapixBoard) board.copy();
-        // TODO: make sure adjacent cell is in bounds
         for (int i=-1; i <= 1; i++) {
             for (int j=-1; j <= 1; j++) {
                 FillapixCell adjCell = fillapixBoard.getCell(cellLoc.x + i, cellLoc.y + j);
+                if (adjCell == null) {
+                    continue;
+                }
                 if (adjCell.getType() == FillapixCellType.BLACK) {
                     cellNumBlack++;
                 }

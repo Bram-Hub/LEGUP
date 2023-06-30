@@ -75,6 +75,11 @@ public class FillapixUtilities {
             result.add(workingArray.clone());
             return;
         }
+        // there is no chance of completing the required number of solutions, so quit
+        if (len - curIndex < maxBlack - numBlack) {
+            return;
+        }
+
         if (numBlack < maxBlack) {
             workingArray[curIndex] = true;
             recurseCombinations(result, curIndex+1, maxBlack, numBlack+1, len, workingArray); 
