@@ -1,11 +1,15 @@
 package edu.rpi.legup.puzzle.fillapix;
 
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.fillapix.rules.TooFewBlackCellsContradictionRule;
 import edu.rpi.legup.puzzle.fillapix.rules.TooManyBlackCellsContradictionRule;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FillapixUtilities {
 
@@ -61,6 +65,65 @@ public class FillapixUtilities {
             }
         }
         return false;
+    }
+
+    /**
+     * Gets all cells adjacent to a specific cell. The cell itself will be included.
+     */
+    public static ArrayList<FillapixCell> getAdjacentCells(Board board, FillapixCell cell) {
+        ArrayList<FillapixCell> adjCells = new ArrayList<FillapixCell>();
+        FillapixBoard fillapixBoard = (FillapixBoard) board.copy();
+        Point cellLoc = cell.getLocation();
+        for (int i=-1; i <= 1; i++) {
+            for (int j=-1; j <= 1; j++) {
+                FillapixCell adjCell = fillapixBoard.getCell(cellLoc.x + i, cellLoc.y + j);
+                if (adjCell == null) {
+                    continue;
+                }
+                adjCells.add(adjCell);
+            }
+        }
+        return adjCells;
+    }
+
+    public static boolean compareCases(List<TreeTransition> childTransitions, ArrayList<Board> cases) {
+        boolean foundSpot = true;
+        for (TreeTransition childTrans : childTransitions) {
+            FillapixBoard actCase = (FillapixBoard) childTrans.getBoard();
+            boolean foundBoard = false;
+            for (Board b : cases) {
+                FillapixBoard posCase = (FillapixBoard) b;
+                boolean foundAllCells = false;
+                if (posCase.getModifiedData().size() == actCase.getModifiedData().size()) {
+                    foundAllCells = true;
+                    for (PuzzleElement actEle : actCase.getModifiedData()) {
+                        FillapixCell actCell = (FillapixCell) actEle;
+                        boolean foundCell = false;
+                        for (PuzzleElement posEle : posCase.getModifiedData()) {
+                            FillapixCell posCell = (FillapixCell) posEle;
+                            if (actCell.getType() == posCell.getType() &&
+                                    actCell.getLocation().equals(posCell.getLocation())) {
+                                foundCell = true;
+                                break;
+                            }
+                        }
+                        if (!foundCell) {
+                            foundAllCells = false;
+                            break;
+                        }
+                    }
+                }
+                if (foundAllCells) {
+                    foundBoard = true;
+                    break;
+                }
+            }
+            if (!foundBoard) {
+                foundSpot = false;
+                break;
+            }
+        }
+        return foundSpot;
     }
 
     /**

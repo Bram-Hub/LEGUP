@@ -1,12 +1,16 @@
 package edu.rpi.legup.puzzle.fillapix.rules;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.awt.*;
+import java.util.Iterator;
+import java.util.Set;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
+import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
 import edu.rpi.legup.puzzle.fillapix.FillapixCell;
@@ -75,7 +79,7 @@ public class CompleteClueCaseRule extends CaseRule {
         
         // generate all cases as boolean expressions
         ArrayList<boolean[]> combinations;
-        combinations = FillapixUtilities.getCombinations(cellMaxBlack - cellNumBlack, cellNumEmpty); 
+        combinations = FillapixUtilities.getCombinations(cellMaxBlack - cellNumBlack, cellNumEmpty);
 
         for (int i=0; i < combinations.size(); i++) {
             Board case_ = board.copy();
@@ -96,11 +100,46 @@ public class CompleteClueCaseRule extends CaseRule {
 
     @Override
     public String checkRuleRaw(TreeTransition transition) {
+        TreeNode parent = transition.getParents().get(0);
+        List<TreeTransition> childTransitions = parent.getChildren();
 
+        // get all possible places for rule to be applied
+        Board board = transition.getBoard();
+        Set<PuzzleElement> modCells = transition.getBoard().getModifiedData();
+        ArrayList<FillapixCell> spots;
+        if (modCells.size() == 0) {
+            return null;
+        } else {
+            Iterator<PuzzleElement> it = modCells.iterator();
+            spots = FillapixUtilities.getAdjacentCells(board, (FillapixCell) it.next());
 
+            while (it.hasNext()) {
+                spots.retainAll(FillapixUtilities.getAdjacentCells(board, (FillapixCell) it.next()));
+            }
+        }
 
+        if (spots.size() == 0) {
+            return super.getInvalidUseOfRuleMessage();
+        }
+        // check if cases match for any of the spots
+        for (FillapixCell c : spots) {
+            // not a valid spot for a case
+            if (c.getNumber() < 0 || c.getNumber() >= 10) {
+                continue;
+            }
+            ArrayList<Board> cases = getCases(parent.getBoard(), c);
+            
+            // no cases possible
+            if (cases.size() == childTransitions.size() || cases.size() == 0) {
+                continue;
+            }
 
-        return null;
+            if (FillapixUtilities.compareCases(childTransitions, cases)) {
+                return null;
+            }
+        }
+
+        return super.getInvalidUseOfRuleMessage();
     }
 
 
