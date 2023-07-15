@@ -3,8 +3,9 @@ package edu.rpi.legup.puzzle.fillapix;
 import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.awt.*;
+import java.util.Objects;
 
-public class FillapixCell extends GridCell<Integer> {
+public class FillapixCell extends GridCell<Integer> implements Comparable<FillapixCell> {
 
     public static final int DEFAULT_VALUE = 10;
 
@@ -48,5 +49,20 @@ public class FillapixCell extends GridCell<Integer> {
         cell.setIndex(index);
         cell.setModifiable(isModifiable);
         return cell;
+    }
+
+    public boolean equals(FillapixCell otherCell) {
+//        return this.location.equals(otherCell.location) && this.index == otherCell.index && this.data == otherCell.data;
+        //return this.index == otherCell.index && this.data == otherCell.data;
+        //return this.index == otherCell.index;
+        return this.location.x == otherCell.location.x && this.location.y == otherCell.location.y;
+    }
+
+    public int compareTo(FillapixCell otherCell) {
+        return this.index - otherCell.index;
+    }
+
+    public int hashCode() {
+        return Objects.hash(this.index);
     }
 }

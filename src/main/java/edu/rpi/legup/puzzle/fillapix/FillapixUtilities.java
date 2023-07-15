@@ -1,15 +1,10 @@
 package edu.rpi.legup.puzzle.fillapix;
 
-import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.model.tree.TreeNode;
-import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.fillapix.rules.TooFewBlackCellsContradictionRule;
 import edu.rpi.legup.puzzle.fillapix.rules.TooManyBlackCellsContradictionRule;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FillapixUtilities {
 
@@ -29,39 +24,23 @@ public class FillapixUtilities {
         return tooManyBlackCells.checkContradictionAt(blackCaseBoard, cell) != null;
     }
 
-    public static boolean isComplete(Board board, FillapixCell cell) {
-        FillapixBoard fillapixBoard = (FillapixBoard) board.copy();
+    public static boolean isComplete(FillapixBoard board, FillapixCell cell) {
         int cellNum = cell.getNumber();
         int cellTouchBlack = 0;
-        Point cellLoc = cell.getLocation();
-        for (int i=-1; i <= 1; i++) {
-            for (int j=-1; j <= 1; j++) {
-                FillapixCell adjCell = fillapixBoard.getCell(cellLoc.x + i, cellLoc.y + j);
-                // cell is not in board
-                if (adjCell == null) {
-                    continue;
-                }
-                if (adjCell.getType() == FillapixCellType.BLACK) {
-                    cellTouchBlack++;
-                }
+        ArrayList<FillapixCell> adjCells = getAdjacentCells(board, cell);
+        for (FillapixCell adjCell : adjCells) {
+            if (adjCell.getType() == FillapixCellType.BLACK) {
+                cellTouchBlack++;
             }
         }
         return cellNum == cellTouchBlack;
     }
 
-    public static boolean hasEmptyAdjacent(Board board, FillapixCell cell) {
-        FillapixBoard fillapixBoard = (FillapixBoard) board.copy();
-        Point cellLoc = cell.getLocation();
-        for (int i=-1; i <= 1; i++) {
-            for (int j=-1; j <= 1; j++) {
-                FillapixCell adjCell = fillapixBoard.getCell(cellLoc.x + i, cellLoc.y + j);
-                // cell is not in board
-                if (adjCell == null) {
-                    continue;
-                }
-                if (adjCell.getType() == FillapixCellType.UNKNOWN) {
-                    return true;
-                }
+    public static boolean hasEmptyAdjacent(FillapixBoard board, FillapixCell cell) {
+        ArrayList<FillapixCell> adjCells = getAdjacentCells(board, cell);
+        for (FillapixCell adjCell : adjCells) {
+            if (adjCell.getType() == FillapixCellType.UNKNOWN) {
+                return true;
             }
         }
         return false;
@@ -70,13 +49,15 @@ public class FillapixUtilities {
     /**
      * Gets all cells adjacent to a specific cell. The cell itself will be included.
      */
-    public static ArrayList<FillapixCell> getAdjacentCells(Board board, FillapixCell cell) {
+    public static ArrayList<FillapixCell> getAdjacentCells(FillapixBoard board, FillapixCell cell) {
         ArrayList<FillapixCell> adjCells = new ArrayList<FillapixCell>();
-        FillapixBoard fillapixBoard = (FillapixBoard) board.copy();
         Point cellLoc = cell.getLocation();
         for (int i=-1; i <= 1; i++) {
             for (int j=-1; j <= 1; j++) {
-                FillapixCell adjCell = fillapixBoard.getCell(cellLoc.x + i, cellLoc.y + j);
+                if (cellLoc.getX() + i < 0 || cellLoc.y + j < 0 || cellLoc.x + i >= board.getWidth() || cellLoc.y + j >= board.getHeight()) {
+                    continue;
+                }
+                FillapixCell adjCell = board.getCell(cellLoc.x + i, cellLoc.y + j);
                 if (adjCell == null) {
                     continue;
                 }
@@ -84,46 +65,6 @@ public class FillapixUtilities {
             }
         }
         return adjCells;
-    }
-
-    public static boolean compareCases(List<TreeTransition> childTransitions, ArrayList<Board> cases) {
-        boolean foundSpot = true;
-        for (TreeTransition childTrans : childTransitions) {
-            FillapixBoard actCase = (FillapixBoard) childTrans.getBoard();
-            boolean foundBoard = false;
-            for (Board b : cases) {
-                FillapixBoard posCase = (FillapixBoard) b;
-                boolean foundAllCells = false;
-                if (posCase.getModifiedData().size() == actCase.getModifiedData().size()) {
-                    foundAllCells = true;
-                    for (PuzzleElement actEle : actCase.getModifiedData()) {
-                        FillapixCell actCell = (FillapixCell) actEle;
-                        boolean foundCell = false;
-                        for (PuzzleElement posEle : posCase.getModifiedData()) {
-                            FillapixCell posCell = (FillapixCell) posEle;
-                            if (actCell.getType() == posCell.getType() &&
-                                    actCell.getLocation().equals(posCell.getLocation())) {
-                                foundCell = true;
-                                break;
-                            }
-                        }
-                        if (!foundCell) {
-                            foundAllCells = false;
-                            break;
-                        }
-                    }
-                }
-                if (foundAllCells) {
-                    foundBoard = true;
-                    break;
-                }
-            }
-            if (!foundBoard) {
-                foundSpot = false;
-                break;
-            }
-        }
-        return foundSpot;
     }
 
     /**
@@ -137,7 +78,7 @@ public class FillapixUtilities {
      * @param chosenNumItems the number of items to be chosen
      * 
      * @return an ArrayList of Boolean arrays. Each index in the ArrayList represents
-     * a distince combination. Each Boolean array will be <code>totalNumObj</code>
+     * a distinct combination. Each Boolean array will be <code>totalNumItems</code>
      * long and each index will be <code>true<\code> if the corresponding item is
      * included in that combination, and <code>false</code> otherwise.
      */
