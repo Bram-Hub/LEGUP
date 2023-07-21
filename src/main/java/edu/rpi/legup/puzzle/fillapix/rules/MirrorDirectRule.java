@@ -33,11 +33,13 @@ public class MirrorDirectRule extends DirectRule {
 
         // cell has to have been empty before
         if (parentCell.getType() != FillapixCellType.UNKNOWN) {
+            System.out.println("cell was not empty");
             return super.getInvalidUseOfRuleMessage();
         }
 
         // parentBoard cannot have any contradictions
         if (checkBoardForContradiction(parentBoard)) {
+            System.out.println("parent has contradiction");
             return super.getInvalidUseOfRuleMessage();
         }
 
@@ -50,16 +52,14 @@ public class MirrorDirectRule extends DirectRule {
             }
         }
         // the numbered cells must be next to another numbered cell of the same value
-        ArrayList<FillapixCell> mirrorCells = new ArrayList<FillapixCell>();
         Iterator<FillapixCell> itr = adjNums.iterator();
         while (itr.hasNext()) {
             FillapixCell adjNum = itr.next();
             adjCells = FillapixUtilities.getAdjacentCells(parentBoard, adjNum);
             boolean found = false;
             for (FillapixCell adjCell : adjCells) {
-                if (adjCell.getNumber() == adjNum.getNumber()) {
+                if (adjCell.getNumber() == adjNum.getNumber() && adjCell.getIndex() != adjNum.getIndex()) {
                     found = true;
-                    mirrorCells.add(adjCell);
                 }
             }
             if (!found) {
@@ -75,17 +75,23 @@ public class MirrorDirectRule extends DirectRule {
         }
         parentBoard.addModifiedData(parentCell);
         CaseRule completeClue = new CompleteClueCaseRule();
-        List<Board> caseBoards;    
+        List<Board> caseBoards;
         for (FillapixCell adjNum : adjNums) {
             caseBoards = completeClue.getCases(parentBoard, adjNum);
+            boolean found = true;
             for (Board b : caseBoards) {
                 if (!checkBoardForContradiction((FillapixBoard) b)) {
-                    return super.getInvalidUseOfRuleMessage();
+                    found = false;
                 }
+            }
+            if (found) {
+                System.out.println("found");
+                return null;
             }
         }
 
-        return null;
+        System.out.println("not found");
+        return super.getInvalidUseOfRuleMessage();
     }
 
     private static boolean checkBoardForContradiction(FillapixBoard board) {
