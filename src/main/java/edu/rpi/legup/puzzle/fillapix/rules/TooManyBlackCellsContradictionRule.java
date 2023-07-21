@@ -32,16 +32,20 @@ public class TooManyBlackCellsContradictionRule extends ContradictionRule {
         FillapixBoard fillapixBoard = (FillapixBoard) board;
         FillapixCell cell = (FillapixCell) fillapixBoard.getPuzzleElement(puzzleElement);
 
+        int cellNum = cell.getNumber();
+        if (cellNum < 0 || cellNum >= 10) {
+            return super.getNoContradictionMessage();
+        }
+        int numBlack = 0;
         ArrayList<FillapixCell> adjCells = FillapixUtilities.getAdjacentCells(fillapixBoard, cell);
         for (FillapixCell adjCell : adjCells) {
-            int cellNum = adjCell.getNumber();
-            if (cellNum >= 0) {
-                int numBlackCells = fillapixBoard.getNumCells(adjCell, FillapixCellType.BLACK);
-                if (numBlackCells > cellNum) {
-                    return null;
-                }
-            }            
+            if (adjCell.getType() == FillapixCellType.BLACK) {
+                numBlack++;
+            }
         }
+        if (numBlack > cellNum) {
+            return null;
+        } 
         
         return super.getNoContradictionMessage();
     }
