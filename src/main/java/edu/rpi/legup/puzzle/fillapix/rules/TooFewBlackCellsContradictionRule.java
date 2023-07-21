@@ -6,8 +6,9 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
 import edu.rpi.legup.puzzle.fillapix.FillapixCell;
 import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
+import edu.rpi.legup.puzzle.fillapix.FillapixUtilities;
 
-import java.awt.*;
+import java.util.ArrayList;
 
 public class TooFewBlackCellsContradictionRule extends ContradictionRule {
 
@@ -31,22 +32,18 @@ public class TooFewBlackCellsContradictionRule extends ContradictionRule {
         FillapixBoard fillapixBoard = (FillapixBoard) board;
         FillapixCell cell = (FillapixCell) fillapixBoard.getPuzzleElement(puzzleElement);
 
-        Point loc = cell.getLocation();
-        for (int i = -1; i < 2; i++) {
-            for (int j = -1; j < 2; j++) {
-                FillapixCell adjCell = fillapixBoard.getCell(loc.x + i, loc.y + j);
-                if (adjCell != null) {
-                    int cellNum = adjCell.getNumber();
-                    if (cellNum >= 0) {
-                        int numBlackCells = fillapixBoard.getNumCells(adjCell, FillapixCellType.BLACK);
-                        int numUnknownCells = fillapixBoard.getNumCells(adjCell, FillapixCellType.UNKNOWN);
-                        if (numBlackCells + numUnknownCells < cellNum) {
-                            return null;
-                        }
-                    }
+        ArrayList<FillapixCell> adjCells = FillapixUtilities.getAdjacentCells(fillapixBoard, cell);
+        for (FillapixCell adjCell : adjCells) {
+            int cellNum = adjCell.getNumber();
+            if (cellNum >= 0) {
+                int numBlackCells = fillapixBoard.getNumCells(adjCell, FillapixCellType.BLACK);
+                int numUnknownCells = fillapixBoard.getNumCells(adjCell, FillapixCellType.UNKNOWN);
+                if (numBlackCells + numUnknownCells < cellNum) {
+                    return null;
                 }
             }
         }
+
         return super.getNoContradictionMessage();
     }
 }
