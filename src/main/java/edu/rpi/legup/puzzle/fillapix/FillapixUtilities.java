@@ -1,5 +1,6 @@
 package edu.rpi.legup.puzzle.fillapix;
 
+import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.puzzle.fillapix.rules.TooFewBlackCellsContradictionRule;
 import edu.rpi.legup.puzzle.fillapix.rules.TooManyBlackCellsContradictionRule;
 
@@ -125,5 +126,19 @@ public class FillapixUtilities {
         }
         workingArray[curIndex] = false;
         recurseCombinations(result, curIndex+1, maxBlack, numBlack, len, workingArray); 
+    }
+    
+    public static boolean checkBoardForContradiction(FillapixBoard board) {
+        ContradictionRule tooManyBlack = new TooManyBlackCellsContradictionRule();
+        ContradictionRule tooManyWhite = new TooFewBlackCellsContradictionRule();
+        for (int i= 0; i < board.getWidth(); i++) {
+            for (int j=0; j < board.getHeight(); j++) {
+                if (tooManyBlack.checkContradictionAt(board, board.getCell(i, j)) == null ||
+                        tooManyWhite.checkContradictionAt(board, board.getCell(i, j)) == null) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
