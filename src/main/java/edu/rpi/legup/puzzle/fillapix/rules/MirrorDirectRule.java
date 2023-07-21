@@ -7,7 +7,6 @@ import java.util.List;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
-import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -33,13 +32,11 @@ public class MirrorDirectRule extends DirectRule {
 
         // cell has to have been empty before
         if (parentCell.getType() != FillapixCellType.UNKNOWN) {
-            System.out.println("cell was not empty");
             return super.getInvalidUseOfRuleMessage();
         }
 
         // parentBoard cannot have any contradictions
-        if (checkBoardForContradiction(parentBoard)) {
-            System.out.println("parent has contradiction");
+        if (FillapixUtilities.checkBoardForContradiction(parentBoard)) {
             return super.getInvalidUseOfRuleMessage();
         }
 
@@ -80,32 +77,16 @@ public class MirrorDirectRule extends DirectRule {
             caseBoards = completeClue.getCases(parentBoard, adjNum);
             boolean found = true;
             for (Board b : caseBoards) {
-                if (!checkBoardForContradiction((FillapixBoard) b)) {
+                if (!FillapixUtilities.checkBoardForContradiction((FillapixBoard) b)) {
                     found = false;
                 }
             }
             if (found) {
-                System.out.println("found");
                 return null;
             }
         }
 
-        System.out.println("not found");
         return super.getInvalidUseOfRuleMessage();
-    }
-
-    private static boolean checkBoardForContradiction(FillapixBoard board) {
-        ContradictionRule tooManyBlack = new TooManyBlackCellsContradictionRule();
-        ContradictionRule tooManyWhite = new TooFewBlackCellsContradictionRule();
-        for (int i= 0; i < board.getWidth(); i++) {
-            for (int j=0; j < board.getHeight(); j++) {
-                if (tooManyBlack.checkContradictionAt(board, board.getCell(i, j)) == null ||
-                        tooManyWhite.checkContradictionAt(board, board.getCell(i, j)) == null) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     /**
