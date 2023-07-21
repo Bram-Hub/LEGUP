@@ -13,7 +13,13 @@ public class FillapixUtilities {
         FillapixBoard whiteCaseBoard = board.copy();
         FillapixCell whiteCell = (FillapixCell) whiteCaseBoard.getPuzzleElement(cell);
         whiteCell.setType(FillapixCellType.WHITE);
-        return tooManyBlackCells.checkContradictionAt(whiteCaseBoard, cell) != null;
+        ArrayList<FillapixCell> adjCells = getAdjacentCells(whiteCaseBoard, whiteCell);
+        for (FillapixCell adjCell : adjCells) {
+            if (tooManyBlackCells.checkContradictionAt(whiteCaseBoard, adjCell) == null) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean isForcedWhite(FillapixBoard board, FillapixCell cell) {
@@ -21,7 +27,13 @@ public class FillapixUtilities {
         FillapixBoard blackCaseBoard = board.copy();
         FillapixCell blackCell = (FillapixCell) blackCaseBoard.getPuzzleElement(cell);
         blackCell.setType(FillapixCellType.BLACK);
-        return tooManyBlackCells.checkContradictionAt(blackCaseBoard, cell) != null;
+        ArrayList<FillapixCell> adjCells = getAdjacentCells(blackCaseBoard, blackCell);
+        for (FillapixCell adjCell : adjCells) {
+            if (tooManyBlackCells.checkContradictionAt(blackCaseBoard, adjCell) == null) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean isComplete(FillapixBoard board, FillapixCell cell) {
