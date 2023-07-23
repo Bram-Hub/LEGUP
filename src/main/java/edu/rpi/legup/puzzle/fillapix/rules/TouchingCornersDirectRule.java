@@ -15,12 +15,12 @@ import edu.rpi.legup.puzzle.fillapix.FillapixCell;
 import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
 import edu.rpi.legup.puzzle.fillapix.FillapixUtilities;
 
-public class TouchingSidesDirectRule extends DirectRule {
-    public TouchingSidesDirectRule() {
-        super("FPIX-BASC-0004",
-                "Touching Sides",
-                "Clues with touching sides have the same difference in black cells in their unshared regions as the difference in their numbers",
-                "edu/rpi/legup/images/fillapix/rules/TouchingSides.png");
+public class TouchingCornersDirectRule extends DirectRule {
+    public TouchingCornersDirectRule() {
+        super("FPIX-BASC-0005",
+                "Touching Corners",
+                "Clues with touching corners have the same difference in black cells in their unshared regions as the difference in their numbers",
+                "edu/rpi/legup/images/fillapix/rules/TouchingCorners.png");
     }
 
     @Override
@@ -43,33 +43,26 @@ public class TouchingSidesDirectRule extends DirectRule {
         // get all adjCells that have a number
         ArrayList<FillapixCell> adjCells = FillapixUtilities.getAdjacentCells(parentBoard, parentCell);
         adjCells.removeIf(x -> x.getNumber() < 0 || x.getNumber() >= 10);
-        /* remove any number cell that does not have another number cell adjacent
-         * to it on the opposite side of the modified cell */
+        /* remove any number cell that does not have another number cell diagonally
+         * adjacent to it on the opposite side of the modified cell */
         Iterator<FillapixCell> itr = adjCells.iterator();
         while (itr.hasNext()) {
-            // calculate x and y offset of adjCell from cell
             FillapixCell adjCell = itr.next();
-            int xOffset = adjCell.getLocation().x - cell.getLocation().x;
-            int yOffset = adjCell.getLocation().y - cell.getLocation().y;
 
             boolean found = false;
-            // check vertically for numbered cell in opposite direction of cell
-            if (adjCell.getLocation().x + xOffset >= 0 && adjCell.getLocation().x < parentBoard.getWidth()) {
-                int adjNum = parentBoard.getCell(adjCell.getLocation().x + xOffset, adjCell.getLocation().y).getNumber();
-                if (adjNum >= 0 && adjNum < 10) {
-                    found = true;
-                }
-            }
-            // check horizontally for numbered cell in opposite direction of cell
-            if (adjCell.getLocation().y + yOffset >= 0 && adjCell.getLocation().y < parentBoard.getHeight()) {
-                int adjNum = parentBoard.getCell(adjCell.getLocation().x, adjCell.getLocation().y + yOffset).getNumber();
-                if (adjNum >= 0 && adjNum < 10) {
+            ArrayList<FillapixCell> adjAdjCells = FillapixUtilities.getAdjacentCells(parentBoard, adjCell);
+            for (FillapixCell adjAdjCell : adjAdjCells) {
+                if (adjAdjCell.getLocation().x != adjCell.getLocation().x &&
+                        adjAdjCell.getLocation().y != adjCell.getLocation().y &&
+                        adjAdjCell.getNumber() >= 0 && adjAdjCell.getNumber() < 10 &&
+                        adjAdjCell.getIndex() != parentCell.getIndex()) {
+                    // adjAdjCell is diagonally adjacent to adjCell && it has a 
+                    // number && it is not parentCell
                     found = true;
                 }
             }
 
-            // if no horizontally or vertically adjacent cell on opposite side of 'cell' has number, 
-            // then adjCell is not valid, so should be removed
+            // does not qualify for this rule
             if (!found) {
                 itr.remove();
             }

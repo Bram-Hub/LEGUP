@@ -71,7 +71,7 @@ public class MirrorDirectRule extends DirectRule {
             parentCell.setType(FillapixCellType.BLACK);
         }
         parentBoard.addModifiedData(parentCell);
-        CaseRule completeClue = new CompleteClueCaseRule();
+        CaseRule completeClue = new SatisfyClueCaseRule();
         List<Board> caseBoards;
         for (FillapixCell adjNum : adjNums) {
             caseBoards = completeClue.getCases(parentBoard, adjNum);

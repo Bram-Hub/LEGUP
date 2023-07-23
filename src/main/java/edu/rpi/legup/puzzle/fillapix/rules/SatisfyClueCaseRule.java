@@ -18,12 +18,12 @@ import edu.rpi.legup.puzzle.fillapix.FillapixCell;
 import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
 import edu.rpi.legup.puzzle.fillapix.FillapixUtilities;
 
-public class CompleteClueCaseRule extends CaseRule {
-    public CompleteClueCaseRule() {
+public class SatisfyClueCaseRule extends CaseRule {
+    public SatisfyClueCaseRule() {
         super("FPIX-CASE-0002",
-        "Complete Clue",
+        "Satisfy Clue",
         "Each clue must touch that number of squares.",
-        "edu/rpi/legup/images/fillapix/cases/CompleteClue.png");
+        "edu/rpi/legup/images/fillapix/cases/SatisfyClue.png");
     }
 
     @Override
