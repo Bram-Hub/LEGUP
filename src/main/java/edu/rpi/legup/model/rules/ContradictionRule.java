@@ -31,7 +31,9 @@ public abstract class ContradictionRule extends Rule {
      */
     @Override
     public String checkRule(TreeTransition transition) {
-        for (PuzzleElement puzzleElement : board.getNewPuzzleElements()) {
+        for (PuzzleElement puzzleElement : transition.getNewPuzzleElements()) {
+            System.out.println("Puzzle Elements getting checked are");
+            System.out.println(puzzleElement.getIndex());
             String checkStr = checkContradictionAt(transition.getBoard(), puzzleElement);
             if (checkStr == null) {
                 return checkStr;

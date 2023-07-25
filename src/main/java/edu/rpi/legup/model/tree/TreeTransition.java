@@ -57,17 +57,17 @@ public class TreeTransition extends TreeElement {
      */
     public void addNewPuzzleElement(PuzzleElement puzzleElement) {
             this.newPuzzleElements.add(puzzleElement);
-            System.out.println("adding Element to transition")
+            System.out.println("adding Element to transition");
             System.out.println(puzzleElement.getIndex());
     }
 
     /**
      * Adds a {@link PuzzleElement} to this board.
      *
-     * @param puzzleElement The puzzleElement to be added
+     * @param puzzleElements The puzzleElement to be added
      * @throws IllegalStateException if the board is not modifiable at the moment
      */
-    public void addAllPuzzleElement(Set<PuzzleElement> puzzleElements) {
+    public void addAllPuzzleElements(Set<PuzzleElement> puzzleElements) {
             this.newPuzzleElements = puzzleElements;
     }
 
