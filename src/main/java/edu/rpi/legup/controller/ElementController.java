@@ -135,6 +135,14 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
 //        if (selectedElement != null) {
         GridBoard b = (GridBoard) this.boardView.getBoard();
         Point point = e.getPoint();
+
+
+        TreeTransition treeTransition = (TreeTransition) this.boardView.getTreeElement();
+        treeTransition.addNewPuzzleElement(elementView.getPuzzleElement());
+        System.out.println("size");
+        System.out.println(treeTransition.getNewPuzzleElements().size());
+
+
         Point scaledPoint = new Point((int) Math.floor(point.x / (30 * this.boardView.getScale())), (int) Math.floor(point.y / (30 * this.boardView.getScale())));
         if (this.boardView.getBoard() instanceof TreeTentBoard) {
             scaledPoint.setLocation(scaledPoint.getX() - 1, scaledPoint.getY() - 1);

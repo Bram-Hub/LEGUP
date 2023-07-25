@@ -41,6 +41,12 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         final TreeViewSelection newSelection = new TreeViewSelection();
 
+
+        BoardView boardView = puzzle.getBoardView();
+        TreeTransition thisTreeElement = (TreeTransition) boardView.getTreeElement();
+        System.out.println("thisTreeElelement size ------------->");
+        System.out.println(thisTreeElement.getNewPuzzleElements().size());
+
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         for (TreeElementView view : selectedViews) {
             TreeElement treeElement = view.getTreeElement();
@@ -63,6 +69,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
             treeNode.getChildren().clear();
 
             TreeTransition transition = addTran.get(treeElement);
+            transition.addAllPuzzleElements(thisTreeElement.getNewPuzzleElements());
             if (transition == null) {
                 transition = tree.addNewTransition(treeNode);
                 transition.setRule(newRule);

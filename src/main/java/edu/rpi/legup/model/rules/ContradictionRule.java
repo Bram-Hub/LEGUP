@@ -31,7 +31,13 @@ public abstract class ContradictionRule extends Rule {
      */
     @Override
     public String checkRule(TreeTransition transition) {
-        return checkContradiction(transition.getBoard());
+        for (PuzzleElement puzzleElement : board.getNewPuzzleElements()) {
+            String checkStr = checkContradictionAt(transition.getBoard(), puzzleElement);
+            if (checkStr == null) {
+                return checkStr;
+            }
+        }
+        return this.NO_CONTRADICTION_MESSAGE;
     }
 
     /**

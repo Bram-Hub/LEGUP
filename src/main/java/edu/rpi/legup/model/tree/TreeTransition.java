@@ -8,12 +8,23 @@ import edu.rpi.legup.model.rules.RuleType;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.HashSet;
+import java.util.Set;
+
+
+
+
+
+
+
+
 public class TreeTransition extends TreeElement {
     private ArrayList<TreeNode> parents;
     private TreeNode childNode;
     private Rule rule;
     private boolean isCorrect;
     private boolean isVerified;
+    private Set<PuzzleElement> newPuzzleElements;
 
     /**
      * TreeTransition Constructor create a transition from one node to another
@@ -28,7 +39,38 @@ public class TreeTransition extends TreeElement {
         this.rule = null;
         this.isCorrect = false;
         this.isVerified = false;
+        this.newPuzzleElements = new HashSet<>();
     }
+    /**
+     * Returns a copy of the set containing all the puzzle elements on this board.
+     *
+     * @return A set containing all the puzzle elements on this board.
+     */
+    public Set<PuzzleElement> getNewPuzzleElements() {
+        return new HashSet<>(this.newPuzzleElements);
+    }
+    /**
+     * Adds a {@link PuzzleElement} to this board.
+     *
+     * @param puzzleElement The puzzleElement to be added
+     * @throws IllegalStateException if the board is not modifiable at the moment
+     */
+    public void addNewPuzzleElement(PuzzleElement puzzleElement) {
+            this.newPuzzleElements.add(puzzleElement);
+            System.out.println("adding Element to transition")
+            System.out.println(puzzleElement.getIndex());
+    }
+
+    /**
+     * Adds a {@link PuzzleElement} to this board.
+     *
+     * @param puzzleElement The puzzleElement to be added
+     * @throws IllegalStateException if the board is not modifiable at the moment
+     */
+    public void addAllPuzzleElement(Set<PuzzleElement> puzzleElements) {
+            this.newPuzzleElements = puzzleElements;
+    }
+
 
     /**
      * TreeTransition Constructor - create a transition from one node to another
