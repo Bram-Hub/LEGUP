@@ -81,6 +81,68 @@ public class FillapixUtilities {
     }
 
     /**
+     * Gets all cells that are contained in the square defined as having 'distance'
+     * cells between the center and the outer wall. For example, distance = 1:<p>
+     * |X|X|X|X|X|          <p>
+     * |X| | | |X|          <p>
+     * |X| |O| |X|          <p>
+     * |X| | | |X|          <p>
+     * |X|X|X|X|X|          <p>
+     * O is 'cell', and all 'X' will be returned in the ArrayList
+     */
+    public static ArrayList<FillapixCell> getCellsAtDistance(FillapixBoard board, FillapixCell cell, int distance) {
+        ArrayList<FillapixCell> adjCells = new ArrayList<FillapixCell>();
+        Point cellLoc = cell.getLocation();
+        int i = 0, j = 0;
+        // top line
+        for (i = cellLoc.x - (distance), j = cellLoc.y - (distance+1); i <= cellLoc.x + (distance+1); i++) {
+            if (cellLoc.getX() + i < 0 || cellLoc.y + j < 0 || cellLoc.x + i >= board.getWidth() || cellLoc.y + j >= board.getHeight()) {
+                continue;
+            }
+            FillapixCell adjCell = board.getCell(cellLoc.x + i, cellLoc.y + j);
+            if (adjCell == null) {
+                continue;
+            }
+            adjCells.add(adjCell);
+        }
+        // right line
+        for (i = cellLoc.x + (distance+1), j = cellLoc.y - (distance); j <= cellLoc.y + (distance+1); j++) {
+            if (cellLoc.getX() + i < 0 || cellLoc.y + j < 0 || cellLoc.x + i >= board.getWidth() || cellLoc.y + j >= board.getHeight()) {
+                continue;
+            }
+            FillapixCell adjCell = board.getCell(cellLoc.x + i, cellLoc.y + j);
+            if (adjCell == null) {
+                continue;
+            }
+            adjCells.add(adjCell);
+        } 
+        // bottom line
+        for (i = cellLoc.x + (distance), j = cellLoc.y + (distance+1); i <= cellLoc.x - (distance+1); i--) {
+            if (cellLoc.getX() + i < 0 || cellLoc.y + j < 0 || cellLoc.x + i >= board.getWidth() || cellLoc.y + j >= board.getHeight()) {
+                continue;
+            }
+            FillapixCell adjCell = board.getCell(cellLoc.x + i, cellLoc.y + j);
+            if (adjCell == null) {
+                continue;
+            }
+            adjCells.add(adjCell);
+        } 
+        // left line
+        for (i = cellLoc.x - (distance+1), j = cellLoc.y + (distance); j <= cellLoc.y - (distance+1); j--) {
+            if (cellLoc.getX() + i < 0 || cellLoc.y + j < 0 || cellLoc.x + i >= board.getWidth() || cellLoc.y + j >= board.getHeight()) {
+                continue;
+            }
+            FillapixCell adjCell = board.getCell(cellLoc.x + i, cellLoc.y + j);
+            if (adjCell == null) {
+                continue;
+            }
+            adjCells.add(adjCell);
+        } 
+
+        return adjCells;
+    } 
+
+    /**
      * Finds all possible combinations of <code>chosenNumObj</code> items can be
      * chosen from <code>totalNumObj</code> total items.
      * For example, if 1 item is chosen from 2 possible items, the combinations 
