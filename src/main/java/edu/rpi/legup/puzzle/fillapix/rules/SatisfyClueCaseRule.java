@@ -81,7 +81,8 @@ public class SatisfyClueCaseRule extends CaseRule {
                 cell = (FillapixCell) case_.getPuzzleElement(emptyCells.get(j));
                 if (combinations.get(i)[j]) {
                     cell.setType(FillapixCellType.BLACK);
-                } else {
+                }
+                else {
                     cell.setType(FillapixCellType.WHITE);
                 }
                 case_.addModifiedData(cell);
@@ -194,7 +195,8 @@ public class SatisfyClueCaseRule extends CaseRule {
                 for (int i=0; i < transModCells.size(); i++) {
                     if (transModCells.get(i).getType() == FillapixCellType.BLACK) {
                         translatedModCells[i] = true;
-                    } else {
+                    }
+                    else {
                         translatedModCells[i] = false;
                     }
                 }

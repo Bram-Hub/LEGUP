@@ -71,7 +71,8 @@ public class TouchingCornersDirectRule extends DirectRule {
         // change the cell to the opposite color
         if (cell.getType() == FillapixCellType.BLACK) {
             parentCell.setType(FillapixCellType.WHITE);
-        } else {
+        }
+        else {
             parentCell.setType(FillapixCellType.BLACK);
         }
         // check for some contradiction in all cases
