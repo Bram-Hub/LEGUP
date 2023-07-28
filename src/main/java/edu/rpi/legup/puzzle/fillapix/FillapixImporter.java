@@ -28,6 +28,7 @@ public class FillapixImporter extends PuzzleImporter {
             for (int x = 0; x < columns; x++) {
                 FillapixCell cell = new FillapixCell(FillapixCellType.UNKNOWN.value, new Point(x, y));
                 cell.setIndex(y * columns + x);
+                cell.setNumber(FillapixCell.DEFAULT_VALUE);
                 cell.setModifiable(true);
                 fillapixBoard.setCell(x, y, cell);
             }
