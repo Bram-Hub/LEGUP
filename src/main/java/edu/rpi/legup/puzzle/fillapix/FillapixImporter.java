@@ -22,7 +22,17 @@ public class FillapixImporter extends PuzzleImporter {
      */
     @Override
     public void initializeBoard(int rows, int columns) {
+        FillapixBoard fillapixBoard = new FillapixBoard(columns, rows);
 
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++) {
+                FillapixCell cell = new FillapixCell(FillapixCellType.UNKNOWN.value, new Point(x, y));
+                cell.setIndex(y * columns + x);
+                cell.setModifiable(true);
+                fillapixBoard.setCell(x, y, cell);
+            }
+        }
+        puzzle.setCurrentBoard(fillapixBoard);
     }
 
     /**
