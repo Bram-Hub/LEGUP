@@ -29,17 +29,6 @@ public abstract class PuzzleCommand implements ICommand {
     }
 
     /**
-     * Executes an command
-     */
-    @Override
-    public final void execute(TreeTransition thisTreeTransition) {
-        if (canExecute()) {
-            executeCommand(thisTreeTransition);
-            state = CommandState.EXECUTED;
-        }
-    }    
-
-    /**
      * Determines whether this command can be executed
      */
     @Override
@@ -77,10 +66,6 @@ public abstract class PuzzleCommand implements ICommand {
      * Executes an command
      */
     public abstract void executeCommand();
-    /**
-     * Executes an command
-     */
-    public abstract void executeCommand(TreeTransition thisTreeTransition);
 
     /**
      * Undoes an command
