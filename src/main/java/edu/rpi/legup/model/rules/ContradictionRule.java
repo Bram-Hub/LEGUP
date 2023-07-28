@@ -89,9 +89,9 @@ public abstract class ContradictionRule extends Rule {
      * @param board board to check contradiction
      * @return null if the tree node contains a contradiction, otherwise error message
      */
-    public String checkContradiction(TreeTransition transition) {
-        for (PuzzleElement puzzleElement : transition.getNewPuzzleElements()) {
-            String checkStr = checkContradictionAt(transition.getBoard(), puzzleElement);
+    public String checkContradiction(Board board) {
+        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
+            String checkStr = checkContradictionAt(board, puzzleElement);
             if (checkStr == null) {
                 return checkStr;
             }
