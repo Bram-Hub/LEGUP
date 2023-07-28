@@ -65,6 +65,7 @@ public abstract class ContradictionRule extends Rule {
      */
     @Override
     public String checkRuleRaw(TreeTransition transition) {
+        //MIGHT HAVE TO CHANGE HERE TOO
         return checkContradiction(transition);
     }
 
