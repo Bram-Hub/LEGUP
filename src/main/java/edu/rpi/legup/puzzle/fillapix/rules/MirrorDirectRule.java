@@ -66,10 +66,10 @@ public class MirrorDirectRule extends DirectRule {
 
         // change the color of the  parentCell, and check if there exists a valid board
         if (cell.getType() == FillapixCellType.BLACK) {
-            parentCell.setType(FillapixCellType.WHITE);
+            parentCell.setCellType(FillapixCellType.WHITE);
         }
         else {
-            parentCell.setType(FillapixCellType.BLACK);
+            parentCell.setCellType(FillapixCellType.BLACK);
         }
         parentBoard.addModifiedData(parentCell);
         CaseRule completeClue = new SatisfyClueCaseRule();

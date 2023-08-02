@@ -36,7 +36,7 @@ public class FillapixCell extends GridCell<Integer> implements Comparable<Fillap
         }
     }
 
-    public void setType(FillapixCellType type) {
+    public void setCellType(FillapixCellType type) {
         data = type.value * 100 + (data % 100);
     }
 
@@ -44,10 +44,10 @@ public class FillapixCell extends GridCell<Integer> implements Comparable<Fillap
     public void setType(Element e, MouseEvent m) {
         switch(e.getElementID()) {
             case "FPIX-PLAC-0001":
-                this.setType(FillapixCellType.BLACK);
+                this.setCellType(FillapixCellType.BLACK);
                 break;
             case "FPIX-PLAC-0002":
-                this.setType(FillapixCellType.WHITE);
+                this.setCellType(FillapixCellType.WHITE);
                 break;
             case "FPIX-UNPL-0001":
                 int n = this.getNumber();
@@ -68,7 +68,7 @@ public class FillapixCell extends GridCell<Integer> implements Comparable<Fillap
                 this.setNumber(n);
                 break;
             default:
-                this.setType(FillapixCellType.UNKNOWN);
+                this.setCellType(FillapixCellType.UNKNOWN);
                 break;
         }
     }

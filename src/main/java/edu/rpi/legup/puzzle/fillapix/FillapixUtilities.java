@@ -13,7 +13,7 @@ public class FillapixUtilities {
         TooFewBlackCellsContradictionRule tooManyBlackCells = new TooFewBlackCellsContradictionRule();
         FillapixBoard whiteCaseBoard = board.copy();
         FillapixCell whiteCell = (FillapixCell) whiteCaseBoard.getPuzzleElement(cell);
-        whiteCell.setType(FillapixCellType.WHITE);
+        whiteCell.setCellType(FillapixCellType.WHITE);
         ArrayList<FillapixCell> adjCells = getAdjacentCells(whiteCaseBoard, whiteCell);
         for (FillapixCell adjCell : adjCells) {
             if (tooManyBlackCells.checkContradictionAt(whiteCaseBoard, adjCell) == null) {
@@ -27,7 +27,7 @@ public class FillapixUtilities {
         TooManyBlackCellsContradictionRule tooManyBlackCells = new TooManyBlackCellsContradictionRule();
         FillapixBoard blackCaseBoard = board.copy();
         FillapixCell blackCell = (FillapixCell) blackCaseBoard.getPuzzleElement(cell);
-        blackCell.setType(FillapixCellType.BLACK);
+        blackCell.setCellType(FillapixCellType.BLACK);
         ArrayList<FillapixCell> adjCells = getAdjacentCells(blackCaseBoard, blackCell);
         for (FillapixCell adjCell : adjCells) {
             if (tooManyBlackCells.checkContradictionAt(blackCaseBoard, adjCell) == null) {

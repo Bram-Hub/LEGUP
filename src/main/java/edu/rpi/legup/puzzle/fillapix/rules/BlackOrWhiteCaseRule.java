@@ -40,13 +40,13 @@ public class BlackOrWhiteCaseRule extends CaseRule {
 
         Board case1 = board.copy();
         FillapixCell cell1 = (FillapixCell) case1.getPuzzleElement(puzzleElement);
-        cell1.setType(FillapixCellType.BLACK);
+        cell1.setCellType(FillapixCellType.BLACK);
         case1.addModifiedData(cell1);
         cases.add(case1);
 
         Board case2 = board.copy();
         FillapixCell cell2 = (FillapixCell) case2.getPuzzleElement(puzzleElement);
-        cell2.setType(FillapixCellType.WHITE);
+        cell2.setCellType(FillapixCellType.WHITE);
         case2.addModifiedData(cell2);
         cases.add(case2);
 

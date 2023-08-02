@@ -61,10 +61,10 @@ public class NonTouchingSharedDirectRule extends DirectRule {
 
         // change the cell to the opposite color
         if (cell.getType() == FillapixCellType.BLACK) {
-            parentCell.setType(FillapixCellType.WHITE);
+            parentCell.setCellType(FillapixCellType.WHITE);
         }
         else {
-            parentCell.setType(FillapixCellType.BLACK);
+            parentCell.setCellType(FillapixCellType.BLACK);
         }
         // check for some contradiction in all cases
         parentBoard.addModifiedData(parentCell);

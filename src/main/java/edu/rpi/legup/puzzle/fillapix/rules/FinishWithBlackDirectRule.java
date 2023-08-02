@@ -49,7 +49,7 @@ public class FinishWithBlackDirectRule extends DirectRule {
         for (PuzzleElement element : fillapixBoard.getPuzzleElements()) {
             FillapixCell cell = (FillapixCell) element;
             if (cell.getType() == FillapixCellType.UNKNOWN && FillapixUtilities.isForcedBlack((FillapixBoard) node.getBoard(), cell)) {
-                cell.setType(FillapixCellType.BLACK);
+                cell.setCellType(FillapixCellType.BLACK);
                 fillapixBoard.addModifiedData(cell);
             }
         }

@@ -15,15 +15,15 @@ public class FillapixCellController extends ElementController {
             }
             else {
                 if (cell.getType() == FillapixCellType.UNKNOWN) {
-                    cell.setType(FillapixCellType.BLACK);
+                    cell.setCellType(FillapixCellType.BLACK);
                 }
                 else {
                     if (cell.getType() == FillapixCellType.BLACK) {
-                        cell.setType(FillapixCellType.WHITE);
+                        cell.setCellType(FillapixCellType.WHITE);
                     }
                     else {
                         if (cell.getType() == FillapixCellType.WHITE) {
-                            cell.setType(FillapixCellType.UNKNOWN);
+                            cell.setCellType(FillapixCellType.UNKNOWN);
                         }
                     }
                 }
@@ -32,15 +32,15 @@ public class FillapixCellController extends ElementController {
         else {
             if (e.getButton() == MouseEvent.BUTTON3) {
                 if (cell.getType() == FillapixCellType.UNKNOWN) {
-                    cell.setType(FillapixCellType.WHITE);
+                    cell.setCellType(FillapixCellType.WHITE);
                 }
                 else {
                     if (cell.getType() == FillapixCellType.BLACK) {
-                        cell.setType(FillapixCellType.UNKNOWN);
+                        cell.setCellType(FillapixCellType.UNKNOWN);
                     }
                     else {
                         if (cell.getType() == FillapixCellType.WHITE) {
-                            cell.setType(FillapixCellType.BLACK);
+                            cell.setCellType(FillapixCellType.BLACK);
                         }
                     }
                 }

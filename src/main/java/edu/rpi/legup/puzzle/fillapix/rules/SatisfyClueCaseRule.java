@@ -80,10 +80,10 @@ public class SatisfyClueCaseRule extends CaseRule {
             for (int j=0; j < combinations.get(i).length; j++) {
                 cell = (FillapixCell) case_.getPuzzleElement(emptyCells.get(j));
                 if (combinations.get(i)[j]) {
-                    cell.setType(FillapixCellType.BLACK);
+                    cell.setCellType(FillapixCellType.BLACK);
                 }
                 else {
-                    cell.setType(FillapixCellType.WHITE);
+                    cell.setCellType(FillapixCellType.WHITE);
                 }
                 case_.addModifiedData(cell);
             }
