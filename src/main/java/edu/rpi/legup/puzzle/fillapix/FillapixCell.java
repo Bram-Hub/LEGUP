@@ -1,8 +1,10 @@
 package edu.rpi.legup.puzzle.fillapix;
 
+import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.Objects;
 
 public class FillapixCell extends GridCell<Integer> implements Comparable<FillapixCell> {
@@ -36,6 +38,39 @@ public class FillapixCell extends GridCell<Integer> implements Comparable<Fillap
 
     public void setType(FillapixCellType type) {
         data = type.value * 100 + (data % 100);
+    }
+
+    @Override
+    public void setType(Element e, MouseEvent m) {
+        switch(e.getElementID()) {
+            case "FPIX-PLAC-0001":
+                this.setType(FillapixCellType.BLACK);
+                break;
+            case "FPIX-PLAC-0002":
+                this.setType(FillapixCellType.WHITE);
+                break;
+            case "FPIX-UNPL-0001":
+                int n = this.getNumber();
+                switch (m.getButton()) {
+                    case MouseEvent.BUTTON1:
+                        n++;
+                        break;
+                    case MouseEvent.BUTTON3:
+                        n--;
+                        break;
+                }
+                if (n > 9) {
+                    n = 0;
+                }
+                if (n < 0) {
+                    n = 9;
+                }
+                this.setNumber(n);
+                break;
+            default:
+                this.setType(FillapixCellType.UNKNOWN);
+                break;
+        }
     }
 
     /**
