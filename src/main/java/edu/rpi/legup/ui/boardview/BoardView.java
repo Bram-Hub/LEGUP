@@ -109,7 +109,6 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      * @param board board
      */
     public void setBoard(Board board) {
-        System.out.println("HERE");
         if (this.board != board) {
             this.board = board;
 
