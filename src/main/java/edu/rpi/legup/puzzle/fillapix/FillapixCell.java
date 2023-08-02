@@ -69,6 +69,7 @@ public class FillapixCell extends GridCell<Integer> implements Comparable<Fillap
                 break;
             default:
                 this.setCellType(FillapixCellType.UNKNOWN);
+                this.data = -1;
                 break;
         }
     }
