@@ -75,7 +75,7 @@ public class EditDataCommand extends PuzzleCommand {
             puzzleElement = board.getPuzzleElement(selectedPuzzleElement);
             savePuzzleElement = puzzleElement.copy();
         }
-
+        //this could be something good. 
         Board prevBoard = transition.getParents().get(0).getBoard();
 
         boardView.getElementController().changeCell(event, puzzleElement);
