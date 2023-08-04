@@ -31,7 +31,7 @@ public abstract class ContradictionRule extends Rule {
      */
     @Override
     public String checkRule(TreeTransition transition) {
-        Board prevBoard = transition.getParents().get(0).getBoard();
+        Board prevBoard = transition.getCurrentParent().getBoard();
         Board board = transition.getBoard();
         System.out.println("Changed puzzleElement indexes: ");
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {

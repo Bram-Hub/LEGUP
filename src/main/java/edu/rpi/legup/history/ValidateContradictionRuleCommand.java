@@ -50,8 +50,8 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
             TreeNode treeNode;
             if (treeElement.getType() == TreeElementType.TRANSITION) {
                 TreeTransition transition = (TreeTransition) treeElement;
-                transition.setParents(thisTreeTransition.getParents());
-                transition.setBoard( boardView.getBoard() );
+                transition.setCurrentParent(thisTreeTransition.getParents()[0]);
+                transition.setCurrentBoard( boardView.getBoard() );
                 treeNode = transition.getParents().get(0);
             }
             else {
@@ -70,8 +70,8 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
             TreeTransition transition = addTran.get(treeElement);
             if (transition == null) {
                 transition = tree.addNewTransition(treeNode);
-                transition.setParents(thisTreeTransition.getParents());
-                transition.setBoard( boardView.getBoard() );
+                transition.setCurrentParent(thisTreeTransition.getParents()[0]);
+                transition.setCurrentBoard( boardView.getBoard() );
                 transition.setRule(newRule);
                 tree.addTreeElement(transition);
             }

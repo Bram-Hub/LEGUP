@@ -10,6 +10,7 @@ import java.util.List;
 
 public class TreeTransition extends TreeElement {
     private ArrayList<TreeNode> parents;
+    private TreeNode currentParent;
     private TreeNode childNode;
     private Rule rule;
     private boolean isCorrect;
@@ -23,11 +24,13 @@ public class TreeTransition extends TreeElement {
     public TreeTransition(Board board) {
         super(TreeElementType.TRANSITION);
         this.parents = new ArrayList<>();
+        this.currentParent = null;
         this.childNode = null;
         this.board = board;
         this.rule = null;
         this.isCorrect = false;
         this.isVerified = false;
+        this.currentBoard = board;
     }
 
     /**
@@ -39,6 +42,8 @@ public class TreeTransition extends TreeElement {
     public TreeTransition(TreeNode parent, Board board) {
         this(board);
         this.parents.add(parent);
+        this.currentParent = null;
+        this.currentBoard = board;
     }
 
     /**
@@ -272,6 +277,24 @@ public class TreeTransition extends TreeElement {
     }
 
     /**
+     * Adds a parent tree node to this tree transition
+     *
+     * @param parent parent tree node to add
+     */
+    public void setCurrentParent(TreeNode parent) {
+        currentParent = parent;
+    }
+
+    /**
+     * Adds a parent tree node to this tree transition
+     *
+     * @param parent parent tree node to add
+     */
+    public TreeNode getCurrentParent() {
+        return this.currentParent;
+    }
+
+    /**
      * Removes a parent tree node to this tree transition
      *
      * @param parent parent tree node to remove
@@ -375,11 +398,21 @@ public class TreeTransition extends TreeElement {
 
 
     /**
+     * Changes current board
+     *
+     * @param board board state of the transition
+     */
+    public void setCurrentBoard(Board board) {
+        this.currentBoard = currentBoard;
+    }
+
+
+    /**
      * Changes board
      *
      * @param board board state of the transition
      */
-    public void setBoard(Board board) {
-        this.board = board;
+    public Board getCurrentBoard(Board board) {
+        return this.currentBoard;
     }
 }
