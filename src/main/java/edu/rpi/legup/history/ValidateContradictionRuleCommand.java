@@ -3,6 +3,7 @@ package edu.rpi.legup.history;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.ContradictionRule;
+import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
 
@@ -43,10 +44,13 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
 
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         for (TreeElementView view : selectedViews) {
+            BoardView boardView = puzzle.getBoardView();
+            TreeTransition thisTreeElement = (TreeTransition) boardView.getTreeElement();
             TreeElement treeElement = view.getTreeElement();
             TreeNode treeNode;
             if (treeElement.getType() == TreeElementType.TRANSITION) {
-                TreeTransition transition = (TreeTransition) treeElement;
+                //TreeTransition transition = (TreeTransition) treeElement;
+                TreeTransition transition = thisTreeElement;
                 treeNode = transition.getParents().get(0);
             }
             else {
@@ -63,6 +67,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
             treeNode.getChildren().clear();
 
             TreeTransition transition = addTran.get(treeElement);
+            transition = thisTreeElement;
             if (transition == null) {
                 transition = tree.addNewTransition(treeNode);
                 transition.setRule(newRule);
@@ -71,7 +76,6 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
             else {
                 tree.addTreeElement(treeNode, transition);
             }
-
             final TreeTransition finalTran = transition;
             puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(finalTran));
 
