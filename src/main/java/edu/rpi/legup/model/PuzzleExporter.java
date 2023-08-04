@@ -65,8 +65,9 @@ public abstract class PuzzleExporter {
 
             org.w3c.dom.Element statusElement = newDocument.createElement("solved");
             String isSolved = "false";
-            if (puzzle.isPuzzleComplete())
+            if (puzzle.isPuzzleComplete()) {
                 isSolved = "true";
+            }
             statusElement.setAttribute("isSolved", isSolved);
             LocalDateTime dateTime = LocalDateTime.now(ZoneId.of("America/New_York"));
             String time = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));

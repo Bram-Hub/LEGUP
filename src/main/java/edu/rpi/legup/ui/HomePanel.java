@@ -349,8 +349,9 @@ public class HomePanel extends LegupPanel {
             SAXParserFactory spf = SAXParserFactory.newInstance();
             SAXParser saxParser = spf.newSAXParser();
             for (final File fileEntry : Objects.requireNonNull(folder.listFiles())) {
-                if (fileEntry.getName().equals("result.csv"))
+                if (fileEntry.getName().equals("result.csv")) {
                     continue;
+                }
                 // Recurse if it is a subfolder
                 if (fileEntry.isDirectory()) {
                     recursive_parser(fileEntry, writer, path + "/" + fileEntry.getName(), name);
@@ -399,7 +400,8 @@ public class HomePanel extends LegupPanel {
                                         catch (IOException e) {
                                             throw new RuntimeException(e);
                                         }
-                                    } else if (isSolved.equals("false")) {
+                                    }
+                                    else if (isSolved.equals("false")) {
                                         try {
                                             writer.write("Not Solved");
                                         }
