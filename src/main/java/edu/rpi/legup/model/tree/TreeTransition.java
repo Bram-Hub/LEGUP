@@ -15,6 +15,8 @@ public class TreeTransition extends TreeElement {
     private Rule rule;
     private boolean isCorrect;
     private boolean isVerified;
+    private Board currentBoard;
+    private Board prevBoard;
 
     /**
      * TreeTransition Constructor create a transition from one node to another
@@ -276,23 +278,7 @@ public class TreeTransition extends TreeElement {
         parents.add(parent);
     }
 
-    /**
-     * Adds a parent tree node to this tree transition
-     *
-     * @param parent parent tree node to add
-     */
-    public void setCurrentParent(TreeNode parent) {
-        currentParent = parent;
-    }
 
-    /**
-     * Adds a parent tree node to this tree transition
-     *
-     * @param parent parent tree node to add
-     */
-    public TreeNode getCurrentParent() {
-        return this.currentParent;
-    }
 
     /**
      * Removes a parent tree node to this tree transition
@@ -402,7 +388,7 @@ public class TreeTransition extends TreeElement {
      *
      * @param board board state of the transition
      */
-    public void setCurrentBoard(Board board) {
+    public void setCurrentBoard(Board currentBoard) {
         this.currentBoard = currentBoard;
     }
 
@@ -412,7 +398,26 @@ public class TreeTransition extends TreeElement {
      *
      * @param board board state of the transition
      */
-    public Board getCurrentBoard(Board board) {
+    public Board getCurrentBoard() {
         return this.currentBoard;
+    }
+
+    /**
+     * Changes current board
+     *
+     * @param board board state of the transition
+     */
+    public void setPrevBoard(Board prevBoard) {
+        this.prevBoard = prevBoard;
+    }
+
+
+    /**
+     * Changes board
+     *
+     * @param board board state of the transition
+     */
+    public Board getPrevBoard() {
+        return this.prevBoard;
     }
 }
