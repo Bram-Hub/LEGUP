@@ -45,12 +45,13 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         for (TreeElementView view : selectedViews) {
             BoardView boardView = puzzle.getBoardView();
-            TreeTransition thisTreeElement = (TreeTransition) boardView.getTreeElement();
+            TreeTransition thisTreeTransition = (TreeTransition) boardView.getTreeElement();
             TreeElement treeElement = view.getTreeElement();
             TreeNode treeNode;
             if (treeElement.getType() == TreeElementType.TRANSITION) {
-                //TreeTransition transition = (TreeTransition) treeElement;
-                TreeTransition transition = thisTreeElement;
+                TreeTransition transition = (TreeTransition) treeElement;
+                transition.setParents(thisTreeTransition.getParents());
+                transition.setBoard( boardView.getBoard() );
                 treeNode = transition.getParents().get(0);
             }
             else {
@@ -67,9 +68,10 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
             treeNode.getChildren().clear();
 
             TreeTransition transition = addTran.get(treeElement);
-            transition = thisTreeElement;
             if (transition == null) {
                 transition = tree.addNewTransition(treeNode);
+                transition.setParents(thisTreeTransition.getParents());
+                transition.setBoard( boardView.getBoard() );
                 transition.setRule(newRule);
                 tree.addTreeElement(transition);
             }

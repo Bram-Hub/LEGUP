@@ -372,4 +372,14 @@ public class TreeTransition extends TreeElement {
     /*public int modifiedData_size(){
         return board.getModifiedData().size();
     }*/
+
+
+    /**
+     * Changes board
+     *
+     * @param board board state of the transition
+     */
+    public void setBoard(Board board) {
+        this.board = board;
+    }
 }
