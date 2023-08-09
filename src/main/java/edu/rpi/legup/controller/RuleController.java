@@ -89,7 +89,7 @@ public class RuleController implements ActionListener {
             if (rule.getRuleType() == RuleType.CONTRADICTION) {
                 TreeElementView elementView = selection.getFirstSelection();
                 TreeElement element = elementView.getTreeElement();
-                CaseRule caseRule = (CaseRule) rule;
+                CaseRule caseRule = (CaseRule) new Rule("LTUP-CASE-0002", "Satisfy Number", "The different ways a blocks number can be satisfied.", "edu/rpi/legup/images/lightup/cases/SatisfyNumber.png");
                 CaseBoard caseBoard = caseRule.getCaseBoard(element.getBoard());
                 ICommand validate = new ValidateContradictionRuleCommand(selection, (ContradictionRule) rule);
                 if (validate.canExecute()) {
