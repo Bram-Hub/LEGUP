@@ -47,6 +47,7 @@ public class RuleController implements ActionListener {
                 TreeElementView elementView = selection.getFirstSelection();
                 TreeElement element = elementView.getTreeElement();
                 if (element.getType() == TreeElementType.TRANSITION) {
+                    System.out.println("case 1");
                     ICommand caseRuleCommand = new ValidateCaseRuleCommand(selection, caseRule);
                     if (caseRuleCommand.canExecute()) {
                         caseRuleCommand.execute();
@@ -57,6 +58,8 @@ public class RuleController implements ActionListener {
                     }
                 }
                 else {
+                    System.out.println("case 2");
+                    //THIS IS THE SENARIO WE NEED TO WATCH OUT FOR 
                     if (LegupPreferences.getInstance().getUserPref(LegupPreferences.AUTO_GENERATE_CASES).equalsIgnoreCase(Boolean.toString(true))) {
                         CaseBoard caseBoard = caseRule.getCaseBoard(element.getBoard());
                         if (caseBoard != null && caseBoard.getCount() > 0) {
@@ -112,6 +115,7 @@ public class RuleController implements ActionListener {
         }
         GameBoardFacade.getInstance().getLegupUI().getTreePanel().updateError(updateErrorString);
     }
+
 
     /**
      * ICommand Performed event occurs when a rule button has been pressed
