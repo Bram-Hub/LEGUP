@@ -376,13 +376,15 @@ public class HomePanel extends LegupPanel {
                         public void startDocument() throws SAXException {
                         }
                         boolean solvedFlagExists = false;
+                        boolean puzzleTypeExists = false;
                         @Override
                         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
                             // append file type to the writer
-                            if (qName.equals("puzzle") && attributes.getQName(0) == "name") {
+                            if (qName.equals("puzzle") && attributes.getQName(0) == "name" && !puzzleTypeExists) {
                                 try {
                                     writer.write(attributes.getValue(0));
                                     writer.write(",");
+                                    puzzleTypeExists = true;
                                 }
                                 catch (IOException e) {
                                     throw new RuntimeException(e);
@@ -431,7 +433,15 @@ public class HomePanel extends LegupPanel {
                         }
                         @Override
                         public void endDocument() throws SAXException {
-                            if (!solvedFlagExists) {
+                            if (!puzzleTypeExists) {
+                                try {
+                                    writer.write("not a LEGUP puzzle!");
+                                }
+                                catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                            else if (!solvedFlagExists) {
                                 try {
                                     writer.write("missing flag!");
                                 }
