@@ -87,6 +87,10 @@ public class RuleController implements ActionListener {
         }
         else {
             if (rule.getRuleType() == RuleType.CONTRADICTION) {
+                TreeElementView elementView = selection.getFirstSelection();
+                TreeElement element = elementView.getTreeElement();
+                CaseRule caseRule = (CaseRule) rule;
+                CaseBoard caseBoard = caseRule.getCaseBoard(element.getBoard());
                 ICommand validate = new ValidateContradictionRuleCommand(selection, (ContradictionRule) rule);
                 if (validate.canExecute()) {
                     getInstance().getHistory().pushChange(validate);
