@@ -27,6 +27,10 @@ public abstract class CaseRule extends Rule {
      */
     public CaseRule(String ruleID, String ruleName, String description, String imageName) {
         super(ruleID, ruleName, description, imageName);
+        System.out.println(ruleID);
+        System.out.println(ruleName);
+        System.out.println(description);
+        System.out.println(imageName);
         this.ruleType = CASE;
         this.INVALID_USE_MESSAGE = "Invalid use of the case rule " + this.ruleName;
     }
