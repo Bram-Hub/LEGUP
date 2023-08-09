@@ -155,6 +155,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      */
     @Override
     public void onCaseBoardAdded(CaseBoard caseBoard) {
+        //THIS IS GOOD STUFF
         setBoard(caseBoard);
         repaint();
     }
