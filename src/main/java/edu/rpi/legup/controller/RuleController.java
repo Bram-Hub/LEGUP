@@ -89,6 +89,11 @@ public class RuleController implements ActionListener {
                     getInstance().getHistory().pushChange(validate);
                     validate.execute();
                 }
+
+                //This is where we check whether or not we get it correct somehow?
+                //Then we need to light up the board, and the user should press to determine where the contradiction rule was caused by 
+
+
                 else {
                     updateErrorString = validate.getError();
                 }
