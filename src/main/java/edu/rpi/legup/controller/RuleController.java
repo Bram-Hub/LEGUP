@@ -40,6 +40,26 @@ public class RuleController implements ActionListener {
         TreeViewSelection selection = treeView.getSelection();
         List<TreeElementView> selectedViews = selection.getSelectedViews();
 
+
+
+
+        //Work on having transition so we know which transition we are supposed to do
+
+        TreeTransition thisTreeTransition = (TreeTransition) puzzle.getBoardView().getTreeElement();
+        thisTreeTransition.setCurrentBoard( thisTreeTransition.getBoard() );
+        if (thisTreeTransition.getParents().size() >0) {
+            transition.setPrevBoard(thisTreeTransition.getParents().get(0).getBoard());
+        }
+
+
+        
+        //execute command
+        this.NO_CONTRADICTION_MESSAGE == checkRule(thisTreeTransition)
+
+        
+
+        //----------------------------------------------------------------
+
         String updateErrorString = "";
         if (rule.getRuleType() == RuleType.CASE) {
             CaseRule caseRule = (CaseRule) rule;
@@ -93,6 +113,7 @@ public class RuleController implements ActionListener {
 
                 CaseBoard caseBoard = caseRule.getCaseBoard(element.getBoard());
                 puzzle.notifyBoardListeners(listener -> listener.onCaseBoardAdded(caseBoard));
+
                 ICommand validate = new ValidateContradictionRuleCommand(selection, (ContradictionRule) rule);
                 if (validate.canExecute()) {
                     getInstance().getHistory().pushChange(validate);
