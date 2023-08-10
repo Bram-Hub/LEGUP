@@ -113,8 +113,9 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
             this.board = board;
 
             if (board instanceof CaseBoard) {
-                setCasePickable();
+                setPickable();
             }
+
             else {
                 for (ElementView elementView : elementViews) {
                     elementView.setPuzzleElement(board.getPuzzleElement(elementView.getPuzzleElement()));
@@ -123,7 +124,18 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
             }
         }
     }
+    /**
+     * Sets the board associated with this view
+     *
+     * @param board board
+     */
+    public void settingBoard(Board board) {
+        if (this.board != board) {
+            this.board = board;
 
+            setCasePickable();
+        }
+    }
     protected void setCasePickable() {
         CaseBoard caseBoard = (CaseBoard) board;
         Board baseBoard = caseBoard.getBaseBoard();
@@ -133,6 +145,15 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
             elementView.setPuzzleElement(puzzleElement);
             elementView.setShowCasePicker(true);
             elementView.setCaseRulePickable(caseBoard.isPickable(puzzleElement, null));
+        }
+    }
+    protected void setPickable() {
+
+        for (ElementView elementView : elementViews) {
+            PuzzleElement puzzleElement = board.getPuzzleElement(elementView.getPuzzleElement());
+            elementView.setPuzzleElement(puzzleElement);
+            elementView.setShowCasePicker(true);
+            elementView.setCaseRulePickable(board.isPickable(puzzleElement, null));
         }
     }
 
@@ -156,10 +177,20 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
     @Override
     public void onCaseBoardAdded(CaseBoard caseBoard) {
         //THIS IS GOOD STUFF
-        setBoard(caseBoard);
+        settingBoard(caseBoard);
         repaint();
     }
-
+    /**
+     * Called when the a case board has been added to the view.
+     *
+     * @param board case board to be added
+     */
+    @Override
+    public void onBoardAdded(Board board) {
+        //THIS IS GOOD STUFF
+        setBoard(board);
+        repaint();
+    }
     public TreeElement getTreeElement() {
         return this.treeElement;
     }

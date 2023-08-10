@@ -53,10 +53,8 @@ public class RuleController implements ActionListener {
 
 
         
-        //execute command
-        this.NO_CONTRADICTION_MESSAGE == checkRule(thisTreeTransition)
 
-        
+
 
         //----------------------------------------------------------------
 
@@ -95,6 +93,7 @@ public class RuleController implements ActionListener {
                 }
             }
             else {
+                //execute command
                 ICommand caseRuleCommand = new ValidateCaseRuleCommand(selection, caseRule);
                 if (caseRuleCommand.canExecute()) {
                     caseRuleCommand.execute();
@@ -107,6 +106,7 @@ public class RuleController implements ActionListener {
         }
         else {
             if (rule.getRuleType() == RuleType.CONTRADICTION) {
+                boolean noContradiction = ((ContradictionRule) rule).checkRule(thisTreeTransition) == this.NO_CONTRADICTION_MESSAGE; 
                 TreeElementView elementView = selection.getFirstSelection();
                 TreeElement element = elementView.getTreeElement();
                 CaseRule caseRule = puzzle.getCaseRules().get(0);
@@ -127,6 +127,16 @@ public class RuleController implements ActionListener {
                 else {
                     updateErrorString = validate.getError();
                 }
+
+                if (!noContradiction) {
+                    if (selectedViews.size() == 1) {
+                        TreeElementView elementView = selection.getFirstSelection();
+                        TreeElement element = elementView.getTreeElement();
+                        Board board = element.getBoard();
+                        puzzle.notifyBoardListeners(listener -> listener.onCaseBoardAdded(board));
+
+                    }
+                }
             }
             else {
                 boolean def = LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.ALLOW_DEFAULT_RULES);
@@ -141,6 +151,7 @@ public class RuleController implements ActionListener {
             }
         }
         GameBoardFacade.getInstance().getLegupUI().getTreePanel().updateError(updateErrorString);
+
     }
 
 
