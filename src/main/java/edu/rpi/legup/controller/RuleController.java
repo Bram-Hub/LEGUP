@@ -11,6 +11,7 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.rules.*;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleButton;
+import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RulePanel;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
@@ -57,10 +58,14 @@ public class RuleController implements ActionListener, MouseListener {
             thisTreeTransition.setPrevBoard(thisTreeTransition.getParents().get(0).getBoard());
         }
 
-
+        // List<PuzzleElement> modifiedElements = new ArrayList<>();
+        // for (PuzzleElement puzzleElem : board.getPuzzleElements()) {
+        //     if (prevBoard.getPuzzleElement(puzzleElem).equalsData(puzzleElem)) {
+        //         continue;
+        //     }
+        //     modifiedElements.add(puzzleElem);
+        // }
         
-
-
 
         //----------------------------------------------------------------
 
@@ -112,6 +117,7 @@ public class RuleController implements ActionListener, MouseListener {
         }
         else {
             if (rule.getRuleType() == RuleType.CONTRADICTION) {
+                boardview.repaintAllBlue();
                 String noContradictionMessage = "No instance of the contradiction " + rule.getRuleName() + " here";
                 String firstString = ((ContradictionRule) rule).checkRule(thisTreeTransition);
                 boolean noContradiction = firstString != null && firstString.equals(noContradictionMessage); 

@@ -45,6 +45,13 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      */
     public abstract void initSize();
 
+    public void repaintAllBlue() {
+        for (ElementView elem : elementViews) {
+            elem.turnBlueColor();
+        }
+        repaint();
+    }
+
     /**
      * Gets the dimension of the board view
      *
