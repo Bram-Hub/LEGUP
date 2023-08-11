@@ -1,7 +1,6 @@
 package edu.rpi.legup.model.observer;
 
 import edu.rpi.legup.model.gameboard.CaseBoard;
-import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeElement;
 
@@ -19,12 +18,6 @@ public interface IBoardListener {
      * @param caseBoard case board to be added
      */
     void onCaseBoardAdded(CaseBoard caseBoard);
-    /**
-     * Called when the a case board has been added to the view.
-     *
-     * @param board case board to be added
-     */
-    void onBoardAdded(Board board);
 
     /**
      * Called when a {@link PuzzleElement}'s data on the board has changed.
