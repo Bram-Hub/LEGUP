@@ -2,24 +2,29 @@ package edu.rpi.legup.controller;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
+import edu.rpi.legup.ui.boardview.BoardView;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.history.*;
 import edu.rpi.legup.model.Puzzle;
+import edu.rpi.legup.controller.CustomElementController;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.rules.*;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleButton;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RulePanel;
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
-
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.util.List;
+import java.awt.event.MouseListener;
 
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
-public class RuleController implements ActionListener {
+public class RuleController implements ActionListener, MouseListener {
     protected Object lastSource;
-
     /**
      * RuleController Constructor creates a controller object to listen
      * to ui events from a {@link RulePanel}
@@ -49,7 +54,7 @@ public class RuleController implements ActionListener {
         TreeTransition thisTreeTransition = (TreeTransition) boardview.getTreeElement();
         thisTreeTransition.setCurrentBoard( thisTreeTransition.getBoard() );
         if (thisTreeTransition.getParents().size() >0) {
-            transition.setPrevBoard(thisTreeTransition.getParents().get(0).getBoard());
+            thisTreeTransition.setPrevBoard(thisTreeTransition.getParents().get(0).getBoard());
         }
 
 
@@ -107,7 +112,8 @@ public class RuleController implements ActionListener {
         }
         else {
             if (rule.getRuleType() == RuleType.CONTRADICTION) {
-                boolean noContradiction = ((ContradictionRule) rule).checkRule(thisTreeTransition) == this.NO_CONTRADICTION_MESSAGE; 
+                String noContradictionMessage = "No instance of the contradiction " + rule.getRuleName() + " here";
+                boolean noContradiction = ((ContradictionRule) rule).checkRule(thisTreeTransition) == noContradictionMessage; 
                 TreeElementView elementView = selection.getFirstSelection();
                 TreeElement element = elementView.getTreeElement();
 
@@ -118,31 +124,37 @@ public class RuleController implements ActionListener {
                 //Then we need to light up the board, and the user should press to determine where the contradiction rule was caused by 
 
 
-                else {
-                    updateErrorString = validate.getError();
-                }
+
 
                 if (!noContradiction) {
+                    PuzzleElement puzzleElementContr = null;
                     if (selectedViews.size() == 1) {
-                        TreeElementView elementView = selection.getFirstSelection();
-                        TreeElement element = elementView.getTreeElement();
-                        Board board = element.getBoard();
-                        board.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                int x = e.getX(); // X coordinate of the click
-                                int y = e.getY(); // Y coordinate of the click
-                                
-                                PuzzleElement puzzleElement = BoardView.getElement(e.getPoint()).getPuzzleElement();
-                            }
-                        });
+                        TreeElementView elementViewContr = selection.getFirstSelection();
+                        TreeElement elementContr = elementViewContr.getTreeElement();
+                        Board boardContr = elementContr.getBoard();
 
+                        CustomElementController customController = new CustomElementController(puzzle.getBoardView());
+                        int x = 0;
+                        int y = 0;
 
-                    boolean noneContradiction = ((ContradictionRule) rule).checkRuleAt(thisTreeTransition, puzzleElement) == this.NO_CONTRADICTION_MESSAGE;
+                        // Create a dummy MouseEvent instance (replace with actual values)
+                        MouseEvent dummyMouseEvent = new MouseEvent(puzzle.getBoardView(), MouseEvent.MOUSE_ENTERED, System.currentTimeMillis(), 0, x, y, 0, false);
+
+                        // Call the overridden mouseEntered method of CustomElementController
+                        customController.mouseEntered(dummyMouseEvent);
+
+                        // Get the PuzzleElement using the getPuzzleElement method
+                        puzzleElementContr = customController.getPuzzleElement();
+
+                    }
+                    boolean noneContradiction = ((ContradictionRule) rule).checkRuleAt(thisTreeTransition, puzzleElementContr) == noContradictionMessage;
                     if (!noneContradiction) {
                         if (validate.canExecute()) {
                             getInstance().getHistory().pushChange(validate);
                             validate.execute();
+                        }
+                        else {
+                            updateErrorString = validate.getError();
                         }
                         System.out.println("We still have that contradiction");
                     }
@@ -151,6 +163,9 @@ public class RuleController implements ActionListener {
                             getInstance().getHistory().pushChange(validate);
                             validate.execute();
                         }   
+                        else {
+                            updateErrorString = validate.getError();
+                        }
                         System.out.println("no contradiction anymore");                     
                     }
                 }
@@ -183,4 +198,31 @@ public class RuleController implements ActionListener {
         RuleButton button = (RuleButton) lastSource;
         buttonPressed(button.getRule());
     }
+
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // Implementation of mouseClicked
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        // Implementation of mousePressed
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        // Implementation of mouseReleased
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // Implementation of mouseEntered
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // Implementation of mouseExited
+    }
+
 }
