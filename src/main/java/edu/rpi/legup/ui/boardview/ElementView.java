@@ -40,13 +40,6 @@ public abstract class ElementView implements Shape {
         this.isCaseRulePickable = false;
     }
 
-    public void turnBlueColor() { 
-        this.hoverColor = new Color(0x1A, 0x23, 0x7E, 200);
-        this.modifiedColor = new Color(0x1A, 0x23, 0x7E, 200);
-        this.caseColor = new Color(0x1A, 0x23, 0x7E, 200);
-        this.invalidColor = new Color(0x1A, 0x23, 0x7E, 200);
-    }
-
     /**
      * Determines if the specified point is within the ElementView
      *
