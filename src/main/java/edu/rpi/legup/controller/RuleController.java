@@ -113,7 +113,8 @@ public class RuleController implements ActionListener, MouseListener {
         else {
             if (rule.getRuleType() == RuleType.CONTRADICTION) {
                 String noContradictionMessage = "No instance of the contradiction " + rule.getRuleName() + " here";
-                boolean noContradiction = ((ContradictionRule) rule).checkRule(thisTreeTransition) == noContradictionMessage; 
+                String firstString = ((ContradictionRule) rule).checkRule(thisTreeTransition);
+                boolean noContradiction = firstString != null && firstString.equals(noContradictionMessage); 
                 TreeElementView elementView = selection.getFirstSelection();
                 TreeElement element = elementView.getTreeElement();
 
@@ -147,7 +148,9 @@ public class RuleController implements ActionListener, MouseListener {
                         puzzleElementContr = customController.getPuzzleElement();
 
                     }
-                    boolean noneContradiction = ((ContradictionRule) rule).checkRuleAt(thisTreeTransition, puzzleElementContr) == noContradictionMessage;
+                    System.out.println(((ContradictionRule) rule).checkContradictionAt(puzzle.getBoardView().getBoard(), puzzleElementContr));
+                    String checking = ((ContradictionRule) rule).checkContradictionAt(puzzle.getBoardView().getBoard(), puzzleElementContr);
+                    boolean noneContradiction = checking != null && checking.equals(noContradictionMessage);
                     if (!noneContradiction) {
                         if (validate.canExecute()) {
                             getInstance().getHistory().pushChange(validate);
@@ -156,7 +159,8 @@ public class RuleController implements ActionListener, MouseListener {
                         else {
                             updateErrorString = validate.getError();
                         }
-                        System.out.println("We still have that contradiction");
+                        System.out.println("We still have that contradiction at");
+                        System.out.println(puzzleElementContr.getIndex());
                     }
                     else {
                         if (validate.canExecute()) {

@@ -15,7 +15,7 @@ public class CustomElementController extends ElementController {
 
     // Override the mouseEntered method with your custom implementation
     @Override
-    public void mouseEntered(MouseEvent e) {
+    public void mouseClicked(MouseEvent e) {
         int x = e.getX(); // X coordinate of the click
         int y = e.getY(); // Y coordinate of the click
 
