@@ -44,8 +44,9 @@ public class RuleController implements ActionListener {
 
 
         //Work on having transition so we know which transition we are supposed to do
+        BoardView boardview = puzzle.getBoardView();
 
-        TreeTransition thisTreeTransition = (TreeTransition) puzzle.getBoardView().getTreeElement();
+        TreeTransition thisTreeTransition = (TreeTransition) boardview.getTreeElement();
         thisTreeTransition.setCurrentBoard( thisTreeTransition.getBoard() );
         if (thisTreeTransition.getParents().size() >0) {
             transition.setPrevBoard(thisTreeTransition.getParents().get(0).getBoard());
@@ -109,16 +110,9 @@ public class RuleController implements ActionListener {
                 boolean noContradiction = ((ContradictionRule) rule).checkRule(thisTreeTransition) == this.NO_CONTRADICTION_MESSAGE; 
                 TreeElementView elementView = selection.getFirstSelection();
                 TreeElement element = elementView.getTreeElement();
-                CaseRule caseRule = puzzle.getCaseRules().get(0);
-
-                CaseBoard caseBoard = caseRule.getCaseBoard(element.getBoard());
-                puzzle.notifyBoardListeners(listener -> listener.onCaseBoardAdded(caseBoard));
 
                 ICommand validate = new ValidateContradictionRuleCommand(selection, (ContradictionRule) rule);
-                if (validate.canExecute()) {
-                    getInstance().getHistory().pushChange(validate);
-                    validate.execute();
-                }
+
 
                 //This is where we check whether or not we get it correct somehow?
                 //Then we need to light up the board, and the user should press to determine where the contradiction rule was caused by 
@@ -133,8 +127,31 @@ public class RuleController implements ActionListener {
                         TreeElementView elementView = selection.getFirstSelection();
                         TreeElement element = elementView.getTreeElement();
                         Board board = element.getBoard();
-                        puzzle.notifyBoardListeners(listener -> listener.onCaseBoardAdded(board));
+                        board.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                int x = e.getX(); // X coordinate of the click
+                                int y = e.getY(); // Y coordinate of the click
+                                
+                                PuzzleElement puzzleElement = BoardView.getElement(e.getPoint()).getPuzzleElement();
+                            }
+                        });
 
+
+                    boolean noneContradiction = ((ContradictionRule) rule).checkRuleAt(thisTreeTransition, puzzleElement) == this.NO_CONTRADICTION_MESSAGE;
+                    if (!noneContradiction) {
+                        if (validate.canExecute()) {
+                            getInstance().getHistory().pushChange(validate);
+                            validate.execute();
+                        }
+                        System.out.println("We still have that contradiction");
+                    }
+                    else {
+                        if (validate.canExecute()) {
+                            getInstance().getHistory().pushChange(validate);
+                            validate.execute();
+                        }   
+                        System.out.println("no contradiction anymore");                     
                     }
                 }
             }
