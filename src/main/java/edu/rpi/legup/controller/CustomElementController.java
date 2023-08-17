@@ -10,12 +10,14 @@ public class CustomElementController extends ElementController {
 
     public CustomElementController(BoardView boardView) {
         super();
+        System.out.println("FUCK");
         this.setBoardView(boardView);
     }
 
     // Override the mouseEntered method with your custom implementation
     @Override
     public void mouseClicked(MouseEvent e) {
+        System.out.println("hello bitches");
         int x = e.getX(); // X coordinate of the click
         int y = e.getY(); // Y coordinate of the click
 
