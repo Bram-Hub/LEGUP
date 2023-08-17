@@ -13,12 +13,10 @@ import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleButton;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RulePanel;
 import edu.rpi.legup.model.gameboard.Board;
-import javax.swing.SwingUtilities;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.atomic.AtomicReference;
 import java.awt.event.MouseAdapter;
 import java.util.List;
 import java.awt.event.MouseListener;
@@ -27,24 +25,20 @@ import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class RuleController implements ActionListener, MouseListener {
     protected Object lastSource;
-    protected boolean oneDoneYet; 
-    protected RuleButton theRuleButton;
     /**
      * RuleController Constructor creates a controller object to listen
      * to ui events from a {@link RulePanel}
      */
     public RuleController() {
         super();
-        oneDoneYet = false;
     }
 
     /**
      * Button Pressed event occurs a when a rule button has been pressed
      *
      * @param rule rule of the button that was pressed
-     * @param e, place where clicked 
      */
-    public void buttonPressed(Rule rule, MouseEvent e) {
+    public void buttonPressed(Rule rule) {
         TreePanel treePanel = GameBoardFacade.getInstance().getLegupUI().getTreePanel();
         TreeView treeView = treePanel.getTreeView();
         Puzzle puzzle = getInstance().getPuzzleModule();
@@ -141,33 +135,15 @@ public class RuleController implements ActionListener, MouseListener {
                         Board boardContr = elementContr.getBoard();
 
                         CustomElementController customController = new CustomElementController(puzzle.getBoardView());
-                        AtomicReference<MouseEvent> dummyMouseEvent = new AtomicReference<>(null);
-                        puzzleElementContr = null;
-                        SwingUtilities.invokeLater(() -> {
-                        puzzle.getBoardView().addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                System.out.println("mouse clicked");
-                                int x = e.getX(); // Get the x-coordinate of the mouse click
-                                int y = e.getY(); // Get the y-coordinate of the mouse click
+                        int x = 0;
+                        int y = 0;
 
-                                // Create the MouseEvent instance and update the AtomicReference
-                                dummyMouseEvent.set(new MouseEvent(
-                                    puzzle.getBoardView(),
-                                    MouseEvent.MOUSE_ENTERED,
-                                    System.currentTimeMillis(),
-                                    0,
-                                    x,
-                                    y,
-                                    0,
-                                    false
-                                ));
+                        // Create a dummy MouseEvent instance (replace with actual values)
+                        MouseEvent dummyMouseEvent = new MouseEvent(puzzle.getBoardView(), MouseEvent.MOUSE_ENTERED, System.currentTimeMillis(), 0, x, y, 0, false);
 
-                                // Call the overridden mouseEntered method of CustomElementController
-                                customController.mouseEntered(dummyMouseEvent.get());
-                            }
-                        });
-                        });
+                        // Call the overridden mouseEntered method of CustomElementController
+                        customController.mouseEntered(dummyMouseEvent);
+
                         // Get the PuzzleElement using the getPuzzleElement method
                         puzzleElementContr = customController.getPuzzleElement();
 
@@ -223,17 +199,8 @@ public class RuleController implements ActionListener, MouseListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         lastSource = e.getSource();
-        if (!oneDoneYet) {
-            RuleButton button = (RuleButton) lastSource;
-            this.theRuleButton = button;
-            buttonPressed(button.getRule());
-            oneDoneYet = true;
-
-        }
-        else {
-            oneDoneYet = false;
-            int value = (Integer) ((SelectionItemView) e.getSource()).getData().getData();
-        }
+        RuleButton button = (RuleButton) lastSource;
+        buttonPressed(button.getRule());
     }
 
 
