@@ -130,22 +130,7 @@ public class RuleController implements ActionListener, MouseListener {
                 if (!noContradiction) {
                     PuzzleElement puzzleElementContr = null;
                     if (selectedViews.size() == 1) {
-                        TreeElementView elementViewContr = selection.getFirstSelection();
-                        TreeElement elementContr = elementViewContr.getTreeElement();
-                        Board boardContr = elementContr.getBoard();
-
-                        CustomElementController customController = new CustomElementController(puzzle.getBoardView());
-                        int x = 0;
-                        int y = 0;
-
-                        // Create a dummy MouseEvent instance (replace with actual values)
-                        MouseEvent dummyMouseEvent = new MouseEvent(puzzle.getBoardView(), MouseEvent.MOUSE_ENTERED, System.currentTimeMillis(), 0, x, y, 0, false);
-
-                        // Call the overridden mouseEntered method of CustomElementController
-                        customController.mouseEntered(dummyMouseEvent);
-
-                        // Get the PuzzleElement using the getPuzzleElement method
-                        puzzleElementContr = customController.getPuzzleElement();
+                        puzzle.notifyBoardListeners(listener -> listener.onSpecialBoardAdded(element.getBoard()));
 
                     }
                     System.out.println(((ContradictionRule) rule).checkContradictionAt(puzzle.getBoardView().getBoard(), puzzleElementContr));
