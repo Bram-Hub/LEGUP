@@ -144,7 +144,6 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
     @Override
     public void onTreeElementChanged(TreeElement treeElement) {
         this.treeElement = treeElement;
-        setBoard(treeElement.getBoard());
         repaint();
     }
 
@@ -157,6 +156,34 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
     public void onCaseBoardAdded(CaseBoard caseBoard) {
         //THIS IS GOOD STUFF
         setBoard(caseBoard);
+        repaint();
+    }
+
+    /**
+     * Called when the a case board has been added to the view.
+     *
+     * @param caseBoard case board to be added
+     */
+    @Override
+    public void onSpecialBoardAdded(Board board) {
+        this.board = board;
+        for (ElementView elementView : elementViews) {
+            PuzzleElement puzzleElement = board.getPuzzleElement(elementView.getPuzzleElement());
+            elementView.setPuzzleElement(puzzleElement);
+            elementView.setShowCasePicker(true);
+            elementView.setCaseRulePickable(board.isSpecialPickable(puzzleElement, null));
+        }
+
+        repaint();
+    }
+
+    /**
+     * Called when the a case board has been added to the view.
+     *
+     * @param board case board to be added
+     */
+    public void onBoardAdded(Board board) {
+        onSpecialBoardAdded(board);
         repaint();
     }
 

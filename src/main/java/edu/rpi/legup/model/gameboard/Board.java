@@ -1,5 +1,5 @@
 package edu.rpi.legup.model.gameboard;
-
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -62,6 +62,10 @@ public abstract class Board {
      */
     public int getElementCount() {
         return puzzleElements.size();
+    }
+
+    public boolean isSpecialPickable(PuzzleElement puzzleElement, MouseEvent e) {
+        return puzzleElements.contains(this.getPuzzleElement(puzzleElement));
     }
 
     /**
