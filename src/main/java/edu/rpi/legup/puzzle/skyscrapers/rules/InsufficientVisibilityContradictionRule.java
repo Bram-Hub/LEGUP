@@ -48,10 +48,10 @@ public class InsufficientVisibilityContradictionRule extends ContradictionRule {
         if (row.size() == skyscrapersboard.getWidth()) {
             //from west border
             for (SkyscrapersCell c : row) {
-                if (c.getData().value > max) {
+                if (c.getData() > max) {
                     System.out.print(c.getData());
                     //System.out.println(cell.getData());
-                    max = c.getData().value;
+                    max = c.getData();
                     count++;
                 }
             }
@@ -64,10 +64,10 @@ public class InsufficientVisibilityContradictionRule extends ContradictionRule {
             //from east border
             Collections.reverse(row);
             for (SkyscrapersCell c : row) {
-                if (c.getData().value > max) {
+                if (c.getData() > max) {
                     System.out.print(c.getData());
                     //System.out.println(cell.getData());
-                    max = c.getData().value;
+                    max = c.getData();
                     count++;
                 }
             }
@@ -84,10 +84,10 @@ public class InsufficientVisibilityContradictionRule extends ContradictionRule {
             count = 0;
             for (SkyscrapersCell c : col) {
                 System.out.println(c.getData());
-                if (c.getData().value > max) {
+                if (c.getData() > max) {
 
                     //System.out.println(cell.getData());
-                    max = c.getData().value;
+                    max = c.getData();
                     count++;
                 }
             }
@@ -101,10 +101,10 @@ public class InsufficientVisibilityContradictionRule extends ContradictionRule {
             Collections.reverse(col);
             for (SkyscrapersCell c : col) {
                 System.out.println(c.getData());
-                if (c.getData().value > max) {
+                if (c.getData() > max) {
 
                     //System.out.println(cell.getData());
-                    max = c.getData().value;
+                    max = c.getData();
                     count++;
                 }
             }

@@ -61,7 +61,7 @@ public class LastVisibleNumberDirectRule extends DirectRule {
 
     private boolean isForced(SkyscrapersBoard board, SkyscrapersCell cell) {
         SkyscrapersBoard emptyCase = board.copy();
-        emptyCase.getPuzzleElement(cell).setData(0);
+        emptyCase.getPuzzleElement(cell).setData(SkyscrapersType.UNKNOWN.value);
         DuplicateNumberContradictionRule duplicate = new DuplicateNumberContradictionRule();
         if (duplicate.checkContradictionAt(emptyCase, cell) == null) {
             System.out.println("no contradiction ln");
