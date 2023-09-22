@@ -11,8 +11,6 @@ import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType;
 
 import java.util.ArrayList;
 
-import static edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType.convertToSkyType;
-
 public class LastSingularCellDirectRule extends DirectRule {
 
     public LastSingularCellDirectRule() {
