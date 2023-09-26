@@ -14,6 +14,9 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.util.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,6 +51,9 @@ public abstract class PuzzleExporter {
             legupElement.setAttribute("version", "3.0.0");
             newDocument.appendChild(legupElement);
 
+            org.w3c.dom.Element timeSavedElement = newDocument.createElement("saved");
+            legupElement.appendChild(timeSavedElement);
+
             org.w3c.dom.Element puzzleElement = newDocument.createElement("puzzle");
             puzzleElement.setAttribute("name", puzzle.getName());
             legupElement.appendChild(puzzleElement);
@@ -56,6 +62,17 @@ public abstract class PuzzleExporter {
             if (puzzle.getTree() != null && !puzzle.getTree().getRootNode().getChildren().isEmpty()) {
                 puzzleElement.appendChild(createProofElement(newDocument));
             }
+
+            org.w3c.dom.Element statusElement = newDocument.createElement("solved");
+            String isSolved = "false";
+            if (puzzle.isPuzzleComplete()) {
+                isSolved = "true";
+            }
+            statusElement.setAttribute("isSolved", isSolved);
+            LocalDateTime dateTime = LocalDateTime.now(ZoneId.of("America/New_York"));
+            String time = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            statusElement.setAttribute("lastSaved", time);
+            legupElement.appendChild(statusElement);
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();

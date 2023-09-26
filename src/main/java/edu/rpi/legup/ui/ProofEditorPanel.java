@@ -116,8 +116,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         newPuzzle = new JMenuItem("Open");
         resetPuzzle = new JMenuItem("Reset Puzzle");
 //        genPuzzle = new JMenuItem("Puzzle Generators"); // TODO: implement puzzle generator
-        saveProofAs = new JMenuItem("Save Proof As"); // create a new file to save
-        saveProofChange = new JMenuItem("Save Proof Change"); // save to the current file
+        saveProofAs = new JMenuItem("Save As"); // create a new file to save
+        saveProofChange = new JMenuItem("Save"); // save to the current file
         preferences = new JMenuItem("Preferences");
         helpTutorial = new JMenuItem("Help"); // jump to web page
         exit = new JMenuItem("Exit");
@@ -245,7 +245,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         saveProofAs.addActionListener((ActionEvent) -> saveProofAs());
 
 
-        //save proof as
+        //save proof as...
         if (os.equals("mac")) {
             saveProofAs.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
@@ -448,7 +448,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     /**
-     * direct Saves the current prdoof in current file
+     * save the proof in the current file
      */
     private void direct_save() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
@@ -480,7 +480,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
 
         fileDialog.setMode(FileDialog.SAVE);
-        fileDialog.setTitle("Save Proof As");
+        fileDialog.setTitle("Save As");
         String curFileName = GameBoardFacade.getInstance().getCurFileName();
         if (curFileName == null) {
             fileDialog.setDirectory(LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY));

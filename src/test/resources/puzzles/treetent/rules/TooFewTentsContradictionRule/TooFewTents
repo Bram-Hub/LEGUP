@@ -12,5 +12,5 @@
             </axis>
         </board>
     </puzzle>
-    <Solved isSolved="false"/>
+    <solved isSolved="false" lastSaved="--"/>
 </Legup>
