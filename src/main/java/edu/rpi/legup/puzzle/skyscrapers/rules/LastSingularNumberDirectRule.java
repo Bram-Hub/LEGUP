@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class LastSingularNumberDirectRule extends DirectRule {
 
     public LastSingularNumberDirectRule() {
-        super("SKYS-BASC-0003", "Last Non-Duplicate Number",
+        super("SKYS-BASC-0003", "Last Number for Cell",
                 "There is only one number for this cell that does not create a duplicate contradiction",
                 "edu/rpi/legup/images/skyscrapers/rules/LastNumber.png");
     }
