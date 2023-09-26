@@ -20,5 +20,5 @@
             <flags dupe="true" view="false"/>
         </board>
     </puzzle>
-    <Solved isSolved="false"/>
+    <solved isSolved="false" lastSaved="--"/>
 </Legup>
