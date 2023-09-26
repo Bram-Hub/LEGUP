@@ -411,6 +411,14 @@ public class HomePanel extends LegupPanel {
                                             throw new RuntimeException(e);
                                         }
                                     }
+                                    else {
+                                        try { 
+                                            writer.write("Error");
+                                        }
+                                        catch (IOException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
                                 }
                                 // append when is this proof last saved
                                 if (lastSaved != null) {
