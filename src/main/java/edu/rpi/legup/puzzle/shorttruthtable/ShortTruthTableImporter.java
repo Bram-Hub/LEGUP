@@ -21,7 +21,7 @@ class ShortTruthTableImporter extends PuzzleImporter {
 
 
     /**
-     * Parse a string into all te cells, the y position of the statement is passed so the y position can be set
+     * Parse a string into all the cells, the y position of the statement is passed so the y position can be set
      *
      * @param statement
      * @param y
@@ -191,7 +191,7 @@ class ShortTruthTableImporter extends PuzzleImporter {
                 //get the cell at this location; or create a not_in_play one if necessary
                 ShortTruthTableCell cell = null;
 
-                //for a cell to exist at (x, y), it must be a valid row and within the statment length
+                //for a cell to exist at (x, y), it must be a valid row and within the statement length
                 if (y % 2 == 0 && x < statements.get(statementIndex).getLength()) {
                     cell = allCells.get(statementIndex).get(x);
                     System.out.println("Importer: check cell statement ref: " + cell.getStatementReference());
@@ -219,7 +219,7 @@ class ShortTruthTableImporter extends PuzzleImporter {
                                List<ShortTruthTableStatement> statements) throws InvalidFileFormatException {
 
 
-        //if it is normal, set all predicats to true and the conclusion to false
+        //if it is normal, set all predicates to true and the conclusion to false
         if (dataElement.getAttribute("normal").equalsIgnoreCase("true")) {
             //set all predicates to true (all but the last one)
             for (int i = 0; i < statements.size() - 1; i++) {

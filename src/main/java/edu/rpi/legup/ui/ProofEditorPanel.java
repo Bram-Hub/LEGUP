@@ -220,10 +220,14 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 if (rootNode != null) {
                     int confirmReset = JOptionPane.showConfirmDialog(this, "Reset Puzzle to Root Node?", "Confirm Reset", JOptionPane.YES_NO_OPTION);
                     if (confirmReset == JOptionPane.YES_OPTION) {
+
                         List<TreeTransition> children = rootNode.getChildren();
                         children.forEach(t -> puzzle.notifyTreeListeners(l -> l.onTreeElementRemoved(t)));
+                        children.forEach(t -> puzzle.notifyBoardListeners(l -> l.onTreeElementChanged(t)));
+                        rootNode.clearChildren();
                         final TreeViewSelection selection = new TreeViewSelection(treePanel.getTreeView().getElementView(rootNode));
                         puzzle.notifyTreeListeners(l -> l.onTreeSelectionChanged(selection));
+                        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(selection.getFirstSelection().getTreeElement()));
                         GameBoardFacade.getInstance().getHistory().clear();
                     }
                 }
@@ -376,6 +380,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         LegupPreferences preferences = LegupPreferences.getInstance();
         String preferredDirectory = preferences.getUserPref(LegupPreferences.WORK_DIRECTORY);
+        if (preferences.getSavedPath() != "") {
+            preferredDirectory = preferences.getSavedPath();
+        }
 
         File preferredDirectoryFile = new File(preferredDirectory);
         JFileChooser fileBrowser = new JFileChooser(preferredDirectoryFile);
@@ -384,7 +391,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         fileBrowser.showOpenDialog(this);
         fileBrowser.setVisible(true);
-        fileBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+        fileBrowser.setCurrentDirectory(new File(preferredDirectory));
         fileBrowser.setDialogTitle("Select Proof File");
         fileBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileBrowser.setAcceptAllFileFilterUsed(false);
@@ -394,6 +401,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         if (puzzlePath != null) {
             fileName = puzzlePath.getAbsolutePath();
+            String lastDirectoryPath =  fileName.substring(0, fileName.lastIndexOf(File.separator));
+            preferences.setSavedPath(lastDirectoryPath);
             puzzleFile = puzzlePath;
         }
         else {

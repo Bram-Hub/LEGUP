@@ -21,6 +21,7 @@ public abstract class PuzzleImporter {
 
     /**
      * PuzzleImporter Constructor creates the puzzle object
+     * @param puzzle puzzle that is imported
      */
     public PuzzleImporter(Puzzle puzzle) {
         this.puzzle = puzzle;
@@ -35,7 +36,7 @@ public abstract class PuzzleImporter {
      *
      * @param rows    number of rows on the puzzle
      * @param columns number of columns on the puzzle
-     * @throws RuntimeException
+     * @throws RuntimeException if puzzle can not be made
      */
     public void initializePuzzle(int rows, int columns) throws RuntimeException {
         if (this.puzzle.isValidDimensions(rows, columns)) {
@@ -57,7 +58,7 @@ public abstract class PuzzleImporter {
      * Initializes the puzzle attributes
      *
      * @param node xml document node
-     * @throws InvalidFileFormatException
+     * @throws InvalidFileFormatException if file is invalid
      */
     public void initializePuzzle(Node node) throws InvalidFileFormatException {
         if (node.getNodeName().equalsIgnoreCase("puzzle")) {
@@ -111,7 +112,7 @@ public abstract class PuzzleImporter {
      *
      * @param rows    number of rows on the puzzle
      * @param columns number of columns on the puzzle
-     * @throws RuntimeException
+     * @throws RuntimeException if board can not be created
      */
     public abstract void initializeBoard(int rows, int columns);
 
@@ -119,7 +120,7 @@ public abstract class PuzzleImporter {
      * Creates an empty board for building
      *
      * @param node xml document node
-     * @throws InvalidFileFormatException
+     * @throws InvalidFileFormatException if file is invalid
      */
     public abstract void initializeBoard(Node node) throws InvalidFileFormatException;
 
@@ -129,7 +130,7 @@ public abstract class PuzzleImporter {
      * Creates the proof for building
      *
      * @param node xml document node
-     * @throws InvalidFileFormatException
+     * @throws InvalidFileFormatException if file is invalid
      */
     public void initializeProof(Node node) throws InvalidFileFormatException {
         if (node.getNodeName().equalsIgnoreCase("proof")) {
@@ -163,6 +164,7 @@ public abstract class PuzzleImporter {
      * Sets the puzzleElement from the xml document node
      *
      * @param node xml document node
+     * @throws InvalidFileFormatException if file is invalid
      */
     protected void setCells(Node node) throws InvalidFileFormatException {
         NodeList dataList = ((org.w3c.dom.Element) node).getElementsByTagName("cell");
@@ -176,8 +178,8 @@ public abstract class PuzzleImporter {
     /**
      * Creates the tree for the edu.rpi.legup.puzzle
      *
-     * @param node
-     * @throws InvalidFileFormatException
+     * @param node xml document node
+     * @throws InvalidFileFormatException if file is invalid
      */
     protected void createTree(Node node) throws InvalidFileFormatException {
         Element treeElement = (org.w3c.dom.Element) node;
