@@ -220,6 +220,9 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * @return true if the board was solved correctly, false otherwise
      */
     public boolean isPuzzleComplete() {
+        if (tree == null)
+            return false;
+
         boolean isComplete = tree.isValid();
         if (isComplete) {
             for (TreeElement leaf : tree.getLeafTreeElements()) {
