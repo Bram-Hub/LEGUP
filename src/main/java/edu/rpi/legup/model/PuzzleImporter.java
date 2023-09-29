@@ -21,6 +21,7 @@ public abstract class PuzzleImporter {
 
     /**
      * PuzzleImporter Constructor creates the puzzle object
+     *
      * @param puzzle puzzle that is imported
      */
     public PuzzleImporter(Puzzle puzzle) {
