@@ -152,7 +152,7 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType> {
             }
             // Unknown Element
             else {
-                if (e.getElementID().equals("STTT-UNPL-0003")) {
+                if (e.getElementID().equals("STTT-PLAC-0003")) {
                     this.data = ShortTruthTableCellType.UNKNOWN;
                 }
                 // Argument Element
