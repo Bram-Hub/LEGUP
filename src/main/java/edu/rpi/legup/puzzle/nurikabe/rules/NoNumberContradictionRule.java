@@ -42,19 +42,17 @@ public class NoNumberContradictionRule extends ContradictionRule {
             return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
         }
 
-//        If the transition creates a room of white cells with no number, a contradiction occurs.
-        DisjointSets<NurikabeCell> anotherRegion = NurikabeUtilities.getPossibleWhiteRegions(nurikabeBoard);
-        List<Set<NurikabeCell>> allsets = anotherRegion.getAllSets();
-        for (Set<NurikabeCell> s : allsets) {
-            boolean numberExists = false;
-            for (NurikabeCell c : s) {
-                if (c.getType() == NurikabeType.NUMBER) {
-                    numberExists = true;
-                }
+        Set<NurikabeCell> region = NurikabeUtilities.getSurroundedRegionOf(nurikabeBoard, cell);
+
+        boolean numberExists = false;
+        for (NurikabeCell c : region) {
+            if (c.getType() == NurikabeType.NUMBER) {
+                numberExists = true;
+                break;
             }
-            if (!numberExists) {
-                return null;
-            }
+        }
+        if (!numberExists) {
+            return null;
         }
         return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
     }
