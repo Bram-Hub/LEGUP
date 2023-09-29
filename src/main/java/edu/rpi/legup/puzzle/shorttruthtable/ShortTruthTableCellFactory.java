@@ -41,11 +41,9 @@ public class ShortTruthTableCellFactory extends ElementFactory {
 
             return cell;
 
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new InvalidFileFormatException("nurikabe Factory: unknown value where integer expected");
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             throw new InvalidFileFormatException("nurikabe Factory: could not find attribute(s)");
         }
 
