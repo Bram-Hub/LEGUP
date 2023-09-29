@@ -155,7 +155,8 @@ class ShortTruthTableImporter extends PuzzleImporter {
                         }
                     }
                 }
-            } else {
+            }
+            else {
                 if (i != sentence.length() - 1) {
                     if (Character.isLetter(sentence.charAt(i + 1))) {
                         System.out.println("Invalid next character");
@@ -194,7 +195,8 @@ class ShortTruthTableImporter extends PuzzleImporter {
                 if (y % 2 == 0 && x < statements.get(statementIndex).getLength()) {
                     cell = allCells.get(statementIndex).get(x);
                     System.out.println("Importer: check cell statement ref: " + cell.getStatementReference());
-                } else {
+                }
+                else {
                     //if it is not a valid cell space, add a NOT_IN_PLAY cell
                     cell = new ShortTruthTableCell(' ', ShortTruthTableCellType.NOT_IN_PLAY, new Point(x, y));
                     cell.setModifiable(false);
@@ -306,7 +308,8 @@ class ShortTruthTableImporter extends PuzzleImporter {
 
             puzzle.setCurrentBoard(sttBoard);
 
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             throw new InvalidFileFormatException("short truth table Importer: unknown value where integer expected");
         }
     }

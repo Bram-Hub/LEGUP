@@ -63,7 +63,8 @@ public class ShortTruthTableBoard extends GridBoard {
             for (int c = 0; c < this.dimension.width; c++) {
                 if (r % 2 == 0 && c < statementsCopy[r / 2].getLength()) {
                     boardCopy.setCell(c, r, statementsCopy[r / 2].getCell(c));
-                } else {
+                }
+                else {
                     boardCopy.setCell(c, r, getCell(c, r).copy());
                 }
             }

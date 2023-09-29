@@ -61,13 +61,15 @@ public class ShortTruthTableStatement extends PuzzleElement<String> {
         //construct sub-statements if necessary
         if (left.length() > 0) {
             leftStatement = new ShortTruthTableStatement(left, this, leftCells);
-        } else {
+        }
+        else {
             leftStatement = null;
         }
 
         if (right.length() > 0) {
             rightStatement = new ShortTruthTableStatement(right, this, rightCells);
-        } else {
+        }
+        else {
             rightStatement = null;
         }
 
@@ -88,7 +90,8 @@ public class ShortTruthTableStatement extends PuzzleElement<String> {
             char c = statement.charAt(i);
             if (c == '(') {
                 openParenCount++;
-            } else {
+            }
+            else {
                 if (c == ')') openParenCount--;
             }
 
@@ -120,7 +123,8 @@ public class ShortTruthTableStatement extends PuzzleElement<String> {
             //keep track of the open parens
             if (c == '(') {
                 openParenCount++;
-            } else {
+            }
+            else {
                 if (c == ')') {
                     openParenCount--;
                 }
@@ -155,7 +159,8 @@ public class ShortTruthTableStatement extends PuzzleElement<String> {
             char c = cells.get(i).getSymbol();
             if (c == '(') {
                 openParenCount++;
-            } else {
+            }
+            else {
                 if (c == ')') openParenCount--;
             }
 
@@ -295,7 +300,8 @@ public class ShortTruthTableStatement extends PuzzleElement<String> {
         for (ShortTruthTableCell c : cells) {
             if (c.getX() == column) {
                 cellsCopy.add(cell);
-            } else {
+            }
+            else {
                 cellsCopy.add(c);
             }
         }

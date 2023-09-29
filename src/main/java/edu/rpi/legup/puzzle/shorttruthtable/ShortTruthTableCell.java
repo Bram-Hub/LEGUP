@@ -168,7 +168,8 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType> {
                             if (this.symbol > 'Z') {
                                 this.symbol = 'A';
                             }
-                        } else {
+                        }
+                        else {
                             if (m.getButton() == MouseEvent.BUTTON3) {
                                 this.symbol -= 1;
                                 if (this.symbol < 'A') {
@@ -183,30 +184,37 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType> {
                             if (m.getButton() == MouseEvent.BUTTON1) {
                                 if (this.symbol == '^') {
                                     this.symbol = '|';
-                                } else {
+                                }
+                                else {
                                     if (this.symbol == '|') {
                                         this.symbol = '>';
-                                    } else {
+                                    }
+                                    else {
                                         if (this.symbol == '>') {
                                             this.symbol = '-';
-                                        } else {
+                                        }
+                                        else {
                                             if (this.symbol == '-') {
                                                 this.symbol = '^';
                                             }
                                         }
                                     }
                                 }
-                            } else {
+                            }
+                            else {
                                 if (m.getButton() == MouseEvent.BUTTON3) {
                                     if (this.symbol == '^') {
                                         this.symbol = '-';
-                                    } else {
+                                    }
+                                    else {
                                         if (this.symbol == '|') {
                                             this.symbol = '^';
-                                        } else {
+                                        }
+                                        else {
                                             if (this.symbol == '>') {
                                                 this.symbol = '|';
-                                            } else {
+                                            }
+                                            else {
                                                 if (this.symbol == '-') {
                                                     this.symbol = '>';
                                                 }

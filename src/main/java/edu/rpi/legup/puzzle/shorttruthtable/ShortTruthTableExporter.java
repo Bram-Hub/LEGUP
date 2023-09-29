@@ -14,10 +14,12 @@ public class ShortTruthTableExporter extends PuzzleExporter {
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
         ShortTruthTableBoard board;
-        if (puzzle.getTree() != null)
+        if (puzzle.getTree() != null) {
             board = (ShortTruthTableBoard) puzzle.getTree().getRootNode().getBoard();
-        else
+        }
+        else {
             board = (ShortTruthTableBoard) puzzle.getBoardView().getBoard();
+        }
 
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
 

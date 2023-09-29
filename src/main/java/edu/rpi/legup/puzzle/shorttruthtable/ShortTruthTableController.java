@@ -18,10 +18,12 @@ public class ShortTruthTableController extends ElementController {
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (e.isControlDown()) {
                 this.boardView.getSelectionPopupMenu().show(boardView, this.boardView.getCanvas().getX() + e.getX(), this.boardView.getCanvas().getY() + e.getY());
-            } else {
+            }
+            else {
                 cell.cycleTypeForward();
             }
-        } else {
+        }
+        else {
             if (e.getButton() == MouseEvent.BUTTON3) {
                 cell.cycleTypeBackward();
             }
