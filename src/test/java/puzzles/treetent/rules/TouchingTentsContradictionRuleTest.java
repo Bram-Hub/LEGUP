@@ -105,6 +105,108 @@ public class TouchingTentsContradictionRuleTest {
         Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 1)));
         Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 1)));
     }
+    //MIXED TESTS
+    /**
+     * Tests a tent of orientation  TT
+     *                              TT
+     *
+     **/
+    @Test
+    public void TouchingTentsContradictionRule_2By2Square() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/treetent/rules/TouchingTentsContradictionRule/TouchingTentsFull2By2",treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        Assert.assertNull(RULE.checkContradiction(board));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(0, 0)));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(0, 1)));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(1, 0)));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(1, 1)));
+    }
+    /**
+     * Tests a tent of orientation  TT
+     *                              T
+     *
+     **/
+    @Test
+    public void TouchingTentsContradictionRule_UpLeft() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/treetent/rules/TouchingTentsContradictionRule/TouchingTentsMixedUpLeft",treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        Assert.assertNull(RULE.checkContradiction(board));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(0, 0)));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(0, 1)));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(1, 0)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 1)));
+    }
+    /**
+     * Tests a tent of orientation  TT
+     *                               T
+     *
+     **/
+    @Test
+    public void TouchingTentsContradictionRule_UpRight() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/treetent/rules/TouchingTentsContradictionRule/TouchingTentsMixedUpRight",treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        Assert.assertNull(RULE.checkContradiction(board));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(0, 0)));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(0, 1)));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(1, 1)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 0)));
+    }
+    /**
+     * Tests a tent of orientation  T
+     *                              TT
+     *
+     **/
+    @Test
+    public void TouchingTentsContradictionRule_DownLeft() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/treetent/rules/TouchingTentsContradictionRule/TouchingTentsMixedDownLeft",treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        Assert.assertNull(RULE.checkContradiction(board));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(0, 0)));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(1, 0)));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(1, 1)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 1)));
+    }
+    /**
+     * Tests a tent of orientation   T
+     *                              TT
+     *
+     **/
+    @Test
+    public void TouchingTentsContradictionRule_DownRight() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/treetent/rules/TouchingTentsContradictionRule/TouchingTentsMixedDownRight",treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        Assert.assertNull(RULE.checkContradiction(board));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(0, 1)));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(1, 0)));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(1, 1)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 0)));
+    }
+
 }
 
 
