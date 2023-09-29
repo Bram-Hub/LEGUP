@@ -43,7 +43,7 @@ public class UnresolvedNumberContradictionRule extends ContradictionRule {
             //isn't already present
             boolean exists = false;
             for (SkyscrapersCell presentCell : skyscrapersBoard.getRowCol(loc.y, SkyscrapersType.Number, true)) {
-                if (presentCell.getData().value == num) {
+                if (presentCell.getData() == num) {
                     exists = true;
                     break;
                 }
@@ -59,7 +59,7 @@ public class UnresolvedNumberContradictionRule extends ContradictionRule {
             //same process as for row
             exists = false;
             for (SkyscrapersCell presentCell : skyscrapersBoard.getRowCol(loc.x, SkyscrapersType.Number, false)) {
-                if (presentCell.getData().value == num) {
+                if (presentCell.getData() == num) {
                     exists = true;
                     break;
                 }

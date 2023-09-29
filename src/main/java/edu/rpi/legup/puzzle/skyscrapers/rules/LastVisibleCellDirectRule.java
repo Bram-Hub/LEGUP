@@ -45,8 +45,8 @@ public class LastVisibleCellDirectRule extends DirectRule {
         initialBoard.setDupeFlag(false);
         initialBoard.setViewFlag(true);
         CellForNumberCaseRule caseRule = new CellForNumberCaseRule();
-        ArrayList<Board> XCandidates = caseRule.getCasesFor(initialBoard, initialBoard.getWestClues().get(finalCell.getLocation().y), (Integer) finalCell.getData().value);
-        ArrayList<Board> YCandidates = caseRule.getCasesFor(initialBoard, initialBoard.getNorthClues().get(finalCell.getLocation().x), (Integer) finalCell.getData().value);
+        ArrayList<Board> XCandidates = caseRule.getCasesFor(initialBoard, initialBoard.getWestClues().get(finalCell.getLocation().y), (Integer) finalCell.getData());
+        ArrayList<Board> YCandidates = caseRule.getCasesFor(initialBoard, initialBoard.getNorthClues().get(finalCell.getLocation().x), (Integer) finalCell.getData());
         initialBoard.setDupeFlag(dupeTemp);
         initialBoard.setViewFlag(viewTemp);
 
@@ -78,7 +78,7 @@ public class LastVisibleCellDirectRule extends DirectRule {
 
     private boolean isForced(SkyscrapersBoard board, SkyscrapersCell cell) {
         SkyscrapersBoard emptyCase = board.copy();
-        emptyCase.getPuzzleElement(cell).setData(0);
+        emptyCase.getPuzzleElement(cell).setData(SkyscrapersType.UNKNOWN.value);
         DuplicateNumberContradictionRule duplicate = new DuplicateNumberContradictionRule();
         if (duplicate.checkContradictionAt(emptyCase, cell) == null) {
             System.out.println("no contradiction ln");

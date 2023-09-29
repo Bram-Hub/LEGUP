@@ -15,7 +15,7 @@ public class NEdgeDirectRule extends DirectRule {
 
     public NEdgeDirectRule() {
         super("SKYS-BASC-0004", "N Edge",
-                "If the maximum number appears on an edge, the row or column��s numbers appear in ascending order, starting at that edge.",
+                "If the maximum number appears on an edge, the row or column's numbers appear in ascending order, starting at that edge.",
                 "edu/rpi/legup/images/skyscrapers/rules/NEdge.png");
     }
 
@@ -39,20 +39,20 @@ public class NEdgeDirectRule extends DirectRule {
         }
 
         SkyscrapersBoard emptyCase = initialBoard.copy();
-        emptyCase.getPuzzleElement(finalCell).setData(0);
+        emptyCase.getPuzzleElement(finalCell).setData(SkyscrapersType.UNKNOWN.value);
         Point loc = finalCell.getLocation();
         int max = initialBoard.getHeight();
 
-        if (initialBoard.getWestClues().get(loc.y).getData() == max && finalCell.getData().value == loc.x + 1) {
+        if (initialBoard.getWestClues().get(loc.y).getData() == max && finalCell.getData() == loc.x + 1) {
             return null;
         }
-        if (initialBoard.getEastClues().get(loc.y).getData() == max && finalCell.getData().value == max - loc.x) {
+        if (initialBoard.getEastClues().get(loc.y).getData() == max && finalCell.getData() == max - loc.x) {
             return null;
         }
-        if (initialBoard.getNorthClues().get(loc.x).getData() == max && finalCell.getData().value == loc.y + 1) {
+        if (initialBoard.getNorthClues().get(loc.x).getData() == max && finalCell.getData() == loc.y + 1) {
             return null;
         }
-        if (initialBoard.getSouthClues().get(loc.x).getData() == max && finalCell.getData().value == max - loc.y) {
+        if (initialBoard.getSouthClues().get(loc.x).getData() == max && finalCell.getData() == max - loc.y) {
             return null;
         }
 
@@ -62,7 +62,7 @@ public class NEdgeDirectRule extends DirectRule {
 
     private boolean isForced(SkyscrapersBoard board, SkyscrapersCell cell) {
         SkyscrapersBoard emptyCase = board.copy();
-        emptyCase.getPuzzleElement(cell).setData(0);
+        emptyCase.getPuzzleElement(cell).setData(SkyscrapersType.UNKNOWN.value);
         DuplicateNumberContradictionRule duplicate = new DuplicateNumberContradictionRule();
         if (duplicate.checkContradictionAt(emptyCase, cell) == null) {
             System.out.println("no contradiction ln");

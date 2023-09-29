@@ -115,7 +115,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
         }
         // file>save
-        JMenuItem savePuzzle = new JMenuItem("Save Proof As");
+        JMenuItem savePuzzle = new JMenuItem("Save As");
         savePuzzle.addActionListener((ActionEvent) -> savePuzzle());
         JMenuItem directSavePuzzle = new JMenuItem("Direct Save Proof ");
         directSavePuzzle.addActionListener((ActionEvent) -> direct_save());

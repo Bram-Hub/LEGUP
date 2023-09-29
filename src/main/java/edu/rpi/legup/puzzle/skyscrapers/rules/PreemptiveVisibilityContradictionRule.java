@@ -62,7 +62,7 @@ public class PreemptiveVisibilityContradictionRule extends ContradictionRule {
                 //don't do anything if already in row
                 boolean exists = false;
                 for (SkyscrapersCell c : temp.getRowCol(loc.y, SkyscrapersType.Number, true)) {
-                    if (c.getData().value == num) {
+                    if (c.getData() == num) {
                         exists = true;
                         break;
                     }
@@ -102,7 +102,7 @@ public class PreemptiveVisibilityContradictionRule extends ContradictionRule {
                 //don't do anything if already in col
                 boolean exists = false;
                 for (SkyscrapersCell c : temp.getRowCol(loc.x, SkyscrapersType.Number, false)) {
-                    if (c.getData().value == num) {
+                    if (c.getData() == num) {
                         exists = true;
                         break;
                     }
