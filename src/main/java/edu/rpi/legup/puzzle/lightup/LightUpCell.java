@@ -26,6 +26,26 @@ public class LightUpCell extends GridCell<Integer> {
             case "LTUP-UNPL-0003":
                 this.data = -2;
                 break;
+            case "LTUP-UNPL-0001":
+                switch (m.getButton()){
+                    case MouseEvent.BUTTON1:
+                        if (this.data < 0 || this.data > 3) {
+                            this.data = 0;
+                        }
+                        else {
+                            this.data = this.data + 1;
+                        }
+                        break;
+                    case MouseEvent.BUTTON3:
+                        if (this.data > 0) {
+                            this.data = this.data - 1;
+                        }
+                        else {
+                            this.data = 4;
+                        }
+                        break;
+                }
+                break;
         }
     }
 
