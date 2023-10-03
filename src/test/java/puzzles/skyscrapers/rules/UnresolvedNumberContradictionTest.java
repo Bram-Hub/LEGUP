@@ -90,7 +90,8 @@ public class UnresolvedNumberContradictionTest {
         for (int i = 0; i < board.getHeight(); i++) {
             if (i == 3) {
                 Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
-            } else {
+            }
+            else {
                 Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
             }
         }
@@ -111,7 +112,8 @@ public class UnresolvedNumberContradictionTest {
         for (int i = 0; i < board.getHeight(); i++) {
             if (i == 1) {
                 Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
-            } else {
+            }
+            else {
                 Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
             }
         }
@@ -132,7 +134,8 @@ public class UnresolvedNumberContradictionTest {
         for (int i = 0; i < board.getHeight(); i++) {
             if (i == 1 || i == 3) {
                 Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
-            } else {
+            }
+            else {
                 Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
             }
         }
@@ -153,7 +156,8 @@ public class UnresolvedNumberContradictionTest {
         for (int i = 0; i < board.getHeight(); i++) {
             if (i == 1 || i == 2) {
                 Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
-            } else {
+            }
+            else {
                 Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
             }
         }
