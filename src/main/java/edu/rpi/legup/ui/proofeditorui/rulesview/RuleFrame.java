@@ -6,7 +6,6 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.ui.lookandfeel.components.MaterialTabbedPaneUI;
 
-import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
