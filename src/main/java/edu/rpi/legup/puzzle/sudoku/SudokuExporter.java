@@ -2,6 +2,7 @@ package edu.rpi.legup.puzzle.sudoku;
 
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersBoard;
 import org.w3c.dom.Document;
 
 public class SudokuExporter extends PuzzleExporter {
@@ -12,7 +13,13 @@ public class SudokuExporter extends PuzzleExporter {
 
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
-        SudokuBoard board = (SudokuBoard) puzzle.getTree().getRootNode().getBoard();
+        SudokuBoard board;
+        if (puzzle.getTree() != null) {
+            board = (SudokuBoard) puzzle.getTree().getRootNode().getBoard();
+        }
+        else {
+            board = (SudokuBoard) puzzle.getBoardView().getBoard();
+        }
 
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("size", String.valueOf(board.getSize()));
