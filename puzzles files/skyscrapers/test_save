@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="3.0.0">
+    <saved/>
+    <puzzle name="Skyscrapers">
+        <board size="4">
+            <cells/>
+            <axis side="east">
+                <clue index="1" value="3"/>
+                <clue index="2" value="2"/>
+                <clue index="3" value="1"/>
+                <clue index="2" value="2"/>
+            </axis>
+            <axis side="south">
+                <clue index="1" value="3"/>
+                <clue index="4" value="1"/>
+                <clue index="2" value="3"/>
+                <clue index="2" value="2"/>
+            </axis>
+        </board>
+        <proof>
+            <tree>
+                <node id="1898399920" root="true">
+                    <transition child="1606827249" id="1264293817" rule="N Edge" rule_id="SKYS-BASC-0004">
+                        <cell value="4" x="1" y="3"/>
+                        <cell value="2" x="1" y="1"/>
+                        <cell value="1" x="1" y="0"/>
+                        <cell value="3" x="1" y="2"/>
+                    </transition>
+                </node>
+                <node id="1606827249">
+                    <transition child="1507820101" id="28522823" rule="Last Visible Number" rule_id="SKYS-BASC-0005">
+                        <cell value="4" x="0" y="0"/>
+                        <cell value="4" x="3" y="2"/>
+                    </transition>
+                </node>
+                <node id="1507820101">
+                    <transition child="191321505" id="171067897" rule="Last Non-Duplicate Cell" rule_id="SKYS-BASC-0002">
+                        <cell value="4" x="2" y="1"/>
+                    </transition>
+                </node>
+                <node id="191321505"/>
+            </tree>
+        </proof>
+    </puzzle>
+    <solved isSolved="false" lastSaved="2023-10-03 16:43:51"/>
+</Legup>
