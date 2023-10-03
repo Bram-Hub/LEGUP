@@ -87,6 +87,7 @@ public class NumberForCellCaseRule extends CaseRule {
     public String checkRuleRaw(TreeTransition transition) {
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
         if (childTransitions.size() == 0) {
+            //System.out.println("0");
             return "This case rule must have at least one child.";
         }
         else {
@@ -103,13 +104,16 @@ public class NumberForCellCaseRule extends CaseRule {
         for (int i = 0; i < childTransitions.size(); i++) {
             TreeTransition case2 = childTransitions.get(i);
             if (case2.getBoard().getModifiedData().size() != 1) {
+                //System.out.println("1");
                 return super.getInvalidUseOfRuleMessage() + ": This case rule must have 1 modified cell for each case.";
             }
             SkyscrapersCell mod2 = (SkyscrapersCell) case2.getBoard().getModifiedData().iterator().next();
             if (!mod1.getLocation().equals(mod2.getLocation())) {
+                //System.out.println("2");
                 return super.getInvalidUseOfRuleMessage() + ": This case rule must modify the same cell for each case.";
             }
             if (!(mod2.getType() == SkyscrapersType.Number)) {
+                //System.out.println("3");
                 return super.getInvalidUseOfRuleMessage() + ": This case rule must assign a number.";
             }
         }

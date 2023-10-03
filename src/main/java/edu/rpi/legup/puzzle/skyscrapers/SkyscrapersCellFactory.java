@@ -35,7 +35,7 @@ public class SkyscrapersCellFactory extends ElementFactory {
                 if (x >= width || y >= height) {
                     throw new InvalidFileFormatException("TreeTent Factory: cell location out of bounds");
                 }
-                if (value < 0) {
+                if (value < 0 || value > 3) {
                     throw new InvalidFileFormatException("TreeTent Factory: cell unknown value");
                 }
 

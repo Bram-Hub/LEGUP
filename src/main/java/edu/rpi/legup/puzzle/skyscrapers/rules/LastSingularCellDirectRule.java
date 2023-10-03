@@ -49,8 +49,8 @@ public class LastSingularCellDirectRule extends DirectRule {
         initialBoard.setDupeFlag(dupeTemp);
         initialBoard.setViewFlag(viewTemp);
 
-        //System.out.println(XCandidates.size());
-        //System.out.println(YCandidates.size());
+        System.out.println(XCandidates.size());
+        System.out.println(YCandidates.size());
 
         //return null if either pass, both messages otherwise
         String xCheck = candidateCheck(XCandidates, puzzleElement, finalCell);
@@ -96,8 +96,9 @@ public class LastSingularCellDirectRule extends DirectRule {
     public Board getDefaultBoard(TreeNode node) {
         SkyscrapersBoard initialBoard = (SkyscrapersBoard) node.getBoard();
         SkyscrapersBoard lightUpBoard = (SkyscrapersBoard) node.getBoard().copy();
-        //System.out.println(lightUpBoard.getPuzzleElements().size());
+        System.out.println(lightUpBoard.getPuzzleElements().size());
         for (PuzzleElement element : lightUpBoard.getPuzzleElements()) {
+            System.out.println("123");
             SkyscrapersCell cell = (SkyscrapersCell) element;
             if (cell.getType() == SkyscrapersType.UNKNOWN && isForced(initialBoard, cell)) {
                 //cell.setData(SkyscrapersType.BULB.value);
