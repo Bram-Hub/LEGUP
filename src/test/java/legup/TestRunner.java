@@ -7,6 +7,7 @@ import org.junit.runner.notification.Failure;
 import puzzles.battleship.rules.*;
 import puzzles.lightup.rules.*;
 import puzzles.nurikabe.rules.*;
+import puzzles.skyscrapers.rules.*;
 import puzzles.treetent.rules.*;
 
 /**
@@ -94,6 +95,21 @@ public class TestRunner {
         printTestResults(result34);
         Result result35 = JUnitCore.runClasses(TreeForTentDirectRuleTest.class);
         printTestResults(result35);
+
+        // Skyscrapers Tests
+        Result result36 = JUnitCore.runClasses(DuplicateNumberContradictionTest.class);
+        printTestResults(result36);
+        Result result37 = JUnitCore.runClasses(ExceedingVisibilityContradictionTest.class);
+        printTestResults(result37);
+        Result result38 = JUnitCore.runClasses(InsufficientVisibilityContradictionTest.class);
+        printTestResults(result38);
+        Result result39 = JUnitCore.runClasses(PreemptiveVisibilityContradictionTest.class);
+        printTestResults(result39);
+        Result result40 = JUnitCore.runClasses(UnresolvedCellContradictionTest.class);
+        printTestResults(result40);
+        Result result41 = JUnitCore.runClasses(UnresolvedNumberContradictionTest.class);
+        printTestResults(result41);
+
     }
 
     private static void printTestResults(Result result) {
