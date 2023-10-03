@@ -206,6 +206,38 @@ public class TouchingTentsContradictionRuleTest {
         Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(1, 1)));
         Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 0)));
     }
+    /**
+     * Tests if tree adjacent triggers a null
+     */
+    @Test
+    public void TouchingTentsContradictionRule_TreeAdjacent() throws InvalidFileFormatException{
+        TestUtilities.importTestBoard("puzzles/treetent/rules/TouchingTentsContradictionRule/TouchingTentsTreeAdjacent",treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        Assert.assertNotNull(RULE.checkContradiction(board));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 0)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 1)));
+    }
+    /**
+     * Tests if tree diagonal triggers a null
+     */
+    @Test
+    public void TouchingTentsContradictionRule_TreeDiagonal() throws InvalidFileFormatException{
+        TestUtilities.importTestBoard("puzzles/treetent/rules/TouchingTentsContradictionRule/TouchingTentsTreeDiagonal",treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        Assert.assertNotNull(RULE.checkContradiction(board));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 0)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 0)));
+    }
 
 }
 
