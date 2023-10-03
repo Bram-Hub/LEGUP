@@ -27,7 +27,7 @@
         <puzzle name="ShortTruthTable"
             qualifiedClassName="edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable"
             fileType=".xml"
-            fileCreationDisabled="true"/>
+            fileCreationDisabled="false"/>
         <puzzle name="Sudoku" qualifiedClassName="edu.rpi.legup.puzzle.sudoku.Sudoku"
             fileType=".xml"
             fileCreationDisabled="true"/>

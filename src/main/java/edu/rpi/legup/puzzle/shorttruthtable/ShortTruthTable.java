@@ -25,6 +25,7 @@ public class ShortTruthTable extends Puzzle {
     public void initializeView() {
         ShortTruthTableBoard sttBoard = (ShortTruthTableBoard) currentBoard;
         boardView = new ShortTruthTableView(sttBoard);
+        boardView.setBoard(currentBoard);
         addBoardListener(boardView);
     }
 
@@ -48,8 +49,32 @@ public class ShortTruthTable extends Puzzle {
      * @return true if the given dimensions are valid for Short Truth Table, false otherwise
      */
     public boolean isValidDimensions(int rows, int columns) {
-        // This is a placeholder, this method needs to be implemented
-        throw new UnsupportedOperationException();
+        // Number of rows must be odd to allow for proper spacing between the statements
+        if (rows % 2 != 1) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Determines if the given statements are valid for Short Truth Table
+     *
+     * @param statements
+     * @return true if the statements are valid for Short Truth Table, false otherwise
+     */
+    public boolean isValidTextInput(String[] statements) {
+        if (statements.length == 0) {
+            return false;
+        }
+
+        ShortTruthTableImporter importer = (ShortTruthTableImporter) this.getImporter();
+        for (String s : statements) {
+            if (!importer.validGrammar(s)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

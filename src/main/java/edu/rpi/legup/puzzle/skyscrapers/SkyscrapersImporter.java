@@ -13,6 +13,16 @@ public class SkyscrapersImporter extends PuzzleImporter {
         super(skyscrapers);
     }
 
+    @Override
+    public boolean acceptsRowsAndColumnsInput() {
+        return true;
+    }
+
+    @Override
+    public boolean acceptsTextInput() {
+        return false;
+    }
+
     /**
      * Creates an empty board for building
      *
@@ -62,7 +72,7 @@ public class SkyscrapersImporter extends PuzzleImporter {
             for (int i = 0; i < elementDataList.getLength(); i++) {
                 SkyscrapersCell cell = (SkyscrapersCell) puzzle.getFactory().importCell(elementDataList.item(i), skyscrapersBoard);
                 Point loc = cell.getLocation();
-                if (cell.getData().value != 0) {
+                if (cell.getData() != 0) {
                     cell.setModifiable(false);
                     cell.setGiven(true);
                 }
@@ -72,7 +82,7 @@ public class SkyscrapersImporter extends PuzzleImporter {
             for (int y = 0; y < size; y++) {
                 for (int x = 0; x < size; x++) {
                     if (skyscrapersBoard.getCell(x, y) == null) {
-                        SkyscrapersCell cell = new SkyscrapersCell(SkyscrapersType.UNKNOWN, new Point(x, y), size);
+                        SkyscrapersCell cell = new SkyscrapersCell(SkyscrapersType.UNKNOWN.value, new Point(x, y), size);
                         cell.setIndex(y * size + x);
                         cell.setModifiable(true);
                         skyscrapersBoard.setCell(x, y, cell);
@@ -149,5 +159,10 @@ public class SkyscrapersImporter extends PuzzleImporter {
         catch (NumberFormatException e) {
             throw new InvalidFileFormatException("Skyscraper Importer: unknown value where integer expected");
         }
+    }
+
+    @Override
+    public void initializeBoard(String[] statements) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Skyscrapers cannot accept text input");
     }
 }
