@@ -6,11 +6,6 @@ import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.save.InvalidFileFormatException;
-import org.junit.runner.JUnitCore;
-import org.junit.runner.Result;
-import org.junit.runner.notification.Failure;
-import puzzles.battleship.rules.AdjacentShipsContradictionRuleTest;
-import puzzles.battleship.rules.FinishWithShipsDirectRuleTests;
 
 public final class TestUtilities {
     public static void importTestBoard(String fileName, Puzzle puzzle) throws InvalidFileFormatException {
@@ -21,8 +16,4 @@ public final class TestUtilities {
         TreeTransition transition = new TreeTransition(rootNode, board);
         rootNode.getChildren().add(transition);
     }
-
-
 }
-
-

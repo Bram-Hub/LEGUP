@@ -13,6 +13,16 @@ public class NurikabeImporter extends PuzzleImporter {
         super(nurikabe);
     }
 
+    @Override
+    public boolean acceptsRowsAndColumnsInput() {
+        return true;
+    }
+
+    @Override
+    public boolean acceptsTextInput() {
+        return false;
+    }
+
     /**
      * Creates an empty board for building
      *
@@ -99,5 +109,10 @@ public class NurikabeImporter extends PuzzleImporter {
         catch (NumberFormatException e) {
             throw new InvalidFileFormatException("nurikabe Importer: unknown value where integer expected");
         }
+    }
+
+    @Override
+    public void initializeBoard(String[] statements) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Nurikabe cannot accept text input");
     }
 }

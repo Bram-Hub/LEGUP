@@ -1,0 +1,6 @@
+STTT-UNPL-0001 : ArgumentElement
+STTT-UNPL-0002 : ConditionalBiconditionalElement
+
+STTT-PLAC-0001 : GreenElement
+STTT-PLAC-0002 : RedElement
+STTT-PLAC-0003 : UnknownElement

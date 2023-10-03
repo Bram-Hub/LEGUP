@@ -327,6 +327,20 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
     }
 
+    public void loadPuzzleFromHome(String game, String[] statements) {
+        GameBoardFacade facade = GameBoardFacade.getInstance();
+        try {
+            facade.loadPuzzle(game, statements);
+        }
+        catch (IllegalArgumentException exception) {
+            throw new IllegalArgumentException(exception.getMessage());
+        }
+        catch (RuntimeException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+        }
+    }
+
     // File opener
     public Object[] promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();

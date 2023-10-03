@@ -1,11 +1,9 @@
 package edu.rpi.legup.ui;
 
-import edu.rpi.legup.Legup;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.controller.CursorController;
 import edu.rpi.legup.save.InvalidFileFormatException;
-import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.save.ExportFileException;
@@ -29,7 +27,6 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.io.FileWriter;
 import java.net.URI;
 import java.net.URL;
-import java.util.Objects;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -639,5 +636,29 @@ public class HomePanel extends LegupPanel {
         // Set game type on the puzzle editor
         this.legupUI.displayPanel(2);
         this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, rows, columns);
+    }
+
+    /**
+     * Opens the puzzle editor for the specified game with the given statements
+     *
+     * @param game          a String containing the name of the game
+     * @param statements    an array of statements
+     */
+    public void openEditorWithNewPuzzle(String game, String[] statements) {
+        // Validate the text input
+        GameBoardFacade facade = GameBoardFacade.getInstance();
+        boolean isValidTextInput = facade.validateTextInput(game, statements);
+        if (!isValidTextInput) {
+            JOptionPane.showMessageDialog(null,
+                    "The input you entered is invalid. Please double check \n" +
+                            "your statements and try again.",
+                    "ERROR: Invalid Text Input",
+                    JOptionPane.ERROR_MESSAGE);
+            throw new IllegalArgumentException("ERROR: Invalid dimensions given");
+        }
+
+        // Set game type on the puzzle editor
+        this.legupUI.displayPanel(2);
+        this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, statements);
     }
 }

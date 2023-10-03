@@ -205,11 +205,25 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     }
 
     /**
+     * Checks if the given array of statements is valid text input for the given puzzle
+     *
+     * @param statements
+     * @return
+     */
+    public boolean isValidTextInput(String[] statements) {
+        return statements.length > 0;
+    }
+
+    /**
      * Determines if the edu.rpi.legup.puzzle was solves correctly
      *
      * @return true if the board was solved correctly, false otherwise
      */
     public boolean isPuzzleComplete() {
+        if (tree == null) {
+            return false;
+        }
+
         boolean isComplete = tree.isValid();
         if (isComplete) {
             for (TreeElement leaf : tree.getLeafTreeElements()) {
