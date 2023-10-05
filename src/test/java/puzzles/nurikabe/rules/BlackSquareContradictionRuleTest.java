@@ -25,7 +25,9 @@ public class BlackSquareContradictionRuleTest {
         nurikabe = new Nurikabe();
     }
 
-    
+    /**
+     * Tests the Black Square contradiction rule for a black square in the middle of the board
+     */
     @Test
     public void BlackSquareContradictionRule_TwoSurroundBlackTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/BlackSquareContradictionRule/SimpleBlackSquare", nurikabe);
@@ -55,29 +57,28 @@ public class BlackSquareContradictionRuleTest {
         }
     }
 
+    /**
+     * Tests the Black Square contradiction rule for a square in the corner of the board
+     */
     @Test
     public void BlackSquareContradictionRule_CornerSquareTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/BlackSquareContradictionRule/CornerBlackSquare",nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
-        System.out.println(transition.getRule().getRuleType());
-        System.out.println(transition.getRule().getRuleID());
 
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
-        NurikabeCell cell1 = board.getCell(0,0);
-        NurikabeCell cell2 = board.getCell(0,1);
-        NurikabeCell cell3 = board.getCell(1,0);
-        NurikabeCell cell4 = board.getCell(1,1);
+        NurikabeCell cell1 = board.getCell(2,2);
+        NurikabeCell cell2 = board.getCell(2,3);
+        NurikabeCell cell3 = board.getCell(3,2);
+        NurikabeCell cell4 = board.getCell(3,3);
 
         Assert.assertNull(RULE.checkContradiction((NurikabeBoard) transition.getBoard()));
         for(int i=0; i<board.getHeight(); i++){
             for(int k=0; k<board.getWidth(); k++){
                 Point point = new Point(k,i);
-                System.out.print(board.getCell(i,k).getData()+" ");
                 if(point.equals(cell1.getLocation()) || point.equals(cell2.getLocation()) ||
                         point.equals(cell3.getLocation()) || point.equals(cell4.getLocation())){
-                    System.out.println("Faliure at "+ i + " " + k);
                     Assert.assertNull(RULE.checkRuleAt(transition,board.getCell(k,i)));
                 }
                 else{
