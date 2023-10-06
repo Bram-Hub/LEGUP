@@ -9,6 +9,11 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeUtilities;
+import edu.rpi.legup.utility.DisjointSets;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 public class SurroundRegionDirectRule extends DirectRule {
 
@@ -29,7 +34,7 @@ public class SurroundRegionDirectRule extends DirectRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        ContradictionRule contraRule = new TooManySpacesContradictionRule();
+        //ContradictionRule contraRule = new TooManySpacesContradictionRule();
 
         NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
         NurikabeBoard origBoardState = (NurikabeBoard) transition.getParents().get(0).getBoard();
@@ -44,12 +49,27 @@ public class SurroundRegionDirectRule extends DirectRule {
         NurikabeCell modCell = (NurikabeCell) modified.getPuzzleElement(puzzleElement);
         modCell.setData(NurikabeType.WHITE.toValue());
 
-        if (contraRule.checkContradiction(modified) == null) {
-            return null;
+//        if (contraRule.checkContradiction(modified) == null) {
+//            return null;
+//        }
+        if (cell.getType() == NurikabeType.BLACK) { //below, unsure of destBoardState or origBoardState
+            DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(destBoardState);
+            Set<NurikabeCell> whiteRegion = regions.getSet(cell);
+            ArrayList<NurikabeCell> numberedCells = new ArrayList<>();
+            for (NurikabeCell c : whiteRegion) {
+                if (c.getType() == NurikabeType.NUMBER) {
+                    numberedCells.add(c);
+                }
+            }
+            for (NurikabeCell number : numberedCells) {
+                if (whiteRegion.size() == number.getData()) {
+                    return null;
+                }
+            }
         }
-        else {
+        //else {
             return "Does not follow from this rule at this index";
-        }
+        //}
     }
 
     /**
