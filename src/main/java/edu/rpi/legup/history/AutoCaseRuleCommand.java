@@ -24,7 +24,7 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
 
     private List<TreeTransition> caseTrans;
 
-    private static final int MAX_CASES = 5;
+    private static final int MAX_CASES = 10;
 
     /**
      * AutoCaseRuleCommand Constructor creates a command for validating a case rule
