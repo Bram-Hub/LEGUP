@@ -59,8 +59,8 @@ public class NoTreeForTentContradictionRuleTest {
 
         Assert.assertNull(RULE.checkContradiction(board));
         Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 0)));
-        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(0, 1)));
-        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 0)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 1)));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(1, 0)));
         Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 1)));
     }
 
@@ -79,8 +79,8 @@ public class NoTreeForTentContradictionRuleTest {
 
         Assert.assertNull(RULE.checkContradiction(board));
         Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 0)));
-        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 1)));
-        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(1, 0)));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(0, 1)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 0)));
         Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 1)));
     }
 
@@ -103,9 +103,105 @@ public class NoTreeForTentContradictionRuleTest {
         Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 0)));
         Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(1, 1)));
     }
-    //Center of 3x3 Board
-    //Test with a board with Trees all diagonal
-    //Test with a board with Trees all adjacent (should assertNotNull)
-    //Test with a board with Tents all adjacent
+
+    /**
+     * @throws InvalidFileFormatException
+     * Tests if, in a 3x3 Grid with no trees, a Tent in the center cell has no adjacent trees
+     */
+    @Test
+    public void NoTreeForTentContradictionRule_3x3() throws InvalidFileFormatException{
+        TestUtilities.importTestBoard("puzzles/treetent/rules/NoTreeForTentContradictionRule/NoTreeForTent3x3", treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        Assert.assertNull(RULE.checkContradiction(board));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 0)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 0)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(2, 0)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 1)));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(1, 1)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(2, 1)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 2)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 2)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(2, 2)));
+    }
+
+    /**
+     * @throws InvalidFileFormatException
+     * Tests if, in a 3x3 Grid with diagonal trees, a Tent in the center cell has no adjacent trees
+     */
+    @Test
+    public void NoTreeForTentContradictionRule_3x3WithDiagonalTrees() throws InvalidFileFormatException{
+        TestUtilities.importTestBoard("puzzles/treetent/rules/NoTreeForTentContradictionRule/NoTreeForTentDiagonals", treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        Assert.assertNull(RULE.checkContradiction(board));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 0)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 0)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(2, 0)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 1)));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(1, 1)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(2, 1)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 2)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 2)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(2, 2)));
+    }
+
+    /**
+     * @throws InvalidFileFormatException
+     * Tests if, in a 3x3 Grid with an adjacent tree, test does not assert null.
+     */
+    @Test
+    public void NoTreeForTentContradictionRule_YesTree() throws InvalidFileFormatException{
+        TestUtilities.importTestBoard("puzzles/treetent/rules/NoTreeForTentContradictionRule/NoTreeForTentYesTree", treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        Assert.assertNotNull(RULE.checkContradiction(board));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 0)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 0)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(2, 0)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 1)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 1)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(2, 1)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 2)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 2)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(2, 2)));
+    }
+
+    /**
+     * @throws InvalidFileFormatException
+     * Tests if, in a 3x3 Grid with touching tents, a Tent in the center cell has no adjacent trees
+     */
+    @Test
+    public void NoTreeForTentContradictionRule_JustTent() throws InvalidFileFormatException{
+        TestUtilities.importTestBoard("puzzles/treetent/rules/NoTreeForTentContradictionRule/NoTreeForTentJustTent", treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        Assert.assertNull(RULE.checkContradiction(board));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 0)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 0)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(2, 0)));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(0, 1)));
+        Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(1, 1)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(2, 1)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 2)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 2)));
+        Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(2, 2)));
+    }
 }
 
