@@ -26,6 +26,7 @@ public class TouchingTentsContradictionRuleTest {
 
     //DIAGONAL TESTS
     /**
+     * @throws InvalidFileFormatException
      * Tests a tent diagonal of orientation T
      *                                       T
      **/
@@ -46,6 +47,7 @@ public class TouchingTentsContradictionRuleTest {
     }
 
     /**
+     * @throws InvalidFileFormatException
      * Tests a tent diagonal of orientation  T
      *                                      T
      **/
@@ -67,6 +69,7 @@ public class TouchingTentsContradictionRuleTest {
 
     //ADJACENT TESTS
     /**
+     * @throws InvalidFileFormatException
      * Tests a tent adjacent of orientation  T
      *                                       T
      **/
@@ -87,8 +90,8 @@ public class TouchingTentsContradictionRuleTest {
     }
 
     /**
+     * @throws InvalidFileFormatException
      * Tests a tent adjacent of orientation  TT
-     *
      **/
     @Test
     public void TouchingTentsContradictionRule_AdjacentHorizontal() throws InvalidFileFormatException {
@@ -107,9 +110,9 @@ public class TouchingTentsContradictionRuleTest {
     }
     //MIXED TESTS
     /**
+     * @throws InvalidFileFormatException
      * Tests a tent of orientation  TT
      *                              TT
-     *
      **/
     @Test
     public void TouchingTentsContradictionRule_2By2Square() throws InvalidFileFormatException {
@@ -127,9 +130,9 @@ public class TouchingTentsContradictionRuleTest {
         Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(1, 1)));
     }
     /**
+     * @throws InvalidFileFormatException
      * Tests a tent of orientation  TT
      *                              T
-     *
      **/
     @Test
     public void TouchingTentsContradictionRule_UpLeft() throws InvalidFileFormatException {
@@ -147,9 +150,9 @@ public class TouchingTentsContradictionRuleTest {
         Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 1)));
     }
     /**
+     * @throws InvalidFileFormatException
      * Tests a tent of orientation  TT
      *                               T
-     *
      **/
     @Test
     public void TouchingTentsContradictionRule_UpRight() throws InvalidFileFormatException {
@@ -167,9 +170,9 @@ public class TouchingTentsContradictionRuleTest {
         Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(1, 0)));
     }
     /**
+     * @throws InvalidFileFormatException
      * Tests a tent of orientation  T
      *                              TT
-     *
      **/
     @Test
     public void TouchingTentsContradictionRule_DownLeft() throws InvalidFileFormatException {
@@ -187,9 +190,9 @@ public class TouchingTentsContradictionRuleTest {
         Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 1)));
     }
     /**
+     * @throws InvalidFileFormatException
      * Tests a tent of orientation   T
      *                              TT
-     *
      **/
     @Test
     public void TouchingTentsContradictionRule_DownRight() throws InvalidFileFormatException {
@@ -207,6 +210,7 @@ public class TouchingTentsContradictionRuleTest {
         Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 0)));
     }
     /**
+     * @throws InvalidFileFormatException
      * Tests if tree adjacent triggers a null
      */
     @Test
@@ -223,6 +227,7 @@ public class TouchingTentsContradictionRuleTest {
         Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(0, 1)));
     }
     /**
+     * @throws InvalidFileFormatException
      * Tests if tree diagonal triggers a null
      */
     @Test
