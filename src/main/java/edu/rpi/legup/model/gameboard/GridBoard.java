@@ -68,14 +68,14 @@ public class GridBoard extends Board {
     }
 
     public void setCell(int x, int y, Element e, MouseEvent m) {
-        if (this instanceof TreeTentBoard && ((y == dimension.height && 0 <= x && x < dimension.width) || (x == dimension.width && 0 <= y && y < dimension.height))) {
+        if (this instanceof TreeTentBoard && ((0 <= x && x < dimension.width) && (0 <= y && y < dimension.height))) {
             TreeTentBoard treeTentBoard = ((TreeTentBoard) this);
             TreeTentClue clue = treeTentBoard.getClue(x, y);
-            if (y == dimension.height && clue.getData() < dimension.width) {
+            if (clue.getData() < dimension.width) {
                 clue.setData(clue.getData() + 1);
             }
             else {
-                if (x == dimension.width && clue.getData() < dimension.height) {
+                if (clue.getData() < dimension.height) {
                     clue.setData(clue.getData() + 1);
                 }
                 else {
