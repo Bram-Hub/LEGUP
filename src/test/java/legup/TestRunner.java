@@ -109,6 +109,10 @@ public class TestRunner {
         printTestResults(result40);
         Result result41 = JUnitCore.runClasses(UnresolvedNumberContradictionTest.class);
         printTestResults(result41);
+        Result result42 = JUnitCore.runClasses(NumberForCellCaseRuleTest.class);
+        printTestResults(result42);
+        Result result43 = JUnitCore.runClasses(CellForNumberCaseRuleTest.class);
+        printTestResults(result43);
 
     }
 
