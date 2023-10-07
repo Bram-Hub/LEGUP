@@ -331,35 +331,12 @@ public class TreeView extends ScrollView implements ITreeListener {
     public void onTreeSelectionChanged(TreeViewSelection selection) {
         this.selection.getSelectedViews().forEach(v -> v.setSelected(false));
         selection.getSelectedViews().forEach(v -> v.setSelected(true));
-
         this.selection = selection;
-
-//        List<TreeElementView> selectedViews = selection.getSelectedViews();
-//        Point avg = new Point();
-//        for(TreeElementView elementView : selectedViews) {
-//            if(elementView.getType() == NODE) {
-//                TreeNodeView nodeView = (TreeNodeView)elementView;
-//                avg.x += nodeView.getX();
-//                avg.y += nodeView.getY();
-//            } else {
-//                TreeTransitionView transitionView = (TreeTransitionView) elementView;
-//                avg.x += transitionView.getEndX();
-//                avg.y += transitionView.getEndY();
-//            }
-//        }
-//        avg.x /= selectedViews.size();
-//        avg.y /= selectedViews.size();
-//
-//        Point pos =  viewport.getViewPosition();
-//        if(pos.x < avg.x) {
-//            pos.x = avg.x - pos.x;
-//        }
-//        if(pos.y < avg.y) {
-//            pos.y = avg.y - pos.y;
-//        }
-//
-//        viewport.setViewPosition(pos);
-
+        // When selected node is on a contradictory branch, disable board modifiability
+        if(selection.getFirstSelection().getTreeElement().isContradictoryBranch()) {
+            GameBoardFacade.getInstance().getBoard().setModifiable(false);
+        }
+        else GameBoardFacade.getInstance().getBoard().setModifiable(true);
         repaint();
     }
 
