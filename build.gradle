@@ -17,7 +17,6 @@ dependencies {
     implementation 'org.jetbrains:annotations:20.1.0'
     implementation 'org.jetbrains:annotations:20.1.0'
     implementation 'com.formdev:flatlaf:3.0'
-    implementation project(':legup-update')
     implementation 'com.google.firebase:firebase-admin:6.3.0'
     implementation 'org.apache.httpcomponents:httpclient:4.5.1'
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
