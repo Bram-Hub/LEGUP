@@ -98,6 +98,7 @@ jobs:
           echo "Tests Run: $tests_run"
           echo "Tests Passed: $tests_passed"
           echo "Tests Failed: $tests_failed"
-          if [[ $tests_failed -gt 0 ]]; then
+          
+          if %tests_failed% gtr 0 (
             exit 1
-          fi
+          )
