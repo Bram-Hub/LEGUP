@@ -29,9 +29,19 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build -x test
 
-      - name: Run JUnit Tests on Linux
+      - name: Run JUnit Tests
         run: |
-          ./gradlew test
+          test_output=$(./gradlew test --quiet | grep -E "tests? passed|tests? failed")
+          echo "$test_output"
+          tests_run=$(echo "$test_output" | grep -Eo "[0-9]+" | head -n 1)
+          tests_passed=$(echo "$test_output" | grep -Eo "[0-9]+" | tail -n 1)
+          tests_failed=$((tests_run - tests_passed))
+          echo "Tests Run: $tests_run"
+          echo "Tests Passed: $tests_passed"
+          echo "Tests Failed: $tests_failed"
+          if [[ $tests_failed -gt 0 ]]; then
+            exit 1
+          fi
 
   test-macos:
     runs-on: macos-latest
@@ -53,7 +63,17 @@ jobs:
 
       - name: Run JUnit Tests on macOS
         run: |
-          ./gradlew test
+          test_output=$(./gradlew test --quiet | grep -E "tests? passed|tests? failed")
+          echo "$test_output"
+          tests_run=$(echo "$test_output" | grep -Eo "[0-9]+" | head -n 1)
+          tests_passed=$(echo "$test_output" | grep -Eo "[0-9]+" | tail -n 1)
+          tests_failed=$((tests_run - tests_passed))
+          echo "Tests Run: $tests_run"
+          echo "Tests Passed: $tests_passed"
+          echo "Tests Failed: $tests_failed"
+          if [[ $tests_failed -gt 0 ]]; then
+            exit 1
+          fi
 
   test-windows:
     runs-on: windows-latest
@@ -66,8 +86,18 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 11
-          distribution: 'adopt'  # Specify the distribution, e.g., 'adopt', 'adopt@1.11', etc.
+          distribution: 'adopt'
 
       - name: Run JUnit Tests on Windows
         run: |
-          .\gradlew.bat test
+          test_output=$(./gradlew.bat test --quiet | grep -E "tests? passed|tests? failed")
+          echo "$test_output"
+          tests_run=$(echo "$test_output" | grep -Eo "[0-9]+" | head -n 1)
+          tests_passed=$(echo "$test_output" | grep -Eo "[0-9]+" | tail -n 1)
+          tests_failed=$((tests_run - tests_passed))
+          echo "Tests Run: $tests_run"
+          echo "Tests Passed: $tests_passed"
+          echo "Tests Failed: $tests_failed"
+          if [[ $tests_failed -gt 0 ]]; then
+            exit 1
+          fi
