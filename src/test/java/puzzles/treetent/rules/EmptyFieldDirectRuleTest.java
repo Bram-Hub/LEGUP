@@ -106,7 +106,7 @@ public class EmptyFieldDirectRuleTest {
 
     // creates a 3x3 puzzle with 4 trees
     // trees are at (0,1), (1,0), (1,2), and (2,1)
-    // make the center tile GRASS.
+    // make the (1,1) tile GRASS.
     // checks if tiles don't logically follow the EmptyFieldDirectRule
     @Test
     public void EmptyFieldTestFail() throws InvalidFileFormatException {
