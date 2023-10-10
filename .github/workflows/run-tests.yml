@@ -11,7 +11,7 @@ on:
       - dev
 
 jobs:
-  test:
+  ubuntu-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,6 +22,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 11
+          distribution: 'adopt'
 
       - name: Run JUnit Tests on Linux
         run: |
@@ -38,6 +39,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 11
+          distribution: 'adopt'
 
       - name: Run JUnit Tests on macOS
         run: |
@@ -54,6 +56,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 11
+          distribution: 'adopt'
 
       - name: Run JUnit Tests on Windows
         run: |
