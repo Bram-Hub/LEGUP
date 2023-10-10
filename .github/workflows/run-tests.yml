@@ -29,35 +29,12 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build -x test
 
-      - name: Debug Info
-        run: |
-          echo "Java version:"
-          java -version
-          echo "Gradle version:"
-          ./gradlew --version
-        shell: bash
-
       - name: Run JUnit Tests on Linux
         run: |
-          ./gradlew test
-          test_result=$?
-          if [ $test_result -ne 0 ]; then
+          ./gradlew test --tests '*' | grep -E 'Test:|PASSED|FAILED'
+          test_result=${PIPESTATUS[0]}
+          if [[ $test_result -ne 0 ]]; then
             echo "Tests failed with exit code $test_result"
-            exit $test_result
-          fi
-        shell: bash
-
-      - name: Run JUnit Tests
-        run: |
-          test_output=$(./gradlew test --quiet | grep -E "tests? passed|tests? failed")
-          echo "$test_output"
-          tests_run=$(echo "$test_output" | grep -Eo "[0-9]+" | head -n 1)
-          tests_passed=$(echo "$test_output" | grep -Eo "[0-9]+" | tail -n 1)
-          tests_failed=$((tests_run - tests_passed))
-          echo "Tests Run: $tests_run"
-          echo "Tests Passed: $tests_passed"
-          echo "Tests Failed: $tests_failed"
-          if [[ $tests_failed -gt 0 ]]; then
             exit 1
           fi
 
@@ -81,15 +58,10 @@ jobs:
 
       - name: Run JUnit Tests on macOS
         run: |
-          test_output=$(./gradlew test --quiet | grep -E "tests? passed|tests? failed")
-          echo "$test_output"
-          tests_run=$(echo "$test_output" | grep -Eo "[0-9]+" | head -n 1)
-          tests_passed=$(echo "$test_output" | grep -Eo "[0-9]+" | tail -n 1)
-          tests_failed=$((tests_run - tests_passed))
-          echo "Tests Run: $tests_run"
-          echo "Tests Passed: $tests_passed"
-          echo "Tests Failed: $tests_failed"
-          if [[ $tests_failed -gt 0 ]]; then
+          ./gradlew test --tests '*' | grep -E 'Test:|PASSED|FAILED'
+          test_result=${PIPESTATUS[0]}
+          if [[ $test_result -ne 0 ]]; then
+            echo "Tests failed with exit code $test_result"
             exit 1
           fi
 
@@ -108,15 +80,9 @@ jobs:
 
       - name: Run JUnit Tests on Windows
         run: |
-          test_output=$(./gradlew.bat test --quiet | grep -E "tests? passed|tests? failed")
-          echo "$test_output"
-          tests_run=$(echo "$test_output" | grep -Eo "[0-9]+" | head -n 1)
-          tests_passed=$(echo "$test_output" | grep -Eo "[0-9]+" | tail -n 1)
-          tests_failed=$((tests_run - tests_passed))
-          echo "Tests Run: $tests_run"
-          echo "Tests Passed: $tests_passed"
-          echo "Tests Failed: $tests_failed"
-          
-          if %tests_failed% gtr 0 (
+          ./gradlew.bat test --tests '*' | findstr /C:"Test:" /C:"PASSED" /C:"FAILED"
+          test_result=${PIPESTATUS[0]}
+          if [[ $test_result -ne 0 ]]; then
+            echo "Tests failed with exit code $test_result"
             exit 1
-          )
+          fi
