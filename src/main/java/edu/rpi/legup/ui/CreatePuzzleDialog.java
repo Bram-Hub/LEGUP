@@ -9,35 +9,71 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class CreatePuzzleDialog extends JDialog {
     private HomePanel homePanel;
 
     private String[] games;
     private JComboBox gameBox;
+    private ActionListener gameBoxListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JComboBox comboBox = (JComboBox) e.getSource();
+            String puzzleName = (String) comboBox.getSelectedItem();
+            if (puzzleName.equals("ShortTruthTable")) {
+                textInputScrollPane.setVisible(true);
+                rowsLabel.setVisible(false);
+                rows.setVisible(false);
+                columnsLabel.setVisible(false);
+                columns.setVisible(false);
+            }
+            else {
+                textInputScrollPane.setVisible(false);
+                rowsLabel.setVisible(true);
+                rows.setVisible(true);
+                columnsLabel.setVisible(true);
+                columns.setVisible(true);
+            }
+        }
+    };
 
-    private JLabel puzzleLabel = new JLabel("Puzzle:");
+    private JLabel puzzleLabel;
+    private JLabel rowsLabel;
     private JTextField rows;
+    private JLabel columnsLabel;
     private JTextField columns;
+
+    private JTextArea textArea;
+    private JScrollPane textInputScrollPane;
 
     private JButton ok = new JButton("Ok");
     private ActionListener okButtonListener = new ActionListener() {
         /**
          * Attempts to open the puzzle editor interface for the given game with the given dimensions
-         * @param e the event to be processed
+         * @param ae the event to be processed
          */
         @Override
         public void actionPerformed(ActionEvent ae) {
             String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
 
             // Check if all 3 TextFields are filled
-            if (game.equals("") || rows.getText().equals("") || columns.getText().equals("")) {
+            if (game.equals("ShortTruthTable") && textArea.getText().equals("")) {
+                System.out.println("Unfilled fields");
+                return;
+            }
+            if (!game.equals("ShortTruthTable") && (game.equals("") || rows.getText().equals("") || columns.getText().equals(""))) {
                 System.out.println("Unfilled fields");
                 return;
             }
 
             try {
-                homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(rows.getText()), Integer.valueOf(columns.getText()));
+                if (game.equals("ShortTruthTable")) {
+                    homePanel.openEditorWithNewPuzzle("ShortTruthTable", textArea.getText().split("\n"));
+                }
+                else {
+                    homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(rows.getText()), Integer.valueOf(columns.getText()));
+                }
                 setVisible(false);
             }
             catch (IllegalArgumentException e) {
@@ -75,6 +111,7 @@ public class CreatePuzzleDialog extends JDialog {
         Container c = getContentPane();
         c.setLayout(null);
 
+        puzzleLabel = new JLabel("Puzzle:");
         puzzleLabel.setBounds(10, 30, 70, 25);
         gameBox.setBounds(80, 30, 190, 25);
 
@@ -87,8 +124,8 @@ public class CreatePuzzleDialog extends JDialog {
         rows = new JTextField();
         columns = new JTextField();
 
-        JLabel rowsLabel = new JLabel("Rows:");
-        JLabel columnsLabel = new JLabel("Columns:");
+        rowsLabel = new JLabel("Rows:");
+        columnsLabel = new JLabel("Columns:");
 
         rowsLabel.setBounds(30, 70, 60, 25);
         columnsLabel.setBounds(30, 95, 60, 25);
@@ -102,9 +139,31 @@ public class CreatePuzzleDialog extends JDialog {
         c.add(rows);
         c.add(columns);
 
+        textArea = new JTextArea();
+        textInputScrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        textInputScrollPane.setBounds(10, 70, this.getWidth() - 30, 50);
+        c.add(textInputScrollPane);
+
         c.add(ok);
         c.add(cancel);
 
+        if (Objects.equals(this.gameBox.getSelectedItem(), "ShortTruthTable")) {
+            textInputScrollPane.setVisible(true);
+            rowsLabel.setVisible(false);
+            rows.setVisible(false);
+            columnsLabel.setVisible(false);
+            columns.setVisible(false);
+        }
+        else {
+            textInputScrollPane.setVisible(false);
+            rowsLabel.setVisible(true);
+            rows.setVisible(true);
+            columnsLabel.setVisible(true);
+            columns.setVisible(true);
+        }
+
+        ActionListener cursorSelectedGame = CursorController.createListener(this, gameBoxListener);
+        gameBox.addActionListener(cursorSelectedGame);
         ActionListener cursorPressedOk = CursorController.createListener(this, okButtonListener);
         ok.addActionListener(cursorPressedOk);
         ActionListener cursorPressedCancel = CursorController.createListener(this, cancelButtonListener);
@@ -123,7 +182,13 @@ public class CreatePuzzleDialog extends JDialog {
             String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
 
             try {
-                this.homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(this.rows.getText()), Integer.valueOf(this.columns.getText()));
+                if (game.equals("ShortTruthTable")) {
+                    this.homePanel.openEditorWithNewPuzzle("ShortTruthTable", this.textArea.getText().split("\n"));
+                }
+                else {
+                    this.homePanel.openEditorWithNewPuzzle(game, Integer.valueOf(this.rows.getText()), Integer.valueOf(this.columns.getText()));
+
+                }
                 this.setVisible(false);
             }
             catch (IllegalArgumentException exception) {

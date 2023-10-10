@@ -29,18 +29,12 @@ public abstract class DirectRule extends Rule {
      */
     public String checkRule(TreeTransition transition) {
         Board finalBoard = transition.getBoard();
-
-        if (!finalBoard.isModified()) {
-            return "State must be modified";
+        if (transition.getParents().size() != 1 ||
+                transition.getParents().get(0).getChildren().size() != 1) {
+            return "State must have only 1 parent and 1 child";
         }
         else {
-            if (transition.getParents().size() != 1 ||
-                    transition.getParents().get(0).getChildren().size() != 1) {
-                return "State must have only 1 parent and 1 child";
-            }
-            else {
-                return checkRuleRaw(transition);
-            }
+            return checkRuleRaw(transition);
         }
     }
 
