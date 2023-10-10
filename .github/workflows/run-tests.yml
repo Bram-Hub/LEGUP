@@ -31,7 +31,7 @@ jobs:
 
       - name: Run JUnit Tests on Linux
         run: |
-          ./gradlew test --info --tests "*"
+          ./gradlew test --tests "*"
 
   test-macos:
     runs-on: macos-latest
