@@ -55,6 +55,7 @@ public class TreeController extends Controller {
         Puzzle puzzle = getInstance().getPuzzleModule();
         TreeViewSelection selection = treeView.getSelection();
         if (treeElementView != null) {
+            treeElementView.getTreeElement().getBoard().setModifiable(!treeElementView.getTreeElement().isContradictoryBranch());
             if (e.isShiftDown()) {
                 selection.addToSelection(treeElementView);
             }

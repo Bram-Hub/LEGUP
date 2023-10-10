@@ -332,11 +332,6 @@ public class TreeView extends ScrollView implements ITreeListener {
         this.selection.getSelectedViews().forEach(v -> v.setSelected(false));
         selection.getSelectedViews().forEach(v -> v.setSelected(true));
         this.selection = selection;
-        // When selected node is on a contradictory branch, disable board modifiability
-        if(selection.getFirstSelection().getTreeElement().isContradictoryBranch()) {
-            GameBoardFacade.getInstance().getBoard().setModifiable(false);
-        }
-        else GameBoardFacade.getInstance().getBoard().setModifiable(true);
         repaint();
     }
 
