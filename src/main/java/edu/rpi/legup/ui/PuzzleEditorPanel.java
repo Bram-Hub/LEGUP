@@ -64,6 +64,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         this.frame = frame;
         this.legupUI = legupUI;
         setLayout(new BorderLayout());
+        setPreferredSize(new Dimension(800, 700));
     }
 
     protected void setupContent() {
@@ -202,7 +203,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         });
         menus[2].add(aboutLegup);
         aboutLegup.addActionListener(l -> {
-            JOptionPane.showMessageDialog(null, "Version: 2.0.0");
+            JOptionPane.showMessageDialog(null, "Version: 5.1.0");
         });
         // add menus to menubar
         for (JMenu menu : menus) {
