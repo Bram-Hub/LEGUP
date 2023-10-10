@@ -31,12 +31,7 @@ jobs:
 
       - name: Run JUnit Tests on Linux
         run: |
-          ./gradlew test --tests '*' | grep -E 'Test:|PASSED|FAILED'
-          test_result=${PIPESTATUS[0]}
-          if [[ $test_result -ne 0 ]]; then
-            echo "Tests failed with exit code $test_result"
-            exit 1
-          fi
+          ./gradlew test --info
 
   test-macos:
     runs-on: macos-latest
@@ -58,12 +53,7 @@ jobs:
 
       - name: Run JUnit Tests on macOS
         run: |
-          ./gradlew test --tests '*' | grep -E 'Test:|PASSED|FAILED'
-          test_result=${PIPESTATUS[0]}
-          if [[ $test_result -ne 0 ]]; then
-            echo "Tests failed with exit code $test_result"
-            exit 1
-          fi
+          ./gradlew test --info
 
   test-windows:
     runs-on: windows-latest
@@ -80,9 +70,4 @@ jobs:
 
       - name: Run JUnit Tests on Windows
         run: |
-          ./gradlew.bat test --tests '*' | findstr /C:"Test:" /C:"PASSED" /C:"FAILED"
-          test_result=${PIPESTATUS[0]}
-          if [[ $test_result -ne 0 ]]; then
-            echo "Tests failed with exit code $test_result"
-            exit 1
-          fi
+          .\gradlew.bat test --info
