@@ -29,6 +29,24 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build -x test
 
+      - name: Debug Info
+        run: |
+          echo "Java version:"
+          java -version
+          echo "Gradle version:"
+          ./gradlew --version
+        shell: bash
+
+      - name: Run JUnit Tests on Linux
+        run: |
+          ./gradlew test
+          test_result=$?
+          if [ $test_result -ne 0 ]; then
+            echo "Tests failed with exit code $test_result"
+            exit $test_result
+          fi
+        shell: bash
+
       - name: Run JUnit Tests
         run: |
           test_output=$(./gradlew test --quiet | grep -E "tests? passed|tests? failed")
