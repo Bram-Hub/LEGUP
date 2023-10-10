@@ -13,6 +13,16 @@ public class SkyscrapersImporter extends PuzzleImporter {
         super(skyscrapers);
     }
 
+    @Override
+    public boolean acceptsRowsAndColumnsInput() {
+        return true;
+    }
+
+    @Override
+    public boolean acceptsTextInput() {
+        return false;
+    }
+
     /**
      * Creates an empty board for building
      *
@@ -149,5 +159,10 @@ public class SkyscrapersImporter extends PuzzleImporter {
         catch (NumberFormatException e) {
             throw new InvalidFileFormatException("Skyscraper Importer: unknown value where integer expected");
         }
+    }
+
+    @Override
+    public void initializeBoard(String[] statements) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Skyscrapers cannot accept text input");
     }
 }

@@ -2,6 +2,7 @@ package edu.rpi.legup.puzzle.heyawake;
 
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
 import org.w3c.dom.Document;
 
 public class HeyawakeExporter extends PuzzleExporter {
@@ -12,7 +13,13 @@ public class HeyawakeExporter extends PuzzleExporter {
 
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
-        HeyawakeBoard board = (HeyawakeBoard) puzzle.getTree().getRootNode().getBoard();
+        HeyawakeBoard board;
+        if (puzzle.getTree() != null) {
+            board = (HeyawakeBoard) puzzle.getTree().getRootNode().getBoard();
+        }
+        else {
+            board = (HeyawakeBoard) puzzle.getBoardView().getBoard();
+        }
 
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("width", String.valueOf(board.getWidth()));
