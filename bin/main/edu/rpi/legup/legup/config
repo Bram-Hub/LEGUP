@@ -7,7 +7,7 @@
         <puzzle name="Fillapix"
             qualifiedClassName="edu.rpi.legup.puzzle.fillapix.Fillapix"
             fileType=".xml"
-            fileCreationDisabled="true"/>
+            fileCreationDisabled="false"/>
         <puzzle name="HeyAwake"
             qualifiedClassName="edu.rpi.legup.puzzle.heyawake.Heyawake"
             fileType=".xml"
@@ -27,7 +27,7 @@
         <puzzle name="ShortTruthTable"
             qualifiedClassName="edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable"
             fileType=".xml"
-            fileCreationDisabled="true"/>
+            fileCreationDisabled="false"/>
         <puzzle name="Sudoku" qualifiedClassName="edu.rpi.legup.puzzle.sudoku.Sudoku"
             fileType=".xml"
             fileCreationDisabled="true"/>
