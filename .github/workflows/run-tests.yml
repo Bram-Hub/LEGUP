@@ -1,4 +1,4 @@
-name: Java CI with Gradle
+name: Run JUnit Tests
 
 on:
   push:
@@ -11,50 +11,50 @@ on:
       - dev
 
 jobs:
-  linux-build-and-test:
+  test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Check Out Code
         uses: actions/checkout@v2
 
-      - name: Set up JDK
+      - name: Set up JDK and Gradle on Linux
         uses: actions/setup-java@v2
         with:
           java-version: 11
 
-      - name: Run Gradle Build and Tests on Linux
+      - name: Run JUnit Tests on Linux
         run: |
-          ./gradlew clean build test
+          ./gradlew test
 
-  windows-build-and-test:
-    runs-on: windows-latest
-
-    steps:
-      - name: Check Out Code
-        uses: actions/checkout@v2
-
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          java-version: 11
-
-      - name: Run Gradle Build and Tests on Windows
-        run: |
-          .\gradlew clean build test
-
-  macos-build-and-test:
+  test-macos:
     runs-on: macos-latest
 
     steps:
       - name: Check Out Code
         uses: actions/checkout@v2
 
-      - name: Set up JDK
+      - name: Set up JDK and Gradle on macOS
         uses: actions/setup-java@v2
         with:
           java-version: 11
 
-      - name: Run Gradle Build and Tests on macOS
+      - name: Run JUnit Tests on macOS
         run: |
-          ./gradlew clean build test
+          ./gradlew test
+
+  test-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check Out Code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK and Gradle on Windows
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+
+      - name: Run JUnit Tests on Windows
+        run: |
+          .\gradlew.bat test
