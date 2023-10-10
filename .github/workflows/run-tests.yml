@@ -31,7 +31,7 @@ jobs:
 
       - name: Run JUnit Tests on Linux
         run: |
-          ./gradlew test --info
+          ./gradlew test --info --tests "*"
 
   test-macos:
     runs-on: macos-latest
@@ -53,7 +53,7 @@ jobs:
 
       - name: Run JUnit Tests on macOS
         run: |
-          ./gradlew test --info
+          ./gradlew test --info --tests "*"
 
   test-windows:
     runs-on: windows-latest
@@ -70,4 +70,4 @@ jobs:
 
       - name: Run JUnit Tests on Windows
         run: |
-          .\gradlew.bat test --info
+          .\gradlew.bat test --info --tests "*"
