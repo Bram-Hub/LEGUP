@@ -42,7 +42,7 @@ public class TreeController extends Controller {
 
     /**
      * Mouse Released event sets the cursor back to the default cursor and reset info for panning
-     *
+     * Set board modifiability
      * @param e MouseEvent object
      */
     @Override
