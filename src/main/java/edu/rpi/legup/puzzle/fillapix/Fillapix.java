@@ -26,6 +26,8 @@ public class Fillapix extends Puzzle {
     @Override
     public void initializeView() {
         boardView = new FillapixView((FillapixBoard) currentBoard);
+        boardView.setBoard(currentBoard);
+        addBoardListener(boardView);
     }
 
     @Override
@@ -42,8 +44,7 @@ public class Fillapix extends Puzzle {
      * @return true if the given dimensions are valid for Fillapix, false otherwise
      */
     public boolean isValidDimensions(int rows, int columns) {
-        // This is a placeholder, this method needs to be implemented
-        throw new UnsupportedOperationException();
+        return super.isValidDimensions(rows, columns);
     }
 
     @Override

@@ -2,6 +2,7 @@ package edu.rpi.legup.puzzle.battleship;
 
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
 import org.w3c.dom.Document;
 
 public class BattleshipExporter extends PuzzleExporter {
@@ -18,7 +19,13 @@ public class BattleshipExporter extends PuzzleExporter {
      */
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
-        BattleshipBoard board = (BattleshipBoard) puzzle.getTree().getRootNode().getBoard();
+        BattleshipBoard board;
+        if (puzzle.getTree() != null) {
+            board = (BattleshipBoard) puzzle.getTree().getRootNode().getBoard();
+        }
+        else {
+            board = (BattleshipBoard) puzzle.getBoardView().getBoard();
+        }
 
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("width", String.valueOf(board.getWidth()));
