@@ -3,14 +3,16 @@ name: Java CI with Gradle
 on:
   push:
     branches:
-      - master, dev
+      - master
+      - dev
   pull_request:
     branches:
-      - master, dev
+      - master
+      - dev
 
 jobs:
-  test:
-    runs-on: ubuntu-latest, windows-latest, macos-latest
+  linux-build-and-test:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Check Out Code
@@ -21,6 +23,38 @@ jobs:
         with:
           java-version: 11
 
-      - name: Run Gradle Build and Tests
+      - name: Run Gradle Build and Tests on Linux
+        run: |
+          ./gradlew clean build test
+
+  windows-build-and-test:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check Out Code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+
+      - name: Run Gradle Build and Tests on Windows
+        run: |
+          .\gradlew clean build test
+
+  macos-build-and-test:
+    runs-on: macos-latest
+
+    steps:
+      - name: Check Out Code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+
+      - name: Run Gradle Build and Tests on macOS
         run: |
           ./gradlew clean build test
