@@ -13,6 +13,16 @@ public class BattleshipImporter extends PuzzleImporter {
         super(battleShip);
     }
 
+    @Override
+    public boolean acceptsRowsAndColumnsInput() {
+        return true;
+    }
+
+    @Override
+    public boolean acceptsTextInput() {
+        return false;
+    }
+
     /**
      * Creates an empty board for building
      *
@@ -176,5 +186,10 @@ public class BattleshipImporter extends PuzzleImporter {
             throw new InvalidFileFormatException("BattleShip Importer: " +
                     "unknown value where integer expected");
         }
+    }
+
+    @Override
+    public void initializeBoard(String[] statements) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Battleship cannot accept text input");
     }
 }

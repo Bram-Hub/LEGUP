@@ -101,6 +101,7 @@ public class Tree {
 
     /**
      * Gets a Set of TreeNodes that are leaf nodes from the sub tree rooted at the specified node
+     *
      * @param node node that is input
      * @return Set of TreeNodes that are leaf nodes from the sub tree
      */

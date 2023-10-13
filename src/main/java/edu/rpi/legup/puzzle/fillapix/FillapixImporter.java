@@ -13,6 +13,16 @@ public class FillapixImporter extends PuzzleImporter {
         super(fillapix);
     }
 
+    @Override
+    public boolean acceptsRowsAndColumnsInput() {
+        return true;
+    }
+
+    @Override
+    public boolean acceptsTextInput() {
+        return false;
+    }
+
     /**
      * Creates an empty board for building
      *
@@ -87,5 +97,10 @@ public class FillapixImporter extends PuzzleImporter {
         catch (NumberFormatException e) {
             throw new InvalidFileFormatException("Fillapix Importer: unknown value where integer expected");
         }
+    }
+
+    @Override
+    public void initializeBoard(String[] statements) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Fillapix cannot accept text input");
     }
 }
