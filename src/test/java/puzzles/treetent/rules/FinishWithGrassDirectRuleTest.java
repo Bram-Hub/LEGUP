@@ -208,6 +208,35 @@ public class FinishWithGrassDirectRuleTest {
             }
         }
     }
+
+    @Test
+    public void FailTentTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/FailTent", treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        List<TreeTentCell> cells = new ArrayList<TreeTentCell>();
+        for (int i = 0; i < board.getWidth(); i++) {
+            for (int k = 0; k < board.getHeight(); k++) {
+                TreeTentCell c = board.getCell(i, k);
+                c.setData(TreeTentType.GRASS);
+                cells.add(c);
+            }
+        }
+
+        for (TreeTentCell c : cells) {
+            board.addModifiedData(c);
+        }
+
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        for (TreeTentCell c : cells) {
+            Assert.assertNotNull(RULE.checkRuleAt(transition, c));
+        }
+    }
 }
 
 
