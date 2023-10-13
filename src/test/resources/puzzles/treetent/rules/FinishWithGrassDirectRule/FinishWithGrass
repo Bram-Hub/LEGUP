@@ -10,7 +10,7 @@
                 <clue index="C" value="0"/>
             </axis>
             <axis side="south">
-                <clue index="1" value="0"/>
+                <clue index="1" value="1"/>
                 <clue index="2" value="0"/>
                 <clue index="3" value="0"/>
             </axis>
