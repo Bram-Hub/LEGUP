@@ -45,4 +45,20 @@ public class AtomicDirectRuleTest {
 
         Assert.assertNull(RULE.checkRule(transition));
     }
+
+    @Test
+    public void MismatchingFalseTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AtomicDirectRule/FalseA", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+
+        ShortTruthTableCell cell = board.getCell(0, 2);
+        cell.setData(ShortTruthTableCellType.TRUE);
+        board.addModifiedData(cell);
+
+        Assert.assertNotNull(RULE.checkRule(transition));
+    }
 }
