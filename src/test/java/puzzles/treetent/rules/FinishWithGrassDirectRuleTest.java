@@ -15,6 +15,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.awt.*;
+import java.util.List;
+import java.util.ArrayList;
 
 public class FinishWithGrassDirectRuleTest {
 
@@ -29,7 +31,7 @@ public class FinishWithGrassDirectRuleTest {
 
     @Test
     public void FinishWithGrassTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/FinishWithGrass", treetent);
+        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/CornerTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -71,7 +73,7 @@ public class FinishWithGrassDirectRuleTest {
 
     @Test
     public void FinishWithGrassHorizontalTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/FinishWithGrass", treetent);
+        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/CornerTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -104,7 +106,7 @@ public class FinishWithGrassDirectRuleTest {
 
     @Test
     public void FinishWithGrassVerticalTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/FinishWithGrass", treetent);
+        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/CornerTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -132,6 +134,35 @@ public class FinishWithGrassDirectRuleTest {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }
             }
+        }
+    }
+
+    @Test
+    public void NoTentTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/NoTent", treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        List<TreeTentCell> cells = new ArrayList<TreeTentCell>();
+        for (int i = 0; i < board.getWidth(); i++) {
+            for (int k = 0; k < board.getHeight(); k++) {
+                TreeTentCell c = board.getCell(i, k);
+                c.setData(TreeTentType.GRASS);
+                cells.add(c);
+            }
+        }
+
+        for (TreeTentCell c : cells) {
+            board.addModifiedData(c);
+        }
+
+        Assert.assertNull(RULE.checkRule(transition));
+
+        for (TreeTentCell c : cells) {
+            Assert.assertNull(RULE.checkRuleAt(transition, c));
         }
     }
 }
