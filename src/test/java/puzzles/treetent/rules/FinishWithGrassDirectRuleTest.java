@@ -165,6 +165,49 @@ public class FinishWithGrassDirectRuleTest {
             Assert.assertNull(RULE.checkRuleAt(transition, c));
         }
     }
+
+    @Test
+    public void MiddleTentTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/MiddleTent", treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        TreeTentCell cell1 = board.getCell(1, 0);
+        TreeTentCell cell2 = board.getCell(0, 1);
+        TreeTentCell cell3 = board.getCell(2, 1);
+        TreeTentCell cell4 = board.getCell(1, 2);
+
+        cell1.setData(TreeTentType.GRASS);
+        cell2.setData(TreeTentType.GRASS);
+        cell3.setData(TreeTentType.GRASS);
+        cell4.setData(TreeTentType.GRASS);
+
+        board.addModifiedData(cell1);
+        board.addModifiedData(cell2);
+        board.addModifiedData(cell3);
+        board.addModifiedData(cell4);
+
+        Assert.assertNull(RULE.checkRule(transition));
+
+        TreeTentCell c;
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                c = board.getCell(k, i);
+                if (c.getLocation().equals(cell1.getLocation()) ||
+                    c.getLocation().equals(cell2.getLocation()) ||
+                    c.getLocation().equals(cell3.getLocation()) ||
+                    c.getLocation().equals(cell4.getLocation())) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, c));
+                }
+                else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, c));
+                }
+            }
+        }
+    }
 }
 
 
