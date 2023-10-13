@@ -28,7 +28,49 @@ public class FinishWithGrassDirectRuleTest {
     }
 
     @Test
-    public void EmptyFieldTest() throws InvalidFileFormatException {
+    public void FinishWithGrassTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/FinishWithGrass", treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        TreeTentCell cell1 = board.getCell(1, 0);
+        cell1.setData(TreeTentType.GRASS);
+        TreeTentCell cell2 = board.getCell(2, 0);
+        cell2.setData(TreeTentType.GRASS);
+        TreeTentCell cell3 = board.getCell(0, 1);
+        cell3.setData(TreeTentType.GRASS);
+        TreeTentCell cell4 = board.getCell(0, 2);
+        cell4.setData(TreeTentType.GRASS);
+
+        board.addModifiedData(cell1);
+        board.addModifiedData(cell2);
+        board.addModifiedData(cell3);
+        board.addModifiedData(cell4);
+
+        Assert.assertNull(RULE.checkRule(transition));
+
+        TreeTentCell c;
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                c = board.getCell(k, i);
+                if (c.getLocation().equals(cell1.getLocation()) ||
+                    c.getLocation().equals(cell2.getLocation()) ||
+                    c.getLocation().equals(cell3.getLocation()) ||
+                    c.getLocation().equals(cell4.getLocation())) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, c));
+                }
+                else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, c));
+                }
+            }
+        }
+    }
+
+    @Test
+    public void FinishWithGrassHorizontalTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/FinishWithGrass", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -46,14 +88,48 @@ public class FinishWithGrassDirectRuleTest {
 
         Assert.assertNull(RULE.checkRule(transition));
 
+        TreeTentCell c;
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
-                Point point = new Point(k, i);
-                if (point.equals(cell1.getLocation()) || point.equals(cell2.getLocation())) {
-                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                c = board.getCell(k, i);
+                if (c.getLocation().equals(cell1.getLocation()) || c.getLocation().equals(cell2.getLocation())) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, c));
                 }
                 else {
-                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, c));
+                }
+            }
+        }
+    }
+
+    @Test
+    public void FinishWithGrassVerticalTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/FinishWithGrass", treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        TreeTentCell cell1 = board.getCell(0, 1);
+        cell1.setData(TreeTentType.GRASS);
+        TreeTentCell cell2 = board.getCell(0, 2);
+        cell2.setData(TreeTentType.GRASS);
+
+        board.addModifiedData(cell1);
+        board.addModifiedData(cell2);
+
+        Assert.assertNull(RULE.checkRule(transition));
+
+        TreeTentCell c;
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                c = board.getCell(k, i);
+                if (c.getLocation().equals(cell1.getLocation()) || c.getLocation().equals(cell2.getLocation())) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, c));
+                }
+                else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }
             }
         }
