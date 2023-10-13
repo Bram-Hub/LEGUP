@@ -21,18 +21,17 @@ public class AtomicDirectRuleTest {
     private static ShortTruthTable stt;
 
     @BeforeClass
-    public static void setup()
-    {
+    public static void setup() {
         MockGameBoardFacade.getInstance();
         stt = new ShortTruthTable();
     }
 
     /**
      * Given two statements:
-     *  A
-     *  A
+     * A
+     * A
      * where the first A is set to false.
-     *
+     * 
      * This test sets the second A to false and then asserts that this
      * is a valid application of the rule.
      *
@@ -56,10 +55,10 @@ public class AtomicDirectRuleTest {
 
     /**
      * Given two statements:
-     *  A
-     *  A
+     * A
+     * A
      * where the first A is set to false.
-     *
+     * 
      * This test sets the second A to true and then asserts that this
      * is not a valid application of the rule.
      *
@@ -83,10 +82,10 @@ public class AtomicDirectRuleTest {
 
     /**
      * Given two statements:
-     *  B
-     *  B
+     * B
+     * B
      * where the first B is set to true.
-     *
+     * 
      * This test sets the second B to true and then asserts that this
      * is a valid application of the rule.
      *
@@ -110,10 +109,10 @@ public class AtomicDirectRuleTest {
 
     /**
      * Given two statements:
-     *  B
-     *  B
+     * B
+     * B
      * where the first B is set to true.
-     *
+     * 
      * This test sets the second B to false and then asserts that this
      * is not a valid application of the rule.
      *
@@ -137,10 +136,10 @@ public class AtomicDirectRuleTest {
 
     /**
      * Given two statements:
-     *  C
-     *  C
+     * C
+     * C
      * where neither statement is set to anything.
-     *
+     * 
      * This test sets the second C to false and then asserts that this
      * is not a valid application of the rule.
      *
@@ -164,10 +163,10 @@ public class AtomicDirectRuleTest {
 
     /**
      * Given two statements:
-     *  C
-     *  C
+     * C
+     * C
      * where neither statement is set to anything.
-     *
+     * 
      * This test sets the second C to true and then asserts that this
      * is not a valid application of the rule.
      *
