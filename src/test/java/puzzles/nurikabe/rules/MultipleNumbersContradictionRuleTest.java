@@ -1,6 +1,7 @@
 package puzzles.nurikabe.rules;
 
 import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import edu.rpi.legup.model.tree.TreeNode;
@@ -25,6 +26,9 @@ public class MultipleNumbersContradictionRuleTest {
         nurikabe = new Nurikabe();
     }
 
+    /**
+     * Tests the Multiple Numbers contradiction rule for a single region with multiple numbers
+     */
     @Test
     public void MultipleNumbersContradictionRule_TwoSurroundBlackTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/MultipleNumbersContradictionRule/MultipleNumbers", nurikabe);
@@ -44,6 +48,26 @@ public class MultipleNumbersContradictionRuleTest {
                 else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
+            }
+        }
+    }
+
+    /**
+     * Tests the Multiple Numbers contradiction rule for two regions with one number each, separated diagonally
+     */
+    @Test
+    public void MultipleNumbersContradictionRule_FalseContradiction() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/MultipleNumbersContradictionRule/FalseContradiction", nurikabe);
+        TreeNode rootNode = nurikabe.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        Assert.assertNotNull(RULE.checkContradiction((NurikabeBoard) transition.getBoard()));
+
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Assert.assertNotNull(RULE.checkRuleAt(transition,board.getCell(k,i)));
             }
         }
     }

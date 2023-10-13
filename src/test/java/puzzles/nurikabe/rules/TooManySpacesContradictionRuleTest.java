@@ -25,6 +25,9 @@ public class TooManySpacesContradictionRuleTest {
         nurikabe = new Nurikabe();
     }
 
+    /**
+     * Tests the Too Many Spaces contradiction rule for a 2 in the center surrounded by 4 white squares
+     */
     @Test
     public void TooManySpacesContradictionRule_TwoSurroundBlackTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/TooManySpacesContradictionRule/TwoSurroundWhite", nurikabe);
@@ -46,6 +49,27 @@ public class TooManySpacesContradictionRuleTest {
                 else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
+            }
+        }
+    }
+
+    /**
+     * Tests the Too Many Spaces contradiction rule for an extra diagonal space
+     */
+    @Test
+    public void TooManySpacesContradictionRule_ExtraDiagonalSpace() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/TooManySpacesContradictionRule/ExtraDiagonalSpace", nurikabe);
+        TreeNode rootNode = nurikabe.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        Assert.assertNotNull(RULE.checkContradiction((NurikabeBoard)transition.getBoard()));
+
+        NurikabeBoard board = (NurikabeBoard)transition.getBoard();
+
+        for(int i = 0; i < board.getHeight(); i++) {
+            for(int k = 0; k < board.getWidth(); k++) {
+                Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
             }
         }
     }

@@ -25,6 +25,9 @@ public class NoNumbersContradictionRuleTest {
         nurikabe = new Nurikabe();
     }
 
+    /**
+     * Tests the No Number contradiction rule for a white region enclosed by black squares
+     */
     @Test
     public void NoNumberContradictionRule_NoNumberSurroundBlack() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/NoNumberContradictionRule/NoNumberSurroundBlack", nurikabe);
@@ -49,7 +52,9 @@ public class NoNumbersContradictionRuleTest {
         }
     }
 
-    //    Checks if a transition produces a room without a number.
+    /**
+     * Tests the No Number contradiction rule for multiple white regions not completely enclosed by black squares
+     */
     @Test
     public void NoNumberContradictionRule_NoNumberReachable() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/NoNumberContradictionRule/NoNumberReachable", nurikabe);
