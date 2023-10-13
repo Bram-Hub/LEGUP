@@ -88,11 +88,34 @@ public class TreeTransition extends TreeElement {
         }
         else {
             if (childNode != null) {
+
+
+                //Overwrite previous modifications to this element
+                board.removeModifiedData(board.getPuzzleElement(element));
+
+                //apply changes to tranistion and result boards
                 board.notifyChange(element);
                 childNode.getBoard().notifyChange(element.copy());
+                //mark first transition as modified
+                if (!board.getPuzzleElement(element).equalsData(parents.get(0).getBoard().getPuzzleElement(element))) {
+                    board.addModifiedData(element);
+                }
+
                 for (TreeTransition child : childNode.getChildren()) {
                     PuzzleElement copy = element.copy();
-                    copy.setModifiable(false);
+                    TreeNode head = childNode;
+                    while(head.getParent()!=null){
+                        head = head.getParent().getParents().get(0);
+                    }
+                    Board headBoard = head.getBoard();
+                    if(headBoard.getPuzzleElement(element).equalsData(element)){
+                        copy.setModifiable(headBoard.getPuzzleElement(element).isModifiable());
+                        System.out.println("MODIFY");
+                    }
+                    else{
+                        copy.setModifiable(false);
+                        System.out.println("UNMODIFY");
+                    }
                     child.propagateChange(copy);
                 }
             }
