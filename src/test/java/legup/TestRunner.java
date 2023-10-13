@@ -9,6 +9,9 @@ import puzzles.lightup.rules.*;
 import puzzles.nurikabe.rules.*;
 import puzzles.treetent.rules.*;
 
+/**
+ * This class runs all of the tests for the project without needing to run build scripts.
+ */
 public class TestRunner {
     public static void main(String[] args) {
         // Battleship Tests
@@ -103,6 +106,4 @@ public class TestRunner {
         System.out.println("All tests passed: " + result.wasSuccessful());
         System.out.println();
     }
-
-
 }

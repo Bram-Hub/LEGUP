@@ -72,8 +72,6 @@ public class LegupUI extends JFrame implements WindowListener {
             setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
         }
 
-        setVisible(true);
-
         this.addWindowListener(this);
         addKeyListener(new KeyAdapter() {
             /**
@@ -88,8 +86,8 @@ public class LegupUI extends JFrame implements WindowListener {
                 super.keyTyped(e);
             }
         });
-        setLocationRelativeTo(null);
         setMinimumSize(getPreferredSize());
+        setVisible(true);
     }
 
     private void initPanels() {
@@ -112,6 +110,7 @@ public class LegupUI extends JFrame implements WindowListener {
         panels[option].makeVisible();
         this.window.add(panels[option]);
         pack();
+        setLocationRelativeTo(null);
         revalidate();
         repaint();
     }

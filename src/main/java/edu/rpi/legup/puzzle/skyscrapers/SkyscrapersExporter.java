@@ -2,6 +2,7 @@ package edu.rpi.legup.puzzle.skyscrapers;
 
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
 import org.w3c.dom.Document;
 
 public class SkyscrapersExporter extends PuzzleExporter {
@@ -12,7 +13,13 @@ public class SkyscrapersExporter extends PuzzleExporter {
 
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
-        SkyscrapersBoard board = (SkyscrapersBoard) puzzle.getTree().getRootNode().getBoard();
+        SkyscrapersBoard board;
+        if (puzzle.getTree() != null) {
+            board = (SkyscrapersBoard) puzzle.getTree().getRootNode().getBoard();
+        }
+        else {
+            board = (SkyscrapersBoard) puzzle.getBoardView().getBoard();
+        }
 
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("width", String.valueOf(board.getWidth()));
