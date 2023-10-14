@@ -2,6 +2,7 @@ package edu.rpi.legup.controller;
 
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.tree.Tree;
+import edu.rpi.legup.model.tree.TreeElementType;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
 
@@ -55,7 +56,6 @@ public class TreeController extends Controller {
         Puzzle puzzle = getInstance().getPuzzleModule();
         TreeViewSelection selection = treeView.getSelection();
         if (treeElementView != null) {
-            treeElementView.getTreeElement().getBoard().setModifiable(!treeElementView.getTreeElement().isContradictoryBranch());
             if (e.isShiftDown()) {
                 selection.addToSelection(treeElementView);
             }
