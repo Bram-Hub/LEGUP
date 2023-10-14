@@ -33,6 +33,10 @@ public abstract class DirectRule extends Rule {
                 transition.getParents().get(0).getChildren().size() != 1) {
             return "State must have only 1 parent and 1 child";
         }
+        else if (finalBoard.getModifiedData().size()==0){
+            //null transition
+            return null;
+        }
         else {
             return checkRuleRaw(transition);
         }
