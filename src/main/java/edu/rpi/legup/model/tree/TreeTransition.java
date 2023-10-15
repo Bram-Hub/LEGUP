@@ -122,7 +122,7 @@ public class TreeTransition extends TreeElement {
 
                 //apply to all child transitions
                 for (TreeTransition child : childNode.getChildren()) {
-                    child.propagateChange(copy);
+                    child.propagateChange(copy.copy());
                 }
             }
         }
