@@ -2,6 +2,7 @@ package edu.rpi.legup.controller;
 
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.tree.Tree;
+import edu.rpi.legup.model.tree.TreeElementType;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
 
@@ -42,7 +43,7 @@ public class TreeController extends Controller {
 
     /**
      * Mouse Released event sets the cursor back to the default cursor and reset info for panning
-     *
+     * Set board modifiability
      * @param e MouseEvent object
      */
     @Override
