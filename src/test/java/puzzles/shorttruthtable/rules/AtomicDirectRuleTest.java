@@ -14,8 +14,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.awt.*;
-
 public class AtomicDirectRuleTest {
     private static final DirectRuleAtomic RULE = new DirectRuleAtomic();
     private static ShortTruthTable stt;
