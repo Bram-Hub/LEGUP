@@ -37,7 +37,7 @@ public class AtomicDirectRuleTest {
      */
     @Test
     public void MatchingFalseTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AtomicDirectRule/UnknownFalseA", stt);
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AtomicDirectRule/FalseA", stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -64,7 +64,7 @@ public class AtomicDirectRuleTest {
      */
     @Test
     public void MismatchingFalseTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AtomicDirectRule/UnknownFalseA", stt);
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AtomicDirectRule/FalseA", stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
