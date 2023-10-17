@@ -6,7 +6,6 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCell;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
-import edu.rpi.legup.puzzle.shorttruthtable.rules.basic.DirectRuleAtomic;
 import edu.rpi.legup.puzzle.shorttruthtable.rules.basic.elimination.DirectRuleAndElimination;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import legup.MockGameBoardFacade;
@@ -26,7 +25,7 @@ public class AndEliminationDirectRuleTest {
     }
 
     /**
-     * Given one statement: B^C
+     * Given one statement: B^C where ^ is true
      *
      * This test first sets B to true, then asserts that this is a valid application
      * of the rule. Then, the test sets C to true, then asserts that this is a valid
@@ -55,7 +54,7 @@ public class AndEliminationDirectRuleTest {
     }
 
     /**
-     * Given one statement: B^C
+     * Given one statement: B^C where ^ is true
      *
      * This test makes sure that none of the cases tested are valid applications
      * of And Elimination, as all of them have at least one of the variables set
@@ -99,5 +98,38 @@ public class AndEliminationDirectRuleTest {
         bonnie.setData(ShortTruthTableCellType.FALSE);
         board.addModifiedData(bonnie);
         Assert.assertNotNull(RULE.checkRule(transition));
+    }
+
+    /**
+     * Given one statement: B^C where ^ is false
+     *
+     * Checks all possible combinations of true, false, and unknown for B and C
+     * and asserts that each one of them is not a valid application of the rule.
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void unknownFalseTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AndEliminationDirectRule/FalseAnd", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+
+        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
+
+        ShortTruthTableCell bonnie = board.getCell(0, 0);
+        ShortTruthTableCell clyde = board.getCell(2, 0);
+
+        for (ShortTruthTableCellType cellType1 : cellTypes)
+            for (ShortTruthTableCellType cellType2 : cellTypes)
+            {
+                bonnie.setData(cellType1);
+                clyde.setData(cellType2);
+                board.addModifiedData(bonnie);
+                board.addModifiedData(clyde);
+                Assert.assertNotNull(RULE.checkRule(transition));
+            }
     }
 }
