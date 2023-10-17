@@ -16,7 +16,7 @@ public class FillapixExporter extends PuzzleExporter {
         FillapixBoard board;
         if (puzzle.getTree() != null) {
             board = (FillapixBoard) puzzle.getTree().getRootNode().getBoard();
-        }
+        } 
         else {
             board = (FillapixBoard) puzzle.getBoardView().getBoard();
         }
