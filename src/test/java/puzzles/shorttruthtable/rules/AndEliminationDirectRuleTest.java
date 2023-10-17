@@ -26,7 +26,7 @@ public class AndEliminationDirectRuleTest {
 
     /**
      * Given one statement: B^C where ^ is true
-     * 
+     *
      * Checks all possible combinations of true, false, and unknown for B and C
      * except for where both B and C are true and asserts that each one of them
      * is not a valid application of the rule.
@@ -121,6 +121,33 @@ public class AndEliminationDirectRuleTest {
                 board.addModifiedData(clyde);
                 Assert.assertNotNull(RULE.checkRule(transition));
             }
+    }
+
+    /**
+     * Given one statement: B^C where both B and ^ are false
+     *
+     * Asserts that this is not a valid application of the rule if C is set to
+     * either true or false.
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void falseAndWithKnownTrueTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AndEliminationDirectRule/FalseAnd", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+
+        ShortTruthTableCell clyde = board.getCell(2, 0);
+        clyde.setData(ShortTruthTableCellType.TRUE);
+        board.addModifiedData(clyde);
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        clyde.setData(ShortTruthTableCellType.FALSE);
+        board.addModifiedData(clyde);
+        Assert.assertNotNull(RULE.checkRule(transition));
     }
 
     /**
