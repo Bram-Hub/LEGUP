@@ -25,8 +25,17 @@ public class AndEliminationDirectRuleTest {
         stt = new ShortTruthTable();
     }
 
-   @Test
-   public void trueAndTest1() throws InvalidFileFormatException {
+    /**
+     * Given one statement: B^C
+     *
+     * This test first sets B to true, then asserts that this is a valid application
+     * of the rule. Then, the test sets C to true, then asserts that this is a valid
+     * application of the rule.
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void trueAndTest1() throws InvalidFileFormatException {
        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AndEliminationDirectRule/TrueAnd", stt);
        TreeNode rootNode = stt.getTree().getRootNode();
        TreeTransition transition = rootNode.getChildren().get(0);
@@ -43,5 +52,5 @@ public class AndEliminationDirectRuleTest {
        clyde.setData(ShortTruthTableCellType.TRUE);
        board.addModifiedData(clyde);
        Assert.assertNull(RULE.checkRule(transition));
-   }
+    }
 }
