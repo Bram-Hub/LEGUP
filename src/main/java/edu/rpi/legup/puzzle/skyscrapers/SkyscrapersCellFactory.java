@@ -35,11 +35,11 @@ public class SkyscrapersCellFactory extends ElementFactory {
                 if (x >= width || y >= height) {
                     throw new InvalidFileFormatException("TreeTent Factory: cell location out of bounds");
                 }
-                if (value < 0 || value > 3) {
+                if (value < 0 || value > width) {
                     throw new InvalidFileFormatException("TreeTent Factory: cell unknown value");
                 }
 
-                SkyscrapersCell cell = new SkyscrapersCell(SkyscrapersType.convertToSkyType(value), new Point(x, y), width);
+                SkyscrapersCell cell = new SkyscrapersCell(value, new Point(x, y), width);
                 cell.setIndex(y * height + x);
                 return cell;
             }

@@ -1,23 +1,22 @@
 package edu.rpi.legup.app;
 
+import edu.rpi.legup.history.History;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.history.IHistorySubject;
+import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.tree.Tree;
+import edu.rpi.legup.save.InvalidFileFormatException;
+import edu.rpi.legup.ui.LegupUI;
 import edu.rpi.legup.ui.ProofEditorPanel;
 import edu.rpi.legup.ui.PuzzleEditorPanel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-import edu.rpi.legup.save.InvalidFileFormatException;
-import edu.rpi.legup.ui.LegupUI;
-import edu.rpi.legup.history.History;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -145,6 +144,30 @@ public class GameBoardFacade implements IHistorySubject {
     }
 
     /**
+     * Validates the given text input for the given puzzle
+     *
+     * @param game          the name of the puzzle
+     * @param statements    an array of statements
+     * @return true if it is possible to create a board for the given game with the given statements,
+     * false otherwise
+     * @throws RuntimeException if any of the input is invalid
+     */
+    public boolean validateTextInput(String game, String[] statements) throws RuntimeException {
+        String qualifiedClassName = config.getPuzzleClassForName(game);
+        try {
+            Class<?> c = Class.forName(qualifiedClassName);
+            Constructor<?> constructor = c.getConstructor();
+            Puzzle puzzle = (Puzzle) constructor.newInstance();
+            return puzzle.isValidTextInput(statements);
+        }
+        catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException |
+               InstantiationException e) {
+            LOGGER.error(e);
+            throw new RuntimeException("Error validating puzzle text input");
+        }
+    }
+
+    /**
      * Loads an empty puzzle
      *
      * @param game    name of the puzzle
@@ -159,7 +182,6 @@ public class GameBoardFacade implements IHistorySubject {
             Class<?> c = Class.forName(qualifiedClassName);
             Constructor<?> cons = c.getConstructor();
             Puzzle puzzle = (Puzzle) cons.newInstance();
-            setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
 
             PuzzleImporter importer = puzzle.getImporter();
             if (importer == null) {
@@ -167,6 +189,13 @@ public class GameBoardFacade implements IHistorySubject {
                 throw new RuntimeException("Puzzle importer null");
             }
 
+            // Theoretically, this exception should never be thrown, since LEGUP should not be
+            // allowing the user to give row/column input for a puzzle that doesn't support it
+            if (!importer.acceptsRowsAndColumnsInput()) {
+                throw new IllegalArgumentException(puzzle.getName() + " does not accept rows and columns input");
+            }
+
+            setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
             importer.initializePuzzle(rows, columns);
 
             puzzle.initializeView();
@@ -181,6 +210,45 @@ public class GameBoardFacade implements IHistorySubject {
             LOGGER.error(e);
             throw new RuntimeException("Puzzle creation error");
         }
+    }
+
+    public void loadPuzzle(String game, String[] statements) {
+        String qualifiedClassName = config.getPuzzleClassForName(game);
+        LOGGER.debug("Loading " + qualifiedClassName);
+
+        try {
+            Class<?> c = Class.forName(qualifiedClassName);
+            Constructor<?> cons = c.getConstructor();
+            Puzzle puzzle = (Puzzle) cons.newInstance();
+
+            PuzzleImporter importer = puzzle.getImporter();
+            if (importer == null) {
+                LOGGER.error("Puzzle importer is null");
+                throw new RuntimeException("Puzzle importer null");
+            }
+
+            // Theoretically, this exception should never be thrown, since LEGUP should not be
+            // allowing the user to give text input for a puzzle that doesn't support it
+            if (!importer.acceptsTextInput()) {
+                throw new IllegalArgumentException(puzzle.getName() + " does not accept text input");
+            }
+
+            setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
+            importer.initializePuzzle(statements);
+
+            puzzle.initializeView();
+//            puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
+            setPuzzleEditor(puzzle);
+        }
+        catch (IllegalArgumentException exception) {
+            throw new IllegalArgumentException(exception.getMessage());
+        }
+        catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+               IllegalAccessException | InstantiationException e) {
+            LOGGER.error(e);
+            throw new RuntimeException("Puzzle creation error");
+        }
+
     }
 
     /**

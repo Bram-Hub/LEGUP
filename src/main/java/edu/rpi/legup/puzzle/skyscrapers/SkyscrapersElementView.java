@@ -23,7 +23,7 @@ public class SkyscrapersElementView extends GridElementView {
         graphics2D.drawRect(location.x, location.y, size.width, size.height);
 
         SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
-        int val = cell.getData().value;
+        int val = cell.getData();
         if (val != 0) {
             graphics2D.setColor(FONT_COLOR);
             graphics2D.setFont(FONT);
