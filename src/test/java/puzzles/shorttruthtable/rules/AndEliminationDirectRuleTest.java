@@ -109,7 +109,7 @@ public class AndEliminationDirectRuleTest {
      * @throws InvalidFileFormatException
      */
     @Test
-    public void unknownFalseTest() throws InvalidFileFormatException {
+    public void falseAndWithUnknownsTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AndEliminationDirectRule/FalseAnd", stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
