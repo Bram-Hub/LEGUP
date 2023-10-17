@@ -35,30 +35,43 @@ public class AndEliminationDirectRuleTest {
      */
     @Test
     public void trueAndTest1() throws InvalidFileFormatException {
-       TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AndEliminationDirectRule/TrueAnd", stt);
-       TreeNode rootNode = stt.getTree().getRootNode();
-       TreeTransition transition = rootNode.getChildren().get(0);
-       transition.setRule(RULE);
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AndEliminationDirectRule/TrueAnd", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
 
-       ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
 
-       ShortTruthTableCell bonnie = board.getCell(0, 0);
-       bonnie.setData(ShortTruthTableCellType.TRUE);
-       board.addModifiedData(bonnie);
-       Assert.assertNull(RULE.checkRule(transition));
+        for (ShortTruthTableCellType cellType1 : cellTypes)
+            for (ShortTruthTableCellType cellType2 : cellTypes)
+            {
+                if (cellType1 == cellType2 && cellType1 == ShortTruthTableCellType.TRUE)
+                    continue;
 
-       ShortTruthTableCell clyde = board.getCell(2, 0);
-       clyde.setData(ShortTruthTableCellType.TRUE);
-       board.addModifiedData(clyde);
-       Assert.assertNull(RULE.checkRule(transition));
+                ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+                ShortTruthTableCell bonnie = board.getCell(0, 0);
+                ShortTruthTableCell clyde = board.getCell(2, 0);
+
+                if (cellType1 != ShortTruthTableCellType.UNKNOWN) {
+                    bonnie.setData(cellType1);
+                    board.addModifiedData(bonnie);
+                }
+
+                if (cellType2 != ShortTruthTableCellType.UNKNOWN) {
+                    clyde.setData(cellType2);
+                    board.addModifiedData(clyde);
+                }
+
+                Assert.assertNotNull(RULE.checkRule(transition));
+            }
     }
 
     /**
      * Given one statement: B^C where ^ is true
      *
-     * This test makes sure that none of the cases tested are valid applications
-     * of And Elimination, as all of them have at least one of the variables set
-     * to false.
+     * Checks all possible combinations of true and unknown for B and C
+     * except for where both B and C are unknown and asserts that each one
+     * of them is a valid application of the rule.
      *
      * @throws InvalidFileFormatException
      */
@@ -69,24 +82,29 @@ public class AndEliminationDirectRuleTest {
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
-        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
-
-        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
-
-        ShortTruthTableCell bonnie = board.getCell(0, 0);
-        ShortTruthTableCell clyde = board.getCell(2, 0);
+        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.UNKNOWN};
 
         for (ShortTruthTableCellType cellType1 : cellTypes)
             for (ShortTruthTableCellType cellType2 : cellTypes)
             {
-                if (cellType1 == cellType2 && cellType1 == ShortTruthTableCellType.TRUE)
+                if (cellType1 == cellType2 && cellType1 == ShortTruthTableCellType.UNKNOWN)
                     continue;
 
-                bonnie.setData(cellType1);
-                clyde.setData(cellType2);
-                board.addModifiedData(bonnie);
-                board.addModifiedData(clyde);
-                Assert.assertNotNull(RULE.checkRule(transition));
+                ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+                ShortTruthTableCell bonnie = board.getCell(0, 0);
+                ShortTruthTableCell clyde = board.getCell(2, 0);
+
+                if (cellType1 != ShortTruthTableCellType.UNKNOWN) {
+                    bonnie.setData(cellType1);
+                    board.addModifiedData(bonnie);
+                }
+
+                if (cellType2 != ShortTruthTableCellType.UNKNOWN) {
+                    clyde.setData(cellType2);
+                    board.addModifiedData(clyde);
+                }
+
+                Assert.assertNull(RULE.checkRule(transition));
             }
     }
 
@@ -105,20 +123,25 @@ public class AndEliminationDirectRuleTest {
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
-        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
-
         ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
-
-        ShortTruthTableCell bonnie = board.getCell(0, 0);
-        ShortTruthTableCell clyde = board.getCell(2, 0);
 
         for (ShortTruthTableCellType cellType1 : cellTypes)
             for (ShortTruthTableCellType cellType2 : cellTypes)
             {
-                bonnie.setData(cellType1);
-                clyde.setData(cellType2);
-                board.addModifiedData(bonnie);
-                board.addModifiedData(clyde);
+                ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+                ShortTruthTableCell bonnie = board.getCell(0, 0);
+                ShortTruthTableCell clyde = board.getCell(2, 0);
+
+                if (cellType1 != ShortTruthTableCellType.UNKNOWN) {
+                    bonnie.setData(cellType1);
+                    board.addModifiedData(bonnie);
+                }
+
+                if (cellType2 != ShortTruthTableCellType.UNKNOWN) {
+                    clyde.setData(cellType2);
+                    board.addModifiedData(clyde);
+                }
+
                 Assert.assertNotNull(RULE.checkRule(transition));
             }
     }
