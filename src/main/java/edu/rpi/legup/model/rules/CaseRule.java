@@ -79,6 +79,7 @@ public abstract class CaseRule extends Rule {
 
         String check = checkRuleRaw(transition);
 
+        //Mark transition and new data as valid or not
         boolean isCorrect = (check == null);
         for (TreeTransition childTrans : parentNodes.get(0).getChildren()) {
             childTrans.setCorrect(isCorrect);
