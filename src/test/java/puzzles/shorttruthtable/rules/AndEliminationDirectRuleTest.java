@@ -26,7 +26,7 @@ public class AndEliminationDirectRuleTest {
 
     /**
      * Given one statement: B^C where ^ is true
-     *
+     * 
      * Checks all possible combinations of true, false, and unknown for B and C
      * except for where both B and C are true and asserts that each one of them
      * is not a valid application of the rule.
@@ -43,8 +43,7 @@ public class AndEliminationDirectRuleTest {
         ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
 
         for (ShortTruthTableCellType cellType1 : cellTypes)
-            for (ShortTruthTableCellType cellType2 : cellTypes)
-            {
+            for (ShortTruthTableCellType cellType2 : cellTypes) {
                 if (cellType1 == cellType2 && cellType1 == ShortTruthTableCellType.TRUE)
                     continue;
 
@@ -68,7 +67,7 @@ public class AndEliminationDirectRuleTest {
 
     /**
      * Given one statement: B^C where ^ is true
-     *
+     * 
      * Checks all possible combinations of true and unknown for B and C
      * except for where both B and C are unknown and asserts that each one
      * of them is a valid application of the rule.
@@ -85,8 +84,7 @@ public class AndEliminationDirectRuleTest {
         ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.UNKNOWN};
 
         for (ShortTruthTableCellType cellType1 : cellTypes)
-            for (ShortTruthTableCellType cellType2 : cellTypes)
-            {
+            for (ShortTruthTableCellType cellType2 : cellTypes) {
                 if (cellType1 == cellType2 && cellType1 == ShortTruthTableCellType.UNKNOWN)
                     continue;
 
@@ -110,7 +108,7 @@ public class AndEliminationDirectRuleTest {
 
     /**
      * Given one statement: B^C where ^ is false
-     *
+     * 
      * Checks all possible combinations of true, false, and unknown for B and C
      * and asserts that each one of them is not a valid application of the rule.
      *
@@ -126,8 +124,7 @@ public class AndEliminationDirectRuleTest {
         ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
 
         for (ShortTruthTableCellType cellType1 : cellTypes)
-            for (ShortTruthTableCellType cellType2 : cellTypes)
-            {
+            for (ShortTruthTableCellType cellType2 : cellTypes) {
                 ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
                 ShortTruthTableCell bonnie = board.getCell(0, 0);
                 ShortTruthTableCell clyde = board.getCell(2, 0);
@@ -148,7 +145,7 @@ public class AndEliminationDirectRuleTest {
 
     /**
      * Given one statement: B^C where both B and ^ are false
-     *
+     * 
      * Asserts that this is not a valid application of the rule if C is set to
      * either true or false.
      *
@@ -175,7 +172,7 @@ public class AndEliminationDirectRuleTest {
 
     /**
      * Given one statement: B^C where B is true and ^ is false
-     *
+     * 
      * Asserts that this is a valid application of the rule if and only if C is
      * set to false.
      *
