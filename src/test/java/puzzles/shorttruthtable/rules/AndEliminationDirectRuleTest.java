@@ -26,10 +26,10 @@ public class AndEliminationDirectRuleTest {
 
     /**
      * Given one statement: B^C where ^ is true
-     *
-     * This test first sets B to true, then asserts that this is a valid application
-     * of the rule. Then, the test sets C to true, then asserts that this is a valid
-     * application of the rule.
+     * 
+     * Checks all possible combinations of true, false, and unknown for B and C
+     * except for where both B and C are true and asserts that each one of them
+     * is not a valid application of the rule.
      *
      * @throws InvalidFileFormatException
      */
@@ -71,33 +71,23 @@ public class AndEliminationDirectRuleTest {
 
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
 
-        // B^C
-        // FT_
+        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
+
         ShortTruthTableCell bonnie = board.getCell(0, 0);
-        bonnie.setData(ShortTruthTableCellType.FALSE);
-        board.addModifiedData(bonnie);
-        Assert.assertNotNull(RULE.checkRule(transition));
-
-        // B^C
-        // FTT
         ShortTruthTableCell clyde = board.getCell(2, 0);
-        clyde.setData(ShortTruthTableCellType.TRUE);
-        board.addModifiedData(clyde);
-        Assert.assertNotNull(RULE.checkRule(transition));
 
-        // B^C
-        // TTF
-        bonnie.setData(ShortTruthTableCellType.TRUE);
-        clyde.setData(ShortTruthTableCellType.FALSE);
-        board.addModifiedData(bonnie);
-        board.addModifiedData(clyde);
-        Assert.assertNotNull(RULE.checkRule(transition));
+        for (ShortTruthTableCellType cellType1 : cellTypes)
+            for (ShortTruthTableCellType cellType2 : cellTypes)
+            {
+                if (cellType1 == cellType2 && cellType1 == ShortTruthTableCellType.TRUE)
+                    continue;
 
-        // B^C
-        // FTF
-        bonnie.setData(ShortTruthTableCellType.FALSE);
-        board.addModifiedData(bonnie);
-        Assert.assertNotNull(RULE.checkRule(transition));
+                bonnie.setData(cellType1);
+                clyde.setData(cellType2);
+                board.addModifiedData(bonnie);
+                board.addModifiedData(clyde);
+                Assert.assertNotNull(RULE.checkRule(transition));
+            }
     }
 
     /**
