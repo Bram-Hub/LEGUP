@@ -53,4 +53,51 @@ public class AndEliminationDirectRuleTest {
        board.addModifiedData(clyde);
        Assert.assertNull(RULE.checkRule(transition));
     }
+
+    /**
+     * Given one statement: B^C
+     *
+     * This test makes sure that none of the cases tested are valid applications
+     * of And Elimination, as all of them have at least one of the variables set
+     * to false.
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void trueAndTest2() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AndEliminationDirectRule/TrueAnd", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+
+        // B^C
+        // FT_
+        ShortTruthTableCell bonnie = board.getCell(0, 0);
+        bonnie.setData(ShortTruthTableCellType.FALSE);
+        board.addModifiedData(bonnie);
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        // B^C
+        // FTT
+        ShortTruthTableCell clyde = board.getCell(2, 0);
+        clyde.setData(ShortTruthTableCellType.TRUE);
+        board.addModifiedData(clyde);
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        // B^C
+        // TTF
+        bonnie.setData(ShortTruthTableCellType.TRUE);
+        clyde.setData(ShortTruthTableCellType.FALSE);
+        board.addModifiedData(bonnie);
+        board.addModifiedData(clyde);
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        // B^C
+        // FTF
+        bonnie.setData(ShortTruthTableCellType.FALSE);
+        board.addModifiedData(bonnie);
+        Assert.assertNotNull(RULE.checkRule(transition));
+    }
 }
