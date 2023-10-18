@@ -42,10 +42,11 @@ public class AndEliminationDirectRuleTest {
 
         ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
 
-        for (ShortTruthTableCellType cellType1 : cellTypes)
+        for (ShortTruthTableCellType cellType1 : cellTypes) {
             for (ShortTruthTableCellType cellType2 : cellTypes) {
-                if (cellType1 == cellType2 && cellType1 == ShortTruthTableCellType.TRUE)
+                if (cellType1 == cellType2 && cellType1 == ShortTruthTableCellType.TRUE) {
                     continue;
+                }
 
                 ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
                 ShortTruthTableCell bonnie = board.getCell(0, 0);
@@ -63,6 +64,7 @@ public class AndEliminationDirectRuleTest {
 
                 Assert.assertNotNull(RULE.checkRule(transition));
             }
+        }
     }
 
     /**
@@ -83,10 +85,11 @@ public class AndEliminationDirectRuleTest {
 
         ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.UNKNOWN};
 
-        for (ShortTruthTableCellType cellType1 : cellTypes)
+        for (ShortTruthTableCellType cellType1 : cellTypes) {
             for (ShortTruthTableCellType cellType2 : cellTypes) {
-                if (cellType1 == cellType2 && cellType1 == ShortTruthTableCellType.UNKNOWN)
+                if (cellType1 == cellType2 && cellType1 == ShortTruthTableCellType.UNKNOWN) {
                     continue;
+                }
 
                 ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
                 ShortTruthTableCell bonnie = board.getCell(0, 0);
@@ -104,6 +107,7 @@ public class AndEliminationDirectRuleTest {
 
                 Assert.assertNull(RULE.checkRule(transition));
             }
+        }
     }
 
     /**
@@ -123,7 +127,7 @@ public class AndEliminationDirectRuleTest {
 
         ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
 
-        for (ShortTruthTableCellType cellType1 : cellTypes)
+        for (ShortTruthTableCellType cellType1 : cellTypes) {
             for (ShortTruthTableCellType cellType2 : cellTypes) {
                 ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
                 ShortTruthTableCell bonnie = board.getCell(0, 0);
@@ -141,6 +145,7 @@ public class AndEliminationDirectRuleTest {
 
                 Assert.assertNotNull(RULE.checkRule(transition));
             }
+        }
     }
 
     /**
