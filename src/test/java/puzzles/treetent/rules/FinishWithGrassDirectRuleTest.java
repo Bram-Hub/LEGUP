@@ -43,8 +43,10 @@ public class FinishWithGrassDirectRuleTest {
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
+        // get board state
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
 
+        // change the board's cells considering the FinishWithGrass rule
         TreeTentCell cell1 = board.getCell(1, 0);
         cell1.setData(TreeTentType.GRASS);
         TreeTentCell cell2 = board.getCell(2, 0);
@@ -53,16 +55,20 @@ public class FinishWithGrassDirectRuleTest {
         board.addModifiedData(cell1);
         board.addModifiedData(cell2);
 
+        // confirm there is a logical following of the EmptyField rule
         Assert.assertNull(RULE.checkRule(transition));
 
+        // only the cell above should change following the rule
         TreeTentCell c;
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 c = board.getCell(k, i);
                 if (c.getLocation().equals(cell1.getLocation()) || c.getLocation().equals(cell2.getLocation())) {
+                    // logically follows
                     Assert.assertNull(RULE.checkRuleAt(transition, c));
                 }
                 else {
+                    // does not use the rule to logically follow
                     Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }
             }
@@ -83,8 +89,10 @@ public class FinishWithGrassDirectRuleTest {
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
+        // get board state
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
 
+        // change the board's cells considering the FinishWithGrass rule
         TreeTentCell cell1 = board.getCell(0, 1);
         cell1.setData(TreeTentType.GRASS);
         TreeTentCell cell2 = board.getCell(0, 2);
@@ -93,16 +101,20 @@ public class FinishWithGrassDirectRuleTest {
         board.addModifiedData(cell1);
         board.addModifiedData(cell2);
 
+        // confirm there is a logical following of the EmptyField rule
         Assert.assertNull(RULE.checkRule(transition));
 
+        // only the cell above should change following the rule
         TreeTentCell c;
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 c = board.getCell(k, i);
                 if (c.getLocation().equals(cell1.getLocation()) || c.getLocation().equals(cell2.getLocation())) {
+                    // logically follows
                     Assert.assertNull(RULE.checkRuleAt(transition, c));
                 }
                 else {
+                    // does not use the rule to logically follow
                     Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }
             }
@@ -123,8 +135,10 @@ public class FinishWithGrassDirectRuleTest {
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
+        // get board state
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
 
+        // change the board's cells considering the FinishWithGrass rule
         TreeTentCell cell1 = board.getCell(1, 0);
         cell1.setData(TreeTentType.GRASS);
         TreeTentCell cell2 = board.getCell(2, 0);
@@ -139,8 +153,10 @@ public class FinishWithGrassDirectRuleTest {
         board.addModifiedData(cell3);
         board.addModifiedData(cell4);
 
+        // confirm there is a logical following of the EmptyField rule
         Assert.assertNull(RULE.checkRule(transition));
 
+        // only the cell above should change following the rule
         TreeTentCell c;
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
@@ -149,9 +165,11 @@ public class FinishWithGrassDirectRuleTest {
                     c.getLocation().equals(cell2.getLocation()) ||
                     c.getLocation().equals(cell3.getLocation()) ||
                     c.getLocation().equals(cell4.getLocation())) {
+                    // logically follows
                     Assert.assertNull(RULE.checkRuleAt(transition, c));
                 }
                 else {
+                    // does not use the rule to logically follow
                     Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }
             }
@@ -172,8 +190,10 @@ public class FinishWithGrassDirectRuleTest {
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
+        // get board state
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
 
+        // change the board's cells considering the FinishWithGrass rule
         List<TreeTentCell> cells = new ArrayList<TreeTentCell>();
         for (int i = 0; i < board.getWidth(); i++) {
             for (int k = 0; k < board.getHeight(); k++) {
@@ -187,9 +207,12 @@ public class FinishWithGrassDirectRuleTest {
             board.addModifiedData(c);
         }
 
+        // confirm there is a logical following of the EmptyField rule
         Assert.assertNull(RULE.checkRule(transition));
 
+        // all cells should change following the rule
         for (TreeTentCell c : cells) {
+            // logically follows
             Assert.assertNull(RULE.checkRuleAt(transition, c));
         }
     }
@@ -207,8 +230,10 @@ public class FinishWithGrassDirectRuleTest {
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
+        // get board state
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
 
+        // change the board's cells considering the FinishWithGrass rule
         TreeTentCell cell1 = board.getCell(1, 0);
         TreeTentCell cell2 = board.getCell(0, 1);
         TreeTentCell cell3 = board.getCell(2, 1);
@@ -224,8 +249,10 @@ public class FinishWithGrassDirectRuleTest {
         board.addModifiedData(cell3);
         board.addModifiedData(cell4);
 
+        // confirm there is a logical following of the EmptyField rule
         Assert.assertNull(RULE.checkRule(transition));
 
+        // only the cell above should change following the rule
         TreeTentCell c;
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
@@ -234,9 +261,11 @@ public class FinishWithGrassDirectRuleTest {
                     c.getLocation().equals(cell2.getLocation()) ||
                     c.getLocation().equals(cell3.getLocation()) ||
                     c.getLocation().equals(cell4.getLocation())) {
+                    // logically follows
                     Assert.assertNull(RULE.checkRuleAt(transition, c));
                 }
                 else {
+                    // does not use the rule to logically follow
                     Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }
             }
@@ -257,8 +286,10 @@ public class FinishWithGrassDirectRuleTest {
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
+        // get board state
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
 
+        // change the board's cells not following the FinishWithGrass rule
         List<TreeTentCell> cells = new ArrayList<TreeTentCell>();
         for (int i = 0; i < board.getWidth(); i++) {
             for (int k = 0; k < board.getHeight(); k++) {
@@ -272,9 +303,12 @@ public class FinishWithGrassDirectRuleTest {
             board.addModifiedData(c);
         }
 
+        // confirm there is a logical following of the EmptyField rule
         Assert.assertNotNull(RULE.checkRule(transition));
 
+        // all cells should fail the rule test
         for (TreeTentCell c : cells) {
+            // does not use the rule to logically follow
             Assert.assertNotNull(RULE.checkRuleAt(transition, c));
         }
     }
@@ -292,7 +326,10 @@ public class FinishWithGrassDirectRuleTest {
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
+        // get board state
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        // change the board's cells considering the FinishWithGrass rule
         TreeTentCell cell1 = board.getCell(0, 3);
         TreeTentCell cell2 = board.getCell(2, 3);
         TreeTentCell cell3 = board.getCell(4, 3);
@@ -308,8 +345,10 @@ public class FinishWithGrassDirectRuleTest {
         board.addModifiedData(cell3);
         board.addModifiedData(cell4);
 
+        // confirm there is a logical following of the EmptyField rule
         Assert.assertNull(RULE.checkRule(transition));
 
+        // only the cell above should change following the rule
         TreeTentCell c;
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
@@ -318,9 +357,11 @@ public class FinishWithGrassDirectRuleTest {
                     c.getLocation().equals(cell2.getLocation()) ||
                     c.getLocation().equals(cell3.getLocation()) ||
                     c.getLocation().equals(cell4.getLocation())) {
+                    // logically follows
                     Assert.assertNull(RULE.checkRuleAt(transition, c));
                 }
                 else {
+                    // does not use the rule to logically follow
                     Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }
             }
