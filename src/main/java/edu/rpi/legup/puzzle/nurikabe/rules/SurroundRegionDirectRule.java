@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.nurikabe.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.DirectRule;
-import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
@@ -39,7 +38,6 @@ public class SurroundRegionDirectRule extends DirectRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        //ContradictionRule contraRule = new TooManySpacesContradictionRule();
 
         NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
         NurikabeBoard origBoardState = (NurikabeBoard) transition.getParents().get(0).getBoard();
@@ -54,13 +52,10 @@ public class SurroundRegionDirectRule extends DirectRule {
         NurikabeCell modCell = (NurikabeCell) modified.getPuzzleElement(puzzleElement);
         modCell.setData(NurikabeType.WHITE.toValue());
 
-//        if (contraRule.checkContradiction(modified) == null) {
-//            return null;
-//        }
         if(cell.getType() == NurikabeType.BLACK) {
             DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(destBoardState);
-            Set<NurikabeCell> adj = new HashSet<>();
-            Point loc = cell.getLocation();
+            Set<NurikabeCell> adj = new HashSet<>(); //set to hold adjacent cells
+            Point loc = cell.getLocation(); //position of placed cell
             NurikabeCell cellLeft = destBoardState.getCell(loc.x - 1, loc.y);
             NurikabeCell cellRight = destBoardState.getCell(loc.x + 1, loc.y);
             NurikabeCell cellTop = destBoardState.getCell(loc.x, loc.y + 1);
@@ -85,35 +80,23 @@ public class SurroundRegionDirectRule extends DirectRule {
                     adj.add(cellBottom);
                 }
             }
-
-            Set<NurikabeCell> whiteRegion;// = regions.getSet(cell); //getting set of black blocks, need to be white blocks
-            whiteRegion = adj;
-            ArrayList<NurikabeCell> numberedCells = new ArrayList<>();
-            LOGGER.debug("anything fake");
-            LOGGER.debug("white size" + whiteRegion.size());
-            for (NurikabeCell c : whiteRegion) {
-                Set<NurikabeCell> disRow = regions.getSet(c);
-                for (NurikabeCell d : disRow) {
-                    LOGGER.debug("type of block" + d.getType());
-                    if (d.getType() == NurikabeType.NUMBER) {
-                        LOGGER.debug("anything real");
-                        numberedCells.add(d);
+            //ads cells to adj only if they are white or number blocks
+            ArrayList<NurikabeCell> numberedCells = new ArrayList<>(); //number value of number cells
+            for (NurikabeCell c : adj) { //loops through adjacent cells
+                Set<NurikabeCell> disRow = regions.getSet(c); //set of white spaces
+                for (NurikabeCell d : disRow) { //loops through white spaces
+                    if (d.getType() == NurikabeType.NUMBER) { //if the white space is a number
+                        numberedCells.add(d); //add that number to numberedCells
                     }
                 }
             }
-            for (NurikabeCell number : numberedCells) {
-                System.out.println("number data" + number.getData());
-                System.out.println("white region size" + whiteRegion.size());
-                LOGGER.debug("number Data" + number.getData());
-                LOGGER.debug("white region size" + whiteRegion.size());
-                if (regions.getSet(number).size() == number.getData()) {
-                    return null;
+            for (NurikabeCell number : numberedCells) { //loops through numberedCells
+                if (regions.getSet(number).size() == number.getData()) { //if that cells white area is the exact
+                    return null; //size of the number of one of the number cells within that set
                 }
             }
         }
-        //else {
-            return "Does not follow from this rule at this index";
-        //}
+        return "Does not follow from this rule at this index";
     }
 
     /**
