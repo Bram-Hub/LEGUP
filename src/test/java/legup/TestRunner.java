@@ -13,7 +13,7 @@ import puzzles.treetent.rules.*;
  * This class runs all of the tests for the project without needing to run build scripts.
  */
 public class TestRunner {
-    public static void main(String[] args) { 
+    public static void main(String[] args) {
         // Battleship Tests
         Result result1 = JUnitCore.runClasses(AdjacentShipsContradictionRuleTest.class);
         printTestResults(result1);
@@ -75,7 +75,8 @@ public class TestRunner {
         printTestResults(result26);
         Result result27 = JUnitCore.runClasses(WhiteBottleNeckDirectRuleTest.class);
         printTestResults(result27);
-        
+
+
         // Treetent
         Result result28 = JUnitCore.runClasses(EmptyFieldDirectRuleTest.class);
         printTestResults(result28);
