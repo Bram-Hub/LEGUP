@@ -25,9 +25,12 @@ public class BlackOrWhiteCaseRuleTest {
         nurikabe = new Nurikabe();
     }
 
+    /**
+     * Tests the Black Or White case rule
+     */
     @Test
     public void TooFewSpacesContradictionRule_TwoSurroundBlackTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/TooFewSpacesContradictionRule/TwoSurroundBlack", nurikabe);
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/BlackOrWhiteCaseRule/SimpleBlackOrWhite", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);

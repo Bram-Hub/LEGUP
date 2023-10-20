@@ -27,6 +27,9 @@ public class SurroundRegionDirectRuleTest {
         nurikabe = new Nurikabe();
     }
 
+    /**
+     * Tests the Surround Region direct rule for a white square in the middle of the board
+     */
     @Test
     public void SurroundRegionDirectRule_SurroundRegionBlackTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/SurroundRegionDirectRule/SurroundRegionBlack", nurikabe);
@@ -64,6 +67,9 @@ public class SurroundRegionDirectRuleTest {
         }
     }
 
+    /**
+     * Tests the Surround Region direct rule for a white square in the corner of the board
+     */
     @Test
     public void SurroundRegionDirectRule_SurroundRegionBlackInCornerTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/SurroundRegionDirectRule/SurroundRegionBlackInCorner", nurikabe);

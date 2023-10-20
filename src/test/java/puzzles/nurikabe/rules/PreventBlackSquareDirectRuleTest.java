@@ -27,6 +27,9 @@ public class PreventBlackSquareDirectRuleTest {
         nurikabe = new Nurikabe();
     }
 
+    /**
+     * Tests the Prevent Black Square direct rule for a black square with the bottom left corner missing
+     */
     @Test
     public void PreventBlackSquareDirectRule_BottomLeftWhiteBlackSquareTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareDirectRule/BottomLeftWhiteBlackSquare", nurikabe);
@@ -54,6 +57,9 @@ public class PreventBlackSquareDirectRuleTest {
         }
     }
 
+    /**
+     * Tests the Prevent Black Square direct rule for a black square with the bottom right corner missing
+     */
     @Test
     public void PreventBlackSquareDirectRule_BottomRightWhiteBlackSquareTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareDirectRule/BottomRightWhiteBlackSquare", nurikabe);
@@ -81,6 +87,9 @@ public class PreventBlackSquareDirectRuleTest {
         }
     }
 
+    /**
+     * Tests the Prevent Black Square direct rule for a black square with the top left corner missing
+     */
     @Test
     public void PreventBlackSquareDirectRule_TopLeftWhiteBlackSquareTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareDirectRule/TopLeftWhiteBlackSquare", nurikabe);
@@ -108,6 +117,9 @@ public class PreventBlackSquareDirectRuleTest {
         }
     }
 
+    /**
+     * Tests the Prevent Black Square direct rule for a black square with the top right corner missing
+     */
     @Test
     public void PreventBlackSquareDirectRule_TopRightWhiteBlackSquareTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareDirectRule/TopRightWhiteBlackSquare", nurikabe);

@@ -28,6 +28,9 @@ public class CornerBlackDirectRuleTest {
         nurikabe = new Nurikabe();
     }
 
+    /**
+     * Tests the Corner Black direct rule for a simple corner black tile
+     */
     @Test
     public void CornerBlackContradictionRule_SimpleCornerBlackTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/TooFewSpacesContradictionRule/TwoSurroundBlack", nurikabe);

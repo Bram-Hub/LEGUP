@@ -27,6 +27,9 @@ public class WhiteBottleNeckDirectRuleTest {
         nurikabe = new Nurikabe();
     }
 
+    /**
+     * Tests the White BottleNeck direct rule for a bottleneck in the middle of the board
+     */
     @Test
     public void WhiteBottleNeckDirectRule_SimpleWhiteBottleNeckTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/WhiteBottleNeckDirectRule/SimpleWhiteBottleNeck", nurikabe);
@@ -54,6 +57,9 @@ public class WhiteBottleNeckDirectRuleTest {
         }
     }
 
+    /**
+     * Tests the White BottleNeck direct rule for a more complex board
+     */
     @Test
     public void WhiteBottleNeckDirectRule_NurikabeBoard1Test() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/WhiteBottleNeckDirectRule/NurikabeBoard1", nurikabe);
