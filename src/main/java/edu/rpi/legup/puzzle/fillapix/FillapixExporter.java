@@ -2,6 +2,7 @@ package edu.rpi.legup.puzzle.fillapix;
 
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
 import org.w3c.dom.Document;
 
 public class FillapixExporter extends PuzzleExporter {
@@ -15,7 +16,7 @@ public class FillapixExporter extends PuzzleExporter {
         FillapixBoard board;
         if (puzzle.getTree() != null) {
             board = (FillapixBoard) puzzle.getTree().getRootNode().getBoard();
-        } 
+        }
         else {
             board = (FillapixBoard) puzzle.getBoardView().getBoard();
         }
