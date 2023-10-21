@@ -35,7 +35,7 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
 
     protected static final ShortTruthTableCellType T = ShortTruthTableCellType.TRUE;
     protected static final ShortTruthTableCellType F = ShortTruthTableCellType.FALSE;
-    protected static final ShortTruthTableCellType N = null;
+    protected static final ShortTruthTableCellType U = ShortTruthTableCellType.UNKNOWN;
 
     //Adds all elements that can be selected for this caserule
     @Override
@@ -47,31 +47,19 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
 
         //add all elements that can be selected for the case rule statement
         for (PuzzleElement element : sttBoard.getPuzzleElements()) {
-
-            System.out.println("GetCaseBoard Testing: " + element);
-
             //get the cell object
             ShortTruthTableCell cell = sttBoard.getCellFromElement(element);
             //the cell must match the symbol
             if (cell.getSymbol() != this.operation) continue;
-
-            System.out.println("  Selectable... checking logic");
-
             //the statement must be assigned with unassigned sub-statements
             if (!cell.getType().isTrueOrFalse()) continue;
-            System.out.println("  Operation is known");
             if (cell.getStatementReference().getRightStatement().getCell().getType().isTrueOrFalse()) continue;
-            System.out.println("  right side is unknown");
             if (this.operation != ShortTruthTableOperation.NOT &&
                     cell.getStatementReference().getRightStatement().getCell().getType().isTrueOrFalse()) {
                 continue;
             }
-            System.out.println("  left side is unknown");
-
-            System.out.println("    Valid choice");
             //if the element has passed all the checks, it can be selected
             caseBoard.addPickableElement(element);
-
         }
         return caseBoard;
     }
