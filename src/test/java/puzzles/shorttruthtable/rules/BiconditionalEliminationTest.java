@@ -89,4 +89,70 @@ public class BiconditionalEliminationTest {
         board.addModifiedData(morty);
         Assert.assertNull(RULE.checkRule(transition));
     }
+
+    /**
+     * Given one statement: A^B where A is true and ^ is false
+     *
+     * Asserts that this is a valid application of the rule if and only if B is true.
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void FalseBiconditionalWithTrueATest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/BiconditionalEliminationDirectRule/FalseBiconditionalWithTrueA", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+        ShortTruthTableCell morty = board.getCell(2, 0);
+
+        // Asserts that this is not a valid application of the rule when B is unknown
+        morty.setData(ShortTruthTableCellType.UNKNOWN);
+        board.addModifiedData(morty);
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        // Asserts that this is not a valid application of the rule when B is true
+        morty.setData(ShortTruthTableCellType.TRUE);
+        board.addModifiedData(morty);
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        // Asserts that this is a valid application of the rule when B is false
+        morty.setData(ShortTruthTableCellType.FALSE);
+        board.addModifiedData(morty);
+        Assert.assertNull(RULE.checkRule(transition));
+    }
+
+    /**
+     * Given one statement: A^B where A and ^ are false
+     *
+     * Asserts that this is a valid application of the rule if and only if B is true.
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void FalseBiconditionalWithFalseATest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/BiconditionalEliminationDirectRule/FalseBiconditionalWithFalseA", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+        ShortTruthTableCell morty = board.getCell(2, 0);
+
+        // Asserts that this is not a valid application of the rule when B is unknown
+        morty.setData(ShortTruthTableCellType.UNKNOWN);
+        board.addModifiedData(morty);
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        // Asserts that this is a valid application of the rule when B is true
+        morty.setData(ShortTruthTableCellType.TRUE);
+        board.addModifiedData(morty);
+        Assert.assertNull(RULE.checkRule(transition));
+
+        // Asserts that this is not a valid application of the rule when B is false
+        morty.setData(ShortTruthTableCellType.FALSE);
+        board.addModifiedData(morty);
+        Assert.assertNotNull(RULE.checkRule(transition));
+    }
 }
