@@ -25,12 +25,14 @@ public class BiconditionalEliminationTest {
     }
 
     /**
+     * Given one statement: A^B where both A and ^ are true
      *
+     * Asserts that this is a valid application of the rule if and only if B is true.
      *
      * @throws InvalidFileFormatException
      */
     @Test
-    public void TrueBiconditionalTest() throws InvalidFileFormatException {
+    public void TrueBiconditionalWithTrueATest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/BiconditionalEliminationDirectRule/TrueBiconditionalWithTrueA", stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -38,6 +40,11 @@ public class BiconditionalEliminationTest {
 
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
         ShortTruthTableCell morty = board.getCell(2, 0);
+
+        // Asserts that this is not a valid application of the rule when B is unknown
+        morty.setData(ShortTruthTableCellType.UNKNOWN);
+        board.addModifiedData(morty);
+        Assert.assertNotNull(RULE.checkRule(transition));
 
         // Asserts that this is a valid application of the rule when B is true
         morty.setData(ShortTruthTableCellType.TRUE);
