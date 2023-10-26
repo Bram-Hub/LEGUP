@@ -2,6 +2,7 @@ package edu.rpi.legup.ui.proofeditorui.treeview;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.TreeController;
+import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.observer.ITreeListener;
 import edu.rpi.legup.model.rules.CaseRule;
@@ -324,18 +325,23 @@ public class TreeView extends ScrollView implements ITreeListener {
             for(TreeNode node : trans.getParents()){
                 //only if the last case of a case rule will be deleted
                 if (rule instanceof CaseRule && node.getChildren().isEmpty()) {
-                    //System.out.println("TRANSISTION UNLOCKING");
+                    System.out.println("TRANSISTION UNLOCKING");
                     CaseRule caseRule = (CaseRule)rule;
                     //set dependent elements to be modifiable by ancestors (if not dependent on others)
                     List<TreeNode> ancestors = node.getAncestors();
-                    ancestors.add(node);
+                    //ancestors.add(node);
                     for(TreeNode ancestor : ancestors) {
                         if (!(ancestor.getParent() == null)) {
-                            for (PuzzleElement pelement : caseRule.dependentElements(node.getBoard(), caseRule.getSelectedElement())) {
+                            for (PuzzleElement pelement : caseRule.dependentElements(node.getBoard(), trans.getSelection())) {
                                 PuzzleElement oldElement = ancestor.getParent().getBoard().getPuzzleElement(pelement);
                                 oldElement.setCasesDepended(oldElement.getCasesDepended() - 1);
+                                Point loc = ((GridCell)oldElement).getLocation();
+                                System.out.println("("+loc.x+","+loc.y+") to "+oldElement.getCasesDepended());
                                 if (oldElement.getCasesDepended() == 0) {
                                     //set modifiable if started modifiable
+
+                                    //check modified data
+
                                     oldElement.setModifiable(tree.getRootNode().getBoard().getPuzzleElement(oldElement).isModifiable());
                                 }
                             }
@@ -418,16 +424,18 @@ public class TreeView extends ScrollView implements ITreeListener {
         if(!children.isEmpty()){
             Rule rule = children.get(0).getRule();
             if (rule instanceof CaseRule){
-                //System.out.println("NODE UNLOCKING");
+                System.out.println("NODE UNLOCKING");
                 CaseRule caseRule = (CaseRule)rule;
                 //set dependent elements to be modifiable by ancestors (if not dependent on others)
                 List<TreeNode> ancestors = node.getAncestors();
-                ancestors.add(node);
+                //ancestors.add(node);
                 for(TreeNode ancestor : ancestors) {
                     if (!(ancestor.getParent() == null)) {
-                        for (PuzzleElement pelement : caseRule.dependentElements(node.getBoard(), caseRule.getSelectedElement())) {
+                        for (PuzzleElement pelement : caseRule.dependentElements(node.getBoard(), children.get(0).getSelection())) {
                             PuzzleElement oldElement = ancestor.getParent().getBoard().getPuzzleElement(pelement);
                             oldElement.setCasesDepended(oldElement.getCasesDepended() - 1);
+                            Point loc = ((GridCell)oldElement).getLocation();
+                            System.out.println("("+loc.x+","+loc.y+") to "+oldElement.getCasesDepended());
                             if (oldElement.getCasesDepended() == 0) {
                                 //set modifiable if started modifiable
                                 oldElement.setModifiable(tree.getRootNode().getBoard().getPuzzleElement(oldElement).isModifiable());
@@ -464,15 +472,17 @@ public class TreeView extends ScrollView implements ITreeListener {
             //if adding a case rule, lock dependent ancestor elements
             Rule rule = node.getChildren().get(0).getRule();
             if(rule instanceof CaseRule){
-                //System.out.println("NODE LOCKING");
+                System.out.println("NODE LOCKING");
                 CaseRule caseRule = (CaseRule)rule;
                 List<TreeNode> ancestors = node.getAncestors();
-                ancestors.add(node);
+                //ancestors.add(node);
                 for(TreeNode ancestor : ancestors){
                     if (!(ancestor.getParent() == null)){
-                        for(PuzzleElement element : caseRule.dependentElements(node.getBoard(), caseRule.getSelectedElement())){
+                        for(PuzzleElement element : caseRule.dependentElements(node.getBoard(), node.getChildren().get(0).getSelection())){
                             PuzzleElement oldElement = ancestor.getParent().getBoard().getPuzzleElement(element);
                             oldElement.setCasesDepended(oldElement.getCasesDepended()+1);
+                            Point loc = ((GridCell)oldElement).getLocation();
+                            System.out.println("("+loc.x+","+loc.y+") to "+oldElement.getCasesDepended());
                             oldElement.setModifiable(false);
                         }
                     }
@@ -495,16 +505,17 @@ public class TreeView extends ScrollView implements ITreeListener {
             //if transition is a new case rule, lock dependent ancestor elements
             Rule rule = trans.getRule();
             if(rule instanceof CaseRule && parent.getChildren().size()==1){
-                //System.out.println("TRANSITION LOCKING");
+                System.out.println("TRANSITION LOCKING");
                 CaseRule caseRule = (CaseRule)rule;
                 List<TreeNode> ancestors = parent.getAncestors();
-                ancestors.add(parent);
+                //ancestors.add(parent);
                 for(TreeNode ancestor : ancestors){
                     if (!(ancestor.getParent() == null)){
-                        for(PuzzleElement element : caseRule.dependentElements(parent.getBoard(), caseRule.getSelectedElement())){
+                        for(PuzzleElement element : caseRule.dependentElements(parent.getBoard(), trans.getSelection())){
                             PuzzleElement oldElement = ancestor.getParent().getBoard().getPuzzleElement(element);
                             oldElement.setCasesDepended(oldElement.getCasesDepended()+1);
-
+                            Point loc = ((GridCell)oldElement).getLocation();
+                            System.out.println("("+loc.x+","+loc.y+") to "+oldElement.getCasesDepended());
                             oldElement.setModifiable(false);
                         }
                     }

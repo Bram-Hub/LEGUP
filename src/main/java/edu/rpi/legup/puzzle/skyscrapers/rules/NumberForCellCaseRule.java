@@ -46,7 +46,6 @@ public class NumberForCellCaseRule extends CaseRule {
      */
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
-        this.selectedElement=puzzleElement;
         ArrayList<Board> cases = new ArrayList<>();
 
         SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;

@@ -58,7 +58,6 @@ public class LinkTreeCaseRule extends CaseRule {
      */
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
-        this.selectedElement=puzzleElement;
         ArrayList<Board> cases = new ArrayList<>();
         TreeTentBoard treeTentBoard = (TreeTentBoard) board;
         TreeTentCell cell = (TreeTentCell) puzzleElement;

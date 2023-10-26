@@ -2,6 +2,7 @@ package edu.rpi.legup.model.tree;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.rules.RuleType;
 
@@ -12,6 +13,8 @@ public class TreeTransition extends TreeElement {
     private ArrayList<TreeNode> parents;
     private TreeNode childNode;
     private Rule rule;
+
+    private PuzzleElement selection;
     private boolean isCorrect;
     private boolean isVerified;
 
@@ -26,6 +29,7 @@ public class TreeTransition extends TreeElement {
         this.childNode = null;
         this.board = board;
         this.rule = null;
+        this.selection = null;
         this.isCorrect = false;
         this.isVerified = false;
     }
@@ -354,6 +358,27 @@ public class TreeTransition extends TreeElement {
     public void setRule(Rule rule) {
         this.rule = rule;
         isVerified = false;
+    }
+
+    /**
+     * Gets he selected element associated with this transition
+     *
+     * @return If this is a case rule, the selected element for that rule, null otherwise
+     */
+    public PuzzleElement getSelection() {
+        if(this.rule instanceof CaseRule){
+            return selection;
+        }
+        return null;
+    }
+
+    /**
+     * Sets the selected element associated with this transition
+     *
+     * @param selection selected element for this transition
+     */
+    public void setSelection(PuzzleElement selection) {
+        this.selection = selection;
     }
 
     /**

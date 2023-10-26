@@ -78,7 +78,6 @@ public class BlackOrWhiteCaseRule extends CaseRule {
      */
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
-        this.selectedElement=puzzleElement;
         ArrayList<Board> cases = new ArrayList<>();
         Board case1 = board.copy();
         PuzzleElement data1 = case1.getPuzzleElement(puzzleElement);

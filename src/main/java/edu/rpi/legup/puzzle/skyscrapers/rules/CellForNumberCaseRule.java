@@ -92,7 +92,6 @@ public class CellForNumberCaseRule extends CaseRule {
 
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
-        this.selectedElement=puzzleElement;
         return getCasesFor(board, puzzleElement, selectedNumber);
     }
 

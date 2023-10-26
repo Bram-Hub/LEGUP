@@ -16,8 +16,6 @@ public abstract class CaseRule extends Rule {
 
     private final String INVALID_USE_MESSAGE;
 
-    protected PuzzleElement selectedElement;
-
     /**
      * CaseRule Constructor creates a new case rule.
      *
@@ -30,7 +28,6 @@ public abstract class CaseRule extends Rule {
         super(ruleID, ruleName, description, imageName);
         this.ruleType = CASE;
         this.INVALID_USE_MESSAGE = "Invalid use of the case rule " + this.ruleName;
-        this.selectedElement = null;
     }
 
     /**
@@ -152,16 +149,6 @@ public abstract class CaseRule extends Rule {
         }
 
         return elements;
-    }
-
-    /**
-     * Returns the last element given to getCases by this instance
-     * Set by getCases implementation
-     *
-     * @return selected PuzzleElement
-     */
-    public PuzzleElement getSelectedElement(){
-        return selectedElement;
     }
 }
 

@@ -46,7 +46,6 @@ public class SatisfyNumberCaseRule extends CaseRule {
      */
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
-        this.selectedElement=puzzleElement;
         LightUpBoard lightUpBoard = (LightUpBoard) board;
         LightUpCell cell = (LightUpCell) puzzleElement;
         Point loc = cell.getLocation();
@@ -308,8 +307,44 @@ public class SatisfyNumberCaseRule extends CaseRule {
         List<LightUpCell> cells = getAdjacentCells(puzzleBoard,point);
 
         for(LightUpCell cell : cells){
-            if(!elements.contains(board.getPuzzleElement(cell))){
-                elements.add(board.getPuzzleElement(cell));
+            //add cells that can light adjacents from any direction
+            Point location = cell.getLocation();
+            for (int i = location.x; i < puzzleBoard.getWidth(); i++) {
+                System.out.println(i);
+                LightUpCell c = puzzleBoard.getCell(i, location.y);
+                if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
+                    break;
+                }
+                else if(!elements.contains(board.getPuzzleElement(c))){
+                    elements.add(board.getPuzzleElement(c));
+                }
+            }
+            for (int i = location.x; i >= 0; i--) {
+                LightUpCell c = puzzleBoard.getCell(i, location.y);
+                if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
+                    break;
+                }
+                else if(!elements.contains(board.getPuzzleElement(c))){
+                    elements.add(board.getPuzzleElement(c));
+                }
+            }
+            for (int i = location.y; i < puzzleBoard.getHeight(); i++) {
+                LightUpCell c = puzzleBoard.getCell(location.x, i);
+                if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
+                    break;
+                }
+                else if(!elements.contains(board.getPuzzleElement(c))){
+                    elements.add(board.getPuzzleElement(c));
+                }
+            }
+            for (int i = location.y; i >= 0; i--) {
+                LightUpCell c = puzzleBoard.getCell(location.x, i);
+                if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
+                    break;
+                }
+                else if(!elements.contains(board.getPuzzleElement(c))){
+                    elements.add(board.getPuzzleElement(c));
+                }
             }
         }
 
