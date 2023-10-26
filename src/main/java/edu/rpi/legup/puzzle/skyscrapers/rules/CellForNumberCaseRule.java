@@ -92,6 +92,7 @@ public class CellForNumberCaseRule extends CaseRule {
 
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+        this.selectedElement=puzzleElement;
         return getCasesFor(board, puzzleElement, selectedNumber);
     }
 
@@ -131,5 +132,41 @@ public class CellForNumberCaseRule extends CaseRule {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         return checkRuleRaw(transition);
+    }
+
+    @Override
+    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement){
+        List<PuzzleElement> elements = new ArrayList<>();
+
+        SkyscrapersBoard puzzleBoard = (SkyscrapersBoard) board;
+        SkyscrapersClue clue = (SkyscrapersClue)puzzleBoard.getPuzzleElement(puzzleElement);
+
+        //check each point in modified row/col
+        List<SkyscrapersCell> data = puzzleBoard.getRowCol(clue.getClueIndex(),SkyscrapersType.ANY,clue.getType() == SkyscrapersType.CLUE_WEST);
+        for(SkyscrapersCell point : data){
+            List<SkyscrapersCell> cells = new ArrayList<>(List.of(point));
+
+            //if dependent on row/col
+            if((puzzleBoard.getDupeFlag() || puzzleBoard.getViewFlag()) && point.getType()==SkyscrapersType.UNKNOWN){
+                //get perpendicular row/col intersecting this point
+                int index;
+                if(clue.getType() == SkyscrapersType.CLUE_WEST){
+                    index = point.getLocation().x;
+                }
+                else{
+                    index = point.getLocation().y;
+                }
+                cells.addAll(puzzleBoard.getRowCol(index,SkyscrapersType.ANY,clue.getType() != SkyscrapersType.CLUE_WEST));
+            }
+
+            //add all to result
+            for(SkyscrapersCell cell : cells){
+                if(!elements.contains(board.getPuzzleElement(cell))){
+                    elements.add(board.getPuzzleElement(cell));
+                }
+            }
+        }
+
+        return elements;
     }
 }

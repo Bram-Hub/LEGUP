@@ -46,6 +46,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
      */
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+        this.selectedElement=puzzleElement;
         LightUpBoard lightUpBoard = (LightUpBoard) board;
         LightUpCell cell = (LightUpCell) puzzleElement;
         Point loc = cell.getLocation();
@@ -286,5 +287,23 @@ public class SatisfyNumberCaseRule extends CaseRule {
             cells.add(up);
         }
         return cells;
+    }
+
+    @Override
+    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement){
+        List<PuzzleElement> elements = new ArrayList<>();
+
+        LightUpBoard puzzleBoard = (LightUpBoard) board;
+        LightUpCell point = (LightUpCell)puzzleBoard.getPuzzleElement(puzzleElement);
+
+        List<LightUpCell> cells = getAdjacentCells(puzzleBoard,point);
+
+        for(LightUpCell cell : cells){
+            if(!elements.contains(board.getPuzzleElement(cell))){
+                elements.add(board.getPuzzleElement(cell));
+            }
+        }
+
+        return elements;
     }
 }

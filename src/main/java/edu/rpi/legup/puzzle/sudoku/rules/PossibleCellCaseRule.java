@@ -65,6 +65,7 @@ public class PossibleCellCaseRule extends CaseRule {
      */
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+        this.selectedElement=puzzleElement;
         ArrayList<Board> cases = new ArrayList<>();
         SudokuBoard sudokuBoard = (SudokuBoard) board;
         SudokuCell cell = (SudokuCell) puzzleElement;

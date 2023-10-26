@@ -7,6 +7,7 @@ import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersBoard;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersCell;
+import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersClue;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType;
 
 import java.awt.*;
@@ -45,6 +46,7 @@ public class NumberForCellCaseRule extends CaseRule {
      */
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+        this.selectedElement=puzzleElement;
         ArrayList<Board> cases = new ArrayList<>();
 
         SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
@@ -133,5 +135,30 @@ public class NumberForCellCaseRule extends CaseRule {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         return checkRuleRaw(transition);
+    }
+
+    @Override
+    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement){
+        List<PuzzleElement> elements = new ArrayList<>();
+
+        SkyscrapersBoard puzzleBoard = (SkyscrapersBoard) board;
+        SkyscrapersCell point = (SkyscrapersCell)puzzleBoard.getPuzzleElement(puzzleElement);
+
+        List<SkyscrapersCell> cells = new ArrayList<>(List.of(point));
+
+        //if dependent on row/col
+        if(puzzleBoard.getDupeFlag() || puzzleBoard.getViewFlag()){
+            //add all cells in row/col intersecting given point
+            cells.addAll(puzzleBoard.getRowCol(point.getLocation().x,SkyscrapersType.ANY,false));
+            cells.addAll(puzzleBoard.getRowCol(point.getLocation().y,SkyscrapersType.ANY,true));
+        }
+
+        for(SkyscrapersCell cell : cells){
+            if(!elements.contains(board.getPuzzleElement(cell))){
+                elements.add(board.getPuzzleElement(cell));
+            }
+        }
+
+        return elements;
     }
 }

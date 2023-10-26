@@ -68,6 +68,7 @@ public class PossibleNumberCaseRule extends CaseRule {
      */
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+        this.selectedElement=puzzleElement;
         return getCases(board, puzzleElement, 1, GroupType.REGION);
     }
 

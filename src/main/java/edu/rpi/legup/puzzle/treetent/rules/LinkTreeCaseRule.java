@@ -10,6 +10,7 @@ import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentLine;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -57,6 +58,7 @@ public class LinkTreeCaseRule extends CaseRule {
      */
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+        this.selectedElement=puzzleElement;
         ArrayList<Board> cases = new ArrayList<>();
         TreeTentBoard treeTentBoard = (TreeTentBoard) board;
         TreeTentCell cell = (TreeTentCell) puzzleElement;
@@ -151,5 +153,34 @@ public class LinkTreeCaseRule extends CaseRule {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         return checkRuleRaw(transition);
+    }
+
+    @Override
+    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement){
+        List<PuzzleElement> elements = new ArrayList<>(List.of(board.getPuzzleElement(puzzleElement)));
+
+        TreeTentBoard treeTentBoard = (TreeTentBoard) board;
+        TreeTentCell point = (TreeTentCell) puzzleElement;
+
+        //get all adjacent cells
+        Point loc = point.getLocation();
+        TreeTentCell up = treeTentBoard.getCell(loc.x, loc.y - 1);
+        TreeTentCell right = treeTentBoard.getCell(loc.x + 1, loc.y);
+        TreeTentCell down = treeTentBoard.getCell(loc.x, loc.y + 1);
+        TreeTentCell left = treeTentBoard.getCell(loc.x - 1, loc.y);
+        if (up != null) {
+            elements.add(board.getPuzzleElement(up));
+        }
+        if (right != null) {
+            elements.add(board.getPuzzleElement(right));
+        }
+        if (down != null) {
+            elements.add(board.getPuzzleElement(down));
+        }
+        if (left != null) {
+            elements.add(board.getPuzzleElement(left));
+        }
+
+        return elements;
     }
 }

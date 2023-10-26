@@ -54,6 +54,7 @@ public class FillinRowCaseRule extends CaseRule {
      */
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+        this.selectedElement=puzzleElement;
         ArrayList<Board> cases = new ArrayList<Board>();
         List<TreeTentCell> group;
         int tentsLeft;

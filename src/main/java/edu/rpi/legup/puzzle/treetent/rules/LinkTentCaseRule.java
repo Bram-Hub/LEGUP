@@ -5,7 +5,6 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.treetent.TreeTent;
 import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 import edu.rpi.legup.puzzle.treetent.TreeTentCell;
@@ -55,6 +54,7 @@ public class LinkTentCaseRule extends CaseRule {
      */
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+        this.selectedElement=puzzleElement;
         ArrayList<Board> cases = new ArrayList<Board>();
         TreeTentCell cell = (TreeTentCell) puzzleElement;
         List<TreeTentCell> adj = ((TreeTentBoard) board).getAdjacent(cell, TreeTentType.TREE);
@@ -150,5 +150,10 @@ public class LinkTentCaseRule extends CaseRule {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         return checkRuleRaw(transition);
+    }
+
+    @Override
+    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement){
+        return List.of(board.getPuzzleElement(puzzleElement));
     }
 }

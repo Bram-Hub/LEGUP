@@ -10,8 +10,8 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableStatement;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableOperation;
 
-
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
 
@@ -86,6 +86,7 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
     @SuppressWarnings("unchecked")
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+        this.selectedElement=puzzleElement;
 
         ShortTruthTableBoard sttBoard = ((ShortTruthTableBoard) board);
 
@@ -139,4 +140,12 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
 
     }
 
+    @Override
+    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement){
+        List<PuzzleElement> elements = super.dependentElements(board,puzzleElement);
+
+        elements.add(board.getPuzzleElement(puzzleElement));
+
+        return elements;
+    }
 }
