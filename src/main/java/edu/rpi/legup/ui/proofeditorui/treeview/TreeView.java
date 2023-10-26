@@ -2,6 +2,7 @@ package edu.rpi.legup.ui.proofeditorui.treeview;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.TreeController;
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.observer.ITreeListener;
@@ -339,10 +340,18 @@ public class TreeView extends ScrollView implements ITreeListener {
                                 System.out.println("("+loc.x+","+loc.y+") to "+oldElement.getCasesDepended());
                                 if (oldElement.getCasesDepended() == 0) {
                                     //set modifiable if started modifiable
-
-                                    //check modified data
-
-                                    oldElement.setModifiable(tree.getRootNode().getBoard().getPuzzleElement(oldElement).isModifiable());
+                                    boolean modifiable = tree.getRootNode().getBoard().getPuzzleElement(oldElement).isModifiable();
+                                    TreeNode modNode = ancestor;
+                                    //unmodifiable if already modified
+                                    while(modNode.getParent().getParents().get(0).getParent()!=null){
+                                        Board modBoard = modNode.getParent().getParents().get(0).getParent().getBoard();
+                                        if(modBoard.getModifiedData().contains(modBoard.getPuzzleElement(oldElement))){
+                                            modifiable = false;
+                                            break;
+                                        }
+                                        modNode = modNode.getParent().getParents().get(0);
+                                    }
+                                    oldElement.setModifiable(modifiable);
                                 }
                             }
                         }
@@ -428,7 +437,6 @@ public class TreeView extends ScrollView implements ITreeListener {
                 CaseRule caseRule = (CaseRule)rule;
                 //set dependent elements to be modifiable by ancestors (if not dependent on others)
                 List<TreeNode> ancestors = node.getAncestors();
-                //ancestors.add(node);
                 for(TreeNode ancestor : ancestors) {
                     if (!(ancestor.getParent() == null)) {
                         for (PuzzleElement pelement : caseRule.dependentElements(node.getBoard(), children.get(0).getSelection())) {
@@ -438,7 +446,18 @@ public class TreeView extends ScrollView implements ITreeListener {
                             System.out.println("("+loc.x+","+loc.y+") to "+oldElement.getCasesDepended());
                             if (oldElement.getCasesDepended() == 0) {
                                 //set modifiable if started modifiable
-                                oldElement.setModifiable(tree.getRootNode().getBoard().getPuzzleElement(oldElement).isModifiable());
+                                boolean modifiable = tree.getRootNode().getBoard().getPuzzleElement(oldElement).isModifiable();
+                                TreeNode modNode = ancestor;
+                                //unmodifiable if already modified
+                                while(modNode.getParent().getParents().get(0).getParent()!=null){
+                                    Board modBoard = modNode.getParent().getParents().get(0).getParent().getBoard();
+                                    if(modBoard.getModifiedData().contains(modBoard.getPuzzleElement(oldElement))){
+                                        modifiable = false;
+                                        break;
+                                    }
+                                    modNode = modNode.getParent().getParents().get(0);
+                                }
+                                oldElement.setModifiable(modifiable);
                             }
                         }
                     }
@@ -472,10 +491,10 @@ public class TreeView extends ScrollView implements ITreeListener {
             //if adding a case rule, lock dependent ancestor elements
             Rule rule = node.getChildren().get(0).getRule();
             if(rule instanceof CaseRule){
-                System.out.println("NODE LOCKING");
+                //System.out.println("NODE LOCKING");
                 CaseRule caseRule = (CaseRule)rule;
+
                 List<TreeNode> ancestors = node.getAncestors();
-                //ancestors.add(node);
                 for(TreeNode ancestor : ancestors){
                     if (!(ancestor.getParent() == null)){
                         for(PuzzleElement element : caseRule.dependentElements(node.getBoard(), node.getChildren().get(0).getSelection())){
@@ -507,8 +526,8 @@ public class TreeView extends ScrollView implements ITreeListener {
             if(rule instanceof CaseRule && parent.getChildren().size()==1){
                 System.out.println("TRANSITION LOCKING");
                 CaseRule caseRule = (CaseRule)rule;
+
                 List<TreeNode> ancestors = parent.getAncestors();
-                //ancestors.add(parent);
                 for(TreeNode ancestor : ancestors){
                     if (!(ancestor.getParent() == null)){
                         for(PuzzleElement element : caseRule.dependentElements(parent.getBoard(), trans.getSelection())){
