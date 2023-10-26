@@ -108,5 +108,5 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         return null;
     }
-    
+
 }

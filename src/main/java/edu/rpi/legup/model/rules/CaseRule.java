@@ -160,7 +160,9 @@ public abstract class CaseRule extends Rule {
      *
      * @return selected PuzzleElement
      */
-    public PuzzleElement getSelectedElement(){ return selectedElement; }
+    public PuzzleElement getSelectedElement(){
+        return selectedElement;
+    }
 }
 
 
