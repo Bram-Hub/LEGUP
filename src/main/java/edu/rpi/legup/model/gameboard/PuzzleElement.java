@@ -155,14 +155,14 @@ public abstract class PuzzleElement<T> {
      *
      * @return number of cases
      */
-    public int getCasesDepended() {return this.casesDepended;}
+    public int getCasesDepended() { return this.casesDepended; }
 
     /**
      * Sets the number of case rules that depend upon the state of this element
      *
      * @param cases number of cases
      */
-    public void setCasesDepended(int cases) {this.casesDepended=cases;}
+    public void setCasesDepended(int cases) { this.casesDepended=cases; }
 
     /**
      * Tests whether two puzzle elements objects have the same puzzle element

@@ -137,6 +137,15 @@ public class NumberForCellCaseRule extends CaseRule {
         return checkRuleRaw(transition);
     }
 
+    /**
+     * Returns the elements necessary for the cases returned by getCases(board,puzzleElement) to be valid
+     * Overridden by case rules dependent on more than just the modified data
+     *
+     * @param board         board state at application
+     * @param puzzleElement selected puzzleElement
+     * @return List of puzzle elements (typically cells) this application of the case rule depends upon.
+     * Defaults to any element modified by any case
+     */
     @Override
     public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement){
         List<PuzzleElement> elements = new ArrayList<>();

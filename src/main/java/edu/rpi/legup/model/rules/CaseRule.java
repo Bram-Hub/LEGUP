@@ -16,7 +16,6 @@ public abstract class CaseRule extends Rule {
 
     private final String INVALID_USE_MESSAGE;
 
-    //value of the element selected for this instance of the rule
     protected PuzzleElement selectedElement;
 
     /**
@@ -154,7 +153,14 @@ public abstract class CaseRule extends Rule {
 
         return elements;
     }
-    public PuzzleElement getSelectedElement(){return selectedElement;}
+
+    /**
+     * Returns the last element given to getCases by this instance
+     * Set by getCases implementation
+     *
+     * @return selected PuzzleElement
+     */
+    public PuzzleElement getSelectedElement(){ return selectedElement; }
 }
 
 
