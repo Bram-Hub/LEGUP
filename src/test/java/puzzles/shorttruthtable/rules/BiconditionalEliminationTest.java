@@ -155,4 +155,85 @@ public class BiconditionalEliminationTest {
         board.addModifiedData(morty);
         Assert.assertNotNull(RULE.checkRule(transition));
     }
+    /**
+     * Given one statement: A^B where ^ is true
+     *
+     * Asserts that setting any combination of A and B at the same time is not a valid
+     * application of this rule
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void TrueBiconditionalSetBothAtOnceTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/BiconditionalEliminationDirectRule/TrueBiconditional", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
+
+        for (ShortTruthTableCellType cellType1 : cellTypes) {
+            for (ShortTruthTableCellType cellType2 : cellTypes) {
+                ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+                ShortTruthTableCell rick = board.getCell(0, 0);
+                ShortTruthTableCell morty = board.getCell(2, 0);
+
+                rick.setData(cellType1);
+                morty.setData(cellType2);
+
+                board.addModifiedData(rick);
+                board.addModifiedData(morty);
+
+                Assert.assertNotNull(RULE.checkRule(transition));
+            }
+        }
+    }
+
+    /**
+     * Asserts that setting any combination of A and B at the same time is not a valid
+     * application of this rule. This is tested on multiple files.
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void CannotSetBothAandBAtOnceTest() throws InvalidFileFormatException {
+        String directory = "puzzles/shorttruthtable/rules/BiconditionalEliminationDirectRule/";
+        setAandBBothAtOnceTest(directory + "FalseBiconditional");
+        setAandBBothAtOnceTest(directory + "TrueBiconditional");
+        setAandBBothAtOnceTest(directory + "FalseBiconditionalWithFalseA");
+        setAandBBothAtOnceTest(directory + "TrueBiconditionalWithFalseA");
+        setAandBBothAtOnceTest(directory + "FalseBiconditionalWithTrueA");
+        setAandBBothAtOnceTest(directory + "TrueBiconditionalWithTrueA");
+    }
+
+    /**
+     * Helper function to test biconditional elimination rule with given file path.
+     *
+     * @param filePath The file path for test board setup.
+     * @throws InvalidFileFormatException
+     */
+    private void setAandBBothAtOnceTest(String filePath) throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(filePath, stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
+
+        for (ShortTruthTableCellType cellType1 : cellTypes) {
+            for (ShortTruthTableCellType cellType2 : cellTypes) {
+                ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+                ShortTruthTableCell rick = board.getCell(0, 0);
+                ShortTruthTableCell morty = board.getCell(2, 0);
+
+                rick.setData(cellType1);
+                morty.setData(cellType2);
+
+                board.addModifiedData(rick);
+                board.addModifiedData(morty);
+
+                Assert.assertNotNull(RULE.checkRule(transition));
+            }
+        }
+    }
 }
