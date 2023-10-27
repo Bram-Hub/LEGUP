@@ -25,7 +25,7 @@ public class BiconditionalEliminationTest {
     }
 
     /**
-     * Given one statement: A^B where both A and ^ are true
+     * Given one statement: A <-> B where both A and <-> are true
      *
      * Asserts that this is a valid application of the rule if and only if B is true.
      *
@@ -58,7 +58,7 @@ public class BiconditionalEliminationTest {
     }
 
     /**
-     * Given one statement: A^B where A is false and ^ is true
+     * Given one statement: A <-> B where A is false and <-> is true
      *
      * Asserts that this is a valid application of the rule if and only if B is false.
      *
@@ -91,7 +91,7 @@ public class BiconditionalEliminationTest {
     }
 
     /**
-     * Given one statement: A^B where A is true and ^ is false
+     * Given one statement: A <-> B where A is true and <-> is false
      *
      * Asserts that this is a valid application of the rule if and only if B is true.
      *
@@ -124,7 +124,7 @@ public class BiconditionalEliminationTest {
     }
 
     /**
-     * Given one statement: A^B where A and ^ are false
+     * Given one statement: A <-> B where A and <-> are false
      *
      * Asserts that this is a valid application of the rule if and only if B is true.
      *
@@ -156,7 +156,7 @@ public class BiconditionalEliminationTest {
         Assert.assertNotNull(RULE.checkRule(transition));
     }
     /**
-     * Given one statement: A^B where ^ is true
+     * Given one statement: A <-> B where <-> is true
      *
      * Asserts that setting any combination of A and B at the same time is not a valid
      * application of this rule
