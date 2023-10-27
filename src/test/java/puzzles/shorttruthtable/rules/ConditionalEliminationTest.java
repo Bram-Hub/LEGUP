@@ -95,4 +95,58 @@ public class ConditionalEliminationTest {
             }
         }
     }
+
+    /**
+     * Given one statement: A -> B where A and -> are true
+     *
+     * Asserts that this is a valid application of this rule if and only if B
+     * is set to true.
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void TrueAMeansTrueBTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/TrueConditionalWithTrueA", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+        ShortTruthTableCell boniato = board.getCell(2, 0);
+
+        boniato.setData(ShortTruthTableCellType.TRUE);
+        board.addModifiedData(boniato);
+        Assert.assertNull(RULE.checkRule(transition));
+
+        boniato.setData(ShortTruthTableCellType.FALSE);
+        board.addModifiedData(boniato);
+        Assert.assertNotNull(RULE.checkRule(transition));
+    }
+
+    /**
+     * Given one statement: A -> B where B is false and -> is true
+     *
+     * Asserts that this is a valid application of this rule if and only if A
+     * is set to false.
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void FalseBMeansFalseATest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/TrueConditionalWithFalseB", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+        ShortTruthTableCell aubergine = board.getCell(0, 0);
+
+        aubergine.setData(ShortTruthTableCellType.FALSE);
+        board.addModifiedData(aubergine);
+        Assert.assertNull(RULE.checkRule(transition));
+
+        aubergine.setData(ShortTruthTableCellType.TRUE);
+        board.addModifiedData(aubergine);
+        Assert.assertNotNull(RULE.checkRule(transition));
+    }
 }
