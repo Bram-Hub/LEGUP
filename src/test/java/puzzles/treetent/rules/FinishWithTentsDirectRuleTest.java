@@ -27,8 +27,12 @@ public class FinishWithTentsDirectRuleTest {
         treetent = new TreeTent();
     }
 
+    /**
+     * @throws InvalidFileFormatException
+     * Tests if tent successfully returns null if tents can be added
+     */
     @Test
-    public void EmptyFieldTest() throws InvalidFileFormatException {
+    public void FinishWithTents_Normal() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithTents", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -36,7 +40,7 @@ public class FinishWithTentsDirectRuleTest {
 
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
 
-        TreeTentCell cell1 = board.getCell(1, 0);
+        TreeTentCell cell1 = board.getCell(0, 0);
         cell1.setData(TreeTentType.TENT);
         TreeTentCell cell2 = board.getCell(2, 0);
         cell2.setData(TreeTentType.TENT);
