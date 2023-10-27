@@ -53,6 +53,38 @@ public class MultipleNumbersContradictionRuleTest {
     }
 
     /**
+     * Tests the Multiple Numbers contradiction rule for a more complex regions with multiple numbers
+     */
+    @Test
+    public void MultipleNumbersContradictionRule_ComplexRegion() throws InvalidFileFormatException{
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/MultipleNumbersContradictionRule/ComplexRegion",nurikabe);
+        TreeNode rootNode = nurikabe.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+        NurikabeCell cell1 = board.getCell(0,0);
+        NurikabeCell cell2 = board.getCell(2,0);
+        NurikabeCell cell3 = board.getCell(4,0);
+        NurikabeCell cell4 = board.getCell(2,3);
+        NurikabeCell cell5 = board.getCell(4,4);
+
+        Assert.assertNull(RULE.checkContradiction((NurikabeBoard)transition.getBoard()));
+        for(int i=0; i<board.getHeight(); i++){
+            for(int k=0; k<board.getWidth(); k++){
+                Point point = new Point(k,i);
+                if(point.equals(cell1.getLocation()) || point.equals(cell2.getLocation()) || point.equals(cell3.getLocation())
+                   || point.equals(cell4.getLocation()) || point.equals(cell5.getLocation())){
+                    Assert.assertNull(RULE.checkRuleAt(transition,board.getCell(k,i)));
+                }
+                else{
+                    Assert.assertNotNull(RULE.checkRuleAt(transition,board.getCell(k,i)));
+                }
+            }
+        }
+    }
+
+    /**
      * Tests the Multiple Numbers contradiction rule for two regions with one number each, separated diagonally
      */
     @Test
@@ -71,4 +103,5 @@ public class MultipleNumbersContradictionRuleTest {
             }
         }
     }
+
 }

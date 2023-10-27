@@ -27,7 +27,7 @@ public class TooFewSpacesContradictionRuleTest {
     }
 
     /**
-     * Tests the Too Few Spaces contradiction rule for a completely enclosed number greater than 1
+     * Tests the Too Few Spaces contradiction rule for an isolated completely enclosed number
      */
     @Test
     public void TooFewSpacesContradictionRule_TwoSurroundBlackTest() throws InvalidFileFormatException {
