@@ -149,4 +149,31 @@ public class ConditionalEliminationTest {
         board.addModifiedData(aubergine);
         Assert.assertNotNull(RULE.checkRule(transition));
     }
+
+    /**
+     * Given one statement: A -> B where B and -> are true
+     *
+     * Asserts that this is not a valid application of this rule no matter what
+     * A is set to.
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void TrueBCannotDetermineA() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/TrueConditionalWithTrueB", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+        ShortTruthTableCell boniato = board.getCell(2, 0);
+
+        boniato.setData(ShortTruthTableCellType.TRUE);
+        board.addModifiedData(boniato);
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        boniato.setData(ShortTruthTableCellType.FALSE);
+        board.addModifiedData(boniato);
+        Assert.assertNotNull(RULE.checkRule(transition));
+    }
 }
