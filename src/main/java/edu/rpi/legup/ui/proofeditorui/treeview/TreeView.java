@@ -341,16 +341,18 @@ public class TreeView extends ScrollView implements ITreeListener {
                                 if (oldElement.getCasesDepended() == 0) {
                                     //set modifiable if started modifiable
                                     boolean modifiable = tree.getRootNode().getBoard().getPuzzleElement(oldElement).isModifiable();
-                                    TreeNode modNode = ancestor;
+
                                     //unmodifiable if already modified
-                                    while(modNode.getParent().getParents().get(0).getParent()!=null){
-                                        Board modBoard = modNode.getParent().getParents().get(0).getParent().getBoard();
+                                    TreeNode modNode = ancestor.getParent().getParents().get(0);
+                                    while(modNode.getParent()!=null){
+                                        Board modBoard = modNode.getParent().getBoard();
                                         if(modBoard.getModifiedData().contains(modBoard.getPuzzleElement(oldElement))){
                                             modifiable = false;
                                             break;
                                         }
                                         modNode = modNode.getParent().getParents().get(0);
                                     }
+
                                     oldElement.setModifiable(modifiable);
                                 }
                             }
@@ -447,16 +449,18 @@ public class TreeView extends ScrollView implements ITreeListener {
                             if (oldElement.getCasesDepended() == 0) {
                                 //set modifiable if started modifiable
                                 boolean modifiable = tree.getRootNode().getBoard().getPuzzleElement(oldElement).isModifiable();
-                                TreeNode modNode = ancestor;
+
                                 //unmodifiable if already modified
-                                while(modNode.getParent().getParents().get(0).getParent()!=null){
-                                    Board modBoard = modNode.getParent().getParents().get(0).getParent().getBoard();
+                                TreeNode modNode = ancestor.getParent().getParents().get(0);
+                                while(modNode.getParent()!=null){
+                                    Board modBoard = modNode.getParent().getBoard();
                                     if(modBoard.getModifiedData().contains(modBoard.getPuzzleElement(oldElement))){
                                         modifiable = false;
                                         break;
                                     }
                                     modNode = modNode.getParent().getParents().get(0);
                                 }
+
                                 oldElement.setModifiable(modifiable);
                             }
                         }
