@@ -235,6 +235,70 @@ public class FinishWithTentsDirectRuleTest {
             }
         }
     }
+
+    @Test
+    public void AmbiguousTentsTest () throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsDirectRule/AmbiguousTents", treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        TreeTentCell cell = board.getCell(0, 1);
+        cell.setData(TreeTentType.TENT);
+        board.addModifiedData(cell);
+
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+            }
+        }
+
+        cell.setData(TreeTentType.UNKNOWN);
+        board.addModifiedData(cell);
+        cell = board.getCell(1, 0);
+        cell.setData(TreeTentType.TENT);
+        board.addModifiedData(cell);
+
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+            }
+        }
+
+        cell.setData(TreeTentType.UNKNOWN);
+        board.addModifiedData(cell);
+        cell = board.getCell(2, 1);
+        cell.setData(TreeTentType.TENT);
+        board.addModifiedData(cell);
+
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+            }
+        }
+
+        cell.setData(TreeTentType.UNKNOWN);
+        board.addModifiedData(cell);
+        cell = board.getCell(1, 2);
+        cell.setData(TreeTentType.TENT);
+        board.addModifiedData(cell);
+
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+            }
+        }
+    }
 }
 
 
