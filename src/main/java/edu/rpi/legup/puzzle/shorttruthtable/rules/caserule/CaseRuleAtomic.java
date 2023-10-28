@@ -64,8 +64,8 @@ public class CaseRuleAtomic extends CaseRule_Generic {
         return cases;
     }
 
-    @Override
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        return null;
-    }
+    // @Override
+    // public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+    //     return null;
+    // }
 }

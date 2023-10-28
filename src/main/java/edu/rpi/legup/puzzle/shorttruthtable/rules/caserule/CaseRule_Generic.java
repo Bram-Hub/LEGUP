@@ -33,6 +33,11 @@ public abstract class CaseRule_Generic extends CaseRule {
      */
     @Override
     public String checkRuleRaw(TreeTransition transition) {
+        // Atomic rule always returns true
+        if (ruleName.equals("Atomic")) return null;
+
+        if (ruleID.equals("STTT-CASE-0001")) return null;
+
         // Validate that two children are generated
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
         if (childTransitions.size() != 2) {
