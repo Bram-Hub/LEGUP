@@ -14,12 +14,9 @@ import edu.rpi.legup.utility.DisjointSets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import java.awt.*;
 
 public class SurroundRegionDirectRule extends DirectRule {
-    private final static Logger LOGGER = LogManager.getLogger("");
 
     public SurroundRegionDirectRule() {
         super("NURI-BASC-0007", "Surround Region",
@@ -56,31 +53,23 @@ public class SurroundRegionDirectRule extends DirectRule {
             DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(destBoardState);
             Set<NurikabeCell> adj = new HashSet<>(); //set to hold adjacent cells
             Point loc = cell.getLocation(); //position of placed cell
-            NurikabeCell cellLeft = destBoardState.getCell(loc.x - 1, loc.y);
-            NurikabeCell cellRight = destBoardState.getCell(loc.x + 1, loc.y);
-            NurikabeCell cellTop = destBoardState.getCell(loc.x, loc.y + 1);
-            NurikabeCell cellBottom = destBoardState.getCell(loc.x, loc.y - 1);
-            if(cellLeft != null) {
-                if (cellLeft.getType() == NurikabeType.WHITE || cellLeft.getType() == NurikabeType.NUMBER) {
-                    adj.add(cellLeft);
+            Point left = new Point(-1,0);
+            Point right = new Point(1, 0);
+            Point bot = new Point(0, -1);
+            Point top = new Point(0, 1);
+            Set<Point> directions = new HashSet<>();
+            directions.add(left);
+            directions.add(right);
+            directions.add(top);
+            directions.add(bot);
+            for(Point direction : directions) {
+                NurikabeCell curr = destBoardState.getCell(loc.x + direction.x, loc.y + direction.y);
+                if(curr != null) {
+                    if(curr.getType() == NurikabeType.WHITE || curr.getType() == NurikabeType.NUMBER) {
+                        adj.add(curr); //adds cells to adj only if they are white or number blocks
+                    }
                 }
             }
-            if(cellRight != null) {
-                if (cellRight.getType() == NurikabeType.WHITE || cellRight.getType() == NurikabeType.NUMBER) {
-                    adj.add(cellRight);
-                }
-            }
-            if(cellTop != null) {
-                if (cellTop.getType() == NurikabeType.WHITE || cellTop.getType() == NurikabeType.NUMBER) {
-                    adj.add(cellTop);
-                }
-            }
-            if(cellBottom != null) {
-                if (cellBottom.getType() == NurikabeType.WHITE || cellBottom.getType() == NurikabeType.NUMBER) {
-                    adj.add(cellBottom);
-                }
-            }
-            //ads cells to adj only if they are white or number blocks
             ArrayList<NurikabeCell> numberedCells = new ArrayList<>(); //number value of number cells
             for (NurikabeCell c : adj) { //loops through adjacent cells
                 Set<NurikabeCell> disRow = regions.getSet(c); //set of white spaces
