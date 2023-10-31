@@ -57,6 +57,19 @@ public class BlackOrWhiteCaseRuleTest {
                 (caseBoard2.getCell(0,0).getData().equals(v1) || caseBoard2.getCell(0,0).getData().equals(v2)));
         Assert.assertFalse(caseBoard.getCell(0,0).getData().equals(caseBoard2.getCell(0,0).getData()));
 
+        Assert.assertEquals(caseBoard.getHeight(),caseBoard2.getHeight(), board.getHeight());
+        Assert.assertEquals(caseBoard.getWidth(),caseBoard2.getWidth(), board.getWidth());
+
+        for(int i=0; i<caseBoard.getHeight(); i++){
+            for(int k=0; k<caseBoard.getWidth(); k++){
+                Point point = new Point(k,i);
+                if(point.equals(caseBoard.getCell(k,i).getLocation())){
+                    continue;
+                }
+                Assert.assertTrue(caseBoard.getCell(k,i).equals(caseBoard2.getCell(k,i)));
+            }
+        }
+
 
     }
 }
