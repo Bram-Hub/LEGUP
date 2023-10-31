@@ -21,13 +21,13 @@ public class CannotLightACellContradictionRuleTest {
         lightUp = new LightUp();
     }
 
-    @Test 
+    @Test
     //extensive full testing of null and non-null in a 5x5 board
     public void FullLightTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/lightup/rules/CannotLightACellContradictionRule/FullLightTest", lightUp);
         TreeNode rootNode = lightUp.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
-        transition.setRule(RULE); 
+        transition.setRule(RULE);
 
         LightUpBoard board = (LightUpBoard) transition.getBoard();
         //confirm there is a contradiction somewhere on the board
@@ -36,7 +36,7 @@ public class CannotLightACellContradictionRuleTest {
         //confirm it is impossible to light up these squares
         Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(1, 3)));
         Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(3, 3)));
-        
+
         //confirm these are not required to be lit because they are already lit or unable to be
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 0)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 1)));
@@ -44,13 +44,13 @@ public class CannotLightACellContradictionRuleTest {
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(3, 2)));
     }
 
-    @Test 
+    @Test
     //simple contradiction testing for null and non-null in a 3x3 board
     public void CannotLightMiddleTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/lightup/rules/CannotLightACellContradictionRule/CannotLight", lightUp);
         TreeNode rootNode = lightUp.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
-        transition.setRule(RULE); 
+        transition.setRule(RULE);
 
         LightUpBoard board = (LightUpBoard) transition.getBoard();
         //confirm there is a contradiction somewhere on the board
@@ -67,5 +67,25 @@ public class CannotLightACellContradictionRuleTest {
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 2)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 2)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(2, 1)));
+    }
+
+    @Test
+    public void CanLightTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/lightup/rules/CannotLightACellContradictionRule/FullLightTest", lightUp);
+        TreeNode rootNode = lightUp.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        LightUpBoard board = (LightUpBoard) transition.getBoard();
+        //confirm there is a contradiction somewhere on the board
+        Assert.assertNull(RULE.checkContradiction(board));
+
+        //confirm these are not required to be lit because they are already lit or unable to be
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 3)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(3, 3)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 0)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 1)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 0)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(3, 2)));
     }
 }
