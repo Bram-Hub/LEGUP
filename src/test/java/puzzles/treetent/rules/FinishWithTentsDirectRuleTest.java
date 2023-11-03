@@ -218,8 +218,9 @@ public class FinishWithTentsDirectRuleTest {
 
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
-                if((k == 1)&&(i == 1))
+                if((k == 1)&&(i == 1)) {
                     continue;
+                }
                 TreeTentCell c = board.getCell(k, i);
                 c.setData(TreeTentType.TENT);
                 board.addModifiedData(c);
