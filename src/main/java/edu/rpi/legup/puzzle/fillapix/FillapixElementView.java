@@ -47,7 +47,7 @@ public class FillapixElementView extends GridElementView {
                 break;
         }
         graphics2D.fillRect(location.x, location.y, size.width, size.height);
-        if (cell.getNumber() != -1) {
+        if (cell.getNumber() >= 0 && cell.getNumber() < 10) {
             graphics2D.setColor(type == FillapixCellType.WHITE ? BLACK_COLOR : WHITE_COLOR);
             graphics2D.setFont(FONT);
             FontMetrics metrics = graphics2D.getFontMetrics(FONT);
