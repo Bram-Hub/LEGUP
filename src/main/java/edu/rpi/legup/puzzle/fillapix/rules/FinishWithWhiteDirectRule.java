@@ -8,10 +8,11 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
 import edu.rpi.legup.puzzle.fillapix.FillapixCell;
 import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
+import edu.rpi.legup.puzzle.fillapix.FillapixUtilities;
 
 public class FinishWithWhiteDirectRule extends DirectRule {
     public FinishWithWhiteDirectRule() {
-        super("FFIX-BASC-0002",
+        super("FPIX-BASC-0002",
                 "Finish with White",
                 "The remaining unknowns around and on a cell must be white to satisfy the number",
                 "edu/rpi/legup/images/fillapix/rules/FinishWithWhite.png");
@@ -28,20 +29,12 @@ public class FinishWithWhiteDirectRule extends DirectRule {
             return super.getInvalidUseOfRuleMessage() + ": This cell must be white to be applicable with this rule";
         }
 
-        if (isForcedWhite(parentBoard, cell)) {
+        if (FillapixUtilities.isForcedWhite(parentBoard, cell)) {
             return null;
         }
         else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be white";
         }
-    }
-
-    private boolean isForcedWhite(FillapixBoard board, FillapixCell cell) {
-        TooManyBlackCellsContradictionRule tooManyBlackCells = new TooManyBlackCellsContradictionRule();
-        FillapixBoard blackCaseBoard = board.copy();
-        FillapixCell blackCell = (FillapixCell) blackCaseBoard.getPuzzleElement(cell);
-        blackCell.setType(FillapixCellType.BLACK);
-        return tooManyBlackCells.checkContradictionAt(blackCaseBoard, cell) == null;
     }
 
     /**
@@ -55,8 +48,8 @@ public class FinishWithWhiteDirectRule extends DirectRule {
         FillapixBoard fillapixBoard = (FillapixBoard) node.getBoard().copy();
         for (PuzzleElement element : fillapixBoard.getPuzzleElements()) {
             FillapixCell cell = (FillapixCell) element;
-            if (cell.getType() == FillapixCellType.UNKNOWN && isForcedWhite((FillapixBoard) node.getBoard(), cell)) {
-                cell.setType(FillapixCellType.WHITE);
+            if (cell.getType() == FillapixCellType.UNKNOWN && FillapixUtilities.isForcedWhite((FillapixBoard) node.getBoard(), cell)) {
+                cell.setCellType(FillapixCellType.WHITE);
                 fillapixBoard.addModifiedData(cell);
             }
         }
