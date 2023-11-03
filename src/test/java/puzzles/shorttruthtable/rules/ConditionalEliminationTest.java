@@ -55,12 +55,65 @@ public class ConditionalEliminationTest {
 
                 if (cellType1 == ShortTruthTableCellType.TRUE && cellType2 == ShortTruthTableCellType.FALSE) {
                     Assert.assertNull(RULE.checkRule(transition));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRule(transition));
                 }
             }
         }
+    }
+
+    /**
+     * Given one statement: A -> B where -> is false
+     *
+     * Asserts that this is a valid application of the rule if and only if A
+     * is set to true.
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void FalseConditionalTrueATest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/FalseConditional", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+        ShortTruthTableCell aubergine = board.getCell(0, 0);
+
+        aubergine.setData(ShortTruthTableCellType.TRUE);
+        board.addModifiedData(aubergine);
+        Assert.assertNull(RULE.checkRule(transition));
+
+        aubergine.setData(ShortTruthTableCellType.FALSE);
+        board.addModifiedData(aubergine);
+        Assert.assertNotNull(RULE.checkRule(transition));
+    }
+
+    /**
+     * Given one statement: A -> B where -> is false
+     *
+     * Asserts that this is a valid application of the rule if and only if B is
+     * set to false.
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void FalseConditionalFalseBTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/FalseConditional", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+        ShortTruthTableCell boniato = board.getCell(2, 0);
+
+        boniato.setData(ShortTruthTableCellType.FALSE);
+        board.addModifiedData(boniato);
+        Assert.assertNull(RULE.checkRule(transition));
+
+        boniato.setData(ShortTruthTableCellType.TRUE);
+        board.addModifiedData(boniato);
+        Assert.assertNotNull(RULE.checkRule(transition));
     }
 
     /**
