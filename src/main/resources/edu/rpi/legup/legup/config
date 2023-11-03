@@ -7,7 +7,7 @@
         <puzzle name="Fillapix"
             qualifiedClassName="edu.rpi.legup.puzzle.fillapix.Fillapix"
             fileType=".xml"
-            fileCreationDisabled="true"/>
+            fileCreationDisabled="false"/>
         <puzzle name="HeyAwake"
             qualifiedClassName="edu.rpi.legup.puzzle.heyawake.Heyawake"
             fileType=".xml"

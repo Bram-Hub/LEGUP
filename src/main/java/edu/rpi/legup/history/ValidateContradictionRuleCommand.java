@@ -78,9 +78,11 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
                 }
                 transition.setCurrentBoard( thisTreeTransition.getBoard() );
                 transition.setRule(newRule);
+                transition.getBoard().setModifiable(false);
                 tree.addTreeElement(transition);
             }
             else {
+                transition.getBoard().setModifiable(false);
                 tree.addTreeElement(treeNode, transition);
             }
             final TreeTransition finalTran = transition;
