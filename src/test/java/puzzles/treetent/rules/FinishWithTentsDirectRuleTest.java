@@ -27,7 +27,14 @@ public class FinishWithTentsDirectRuleTest {
         MockGameBoardFacade.getInstance();
         treetent = new TreeTent();
     }
-
+    
+    /**
+     * 3x3 TreeTent puzzle with a GRASS tile at (0,0)
+     * Tests FinishWithTentsDirectRule on TENT tiles horizontal of the GRASS tile
+     * at (1,0) and (2,0)
+     * 
+     * @throws InvalidFileFormatException
+     */
     @Test
     public void FinishWithHorizontalTentsTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithHorizontalTents", treetent);
@@ -60,6 +67,13 @@ public class FinishWithTentsDirectRuleTest {
         }
     }
 
+    /**
+     * 3x3 TreeTent puzzle with a GRASS tile at (0,0)
+     * Tests FinishWithTentsDirectRule on TENT tiles vertical of the GRASS tile
+     * at (0,1) and (0,2)
+     * 
+     * @throws InvalidFileFormatException
+     */
     @Test
     public void FinishWithVerticalTentsTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithVerticalTents", treetent);
@@ -92,6 +106,13 @@ public class FinishWithTentsDirectRuleTest {
         }
     }
 
+    /**
+     * 3x3 TreeTent puzzle with a GRASS tile at (1,1)
+     * Tests FinishWithTentsDirectRule on TENT tiles around the GRASS tile
+     * at (1,0), (1,2), (0,1), and (2,1)
+     * 
+     * @throws InvalidFileFormatException
+     */
     @Test
     public void FinishWithTentsTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithTents", treetent);
@@ -134,6 +155,13 @@ public class FinishWithTentsDirectRuleTest {
         }
     }
 
+    /**
+     * 3x3 TreeTent puzzle with a TENT tile at (1,1)
+     * Tests FinishWithTentsDirectRule on TENT tiles around the TENT tile
+     * at (1,0), (1,2), (0,1), and (2,1)
+     * 
+     * @throws InvalidFileFormatException
+     */
     @Test
     public void AdditionalTentsTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsDirectRule/AdditionalTents", treetent);
@@ -176,6 +204,14 @@ public class FinishWithTentsDirectRuleTest {
         }
     }
 
+    /**
+     * Empty 3x3 TreeTent puzzle
+     * Tests FinishWithTentsDirectRule on TENT tiles of entire puzzle
+     * all TENT tiles should fail FinishWithTentsDirectRule
+     * as no TENT tiles should be there
+     * 
+     * @throws InvalidFileFormatException
+     */
     @Test
     public void FinishWithTentsFailTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithTentsFail", treetent);
@@ -205,6 +241,15 @@ public class FinishWithTentsDirectRuleTest {
         }
     }
 
+    /**
+     * 3x3 TreeTent puzzle with a TENT tile at (1,1)
+     * Tests FinishWithTentsDirectRule on TENT tiles around the TENT tile
+     * at (1,0), (1,2), (0,1), and (2,1)
+     * all TENT tiles should fail FinishWithTentsDirectRule
+     * as there were already sufficient number of TENT tiles
+     * 
+     * @throws InvalidFileFormatException
+     */
     @Test
     public void TooManyTentsTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsDirectRule/TooManyTents", treetent);
@@ -237,6 +282,16 @@ public class FinishWithTentsDirectRuleTest {
         }
     }
 
+    /**
+     * 3x3 TreeTent puzzle with a TENT tile at (1,1)
+     * Tests FinishWithTentsDirectRule on TENT tiles around the TENT tile
+     * at (1,0), (1,2), (0,1), and (2,1)
+     * all TENT tiles should fail FinishWithTentsDirectRule
+     * as there are multiple configurations of the placement
+     * of the TENT tiles
+     * 
+     * @throws InvalidFileFormatException
+     */
     @Test
     public void AmbiguousTentsTest () throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsDirectRule/AmbiguousTents", treetent);
