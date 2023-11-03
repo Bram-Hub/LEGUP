@@ -11,7 +11,9 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeUtilities;
 import edu.rpi.legup.utility.DisjointSets;
 
+import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
 import java.awt.*;
@@ -53,15 +55,7 @@ public class SurroundRegionDirectRule extends DirectRule {
             DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(destBoardState);
             Set<NurikabeCell> adj = new HashSet<>(); //set to hold adjacent cells
             Point loc = cell.getLocation(); //position of placed cell
-            Point left = new Point(-1,0);
-            Point right = new Point(1, 0);
-            Point bot = new Point(0, -1);
-            Point top = new Point(0, 1);
-            Set<Point> directions = new HashSet<>();
-            directions.add(left);
-            directions.add(right);
-            directions.add(top);
-            directions.add(bot);
+            List<Point> directions = Arrays.asList(new Point(-1, 0), new Point(1, 0), new Point(0, -1), new Point(0, 1));
             for(Point direction : directions) {
                 NurikabeCell curr = destBoardState.getCell(loc.x + direction.x, loc.y + direction.y);
                 if(curr != null) {
@@ -70,7 +64,7 @@ public class SurroundRegionDirectRule extends DirectRule {
                     }
                 }
             }
-            ArrayList<NurikabeCell> numberedCells = new ArrayList<>(); //number value of number cells
+            List<NurikabeCell> numberedCells = new ArrayList<>(); //number value of number cells
             for (NurikabeCell c : adj) { //loops through adjacent cells
                 Set<NurikabeCell> disRow = regions.getSet(c); //set of white spaces
                 for (NurikabeCell d : disRow) { //loops through white spaces
