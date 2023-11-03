@@ -5,8 +5,8 @@
         <board>
             <data>
                 <statement representation="A-B" row_index="0"/>
-                <cell char_index="0" row_index="0" type="TRUE"/>
-                <cell char_index="1" row_index="0" type="FALSE"/>
+                <cell char_index="1" row_index="0" type="TRUE"/>
+                <cell char_index="2" row_index="0" type="FALSE"/>
             </data>
         </board>
     </puzzle>
