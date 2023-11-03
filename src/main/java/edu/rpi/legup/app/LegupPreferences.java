@@ -8,6 +8,8 @@ public class LegupPreferences {
 
     private static LegupPreferences instance;
 
+    private static String SAVED_PATH = "";
+
     private static final Preferences preferences = Preferences.userNodeForPackage(LegupPreferences.class);
 
     private static final Map<String, String> preferencesMap = new HashMap<>();
@@ -103,5 +105,14 @@ public class LegupPreferences {
                 throw new RuntimeException("Cannot get user preference - " + key);
             }
         }
+    }
+
+
+    public String getSavedPath() {
+        return SAVED_PATH;
+    }
+
+    public void setSavedPath(String path) {
+        SAVED_PATH = path;
     }
 }

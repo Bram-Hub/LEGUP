@@ -13,6 +13,16 @@ public class FillapixImporter extends PuzzleImporter {
         super(fillapix);
     }
 
+    @Override
+    public boolean acceptsRowsAndColumnsInput() {
+        return true;
+    }
+
+    @Override
+    public boolean acceptsTextInput() {
+        return false;
+    }
+
     /**
      * Creates an empty board for building
      *
@@ -22,7 +32,18 @@ public class FillapixImporter extends PuzzleImporter {
      */
     @Override
     public void initializeBoard(int rows, int columns) {
+        FillapixBoard fillapixBoard = new FillapixBoard(columns, rows);
 
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++) {
+                FillapixCell cell = new FillapixCell(FillapixCellType.UNKNOWN.value, new Point(x, y));
+                cell.setIndex(y * columns + x);
+                cell.setNumber(FillapixCell.DEFAULT_VALUE);
+                cell.setModifiable(true);
+                fillapixBoard.setCell(x, y, cell);
+            }
+        }
+        puzzle.setCurrentBoard(fillapixBoard);
     }
 
     /**
@@ -87,5 +108,10 @@ public class FillapixImporter extends PuzzleImporter {
         catch (NumberFormatException e) {
             throw new InvalidFileFormatException("Fillapix Importer: unknown value where integer expected");
         }
+    }
+
+    @Override
+    public void initializeBoard(String[] statements) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Fillapix cannot accept text input");
     }
 }

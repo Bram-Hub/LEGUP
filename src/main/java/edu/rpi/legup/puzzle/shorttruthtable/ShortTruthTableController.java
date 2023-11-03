@@ -12,7 +12,7 @@ public class ShortTruthTableController extends ElementController {
 
         System.out.println("STTController: Cell change");
 
-        //cast the data to a short truth table cell
+        // cast the data to a short truth table cell
         ShortTruthTableCell cell = (ShortTruthTableCell) data;
 
         if (e.getButton() == MouseEvent.BUTTON1) {
