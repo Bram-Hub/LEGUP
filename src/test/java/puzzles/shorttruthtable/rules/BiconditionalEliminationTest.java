@@ -58,6 +58,40 @@ public class BiconditionalEliminationTest {
     }
 
     /**
+     * Given one statement: A <-> B where both B and <-> are true
+     *
+     * Asserts that this is a valid application of the rule if and only if A is true.
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void TrueBiconditionalWithTrueBTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/BiconditionalEliminationDirectRule/TrueBiconditionalWithTrueB", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+        ShortTruthTableCell rick = board.getCell(0, 0);
+
+        // Asserts that this is a valid application of the rule when A is true
+        rick.setData(ShortTruthTableCellType.TRUE);
+        board.addModifiedData(rick);
+        Assert.assertNull(RULE.checkRule(transition));
+
+        // Asserts that this is not a valid application of the rule when A is unknown
+        rick.setData(ShortTruthTableCellType.UNKNOWN);
+        board.addModifiedData(rick);
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        // Asserts that this is not a valid application of the rule when A is false
+        rick.setData(ShortTruthTableCellType.FALSE);
+        board.addModifiedData(rick);
+        Assert.assertNotNull(RULE.checkRule(transition));
+    }
+
+
+    /**
      * Given one statement: A <-> B where A is false and <-> is true
      *
      * Asserts that this is a valid application of the rule if and only if B is false.
@@ -93,40 +127,40 @@ public class BiconditionalEliminationTest {
     /**
      * Given one statement: A <-> B where B is false and <-> is true
      *
-     * Asserts that this is a valid application of the rule if and only if B is false.
+     * Asserts that this is a valid application of the rule if and only if A is false.
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void TrueBiconditionalWithFalseBTest() throws InvalidFileFormatException {
-//        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/BiconditionalEliminationDirectRule/TrueBiconditionalWithFalseB", stt);
-//        TreeNode rootNode = stt.getTree().getRootNode();
-//        TreeTransition transition = rootNode.getChildren().get(0);
-//        transition.setRule(RULE);
-//
-//        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
-//        ShortTruthTableCell morty = board.getCell(2, 0);
-//
-//        // Asserts that this is not a valid application of the rule when B is unknown
-//        morty.setData(ShortTruthTableCellType.UNKNOWN);
-//        board.addModifiedData(morty);
-//        Assert.assertNotNull(RULE.checkRule(transition));
-//
-//        // Asserts that this is not a valid application of the rule when B is true
-//        morty.setData(ShortTruthTableCellType.TRUE);
-//        board.addModifiedData(morty);
-//        Assert.assertNotNull(RULE.checkRule(transition));
-//
-//        // Asserts that this is a valid application of the rule when B is false
-//        morty.setData(ShortTruthTableCellType.FALSE);
-//        board.addModifiedData(morty);
-//        Assert.assertNull(RULE.checkRule(transition));
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/BiconditionalEliminationDirectRule/TrueBiconditionalWithFalseB", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+        ShortTruthTableCell rick = board.getCell(0, 0);
+
+        // Asserts that this is not a valid application of the rule when A is unknown
+        rick.setData(ShortTruthTableCellType.UNKNOWN);
+        board.addModifiedData(rick);
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        // Asserts that this is not a valid application of the rule when A is true
+        rick.setData(ShortTruthTableCellType.TRUE);
+        board.addModifiedData(rick);
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        // Asserts that this is a valid application of the rule when A is false
+        rick.setData(ShortTruthTableCellType.FALSE);
+        board.addModifiedData(rick);
+        Assert.assertNull(RULE.checkRule(transition));
     }
 
     /**
      * Given one statement: A <-> B where A is true and <-> is false
      *
-     * Asserts that this is a valid application of the rule if and only if B is true.
+     * Asserts that this is a valid application of the rule if and only if B is false.
      *
      * @throws InvalidFileFormatException
      */
@@ -153,6 +187,39 @@ public class BiconditionalEliminationTest {
         // Asserts that this is a valid application of the rule when B is false
         morty.setData(ShortTruthTableCellType.FALSE);
         board.addModifiedData(morty);
+        Assert.assertNull(RULE.checkRule(transition));
+    }
+
+    /**
+     * Given one statement: A <-> B where B is true and <-> is false
+     *
+     * Asserts that this is a valid application of the rule if and only if A is false.
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void FalseBiconditionalWithTrueBTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/BiconditionalEliminationDirectRule/FalseBiconditionalWithTrueB", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+        ShortTruthTableCell rick = board.getCell(0, 0);
+
+        // Asserts that this is not a valid application of the rule when A is unknown
+        rick.setData(ShortTruthTableCellType.UNKNOWN);
+        board.addModifiedData(rick);
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        // Asserts that this is not a valid application of the rule when A is true
+        rick.setData(ShortTruthTableCellType.TRUE);
+        board.addModifiedData(rick);
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        // Asserts that this is a valid application of the rule when A is false
+        rick.setData(ShortTruthTableCellType.FALSE);
+        board.addModifiedData(rick);
         Assert.assertNull(RULE.checkRule(transition));
     }
 
@@ -188,6 +255,40 @@ public class BiconditionalEliminationTest {
         board.addModifiedData(morty);
         Assert.assertNotNull(RULE.checkRule(transition));
     }
+
+    /**
+     * Given one statement: A <-> B where B and <-> are false
+     *
+     * Asserts that this is a valid application of the rule if and only if A is true.
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void FalseBiconditionalWithFalseBTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/BiconditionalEliminationDirectRule/FalseBiconditionalWithFalseB", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+        ShortTruthTableCell rick = board.getCell(0, 0);
+
+        // Asserts that this is not a valid application of the rule when A is unknown
+        rick.setData(ShortTruthTableCellType.UNKNOWN);
+        board.addModifiedData(rick);
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        // Asserts that this is not a valid application of the rule when A is false
+        rick.setData(ShortTruthTableCellType.FALSE);
+        board.addModifiedData(rick);
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        // Asserts that this is a valid application of the rule when A is true
+        rick.setData(ShortTruthTableCellType.TRUE);
+        board.addModifiedData(rick);
+        Assert.assertNull(RULE.checkRule(transition));
+    }
+
     /**
      * Given one statement: A <-> B where <-> is true
      *
