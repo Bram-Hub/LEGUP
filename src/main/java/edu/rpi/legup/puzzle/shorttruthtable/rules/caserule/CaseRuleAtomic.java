@@ -20,7 +20,6 @@ public class CaseRuleAtomic extends CaseRule_Generic {
         super("STTT-CASE-0002", "Atomic",
                 "True or False",
                 "Each unknown cell must either be true or false");
-        System.out.println("Case Rule T/F constructor");
     }
 
     // Adds all elements that can be selected for this case rule
@@ -64,8 +63,8 @@ public class CaseRuleAtomic extends CaseRule_Generic {
         return cases;
     }
 
-    // @Override
-    // public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-    //     return null;
-    // }
+    @Override
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+        return null;
+    }
 }
