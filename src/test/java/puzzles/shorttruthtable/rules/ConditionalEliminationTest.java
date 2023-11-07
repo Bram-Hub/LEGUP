@@ -55,7 +55,8 @@ public class ConditionalEliminationTest {
 
                 if (cellType1 == ShortTruthTableCellType.TRUE && cellType2 == ShortTruthTableCellType.FALSE) {
                     Assert.assertNull(RULE.checkRule(transition));
-                } else {
+                }
+                else {
                     Assert.assertNotNull(RULE.checkRule(transition));
                 }
             }
