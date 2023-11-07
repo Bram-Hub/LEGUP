@@ -1,10 +1,13 @@
 package edu.rpi.legup.puzzle.fillapix;
 
+import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.util.Objects;
 
-public class FillapixCell extends GridCell<Integer> {
+public class FillapixCell extends GridCell<Integer> implements Comparable<FillapixCell> {
 
     public static final int DEFAULT_VALUE = 10;
 
@@ -33,8 +36,42 @@ public class FillapixCell extends GridCell<Integer> {
         }
     }
 
-    public void setType(FillapixCellType type) {
+    public void setCellType(FillapixCellType type) {
         data = type.value * 100 + (data % 100);
+    }
+
+    @Override
+    public void setType(Element e, MouseEvent m) {
+        switch(e.getElementID()) {
+            case "FPIX-PLAC-0001":
+                this.setCellType(FillapixCellType.BLACK);
+                break;
+            case "FPIX-PLAC-0002":
+                this.setCellType(FillapixCellType.WHITE);
+                break;
+            case "FPIX-UNPL-0001":
+                int n = this.getNumber();
+                switch (m.getButton()) {
+                    case MouseEvent.BUTTON1:
+                        n++;
+                        break;
+                    case MouseEvent.BUTTON3:
+                        n--;
+                        break;
+                }
+                if (n > 9) {
+                    n = 0;
+                }
+                if (n < 0) {
+                    n = 9;
+                }
+                this.setNumber(n);
+                break;
+            default:
+                this.setCellType(FillapixCellType.UNKNOWN);
+                this.data = -1;
+                break;
+        }
     }
 
     /**
@@ -48,5 +85,20 @@ public class FillapixCell extends GridCell<Integer> {
         cell.setIndex(index);
         cell.setModifiable(isModifiable);
         return cell;
+    }
+
+    public boolean equals(FillapixCell otherCell) {
+//        return this.location.equals(otherCell.location) && this.index == otherCell.index && this.data == otherCell.data;
+        //return this.index == otherCell.index && this.data == otherCell.data;
+        //return this.index == otherCell.index;
+        return this.location.x == otherCell.location.x && this.location.y == otherCell.location.y;
+    }
+
+    public int compareTo(FillapixCell otherCell) {
+        return this.index - otherCell.index;
+    }
+
+    public int hashCode() {
+        return Objects.hash(this.index);
     }
 }
