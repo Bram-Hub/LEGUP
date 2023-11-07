@@ -360,8 +360,7 @@ public class TreeView extends ScrollView implements ITreeListener {
                     }
                 }
             }
-
-
+          
             transView.getParentViews().forEach(n -> n.removeChildrenView(transView));
             removeTreeTransition(trans);
         }
@@ -377,35 +376,7 @@ public class TreeView extends ScrollView implements ITreeListener {
     public void onTreeSelectionChanged(TreeViewSelection selection) {
         this.selection.getSelectedViews().forEach(v -> v.setSelected(false));
         selection.getSelectedViews().forEach(v -> v.setSelected(true));
-
         this.selection = selection;
-
-//        List<TreeElementView> selectedViews = selection.getSelectedViews();
-//        Point avg = new Point();
-//        for(TreeElementView elementView : selectedViews) {
-//            if(elementView.getType() == NODE) {
-//                TreeNodeView nodeView = (TreeNodeView)elementView;
-//                avg.x += nodeView.getX();
-//                avg.y += nodeView.getY();
-//            } else {
-//                TreeTransitionView transitionView = (TreeTransitionView) elementView;
-//                avg.x += transitionView.getEndX();
-//                avg.y += transitionView.getEndY();
-//            }
-//        }
-//        avg.x /= selectedViews.size();
-//        avg.y /= selectedViews.size();
-//
-//        Point pos =  viewport.getViewPosition();
-//        if(pos.x < avg.x) {
-//            pos.x = avg.x - pos.x;
-//        }
-//        if(pos.y < avg.y) {
-//            pos.y = avg.y - pos.y;
-//        }
-//
-//        viewport.setViewPosition(pos);
-
         repaint();
     }
 
@@ -468,8 +439,7 @@ public class TreeView extends ScrollView implements ITreeListener {
                 }
             }
         }
-
-        children.forEach(t -> removeTreeTransition(t));
+        node.getChildren().forEach(t -> removeTreeTransition(t));
     }
 
     private void removeTreeTransition(TreeTransition trans) {
@@ -491,7 +461,7 @@ public class TreeView extends ScrollView implements ITreeListener {
         viewMap.put(node, nodeView);
 
         if (!node.getChildren().isEmpty()) {
-
+          
             //if adding a case rule, lock dependent ancestor elements
             Rule rule = node.getChildren().get(0).getRule();
             if(rule instanceof CaseRule){
@@ -511,7 +481,7 @@ public class TreeView extends ScrollView implements ITreeListener {
                     }
                 }
             }
-
+          
             node.getChildren().forEach(t -> addTreeTransition(t));
         }
     }
@@ -524,7 +494,7 @@ public class TreeView extends ScrollView implements ITreeListener {
             TreeNodeView parentNodeView = (TreeNodeView) viewMap.get(parent);
             transView.addParentView(parentNodeView);
             parentNodeView.addChildrenView(transView);
-
+          
             //if transition is a new case rule, lock dependent ancestor elements
             Rule rule = trans.getRule();
             if(rule instanceof CaseRule && parent.getChildren().size()==1){

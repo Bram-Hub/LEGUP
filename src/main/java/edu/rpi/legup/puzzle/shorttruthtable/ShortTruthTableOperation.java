@@ -15,7 +15,6 @@ public class ShortTruthTableOperation {
     private ShortTruthTableOperation() {
     }
 
-
     public static String getLogicSymbol(char c) {
         switch (c) {
             case AND:
@@ -48,7 +47,6 @@ public class ShortTruthTableOperation {
         return null;
     }
 
-
     public static boolean isOperation(char c) {
         return c == AND ||
                 c == OR ||
@@ -56,6 +54,4 @@ public class ShortTruthTableOperation {
                 c == CONDITIONAL ||
                 c == BICONDITIONAL;
     }
-
-
 }

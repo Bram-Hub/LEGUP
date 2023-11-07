@@ -53,6 +53,9 @@ public class FillapixBoard extends GridBoard {
         int numCells = 0;
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
+                if (loc.x + i > dimension.width || loc.y + j > dimension.height) {
+                    continue;
+                }
                 FillapixCell c = getCell(loc.x + i, loc.y + j);
                 if (c != null && c.getType() == type) {
                     numCells++;
