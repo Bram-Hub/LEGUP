@@ -102,8 +102,6 @@ public class CellForNumberCaseRule extends CaseRule {
             return "This case rule must have at least one child.";
         }
 
-        System.out.println(transition.getSelection());
-
         if (childTransitions.size() != getCasesFor(oldBoard, oldBoard.getPuzzleElement(transition.getSelection()), (Integer) childTransitions.get(0).getBoard().getModifiedData().iterator().next().getData()).size()) {
             //System.out.println("Wrong number of cases.");
             return "Wrong number of cases.";
