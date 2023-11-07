@@ -77,10 +77,10 @@ public class CannotLightACellContradictionRuleTest {
         transition.setRule(RULE);
 
         LightUpBoard board = (LightUpBoard) transition.getBoard();
-        //confirm there is a contradiction somewhere on the board
+        //confirm there is not a contradiction somewhere on the board
         Assert.assertNotNull(RULE.checkContradiction(board));
 
-        //confirm these are not required to be lit because they are already lit or unable to be
+        //confirm that these cells can be lit, are already lit, or that they are just black blocks
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 3)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(3, 3)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 0)));
