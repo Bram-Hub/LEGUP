@@ -2,6 +2,8 @@ package edu.rpi.legup.puzzle.skyscrapers;
 
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 
+import java.awt.*;
+
 public class SkyscrapersClue extends PuzzleElement<Integer> {
     private SkyscrapersType type;
     private int clueIndex;
@@ -47,6 +49,9 @@ public class SkyscrapersClue extends PuzzleElement<Integer> {
     }
 
     public SkyscrapersClue copy() {
-        return null;
+        SkyscrapersClue copy = new SkyscrapersClue(data, clueIndex, type);
+        copy.setIndex(index);
+        copy.setModifiable(isModifiable);
+        return copy;
     }
 }

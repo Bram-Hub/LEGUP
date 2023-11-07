@@ -69,7 +69,6 @@ public class CellForNumberCaseRule extends CaseRule {
             PuzzleElement newCell = newCase.getPuzzleElement(cell);
             newCell.setData(number);
             newCase.addModifiedData(newCell);
-            newCase.setModClue((SkyscrapersClue) newCase.getPuzzleElement(clue));
 
             //if flags
             boolean passed = true;
@@ -103,12 +102,9 @@ public class CellForNumberCaseRule extends CaseRule {
             return "This case rule must have at least one child.";
         }
 
-        //find changed row/col
-        SkyscrapersClue modClue = ((SkyscrapersBoard) childTransitions.get(0).getBoard()).getmodClue();
+        System.out.println(transition.getSelection());
 
-        //System.out.println(modClue.getType());
-        //System.out.println(modClue.getClueIndex());
-        if (childTransitions.size() != getCasesFor(oldBoard, modClue, (Integer) childTransitions.get(0).getBoard().getModifiedData().iterator().next().getData()).size()) {
+        if (childTransitions.size() != getCasesFor(oldBoard, oldBoard.getPuzzleElement(transition.getSelection()), (Integer) childTransitions.get(0).getBoard().getModifiedData().iterator().next().getData()).size()) {
             //System.out.println("Wrong number of cases.");
             return "Wrong number of cases.";
         }
