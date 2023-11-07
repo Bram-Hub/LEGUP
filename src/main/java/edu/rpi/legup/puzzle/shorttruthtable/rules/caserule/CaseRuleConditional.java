@@ -13,8 +13,8 @@ public class CaseRuleConditional extends CaseRule_GenericStatement {
     }
 
     private static final ShortTruthTableCellType[][] trueCases = {
-            {N, T},
-            {F, N}
+            {U, T},
+            {F, U}
     };
     private static final ShortTruthTableCellType[][] falseCases = {
             {T, F},
