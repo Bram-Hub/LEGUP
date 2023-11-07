@@ -154,7 +154,7 @@ public class FillapixUtilities {
      * 
      * @return an ArrayList of Boolean arrays. Each index in the ArrayList represents
      * a distinct combination. Each Boolean array will be <code>totalNumItems</code>
-     * long and each index will be <code>true<\code> if the corresponding item is
+     * long and each index will be <code>true</code> if the corresponding item is
      * included in that combination, and <code>false</code> otherwise.
      */
     public static ArrayList<boolean[]> getCombinations(int chosenNumItems, int totalNumItems) {
