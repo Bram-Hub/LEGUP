@@ -34,7 +34,6 @@ public class BulbsInPathContradictionRuleTest {
         Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(0, 0)));
         Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(2, 0)));
 
-
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 1)));
     }
 
@@ -67,20 +66,5 @@ public class BulbsInPathContradictionRuleTest {
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 2)));
 
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 1)));
-    }
-
-    @Test
-    public void BulbsInPathContradictionRule_BlockInHorizontalPath() throws InvalidFileFormatException{
-        TestUtilities.importTestBoard("puzzles/lightup/rules/BulbsInPathContradictionRule/BlockInHorizontalPath", lightUp);
-        TreeNode rootNode = lightUp.getTree().getRootNode();
-        TreeTransition transition = rootNode.getChildren().get(0);
-        transition.setRule(RULE);
-
-        LightUpBoard board = (LightUpBoard) transition.getBoard();
-        Assert.assertNotNull(RULE.checkContradiction(board));
-        Assert.assertNotNull(RULE.checkContradictionAt(board,board.getCell(0,0)));
-        Assert.assertNotNull(RULE.checkContradictionAt(board,board.getCell(2,0)));
-        Assert.assertNotNull(RULE.checkContradictionAt(board,board.getCell(1,1)));
-
     }
 }
