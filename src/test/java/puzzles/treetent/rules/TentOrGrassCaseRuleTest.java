@@ -61,7 +61,7 @@ public class TentOrGrassCaseRuleTest {
 
         // GRASS case
         TreeTentBoard grassCase = (TreeTentBoard) cases.get(1);
-        Assert.assertEquals(tentCase.getCell(0, 0).getType(), TreeTentType.GRASS);
+        Assert.assertEquals(grassCase.getCell(0, 0).getType(), TreeTentType.GRASS);
 
         // checks other cells have not been modified
         TreeTentCell original_cell;
@@ -74,10 +74,10 @@ public class TentOrGrassCaseRuleTest {
                 }
                 original_cell = board.getCell(w, h);
                 case_cell = tentCase.getCell(w, h);
-                Assert.assertEquals(original_cell, case_cell);
+                Assert.assertEquals(original_cell.getType(), case_cell.getType());
 
                 case_cell = grassCase.getCell(w, h);
-                Assert.assertEquals(original_cell, case_cell);
+                Assert.assertEquals(original_cell.getType(), case_cell.getType());
             }
         }
     }
