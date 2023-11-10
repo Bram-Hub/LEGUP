@@ -241,4 +241,67 @@ public class NurikabeUtilities {
         }
         return whiteRegionMap;
     }
+
+    /**
+     * Gets all the non-black cells connected to the given cell
+     *
+     * @param board nurikabe board
+     * @param center nurikabe cell
+     * @return a set of all white/numbered cells in the region
+     */
+    public static Set<NurikabeCell> getSurroundedRegionOf(NurikabeBoard board, NurikabeCell center) {
+        int width = board.getWidth();
+        int height = board.getHeight();
+
+        // Mark all the vertices as not visited(By default
+        // set as false)
+        Set<NurikabeCell> visited = new HashSet<>();
+
+        // Create a queue for BFS
+        LinkedList<NurikabeCell> queue = new LinkedList<>();
+
+        // Mark the current node as visited and enqueue it
+        visited.add(center);
+        queue.add(center);
+
+        // Set of cells in the current region
+        Set<NurikabeCell> connected = new HashSet<>();
+
+        while (queue.size() != 0) {
+            // Dequeue a vertex from queue and print it
+            // s is the source node in the graph
+            NurikabeCell s = queue.poll();
+            System.out.print(s + " ");
+
+            // Make a set of all adjacent squares
+            Set<NurikabeCell> adj = new HashSet<>();
+
+            Point loc = s.getLocation();
+            // First check if the side is on the board
+            if (loc.x >= 1) {
+                adj.add(board.getCell(loc.x - 1, loc.y));
+            }
+            if (loc.x < width - 1) {
+                adj.add(board.getCell(loc.x + 1, loc.y));
+            }
+            if (loc.y >= 1) {
+                adj.add(board.getCell(loc.x, loc.y - 1));
+            }
+            if (loc.y < height - 1) {
+                adj.add(board.getCell(loc.x, loc.y + 1));
+            }
+            // Get all adjacent vertices of the dequeued vertex s
+            // If a adjacent has not been visited, then mark it
+            // visited and enqueue it
+            for (NurikabeCell n : adj) {
+                if (!visited.contains(n) && n.getType() != NurikabeType.BLACK) {
+                    connected.add(n);
+                    visited.add(n);
+                    queue.add(n);
+                }
+            }
+        }
+
+        return connected;
+    }
 }

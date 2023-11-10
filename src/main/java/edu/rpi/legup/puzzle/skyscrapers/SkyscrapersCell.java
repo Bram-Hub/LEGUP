@@ -4,16 +4,18 @@ import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.awt.*;
 
-public class SkyscrapersCell extends GridCell<SkyscrapersType> {
+import static edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType.convertToSkyType;
+
+public class SkyscrapersCell extends GridCell<Integer> {
     private int max;
 
-    public SkyscrapersCell(SkyscrapersType value, Point location, int size) {
+    public SkyscrapersCell(Integer value, Point location, int size) {
         super(value, location);
         this.max = size;
     }
 
     public SkyscrapersType getType() {
-        switch (data) {
+        switch (convertToSkyType(data)){
             case UNKNOWN:
                 return SkyscrapersType.UNKNOWN;
             default:
