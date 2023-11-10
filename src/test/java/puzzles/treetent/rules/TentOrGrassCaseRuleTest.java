@@ -37,6 +37,7 @@ public class TentOrGrassCaseRuleTest {
      * checks 2 cases are created
      * checks first case is TENT tile
      * checks second case is GRASS tile
+     * checks other cells have not been modified
      * 
      * @throws InvalidFileFormatException
      */
@@ -68,6 +69,24 @@ public class TentOrGrassCaseRuleTest {
         changed_cell = case2.getCell(0, 0);
         changed_cell.setData(TreeTentType.GRASS);
         Assert.assertTrue(cases.contains(case2));
+
+        // checks other cells have not been modified
+        TreeTentCell original_cell;
+        TreeTentCell case_cell;
+
+        for (int w =0; w < board.getWidth(); w++) {
+            for (int h = 0; h < board.getHeight(); h++) {
+                if (w == 0 && h ==0) {
+                    continue;
+                }
+                original_cell = board.getCell(w, h);
+                case_cell = case1.getCell(w, h);
+                Assert.assertEquals(original_cell, case_cell);
+
+                case_cell = case2.getCell(w, h);
+                Assert.assertEquals(original_cell, case_cell);
+            }
+        }
     }
 }
 
