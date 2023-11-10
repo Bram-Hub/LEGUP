@@ -171,13 +171,13 @@ public class FillinRowCaseRule extends CaseRule {
      * Defaults to any element modified by any case
      */
     @Override
-    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement){
+    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement) {
         List<PuzzleElement> elements = new ArrayList<>();
 
         TreeTentBoard treeTentBoard = (TreeTentBoard) board;
         TreeTentClue clue = (TreeTentClue) puzzleElement;
 
-        //add all elements of filled row
+        // add all elements of filled row
         for (int i = 0; i < treeTentBoard.getWidth(); i++) {
             TreeTentCell cell = treeTentBoard.getCell(i, clue.getClueIndex()-1);
             elements.add(board.getPuzzleElement((cell)));

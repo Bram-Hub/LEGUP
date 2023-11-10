@@ -2,8 +2,6 @@ package edu.rpi.legup.puzzle.skyscrapers;
 
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 
-import java.awt.*;
-
 public class SkyscrapersClue extends PuzzleElement<Integer> {
     private SkyscrapersType type;
     private int clueIndex;

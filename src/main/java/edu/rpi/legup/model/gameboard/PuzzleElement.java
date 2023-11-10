@@ -165,7 +165,7 @@ public abstract class PuzzleElement<T> {
      * @param cases number of cases
      */
     public void setCasesDepended(int cases) {
-        this.casesDepended=cases;
+        this.casesDepended = cases;
     }
 
     /**

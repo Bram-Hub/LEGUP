@@ -146,7 +146,7 @@ public class NumberForCellCaseRule extends CaseRule {
      * Defaults to any element modified by any case
      */
     @Override
-    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement){
+    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement) {
         List<PuzzleElement> elements = new ArrayList<>();
 
         SkyscrapersBoard puzzleBoard = (SkyscrapersBoard) board;
@@ -154,15 +154,15 @@ public class NumberForCellCaseRule extends CaseRule {
 
         List<SkyscrapersCell> cells = new ArrayList<>(List.of(point));
 
-        //if dependent on row/col
-        if(puzzleBoard.getDupeFlag() || puzzleBoard.getViewFlag()){
-            //add all cells in row/col intersecting given point
+        // if dependent on row/col
+        if (puzzleBoard.getDupeFlag() || puzzleBoard.getViewFlag()) {
+            // add all cells in row/col intersecting given point
             cells.addAll(puzzleBoard.getRowCol(point.getLocation().x,SkyscrapersType.ANY,false));
             cells.addAll(puzzleBoard.getRowCol(point.getLocation().y,SkyscrapersType.ANY,true));
         }
 
-        for(SkyscrapersCell cell : cells){
-            if(!elements.contains(board.getPuzzleElement(cell))){
+        for (SkyscrapersCell cell : cells) {
+            if (!elements.contains(board.getPuzzleElement(cell))) {
                 elements.add(board.getPuzzleElement(cell));
             }
         }

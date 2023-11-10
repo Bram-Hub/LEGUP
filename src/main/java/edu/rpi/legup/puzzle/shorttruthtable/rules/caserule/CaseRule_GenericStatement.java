@@ -127,7 +127,7 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
      * Defaults to any element modified by any case
      */
     @Override
-    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement){
+    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement) {
         List<PuzzleElement> elements = super.dependentElements(board,puzzleElement);
 
         elements.add(board.getPuzzleElement(puzzleElement));

@@ -78,7 +78,7 @@ public abstract class CaseRule extends Rule {
 
         String check = checkRuleRaw(transition);
 
-        //Mark transition and new data as valid or not
+        // Mark transition and new data as valid or not
         boolean isCorrect = (check == null);
         for (TreeTransition childTrans : parentNodes.get(0).getChildren()) {
             childTrans.setCorrect(isCorrect);
@@ -135,13 +135,13 @@ public abstract class CaseRule extends Rule {
      * @return List of puzzle elements (typically cells) this application of the case rule depends upon.
      * Defaults to any element modified by any case
      */
-    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement){
+    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement) {
         List<PuzzleElement> elements = new ArrayList<>();
 
         List<Board> cases = getCases(board,puzzleElement);
-        for(Board caseBoard : cases){
+        for (Board caseBoard : cases) {
             Set<PuzzleElement> data = caseBoard.getModifiedData();
-            for(PuzzleElement element : data){
+            for (PuzzleElement element : data) {
                 if(!elements.contains(board.getPuzzleElement(element))){
                     elements.add(board.getPuzzleElement(element));
                 }

@@ -161,7 +161,7 @@ public class LinkTentCaseRule extends CaseRule {
      * Defaults to any element modified by any case
      */
     @Override
-    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement){
+    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement) {
         return List.of(board.getPuzzleElement(puzzleElement));
     }
 }

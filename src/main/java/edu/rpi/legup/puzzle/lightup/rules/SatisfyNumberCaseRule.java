@@ -298,7 +298,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
      * Defaults to any element modified by any case
      */
     @Override
-    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement){
+    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement) {
         List<PuzzleElement> elements = new ArrayList<>();
 
         LightUpBoard puzzleBoard = (LightUpBoard) board;
@@ -306,7 +306,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
 
         List<LightUpCell> cells = getAdjacentCells(puzzleBoard,point);
 
-        for(LightUpCell cell : cells){
+        for (LightUpCell cell : cells) {
             //add cells that can light adjacents from any direction
             Point location = cell.getLocation();
             for (int i = location.x; i < puzzleBoard.getWidth(); i++) {
@@ -315,7 +315,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
                 if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                     break;
                 }
-                else if(!elements.contains(board.getPuzzleElement(c))){
+                else if (!elements.contains(board.getPuzzleElement(c))) {
                     elements.add(board.getPuzzleElement(c));
                 }
             }
@@ -324,7 +324,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
                 if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                     break;
                 }
-                else if(!elements.contains(board.getPuzzleElement(c))){
+                else if (!elements.contains(board.getPuzzleElement(c))) {
                     elements.add(board.getPuzzleElement(c));
                 }
             }
@@ -333,7 +333,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
                 if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                     break;
                 }
-                else if(!elements.contains(board.getPuzzleElement(c))){
+                else if (!elements.contains(board.getPuzzleElement(c))) {
                     elements.add(board.getPuzzleElement(c));
                 }
             }
@@ -342,7 +342,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
                 if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                     break;
                 }
-                else if(!elements.contains(board.getPuzzleElement(c))){
+                else if (!elements.contains(board.getPuzzleElement(c))) {
                     elements.add(board.getPuzzleElement(c));
                 }
             }
