@@ -35,6 +35,7 @@ public class FinishRoomCaseRule extends CaseRule {
      */
     @Override
     public String checkRuleRaw(TreeTransition transition) {
+        //make sure white region size of room that you're trying to finish is less than a set variable. for now 5
         NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
         if (childTransitions.size() != 2) {
@@ -56,6 +57,7 @@ public class FinishRoomCaseRule extends CaseRule {
         if (mod1.getLocation().equals(mod2.getLocation())) {
             return super.getInvalidUseOfRuleMessage() + ": This case rule must modify a different cell for each case.";
         }
+
         Point loc1 = mod1.getLocation(); //position of placed cell
         Point loc2 = mod2.getLocation(); //position of other placed cell
         Set<NurikabeCell> adj = new HashSet<>(); //set to hold adjacent cells
@@ -94,30 +96,52 @@ public class FinishRoomCaseRule extends CaseRule {
 //            if(match) {
 //                break;
 //            }
-//        }
+//        } //doesnt get set
         DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(destBoardState);
-
+        Set<NurikabeCell> realadj = new HashSet<>(); //set to hold adjacent cells
+        Set<NurikabeCell> realadj2 = new HashSet<>(); //set to hold adjacent cells
+        boolean breakit = false;
         for (NurikabeCell c : adj) { //loops through adjacent cells
-            Set<NurikabeCell> disRow = regions.getSet(c); //set of white spaces
-            for (NurikabeCell d : disRow) { //loops through white spaces
+//            Set<NurikabeCell> disRow = regions.getSet(c); //set of white spaces
+//            for (NurikabeCell d : disRow) { //loops through white spaces
                 for (NurikabeCell c2 : adj2) {
                     Set<NurikabeCell> disRow2 = regions.getSet(c2);
+                    Set<NurikabeCell> disRow = regions.getSet(c); //set of white spaces
+                    breakit = false;
+                    for (NurikabeCell d : disRow) { //loops through white spaces
                     for (NurikabeCell d2 : disRow2) {
                         if(d.getLocation() == d2.getLocation()) {
                             match = true;
+                            realadj.add(c);
+                            realadj2.add(d);
+                            breakit = true;
+                            break;
                         }
+                    }
+                    if(breakit) {
+                        break;
                     }
                 }
             }
         }
+        //the above should find and add to realadj and realadj2 all of the adjacent cells to the original
+        //that match with the same white space region that has the room you're trying to finish
 
         if(!match) {
             return super.getInvalidUseOfRuleMessage() + ": This case rule must modify cells adjacent to the same white region.";
         }
+
+        match = false;
+
         //issue is ensuring that the 2 modified locations are related to the same white region. can't just make sure
         //white number size is same because there can be multiple that are the same
         //maybe point of white number being the same??
-        for (NurikabeCell c : adj) { //loops through adjacent cells
+        int intArray[] = new int[realadj.size()];
+        for(int k = 0; k < realadj.size(); k++) {
+            intArray[k] = -1;
+        }
+        int count = 0;
+        for (NurikabeCell c : realadj) { //loops through adjacent cells //changed to realadj
             Set<NurikabeCell> disRow = regions.getSet(c); //set of white spaces
             //if the location of any of the blocks is the same. User should realize that solution can't be made
             //if they correctly fill one room but it adds too many squares to another already completed room
@@ -126,26 +150,31 @@ public class FinishRoomCaseRule extends CaseRule {
                     if(regions.getSet(d).size()-1 == d.getData()) { //if that cells white area is 1 less than
                         //return null; //the size of the number of one of the number cells within that set
                         match = true;
+                        intArray[count] = count;
                     }
                 }
             }
+            count++;
         }
         if(!match) {
             return super.getInvalidUseOfRuleMessage() + ": This case rule must modify cells adjacent to the same white region that " +
                     "needs one more white cell to complete the room.";
         }
-        for (NurikabeCell c : adj2) { //loops through adjacent cells
+
+        count = 0;
+        for (NurikabeCell c : realadj2) { //loops through adjacent cells //changed to realadj2
             Set<NurikabeCell> disRow = regions.getSet(c); //set of white spaces
             //if the location of any of the blocks is the same. User should realize that solution can't be made
             //if they correctly fill one room but it adds too many squares to another already completed room
             for (NurikabeCell d : disRow) { //loops through white spaces
                 if (d.getType() == NurikabeType.NUMBER) { //if the white space is a number
-                    if(regions.getSet(d).size()-1 == d.getData()) { //if that cells white area is 1 less than
+                    if(regions.getSet(d).size()-1 == d.getData() && intArray[count] == count) { //if that cells white area is 1 less than
                         //return null; //the size of the number of one of the number cells within that set
                         return null;
                     }
                 }
             }
+            count++;
         }
         //if the cell is white and size of its column is 1 less than the room size
         //may not work for example with room of size 4 that is finished. But also a near adjacent room of size
@@ -175,8 +204,8 @@ public class FinishRoomCaseRule extends CaseRule {
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
-        ArrayList<Board> cases = new ArrayList<>();
+    public ArrayList<Board> getCases2(Board board, PuzzleElement puzzleElement, PuzzleElement puzzleElement2) { //add a 2nd puzzle element
+        ArrayList<Board> cases = new ArrayList<>(); //the second element is for other placed tile
         Board case1 = board.copy();
         PuzzleElement data1 = case1.getPuzzleElement(puzzleElement);
         data1.setData(NurikabeType.WHITE.toValue());
@@ -184,8 +213,8 @@ public class FinishRoomCaseRule extends CaseRule {
         cases.add(case1);
 
         Board case2 = board.copy();
-        PuzzleElement data2 = case2.getPuzzleElement(puzzleElement);
-        data2.setData(NurikabeType.WHITE.toValue());
+        PuzzleElement data2 = case2.getPuzzleElement(puzzleElement2);
+        data2.setData(NurikabeType.WHITE.toValue()); //changed to white
         case2.addModifiedData(data2);
         cases.add(case2);
 
@@ -202,7 +231,7 @@ public class FinishRoomCaseRule extends CaseRule {
      * otherwise error message
      */
     @Override
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+    public String checkRuleRawAt2(TreeTransition transition, PuzzleElement puzzleElement, PuzzleElement puzzleElement2) {
         return null;
     }
 }

@@ -49,6 +49,15 @@ public abstract class CaseRule extends Rule {
     public abstract List<Board> getCases(Board board, PuzzleElement puzzleElement);
 
     /**
+     * Gets the possible cases for this {@link Board} at a specific {@link PuzzleElement} and a second specific
+     * {@link PuzzleElement} based on this case rule
+     * @param board         the current board state
+     * @param puzzleElement equivalent puzzleElement
+     * @param puzzleElement2 equivalent puzzleElement
+     * @return a list of elements the specified could be
+     */
+    public abstract List<Board> getCases2(Board board, PuzzleElement puzzleElement, PuzzleElement puzzleElement2);
+    /**
      * Checks whether the {@link TreeTransition} logically follows from the parent node using this rule.
      *
      * @param transition transition to check
@@ -125,6 +134,17 @@ public abstract class CaseRule extends Rule {
      */
     @Override
     public abstract String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement);
+
+    /**
+     * Checks whether the child nodes logically follow from the parent node ath the specific puzzleElement indexes using
+     * this rule. This method is the one that should be overridden in child classes.
+     * @param transition    transition to check
+     * @param puzzleElement equivalent puzzleElement
+     * @param puzzleElement2 equivalent puzzleElement
+     * @return null if the child nodes logically follow from the parent node at the specified puzzleElements,
+     * otherwise error message
+     */
+    public abstract String checkRuleRawAt2(TreeTransition transition, PuzzleElement puzzleElement, PuzzleElement puzzleElement2);
 }
 
 
