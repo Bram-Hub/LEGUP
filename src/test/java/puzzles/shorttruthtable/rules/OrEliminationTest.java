@@ -75,4 +75,76 @@ public class OrEliminationTest {
         board.addModifiedData(cell);
         Assert.assertNotNull(RULE.checkRule(transition));
     }
+
+    /**
+     * Given a statement: A V B, where V is false
+     *
+     * Asserts that this is a valid application of the rule if and only if both A
+     * and B are false.
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void UFUTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/OrEliminationDirectRule/UFU", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
+
+        for (ShortTruthTableCellType cellType1 : cellTypes) {
+            for (ShortTruthTableCellType cellType2 : cellTypes) {
+                ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+                ShortTruthTableCell a = board.getCell(0, 0);
+                ShortTruthTableCell b = board.getCell(2, 0);
+
+                a.setData(cellType1);
+                b.setData(cellType2);
+
+                board.addModifiedData(a);
+                board.addModifiedData(b);
+
+                if (cellType1 == ShortTruthTableCellType.FALSE && cellType2 == ShortTruthTableCellType.FALSE) {
+                    Assert.assertNull(RULE.checkRule(transition));
+                }
+                else {
+                    Assert.assertNotNull(RULE.checkRule(transition));
+                }
+            }
+        }
+    }
+
+    /**
+     * Given a statement: A V B, where V is true
+     *
+     * Asserts that setting both A and B is not a valid application of this rule.
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void UTUTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/OrEliminationDirectRule/UTU", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
+
+        for (ShortTruthTableCellType cellType1 : cellTypes) {
+            for (ShortTruthTableCellType cellType2 : cellTypes) {
+                ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+                ShortTruthTableCell a = board.getCell(0, 0);
+                ShortTruthTableCell b = board.getCell(2, 0);
+
+                a.setData(cellType1);
+                b.setData(cellType2);
+
+                board.addModifiedData(a);
+                board.addModifiedData(b);
+
+                Assert.assertNotNull(RULE.checkRule(transition));
+            }
+        }
+    }
 }
