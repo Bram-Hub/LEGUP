@@ -25,51 +25,54 @@ public class OrEliminationTest {
     }
 
     /**
-     * Given a statement: A V B
+     * Given a statement: A V B, where A is false and V is true
      *
-     * Asserts that if either A or B are false,
+     * Asserts that this is a valid application of the rule if and only if B is true.
      *
      * @throws InvalidFileFormatException
      */
     @Test
-    public void OneFalseCannotDetermineFalseTest() throws InvalidFileFormatException {
-        String directory = "puzzles/shorttruthtable/rules/BiconditionalEliminationDirectRule/";
-        setAandBBothAtOnceTest(directory + "FalseBiconditional");
-        setAandBBothAtOnceTest(directory + "TrueBiconditional");
-        setAandBBothAtOnceTest(directory + "FalseBiconditionalWithFalseA");
-        setAandBBothAtOnceTest(directory + "TrueBiconditionalWithFalseA");
-        setAandBBothAtOnceTest(directory + "FalseBiconditionalWithTrueA");
-        setAandBBothAtOnceTest(directory + "TrueBiconditionalWithTrueA");
-    }
-
-    /**
-     * Helper function to test biconditional elimination rule with given file path.
-     *
-     * @param filePath The file path for test board setup.
-     * @throws InvalidFileFormatException
-     */
-    private void setAandBBothAtOnceTest(String filePath) throws InvalidFileFormatException {
-        TestUtilities.importTestBoard(filePath, stt);
+    public void FTUTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/OrEliminationDirectRule/FTU", stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
-        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+        ShortTruthTableCell cell = board.getCell(2, 0);
 
-        for (ShortTruthTableCellType cellType1 : cellTypes) {
-            for (ShortTruthTableCellType cellType2 : cellTypes) {
-                ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
-                ShortTruthTableCell rick = board.getCell(0, 0);
-                ShortTruthTableCell morty = board.getCell(2, 0);
+        cell.setData(ShortTruthTableCellType.TRUE);
+        board.addModifiedData(cell);
+        Assert.assertNull(RULE.checkRule(transition));
 
-                rick.setData(cellType1);
-                morty.setData(cellType2);
+        cell.setData(ShortTruthTableCellType.FALSE);
+        board.addModifiedData(cell);
+        Assert.assertNotNull(RULE.checkRule(transition));
+    }
 
-                board.addModifiedData(rick);
-                board.addModifiedData(morty);
+    /**
+     * Given a statement: A V B, where B is false and V is true
+     *
+     * Asserts that this is a valid application of the rule if and only if B is true.
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void UTFTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/OrEliminationDirectRule/UTF", stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
 
-                Assert.assertNotNull(RULE.checkRule(transition));
-            }
-        }
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+        ShortTruthTableCell cell = board.getCell(0, 0);
+
+        cell.setData(ShortTruthTableCellType.TRUE);
+        board.addModifiedData(cell);
+        Assert.assertNull(RULE.checkRule(transition));
+
+        cell.setData(ShortTruthTableCellType.FALSE);
+        board.addModifiedData(cell);
+        Assert.assertNotNull(RULE.checkRule(transition));
     }
 }
