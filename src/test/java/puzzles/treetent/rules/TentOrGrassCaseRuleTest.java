@@ -55,20 +55,13 @@ public class TentOrGrassCaseRuleTest {
         // assert correct number of cases created
         Assert.assertEquals(2, cases.size());
 
-        // expected boards
-        TreeTentCell changed_cell;
+        // TENT case
+        TreeTentBoard tentCase = (TreeTentBoard) cases.get(0);
+        Assert.assertEquals(tentCase.getCell(0, 0).getType(), TreeTentType.TENT);
 
-        // case1 (TENT case)
-        TreeTentBoard case1 = ((TreeTentBoard) transition.getBoard()).copy();
-        changed_cell = case1.getCell(0, 0);
-        changed_cell.setData(TreeTentType.TENT);
-        Assert.assertTrue(cases.contains((TreeTentBoard) case1));
-
-        // case2 (GRASS case)
-        TreeTentBoard case2 = ((TreeTentBoard) transition.getBoard()).copy();
-        changed_cell = case2.getCell(0, 0);
-        changed_cell.setData(TreeTentType.GRASS);
-        Assert.assertTrue(cases.contains((TreeTentBoard) case2));
+        // GRASS case
+        TreeTentBoard grassCase = (TreeTentBoard) cases.get(1);
+        Assert.assertEquals(tentCase.getCell(0, 0).getType(), TreeTentType.GRASS);
 
         // checks other cells have not been modified
         TreeTentCell original_cell;
@@ -80,15 +73,12 @@ public class TentOrGrassCaseRuleTest {
                     continue;
                 }
                 original_cell = board.getCell(w, h);
-                case_cell = case1.getCell(w, h);
+                case_cell = tentCase.getCell(w, h);
                 Assert.assertEquals(original_cell, case_cell);
 
-                case_cell = case2.getCell(w, h);
+                case_cell = grassCase.getCell(w, h);
                 Assert.assertEquals(original_cell, case_cell);
             }
         }
     }
 }
-
-
-
