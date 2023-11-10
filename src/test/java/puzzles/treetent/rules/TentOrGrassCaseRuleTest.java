@@ -62,13 +62,13 @@ public class TentOrGrassCaseRuleTest {
         TreeTentBoard case1 = ((TreeTentBoard) transition.getBoard()).copy();
         changed_cell = case1.getCell(0, 0);
         changed_cell.setData(TreeTentType.TENT);
-        Assert.assertTrue(cases.contains(case1));
+        Assert.assertTrue(cases.contains((TreeTentBoard) case1));
 
         // case2 (GRASS case)
         TreeTentBoard case2 = ((TreeTentBoard) transition.getBoard()).copy();
         changed_cell = case2.getCell(0, 0);
         changed_cell.setData(TreeTentType.GRASS);
-        Assert.assertTrue(cases.contains(case2));
+        Assert.assertTrue(cases.contains((TreeTentBoard) case2));
 
         // checks other cells have not been modified
         TreeTentCell original_cell;
