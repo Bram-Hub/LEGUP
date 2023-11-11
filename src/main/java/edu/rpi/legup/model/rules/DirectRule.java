@@ -48,7 +48,9 @@ public abstract class DirectRule extends Rule {
     public String checkRuleRaw(TreeTransition transition) {
         Board finalBoard = transition.getBoard();
         String checkStr = null;
-        if (finalBoard.getModifiedData().isEmpty()) checkStr = "Board must be modified";
+        if (finalBoard.getModifiedData().isEmpty()) {
+            checkStr = "Board must be modified";
+        }
         for (PuzzleElement puzzleElement : finalBoard.getModifiedData()) {
             String tempStr = checkRuleAt(transition, puzzleElement);
             if (tempStr != null) {
