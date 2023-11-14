@@ -79,7 +79,6 @@ public class OrIntroductionTest {
         }
     }
 
-
     private void falseOrTestHelper(String filePath) throws InvalidFileFormatException {
         TestUtilities.importTestBoard(filePath, stt);
         TreeNode rootNode = stt.getTree().getRootNode();
