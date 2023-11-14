@@ -72,9 +72,11 @@ public class OrIntroductionTest {
     public void FalseOrTest() throws InvalidFileFormatException {
         String path = "puzzles/shorttruthtable/rules/OrIntroductionDirectRule/";
         String[] letters = {"T", "F", "U"};
-        for (String first : letters)
-            for (String second : letters)
+        for (String first : letters) {
+            for (String second : letters) {
                 falseOrTestHelper(path + first + "U" + second);
+            }
+        }
     }
 
 
