@@ -99,4 +99,26 @@ public class SurroundRegionDirectRuleTest {
             }
         }
     }
+
+
+    /**
+     * Tests the Surround Region direct rule for a false application of the rule
+     */
+    @Test
+    public void SurroundRegionDirectRule_FalseSurroundRegionBlackTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/SurroundRegionDirectRule/FalseSurroundRegion", nurikabe);
+        TreeNode rootNode = nurikabe.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Assert.assertNotNull(RULE.checkRuleAt(transition,board.getCell(k,i)));
+            }
+        }
+    }
+
+
 }

@@ -115,4 +115,30 @@ public class FillinWhiteDirectRuleTest {
             }
         }
     }
+
+    /**
+     * Tests the Fillin White direct rule for a false application of the rule
+     */
+    @Test
+    public void FillinWhiteDirectRule_FalseTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/FillinWhiteDirectRule/FalseFillinWhite", nurikabe);
+        TreeNode rootNode = nurikabe.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+        NurikabeCell cell = board.getCell(1,1);
+        cell.setData(NurikabeType.WHITE.toValue());
+        board.addModifiedData(cell);
+
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        Point location = new Point(1, 1);
+        for(int i = 0; i < board.getHeight(); i++) {
+            for(int k = 0; k < board.getWidth(); k++) {
+                Assert.assertNotNull(RULE.checkRuleAt(transition,board.getCell(k,i)));
+            }
+        }
+    }
+
 }

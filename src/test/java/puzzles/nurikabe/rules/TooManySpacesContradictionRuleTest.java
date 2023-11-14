@@ -5,6 +5,7 @@ import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -72,5 +73,29 @@ public class TooManySpacesContradictionRuleTest {
                 Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
             }
         }
+    }
+
+    /**
+     * Tests the Too Many Spaces contradiction rule for a contradiction.with multiple numbers, wherein one of the numbers is larger than the region
+     */
+    @Test
+    public void TooManySpacesContradictionRule_MultipleNumberRegion() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/TooManySpacesContradictionRule/MultipleNumberRegion", nurikabe);
+        TreeNode rootNode = nurikabe.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+
+        Assert.assertNull(RULE.checkContradiction(board));
+        for(int i=0; i<board.getHeight(); i++){
+            for(int k=0; k<board.getWidth(); k++){
+                Point point = new Point(k,i);
+                if(point.equals(board.getCell(2,1).getLocation())){
+                    Assert.assertNull(RULE.checkRuleAt(transition,board.getCell(k,i)));
+                }
+            }
+        }
+
     }
 }

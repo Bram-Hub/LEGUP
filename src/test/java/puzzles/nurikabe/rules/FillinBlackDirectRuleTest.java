@@ -117,4 +117,27 @@ public class FillinBlackDirectRuleTest {
             }
         }
     }
+
+    /**
+     * Tests the Fillin Black direct rule for a false application of the rule
+     */
+    @Test
+    public void FillinBlackDirectRule_FalseTest() throws InvalidFileFormatException{
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/FillinBlackDirectRule/FalseFillinBlack", nurikabe);
+        TreeNode rootNode = nurikabe.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+        NurikabeCell cell = board.getCell(1, 1);
+        cell.setData(NurikabeType.BLACK.toValue());
+        board.addModifiedData(cell);
+
+        Assert.assertNotNull(RULE.checkRule(transition));
+        for(int i=0; i<board.getHeight(); i++){
+            for(int k=0; k<board.getWidth(); k++){
+                Assert.assertNotNull(RULE.checkRuleAt(transition,board.getCell(k,i)));
+            }
+        }
+    }
 }

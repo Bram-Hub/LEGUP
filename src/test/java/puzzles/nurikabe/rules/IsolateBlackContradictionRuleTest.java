@@ -27,7 +27,7 @@ public class IsolateBlackContradictionRuleTest {
     }
 
     /**
-     * Tests the Isolate Black contradiction rule for a black squares in the corner, separated by a diagonal of white squares
+     * Tests the Isolate Black contradiction rule for a black square in the corner, separated by a diagonal of white squares
      */
     @Test
     public void IsolateBlackContradictionRule_SimpleIsolateBlackTest() throws InvalidFileFormatException {
@@ -82,6 +82,26 @@ public class IsolateBlackContradictionRuleTest {
                 else{
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k,i)));
                 }
+            }
+        }
+    }
+
+    /**
+     * Tests the Isolate Black contradiction rule for a false contradiction
+     */
+    @Test
+    public void IsolateBlackContradictionRule_FalseIsolateBlackTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/IsolateBlackContradictionRule/FalseIsolateBlack",nurikabe);
+        TreeNode rootNode = nurikabe.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+
+        Assert.assertNotNull(RULE.checkRule(transition));
+        for(int i=0; i<board.getHeight(); i++){
+            for(int k=0; k<board.getWidth(); k++){
+                Assert.assertNotNull(RULE.checkRuleAt(transition,board.getCell(k,i)));
             }
         }
     }

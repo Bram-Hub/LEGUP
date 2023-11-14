@@ -81,4 +81,27 @@ public class TooFewSpacesContradictionRuleTest {
             }
         }
     }
+
+    /**
+     * Tests the Too Few Spaces contradiction rule for a false contradiction
+     */
+    @Test
+    public void TooFewSpacesContradictionRule_FalseTooFewSpaces() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/TooFewSpacesContradictionRule/FalseTooFewSpaces", nurikabe);
+        TreeNode rootNode = nurikabe.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+        NurikabeCell cell1 = board.getCell(1,1);
+
+
+        Assert.assertNotNull(RULE.checkContradiction((NurikabeBoard)transition.getBoard()));
+        for(int i=0; i<board.getHeight(); i++){
+            for(int k=0; k<board.getWidth(); k++){
+                Assert.assertNotNull(RULE.checkRuleAt(transition,board.getCell(k,i)));
+            }
+        }
+
+    }
 }

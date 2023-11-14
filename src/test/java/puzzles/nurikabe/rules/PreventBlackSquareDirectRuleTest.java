@@ -146,4 +146,24 @@ public class PreventBlackSquareDirectRuleTest {
             }
         }
     }
+
+    /**
+     * Tests the Prevent Black Square direct rule for a false contradiction
+     */
+    @Test
+    public void PreventBlackSquareDirectRule_FalseTest() throws InvalidFileFormatException{
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareDirectRule/FalseBlackSquare", nurikabe);
+        TreeNode rootNode = nurikabe.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+
+
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Assert.assertNotNull(RULE.checkRuleAt(transition,board.getCell(k,i)));
+            }
+        }
+    }
 }

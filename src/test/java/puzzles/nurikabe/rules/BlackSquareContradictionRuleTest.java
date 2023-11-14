@@ -85,7 +85,27 @@ public class BlackSquareContradictionRuleTest {
                     Assert.assertNotNull(RULE.checkRuleAt(transition,board.getCell(k,i)));
                 }
             }
-            System.out.println();
+        }
+    }
+
+    /**
+     * Tests the Black Square contradiction rule for a false contradiction
+     */
+    @Test
+    public void BlackSquareContradictionRule_FalseBlackSquareTest() throws InvalidFileFormatException{
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/BlackSquareContradictionRule/FalseBlackSquare", nurikabe);
+        TreeNode rootNode = nurikabe.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+
+        Assert.assertNotNull(RULE.checkContradiction((NurikabeBoard) transition.getBoard()));
+
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Assert.assertNotNull(RULE.checkRuleAt(transition,board.getCell(k,i)));
+            }
         }
     }
 }

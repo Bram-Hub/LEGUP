@@ -50,12 +50,12 @@ public class BlackOrWhiteCaseRuleTest {
         NurikabeBoard caseBoard = (NurikabeBoard) cases.get(0);
         NurikabeBoard caseBoard2 = (NurikabeBoard) cases.get(1);
 
-        Integer v1 = new Integer(0);
-        Integer v2 = new Integer(-1);
+        NurikabeType board1Type = caseBoard.getCell(0,0).getType();
+        NurikabeType board2Type = caseBoard2.getCell(0,0).getType();
 
-        Assert.assertTrue((caseBoard.getCell(0,0).getData().equals(v1) || caseBoard.getCell(0,0).equals(v2)) &&
-                (caseBoard2.getCell(0,0).getData().equals(v1) || caseBoard2.getCell(0,0).getData().equals(v2)));
-        Assert.assertFalse(caseBoard.getCell(0,0).getData().equals(caseBoard2.getCell(0,0).getData()));
+        Assert.assertTrue((board1Type.equals(NurikabeType.BLACK) || board1Type.equals(NurikabeType.WHITE)) &&
+                (board2Type.equals(NurikabeType.BLACK) || board2Type.equals(NurikabeType.WHITE)));
+        Assert.assertFalse(board1Type.equals(board2Type));
 
         Assert.assertEquals(caseBoard.getHeight(),caseBoard2.getHeight(), board.getHeight());
         Assert.assertEquals(caseBoard.getWidth(),caseBoard2.getWidth(), board.getWidth());
