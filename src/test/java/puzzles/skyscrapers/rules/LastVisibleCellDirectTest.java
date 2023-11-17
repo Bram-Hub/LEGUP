@@ -1,12 +1,18 @@
 package puzzles.skyscrapers.rules;
 
 
+import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.skyscrapers.Skyscrapers;
-import edu.rpi.legup.puzzle.skyscrapers.rules.LastSingularCellDirectRule;
+import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersBoard;
+import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersCell;
 import edu.rpi.legup.puzzle.skyscrapers.rules.LastVisibleCellDirectRule;
+import edu.rpi.legup.save.InvalidFileFormatException;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
+import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.awt.*;
 
@@ -24,7 +30,7 @@ public class LastVisibleCellDirectTest {
     //full row
     @Test
     public void LastVisibleCellDirectRule_FullRowTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/common/3-0RowOpening", skyscrapers);
+        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/3-0RowOpening", skyscrapers);
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -53,7 +59,7 @@ public class LastVisibleCellDirectTest {
     //full col
     @Test
     public void LastVisibleCellDirectRule_FullColTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/common/3-0ColOpening", skyscrapers);
+        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/3-0ColOpening", skyscrapers);
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -82,7 +88,7 @@ public class LastVisibleCellDirectTest {
     //empty row
     @Test
     public void LastVisibleCellDirectRule_EmptyRowTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/common/empty", skyscrapers);
+        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/empty", skyscrapers);
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -111,7 +117,7 @@ public class LastVisibleCellDirectTest {
     //empty col
     @Test
     public void LastVisibleCellDirectRule_EmptyColTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/common/empty", skyscrapers);
+        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/empty", skyscrapers);
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -139,7 +145,7 @@ public class LastVisibleCellDirectTest {
 
     //1-2 row
     public void LastVisibleCellDirectRule_PartialRowTest1() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/LastVisibleDirectRules/1-2RowOpening", skyscrapers);
+        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/LastVisibleDirectRules/1-2RowOpening", skyscrapers);
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -167,7 +173,7 @@ public class LastVisibleCellDirectTest {
 
     //1-2 col
     public void LastVisibleCellDirectRule_PartialColTest1() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/LastVisibleDirectRules/1-2ColOpening", skyscrapers);
+        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/LastVisibleDirectRules/1-2ColOpening", skyscrapers);
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -195,7 +201,7 @@ public class LastVisibleCellDirectTest {
 
     //2-1 row
     public void LastVisibleCellDirectRule_PartialRowTest2() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/LastVisibleDirectRules/2-1RowOpening", skyscrapers);
+        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/LastVisibleDirectRules/2-1RowOpening", skyscrapers);
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -223,7 +229,7 @@ public class LastVisibleCellDirectTest {
 
     //2-1 col
     public void LastVisibleCellDirectRule_PartialColTest2() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/LastVisibleDirectRules/2-1ColOpening", skyscrapers);
+        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/LastVisibleDirectRules/2-1ColOpening", skyscrapers);
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);

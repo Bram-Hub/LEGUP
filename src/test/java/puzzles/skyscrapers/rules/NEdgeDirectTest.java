@@ -1,12 +1,18 @@
 package puzzles.skyscrapers.rules;
 
 
+import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.skyscrapers.Skyscrapers;
-import edu.rpi.legup.puzzle.skyscrapers.rules.LastSingularCellDirectRule;
+import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersBoard;
+import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersCell;
 import edu.rpi.legup.puzzle.skyscrapers.rules.NEdgeDirectRule;
+import edu.rpi.legup.save.InvalidFileFormatException;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
+import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.awt.*;
 
@@ -24,7 +30,7 @@ public class NEdgeDirectTest {
     //-> row, empty -> full
     @Test
     public void NEdgeDirectRule_RightRowTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/common/empty", skyscrapers);
+        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/empty", skyscrapers);
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -53,7 +59,7 @@ public class NEdgeDirectTest {
     //<-row, partial -> partial
     @Test
     public void NEdgeDirectRule_LeftRowTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/NEdgeDirectRule/LeftRowPartial", skyscrapers);
+        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/NEdgeDirectRule/LeftRowPartial", skyscrapers);
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -82,7 +88,7 @@ public class NEdgeDirectTest {
     //up col, partial -> full
     @Test
     public void NEdgeDirectRule_UpColTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/NEdgeDirectRule/UpColPartial", skyscrapers);
+        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/NEdgeDirectRule/UpColPartial", skyscrapers);
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -111,7 +117,7 @@ public class NEdgeDirectTest {
     //down col, empty -> partial
     @Test
     public void NEdgeDirectRule_DownColTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/NEdgeDirectRule/DownColEmpty", skyscrapers);
+        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/NEdgeDirectRule/DownColEmpty", skyscrapers);
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -119,7 +125,7 @@ public class NEdgeDirectTest {
         SkyscrapersBoard board = (SkyscrapersBoard)transition.getBoard();
         for(int i = 1; i < 5; i++){
             SkyscrapersCell cell = board.getCell(3,i);
-            cell.setData(i + 1);
+            cell.setData(5 - i);
             board.addModifiedData(cell);
         }
 
