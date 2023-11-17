@@ -6,7 +6,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCell;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
-import edu.rpi.legup.puzzle.shorttruthtable.rules.basic.introduction.DirectRuleOrIntroduction;
+import edu.rpi.legup.puzzle.shorttruthtable.rules.basic.introduction.DirectRuleAndIntroduction;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
@@ -14,8 +14,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class OrIntroductionTest {
-    private static final DirectRuleOrIntroduction RULE = new DirectRuleOrIntroduction();
+public class AndIntroductionDirectRuleTest {
+    private static final DirectRuleAndIntroduction RULE = new DirectRuleAndIntroduction();
     private static ShortTruthTable stt;
 
     @BeforeClass
@@ -25,63 +25,63 @@ public class OrIntroductionTest {
     }
 
     /**
-     * Given a statement: A V B
+     * Given a statement: A ^ B
      *
-     * Asserts that if at least 1 of A or B is true, then this is a valid application
-     * of the rule if and only if V is true.
+     * Asserts that if at least 1 of A or B is false, then this is a valid application
+     * of the rule if and only if ^ is false.
      *
      * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
      */
     @Test
-    public void TrueOrTest() throws InvalidFileFormatException {
-        String path = "puzzles/shorttruthtable/rules/OrIntroductionDirectRule/";
-        trueOrTestHelper(path + "TUT");
-        trueOrTestHelper(path + "TUU");
-        trueOrTestHelper(path + "UUT");
-        trueOrTestHelper(path + "TUF");
-        trueOrTestHelper(path + "FUT");
+    public void FalseAndTest() throws InvalidFileFormatException {
+        String path = "puzzles/shorttruthtable/rules/AndIntroductionDirectRule/";
+        falseAndTestHelper(path + "FUF");
+        falseAndTestHelper(path + "FUU");
+        falseAndTestHelper(path + "UUF");
+        falseAndTestHelper(path + "FUT");
+        falseAndTestHelper(path + "TUF");
     }
 
-    private void trueOrTestHelper(String filePath) throws InvalidFileFormatException {
+    private void falseAndTestHelper(String filePath) throws InvalidFileFormatException {
         TestUtilities.importTestBoard(filePath, stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
-        ShortTruthTableCell or = board.getCell(1, 0);
+        ShortTruthTableCell and = board.getCell(1, 0);
 
-        or.setData(ShortTruthTableCellType.TRUE);
-        board.addModifiedData(or);
-        Assert.assertNull(RULE.checkRule(transition));
-
-        or.setData(ShortTruthTableCellType.FALSE);
-        board.addModifiedData(or);
+        and.setData(ShortTruthTableCellType.TRUE);
+        board.addModifiedData(and);
         Assert.assertNotNull(RULE.checkRule(transition));
+
+        and.setData(ShortTruthTableCellType.FALSE);
+        board.addModifiedData(and);
+        Assert.assertNull(RULE.checkRule(transition));
     }
 
     /**
-     * Given a statement: A V B
+     * Given a statement: A ^ B
      *
-     * Asserts that setting V to false is a valid application of the rule if
-     * and only if both A and B are false.
+     * Asserts that setting ^ to true is a valid application of the rule if
+     * and only if both A and B are true.
      *
      * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
      */
     @Test
     public void FalseOrTest() throws InvalidFileFormatException {
-        String path = "puzzles/shorttruthtable/rules/OrIntroductionDirectRule/";
+        String path = "puzzles/shorttruthtable/rules/AndIntroductionDirectRule/";
         String[] letters = {"T", "F", "U"};
         for (String first : letters) {
             for (String second : letters) {
-                falseOrTestHelper(path + first + "U" + second);
+                trueAndTestHelper(path + first + "U" + second);
             }
         }
     }
 
-    private void falseOrTestHelper(String filePath) throws InvalidFileFormatException {
+    private void trueAndTestHelper(String filePath) throws InvalidFileFormatException {
         TestUtilities.importTestBoard(filePath, stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -90,12 +90,12 @@ public class OrIntroductionTest {
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
         ShortTruthTableCell a = board.getCell(0, 0);
         ShortTruthTableCell b = board.getCell(2, 0);
-        ShortTruthTableCell or = board.getCell(1, 0);
+        ShortTruthTableCell and = board.getCell(1, 0);
 
-        or.setData(ShortTruthTableCellType.FALSE);
-        board.addModifiedData(or);
+        and.setData(ShortTruthTableCellType.TRUE);
+        board.addModifiedData(and);
 
-        if (a.getType() == ShortTruthTableCellType.FALSE && b.getType() == ShortTruthTableCellType.FALSE) {
+        if (a.getType() == ShortTruthTableCellType.TRUE && b.getType() == ShortTruthTableCellType.TRUE) {
             Assert.assertNull(RULE.checkRule(transition));
         }
         else {
