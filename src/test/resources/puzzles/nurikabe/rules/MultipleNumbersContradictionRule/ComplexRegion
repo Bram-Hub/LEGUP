@@ -1,0 +1,19 @@
+<Legup>
+    <puzzle name="Nurikabe">
+        <board width="5" height="5">
+            <cells>
+                <cell value="6" x="0" y="0"/>
+                <cell value="0" x="1" y="0"/>
+                <cell value="6" x="2" y="0"/>
+                <cell value="0" x="3" y="0"/>
+                <cell value="6" x="4" y="0"/>
+                <cell value="0" x="2" y="1"/>
+                <cell value="5" x="2" y="3"/>
+                <cell value="0" x="3" y="3"/>
+                <cell value="0" x="2" y="4"/>
+                <cell value="0" x="3" y="4"/>
+                <cell value="5" x="4" y="4"/>
+            </cells>
+        </board>
+    </puzzle>
+</Legup>
