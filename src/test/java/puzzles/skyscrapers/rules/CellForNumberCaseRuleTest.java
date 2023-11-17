@@ -103,7 +103,7 @@ public class CellForNumberCaseRuleTest {
     //dupe, 1 case
     @Test
     public void CellForNumberCaseRule_DupeSingular() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/CaseRules/3-1Opening", skyscrapers);
+        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/3-0RowOpening", skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -184,7 +184,7 @@ public class CellForNumberCaseRuleTest {
     //visibility, 1 Case, direct
     @Test
     public void CellForNumberCaseRule_ViewSingular() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/CaseRules/3-1Opening", skyscrapers);
+        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/3-0RowOpening", skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
