@@ -109,6 +109,20 @@ public class TestRunner {
         printTestResults(result40);
         Result result41 = JUnitCore.runClasses(UnresolvedNumberContradictionTest.class);
         printTestResults(result41);
+        Result result42 = JUnitCore.runClasses(NumberForCellCaseRuleTest.class);
+        printTestResults(result42);
+        Result result43 = JUnitCore.runClasses(CellForNumberCaseRuleTest.class);
+        printTestResults(result43);
+        Result result44 = JUnitCore.runClasses(LastSingularNumberDirectTest.class);
+        printTestResults(result44);
+        Result result45 = JUnitCore.runClasses(LastVisibleNumberDirectTest.class);
+        printTestResults(result45);
+        Result result46 = JUnitCore.runClasses(LastSingularCellDirectTest.class);
+        printTestResults(result46);
+        Result result47 = JUnitCore.runClasses(LastVisibleCellDirectTest.class);
+        printTestResults(result47);
+        Result result48 = JUnitCore.runClasses(NEdgeDirectTest.class);
+        printTestResults(result48);
 
     }
 

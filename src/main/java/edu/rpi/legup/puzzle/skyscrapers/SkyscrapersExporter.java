@@ -48,6 +48,11 @@ public class SkyscrapersExporter extends PuzzleExporter {
         }
         boardElement.appendChild(axisSouth);
 
+        org.w3c.dom.Element flagsElement = newDocument.createElement("flags");
+        flagsElement.setAttribute("dupe",String.valueOf(board.getDupeFlag()));
+        flagsElement.setAttribute("view",String.valueOf(board.getViewFlag()));
+        boardElement.appendChild(flagsElement);
+
         if (!board.getLines().isEmpty()) {
             org.w3c.dom.Element linesElement = newDocument.createElement("lines");
             for (PuzzleElement data : board.getLines()) {
