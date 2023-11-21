@@ -75,27 +75,34 @@ public class GridBoard extends Board {
                 if (m.getButton() == MouseEvent.BUTTON1) {
                     if (clue.getData() < dimension.height) {
                         clue.setData(clue.getData() + 1);
-                    } else {
+                    }
+                    else {
                         clue.setData(0);
                     }
-                } else {
+                }
+                else {
                     if (clue.getData() > 0) {
                         clue.setData(clue.getData() - 1);
-                    } else {
+                    }
+                    else {
                         clue.setData(dimension.height);
                     }
                 }
-            } else { //x == dimension.width
+            }
+            else { //x == dimension.width
                 if (m.getButton() == MouseEvent.BUTTON1) {
                     if (clue.getData() < dimension.width) {
                         clue.setData(clue.getData() + 1);
-                    } else {
+                    }
+                    else {
                         clue.setData(0);
                     }
-                } else {
+                }
+                else {
                     if (clue.getData() > 0) {
                         clue.setData(clue.getData() - 1);
-                    } else {
+                    }
+                    else {
                         clue.setData(dimension.width);
                     }
                 }
