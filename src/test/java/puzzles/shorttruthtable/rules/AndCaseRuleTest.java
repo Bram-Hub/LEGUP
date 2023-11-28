@@ -28,30 +28,28 @@ public class AndCaseRuleTest {
         stt = new ShortTruthTable();
     }
 
-    /**
-     * Given a statement A ^ B where ^ is false, tests this case rule by ensuring that
-     * two branches are created: one where A is false and one where B is false.
-     */
-    @Test
-    public void SimpleStatement1FalseTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AndCaseRule/SimpleStatement1_False", stt);
+    private void falseAndTest(String fileName,
+                              int andX, int andY,
+                              int aX, int aY,
+                              int bX, int bY) throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AndCaseRule/" + fileName, stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
-        ShortTruthTableCell cell = board.getCell(1,0);
+        ShortTruthTableCell cell = board.getCell(andX,andY);
         ArrayList<Board> cases = RULE.getCases(board, cell);
 
         Assert.assertEquals(2, cases.size());
 
         ShortTruthTableBoard caseBoard1 = (ShortTruthTableBoard) cases.get(0);
-        ShortTruthTableCellType board1A = caseBoard1.getCell(0, 0).getType();
-        ShortTruthTableCellType board1B = caseBoard1.getCell(2, 0).getType();
+        ShortTruthTableCellType board1A = caseBoard1.getCell(aX, aY).getType();
+        ShortTruthTableCellType board1B = caseBoard1.getCell(bX, bY).getType();
 
         ShortTruthTableBoard caseBoard2 = (ShortTruthTableBoard) cases.get(1);
-        ShortTruthTableCellType board2A = caseBoard2.getCell(0, 0).getType();
-        ShortTruthTableCellType board2B = caseBoard2.getCell(2, 0).getType();
+        ShortTruthTableCellType board2A = caseBoard2.getCell(aX, aY).getType();
+        ShortTruthTableCellType board2B = caseBoard2.getCell(bX, bY).getType();
 
         // Assert that the corresponding cells for the different case rules do not
         // match with each other
@@ -74,8 +72,17 @@ public class AndCaseRuleTest {
 
         // Verify that everywhere else on the board is unchanged, which, in this case,
         // is just the and cell
-        ShortTruthTableCellType board1And = caseBoard1.getCell(1, 0).getType();
-        ShortTruthTableCellType board2And = caseBoard1.getCell(1, 0).getType();
+        ShortTruthTableCellType board1And = caseBoard1.getCell(andX, andY).getType();
+        ShortTruthTableCellType board2And = caseBoard2.getCell(andX, andY).getType();
         Assert.assertEquals(board1And, board2And);
+    }
+
+    /**
+     * Given a statement A ^ B where ^ is false, tests this case rule by ensuring that
+     * two branches are created: one where A is false and one where B is false.
+     */
+    @Test
+    public void SimpleStatement1FalseTest() throws InvalidFileFormatException {
+        falseAndTest("SimpleStatement1_False", 1, 0, 0, 0, 2, 0);
     }
 }
