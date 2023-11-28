@@ -83,6 +83,18 @@ public class AndCaseRuleTest {
      */
     @Test
     public void SimpleStatement1FalseTest() throws InvalidFileFormatException {
-        falseAndTest("SimpleStatement1_False", 1, 0, 0, 0, 2, 0);
+        falseAndTest("SimpleStatement1_False", 1, 0, 0, 0,
+                2, 0);
+    }
+
+    /**
+     * Given a statement ~(A|B)^(C^D) where the first ^ is false, tests this case rule
+     * by ensuring that two branches are created: one where ~ is false and one where
+     * the second ^ is false.
+     */
+    @Test
+    public void ComplexStatement1FalseTest() throws InvalidFileFormatException {
+        falseAndTest("ComplexStatement1_False", 6, 0, 0, 0,
+                9, 0);
     }
 }
