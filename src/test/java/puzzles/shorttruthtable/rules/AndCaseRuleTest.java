@@ -102,10 +102,52 @@ public class AndCaseRuleTest {
                 9, 0);
     }
 
-//    private void trueAndTest(String fileName,
-//                             int andX, int andY,
-//                             int aX, int aY,
-//                             int bX, int bY) throws InvalidFileFormatException {
-//
-//    }
+    private void trueAndTest(String fileName,
+                             int andX, int andY,
+                             int aX, int aY,
+                             int bX, int bY) throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AndCaseRule/" + fileName, stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+        ShortTruthTableCell cell = board.getCell(andX,andY);
+        ArrayList<Board> cases = RULE.getCases(board, cell);
+
+        // There should only be 1 branch
+        Assert.assertEquals(1, cases.size());
+
+        ShortTruthTableBoard caseBoard = (ShortTruthTableBoard) cases.get(0);
+        ShortTruthTableCellType caseBoardAType = caseBoard.getCell(aX, aY).getType();
+        ShortTruthTableCellType caseBoardBType = caseBoard.getCell(bX, bY).getType();
+
+        // Both cells should be true
+        Assert.assertEquals(caseBoardAType, ShortTruthTableCellType.TRUE);
+        Assert.assertEquals(caseBoardBType, ShortTruthTableCellType.TRUE);
+        Assert.assertEquals(caseBoardAType, caseBoardBType);
+
+        // Verify the board dimensions are unchanged
+        Assert.assertEquals(caseBoard.getHeight(), caseBoard.getHeight(), board.getHeight());
+    }
+
+    /**
+     * Given a statement A ^ B where ^ is false, tests this case rule by ensuring that
+     * one branch is created where A and B are both true.
+     */
+    @Test
+    public void SimpleStatement1AndTest() throws InvalidFileFormatException {
+        trueAndTest("SimpleStatement1_True", 1, 0, 0, 0,
+                2, 0);
+    }
+
+    /**
+     * Given a statement ~(A|B)^(C^D) where the first ^ is true, tests this case rule
+     * by ensuring that one branch is created where both ~ and the second ^ are true.
+     */
+    @Test
+    public void ComplexStatement1TrueTest() throws InvalidFileFormatException {
+        trueAndTest("ComplexStatement1_True", 6, 0, 0, 0,
+                9, 0);
+    }
 }
