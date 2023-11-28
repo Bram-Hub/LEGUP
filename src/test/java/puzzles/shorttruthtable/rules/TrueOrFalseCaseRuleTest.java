@@ -66,7 +66,7 @@ public class TrueOrFalseCaseRuleTest {
             for (int j = 0; j < caseBoard1.getHeight(); j++) {
                 // Make sure not to check the one cell that should be different
                 if (i != 0 && j != 0) {
-                    Assert.assertEquals(caseBoard1.getCell(i, j), caseBoard2.getCell(i, j));
+                    Assert.assertEquals(caseBoard1.getCell(i, j).getType(), caseBoard2.getCell(i, j).getType());
                 }
             }
         }

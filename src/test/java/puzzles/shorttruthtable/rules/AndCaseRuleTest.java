@@ -70,11 +70,15 @@ public class AndCaseRuleTest {
         Assert.assertEquals(caseBoard1.getHeight(), caseBoard2.getHeight(), board.getHeight());
         Assert.assertEquals(caseBoard1.getWidth(), caseBoard2.getWidth(), board.getWidth());
 
-        // Verify that everywhere else on the board is unchanged, which, in this case,
-        // is just the and cell
-        ShortTruthTableCellType board1And = caseBoard1.getCell(andX, andY).getType();
-        ShortTruthTableCellType board2And = caseBoard2.getCell(andX, andY).getType();
-        Assert.assertEquals(board1And, board2And);
+        // Verify that everywhere else on the board is unchanged
+        for (int i = 0; i< caseBoard1.getWidth(); i++) {
+            for (int j = 0; j < caseBoard1.getHeight(); j++) {
+                // Make sure not to check the two cells that should be different
+                if (!((i == aX && j == aY) || (i == bX && j == bY))) {
+                    Assert.assertEquals(caseBoard1.getCell(i, j).getType(), caseBoard2.getCell(i, j).getType());
+                }
+            }
+        }
     }
 
     /**
@@ -97,4 +101,11 @@ public class AndCaseRuleTest {
         falseAndTest("ComplexStatement1_False", 6, 0, 0, 0,
                 9, 0);
     }
+
+//    private void trueAndTest(String fileName,
+//                             int andX, int andY,
+//                             int aX, int aY,
+//                             int bX, int bY) throws InvalidFileFormatException {
+//
+//    }
 }
