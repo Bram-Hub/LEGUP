@@ -41,6 +41,10 @@ public class AndCaseRuleTest {
         ShortTruthTableCell cell = board.getCell(andX,andY);
         ArrayList<Board> cases = RULE.getCases(board, cell);
 
+        // Make sure that the rule checks out
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        // Make sure there are two branches
         Assert.assertEquals(2, cases.size());
 
         ShortTruthTableBoard caseBoard1 = (ShortTruthTableBoard) cases.get(0);
@@ -114,6 +118,9 @@ public class AndCaseRuleTest {
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
         ShortTruthTableCell cell = board.getCell(andX,andY);
         ArrayList<Board> cases = RULE.getCases(board, cell);
+
+        // Make sure that the rule checks out
+        Assert.assertNotNull(RULE.checkRule(transition));
 
         // There should only be 1 branch
         Assert.assertEquals(1, cases.size());
