@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="3.0.0">
+    <saved/>
+    <puzzle name="ShortTruthTable">
+        <board>
+            <data>
+                <statement representation="~A" row_index="0"/>
+            </data>
+        </board>
+    </puzzle>
+    <solved isSolved="false" lastSaved="2023-11-07 16:44:01"/>
+</Legup>
