@@ -54,7 +54,6 @@ public class EmptyCellinLightDirectRule extends DirectRule {
                 lightUpBoard.addModifiedData(cell);
             }
         }
-        System.out.println(lightUpBoard.getModifiedData().size());
         if (lightUpBoard.getModifiedData().isEmpty()) {
             return null;
         }
