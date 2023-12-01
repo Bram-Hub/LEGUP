@@ -46,7 +46,6 @@ public class EmptyCellinLightDirectRule extends DirectRule {
      */
     @Override
     public Board getDefaultBoard(TreeNode node) {
-        System.out.println("Hello World");
         LightUpBoard lightUpBoard = (LightUpBoard) node.getBoard().copy();
         for (PuzzleElement element : lightUpBoard.getPuzzleElements()) {
             LightUpCell cell = (LightUpCell) element;
