@@ -22,6 +22,8 @@ public abstract class DirectRule_Generic extends DirectRule {
     }
 
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement element) {
+        // Rule must have cell to evaluate on
+        if (element == null) return super.getInvalidUseOfRuleMessage() + ": Must have painted cell";
 
         // Check that the puzzle element is not unknown
         ShortTruthTableBoard parentBoard = (ShortTruthTableBoard) transition.getParents().get(0).getBoard();
