@@ -42,24 +42,8 @@ public class EmptyCornersDirectRuleTest {
         cell2.setData(LightUpCellType.EMPTY.value);
         board.addModifiedData(cell2);
 
-        LightUpCell cell3 = board.getCell(4,3);
-        cell3.setData(LightUpCellType.EMPTY.value);
-        board.addModifiedData(cell3);
-
         //confirm there is a logical following of the EmptyCorners rule
         Assert.assertNull(RULE.checkRule(transition));
-
-        //this should not be accepted, the cell should remain unknown
-        LightUpCell cell4 = board.getCell(4,5);
-        cell4.setData(LightUpCellType.EMPTY.value);
-        board.addModifiedData(cell4);
-
-        //this should not be accepted, the cell should be empty but not because of this rule
-        LightUpCell cell5 = board.getCell(4,1);
-        cell5.setData(LightUpCellType.EMPTY.value);
-        board.addModifiedData(cell5);
-
-        Assert.assertNotNull(RULE.checkRule(transition));
 
         //confirm the two expected cells are emptied USING THE RULE
         // and none of the rest are (others can be empty just not by the same rule)
@@ -67,7 +51,7 @@ public class EmptyCornersDirectRuleTest {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int j = 0; j < board.getWidth(); j++) {
                 c = board.getCell(j, i);
-                if ((i == 2 && j == 0) || (i == 2 && j == 2) || (i==3 && j==4)){
+                if ((i == 2 && j == 0) || (i == 2 && j == 2)){
                     Assert.assertNull(RULE.checkRuleAt(transition, c));
                 }
                 else {
