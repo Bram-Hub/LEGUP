@@ -1,4 +1,4 @@
-rootProject.name = 'Legup'
+rootProject.name = 'LEGUP'
 include ':legup'
 include ':legup-update'
 
