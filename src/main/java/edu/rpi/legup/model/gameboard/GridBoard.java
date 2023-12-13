@@ -71,15 +71,40 @@ public class GridBoard extends Board {
         if (this instanceof TreeTentBoard && ((y == dimension.height && 0 <= x && x < dimension.width) || (x == dimension.width && 0 <= y && y < dimension.height))) {
             TreeTentBoard treeTentBoard = ((TreeTentBoard) this);
             TreeTentClue clue = treeTentBoard.getClue(x, y);
-            if (y == dimension.height && clue.getData() < dimension.width) {
-                clue.setData(clue.getData() + 1);
-            }
-            else {
-                if (x == dimension.width && clue.getData() < dimension.height) {
-                    clue.setData(clue.getData() + 1);
+            if (y == dimension.height) {
+                if (m.getButton() == MouseEvent.BUTTON1) {
+                    if (clue.getData() < dimension.height) {
+                        clue.setData(clue.getData() + 1);
+                    }
+                    else {
+                        clue.setData(0);
+                    }
                 }
                 else {
-                    clue.setData(0);
+                    if (clue.getData() > 0) {
+                        clue.setData(clue.getData() - 1);
+                    }
+                    else {
+                        clue.setData(dimension.height);
+                    }
+                }
+            }
+            else { //x == dimension.width
+                if (m.getButton() == MouseEvent.BUTTON1) {
+                    if (clue.getData() < dimension.width) {
+                        clue.setData(clue.getData() + 1);
+                    }
+                    else {
+                        clue.setData(0);
+                    }
+                }
+                else {
+                    if (clue.getData() > 0) {
+                        clue.setData(clue.getData() - 1);
+                    }
+                    else {
+                        clue.setData(dimension.width);
+                    }
                 }
             }
         }
