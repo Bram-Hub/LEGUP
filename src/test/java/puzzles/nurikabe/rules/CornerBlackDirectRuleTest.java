@@ -28,9 +28,42 @@ public class CornerBlackDirectRuleTest {
         nurikabe = new Nurikabe();
     }
 
+    /**
+     * Tests the Corner Black direct rule for a simple corner black tile
+     */
     @Test
     public void CornerBlackContradictionRule_SimpleCornerBlackTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/TooFewSpacesContradictionRule/TwoSurroundBlack", nurikabe);
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/CornerBlackDirectRule/SimpleCornerBlack", nurikabe);
+        TreeNode rootNode = nurikabe.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+        transition.setRule(RULE);
+
+        NurikabeCell cell = board.getCell(2, 0);
+        cell.setData(NurikabeType.BLACK.toValue());
+        board.addModifiedData(cell);
+
+        Assert.assertNull(RULE.checkRule(transition));
+
+        for(int i = 0; i < board.getHeight(); i++) {
+            for(int k = 0; k < board.getWidth(); k++) {
+                Point point  = new Point(k, i);
+                if(point.equals(cell.getLocation())) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
+                else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
+            }
+        }
+    }
+
+    /**
+     * Tests the Corner Black direct rule for a false application of the rule
+     */
+    @Test
+    public void CornerBlackContradictionRule_FalseCornerBlackTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/CornerBlackDirectRule/FalseCornerBlack", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
@@ -44,13 +77,7 @@ public class CornerBlackDirectRuleTest {
 
         for(int i = 0; i < board.getHeight(); i++) {
             for(int k = 0; k < board.getWidth(); k++) {
-                Point point  = new Point(k, i);
-                if(point.equals(cell)) {
-                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
-                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
+                Assert.assertNotNull(RULE.checkRuleAt(transition,board.getCell(k,i)));
             }
         }
     }
