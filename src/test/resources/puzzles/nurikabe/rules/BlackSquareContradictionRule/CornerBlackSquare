@@ -1,0 +1,12 @@
+<Legup>
+    <puzzle name="Nurikabe">
+        <board width="4" height="4">
+            <cells>
+                <cell value="-1" x="2" y="2"/>
+                <cell value="-1" x="2" y="3"/>
+                <cell value="-1" x="3" y="2"/>
+                <cell value="-1" x="3" y="3"/>
+            </cells>
+        </board>
+    </puzzle>
+</Legup>

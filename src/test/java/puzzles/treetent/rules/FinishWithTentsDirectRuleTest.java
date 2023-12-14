@@ -126,7 +126,7 @@ public class FinishWithTentsDirectRuleTest {
         TreeTentCell cell2 = board.getCell(1, 2);
         TreeTentCell cell3 = board.getCell(0, 1);
         TreeTentCell cell4 = board.getCell(2, 1);
-
+      
         cell1.setData(TreeTentType.TENT);
         cell2.setData(TreeTentType.TENT);
         cell3.setData(TreeTentType.TENT);

@@ -19,7 +19,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class TentOrGrassCaseRuleTest {
-
     private static final TentOrGrassCaseRule RULE = new TentOrGrassCaseRule();
     private static TreeTent treetent;
  

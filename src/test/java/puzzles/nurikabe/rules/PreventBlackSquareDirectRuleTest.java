@@ -27,6 +27,9 @@ public class PreventBlackSquareDirectRuleTest {
         nurikabe = new Nurikabe();
     }
 
+    /**
+     * Tests the Prevent Black Square direct rule for a black square with the bottom left corner missing
+     */
     @Test
     public void PreventBlackSquareDirectRule_BottomLeftWhiteBlackSquareTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareDirectRule/BottomLeftWhiteBlackSquare", nurikabe);
@@ -54,6 +57,9 @@ public class PreventBlackSquareDirectRuleTest {
         }
     }
 
+    /**
+     * Tests the Prevent Black Square direct rule for a black square with the bottom right corner missing
+     */
     @Test
     public void PreventBlackSquareDirectRule_BottomRightWhiteBlackSquareTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareDirectRule/BottomRightWhiteBlackSquare", nurikabe);
@@ -81,6 +87,9 @@ public class PreventBlackSquareDirectRuleTest {
         }
     }
 
+    /**
+     * Tests the Prevent Black Square direct rule for a black square with the top left corner missing
+     */
     @Test
     public void PreventBlackSquareDirectRule_TopLeftWhiteBlackSquareTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareDirectRule/TopLeftWhiteBlackSquare", nurikabe);
@@ -108,6 +117,9 @@ public class PreventBlackSquareDirectRuleTest {
         }
     }
 
+    /**
+     * Tests the Prevent Black Square direct rule for a black square with the top right corner missing
+     */
     @Test
     public void PreventBlackSquareDirectRule_TopRightWhiteBlackSquareTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareDirectRule/TopRightWhiteBlackSquare", nurikabe);
@@ -131,6 +143,26 @@ public class PreventBlackSquareDirectRuleTest {
                 else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
+            }
+        }
+    }
+
+    /**
+     * Tests the Prevent Black Square direct rule for a false contradiction
+     */
+    @Test
+    public void PreventBlackSquareDirectRule_FalseTest() throws InvalidFileFormatException{
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/PreventBlackSquareDirectRule/FalseBlackSquare", nurikabe);
+        TreeNode rootNode = nurikabe.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+
+
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Assert.assertNotNull(RULE.checkRuleAt(transition,board.getCell(k,i)));
             }
         }
     }
