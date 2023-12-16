@@ -42,8 +42,6 @@ public class TestRunner {
         Result result12 = JUnitCore.runClasses(TooManyBulbsContradictionRuleTest.class);
         printTestResults(result12);
 
-
-
         //nurikabe tests
         Result result13 = JUnitCore.runClasses(BlackBetweenRegionsDirectRuleTest.class);
         printTestResults(result13);
@@ -76,7 +74,6 @@ public class TestRunner {
         Result result27 = JUnitCore.runClasses(WhiteBottleNeckDirectRuleTest.class);
         printTestResults(result27);
 
-
         // Treetent
         Result result28 = JUnitCore.runClasses(EmptyFieldDirectRuleTest.class);
         printTestResults(result28);
@@ -94,6 +91,8 @@ public class TestRunner {
         printTestResults(result34);
         Result result35 = JUnitCore.runClasses(TreeForTentDirectRuleTest.class);
         printTestResults(result35);
+        Result result36 = JUnitCore.runClasses(TentOrGrassCaseRuleTest.class);
+        printTestResults(result36);
     }
 
     private static void printTestResults(Result result) {
