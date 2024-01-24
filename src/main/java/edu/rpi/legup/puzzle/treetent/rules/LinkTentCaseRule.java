@@ -5,7 +5,6 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.treetent.TreeTent;
 import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 import edu.rpi.legup.puzzle.treetent.TreeTentCell;
@@ -150,5 +149,19 @@ public class LinkTentCaseRule extends CaseRule {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         return checkRuleRaw(transition);
+    }
+
+    /**
+     * Returns the elements necessary for the cases returned by getCases(board,puzzleElement) to be valid
+     * Overridden by case rules dependent on more than just the modified data
+     *
+     * @param board         board state at application
+     * @param puzzleElement selected puzzleElement
+     * @return List of puzzle elements (typically cells) this application of the case rule depends upon.
+     * Defaults to any element modified by any case
+     */
+    @Override
+    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement) {
+        return List.of(board.getPuzzleElement(puzzleElement));
     }
 }
