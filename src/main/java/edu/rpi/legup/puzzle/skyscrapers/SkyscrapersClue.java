@@ -47,6 +47,9 @@ public class SkyscrapersClue extends PuzzleElement<Integer> {
     }
 
     public SkyscrapersClue copy() {
-        return null;
+        SkyscrapersClue copy = new SkyscrapersClue(data, clueIndex, type);
+        copy.setIndex(index);
+        copy.setModifiable(isModifiable);
+        return copy;
     }
 }

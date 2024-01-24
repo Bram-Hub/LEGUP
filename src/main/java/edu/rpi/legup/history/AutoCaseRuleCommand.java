@@ -24,6 +24,8 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
 
     private List<TreeTransition> caseTrans;
 
+    private static final int MAX_CASES = 10;
+
     /**
      * AutoCaseRuleCommand Constructor creates a command for validating a case rule
      *
@@ -60,6 +62,7 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
                 board.setModifiable(false);
                 transition.setBoard(board);
                 transition.setRule(caseRule);
+                transition.setSelection(elementView.getPuzzleElement().copy());
                 caseTrans.add(transition);
 
                 TreeNode childNode = (TreeNode) tree.addTreeElement(transition);
@@ -110,6 +113,10 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
 
         if (caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size() == 0) {
             return "The selection must produce at least one case";
+        }
+
+        if (caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size() > MAX_CASES) {
+            return "The selection can produce a max of " + MAX_CASES + " cases";
         }
 
         return null;
