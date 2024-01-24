@@ -31,6 +31,9 @@ public class SurroundTentWithGrassDirectRule extends DirectRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+        if (puzzleElement == null) {
+            return null;
+        }
         if (puzzleElement instanceof TreeTentLine) {
             return super.getInvalidUseOfRuleMessage() + ": Line is not valid for this rule.";
         }

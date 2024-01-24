@@ -38,8 +38,8 @@ public abstract class CaseRule_Generic extends CaseRule {
     public String checkRuleRaw(TreeTransition transition) {
         // Validate that two children are generated
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-        if (childTransitions.size() != 2) {
-            return "ERROR: This case rule must have 2 children.";
+        if (childTransitions.size() >= 1) {
+            return "ERROR: This case rule must spawn at least 1 child.";
         }
 
         // Validate that the modified cells are of type UNKNOWN, TRUE, or FALSE
