@@ -7,9 +7,8 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import static edu.rpi.legup.model.rules.RuleType.CASE;
 
@@ -69,6 +68,7 @@ public abstract class CaseRule extends Rule {
 
         String check = checkRuleRaw(transition);
 
+        // Mark transition and new data as valid or not
         boolean isCorrect = (check == null);
         for (TreeTransition childTrans : parentNodes.get(0).getChildren()) {
             childTrans.setCorrect(isCorrect);
@@ -115,6 +115,31 @@ public abstract class CaseRule extends Rule {
      */
     @Override
     public abstract String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement);
+
+    /**
+     * Returns the elements necessary for the cases returned by getCases(board,puzzleElement) to be valid
+     * Overridden by case rules dependent on more than just the modified data
+     *
+     * @param board         board state at application
+     * @param puzzleElement selected puzzleElement
+     * @return List of puzzle elements (typically cells) this application of the case rule depends upon.
+     * Defaults to any element modified by any case
+     */
+    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement) {
+        List<PuzzleElement> elements = new ArrayList<>();
+
+        List<Board> cases = getCases(board,puzzleElement);
+        for (Board caseBoard : cases) {
+            Set<PuzzleElement> data = caseBoard.getModifiedData();
+            for (PuzzleElement element : data) {
+                if(!elements.contains(board.getPuzzleElement(element))){
+                    elements.add(board.getPuzzleElement(element));
+                }
+            }
+        }
+
+        return elements;
+    }
 }
 
 
