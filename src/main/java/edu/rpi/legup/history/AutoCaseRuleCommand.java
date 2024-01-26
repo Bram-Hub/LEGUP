@@ -62,7 +62,6 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
                 board.setModifiable(false);
                 transition.setBoard(board);
                 transition.setRule(caseRule);
-                transition.setSelection(elementView.getPuzzleElement().copy());
                 caseTrans.add(transition);
 
                 TreeNode childNode = (TreeNode) tree.addTreeElement(transition);

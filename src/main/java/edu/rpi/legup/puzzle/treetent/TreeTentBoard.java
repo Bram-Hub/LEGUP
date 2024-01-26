@@ -124,11 +124,21 @@ public class TreeTentBoard extends GridBoard {
     public List<TreeTentCell> getAdjacent(TreeTentCell cell, TreeTentType type) {
         List<TreeTentCell> adj = new ArrayList<>();
         Point loc = cell.getLocation();
-        for (int i = -2; i < 2; i++) {
-            TreeTentCell adjCell = getCell(loc.x + (i % 2), loc.y + ((i + 1) % 2));
-            if (adjCell != null && adjCell.getType() == type) {
-                adj.add(adjCell);
-            }
+        TreeTentCell up = getCell(loc.x, loc.y - 1);
+        TreeTentCell right = getCell(loc.x + 1, loc.y);
+        TreeTentCell down = getCell(loc.x, loc.y + 1);
+        TreeTentCell left = getCell(loc.x - 1, loc.y);
+        if (up != null && up.getType() == type) {
+            adj.add(up);
+        }
+        if (right != null && right.getType() == type) {
+            adj.add(right);
+        }
+        if (down != null && down.getType() == type) {
+            adj.add(down);
+        }
+        if (left != null && left.getType() == type) {
+            adj.add(left);
         }
         return adj;
     }
