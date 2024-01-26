@@ -61,19 +61,9 @@ public abstract class CaseRule extends Rule {
             return "Must not have multiple parent nodes";
         }
 
-        /*if (transition.getBoard().getModifiedData().size() != 0){
-            return "Should not modify before case rule";
-        }*/
-
-
         for (TreeTransition childTrans : parentNodes.get(0).getChildren()) {
             if (childTrans.getRule() == null || !childTrans.getRule().getClass().equals(this.getClass())) {
                 return "All children nodes must be justified with the same case rule.";
-            }
-            else {
-                if (childTrans.getBoard().getModifiedData().isEmpty()) {
-                    return "You must modify the board in each case node";
-                }
             }
         }
 

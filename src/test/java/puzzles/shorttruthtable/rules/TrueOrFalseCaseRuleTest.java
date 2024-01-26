@@ -44,7 +44,7 @@ public class TrueOrFalseCaseRuleTest {
         ArrayList<Board> cases = RULE.getCases(board, cell);
 
         // Make sure that the rule checks out
-        Assert.assertNotNull(RULE.checkRule(transition));
+        Assert.assertNull(RULE.checkRule(transition));
 
         // Make sure there are two branches
         Assert.assertEquals(2, cases.size());
