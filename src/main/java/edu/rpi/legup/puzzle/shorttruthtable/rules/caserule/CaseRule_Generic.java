@@ -38,20 +38,20 @@ public abstract class CaseRule_Generic extends CaseRule {
     public String checkRuleRaw(TreeTransition transition) {
         // Validate that two children are generated
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-        if (childTransitions.size() >= 1) {
+        if (childTransitions.size() == 0) {
             return "ERROR: This case rule must spawn at least 1 child.";
         }
 
-        // Validate that the modified cells are of type UNKNOWN, TRUE, or FALSE
-        List<TreeTransition> cases = Arrays.asList(childTransitions.get(0), childTransitions.get(1));
-        for (TreeTransition c : cases) {
-            ShortTruthTableCell mod1 = (ShortTruthTableCell)c.getBoard().getModifiedData().iterator().next();
-            ShortTruthTableCell mod2 = (ShortTruthTableCell)c.getBoard().getModifiedData().iterator().next();
-            if (!(mod1.getType() == ShortTruthTableCellType.TRUE || mod1.getType() == ShortTruthTableCellType.FALSE || mod1.getType() == ShortTruthTableCellType.UNKNOWN) &&
-                 (mod2.getType() == ShortTruthTableCellType.TRUE || mod2.getType() == ShortTruthTableCellType.FALSE || mod2.getType() == ShortTruthTableCellType.UNKNOWN)) {
-                    return "ERROR: This case rule must be an unknown, true, or false cell.";
-            }
-        }
+        // // Validate that the modified cells are of type UNKNOWN, TRUE, or FALSE
+        // List<TreeTransition> cases = Arrays.asList(childTransitions.get(0), childTransitions.get(1));
+        // for (TreeTransition c : cases) {
+        //     ShortTruthTableCell mod1 = (ShortTruthTableCell)c.getBoard().getModifiedData().iterator().next();
+        //     ShortTruthTableCell mod2 = (ShortTruthTableCell)c.getBoard().getModifiedData().iterator().next();
+        //     if (!(mod1.getType() == ShortTruthTableCellType.TRUE || mod1.getType() == ShortTruthTableCellType.FALSE || mod1.getType() == ShortTruthTableCellType.UNKNOWN) &&
+        //          (mod2.getType() == ShortTruthTableCellType.TRUE || mod2.getType() == ShortTruthTableCellType.FALSE || mod2.getType() == ShortTruthTableCellType.UNKNOWN)) {
+        //             return "ERROR: This case rule must be an unknown, true, or false cell.";
+        //     }
+        // }
         return null;
     }
 
