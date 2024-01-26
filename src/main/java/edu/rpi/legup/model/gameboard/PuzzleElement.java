@@ -11,6 +11,7 @@ public abstract class PuzzleElement<T> {
     protected boolean isModified;
     protected boolean isGiven;
     protected boolean isValid;
+    protected int casesDepended;
 
     /**
      * PuzzleElement Constructor creates a new puzzle element.
@@ -22,6 +23,7 @@ public abstract class PuzzleElement<T> {
         this.isModified = false;
         this.isGiven = false;
         this.isValid = true;
+        this.casesDepended = 0;
     }
 
     /**
@@ -146,6 +148,24 @@ public abstract class PuzzleElement<T> {
      */
     public void setValid(boolean isValid) {
         this.isValid = isValid;
+    }
+
+    /**
+     * Get the number of case rules that depend upon the state of this element
+     *
+     * @return number of cases
+     */
+    public int getCasesDepended() {
+        return this.casesDepended;
+    }
+
+    /**
+     * Sets the number of case rules that depend upon the state of this element
+     *
+     * @param cases number of cases
+     */
+    public void setCasesDepended(int cases) {
+        this.casesDepended = cases;
     }
 
     /**

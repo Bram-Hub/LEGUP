@@ -10,7 +10,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableStatement;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableOperation;
 
-
+import java.util.List;
 import java.util.ArrayList;
 
 public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
@@ -115,5 +115,23 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
             cases.add(b);
         }
         return cases;
+    }
+  
+  /**
+     * Returns the elements necessary for the cases returned by getCases(board,puzzleElement) to be valid
+     * Overridden by case rules dependent on more than just the modified data
+     *
+     * @param board         board state at application
+     * @param puzzleElement selected puzzleElement
+     * @return List of puzzle elements (typically cells) this application of the case rule depends upon.
+     * Defaults to any element modified by any case
+     */
+    @Override
+    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement) {
+        List<PuzzleElement> elements = super.dependentElements(board,puzzleElement);
+
+        elements.add(board.getPuzzleElement(puzzleElement));
+
+        return elements;
     }
 }

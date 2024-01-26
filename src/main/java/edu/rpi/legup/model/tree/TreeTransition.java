@@ -2,6 +2,7 @@ package edu.rpi.legup.model.tree;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.rules.RuleType;
 
@@ -12,6 +13,8 @@ public class TreeTransition extends TreeElement {
     private ArrayList<TreeNode> parents;
     private TreeNode childNode;
     private Rule rule;
+
+    private PuzzleElement selection;
     private boolean isCorrect;
     private boolean isVerified;
 
@@ -26,6 +29,7 @@ public class TreeTransition extends TreeElement {
         this.childNode = null;
         this.board = board;
         this.rule = null;
+        this.selection = null;
         this.isCorrect = false;
         this.isVerified = false;
     }
@@ -87,13 +91,42 @@ public class TreeTransition extends TreeElement {
             }
         }
         else {
+            // Overwrite previous modifications to this element
+            board.removeModifiedData(board.getPuzzleElement(element));
+
+            // apply changes to tranistion
+            board.notifyChange(element);
+
+            // mark first transition as modified
+            if (!board.getPuzzleElement(element).equalsData(parents.get(0).getBoard().getPuzzleElement(element))) {
+                board.addModifiedData(element);
+            }
+
+            // propagate to children
             if (childNode != null) {
-                board.notifyChange(element);
-                childNode.getBoard().notifyChange(element.copy());
-                for (TreeTransition child : childNode.getChildren()) {
-                    PuzzleElement copy = element.copy();
+
+                // find starting board
+                TreeNode head = childNode;
+                while (head.getParent() != null) {
+                    head = head.getParent().getParents().get(0);
+                }
+                Board headBoard = head.getBoard();
+
+                PuzzleElement copy = element.copy();
+                // Set as modifiable if reverted to starting value (and started modifiable)
+                if (headBoard.getPuzzleElement(element).equalsData(element)) {
+                    copy.setModifiable(headBoard.getPuzzleElement(element).isModifiable());
+                }
+                else{
                     copy.setModifiable(false);
-                    child.propagateChange(copy);
+                }
+
+                // apply changes to result node
+                childNode.getBoard().notifyChange(copy);
+
+                // apply to all child transitions
+                for (TreeTransition child : childNode.getChildren()) {
+                    child.propagateChange(copy.copy());
                 }
             }
         }
@@ -325,6 +358,27 @@ public class TreeTransition extends TreeElement {
     public void setRule(Rule rule) {
         this.rule = rule;
         isVerified = false;
+    }
+
+    /**
+     * Gets he selected element associated with this transition
+     *
+     * @return If this is a case rule, the selected element for that rule, null otherwise
+     */
+    public PuzzleElement getSelection() {
+        if (this.rule instanceof CaseRule) {
+            return selection;
+        }
+        return null;
+    }
+
+    /**
+     * Sets the selected element associated with this transition
+     *
+     * @param selection selected element for this transition
+     */
+    public void setSelection(PuzzleElement selection) {
+        this.selection = selection;
     }
 
     /**
