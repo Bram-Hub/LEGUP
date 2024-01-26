@@ -10,7 +10,6 @@ import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentLine;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -152,33 +151,5 @@ public class LinkTreeCaseRule extends CaseRule {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         return checkRuleRaw(transition);
-    }
-
-    /**
-     * Returns the elements necessary for the cases returned by getCases(board,puzzleElement) to be valid
-     * Overridden by case rules dependent on more than just the modified data
-     *
-     * @param board         board state at application
-     * @param puzzleElement selected puzzleElement
-     * @return List of puzzle elements (typically cells) this application of the case rule depends upon.
-     * Defaults to any element modified by any case
-     */
-    @Override
-    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement) {
-        List<PuzzleElement> elements = new ArrayList<>(List.of(board.getPuzzleElement(puzzleElement)));
-
-        TreeTentBoard treeTentBoard = (TreeTentBoard) board;
-        TreeTentCell point = (TreeTentCell) puzzleElement;
-
-        // get all adjacent cells
-        Point loc = point.getLocation();
-        for (int i = -2; i < 2; i++) {
-            TreeTentCell cell = treeTentBoard.getCell(loc.x + (i % 2), loc.y + ((i + 1) % 2));
-            if (cell != null) {
-                elements.add(board.getPuzzleElement(cell));
-            }
-        }
-
-        return elements;
     }
 }

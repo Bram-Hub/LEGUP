@@ -69,6 +69,7 @@ public class CellForNumberCaseRule extends CaseRule {
             PuzzleElement newCell = newCase.getPuzzleElement(cell);
             newCell.setData(number);
             newCase.addModifiedData(newCell);
+            newCase.setModClue((SkyscrapersClue) newCase.getPuzzleElement(clue));
 
             //if flags
             boolean passed = true;
@@ -102,7 +103,12 @@ public class CellForNumberCaseRule extends CaseRule {
             return "This case rule must have at least one child.";
         }
 
-        if (childTransitions.size() != getCasesFor(oldBoard, oldBoard.getPuzzleElement(transition.getSelection()), (Integer) childTransitions.get(0).getBoard().getModifiedData().iterator().next().getData()).size()) {
+        //find changed row/col
+        SkyscrapersClue modClue = ((SkyscrapersBoard) childTransitions.get(0).getBoard()).getmodClue();
+
+        //System.out.println(modClue.getType());
+        //System.out.println(modClue.getClueIndex());
+        if (childTransitions.size() != getCasesFor(oldBoard, modClue, (Integer) childTransitions.get(0).getBoard().getModifiedData().iterator().next().getData()).size()) {
             //System.out.println("Wrong number of cases.");
             return "Wrong number of cases.";
         }
@@ -125,50 +131,5 @@ public class CellForNumberCaseRule extends CaseRule {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         return checkRuleRaw(transition);
-    }
-
-    /**
-     * Returns the elements necessary for the cases returned by getCases(board,puzzleElement) to be valid
-     * Overridden by case rules dependent on more than just the modified data
-     *
-     * @param board         board state at application
-     * @param puzzleElement selected puzzleElement
-     * @return List of puzzle elements (typically cells) this application of the case rule depends upon.
-     * Defaults to any element modified by any case
-     */
-    @Override
-    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement) {
-        List<PuzzleElement> elements = new ArrayList<>();
-
-        SkyscrapersBoard puzzleBoard = (SkyscrapersBoard) board;
-        SkyscrapersClue clue = (SkyscrapersClue)puzzleBoard.getPuzzleElement(puzzleElement);
-
-        // check each point in modified row/col
-        List<SkyscrapersCell> data = puzzleBoard.getRowCol(clue.getClueIndex(),SkyscrapersType.ANY,clue.getType() == SkyscrapersType.CLUE_WEST);
-        for (SkyscrapersCell point : data) {
-            List<SkyscrapersCell> cells = new ArrayList<>(List.of(point));
-
-            // if dependent on row/col
-            if ((puzzleBoard.getDupeFlag() || puzzleBoard.getViewFlag()) && point.getType() == SkyscrapersType.UNKNOWN) {
-                // get perpendicular row/col intersecting this point
-                int index;
-                if (clue.getType() == SkyscrapersType.CLUE_WEST) {
-                    index = point.getLocation().x;
-                }
-                else {
-                    index = point.getLocation().y;
-                }
-                cells.addAll(puzzleBoard.getRowCol(index,SkyscrapersType.ANY,clue.getType() != SkyscrapersType.CLUE_WEST));
-            }
-
-            // add all to result
-            for (SkyscrapersCell cell : cells) {
-                if (!elements.contains(board.getPuzzleElement(cell))) {
-                    elements.add(board.getPuzzleElement(cell));
-                }
-            }
-        }
-
-        return elements;
     }
 }
