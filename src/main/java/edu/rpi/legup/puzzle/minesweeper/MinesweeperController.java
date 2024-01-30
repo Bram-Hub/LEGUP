@@ -21,7 +21,7 @@ public class MinesweeperController extends ElementController {
                 return MinesweeperTileData.flag(numberData + 1);
             case MouseEvent.BUTTON2:
             case MouseEvent.BUTTON3:
-                if (numberData <= 0) {
+                if (numberData <= 1) {
                     return MinesweeperTileData.empty();
                 }
                 return MinesweeperTileData.flag(numberData - 1);
