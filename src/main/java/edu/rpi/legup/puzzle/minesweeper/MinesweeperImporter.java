@@ -31,7 +31,7 @@ public class MinesweeperImporter extends PuzzleImporter {
 
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++) {
-                MinesweeperCell cell = new MinesweeperCell(MinesweeperTileData.empty(), new Point(x, y));
+                MinesweeperCell cell = new MinesweeperCell(MinesweeperTileData.unset(), new Point(x, y));
                 cell.setIndex(y * columns + x);
                 cell.setModifiable(true);
                 minesweeperBoard.setCell(x, y, cell);
@@ -61,7 +61,7 @@ public class MinesweeperImporter extends PuzzleImporter {
             for (int i = 0; i < elementDataList.getLength(); i++) {
                 final MinesweeperCell cell = (MinesweeperCell) puzzle.getFactory().importCell(elementDataList.item(i), minesweeperBoard);
                 final Point loc = cell.getLocation();
-                if (MinesweeperTileData.empty().equals(cell.getData())) {
+                if (MinesweeperTileData.unset().equals(cell.getData())) {
                     cell.setModifiable(false);
                     cell.setGiven(true);
                 }
@@ -71,7 +71,7 @@ public class MinesweeperImporter extends PuzzleImporter {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     if (minesweeperBoard.getCell(x, y) == null) {
-                        final MinesweeperCell cell = new MinesweeperCell(MinesweeperTileData.empty(), new Point(x, y));
+                        final MinesweeperCell cell = new MinesweeperCell(MinesweeperTileData.unset(), new Point(x, y));
                         cell.setIndex(y * height + x);
                         cell.setModifiable(true);
                         minesweeperBoard.setCell(x, y, cell);
