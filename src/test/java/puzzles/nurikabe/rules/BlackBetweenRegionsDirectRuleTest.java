@@ -30,6 +30,9 @@ public class BlackBetweenRegionsDirectRuleTest {
         nurikabe = new Nurikabe();
     }
 
+    /**
+     * Tests the Black Between Regions direct rule for regions that are diagonal to each other (diagonal going from top left to bottom right)
+     */
     @Test
     public void BlackBetweenRegionsDirectRule_DiagonalBlackBetweenRegions1Test() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/BlackBetweenRegionsDirectRule/DiagonalBlackBetweenRegions1", nurikabe);
@@ -62,6 +65,9 @@ public class BlackBetweenRegionsDirectRuleTest {
         }
     }
 
+    /**
+     * Tests the Black Between Regions direct rule for regions that are diagonal to each other (diagonal going from bottom left to top right)
+     */
     @Test
     public void BlackBetweenRegionsDirectRule_DiagonalBlackBetweenRegions2Test() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/BlackBetweenRegionsDirectRule/DiagonalBlackBetweenRegions2", nurikabe);
@@ -94,6 +100,9 @@ public class BlackBetweenRegionsDirectRuleTest {
         }
     }
 
+    /**
+     * Tests the Black Between Regions direct rule for regions that are horizontally opposite each other
+     */
     @Test
     public void BlackBetweenRegionsDirectRule_HorizontalBlackBetweenRegionsTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/BlackBetweenRegionsDirectRule/HorizontalBlackBetweenRegions", nurikabe);
@@ -123,6 +132,9 @@ public class BlackBetweenRegionsDirectRuleTest {
         }
     }
 
+    /**
+     * Tests the Black Between Regions direct rule for regions that are vertically opposite each other
+     */
     @Test
     public void BlackBetweenRegionsDirectRule_VerticalBlackBetweenRegionsTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/nurikabe/rules/BlackBetweenRegionsDirectRule/VerticalBlackBetweenRegions", nurikabe);
@@ -148,6 +160,30 @@ public class BlackBetweenRegionsDirectRuleTest {
                 else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
+            }
+        }
+    }
+
+    /**
+     * Tests the Black Between Regions direct rule for a false application of the rule, where a black tile is enclosed by one region
+     */
+    @Test
+    public void BlackBetweenRegionsDirectRule_FalseBlackBetweenRegionsTest() throws InvalidFileFormatException{
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/BlackBetweenRegionsDirectRule/FalseBlackBetweenRegions",nurikabe);
+        TreeNode rootNode = nurikabe.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+        NurikabeCell cell = board.getCell(1,1);
+        cell.setData(NurikabeType.BLACK.toValue());
+        board.addModifiedData(cell);
+
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        for(int i=0; i<board.getHeight(); i++){
+            for(int k=0; k<board.getWidth(); k++){
+                Assert.assertNotNull(RULE.checkRuleAt(transition,board.getCell(k,i)));
             }
         }
     }

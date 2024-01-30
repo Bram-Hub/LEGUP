@@ -2,6 +2,7 @@ package edu.rpi.legup.puzzle.lightup;
 
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
 import org.w3c.dom.Document;
 
 public class LightUpExporter extends PuzzleExporter {
@@ -12,7 +13,13 @@ public class LightUpExporter extends PuzzleExporter {
 
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
-        LightUpBoard board = (LightUpBoard) puzzle.getTree().getRootNode().getBoard();
+        LightUpBoard board;
+        if (puzzle.getTree() != null) {
+            board = (LightUpBoard) puzzle.getTree().getRootNode().getBoard();
+        }
+        else {
+            board = (LightUpBoard) puzzle.getBoardView().getBoard();
+        }
 
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("width", String.valueOf(board.getWidth()));

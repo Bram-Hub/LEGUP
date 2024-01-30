@@ -5,6 +5,7 @@ import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,9 +26,12 @@ public class NoNumbersContradictionRuleTest {
         nurikabe = new Nurikabe();
     }
 
+    /**
+     * Tests the No Number contradiction rule for a white region enclosed by black squares
+     */
     @Test
     public void NoNumberContradictionRule_NoNumberSurroundBlack() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/NoNumberContradictionRule/NoNumberSurroundBlack", nurikabe);
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/NoNumberContradictionRule/SimpleNoNumber", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -49,14 +53,33 @@ public class NoNumbersContradictionRuleTest {
         }
     }
 
-    //    Checks if a transition produces a room without a number.
+    /**
+     * Tests the No Number contradiction rule for a false contradiction
+     */
     @Test
-    public void NoNumberContradictionRule_NoNumberReachable() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/NoNumberContradictionRule/NoNumberReachable", nurikabe);
+    public void NoNumberContradictionRule_FalseNoNumber() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/NoNumberContradictionRule/FalseNoNumber", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
+        Assert.assertNotNull(RULE.checkRule(transition));
+        NurikabeBoard board = (NurikabeBoard) transition.getBoard();
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+            }
+        }
+    }
+
+    @Test
+    public void NoNumberContradictionRule_FalseNoNumber2() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/nurikabe/rules/NoNumberContradictionRule/FalseNoNumber2", nurikabe);
+        TreeNode rootNode = nurikabe.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        Assert.assertNotNull(RULE.checkRule(transition));
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {

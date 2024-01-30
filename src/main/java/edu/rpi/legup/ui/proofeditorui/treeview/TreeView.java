@@ -2,7 +2,12 @@ package edu.rpi.legup.ui.proofeditorui.treeview;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.TreeController;
+import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.GridCell;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.observer.ITreeListener;
+import edu.rpi.legup.model.rules.CaseRule;
+import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.model.tree.TreeNode;
@@ -316,6 +321,50 @@ public class TreeView extends ScrollView implements ITreeListener {
             TreeTransition trans = (TreeTransition) element;
             TreeTransitionView transView = (TreeTransitionView) viewMap.get(trans);
 
+            // unlock ancestor elements if case rule deleted
+            Rule rule = trans.getRule();
+            for (TreeNode node : trans.getParents()) {
+
+                // only if the last case of a case rule will be deleted
+                if (!(rule instanceof CaseRule && node.getChildren().isEmpty())) {
+                    continue;
+                }
+
+                CaseRule caseRule = (CaseRule)rule;
+                // set dependent elements to be modifiable by ancestors (if not dependent on others)
+                List<TreeNode> ancestors = node.getAncestors();
+                for (TreeNode ancestor : ancestors) {
+                    // for all ancestors but root
+                    if (ancestor.getParent() == null) {
+                        continue;
+                    }
+
+                    for (PuzzleElement pelement : caseRule.dependentElements(node.getBoard(), trans.getSelection())) {
+                        // decrement, unlock if 0 cases depended
+                        PuzzleElement oldElement = ancestor.getParent().getBoard().getPuzzleElement(pelement);
+                        oldElement.setCasesDepended(oldElement.getCasesDepended() - 1);
+                        if (oldElement.getCasesDepended() != 0) {
+                           continue;
+                        }
+
+                        // set modifiable if started modifiable
+                        boolean modifiable = tree.getRootNode().getBoard().getPuzzleElement(oldElement).isModifiable();
+
+                        // unmodifiable if already modified
+                        TreeNode modNode = ancestor.getParent().getParents().get(0);
+                        while (modNode.getParent()!=null) {
+                            Board modBoard = modNode.getParent().getBoard();
+                            if (modBoard.getModifiedData().contains(modBoard.getPuzzleElement(oldElement))) {
+                                modifiable = false;
+                                break;
+                            }
+                            modNode = modNode.getParent().getParents().get(0);
+                        }
+                        oldElement.setModifiable(modifiable);
+                    }
+                }
+            }
+          
             transView.getParentViews().forEach(n -> n.removeChildrenView(transView));
             removeTreeTransition(trans);
         }
@@ -331,35 +380,7 @@ public class TreeView extends ScrollView implements ITreeListener {
     public void onTreeSelectionChanged(TreeViewSelection selection) {
         this.selection.getSelectedViews().forEach(v -> v.setSelected(false));
         selection.getSelectedViews().forEach(v -> v.setSelected(true));
-
         this.selection = selection;
-
-//        List<TreeElementView> selectedViews = selection.getSelectedViews();
-//        Point avg = new Point();
-//        for(TreeElementView elementView : selectedViews) {
-//            if(elementView.getType() == NODE) {
-//                TreeNodeView nodeView = (TreeNodeView)elementView;
-//                avg.x += nodeView.getX();
-//                avg.y += nodeView.getY();
-//            } else {
-//                TreeTransitionView transitionView = (TreeTransitionView) elementView;
-//                avg.x += transitionView.getEndX();
-//                avg.y += transitionView.getEndY();
-//            }
-//        }
-//        avg.x /= selectedViews.size();
-//        avg.y /= selectedViews.size();
-//
-//        Point pos =  viewport.getViewPosition();
-//        if(pos.x < avg.x) {
-//            pos.x = avg.x - pos.x;
-//        }
-//        if(pos.y < avg.y) {
-//            pos.y = avg.y - pos.y;
-//        }
-//
-//        viewport.setViewPosition(pos);
-
         repaint();
     }
 
@@ -383,6 +404,46 @@ public class TreeView extends ScrollView implements ITreeListener {
 
     private void removeTreeNode(TreeNode node) {
         viewMap.remove(node);
+        List<TreeTransition> children = node.getChildren();
+
+        // if child is a case rule, unlock ancestor elements
+        if (!children.isEmpty()) {
+            Rule rule = children.get(0).getRule();
+            if (rule instanceof CaseRule) {
+                CaseRule caseRule = (CaseRule)rule;
+                // set dependent elements to be modifiable by ancestors (if not dependent on others)
+                List<TreeNode> ancestors = node.getAncestors();
+                for (TreeNode ancestor : ancestors) {
+                    // for all ancestors but root
+                    if (ancestor.getParent() == null) {
+                        continue;
+                    }
+                    for (PuzzleElement pelement : caseRule.dependentElements(node.getBoard(), children.get(0).getSelection())) {
+                        // decrement, unlock if 0 cases depended
+                        PuzzleElement oldElement = ancestor.getParent().getBoard().getPuzzleElement(pelement);
+                        oldElement.setCasesDepended(oldElement.getCasesDepended() - 1);
+                        if (oldElement.getCasesDepended() == 0) {
+                            continue;
+                        }
+
+                        // set modifiable if started modifiable
+                        boolean modifiable = tree.getRootNode().getBoard().getPuzzleElement(oldElement).isModifiable();
+
+                        // unmodifiable if already modified
+                        TreeNode modNode = ancestor.getParent().getParents().get(0);
+                        while (modNode.getParent() != null) {
+                            Board modBoard = modNode.getParent().getBoard();
+                            if (modBoard.getModifiedData().contains(modBoard.getPuzzleElement(oldElement))) {
+                                modifiable = false;
+                                break;
+                            }
+                            modNode = modNode.getParent().getParents().get(0);
+                        }
+                        oldElement.setModifiable(modifiable);
+                    }
+                }
+            }
+        }
         node.getChildren().forEach(t -> removeTreeTransition(t));
     }
 
@@ -405,6 +466,27 @@ public class TreeView extends ScrollView implements ITreeListener {
         viewMap.put(node, nodeView);
 
         if (!node.getChildren().isEmpty()) {
+          
+            // if adding a case rule, lock dependent ancestor elements
+            Rule rule = node.getChildren().get(0).getRule();
+            if (rule instanceof CaseRule) {
+                CaseRule caseRule = (CaseRule)rule;
+
+                List<TreeNode> ancestors = node.getAncestors();
+                for (TreeNode ancestor : ancestors) {
+                    // for all ancestors but root
+                    if (ancestor.getParent() == null) {
+                        continue;
+                    }
+                    for (PuzzleElement element : caseRule.dependentElements(node.getBoard(), node.getChildren().get(0).getSelection())) {
+                        // increment and lock
+                        PuzzleElement oldElement = ancestor.getParent().getBoard().getPuzzleElement(element);
+                        oldElement.setCasesDepended(oldElement.getCasesDepended()+1);
+                        oldElement.setModifiable(false);
+                    }
+                }
+            }
+          
             node.getChildren().forEach(t -> addTreeTransition(t));
         }
     }
@@ -417,6 +499,26 @@ public class TreeView extends ScrollView implements ITreeListener {
             TreeNodeView parentNodeView = (TreeNodeView) viewMap.get(parent);
             transView.addParentView(parentNodeView);
             parentNodeView.addChildrenView(transView);
+          
+            // if transition is a new case rule, lock dependent ancestor elements
+            Rule rule = trans.getRule();
+            if (rule instanceof CaseRule && parent.getChildren().size()==1) {
+                CaseRule caseRule = (CaseRule)rule;
+
+                List<TreeNode> ancestors = parent.getAncestors();
+                for (TreeNode ancestor : ancestors) {
+                    // for all ancestors but root
+                    if (ancestor.getParent() == null) {
+                        continue;
+                    }
+                    for (PuzzleElement element : caseRule.dependentElements(parent.getBoard(), trans.getSelection())) {
+                        // increment and lock
+                        PuzzleElement oldElement = ancestor.getParent().getBoard().getPuzzleElement(element);
+                        oldElement.setCasesDepended(oldElement.getCasesDepended()+1);
+                        oldElement.setModifiable(false);
+                    }
+                }
+            }
         }
 
         viewMap.put(trans, transView);

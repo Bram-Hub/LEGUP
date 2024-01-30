@@ -43,8 +43,6 @@ public class TestRunner {
         Result result12 = JUnitCore.runClasses(TooManyBulbsContradictionRuleTest.class);
         printTestResults(result12);
 
-
-
         //nurikabe tests
         Result result13 = JUnitCore.runClasses(BlackBetweenRegionsDirectRuleTest.class);
         printTestResults(result13);
@@ -77,7 +75,6 @@ public class TestRunner {
         Result result27 = JUnitCore.runClasses(WhiteBottleNeckDirectRuleTest.class);
         printTestResults(result27);
 
-
         // Treetent
         Result result28 = JUnitCore.runClasses(EmptyFieldDirectRuleTest.class);
         printTestResults(result28);
@@ -95,35 +92,8 @@ public class TestRunner {
         printTestResults(result34);
         Result result35 = JUnitCore.runClasses(TreeForTentDirectRuleTest.class);
         printTestResults(result35);
-
-        // Skyscrapers Tests
-        Result result36 = JUnitCore.runClasses(DuplicateNumberContradictionTest.class);
+        Result result36 = JUnitCore.runClasses(TentOrGrassCaseRuleTest.class);
         printTestResults(result36);
-        Result result37 = JUnitCore.runClasses(ExceedingVisibilityContradictionTest.class);
-        printTestResults(result37);
-        Result result38 = JUnitCore.runClasses(InsufficientVisibilityContradictionTest.class);
-        printTestResults(result38);
-        Result result39 = JUnitCore.runClasses(PreemptiveVisibilityContradictionTest.class);
-        printTestResults(result39);
-        Result result40 = JUnitCore.runClasses(UnresolvedCellContradictionTest.class);
-        printTestResults(result40);
-        Result result41 = JUnitCore.runClasses(UnresolvedNumberContradictionTest.class);
-        printTestResults(result41);
-        Result result42 = JUnitCore.runClasses(NumberForCellCaseRuleTest.class);
-        printTestResults(result42);
-        Result result43 = JUnitCore.runClasses(CellForNumberCaseRuleTest.class);
-        printTestResults(result43);
-        Result result44 = JUnitCore.runClasses(LastSingularNumberDirectTest.class);
-        printTestResults(result44);
-        Result result45 = JUnitCore.runClasses(LastVisibleNumberDirectTest.class);
-        printTestResults(result45);
-        Result result46 = JUnitCore.runClasses(LastSingularCellDirectTest.class);
-        printTestResults(result46);
-        Result result47 = JUnitCore.runClasses(LastVisibleCellDirectTest.class);
-        printTestResults(result47);
-        Result result48 = JUnitCore.runClasses(NEdgeDirectTest.class);
-        printTestResults(result48);
-
     }
 
     private static void printTestResults(Result result) {

@@ -34,7 +34,8 @@ public abstract class DirectRule extends Rule {
                 transition.getParents().get(0).getChildren().size() != 1) {
             return "State must have only 1 parent and 1 child";
         }
-        else if (finalBoard.getModifiedData().size()==0){
+        else if (finalBoard.getModifiedData().isEmpty()) {
+            // null transition
             return null;
         }
         else {
@@ -52,6 +53,11 @@ public abstract class DirectRule extends Rule {
     public String checkRuleRaw(TreeTransition transition) {
         Board finalBoard = transition.getBoard();
         String checkStr = null;
+
+        // Go directly to specific direct rule's judgement if no cell's are edited
+        if (finalBoard.getModifiedData().size() == 0) {
+            checkStr = checkRuleRawAt(transition, null);
+        }
         for (PuzzleElement puzzleElement : finalBoard.getModifiedData()) {
             String tempStr = checkRuleAt(transition, puzzleElement);
             if (tempStr != null) {
