@@ -28,6 +28,44 @@ public class OrContradictionRuleTest {
     }
 
     /**
+     * Given a statement: A V B where V is true
+     *
+     * Asserts that this is a valid application of the rule if
+     * and only if both A and B are set to false.
+     *
+     * @param filePath The file path for test board setup.
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void trueOrTest() throws InvalidFileFormatException {
+        String path = "puzzles/shorttruthtable/rules/OrContradictionRule/";
+        String[] letters = {"T", "F", "U"};
+        for (String first : letters) {
+            for (String second : letters) {
+                trueOrTestHelper(path + first + "T" + second);
+            }
+        }
+    }
+
+    private void trueOrTestHelper(String filePath) throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(filePath, stt);
+        TreeNode rootNode = stt.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
+        ShortTruthTableCell a = board.getCell(0, 0);
+        ShortTruthTableCell b = board.getCell(2, 0);
+
+        if (a.getType() == ShortTruthTableCellType.FALSE && b.getType() == ShortTruthTableCellType.FALSE) {
+            Assert.assertNull(RULE.checkContradiction(transition.getBoard()));
+        }
+        else {
+            Assert.assertNotNull(RULE.checkContradiction(transition.getBoard()));
+        }
+    }
+
+    /**
      * Given a statement: A V B where V is false
      *
      * Asserts that this is a valid application of the rule if
@@ -57,7 +95,6 @@ public class OrContradictionRuleTest {
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
         ShortTruthTableCell a = board.getCell(0, 0);
         ShortTruthTableCell b = board.getCell(2, 0);
-        ShortTruthTableCell or = board.getCell(1, 0);
 
         if (a.getType() == ShortTruthTableCellType.TRUE || b.getType() == ShortTruthTableCellType.TRUE) {
             Assert.assertNull(RULE.checkContradiction(transition.getBoard()));
@@ -92,11 +129,6 @@ public class OrContradictionRuleTest {
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
-
-        ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
-        ShortTruthTableCell a = board.getCell(0, 0);
-        ShortTruthTableCell b = board.getCell(2, 0);
-        ShortTruthTableCell or = board.getCell(1, 0);
 
         Assert.assertNotNull(RULE.checkContradiction(transition.getBoard()));
     }
