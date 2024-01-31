@@ -38,7 +38,7 @@ public class OrContradictionRuleTest {
      * @throws InvalidFileFormatException
      */
     @Test
-    public void FalseOrTest() throws InvalidFileFormatException {
+    public void falseOrTest() throws InvalidFileFormatException {
         String path = "puzzles/shorttruthtable/rules/OrContradictionRule/";
         String[] letters = {"T", "F", "U"};
         for (String first : letters) {
@@ -76,7 +76,7 @@ public class OrContradictionRuleTest {
      * @throws InvalidFileFormatException
      */
     @Test
-    public void UnknownOrTest() throws InvalidFileFormatException {
+    public void unknownOrTest() throws InvalidFileFormatException {
         // Getting the files that have or set to unknown from Or Introduction
         String path = "puzzles/shorttruthtable/rules/OrIntroductionDirectRule/";
         String[] letters = {"T", "F", "U"};
