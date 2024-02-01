@@ -1,16 +1,15 @@
 package edu.rpi.legup.puzzle.skyscrapers;
 
-import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SkyscrapersBoard extends GridBoard {
-
-    private ArrayList<SkyscrapersLine> lines;
 
 
     private ArrayList<SkyscrapersClue> eastClues;
@@ -28,8 +27,6 @@ public class SkyscrapersBoard extends GridBoard {
     public SkyscrapersBoard(int size) {
         super(size, size);
 
-        this.lines = new ArrayList<>();
-
         this.eastClues = new ArrayList<>();
         this.southClues = new ArrayList<>();
         this.westClues = new ArrayList<>();
@@ -43,9 +40,6 @@ public class SkyscrapersBoard extends GridBoard {
         }
     }
 
-    public ArrayList<SkyscrapersLine> getLines() {
-        return lines;
-    }
 
     /**
     * @return eastClues a list of the eastern clues ordered from loc.y = 0 to max
@@ -102,52 +96,13 @@ public class SkyscrapersBoard extends GridBoard {
 
     @Override
     public PuzzleElement getPuzzleElement(PuzzleElement element) {
-        switch (element.getIndex()) {
-            case -2:
-                return element;
-            case -1:
-                SkyscrapersLine line = (SkyscrapersLine) element;
-                SkyscrapersLine thisLine = null;
-                for (SkyscrapersLine l : lines) {
-                    if (line.compare(l)) {
-                        thisLine = l;
-                        break;
-                    }
-                }
-                return thisLine;
-            default:
-                return super.getPuzzleElement(element);
+        // If the element index is -2, it is a clue and should be returned separately
+        if (element.getIndex() == -2) {
+            return element;
         }
+        return super.getPuzzleElement(element);
     }
 
-    /**
-     * Called when a {@link PuzzleElement} has been added and passes in the equivalent puzzle element with the data.
-     *
-     * @param puzzleElement equivalent puzzle element with the data.
-     */
-    @Override
-    public void notifyAddition(PuzzleElement puzzleElement) {
-        if (puzzleElement instanceof SkyscrapersLine) {
-            lines.add((SkyscrapersLine) puzzleElement);
-        }
-    }
-
-    /**
-     * Called when a {@link PuzzleElement} has been deleted and passes in the equivalent puzzle element with the data.
-     *
-     * @param puzzleElement equivalent puzzle element with the data.
-     */
-    @Override
-    public void notifyDeletion(PuzzleElement puzzleElement) {
-        if (puzzleElement instanceof SkyscrapersLine) {
-            for (SkyscrapersLine line : lines) {
-                if (line.compare((SkyscrapersLine) puzzleElement)) {
-                    lines.remove(line);
-                    break;
-                }
-            }
-        }
-    }
 
     /**
      * Gets the cells of a certain type directly adjacent to a given cell
@@ -250,28 +205,70 @@ public class SkyscrapersBoard extends GridBoard {
         }
     }
 
-    /**
-     * Determines if this board contains the equivalent puzzle elements as the one specified
-     *
-     * @param board board to check equivalence
-     * @return true if the boards are equivalent, false otherwise
-     */
     @Override
-    public boolean equalsBoard(Board board) {
-        SkyscrapersBoard skyscrapersBoard = (SkyscrapersBoard) board;
-        for (SkyscrapersLine l1 : lines) {
-            boolean hasLine = false;
-            for (SkyscrapersLine l2 : skyscrapersBoard.lines) {
-                if (l1.compare(l2)) {
-                    hasLine = true;
+    public void setCell(int x, int y, Element e, MouseEvent m) {
+        if (x == 0 || y == 0)
+            return;
+        if (y == dimension.height) {
+//            if (m.getButton() == MouseEvent.BUTTON1) {
+//                if (clue.getData() < dimension.height) {
+//                    clue.setData(clue.getData() + 1);
+//                }
+//                else {
+//                    clue.setData(0);
+//                }
+//            }
+//            else {
+//                if (clue.getData() > 0) {
+//                    clue.setData(clue.getData() - 1);
+//                }
+//                else {
+//                    clue.setData(dimension.height);
+//                }
+//            }
+//        }
+//        else if (x == dimension.width) {
+//            if (m.getButton() == MouseEvent.BUTTON1) {
+//                if (clue.getData() < dimension.width) {
+//                    clue.setData(clue.getData() + 1);
+//                }
+//                else {
+//                    clue.setData(0);
+//                }
+//            }
+//            else {
+//                if (clue.getData() > 0) {
+//                    clue.setData(clue.getData() - 1);
+//                }
+//                else {
+//                    clue.setData(dimension.width);
+//                }
+//            }
+        }
+        else {
+            if (e != null && y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
+                    y >= dimension.height || x < 0 || y < 0) {
+                return;
+            }
+            else {
+                if (e != null) {
+                    puzzleElements.get((y-1) * dimension.width + (x-1)).setType(e, m);
                 }
             }
-            if (!hasLine) {
-                return false;
-            }
         }
-        return super.equalsBoard(skyscrapersBoard);
     }
+
+//    public SkyscrapersClue getClue(int x, int y) {
+//        if (x == getWidth() && 0 <= y && y < getHeight()) {
+//            return rowClues.get(y);
+//        }
+//        else {
+//            if (y == getHeight() && 0 <= x && x < getWidth()) {
+//                return colClues.get(x);
+//            }
+//        }
+//        return null;
+//    }
 
     @Override
     public SkyscrapersBoard copy() {
@@ -280,11 +277,6 @@ public class SkyscrapersBoard extends GridBoard {
             for (int y = 0; y < this.dimension.height; y++) {
                 copy.setCell(x, y, getCell(x, y).copy());
             }
-        }
-        for (SkyscrapersLine line : lines) {
-            SkyscrapersLine lineCpy = line.copy();
-            lineCpy.setModifiable(false);
-            copy.getLines().add(lineCpy);
         }
         for (PuzzleElement e : modifiedData) {
             copy.getPuzzleElement(e).setModifiable(false);
