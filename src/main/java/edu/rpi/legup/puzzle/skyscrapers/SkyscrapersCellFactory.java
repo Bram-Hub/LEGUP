@@ -19,10 +19,10 @@ public class SkyscrapersCellFactory extends ElementFactory {
      * @return newly created cell from the xml document Node
      * @throws InvalidFileFormatException if input is invalid
      */
+    // Never gets called?
     @Override
     public PuzzleElement importCell(Node node, Board board) throws InvalidFileFormatException {
         try {
-            //SkyscrapersBoard treeTentBoard = (SkyscrapersBoard) board;
             SkyscrapersBoard skyscrapersBoard = (SkyscrapersBoard) board;
             int width = skyscrapersBoard.getWidth();
             int height = skyscrapersBoard.getHeight();
@@ -33,10 +33,10 @@ public class SkyscrapersCellFactory extends ElementFactory {
                 int x = Integer.valueOf(attributeList.getNamedItem("x").getNodeValue());
                 int y = Integer.valueOf(attributeList.getNamedItem("y").getNodeValue());
                 if (x >= width || y >= height) {
-                    throw new InvalidFileFormatException("TreeTent Factory: cell location out of bounds");
+                    throw new InvalidFileFormatException("Skyscrapers Factory: cell location out of bounds");
                 }
                 if (value < 0 || value > width) {
-                    throw new InvalidFileFormatException("TreeTent Factory: cell unknown value");
+                    throw new InvalidFileFormatException("Skyscrapers Factory: cell unknown value");
                 }
 
                 SkyscrapersCell cell = new SkyscrapersCell(value, new Point(x, y), width);

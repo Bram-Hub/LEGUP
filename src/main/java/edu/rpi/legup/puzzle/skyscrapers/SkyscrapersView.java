@@ -9,15 +9,12 @@ import edu.rpi.legup.ui.boardview.GridBoardView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class SkyscrapersView extends GridBoardView {
     private final static Logger LOGGER = LogManager.getLogger(SkyscrapersView.class.getName());
 
-    private ArrayList<SkyscrapersLineView> lineViews;
     private ArrayList<SkyscrapersClueView> northClues;
     private ArrayList<SkyscrapersClueView> eastClues;
     private ArrayList<SkyscrapersClueView> southClues;
@@ -25,8 +22,6 @@ public class SkyscrapersView extends GridBoardView {
 
     public SkyscrapersView(SkyscrapersBoard board) {
         super(new BoardController(), new SkyscrapersController(), board.getDimension());
-
-        this.lineViews = new ArrayList<>();
 
         this.northClues = new ArrayList<>();
         this.eastClues = new ArrayList<>();
@@ -41,12 +36,6 @@ public class SkyscrapersView extends GridBoardView {
             elementView.setSize(elementSize);
             elementView.setLocation(new Point((loc.x + 1) * elementSize.width, (loc.y + 1) * elementSize.height));
             elementViews.add(elementView);
-        }
-
-        for (SkyscrapersLine line : board.getLines()) {
-            SkyscrapersLineView lineView = new SkyscrapersLineView(line);
-            lineView.setSize(elementSize);
-            lineViews.add(lineView);
         }
 
         for (int i = 0; i < gridSize.height; i++) {
@@ -188,10 +177,6 @@ public class SkyscrapersView extends GridBoardView {
     @Override
     public void drawBoard(Graphics2D graphics2D) {
         super.drawBoard(graphics2D);
-
-        for (SkyscrapersLineView view : lineViews) {
-            view.draw(graphics2D);
-        }
 
         for (SkyscrapersClueView clueView : northClues) {
             clueView.draw(graphics2D);

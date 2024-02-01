@@ -9,6 +9,10 @@ public enum SkyscrapersType {
         this.value = value;
     }
 
+    public int toValue() {
+        return value;
+    }
+
     public static SkyscrapersType convertToSkyType(int num) {
         switch (num) {
             case 0:
