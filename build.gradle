@@ -11,7 +11,7 @@ apply plugin: 'application'
 apply plugin: 'checkstyle'
 mainClassName = 'edu.rpi.legup.Legup'
 
-sourceCompatibility = 11
+sourceCompatibility = 21
 
 dependencies {
     implementation 'org.jetbrains:annotations:20.1.0'
@@ -83,7 +83,7 @@ createExe() {
     bundledJrePath = 'jre'
     bundledJre64Bit = true
     jdkPreference = 'preferJre'
-    jreMinVersion = '11'
+    jreMinVersion = '21'
     jreRuntimeBits = '64/32'
 }
 
@@ -108,4 +108,17 @@ task buildNativeWindows(type: Exec, dependsOn: 'createExe') {
 repositories {
     mavenCentral()
 }
-targetCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_21
+
+tasks.register("jpackage") {
+    group("jpackage")
+    doLast {
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+            exec {
+                commandLine 'cmd', '/c', 'jpackage', '--input', 'build/libs', '--main-jar', 'Legup.jar', '--win-dir-chooser', '--dest', 'build', '--app-version', "${project.version}"
+            }
+        } else {
+            println("JPackage task is not set up for " + System.getProperty("os.name"))
+        }
+    }
+}
