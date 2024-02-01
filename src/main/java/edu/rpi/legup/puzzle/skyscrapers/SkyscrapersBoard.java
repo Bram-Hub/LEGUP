@@ -207,43 +207,24 @@ public class SkyscrapersBoard extends GridBoard {
 
     @Override
     public void setCell(int x, int y, Element e, MouseEvent m) {
-        if (x == 0 || y == 0)
-            return;
-        if (y == dimension.height) {
-//            if (m.getButton() == MouseEvent.BUTTON1) {
-//                if (clue.getData() < dimension.height) {
-//                    clue.setData(clue.getData() + 1);
-//                }
-//                else {
-//                    clue.setData(0);
-//                }
-//            }
-//            else {
-//                if (clue.getData() > 0) {
-//                    clue.setData(clue.getData() - 1);
-//                }
-//                else {
-//                    clue.setData(dimension.height);
-//                }
-//            }
-//        }
-//        else if (x == dimension.width) {
-//            if (m.getButton() == MouseEvent.BUTTON1) {
-//                if (clue.getData() < dimension.width) {
-//                    clue.setData(clue.getData() + 1);
-//                }
-//                else {
-//                    clue.setData(0);
-//                }
-//            }
-//            else {
-//                if (clue.getData() > 0) {
-//                    clue.setData(clue.getData() - 1);
-//                }
-//                else {
-//                    clue.setData(dimension.width);
-//                }
-//            }
+        SkyscrapersClue clue = this.getClue(x, y);
+        if (clue != null) {
+            if (m.getButton() == MouseEvent.BUTTON1) {
+                if (clue.getData() < dimension.height) {
+                    clue.setData(clue.getData() + 1);
+                }
+                else {
+                    clue.setData(0);
+                }
+            }
+            else {
+                if (clue.getData() > 0) {
+                    clue.setData(clue.getData() - 1);
+                }
+                else {
+                    clue.setData(dimension.height);
+                }
+            }
         }
         else {
             if (e != null && y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
@@ -258,17 +239,22 @@ public class SkyscrapersBoard extends GridBoard {
         }
     }
 
-//    public SkyscrapersClue getClue(int x, int y) {
-//        if (x == getWidth() && 0 <= y && y < getHeight()) {
-//            return rowClues.get(y);
-//        }
-//        else {
-//            if (y == getHeight() && 0 <= x && x < getWidth()) {
-//                return colClues.get(x);
-//            }
-//        }
-//        return null;
-//    }
+    public SkyscrapersClue getClue(int x, int y) {
+        int viewIndex = getSize() + 1;
+        if (x == 0 && y > 0 && y < viewIndex) {
+            return westClues.get(y-1);
+        }
+        else if (x == viewIndex && y > 0 && y < viewIndex) {
+            return eastClues.get(y-1);
+        }
+        else if (y == 0 && x > 0 && x < viewIndex) {
+            return northClues.get(x-1);
+        }
+        else if (y == viewIndex && x > 0 && x < viewIndex) {
+            return southClues.get(x-1);
+        }
+        return null;
+    }
 
     @Override
     public SkyscrapersBoard copy() {
