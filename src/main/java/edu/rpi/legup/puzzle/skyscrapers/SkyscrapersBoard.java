@@ -216,6 +216,7 @@ public class SkyscrapersBoard extends GridBoard {
      */
     @Override
     public void setCell(int x, int y, Element e, MouseEvent m) {
+        //TODO Make it so that the clue only changes when the currect editing element is selected
         SkyscrapersClue clue = this.getClue(x, y);
         if (e == null) return;
         if (clue != null) {
