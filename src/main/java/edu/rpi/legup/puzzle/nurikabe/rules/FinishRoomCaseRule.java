@@ -98,13 +98,16 @@ public class FinishRoomCaseRule extends CaseRule {
      */
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
-        ArrayList<Board> cases = new ArrayList<>();
-        NurikabeBoard nuriBoard = (NurikabeBoard) board.copy();
+        ArrayList<Board> cases = new ArrayList<>(); //makes array list of cases
+        NurikabeBoard nuriBoard = (NurikabeBoard) board.copy(); //nurikabe board to edit
         NurikabeCell numbaCell = nuriBoard.getCell(((NurikabeCell) puzzleElement).getLocation().x,
-                ((NurikabeCell) puzzleElement).getLocation().y);
-        int filledRoomSize = numbaCell.getData();
+                ((NurikabeCell) puzzleElement).getLocation().y); //number cell whose room we want to fill
+        //System.out.println("x and y is " + numbaCell.getLocation().x + " " + numbaCell.getLocation().y);
+        //NurikabeCell fakenow = (NurikabeCell)(nuriBoard.getPuzzleElement(puzzleElement));
+        //System.out.println("x and y of nuri cell is " + fakenow.getLocation().x + " " + fakenow.getLocation().y);
+        int filledRoomSize = numbaCell.getData(); //size of room we want afterward
+        System.out.println("Filled room size is " + filledRoomSize);
         Set<Point> locations = new HashSet<>(); //locations where white space is added to finish room
-
         Point left = new Point(-1,0);
         Point right = new Point(1, 0);
         Point bot = new Point(0, -1);
@@ -117,31 +120,58 @@ public class FinishRoomCaseRule extends CaseRule {
         boolean moreCases = true;
         while(moreCases) {
             moreCases = false;
-            NurikabeBoard nurikabeBoard = (NurikabeBoard) board.copy();
-            DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nurikabeBoard);
-            Set<NurikabeCell> disRow = regions.getSet((NurikabeCell) puzzleElement); //set of white spaces
+            //NurikabeBoard nurikabeBoard = (NurikabeBoard) board.copy(); //new board each time
+            //DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nurikabeBoard); //new board each time
+            DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nuriBoard);
+            //Set<NurikabeCell> disRow = regions.getSet((NurikabeCell) puzzleElement); //set of white spaces
+            Set<NurikabeCell> disRow = regions.getSet(numbaCell); //set of white spaces
             for (NurikabeCell d : disRow) { //loops through white spaces
+                System.out.println("Almost");
                 for(Point direction : directions) {
-                    NurikabeCell curr = nurikabeBoard.getCell(d.getLocation().x + direction.x, d.getLocation().y + direction.y);
-                    if (curr.getType() == NurikabeType.UNKNOWN) { //found adjacent space to region that is currently unknown
-                        Set<NurikabeCell> disCreatedRow = regions.getSet(curr);
-                        if (disCreatedRow.size() == filledRoomSize) {
-                            Point here = curr.getLocation();
-                            boolean alreadyIn = false;
-                            for(Point p : locations) {
-                                if(p == here) {
-                                    alreadyIn = true;
+                    System.out.println("made it this far");
+                    //NurikabeCell curr = nurikabeBoard.getCell(d.getLocation().x + direction.x, d.getLocation().y + direction.y); //new board each time
+                    //ensure next cell location will be within bounds
+                    if(!((nuriBoard.getWidth() >= (d.getLocation().x + direction.x) && nuriBoard.getHeight() >= d.getLocation().y + direction.y))) {
+                        continue; //if next location check would be outside of grid then continue
+                    }
+                    NurikabeCell curr = nuriBoard.getCell(d.getLocation().x + direction.x, d.getLocation().y + direction.y);
+                    System.out.println("checking cell at " + curr.getLocation().x + " " + curr.getLocation().y);
+                    if(curr != null) {
+                        if (curr.getType() == NurikabeType.UNKNOWN) { //found adjacent space to region that is currently unknown
+                            System.out.println("found an unknown");
+                            curr.setData(NurikabeType.WHITE.toValue()); //
+                            //ISSUE IS DISCREATEDROW SIZE IS 39 which is amount of gray tiles still left, even after change to white above
+                            //add modified data?
+                            //nuriBoard.addModifiedData(curr); // adds modified before check
+
+
+                            //Newly added ^ need to set type to white so that created row is correct. delete after
+                            Set<NurikabeCell> disCreatedRow = regions.getSet(curr); //should I set curr to white first? then gray after if it doesn't work
+                            System.out.println("Literally can smell it discreatedrow size is " + disCreatedRow.size());
+                            if (disCreatedRow.size() == filledRoomSize) {
+                                System.out.println("Found a possible");
+                                Point here = curr.getLocation();
+                                boolean alreadyIn = false;
+                                for (Point p : locations) {
+                                    if (p == here) {
+                                        alreadyIn = true;
+                                        break;
+                                    }
+                                }
+                                if (!alreadyIn) {
+                                    System.out.println("Possible isn't in");
+                                    Board casey = board.copy();
+                                    PuzzleElement datacasey = curr;
+                                    datacasey.setData(NurikabeType.WHITE.toValue());
+                                    casey.addModifiedData(datacasey);
+                                    cases.add(casey);
+                                    locations.add(here);
+                                    moreCases = true;
+                                    System.out.println("Added possible");
                                 }
                             }
-                            if(!alreadyIn) {
-                                Board casey = board.copy();
-                                PuzzleElement datacasey = curr;
-                                datacasey.setData(NurikabeType.WHITE.toValue());
-                                casey.addModifiedData(datacasey);
-                                cases.add(casey);
-                                locations.add(here);
-                                moreCases = true;
-                            }
+                            curr.setData(NurikabeType.UNKNOWN.toValue()); //set type back to unknown
+                            //nuriBoard.addModifiedData(curr); // confirms change back to unknown
                         }
                     }
                 }
