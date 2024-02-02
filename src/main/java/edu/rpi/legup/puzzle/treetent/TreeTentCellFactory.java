@@ -83,7 +83,7 @@ public class TreeTentCellFactory extends ElementFactory {
             TreeTentCell cell = (TreeTentCell) puzzleElement;
             Point loc = cell.getLocation();
 
-            cellElement.setAttribute("value", String.valueOf(cell.getData()));
+            cellElement.setAttribute("value", String.valueOf(cell.getValue()));
             cellElement.setAttribute("x", String.valueOf(loc.x));
             cellElement.setAttribute("y", String.valueOf(loc.y));
 

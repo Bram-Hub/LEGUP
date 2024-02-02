@@ -59,16 +59,33 @@ public class EmptyCellinLightDirectRuleTest {
         cell7.setData(LightUpCellType.EMPTY.value);
         board.addModifiedData(cell7);
 
+        LightUpCell cell8 = board.getCell(3,0);
+        cell8.setData(LightUpCellType.EMPTY.value);
+        board.addModifiedData(cell8);
+
+        LightUpCell cell9 = board.getCell(3,2);
+        cell9.setData(LightUpCellType.EMPTY.value);
+        board.addModifiedData(cell9);
+
+        LightUpCell cell10 = board.getCell(2,3);
+        cell10.setData(LightUpCellType.EMPTY.value);
+        board.addModifiedData(cell10);
+
+        LightUpCell cell11 = board.getCell(0,3);
+        cell11.setData(LightUpCellType.EMPTY.value);
+        board.addModifiedData(cell11);
+
         //confirm there is a logical following of the EmptyCellinLight rule
         Assert.assertNull(RULE.checkRule(transition));
 
-        //cells (0,0) and (2,2) are not empty because they have lightbulbs, and (1,1) 
-        //because it is a black tile. Confirm the rest are empty
+        //cells (0,0) and (2,2) are not empty because they have lightbulbs, (1,1)
+        //because it is a black tile, and (1,3),(3,1),(3,3) because they are not lit. Confirm the rest are empty
         LightUpCell c;
         for (int i = 0; i < board.getHeight(); i++) {
             for (int j = 0; j < board.getWidth(); j++) {
                 c = board.getCell(j, i);
-                if ((i == 0 && j == 0) || (i == 2 && j == 2) || (i == 1 && j == 1)){
+                if ((i == 0 && j == 0) || (i == 2 && j == 2) || (i == 1 && j == 1) || (i == 1 && j == 3) || (i == 3 && j == 1)
+                        || (i==3 && j==3)){
                     Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }
                 else {

@@ -25,9 +25,6 @@ public class SkyscrapersBoard extends GridBoard {
     private boolean viewFlag = false;
     private boolean dupeFlag = false;
 
-    private SkyscrapersClue modClue = null;
-    //helper variable for case rule verification, tracks recently modified row/col
-
     public SkyscrapersBoard(int size) {
         super(size, size);
 
@@ -92,14 +89,6 @@ public class SkyscrapersBoard extends GridBoard {
 
     public void setViewFlag(boolean newFlag) {
         viewFlag = newFlag;
-    }
-
-    public SkyscrapersClue getmodClue() {
-        return modClue;
-    }
-
-    public void setModClue(SkyscrapersClue newClue) {
-        modClue = newClue;
     }
 
     @Override

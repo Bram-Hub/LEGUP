@@ -29,7 +29,6 @@ public class DuplicateNumberContradictionRule extends ContradictionRule {
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
-        //TODO:? Refactor to count each row/col once rather than per cell (override checkContradiction)
         SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
         SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board;
         Point loc = cell.getLocation();
@@ -40,8 +39,8 @@ public class DuplicateNumberContradictionRule extends ContradictionRule {
         for (int i = 0; i < skyscrapersboard.getWidth(); i++) {
             SkyscrapersCell c = skyscrapersboard.getCell(i, loc.y);
             if (i != loc.x && cell.getType() == SkyscrapersType.Number && c.getType() == SkyscrapersType.Number && c.getData() == cell.getData()) {
-                System.out.print(c.getData());
-                System.out.println(cell.getData());
+                //System.out.print(c.getData());
+                //System.out.println(cell.getData());
                 return null;
             }
         }
@@ -50,8 +49,8 @@ public class DuplicateNumberContradictionRule extends ContradictionRule {
         for (int i = 0; i < skyscrapersboard.getHeight(); i++) {
             SkyscrapersCell c = skyscrapersboard.getCell(loc.x, i);
             if (i != loc.y && cell.getType() == SkyscrapersType.Number && c.getType() == SkyscrapersType.Number && c.getData() == cell.getData()) {
-                System.out.print(c.getData());
-                System.out.println(cell.getData());
+                //System.out.print(c.getData());
+                //System.out.println(cell.getData());
                 return null;
             }
         }
