@@ -5,9 +5,9 @@ import edu.rpi.legup.model.gameboard.GridCell;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class GridRegion {
+public abstract class GridRegion<T> {
     
-    protected List<GridCell> regionCells;
+    protected List<T> regionCells;
     
     /**
      * Region Constructor
@@ -20,7 +20,7 @@ public abstract class GridRegion {
      * Adds the cell to the region
      * @param cell cell to be added to the region
      */
-    public void addCell(GridCell cell) {
+    public void addCell(T cell) {
         regionCells.add(cell);
     }
 
@@ -28,7 +28,7 @@ public abstract class GridRegion {
      * Removes the cell from the region
      * @param cell cell to be remove from the region
      */
-    public void removeCell(GridCell cell) {
+    public void removeCell(T cell) {
         regionCells.remove(cell);
     }
 
@@ -36,7 +36,7 @@ public abstract class GridRegion {
      * Returns the list of cells in the region
      * @return list of cells in region
      */
-    public List<GridCell> getCells() {
+    public List<T> getCells() {
         return regionCells;
     }
 
