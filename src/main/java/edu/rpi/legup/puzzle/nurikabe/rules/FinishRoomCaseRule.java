@@ -20,7 +20,7 @@ import java.util.Set;
 public class FinishRoomCaseRule extends CaseRule {
 
     public FinishRoomCaseRule() {
-        super("NURI-CASE-0001",
+        super("NURI-CASE-0002",
                 "Finish Room",
                 "Room can be finished in one of two ways",
                 "edu/rpi/legup/images/nurikabe/cases/BlackOrWhite.png"); //new image
