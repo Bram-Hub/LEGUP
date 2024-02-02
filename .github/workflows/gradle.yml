@@ -23,6 +23,10 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew build -x test
+
+  jpackage-windows:
+    runs-on: windows-latest
+    steps:
       - name: JPackage
         run: ./gradlew jpackage
       - uses: actions/upload-artifact@v4
@@ -30,6 +34,25 @@ jobs:
           name: Package
           path: build/installer
 
+  jpackage-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: JPackage
+        run: ./gradlew jpackage
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Package
+          path: build/installer
+
+  jpackage-macos:
+    runs-on: macos-latest
+    steps:
+      - name: JPackage
+        run: ./gradlew jpackage
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Package
+          path: build/installer
 
   checkstyle:
     runs-on: ubuntu-latest

@@ -116,13 +116,18 @@ tasks.register("jpackage") {
         var operatingSystem = System.getProperty("os.name").toLowerCase()
         if (operatingSystem.contains("windows")) {
             exec {
-                commandLine 'cmd', '/c', 'jpackage', '--input', 'build/libs', '--main-jar', 'Legup.jar', '--win-dir-chooser', '--dest', 'build', 'installer', '--app-version', "${project.version}"
+                commandLine 'cmd', '/c', 'jpackage', '--input', 'build/libs', '--main-jar', 'Legup.jar', '--win-dir-chooser', '--dest', 'build/installer', '-n', "Legup-installer-${operatingSystem}", '--app-version', "${project.version}"
             }
         } else if (operatingSystem.contains("linux")) {
             exec {
-                commandLine 'sh', '-c', 'jpackage', '--input', 'build/libs', '--main-jar', 'Legup.jar', '--win-dir-chooser', '--dest', 'build', 'installer', '--app-version', "${project.version}"
+                commandLine 'sh', '-c', "jpackage --input build/libs --main-jar Legup.jar --dest build/installer -n Legup-installer-${operatingSystem} --app-version ${project.version}"
             }
-        } else
+        } else if (operatingSystem.contains("macos")) {
+            exec {
+                commandLine 'sh', '-c', "jpackage --input build/libs --main-jar Legup.jar --dest build/installer -n Legup-installer-${operatingSystem} --app-version ${project.version}"
+            }
+        } else {
             println("JPackage task is not set up for " + System.getProperty("os.name"))
+        }
     }
 }
