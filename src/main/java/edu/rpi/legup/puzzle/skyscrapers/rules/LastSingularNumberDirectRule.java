@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class LastSingularNumberDirectRule extends DirectRule {
 
     public LastSingularNumberDirectRule() {
-        super("SKYS-BASC-0003", "Last Non-Duplicate Number",
+        super("SKYS-BASC-0003", "Last Number for Cell",
                 "There is only one number for this cell that does not create a duplicate contradiction",
                 "edu/rpi/legup/images/skyscrapers/rules/LastNumber.png");
     }
@@ -79,9 +79,8 @@ public class LastSingularNumberDirectRule extends DirectRule {
     public Board getDefaultBoard(TreeNode node) {
         SkyscrapersBoard initialBoard = (SkyscrapersBoard) node.getBoard();
         SkyscrapersBoard lightUpBoard = (SkyscrapersBoard) node.getBoard().copy();
-        System.out.println(lightUpBoard.getPuzzleElements().size());
+        //System.out.println(lightUpBoard.getPuzzleElements().size());
         for (PuzzleElement element : lightUpBoard.getPuzzleElements()) {
-            System.out.println("123");
             SkyscrapersCell cell = (SkyscrapersCell) element;
             if (cell.getType() == SkyscrapersType.UNKNOWN && isForced(initialBoard, cell)) {
                 //cell.setData(SkyscrapersType.BULB.value);
