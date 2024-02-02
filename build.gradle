@@ -115,7 +115,7 @@ tasks.register("jpackage") {
     doLast {
         if (System.getProperty("os.name").toLowerCase().contains("windows")) {
             exec {
-                commandLine 'cmd', '/c', 'jpackage', '--input', 'build/libs', '--main-jar', 'Legup.jar', '--win-dir-chooser', '--dest', 'build', '--app-version', "${project.version}"
+                commandLine 'cmd', '/c', 'jpackage', '--input', 'build/libs', '--main-jar', 'Legup.jar', '--win-dir-chooser', '--dest', 'build', 'installer', '--app-version', "${project.version}"
             }
         } else {
             println("JPackage task is not set up for " + System.getProperty("os.name"))
