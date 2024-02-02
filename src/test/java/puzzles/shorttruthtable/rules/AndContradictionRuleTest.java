@@ -67,7 +67,7 @@ public class AndContradictionRuleTest {
      * Given a statement: A ^ B where ^ is false
      *
      * Asserts that this is a valid application of the rule if
-     * and only if A or B (or both) are set to false.
+     * and only if A or B (or both) are set to true.
      *
      * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
@@ -93,7 +93,7 @@ public class AndContradictionRuleTest {
         ShortTruthTableCell a = board.getCell(0, 0);
         ShortTruthTableCell b = board.getCell(2, 0);
 
-        if (a.getType() == ShortTruthTableCellType.TRUE || b.getType() == ShortTruthTableCellType.TRUE) {
+        if (a.getType() == ShortTruthTableCellType.TRUE && b.getType() == ShortTruthTableCellType.TRUE) {
             Assert.assertNull(RULE.checkContradiction(transition.getBoard()));
         }
         else {
