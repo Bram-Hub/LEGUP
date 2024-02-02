@@ -1,7 +1,5 @@
 package edu.rpi.legup.model.gameboard;
 
-import edu.rpi.legup.model.gameboard.GridCell;
-
 import java.util.ArrayList;
 import java.util.List;
 
