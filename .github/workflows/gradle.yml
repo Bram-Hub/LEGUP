@@ -8,7 +8,7 @@ on:
   pull_request:
 
 jobs:
-  build:
+  build-ubuntu:
 
     runs-on: ubuntu-latest
 
@@ -23,9 +23,17 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew build -x test
+      - name: JPackage
+        run: ./gradlew jpackage
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Package
+          path: build/installer
 
-  jpackage-windows:
+  build-windows:
+
     runs-on: windows-latest
+
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 21
@@ -35,6 +43,8 @@ jobs:
           distribution: temurin
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew build -x test
       - name: JPackage
         run: ./gradlew jpackage
       - uses: actions/upload-artifact@v4
@@ -42,26 +52,10 @@ jobs:
           name: Package
           path: build/installer
 
-  jpackage-ubuntu:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK 21
-        uses: actions/setup-java@v1
-        with:
-          java-version: 21
-          distribution: temurin
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-      - name: JPackage
-        run: ./gradlew jpackage
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Package
-          path: build/installer
+  build-macos:
 
-  jpackage-macos:
     runs-on: macos-latest
+
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 21
@@ -71,6 +65,8 @@ jobs:
           distribution: temurin
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew build -x test
       - name: JPackage
         run: ./gradlew jpackage
       - uses: actions/upload-artifact@v4
