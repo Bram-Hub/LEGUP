@@ -1,7 +1,5 @@
 package puzzles.shorttruthtable.rules;
 
-import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable;
