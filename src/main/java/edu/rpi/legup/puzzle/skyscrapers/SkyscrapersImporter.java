@@ -71,12 +71,6 @@ public class SkyscrapersImporter extends PuzzleImporter {
                 throw new InvalidFileFormatException("Skyscrapers Importer: cannot find board puzzleElement");
             }
             Element boardElement = (Element) node;
-            if (boardElement.getElementsByTagName("cells").getLength() == 0) {
-                throw new InvalidFileFormatException("Skyscrapers Importer: no puzzleElement found for board");
-            }
-            Element dataElement = (Element) boardElement.getElementsByTagName("cells").item(0);
-            NodeList elementDataList = dataElement.getElementsByTagName("cell");
-
 
             SkyscrapersBoard skyscrapersBoard = null;
 

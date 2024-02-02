@@ -205,9 +205,19 @@ public class SkyscrapersBoard extends GridBoard {
         }
     }
 
+    /**
+     *
+     * @param x position of cell
+     * @param y position of cell
+     * @param e Element to be placed (null if nothing selected)
+     * @param m MouseEvent
+     *          Increases clue values if in editor mode. Currently allows for
+     *          presetting tile values, though they will not be saved.
+     */
     @Override
     public void setCell(int x, int y, Element e, MouseEvent m) {
         SkyscrapersClue clue = this.getClue(x, y);
+        if (e == null) return;
         if (clue != null) {
             if (m.getButton() == MouseEvent.BUTTON1) {
                 if (clue.getData() < dimension.height) {
@@ -227,18 +237,22 @@ public class SkyscrapersBoard extends GridBoard {
             }
         }
         else {
-            if (e != null && y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
+            if (y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
                     y >= dimension.height || x < 0 || y < 0) {
                 return;
             }
             else {
-                if (e != null) {
-                    puzzleElements.get((y-1) * dimension.width + (x-1)).setType(e, m);
-                }
+                puzzleElements.get((y - 1) * dimension.width + (x - 1)).setType(e, m);
             }
         }
     }
 
+    /**
+     *
+     * @param x position of element on boardView
+     * @param y position of element on boardView
+     * @return The clue at the given position
+     */
     public SkyscrapersClue getClue(int x, int y) {
         int viewIndex = getSize() + 1;
         if (x == 0 && y > 0 && y < viewIndex) {
