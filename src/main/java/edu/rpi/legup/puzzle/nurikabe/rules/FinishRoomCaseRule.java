@@ -20,9 +20,9 @@ import java.util.Set;
 public class FinishRoomCaseRule extends CaseRule {
 
     public FinishRoomCaseRule() {
-        super("NURI-CASE-0001",
+        super("NURI-CASE-0002",
                 "Finish Room",
-                "Room can be finished in one of two ways",
+                "Room can be finished in up to five ways",
                 "edu/rpi/legup/images/nurikabe/cases/BlackOrWhite.png"); //new image
     }
 
@@ -117,6 +117,7 @@ public class FinishRoomCaseRule extends CaseRule {
         directions.add(right);
         directions.add(top);
         directions.add(bot);
+        Set<Point> checkedPoints = new HashSet<>(); //add all into checked points and continue at start of loop if inside
         boolean moreCases = true;
         while(moreCases) {
             moreCases = false;
@@ -131,19 +132,24 @@ public class FinishRoomCaseRule extends CaseRule {
                     System.out.println("made it this far");
                     //NurikabeCell curr = nurikabeBoard.getCell(d.getLocation().x + direction.x, d.getLocation().y + direction.y); //new board each time
                     //ensure next cell location will be within bounds
-                    if(!((nuriBoard.getWidth() >= (d.getLocation().x + direction.x) && nuriBoard.getHeight() >= d.getLocation().y + direction.y))) {
+                    if(!((nuriBoard.getWidth() > (d.getLocation().x + direction.x) && (nuriBoard.getHeight() > d.getLocation().y + direction.y) &&
+                            (d.getLocation().x + direction.x >= 0) && (d.getLocation().y + direction.y >= 0)))) {
                         continue; //if next location check would be outside of grid then continue
                     }
                     NurikabeCell curr = nuriBoard.getCell(d.getLocation().x + direction.x, d.getLocation().y + direction.y);
+                    if(checkedPoints.contains(curr.getLocation())) {
+                        continue;
+                    }
                     System.out.println("checking cell at " + curr.getLocation().x + " " + curr.getLocation().y);
+                    checkedPoints.add(curr.getLocation());
                     if(curr != null) {
                         if (curr.getType() == NurikabeType.UNKNOWN) { //found adjacent space to region that is currently unknown
                             System.out.println("found an unknown");
                             curr.setData(NurikabeType.WHITE.toValue()); //
                             //ISSUE IS DISCREATEDROW SIZE IS 39 which is amount of gray tiles still left, even after change to white above
                             //add modified data?
-                            //nuriBoard.addModifiedData(curr); // adds modified before check
-
+                            nuriBoard.addModifiedData(curr); // adds modified before check
+                            regions = NurikabeUtilities.getNurikabeRegions(nuriBoard);
 
                             //Newly added ^ need to set type to white so that created row is correct. delete after
                             Set<NurikabeCell> disCreatedRow = regions.getSet(curr); //should I set curr to white first? then gray after if it doesn't work
@@ -164,6 +170,7 @@ public class FinishRoomCaseRule extends CaseRule {
                                     PuzzleElement datacasey = curr;
                                     datacasey.setData(NurikabeType.WHITE.toValue());
                                     casey.addModifiedData(datacasey);
+                                    regions = NurikabeUtilities.getNurikabeRegions(nuriBoard);
                                     cases.add(casey);
                                     locations.add(here);
                                     moreCases = true;
@@ -171,12 +178,14 @@ public class FinishRoomCaseRule extends CaseRule {
                                 }
                             }
                             curr.setData(NurikabeType.UNKNOWN.toValue()); //set type back to unknown
-                            //nuriBoard.addModifiedData(curr); // confirms change back to unknown
+                            nuriBoard.addModifiedData(curr); // confirms change back to unknown
+                            regions = NurikabeUtilities.getNurikabeRegions(nuriBoard);
                         }
                     }
                 }
             }
         }
+        System.out.println(cases.size() + " that many cases");
         return cases;
     }
 
