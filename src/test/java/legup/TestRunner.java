@@ -7,6 +7,7 @@ import org.junit.runner.notification.Failure;
 import puzzles.battleship.rules.*;
 import puzzles.lightup.rules.*;
 import puzzles.nurikabe.rules.*;
+import puzzles.skyscrapers.rules.*;
 import puzzles.treetent.rules.*;
 
 /**
