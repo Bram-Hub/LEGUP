@@ -160,4 +160,29 @@ public class FillinRowCaseRule extends CaseRule {
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         return null;
     }
+
+    /**
+     * Returns the elements necessary for the cases returned by getCases(board,puzzleElement) to be valid
+     * Overridden by case rules dependent on more than just the modified data
+     *
+     * @param board         board state at application
+     * @param puzzleElement selected puzzleElement
+     * @return List of puzzle elements (typically cells) this application of the case rule depends upon.
+     * Defaults to any element modified by any case
+     */
+    @Override
+    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement) {
+        List<PuzzleElement> elements = new ArrayList<>();
+
+        TreeTentBoard treeTentBoard = (TreeTentBoard) board;
+        TreeTentClue clue = (TreeTentClue) puzzleElement;
+
+        // add all elements of filled row
+        for (int i = 0; i < treeTentBoard.getWidth(); i++) {
+            TreeTentCell cell = treeTentBoard.getCell(i, clue.getClueIndex()-1);
+            elements.add(board.getPuzzleElement((cell)));
+        }
+
+        return elements;
+    }
 }

@@ -1,0 +1,17 @@
+<Legup>
+    <puzzle name="Nurikabe">
+        <board width="5" height="5">
+            <cells>
+                <cell value="-1" x="1" y="0"/>
+                <cell value="-1" x="0" y="1"/>
+                <cell value="2" x="1" y="1"/>
+                <cell value="-1" x="2" y="1"/>
+                <cell value="-1" x="0" y="2"/>
+                <cell value="0" x="1" y="2"/>
+                <cell value="-1" x="2" y="2"/>
+                <cell value="4" x="4" y="2"/>
+                <cell value="-1" x="1" y="3"/>
+            </cells>
+        </board>
+    </puzzle>
+</Legup>

@@ -14,7 +14,12 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import com.google.firebase.database.core.utilities.Tree;
 
 public abstract class CaseRule_Generic extends CaseRule {
 
@@ -31,29 +36,22 @@ public abstract class CaseRule_Generic extends CaseRule {
      */
     @Override
     public String checkRuleRaw(TreeTransition transition) {
+        // Validate that two children are generated
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-        if (childTransitions.size() != 2) {
-            return "This case rule must have 2 children.";
+        if (childTransitions.size() == 0) {
+            return "ERROR: This case rule must spawn at least 1 child.";
         }
 
-        TreeTransition case1 = childTransitions.get(0);
-        TreeTransition case2 = childTransitions.get(1);
-        if (case1.getBoard().getModifiedData().size() != 1 || case2.getBoard().getModifiedData().size() != 1) {
-            return "This case rule must have 1 modified cell for each case.";
-        }
-
-        ShortTruthTableCell mod1 = (ShortTruthTableCell) case1.getBoard().getModifiedData().iterator().next();
-        ShortTruthTableCell mod2 = (ShortTruthTableCell) case2.getBoard().getModifiedData().iterator().next();
-        if (!mod1.getLocation().equals(mod2.getLocation())) {
-            return "This case rule must modify the same cell for each case.";
-        }
-
-        boolean firstPossibility = mod1.getType() == ShortTruthTableCellType.TRUE && mod2.getType() == ShortTruthTableCellType.FALSE;
-        boolean secondPossibility = mod1.getType() == ShortTruthTableCellType.FALSE && mod2.getType() == ShortTruthTableCellType.TRUE;
-        if (!firstPossibility && !secondPossibility) {
-            return "This case rule must an empty true or false cell.";
-        }
-
+        // // Validate that the modified cells are of type UNKNOWN, TRUE, or FALSE
+        // List<TreeTransition> cases = Arrays.asList(childTransitions.get(0), childTransitions.get(1));
+        // for (TreeTransition c : cases) {
+        //     ShortTruthTableCell mod1 = (ShortTruthTableCell)c.getBoard().getModifiedData().iterator().next();
+        //     ShortTruthTableCell mod2 = (ShortTruthTableCell)c.getBoard().getModifiedData().iterator().next();
+        //     if (!(mod1.getType() == ShortTruthTableCellType.TRUE || mod1.getType() == ShortTruthTableCellType.FALSE || mod1.getType() == ShortTruthTableCellType.UNKNOWN) &&
+        //          (mod2.getType() == ShortTruthTableCellType.TRUE || mod2.getType() == ShortTruthTableCellType.FALSE || mod2.getType() == ShortTruthTableCellType.UNKNOWN)) {
+        //             return "ERROR: This case rule must be an unknown, true, or false cell.";
+        //     }
+        // }
         return null;
     }
 
