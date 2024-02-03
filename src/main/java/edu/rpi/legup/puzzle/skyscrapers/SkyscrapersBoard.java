@@ -216,10 +216,12 @@ public class SkyscrapersBoard extends GridBoard {
      */
     @Override
     public void setCell(int x, int y, Element e, MouseEvent m) {
-        //TODO Make it so that the clue only changes when the currect editing element is selected
         SkyscrapersClue clue = this.getClue(x, y);
         if (e == null) return;
         if (clue != null) {
+            if (!e.getElementID().equals("SKYS-UNPL-0003"))
+                return;
+
             if (m.getButton() == MouseEvent.BUTTON1) {
                 if (clue.getData() < dimension.height) {
                     clue.setData(clue.getData() + 1);
@@ -238,13 +240,7 @@ public class SkyscrapersBoard extends GridBoard {
             }
         }
         else {
-            if (y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
-                    y >= dimension.height || x < 0 || y < 0) {
-                return;
-            }
-            else {
-                puzzleElements.get((y - 1) * dimension.width + (x - 1)).setType(e, m);
-            }
+            super.setCell(x - 1, y - 1, e, m);
         }
     }
 
