@@ -14,6 +14,7 @@ public class ThermometerBoard extends GridBoard{
 
     @Override
     public ThermometerCell getCell(int x, int y){
+        if(x < 0 || y < 0 || x > dimension.height || y > dimension.width) return null;
         return (ThermometerCell) super.getCell(x, y);
     }
 }
