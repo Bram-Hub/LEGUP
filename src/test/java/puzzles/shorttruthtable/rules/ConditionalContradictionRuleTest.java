@@ -40,12 +40,12 @@ public class ConditionalContradictionRuleTest {
         String[] letters = {"T", "F", "U"};
         for (String first : letters) {
             for (String second : letters) {
-                trueOrTestHelper(path + first + "T" + second);
+                trueConditionalTestHelper(path + first + "T" + second);
             }
         }
     }
 
-    private void trueOrTestHelper(String filePath) throws InvalidFileFormatException {
+    private void trueConditionalTestHelper(String filePath) throws InvalidFileFormatException {
         TestUtilities.importTestBoard(filePath, stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
