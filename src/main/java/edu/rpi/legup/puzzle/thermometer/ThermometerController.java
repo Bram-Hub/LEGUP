@@ -14,25 +14,21 @@ public class ThermometerController extends ElementController {
             if (e.isControlDown()) {
                 this.boardView.getSelectionPopupMenu().show(boardView, this.boardView.getCanvas().getX() + e.getX(), this.boardView.getCanvas().getY() + e.getY());
             } else {
-                if (cell.getData() == 0) {
-                    data.setData(1);
-                } else if (cell.getData() == 1) {
-                    data.setData(2);
-                } else if (cell.getData() == 2){
-                  data.setData(0);
+                if (cell.getData() == ThermometerFill.EMPTY.ordinal()) {
+                    data.setData(ThermometerFill.FILLED.ordinal());
+                } else if (cell.getData() == ThermometerFill.FILLED.ordinal()) {
+                    data.setData(ThermometerFill.BLOCKED.ordinal());
                 } else {
-                    data.setData(1);
+                    data.setData(ThermometerFill.EMPTY.ordinal());
                 }
             }
-        } else if (e.getButton() == MouseEvent.BUTTON3) {
-            if (cell.getData() == 1) {
-                data.setData(2);
-            } else if (cell.getData() == 2) {
-                data.setData(3);
-            } else if(cell.getData() == 3){
-                data.setData(1);
+        } else if (e.getButton() == MouseEvent.BUTTON2) {
+            if (cell.getData() == ThermometerFill.EMPTY.ordinal()) {
+                data.setData(ThermometerFill.BLOCKED.ordinal());
+            } else if (cell.getData() == ThermometerFill.BLOCKED.ordinal()) {
+                data.setData(ThermometerFill.FILLED.ordinal());
             } else {
-                data.setData(1);
+                data.setData(ThermometerFill.EMPTY.ordinal());
             }
         }
     }
