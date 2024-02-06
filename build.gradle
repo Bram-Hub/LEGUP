@@ -116,18 +116,27 @@ tasks.register("jpackage") {
         var operatingSystem = System.getProperty("os.name").toLowerCase()
         if (operatingSystem.contains("windows")) {
             exec {
-                commandLine 'cmd', '/c', 'jpackage', '--input', 'build/libs', '--main-jar', 'Legup.jar', '--win-dir-chooser', '--win-shortcut-prompt', '--win-shortcut', '--dest', 'build/installer', '-n', "Legup", '--app-version', "${project.version}", '--icon', "src/main/resources/edu/rpi/legup/images/Legup/logo.ico"
+                commandLine 'cmd', '/c', 'jpackage', '--input', 'build/libs', '--main-jar', 'Legup.jar', '--win-dir-chooser', '--win-shortcut-prompt', '--win-shortcut', '--dest', 'build/installer', '-n', "LEGUP", '--app-version', "${project.version}", '--icon', "src/main/resources/edu/rpi/legup/images/Legup/logo.ico"
             }
         } else if (operatingSystem.contains("linux")) {
             exec {
-                commandLine 'sh', '-c', "jpackage --input build/libs --main-jar Legup.jar --dest build/installer -n Legup --icon src/main/resources/edu/rpi/legup/images/Legup/logo.ico --app-version ${project.version}"
+                commandLine 'sh', '-c', "jpackage --input build/libs --main-jar Legup.jar --dest build/installer -n LEGUP --icon src/main/resources/edu/rpi/legup/images/Legup/logo.ico --app-version ${project.version}"
             }
         } else if (operatingSystem.contains("mac")) {
             exec {
-                commandLine 'bash', '-c', "jpackage --input build/libs --main-jar Legup.jar --dest build/installer -n \"Legup\" --icon src/main/resources/edu/rpi/legup/images/Legup/logo.ico --app-version ${project.version}"
+                commandLine 'bash', '-c', "jpackage --input build/libs --main-jar Legup.jar --dest build/installer -n \"LEGUP\" --icon src/main/resources/edu/rpi/legup/images/Legup/logo.ico --app-version ${project.version}"
             }
         } else {
             println("JPackage task is not set up for " + System.getProperty("os.name"))
         }
     }
 }
+
+tasks.register('copyInstaller', Sync) {
+    group("jpackage")
+    from ("build/installer/")
+    into("installer")
+    rename("LEGUP-${project.version}", "LEGUP-installer-${project.version}")
+}
+
+copyInstaller.dependsOn(jpackage)

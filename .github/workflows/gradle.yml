@@ -24,11 +24,11 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build -x test
       - name: JPackage
-        run: ./gradlew jpackage
+        run: ./gradlew copyInstaller
       - uses: actions/upload-artifact@v4
         with:
           name: Ubuntu-Artifact
-          path: build/installer
+          path: installer
 
   build-windows:
 
@@ -46,11 +46,11 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build -x test
       - name: JPackage
-        run: ./gradlew jpackage
+        run: ./gradlew copyInstaller
       - uses: actions/upload-artifact@v4
         with:
           name: Windows-Artifact
-          path: build/installer
+          path: installer
 
   build-macos:
 
@@ -68,11 +68,11 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build -x test
       - name: JPackage
-        run: ./gradlew jpackage
+        run: ./gradlew copyInstaller
       - uses: actions/upload-artifact@v4
         with:
           name: Mac Artifact
-          path: build/installer
+          path: installer
 
   checkstyle:
     runs-on: ubuntu-latest
