@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class BinaryImporter extends PuzzleImporter {
     public BinaryImporter(Binary binary) {
-        super(Binary);
+        super(binary);
     }
 
     @Override
@@ -71,8 +71,8 @@ public class BinaryImporter extends PuzzleImporter {
                 }
             }
 
-            int width = nurikabeBoard.getWidth();
-            int height = nurikabeBoard.getHeight();
+            int width = binaryBoard.getWidth();
+            int height = binaryBoard.getHeight();
             
             if (binaryBoard == null || width % 2 != 0 || height % 2 != 0) {
                 throw new InvalidFileFormatException("binary Importer: invalid board dimensions");
