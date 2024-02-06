@@ -41,7 +41,7 @@ public class Binary extends Puzzle {
         return rows >= 2 && rows % 2 == 0 && columns >= 2 && columns % 2 == 0;
     }
 
-    Override
+    @Override
     public boolean isBoardComplete(Board board) {
         BinaryBoard binaryBoard = (BinaryBoard) board;
 
