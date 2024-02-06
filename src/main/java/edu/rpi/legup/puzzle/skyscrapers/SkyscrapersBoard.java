@@ -219,8 +219,9 @@ public class SkyscrapersBoard extends GridBoard {
         SkyscrapersClue clue = this.getClue(x, y);
         if (e == null) return;
         if (clue != null) {
-            if (!e.getElementID().equals("SKYS-UNPL-0003"))
+            if (!e.getElementID().equals("SKYS-UNPL-0003")) {
                 return;
+            }
 
             if (m.getButton() == MouseEvent.BUTTON1) {
                 if (clue.getData() < dimension.height) {
