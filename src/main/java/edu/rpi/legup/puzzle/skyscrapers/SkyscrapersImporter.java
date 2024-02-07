@@ -83,7 +83,24 @@ public class SkyscrapersImporter extends PuzzleImporter {
                 throw new InvalidFileFormatException("Skyscraper Importer: invalid board dimensions");
             }
 
+            if (boardElement.getElementsByTagName("cells").getLength() == 0) {
+                throw new InvalidFileFormatException("Skyscrapers Importer: no puzzleElement found for board");
+            }
+            Element dataElement = (Element) boardElement.getElementsByTagName("cells").item(0);
+            NodeList elementDataList = dataElement.getElementsByTagName("cell");
+
             int size = skyscrapersBoard.getSize();
+
+            for (int i = 0; i < elementDataList.getLength(); i++) {
+                SkyscrapersCell cell = (SkyscrapersCell) puzzle.getFactory().importCell(elementDataList.item(i), skyscrapersBoard);
+                Point loc = cell.getLocation();
+                if (cell.getData() != 0) {
+                    cell.setModifiable(false);
+                    cell.setGiven(true);
+                }
+                skyscrapersBoard.setCell(loc.x, loc.y, cell);
+            }
+
 
             for (int y = 0; y < size; y++) {
                 for (int x = 0; x < size; x++) {
