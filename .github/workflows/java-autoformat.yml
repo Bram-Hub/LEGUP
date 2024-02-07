@@ -1,0 +1,35 @@
+name: Java Code Auto Format
+on: pull_request
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+
+      - name: spotless
+        run:
+          npm install --save-dev spotless
+          npx spotlessApply
+
+      - name: Check for modified files
+        id: git-check
+        run: echo "modified=$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)" >> $GITHUB_ENV
+
+      - name: Push changes
+        if: steps.git-check.outputs.modified == 'true'
+        run: |
+          git config --global user.name 'Bram van Heuveln'
+          git config --global user.email 'bram28@users.noreply.github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.AUTO_FORMAT_SECRET }}@github.com/${{ github.repository }}
+          git commit -am "Automated Java code formatting changes"
+          git push
