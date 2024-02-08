@@ -26,9 +26,9 @@ jobs:
         id: git-check
         run: |
           if git diff-index --quiet HEAD --; then
-            echo "false" >> $GITHUB_OUTPUT
+            echo "modified=false" >> $GITHUB_OUTPUT
           else
-            echo "true" >> $GITHUB_OUTPUT
+            echo "modified=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Push changes
