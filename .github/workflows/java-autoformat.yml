@@ -26,14 +26,16 @@ jobs:
       - name: Check for modified files
         id: git-check
         run: |
-          if git diff-index --quiet HEAD --; then
-            echo "modified=false" >> $GITHUB_OUTPUT
+          LOCAL=$(git rev-parse HEAD)
+          REMOTE=$(git rev-parse origin/main)
+          if [ "$LOCAL" == "$REMOTE" ]; then
+            echo "::set-output name=up-to-date::true"
           else
-            echo "modified=true" >> $GITHUB_OUTPUT
+            echo "::set-output name=up-to-date::false"
           fi
 
       - name: Push changes
-        if: steps.git-check.outputs.modified == 'true'
+        if: steps.git-check.outputs.up-to-date == 'false'
         run: |
           git config --global user.name 'Bram van Heuveln'
           git config --global user.email 'bram28@users.noreply.github.com'
