@@ -18,10 +18,12 @@ jobs:
             distribution: temurin
 
 
-      - name: spotless
-        run:
-          npm install --save-dev spotless
-          npx spotlessApply
+      - name: Install spotless
+        run: |
+          curl -Ls "https://repo.maven.apache.org/maven2/com/diffplug/spotless/spotless-maven-plugin/5.14.2/spotless-maven-plugin-5.14.2.jar" -o spotless.jar
+
+      - name: Run spotless
+        run: java -jar spotless.jar apply
 
       - name: Check for modified files
         id: git-check
