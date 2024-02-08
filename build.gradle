@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'edu.sc.seis.launch4j' version '2.5.3'
     id 'kr.motd.sphinx' version '2.10.0'
-    id 'com.diffplug.gradle.spotless' version '5.14.2'
+    id 'com.diffplug.spotless' version '5.14.2'
 }
 
 spotless {
