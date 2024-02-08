@@ -4,10 +4,11 @@ on: pull_request
 jobs:
   format:
     runs-on: ubuntu-latest
+    # Check if the PR is not from a fork
     if: github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v1
         with:
           ref: ${{ github.head_ref }}
 
@@ -25,7 +26,6 @@ jobs:
       - name: Check for modified files
         id: git-check
         run: |
-          git diff-index HEAD
           if git diff-index --quiet HEAD --; then
             echo "modified=false" >> $GITHUB_OUTPUT
           else
