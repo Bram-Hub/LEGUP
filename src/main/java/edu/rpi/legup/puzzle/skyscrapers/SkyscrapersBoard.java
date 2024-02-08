@@ -97,8 +97,9 @@ public class SkyscrapersBoard extends GridBoard {
     @Override
     public PuzzleElement getPuzzleElement(PuzzleElement element) {
         // If the element index is -2, it is a clue and should be returned separately
-        if (element.getIndex() == -2)
+        if (element.getIndex() == -2) {
             return element;
+        }
         return super.getPuzzleElement(element);
     }
 

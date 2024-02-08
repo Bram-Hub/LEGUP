@@ -24,7 +24,12 @@ jobs:
 
       - name: Check for modified files
         id: git-check
-        run: echo "modified=$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)" >> $GITHUB_ENV
+        run: |
+          if git diff-index --quiet HEAD --; then
+            echo "false" >> $GITHUB_OUTPUT
+          else
+            echo "true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Push changes
         if: steps.git-check.outputs.modified == 'true'
