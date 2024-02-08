@@ -20,7 +20,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Run spotless
-        run: ./gradlew spotlessApply
+        run: ./gradlew :spotlessApply
 
       - name: Check for modified files
         id: git-check
