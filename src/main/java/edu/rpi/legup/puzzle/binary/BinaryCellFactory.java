@@ -11,6 +11,7 @@ import org.w3c.dom.Node;
 import java.awt.*;
 
 public class BinaryCellFactory extends ElementFactory {
+    
     public BinaryCell importCell(Node node, Board board) throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("cell")) {
