@@ -3,9 +3,9 @@ package edu.rpi.legup.puzzle.binary.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
-import edu.rpi.legup.puzzle.nurikabe.BinaryBoard;
-import edu.rpi.legup.puzzle.nurikabe.BinaryCell;
-import edu.rpi.legup.puzzle.nurikabe.BinaryType;
+import edu.rpi.legup.puzzle.binary.BinaryBoard;
+import edu.rpi.legup.puzzle.binary.BinaryCell;
+import edu.rpi.legup.puzzle.binary.BinaryType;
 
 public class UnbalancedRowColumnContradictionRule extends ContradictionRule {
 
@@ -18,3 +18,9 @@ public class UnbalancedRowColumnContradictionRule extends ContradictionRule {
                 "A row or column cannot contain more of more value than the other",
                 "FILL IN WITH IMAGE");
     }
+
+    @Override
+    public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
+        return null;
+    }
+}
