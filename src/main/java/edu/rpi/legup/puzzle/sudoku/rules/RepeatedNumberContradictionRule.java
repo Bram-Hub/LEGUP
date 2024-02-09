@@ -37,29 +37,27 @@ public class RepeatedNumberContradictionRule extends ContradictionRule {
         Set<SudokuCell> row = sudokuBoard.getRow(cell.getLocation().y);
         Set<SudokuCell> col = sudokuBoard.getCol(cell.getLocation().x);
 
-        Set<Integer> regionDup = new HashSet<>();
-        Set<Integer> rowDup = new HashSet<>();
-        Set<Integer> colDup = new HashSet<>();
-
+        Set<Integer> duplicates = new HashSet<>();
         for (SudokuCell c : region) {
-            if (regionDup.contains(c.getData())) {
+            if (duplicates.contains(c.getData())) {
                 return null;
             }
-            regionDup.add(c.getData());
+            duplicates.add(c.getData());
         }
+        duplicates.clear();
 
         for (SudokuCell c : row) {
-            if (rowDup.contains(c.getData())) {
+            if (duplicates.contains(c.getData())) {
                 return null;
             }
-            rowDup.add(c.getData());
+            duplicates.add(c.getData());
         }
-
+        duplicates.clear();
         for (SudokuCell c : col) {
-            if (colDup.contains(c.getData())) {
+            if (duplicates.contains(c.getData())) {
                 return null;
             }
-            colDup.add(c.getData());
+            duplicates.add(c.getData());
         }
 
         return super.getNoContradictionMessage();

@@ -1,6 +1,5 @@
-SUDO-BASC-0001 : AdvancedDeductionDirectRule
-SUDO-BASC-0002 : LastCellForNumberDirectRule
-SUDO-BASC-0003 : LastNumberForCellDirectRule
+SUDO-BASC-0001 : LastCellForNumberDirectRule
+SUDO-BASC-0002 : LastNumberForCellDirectRule
 
 SUDO-CONT-0001 : NoSolutionContradictionRule
 SUDO-CONT-0002 : RepeatedNumberContradictionRule

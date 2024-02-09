@@ -13,7 +13,7 @@ import java.util.HashSet;
 public class LastNumberForCellDirectRule extends DirectRule {
 
     public LastNumberForCellDirectRule() {
-        super("SUDO-BASC-0003", "Last Number for Cell",
+        super("SUDO-BASC-0002", "Last Number for Cell",
                 "This is the only number left that can fit in the cell of a group.",
                 "edu/rpi/legup/images/sudoku/forcedByDeduction.png");
     }

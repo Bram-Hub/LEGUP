@@ -9,10 +9,10 @@ import edu.rpi.legup.puzzle.sudoku.SudokuCell;
 import java.util.HashSet;
 import java.util.Set;
 
-public class NoSolutionContradictionRule extends ContradictionRule {
+public class NoCellForNumberContradictionRule extends ContradictionRule {
 
-    public NoSolutionContradictionRule() {
-        super("SUDO-CONT-0001", "No Solution for Cell",
+    public NoCellForNumberContradictionRule() {
+        super("SUDO-CONT-0001", "No Cell for Number",
                 "Process of elimination yields no valid numbers for an empty cell.",
                 "edu/rpi/legup/images/sudoku/NoSolution.png");
     }
