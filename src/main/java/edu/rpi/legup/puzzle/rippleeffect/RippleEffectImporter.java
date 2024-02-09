@@ -5,13 +5,13 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import java.awt.Point;
 
 public class RippleEffectImporter extends PuzzleImporter {
     public RippleEffectImporter(RippleEffect rippleEffect) {
         super(rippleEffect);
     }
 
-    
     /**
      * Puzzle setting to support row and column inputs
      */
@@ -36,7 +36,19 @@ public class RippleEffectImporter extends PuzzleImporter {
      */
     @Override
     public void initializeBoard(int rows, int columns) {
-        // Womp
+        RippleEffectBoard rippleEffectBoard = new RippleEffectBoard(rows, columns);
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++) {
+                // new ripple effect cell
+                if (rippleEffectBoard.getCell(x, y) == null) {
+                    RippleEffectCell cell = new RippleEffectCell(RippleEffectCellType.EMPTY, new Point(x, y));
+                    cell.setIndex(y * columns + x);
+                    cell.setModifiable(true);
+                    rippleEffectBoard.setCell(x, y, cell);
+                }
+            }
+        }
+        puzzle.setCurrentBoard(rippleEffectBoard);
     }
 
 

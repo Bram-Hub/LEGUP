@@ -22,7 +22,7 @@ public class RippleEffect extends Puzzle {
         super();
         this.name = "RippleEffect";
 
-        // this.importer = new LightUpImporter(this);
+        this.importer = new RippleEffectImporter(this);
         // this.exporter = new LightUpExporter(this);
 
         // this.factory = new LightUpCellFactory();
