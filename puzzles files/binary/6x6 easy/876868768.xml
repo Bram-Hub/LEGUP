@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Legup version="2.0.0">
     <puzzle name="Binary">
-        <board size="4">
+        <board height="6" width="6">
             <cells>
                 <cell value="1" x="0" y="5"/>
                 <cell value="0" x="3" y="5"/>
