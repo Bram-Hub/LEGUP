@@ -1,4 +1,4 @@
-package edu.rpi.legup.puzzle.nurikabe;
+package edu.rpi.legup.puzzle.binary;
 
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;

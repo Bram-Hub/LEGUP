@@ -2,6 +2,8 @@ package edu.rpi.legup.puzzle.binary;
 
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.rules.ContradictionRule;
 
 public class Binary extends Puzzle {
     public Binary() {
@@ -11,14 +13,14 @@ public class Binary extends Puzzle {
         this.importer = new BinaryImporter(this);
         this.exporter = new BinaryExporter(this);
 
-        this.factory = new BinaryCellFactory(this);
+        this.factory = new BinaryCellFactory();
     }
 
     @Override
     public void initializeView() {
         boardView = new BinaryView((BinaryBoard) currentBoard);
         boardView.setBoard(currentBoard);
-        addBoardListner(boardView);
+        addBoardListener(boardView);
     }
 
     @Override
@@ -26,22 +28,7 @@ public class Binary extends Puzzle {
         return null;
     }
 
-    @Override
-    public boolean isBoardComplete(Board board) {
-        return true;
-    }
-
-    @Override
-    public void onBoardChange(Board board) {
-    }
-    
-
-    @Overrride
-    public boolean isValidDimensions(int rows, int columns){
-        return rows >= 2 && rows % 2 == 0 && columns >= 2 && columns % 2 == 0;
-    }
-
-    @Override
+        @Override
     public boolean isBoardComplete(Board board) {
         BinaryBoard binaryBoard = (BinaryBoard) board;
 
@@ -58,4 +45,16 @@ public class Binary extends Puzzle {
         }
         return true;
     }
+
+    @Override
+    public void onBoardChange(Board board) {
+    }
+    
+
+    @Override
+    public boolean isValidDimensions(int rows, int columns){
+        return rows >= 2 && rows % 2 == 0 && columns >= 2 && columns % 2 == 0;
+    }
+
+
 }
