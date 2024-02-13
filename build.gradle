@@ -25,15 +25,15 @@ spotless{
     }
 
     java{
+        // Use the default importOrder configuration
         importOrder()
 
-        removeUnusedImports()
-
+        // Cleanthat will refactor your code, but it may break your style: apply it before your formatter
         cleanthat()
 
-        formatAnnotations()
-
         googleJavaFormat('1.19.2')
+
+        formatAnnotations()
     }
 }
 
