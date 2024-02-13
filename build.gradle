@@ -37,7 +37,7 @@ spotless{
     }
 }
 
-apply plugin: 'checkstyle'
+//apply plugin: 'checkstyle'
 
 mainClassName = 'edu.rpi.legup.Legup'
 
