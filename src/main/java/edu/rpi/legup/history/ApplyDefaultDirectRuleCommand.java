@@ -46,8 +46,10 @@ public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
                 TreeElement element = view.getTreeElement();
                 if (element.getType() == TreeElementType.NODE) {
                     TreeNode node = (TreeNode) element;
-                    if (!node.getChildren().isEmpty()) {
-                        return CommandError.DEFAULT_APPLICATION + " - " + CommandError.NO_CHILDREN.toString();
+                    if (!node.getChildren().isEmpty()) 
+                                {
+                        
+                                    return CommandError.DEFAULT_APPLICATION + " - " + CommandError.NO_CHILDREN.toString();
                     }
                     else {
                         if (rule.getDefaultBoard(node) == null) {
