@@ -49,16 +49,15 @@ public class PossibleNumberCaseRule extends CaseRule {
 
     @Override
     public CaseBoard getCaseBoard(Board board) {
-        SudokuBoard sudokuBoard = (SudokuBoard) board;
-        PossibleNumberCaseBoard caseBoard = new PossibleNumberCaseBoard(sudokuBoard, this, null);
-        for (int i = 0; i < sudokuBoard.getSize(); i++) {
-            caseBoard.addPickableRegion(i);
-            caseBoard.addPickableRow(i);
-            caseBoard.addPickableCol(i);
+        SudokuBoard sudokuBoard = (SudokuBoard) board.copy();
+        CaseBoard caseBoard = new CaseBoard(sudokuBoard, this);
+        for (PuzzleElement puzzleElement : sudokuBoard.getPuzzleElements()) {
+            if (((SudokuCell) puzzleElement).getData() == 0) {
+                caseBoard.addPickableElement(puzzleElement);
+            }
         }
         return caseBoard;
     }
-
     /**
      * Gets the possible cases at a specific location based on this case rule
      *
@@ -86,41 +85,9 @@ public class PossibleNumberCaseRule extends CaseRule {
         List<SudokuCell> caseCells = new ArrayList<>();
         SudokuCell cell = (SudokuCell) puzzleElement;
 
-        Set<SudokuCell> group;
-        if (groupType == GroupType.REGION) {
-            group = sudokuBoard.getRegion(cell.getGroupIndex());
-        }
-        else {
-            if (groupType == GroupType.ROW) {
-                group = sudokuBoard.getRow(cell.getLocation().y);
-            }
-            else {
-                group = sudokuBoard.getCol(cell.getLocation().x);
-            }
-        }
-
-        for (SudokuCell c : group) {
-            if (c.getData() == 0) {
-                Set<SudokuCell> blockableCells = sudokuBoard.getRegion(c.getGroupIndex());
-                blockableCells.addAll(sudokuBoard.getRow(c.getLocation().y));
-                blockableCells.addAll(sudokuBoard.getCol(c.getLocation().x));
-
-                boolean repeat = false;
-                for (SudokuCell bc : blockableCells) {
-                    if (bc.getData() == value) {
-                        repeat = true;
-                        break;
-                    }
-                }
-                if (!repeat) {
-                    caseCells.add(c);
-                }
-            }
-        }
-
-        for (SudokuCell c : caseCells) {
+        for (int i = 0; i < 9; i++) {
             Board newCase = sudokuBoard.copy();
-            PuzzleElement element = newCase.getPuzzleElement(c);
+            PuzzleElement element = newCase.getPuzzleElement(puzzleElement);
             element.setData(value);
             newCase.addModifiedData(element);
             cases.add(newCase);
