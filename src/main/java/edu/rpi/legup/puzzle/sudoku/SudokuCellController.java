@@ -1,12 +1,5 @@
 package edu.rpi.legup.puzzle.sudoku;
 
-/*import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-
-import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.puzzle.treetent.TreeTentCell;*/
-
 import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 
