@@ -24,7 +24,12 @@ public final class MinesweeperTileData {
             case UNSET_DATA: return unset();
             case BOMB_DATA: return bomb();
             case EMPTY_DATA: return empty();
-            default: return flag(data);
+            default: {
+                if (data <= -2 || data > 8) {
+                    return unset();
+                }
+                return flag(data);
+            }
         }
     }
 
