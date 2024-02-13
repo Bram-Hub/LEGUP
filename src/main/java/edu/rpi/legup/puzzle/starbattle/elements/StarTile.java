@@ -4,6 +4,6 @@ import edu.rpi.legup.model.elements.NonPlaceableElement;
 
 public class StarTile extends NonPlaceableElement {
     public StarTile() {
-        super("LTUP-PLAC-0001", "Star Tile", "The star tile, the token of the game.", "edu/rpi/legup/images/starbattle/star.gif");
+        super("STBL-PLAC-0001", "Star Tile", "The star tile, the token of the game.", "edu/rpi/legup/images/starbattle/star.gif");
     }
 }
