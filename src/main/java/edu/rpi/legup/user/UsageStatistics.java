@@ -11,43 +11,43 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 public class UsageStatistics {
 
-    private static final String url = "https://legup-3b4a5.firebaseio.com/databases/test.json";
+  private static final String url = "https://legup-3b4a5.firebaseio.com/databases/test.json";
 
-    public UsageStatistics() {}
+  public UsageStatistics() {}
 
-    public boolean sendErrorReport() {
+  public boolean sendErrorReport() {
+    try {
+      HttpClient httpclient = new DefaultHttpClient();
+
+      HttpPost httppost = new HttpPost(url);
+
+      // Request parameters and other properties.
+      httppost.setEntity(new StringEntity("{\"test\": \"jeff\"}"));
+      //            List<NameValuePair> params = new ArrayList<>(2);
+      //            params.add(new BasicNameValuePair("param-1", "12345"));
+      //            params.add(new BasicNameValuePair("param-2", "Hello!"));
+      //            httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+
+      // Execute and get the response.
+      HttpResponse response = httpclient.execute(httppost);
+      HttpEntity entity = response.getEntity();
+
+      if (entity != null) {
+        InputStream instream = entity.getContent();
+
         try {
-            HttpClient httpclient = new DefaultHttpClient();
-
-            HttpPost httppost = new HttpPost(url);
-
-            // Request parameters and other properties.
-            httppost.setEntity(new StringEntity("{\"test\": \"jeff\"}"));
-            //            List<NameValuePair> params = new ArrayList<>(2);
-            //            params.add(new BasicNameValuePair("param-1", "12345"));
-            //            params.add(new BasicNameValuePair("param-2", "Hello!"));
-            //            httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-
-            // Execute and get the response.
-            HttpResponse response = httpclient.execute(httppost);
-            HttpEntity entity = response.getEntity();
-
-            if (entity != null) {
-                InputStream instream = entity.getContent();
-
-                try {
-                    //                    System.err.println(new String(instream.readAllBytes()));
-                } finally {
-                    instream.close();
-                }
-            }
-        } catch (IOException e) {
-            return false;
+          //                    System.err.println(new String(instream.readAllBytes()));
+        } finally {
+          instream.close();
         }
-        return false;
+      }
+    } catch (IOException e) {
+      return false;
     }
+    return false;
+  }
 
-    public static void main(String[] args) {
-        new UsageStatistics().sendErrorReport();
-    }
+  public static void main(String[] args) {
+    new UsageStatistics().sendErrorReport();
+  }
 }

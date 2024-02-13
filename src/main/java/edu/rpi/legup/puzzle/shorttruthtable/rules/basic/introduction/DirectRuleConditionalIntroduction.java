@@ -4,7 +4,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.rules.contradiction.ContradictionRul
 
 public class DirectRuleConditionalIntroduction extends DirectRule_GenericIntroduction {
 
-    public DirectRuleConditionalIntroduction() {
-        super("STTT-BASC-0009", "Conditional", new ContradictionRuleConditional());
-    }
+  public DirectRuleConditionalIntroduction() {
+    super("STTT-BASC-0009", "Conditional", new ContradictionRuleConditional());
+  }
 }

@@ -4,7 +4,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.rules.contradiction.ContradictionRul
 
 public class DirectRuleOrIntroduction extends DirectRule_GenericIntroduction {
 
-    public DirectRuleOrIntroduction() {
-        super("STTT-BASC-0011", "Or", new ContradictionRuleOr());
-    }
+  public DirectRuleOrIntroduction() {
+    super("STTT-BASC-0011", "Or", new ContradictionRuleOr());
+  }
 }

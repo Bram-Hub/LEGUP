@@ -4,7 +4,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.rules.contradiction.ContradictionRul
 
 public class DirectRuleBiconditionalIntroduction extends DirectRule_GenericIntroduction {
 
-    public DirectRuleBiconditionalIntroduction() {
-        super("STTT-BASC-0008", "Biconditional", new ContradictionRuleBiconditional());
-    }
+  public DirectRuleBiconditionalIntroduction() {
+    super("STTT-BASC-0008", "Biconditional", new ContradictionRuleBiconditional());
+  }
 }

@@ -6,68 +6,68 @@ import org.w3c.dom.Document;
 
 public class TreeTentExporter extends PuzzleExporter {
 
-    public TreeTentExporter(TreeTent treeTent) {
-        super(treeTent);
+  public TreeTentExporter(TreeTent treeTent) {
+    super(treeTent);
+  }
+
+  /**
+   * Creates and returns a new board element in the XML document specified
+   *
+   * @param newDocument the XML document to append to
+   * @return the new board element
+   */
+  @Override
+  protected org.w3c.dom.Element createBoardElement(Document newDocument) {
+    TreeTentBoard board;
+    if (puzzle.getTree() != null) {
+      board = (TreeTentBoard) puzzle.getTree().getRootNode().getBoard();
+    } else {
+      board = (TreeTentBoard) puzzle.getBoardView().getBoard();
     }
 
-    /**
-     * Creates and returns a new board element in the XML document specified
-     *
-     * @param newDocument the XML document to append to
-     * @return the new board element
-     */
-    @Override
-    protected org.w3c.dom.Element createBoardElement(Document newDocument) {
-        TreeTentBoard board;
-        if (puzzle.getTree() != null) {
-            board = (TreeTentBoard) puzzle.getTree().getRootNode().getBoard();
-        } else {
-            board = (TreeTentBoard) puzzle.getBoardView().getBoard();
-        }
+    org.w3c.dom.Element boardElement = newDocument.createElement("board");
+    boardElement.setAttribute("width", String.valueOf(board.getWidth()));
+    boardElement.setAttribute("height", String.valueOf(board.getHeight()));
 
-        org.w3c.dom.Element boardElement = newDocument.createElement("board");
-        boardElement.setAttribute("width", String.valueOf(board.getWidth()));
-        boardElement.setAttribute("height", String.valueOf(board.getHeight()));
-
-        org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
-        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
-            TreeTentCell cell = (TreeTentCell) puzzleElement;
-            if (cell.getData() != TreeTentType.UNKNOWN) {
-                org.w3c.dom.Element cellElement =
-                        puzzle.getFactory().exportCell(newDocument, puzzleElement);
-                cellsElement.appendChild(cellElement);
-            }
-        }
-        boardElement.appendChild(cellsElement);
-
-        org.w3c.dom.Element axisEast = newDocument.createElement("axis");
-        axisEast.setAttribute("side", "east");
-        for (TreeTentClue clue : board.getRowClues()) {
-            org.w3c.dom.Element clueElement = newDocument.createElement("clue");
-            clueElement.setAttribute("value", String.valueOf(clue.getData()));
-            clueElement.setAttribute("index", TreeTentClue.colNumToString(clue.getClueIndex()));
-            axisEast.appendChild(clueElement);
-        }
-        boardElement.appendChild(axisEast);
-
-        org.w3c.dom.Element axisSouth = newDocument.createElement("axis");
-        axisSouth.setAttribute("side", "south");
-        for (TreeTentClue clue : board.getRowClues()) {
-            org.w3c.dom.Element clueElement = newDocument.createElement("clue");
-            clueElement.setAttribute("value", String.valueOf(clue.getData()));
-            clueElement.setAttribute("index", String.valueOf(clue.getClueIndex()));
-            axisSouth.appendChild(clueElement);
-        }
-        boardElement.appendChild(axisSouth);
-
-        if (!board.getLines().isEmpty()) {
-            org.w3c.dom.Element linesElement = newDocument.createElement("lines");
-            for (PuzzleElement data : board.getLines()) {
-                org.w3c.dom.Element lineElement = puzzle.getFactory().exportCell(newDocument, data);
-                linesElement.appendChild(lineElement);
-            }
-            boardElement.appendChild(linesElement);
-        }
-        return boardElement;
+    org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
+    for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
+      TreeTentCell cell = (TreeTentCell) puzzleElement;
+      if (cell.getData() != TreeTentType.UNKNOWN) {
+        org.w3c.dom.Element cellElement =
+            puzzle.getFactory().exportCell(newDocument, puzzleElement);
+        cellsElement.appendChild(cellElement);
+      }
     }
+    boardElement.appendChild(cellsElement);
+
+    org.w3c.dom.Element axisEast = newDocument.createElement("axis");
+    axisEast.setAttribute("side", "east");
+    for (TreeTentClue clue : board.getRowClues()) {
+      org.w3c.dom.Element clueElement = newDocument.createElement("clue");
+      clueElement.setAttribute("value", String.valueOf(clue.getData()));
+      clueElement.setAttribute("index", TreeTentClue.colNumToString(clue.getClueIndex()));
+      axisEast.appendChild(clueElement);
+    }
+    boardElement.appendChild(axisEast);
+
+    org.w3c.dom.Element axisSouth = newDocument.createElement("axis");
+    axisSouth.setAttribute("side", "south");
+    for (TreeTentClue clue : board.getRowClues()) {
+      org.w3c.dom.Element clueElement = newDocument.createElement("clue");
+      clueElement.setAttribute("value", String.valueOf(clue.getData()));
+      clueElement.setAttribute("index", String.valueOf(clue.getClueIndex()));
+      axisSouth.appendChild(clueElement);
+    }
+    boardElement.appendChild(axisSouth);
+
+    if (!board.getLines().isEmpty()) {
+      org.w3c.dom.Element linesElement = newDocument.createElement("lines");
+      for (PuzzleElement data : board.getLines()) {
+        org.w3c.dom.Element lineElement = puzzle.getFactory().exportCell(newDocument, data);
+        linesElement.appendChild(lineElement);
+      }
+      boardElement.appendChild(linesElement);
+    }
+    return boardElement;
+  }
 }

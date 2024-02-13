@@ -6,34 +6,34 @@ import org.w3c.dom.Document;
 
 public class HeyawakeExporter extends PuzzleExporter {
 
-    public HeyawakeExporter(Heyawake heyawake) {
-        super(heyawake);
+  public HeyawakeExporter(Heyawake heyawake) {
+    super(heyawake);
+  }
+
+  @Override
+  protected org.w3c.dom.Element createBoardElement(Document newDocument) {
+    HeyawakeBoard board;
+    if (puzzle.getTree() != null) {
+      board = (HeyawakeBoard) puzzle.getTree().getRootNode().getBoard();
+    } else {
+      board = (HeyawakeBoard) puzzle.getBoardView().getBoard();
     }
 
-    @Override
-    protected org.w3c.dom.Element createBoardElement(Document newDocument) {
-        HeyawakeBoard board;
-        if (puzzle.getTree() != null) {
-            board = (HeyawakeBoard) puzzle.getTree().getRootNode().getBoard();
-        } else {
-            board = (HeyawakeBoard) puzzle.getBoardView().getBoard();
-        }
+    org.w3c.dom.Element boardElement = newDocument.createElement("board");
+    boardElement.setAttribute("width", String.valueOf(board.getWidth()));
+    boardElement.setAttribute("height", String.valueOf(board.getHeight()));
 
-        org.w3c.dom.Element boardElement = newDocument.createElement("board");
-        boardElement.setAttribute("width", String.valueOf(board.getWidth()));
-        boardElement.setAttribute("height", String.valueOf(board.getHeight()));
-
-        org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
-        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
-            HeyawakeCell cell = (HeyawakeCell) puzzleElement;
-            if (cell.getData() != -2) {
-                org.w3c.dom.Element cellElement =
-                        puzzle.getFactory().exportCell(newDocument, puzzleElement);
-                cellsElement.appendChild(cellElement);
-            }
-        }
-
-        boardElement.appendChild(cellsElement);
-        return boardElement;
+    org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
+    for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
+      HeyawakeCell cell = (HeyawakeCell) puzzleElement;
+      if (cell.getData() != -2) {
+        org.w3c.dom.Element cellElement =
+            puzzle.getFactory().exportCell(newDocument, puzzleElement);
+        cellsElement.appendChild(cellElement);
+      }
     }
+
+    boardElement.appendChild(cellsElement);
+    return boardElement;
+  }
 }

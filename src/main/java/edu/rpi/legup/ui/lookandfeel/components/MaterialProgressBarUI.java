@@ -14,22 +14,22 @@ import javax.swing.plaf.basic.BasicProgressBarUI;
  */
 public class MaterialProgressBarUI extends BasicProgressBarUI {
 
-    public static ComponentUI createUI(JComponent c) {
-        return new MaterialProgressBarUI();
-    }
+  public static ComponentUI createUI(JComponent c) {
+    return new MaterialProgressBarUI();
+  }
 
-    @Override
-    public void installUI(JComponent c) {
-        super.installUI(c);
+  @Override
+  public void installUI(JComponent c) {
+    super.installUI(c);
 
-        JProgressBar progressBar = (JProgressBar) c;
-        progressBar.setBorder(MaterialBorders.LIGHT_LINE_BORDER);
-        progressBar.setBackground(MaterialColors.GRAY_200);
-        progressBar.setForeground(MaterialColors.LIGHT_BLUE_400);
-    }
+    JProgressBar progressBar = (JProgressBar) c;
+    progressBar.setBorder(MaterialBorders.LIGHT_LINE_BORDER);
+    progressBar.setBackground(MaterialColors.GRAY_200);
+    progressBar.setForeground(MaterialColors.LIGHT_BLUE_400);
+  }
 
-    @Override
-    public void paint(Graphics g, JComponent c) {
-        super.paint(MaterialDrawingUtils.getAliasedGraphics(g), c);
-    }
+  @Override
+  public void paint(Graphics g, JComponent c) {
+    super.paint(MaterialDrawingUtils.getAliasedGraphics(g), c);
+  }
 }

@@ -6,34 +6,34 @@ import org.w3c.dom.Document;
 
 public class FillapixExporter extends PuzzleExporter {
 
-    public FillapixExporter(Fillapix fillapix) {
-        super(fillapix);
+  public FillapixExporter(Fillapix fillapix) {
+    super(fillapix);
+  }
+
+  @Override
+  protected org.w3c.dom.Element createBoardElement(Document newDocument) {
+    FillapixBoard board;
+    if (puzzle.getTree() != null) {
+      board = (FillapixBoard) puzzle.getTree().getRootNode().getBoard();
+    } else {
+      board = (FillapixBoard) puzzle.getBoardView().getBoard();
     }
 
-    @Override
-    protected org.w3c.dom.Element createBoardElement(Document newDocument) {
-        FillapixBoard board;
-        if (puzzle.getTree() != null) {
-            board = (FillapixBoard) puzzle.getTree().getRootNode().getBoard();
-        } else {
-            board = (FillapixBoard) puzzle.getBoardView().getBoard();
-        }
+    org.w3c.dom.Element boardElement = newDocument.createElement("board");
+    boardElement.setAttribute("width", String.valueOf(board.getWidth()));
+    boardElement.setAttribute("height", String.valueOf(board.getHeight()));
 
-        org.w3c.dom.Element boardElement = newDocument.createElement("board");
-        boardElement.setAttribute("width", String.valueOf(board.getWidth()));
-        boardElement.setAttribute("height", String.valueOf(board.getHeight()));
-
-        org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
-        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
-            FillapixCell cell = (FillapixCell) puzzleElement;
-            if (cell.getNumber() != -1 || cell.getType() != FillapixCellType.UNKNOWN) {
-                org.w3c.dom.Element cellElement =
-                        puzzle.getFactory().exportCell(newDocument, puzzleElement);
-                cellsElement.appendChild(cellElement);
-            }
-        }
-
-        boardElement.appendChild(cellsElement);
-        return boardElement;
+    org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
+    for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
+      FillapixCell cell = (FillapixCell) puzzleElement;
+      if (cell.getNumber() != -1 || cell.getType() != FillapixCellType.UNKNOWN) {
+        org.w3c.dom.Element cellElement =
+            puzzle.getFactory().exportCell(newDocument, puzzleElement);
+        cellsElement.appendChild(cellElement);
+      }
     }
+
+    boardElement.appendChild(cellsElement);
+    return boardElement;
+  }
 }

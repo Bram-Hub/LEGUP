@@ -7,8 +7,8 @@ import javax.swing.border.BevelBorder;
 
 public class DataSelectionView extends JPopupMenu {
 
-    public DataSelectionView(ElementController controller) {
-        setBackground(Color.GRAY);
-        setBorder(new BevelBorder(BevelBorder.RAISED));
-    }
+  public DataSelectionView(ElementController controller) {
+    setBackground(Color.GRAY);
+    setBorder(new BevelBorder(BevelBorder.RAISED));
+  }
 }

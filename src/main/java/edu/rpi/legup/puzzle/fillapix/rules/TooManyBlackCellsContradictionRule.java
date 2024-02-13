@@ -11,43 +11,43 @@ import java.util.ArrayList;
 
 public class TooManyBlackCellsContradictionRule extends ContradictionRule {
 
-    public TooManyBlackCellsContradictionRule() {
-        super(
-                "FPIX-CONT-0002",
-                "Too Many Black Cells",
-                "There may not be more black cells than the number",
-                "edu/rpi/legup/images/fillapix/contradictions/TooManyBlackCells.png");
+  public TooManyBlackCellsContradictionRule() {
+    super(
+        "FPIX-CONT-0002",
+        "Too Many Black Cells",
+        "There may not be more black cells than the number",
+        "edu/rpi/legup/images/fillapix/contradictions/TooManyBlackCells.png");
+  }
+
+  /**
+   * Checks whether the transition has a contradiction at the specific puzzleElement index using
+   * this rule
+   *
+   * @param board board to check contradiction
+   * @param puzzleElement equivalent puzzleElement
+   * @return null if the transition contains a contradiction at the specified puzzleElement,
+   *     otherwise error message
+   */
+  @Override
+  public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
+    FillapixBoard fillapixBoard = (FillapixBoard) board;
+    FillapixCell cell = (FillapixCell) fillapixBoard.getPuzzleElement(puzzleElement);
+
+    int cellNum = cell.getNumber();
+    if (cellNum < 0 || cellNum >= 10) {
+      return super.getNoContradictionMessage();
+    }
+    int numBlack = 0;
+    ArrayList<FillapixCell> adjCells = FillapixUtilities.getAdjacentCells(fillapixBoard, cell);
+    for (FillapixCell adjCell : adjCells) {
+      if (adjCell.getType() == FillapixCellType.BLACK) {
+        numBlack++;
+      }
+    }
+    if (numBlack > cellNum) {
+      return null;
     }
 
-    /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using
-     * this rule
-     *
-     * @param board board to check contradiction
-     * @param puzzleElement equivalent puzzleElement
-     * @return null if the transition contains a contradiction at the specified puzzleElement,
-     *     otherwise error message
-     */
-    @Override
-    public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
-        FillapixBoard fillapixBoard = (FillapixBoard) board;
-        FillapixCell cell = (FillapixCell) fillapixBoard.getPuzzleElement(puzzleElement);
-
-        int cellNum = cell.getNumber();
-        if (cellNum < 0 || cellNum >= 10) {
-            return super.getNoContradictionMessage();
-        }
-        int numBlack = 0;
-        ArrayList<FillapixCell> adjCells = FillapixUtilities.getAdjacentCells(fillapixBoard, cell);
-        for (FillapixCell adjCell : adjCells) {
-            if (adjCell.getType() == FillapixCellType.BLACK) {
-                numBlack++;
-            }
-        }
-        if (numBlack > cellNum) {
-            return null;
-        }
-
-        return super.getNoContradictionMessage();
-    }
+    return super.getNoContradictionMessage();
+  }
 }

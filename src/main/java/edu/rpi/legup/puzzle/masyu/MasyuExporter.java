@@ -6,32 +6,31 @@ import org.w3c.dom.Document;
 
 public class MasyuExporter extends PuzzleExporter {
 
-    public MasyuExporter(Masyu masyu) {
-        super(masyu);
+  public MasyuExporter(Masyu masyu) {
+    super(masyu);
+  }
+
+  @Override
+  protected org.w3c.dom.Element createBoardElement(Document newDocument) {
+    MasyuBoard board;
+    if (puzzle.getTree() != null) {
+      board = (MasyuBoard) puzzle.getTree().getRootNode().getBoard();
+    } else {
+      board = (MasyuBoard) puzzle.getBoardView().getBoard();
     }
 
-    @Override
-    protected org.w3c.dom.Element createBoardElement(Document newDocument) {
-        MasyuBoard board;
-        if (puzzle.getTree() != null) {
-            board = (MasyuBoard) puzzle.getTree().getRootNode().getBoard();
-        } else {
-            board = (MasyuBoard) puzzle.getBoardView().getBoard();
-        }
+    org.w3c.dom.Element boardElement = newDocument.createElement("board");
+    boardElement.setAttribute("width", String.valueOf(board.getWidth()));
+    boardElement.setAttribute("height", String.valueOf(board.getHeight()));
 
-        org.w3c.dom.Element boardElement = newDocument.createElement("board");
-        boardElement.setAttribute("width", String.valueOf(board.getWidth()));
-        boardElement.setAttribute("height", String.valueOf(board.getHeight()));
-
-        org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
-        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
-            MasyuCell cell = (MasyuCell) puzzleElement;
-            org.w3c.dom.Element cellElement =
-                    puzzle.getFactory().exportCell(newDocument, puzzleElement);
-            cellsElement.appendChild(cellElement);
-        }
-
-        boardElement.appendChild(cellsElement);
-        return boardElement;
+    org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
+    for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
+      MasyuCell cell = (MasyuCell) puzzleElement;
+      org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
+      cellsElement.appendChild(cellElement);
     }
+
+    boardElement.appendChild(cellsElement);
+    return boardElement;
+  }
 }

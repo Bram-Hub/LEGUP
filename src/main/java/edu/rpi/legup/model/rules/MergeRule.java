@@ -11,88 +11,88 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MergeRule extends Rule {
-    /** MergeRule Constructor merges to board states together */
-    public MergeRule() {
-        super(
-                "MERGE",
-                "Merge Rule",
-                "Merge any number of nodes into one",
-                "edu/rpi/legup/images/Legup/MergeRule.png");
-        this.ruleType = MERGE;
+  /** MergeRule Constructor merges to board states together */
+  public MergeRule() {
+    super(
+        "MERGE",
+        "Merge Rule",
+        "Merge any number of nodes into one",
+        "edu/rpi/legup/images/Legup/MergeRule.png");
+    this.ruleType = MERGE;
+  }
+
+  /**
+   * Checks whether the transition logically follows from the parent node using this rule. This
+   * method is the one that should overridden in child classes
+   *
+   * @param transition transition to check
+   * @return null if the child node logically follow from the parent node, otherwise error message
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public String checkRuleRaw(TreeTransition transition) {
+    Board board = transition.getBoard();
+    List<TreeNode> mergingNodes = new ArrayList<>();
+    List<Board> mergingBoards = new ArrayList<>();
+    for (TreeNode treeNode : transition.getParents()) {
+      mergingNodes.add(treeNode);
+      mergingBoards.add(treeNode.getBoard());
     }
 
-    /**
-     * Checks whether the transition logically follows from the parent node using this rule. This
-     * method is the one that should overridden in child classes
-     *
-     * @param transition transition to check
-     * @return null if the child node logically follow from the parent node, otherwise error message
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public String checkRuleRaw(TreeTransition transition) {
-        Board board = transition.getBoard();
-        List<TreeNode> mergingNodes = new ArrayList<>();
-        List<Board> mergingBoards = new ArrayList<>();
-        for (TreeNode treeNode : transition.getParents()) {
-            mergingNodes.add(treeNode);
-            mergingBoards.add(treeNode.getBoard());
-        }
+    TreeNode lca = Tree.getLowestCommonAncestor(mergingNodes);
+    if (lca == null) {
+      return "Merge was not correctly created.";
+    }
+    Board lcaBoard = lca.getBoard();
 
-        TreeNode lca = Tree.getLowestCommonAncestor(mergingNodes);
-        if (lca == null) {
-            return "Merge was not correctly created.";
-        }
-        Board lcaBoard = lca.getBoard();
+    Board mergedBoard = lcaBoard.mergedBoard(lcaBoard, mergingBoards);
 
-        Board mergedBoard = lcaBoard.mergedBoard(lcaBoard, mergingBoards);
-
-        for (PuzzleElement m : mergedBoard.getPuzzleElements()) {
-            if (!m.equalsData(board.getPuzzleElement(m))) {
-                return "Merge was not correctly created.";
-            }
-        }
-
-        return null;
+    for (PuzzleElement m : mergedBoard.getPuzzleElements()) {
+      if (!m.equalsData(board.getPuzzleElement(m))) {
+        return "Merge was not correctly created.";
+      }
     }
 
-    /**
-     * Checks whether the child node logically follows from the parent node at the specific
-     * puzzleElement index using this rule This method is the one that should overridden in child
-     * classes
-     *
-     * @param transition transition to check
-     * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified
-     *     puzzleElement, otherwise error message
-     */
-    @Override
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        return checkRule(transition);
-    }
+    return null;
+  }
 
-    /**
-     * Checks whether the transition logically follows from the parent node using this rule
-     *
-     * @param transition transition to check
-     * @return null if the child node logically follow from the parent node, otherwise error message
-     */
-    @Override
-    public String checkRule(TreeTransition transition) {
-        return checkRuleRaw(transition);
-    }
+  /**
+   * Checks whether the child node logically follows from the parent node at the specific
+   * puzzleElement index using this rule This method is the one that should overridden in child
+   * classes
+   *
+   * @param transition transition to check
+   * @param puzzleElement equivalent puzzleElement
+   * @return null if the child node logically follow from the parent node at the specified
+   *     puzzleElement, otherwise error message
+   */
+  @Override
+  public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+    return checkRule(transition);
+  }
 
-    /**
-     * Checks whether the child node logically follows from the parent node at the specific
-     * puzzleElement index using this rule
-     *
-     * @param transition transition to check
-     * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified
-     *     puzzleElement, otherwise error message
-     */
-    @Override
-    public String checkRuleAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        return checkRuleRawAt(transition, puzzleElement);
-    }
+  /**
+   * Checks whether the transition logically follows from the parent node using this rule
+   *
+   * @param transition transition to check
+   * @return null if the child node logically follow from the parent node, otherwise error message
+   */
+  @Override
+  public String checkRule(TreeTransition transition) {
+    return checkRuleRaw(transition);
+  }
+
+  /**
+   * Checks whether the child node logically follows from the parent node at the specific
+   * puzzleElement index using this rule
+   *
+   * @param transition transition to check
+   * @param puzzleElement equivalent puzzleElement
+   * @return null if the child node logically follow from the parent node at the specified
+   *     puzzleElement, otherwise error message
+   */
+  @Override
+  public String checkRuleAt(TreeTransition transition, PuzzleElement puzzleElement) {
+    return checkRuleRawAt(transition, puzzleElement);
+  }
 }
