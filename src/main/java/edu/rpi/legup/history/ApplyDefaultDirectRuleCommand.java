@@ -48,7 +48,9 @@ public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
                     TreeNode node = (TreeNode) element;
                     if (!node.getChildren().isEmpty()) 
                                 {
-                        
+
+
+                                    
                                     return      CommandError.DEFAULT_APPLICATION + " - " + CommandError.NO_CHILDREN.toString();
                     }
                     else {
