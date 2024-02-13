@@ -24,6 +24,8 @@ public class Skyscrapers extends Puzzle {
     @Override
     public void initializeView() {
         boardView = new SkyscrapersView((SkyscrapersBoard) currentBoard);
+        boardView.setBoard(currentBoard);
+        addBoardListener(boardView);
     }
 
     /**
@@ -46,8 +48,7 @@ public class Skyscrapers extends Puzzle {
      * @return true if the given dimensions are valid for Skyscrapers, false otherwise
      */
     public boolean isValidDimensions(int rows, int columns) {
-        // This is a placeholder, this method needs to be implemented
-        throw new UnsupportedOperationException();
+        return rows >= 4 && rows == columns;
     }
 
     /**
