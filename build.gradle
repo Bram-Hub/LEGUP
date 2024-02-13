@@ -33,7 +33,7 @@ spotless{
 
         formatAnnotations()
 
-        googleJavaFormat('1.19.2').aosp().reflowLongStrings()
+        googleJavaFormat('1.19.2')
     }
 }
 
