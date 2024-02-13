@@ -4,8 +4,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.rules.contradiction.ContradictionRul
 
 public class DirectRuleNotIntroduction extends DirectRule_GenericIntroduction {
 
-    public DirectRuleNotIntroduction() {
-        super("STTT-BASC-0010", "Not", new ContradictionRuleNot());
-    }
-
+  public DirectRuleNotIntroduction() {
+    super("STTT-BASC-0010", "Not", new ContradictionRuleNot());
+  }
 }

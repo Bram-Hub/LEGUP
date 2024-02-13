@@ -7,87 +7,88 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.sudoku.SudokuBoard;
 import edu.rpi.legup.puzzle.sudoku.SudokuCell;
-
 import java.util.Set;
 
 public class LastCellForNumberDirectRule extends DirectRule {
-    public LastCellForNumberDirectRule() {
-        super("SUDO-BASC-0002", "Last Cell for Number",
-                "This is the only cell open in its group for some number.",
-                "edu/rpi/legup/images/sudoku/forcedByElimination.png");
+  public LastCellForNumberDirectRule() {
+    super(
+        "SUDO-BASC-0002",
+        "Last Cell for Number",
+        "This is the only cell open in its group for some number.",
+        "edu/rpi/legup/images/sudoku/forcedByElimination.png");
+  }
+
+  /**
+   * Checks whether the child node logically follows from the parent node at the specific
+   * puzzleElement index using this rule
+   *
+   * @param transition transition to check
+   * @param puzzleElement equivalent puzzleElement
+   * @return null if the child node logically follow from the parent node at the specified
+   *     puzzleElement, otherwise error message
+   */
+  public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+    SudokuBoard initialBoard = (SudokuBoard) transition.getParents().get(0).getBoard();
+    SudokuBoard finalBoard = (SudokuBoard) transition.getBoard();
+
+    SudokuCell cell = (SudokuCell) finalBoard.getPuzzleElement(puzzleElement);
+    if (cell.getData() == 0) {
+      return super.getInvalidUseOfRuleMessage() + ": Cell is not forced at this index";
     }
 
-    /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
-     *
-     * @param transition    transition to check
-     * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
-     */
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        SudokuBoard initialBoard = (SudokuBoard) transition.getParents().get(0).getBoard();
-        SudokuBoard finalBoard = (SudokuBoard) transition.getBoard();
+    int size = initialBoard.getSize();
 
-        SudokuCell cell = (SudokuCell) finalBoard.getPuzzleElement(puzzleElement);
-        if (cell.getData() == 0) {
-            return super.getInvalidUseOfRuleMessage() + ": Cell is not forced at this index";
+    Set<SudokuCell> region = initialBoard.getRegion(cell.getGroupIndex());
+    Set<SudokuCell> row = initialBoard.getRow(cell.getLocation().y);
+    Set<SudokuCell> col = initialBoard.getCol(cell.getLocation().x);
+
+    boolean contains = false;
+    if (region.size() == size - 1) {
+      for (SudokuCell c : region) {
+        if (cell.getData() == c.getData()) {
+          contains = true;
+          break;
         }
-
-        int size = initialBoard.getSize();
-
-        Set<SudokuCell> region = initialBoard.getRegion(cell.getGroupIndex());
-        Set<SudokuCell> row = initialBoard.getRow(cell.getLocation().y);
-        Set<SudokuCell> col = initialBoard.getCol(cell.getLocation().x);
-
-        boolean contains = false;
-        if (region.size() == size - 1) {
-            for (SudokuCell c : region) {
-                if (cell.getData() == c.getData()) {
-                    contains = true;
-                    break;
-                }
-            }
-            if (!contains) {
-                return null;
-            }
-        }
-        if (row.size() == size - 1) {
-            contains = false;
-            for (SudokuCell c : row) {
-                if (cell.getData() == c.getData()) {
-                    contains = true;
-                    break;
-                }
-            }
-            if (!contains) {
-                return null;
-            }
-        }
-        if (col.size() == size - 1) {
-            contains = false;
-            for (SudokuCell c : col) {
-                if (cell.getData() == c.getData()) {
-                    contains = true;
-                    break;
-                }
-            }
-            if (!contains) {
-                return null;
-            }
-        }
-        return super.getInvalidUseOfRuleMessage() + ": Cell is not forced at this index";
-    }
-
-    /**
-     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
-     *
-     * @param node tree node used to create default transition board
-     * @return default board or null if this rule cannot be applied to this tree node
-     */
-    @Override
-    public Board getDefaultBoard(TreeNode node) {
+      }
+      if (!contains) {
         return null;
+      }
     }
+    if (row.size() == size - 1) {
+      contains = false;
+      for (SudokuCell c : row) {
+        if (cell.getData() == c.getData()) {
+          contains = true;
+          break;
+        }
+      }
+      if (!contains) {
+        return null;
+      }
+    }
+    if (col.size() == size - 1) {
+      contains = false;
+      for (SudokuCell c : col) {
+        if (cell.getData() == c.getData()) {
+          contains = true;
+          break;
+        }
+      }
+      if (!contains) {
+        return null;
+      }
+    }
+    return super.getInvalidUseOfRuleMessage() + ": Cell is not forced at this index";
+  }
+
+  /**
+   * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+   *
+   * @param node tree node used to create default transition board
+   * @return default board or null if this rule cannot be applied to this tree node
+   */
+  @Override
+  public Board getDefaultBoard(TreeNode node) {
+    return null;
+  }
 }

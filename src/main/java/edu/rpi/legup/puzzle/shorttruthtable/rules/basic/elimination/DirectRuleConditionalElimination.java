@@ -4,8 +4,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.rules.contradiction.ContradictionRul
 
 public class DirectRuleConditionalElimination extends DirectRule_GenericElimination {
 
-    public DirectRuleConditionalElimination() {
-        super("STTT-BASC-0004", "Conditional", new ContradictionRuleConditional());
-    }
-
+  public DirectRuleConditionalElimination() {
+    super("STTT-BASC-0004", "Conditional", new ContradictionRuleConditional());
+  }
 }

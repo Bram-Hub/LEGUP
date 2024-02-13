@@ -1,16 +1,19 @@
 package edu.rpi.legup.history;
 
 public enum CommandState {
-    CREATED("Created"), EXECUTED("Executed"), UNDOED("Undoed"), REDOED("Redoed");
+  CREATED("Created"),
+  EXECUTED("Executed"),
+  UNDOED("Undoed"),
+  REDOED("Redoed");
 
-    private String value;
+  private String value;
 
-    CommandState(String value) {
-        this.value = value;
-    }
+  CommandState(String value) {
+    this.value = value;
+  }
 
-    @Override
-    public String toString() {
-        return value;
-    }
+  @Override
+  public String toString() {
+    return value;
+  }
 }

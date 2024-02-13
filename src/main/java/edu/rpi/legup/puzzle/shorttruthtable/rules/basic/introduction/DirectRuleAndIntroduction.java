@@ -4,8 +4,7 @@ import edu.rpi.legup.puzzle.shorttruthtable.rules.contradiction.ContradictionRul
 
 public class DirectRuleAndIntroduction extends DirectRule_GenericIntroduction {
 
-    public DirectRuleAndIntroduction() {
-        super("STTT-BASC-0007", "And", new ContradictionRuleAnd());
-    }
-
+  public DirectRuleAndIntroduction() {
+    super("STTT-BASC-0007", "And", new ContradictionRuleAnd());
+  }
 }

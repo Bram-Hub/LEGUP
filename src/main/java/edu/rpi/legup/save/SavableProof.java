@@ -1,5 +1,3 @@
 package edu.rpi.legup.save;
 
-public class SavableProof {
-
-}
+public class SavableProof {}
