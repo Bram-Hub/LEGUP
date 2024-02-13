@@ -49,7 +49,7 @@ public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
                     if (!node.getChildren().isEmpty()) 
                                 {
                         
-                                    return CommandError.DEFAULT_APPLICATION + " - " + CommandError.NO_CHILDREN.toString();
+                                    return      CommandError.DEFAULT_APPLICATION + " - " + CommandError.NO_CHILDREN.toString();
                     }
                     else {
                         if (rule.getDefaultBoard(node) == null) {
