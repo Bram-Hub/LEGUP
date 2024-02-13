@@ -12,4 +12,13 @@ public class RippleEffectCell extends GridCell<Integer>{
         super(value, location);
     }
 
+    public void incrementCell() {
+        int curr = getData();
+        setData(curr++);
+    }
+
+    public void decrementCell() {
+        int curr = getData();
+        setData(curr--);
+    }
 }
