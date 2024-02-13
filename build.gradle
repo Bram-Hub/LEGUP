@@ -10,7 +10,6 @@ version '2.0.0'
 
 apply plugin: 'java'
 apply plugin: 'application'
-// apply plugin: 'checkstyle'
 
 spotless{
     enforceCheck false
@@ -34,9 +33,11 @@ spotless{
 
         formatAnnotations()
 
-        googleJavaFormat('1.19.2')
+        googleJavaFormat('1.19.2').aosp().reflowLongStrings()
     }
 }
+
+apply plugin: 'checkstyle'
 
 mainClassName = 'edu.rpi.legup.Legup'
 
