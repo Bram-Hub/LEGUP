@@ -26,9 +26,6 @@ public class AddTreeElementCommand extends PuzzleCommand {
     this.addChild = new HashMap<>();
   }
 
-
-  
-
   /** Executes an command */
   @Override
   public void executeCommand() {
