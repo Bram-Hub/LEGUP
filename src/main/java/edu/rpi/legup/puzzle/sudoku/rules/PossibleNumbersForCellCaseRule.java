@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PossibleCellCaseRule extends CaseRule {
-    public PossibleCellCaseRule() {
-        super("SUDO-CASE-0001", "Possible Cells for Number",
+public class PossibleNumbersForCellCaseRule extends CaseRule {
+    public PossibleNumbersForCellCaseRule() {
+        super("SUDO-CASE-0001", "Possible Numbers for Cell",
                 "A number has a limited set of cells in which it can be placed.",
-                "edu/rpi/legup/images/sudoku/possible_cells_number.png");
+                "edu/rpi/legup/images/sudoku/PossibleValues.png");
     }
 
     /**
@@ -82,14 +82,14 @@ public class PossibleCellCaseRule extends CaseRule {
         }
 
         int rowNum = cell.getLocation().y;
-        for (SudokuCell c : sudokuBoard.getRegion(rowNum)) {
+        for (SudokuCell c : sudokuBoard.getRow(rowNum)) {
             if (c.getData().equals(c.getData())) {
                 possibleValue.remove(c.getData());
             }
         }
 
         int colNum = cell.getLocation().x;
-        for (SudokuCell c : sudokuBoard.getRegion(colNum)) {
+        for (SudokuCell c : sudokuBoard.getCol(colNum)) {
             if (c.getData().equals(c.getData())) {
                 possibleValue.remove(c.getData());
             }

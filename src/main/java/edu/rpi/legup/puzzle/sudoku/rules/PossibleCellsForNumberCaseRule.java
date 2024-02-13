@@ -14,12 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class PossibleNumberCaseRule extends CaseRule {
+public class PossibleCellsForNumberCaseRule extends CaseRule {
 
-    public PossibleNumberCaseRule() {
-        super("SUDO-CASE-0002", "Possible Numbers for Cell",
+    public PossibleCellsForNumberCaseRule() {
+        super("SUDO-CASE-0002", "Possible Cells for Number",
                 "An empty cell has a limited set of possible numbers that can fill it.",
-                "edu/rpi/legup/images/sudoku/PossibleValues.png");
+                "edu/rpi/legup/images/sudoku/possible_cells_number.png");
     }
 
     /**
