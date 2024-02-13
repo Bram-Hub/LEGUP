@@ -19,6 +19,10 @@ public enum MinesweeperTileType {
     /**
      * A bomb tile that should be marked by nearby flags
      */
-    BOMB
+    BOMB;
+
+    public int toValue() {
+        return this.ordinal() - 2;
+    }
 
 }

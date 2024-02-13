@@ -42,6 +42,6 @@
 	    <puzzle name="Minesweeper"
 	        qualifiedClassName="edu.rpi.legup.puzzle.minesweeper.Minesweeper"
 	        fileType=".xml"
-	        fileCreationDisabled="true"/>
+	        fileCreationDisabled="false"/>
     </puzzles>
 </Legup>
