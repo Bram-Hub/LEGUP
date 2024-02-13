@@ -9,20 +9,21 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 public class MaterialComboBoxRenderer extends BasicComboBoxRenderer {
 
-  @Override
-  public Component getListCellRendererComponent(
-      JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-    JComponent component =
-        (JComponent)
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+    @Override
+    public Component getListCellRendererComponent(
+            JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        JComponent component =
+                (JComponent)
+                        super.getListCellRendererComponent(
+                                list, value, index, isSelected, cellHasFocus);
 
-    component.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-    component.setForeground(UIManager.getColor("ComboBox.foreground"));
-    component.setBackground(
-        isSelected || cellHasFocus
-            ? UIManager.getColor("ComboBox.selectedInDropDownBackground")
-            : UIManager.getColor("ComboBox.background"));
+        component.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        component.setForeground(UIManager.getColor("ComboBox.foreground"));
+        component.setBackground(
+                isSelected || cellHasFocus
+                        ? UIManager.getColor("ComboBox.selectedInDropDownBackground")
+                        : UIManager.getColor("ComboBox.background"));
 
-    return component;
-  }
+        return component;
+    }
 }

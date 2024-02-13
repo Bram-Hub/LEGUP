@@ -6,78 +6,78 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class LightUpCell extends GridCell<Integer> {
-  private boolean isLite;
+    private boolean isLite;
 
-  public LightUpCell(int valueInt, Point location) {
-    super(valueInt, location);
-    this.isLite = false;
-  }
-
-  @Override
-  public void setType(Element e, MouseEvent m) {
-    switch (e.getElementID()) {
-      case "LTUP-PLAC-0001":
-        this.data = -4;
-        break;
-      case "LTUP-UNPL-0002":
-        this.data = -1;
-        break;
-      case "LTUP-UNPL-0003":
-        this.data = -2;
-        break;
-      case "LTUP-UNPL-0001":
-        switch (m.getButton()) {
-          case MouseEvent.BUTTON1:
-            if (this.data < 0 || this.data > 3) {
-              this.data = 0;
-            } else {
-              this.data = this.data + 1;
-            }
-            break;
-          case MouseEvent.BUTTON3:
-            if (this.data > 0) {
-              this.data = this.data - 1;
-            } else {
-              this.data = 4;
-            }
-            break;
-        }
-        break;
+    public LightUpCell(int valueInt, Point location) {
+        super(valueInt, location);
+        this.isLite = false;
     }
-  }
 
-  public LightUpCellType getType() {
-    switch (data) {
-      case -4:
-        return LightUpCellType.BULB;
-      case -3:
-        return LightUpCellType.EMPTY;
-      case -2:
-        return LightUpCellType.UNKNOWN;
-      case -1:
-        return LightUpCellType.BLACK;
-      default:
-        if (data >= 0) {
-          return LightUpCellType.NUMBER;
+    @Override
+    public void setType(Element e, MouseEvent m) {
+        switch (e.getElementID()) {
+            case "LTUP-PLAC-0001":
+                this.data = -4;
+                break;
+            case "LTUP-UNPL-0002":
+                this.data = -1;
+                break;
+            case "LTUP-UNPL-0003":
+                this.data = -2;
+                break;
+            case "LTUP-UNPL-0001":
+                switch (m.getButton()) {
+                    case MouseEvent.BUTTON1:
+                        if (this.data < 0 || this.data > 3) {
+                            this.data = 0;
+                        } else {
+                            this.data = this.data + 1;
+                        }
+                        break;
+                    case MouseEvent.BUTTON3:
+                        if (this.data > 0) {
+                            this.data = this.data - 1;
+                        } else {
+                            this.data = 4;
+                        }
+                        break;
+                }
+                break;
         }
     }
-    return null;
-  }
 
-  public boolean isLite() {
-    return isLite;
-  }
+    public LightUpCellType getType() {
+        switch (data) {
+            case -4:
+                return LightUpCellType.BULB;
+            case -3:
+                return LightUpCellType.EMPTY;
+            case -2:
+                return LightUpCellType.UNKNOWN;
+            case -1:
+                return LightUpCellType.BLACK;
+            default:
+                if (data >= 0) {
+                    return LightUpCellType.NUMBER;
+                }
+        }
+        return null;
+    }
 
-  public void setLite(boolean isLite) {
-    this.isLite = isLite;
-  }
+    public boolean isLite() {
+        return isLite;
+    }
 
-  @Override
-  public LightUpCell copy() {
-    LightUpCell copy = new LightUpCell(data, (Point) location.clone());
-    copy.setIndex(index);
-    copy.setModifiable(isModifiable);
-    copy.setGiven(isGiven);
-    return copy;
-  }
+    public void setLite(boolean isLite) {
+        this.isLite = isLite;
+    }
+
+    @Override
+    public LightUpCell copy() {
+        LightUpCell copy = new LightUpCell(data, (Point) location.clone());
+        copy.setIndex(index);
+        copy.setModifiable(isModifiable);
+        copy.setGiven(isGiven);
+        return copy;
+    }
 }
