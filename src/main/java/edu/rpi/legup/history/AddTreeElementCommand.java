@@ -42,6 +42,8 @@ public class AddTreeElementCommand extends PuzzleCommand {
             if (child == null) {
                 child = tree.addTreeElement(treeElement);
             } else {
+
+                
                 if (treeElement.getType() == TreeElementType.NODE) {
                     child = tree.addTreeElement((TreeNode) treeElement, (TreeTransition) child);
                 } else {
