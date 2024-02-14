@@ -33,7 +33,24 @@ spotless{
 
         googleJavaFormat('1.19.2').aosp()
 
+        // Define custom formatting rules to remove blank lines after keywords
+        customLazy('removeBlankLinesAfterKeywords', {
+            target '*.java'
+            replace 'else {\\s+\\n(\\s+)', 'else {$1'
+            replace 'for \\(.*?\\) {\\s+\\n(\\s+)', 'for ($1) {$2'
+            replace 'while \\(.*?\\) {\\s+\\n(\\s+)', 'while ($1) {$2'
+            replace 'do {\\s+\\n(\\s+)', 'do {$1'
+            replace 'try {\\s+\\n(\\s+)', 'try {$1'
+            replace 'catch \\(.*?\\) {\\s+\\n(\\s+)', 'catch ($1) {$2'
+            replace 'finally {\\s+\\n(\\s+)', 'finally {$1'
+            replace 'switch \\(.*?\\) {\\s+\\n(\\s+)', 'switch ($1) {$2'
+            replace 'case .*?:\\s+\\n(\\s+)', 'case $1:$2'
+            replace 'default:\\s+\\n(\\s+)', 'default:$1'
+        })
+
         formatAnnotations()
+
+        format('removeBlankLinesAfterKeywords')
     }
 }
 
