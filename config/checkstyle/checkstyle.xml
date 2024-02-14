@@ -6,9 +6,10 @@
 
 <module name="Checker">
     <module name="TreeWalker">
-        <property name="tabWidth" value="4"/>
-        <module name="LeftCurly"/>
-        <module name="RightCurly">
+        <module name="Indentation">
+            <property name="basicOffset" value="4"/>
+            <property name="caseIndent" value="4"/>
+            <property name="throwsIndent" value="4"/>
         </module>
         <module name="NeedBraces">
             <property name="allowSingleLineStatement" value="true"/>
