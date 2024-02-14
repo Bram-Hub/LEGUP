@@ -8,17 +8,17 @@ import javax.swing.plaf.basic.BasicToolTipUI;
 
 public class MaterialToolTipUI extends BasicToolTipUI {
 
-  public static ComponentUI createUI(JComponent c) {
-    return new MaterialToolTipUI();
-  }
+    public static ComponentUI createUI(JComponent c) {
+        return new MaterialToolTipUI();
+    }
 
-  @Override
-  public void installUI(JComponent c) {
-    super.installUI(c);
-  }
+    @Override
+    public void installUI(JComponent c) {
+        super.installUI(c);
+    }
 
-  @Override
-  public void paint(Graphics g, JComponent c) {
-    super.paint(MaterialDrawingUtils.getAliasedGraphics(g), c);
-  }
+    @Override
+    public void paint(Graphics g, JComponent c) {
+        super.paint(MaterialDrawingUtils.getAliasedGraphics(g), c);
+    }
 }

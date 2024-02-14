@@ -7,74 +7,75 @@ import java.util.List;
 import javax.swing.*;
 
 public abstract class ElementPanel extends JPanel {
-  protected ImageIcon icon;
-  protected String name;
-  protected String toolTip;
-  protected ElementButton[] elementButtons;
-  protected ElementFrame elementFrame;
-  protected List<? extends Element> elements;
+    protected ImageIcon icon;
+    protected String name;
+    protected String toolTip;
+    protected ElementButton[] elementButtons;
+    protected ElementFrame elementFrame;
+    protected List<? extends Element> elements;
 
-  public ElementPanel(ElementFrame eFrame) {
-    this.elementFrame = eFrame;
-    this.elements = new ArrayList<>();
-    setLayout(new WrapLayout());
-  }
-
-  public void setElements(List<? extends Element> elements) {
-    this.elements = elements;
-    clearButtons();
-
-    elementButtons = new ElementButton[elements.size()];
-    System.out.println("adding " + elements.size() + " elements to panel");
-    for (int i = 0; i < elements.size(); i++) {
-      Element element = elements.get(i);
-      elementButtons[i] = new ElementButton(element);
-      elementFrame.getButtonGroup().add(elementButtons[i]);
-      System.out.printf("added button: %d, element %s\n", i, element.getElementName());
-
-      elementButtons[i].setToolTipText(element.getElementName() + ": " + element.getDescription());
-      elementButtons[i].addActionListener(elementFrame.getController());
-      add(elementButtons[i]);
+    public ElementPanel(ElementFrame eFrame) {
+        this.elementFrame = eFrame;
+        this.elements = new ArrayList<>();
+        setLayout(new WrapLayout());
     }
-    revalidate();
-  }
 
-  protected void clearButtons() {
-    if (elementButtons != null) {
-      removeAll();
-      for (int x = 0; x < elementButtons.length; ++x) {
-        elementButtons[x].removeActionListener(elementFrame.getController());
-      }
+    public void setElements(List<? extends Element> elements) {
+        this.elements = elements;
+        clearButtons();
+
+        elementButtons = new ElementButton[elements.size()];
+        System.out.println("adding " + elements.size() + " elements to panel");
+        for (int i = 0; i < elements.size(); i++) {
+            Element element = elements.get(i);
+            elementButtons[i] = new ElementButton(element);
+            elementFrame.getButtonGroup().add(elementButtons[i]);
+            System.out.printf("added button: %d, element %s\n", i, element.getElementName());
+
+            elementButtons[i].setToolTipText(
+                    element.getElementName() + ": " + element.getDescription());
+            elementButtons[i].addActionListener(elementFrame.getController());
+            add(elementButtons[i]);
+        }
+        revalidate();
     }
-  }
 
-  public ElementButton[] getElementButtons() {
-    return elementButtons;
-  }
+    protected void clearButtons() {
+        if (elementButtons != null) {
+            removeAll();
+            for (int x = 0; x < elementButtons.length; ++x) {
+                elementButtons[x].removeActionListener(elementFrame.getController());
+            }
+        }
+    }
 
-  public ImageIcon getIcon() {
-    return icon;
-  }
+    public ElementButton[] getElementButtons() {
+        return elementButtons;
+    }
 
-  public void setIcon(ImageIcon icon) {
-    this.icon = icon;
-  }
+    public ImageIcon getIcon() {
+        return icon;
+    }
 
-  @Override
-  public String getName() {
-    return name;
-  }
+    public void setIcon(ImageIcon icon) {
+        this.icon = icon;
+    }
 
-  @Override
-  public void setName(String name) {
-    this.name = name;
-  }
+    @Override
+    public String getName() {
+        return name;
+    }
 
-  public String getToolTip() {
-    return toolTip;
-  }
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public void setToolTip(String toolTip) {
-    this.toolTip = toolTip;
-  }
+    public String getToolTip() {
+        return toolTip;
+    }
+
+    public void setToolTip(String toolTip) {
+        this.toolTip = toolTip;
+    }
 }

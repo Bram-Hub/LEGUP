@@ -9,20 +9,20 @@ import javax.swing.table.JTableHeader;
 
 public class MaterialTableHeaderUI extends BasicTableHeaderUI {
 
-  public static ComponentUI createUI(JComponent c) {
-    return new MaterialTableHeaderUI();
-  }
+    public static ComponentUI createUI(JComponent c) {
+        return new MaterialTableHeaderUI();
+    }
 
-  @Override
-  public void installUI(JComponent c) {
-    super.installUI(c);
+    @Override
+    public void installUI(JComponent c) {
+        super.installUI(c);
 
-    JTableHeader header = (JTableHeader) c;
-    header.setDefaultRenderer(new MaterialTableHeaderCellRenderer());
-  }
+        JTableHeader header = (JTableHeader) c;
+        header.setDefaultRenderer(new MaterialTableHeaderCellRenderer());
+    }
 
-  @Override
-  public void paint(Graphics g, JComponent c) {
-    super.paint(MaterialDrawingUtils.getAliasedGraphics(g), c);
-  }
+    @Override
+    public void paint(Graphics g, JComponent c) {
+        super.paint(MaterialDrawingUtils.getAliasedGraphics(g), c);
+    }
 }

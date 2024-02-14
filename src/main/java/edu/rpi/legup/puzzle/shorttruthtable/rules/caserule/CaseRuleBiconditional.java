@@ -5,21 +5,21 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableOperation;
 
 public class CaseRuleBiconditional extends CaseRule_GenericStatement {
 
-  public CaseRuleBiconditional() {
-    super(
-        "STTT-CASE-0003",
-        ShortTruthTableOperation.BICONDITIONAL,
-        "Biconditional",
-        trueCases,
-        falseCases);
-  }
+    public CaseRuleBiconditional() {
+        super(
+                "STTT-CASE-0003",
+                ShortTruthTableOperation.BICONDITIONAL,
+                "Biconditional",
+                trueCases,
+                falseCases);
+    }
 
-  private static final ShortTruthTableCellType[][] trueCases = {
-    {T, T},
-    {F, F}
-  };
-  private static final ShortTruthTableCellType[][] falseCases = {
-    {T, F},
-    {F, T}
-  };
+    private static final ShortTruthTableCellType[][] trueCases = {
+        {T, T},
+        {F, F}
+    };
+    private static final ShortTruthTableCellType[][] falseCases = {
+        {T, F},
+        {F, T}
+    };
 }

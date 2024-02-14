@@ -5,23 +5,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ToolbarController implements ActionListener {
-  private LegupUI legupUI;
+    private LegupUI legupUI;
 
-  /**
-   * ToolbarController Constructor - creates a new {@link ToolbarController} to listen for button
-   * pressed from the tool mBar
-   *
-   * @param legupUI legupUI
-   */
-  public ToolbarController(LegupUI legupUI) {
-    this.legupUI = legupUI;
-  }
+    /**
+     * ToolbarController Constructor - creates a new {@link ToolbarController} to listen for button
+     * pressed from the tool mBar
+     *
+     * @param legupUI legupUI
+     */
+    public ToolbarController(LegupUI legupUI) {
+        this.legupUI = legupUI;
+    }
 
-  /**
-   * ICommand Performed event -
-   *
-   * @param e action event
-   */
-  @Override
-  public void actionPerformed(ActionEvent e) {}
+    /**
+     * ICommand Performed event -
+     *
+     * @param e action event
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {}
 }

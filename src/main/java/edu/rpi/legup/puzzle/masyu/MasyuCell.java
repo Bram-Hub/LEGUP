@@ -5,20 +5,20 @@ import java.awt.*;
 
 public class MasyuCell extends GridCell<MasyuType> {
 
-  public MasyuCell(MasyuType value, Point location) {
-    super(value, location);
-  }
+    public MasyuCell(MasyuType value, Point location) {
+        super(value, location);
+    }
 
-  public MasyuType getType() {
-    return data;
-  }
+    public MasyuType getType() {
+        return data;
+    }
 
-  @Override
-  public MasyuCell copy() {
-    MasyuCell copy = new MasyuCell(data, (Point) location.clone());
-    copy.setIndex(index);
-    copy.setModifiable(isModifiable);
-    copy.setGiven(isGiven);
-    return copy;
-  }
+    @Override
+    public MasyuCell copy() {
+        MasyuCell copy = new MasyuCell(data, (Point) location.clone());
+        copy.setIndex(index);
+        copy.setModifiable(isModifiable);
+        copy.setGiven(isGiven);
+        return copy;
+    }
 }

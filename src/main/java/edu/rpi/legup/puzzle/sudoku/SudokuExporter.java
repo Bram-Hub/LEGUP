@@ -6,33 +6,33 @@ import org.w3c.dom.Document;
 
 public class SudokuExporter extends PuzzleExporter {
 
-  public SudokuExporter(Sudoku sudoku) {
-    super(sudoku);
-  }
-
-  @Override
-  protected org.w3c.dom.Element createBoardElement(Document newDocument) {
-    SudokuBoard board;
-    if (puzzle.getTree() != null) {
-      board = (SudokuBoard) puzzle.getTree().getRootNode().getBoard();
-    } else {
-      board = (SudokuBoard) puzzle.getBoardView().getBoard();
+    public SudokuExporter(Sudoku sudoku) {
+        super(sudoku);
     }
 
-    org.w3c.dom.Element boardElement = newDocument.createElement("board");
-    boardElement.setAttribute("size", String.valueOf(board.getSize()));
+    @Override
+    protected org.w3c.dom.Element createBoardElement(Document newDocument) {
+        SudokuBoard board;
+        if (puzzle.getTree() != null) {
+            board = (SudokuBoard) puzzle.getTree().getRootNode().getBoard();
+        } else {
+            board = (SudokuBoard) puzzle.getBoardView().getBoard();
+        }
 
-    org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
-    for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
-      SudokuCell cell = (SudokuCell) puzzleElement;
-      if (cell.getData() != 0) {
-        org.w3c.dom.Element cellElement =
-            puzzle.getFactory().exportCell(newDocument, puzzleElement);
-        cellsElement.appendChild(cellElement);
-      }
+        org.w3c.dom.Element boardElement = newDocument.createElement("board");
+        boardElement.setAttribute("size", String.valueOf(board.getSize()));
+
+        org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
+        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
+            SudokuCell cell = (SudokuCell) puzzleElement;
+            if (cell.getData() != 0) {
+                org.w3c.dom.Element cellElement =
+                        puzzle.getFactory().exportCell(newDocument, puzzleElement);
+                cellsElement.appendChild(cellElement);
+            }
+        }
+
+        boardElement.appendChild(cellsElement);
+        return boardElement;
     }
-
-    boardElement.appendChild(cellsElement);
-    return boardElement;
-  }
 }
