@@ -28,51 +28,63 @@ public class ThermometerElementView extends GridElementView {
                 graphics2D.setStroke(new BasicStroke(1));
                 graphics2D.setColor(Color.BLACK);
                 graphics2D.fillRect(location.x, location.y, size.width, size.height);
-            } else if (fill == ThermometerFill.EMPTY) {
+            }
+            else if (fill == ThermometerFill.EMPTY) {
                 graphics2D.setStroke(new BasicStroke(1));
                 graphics2D.setColor(Color.WHITE);
                 graphics2D.fillRect(location.x, location.y, size.width, size.height);
-            } else if (fill == ThermometerFill.BLOCKED){
+            }
+            else if (fill == ThermometerFill.BLOCKED){
                 graphics2D.setStroke(new BasicStroke(1));
                 graphics2D.setColor(Color.BLUE);
                 graphics2D.fillRect(location.x, location.y, size.width, size.height);
-            }else{
+            }
+            else{
                 System.out.println("ZEV IS BAD AT DEV");
             }
 
-        } else if (type == ThermometerType.SHAFT) {
+        }
+        else if (type == ThermometerType.SHAFT) {
             if(fill == ThermometerFill.FILLED){
                 graphics2D.setStroke(new BasicStroke(1));
                 graphics2D.setColor(Color.BLACK);
                 graphics2D.fillRect(location.x, location.y, size.width, size.height);
-            } else if (fill == ThermometerFill.EMPTY) {
+            }
+            else if (fill == ThermometerFill.EMPTY) {
                 graphics2D.setStroke(new BasicStroke(1));
                 graphics2D.setColor(Color.WHITE);
                 graphics2D.fillRect(location.x, location.y, size.width, size.height);
-            } else if (fill == ThermometerFill.BLOCKED){
+            }
+            else if (fill == ThermometerFill.BLOCKED){
                 graphics2D.setStroke(new BasicStroke(1));
                 graphics2D.setColor(Color.BLUE);
                 graphics2D.fillRect(location.x, location.y, size.width, size.height);
-            }else{
+            }
+            else{
                 System.out.println("ZEV IS BAD AT DEV");
             }
-        } else if (type == ThermometerType.TIP) {
+        }
+        else if (type == ThermometerType.TIP) {
             if(fill == ThermometerFill.FILLED){
                 graphics2D.setStroke(new BasicStroke(1));
                 graphics2D.setColor(Color.BLACK);
                 graphics2D.fillRect(location.x, location.y, size.width, size.height);
-            } else if (fill == ThermometerFill.EMPTY) {
+            }
+            else if (fill == ThermometerFill.EMPTY) {
                 graphics2D.setStroke(new BasicStroke(1));
                 graphics2D.setColor(Color.WHITE);
                 graphics2D.fillRect(location.x, location.y, size.width, size.height);
-            } else if (fill == ThermometerFill.BLOCKED){
+            }
+            else if (fill == ThermometerFill.BLOCKED){
                 graphics2D.setStroke(new BasicStroke(1));
                 graphics2D.setColor(Color.BLUE);
                 graphics2D.fillRect(location.x, location.y, size.width, size.height);
-            }else{
+            }
+            else{
                 System.out.println("ZEV IS BAD AT DEV");
             }
-        } else if (type == ThermometerType.UNKNOWN) {
+        }
+        else{
             System.out.println("ZEV IS DOUBLE BAD AT DEV");
         }
     }
