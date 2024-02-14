@@ -11,57 +11,57 @@ import java.util.ArrayList;
 
 public class CaseRuleAtomic extends CaseRule_Generic {
 
-  public CaseRuleAtomic() {
-    super(
-        "STTT-CASE-0002",
-        "Atomic",
-        "True or False",
-        "Each unknown cell must either be true or false");
-  }
-
-  // Adds all elements that can be selected for this case rule
-  @Override
-  public CaseBoard getCaseBoard(Board board) {
-    ShortTruthTableBoard sttBoard = (ShortTruthTableBoard) board.copy();
-    sttBoard.setModifiable(false);
-    CaseBoard caseBoard = new CaseBoard(sttBoard, this);
-    for (PuzzleElement element : sttBoard.getPuzzleElements()) {
-      if (((ShortTruthTableCell) element).getType() == ShortTruthTableCellType.UNKNOWN) {
-        caseBoard.addPickableElement(element);
-      }
+    public CaseRuleAtomic() {
+        super(
+                "STTT-CASE-0002",
+                "Atomic",
+                "True or False",
+                "Each unknown cell must either be true or false");
     }
-    return caseBoard;
-  }
 
-  /**
-   * Gets the possible cases at a specific location based on this case rule
-   *
-   * @param board the current board state
-   * @param puzzleElement equivalent puzzleElement
-   * @return a list of elements the specified could be
-   */
-  @SuppressWarnings("unchecked")
-  @Override
-  public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
-    ArrayList<Board> cases = new ArrayList<>();
+    // Adds all elements that can be selected for this case rule
+    @Override
+    public CaseBoard getCaseBoard(Board board) {
+        ShortTruthTableBoard sttBoard = (ShortTruthTableBoard) board.copy();
+        sttBoard.setModifiable(false);
+        CaseBoard caseBoard = new CaseBoard(sttBoard, this);
+        for (PuzzleElement element : sttBoard.getPuzzleElements()) {
+            if (((ShortTruthTableCell) element).getType() == ShortTruthTableCellType.UNKNOWN) {
+                caseBoard.addPickableElement(element);
+            }
+        }
+        return caseBoard;
+    }
 
-    Board case1 = board.copy();
-    PuzzleElement data1 = case1.getPuzzleElement(puzzleElement);
-    data1.setData(ShortTruthTableCellType.TRUE);
-    case1.addModifiedData(data1);
-    cases.add(case1);
+    /**
+     * Gets the possible cases at a specific location based on this case rule
+     *
+     * @param board the current board state
+     * @param puzzleElement equivalent puzzleElement
+     * @return a list of elements the specified could be
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+        ArrayList<Board> cases = new ArrayList<>();
 
-    Board case2 = board.copy();
-    PuzzleElement data2 = case2.getPuzzleElement(puzzleElement);
-    data2.setData(ShortTruthTableCellType.FALSE);
-    case2.addModifiedData(data2);
-    cases.add(case2);
+        Board case1 = board.copy();
+        PuzzleElement data1 = case1.getPuzzleElement(puzzleElement);
+        data1.setData(ShortTruthTableCellType.TRUE);
+        case1.addModifiedData(data1);
+        cases.add(case1);
 
-    return cases;
-  }
+        Board case2 = board.copy();
+        PuzzleElement data2 = case2.getPuzzleElement(puzzleElement);
+        data2.setData(ShortTruthTableCellType.FALSE);
+        case2.addModifiedData(data2);
+        cases.add(case2);
 
-  @Override
-  public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-    return null;
-  }
+        return cases;
+    }
+
+    @Override
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+        return null;
+    }
 }

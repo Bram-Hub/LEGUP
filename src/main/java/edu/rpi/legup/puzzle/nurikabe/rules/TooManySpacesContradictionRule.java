@@ -13,49 +13,50 @@ import java.util.Set;
 
 public class TooManySpacesContradictionRule extends ContradictionRule {
 
-  private final String NO_CONTRADICTION_MESSAGE = "Does not contain a contradiction at this index";
-  private final String INVALID_USE_MESSAGE = "Contradiction must be a white or a numbered cell";
+    private final String NO_CONTRADICTION_MESSAGE =
+            "Does not contain a contradiction at this index";
+    private final String INVALID_USE_MESSAGE = "Contradiction must be a white or a numbered cell";
 
-  public TooManySpacesContradictionRule() {
-    super(
-        "NURI-CONT-0007",
-        "Too Many Spaces",
-        "A region cannot contain more spaces than its number.",
-        "edu/rpi/legup/images/nurikabe/contradictions/TooManySpaces.png");
-  }
-
-  /**
-   * Checks whether the transition has a contradiction at the specific puzzleElement index using
-   * this rule
-   *
-   * @param board board to check contradiction
-   * @param puzzleElement equivalent puzzleElement
-   * @return null if the transition contains a contradiction at the specified puzzleElement,
-   *     otherwise error message
-   */
-  @Override
-  public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
-    NurikabeBoard nurikabeBoard = (NurikabeBoard) board;
-
-    NurikabeCell cell = (NurikabeCell) nurikabeBoard.getPuzzleElement(puzzleElement);
-    if (cell.getType() != NurikabeType.WHITE && cell.getType() != NurikabeType.NUMBER) {
-      return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
+    public TooManySpacesContradictionRule() {
+        super(
+                "NURI-CONT-0007",
+                "Too Many Spaces",
+                "A region cannot contain more spaces than its number.",
+                "edu/rpi/legup/images/nurikabe/contradictions/TooManySpaces.png");
     }
 
-    DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nurikabeBoard);
-    Set<NurikabeCell> whiteRegion = regions.getSet(cell);
-    ArrayList<NurikabeCell> numberedCells = new ArrayList<>();
-    for (NurikabeCell c : whiteRegion) {
-      if (c.getType() == NurikabeType.NUMBER) {
-        numberedCells.add(c);
-      }
-    }
+    /**
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
+     *
+     * @param board board to check contradiction
+     * @param puzzleElement equivalent puzzleElement
+     * @return null if the transition contains a contradiction at the specified puzzleElement,
+     *     otherwise error message
+     */
+    @Override
+    public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
+        NurikabeBoard nurikabeBoard = (NurikabeBoard) board;
 
-    for (NurikabeCell number : numberedCells) {
-      if (whiteRegion.size() > number.getData()) {
-        return null;
-      }
+        NurikabeCell cell = (NurikabeCell) nurikabeBoard.getPuzzleElement(puzzleElement);
+        if (cell.getType() != NurikabeType.WHITE && cell.getType() != NurikabeType.NUMBER) {
+            return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
+        }
+
+        DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nurikabeBoard);
+        Set<NurikabeCell> whiteRegion = regions.getSet(cell);
+        ArrayList<NurikabeCell> numberedCells = new ArrayList<>();
+        for (NurikabeCell c : whiteRegion) {
+            if (c.getType() == NurikabeType.NUMBER) {
+                numberedCells.add(c);
+            }
+        }
+
+        for (NurikabeCell number : numberedCells) {
+            if (whiteRegion.size() > number.getData()) {
+                return null;
+            }
+        }
+        return super.getNoContradictionMessage() + ":" + this.NO_CONTRADICTION_MESSAGE;
     }
-    return super.getNoContradictionMessage() + ":" + this.NO_CONTRADICTION_MESSAGE;
-  }
 }

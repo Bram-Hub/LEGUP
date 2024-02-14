@@ -12,57 +12,57 @@ import java.util.Set;
 
 public class DuplicateNumberContradictionRule extends ContradictionRule {
 
-  public DuplicateNumberContradictionRule() {
-    super(
-        "SKYS-CONT-0001",
-        "Duplicate Number",
-        "Skyscrapers of same height cannot be placed in the same row or column.",
-        "edu/rpi/legup/images/skyscrapers/contradictions/DuplicateNumber.png");
-  }
-
-  /**
-   * Checks whether the transition has a contradiction at the specific puzzleElement index using
-   * this rule
-   *
-   * @param board board to check contradiction
-   * @param puzzleElement equivalent puzzleElement
-   * @return null if the transition contains a contradiction at the specified puzzleElement,
-   *     otherwise error message
-   */
-  @Override
-  public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
-    SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
-    SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board;
-    Point loc = cell.getLocation();
-
-    Set<Integer> candidates = new HashSet<Integer>();
-
-    // check row
-    for (int i = 0; i < skyscrapersboard.getWidth(); i++) {
-      SkyscrapersCell c = skyscrapersboard.getCell(i, loc.y);
-      if (i != loc.x
-          && cell.getType() == SkyscrapersType.Number
-          && c.getType() == SkyscrapersType.Number
-          && c.getData() == cell.getData()) {
-        // System.out.print(c.getData());
-        // System.out.println(cell.getData());
-        return null;
-      }
+    public DuplicateNumberContradictionRule() {
+        super(
+                "SKYS-CONT-0001",
+                "Duplicate Number",
+                "Skyscrapers of same height cannot be placed in the same row or column.",
+                "edu/rpi/legup/images/skyscrapers/contradictions/DuplicateNumber.png");
     }
 
-    // check column
-    for (int i = 0; i < skyscrapersboard.getHeight(); i++) {
-      SkyscrapersCell c = skyscrapersboard.getCell(loc.x, i);
-      if (i != loc.y
-          && cell.getType() == SkyscrapersType.Number
-          && c.getType() == SkyscrapersType.Number
-          && c.getData() == cell.getData()) {
-        // System.out.print(c.getData());
-        // System.out.println(cell.getData());
-        return null;
-      }
-    }
+    /**
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
+     *
+     * @param board board to check contradiction
+     * @param puzzleElement equivalent puzzleElement
+     * @return null if the transition contains a contradiction at the specified puzzleElement,
+     *     otherwise error message
+     */
+    @Override
+    public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
+        SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
+        SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board;
+        Point loc = cell.getLocation();
 
-    return super.getNoContradictionMessage();
-  }
+        Set<Integer> candidates = new HashSet<Integer>();
+
+        // check row
+        for (int i = 0; i < skyscrapersboard.getWidth(); i++) {
+            SkyscrapersCell c = skyscrapersboard.getCell(i, loc.y);
+            if (i != loc.x
+                    && cell.getType() == SkyscrapersType.Number
+                    && c.getType() == SkyscrapersType.Number
+                    && c.getData() == cell.getData()) {
+                // System.out.print(c.getData());
+                // System.out.println(cell.getData());
+                return null;
+            }
+        }
+
+        // check column
+        for (int i = 0; i < skyscrapersboard.getHeight(); i++) {
+            SkyscrapersCell c = skyscrapersboard.getCell(loc.x, i);
+            if (i != loc.y
+                    && cell.getType() == SkyscrapersType.Number
+                    && c.getType() == SkyscrapersType.Number
+                    && c.getData() == cell.getData()) {
+                // System.out.print(c.getData());
+                // System.out.println(cell.getData());
+                return null;
+            }
+        }
+
+        return super.getNoContradictionMessage();
+    }
 }
