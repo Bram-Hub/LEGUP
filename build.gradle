@@ -31,7 +31,7 @@ spotless{
         // Cleanthat will refactor your code, but it may break your style: apply it before your formatter
         cleanthat()
 
-        googleJavaFormat('1.19.2')
+        googleJavaFormat('1.19.2').aosp()
 
         formatAnnotations()
     }
