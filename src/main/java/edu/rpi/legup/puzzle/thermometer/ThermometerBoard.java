@@ -22,17 +22,15 @@ public class ThermometerBoard extends GridBoard{
         vials = new ArrayList<>();
     }
 
-    public boolean addVial(ThermometerCell headCell, ThermometerCell tipCell)
-    {
-        if(verifyVial(headCell, tipCell, this))
-        {
+    public boolean addVial(ThermometerCell headCell, ThermometerCell tipCell) {
+        if(verifyVial(headCell, tipCell, this)) {
             vials.add(new Vial(headCell, tipCell, this));
+            return true;
         }
         return false;
     }
-    public Vial getVial()
-    {
-        return vials.get(0);
+    public ArrayList<Vial> getVials() {
+        return vials;
     }
 
     @Override
