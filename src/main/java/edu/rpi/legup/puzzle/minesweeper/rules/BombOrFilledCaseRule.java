@@ -46,7 +46,7 @@ public class BombOrFilledCaseRule extends CaseRule{
 
         Board case2 = board.copy();
         MinesweeperCell cell2 = (MinesweeperCell) case2.getPuzzleElement(puzzleElement);
-        cell2.setCellType(MinesweeperTileData.bomb());
+        cell2.setCellType(MinesweeperTileData.empty());
         case2.addModifiedData(cell2);
         cases.add(case2);
 
