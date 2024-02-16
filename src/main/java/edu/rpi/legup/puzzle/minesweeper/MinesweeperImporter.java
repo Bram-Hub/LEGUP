@@ -79,7 +79,8 @@ public class MinesweeperImporter extends PuzzleImporter {
                 }
             }
             puzzle.setCurrentBoard(minesweeperBoard);
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             throw new InvalidFileFormatException("Minesweeper Importer: unknown value where integer expected");
         }
     }
@@ -89,7 +90,8 @@ public class MinesweeperImporter extends PuzzleImporter {
         if (!boardElement.getAttribute("size").isEmpty()) {
             final int size = Integer.parseInt(boardElement.getAttribute("size"));
             minesweeperBoard = new MinesweeperBoard(size);
-        } else {
+        }
+        else {
             if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
                 final int width = Integer.parseInt(boardElement.getAttribute("width"));
                 final int height = Integer.parseInt(boardElement.getAttribute("height"));
