@@ -2,7 +2,7 @@
 package edu.rpi.legup.puzzle.starbattle;
 
 public enum StarBattleCellType {
-    UNKNOWN(-3), STAR(-2), BLACK(-1);
+    WHITE(-3), STAR(-2), BLACK(-1), UNKNOWN(0);
 
     public int value; 
 
