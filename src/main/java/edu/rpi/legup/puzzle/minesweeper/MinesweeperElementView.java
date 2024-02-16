@@ -35,17 +35,26 @@ public class MinesweeperElementView extends GridElementView {
             graphics2D.setColor(FONT_COLOR);
             graphics2D.setFont(FONT);
             final FontMetrics metrics = graphics2D.getFontMetrics(FONT);
-            final String value = String.valueOf(puzzleElement.getData());
+            final String value = String.valueOf(((MinesweeperCell) puzzleElement).getData().data());
             final int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             final int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-            graphics2D.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
-        } else {
-            // temp
+            graphics2D.drawString(value, xText, yText);
+            return;
+        }
+        if (type == MinesweeperTileType.UNSET) {
             graphics2D.setStroke(new BasicStroke(1));
-            graphics2D.setColor(Color.LIGHT_GRAY);
-            graphics2D.fillRect(location.x, location.y, size.width, size.height);
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
+            graphics2D.setColor(Color.DARK_GRAY);
+            graphics2D.fillRect(location.x, location.y, size.width, size.height);
+            return;
+        }
+        if (type == MinesweeperTileType.EMPTY) {
+            graphics2D.setStroke(new BasicStroke(1));
+            graphics2D.setColor(Color.BLACK);
+            graphics2D.drawRect(location.x, location.y, size.width, size.height);
+            graphics2D.setColor(Color.GRAY);
+            graphics2D.fillRect(location.x, location.y, size.width, size.height);
         }
     }
 }

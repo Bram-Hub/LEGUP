@@ -15,16 +15,10 @@ public class MinesweeperController extends ElementController {
         final int numberData = current.data();
         switch (event.getButton()) {
             case MouseEvent.BUTTON1:
-                if (numberData >= 8) {
-                    return MinesweeperTileData.empty();
-                }
-                return MinesweeperTileData.flag(numberData + 1);
+                return MinesweeperTileData.fromData(numberData + 1);
             case MouseEvent.BUTTON2:
             case MouseEvent.BUTTON3:
-                if (numberData <= 1) {
-                    return MinesweeperTileData.empty();
-                }
-                return MinesweeperTileData.flag(numberData - 1);
+                return MinesweeperTileData.fromData(numberData - 1);
         }
         return MinesweeperTileData.empty();
     }

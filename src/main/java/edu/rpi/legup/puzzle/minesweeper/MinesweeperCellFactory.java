@@ -51,9 +51,11 @@ public class MinesweeperCellFactory extends ElementFactory {
             final MinesweeperCell cell = new MinesweeperCell(MinesweeperTileData.fromData(value), new Point(x, y));
             cell.setIndex(y * height + x);
             return cell;
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             throw new InvalidFileFormatException("Minesweeper Factory: unknown value where integer expected");
-        } catch (NullPointerException e) {
+        }
+        catch (NullPointerException e) {
             throw new InvalidFileFormatException("Minesweeper Factory: could not find attribute(s)");
         }
     }
