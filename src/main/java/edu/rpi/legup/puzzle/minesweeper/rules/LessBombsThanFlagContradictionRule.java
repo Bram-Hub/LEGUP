@@ -28,5 +28,5 @@ public class LessBombsThanFlagContradictionRule extends ContradictionRule{
 
 
     }
-
+}
 
