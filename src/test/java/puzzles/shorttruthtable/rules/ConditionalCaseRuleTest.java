@@ -111,7 +111,7 @@ public class ConditionalCaseRuleTest {
     }
 
     private void falseConditionalTest(String fileName,
-                                      int andX, int andY,
+                                      int conditionalX, int conditionalY,
                                       int aX, int aY,
                                       int bX, int bY) throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/ConditionalCaseRule/" + fileName, stt);
@@ -120,7 +120,7 @@ public class ConditionalCaseRuleTest {
         transition.setRule(RULE);
 
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
-        ShortTruthTableCell cell = board.getCell(andX,andY);
+        ShortTruthTableCell cell = board.getCell(conditionalX, conditionalY);
         ArrayList<Board> cases = RULE.getCases(board, cell);
 
         // Make sure that the rule checks out
