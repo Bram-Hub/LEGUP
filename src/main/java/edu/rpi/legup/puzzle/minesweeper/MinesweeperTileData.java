@@ -21,14 +21,25 @@ public final class MinesweeperTileData {
 
     public static @NotNull MinesweeperTileData fromData(int data) {
         switch (data) {
-            case UNSET_DATA: return unset();
-            case BOMB_DATA: return bomb();
-            case EMPTY_DATA: return empty();
-            default: return flag(data);
+            case UNSET_DATA:
+                return unset();
+            case BOMB_DATA:
+                return bomb();
+            case EMPTY_DATA:
+                return empty();
+            default: {
+                if (data <= -2 || data > 8) {
+                    return unset();
+                }
+                return flag(data);
+            }
         }
     }
 
-    public static @NotNull MinesweeperTileData unset() { return UNSET; };
+    public static @NotNull MinesweeperTileData unset() {
+        return UNSET;
+    }
+    
     public static @NotNull MinesweeperTileData bomb() {
         return BOMB;
     }
