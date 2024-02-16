@@ -35,25 +35,20 @@ public class FinishRoomCaseRule extends CaseRule {
      */
     @Override
     public String checkRuleRaw(TreeTransition transition) {
-        //Currently set to produce 5 or less possible room completion paths
         NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
         if (childTransitions.size() > 5) {
             return super.getInvalidUseOfRuleMessage() + ": This case rule must have 5 or less children.";
         }
-        //make error case for 0 child transitions?
         Set<Point> locations = new HashSet<>();
         for (TreeTransition t1 : childTransitions) {
             locations.add(((NurikabeCell) t1.getBoard().getModifiedData().iterator().next()).getLocation()); //loop see if matches
             if (t1.getBoard().getModifiedData().size() != 1) {
                 return super.getInvalidUseOfRuleMessage() + ": This case rule must have 1 modified cell for each case.";
             }
-            if (((NurikabeCell) t1.getBoard().getModifiedData().iterator().next()).getType() != NurikabeType.WHITE) {
-                return super.getInvalidUseOfRuleMessage() + ": This case rule must place an empty white cell for each case.";
-            }
             for (Point loc : locations) {
                 for (Point loc2 : locations) {
-                    if ((loc != loc2) && (loc.x == loc2.x) && (loc.y == loc2.y)) {
+                    if (!(loc.equals(loc2)) && (loc.x == loc2.x) && (loc.y == loc2.y)) {
                         return super.getInvalidUseOfRuleMessage() + ": This case rule must alter a different cell for each case.";
                     }
                 }
@@ -116,7 +111,13 @@ public class FinishRoomCaseRule extends CaseRule {
             DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nuriBoard); //gathers regions
             Set<NurikabeCell> disRow = regions.getSet(numbaCell); //set of white spaces
             for (NurikabeCell d : disRow) { //loops through white spaces
+                if(cases.size() >= 10) { //no need to check this many cases
+                    continue; //crash/runtime protection
+                }
                 for(Point direction : directions) {
+                    if(cases.size() >= 10) { //no need to check this many cases
+                        continue; //crash/runtime protection
+                    }
                     if(!((nuriBoard.getWidth() > (d.getLocation().x + direction.x) && (nuriBoard.getHeight() > d.getLocation().y + direction.y) &&
                             (d.getLocation().x + direction.x >= 0) && (d.getLocation().y + direction.y >= 0)))) {
                         continue; //if next location check would be outside of grid then continue
@@ -156,6 +157,10 @@ public class FinishRoomCaseRule extends CaseRule {
                         }
                 }
             }
+//            if(cases.size() > 5) {
+//                cases.clear();
+//                //possibly return null and have conditional message return
+//            }
         return cases;
     }
 
