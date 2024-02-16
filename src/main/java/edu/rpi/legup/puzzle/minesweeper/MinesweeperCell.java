@@ -2,6 +2,7 @@ package edu.rpi.legup.puzzle.minesweeper;
 
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
+import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -15,6 +16,10 @@ public class MinesweeperCell extends GridCell<MinesweeperTileData> {
 
     public @NotNull MinesweeperTileType getTileType() {
         return super.data.type();
+    }
+
+    public void setCellType(MinesweeperTileData type) {
+        data = type;
     }
 
     @Override
