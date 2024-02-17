@@ -22,8 +22,7 @@ public class ThreeAdjacentOnesContradictionRule extends ContradictionRule {
         BinaryBoard binaryBoard = (BinaryBoard) board;
 
         BinaryCell cell = (BinaryCell) binaryBoard.getPuzzleElement(puzzleElement);
-        if (cell.getType() != BinaryType.ONE)
-        {
+        if (cell.getType() != BinaryType.ONE) {
             return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
         }
 
@@ -41,8 +40,7 @@ public class ThreeAdjacentOnesContradictionRule extends ContradictionRule {
                 (rightTwo.getType() == BinaryType.ONE && rightOne.getType() == BinaryType.ONE) ||
                 (downTwo.getType() == BinaryType.ONE && downOne.getType() == BinaryType.ONE) ||
                 (leftOne.getType() == BinaryType.ONE && rightOne.getType() == BinaryType.ONE) ||
-                (upOne.getType() == BinaryType.ONE && downOne.getType() == BinaryType.ONE))
-        {
+                (upOne.getType() == BinaryType.ONE && downOne.getType() == BinaryType.ONE)) {
             return null;
         }
         return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;

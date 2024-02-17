@@ -22,8 +22,7 @@ public class ThreeAdjacentZerosContradictionRule extends ContradictionRule {
         BinaryBoard binaryBoard = (BinaryBoard) board;
 
         BinaryCell cell = (BinaryCell) binaryBoard.getPuzzleElement(puzzleElement);
-        if (cell.getType() != BinaryType.ZERO)
-        {
+        if (cell.getType() != BinaryType.ZERO) {
             return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
         }
 
@@ -41,8 +40,7 @@ public class ThreeAdjacentZerosContradictionRule extends ContradictionRule {
                 (rightTwo.getType() == BinaryType.ZERO && rightOne.getType() == BinaryType.ZERO) ||
                 (downTwo.getType() == BinaryType.ZERO && downOne.getType() == BinaryType.ZERO) ||
                 (leftOne.getType() == BinaryType.ZERO && rightOne.getType() == BinaryType.ZERO) ||
-                (upOne.getType() == BinaryType.ZERO && downOne.getType() == BinaryType.ZERO))
-        {
+                (upOne.getType() == BinaryType.ZERO && downOne.getType() == BinaryType.ZERO)) {
             return null;
         }
         return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
