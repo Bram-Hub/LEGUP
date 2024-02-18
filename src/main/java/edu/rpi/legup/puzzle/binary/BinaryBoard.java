@@ -8,6 +8,10 @@ import java.util.HashSet;
 import java.util.Set;
 public class BinaryBoard extends GridBoard {
     private int size;
+    public BinaryBoard(int width, int height) {
+        super(width, height);
+        this.size = width;
+    }
 
     public BinaryBoard(int size) {
         super(size, size);
