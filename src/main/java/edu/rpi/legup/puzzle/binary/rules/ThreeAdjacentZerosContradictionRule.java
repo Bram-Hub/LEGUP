@@ -5,7 +5,6 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.puzzle.binary.BinaryBoard;
 import edu.rpi.legup.puzzle.binary.BinaryCell;
 import edu.rpi.legup.puzzle.binary.BinaryType;
-import java.util.Set;
 public class ThreeAdjacentZerosContradictionRule extends ContradictionRule {
     private final String NO_CONTRADICTION_MESSAGE = "Does not contain a contradiction at this index";
     private final String INVALID_USE_MESSAGE = "Contradiction must be a zero";
