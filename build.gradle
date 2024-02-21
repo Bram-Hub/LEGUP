@@ -38,10 +38,13 @@ spotless {
 
 apply plugin: 'checkstyle'
 
+application {
+    mainClass.set('edu.rpi.legup.Legup')
+}
+
 java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
-    mainClass.set('edu.rpi.legup.Legup')
 }
 
 dependencies {
