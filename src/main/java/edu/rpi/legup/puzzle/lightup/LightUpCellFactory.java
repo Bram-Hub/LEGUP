@@ -4,17 +4,16 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-
-import java.awt.*;
 
 public class LightUpCellFactory extends ElementFactory {
     /**
      * Creates a puzzleElement based on the xml document Node and adds it to the board
      *
-     * @param node  node that represents the puzzleElement
+     * @param node node that represents the puzzleElement
      * @param board board to add the newly created cell
      * @return newly created cell from the xml document Node
      * @throws InvalidFileFormatException if file is invalid
@@ -23,7 +22,8 @@ public class LightUpCellFactory extends ElementFactory {
     public LightUpCell importCell(Node node, Board board) throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("cell")) {
-                throw new InvalidFileFormatException("lightup Factory: unknown puzzleElement puzzleElement");
+                throw new InvalidFileFormatException(
+                        "lightup Factory: unknown puzzleElement puzzleElement");
             }
 
             LightUpBoard lightUpBoard = (LightUpBoard) board;
@@ -35,7 +35,8 @@ public class LightUpCellFactory extends ElementFactory {
             int x = Integer.valueOf(attributeList.getNamedItem("x").getNodeValue());
             int y = Integer.valueOf(attributeList.getNamedItem("y").getNodeValue());
             if (x >= width || y >= height) {
-                throw new InvalidFileFormatException("lightup Factory: cell location out of bounds");
+                throw new InvalidFileFormatException(
+                        "lightup Factory: cell location out of bounds");
             }
             if (value < -4 || value > 4) {
                 throw new InvalidFileFormatException("lightup Factory: cell unknown value");
@@ -44,11 +45,10 @@ public class LightUpCellFactory extends ElementFactory {
             LightUpCell cell = new LightUpCell(value, new Point(x, y));
             cell.setIndex(y * height + x);
             return cell;
-        }
-        catch (NumberFormatException e) {
-            throw new InvalidFileFormatException("lightup Factory: unknown value where integer expected");
-        }
-        catch (NullPointerException e) {
+        } catch (NumberFormatException e) {
+            throw new InvalidFileFormatException(
+                    "lightup Factory: unknown value where integer expected");
+        } catch (NullPointerException e) {
             throw new InvalidFileFormatException("lightup Factory: could not find attribute(s)");
         }
     }
@@ -56,7 +56,7 @@ public class LightUpCellFactory extends ElementFactory {
     /**
      * Creates a xml document puzzleElement from a cell for exporting
      *
-     * @param document      xml document
+     * @param document xml document
      * @param puzzleElement PuzzleElement cell
      * @return xml PuzzleElement
      */

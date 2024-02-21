@@ -10,7 +10,10 @@ public class ContradictionRulePanel extends RulePanel {
      */
     ContradictionRulePanel(RuleFrame ruleFrame) {
         super(ruleFrame);
-        this.icon = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/Contradictions.gif"));
+        this.icon =
+                new ImageIcon(
+                        ClassLoader.getSystemClassLoader()
+                                .getResource("edu/rpi/legup/images/Legup/Contradictions.gif"));
         this.name = "Contradiction Rules";
         this.toolTip = "Contradiction Rules";
     }

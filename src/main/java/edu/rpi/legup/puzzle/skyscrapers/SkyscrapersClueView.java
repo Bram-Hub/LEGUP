@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.skyscrapers;
 
 import edu.rpi.legup.ui.boardview.ElementView;
-
 import java.awt.*;
 
 public class SkyscrapersClueView extends ElementView {
