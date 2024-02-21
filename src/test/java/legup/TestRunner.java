@@ -1,6 +1,5 @@
 package legup;
 
-
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
@@ -10,9 +9,7 @@ import puzzles.nurikabe.rules.*;
 import puzzles.skyscrapers.rules.*;
 import puzzles.treetent.rules.*;
 
-/**
- * This class runs all of the tests for the project without needing to run build scripts.
- */
+/** This class runs all of the tests for the project without needing to run build scripts. */
 public class TestRunner {
     public static void main(String[] args) {
         // Battleship Tests
@@ -43,7 +40,7 @@ public class TestRunner {
         Result result12 = JUnitCore.runClasses(TooManyBulbsContradictionRuleTest.class);
         printTestResults(result12);
 
-        //nurikabe tests
+        // nurikabe tests
         Result result13 = JUnitCore.runClasses(BlackBetweenRegionsDirectRuleTest.class);
         printTestResults(result13);
         Result result14 = JUnitCore.runClasses(BlackBottleNeckDirectRuleTest.class);

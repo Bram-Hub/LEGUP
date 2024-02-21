@@ -261,8 +261,7 @@ public class MaterialColors {
     public static final Color WHITE = new Color(255, 255, 255);
     public static final Color TRANSPARENT = new Color(0, 0, 0, 255);
 
-    private MaterialColors() {
-    }
+    private MaterialColors() {}
 
     public static Color bleach(Color color, float amount) {
         int red = (int) ((color.getRed() * (1 - amount) / 255 + amount) * 255);

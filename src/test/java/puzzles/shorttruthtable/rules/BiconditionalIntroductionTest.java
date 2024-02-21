@@ -15,7 +15,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class BiconditionalIntroductionTest {
-    private static final DirectRuleBiconditionalIntroduction RULE = new DirectRuleBiconditionalIntroduction();
+    private static final DirectRuleBiconditionalIntroduction RULE =
+            new DirectRuleBiconditionalIntroduction();
     private static ShortTruthTable stt;
 
     @BeforeClass
@@ -27,8 +28,8 @@ public class BiconditionalIntroductionTest {
     /**
      * Given a statement: A <-> B
      *
-     * Asserts that if setting <-> to false is a valid application of this rule if and
-     * only if A and B do not match.
+     * <p>Asserts that if setting <-> to false is a valid application of this rule if and only if A
+     * and B do not match.
      *
      * @throws InvalidFileFormatException
      */
@@ -61,14 +62,13 @@ public class BiconditionalIntroductionTest {
         ShortTruthTableCell b = board.getCell(2, 0);
         if (a.getType() != b.getType()) {
             // Not valid if they don't match but at least one of the values of A or B is unknown
-            if (a.getType() == ShortTruthTableCellType.UNKNOWN || b.getType() == ShortTruthTableCellType.UNKNOWN) {
+            if (a.getType() == ShortTruthTableCellType.UNKNOWN
+                    || b.getType() == ShortTruthTableCellType.UNKNOWN) {
                 Assert.assertNotNull(RULE.checkRule(transition));
-            }
-            else {
+            } else {
                 Assert.assertNull(RULE.checkRule(transition));
             }
-        }
-        else {
+        } else {
             Assert.assertNotNull(RULE.checkRule(transition));
         }
     }
@@ -76,8 +76,8 @@ public class BiconditionalIntroductionTest {
     /**
      * Given a statement: A <-> B
      *
-     * Asserts that if setting <-> to true is a valid application of this rule if and
-     * only if A and B match.
+     * <p>Asserts that if setting <-> to true is a valid application of this rule if and only if A
+     * and B match.
      *
      * @throws InvalidFileFormatException
      */
@@ -110,8 +110,7 @@ public class BiconditionalIntroductionTest {
         ShortTruthTableCell b = board.getCell(2, 0);
         if (a.getType() == b.getType() && a.getType() != ShortTruthTableCellType.UNKNOWN) {
             Assert.assertNull(RULE.checkRule(transition));
-        }
-        else {
+        } else {
             Assert.assertNotNull(RULE.checkRule(transition));
         }
     }

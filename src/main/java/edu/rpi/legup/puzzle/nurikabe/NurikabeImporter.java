@@ -2,11 +2,10 @@ package edu.rpi.legup.puzzle.nurikabe;
 
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import java.awt.*;
 
 public class NurikabeImporter extends PuzzleImporter {
     public NurikabeImporter(Nurikabe nurikabe) {
@@ -26,7 +25,7 @@ public class NurikabeImporter extends PuzzleImporter {
     /**
      * Creates an empty board for building
      *
-     * @param rows    the number of rows on the board
+     * @param rows the number of rows on the board
      * @param columns the number of columns on the board
      * @throws RuntimeException if board can not be created
      */
@@ -36,7 +35,8 @@ public class NurikabeImporter extends PuzzleImporter {
 
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++) {
-                NurikabeCell cell = new NurikabeCell(NurikabeType.UNKNOWN.toValue(), new Point(x, y));
+                NurikabeCell cell =
+                        new NurikabeCell(NurikabeType.UNKNOWN.toValue(), new Point(x, y));
                 cell.setIndex(y * columns + x);
                 cell.setModifiable(true);
                 nurikabeBoard.setCell(x, y, cell);
@@ -55,11 +55,13 @@ public class NurikabeImporter extends PuzzleImporter {
     public void initializeBoard(Node node) throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("board")) {
-                throw new InvalidFileFormatException("nurikabe Importer: cannot find board puzzleElement");
+                throw new InvalidFileFormatException(
+                        "nurikabe Importer: cannot find board puzzleElement");
             }
             Element boardElement = (Element) node;
             if (boardElement.getElementsByTagName("cells").getLength() == 0) {
-                throw new InvalidFileFormatException("nurikabe Importer: no puzzleElement found for board");
+                throw new InvalidFileFormatException(
+                        "nurikabe Importer: no puzzleElement found for board");
             }
             Element dataElement = (Element) boardElement.getElementsByTagName("cells").item(0);
             NodeList elementDataList = dataElement.getElementsByTagName("cell");
@@ -68,9 +70,9 @@ public class NurikabeImporter extends PuzzleImporter {
             if (!boardElement.getAttribute("size").isEmpty()) {
                 int size = Integer.valueOf(boardElement.getAttribute("size"));
                 nurikabeBoard = new NurikabeBoard(size);
-            }
-            else {
-                if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
+            } else {
+                if (!boardElement.getAttribute("width").isEmpty()
+                        && !boardElement.getAttribute("height").isEmpty()) {
                     int width = Integer.valueOf(boardElement.getAttribute("width"));
                     int height = Integer.valueOf(boardElement.getAttribute("height"));
                     nurikabeBoard = new NurikabeBoard(width, height);
@@ -85,7 +87,10 @@ public class NurikabeImporter extends PuzzleImporter {
             int height = nurikabeBoard.getHeight();
 
             for (int i = 0; i < elementDataList.getLength(); i++) {
-                NurikabeCell cell = (NurikabeCell) puzzle.getFactory().importCell(elementDataList.item(i), nurikabeBoard);
+                NurikabeCell cell =
+                        (NurikabeCell)
+                                puzzle.getFactory()
+                                        .importCell(elementDataList.item(i), nurikabeBoard);
                 Point loc = cell.getLocation();
                 if (cell.getData() != NurikabeType.UNKNOWN.toValue()) {
                     cell.setModifiable(false);
@@ -97,7 +102,8 @@ public class NurikabeImporter extends PuzzleImporter {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     if (nurikabeBoard.getCell(x, y) == null) {
-                        NurikabeCell cell = new NurikabeCell(NurikabeType.UNKNOWN.toValue(), new Point(x, y));
+                        NurikabeCell cell =
+                                new NurikabeCell(NurikabeType.UNKNOWN.toValue(), new Point(x, y));
                         cell.setIndex(y * height + x);
                         cell.setModifiable(true);
                         nurikabeBoard.setCell(x, y, cell);
@@ -105,9 +111,9 @@ public class NurikabeImporter extends PuzzleImporter {
                 }
             }
             puzzle.setCurrentBoard(nurikabeBoard);
-        }
-        catch (NumberFormatException e) {
-            throw new InvalidFileFormatException("nurikabe Importer: unknown value where integer expected");
+        } catch (NumberFormatException e) {
+            throw new InvalidFileFormatException(
+                    "nurikabe Importer: unknown value where integer expected");
         }
     }
 
