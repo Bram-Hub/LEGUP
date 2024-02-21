@@ -10,7 +10,7 @@ version '5.3.2'
 apply plugin: 'java'
 apply plugin: 'application'
 
-spotless{
+spotless {
     enforceCheck false
 
     format 'misc', {
@@ -23,7 +23,7 @@ spotless{
         endWithNewline()
     }
 
-    java{
+    java {
         // Use the default importOrder configuration
         importOrder()
 
@@ -38,9 +38,11 @@ spotless{
 
 apply plugin: 'checkstyle'
 
-mainClassName = 'edu.rpi.legup.Legup'
-
-sourceCompatibility = 21
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+    mainClassName = 'edu.rpi.legup.Legup'
+}
 
 dependencies {
     implementation 'org.jetbrains:annotations:20.1.0'
@@ -133,11 +135,9 @@ task buildNativeWindows(type: Exec, dependsOn: 'createExe') {
     commandLine 'cmd', '/c', 'make_windows_installer.bat'
 }
 
-
 repositories {
     mavenCentral()
 }
-targetCompatibility = JavaVersion.VERSION_21
 
 tasks.register("jpackage") {
     group("jpackage")
