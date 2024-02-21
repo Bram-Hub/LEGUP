@@ -1,14 +1,13 @@
 package edu.rpi.legup.ui.boardview;
 
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import javax.swing.*;
 
 public abstract class ElementView implements Shape {
     protected int index;
@@ -47,8 +46,10 @@ public abstract class ElementView implements Shape {
      * @return true if the point is within the ElementView, false otherwise
      */
     public boolean isWithinBounds(Point point) {
-        return point.x >= location.x && point.x <= location.x + size.width &&
-                point.y >= location.y && point.y <= location.y + size.height;
+        return point.x >= location.x
+                && point.x <= location.x + size.width
+                && point.y >= location.y
+                && point.y <= location.y + size.height;
     }
 
     /**
@@ -74,7 +75,9 @@ public abstract class ElementView implements Shape {
 
     public void drawElement(Graphics2D graphics2D) {
         graphics2D.setStroke(new BasicStroke(1));
-        graphics2D.draw(new Rectangle2D.Double(location.x + 0.5f, location.y + 0.5f, size.width - 2, size.height - 2));
+        graphics2D.draw(
+                new Rectangle2D.Double(
+                        location.x + 0.5f, location.y + 0.5f, size.width - 2, size.height - 2));
 
         graphics2D.setColor(Color.BLACK);
         FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
@@ -84,29 +87,34 @@ public abstract class ElementView implements Shape {
         graphics2D.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
     }
 
-    public void drawGiven(Graphics2D graphics2D) {
-
-    }
+    public void drawGiven(Graphics2D graphics2D) {}
 
     public void drawHover(Graphics2D graphics2D) {
         graphics2D.setColor(hoverColor);
         graphics2D.setStroke(new BasicStroke(2));
-        graphics2D.draw(new Rectangle2D.Double(location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
+        graphics2D.draw(
+                new Rectangle2D.Double(
+                        location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
     }
 
     public void drawModified(Graphics2D graphics2D) {
         graphics2D.setColor(puzzleElement.isValid() ? modifiedColor : invalidColor);
         graphics2D.setStroke(new BasicStroke(2));
-        graphics2D.draw(new Rectangle2D.Double(location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
+        graphics2D.draw(
+                new Rectangle2D.Double(
+                        location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
     }
 
     public void drawCase(Graphics2D graphics2D) {
         graphics2D.setColor(caseColor);
-        graphics2D.fill(new Rectangle2D.Double(location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
+        graphics2D.fill(
+                new Rectangle2D.Double(
+                        location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
     }
 
     public BufferedImage getImage() {
-        BufferedImage image = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image =
+                new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics2D = image.createGraphics();
         drawElement(graphics2D);
         graphics2D.dispose();
@@ -194,9 +202,8 @@ public abstract class ElementView implements Shape {
     }
 
     /**
-     * Gets the isCaseRulePickable field to determine if this ElementView
-     * should be highlighted in some way to indicate if it can be chosen by
-     * the CaseRule
+     * Gets the isCaseRulePickable field to determine if this ElementView should be highlighted in
+     * some way to indicate if it can be chosen by the CaseRule
      *
      * @return true if the ElementView can be chosen for the CaseRule, false otherwise
      */
@@ -205,11 +212,11 @@ public abstract class ElementView implements Shape {
     }
 
     /**
-     * Sets the isCaseRulePickable field to determine if this ElementView
-     * should be highlighted in some way to indicate if it can be chosen by
-     * the CaseRule
+     * Sets the isCaseRulePickable field to determine if this ElementView should be highlighted in
+     * some way to indicate if it can be chosen by the CaseRule
      *
-     * @param isCaseRulePickable true if the ElementView can be chosen for the CaseRule, false otherwise
+     * @param isCaseRulePickable true if the ElementView can be chosen for the CaseRule, false
+     *     otherwise
      */
     public void setCaseRulePickable(boolean isCaseRulePickable) {
         this.isCaseRulePickable = isCaseRulePickable;
@@ -276,8 +283,10 @@ public abstract class ElementView implements Shape {
 
     @Override
     public boolean contains(double x, double y) {
-        return x >= location.x && x <= location.x + size.width &&
-                y >= location.y && y <= location.y + size.height;
+        return x >= location.x
+                && x <= location.x + size.width
+                && y >= location.y
+                && y <= location.y + size.height;
     }
 
     @Override
@@ -287,24 +296,32 @@ public abstract class ElementView implements Shape {
 
     @Override
     public boolean intersects(double x, double y, double width, double height) {
-        return (x + width >= location.x && x <= location.x + size.width) ||
-                (y + height >= location.y && y <= location.y + size.height);
+        return (x + width >= location.x && x <= location.x + size.width)
+                || (y + height >= location.y && y <= location.y + size.height);
     }
 
     @Override
     public boolean intersects(Rectangle2D rectangle2D) {
-        return intersects(rectangle2D.getX(), rectangle2D.getY(), rectangle2D.getWidth(), rectangle2D.getHeight());
+        return intersects(
+                rectangle2D.getX(),
+                rectangle2D.getY(),
+                rectangle2D.getWidth(),
+                rectangle2D.getHeight());
     }
 
     @Override
     public boolean contains(double x, double y, double width, double height) {
-        return (x + width >= location.x && x <= location.x + size.width) &&
-                (y + height >= location.y && y <= location.y + size.height);
+        return (x + width >= location.x && x <= location.x + size.width)
+                && (y + height >= location.y && y <= location.y + size.height);
     }
 
     @Override
     public boolean contains(Rectangle2D rectangle2D) {
-        return contains(rectangle2D.getX(), rectangle2D.getY(), rectangle2D.getWidth(), rectangle2D.getHeight());
+        return contains(
+                rectangle2D.getX(),
+                rectangle2D.getY(),
+                rectangle2D.getWidth(),
+                rectangle2D.getHeight());
     }
 
     @Override
@@ -314,7 +331,8 @@ public abstract class ElementView implements Shape {
 
     @Override
     public PathIterator getPathIterator(AffineTransform at, double flatness) {
-        return new Rectangle(location.x, location.y, size.width, size.height).getPathIterator(at, flatness);
+        return new Rectangle(location.x, location.y, size.width, size.height)
+                .getPathIterator(at, flatness);
     }
 
     @Override
