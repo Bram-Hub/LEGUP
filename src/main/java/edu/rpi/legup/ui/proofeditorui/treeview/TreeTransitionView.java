@@ -1,15 +1,14 @@
 package edu.rpi.legup.ui.proofeditorui.treeview;
 
+import static java.lang.Math.*;
+
+import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.tree.TreeElementType;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.app.LegupPreferences;
-
 import java.awt.*;
 import java.awt.geom.*;
-import java.util.List;
 import java.util.ArrayList;
-
-import static java.lang.Math.*;
+import java.util.List;
 
 public class TreeTransitionView extends TreeElementView {
     static final int RADIUS = 25;
@@ -86,8 +85,15 @@ public class TreeTransitionView extends TreeElementView {
             double ctrlx2 = lineEndPoint.x - 25;
             double ctrly2 = lineEndPoint.y;
 
-            c.setCurve(lineStartPoint.x, lineStartPoint.y, ctrlx1,
-                    ctrly1, ctrlx2, ctrly2, lineEndPoint.x, lineEndPoint.y);
+            c.setCurve(
+                    lineStartPoint.x,
+                    lineStartPoint.y,
+                    ctrlx1,
+                    ctrly1,
+                    ctrlx2,
+                    ctrly2,
+                    lineEndPoint.x,
+                    lineEndPoint.y);
             graphics2D.draw(c);
         }
 
@@ -100,16 +106,13 @@ public class TreeTransitionView extends TreeElementView {
                 if (getTreeElement().isCorrect()) {
                     if (colorBlind) {
                         c = CORRECT_COLOR_COLORBLIND;
-                    }
-                    else {
+                    } else {
                         c = CORRECT_COLOR;
                     }
-                }
-                else {
+                } else {
                     if (colorBlind) {
                         c = INCORRECT_COLOR_COLORBLIND;
-                    }
-                    else {
+                    } else {
                         c = INCORRECT_COLOR;
                     }
                 }
@@ -127,8 +130,7 @@ public class TreeTransitionView extends TreeElementView {
             graphics2D.setStroke(SELECTION_STROKE);
             graphics2D.setColor(OUTLINE_SELECTION_COLOR);
             graphics2D.drawPolygon(selection_triangle);
-        }
-        else {
+        } else {
             if (isHover) {
                 graphics2D.setColor(HOVER_COLOR);
                 graphics2D.fillPolygon(arrowhead);
@@ -142,23 +144,19 @@ public class TreeTransitionView extends TreeElementView {
                 graphics2D.setStroke(SELECTION_STROKE);
                 graphics2D.setColor(OUTLINE_HOVER_COLOR);
                 graphics2D.drawPolygon(selection_triangle);
-            }
-            else {
+            } else {
                 Color c = DEFAULT_COLOR;
                 if (getTreeElement().isJustified()) {
                     if (getTreeElement().isCorrect()) {
                         if (colorBlind) {
                             c = CORRECT_COLOR_COLORBLIND;
-                        }
-                        else {
+                        } else {
                             c = CORRECT_COLOR;
                         }
-                    }
-                    else {
+                    } else {
                         if (colorBlind) {
                             c = INCORRECT_COLOR_COLORBLIND;
-                        }
-                        else {
+                        } else {
                             c = INCORRECT_COLOR;
                         }
                     }
@@ -172,9 +170,7 @@ public class TreeTransitionView extends TreeElementView {
         }
     }
 
-    /**
-     * Constructs the arrowhead shape from the start and end points
-     */
+    /** Constructs the arrowhead shape from the start and end points */
     private Polygon createTransitionTriangle(int radius) {
         double thetaArrow = Math.toRadians(30);
 

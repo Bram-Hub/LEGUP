@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.skyscrapers;
 
 import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
 import java.awt.event.MouseEvent;
 
 public class SkyscrapersController extends ElementController {
@@ -18,18 +17,15 @@ public class SkyscrapersController extends ElementController {
             if (cell.getData() < cell.getMax()) {
                 int num = cell.getData() + 1;
                 cell.setData(num);
-            }
-            else {
+            } else {
                 cell.setData(SkyscrapersType.UNKNOWN.toValue());
             }
-        }
-        else {
+        } else {
             if (e.getButton() == MouseEvent.BUTTON3) {
                 if (cell.getData() > 0) {
                     int num = cell.getData() - 1;
                     cell.setData(num);
-                }
-                else {
+                } else {
                     cell.setData(cell.getMax());
                 }
             }

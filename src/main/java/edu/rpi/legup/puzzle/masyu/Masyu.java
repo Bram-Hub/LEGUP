@@ -14,12 +14,9 @@ public class Masyu extends Puzzle {
         this.exporter = new MasyuExporter(this);
 
         this.factory = new MasyuCellFactory();
-
     }
 
-    /**
-     * Initializes the game board. Called by the invoker of the class
-     */
+    /** Initializes the game board. Called by the invoker of the class */
     @Override
     public void initializeView() {
         boardView = new MasyuView((MasyuBoard) currentBoard);
@@ -40,8 +37,8 @@ public class Masyu extends Puzzle {
     /**
      * Determines if the given dimensions are valid for Masyu
      *
-     * @param rows      the number of rows
-     * @param columns   the number of columns
+     * @param rows the number of rows
+     * @param columns the number of columns
      * @return true if the given dimensions are valid for Masyu, false otherwise
      */
     public boolean isValidDimensions(int rows, int columns) {
@@ -66,7 +63,5 @@ public class Masyu extends Puzzle {
      * @param board the board that has changed
      */
     @Override
-    public void onBoardChange(Board board) {
-
-    }
+    public void onBoardChange(Board board) {}
 }

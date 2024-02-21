@@ -1,7 +1,7 @@
 package edu.rpi.legup.ui.lookandfeel.components;
 
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialDrawingUtils;
-
+import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JTree;
 import javax.swing.UIManager;
@@ -9,7 +9,6 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicTreeUI;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellEditor;
-import java.awt.Graphics;
 
 public class MaterialTreeUI extends BasicTreeUI {
 

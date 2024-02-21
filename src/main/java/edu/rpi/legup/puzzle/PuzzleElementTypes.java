@@ -1,4 +1,3 @@
 package edu.rpi.legup.puzzle;
 
-public enum PuzzleElementTypes {
-}
+public enum PuzzleElementTypes {}
