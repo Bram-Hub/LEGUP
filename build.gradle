@@ -41,7 +41,7 @@ apply plugin: 'checkstyle'
 java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
-    mainClassName = 'edu.rpi.legup.Legup'
+    mainClass.set('edu.rpi.legup.Legup')
 }
 
 dependencies {
