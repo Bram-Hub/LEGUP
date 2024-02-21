@@ -60,12 +60,12 @@ public class BiconditionalCaseRuleTest {
         Assert.assertNotEquals(board1A, board2A);
         Assert.assertNotEquals(board1B, board2B);
 
+        // Assert that A and B are equal and either true or false in both branches
         Assert.assertEquals(board1A, board1B);
         Assert.assertTrue(
                 (board1A.equals(ShortTruthTableCellType.TRUE) && board1B.equals(ShortTruthTableCellType.TRUE)) || (board1A.equals(ShortTruthTableCellType.FALSE) && board1B.equals(ShortTruthTableCellType.FALSE))
         );
 
-        // Assert that B is unknown in one board and true in the other
         Assert.assertNotEquals(board1B, board2B);
         Assert.assertTrue(
                 (board2A.equals(ShortTruthTableCellType.TRUE) && board2B.equals(ShortTruthTableCellType.TRUE)) || (board2A.equals(ShortTruthTableCellType.FALSE) && board2B.equals(ShortTruthTableCellType.FALSE))
@@ -138,6 +138,7 @@ public class BiconditionalCaseRuleTest {
         Assert.assertNotEquals(board1A, board2A);
         Assert.assertNotEquals(board1B, board2B);
 
+        // Assert that A and B are not equal and are both either true or false in both branches
         Assert.assertNotEquals(board1A, board1B);
         Assert.assertTrue(
                 (board1A.equals(ShortTruthTableCellType.TRUE) && board1B.equals(ShortTruthTableCellType.FALSE)) || (board1A.equals(ShortTruthTableCellType.FALSE) && board1B.equals(ShortTruthTableCellType.TRUE))
