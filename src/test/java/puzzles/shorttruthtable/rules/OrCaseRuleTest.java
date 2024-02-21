@@ -62,7 +62,7 @@ public class OrCaseRuleTest {
         Assert.assertNotEquals(board1B, board2B);
 
         // First assert the two cells are not equal, then verify that they are either
-        // unknown or false.
+        // unknown or true.
         Assert.assertNotEquals(board1A, board1B);
         Assert.assertTrue(board1A.equals(ShortTruthTableCellType.UNKNOWN) || board1A.equals(ShortTruthTableCellType.TRUE));
         Assert.assertTrue(board1B.equals(ShortTruthTableCellType.UNKNOWN) || board1B.equals(ShortTruthTableCellType.TRUE));
@@ -130,7 +130,7 @@ public class OrCaseRuleTest {
         ShortTruthTableCellType caseBoardAType = caseBoard.getCell(aX, aY).getType();
         ShortTruthTableCellType caseBoardBType = caseBoard.getCell(bX, bY).getType();
 
-        // Both cells should be true
+        // Both cells should be false
         Assert.assertEquals(caseBoardAType, ShortTruthTableCellType.FALSE);
         Assert.assertEquals(caseBoardBType, ShortTruthTableCellType.FALSE);
         Assert.assertEquals(caseBoardAType, caseBoardBType);
