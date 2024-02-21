@@ -5,8 +5,7 @@ plugins {
     id 'com.diffplug.spotless' version '6.25.0'
 }
 
-
-version '2.0.0'
+version '5.3.2'
 
 apply plugin: 'java'
 apply plugin: 'application'
@@ -41,7 +40,7 @@ apply plugin: 'checkstyle'
 
 mainClassName = 'edu.rpi.legup.Legup'
 
-sourceCompatibility = 11
+sourceCompatibility = 21
 
 dependencies {
     implementation 'org.jetbrains:annotations:20.1.0'
@@ -113,7 +112,7 @@ createExe() {
     bundledJrePath = 'jre'
     bundledJre64Bit = true
     jdkPreference = 'preferJre'
-    jreMinVersion = '11'
+    jreMinVersion = '21'
     jreRuntimeBits = '64/32'
 }
 
@@ -138,4 +137,35 @@ task buildNativeWindows(type: Exec, dependsOn: 'createExe') {
 repositories {
     mavenCentral()
 }
-targetCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_21
+
+tasks.register("jpackage") {
+    group("jpackage")
+    doLast {
+        var operatingSystem = System.getProperty("os.name").toLowerCase()
+        if (operatingSystem.contains("windows")) {
+            exec {
+                commandLine 'cmd', '/c', 'jpackage', '--input', 'build/libs', '--main-jar', 'Legup.jar', '--win-dir-chooser', '--win-shortcut-prompt', '--win-shortcut', '--dest', 'build/installer', '-n', "LEGUP", '--app-version', "${project.version}", '--icon', "src/main/resources/edu/rpi/legup/images/Legup/logo.ico"
+            }
+        } else if (operatingSystem.contains("linux")) {
+            exec {
+                commandLine 'sh', '-c', "jpackage --input build/libs --main-jar Legup.jar --dest build/installer -n LEGUP --icon src/main/resources/edu/rpi/legup/images/Legup/logo.ico --app-version ${project.version}"
+            }
+        } else if (operatingSystem.contains("mac")) {
+            exec {
+                commandLine 'bash', '-c', "jpackage --input build/libs --main-jar Legup.jar --dest build/installer -n \"LEGUP\" --icon src/main/resources/edu/rpi/legup/images/Legup/logo.ico --app-version ${project.version}"
+            }
+        } else {
+            println("JPackage task is not set up for " + System.getProperty("os.name"))
+        }
+    }
+}
+
+tasks.register('copyInstaller', Sync) {
+    group("jpackage")
+    from ("build/installer/")
+    into("installer")
+    rename("LEGUP-${project.version}", "LEGUP-installer-${project.version}")
+}
+
+copyInstaller.dependsOn(jpackage)
