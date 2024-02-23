@@ -85,11 +85,11 @@ public class StarBattleCell extends GridCell<Integer> {
     private int max;
 
     /**
-     * SudokuCell Constructor - creates a new Sudoku cell to hold the puzzleElement
+     * StarBattleCell Constructor - creates a new StarBattle cell to hold the puzzleElement
      *
      * @param valueInt   value of the star battle cell denoting its state
      * @param location   location of the cell on the board
-     * @param size       size of the sudoku cell
+     * @param size       size of the star battle cell
      */
     public StarBattleCell(int value, Point location, int groupIndex, int size) {
         super(value, location);
