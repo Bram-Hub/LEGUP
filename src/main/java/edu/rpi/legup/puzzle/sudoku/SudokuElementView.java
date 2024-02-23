@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.sudoku;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.ui.boardview.GridElementView;
-
 import java.awt.*;
 
 public class SudokuElementView extends GridElementView {
@@ -50,18 +49,24 @@ public class SudokuElementView extends GridElementView {
             FontMetrics metrics = graphics2D.getFontMetrics(FONT);
             String value = String.valueOf(val);
             int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
-            int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
+            int yText =
+                    location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
             graphics2D.drawString(value, xText, yText);
-        }
-        else {
-            boolean annotate = LegupPreferences.getInstance().getUserPref(LegupPreferences.SHOW_ANNOTATIONS).equalsIgnoreCase(Boolean.toString(true));
+        } else {
+            boolean annotate =
+                    LegupPreferences.getInstance()
+                            .getUserPref(LegupPreferences.SHOW_ANNOTATIONS)
+                            .equalsIgnoreCase(Boolean.toString(true));
             if (annotate) {
                 graphics2D.setColor(FONT_COLOR);
                 graphics2D.setFont(ANNOTATE_FONT);
                 FontMetrics metrics = graphics2D.getFontMetrics(FONT);
                 String value = String.valueOf(cell.getAnnotations());
                 int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
-                int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
+                int yText =
+                        location.y
+                                + ((size.height - metrics.getHeight()) / 2)
+                                + metrics.getAscent();
                 graphics2D.drawString(value, xText, yText);
             }
         }

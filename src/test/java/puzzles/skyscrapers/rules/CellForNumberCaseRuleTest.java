@@ -1,6 +1,5 @@
 package puzzles.skyscrapers.rules;
 
-
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeNode;
@@ -9,13 +8,12 @@ import edu.rpi.legup.puzzle.skyscrapers.Skyscrapers;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersBoard;
 import edu.rpi.legup.puzzle.skyscrapers.rules.CellForNumberCaseRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.util.ArrayList;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 public class CellForNumberCaseRuleTest {
 
@@ -28,7 +26,7 @@ public class CellForNumberCaseRuleTest {
         skyscrapers = new Skyscrapers();
     }
 
-    //basic, max cases
+    // basic, max cases
     @Test
     public void CellForNumberCaseRule_BasicEmpty() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/empty", skyscrapers);
@@ -42,19 +40,19 @@ public class CellForNumberCaseRuleTest {
         board.setDupeFlag(false);
         board.setViewFlag(false);
 
-        ArrayList<Board> cases = RULE.getCasesFor(board,board.getNorthClues().get(0), 1);
+        ArrayList<Board> cases = RULE.getCasesFor(board, board.getNorthClues().get(0), 1);
 
         Assert.assertEquals(board.getWidth(), cases.size());
 
-        for(int i=0;i<board.getWidth();i++){
+        for (int i = 0; i < board.getWidth(); i++) {
             SkyscrapersBoard expected = ((SkyscrapersBoard) transition.getBoard()).copy();
-            PuzzleElement changedCell = expected.getCell(0,i);
+            PuzzleElement changedCell = expected.getCell(0, i);
             changedCell.setData(1);
             expected.addModifiedData(changedCell);
 
             boolean exists = false;
-            for(Board caseBoard: cases){
-                if(expected.equalsBoard(caseBoard)){
+            for (Board caseBoard : cases) {
+                if (expected.equalsBoard(caseBoard)) {
                     exists = true;
                     break;
                 }
@@ -64,7 +62,7 @@ public class CellForNumberCaseRuleTest {
         }
     }
 
-    //dupe, max cases
+    // dupe, max cases
     @Test
     public void CellForNumberCaseRule_DupeEmpty() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/empty", skyscrapers);
@@ -78,19 +76,19 @@ public class CellForNumberCaseRuleTest {
         board.setDupeFlag(true);
         board.setViewFlag(false);
 
-        ArrayList<Board> cases = RULE.getCasesFor(board,board.getNorthClues().get(0), 1);
+        ArrayList<Board> cases = RULE.getCasesFor(board, board.getNorthClues().get(0), 1);
 
         Assert.assertEquals(board.getWidth(), cases.size());
 
-        for(int i=0;i<board.getWidth();i++){
+        for (int i = 0; i < board.getWidth(); i++) {
             SkyscrapersBoard expected = ((SkyscrapersBoard) transition.getBoard()).copy();
-            PuzzleElement changedCell = expected.getCell(0,i);
+            PuzzleElement changedCell = expected.getCell(0, i);
             changedCell.setData(1);
             expected.addModifiedData(changedCell);
 
             boolean exists = false;
-            for(Board caseBoard: cases){
-                if(expected.equalsBoard(caseBoard)){
+            for (Board caseBoard : cases) {
+                if (expected.equalsBoard(caseBoard)) {
                     exists = true;
                     break;
                 }
@@ -100,10 +98,11 @@ public class CellForNumberCaseRuleTest {
         }
     }
 
-    //dupe, 1 case
+    // dupe, 1 case
     @Test
     public void CellForNumberCaseRule_DupeSingular() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/3-0RowOpening", skyscrapers);
+        TestUtilities.importTestBoard(
+                "puzzles/skyscrapers/rules/common/3-0RowOpening", skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -114,22 +113,24 @@ public class CellForNumberCaseRuleTest {
         board.setDupeFlag(true);
         board.setViewFlag(false);
 
-        ArrayList<Board> cases = RULE.getCasesFor(board,board.getWestClues().get(3),1);
+        ArrayList<Board> cases = RULE.getCasesFor(board, board.getWestClues().get(3), 1);
 
         Assert.assertEquals(1, cases.size());
 
         SkyscrapersBoard expected = ((SkyscrapersBoard) transition.getBoard()).copy();
-        PuzzleElement changedCell = expected.getCell(2,3);
+        PuzzleElement changedCell = expected.getCell(2, 3);
         changedCell.setData(1);
         expected.addModifiedData(changedCell);
 
         Assert.assertTrue(expected.equalsBoard(cases.get(0)));
     }
 
-    //dupe, no cases
+    // dupe, no cases
     @Test
     public void CellForNumberCaseRule_DupeNone() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/UnresolvedContradictionRules/3-1RowContradiction", skyscrapers);
+        TestUtilities.importTestBoard(
+                "puzzles/skyscrapers/rules/UnresolvedContradictionRules/3-1RowContradiction",
+                skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -140,12 +141,12 @@ public class CellForNumberCaseRuleTest {
         board.setDupeFlag(true);
         board.setViewFlag(false);
 
-        ArrayList<Board> cases = RULE.getCasesFor(board,board.getWestClues().get(3),1);
+        ArrayList<Board> cases = RULE.getCasesFor(board, board.getWestClues().get(3), 1);
 
         Assert.assertEquals(0, cases.size());
     }
 
-    //visibility, max cases
+    // visibility, max cases
     @Test
     public void CellForNumberCaseRule_ViewEmpty() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/empty", skyscrapers);
@@ -159,19 +160,19 @@ public class CellForNumberCaseRuleTest {
         board.setDupeFlag(false);
         board.setViewFlag(true);
 
-        ArrayList<Board> cases = RULE.getCasesFor(board,board.getWestClues().get(1), 1);
+        ArrayList<Board> cases = RULE.getCasesFor(board, board.getWestClues().get(1), 1);
 
         Assert.assertEquals(board.getWidth(), cases.size());
 
-        for(int i=0;i<board.getWidth();i++){
+        for (int i = 0; i < board.getWidth(); i++) {
             SkyscrapersBoard expected = ((SkyscrapersBoard) transition.getBoard()).copy();
-            PuzzleElement changedCell = expected.getCell(i,1);
+            PuzzleElement changedCell = expected.getCell(i, 1);
             changedCell.setData(1);
             expected.addModifiedData(changedCell);
 
             boolean exists = false;
-            for(Board caseBoard: cases){
-                if(expected.equalsBoard(caseBoard)){
+            for (Board caseBoard : cases) {
+                if (expected.equalsBoard(caseBoard)) {
                     exists = true;
                     break;
                 }
@@ -181,10 +182,11 @@ public class CellForNumberCaseRuleTest {
         }
     }
 
-    //visibility, 1 Case, direct
+    // visibility, 1 Case, direct
     @Test
     public void CellForNumberCaseRule_ViewSingular() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/3-0RowOpening", skyscrapers);
+        TestUtilities.importTestBoard(
+                "puzzles/skyscrapers/rules/common/3-0RowOpening", skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -195,19 +197,19 @@ public class CellForNumberCaseRuleTest {
         board.setDupeFlag(false);
         board.setViewFlag(true);
 
-        ArrayList<Board> cases = RULE.getCasesFor(board,board.getWestClues().get(3),1);
+        ArrayList<Board> cases = RULE.getCasesFor(board, board.getWestClues().get(3), 1);
 
         Assert.assertEquals(1, cases.size());
 
         SkyscrapersBoard expected = ((SkyscrapersBoard) transition.getBoard()).copy();
-        PuzzleElement changedCell = expected.getCell(2,3);
+        PuzzleElement changedCell = expected.getCell(2, 3);
         changedCell.setData(1);
         expected.addModifiedData(changedCell);
 
         Assert.assertTrue(expected.equalsBoard(cases.get(0)));
     }
 
-    //visibility, 1 Case, implied
+    // visibility, 1 Case, implied
     @Test
     public void CellForNumberCaseRule_ImpliedViewSingular() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/empty", skyscrapers);
@@ -221,22 +223,24 @@ public class CellForNumberCaseRuleTest {
         board.setDupeFlag(false);
         board.setViewFlag(true);
 
-        ArrayList<Board> cases = RULE.getCasesFor(board,board.getWestClues().get(0),5);
+        ArrayList<Board> cases = RULE.getCasesFor(board, board.getWestClues().get(0), 5);
 
         Assert.assertEquals(1, cases.size());
 
         SkyscrapersBoard expected = ((SkyscrapersBoard) transition.getBoard()).copy();
-        PuzzleElement changedCell = expected.getCell(4,0);
+        PuzzleElement changedCell = expected.getCell(4, 0);
         changedCell.setData(5);
         expected.addModifiedData(changedCell);
 
         Assert.assertTrue(expected.equalsBoard(cases.get(0)));
     }
 
-    //visibility, no cases
+    // visibility, no cases
     @Test
     public void CellForNumberCaseRule_ViewNone() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/UnresolvedContradictionRules/3-1RowContradiction", skyscrapers);
+        TestUtilities.importTestBoard(
+                "puzzles/skyscrapers/rules/UnresolvedContradictionRules/3-1RowContradiction",
+                skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -247,7 +251,7 @@ public class CellForNumberCaseRuleTest {
         board.setDupeFlag(false);
         board.setViewFlag(true);
 
-        ArrayList<Board> cases = RULE.getCasesFor(board,board.getWestClues().get(3),1);
+        ArrayList<Board> cases = RULE.getCasesFor(board, board.getWestClues().get(3), 1);
 
         Assert.assertEquals(0, cases.size());
     }

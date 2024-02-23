@@ -2,21 +2,18 @@ package edu.rpi.legup.app;
 
 import java.io.*;
 import java.util.*;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class Config {
-    private final static Logger Logger = LogManager.getLogger(Config.class.getName());
+    private static final Logger Logger = LogManager.getLogger(Config.class.getName());
 
     private Map<String, String> puzzles;
     private Map<String, Boolean> fileCreationDisabledStatuses;
@@ -43,8 +40,8 @@ public class Config {
     }
 
     /**
-     * Returns a list of the names of the puzzles which can have puzzles created and edited
-     * within the proof editor.
+     * Returns a list of the names of the puzzles which can have puzzles created and edited within
+     * the proof editor.
      *
      * @return the aforementioned list of Strings
      */
@@ -59,8 +56,8 @@ public class Config {
     }
 
     /**
-     * Converts the class name of the puzzles to their display names. Some examples of the conversion:
-     * convertClassNameToDisplayName("TreeTent") will return "Tree Tent"
+     * Converts the class name of the puzzles to their display names. Some examples of the
+     * conversion: convertClassNameToDisplayName("TreeTent") will return "Tree Tent"
      * convertClassNameToDisplayName("Nurikabe") will return "Nurikabe"
      *
      * @param className the name of the class
@@ -140,14 +137,15 @@ public class Config {
                 Element puzzle = (Element) puzzleNodes.item(i);
                 String name = puzzle.getAttribute("name");
                 String className = puzzle.getAttribute("qualifiedClassName");
-                boolean status = Boolean.parseBoolean(puzzle.getAttribute("fileCreationDisabled").toLowerCase());
+                boolean status =
+                        Boolean.parseBoolean(
+                                puzzle.getAttribute("fileCreationDisabled").toLowerCase());
                 Logger.debug("Class Name: " + className);
                 this.puzzles.put(name, className);
                 this.fileCreationDisabledStatuses.put(name, Boolean.valueOf(status));
             }
 
-        }
-        catch (ParserConfigurationException | SAXException | IOException e) {
+        } catch (ParserConfigurationException | SAXException | IOException e) {
             throw new InvalidConfigException(e.getMessage());
         }
     }

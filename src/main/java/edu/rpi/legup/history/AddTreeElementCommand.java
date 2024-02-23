@@ -6,7 +6,6 @@ import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeElementView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,8 @@ public class AddTreeElementCommand extends PuzzleCommand {
     private Map<TreeElement, TreeElement> addChild;
 
     /**
-     * AddTreeElementCommand Constructor creates a command for adding a tree element to the proof tree
+     * AddTreeElementCommand Constructor creates a command for adding a tree element to the proof
+     * tree
      *
      * @param selection selection of tree elements views
      */
@@ -27,9 +27,7 @@ public class AddTreeElementCommand extends PuzzleCommand {
         this.addChild = new HashMap<>();
     }
 
-    /**
-     * Executes an command
-     */
+    /** Executes an command */
     @Override
     public void executeCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
@@ -43,12 +41,11 @@ public class AddTreeElementCommand extends PuzzleCommand {
             TreeElement child = addChild.get(treeElement);
             if (child == null) {
                 child = tree.addTreeElement(treeElement);
-            }
-            else {
+            } else {
+
                 if (treeElement.getType() == TreeElementType.NODE) {
                     child = tree.addTreeElement((TreeNode) treeElement, (TreeTransition) child);
-                }
-                else {
+                } else {
                     child = tree.addTreeElement((TreeTransition) treeElement, (TreeNode) child);
                 }
             }
@@ -69,15 +66,14 @@ public class AddTreeElementCommand extends PuzzleCommand {
      * Gets the reason why the command cannot be executed
      *
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
-     * otherwise null if command can be executed
+     *     otherwise null if command can be executed
      */
     @Override
     public String getErrorString() {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         if (selectedViews.isEmpty()) {
             return CommandError.NO_SELECTED_VIEWS.toString();
-        }
-        else {
+        } else {
             for (TreeElementView view : selectedViews) {
                 TreeElement element = view.getTreeElement();
                 if (element.getType() == TreeElementType.TRANSITION) {
@@ -85,8 +81,7 @@ public class AddTreeElementCommand extends PuzzleCommand {
                     if (transition.getChildNode() != null) {
                         return CommandError.ADD_WITH_CHILD.toString();
                     }
-                }
-                else {
+                } else {
                     TreeNode node = (TreeNode) element;
                     if (!node.getChildren().isEmpty()) {
                         TreeTransition transition = node.getChildren().get(0);
@@ -100,9 +95,7 @@ public class AddTreeElementCommand extends PuzzleCommand {
         return null;
     }
 
-    /**
-     * Undoes an command
-     */
+    /** Undoes an command */
     @Override
     public void undoCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();

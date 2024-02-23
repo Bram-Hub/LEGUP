@@ -1,6 +1,5 @@
 package puzzles.skyscrapers.rules;
 
-
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.skyscrapers.Skyscrapers;
@@ -15,7 +14,8 @@ import org.junit.Test;
 
 public class InsufficientVisibilityContradictionTest {
 
-    private static final InsufficientVisibilityContradictionRule RULE = new InsufficientVisibilityContradictionRule();
+    private static final InsufficientVisibilityContradictionRule RULE =
+            new InsufficientVisibilityContradictionRule();
     private static Skyscrapers skyscrapers;
 
     @BeforeClass
@@ -24,9 +24,10 @@ public class InsufficientVisibilityContradictionTest {
         skyscrapers = new Skyscrapers();
     }
 
-    //empty
+    // empty
     @Test
-    public void InsufficientVisibilityContradictionRule_EmptyBoardTest() throws InvalidFileFormatException {
+    public void InsufficientVisibilityContradictionRule_EmptyBoardTest()
+            throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/empty", skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
@@ -41,9 +42,10 @@ public class InsufficientVisibilityContradictionTest {
         }
     }
 
-    //correct board, no cont
+    // correct board, no cont
     @Test
-    public void InsufficientVisibilityContradictionRule_SolvedBoardTest() throws InvalidFileFormatException {
+    public void InsufficientVisibilityContradictionRule_SolvedBoardTest()
+            throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/Solved", skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
@@ -58,10 +60,13 @@ public class InsufficientVisibilityContradictionTest {
         }
     }
 
-    //invalid board, no cont
+    // invalid board, no cont
     @Test
-    public void InsufficientVisibilityContradictionRule_OtherContradictionTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/DuplicateNumberContradictionRule/RowContradiction", skyscrapers);
+    public void InsufficientVisibilityContradictionRule_OtherContradictionTest()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/skyscrapers/rules/DuplicateNumberContradictionRule/RowContradiction",
+                skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -75,10 +80,13 @@ public class InsufficientVisibilityContradictionTest {
         }
     }
 
-    //on row
+    // on row
     @Test
-    public void InsufficientVisibilityContradictionRule_RowContradictionTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/VisibilityContradictionRules/FullRowContradiction", skyscrapers);
+    public void InsufficientVisibilityContradictionRule_RowContradictionTest()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/skyscrapers/rules/VisibilityContradictionRules/FullRowContradiction",
+                skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -88,19 +96,21 @@ public class InsufficientVisibilityContradictionTest {
 
         SkyscrapersBoard board = (SkyscrapersBoard) transition.getBoard();
         for (int i = 0; i < board.getHeight(); i++) {
-            if(i==1 || i==3){
+            if (i == 1 || i == 3) {
                 Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
-            }
-            else{
+            } else {
                 Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
             }
         }
     }
 
-    //on col
+    // on col
     @Test
-    public void InsufficientVisibilityContradictionRule_ColContradictionTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/VisibilityContradictionRules/FullColContradiction", skyscrapers);
+    public void InsufficientVisibilityContradictionRule_ColContradictionTest()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/skyscrapers/rules/VisibilityContradictionRules/FullColContradiction",
+                skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -110,19 +120,21 @@ public class InsufficientVisibilityContradictionTest {
 
         SkyscrapersBoard board = (SkyscrapersBoard) transition.getBoard();
         for (int i = 0; i < board.getHeight(); i++) {
-            if(i==2 || i==3){
+            if (i == 2 || i == 3) {
                 Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
-            }
-            else{
+            } else {
                 Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
             }
         }
     }
 
-    //multitudes
+    // multitudes
     @Test
-    public void InsufficientVisibilityContradictionRule_AllContradictionTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/VisibilityContradictionRules/AllContradiction", skyscrapers);
+    public void InsufficientVisibilityContradictionRule_AllContradictionTest()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/skyscrapers/rules/VisibilityContradictionRules/AllContradiction",
+                skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);

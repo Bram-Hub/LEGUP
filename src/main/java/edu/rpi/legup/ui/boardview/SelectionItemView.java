@@ -1,7 +1,6 @@
 package edu.rpi.legup.ui.boardview;
 
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
 import javax.swing.*;
 
 public class SelectionItemView extends JMenuItem {

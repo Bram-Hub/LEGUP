@@ -2,21 +2,21 @@ package edu.rpi.legup.ui.lookandfeel.components;
 
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialDrawingUtils;
-
+import java.awt.Dimension;
+import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JSlider;
 import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicSliderUI;
-import java.awt.Dimension;
-import java.awt.Graphics;
 
-//TODO cambio grafica slider
+// TODO cambio grafica slider
 public class MaterialSliderUI extends BasicSliderUI {
 
     private static final int NORMAL_THUMB_RADIUS = 6;
     private static final int DRAG_THUMB_RADIUS = 10;
-    private static final Dimension THUMB_SIZE = new Dimension(DRAG_THUMB_RADIUS * 2, DRAG_THUMB_RADIUS * 2);
+    private static final Dimension THUMB_SIZE =
+            new Dimension(DRAG_THUMB_RADIUS * 2, DRAG_THUMB_RADIUS * 2);
 
     public MaterialSliderUI(JSlider slider) {
         super(slider);
@@ -81,33 +81,48 @@ public class MaterialSliderUI extends BasicSliderUI {
 
     private Line getTrack(boolean loaded) {
         if (slider.getOrientation() == JSlider.HORIZONTAL) {
-            Line left = new Line(trackRect.x, thumbRect.y + thumbRect.height / 2, thumbRect.x + thumbRect.width / 2, thumbRect.y + thumbRect.height / 2);
-            Line right = new Line(thumbRect.x + thumbRect.width / 2, thumbRect.y + thumbRect.height / 2, trackRect.x + trackRect.width, thumbRect.y + thumbRect.height / 2);
+            Line left =
+                    new Line(
+                            trackRect.x,
+                            thumbRect.y + thumbRect.height / 2,
+                            thumbRect.x + thumbRect.width / 2,
+                            thumbRect.y + thumbRect.height / 2);
+            Line right =
+                    new Line(
+                            thumbRect.x + thumbRect.width / 2,
+                            thumbRect.y + thumbRect.height / 2,
+                            trackRect.x + trackRect.width,
+                            thumbRect.y + thumbRect.height / 2);
 
             if (loaded) {
                 return slider.getInverted() ? right : left;
-            }
-            else {
+            } else {
                 return slider.getInverted() ? left : right;
             }
-        }
-        else {
-            Line top = new Line(thumbRect.x + thumbRect.width / 2, trackRect.y, thumbRect.x + thumbRect.width / 2, thumbRect.y + thumbRect.height / 2);
-            Line bottom = new Line(thumbRect.x + thumbRect.width / 2, thumbRect.y + thumbRect.height / 2, thumbRect.x + thumbRect.width / 2, trackRect.y + trackRect.height);
+        } else {
+            Line top =
+                    new Line(
+                            thumbRect.x + thumbRect.width / 2,
+                            trackRect.y,
+                            thumbRect.x + thumbRect.width / 2,
+                            thumbRect.y + thumbRect.height / 2);
+            Line bottom =
+                    new Line(
+                            thumbRect.x + thumbRect.width / 2,
+                            thumbRect.y + thumbRect.height / 2,
+                            thumbRect.x + thumbRect.width / 2,
+                            trackRect.y + trackRect.height);
 
             if (loaded) {
                 return slider.getInverted() ? top : bottom;
-            }
-            else {
+            } else {
                 return slider.getInverted() ? bottom : top;
             }
         }
     }
 
     @Override
-    public void paintFocus(Graphics g) {
-
-    }
+    public void paintFocus(Graphics g) {}
 
     @Override
     public void paint(Graphics g, JComponent c) {

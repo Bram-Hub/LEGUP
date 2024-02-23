@@ -2,11 +2,10 @@ package edu.rpi.legup.puzzle.lightup;
 
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import java.awt.*;
 
 public class LightUpImporter extends PuzzleImporter {
     public LightUpImporter(LightUp lightUp) {
@@ -26,7 +25,7 @@ public class LightUpImporter extends PuzzleImporter {
     /**
      * Creates an empty board for building
      *
-     * @param rows    the number of rows on the board
+     * @param rows the number of rows on the board
      * @param columns the number of columns on the board
      * @throws RuntimeException if board can not be created
      */
@@ -57,11 +56,13 @@ public class LightUpImporter extends PuzzleImporter {
     public void initializeBoard(Node node) throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("board")) {
-                throw new InvalidFileFormatException("lightup Importer: cannot find board puzzleElement");
+                throw new InvalidFileFormatException(
+                        "lightup Importer: cannot find board puzzleElement");
             }
             Element boardElement = (Element) node;
             if (boardElement.getElementsByTagName("cells").getLength() == 0) {
-                throw new InvalidFileFormatException("lightup Importer: no puzzleElement found for board");
+                throw new InvalidFileFormatException(
+                        "lightup Importer: no puzzleElement found for board");
             }
             Element dataElement = (Element) boardElement.getElementsByTagName("cells").item(0);
             NodeList elementDataList = dataElement.getElementsByTagName("cell");
@@ -70,9 +71,9 @@ public class LightUpImporter extends PuzzleImporter {
             if (!boardElement.getAttribute("size").isEmpty()) {
                 int size = Integer.valueOf(boardElement.getAttribute("size"));
                 lightUpBoard = new LightUpBoard(size);
-            }
-            else {
-                if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
+            } else {
+                if (!boardElement.getAttribute("width").isEmpty()
+                        && !boardElement.getAttribute("height").isEmpty()) {
                     int width = Integer.valueOf(boardElement.getAttribute("width"));
                     int height = Integer.valueOf(boardElement.getAttribute("height"));
                     lightUpBoard = new LightUpBoard(width, height);
@@ -87,7 +88,10 @@ public class LightUpImporter extends PuzzleImporter {
             int height = lightUpBoard.getHeight();
 
             for (int i = 0; i < elementDataList.getLength(); i++) {
-                LightUpCell cell = (LightUpCell) puzzle.getFactory().importCell(elementDataList.item(i), lightUpBoard);
+                LightUpCell cell =
+                        (LightUpCell)
+                                puzzle.getFactory()
+                                        .importCell(elementDataList.item(i), lightUpBoard);
                 Point loc = cell.getLocation();
                 if (cell.getData() != -2) {
                     cell.setModifiable(false);
@@ -107,9 +111,9 @@ public class LightUpImporter extends PuzzleImporter {
                 }
             }
             puzzle.setCurrentBoard(lightUpBoard);
-        }
-        catch (NumberFormatException e) {
-            throw new InvalidFileFormatException("lightup Importer: unknown value where integer expected");
+        } catch (NumberFormatException e) {
+            throw new InvalidFileFormatException(
+                    "lightup Importer: unknown value where integer expected");
         }
     }
 

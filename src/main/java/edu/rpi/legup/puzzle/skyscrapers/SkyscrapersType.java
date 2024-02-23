@@ -1,7 +1,13 @@
 package edu.rpi.legup.puzzle.skyscrapers;
 
 public enum SkyscrapersType {
-    UNKNOWN(0), Number(1), CLUE_NORTH(-1), CLUE_EAST(-2), CLUE_SOUTH(-3), CLUE_WEST(-4), ANY(-5);
+    UNKNOWN(0),
+    Number(1),
+    CLUE_NORTH(-1),
+    CLUE_EAST(-2),
+    CLUE_SOUTH(-3),
+    CLUE_WEST(-4),
+    ANY(-5);
 
     public int value;
 

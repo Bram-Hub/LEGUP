@@ -1,5 +1,7 @@
 package edu.rpi.legup.puzzle.treetent;
 
+import static edu.rpi.legup.app.GameBoardFacade.getInstance;
+
 import edu.rpi.legup.history.CommandError;
 import edu.rpi.legup.history.PuzzleCommand;
 import edu.rpi.legup.model.Puzzle;
@@ -7,13 +9,10 @@ import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeElementView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class ClueCommand extends PuzzleCommand {
     private TreeViewSelection selection;
@@ -28,9 +27,7 @@ public class ClueCommand extends PuzzleCommand {
         this.emptyCells = new ArrayList<>();
     }
 
-    /**
-     * Executes a command
-     */
+    /** Executes a command */
     @Override
     public void executeCommand() {
         Puzzle puzzle = getInstance().getPuzzleModule();
@@ -52,8 +49,7 @@ public class ClueCommand extends PuzzleCommand {
                 if (transition == null) {
                     transition = tree.addNewTransition(treeNode);
                     addTran.put(treeNode, transition);
-                }
-                else {
+                } else {
                     treeNode.addChild(transition);
                 }
 
@@ -62,8 +58,7 @@ public class ClueCommand extends PuzzleCommand {
 
                 newSelection.addToSelection(treeView.getElementView(finalTran));
                 board = (TreeTentBoard) finalTran.getBoard();
-            }
-            else {
+            } else {
                 finalTran = (TreeTransition) treeElement;
                 newSelection.addToSelection(treeView.getElementView(treeElement));
             }
@@ -88,7 +83,7 @@ public class ClueCommand extends PuzzleCommand {
      * Gets the reason why the command cannot be executed
      *
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
-     * otherwise null if command can be executed
+     *     otherwise null if command can be executed
      */
     @Override
     public String getErrorString() {
@@ -105,8 +100,7 @@ public class ClueCommand extends PuzzleCommand {
                 if (!node.getChildren().isEmpty()) {
                     return CommandError.UNMODIFIABLE_BOARD.toString();
                 }
-            }
-            else {
+            } else {
                 if (!board.isModifiable()) {
                     return CommandError.UNMODIFIABLE_BOARD.toString();
                 }
@@ -114,17 +108,23 @@ public class ClueCommand extends PuzzleCommand {
 
             List<TreeTentCell> tempList = new ArrayList<>();
             TreeTentClue clue = clueView.getPuzzleElement();
-            if (clue.getType() == TreeTentType.CLUE_NORTH || clue.getType() == TreeTentType.CLUE_SOUTH) {
-                int col = clue.getType() == TreeTentType.CLUE_NORTH ? clue.getClueIndex() : clue.getClueIndex() - 1;
+            if (clue.getType() == TreeTentType.CLUE_NORTH
+                    || clue.getType() == TreeTentType.CLUE_SOUTH) {
+                int col =
+                        clue.getType() == TreeTentType.CLUE_NORTH
+                                ? clue.getClueIndex()
+                                : clue.getClueIndex() - 1;
                 for (int i = 0; i < board.getWidth(); i++) {
                     TreeTentCell cell = board.getCell(col, i);
                     if (cell.getType() == TreeTentType.UNKNOWN && cell.isModifiable()) {
                         tempList.add(cell);
                     }
                 }
-            }
-            else {
-                int row = clue.getType() == TreeTentType.CLUE_WEST ? clue.getClueIndex() : clue.getClueIndex() - 1;
+            } else {
+                int row =
+                        clue.getType() == TreeTentType.CLUE_WEST
+                                ? clue.getClueIndex()
+                                : clue.getClueIndex() - 1;
                 for (int i = 0; i < board.getWidth(); i++) {
                     TreeTentCell cell = board.getCell(i, row);
                     if (cell.getType() == TreeTentType.UNKNOWN && cell.isModifiable()) {
@@ -140,9 +140,7 @@ public class ClueCommand extends PuzzleCommand {
         return null;
     }
 
-    /**
-     * Undoes an command
-     */
+    /** Undoes an command */
     @Override
     public void undoCommand() {
         Puzzle puzzle = getInstance().getPuzzleModule();
@@ -163,8 +161,7 @@ public class ClueCommand extends PuzzleCommand {
                 puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(finalTran));
 
                 board = (TreeTentBoard) finalTran.getBoard();
-            }
-            else {
+            } else {
                 finalTran = (TreeTransition) treeElement;
             }
 

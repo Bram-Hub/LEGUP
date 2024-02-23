@@ -2,25 +2,24 @@ package edu.rpi.legup.ui;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import javax.swing.ImageIcon;
-
+import javax.swing.event.ChangeListener;
 
 public class ZoomWidget extends JLabel {
     private ScrollView parent;
     private PopupSlider palette = new PopupSlider();
-    private MouseAdapter open = new MouseAdapter() {
-        public void mouseClicked(MouseEvent e) {
-            palette.slider.setValue(parent.getZoom());
-            palette.show(e.getComponent(), 0, 0);
-        }
-    };
+    private MouseAdapter open =
+            new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                    palette.slider.setValue(parent.getZoom());
+                    palette.show(e.getComponent(), 0, 0);
+                }
+            };
 
     /**
      * ZoomWidget Constructor creates a zoom widget for a ScrollView object
@@ -33,9 +32,7 @@ public class ZoomWidget extends JLabel {
         addMouseListener(open);
     }
 
-    /**
-     *
-     */
+    /** */
     private class PopupSlider extends JPopupMenu implements ChangeListener {
         private static final long serialVersionUID = 8225019381200459814L;
 

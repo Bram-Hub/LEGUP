@@ -13,20 +13,21 @@ public class BlackSquareContradictionRule extends ContradictionRule {
     private final String INVALID_USE_MESSAGE = "Does not contain a contradiction at this index";
 
     public BlackSquareContradictionRule() {
-        super("NURI-CONT-0001",
+        super(
+                "NURI-CONT-0001",
                 "Black Square",
                 "There cannot be a 2x2 square of black.",
                 "edu/rpi/legup/images/nurikabe/contradictions/BlackSquare.png");
     }
 
-
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
      *
-     * @param board         board to check contradiction
+     * @param board board to check contradiction
      * @param puzzleElement equivalent puzzleElement
      * @return null if the transition contains a contradiction at the specified puzzleElement,
-     * otherwise error message
+     *     otherwise error message
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
@@ -39,12 +40,16 @@ public class BlackSquareContradictionRule extends ContradictionRule {
             return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
         }
 
-        for (int x = cell.getLocation().x - 1; x >= 0 && x < cell.getLocation().x + 1 && x < width - 1; x++) {
-            for (int y = cell.getLocation().y - 1; y >= 0 && y < cell.getLocation().y + 1 && y < height - 1; y++) {
-                if (nurikabeBoard.getCell(x, y).getType() == NurikabeType.BLACK &&
-                        nurikabeBoard.getCell(x + 1, y).getType() == NurikabeType.BLACK &&
-                        nurikabeBoard.getCell(x, y + 1).getType() == NurikabeType.BLACK &&
-                        nurikabeBoard.getCell(x + 1, y + 1).getType() == NurikabeType.BLACK) {
+        for (int x = cell.getLocation().x - 1;
+                x >= 0 && x < cell.getLocation().x + 1 && x < width - 1;
+                x++) {
+            for (int y = cell.getLocation().y - 1;
+                    y >= 0 && y < cell.getLocation().y + 1 && y < height - 1;
+                    y++) {
+                if (nurikabeBoard.getCell(x, y).getType() == NurikabeType.BLACK
+                        && nurikabeBoard.getCell(x + 1, y).getType() == NurikabeType.BLACK
+                        && nurikabeBoard.getCell(x, y + 1).getType() == NurikabeType.BLACK
+                        && nurikabeBoard.getCell(x + 1, y + 1).getType() == NurikabeType.BLACK) {
                     return null;
                 }
             }
