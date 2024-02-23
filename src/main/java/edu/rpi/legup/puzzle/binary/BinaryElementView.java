@@ -45,8 +45,8 @@ public class BinaryElementView extends GridElementView {
         }
         else {
             if (type == BinaryType.ZERO) {
-                graphics2D.setStroke(new BasicStroke(1));
-                graphics2D.setColor(Color.BLACK);
+                graphics2D.setStroke(new BasicStroke(0));
+                graphics2D.setColor(Color.white);
                 graphics2D.fillRect(location.x, location.y, size.width, size.height);
             }
             else {
@@ -54,15 +54,15 @@ public class BinaryElementView extends GridElementView {
                     graphics2D.setStroke(new BasicStroke(1));
                     graphics2D.setColor(Color.WHITE);
                     graphics2D.fillRect(location.x, location.y, size.width, size.height);
-                    graphics2D.setColor(Color.BLACK);
+                    graphics2D.setColor(Color.LIGHT_GRAY);
                     graphics2D.drawRect(location.x, location.y, size.width, size.height);
                 }
                 else {
                     if (type == BinaryType.UNKNOWN) {
-                        graphics2D.setStroke(new BasicStroke(1));
+                        graphics2D.setStroke(new BasicStroke(0));
                         graphics2D.setColor(Color.LIGHT_GRAY);
                         graphics2D.fillRect(location.x, location.y, size.width, size.height);
-                        graphics2D.setColor(Color.BLACK);
+                        graphics2D.setColor(Color.WHITE);
                         graphics2D.drawRect(location.x, location.y, size.width, size.height);
                     }
                 }
