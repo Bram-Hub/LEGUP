@@ -7,7 +7,7 @@ public class Entry<K, V> {
     /**
      * Entry Constructor creates a key value pair
      *
-     * @param key   key
+     * @param key key
      * @param value value
      */
     public Entry(K key, V value) {

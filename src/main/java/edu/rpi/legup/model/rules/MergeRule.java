@@ -1,33 +1,29 @@
 package edu.rpi.legup.model.rules;
 
+import static edu.rpi.legup.model.rules.RuleType.MERGE;
+
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import static edu.rpi.legup.model.rules.RuleType.MERGE;
-
 public class MergeRule extends Rule {
-    /**
-     * MergeRule Constructor merges to board states together
-     */
+    /** MergeRule Constructor merges to board states together */
     public MergeRule() {
-        super("MERGE", "Merge Rule",
+        super(
+                "MERGE",
+                "Merge Rule",
                 "Merge any number of nodes into one",
                 "edu/rpi/legup/images/Legup/MergeRule.png");
         this.ruleType = MERGE;
     }
 
     /**
-     * Checks whether the transition logically follows from the parent node using this rule.
-     * This method is the one that should overridden in child classes
+     * Checks whether the transition logically follows from the parent node using this rule. This
+     * method is the one that should overridden in child classes
      *
      * @param transition transition to check
      * @return null if the child node logically follow from the parent node, otherwise error message
@@ -61,14 +57,14 @@ public class MergeRule extends Rule {
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
-     * This method is the one that should overridden in child classes
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule This method is the one that should overridden in child
+     * classes
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
@@ -87,13 +83,13 @@ public class MergeRule extends Rule {
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleAt(TreeTransition transition, PuzzleElement puzzleElement) {

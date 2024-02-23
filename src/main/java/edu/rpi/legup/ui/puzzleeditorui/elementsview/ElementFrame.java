@@ -3,10 +3,9 @@ package edu.rpi.legup.ui.puzzleeditorui.elementsview;
 import edu.rpi.legup.controller.EditorElementController;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.ui.lookandfeel.components.MaterialTabbedPaneUI;
-
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import java.awt.*;
 
 public class ElementFrame extends JPanel {
     private static final String checkBox = "<font style=\"color:#00CD00\"> \u2714 </font>";
@@ -23,13 +22,14 @@ public class ElementFrame extends JPanel {
 
     public ElementFrame(EditorElementController controller) {
         this.controller = controller;
-        MaterialTabbedPaneUI tabOverride = new MaterialTabbedPaneUI() {
-            //this prevents the tabs from moving around when you select them
-            @Override
-            protected boolean shouldRotateTabRuns(int i) {
-                return false;
-            }
-        };
+        MaterialTabbedPaneUI tabOverride =
+                new MaterialTabbedPaneUI() {
+                    // this prevents the tabs from moving around when you select them
+                    @Override
+                    protected boolean shouldRotateTabRuns(int i) {
+                        return false;
+                    }
+                };
 
         this.tabbedPane = new JTabbedPane();
         tabbedPane.setUI(tabOverride);
@@ -37,14 +37,21 @@ public class ElementFrame extends JPanel {
         this.buttonGroup = new ButtonGroup();
 
         nonPlaceableElementPanel = new NonPlaceableElementPanel(this);
-        //nonPlaceableElementPanel.setMinimumSize(new Dimension(100,200));
-        tabbedPane.addTab(nonPlaceableElementPanel.getName(), nonPlaceableElementPanel.getIcon(), new JScrollPane(nonPlaceableElementPanel), nonPlaceableElementPanel.getToolTip());
+        // nonPlaceableElementPanel.setMinimumSize(new Dimension(100,200));
+        tabbedPane.addTab(
+                nonPlaceableElementPanel.getName(),
+                nonPlaceableElementPanel.getIcon(),
+                new JScrollPane(nonPlaceableElementPanel),
+                nonPlaceableElementPanel.getToolTip());
 
         placeableElementPanel = new PlaceableElementPanel(this);
-        //placeableElementPanel.setMinimuSize(new Dimension(100,200));
-        tabbedPane.addTab(placeableElementPanel.getName(), placeableElementPanel.getIcon(), new JScrollPane(placeableElementPanel), placeableElementPanel.getToolTip());
+        // placeableElementPanel.setMinimuSize(new Dimension(100,200));
+        tabbedPane.addTab(
+                placeableElementPanel.getName(),
+                placeableElementPanel.getIcon(),
+                new JScrollPane(placeableElementPanel),
+                placeableElementPanel.getToolTip());
         tabbedPane.setTabPlacement(JTabbedPane.TOP);
-
 
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(250, 256));
@@ -63,14 +70,15 @@ public class ElementFrame extends JPanel {
     }
 
     public void resetSize() {
-        int buttonWidth = ((ElementPanel) tabbedPane.getSelectedComponent()).getElementButtons()[0].getWidth();
+        int buttonWidth =
+                ((ElementPanel) tabbedPane.getSelectedComponent())
+                        .getElementButtons()[0].getWidth();
         this.setMinimumSize(new Dimension(2 * buttonWidth + 64, this.getHeight()));
     }
 
     public void setElements(Puzzle puzzle) {
         nonPlaceableElementPanel.setElements(puzzle.getNonPlaceableElements());
         placeableElementPanel.setElements(puzzle.getPlaceableElements());
-
     }
 
     public EditorElementController getController() {

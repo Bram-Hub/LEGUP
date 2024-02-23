@@ -18,12 +18,12 @@ public class Skyscrapers extends Puzzle {
         this.factory = new SkyscrapersCellFactory();
     }
 
-    /**
-     * Initializes the game board. Called by the invoker of the class
-     */
+    /** Initializes the game board. Called by the invoker of the class */
     @Override
     public void initializeView() {
         boardView = new SkyscrapersView((SkyscrapersBoard) currentBoard);
+        boardView.setBoard(currentBoard);
+        addBoardListener(boardView);
     }
 
     /**
@@ -41,13 +41,12 @@ public class Skyscrapers extends Puzzle {
     /**
      * Determines if the given dimensions are valid for Skyscrapers
      *
-     * @param rows      the number of rows
-     * @param columns   the number of columns
+     * @param rows the number of rows
+     * @param columns the number of columns
      * @return true if the given dimensions are valid for Skyscrapers, false otherwise
      */
     public boolean isValidDimensions(int rows, int columns) {
-        // This is a placeholder, this method needs to be implemented
-        throw new UnsupportedOperationException();
+        return rows >= 4 && rows == columns;
     }
 
     /**
@@ -81,7 +80,5 @@ public class Skyscrapers extends Puzzle {
      * @param board the board that has changed
      */
     @Override
-    public void onBoardChange(Board board) {
-
-    }
+    public void onBoardChange(Board board) {}
 }
