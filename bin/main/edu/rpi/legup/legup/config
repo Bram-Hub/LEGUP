@@ -39,5 +39,9 @@
 	        qualifiedClassName="edu.rpi.legup.puzzle.skyscrapers.Skyscrapers"
 	        fileType=".xml"
 	        fileCreationDisabled="true"/>
+        <puzzle name="RippleEffect"
+            qualifiedClassName="edu.rpi.legup.puzzle.rippleeffect.RippleEffect"
+            fileType=".xml"
+            fileCreationDisabled="false"/>
     </puzzles>
 </Legup>
