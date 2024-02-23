@@ -2,7 +2,6 @@ package edu.rpi.legup.ui.boardview;
 
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.ElementController;
-
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -11,13 +10,17 @@ public class GridBoardView extends BoardView {
     protected Dimension elementSize;
 
     /**
-     * GridBoardView Constructor creates a GridBoardView object using the controller handle the ui events
+     * GridBoardView Constructor creates a GridBoardView object using the controller handle the ui
+     * events
      *
      * @param boardController controller that handles the ui events
      * @param gridSize dimension of the grid
      * @param elementController controller that handles the ui events
      */
-    public GridBoardView(BoardController boardController, ElementController elementController, Dimension gridSize) {
+    public GridBoardView(
+            BoardController boardController,
+            ElementController elementController,
+            Dimension gridSize) {
         this(boardController, elementController);
         this.gridSize = gridSize;
         this.elementSize = new Dimension(30, 30);
@@ -25,7 +28,8 @@ public class GridBoardView extends BoardView {
     }
 
     /**
-     * GridBoardView Constructor creates a GridBoardView object using the controller handle the ui events
+     * GridBoardView Constructor creates a GridBoardView object using the controller handle the ui
+     * events
      *
      * @param boardController controller that handles the ui events
      */
@@ -35,8 +39,7 @@ public class GridBoardView extends BoardView {
     }
 
     /**
-     * Gets the GridElementView from the puzzleElement index or
-     * null if out of bounds
+     * Gets the GridElementView from the puzzleElement index or null if out of bounds
      *
      * @param index index of the ElementView
      * @return GridElementView at the specified index
@@ -55,9 +58,7 @@ public class GridBoardView extends BoardView {
         return null;
     }
 
-    /**
-     * Initializes the initial dimension of the viewport for the GridBoardView
-     */
+    /** Initializes the initial dimension of the viewport for the GridBoardView */
     @Override
     public void initSize() {
         setSize(getProperSize());
@@ -83,6 +84,4 @@ public class GridBoardView extends BoardView {
     public Dimension getElementSize() {
         return this.elementSize;
     }
-
 }
-

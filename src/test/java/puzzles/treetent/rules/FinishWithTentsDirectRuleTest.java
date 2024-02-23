@@ -8,14 +8,13 @@ import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 import edu.rpi.legup.puzzle.treetent.rules.FinishWithTentsDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.*;
+import java.util.*;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.awt.*;
-import java.util.*;
 
 public class FinishWithTentsDirectRuleTest {
 
@@ -27,17 +26,18 @@ public class FinishWithTentsDirectRuleTest {
         MockGameBoardFacade.getInstance();
         treetent = new TreeTent();
     }
-    
+
     /**
-     * 3x3 TreeTent puzzle with a GRASS tile at (0,0)
-     * Tests FinishWithTentsDirectRule on TENT tiles horizontal of the GRASS tile
-     * at (1,0) and (2,0)
-     * 
+     * 3x3 TreeTent puzzle with a GRASS tile at (0,0) Tests FinishWithTentsDirectRule on TENT tiles
+     * horizontal of the GRASS tile at (1,0) and (2,0)
+     *
      * @throws InvalidFileFormatException
      */
     @Test
     public void FinishWithHorizontalTentsTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithHorizontalTents", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithHorizontalTents",
+                treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -57,10 +57,10 @@ public class FinishWithTentsDirectRuleTest {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 TreeTentCell c = board.getCell(k, i);
-                if ((c.getLocation()).equals(cell1.getLocation()) || (c.getLocation()).equals(cell2.getLocation())) {
+                if ((c.getLocation()).equals(cell1.getLocation())
+                        || (c.getLocation()).equals(cell2.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, c));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }
             }
@@ -68,15 +68,16 @@ public class FinishWithTentsDirectRuleTest {
     }
 
     /**
-     * 3x3 TreeTent puzzle with a GRASS tile at (0,0)
-     * Tests FinishWithTentsDirectRule on TENT tiles vertical of the GRASS tile
-     * at (0,1) and (0,2)
-     * 
+     * 3x3 TreeTent puzzle with a GRASS tile at (0,0) Tests FinishWithTentsDirectRule on TENT tiles
+     * vertical of the GRASS tile at (0,1) and (0,2)
+     *
      * @throws InvalidFileFormatException
      */
     @Test
     public void FinishWithVerticalTentsTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithVerticalTents", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithVerticalTents",
+                treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -96,10 +97,10 @@ public class FinishWithTentsDirectRuleTest {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 TreeTentCell c = board.getCell(k, i);
-                if ((c.getLocation()).equals(cell1.getLocation()) || (c.getLocation()).equals(cell2.getLocation())) {
+                if ((c.getLocation()).equals(cell1.getLocation())
+                        || (c.getLocation()).equals(cell2.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, c));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }
             }
@@ -107,15 +108,15 @@ public class FinishWithTentsDirectRuleTest {
     }
 
     /**
-     * 3x3 TreeTent puzzle with a GRASS tile at (1,1)
-     * Tests FinishWithTentsDirectRule on TENT tiles around the GRASS tile
-     * at (1,0), (1,2), (0,1), and (2,1)
-     * 
+     * 3x3 TreeTent puzzle with a GRASS tile at (1,1) Tests FinishWithTentsDirectRule on TENT tiles
+     * around the GRASS tile at (1,0), (1,2), (0,1), and (2,1)
+     *
      * @throws InvalidFileFormatException
      */
     @Test
     public void FinishWithTentsTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithTents", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithTents", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -126,7 +127,7 @@ public class FinishWithTentsDirectRuleTest {
         TreeTentCell cell2 = board.getCell(1, 2);
         TreeTentCell cell3 = board.getCell(0, 1);
         TreeTentCell cell4 = board.getCell(2, 1);
-      
+
         cell1.setData(TreeTentType.TENT);
         cell2.setData(TreeTentType.TENT);
         cell3.setData(TreeTentType.TENT);
@@ -142,13 +143,12 @@ public class FinishWithTentsDirectRuleTest {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 TreeTentCell c = board.getCell(k, i);
-                if ((c.getLocation()).equals(cell1.getLocation()) ||
-                    (c.getLocation()).equals(cell2.getLocation()) ||
-                    (c.getLocation()).equals(cell3.getLocation()) ||
-                    (c.getLocation()).equals(cell4.getLocation())) {
+                if ((c.getLocation()).equals(cell1.getLocation())
+                        || (c.getLocation()).equals(cell2.getLocation())
+                        || (c.getLocation()).equals(cell3.getLocation())
+                        || (c.getLocation()).equals(cell4.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, c));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }
             }
@@ -156,15 +156,15 @@ public class FinishWithTentsDirectRuleTest {
     }
 
     /**
-     * 3x3 TreeTent puzzle with a TENT tile at (1,1)
-     * Tests FinishWithTentsDirectRule on TENT tiles around the TENT tile
-     * at (1,0), (1,2), (0,1), and (2,1)
-     * 
+     * 3x3 TreeTent puzzle with a TENT tile at (1,1) Tests FinishWithTentsDirectRule on TENT tiles
+     * around the TENT tile at (1,0), (1,2), (0,1), and (2,1)
+     *
      * @throws InvalidFileFormatException
      */
     @Test
     public void AdditionalTentsTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsDirectRule/AdditionalTents", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/FinishWithTentsDirectRule/AdditionalTents", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -191,13 +191,12 @@ public class FinishWithTentsDirectRuleTest {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 TreeTentCell c = board.getCell(k, i);
-                if ((c.getLocation()).equals(cell1.getLocation()) ||
-                    (c.getLocation()).equals(cell2.getLocation()) ||
-                    (c.getLocation()).equals(cell3.getLocation()) ||
-                    (c.getLocation()).equals(cell4.getLocation())) {
+                if ((c.getLocation()).equals(cell1.getLocation())
+                        || (c.getLocation()).equals(cell2.getLocation())
+                        || (c.getLocation()).equals(cell3.getLocation())
+                        || (c.getLocation()).equals(cell4.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, c));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }
             }
@@ -205,16 +204,15 @@ public class FinishWithTentsDirectRuleTest {
     }
 
     /**
-     * Empty 3x3 TreeTent puzzle
-     * Tests FinishWithTentsDirectRule on TENT tiles of entire puzzle
-     * all TENT tiles should fail FinishWithTentsDirectRule
-     * as no TENT tiles should be there
-     * 
+     * Empty 3x3 TreeTent puzzle Tests FinishWithTentsDirectRule on TENT tiles of entire puzzle all
+     * TENT tiles should fail FinishWithTentsDirectRule as no TENT tiles should be there
+     *
      * @throws InvalidFileFormatException
      */
     @Test
     public void FinishWithTentsFailTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithTentsFail", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithTentsFail", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -242,17 +240,16 @@ public class FinishWithTentsDirectRuleTest {
     }
 
     /**
-     * 3x3 TreeTent puzzle with a TENT tile at (1,1)
-     * Tests FinishWithTentsDirectRule on TENT tiles around the TENT tile
-     * at (1,0), (1,2), (0,1), and (2,1)
-     * all TENT tiles should fail FinishWithTentsDirectRule
-     * as there were already sufficient number of TENT tiles
-     * 
+     * 3x3 TreeTent puzzle with a TENT tile at (1,1) Tests FinishWithTentsDirectRule on TENT tiles
+     * around the TENT tile at (1,0), (1,2), (0,1), and (2,1) all TENT tiles should fail
+     * FinishWithTentsDirectRule as there were already sufficient number of TENT tiles
+     *
      * @throws InvalidFileFormatException
      */
     @Test
     public void TooManyTentsTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsDirectRule/TooManyTents", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/FinishWithTentsDirectRule/TooManyTents", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -263,7 +260,7 @@ public class FinishWithTentsDirectRuleTest {
 
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
-                if((k == 1)&&(i == 1)) {
+                if ((k == 1) && (i == 1)) {
                     continue;
                 }
                 TreeTentCell c = board.getCell(k, i);
@@ -283,18 +280,17 @@ public class FinishWithTentsDirectRuleTest {
     }
 
     /**
-     * 3x3 TreeTent puzzle with a TENT tile at (1,1)
-     * Tests FinishWithTentsDirectRule on TENT tiles around the TENT tile
-     * at (1,0), (1,2), (0,1), and (2,1)
-     * all TENT tiles should fail FinishWithTentsDirectRule
-     * as there are multiple configurations of the placement
-     * of the TENT tiles
-     * 
+     * 3x3 TreeTent puzzle with a TENT tile at (1,1) Tests FinishWithTentsDirectRule on TENT tiles
+     * around the TENT tile at (1,0), (1,2), (0,1), and (2,1) all TENT tiles should fail
+     * FinishWithTentsDirectRule as there are multiple configurations of the placement of the TENT
+     * tiles
+     *
      * @throws InvalidFileFormatException
      */
     @Test
-    public void AmbiguousTentsTest () throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithTentsDirectRule/AmbiguousTents", treetent);
+    public void AmbiguousTentsTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/FinishWithTentsDirectRule/AmbiguousTents", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -309,7 +305,7 @@ public class FinishWithTentsDirectRuleTest {
 
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
-                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
             }
         }
 
@@ -323,7 +319,7 @@ public class FinishWithTentsDirectRuleTest {
 
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
-                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
             }
         }
 
@@ -337,7 +333,7 @@ public class FinishWithTentsDirectRuleTest {
 
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
-                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
             }
         }
 
@@ -351,11 +347,8 @@ public class FinishWithTentsDirectRuleTest {
 
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
-                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
             }
         }
     }
 }
-
-
-

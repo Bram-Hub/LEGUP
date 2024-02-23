@@ -1,17 +1,13 @@
 package edu.rpi.legup.ui;
 
 import edu.rpi.legup.controller.Controller;
-
 import java.awt.*;
-import java.lang.Double;
-
 import java.util.TreeSet;
 import java.util.logging.Logger;
-
 import javax.swing.*;
 
 public class ScrollView extends JScrollPane {
-    private final static Logger LOGGER = Logger.getLogger(ScrollView.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ScrollView.class.getName());
 
     private static final double minScale = 0.25;
     private static final double maxScale = 4.0;
@@ -28,8 +24,8 @@ public class ScrollView extends JScrollPane {
     private ZoomWidget widget;
 
     /**
-     * ScrollView Constructor - creates a ScrollView object using
-     * the controller handle the ui events
+     * ScrollView Constructor - creates a ScrollView object using the controller handle the ui
+     * events
      *
      * @param controller controller that handles the ui events
      */
@@ -107,9 +103,7 @@ public class ScrollView extends JScrollPane {
         };
     }
 
-    /**
-     * Updates zoomSize and view viewSize with the new scale
-     */
+    /** Updates zoomSize and view viewSize with the new scale */
     private void updateSize() {
         zoomSize.setSize((int) (viewSize.width * scale), (int) (viewSize.height * scale));
         viewport.setViewSize(zoomSize);
@@ -118,7 +112,7 @@ public class ScrollView extends JScrollPane {
     /**
      * Updates the viewport position
      *
-     * @param point         point to set the viewport to
+     * @param point point to set the viewport to
      * @param magnification magnification to set the viewport to
      */
     public void updatePosition(Point point, double magnification) {
@@ -131,13 +125,16 @@ public class ScrollView extends JScrollPane {
     /**
      * Zooms in or out on a position within the dynamicView
      *
-     * @param n     level of zoom - n less than 0 is zoom in, n greater than 0 is zoom out
+     * @param n level of zoom - n less than 0 is zoom in, n greater than 0 is zoom out
      * @param point position to zoom in on
      */
     public void zoom(int n, Point point) {
         // if no Point is given, keep current center
         if (point == null) {
-            point = new Point(viewport.getWidth() / 2 + viewport.getX(), viewport.getHeight() / 2 + viewport.getY());
+            point =
+                    new Point(
+                            viewport.getWidth() / 2 + viewport.getX(),
+                            viewport.getHeight() / 2 + viewport.getY());
         }
         // magnification level
         double mag = (double) n * 1.05;
@@ -153,8 +150,7 @@ public class ScrollView extends JScrollPane {
             updateSize();
             updatePosition(point, mag);
             // zoom out
-        }
-        else {
+        } else {
             mag = 1 / mag;
             // check zoom bounds
             if (scale * mag < minScale) {
@@ -182,8 +178,10 @@ public class ScrollView extends JScrollPane {
         }
         // calculate the newScale and center point
         double mag = newScale / scale;
-        Point p = new Point(viewport.getWidth() / 2 + viewport.getX(),
-                viewport.getHeight() / 2 + viewport.getY());
+        Point p =
+                new Point(
+                        viewport.getWidth() / 2 + viewport.getX(),
+                        viewport.getHeight() / 2 + viewport.getY());
 
         // set scale directly
         scale = newScale;
@@ -192,8 +190,7 @@ public class ScrollView extends JScrollPane {
             updateSize();
             updatePosition(p, mag);
             // zoom out
-        }
-        else {
+        } else {
             updatePosition(p, mag);
             updateSize();
         }
@@ -201,9 +198,7 @@ public class ScrollView extends JScrollPane {
         revalidate();
     }
 
-    /**
-     * Get the ideal zoom based on the viewSize
-     */
+    /** Get the ideal zoom based on the viewSize */
     public void zoomFit() {
         if (viewport.getWidth() != 0 && viewport.getHeight() != 0) {
             double fitWidth = (viewport.getWidth() - 8.0) / viewSize.width;
@@ -213,9 +208,7 @@ public class ScrollView extends JScrollPane {
         }
     }
 
-    /**
-     * Zooms in to the next zoom level
-     */
+    /** Zooms in to the next zoom level */
     public void zoomIn() {
         // find the next valid zoom level
         Double newScale = zoomLevels.higher(scale);
@@ -224,9 +217,7 @@ public class ScrollView extends JScrollPane {
         }
     }
 
-    /**
-     * Zooms out to the previous zoom level
-     */
+    /** Zooms out to the previous zoom level */
     public void zoomOut() {
         // find the next valid zoom level
         Double newScale = zoomLevels.lower(scale);
@@ -301,17 +292,18 @@ public class ScrollView extends JScrollPane {
      * @param graphics2D Graphics2D object used for drawing
      */
     protected void draw(Graphics2D graphics2D) {
-        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        graphics2D.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+        graphics2D.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics2D.setRenderingHint(
+                RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
         canvas.paint(graphics2D);
     }
 
     /**
      * Scroll up or down on the ScrollView
      *
-     * @param mag The magnitude for scroll up
-     *            positive is scroll up, negative is scroll down,
-     *            recommend to use getWheelRotation() as the mag
+     * @param mag The magnitude for scroll up positive is scroll up, negative is scroll down,
+     *     recommend to use getWheelRotation() as the mag
      */
     public void scroll(int mag) {
         Point point = super.viewport.getViewPosition();

@@ -1,22 +1,21 @@
 package edu.rpi.legup.app;
 
+import static edu.rpi.legup.app.GameBoardFacade.getInstance;
+
 import edu.rpi.legup.history.ICommand;
-import edu.rpi.legup.history.ValidateDirectRuleCommand;
 import edu.rpi.legup.history.ValidateContradictionRuleCommand;
-import edu.rpi.legup.model.rules.DirectRule;
+import edu.rpi.legup.history.ValidateDirectRuleCommand;
 import edu.rpi.legup.model.rules.ContradictionRule;
+import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.rules.RuleType;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
-
-import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
-
-import static edu.rpi.legup.app.GameBoardFacade.getInstance;
+import javax.swing.*;
 
 public class PuzzleKeyAccelerator implements KeyListener {
 
@@ -39,21 +38,17 @@ public class PuzzleKeyAccelerator implements KeyListener {
     }
 
     /**
-     * Invoked when a key has been typed.
-     * See the class description for {@link KeyEvent} for a definition of
-     * a key typed event.
+     * Invoked when a key has been typed. See the class description for {@link KeyEvent} for a
+     * definition of a key typed event.
      *
      * @param e the event to be processed
      */
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
+    public void keyTyped(KeyEvent e) {}
 
     /**
-     * Invoked when a key has been pressed.
-     * See the class description for {@link KeyEvent} for a definition of
-     * a key pressed event.
+     * Invoked when a key has been pressed. See the class description for {@link KeyEvent} for a
+     * definition of a key pressed event.
      *
      * @param e the event to be processed
      */
@@ -62,35 +57,35 @@ public class PuzzleKeyAccelerator implements KeyListener {
         KeyStroke keyStroke = KeyStroke.getKeyStrokeForEvent(e);
         Rule rule = keyStrokeMap.get(keyStroke);
         if (rule != null) {
-            TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
+            TreeView treeView =
+                    GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
 
             String update = "";
             if (rule.getRuleType() == RuleType.CASE) {
-                // TODO: review this line of code and figure out what it's supposed to do (remove if necessary)
-//                handleCaseRule((CaseRule)rule);
-            }
-            else {
+                // TODO: review this line of code and figure out what it's supposed to do (remove if
+                // necessary)
+                //                handleCaseRule((CaseRule)rule);
+            } else {
                 if (rule.getRuleType() == RuleType.CONTRADICTION) {
                     TreeViewSelection selection = treeView.getSelection();
 
-                    ICommand validate = new ValidateContradictionRuleCommand(selection, (ContradictionRule) rule);
+                    ICommand validate =
+                            new ValidateContradictionRuleCommand(
+                                    selection, (ContradictionRule) rule);
                     if (validate.canExecute()) {
                         getInstance().getHistory().pushChange(validate);
                         validate.execute();
-                    }
-                    else {
+                    } else {
                         update = validate.getError();
                     }
-                }
-                else {
+                } else {
                     TreeViewSelection selection = treeView.getSelection();
 
                     ICommand validate = new ValidateDirectRuleCommand(selection, (DirectRule) rule);
                     if (validate.canExecute()) {
                         getInstance().getHistory().pushChange(validate);
                         validate.execute();
-                    }
-                    else {
+                    } else {
                         update = validate.getError();
                     }
                 }
@@ -100,14 +95,11 @@ public class PuzzleKeyAccelerator implements KeyListener {
     }
 
     /**
-     * Invoked when a key has been released.
-     * See the class description for {@link KeyEvent} for a definition of
-     * a key released event.
+     * Invoked when a key has been released. See the class description for {@link KeyEvent} for a
+     * definition of a key released event.
      *
      * @param e the event to be processed
      */
     @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
+    public void keyReleased(KeyEvent e) {}
 }

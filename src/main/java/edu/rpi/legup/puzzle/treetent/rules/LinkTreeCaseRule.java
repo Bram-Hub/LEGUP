@@ -9,7 +9,6 @@ import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentLine;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
-
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,9 @@ import java.util.Set;
 public class LinkTreeCaseRule extends CaseRule {
 
     public LinkTreeCaseRule() {
-        super("TREE-CASE-0003", "Links from tree",
+        super(
+                "TREE-CASE-0003",
+                "Links from tree",
                 "A tree must link to exactly one adjacent tent.",
                 "edu/rpi/legup/images/treetent/caseLinkTree.png");
     }
@@ -29,13 +30,16 @@ public class LinkTreeCaseRule extends CaseRule {
         treeTentBoard.setModifiable(false);
         CaseBoard caseBoard = new CaseBoard(treeTentBoard, this);
         for (PuzzleElement element : treeTentBoard.getPuzzleElements()) {
-            if (((TreeTentCell) element).getType() == TreeTentType.TREE &&
-                    !getCases(treeTentBoard, element).isEmpty()) {
+            if (((TreeTentCell) element).getType() == TreeTentType.TREE
+                    && !getCases(treeTentBoard, element).isEmpty()) {
 
                 Boolean canAdd = true;
                 List<TreeTentLine> lines = treeTentBoard.getLines();
                 for (TreeTentLine l : lines) {
-                    if (l.getC1().getLocation().equals(((TreeTentCell) element).getLocation()) || l.getC2().getLocation().equals(((TreeTentCell) element).getLocation())) {
+                    if (l.getC1().getLocation().equals(((TreeTentCell) element).getLocation())
+                            || l.getC2()
+                                    .getLocation()
+                                    .equals(((TreeTentCell) element).getLocation())) {
                         canAdd = false;
                         break;
                     }
@@ -43,7 +47,6 @@ public class LinkTreeCaseRule extends CaseRule {
                 if (canAdd) {
                     caseBoard.addPickableElement(element);
                 }
-
             }
         }
         return caseBoard;
@@ -52,7 +55,7 @@ public class LinkTreeCaseRule extends CaseRule {
     /**
      * Gets the possible cases at a specific location based on this case rule
      *
-     * @param board         the current board state
+     * @param board the current board state
      * @param puzzleElement equivalent puzzleElement
      * @return a list of elements the specified could be
      */
@@ -65,7 +68,8 @@ public class LinkTreeCaseRule extends CaseRule {
         for (TreeTentCell c : adjCells) {
             Boolean makeline = true;
             for (TreeTentLine l : treeTentBoard.getLines()) {
-                if (l.getC1().getLocation().equals(c.getLocation()) || l.getC2().getLocation().equals(c.getLocation())) {
+                if (l.getC1().getLocation().equals(c.getLocation())
+                        || l.getC2().getLocation().equals(c.getLocation())) {
                     makeline = false;
                 }
             }
@@ -90,12 +94,14 @@ public class LinkTreeCaseRule extends CaseRule {
     public String checkRuleRaw(TreeTransition transition) {
         Set<PuzzleElement> modCells = transition.getBoard().getModifiedData();
         if (modCells.size() != 1) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must have 1 modified cell for each case";
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must have 1 modified cell for each case";
         }
         PuzzleElement mod = modCells.iterator().next();
         TreeTentLine line = mod instanceof TreeTentLine ? (TreeTentLine) mod : null;
         if (line == null) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule only involves tree and tent connection lines";
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule only involves tree and tent connection lines";
         }
         TreeTentCell tree = null;
         if (line.getC1().getType() == TreeTentType.TREE) {
@@ -125,7 +131,8 @@ public class LinkTreeCaseRule extends CaseRule {
                 }
                 PuzzleElement tElement = tBoard.getModifiedData().iterator().next();
                 if (!(tElement instanceof TreeTentLine)) {
-                    return super.getInvalidUseOfRuleMessage() + ": This case rule only involves tree and tent connection lines";
+                    return super.getInvalidUseOfRuleMessage()
+                            + ": This case rule only involves tree and tent connection lines";
                 }
                 if (cLine.compare((TreeTentLine) tElement)) {
                     hasLine = true;
@@ -141,13 +148,13 @@ public class LinkTreeCaseRule extends CaseRule {
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
@@ -155,17 +162,18 @@ public class LinkTreeCaseRule extends CaseRule {
     }
 
     /**
-     * Returns the elements necessary for the cases returned by getCases(board,puzzleElement) to be valid
-     * Overridden by case rules dependent on more than just the modified data
+     * Returns the elements necessary for the cases returned by getCases(board,puzzleElement) to be
+     * valid Overridden by case rules dependent on more than just the modified data
      *
-     * @param board         board state at application
+     * @param board board state at application
      * @param puzzleElement selected puzzleElement
-     * @return List of puzzle elements (typically cells) this application of the case rule depends upon.
-     * Defaults to any element modified by any case
+     * @return List of puzzle elements (typically cells) this application of the case rule depends
+     *     upon. Defaults to any element modified by any case
      */
     @Override
     public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement) {
-        List<PuzzleElement> elements = new ArrayList<>(List.of(board.getPuzzleElement(puzzleElement)));
+        List<PuzzleElement> elements =
+                new ArrayList<>(List.of(board.getPuzzleElement(puzzleElement)));
 
         TreeTentBoard treeTentBoard = (TreeTentBoard) board;
         TreeTentCell point = (TreeTentCell) puzzleElement;

@@ -1,12 +1,11 @@
 package edu.rpi.legup.puzzle.skyscrapers;
 
+import static edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType.convertToSkyType;
+
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
-
-import static edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType.convertToSkyType;
 
 public class SkyscrapersCell extends GridCell<Integer> {
     private int max;
@@ -17,7 +16,7 @@ public class SkyscrapersCell extends GridCell<Integer> {
     }
 
     public SkyscrapersType getType() {
-        switch (convertToSkyType(data)){
+        switch (convertToSkyType(data)) {
             case UNKNOWN:
                 return SkyscrapersType.UNKNOWN;
             default:
@@ -27,25 +26,23 @@ public class SkyscrapersCell extends GridCell<Integer> {
 
     @Override
     public void setType(Element e, MouseEvent m) {
-        switch (e.getElementID()){
+        switch (e.getElementID()) {
             case "SKYS-UNPL-0001":
                 this.data = 0;
                 break;
             case "SKYS-UNPL-0002":
-                switch (m.getButton()){
+                switch (m.getButton()) {
                     case MouseEvent.BUTTON1:
                         if (this.data <= 0 || this.data >= this.max) {
                             this.data = 1;
-                        }
-                        else {
+                        } else {
                             this.data = this.data + 1;
                         }
                         break;
                     case MouseEvent.BUTTON3:
                         if (this.data > 1) {
                             this.data = this.data - 1;
-                        }
-                        else {
+                        } else {
                             this.data = this.max;
                         }
                         break;
@@ -53,7 +50,6 @@ public class SkyscrapersCell extends GridCell<Integer> {
                 break;
         }
     }
-
 
     public int getMax() {
         return max;

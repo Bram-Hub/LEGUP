@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.sudoku;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.puzzle.sudoku.rules.PossibleNumberCaseRule;
-
 import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,8 +14,8 @@ public class PossibleNumberCaseBoard extends CaseBoard {
     private Set<Integer> pickableRows;
     private Set<Integer> pickableCols;
 
-
-    public PossibleNumberCaseBoard(SudokuBoard baseBoard, PossibleNumberCaseRule caseRule, SudokuCell cell) {
+    public PossibleNumberCaseBoard(
+            SudokuBoard baseBoard, PossibleNumberCaseRule caseRule, SudokuCell cell) {
         super(baseBoard, caseRule);
         this.cell = cell;
         this.pickableRegions = new HashSet<>();
@@ -37,16 +36,14 @@ public class PossibleNumberCaseBoard extends CaseBoard {
                     return true;
                 }
             }
-        }
-        else {
+        } else {
             if (e.isControlDown()) {
                 for (int c : pickableCols) {
                     if (c == sudokuCell.getLocation().x) {
                         return true;
                     }
                 }
-            }
-            else {
+            } else {
                 for (int r : pickableRegions) {
                     if (r == sudokuCell.getGroupIndex()) {
                         return true;

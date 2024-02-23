@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.lightup;
 
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -27,20 +26,18 @@ public class LightUpCell extends GridCell<Integer> {
                 this.data = -2;
                 break;
             case "LTUP-UNPL-0001":
-                switch (m.getButton()){
+                switch (m.getButton()) {
                     case MouseEvent.BUTTON1:
                         if (this.data < 0 || this.data > 3) {
                             this.data = 0;
-                        }
-                        else {
+                        } else {
                             this.data = this.data + 1;
                         }
                         break;
                     case MouseEvent.BUTTON3:
                         if (this.data > 0) {
                             this.data = this.data - 1;
-                        }
-                        else {
+                        } else {
                             this.data = 4;
                         }
                         break;

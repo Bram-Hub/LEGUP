@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.skyscrapers;
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -11,15 +10,14 @@ import java.util.List;
 
 public class SkyscrapersBoard extends GridBoard {
 
-
     private ArrayList<SkyscrapersClue> eastClues;
-    //EAST clues
+    // EAST clues
     private ArrayList<SkyscrapersClue> southClues;
-    //SOUTH clues
+    // SOUTH clues
     private ArrayList<SkyscrapersClue> westClues;
-    //WEST clues
+    // WEST clues
     private ArrayList<SkyscrapersClue> northClues;
-    //NORTH clues
+    // NORTH clues
 
     private boolean viewFlag = false;
     private boolean dupeFlag = false;
@@ -40,10 +38,9 @@ public class SkyscrapersBoard extends GridBoard {
         }
     }
 
-
     /**
-    * @return eastClues a list of the eastern clues ordered from loc.y = 0 to max
-    */
+     * @return eastClues a list of the eastern clues ordered from loc.y = 0 to max
+     */
     public ArrayList<SkyscrapersClue> getEastClues() {
         return eastClues;
     }
@@ -102,7 +99,6 @@ public class SkyscrapersBoard extends GridBoard {
         }
         return super.getPuzzleElement(element);
     }
-
 
     /**
      * Gets the cells of a certain type directly adjacent to a given cell
@@ -176,8 +172,7 @@ public class SkyscrapersBoard extends GridBoard {
             SkyscrapersCell cell;
             if (isRow) {
                 cell = getCell(i, index);
-            }
-            else {
+            } else {
                 cell = getCell(index, i);
             }
 
@@ -188,16 +183,13 @@ public class SkyscrapersBoard extends GridBoard {
         return list;
     }
 
-    /**
-     * Prints a semblance of the board to console (helps in debugging)
-     */
+    /** Prints a semblance of the board to console (helps in debugging) */
     public void printBoard() {
         for (int i = 0; i < this.dimension.height; i++) {
             for (SkyscrapersCell cell : this.getRowCol(i, SkyscrapersType.ANY, true)) {
                 if (cell.getType() == SkyscrapersType.Number) {
                     System.out.print(cell.getData() + " ");
-                }
-                else {
+                } else {
                     System.out.print(0 + " ");
                 }
             }
@@ -206,13 +198,11 @@ public class SkyscrapersBoard extends GridBoard {
     }
 
     /**
-     *
      * @param x position of cell
      * @param y position of cell
      * @param e Element to be placed (null if nothing selected)
-     * @param m MouseEvent
-     *          Increases clue values if in editor mode. Currently allows for
-     *          presetting tile values, though they will not be saved.
+     * @param m MouseEvent Increases clue values if in editor mode. Currently allows for presetting
+     *     tile values, though they will not be saved.
      */
     @Override
     public void setCell(int x, int y, Element e, MouseEvent m) {
@@ -226,27 +216,22 @@ public class SkyscrapersBoard extends GridBoard {
             if (m.getButton() == MouseEvent.BUTTON1) {
                 if (clue.getData() < dimension.height) {
                     clue.setData(clue.getData() + 1);
-                }
-                else {
+                } else {
                     clue.setData(0);
                 }
-            }
-            else {
+            } else {
                 if (clue.getData() > 0) {
                     clue.setData(clue.getData() - 1);
-                }
-                else {
+                } else {
                     clue.setData(dimension.height);
                 }
             }
-        }
-        else {
+        } else {
             super.setCell(x - 1, y - 1, e, m);
         }
     }
 
     /**
-     *
      * @param x position of element on boardView
      * @param y position of element on boardView
      * @return The clue at the given position
@@ -254,16 +239,13 @@ public class SkyscrapersBoard extends GridBoard {
     public SkyscrapersClue getClue(int x, int y) {
         int viewIndex = getSize() + 1;
         if (x == 0 && y > 0 && y < viewIndex) {
-            return westClues.get(y-1);
-        }
-        else if (x == viewIndex && y > 0 && y < viewIndex) {
-            return eastClues.get(y-1);
-        }
-        else if (y == 0 && x > 0 && x < viewIndex) {
-            return northClues.get(x-1);
-        }
-        else if (y == viewIndex && x > 0 && x < viewIndex) {
-            return southClues.get(x-1);
+            return westClues.get(y - 1);
+        } else if (x == viewIndex && y > 0 && y < viewIndex) {
+            return eastClues.get(y - 1);
+        } else if (y == 0 && x > 0 && x < viewIndex) {
+            return northClues.get(x - 1);
+        } else if (y == viewIndex && x > 0 && x < viewIndex) {
+            return southClues.get(x - 1);
         }
         return null;
     }
