@@ -15,6 +15,7 @@ public class StarBattleCell extends GridCell<Integer> {
      *
      * @param valueInt   value of the star battle cell denoting its state
      * @param location   location of the cell on the board
+     * @param groupIndex indicates what group # the cell is in.
      * @param size       size of the star battle cell
      */
     public StarBattleCell(int value, Point location, int groupIndex, int size) {
