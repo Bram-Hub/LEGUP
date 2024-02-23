@@ -8,22 +8,22 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class BlackOrWhiteCaseRule extends CaseRule {
 
     public BlackOrWhiteCaseRule() {
-        super("NURI-CASE-0001",
+        super(
+                "NURI-CASE-0001",
                 "Black or White",
                 "Each blank cell is either black or white.",
                 "edu/rpi/legup/images/nurikabe/cases/BlackOrWhite.png");
     }
 
     /**
-     * Checks whether the {@link TreeTransition} logically follows from the parent node using this rule. This method is
-     * the one that should overridden in child classes.
+     * Checks whether the {@link TreeTransition} logically follows from the parent node using this
+     * rule. This method is the one that should overridden in child classes.
      *
      * @param transition transition to check
      * @return null if the child node logically follow from the parent node, otherwise error message
@@ -37,20 +37,24 @@ public class BlackOrWhiteCaseRule extends CaseRule {
 
         TreeTransition case1 = childTransitions.get(0);
         TreeTransition case2 = childTransitions.get(1);
-        if (case1.getBoard().getModifiedData().size() != 1 ||
-                case2.getBoard().getModifiedData().size() != 1) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must have 1 modified cell for each case.";
+        if (case1.getBoard().getModifiedData().size() != 1
+                || case2.getBoard().getModifiedData().size() != 1) {
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must have 1 modified cell for each case.";
         }
 
         NurikabeCell mod1 = (NurikabeCell) case1.getBoard().getModifiedData().iterator().next();
         NurikabeCell mod2 = (NurikabeCell) case2.getBoard().getModifiedData().iterator().next();
         if (!mod1.getLocation().equals(mod2.getLocation())) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must modify the same cell for each case.";
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must modify the same cell for each case.";
         }
 
-        if (!((mod1.getType() == NurikabeType.WHITE && mod2.getType() == NurikabeType.BLACK) ||
-                (mod2.getType() == NurikabeType.WHITE && mod1.getType() == NurikabeType.BLACK))) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must an empty white and black cell.";
+        if (!((mod1.getType() == NurikabeType.WHITE && mod2.getType() == NurikabeType.BLACK)
+                || (mod2.getType() == NurikabeType.WHITE
+                        && mod1.getType() == NurikabeType.BLACK))) {
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must an empty white and black cell.";
         }
 
         return null;
@@ -72,7 +76,7 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     /**
      * Gets the possible cases at a specific location based on this case rule
      *
-     * @param board         the current board state
+     * @param board the current board state
      * @param puzzleElement equivalent puzzleElement
      * @return a list of elements the specified could be
      */
@@ -95,13 +99,13 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {

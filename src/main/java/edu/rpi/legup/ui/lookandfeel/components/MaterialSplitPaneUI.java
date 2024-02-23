@@ -15,13 +15,13 @@ public class MaterialSplitPaneUI extends BasicSplitPaneUI {
         splitPane.setDividerSize(UIManager.getInt("SplitPane.dividerSize"));
     }
 
-//    /**
-//     * Creates the default divider.
-//     *
-//     * @return the default divider
-//     */
-//    @Override
-//    public BasicSplitPaneDivider createDefaultDivider() {
-//        return new MaterialSplitPaneDivider(this);
-//    }
+    //    /**
+    //     * Creates the default divider.
+    //     *
+    //     * @return the default divider
+    //     */
+    //    @Override
+    //    public BasicSplitPaneDivider createDefaultDivider() {
+    //        return new MaterialSplitPaneDivider(this);
+    //    }
 }

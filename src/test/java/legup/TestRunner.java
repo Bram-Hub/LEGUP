@@ -1,17 +1,15 @@
 package legup;
 
-
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import puzzles.battleship.rules.*;
 import puzzles.lightup.rules.*;
 import puzzles.nurikabe.rules.*;
+import puzzles.skyscrapers.rules.*;
 import puzzles.treetent.rules.*;
 
-/**
- * This class runs all of the tests for the project without needing to run build scripts.
- */
+/** This class runs all of the tests for the project without needing to run build scripts. */
 public class TestRunner {
     public static void main(String[] args) {
         // Battleship Tests
@@ -42,9 +40,7 @@ public class TestRunner {
         Result result12 = JUnitCore.runClasses(TooManyBulbsContradictionRuleTest.class);
         printTestResults(result12);
 
-
-
-        //nurikabe tests
+        // nurikabe tests
         Result result13 = JUnitCore.runClasses(BlackBetweenRegionsDirectRuleTest.class);
         printTestResults(result13);
         Result result14 = JUnitCore.runClasses(BlackBottleNeckDirectRuleTest.class);
@@ -76,7 +72,6 @@ public class TestRunner {
         Result result27 = JUnitCore.runClasses(WhiteBottleNeckDirectRuleTest.class);
         printTestResults(result27);
 
-
         // Treetent
         Result result28 = JUnitCore.runClasses(EmptyFieldDirectRuleTest.class);
         printTestResults(result28);
@@ -94,6 +89,8 @@ public class TestRunner {
         printTestResults(result34);
         Result result35 = JUnitCore.runClasses(TreeForTentDirectRuleTest.class);
         printTestResults(result35);
+        Result result36 = JUnitCore.runClasses(TentOrGrassCaseRuleTest.class);
+        printTestResults(result36);
     }
 
     private static void printTestResults(Result result) {

@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.treetent;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,8 +74,7 @@ public class TreeTentBoard extends GridBoard {
     public TreeTentClue getClue(int x, int y) {
         if (x == getWidth() && 0 <= y && y < getHeight()) {
             return rowClues.get(y);
-        }
-        else {
+        } else {
             if (y == getHeight() && 0 <= x && x < getWidth()) {
                 return colClues.get(x);
             }
@@ -85,7 +83,8 @@ public class TreeTentBoard extends GridBoard {
     }
 
     /**
-     * Called when a {@link PuzzleElement} has been added and passes in the equivalent puzzle element with the data.
+     * Called when a {@link PuzzleElement} has been added and passes in the equivalent puzzle
+     * element with the data.
      *
      * @param puzzleElement equivalent puzzle element with the data.
      */
@@ -97,7 +96,8 @@ public class TreeTentBoard extends GridBoard {
     }
 
     /**
-     * Called when a {@link PuzzleElement} has been deleted and passes in the equivalent puzzle element with the data.
+     * Called when a {@link PuzzleElement} has been deleted and passes in the equivalent puzzle
+     * element with the data.
      *
      * @param puzzleElement equivalent puzzle element with the data.
      */
@@ -118,27 +118,17 @@ public class TreeTentBoard extends GridBoard {
      *
      * @param cell The cell to get adjacent cells from.
      * @param type The cell types to get.
-     * @return List of adjacent cells in the form { up, right, down, left }.
-     * If an adjacent cell is null, it will not be added to the list.
+     * @return List of adjacent cells in the form { up, right, down, left }. If an adjacent cell is
+     *     null, it will not be added to the list.
      */
     public List<TreeTentCell> getAdjacent(TreeTentCell cell, TreeTentType type) {
         List<TreeTentCell> adj = new ArrayList<>();
         Point loc = cell.getLocation();
-        TreeTentCell up = getCell(loc.x, loc.y - 1);
-        TreeTentCell right = getCell(loc.x + 1, loc.y);
-        TreeTentCell down = getCell(loc.x, loc.y + 1);
-        TreeTentCell left = getCell(loc.x - 1, loc.y);
-        if (up != null && up.getType() == type) {
-            adj.add(up);
-        }
-        if (right != null && right.getType() == type) {
-            adj.add(right);
-        }
-        if (down != null && down.getType() == type) {
-            adj.add(down);
-        }
-        if (left != null && left.getType() == type) {
-            adj.add(left);
+        for (int i = -2; i < 2; i++) {
+            TreeTentCell adjCell = getCell(loc.x + (i % 2), loc.y + ((i + 1) % 2));
+            if (adjCell != null && adjCell.getType() == type) {
+                adj.add(adjCell);
+            }
         }
         return adj;
     }
@@ -148,7 +138,8 @@ public class TreeTentBoard extends GridBoard {
      *
      * @param cell the base cell
      * @param type the type to look for
-     * @return a list of TreeTentCells that are diagonals of the given TreeTentCell and are of the given TreeTentType
+     * @return a list of TreeTentCells that are diagonals of the given TreeTentCell and are of the
+     *     given TreeTentType
      */
     public List<TreeTentCell> getDiagonals(TreeTentCell cell, TreeTentType type) {
         List<TreeTentCell> dia = new ArrayList<>();
@@ -176,7 +167,7 @@ public class TreeTentBoard extends GridBoard {
      * Creates and returns a list of TreeTentCells that match the given TreeTentType
      *
      * @param index the row or column number
-     * @param type  type of TreeTent element
+     * @param type type of TreeTent element
      * @param isRow boolean value beased on whether a row of column is being checked
      * @return List of TreeTentCells that match the given TreeTentType
      */
@@ -189,8 +180,7 @@ public class TreeTentBoard extends GridBoard {
                     list.add(cell);
                 }
             }
-        }
-        else {
+        } else {
             for (int i = 0; i < dimension.width; i++) {
                 TreeTentCell cell = getCell(index, i);
                 if (cell.getType() == type) {

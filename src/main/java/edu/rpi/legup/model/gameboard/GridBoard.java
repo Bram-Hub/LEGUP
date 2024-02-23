@@ -1,10 +1,8 @@
 package edu.rpi.legup.model.gameboard;
 
 import edu.rpi.legup.model.elements.Element;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentClue;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -15,7 +13,7 @@ public class GridBoard extends Board {
     /**
      * GridBoard Constructor creates a board for grid using puzzles from a width and height.
      *
-     * @param width  width of the board
+     * @param width width of the board
      * @param height height of the board
      */
     public GridBoard(int width, int height) {
@@ -43,58 +41,88 @@ public class GridBoard extends Board {
      * @return grid cell at location (x, y)
      */
     public GridCell getCell(int x, int y) {
-        if (y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
-                y >= dimension.height || x < 0 || y < 0) {
-            System.err.printf("not in bounds, bounds are %dx%d\n", dimension.width, dimension.height);
+        if (y * dimension.width + x >= puzzleElements.size()
+                || x >= dimension.width
+                || y >= dimension.height
+                || x < 0
+                || y < 0) {
+            System.err.printf(
+                    "not in bounds, bounds are %dx%d\n", dimension.width, dimension.height);
             return null;
         }
         return (GridCell) puzzleElements.get(y * dimension.width + x);
     }
 
     /**
-     * Sets the {@link GridCell} at the location (x,y). This method does not set the cell if the location specified is
-     * out of bounds.
+     * Sets the {@link GridCell} at the location (x,y). This method does not set the cell if the
+     * location specified is out of bounds.
      *
-     * @param x    x location of the cell
-     * @param y    y location of the cell
+     * @param x x location of the cell
+     * @param y y location of the cell
      * @param cell grid cell to set at location (x,y)
      */
     public void setCell(int x, int y, GridCell cell) {
-        if (y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
-                y >= dimension.height || x < 0 || y < 0) {
+        if (y * dimension.width + x >= puzzleElements.size()
+                || x >= dimension.width
+                || y >= dimension.height
+                || x < 0
+                || y < 0) {
             return;
         }
         puzzleElements.set(y * dimension.width + x, cell);
     }
 
     public void setCell(int x, int y, Element e, MouseEvent m) {
-        if (this instanceof TreeTentBoard && ((y == dimension.height && 0 <= x && x < dimension.width) || (x == dimension.width && 0 <= y && y < dimension.height))) {
+        if (this instanceof TreeTentBoard
+                && ((y == dimension.height && 0 <= x && x < dimension.width)
+                        || (x == dimension.width && 0 <= y && y < dimension.height))) {
             TreeTentBoard treeTentBoard = ((TreeTentBoard) this);
             TreeTentClue clue = treeTentBoard.getClue(x, y);
-            if (y == dimension.height && clue.getData() < dimension.width) {
-                clue.setData(clue.getData() + 1);
-            }
-            else {
-                if (x == dimension.width && clue.getData() < dimension.height) {
-                    clue.setData(clue.getData() + 1);
+            if (y == dimension.height) {
+                if (m.getButton() == MouseEvent.BUTTON1) {
+                    if (clue.getData() < dimension.height) {
+                        clue.setData(clue.getData() + 1);
+                    } else {
+                        clue.setData(0);
+                    }
+                } else {
+                    if (clue.getData() > 0) {
+                        clue.setData(clue.getData() - 1);
+                    } else {
+                        clue.setData(dimension.height);
+                    }
                 }
-                else {
-                    clue.setData(0);
+            } else { // x == dimension.width
+                if (m.getButton() == MouseEvent.BUTTON1) {
+                    if (clue.getData() < dimension.width) {
+                        clue.setData(clue.getData() + 1);
+                    } else {
+                        clue.setData(0);
+                    }
+                } else {
+                    if (clue.getData() > 0) {
+                        clue.setData(clue.getData() - 1);
+                    } else {
+                        clue.setData(dimension.width);
+                    }
                 }
             }
-        }
-        else {
-            if (e != null && y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
-                    y >= dimension.height || x < 0 || y < 0) {
+        } else {
+            if (e != null && y * dimension.width + x >= puzzleElements.size()
+                    || x >= dimension.width
+                    || y >= dimension.height
+                    || x < 0
+                    || y < 0) {
                 return;
-            }
-            else {
+            } else {
                 if (e != null) {
                     puzzleElements.get(y * dimension.width + x).setType(e, m);
                 }
             }
         }
-//        puzzleElements.set(y * dimension.width + x, puzzleElements.get(y * dimension.width + x));
+        //        puzzleElements.set(y * dimension.width + x, puzzleElements.get(y * dimension.width
+        // +
+        // x));
     }
 
     /**

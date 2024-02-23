@@ -1,17 +1,12 @@
 package edu.rpi.legup.puzzle.shorttruthtable;
 
-import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
-import edu.rpi.legup.puzzle.lightup.LightUpCell;
-import edu.rpi.legup.puzzle.shorttruthtable.*;
-
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.HashSet;
 
 public class ShortTruthTableBoard extends GridBoard {
 
@@ -22,9 +17,7 @@ public class ShortTruthTableBoard extends GridBoard {
         super(width, height);
 
         this.statements = statements;
-
     }
-
 
     public Set<ShortTruthTableCell> getCellsWithSymbol(char symbol) {
         Set<ShortTruthTableCell> cells = new HashSet<ShortTruthTableCell>();
@@ -48,23 +41,23 @@ public class ShortTruthTableBoard extends GridBoard {
         return (ShortTruthTableCell) super.getCell(x, y);
     }
 
-
     @Override
     public ShortTruthTableBoard copy() {
 
-        //Copy the statements
-        ShortTruthTableStatement[] statementsCopy = new ShortTruthTableStatement[this.statements.length];
+        // Copy the statements
+        ShortTruthTableStatement[] statementsCopy =
+                new ShortTruthTableStatement[this.statements.length];
         for (int i = 0; i < statements.length; i++) {
             statementsCopy[i] = this.statements[i].copy();
         }
-        //copy the board and set the cells
-        ShortTruthTableBoard boardCopy = new ShortTruthTableBoard(getWidth(), getHeight(), statementsCopy);
+        // copy the board and set the cells
+        ShortTruthTableBoard boardCopy =
+                new ShortTruthTableBoard(getWidth(), getHeight(), statementsCopy);
         for (int r = 0; r < this.dimension.height; r++) {
             for (int c = 0; c < this.dimension.width; c++) {
                 if (r % 2 == 0 && c < statementsCopy[r / 2].getLength()) {
                     boardCopy.setCell(c, r, statementsCopy[r / 2].getCell(c));
-                }
-                else {
+                } else {
                     boardCopy.setCell(c, r, getCell(c, r).copy());
                 }
             }
@@ -76,14 +69,14 @@ public class ShortTruthTableBoard extends GridBoard {
         System.out.println("original:\n" + this);
         System.out.println("copy:\n" + boardCopy);
         return boardCopy;
-
     }
 
     public ShortTruthTableStatement[] getStatements() {
         return statements;
     }
 
-    public static List<ShortTruthTableStatement> copyStatementList(List<ShortTruthTableStatement> statements) {
+    public static List<ShortTruthTableStatement> copyStatementList(
+            List<ShortTruthTableStatement> statements) {
         List<ShortTruthTableStatement> copy = new ArrayList<ShortTruthTableStatement>();
         for (int i = 0; i < statements.size(); i++) {
             copy.add(statements.get(i).copy());
@@ -91,13 +84,12 @@ public class ShortTruthTableBoard extends GridBoard {
         return copy;
     }
 
-
-//    @Override
-//    public void setPuzzleElement(int index, PuzzleElement element){
-//        ShortTruthTableCell cellElement = (ShortTruthTableCell) element;
-//        ShortTruthTableCell cell = getCell(cellElement.getX(), cellElement.getY());
-//        cell.setType(cellElement.getType());
-//    }
+    //    @Override
+    //    public void setPuzzleElement(int index, PuzzleElement element){
+    //        ShortTruthTableCell cellElement = (ShortTruthTableCell) element;
+    //        ShortTruthTableCell cell = getCell(cellElement.getX(), cellElement.getY());
+    //        cell.setType(cellElement.getType());
+    //    }
 
     @Override
     public void notifyChange(PuzzleElement puzzleElement) {
@@ -129,5 +121,4 @@ public class ShortTruthTableBoard extends GridBoard {
         }
         return str.toString();
     }
-
 }

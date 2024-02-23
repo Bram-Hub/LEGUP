@@ -11,19 +11,22 @@ import edu.rpi.legup.puzzle.sudoku.SudokuCell;
 public class AdvancedDeductionDirectRule extends DirectRule {
 
     public AdvancedDeductionDirectRule() {
-        super("SUDO-BASC-0001", "Advanced Deduction",
-                "Use of group logic deduces more answers by means of forced by Location and forced by Deduction",
+        super(
+                "SUDO-BASC-0001",
+                "Advanced Deduction",
+                "Use of group logic deduces more answers by means of forced by Location and forced"
+                        + " by Deduction",
                 "edu/rpi/legup/images/sudoku/AdvancedDeduction.png");
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         SudokuBoard initialBoard = (SudokuBoard) transition.getParents().get(0).getBoard();
@@ -69,8 +72,7 @@ public class AdvancedDeductionDirectRule extends DirectRule {
             for (int x = 0; x < groupDim; x++) {
                 if (possible[y][x] && !isForced) {
                     isForced = true;
-                }
-                else {
+                } else {
                     if (possible[y][x]) {
                         return super.getInvalidUseOfRuleMessage() + ": Not forced";
                     }
@@ -84,7 +86,8 @@ public class AdvancedDeductionDirectRule extends DirectRule {
     }
 
     /**
-     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
      *
      * @param node tree node used to create default transition board
      * @return default board or null if this rule cannot be applied to this tree node

@@ -6,9 +6,7 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 
 public class Fillapix extends Puzzle {
-    /**
-     * Fillapix Constructor
-     */
+    /** Fillapix Constructor */
     public Fillapix() {
         super();
 
@@ -20,12 +18,12 @@ public class Fillapix extends Puzzle {
         this.factory = new FillapixCellFactory();
     }
 
-    /**
-     * Initializes the game board
-     */
+    /** Initializes the game board */
     @Override
     public void initializeView() {
         boardView = new FillapixView((FillapixBoard) currentBoard);
+        boardView.setBoard(currentBoard);
+        addBoardListener(boardView);
     }
 
     @Override
@@ -37,13 +35,12 @@ public class Fillapix extends Puzzle {
     /**
      * Determines if the given dimensions are valid for Fillapix
      *
-     * @param rows      the number of rows
-     * @param columns   the number of columns
+     * @param rows the number of rows
+     * @param columns the number of columns
      * @return true if the given dimensions are valid for Fillapix, false otherwise
      */
     public boolean isValidDimensions(int rows, int columns) {
-        // This is a placeholder, this method needs to be implemented
-        throw new UnsupportedOperationException();
+        return super.isValidDimensions(rows, columns);
     }
 
     @Override
@@ -64,7 +61,5 @@ public class Fillapix extends Puzzle {
     }
 
     @Override
-    public void onBoardChange(Board board) {
-
-    }
+    public void onBoardChange(Board board) {}
 }

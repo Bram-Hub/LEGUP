@@ -8,13 +8,13 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
 import edu.rpi.legup.puzzle.fillapix.FillapixCell;
 import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class BlackOrWhiteCaseRule extends CaseRule {
     public BlackOrWhiteCaseRule() {
-        super("FPIX-CASE-0001",
+        super(
+                "FPIX-CASE-0001",
                 "Black or White",
                 "Each cell is either black or white.",
                 "edu/rpi/legup/images/fillapix/cases/BlackOrWhite.png");
@@ -40,13 +40,13 @@ public class BlackOrWhiteCaseRule extends CaseRule {
 
         Board case1 = board.copy();
         FillapixCell cell1 = (FillapixCell) case1.getPuzzleElement(puzzleElement);
-        cell1.setType(FillapixCellType.BLACK);
+        cell1.setCellType(FillapixCellType.BLACK);
         case1.addModifiedData(cell1);
         cases.add(case1);
 
         Board case2 = board.copy();
         FillapixCell cell2 = (FillapixCell) case2.getPuzzleElement(puzzleElement);
-        cell2.setType(FillapixCellType.WHITE);
+        cell2.setCellType(FillapixCellType.WHITE);
         case2.addModifiedData(cell2);
         cases.add(case2);
 
@@ -62,20 +62,24 @@ public class BlackOrWhiteCaseRule extends CaseRule {
 
         TreeTransition case1 = childTransitions.get(0);
         TreeTransition case2 = childTransitions.get(1);
-        if (case1.getBoard().getModifiedData().size() != 1 ||
-                case2.getBoard().getModifiedData().size() != 1) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must have 1 modified cell for each case.";
+        if (case1.getBoard().getModifiedData().size() != 1
+                || case2.getBoard().getModifiedData().size() != 1) {
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must have 1 modified cell for each case.";
         }
 
         FillapixCell mod1 = (FillapixCell) case1.getBoard().getModifiedData().iterator().next();
         FillapixCell mod2 = (FillapixCell) case2.getBoard().getModifiedData().iterator().next();
         if (!mod1.getLocation().equals(mod2.getLocation())) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must modify the same cell for each case.";
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must modify the same cell for each case.";
         }
 
         if (!((mod1.getType() == FillapixCellType.BLACK && mod2.getType() == FillapixCellType.WHITE)
-                || (mod2.getType() == FillapixCellType.BLACK && mod1.getType() == FillapixCellType.WHITE))) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must an empty cell and a lit cell.";
+                || (mod2.getType() == FillapixCellType.BLACK
+                        && mod1.getType() == FillapixCellType.WHITE))) {
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must an empty cell and a lit cell.";
         }
 
         return null;

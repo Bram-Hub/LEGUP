@@ -9,7 +9,6 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.lightup.LightUpBoard;
 import edu.rpi.legup.puzzle.lightup.LightUpCell;
 import edu.rpi.legup.puzzle.lightup.LightUpCellType;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,7 +18,9 @@ import java.util.Set;
 public class SatisfyNumberCaseRule extends CaseRule {
 
     public SatisfyNumberCaseRule() {
-        super("LTUP-CASE-0002", "Satisfy Number",
+        super(
+                "LTUP-CASE-0002",
+                "Satisfy Number",
                 "The different ways a blocks number can be satisfied.",
                 "edu/rpi/legup/images/lightup/cases/SatisfyNumber.png");
     }
@@ -40,7 +41,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
     /**
      * Gets the possible cases at a specific location based on this case rule
      *
-     * @param board         the current board state
+     * @param board the current board state
      * @param puzzleElement puzzleElement to determine the possible cases for
      * @return a list of elements the specified could be
      */
@@ -58,8 +59,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
         if (checkCell != null) {
             if (checkCell.getType() == LightUpCellType.UNKNOWN && !checkCell.isLite()) {
                 openSpots.add(checkCell);
-            }
-            else {
+            } else {
                 if (checkCell.getType() == LightUpCellType.BULB) {
                     numNeeded--;
                 }
@@ -69,8 +69,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
         if (checkCell != null) {
             if (checkCell.getType() == LightUpCellType.UNKNOWN && !checkCell.isLite()) {
                 openSpots.add(checkCell);
-            }
-            else {
+            } else {
                 if (checkCell.getType() == LightUpCellType.BULB) {
                     numNeeded--;
                 }
@@ -80,8 +79,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
         if (checkCell != null) {
             if (checkCell.getType() == LightUpCellType.UNKNOWN && !checkCell.isLite()) {
                 openSpots.add(checkCell);
-            }
-            else {
+            } else {
                 if (checkCell.getType() == LightUpCellType.BULB) {
                     numNeeded--;
                 }
@@ -91,8 +89,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
         if (checkCell != null) {
             if (checkCell.getType() == LightUpCellType.UNKNOWN && !checkCell.isLite()) {
                 openSpots.add(checkCell);
-            }
-            else {
+            } else {
                 if (checkCell.getType() == LightUpCellType.BULB) {
                     numNeeded--;
                 }
@@ -109,7 +106,11 @@ public class SatisfyNumberCaseRule extends CaseRule {
         return cases;
     }
 
-    private void generateCases(final LightUpBoard board, final int num, List<LightUpCell> openSpots, List<Board> cases) {
+    private void generateCases(
+            final LightUpBoard board,
+            final int num,
+            List<LightUpCell> openSpots,
+            List<Board> cases) {
         if (num > openSpots.size()) {
             return;
         }
@@ -128,7 +129,13 @@ public class SatisfyNumberCaseRule extends CaseRule {
         }
     }
 
-    private void generateCases(final LightUpBoard board, final int num, List<LightUpCell> openSpots, List<Board> cases, LightUpBoard curBoard, int index) {
+    private void generateCases(
+            final LightUpBoard board,
+            final int num,
+            List<LightUpCell> openSpots,
+            List<Board> cases,
+            LightUpBoard curBoard,
+            int index) {
         if (num <= curBoard.getModifiedData().size()) {
             cases.add(curBoard);
             return;
@@ -197,8 +204,9 @@ public class SatisfyNumberCaseRule extends CaseRule {
                                 boolean foundCell = false;
                                 for (PuzzleElement posEle : posCase.getModifiedData()) {
                                     LightUpCell posCell = (LightUpCell) posEle;
-                                    if (actCell.getType() == posCell.getType() &&
-                                            actCell.getLocation().equals(posCell.getLocation())) {
+                                    if (actCell.getType() == posCell.getType()
+                                            && actCell.getLocation()
+                                                    .equals(posCell.getLocation())) {
                                         foundCell = true;
                                         break;
                                     }
@@ -228,13 +236,13 @@ public class SatisfyNumberCaseRule extends CaseRule {
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement index of the puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
@@ -245,7 +253,8 @@ public class SatisfyNumberCaseRule extends CaseRule {
      * Gets all cells in the TreeTransition board that are adjacent to all modified cells
      *
      * @param transition TreeTransition object
-     * @return list of cells that are adjacent to all modified cells, returns null if the number of modified cells is =0 || >4
+     * @return list of cells that are adjacent to all modified cells, returns null if the number of
+     *     modified cells is =0 || >4
      */
     private List<LightUpCell> getPossibleSpots(TreeTransition transition) {
         LightUpBoard board = (LightUpBoard) transition.getBoard();
@@ -254,8 +263,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
         int size = modCells.size();
         if (size == 0 || size > 4) {
             return null;
-        }
-        else {
+        } else {
             Iterator<PuzzleElement> it = modCells.iterator();
             List<LightUpCell> spots = getAdjacentCells(board, (LightUpCell) it.next());
 
@@ -286,5 +294,64 @@ public class SatisfyNumberCaseRule extends CaseRule {
             cells.add(up);
         }
         return cells;
+    }
+
+    /**
+     * Returns the elements necessary for the cases returned by getCases(board,puzzleElement) to be
+     * valid Overridden by case rules dependent on more than just the modified data
+     *
+     * @param board board state at application
+     * @param puzzleElement selected puzzleElement
+     * @return List of puzzle elements (typically cells) this application of the case rule depends
+     *     upon. Defaults to any element modified by any case
+     */
+    @Override
+    public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement) {
+        List<PuzzleElement> elements = new ArrayList<>();
+
+        LightUpBoard puzzleBoard = (LightUpBoard) board;
+        LightUpCell point = (LightUpCell) puzzleBoard.getPuzzleElement(puzzleElement);
+
+        List<LightUpCell> cells = getAdjacentCells(puzzleBoard, point);
+
+        for (LightUpCell cell : cells) {
+            // add cells that can light adjacents from any direction
+            Point location = cell.getLocation();
+            for (int i = location.x; i < puzzleBoard.getWidth(); i++) {
+                System.out.println(i);
+                LightUpCell c = puzzleBoard.getCell(i, location.y);
+                if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
+                    break;
+                } else if (!elements.contains(board.getPuzzleElement(c))) {
+                    elements.add(board.getPuzzleElement(c));
+                }
+            }
+            for (int i = location.x; i >= 0; i--) {
+                LightUpCell c = puzzleBoard.getCell(i, location.y);
+                if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
+                    break;
+                } else if (!elements.contains(board.getPuzzleElement(c))) {
+                    elements.add(board.getPuzzleElement(c));
+                }
+            }
+            for (int i = location.y; i < puzzleBoard.getHeight(); i++) {
+                LightUpCell c = puzzleBoard.getCell(location.x, i);
+                if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
+                    break;
+                } else if (!elements.contains(board.getPuzzleElement(c))) {
+                    elements.add(board.getPuzzleElement(c));
+                }
+            }
+            for (int i = location.y; i >= 0; i--) {
+                LightUpCell c = puzzleBoard.getCell(location.x, i);
+                if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
+                    break;
+                } else if (!elements.contains(board.getPuzzleElement(c))) {
+                    elements.add(board.getPuzzleElement(c));
+                }
+            }
+        }
+
+        return elements;
     }
 }

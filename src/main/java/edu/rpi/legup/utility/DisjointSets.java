@@ -7,9 +7,7 @@ public class DisjointSets<T> {
     private Map<T, Integer> depths;
     private Map<T, Set<T>> sets;
 
-    /**
-     * DisjointSets Constructor creates an empty DisjointSets
-     */
+    /** DisjointSets Constructor creates an empty DisjointSets */
     public DisjointSets() {
         this.parents = new HashMap<>();
         this.depths = new HashMap<>();
@@ -17,8 +15,9 @@ public class DisjointSets<T> {
     }
 
     /**
-     * Creates a unique set that contains the specified puzzleElement. If the specified puzzleElement is null or another set already
-     * contains that puzzleElement, this method returns false, indicating that a set was not created
+     * Creates a unique set that contains the specified puzzleElement. If the specified
+     * puzzleElement is null or another set already contains that puzzleElement, this method returns
+     * false, indicating that a set was not created
      *
      * @param u puzzleElement to create the set from
      * @return true if the set was created, false otherwise
@@ -26,8 +25,7 @@ public class DisjointSets<T> {
     public boolean createSet(T u) {
         if (u == null || parents.containsKey(u)) {
             return false;
-        }
-        else {
+        } else {
             parents.put(u, u);
             depths.put(u, 0);
             Set<T> newSet = new HashSet<>();
@@ -38,16 +36,17 @@ public class DisjointSets<T> {
     }
 
     /**
-     * Finds and returns the representative set puzzleElement of the set that the specified puzzleElement contains
+     * Finds and returns the representative set puzzleElement of the set that the specified
+     * puzzleElement contains
      *
      * @param p puzzleElement of the set of which to find
-     * @return representative set puzzleElement or null if the specified puzzleElement is null or is not in the DisjointSets
+     * @return representative set puzzleElement or null if the specified puzzleElement is null or is
+     *     not in the DisjointSets
      */
     public T find(T p) {
         if (p == null || parents.get(p) == null) {
             return null;
-        }
-        else {
+        } else {
             if (p != parents.get(p)) {
                 parents.put(p, find(parents.get(p)));
             }
@@ -56,7 +55,8 @@ public class DisjointSets<T> {
     }
 
     /**
-     * Unions two sets together. If the set are non-null and disjoint, then it returns true, false otherwise
+     * Unions two sets together. If the set are non-null and disjoint, then it returns true, false
+     * otherwise
      *
      * @param p set one
      * @param q set two
@@ -67,14 +67,12 @@ public class DisjointSets<T> {
         T qid = find(q);
         if (pid == null || qid == null || pid == qid) {
             return false;
-        }
-        else {
+        } else {
             if (depths.get(pid) > depths.get(qid)) {
                 parents.put(qid, pid);
                 sets.get(pid).addAll(sets.get(qid));
                 sets.remove(qid);
-            }
-            else {
+            } else {
                 parents.put(pid, qid);
                 sets.get(qid).addAll(sets.get(pid));
                 sets.remove(pid);
@@ -87,8 +85,9 @@ public class DisjointSets<T> {
     }
 
     /**
-     * Unions to elements together, if either puzzleElement is not already in the DisjointSets, it creates a set for the
-     * puzzleElement then unions the sets together. If either puzzleElement is null, no action is taken.
+     * Unions to elements together, if either puzzleElement is not already in the DisjointSets, it
+     * creates a set for the puzzleElement then unions the sets together. If either puzzleElement is
+     * null, no action is taken.
      *
      * @param p puzzleElement one
      * @param q puzzleElement two
@@ -118,17 +117,18 @@ public class DisjointSets<T> {
     }
 
     /**
-     * Gets the set of elements that the specified puzzleElement is contained in, or null if no such set exists.
+     * Gets the set of elements that the specified puzzleElement is contained in, or null if no such
+     * set exists.
      *
      * @param p puzzleElement to get the set of
-     * @return the set of elements that the specified puzzleElement if contained in, or null if no such set exists
+     * @return the set of elements that the specified puzzleElement if contained in, or null if no
+     *     such set exists
      */
     public Set<T> getSet(T p) {
         T pid = find(p);
         if (pid != null) {
             return new HashSet<>(sets.get(pid));
-        }
-        else {
+        } else {
             return null;
         }
     }

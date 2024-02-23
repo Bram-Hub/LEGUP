@@ -2,12 +2,11 @@ package edu.rpi.legup.puzzle.fillapix;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
 import java.awt.*;
 import java.util.logging.Logger;
 
 public class FillapixBoard extends GridBoard {
-    private final static Logger LOGGER = Logger.getLogger(FillapixBoard.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(FillapixBoard.class.getName());
 
     public FillapixBoard(int width, int height) {
         super(width, height);
@@ -53,6 +52,9 @@ public class FillapixBoard extends GridBoard {
         int numCells = 0;
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
+                if (loc.x + i > dimension.width || loc.y + j > dimension.height) {
+                    continue;
+                }
                 FillapixCell c = getCell(loc.x + i, loc.y + j);
                 if (c != null && c.getType() == type) {
                     numCells++;
