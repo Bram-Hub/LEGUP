@@ -39,6 +39,7 @@ public class FinishRoomCaseRule extends CaseRule {
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
         if (childTransitions.size() > 5) {
             return super.getInvalidUseOfRuleMessage() + ": This case rule must have 5 or less children.";
+            //return super.getTooManyCasesMessage() + ": This case rule must have 5 or less children.";
         }
         Set<Point> locations = new HashSet<>();
         for (TreeTransition t1 : childTransitions) {

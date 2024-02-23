@@ -15,6 +15,7 @@ import static edu.rpi.legup.model.rules.RuleType.CASE;
 public abstract class CaseRule extends Rule {
 
     private final String INVALID_USE_MESSAGE;
+    private final String TOO_MANY_CASES_MESSAGE;
 
     /**
      * CaseRule Constructor creates a new case rule.
@@ -28,6 +29,7 @@ public abstract class CaseRule extends Rule {
         super(ruleID, ruleName, description, imageName);
         this.ruleType = CASE;
         this.INVALID_USE_MESSAGE = "Invalid use of the case rule " + this.ruleName;
+        this.TOO_MANY_CASES_MESSAGE = "Too many cases were generated " + this.ruleName;
     }
 
     /**
@@ -89,6 +91,31 @@ public abstract class CaseRule extends Rule {
      */
     @Override
     public abstract String checkRuleRaw(TreeTransition transition);
+
+    /**
+     * Checks whether the amount of cases generated is within bounds of the given rule
+     *
+     * @param transition    transition to check
+     * @param puzzleElement equivalent puzzleElement
+     * @return null if the amount of generated casees is less than the limit for the given rule,
+     * otherwise error messgage
+     */
+    //@Override
+    public String checkRuleCasesAt(TreeTransition transition, PuzzleElement puzzleElement) {
+        return this.TOO_MANY_CASES_MESSAGE;
+    }
+
+    /**
+     * Checks whether the amount of cases generated is within bounds of the given rule.
+     * This method is the one that should overridden in child classes.
+     *
+     * @param transition    transition to check
+     * @param puzzleElement equivalent puzzleElement
+     * @return
+     */
+    public abstract String checkRuleCasesRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+
+    }
 
     /**
      * Checks whether the child node logically follows from the parent node at the specific puzzleElement index using
