@@ -4,6 +4,7 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -14,8 +15,17 @@ import java.awt.*;
 
 public class MinesweeperCellFactory extends ElementFactory {
 
-    private static final String DATA_ATTRIBUTE = "x";
+    /**
+     * The key of the data used in {@link NamedNodeMap}
+     */
+    private static final String DATA_ATTRIBUTE = "data";
+    /**
+     * The key of the x position used in {@link NamedNodeMap}
+     */
     private static final String X_ATTRIBUTE = "x";
+    /**
+     * The key of the y position used in {@link NamedNodeMap}
+     */
     private static final String Y_ATTRIBUTE = "y";
 
 
@@ -24,7 +34,20 @@ public class MinesweeperCellFactory extends ElementFactory {
 
     public static final MinesweeperCellFactory INSTANCE = new MinesweeperCellFactory();
 
+    /**
+     *
+     * @param node node that represents the puzzleElement
+     * @param board Board to use to verify the newly created {@link MinesweeperCell}
+     *              is valid
+     * @return a new {@link MinesweeperCell}
+     * @throws InvalidFileFormatException If the node name is not "cell"
+     * @throws NumberFormatException If the {@link #X_ATTRIBUTE} or {@link #Y_ATTRIBUTE}
+     * is not a number
+     * @throws NullPointerException If one of {@link #DATA_ATTRIBUTE}, {@link #X_ATTRIBUTE} or {@link #Y_ATTRIBUTE}
+     * does not exist.
+     */
     @Override
+    @Contract(pure = false)
     public @NotNull PuzzleElement<MinesweeperTileData> importCell(
             @NotNull Node node,
             @NotNull Board board
@@ -60,7 +83,15 @@ public class MinesweeperCellFactory extends ElementFactory {
         }
     }
 
+    /**
+     *
+     * @param document Document used to create the element
+     * @param puzzleElement PuzzleElement cell
+     * @return a {@link Element} that contains the {@link #DATA_ATTRIBUTE},
+     * {@link #X_ATTRIBUTE}, and {@link #Y_ATTRIBUTE}
+     */
     @Override
+    @Contract(pure = false)
     public @NotNull Element exportCell(
             @NotNull Document document,
             @SuppressWarnings("rawtypes") @NotNull PuzzleElement puzzleElement

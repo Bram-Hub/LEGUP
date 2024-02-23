@@ -4,6 +4,7 @@ import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,6 +20,7 @@ public class Minesweeper extends Puzzle {
     }
 
     @Override
+    @Contract(pure = false)
     public void initializeView() {
         this.boardView = new MinesweeperView((MinesweeperBoard) this.currentBoard);
         this.boardView.setBoard(this.currentBoard);
@@ -26,11 +28,13 @@ public class Minesweeper extends Puzzle {
     }
 
     @Override
+    @Contract("_ -> null")
     public @Nullable Board generatePuzzle(int difficulty) {
         return null;
     }
 
     @Override
+    @Contract(pure = true)
     public boolean isBoardComplete(@NotNull Board board) {
         MinesweeperBoard minesweeperBoard = (MinesweeperBoard) board;
 
@@ -49,11 +53,13 @@ public class Minesweeper extends Puzzle {
     }
 
     @Override
+    @Contract(pure = true)
     public void onBoardChange(@NotNull Board board) {
 
     }
 
     @Override
+    @Contract(pure = true)
     public boolean isValidDimensions(int rows, int columns) {
         return rows >= 1 && columns >= 1;
     }
