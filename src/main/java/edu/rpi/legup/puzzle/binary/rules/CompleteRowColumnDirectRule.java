@@ -47,20 +47,24 @@ public class CompleteRowColumnDirectRule extends DirectRule {
 
         for (int i = 0; i < boardDim; i++) {
             BinaryCell cell = initialBoard.getCell(i, elementCol);
-            if(cell.getData() == 1)
+            if(cell.getData() == 1){
                 numColOnes ++;
-            else if(cell.getData() == 0)
+            }
+            else if(cell.getData() == 0){
                 numColZeros ++; 
+            }
         }
             int numRowZeros = 0;
             int numRowOnes = 0;
 
         for (int i = 0; i < boardDim; i++) {
             BinaryCell cell = initialBoard.getCell(elementRow, i);
-            if(cell.getData() == 1)
+            if(cell.getData() == 1){
                 numRowOnes ++;
-            else if(cell.getData() == 0)
+            }
+            else if(cell.getData() == 0){
                 numRowZeros ++; 
+            }
         }
         if (numColOnes + numColZeros != boardDim) {
             return super.getInvalidUseOfRuleMessage() + ": The column for the specificed element is not complete";
