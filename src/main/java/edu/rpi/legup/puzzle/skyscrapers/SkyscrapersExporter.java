@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.skyscrapers;
 
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
 import org.w3c.dom.Document;
 
 public class SkyscrapersExporter extends PuzzleExporter {
@@ -54,14 +53,11 @@ public class SkyscrapersExporter extends PuzzleExporter {
         }
         boardElement.appendChild(axisSouth);
 
-        if (!board.getLines().isEmpty()) {
-            org.w3c.dom.Element linesElement = newDocument.createElement("lines");
-            for (PuzzleElement data : board.getLines()) {
-                org.w3c.dom.Element lineElement = puzzle.getFactory().exportCell(newDocument, data);
-                linesElement.appendChild(lineElement);
-            }
-            boardElement.appendChild(linesElement);
-        }
+        org.w3c.dom.Element flagsElement = newDocument.createElement("flags");
+        flagsElement.setAttribute("dupe",String.valueOf(board.getDupeFlag()));
+        flagsElement.setAttribute("view",String.valueOf(board.getViewFlag()));
+        boardElement.appendChild(flagsElement);
+      
         return boardElement;
     }
 }

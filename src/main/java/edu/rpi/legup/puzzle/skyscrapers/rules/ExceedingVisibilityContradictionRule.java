@@ -65,7 +65,7 @@ public class ExceedingVisibilityContradictionRule extends ContradictionRule {
             Collections.reverse(row);
             for (SkyscrapersCell c : row) {
                 if (c.getData() > max) {
-                    System.out.print(c.getData());
+                    //System.out.print(c.getData());
                     //System.out.println(cell.getData());
                     max = c.getData();
                     count++;
@@ -83,7 +83,7 @@ public class ExceedingVisibilityContradictionRule extends ContradictionRule {
             max = 0;
             count = 0;
             for (SkyscrapersCell c : col) {
-                System.out.println(c.getData());
+                //System.out.println(c.getData());
                 if (c.getData() > max) {
 
                     //System.out.println(cell.getData());
@@ -100,7 +100,7 @@ public class ExceedingVisibilityContradictionRule extends ContradictionRule {
             count = 0;
             Collections.reverse(col);
             for (SkyscrapersCell c : col) {
-                System.out.println(c.getData());
+                //System.out.println(c.getData());
                 if (c.getData() > max) {
 
                     //System.out.println(cell.getData());
