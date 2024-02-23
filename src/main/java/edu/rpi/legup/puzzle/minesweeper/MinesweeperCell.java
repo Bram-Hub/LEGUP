@@ -20,31 +20,34 @@ public class MinesweeperCell extends GridCell<MinesweeperTileData> {
     @Override
     public void setType(@NotNull Element element, @NotNull MouseEvent event) {
         switch (element.getElementID()) {
-            case MinesweeperElementIdentifiers.BOMB:
+            case MinesweeperElementIdentifiers.BOMB -> {
                 this.data = MinesweeperTileData.bomb();
                 break;
-            case MinesweeperElementIdentifiers.FLAG:
+            }
+            case MinesweeperElementIdentifiers.FLAG -> {
                 final int currentData = super.data.data();
                 switch (event.getButton()) {
-                    case MouseEvent.BUTTON1:
+                    case MouseEvent.BUTTON1 -> {
                         if (currentData >= 8) {
                             this.data = MinesweeperTileData.empty();
                             return;
                         }
                         this.data = MinesweeperTileData.flag(currentData + 1);
                         return;
-                    case MouseEvent.BUTTON2:
-                    case MouseEvent.BUTTON3:
+                    }
+                    case MouseEvent.BUTTON2, MouseEvent.BUTTON3 -> {
                         if (currentData <= 0) {
                             this.data = MinesweeperTileData.empty();
                             return;
                         }
                         this.data = MinesweeperTileData.flag(currentData - 1);
                         return;
+                    }
                 }
-                return;
-            default:
+            }
+            default -> {
                 this.data = MinesweeperTileData.empty();
+            }
         }
     }
 

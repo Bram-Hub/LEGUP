@@ -13,14 +13,12 @@ public class MinesweeperController extends ElementController {
             @NotNull MinesweeperTileData current
     ) {
         final int numberData = current.data();
-        switch (event.getButton()) {
-            case MouseEvent.BUTTON1:
-                return MinesweeperTileData.fromData(numberData + 1);
-            case MouseEvent.BUTTON2:
-            case MouseEvent.BUTTON3:
-                return MinesweeperTileData.fromData(numberData - 1);
-        }
-        return MinesweeperTileData.empty();
+        return switch (event.getButton()) {
+            case MouseEvent.BUTTON1 -> MinesweeperTileData.fromData(numberData + 1);
+            case MouseEvent.BUTTON2,
+                    MouseEvent.BUTTON3 -> MinesweeperTileData.fromData(numberData - 1);
+            default -> MinesweeperTileData.empty();
+        };
     }
 
     @Override

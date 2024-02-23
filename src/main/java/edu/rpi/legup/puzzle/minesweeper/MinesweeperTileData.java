@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public final class MinesweeperTileData {
+public record MinesweeperTileData(MinesweeperTileType type, int data) {
 
     public static final int UNSET_DATA = -2;
     public static final int BOMB_DATA = -1;
@@ -20,48 +20,29 @@ public final class MinesweeperTileData {
     }
 
     public static @NotNull MinesweeperTileData fromData(int data) {
-        switch (data) {
-            case UNSET_DATA:
-                return unset();
-            case BOMB_DATA:
-                return bomb();
-            case EMPTY_DATA:
-                return empty();
-            default: {
+        return switch (data) {
+            case UNSET_DATA -> unset();
+            case BOMB_DATA -> bomb();
+            case EMPTY_DATA -> empty();
+            default -> {
                 if (data <= -2 || data > 8) {
-                    return unset();
+                    yield unset();
                 }
-                return flag(data);
+                yield flag(data);
             }
-        }
+        };
     }
 
     public static @NotNull MinesweeperTileData unset() {
         return UNSET;
     }
-    
+
     public static @NotNull MinesweeperTileData bomb() {
         return BOMB;
     }
 
     public static @NotNull MinesweeperTileData empty() {
         return EMPTY;
-    }
-
-    private final MinesweeperTileType type;
-    private final int data;
-
-    private MinesweeperTileData(@NotNull MinesweeperTileType type, int data) {
-        this.type = type;
-        this.data = data;
-    }
-
-    public @NotNull MinesweeperTileType type() {
-        return this.type;
-    }
-
-    public int data() {
-        return this.data;
     }
 
     @Override
