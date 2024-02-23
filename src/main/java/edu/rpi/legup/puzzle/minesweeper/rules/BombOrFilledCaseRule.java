@@ -17,7 +17,7 @@ public class BombOrFilledCaseRule extends CaseRule{
         super("MINE-CASE-0001",
                 "Bomb or Filled",
                 "Each cell is either bomb or filled.",
-                "edu/rpi/legup/images/fillapix/cases/BlackOrWhite.png");
+                "edu/rpi/legup/images/minesweeper/cases/BombOrFilled.jpg");
     }
 
     @Override
