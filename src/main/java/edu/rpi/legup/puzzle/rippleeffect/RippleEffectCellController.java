@@ -14,11 +14,9 @@ public class RippleEffectCellController extends ElementController {
 
             }
             else {
-                cell.incrementCell();
             }
         }
         else if (e.getButton() == MouseEvent.BUTTON3) {
-            cell.decrementCell();
         }
     }
 }
