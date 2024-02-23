@@ -18,6 +18,10 @@ public class MinesweeperCell extends GridCell<MinesweeperTileData> {
         return super.data.type();
     }
 
+    public @NotNull int getTileNumber() {
+        return super.data.data();
+    }
+
     public void setCellType(MinesweeperTileData type) {
         data = type;
     }
