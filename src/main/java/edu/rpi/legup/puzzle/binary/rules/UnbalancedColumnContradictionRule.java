@@ -16,7 +16,7 @@ public class UnbalancedColumnContradictionRule extends ContradictionRule {
     public UnbalancedColumnContradictionRule() {
         super("BINA-CONT-0004",
                 "Unbalanced Column",
-                "Each column must contain an equal number of zeros and ones ",
+                "Each column must contain an equal number of zeros and ones",
                 "currentlynoimage.png");
     }
 
