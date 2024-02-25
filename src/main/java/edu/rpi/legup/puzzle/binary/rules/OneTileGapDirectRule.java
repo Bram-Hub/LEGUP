@@ -31,10 +31,10 @@ public class OneTileGapDirectRule extends DirectRule {
         BinaryCell leftOne = finalBoard.getCell(cell.getLocation().x-1, cell.getLocation().y);
         BinaryCell rightOne = finalBoard.getCell(cell.getLocation().x+1, cell.getLocation().y);
 
-        if ((upOne.getType() == BinaryType.ONE && downOne.getType() == BinaryType.ONE && cell.getType() == BinaryType.ONE) ||
-                (upOne.getType() == BinaryType.ZERO && downOne.getType() == BinaryType.ZERO && cell.getType() == BinaryType.ZERO) ||
-                (leftOne.getType() == BinaryType.ONE && rightOne.getType() == BinaryType.ONE && cell.getType() == BinaryType.ONE) ||
-                (leftOne.getType() == BinaryType.ZERO && downOne.getType() == BinaryType.ZERO && cell.getType() == BinaryType.ZERO)) {
+        if ((upOne.getType() == BinaryType.ONE && downOne.getType() == BinaryType.ONE && cell.getType() != BinaryType.ONE) ||
+                (upOne.getType() == BinaryType.ZERO && downOne.getType() == BinaryType.ZERO && cell.getType() != BinaryType.ZERO) ||
+                (leftOne.getType() == BinaryType.ONE && rightOne.getType() == BinaryType.ONE && cell.getType() != BinaryType.ONE) ||
+                (leftOne.getType() == BinaryType.ZERO && downOne.getType() == BinaryType.ZERO && cell.getType() != BinaryType.ZERO)) {
             return null;
         }
         return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
