@@ -1,10 +1,8 @@
 package edu.rpi.legup.model.elements;
 
-import edu.rpi.legup.model.rules.RuleType;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import javax.swing.*;
 
 @RegisterElement
 public abstract class Element {
@@ -31,10 +29,11 @@ public abstract class Element {
     private void loadImage() {
         if (imageName != null) {
             this.image = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(imageName));
-            //Resize images to be 100px wide
+            // Resize images to be 100px wide
             Image image = this.image.getImage();
             if (this.image.getIconWidth() < 120) return;
-            int height = (int) (100 * ((double) this.image.getIconHeight() / this.image.getIconWidth()));
+            int height =
+                    (int) (100 * ((double) this.image.getIconHeight() / this.image.getIconWidth()));
             if (height == 0) {
                 System.out.println("height is 0 error");
                 System.out.println("height: " + this.image.getIconHeight());

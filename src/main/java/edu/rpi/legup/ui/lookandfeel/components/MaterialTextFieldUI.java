@@ -3,15 +3,6 @@ package edu.rpi.legup.ui.lookandfeel.components;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialDrawingUtils;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
-
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JTextField;
-import javax.swing.KeyStroke;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicTextFieldUI;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Toolkit;
@@ -21,9 +12,17 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.basic.BasicTextFieldUI;
 
-
-public class MaterialTextFieldUI extends BasicTextFieldUI implements FocusListener, PropertyChangeListener {
+public class MaterialTextFieldUI extends BasicTextFieldUI
+        implements FocusListener, PropertyChangeListener {
 
     private Color focusedBackground;
     private Color unfocusedBackground;
@@ -50,9 +49,10 @@ public class MaterialTextFieldUI extends BasicTextFieldUI implements FocusListen
 
         JTextField textField = (JTextField) c;
         textField.setOpaque(false);
-        textField.setBorder(drawLine ?
-                BorderFactory.createEmptyBorder(5, 2, 10, 0) :
-                BorderFactory.createEmptyBorder(2, 2, 2, 2));
+        textField.setBorder(
+                drawLine
+                        ? BorderFactory.createEmptyBorder(5, 2, 10, 0)
+                        : BorderFactory.createEmptyBorder(2, 2, 2, 2));
 
         textField.setBackground(MaterialColors.LIGHT_BLUE_400);
         textField.setFont(MaterialFonts.REGULAR);
@@ -75,54 +75,73 @@ public class MaterialTextFieldUI extends BasicTextFieldUI implements FocusListen
     protected void installKeyboardActions() {
         super.installKeyboardActions();
 
-        Action selectAll = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getComponent().selectAll();
-            }
-        };
-
-        Action delete = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (getComponent().getSelectedText() == null) {
-                    int pos = getComponent().getCaretPosition() - 1;
-
-                    if (pos >= 0) {
-                        getComponent().select(pos, pos + 1);
-                        getComponent().replaceSelection("");
+        Action selectAll =
+                new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        getComponent().selectAll();
                     }
-                }
-                else {
-                    getComponent().replaceSelection("");
-                }
-            }
-        };
+                };
 
-        Action left = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getComponent().setCaretPosition(Math.max(0, getComponent().getCaretPosition() - 1));
-            }
-        };
+        Action delete =
+                new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (getComponent().getSelectedText() == null) {
+                            int pos = getComponent().getCaretPosition() - 1;
 
-        Action right = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getComponent().setCaretPosition(Math.min(getComponent().getText().length(), getComponent().getCaretPosition() + 1));
-            }
-        };
+                            if (pos >= 0) {
+                                getComponent().select(pos, pos + 1);
+                                getComponent().replaceSelection("");
+                            }
+                        } else {
+                            getComponent().replaceSelection("");
+                        }
+                    }
+                };
 
-        Action enter = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ((JTextField) getComponent()).postActionEvent();
-            }
-        };
+        Action left =
+                new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        getComponent()
+                                .setCaretPosition(
+                                        Math.max(0, getComponent().getCaretPosition() - 1));
+                    }
+                };
 
-        // note getMenuShortcutKeyMask() is deprecated in Java 10 - change to getMenuShortcutKeyMaskEx()
-        getComponent().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "selectAll");
-        getComponent().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0), "delete");
+        Action right =
+                new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        getComponent()
+                                .setCaretPosition(
+                                        Math.min(
+                                                getComponent().getText().length(),
+                                                getComponent().getCaretPosition() + 1));
+                    }
+                };
+
+        Action enter =
+                new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        ((JTextField) getComponent()).postActionEvent();
+                    }
+                };
+
+        // note getMenuShortcutKeyMask() is deprecated in Java 10 - change to
+        // getMenuShortcutKeyMaskEx()
+        getComponent()
+                .getInputMap()
+                .put(
+                        KeyStroke.getKeyStroke(
+                                KeyEvent.VK_A,
+                                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
+                        "selectAll");
+        getComponent()
+                .getInputMap()
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0), "delete");
         getComponent().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "left");
         getComponent().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "right");
         getComponent().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
@@ -144,8 +163,7 @@ public class MaterialTextFieldUI extends BasicTextFieldUI implements FocusListen
         if (getComponent().hasFocus()) {
             lineColor = focusedBackground;
             c.setSelectionColor(focusedSelectionBackground);
-        }
-        else {
+        } else {
             lineColor = unfocusedBackground;
             c.setSelectionColor(unfocusedSelectionBackground);
         }
@@ -156,7 +174,10 @@ public class MaterialTextFieldUI extends BasicTextFieldUI implements FocusListen
         if (drawLine) {
             int x = getComponent().getInsets().left;
             int y = getComponent().getInsets().top;
-            int w = getComponent().getWidth() - getComponent().getInsets().left - getComponent().getInsets().right;
+            int w =
+                    getComponent().getWidth()
+                            - getComponent().getInsets().left
+                            - getComponent().getInsets().right;
 
             g.fillRect(x, c.getHeight() - y, w, 2);
         }
@@ -188,7 +209,8 @@ public class MaterialTextFieldUI extends BasicTextFieldUI implements FocusListen
 
             if (!newColor.equals(focusedBackground) && !newColor.equals(unfocusedBackground)) {
                 this.focusedBackground = (Color) pce.getNewValue();
-                this.focusedSelectionBackground = MaterialColors.bleach(this.focusedBackground, 0.3f);
+                this.focusedSelectionBackground =
+                        MaterialColors.bleach(this.focusedBackground, 0.3f);
             }
         }
     }

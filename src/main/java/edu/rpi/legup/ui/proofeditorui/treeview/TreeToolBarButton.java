@@ -1,7 +1,7 @@
 package edu.rpi.legup.ui.proofeditorui.treeview;
 
-import javax.swing.*;
 import java.awt.Dimension;
+import javax.swing.*;
 
 public class TreeToolBarButton extends JButton {
 

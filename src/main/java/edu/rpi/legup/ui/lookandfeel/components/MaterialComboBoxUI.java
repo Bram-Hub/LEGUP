@@ -1,7 +1,7 @@
 package edu.rpi.legup.ui.lookandfeel.components;
 
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialDrawingUtils;
-
+import java.awt.Graphics;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -12,7 +12,6 @@ import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
-import java.awt.Graphics;
 
 public class MaterialComboBoxUI extends BasicComboBoxUI {
 
@@ -39,8 +38,7 @@ public class MaterialComboBoxUI extends BasicComboBoxUI {
         JButton button;
         if (icon != null) {
             button = new JButton(icon);
-        }
-        else {
+        } else {
             button = new BasicArrowButton(SwingConstants.SOUTH);
         }
         button.setFocusPainted(false);

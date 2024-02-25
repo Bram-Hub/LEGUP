@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.fillapix;
 
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
@@ -42,7 +41,7 @@ public class FillapixCell extends GridCell<Integer> implements Comparable<Fillap
 
     @Override
     public void setType(Element e, MouseEvent m) {
-        switch(e.getElementID()) {
+        switch (e.getElementID()) {
             case "FPIX-PLAC-0001":
                 this.setCellType(FillapixCellType.BLACK);
                 break;
@@ -88,9 +87,11 @@ public class FillapixCell extends GridCell<Integer> implements Comparable<Fillap
     }
 
     public boolean equals(FillapixCell otherCell) {
-//        return this.location.equals(otherCell.location) && this.index == otherCell.index && this.data == otherCell.data;
-        //return this.index == otherCell.index && this.data == otherCell.data;
-        //return this.index == otherCell.index;
+        //        return this.location.equals(otherCell.location) && this.index == otherCell.index
+        // &&
+        // this.data == otherCell.data;
+        // return this.index == otherCell.index && this.data == otherCell.data;
+        // return this.index == otherCell.index;
         return this.location.x == otherCell.location.x && this.location.y == otherCell.location.y;
     }
 

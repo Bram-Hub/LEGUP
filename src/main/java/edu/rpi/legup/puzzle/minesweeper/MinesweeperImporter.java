@@ -2,6 +2,7 @@ package edu.rpi.legup.puzzle.minesweeper;
 
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -16,16 +17,19 @@ public class MinesweeperImporter extends PuzzleImporter {
     }
 
     @Override
+    @Contract(pure = true, value = "-> true")
     public boolean acceptsRowsAndColumnsInput() {
         return true;
     }
 
     @Override
+    @Contract(pure = true, value = "-> false")
     public boolean acceptsTextInput() {
         return false;
     }
 
     @Override
+    @Contract(pure = false)
     public void initializeBoard(int rows, int columns) {
         MinesweeperBoard minesweeperBoard = new MinesweeperBoard(columns, rows);
 
@@ -41,6 +45,7 @@ public class MinesweeperImporter extends PuzzleImporter {
     }
 
     @Override
+    @Contract(pure = false)
     public void initializeBoard(@NotNull Node node) throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("board")) {
@@ -85,6 +90,7 @@ public class MinesweeperImporter extends PuzzleImporter {
         }
     }
 
+    @Contract(pure = true)
     private static @NotNull MinesweeperBoard getMinesweeperBoard(@NotNull Element boardElement) throws InvalidFileFormatException {
         MinesweeperBoard minesweeperBoard = null;
         if (!boardElement.getAttribute("size").isEmpty()) {
@@ -106,6 +112,7 @@ public class MinesweeperImporter extends PuzzleImporter {
     }
 
     @Override
+    @Contract(value = "_ -> fail", pure = false)
     public void initializeBoard(@NotNull String[] statements) throws UnsupportedOperationException, IllegalArgumentException {
         throw new UnsupportedOperationException("Minesweeper does not support text input.");
     }

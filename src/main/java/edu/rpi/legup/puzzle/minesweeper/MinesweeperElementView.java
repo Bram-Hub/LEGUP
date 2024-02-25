@@ -1,6 +1,7 @@
 package edu.rpi.legup.puzzle.minesweeper;
 
 import edu.rpi.legup.ui.boardview.GridElementView;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -21,6 +22,7 @@ public class MinesweeperElementView extends GridElementView {
 
     @Override
     @SuppressWarnings("Duplicates")
+    @Contract(pure = true)
     public void drawElement(@NotNull Graphics2D graphics2D) {
         final MinesweeperCell cell = (MinesweeperCell) puzzleElement;
         final MinesweeperTileType type = cell.getTileType();
