@@ -20,7 +20,7 @@ public class TestRunner {
         Result result2 = JUnitCore.runClasses(FinishWithShipsDirectRuleTests.class);
         printTestResults(result2);
 
-        // Lightup Tests
+        // LightUp Tests
         Result result3 = JUnitCore.runClasses(BulbsInPathContradictionRuleTest.class);
         printTestResults(result3);
         Result result4 = JUnitCore.runClasses(CannotLightACellContradictionRuleTest.class);
@@ -31,6 +31,8 @@ public class TestRunner {
         printTestResults(result6);
         Result result7 = JUnitCore.runClasses(FinishWithBulbsDirectRuleTest.class);
         printTestResults(result7);
+        Result result37 = JUnitCore.runClasses(FinishWithEmptyDirectRuleTest.class);
+        printTestResults(result37);
         Result result8 = JUnitCore.runClasses(LightOrEmptyCaseRuleTest.class);
         printTestResults(result8);
         Result result9 = JUnitCore.runClasses(MustLightDirectRuleTest.class);
