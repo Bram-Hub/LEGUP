@@ -5,17 +5,20 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.puzzle.sudoku.GroupType;
+import edu.rpi.legup.puzzle.sudoku.PossibleNumberCaseBoard;
 import edu.rpi.legup.puzzle.sudoku.SudokuBoard;
 import edu.rpi.legup.puzzle.sudoku.SudokuCell;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class PossibleNumbersForCellCaseRule extends CaseRule {
+
     public PossibleNumbersForCellCaseRule() {
         super("SUDO-CASE-0001", "Possible Numbers for Cell",
-                "A number has a limited set of cells in which it can be placed.",
+                "An empty cell has a limited set of possible numbers that can fill it.",
                 "edu/rpi/legup/images/sudoku/PossibleValues.png");
     }
 
@@ -55,7 +58,6 @@ public class PossibleNumbersForCellCaseRule extends CaseRule {
         }
         return caseBoard;
     }
-
     /**
      * Gets the possible cases at a specific location based on this case rule
      *
@@ -65,42 +67,29 @@ public class PossibleNumbersForCellCaseRule extends CaseRule {
      */
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+        return getCases(board, puzzleElement, 1, GroupType.REGION);
+    }
+
+    /**
+     * Gets the possible cases at a specific location based on this case rule
+     *
+     * @param board         the current board state
+     * @param puzzleElement equivalent puzzleElement
+     * @param value         value that the rule will be applied from
+     * @param groupType     group type
+     * @return a list of elements the specified could be
+     */
+    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement, int value, GroupType groupType) {
         ArrayList<Board> cases = new ArrayList<>();
         SudokuBoard sudokuBoard = (SudokuBoard) board;
+        List<SudokuCell> caseCells = new ArrayList<>();
         SudokuCell cell = (SudokuCell) puzzleElement;
 
-        Set<Integer> possibleValue = new HashSet<>();
-        for (int i = 1; i <= sudokuBoard.getSize(); i++) {
-            possibleValue.add(i);
-        }
-
-        int groupNum = cell.getGroupIndex();
-        for (SudokuCell c : sudokuBoard.getRegion(groupNum)) {
-            if (c.getData().equals(c.getData())) {
-                possibleValue.remove(c.getData());
-            }
-        }
-
-        int rowNum = cell.getLocation().y;
-        for (SudokuCell c : sudokuBoard.getRow(rowNum)) {
-            if (c.getData().equals(c.getData())) {
-                possibleValue.remove(c.getData());
-            }
-        }
-
-        int colNum = cell.getLocation().x;
-        for (SudokuCell c : sudokuBoard.getCol(colNum)) {
-            if (c.getData().equals(c.getData())) {
-                possibleValue.remove(c.getData());
-            }
-        }
-
-        for (Integer i : possibleValue) {
-            SudokuBoard newCase = sudokuBoard.copy();
-
-            PuzzleElement newCasePuzzleElement = newCase.getPuzzleElement(puzzleElement);
-            newCasePuzzleElement.setData(i);
-            newCase.addModifiedData(newCasePuzzleElement);
+        for (int i = 0; i < 9; i++) {
+            Board newCase = sudokuBoard.copy();
+            PuzzleElement element = newCase.getPuzzleElement(puzzleElement);
+            element.setData(value);
+            newCase.addModifiedData(element);
             cases.add(newCase);
         }
 
