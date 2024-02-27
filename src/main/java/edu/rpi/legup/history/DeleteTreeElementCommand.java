@@ -5,14 +5,14 @@ import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.observer.ITreeListener;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
-
 import java.util.List;
 
 public class DeleteTreeElementCommand extends PuzzleCommand {
     private TreeViewSelection selection;
 
     /**
-     * DeleteTreeElementCommand Constructor creates a PuzzleCommand for deleting a tree puzzleElement
+     * DeleteTreeElementCommand Constructor creates a PuzzleCommand for deleting a tree
+     * puzzleElement
      *
      * @param selection the currently selected tree elements before the command is executed
      */
@@ -20,9 +20,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
         this.selection = selection.copy();
     }
 
-    /**
-     * Executes an command
-     */
+    /** Executes an command */
     @Override
     public void executeCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
@@ -35,8 +33,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
         if (firstSelectedView.getType() == TreeElementType.NODE) {
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
             newSelectedView = nodeView.getParentView();
-        }
-        else {
+        } else {
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
             newSelectedView = transitionView.getParentViews().get(0);
         }
@@ -48,15 +45,17 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
         }
 
         final TreeViewSelection newSelection = new TreeViewSelection(newSelectedView);
-        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(newSelectedView.getTreeElement()));
-        puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeSelectionChanged(newSelection));
+        puzzle.notifyBoardListeners(
+                listener -> listener.onTreeElementChanged(newSelectedView.getTreeElement()));
+        puzzle.notifyTreeListeners(
+                (ITreeListener listener) -> listener.onTreeSelectionChanged(newSelection));
     }
 
     /**
      * Gets the reason why the command cannot be executed
      *
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
-     * otherwise null if command can be executed
+     *     otherwise null if command can be executed
      */
     @Override
     public String getErrorString() {
@@ -74,9 +73,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
         return null;
     }
 
-    /**
-     * Undoes an command
-     */
+    /** Undoes an command */
     @Override
     public void undoCommand() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
@@ -89,8 +86,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
                 node.getParent().setChildNode(node);
 
                 puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(node));
-            }
-            else {
+            } else {
                 TreeTransition transition = (TreeTransition) element;
                 transition.getParents().forEach(node -> node.addChild(transition));
                 transition.getParents().get(0).getChildren().forEach(TreeTransition::reverify);
@@ -99,7 +95,10 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
             }
         }
 
-        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(selection.getFirstSelection().getTreeElement()));
+        puzzle.notifyBoardListeners(
+                listener ->
+                        listener.onTreeElementChanged(
+                                selection.getFirstSelection().getTreeElement()));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
     }
 }

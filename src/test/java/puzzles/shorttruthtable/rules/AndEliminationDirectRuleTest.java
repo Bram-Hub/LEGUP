@@ -26,21 +26,26 @@ public class AndEliminationDirectRuleTest {
 
     /**
      * Given one statement: B^C where ^ is true
-     * 
-     * Checks all possible combinations of true, false, and unknown for B and C
-     * except for where both B and C are true and asserts that each one of them
-     * is not a valid application of the rule.
+     *
+     * <p>Checks all possible combinations of true, false, and unknown for B and C except for where
+     * both B and C are true and asserts that each one of them is not a valid application of the
+     * rule.
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void trueAndTest1() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AndEliminationDirectRule/TrueAnd", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/AndEliminationDirectRule/TrueAnd", stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
-        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
+        ShortTruthTableCellType[] cellTypes = {
+            ShortTruthTableCellType.TRUE,
+            ShortTruthTableCellType.FALSE,
+            ShortTruthTableCellType.UNKNOWN
+        };
 
         for (ShortTruthTableCellType cellType1 : cellTypes) {
             for (ShortTruthTableCellType cellType2 : cellTypes) {
@@ -69,21 +74,23 @@ public class AndEliminationDirectRuleTest {
 
     /**
      * Given one statement: B^C where ^ is true
-     * 
-     * Checks all possible combinations of true and unknown for B and C
-     * except for where both B and C are unknown and asserts that each one
-     * of them is a valid application of the rule.
+     *
+     * <p>Checks all possible combinations of true and unknown for B and C except for where both B
+     * and C are unknown and asserts that each one of them is a valid application of the rule.
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void trueAndTest2() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AndEliminationDirectRule/TrueAnd", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/AndEliminationDirectRule/TrueAnd", stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
-        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.UNKNOWN};
+        ShortTruthTableCellType[] cellTypes = {
+            ShortTruthTableCellType.TRUE, ShortTruthTableCellType.UNKNOWN
+        };
 
         for (ShortTruthTableCellType cellType1 : cellTypes) {
             for (ShortTruthTableCellType cellType2 : cellTypes) {
@@ -112,20 +119,25 @@ public class AndEliminationDirectRuleTest {
 
     /**
      * Given one statement: B^C where ^ is false
-     * 
-     * Checks all possible combinations of true, false, and unknown for B and C
-     * and asserts that each one of them is not a valid application of the rule.
+     *
+     * <p>Checks all possible combinations of true, false, and unknown for B and C and asserts that
+     * each one of them is not a valid application of the rule.
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void falseAndWithUnknownsTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AndEliminationDirectRule/FalseAnd", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/AndEliminationDirectRule/FalseAnd", stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
-        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
+        ShortTruthTableCellType[] cellTypes = {
+            ShortTruthTableCellType.TRUE,
+            ShortTruthTableCellType.FALSE,
+            ShortTruthTableCellType.UNKNOWN
+        };
 
         for (ShortTruthTableCellType cellType1 : cellTypes) {
             for (ShortTruthTableCellType cellType2 : cellTypes) {
@@ -150,15 +162,17 @@ public class AndEliminationDirectRuleTest {
 
     /**
      * Given one statement: B^C where both B and ^ are false
-     * 
-     * Asserts that this is not a valid application of the rule if C is set to
-     * either true or false.
+     *
+     * <p>Asserts that this is not a valid application of the rule if C is set to either true or
+     * false.
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void falseAndWithKnownFalseTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AndEliminationDirectRule/FalseAndWithKnownFalse", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/AndEliminationDirectRule/FalseAndWithKnownFalse",
+                stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -177,15 +191,16 @@ public class AndEliminationDirectRuleTest {
 
     /**
      * Given one statement: B^C where B is true and ^ is false
-     * 
-     * Asserts that this is a valid application of the rule if and only if C is
-     * set to false.
+     *
+     * <p>Asserts that this is a valid application of the rule if and only if C is set to false.
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void falseAndWithKnownTrueTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/AndEliminationDirectRule/FalseAndWithKnownTrue", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/AndEliminationDirectRule/FalseAndWithKnownTrue",
+                stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);

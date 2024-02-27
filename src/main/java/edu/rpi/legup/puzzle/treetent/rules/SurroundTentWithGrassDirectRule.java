@@ -9,25 +9,26 @@ import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentLine;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
-
 import java.util.List;
 
 public class SurroundTentWithGrassDirectRule extends DirectRule {
 
     public SurroundTentWithGrassDirectRule() {
-        super("TREE-BASC-0005", "Surround Tent with Grass",
+        super(
+                "TREE-BASC-0005",
+                "Surround Tent with Grass",
                 "Blank cells adjacent or diagonal to a tent are grass.",
                 "edu/rpi/legup/images/treetent/aroundTent.png");
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
@@ -41,14 +42,14 @@ public class SurroundTentWithGrassDirectRule extends DirectRule {
         TreeTentCell initCell = (TreeTentCell) initialBoard.getPuzzleElement(puzzleElement);
         TreeTentBoard finalBoard = (TreeTentBoard) transition.getBoard();
         TreeTentCell finalCell = (TreeTentCell) finalBoard.getPuzzleElement(puzzleElement);
-        if (!(initCell.getType() == TreeTentType.UNKNOWN && finalCell.getType() == TreeTentType.GRASS)) {
+        if (!(initCell.getType() == TreeTentType.UNKNOWN
+                && finalCell.getType() == TreeTentType.GRASS)) {
             return super.getInvalidUseOfRuleMessage() + ": This cell must be a tent.";
         }
 
         if (isForced(initialBoard, initCell)) {
             return null;
-        }
-        else {
+        } else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be tent.";
         }
     }
@@ -60,7 +61,8 @@ public class SurroundTentWithGrassDirectRule extends DirectRule {
     }
 
     /**
-     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
      *
      * @param node tree node used to create default transition board
      * @return default board or null if this rule cannot be applied to this tree node
@@ -77,8 +79,7 @@ public class SurroundTentWithGrassDirectRule extends DirectRule {
         }
         if (treeTentBoard.getModifiedData().isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return treeTentBoard;
         }
     }

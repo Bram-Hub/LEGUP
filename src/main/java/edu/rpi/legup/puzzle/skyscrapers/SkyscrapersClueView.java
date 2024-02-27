@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.skyscrapers;
 
 import edu.rpi.legup.ui.boardview.ElementView;
-
 import java.awt.*;
 
 public class SkyscrapersClueView extends ElementView {
@@ -44,17 +43,10 @@ public class SkyscrapersClueView extends ElementView {
         SkyscrapersClue clue = getPuzzleElement();
         switch (clue.getType()) {
             case CLUE_NORTH:
-                value = String.valueOf(clue.getData());
-                break;
             case CLUE_EAST:
-                value = String.valueOf(clue.getData());
-                break;
             case CLUE_SOUTH:
-                value = String.valueOf(clue.getData());
-                break;
             case CLUE_WEST:
                 value = String.valueOf(clue.getData());
-                //value = SkyscrapersClue.colNumToString(clue.getData() + 1);
                 break;
             default:
                 value = "";

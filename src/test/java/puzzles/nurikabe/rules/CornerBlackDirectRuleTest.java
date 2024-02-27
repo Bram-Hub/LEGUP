@@ -1,21 +1,19 @@
 package puzzles.nurikabe.rules;
 
-import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
-import legup.MockGameBoardFacade;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import edu.rpi.legup.puzzle.nurikabe.Nurikabe;
-import edu.rpi.legup.puzzle.nurikabe.rules.CornerBlackDirectRule;
-import edu.rpi.legup.save.InvalidFileFormatException;
-import legup.TestUtilities;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import org.junit.Assert;
+import edu.rpi.legup.puzzle.nurikabe.Nurikabe;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
-
+import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
+import edu.rpi.legup.puzzle.nurikabe.rules.CornerBlackDirectRule;
+import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
-
+import legup.MockGameBoardFacade;
+import legup.TestUtilities;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 public class CornerBlackDirectRuleTest {
 
@@ -28,12 +26,12 @@ public class CornerBlackDirectRuleTest {
         nurikabe = new Nurikabe();
     }
 
-    /**
-     * Tests the Corner Black direct rule for a simple corner black tile
-     */
+    /** Tests the Corner Black direct rule for a simple corner black tile */
     @Test
-    public void CornerBlackContradictionRule_SimpleCornerBlackTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/CornerBlackDirectRule/SimpleCornerBlack", nurikabe);
+    public void CornerBlackContradictionRule_SimpleCornerBlackTest()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/nurikabe/rules/CornerBlackDirectRule/SimpleCornerBlack", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
@@ -45,25 +43,24 @@ public class CornerBlackDirectRuleTest {
 
         Assert.assertNull(RULE.checkRule(transition));
 
-        for(int i = 0; i < board.getHeight(); i++) {
-            for(int k = 0; k < board.getWidth(); k++) {
-                Point point  = new Point(k, i);
-                if(point.equals(cell.getLocation())) {
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Point point = new Point(k, i);
+                if (point.equals(cell.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
         }
     }
 
-    /**
-     * Tests the Corner Black direct rule for a false application of the rule
-     */
+    /** Tests the Corner Black direct rule for a false application of the rule */
     @Test
-    public void CornerBlackContradictionRule_FalseCornerBlackTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/CornerBlackDirectRule/FalseCornerBlack", nurikabe);
+    public void CornerBlackContradictionRule_FalseCornerBlackTest()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/nurikabe/rules/CornerBlackDirectRule/FalseCornerBlack", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
@@ -75,9 +72,9 @@ public class CornerBlackDirectRuleTest {
 
         Assert.assertNotNull(RULE.checkRule(transition));
 
-        for(int i = 0; i < board.getHeight(); i++) {
-            for(int k = 0; k < board.getWidth(); k++) {
-                Assert.assertNotNull(RULE.checkRuleAt(transition,board.getCell(k,i)));
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
             }
         }
     }

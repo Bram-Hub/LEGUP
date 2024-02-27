@@ -1,7 +1,6 @@
 package edu.rpi.legup.model.gameboard;
 
 import edu.rpi.legup.model.elements.Element;
-
 import java.awt.event.MouseEvent;
 
 public abstract class PuzzleElement<T> {
@@ -13,9 +12,7 @@ public abstract class PuzzleElement<T> {
     protected boolean isValid;
     protected int casesDepended;
 
-    /**
-     * PuzzleElement Constructor creates a new puzzle element.
-     */
+    /** PuzzleElement Constructor creates a new puzzle element. */
     public PuzzleElement() {
         this.index = -1;
         this.data = null;
@@ -131,8 +128,8 @@ public abstract class PuzzleElement<T> {
     }
 
     /**
-     * Get whether this puzzle element data is a valid change according to the rule applied to the transition that
-     * this puzzle element is contained in.
+     * Get whether this puzzle element data is a valid change according to the rule applied to the
+     * transition that this puzzle element is contained in.
      *
      * @return true if the puzzle element logically follows from the rule, otherwise false.
      */
@@ -141,8 +138,8 @@ public abstract class PuzzleElement<T> {
     }
 
     /**
-     * Sets whether this puzzle element data is a valid change according to the rule applied to the transition that
-     * this puzzle element is contained in.
+     * Sets whether this puzzle element data is a valid change according to the rule applied to the
+     * transition that this puzzle element is contained in.
      *
      * @param isValid true if the puzzle element logically follows from the rule, otherwise false.
      */

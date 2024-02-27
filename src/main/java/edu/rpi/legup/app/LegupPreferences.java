@@ -10,7 +10,8 @@ public class LegupPreferences {
 
     private static String SAVED_PATH = "";
 
-    private static final Preferences preferences = Preferences.userNodeForPackage(LegupPreferences.class);
+    private static final Preferences preferences =
+            Preferences.userNodeForPackage(LegupPreferences.class);
 
     private static final Map<String, String> preferencesMap = new HashMap<>();
     private static final Map<String, String> defaultPreferencesMap = new HashMap<>();
@@ -26,7 +27,6 @@ public class LegupPreferences {
     public static final String IMMEDIATE_FEEDBACK = "immediate-feedback";
     public static final String COLOR_BLIND = "color-blind";
 
-
     static {
         defaultPreferencesMap.put(WORK_DIRECTORY, System.getProperty("user.home"));
         defaultPreferencesMap.put(START_FULL_SCREEN, Boolean.toString(false));
@@ -41,16 +41,35 @@ public class LegupPreferences {
     }
 
     static {
-        preferencesMap.put(WORK_DIRECTORY, preferences.get(WORK_DIRECTORY, defaultPreferencesMap.get(WORK_DIRECTORY)));
-        preferencesMap.put(START_FULL_SCREEN, preferences.get(START_FULL_SCREEN, defaultPreferencesMap.get(START_FULL_SCREEN)));
-        preferencesMap.put(AUTO_UPDATE, preferences.get(AUTO_UPDATE, defaultPreferencesMap.get(AUTO_UPDATE)));
-        preferencesMap.put(DARK_MODE, preferences.get(DARK_MODE, defaultPreferencesMap.get(DARK_MODE)));
-        preferencesMap.put(SHOW_MISTAKES, preferences.get(SHOW_MISTAKES, defaultPreferencesMap.get(SHOW_MISTAKES)));
-        preferencesMap.put(SHOW_ANNOTATIONS, preferences.get(SHOW_ANNOTATIONS, defaultPreferencesMap.get(SHOW_ANNOTATIONS)));
-        preferencesMap.put(ALLOW_DEFAULT_RULES, preferences.get(ALLOW_DEFAULT_RULES, defaultPreferencesMap.get(ALLOW_DEFAULT_RULES)));
-        preferencesMap.put(AUTO_GENERATE_CASES, preferences.get(AUTO_GENERATE_CASES, defaultPreferencesMap.get(AUTO_GENERATE_CASES)));
-        preferencesMap.put(IMMEDIATE_FEEDBACK, preferences.get(IMMEDIATE_FEEDBACK, defaultPreferencesMap.get(IMMEDIATE_FEEDBACK)));
-        preferencesMap.put(COLOR_BLIND, preferences.get(COLOR_BLIND, defaultPreferencesMap.get(COLOR_BLIND)));
+        preferencesMap.put(
+                WORK_DIRECTORY,
+                preferences.get(WORK_DIRECTORY, defaultPreferencesMap.get(WORK_DIRECTORY)));
+        preferencesMap.put(
+                START_FULL_SCREEN,
+                preferences.get(START_FULL_SCREEN, defaultPreferencesMap.get(START_FULL_SCREEN)));
+        preferencesMap.put(
+                AUTO_UPDATE, preferences.get(AUTO_UPDATE, defaultPreferencesMap.get(AUTO_UPDATE)));
+        preferencesMap.put(
+                DARK_MODE, preferences.get(DARK_MODE, defaultPreferencesMap.get(DARK_MODE)));
+        preferencesMap.put(
+                SHOW_MISTAKES,
+                preferences.get(SHOW_MISTAKES, defaultPreferencesMap.get(SHOW_MISTAKES)));
+        preferencesMap.put(
+                SHOW_ANNOTATIONS,
+                preferences.get(SHOW_ANNOTATIONS, defaultPreferencesMap.get(SHOW_ANNOTATIONS)));
+        preferencesMap.put(
+                ALLOW_DEFAULT_RULES,
+                preferences.get(
+                        ALLOW_DEFAULT_RULES, defaultPreferencesMap.get(ALLOW_DEFAULT_RULES)));
+        preferencesMap.put(
+                AUTO_GENERATE_CASES,
+                preferences.get(
+                        AUTO_GENERATE_CASES, defaultPreferencesMap.get(AUTO_GENERATE_CASES)));
+        preferencesMap.put(
+                IMMEDIATE_FEEDBACK,
+                preferences.get(IMMEDIATE_FEEDBACK, defaultPreferencesMap.get(IMMEDIATE_FEEDBACK)));
+        preferencesMap.put(
+                COLOR_BLIND, preferences.get(COLOR_BLIND, defaultPreferencesMap.get(COLOR_BLIND)));
     }
 
     /**
@@ -65,12 +84,8 @@ public class LegupPreferences {
         return instance;
     }
 
-    /**
-     * Private LegupPreferences Singleton Constructor
-     */
-    private LegupPreferences() {
-
-    }
+    /** Private LegupPreferences Singleton Constructor */
+    private LegupPreferences() {}
 
     /**
      * Gets the user preference by the string key
@@ -85,7 +100,7 @@ public class LegupPreferences {
     /**
      * Gets the user preference by the string key, value pair
      *
-     * @param key   key name of the preference
+     * @param key key name of the preference
      * @param value value of the preference
      */
     public void setUserPref(String key, String value) {
@@ -96,17 +111,14 @@ public class LegupPreferences {
     public boolean getUserPrefAsBool(String key) {
         if (preferencesMap.get(key).equalsIgnoreCase(Boolean.toString(true))) {
             return true;
-        }
-        else {
+        } else {
             if (preferencesMap.get(key).equalsIgnoreCase(Boolean.toString(false))) {
                 return false;
-            }
-            else {
+            } else {
                 throw new RuntimeException("Cannot get user preference - " + key);
             }
         }
     }
-
 
     public String getSavedPath() {
         return SAVED_PATH;

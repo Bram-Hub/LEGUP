@@ -7,5 +7,4 @@ public class DirectRuleBiconditionalIntroduction extends DirectRule_GenericIntro
     public DirectRuleBiconditionalIntroduction() {
         super("STTT-BASC-0008", "Biconditional", new ContradictionRuleBiconditional());
     }
-
 }
