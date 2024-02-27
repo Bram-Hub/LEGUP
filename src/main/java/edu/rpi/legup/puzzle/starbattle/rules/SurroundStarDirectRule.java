@@ -2,9 +2,13 @@ package edu.rpi.legup.puzzle.starbattle.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
+import edu.rpi.legup.puzzle.nurikabe.rules.NoNumberContradictionRule;
 import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
@@ -29,7 +33,22 @@ public class SurroundStarDirectRule extends DirectRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+        StarBattleBoard board = (StarBattleBoard) transition.getBoard();
+        StarBattleBoard origBoard = (StarBattleBoard) transition.getParents().get(0).getBoard();
+        ContradictionRule contraRule = new ClashingOrbitContradictionRule();
 
+        StarBattleCell cell = (StarBattleCell) board.getPuzzleElement(puzzleElement);
+
+        if (cell.getType() != StarBattleCellType.BLACK) {
+            return "Only black cells are allowed for this rule!";
+        }
+
+        StarBattleBoard modified = (StarBattleBoard) origBoard.copy();
+        //TODO: please for the love of god make a copy method for star battle board because this isn't actually going to work otherwise
+        modified.getPuzzleElement(puzzleElement).setData(StarBattleCellType.STAR);
+        if (contraRule.checkContradictionAt(modified, puzzleElement) != null) {
+            return "Black cells must be placed adjacent to a star!";
+        }
         return null;
     }
 
