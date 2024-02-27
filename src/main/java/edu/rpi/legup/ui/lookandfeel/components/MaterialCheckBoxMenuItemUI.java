@@ -1,20 +1,18 @@
 package edu.rpi.legup.ui.lookandfeel.components;
 
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialDrawingUtils;
-
+import java.awt.Color;
+import java.awt.Graphics;
 import javax.swing.Icon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicCheckBoxMenuItemUI;
-import java.awt.Color;
-import java.awt.Graphics;
 
 /**
  * @author https://github.com/vincenzopalazzo
  */
-
 public class MaterialCheckBoxMenuItemUI extends BasicCheckBoxMenuItemUI {
 
     public static ComponentUI createUI(JComponent c) {
@@ -32,12 +30,33 @@ public class MaterialCheckBoxMenuItemUI extends BasicCheckBoxMenuItemUI {
     }
 
     @Override
-    protected void paintMenuItem(Graphics g, JComponent c, Icon checkIcon, Icon arrowIcon, Color background, Color foreground, int defaultTextIconGap) {
+    protected void paintMenuItem(
+            Graphics g,
+            JComponent c,
+            Icon checkIcon,
+            Icon arrowIcon,
+            Color background,
+            Color foreground,
+            int defaultTextIconGap) {
         JCheckBoxMenuItem checkBoxMenuItem = (JCheckBoxMenuItem) c;
         if (checkBoxMenuItem.isSelected()) {
-            super.paintMenuItem(MaterialDrawingUtils.getAliasedGraphics(g), checkBoxMenuItem, UIManager.getIcon("CheckBoxMenuItem.selectedCheckIcon"), arrowIcon, background, foreground, defaultTextIconGap);
+            super.paintMenuItem(
+                    MaterialDrawingUtils.getAliasedGraphics(g),
+                    checkBoxMenuItem,
+                    UIManager.getIcon("CheckBoxMenuItem.selectedCheckIcon"),
+                    arrowIcon,
+                    background,
+                    foreground,
+                    defaultTextIconGap);
             return;
         }
-        super.paintMenuItem(MaterialDrawingUtils.getAliasedGraphics(g), checkBoxMenuItem, UIManager.getIcon("CheckBoxMenuItem.checkIcon"), arrowIcon, background, foreground, defaultTextIconGap);
+        super.paintMenuItem(
+                MaterialDrawingUtils.getAliasedGraphics(g),
+                checkBoxMenuItem,
+                UIManager.getIcon("CheckBoxMenuItem.checkIcon"),
+                arrowIcon,
+                background,
+                foreground,
+                defaultTextIconGap);
     }
 }

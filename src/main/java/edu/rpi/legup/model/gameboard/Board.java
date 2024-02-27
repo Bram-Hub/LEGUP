@@ -11,9 +11,7 @@ public abstract class Board {
     protected Set<PuzzleElement> modifiedData;
     protected boolean isModifiable;
 
-    /**
-     * Board Constructor creates an empty board.
-     */
+    /** Board Constructor creates an empty board. */
     public Board() {
         this.puzzleElements = new ArrayList<>();
         this.modifiedData = new HashSet<>();
@@ -46,7 +44,7 @@ public abstract class Board {
     /**
      * Sets a specific {@link PuzzleElement} on the board.
      *
-     * @param index         index of the puzzleElement
+     * @param index index of the puzzleElement
      * @param puzzleElement new puzzleElement at the index
      */
     public void setPuzzleElement(int index, PuzzleElement puzzleElement) {
@@ -139,8 +137,8 @@ public abstract class Board {
     }
 
     /**
-     * Called when a {@link PuzzleElement} data on this has changed and passes in the equivalent puzzle element with
-     * the new data.
+     * Called when a {@link PuzzleElement} data on this has changed and passes in the equivalent
+     * puzzle element with the new data.
      *
      * @param puzzleElement equivalent puzzle element with the new data.
      */
@@ -150,22 +148,20 @@ public abstract class Board {
     }
 
     /**
-     * Called when a {@link PuzzleElement} has been added and passes in the equivalent puzzle element with the data.
+     * Called when a {@link PuzzleElement} has been added and passes in the equivalent puzzle
+     * element with the data.
      *
      * @param puzzleElement equivalent puzzle element with the data.
      */
-    public void notifyAddition(PuzzleElement puzzleElement) {
-
-    }
+    public void notifyAddition(PuzzleElement puzzleElement) {}
 
     /**
-     * Called when a {@link PuzzleElement} has been deleted and passes in the equivalent puzzle element with the data.
+     * Called when a {@link PuzzleElement} has been deleted and passes in the equivalent puzzle
+     * element with the data.
      *
      * @param puzzleElement equivalent puzzle element with the data.
      */
-    public void notifyDeletion(PuzzleElement puzzleElement) {
-
-    }
+    public void notifyDeletion(PuzzleElement puzzleElement) {}
 
     @SuppressWarnings("unchecked")
     public Board mergedBoard(Board lca, List<Board> boards) {

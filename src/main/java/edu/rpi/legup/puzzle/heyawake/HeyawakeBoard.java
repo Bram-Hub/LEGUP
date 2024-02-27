@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.heyawake;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;

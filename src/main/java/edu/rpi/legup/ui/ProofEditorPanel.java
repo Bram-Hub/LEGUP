@@ -17,14 +17,8 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
-import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 import edu.rpi.legup.user.Submission;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,9 +31,13 @@ import java.net.URI;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
-    private final static Logger LOGGER = LogManager.getLogger(ProofEditorPanel.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(ProofEditorPanel.class.getName());
     private JMenuBar mBar;
     private TreePanel treePanel;
     private FileDialog fileDialog;
@@ -51,7 +49,13 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     private JButton[] toolBarButtons;
     private JMenu file;
-    private JMenuItem newPuzzle, resetPuzzle, saveProofAs, saveProofChange, helpTutorial, preferences, exit;
+    private JMenuItem newPuzzle,
+            resetPuzzle,
+            saveProofAs,
+            saveProofChange,
+            helpTutorial,
+            preferences,
+            exit;
     private JMenu edit;
     private JMenuItem undo, redo, fitBoardToScreen, fitTreeToScreen;
 
@@ -60,7 +64,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private JMenu proof;
     private JMenuItem add, delete, merge, collapse;
     private JCheckBoxMenuItem allowDefault, caseRuleGen, imdFeedback;
-
     private JMenu about, help;
     private JMenuItem helpLegup, aboutLegup;
 
@@ -78,9 +81,25 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     public static final int IMD_FEEDBACK = 32;
     public static final int INTERN_RO = 64;
     public static final int AUTO_JUST = 128;
-    final static int[] TOOLBAR_SEPARATOR_BEFORE = {2, 4, 8};
-    private static final String[] PROFILES = {"No Assistance", "Rigorous Proof", "Casual Proof", "Assisted Proof", "Guided Proof", "Training-Wheels Proof", "No Restrictions"};
-    private static final int[] PROF_FLAGS = {0, ALLOW_JUST | REQ_STEP_JUST, ALLOW_JUST, ALLOW_HINTS | ALLOW_JUST | AUTO_JUST, ALLOW_HINTS | ALLOW_JUST | REQ_STEP_JUST, ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_JUST | IMD_FEEDBACK | INTERN_RO, ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_FULLAI | ALLOW_JUST};
+    static final int[] TOOLBAR_SEPARATOR_BEFORE = {2, 4, 8};
+    private static final String[] PROFILES = {
+        "No Assistance",
+        "Rigorous Proof",
+        "Casual Proof",
+        "Assisted Proof",
+        "Guided Proof",
+        "Training-Wheels Proof",
+        "No Restrictions"
+    };
+    private static final int[] PROF_FLAGS = {
+        0,
+        ALLOW_JUST | REQ_STEP_JUST,
+        ALLOW_JUST,
+        ALLOW_HINTS | ALLOW_JUST | AUTO_JUST,
+        ALLOW_HINTS | ALLOW_JUST | REQ_STEP_JUST,
+        ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_JUST | IMD_FEEDBACK | INTERN_RO,
+        ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_FULLAI | ALLOW_JUST
+    };
     private JMenu proofMode = new JMenu("Proof Mode");
     private JCheckBoxMenuItem[] proofModeItems = new JCheckBoxMenuItem[PROF_FLAGS.length];
 
@@ -116,7 +135,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         file = new JMenu("File");
         newPuzzle = new JMenuItem("Open");
         resetPuzzle = new JMenuItem("Reset Puzzle");
-//        genPuzzle = new JMenuItem("Puzzle Generators"); // TODO: implement puzzle generator
+        //        genPuzzle = new JMenuItem("Puzzle Generators"); // TODO: implement puzzle
+        // generator
         saveProofAs = new JMenuItem("Save As"); // create a new file to save
         saveProofChange = new JMenuItem("Save"); // save to the current file
         preferences = new JMenuItem("Preferences");
@@ -139,9 +159,10 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         add = new JMenuItem("Add");
         add.addActionListener(a -> treePanel.add());
         if (os.equals("mac")) {
-            add.setAccelerator(KeyStroke.getKeyStroke('A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        }
-        else {
+            add.setAccelerator(
+                    KeyStroke.getKeyStroke(
+                            'A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        } else {
             add.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_DOWN_MASK));
         }
         proof.add(add);
@@ -149,9 +170,10 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         delete = new JMenuItem("Delete");
         delete.addActionListener(a -> treePanel.delete());
         if (os.equals("mac")) {
-            delete.setAccelerator(KeyStroke.getKeyStroke('D', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        }
-        else {
+            delete.setAccelerator(
+                    KeyStroke.getKeyStroke(
+                            'D', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        } else {
             delete.setAccelerator(KeyStroke.getKeyStroke('D', InputEvent.CTRL_DOWN_MASK));
         }
         proof.add(delete);
@@ -159,9 +181,10 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         merge = new JMenuItem("Merge");
         merge.addActionListener(a -> treePanel.merge());
         if (os.equals("mac")) {
-            merge.setAccelerator(KeyStroke.getKeyStroke('M', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        }
-        else {
+            merge.setAccelerator(
+                    KeyStroke.getKeyStroke(
+                            'M', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        } else {
             merge.setAccelerator(KeyStroke.getKeyStroke('M', InputEvent.CTRL_DOWN_MASK));
         }
         proof.add(merge);
@@ -169,33 +192,58 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         collapse = new JMenuItem("Collapse");
         collapse.addActionListener(a -> treePanel.collapse());
         if (os.equals("mac")) {
-            collapse.setAccelerator(KeyStroke.getKeyStroke('C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        }
-        else {
+            collapse.setAccelerator(
+                    KeyStroke.getKeyStroke(
+                            'C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        } else {
             collapse.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_DOWN_MASK));
         }
         collapse.setEnabled(false);
         proof.add(collapse);
 
-        allowDefault = new JCheckBoxMenuItem("Allow Default Rule Applications",
-                LegupPreferences.getInstance().getUserPref(LegupPreferences.ALLOW_DEFAULT_RULES).equalsIgnoreCase(Boolean.toString(true)));
-        allowDefault.addChangeListener(e -> {
-            LegupPreferences.getInstance().setUserPref(LegupPreferences.ALLOW_DEFAULT_RULES, Boolean.toString(allowDefault.isSelected()));
-        });
+        allowDefault =
+                new JCheckBoxMenuItem(
+                        "Allow Default Rule Applications",
+                        LegupPreferences.getInstance()
+                                .getUserPref(LegupPreferences.ALLOW_DEFAULT_RULES)
+                                .equalsIgnoreCase(Boolean.toString(true)));
+        allowDefault.addChangeListener(
+                e -> {
+                    LegupPreferences.getInstance()
+                            .setUserPref(
+                                    LegupPreferences.ALLOW_DEFAULT_RULES,
+                                    Boolean.toString(allowDefault.isSelected()));
+                });
         proof.add(allowDefault);
 
-        caseRuleGen = new JCheckBoxMenuItem("Automatically generate cases for CaseRule",
-                LegupPreferences.getInstance().getUserPref(LegupPreferences.AUTO_GENERATE_CASES).equalsIgnoreCase(Boolean.toString(true)));
-        caseRuleGen.addChangeListener(e -> {
-            LegupPreferences.getInstance().setUserPref(LegupPreferences.AUTO_GENERATE_CASES, Boolean.toString(caseRuleGen.isSelected()));
-        });
+        caseRuleGen =
+                new JCheckBoxMenuItem(
+                        "Automatically generate cases for CaseRule",
+                        LegupPreferences.getInstance()
+                                .getUserPref(LegupPreferences.AUTO_GENERATE_CASES)
+                                .equalsIgnoreCase(Boolean.toString(true)));
+        caseRuleGen.addChangeListener(
+                e -> {
+                    LegupPreferences.getInstance()
+                            .setUserPref(
+                                    LegupPreferences.AUTO_GENERATE_CASES,
+                                    Boolean.toString(caseRuleGen.isSelected()));
+                });
         proof.add(caseRuleGen);
 
-        imdFeedback = new JCheckBoxMenuItem("Provide immediate feedback",
-                LegupPreferences.getInstance().getUserPref(LegupPreferences.IMMEDIATE_FEEDBACK).equalsIgnoreCase(Boolean.toString(true)));
-        imdFeedback.addChangeListener(e -> {
-            LegupPreferences.getInstance().setUserPref(LegupPreferences.IMMEDIATE_FEEDBACK, Boolean.toString(imdFeedback.isSelected()));
-        });
+        imdFeedback =
+                new JCheckBoxMenuItem(
+                        "Provide immediate feedback",
+                        LegupPreferences.getInstance()
+                                .getUserPref(LegupPreferences.IMMEDIATE_FEEDBACK)
+                                .equalsIgnoreCase(Boolean.toString(true)));
+        imdFeedback.addChangeListener(
+                e -> {
+                    LegupPreferences.getInstance()
+                            .setUserPref(
+                                    LegupPreferences.IMMEDIATE_FEEDBACK,
+                                    Boolean.toString(imdFeedback.isSelected()));
+                });
         proof.add(imdFeedback);
 
         about = new JMenu("About");
@@ -206,38 +254,60 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         file.add(newPuzzle);
         newPuzzle.addActionListener((ActionEvent) -> loadPuzzle());
         if (os.equals("mac")) {
-            newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        }
-        else {
+            newPuzzle.setAccelerator(
+                    KeyStroke.getKeyStroke(
+                            'N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        } else {
             newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
         }
 
         file.add(resetPuzzle);
-        resetPuzzle.addActionListener(a -> {
-            Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
-            if (puzzle != null) {
-                Tree tree = GameBoardFacade.getInstance().getTree();
-                TreeNode rootNode = tree.getRootNode();
-                if (rootNode != null) {
-                    int confirmReset = JOptionPane.showConfirmDialog(this, "Reset Puzzle to Root Node?", "Confirm Reset", JOptionPane.YES_NO_OPTION);
-                    if (confirmReset == JOptionPane.YES_OPTION) {
+        resetPuzzle.addActionListener(
+                a -> {
+                    Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+                    if (puzzle != null) {
+                        Tree tree = GameBoardFacade.getInstance().getTree();
+                        TreeNode rootNode = tree.getRootNode();
+                        if (rootNode != null) {
+                            int confirmReset =
+                                    JOptionPane.showConfirmDialog(
+                                            this,
+                                            "Reset Puzzle to Root Node?",
+                                            "Confirm Reset",
+                                            JOptionPane.YES_NO_OPTION);
+                            if (confirmReset == JOptionPane.YES_OPTION) {
 
-                        List<TreeTransition> children = rootNode.getChildren();
-                        children.forEach(t -> puzzle.notifyTreeListeners(l -> l.onTreeElementRemoved(t)));
-                        children.forEach(t -> puzzle.notifyBoardListeners(l -> l.onTreeElementChanged(t)));
-                        rootNode.clearChildren();
-                        final TreeViewSelection selection = new TreeViewSelection(treePanel.getTreeView().getElementView(rootNode));
-                        puzzle.notifyTreeListeners(l -> l.onTreeSelectionChanged(selection));
-                        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(selection.getFirstSelection().getTreeElement()));
-                        GameBoardFacade.getInstance().getHistory().clear();
+                                List<TreeTransition> children = rootNode.getChildren();
+                                children.forEach(
+                                        t ->
+                                                puzzle.notifyTreeListeners(
+                                                        l -> l.onTreeElementRemoved(t)));
+                                children.forEach(
+                                        t ->
+                                                puzzle.notifyBoardListeners(
+                                                        l -> l.onTreeElementChanged(t)));
+                                rootNode.clearChildren();
+                                final TreeViewSelection selection =
+                                        new TreeViewSelection(
+                                                treePanel.getTreeView().getElementView(rootNode));
+                                puzzle.notifyTreeListeners(
+                                        l -> l.onTreeSelectionChanged(selection));
+                                puzzle.notifyBoardListeners(
+                                        listener ->
+                                                listener.onTreeElementChanged(
+                                                        selection
+                                                                .getFirstSelection()
+                                                                .getTreeElement()));
+                                GameBoardFacade.getInstance().getHistory().clear();
+                            }
+                        }
                     }
-                }
-            }
-        });
+                });
         if (os.equals("mac")) {
-            resetPuzzle.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        }
-        else {
+            resetPuzzle.setAccelerator(
+                    KeyStroke.getKeyStroke(
+                            'R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        } else {
             resetPuzzle.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.CTRL_DOWN_MASK));
         }
         file.addSeparator();
@@ -245,23 +315,23 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         file.add(saveProofAs);
         saveProofAs.addActionListener((ActionEvent) -> saveProofAs());
 
-
-        //save proof as...
+        // save proof as...
         if (os.equals("mac")) {
-            saveProofAs.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        }
-        else {
+            saveProofAs.setAccelerator(
+                    KeyStroke.getKeyStroke(
+                            'S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        } else {
             saveProofAs.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK));
         }
 
         // save proof change
         if (os.equals("mac")) {
-            saveProofChange.setAccelerator(KeyStroke.getKeyStroke('A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        }
-        else {
+            saveProofChange.setAccelerator(
+                    KeyStroke.getKeyStroke(
+                            'A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        } else {
             saveProofChange.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_DOWN_MASK));
         }
-
 
         file.add(saveProofChange);
         saveProofChange.addActionListener((ActionEvent) -> saveProofChange());
@@ -269,16 +339,20 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         // preference
         file.add(preferences);
-        preferences.addActionListener(a -> {
-            PreferencesDialog preferencesDialog = PreferencesDialog.CreateDialogForProofEditor(this.frame, this.ruleFrame);
-        });
+        preferences.addActionListener(
+                a -> {
+                    PreferencesDialog preferencesDialog =
+                            PreferencesDialog.CreateDialogForProofEditor(
+                                    this.frame, this.ruleFrame);
+                });
         file.addSeparator();
 
         // help function
         if (os.equals("mac")) {
-            helpTutorial.setAccelerator(KeyStroke.getKeyStroke('H', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        }
-        else {
+            helpTutorial.setAccelerator(
+                    KeyStroke.getKeyStroke(
+                            'H', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        } else {
             helpTutorial.setAccelerator(KeyStroke.getKeyStroke('H', InputEvent.CTRL_DOWN_MASK));
         }
         file.add(helpTutorial);
@@ -286,56 +360,75 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         helpTutorial.addActionListener((ActionEvent) -> helpTutorial());
         file.addSeparator();
 
-
-        //exit
+        // exit
         file.add(exit);
         exit.addActionListener((ActionEvent) -> exitEditor());
         if (os.equals("mac")) {
-            exit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        }
-        else {
+            exit.setAccelerator(
+                    KeyStroke.getKeyStroke(
+                            'Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        } else {
             exit.setAccelerator(KeyStroke.getKeyStroke('Q', InputEvent.CTRL_DOWN_MASK));
         }
         mBar.add(edit);
 
-
         edit.add(undo);
-        undo.addActionListener((ActionEvent) ->
-                GameBoardFacade.getInstance().getHistory().undo());
+        undo.addActionListener((ActionEvent) -> GameBoardFacade.getInstance().getHistory().undo());
         if (os.equals("mac")) {
-            undo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        }
-        else {
+            undo.setAccelerator(
+                    KeyStroke.getKeyStroke(
+                            'Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        } else {
             undo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK));
         }
 
         edit.add(redo);
 
         // Created action to support two keybinds (CTRL-SHIFT-Z, CTRL-Y)
-        Action redoAction = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                GameBoardFacade.getInstance().getHistory().redo();
-            }
-        };
+        Action redoAction =
+                new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        GameBoardFacade.getInstance().getHistory().redo();
+                    }
+                };
         if (os.equals("mac")) {
-            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(
-                    KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK), "redoAction");
-            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(
-                    KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "redoAction");
-            redo.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_DOWN_MASK));
-        }
-        else {
-            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('Y', InputEvent.CTRL_DOWN_MASK), "redoAction");
-            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('Z', InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK), "redoAction");
+            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW)
+                    .put(
+                            KeyStroke.getKeyStroke(
+                                    'Z',
+                                    Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()
+                                            + InputEvent.SHIFT_DOWN_MASK),
+                            "redoAction");
+            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW)
+                    .put(
+                            KeyStroke.getKeyStroke(
+                                    'Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
+                            "redoAction");
+            redo.setAccelerator(
+                    KeyStroke.getKeyStroke(
+                            'Z',
+                            Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()
+                                    + InputEvent.SHIFT_DOWN_MASK));
+        } else {
+            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW)
+                    .put(KeyStroke.getKeyStroke('Y', InputEvent.CTRL_DOWN_MASK), "redoAction");
+            redo.getInputMap(WHEN_IN_FOCUSED_WINDOW)
+                    .put(
+                            KeyStroke.getKeyStroke(
+                                    'Z', InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK),
+                            "redoAction");
             redo.getActionMap().put("redoAction", redoAction);
 
             // Button in menu will show CTRL-SHIFT-Z as primary keybind
-            redo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK));
+            redo.setAccelerator(
+                    KeyStroke.getKeyStroke(
+                            'Z', InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK));
         }
 
         edit.add(fitBoardToScreen);
-        fitBoardToScreen.addActionListener((ActionEvent) -> dynamicBoardView.fitBoardViewToScreen());
+        fitBoardToScreen.addActionListener(
+                (ActionEvent) -> dynamicBoardView.fitBoardViewToScreen());
 
         edit.add(fitTreeToScreen);
         fitTreeToScreen.addActionListener((ActionEvent) -> this.fitTreeViewToScreen());
@@ -343,19 +436,21 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         mBar.add(proof);
 
         about.add(aboutLegup);
-        aboutLegup.addActionListener(l -> {
-            JOptionPane.showMessageDialog(null, "Version: 5.1.0");
-        });
+        aboutLegup.addActionListener(
+                l -> {
+                    JOptionPane.showMessageDialog(null, "Version: 5.1.0");
+                });
 
         about.add(helpLegup);
-        helpLegup.addActionListener(l -> {
-            try {
-                java.awt.Desktop.getDesktop().browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki"));
-            }
-            catch (IOException e) {
-                LOGGER.error("Can't open web page");
-            }
-        });
+        helpLegup.addActionListener(
+                l -> {
+                    try {
+                        java.awt.Desktop.getDesktop()
+                                .browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki"));
+                    } catch (IOException e) {
+                        LOGGER.error("Can't open web page");
+                    }
+                });
 
         mBar.add(about);
 
@@ -402,16 +497,15 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         if (puzzlePath != null) {
             fileName = puzzlePath.getAbsolutePath();
-            String lastDirectoryPath =  fileName.substring(0, fileName.lastIndexOf(File.separator));
+            String lastDirectoryPath = fileName.substring(0, fileName.lastIndexOf(File.separator));
             preferences.setSavedPath(lastDirectoryPath);
             puzzleFile = puzzlePath;
-        }
-        else {
+        } else {
             // The attempt to prompt a puzzle ended gracefully (cancel)
             return null;
         }
 
-        return new Object[]{fileName, puzzleFile};
+        return new Object[] {fileName, puzzleFile};
     }
 
     public void loadPuzzle() {
@@ -432,25 +526,35 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 GameBoardFacade.getInstance().loadPuzzle(fileName);
                 String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
                 frame.setTitle(puzzleName + " - " + puzzleFile.getName());
-            }
-            catch (InvalidFileFormatException e) {
+            } catch (InvalidFileFormatException e) {
                 legupUI.displayPanel(0);
                 LOGGER.error(e.getMessage());
-                if (e.getMessage().contains("Proof Tree construction error: could not find rule by ID")) { // TO DO: make error message not hardcoded
-                    JOptionPane.showMessageDialog(null, "This file runs on an outdated version of Legup\nand is not compatible with the current version.", "Error", JOptionPane.ERROR_MESSAGE);
+                if (e.getMessage()
+                        .contains(
+                                "Proof Tree construction error: could not find rule by ID")) { // TO
+                    // DO: make error
+                    // message not
+                    // hardcoded
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "This file runs on an outdated version of Legup\n"
+                                    + "and is not compatible with the current version.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
                     loadPuzzle();
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "File does not exist or it cannot be read", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "File does not exist or it cannot be read",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
                     loadPuzzle();
                 }
             }
         }
     }
 
-    /**
-     * save the proof in the current file
-     */
+    /** save the proof in the current file */
     private void direct_save() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
@@ -464,16 +568,13 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                     throw new ExportFileException("Puzzle exporter null");
                 }
                 exporter.exportPuzzle(fileName);
-            }
-            catch (ExportFileException e) {
+            } catch (ExportFileException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    /**
-     * Create a new file and save proof to it
-     */
+    /** Create a new file and save proof to it */
     private void saveProofAs() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
@@ -484,9 +585,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         fileDialog.setTitle("Save As");
         String curFileName = GameBoardFacade.getInstance().getCurFileName();
         if (curFileName == null) {
-            fileDialog.setDirectory(LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY));
-        }
-        else {
+            fileDialog.setDirectory(
+                    LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY));
+        } else {
             File curFile = new File(curFileName);
             fileDialog.setDirectory(curFile.getParent());
         }
@@ -504,8 +605,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                     throw new ExportFileException("Puzzle exporter null");
                 }
                 exporter.exportPuzzle(fileName);
-            }
-            catch (ExportFileException e) {
+            } catch (ExportFileException e) {
                 e.printStackTrace();
             }
         }
@@ -513,7 +613,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     // Hyperlink for help button; links to wiki page for tutorials
     private void helpTutorial() {
-        //redirecting to certain help link in wiki
+        // redirecting to certain help link in wiki
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
             return;
@@ -541,31 +641,29 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
         Runtime rt = Runtime.getRuntime();
         try {
-            //rt.exec("rundll32 url.dll,FileProtocolHandler "+url);
+            // rt.exec("rundll32 url.dll,FileProtocolHandler "+url);
             java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    //add the new function need to implement
+    // add the new function need to implement
     public void add_drop() {
         // add the mouse event then we can use the new listener to implement and
         // we should create a need jbuttom for it to ship the rule we select.
         JPanel panel = new JPanel();
         JButton moveing_buttom = new JButton();
         moveing_buttom.setFocusPainted(false);
-        moveing_buttom.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //get the selected rule
-            }
-        });
+        moveing_buttom.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // get the selected rule
+                    }
+                });
         panel.add(moveing_buttom);
-
     }
-
 
     // Quick save proof to the current file with a pop window to show "successfully saved"
     private void saveProofChange() {
@@ -582,27 +680,23 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 }
                 exporter.exportPuzzle(fileName);
                 // Save confirmation
-                JOptionPane.showMessageDialog(null, "Successfully Saved", "Confirm", JOptionPane.INFORMATION_MESSAGE);
-            }
-            catch (ExportFileException e) {
+                JOptionPane.showMessageDialog(
+                        null, "Successfully Saved", "Confirm", JOptionPane.INFORMATION_MESSAGE);
+            } catch (ExportFileException e) {
                 e.printStackTrace();
             }
         }
-
     }
 
-
-    //ask to edu.rpi.legup.save current proof
+    // ask to edu.rpi.legup.save current proof
     public boolean noquit(String instr) {
         int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_OPTION);
         return n != JOptionPane.YES_OPTION;
     }
 
-    /**
-     * Sets the main content for the edu.rpi.legup.user interface
-     */
+    /** Sets the main content for the edu.rpi.legup.user interface */
     protected void setupContent() {
-//        JPanel consoleBox = new JPanel(new BorderLayout());
+        //        JPanel consoleBox = new JPanel(new BorderLayout());
         JPanel treeBox = new JPanel(new BorderLayout());
         JPanel ruleBox = new JPanel(new BorderLayout());
 
@@ -612,13 +706,15 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         treePanel = new TreePanel();
 
-        dynamicBoardView = new DynamicView(new ScrollView(new BoardController()), DynamicViewType.BOARD);
+        dynamicBoardView =
+                new DynamicView(new ScrollView(new BoardController()), DynamicViewType.BOARD);
         TitledBorder titleBoard = BorderFactory.createTitledBorder("Board");
         titleBoard.setTitleJustification(TitledBorder.CENTER);
         dynamicBoardView.setBorder(titleBoard);
 
         JPanel boardPanel = new JPanel(new BorderLayout());
-        topHalfPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, ruleFrame, dynamicBoardView);
+        topHalfPanel =
+                new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, ruleFrame, dynamicBoardView);
         mainPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, topHalfPanel, treePanel);
         topHalfPanel.setPreferredSize(new Dimension(600, 400));
         mainPanel.setPreferredSize(new Dimension(600, 600));
@@ -631,16 +727,16 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         ruleBox.add(boardPanel);
         treeBox.add(ruleBox);
         this.add(treeBox);
-//        consoleBox.add(treeBox);
-//
-//        getContentPane().add(consoleBox);
+        //        consoleBox.add(treeBox);
+        //
+        //        getContentPane().add(consoleBox);
 
-//        JPopupPanel popupPanel = new JPopupPanel();
-//        setGlassPane(popupPanel);
-//        popupPanel.setVisible(true);
+        //        JPopupPanel popupPanel = new JPopupPanel();
+        //        setGlassPane(popupPanel);
+        //        popupPanel.setVisible(true);
 
         mainPanel.setDividerLocation(mainPanel.getMaximumDividerLocation() + 100);
-//        frame.pack();
+        //        frame.pack();
         revalidate();
     }
 
@@ -648,12 +744,19 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         setToolBarButtons(new JButton[ToolbarName.values().length]);
         for (int i = 0; i < ToolbarName.values().length; i++) {
             String toolBarName = ToolbarName.values()[i].toString();
-            URL resourceLocation = ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/Legup/" + toolBarName + ".png");
+            URL resourceLocation =
+                    ClassLoader.getSystemClassLoader()
+                            .getResource("edu/rpi/legup/images/Legup/" + toolBarName + ".png");
 
             // Scale the image icons down to make the buttons smaller
             ImageIcon imageIcon = new ImageIcon(resourceLocation);
             Image image = imageIcon.getImage();
-            imageIcon = new ImageIcon(image.getScaledInstance(this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE, Image.SCALE_SMOOTH));
+            imageIcon =
+                    new ImageIcon(
+                            image.getScaledInstance(
+                                    this.TOOLBAR_ICON_SCALE,
+                                    this.TOOLBAR_ICON_SCALE,
+                                    Image.SCALE_SMOOTH));
 
             JButton button = new JButton(toolBarName, imageIcon);
             button.setFocusPainted(false);
@@ -679,23 +782,27 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             getToolBarButtons()[i].setHorizontalTextPosition(SwingConstants.CENTER);
         }
 
-//        toolBarButtons[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent e) -> promptPuzzle());
-//        toolBarButtons[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e) -> saveProof());
-//        toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e) -> GameBoardFacade.getInstance().getHistory().undo());
-//        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e) -> GameBoardFacade.getInstance().getHistory().redo());
-        toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e) -> {
-        });
-        toolBarButtons[ToolbarName.CHECK.ordinal()].addActionListener((ActionEvent e) -> checkProof());
-        toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e) -> {
-        });
-        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e) -> {
-        });
+        //        toolBarButtons[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent
+        // e) ->
+        // promptPuzzle());
+        //        toolBarButtons[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e) ->
+        // saveProof());
+        //        toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e) ->
+        // GameBoardFacade.getInstance().getHistory().undo());
+        //        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e) ->
+        // GameBoardFacade.getInstance().getHistory().redo());
+        toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e) -> {});
+        toolBarButtons[ToolbarName.CHECK.ordinal()].addActionListener(
+                (ActionEvent e) -> checkProof());
+        toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e) -> {});
+        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e) -> {});
 
-        toolBarButtons[ToolbarName.CHECK_ALL.ordinal()].addActionListener((ActionEvent e) -> checkProofAll());
+        toolBarButtons[ToolbarName.CHECK_ALL.ordinal()].addActionListener(
+                (ActionEvent e) -> checkProofAll());
 
-//        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
-//        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
-//        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
+        //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
+        //        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
+        //        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.HINT.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(false);
         toolBarButtons[ToolbarName.SUBMIT.ordinal()].setEnabled(false);
@@ -723,15 +830,13 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         return toolBarButtons;
     }
 
-    /**
-     * Checks the proof for correctness
-     */
+    /** Checks the proof for correctness */
     private void checkProof() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         Tree tree = GameBoardFacade.getInstance().getTree();
         Board board = facade.getBoard();
         Board finalBoard = null;
-        boolean delayStatus = true; //board.evalDelayStatus();
+        boolean delayStatus = true; // board.evalDelayStatus();
 
         repaintAll();
 
@@ -745,10 +850,10 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 submission.submit();
             }*/
             JOptionPane.showMessageDialog(null, "Congratulations! Your proof is correct.");
-        }
-        else {
+        } else {
             String message = "\nThe game board is not solved.";
-            JOptionPane.showMessageDialog(null, message, "Invalid proof.", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    null, message, "Invalid proof.", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -780,9 +885,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         ruleFrame.getContradictionPanel().setRules(puzzle.getContradictionRules());
         ruleFrame.getSearchPanel().setSearchBar(puzzle);
 
-
         toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
-//        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
+        //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
 
         reloadGui();
     }
@@ -795,9 +899,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         treePanel.repaintTreeView(GameBoardFacade.getInstance().getTree());
     }
 
-    /**
-     * Checks the proof for all files
-     */
+    /** Checks the proof for all files */
     private void checkProofAll() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
 
@@ -812,7 +914,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
          */
 
         LegupPreferences preferences = LegupPreferences.getInstance();
-        File preferredDirectory = new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
+        File preferredDirectory =
+                new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
         folderBrowser = new JFileChooser(preferredDirectory);
 
         folderBrowser.showOpenDialog(this);
@@ -830,13 +933,13 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             writer.append("Name,File Name,Puzzle Type,Score,Solved?\n");
 
             // Go through student folders
-            for (final File folderEntry : Objects.requireNonNull(folder.listFiles(File::isDirectory))) {
+            for (final File folderEntry :
+                    Objects.requireNonNull(folder.listFiles(File::isDirectory))) {
                 // Write path
                 String path = folderEntry.getName();
                 traverseDir(folderEntry, writer, path);
             }
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             LOGGER.error(ex.getMessage());
         }
         JOptionPane.showMessageDialog(null, "Batch grading complete.");
@@ -888,16 +991,13 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                     writer.append(puzzle.getName()).append(",");
                     if (puzzle.isPuzzleComplete()) {
                         writer.append("1,Solved\n");
-                    }
-                    else {
+                    } else {
                         writer.append("0,Unsolved\n");
                     }
-                }
-                catch (InvalidFileFormatException e) {
+                } catch (InvalidFileFormatException e) {
                     writer.append(fName).append(",Invalid,,Ungradeable\n");
                 }
-            }
-            else {
+            } else {
                 LOGGER.debug("Failed to run sim");
             }
         }
@@ -924,44 +1024,41 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     public void onPushChange(ICommand command) {
         LOGGER.info("Pushing " + command.getClass().getSimpleName() + " to stack.");
         undo.setEnabled(true);
-//        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(true);
+        //        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(true);
         redo.setEnabled(false);
-//        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
+        //        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
 
         String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
         File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
         frame.setTitle(puzzleName + " - " + puzzleFile.getName() + " *");
     }
 
-    /**
-     * Called when the history is cleared
-     */
+    /** Called when the history is cleared */
     @Override
     public void onClearHistory() {
-        //undo.setEnabled(false);
-//        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
-        //redo.setEnabled(false);
-//        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
+        // undo.setEnabled(false);
+        //        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
+        // redo.setEnabled(false);
+        //        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
     }
 
     /**
      * Called when an action is redone
      *
      * @param isBottom true if there are no more actions to undo, false otherwise
-     * @param isTop    true if there are no more changes to redo, false otherwise
+     * @param isTop true if there are no more changes to redo, false otherwise
      */
     @Override
     public void onRedo(boolean isBottom, boolean isTop) {
         undo.setEnabled(!isBottom);
-//        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
+        //        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
         redo.setEnabled(!isTop);
-//        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(!isTop);
+        //        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(!isTop);
         if (isBottom) {
             String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
             File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
             frame.setTitle(puzzleName + " - " + puzzleFile.getName());
-        }
-        else {
+        } else {
             String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
             File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
             frame.setTitle(puzzleName + " - " + puzzleFile.getName() + " *");
@@ -972,44 +1069,49 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * Called when an action is undone
      *
      * @param isBottom true if there are no more actions to undo, false otherwise
-     * @param isTop    true if there are no more changes to redo, false otherwise
+     * @param isTop true if there are no more changes to redo, false otherwise
      */
     @Override
     public void onUndo(boolean isBottom, boolean isTop) {
         undo.setEnabled(!isBottom);
-//        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
+        //        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
         redo.setEnabled(!isTop);
-//        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(!isTop);
+        //        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(!isTop);
         String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
         File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
         if (isBottom) {
             frame.setTitle(puzzleName + " - " + puzzleFile.getName());
-        }
-        else {
+        } else {
             frame.setTitle(puzzleName + " - " + puzzleFile.getName() + " *");
         }
     }
 
-    /**
-     * Submits the proof file
-     */
+    /** Submits the proof file */
     private void submit() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         Board board = facade.getBoard();
-        boolean delayStatus = true; //board.evalDelayStatus();
+        boolean delayStatus = true; // board.evalDelayStatus();
         repaintAll();
 
         Puzzle pm = facade.getPuzzleModule();
         if (pm.isPuzzleComplete() && delayStatus) {
             // 0 means yes, 1 means no (Java's fault...)
-            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you wish to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
+            int confirm =
+                    JOptionPane.showConfirmDialog(
+                            null,
+                            "Are you sure you wish to submit?",
+                            "Proof Submission",
+                            JOptionPane.YES_NO_OPTION);
             if (confirm == 0) {
                 Submission submission = new Submission(board);
                 submission.submit();
             }
-        }
-        else {
-            JOptionPane.showConfirmDialog(null, "Your proof is incorrect! Are you sure you wish to submit?", "Proof Submission", JOptionPane.YES_NO_OPTION);
+        } else {
+            JOptionPane.showConfirmDialog(
+                    null,
+                    "Your proof is incorrect! Are you sure you wish to submit?",
+                    "Proof Submission",
+                    JOptionPane.YES_NO_OPTION);
             Submission submit = new Submission(board);
         }
     }

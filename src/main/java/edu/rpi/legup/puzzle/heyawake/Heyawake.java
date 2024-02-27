@@ -16,9 +16,7 @@ public class Heyawake extends Puzzle {
         this.importer = new HeyawakeImporter(this);
     }
 
-    /**
-     * Initializes the view. Called by the invoker of the class
-     */
+    /** Initializes the view. Called by the invoker of the class */
     @Override
     public void initializeView() {
         boardView = new HeyawakeView((HeyawakeBoard) currentBoard);
@@ -39,8 +37,8 @@ public class Heyawake extends Puzzle {
     /**
      * Determines if the given dimensions are valid for HeyAwake
      *
-     * @param rows      the number of rows
-     * @param columns   the number of columns
+     * @param rows the number of rows
+     * @param columns the number of columns
      * @return true if the given dimensions are valid for HeyAwake, false otherwise
      */
     public boolean isValidDimensions(int rows, int columns) {
@@ -65,7 +63,5 @@ public class Heyawake extends Puzzle {
      * @param board the board that has changed
      */
     @Override
-    public void onBoardChange(Board board) {
-
-    }
+    public void onBoardChange(Board board) {}
 }
