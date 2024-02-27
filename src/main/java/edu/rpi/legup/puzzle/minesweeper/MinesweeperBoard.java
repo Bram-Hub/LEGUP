@@ -11,4 +11,9 @@ public class MinesweeperBoard extends GridBoard {
     public MinesweeperBoard(int size) {
         super(size);
     }
+
+    @Override
+    public MinesweeperCell getCell(int x, int y) {
+        return (MinesweeperCell) super.getCell(x, y);
+    }
 }

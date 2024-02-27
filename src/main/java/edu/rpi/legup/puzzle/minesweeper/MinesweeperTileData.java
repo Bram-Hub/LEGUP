@@ -75,6 +75,22 @@ public record MinesweeperTileData(MinesweeperTileType type, int data) {
         return EMPTY;
     }
 
+    public boolean isUnset() {
+        return this.data == UNSET_DATA;
+    }
+
+    public boolean isBomb() {
+        return this.data == BOMB_DATA;
+    }
+
+    public boolean isEmpty() {
+        return this.data == EMPTY_DATA;
+    }
+
+    public boolean isFlag() {
+        return this.data > 0 && this.data <= 8;
+    }
+
     @Override
     public boolean equals(@Nullable Object o) {
         if (this == o) return true;
