@@ -1,5 +1,7 @@
 package edu.rpi.legup.puzzle.masyu;
 
+import static edu.rpi.legup.app.GameBoardFacade.getInstance;
+
 import edu.rpi.legup.history.PuzzleCommand;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
@@ -12,10 +14,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
-
 import java.awt.event.MouseEvent;
-
-import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class EditLineCommand extends PuzzleCommand {
     private TreeTransition transition;
@@ -29,7 +28,11 @@ public class EditLineCommand extends PuzzleCommand {
 
     private TreeTransitionView transitionView;
 
-    public EditLineCommand(ElementView elementView, TreeElementView selectedView, MouseEvent event, MasyuLine line) {
+    public EditLineCommand(
+            ElementView elementView,
+            TreeElementView selectedView,
+            MouseEvent event,
+            MasyuLine line) {
         this.elementView = elementView;
         this.selectedView = selectedView;
         this.event = event;
@@ -38,9 +41,7 @@ public class EditLineCommand extends PuzzleCommand {
         this.transition = null;
     }
 
-    /**
-     * Executes a command
-     */
+    /** Executes a command */
     @Override
     public void executeCommand() {
         Tree tree = getInstance().getTree();
@@ -61,18 +62,19 @@ public class EditLineCommand extends PuzzleCommand {
             }
 
             treeNode.getChildren().add(transition);
-            puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementAdded(transition));
+            puzzle.notifyTreeListeners(
+                    (ITreeListener listener) -> listener.onTreeElementAdded(transition));
             transitionView = (TreeTransitionView) treeView.getElementView(transition);
 
             selection.newSelection(transitionView);
-            puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeSelectionChanged(selection));
+            puzzle.notifyTreeListeners(
+                    (ITreeListener listener) -> listener.onTreeSelectionChanged(selection));
 
             getInstance().getLegupUI().repaintTree();
             board = (MasyuBoard) transition.getBoard();
             getInstance().getPuzzleModule().setCurrentBoard(board);
             oldData = newData.copy();
-        }
-        else {
+        } else {
             transitionView = (TreeTransitionView) selectedView;
             transition = transitionView.getTreeElement();
         }
@@ -100,13 +102,14 @@ public class EditLineCommand extends PuzzleCommand {
             System.out.println("delete");
             board.getModifiedData().remove(dup_line);
             board.getLines().remove(dup_line);
-//            puzzle.notifyBoardListeners((IBoardListener listener) -> listener.onTreeElementChanged(editBoard));
-        }
-        else {
+            //            puzzle.notifyBoardListeners((IBoardListener listener) ->
+            // listener.onTreeElementChanged(editBoard));
+        } else {
             System.out.println("adding");
             board.getModifiedData().add(newData);
             board.getLines().add((MasyuLine) newData);
-//            puzzle.notifyBoardListeners((IBoardListener listener) -> listener.onTreeElementChanged(editBoard));
+            //            puzzle.notifyBoardListeners((IBoardListener listener) ->
+            // listener.onTreeElementChanged(editBoard));
         }
 
         transition.propagateChange(newData);
@@ -116,15 +119,14 @@ public class EditLineCommand extends PuzzleCommand {
      * Gets the reason why the command cannot be executed
      *
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
-     * otherwise null if command can be executed
+     *     otherwise null if command can be executed
      */
     @Override
     public String getErrorString() {
         Board board = selectedView.getTreeElement().getBoard();
         if (!board.isModifiable()) {
             return "Board is not modifiable";
-        }
-        else {
+        } else {
             if (!board.getPuzzleElement(elementView.getPuzzleElement()).isModifiable()) {
                 return "Data is not modifiable";
             }
@@ -132,9 +134,7 @@ public class EditLineCommand extends PuzzleCommand {
         return null;
     }
 
-    /**
-     * Undoes an command
-     */
+    /** Undoes an command */
     @Override
     public void undoCommand() {
         Tree tree = getInstance().getTree();
@@ -156,17 +156,16 @@ public class EditLineCommand extends PuzzleCommand {
             getInstance().getPuzzleModule().setCurrentBoard(treeNode.getBoard());
         }
 
-        Board prevBoard = null;// transition.getParentNode().getBoard();
+        Board prevBoard = null; // transition.getParentNode().getBoard();
 
         newData.setData(oldData.getData());
         board.notifyChange(newData);
 
-        //System.err.println(newData.getData() + " : " + oldData.getData());
+        // System.err.println(newData.getData() + " : " + oldData.getData());
 
         if (prevBoard.getPuzzleElement(elementView.getPuzzleElement()).equalsData(newData)) {
             board.removeModifiedData(newData);
-        }
-        else {
+        } else {
             board.addModifiedData(newData);
         }
         transition.propagateChange(newData);

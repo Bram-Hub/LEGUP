@@ -9,24 +9,25 @@ import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentLine;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
-
 import java.util.List;
 
 public class EmptyFieldDirectRule extends DirectRule {
     public EmptyFieldDirectRule() {
-        super("TREE-BASC-0001", "Empty Field",
+        super(
+                "TREE-BASC-0001",
+                "Empty Field",
                 "Blank cells not adjacent to an unlinked tree are grass.",
                 "edu/rpi/legup/images/treetent/noTreesAround.png");
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
@@ -37,23 +38,24 @@ public class EmptyFieldDirectRule extends DirectRule {
         TreeTentCell initCell = (TreeTentCell) initialBoard.getPuzzleElement(puzzleElement);
         TreeTentBoard finalBoard = (TreeTentBoard) transition.getBoard();
         TreeTentCell finalCell = (TreeTentCell) finalBoard.getPuzzleElement(puzzleElement);
-        if (!(finalCell.getType() == TreeTentType.GRASS && initCell.getType() == TreeTentType.UNKNOWN)) {
+        if (!(finalCell.getType() == TreeTentType.GRASS
+                && initCell.getType() == TreeTentType.UNKNOWN)) {
             return super.getInvalidUseOfRuleMessage() + ": This cell must be grass";
         }
 
         if (isForced(finalBoard, finalCell)) {
             return null;
-        }
-        else {
+        } else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty.";
         }
     }
 
     /**
-     * Returns a boolean value based on whether the specified cell has adjacent cells (true - no adjacent, false - has adjacent)
+     * Returns a boolean value based on whether the specified cell has adjacent cells (true - no
+     * adjacent, false - has adjacent)
      *
      * @param board the TreeTent board
-     * @param cell  the specified TreeTent cell
+     * @param cell the specified TreeTent cell
      * @return true - no adjacent, false - has adjacent
      */
     private boolean isForced(TreeTentBoard board, TreeTentCell cell) {
@@ -62,7 +64,8 @@ public class EmptyFieldDirectRule extends DirectRule {
     }
 
     /**
-     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
      *
      * @param node tree node used to create default transition board
      * @return default board or null if this rule cannot be applied to this tree node
@@ -79,8 +82,7 @@ public class EmptyFieldDirectRule extends DirectRule {
         }
         if (treeTentBoard.getModifiedData().isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return treeTentBoard;
         }
     }

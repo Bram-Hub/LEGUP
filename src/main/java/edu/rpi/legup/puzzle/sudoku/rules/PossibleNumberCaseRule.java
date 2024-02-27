@@ -9,7 +9,6 @@ import edu.rpi.legup.puzzle.sudoku.GroupType;
 import edu.rpi.legup.puzzle.sudoku.PossibleNumberCaseBoard;
 import edu.rpi.legup.puzzle.sudoku.SudokuBoard;
 import edu.rpi.legup.puzzle.sudoku.SudokuCell;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -17,7 +16,9 @@ import java.util.Set;
 public class PossibleNumberCaseRule extends CaseRule {
 
     public PossibleNumberCaseRule() {
-        super("SUDO-CASE-0002", "Possible Numbers for Cell",
+        super(
+                "SUDO-CASE-0002",
+                "Possible Numbers for Cell",
                 "An empty cell has a limited set of possible numbers that can fill it.",
                 "edu/rpi/legup/images/sudoku/PossibleValues.png");
     }
@@ -34,13 +35,13 @@ public class PossibleNumberCaseRule extends CaseRule {
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
@@ -62,7 +63,7 @@ public class PossibleNumberCaseRule extends CaseRule {
     /**
      * Gets the possible cases at a specific location based on this case rule
      *
-     * @param board         the current board state
+     * @param board the current board state
      * @param puzzleElement equivalent puzzleElement
      * @return a list of elements the specified could be
      */
@@ -74,13 +75,14 @@ public class PossibleNumberCaseRule extends CaseRule {
     /**
      * Gets the possible cases at a specific location based on this case rule
      *
-     * @param board         the current board state
+     * @param board the current board state
      * @param puzzleElement equivalent puzzleElement
-     * @param value         value that the rule will be applied from
-     * @param groupType     group type
+     * @param value value that the rule will be applied from
+     * @param groupType group type
      * @return a list of elements the specified could be
      */
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement, int value, GroupType groupType) {
+    public ArrayList<Board> getCases(
+            Board board, PuzzleElement puzzleElement, int value, GroupType groupType) {
         ArrayList<Board> cases = new ArrayList<>();
         SudokuBoard sudokuBoard = (SudokuBoard) board;
         List<SudokuCell> caseCells = new ArrayList<>();
@@ -89,12 +91,10 @@ public class PossibleNumberCaseRule extends CaseRule {
         Set<SudokuCell> group;
         if (groupType == GroupType.REGION) {
             group = sudokuBoard.getRegion(cell.getGroupIndex());
-        }
-        else {
+        } else {
             if (groupType == GroupType.ROW) {
                 group = sudokuBoard.getRow(cell.getLocation().y);
-            }
-            else {
+            } else {
                 group = sudokuBoard.getCol(cell.getLocation().x);
             }
         }

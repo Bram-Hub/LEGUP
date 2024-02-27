@@ -12,7 +12,8 @@ import edu.rpi.legup.puzzle.fillapix.FillapixUtilities;
 
 public class FinishWithBlackDirectRule extends DirectRule {
     public FinishWithBlackDirectRule() {
-        super("FPIX-BASC-0001",
+        super(
+                "FPIX-BASC-0001",
                 "Finish with Black",
                 "The remaining unknowns around and on a cell must be black to satisfy the number",
                 "edu/rpi/legup/images/fillapix/rules/FinishWithBlack.png");
@@ -25,20 +26,22 @@ public class FinishWithBlackDirectRule extends DirectRule {
         FillapixCell cell = (FillapixCell) board.getPuzzleElement(puzzleElement);
         FillapixCell parentCell = (FillapixCell) parentBoard.getPuzzleElement(puzzleElement);
 
-        if (!(parentCell.getType() == FillapixCellType.UNKNOWN && cell.getType() == FillapixCellType.BLACK)) {
-            return super.getInvalidUseOfRuleMessage() + ": This cell must be black to be applicable with this rule.";
+        if (!(parentCell.getType() == FillapixCellType.UNKNOWN
+                && cell.getType() == FillapixCellType.BLACK)) {
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This cell must be black to be applicable with this rule.";
         }
 
         if (FillapixUtilities.isForcedBlack(parentBoard, cell)) {
             return null;
-        }
-        else {
+        } else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be black";
         }
     }
 
     /**
-     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
      *
      * @param node tree node used to create default transition board
      * @return default board or null if this rule cannot be applied to this tree node
@@ -48,15 +51,15 @@ public class FinishWithBlackDirectRule extends DirectRule {
         FillapixBoard fillapixBoard = (FillapixBoard) node.getBoard().copy();
         for (PuzzleElement element : fillapixBoard.getPuzzleElements()) {
             FillapixCell cell = (FillapixCell) element;
-            if (cell.getType() == FillapixCellType.UNKNOWN && FillapixUtilities.isForcedBlack((FillapixBoard) node.getBoard(), cell)) {
+            if (cell.getType() == FillapixCellType.UNKNOWN
+                    && FillapixUtilities.isForcedBlack((FillapixBoard) node.getBoard(), cell)) {
                 cell.setCellType(FillapixCellType.BLACK);
                 fillapixBoard.addModifiedData(cell);
             }
         }
         if (fillapixBoard.getModifiedData().isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return fillapixBoard;
         }
     }

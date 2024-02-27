@@ -8,15 +8,14 @@ import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 import edu.rpi.legup.puzzle.treetent.rules.FinishWithGrassDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.awt.*;
-import java.util.List;
-import java.util.ArrayList;
 
 public class FinishWithGrassDirectRuleTest {
 
@@ -30,15 +29,15 @@ public class FinishWithGrassDirectRuleTest {
     }
 
     /**
-     * 3x3 TreeTent puzzle with a tent at (0,0)
-     * Tests FinishWithGrassDirectRule on GRASS tiles horizontal of the tent
-     * at (1,0) and (2,0)
-     * 
+     * 3x3 TreeTent puzzle with a tent at (0,0) Tests FinishWithGrassDirectRule on GRASS tiles
+     * horizontal of the tent at (1,0) and (2,0)
+     *
      * @throws InvalidFileFormatException
      */
     @Test
     public void FinishWithGrassHorizontalTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/CornerTent", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/FinishWithGrassDirectRule/CornerTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -63,11 +62,11 @@ public class FinishWithGrassDirectRuleTest {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 c = board.getCell(k, i);
-                if (c.getLocation().equals(cell1.getLocation()) || c.getLocation().equals(cell2.getLocation())) {
+                if (c.getLocation().equals(cell1.getLocation())
+                        || c.getLocation().equals(cell2.getLocation())) {
                     // logically follows
                     Assert.assertNull(RULE.checkRuleAt(transition, c));
-                }
-                else {
+                } else {
                     // does not use the rule to logically follow
                     Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }
@@ -76,15 +75,15 @@ public class FinishWithGrassDirectRuleTest {
     }
 
     /**
-     * 3x3 TreeTent puzzle with a tent at (0,0)
-     * Tests FinishWithGrassDirectRule on GRASS tiles vertical of the tent
-     * at (0,1) and (0,2)
-     * 
+     * 3x3 TreeTent puzzle with a tent at (0,0) Tests FinishWithGrassDirectRule on GRASS tiles
+     * vertical of the tent at (0,1) and (0,2)
+     *
      * @throws InvalidFileFormatException
      */
     @Test
     public void FinishWithGrassVerticalTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/CornerTent", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/FinishWithGrassDirectRule/CornerTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -109,11 +108,11 @@ public class FinishWithGrassDirectRuleTest {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 c = board.getCell(k, i);
-                if (c.getLocation().equals(cell1.getLocation()) || c.getLocation().equals(cell2.getLocation())) {
+                if (c.getLocation().equals(cell1.getLocation())
+                        || c.getLocation().equals(cell2.getLocation())) {
                     // logically follows
                     Assert.assertNull(RULE.checkRuleAt(transition, c));
-                }
-                else {
+                } else {
                     // does not use the rule to logically follow
                     Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }
@@ -122,15 +121,15 @@ public class FinishWithGrassDirectRuleTest {
     }
 
     /**
-     * 3x3 TreeTent puzzle with a tent at (0,0)
-     * Tests FinishWithGrassDirectRule on GRASS tiles
-     * at (1,0), (2,0), (0,1), and (0,2)
-     * 
+     * 3x3 TreeTent puzzle with a tent at (0,0) Tests FinishWithGrassDirectRule on GRASS tiles at
+     * (1,0), (2,0), (0,1), and (0,2)
+     *
      * @throws InvalidFileFormatException
      */
     @Test
     public void FinishWithGrassTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/CornerTent", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/FinishWithGrassDirectRule/CornerTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -161,14 +160,13 @@ public class FinishWithGrassDirectRuleTest {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 c = board.getCell(k, i);
-                if (c.getLocation().equals(cell1.getLocation()) ||
-                    c.getLocation().equals(cell2.getLocation()) ||
-                    c.getLocation().equals(cell3.getLocation()) ||
-                    c.getLocation().equals(cell4.getLocation())) {
+                if (c.getLocation().equals(cell1.getLocation())
+                        || c.getLocation().equals(cell2.getLocation())
+                        || c.getLocation().equals(cell3.getLocation())
+                        || c.getLocation().equals(cell4.getLocation())) {
                     // logically follows
                     Assert.assertNull(RULE.checkRuleAt(transition, c));
-                }
-                else {
+                } else {
                     // does not use the rule to logically follow
                     Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }
@@ -177,15 +175,15 @@ public class FinishWithGrassDirectRuleTest {
     }
 
     /**
-     * 3x3 TreeTent puzzle with no tents
-     * Tests FinishWithGrassDirectRule on GRASS tiles
-     * GRASS tiles fill entire board
-     * 
+     * 3x3 TreeTent puzzle with no tents Tests FinishWithGrassDirectRule on GRASS tiles GRASS tiles
+     * fill entire board
+     *
      * @throws InvalidFileFormatException
      */
     @Test
     public void NoTentTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/NoTent", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/FinishWithGrassDirectRule/NoTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -216,16 +214,17 @@ public class FinishWithGrassDirectRuleTest {
             Assert.assertNull(RULE.checkRuleAt(transition, c));
         }
     }
+
     /**
-     * 3x3 TreeTent puzzle with a tent at (1,1)
-     * Tests FinishWithGrassDirectRule on GRASS tiles surrounding the tent
-     * at (1,0), (0,1), (2,1), and (1,2)
-     * 
+     * 3x3 TreeTent puzzle with a tent at (1,1) Tests FinishWithGrassDirectRule on GRASS tiles
+     * surrounding the tent at (1,0), (0,1), (2,1), and (1,2)
+     *
      * @throws InvalidFileFormatException
      */
     @Test
     public void MiddleTentTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/MiddleTent", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/FinishWithGrassDirectRule/MiddleTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -257,14 +256,13 @@ public class FinishWithGrassDirectRuleTest {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 c = board.getCell(k, i);
-                if (c.getLocation().equals(cell1.getLocation()) ||
-                    c.getLocation().equals(cell2.getLocation()) ||
-                    c.getLocation().equals(cell3.getLocation()) ||
-                    c.getLocation().equals(cell4.getLocation())) {
+                if (c.getLocation().equals(cell1.getLocation())
+                        || c.getLocation().equals(cell2.getLocation())
+                        || c.getLocation().equals(cell3.getLocation())
+                        || c.getLocation().equals(cell4.getLocation())) {
                     // logically follows
                     Assert.assertNull(RULE.checkRuleAt(transition, c));
-                }
-                else {
+                } else {
                     // does not use the rule to logically follow
                     Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }
@@ -273,15 +271,15 @@ public class FinishWithGrassDirectRuleTest {
     }
 
     /**
-     * 3x3 TreeTent puzzle with missing tents
-     * Tests FinishWithGrassDirectRule on GRASS tiles filling the puzzle
-     * all GRASS tiles should fail the FinishWithGrassDirectRule
-     * 
+     * 3x3 TreeTent puzzle with missing tents Tests FinishWithGrassDirectRule on GRASS tiles filling
+     * the puzzle all GRASS tiles should fail the FinishWithGrassDirectRule
+     *
      * @throws InvalidFileFormatException
      */
     @Test
     public void FailTentTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/FailTent", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/FinishWithGrassDirectRule/FailTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -312,16 +310,17 @@ public class FinishWithGrassDirectRuleTest {
             Assert.assertNotNull(RULE.checkRuleAt(transition, c));
         }
     }
+
     /**
-     * 7x7 TreeTent puzzle with multiple tents spaced out
-     * Tests FinishWithGrassDirectRule on GRASS tiles between the tents
-     * at (0,3), (2,3), (4,3), and (6,3)
-     * 
+     * 7x7 TreeTent puzzle with multiple tents spaced out Tests FinishWithGrassDirectRule on GRASS
+     * tiles between the tents at (0,3), (2,3), (4,3), and (6,3)
+     *
      * @throws InvalidFileFormatException
      */
     @Test
     public void SpacedOutTentTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/FinishWithGrassDirectRule/SpacedOutTent", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/FinishWithGrassDirectRule/SpacedOutTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -353,14 +352,13 @@ public class FinishWithGrassDirectRuleTest {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 c = board.getCell(k, i);
-                if (c.getLocation().equals(cell1.getLocation()) ||
-                    c.getLocation().equals(cell2.getLocation()) ||
-                    c.getLocation().equals(cell3.getLocation()) ||
-                    c.getLocation().equals(cell4.getLocation())) {
+                if (c.getLocation().equals(cell1.getLocation())
+                        || c.getLocation().equals(cell2.getLocation())
+                        || c.getLocation().equals(cell3.getLocation())
+                        || c.getLocation().equals(cell4.getLocation())) {
                     // logically follows
                     Assert.assertNull(RULE.checkRuleAt(transition, c));
-                }
-                else {
+                } else {
                     // does not use the rule to logically follow
                     Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }

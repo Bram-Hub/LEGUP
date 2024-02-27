@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.treetent;
 
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 

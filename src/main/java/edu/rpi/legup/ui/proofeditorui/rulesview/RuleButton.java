@@ -1,7 +1,6 @@
 package edu.rpi.legup.ui.proofeditorui.rulesview;
 
 import edu.rpi.legup.model.rules.Rule;
-
 import javax.swing.*;
 
 public class RuleButton extends JButton {
@@ -13,7 +12,9 @@ public class RuleButton extends JButton {
      * @param rule rule to create the button
      */
     RuleButton(Rule rule) {
-        super(rule.getRuleName(), rule.getImageIcon()); // display rules' name under rule when load the icon
+        super(
+                rule.getRuleName(),
+                rule.getImageIcon()); // display rules' name under rule when load the icon
         this.rule = rule;
         this.setFocusPainted(false);
     }

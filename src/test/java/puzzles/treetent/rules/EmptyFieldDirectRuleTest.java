@@ -8,13 +8,12 @@ import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 import edu.rpi.legup.puzzle.treetent.rules.EmptyFieldDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.*;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.awt.*;
 
 public class EmptyFieldDirectRuleTest {
 
@@ -32,7 +31,8 @@ public class EmptyFieldDirectRuleTest {
     // checks if tiles logically follow the EmptyFieldDirectRule
     @Test
     public void EmptyFieldTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/EmptyFieldDirectRule/EmptyField", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/EmptyFieldDirectRule/EmptyField", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -56,8 +56,7 @@ public class EmptyFieldDirectRuleTest {
                 if (c.getLocation().equals(cell1.getLocation())) {
                     // logically follows
                     Assert.assertNull(RULE.checkRuleAt(transition, c));
-                }
-                else {
+                } else {
                     // does not use the rule to logically follow
                     Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }
@@ -71,7 +70,8 @@ public class EmptyFieldDirectRuleTest {
     // checks if tiles logically follow the EmptyFieldDirectRule
     @Test
     public void DiagonalTreeTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/EmptyFieldDirectRule/DiagonalTree", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/EmptyFieldDirectRule/DiagonalTree", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -79,7 +79,7 @@ public class EmptyFieldDirectRuleTest {
         // get board state
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
 
-        //change the board's cells considering the EmptyField rule
+        // change the board's cells considering the EmptyField rule
         TreeTentCell cell1 = board.getCell(1, 1);
         cell1.setData(TreeTentType.GRASS);
         board.addModifiedData(cell1);
@@ -95,8 +95,7 @@ public class EmptyFieldDirectRuleTest {
                 if (c.getLocation().equals(cell1.getLocation())) {
                     // logically follows
                     Assert.assertNull(RULE.checkRuleAt(transition, c));
-                }
-                else {
+                } else {
                     // does not use the rule to logically follow
                     Assert.assertNotNull(RULE.checkRuleAt(transition, c));
                 }
@@ -110,7 +109,8 @@ public class EmptyFieldDirectRuleTest {
     // checks if tiles don't logically follow the EmptyFieldDirectRule
     @Test
     public void EmptyFieldTestFail() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/EmptyFieldDirectRule/EmptyFieldFail", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/EmptyFieldDirectRule/EmptyFieldFail", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -118,7 +118,7 @@ public class EmptyFieldDirectRuleTest {
         // get board state
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
 
-        //change the board's cells considering breaking the EmptyField rule
+        // change the board's cells considering breaking the EmptyField rule
         TreeTentCell cell1 = board.getCell(1, 1);
         cell1.setData(TreeTentType.GRASS);
         board.addModifiedData(cell1);
@@ -143,7 +143,8 @@ public class EmptyFieldDirectRuleTest {
     // checks if tiles don't logically follow the EmptyFieldDirectRule
     @Test
     public void EmptyFieldTestFailTop() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/EmptyFieldDirectRule/EmptyFieldFailTop", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/EmptyFieldDirectRule/EmptyFieldFailTop", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -151,7 +152,7 @@ public class EmptyFieldDirectRuleTest {
         // get board state
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
 
-        //change the board's cells considering breaking the EmptyField rule
+        // change the board's cells considering breaking the EmptyField rule
         TreeTentCell cell1 = board.getCell(1, 1);
         cell1.setData(TreeTentType.GRASS);
         board.addModifiedData(cell1);
@@ -176,7 +177,8 @@ public class EmptyFieldDirectRuleTest {
     // checks if tiles don't logically follow the EmptyFieldDirectRule
     @Test
     public void EmptyFieldTestFailTopBottom() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/EmptyFieldDirectRule/EmptyFieldFailBottom", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/EmptyFieldDirectRule/EmptyFieldFailBottom", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -184,7 +186,7 @@ public class EmptyFieldDirectRuleTest {
         // get board state
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
 
-        //change the board's cells considering breaking the EmptyField rule
+        // change the board's cells considering breaking the EmptyField rule
         TreeTentCell cell1 = board.getCell(1, 1);
         cell1.setData(TreeTentType.GRASS);
         board.addModifiedData(cell1);
@@ -209,7 +211,8 @@ public class EmptyFieldDirectRuleTest {
     // checks if tiles don't logically follow the EmptyFieldDirectRule
     @Test
     public void EmptyFieldTestFailLeft() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/EmptyFieldDirectRule/EmptyFieldFailLeft", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/EmptyFieldDirectRule/EmptyFieldFailLeft", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -217,7 +220,7 @@ public class EmptyFieldDirectRuleTest {
         // get board state
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
 
-        //change the board's cells considering breaking the EmptyField rule
+        // change the board's cells considering breaking the EmptyField rule
         TreeTentCell cell1 = board.getCell(1, 1);
         cell1.setData(TreeTentType.GRASS);
         board.addModifiedData(cell1);
@@ -242,7 +245,8 @@ public class EmptyFieldDirectRuleTest {
     // checks if tiles don't logically follow the EmptyFieldDirectRule
     @Test
     public void EmptyFieldTestFailRight() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/EmptyFieldDirectRule/EmptyFieldFailRight", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/EmptyFieldDirectRule/EmptyFieldFailRight", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -250,7 +254,7 @@ public class EmptyFieldDirectRuleTest {
         // get board state
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
 
-        //change the board's cells considering breaking the EmptyField rule
+        // change the board's cells considering breaking the EmptyField rule
         TreeTentCell cell1 = board.getCell(1, 1);
         cell1.setData(TreeTentType.GRASS);
         board.addModifiedData(cell1);
@@ -269,4 +273,3 @@ public class EmptyFieldDirectRuleTest {
         }
     }
 }
-

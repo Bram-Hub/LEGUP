@@ -27,13 +27,14 @@ public class OrEliminationTest {
     /**
      * Given a statement: A V B, where A is false and V is true
      *
-     * Asserts that this is a valid application of the rule if and only if B is true.
+     * <p>Asserts that this is a valid application of the rule if and only if B is true.
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void FTUTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/OrEliminationDirectRule/FTU", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/OrEliminationDirectRule/FTU", stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -53,13 +54,14 @@ public class OrEliminationTest {
     /**
      * Given a statement: A V B, where B is false and V is true
      *
-     * Asserts that this is a valid application of the rule if and only if B is true.
+     * <p>Asserts that this is a valid application of the rule if and only if B is true.
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void UTFTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/OrEliminationDirectRule/UTF", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/OrEliminationDirectRule/UTF", stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -79,19 +81,24 @@ public class OrEliminationTest {
     /**
      * Given a statement: A V B, where V is false
      *
-     * Asserts that this is a valid application of the rule if and only if both A
-     * and B are false.
+     * <p>Asserts that this is a valid application of the rule if and only if both A and B are
+     * false.
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void UFUTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/OrEliminationDirectRule/UFU", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/OrEliminationDirectRule/UFU", stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
-        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
+        ShortTruthTableCellType[] cellTypes = {
+            ShortTruthTableCellType.TRUE,
+            ShortTruthTableCellType.FALSE,
+            ShortTruthTableCellType.UNKNOWN
+        };
 
         for (ShortTruthTableCellType cellType1 : cellTypes) {
             for (ShortTruthTableCellType cellType2 : cellTypes) {
@@ -105,10 +112,10 @@ public class OrEliminationTest {
                 board.addModifiedData(a);
                 board.addModifiedData(b);
 
-                if (cellType1 == ShortTruthTableCellType.FALSE && cellType2 == ShortTruthTableCellType.FALSE) {
+                if (cellType1 == ShortTruthTableCellType.FALSE
+                        && cellType2 == ShortTruthTableCellType.FALSE) {
                     Assert.assertNull(RULE.checkRule(transition));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRule(transition));
                 }
             }
@@ -118,18 +125,23 @@ public class OrEliminationTest {
     /**
      * Given a statement: A V B, where V is true
      *
-     * Asserts that setting both A and B is not a valid application of this rule.
+     * <p>Asserts that setting both A and B is not a valid application of this rule.
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void UTUTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/OrEliminationDirectRule/UTU", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/OrEliminationDirectRule/UTU", stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
-        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
+        ShortTruthTableCellType[] cellTypes = {
+            ShortTruthTableCellType.TRUE,
+            ShortTruthTableCellType.FALSE,
+            ShortTruthTableCellType.UNKNOWN
+        };
 
         for (ShortTruthTableCellType cellType1 : cellTypes) {
             for (ShortTruthTableCellType cellType2 : cellTypes) {
