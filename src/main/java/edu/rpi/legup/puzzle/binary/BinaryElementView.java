@@ -27,44 +27,43 @@ public class BinaryElementView extends GridElementView {
     public void drawElement(Graphics2D graphics2D) {
         BinaryCell cell = (BinaryCell) puzzleElement;
         BinaryType type = cell.getType();
-        if (type == BinaryType.NUMBER) {
+        if (type == BinaryType.ZERO) {
             graphics2D.setStroke(new BasicStroke(1));
             graphics2D.setColor(Color.WHITE);
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
-
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
-
-            graphics2D.setColor(FONT_COLOR);
-            graphics2D.setFont(FONT);
-            FontMetrics metrics = graphics2D.getFontMetrics(FONT);
-            String value = String.valueOf(puzzleElement.getData());
-            int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
+            graphics2D.setColor(FONT_COLOR);             
+            graphics2D.setFont(FONT);             
+            FontMetrics metrics = graphics2D.getFontMetrics(FONT);             
+            String value = String.valueOf(puzzleElement.getData());             
+            int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;           
             int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
             graphics2D.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
         }
         else {
-            if (type == BinaryType.ZERO) {
-                graphics2D.setStroke(new BasicStroke(0));
-                graphics2D.setColor(Color.white);
+            if (type == BinaryType.ONE) {
+                graphics2D.setStroke(new BasicStroke(1));
+                graphics2D.setColor(Color.WHITE);
                 graphics2D.fillRect(location.x, location.y, size.width, size.height);
+                graphics2D.setColor(Color.BLACK);
+                graphics2D.drawRect(location.x, location.y, size.width, size.height);
+                graphics2D.setColor(FONT_COLOR);             
+                graphics2D.setFont(FONT);             
+                FontMetrics metrics = graphics2D.getFontMetrics(FONT);             
+                String value = String.valueOf(puzzleElement.getData());             
+                int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;           
+                int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
+                graphics2D.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
+    
             }
             else {
-                if (type == BinaryType.ONE) {
-                    graphics2D.setStroke(new BasicStroke(1));
-                    graphics2D.setColor(Color.WHITE);
-                    graphics2D.fillRect(location.x, location.y, size.width, size.height);
+                if (type == BinaryType.UNKNOWN) {
+                    graphics2D.setStroke(new BasicStroke(0));
                     graphics2D.setColor(Color.LIGHT_GRAY);
+                    graphics2D.fillRect(location.x, location.y, size.width, size.height);
+                    graphics2D.setColor(Color.BLACK);
                     graphics2D.drawRect(location.x, location.y, size.width, size.height);
-                }
-                else {
-                    if (type == BinaryType.UNKNOWN) {
-                        graphics2D.setStroke(new BasicStroke(0));
-                        graphics2D.setColor(Color.LIGHT_GRAY);
-                        graphics2D.fillRect(location.x, location.y, size.width, size.height);
-                        graphics2D.setColor(Color.WHITE);
-                        graphics2D.drawRect(location.x, location.y, size.width, size.height);
-                    }
                 }
             }
         }

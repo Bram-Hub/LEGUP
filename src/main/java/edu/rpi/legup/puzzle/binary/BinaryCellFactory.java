@@ -15,7 +15,7 @@ public class BinaryCellFactory extends ElementFactory {
     public BinaryCell importCell(Node node, Board board) throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("cell")) {
-                throw new InvalidFileFormatException("nurikabe Factory: unknown puzzleElement puzzleElement");
+                throw new InvalidFileFormatException("binary Factory: unknown puzzleElement puzzleElement");
             }
 
             BinaryBoard binaryBoard = (BinaryBoard) board;
@@ -53,6 +53,7 @@ public class BinaryCellFactory extends ElementFactory {
         Point loc = cell.getLocation();
 
         cellElement.setAttribute("value", String.valueOf(cell.getData()));
+        System.out.println(cell.getData());
         cellElement.setAttribute("x", String.valueOf(loc.x));
         cellElement.setAttribute("y", String.valueOf(loc.y));
 
