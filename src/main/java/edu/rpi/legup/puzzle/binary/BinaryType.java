@@ -1,9 +1,9 @@
 package edu.rpi.legup.puzzle.binary;
 
 public enum BinaryType {
-    UNKNOWN, ZERO, ONE, NUMBER;
+    ZERO, ONE, UNKNOWN;
 
     public int toValue() {
-        return this.ordinal() - 2;
+        return this.ordinal();
     }
 }
