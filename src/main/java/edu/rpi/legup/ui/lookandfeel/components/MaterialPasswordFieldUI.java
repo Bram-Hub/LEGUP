@@ -2,18 +2,6 @@ package edu.rpi.legup.ui.lookandfeel.components;
 
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialDrawingUtils;
-
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JPasswordField;
-import javax.swing.KeyStroke;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicPasswordFieldUI;
-import javax.swing.text.Element;
-import javax.swing.text.PasswordView;
-import javax.swing.text.View;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -26,8 +14,20 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JPasswordField;
+import javax.swing.KeyStroke;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.basic.BasicPasswordFieldUI;
+import javax.swing.text.Element;
+import javax.swing.text.PasswordView;
+import javax.swing.text.View;
 
-public class MaterialPasswordFieldUI extends BasicPasswordFieldUI implements FocusListener, PropertyChangeListener {
+public class MaterialPasswordFieldUI extends BasicPasswordFieldUI
+        implements FocusListener, PropertyChangeListener {
 
     private Color focusedBackground;
     private Color unfocusedBackground;
@@ -64,47 +64,65 @@ public class MaterialPasswordFieldUI extends BasicPasswordFieldUI implements Foc
     protected void installKeyboardActions() {
         super.installKeyboardActions();
 
-        Action selectAll = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getComponent().selectAll();
-            }
-        };
-
-        Action delete = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (getComponent().getSelectedText() == null) {
-                    int pos = getComponent().getCaretPosition() - 1;
-
-                    if (pos >= 0) {
-                        getComponent().select(pos, pos + 1);
-                        getComponent().replaceSelection("");
+        Action selectAll =
+                new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        getComponent().selectAll();
                     }
-                }
-                else {
-                    getComponent().replaceSelection("");
-                }
-            }
-        };
+                };
 
-        Action left = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getComponent().setCaretPosition(Math.max(0, getComponent().getCaretPosition() - 1));
-            }
-        };
+        Action delete =
+                new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (getComponent().getSelectedText() == null) {
+                            int pos = getComponent().getCaretPosition() - 1;
 
-        Action right = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getComponent().setCaretPosition(Math.min(getComponent().getText().length(), getComponent().getCaretPosition() + 1));
-            }
-        };
+                            if (pos >= 0) {
+                                getComponent().select(pos, pos + 1);
+                                getComponent().replaceSelection("");
+                            }
+                        } else {
+                            getComponent().replaceSelection("");
+                        }
+                    }
+                };
 
-        // note getMenuShortcutKeyMask() is deprecated in Java 10 - change to getMenuShortcutKeyMaskEx()
-        getComponent().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "selectAll");
-        getComponent().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0), "delete");
+        Action left =
+                new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        getComponent()
+                                .setCaretPosition(
+                                        Math.max(0, getComponent().getCaretPosition() - 1));
+                    }
+                };
+
+        Action right =
+                new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        getComponent()
+                                .setCaretPosition(
+                                        Math.min(
+                                                getComponent().getText().length(),
+                                                getComponent().getCaretPosition() + 1));
+                    }
+                };
+
+        // note getMenuShortcutKeyMask() is deprecated in Java 10 - change to
+        // getMenuShortcutKeyMaskEx()
+        getComponent()
+                .getInputMap()
+                .put(
+                        KeyStroke.getKeyStroke(
+                                KeyEvent.VK_A,
+                                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
+                        "selectAll");
+        getComponent()
+                .getInputMap()
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0), "delete");
         getComponent().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "left");
         getComponent().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "right");
 
@@ -122,15 +140,17 @@ public class MaterialPasswordFieldUI extends BasicPasswordFieldUI implements Foc
         if (getComponent().hasFocus()) {
             c.setBackground(focusedBackground);
             c.setSelectionColor(focusedSelectionBackground);
-        }
-        else {
+        } else {
             c.setBackground(unfocusedBackground);
             c.setSelectionColor(unfocusedSelectionBackground);
         }
 
         int x = getComponent().getInsets().left;
         int y = getComponent().getInsets().top;
-        int w = getComponent().getWidth() - getComponent().getInsets().left - getComponent().getInsets().right;
+        int w =
+                getComponent().getWidth()
+                        - getComponent().getInsets().left
+                        - getComponent().getInsets().right;
 
         g.setColor(c.getBackground());
         g.fillRect(x, c.getHeight() - y, w, 2);
@@ -160,7 +180,8 @@ public class MaterialPasswordFieldUI extends BasicPasswordFieldUI implements Foc
 
             if (!newColor.equals(focusedBackground) && !newColor.equals(unfocusedBackground)) {
                 this.focusedBackground = (Color) pce.getNewValue();
-                this.focusedSelectionBackground = MaterialColors.bleach(this.focusedBackground, 0.3f);
+                this.focusedSelectionBackground =
+                        MaterialColors.bleach(this.focusedBackground, 0.3f);
             }
         }
     }
@@ -176,7 +197,9 @@ public class MaterialPasswordFieldUI extends BasicPasswordFieldUI implements Foc
             super(elem);
         }
 
-        // depreciated in Java 9 and above - replace method with float drawEchoCharacter(Graphics2D g, float x, float y, char c)
+        // depreciated in Java 9 and above - replace method with float drawEchoCharacter(Graphics2D
+        // g,
+        // float x, float y, char c)
         @Override
         protected int drawEchoCharacter(Graphics g, int x, int y, char c) {
             Graphics2D g2 = (Graphics2D) g.create();

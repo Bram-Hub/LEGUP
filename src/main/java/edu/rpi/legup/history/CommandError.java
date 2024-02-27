@@ -1,7 +1,6 @@
 package edu.rpi.legup.history;
 
 public enum CommandError {
-
     NO_SELECTED_VIEWS("The selection does not have any tree elements."),
     ONE_SELECTED_VIEW("The selection must have exactly one tree element."),
     UNMODIFIABLE_BOARD("The selection contains a board which is not modifiable."),

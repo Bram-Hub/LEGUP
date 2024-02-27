@@ -3,21 +3,18 @@ package edu.rpi.legup.puzzle.shorttruthtable.rules.caserule;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
-
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCell;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
-
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class CaseRuleAtomic extends CaseRule_Generic {
 
     public CaseRuleAtomic() {
-        super("STTT-CASE-0002", "Atomic",
+        super(
+                "STTT-CASE-0002",
+                "Atomic",
                 "True or False",
                 "Each unknown cell must either be true or false");
     }
@@ -39,7 +36,7 @@ public class CaseRuleAtomic extends CaseRule_Generic {
     /**
      * Gets the possible cases at a specific location based on this case rule
      *
-     * @param board         the current board state
+     * @param board the current board state
      * @param puzzleElement equivalent puzzleElement
      * @return a list of elements the specified could be
      */
