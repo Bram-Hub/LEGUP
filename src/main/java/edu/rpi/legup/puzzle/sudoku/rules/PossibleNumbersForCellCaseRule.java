@@ -5,10 +5,7 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.sudoku.GroupType;
-import edu.rpi.legup.puzzle.sudoku.PossibleNumberCaseBoard;
-import edu.rpi.legup.puzzle.sudoku.SudokuBoard;
-import edu.rpi.legup.puzzle.sudoku.SudokuCell;
+import edu.rpi.legup.puzzle.sudoku.*;
 
 import java.util.ArrayList;
 import java.util.List;
