@@ -1,17 +1,15 @@
 package edu.rpi.legup.puzzle.thermometer;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
-import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.puzzle.thermometer.elements.Vial;
 
 import java.util.ArrayList;
 
-import static edu.rpi.legup.puzzle.thermometer.elements.Vial.verifyVial;
+import static edu.rpi.legup.puzzle.thermometer.ThermometerVial.verifyVial;
 
 public class ThermometerBoard extends GridBoard{
 
     //an array containing all of our vials on the board
-    private ArrayList<Vial> vials;
+    private ArrayList<ThermometerVial> thermometerVials;
 
     //representations of the number requirements along rows and columns of the board
     private ArrayList<Integer> colNumbers;
@@ -31,7 +29,7 @@ public class ThermometerBoard extends GridBoard{
             rowNumbers.add(0);
         }
 
-        vials = new ArrayList<>();
+        thermometerVials = new ArrayList<>();
     }
     public ThermometerBoard(int size){
         super(size, size);
@@ -44,19 +42,19 @@ public class ThermometerBoard extends GridBoard{
             rowNumbers.add(0);
         }
 
-        vials = new ArrayList<>();
+        thermometerVials = new ArrayList<>();
     }
 
     //setters and accessors for our array of vials
     public boolean addVial(ThermometerCell headCell, ThermometerCell tipCell) {
         if(verifyVial(headCell, tipCell, this)) {
-            vials.add(new Vial(headCell, tipCell, this));
+            thermometerVials.add(new ThermometerVial(headCell, tipCell, this));
             return true;
         }
         return false;
     }
-    public ArrayList<Vial> getVials() {
-        return vials;
+    public ArrayList<ThermometerVial> getVials() {
+        return thermometerVials;
     }
 
 

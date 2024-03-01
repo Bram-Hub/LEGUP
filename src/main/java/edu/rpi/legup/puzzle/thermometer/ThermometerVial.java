@@ -1,20 +1,13 @@
-package edu.rpi.legup.puzzle.thermometer.elements;
+package edu.rpi.legup.puzzle.thermometer;
 
-import edu.rpi.legup.puzzle.thermometer.ThermometerCell;
-import edu.rpi.legup.puzzle.thermometer.ThermometerBoard;
-import edu.rpi.legup.puzzle.thermometer.ThermometerFill;
-import edu.rpi.legup.puzzle.thermometer.ThermometerType;
-import edu.rpi.legup.model.elements.PlaceableElement;
-
-import java.awt.*;
 import java.util.ArrayList;
 
 import static java.lang.Math.*;
 
-public class Vial {
+public class ThermometerVial {
     private ArrayList<ThermometerCell> cells;
 
-    public Vial(ThermometerCell headCell, ThermometerCell tipCell, ThermometerBoard board) {
+    public ThermometerVial(ThermometerCell headCell, ThermometerCell tipCell, ThermometerBoard board) {
         cells = new ArrayList<>();
         fillData(headCell, tipCell, board);
     }
@@ -65,9 +58,7 @@ public class Vial {
 
     //helper function for adding a single cell
     private void addCell(int x, int y, ThermometerType t, ThermometerBoard board){
-
-        //this very likely is not updating the data in the way we want it to
-        board.getCell(x, y).setData(t.ordinal());
+        board.getCell(x, y).setType(t);
         cells.add(board.getCell(x, y));
     }
 
