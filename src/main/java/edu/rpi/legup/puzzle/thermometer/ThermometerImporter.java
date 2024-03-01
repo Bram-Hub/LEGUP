@@ -43,7 +43,7 @@ public class ThermometerImporter extends PuzzleImporter {
 
             ThermometerBoard thermometerBoard = null;
             if (!boardElement.getAttribute("size").isEmpty()) {
-                int size = Integer.valueOf(boardElement.getAttribute("size"));
+                int size = Integer.parseInt(boardElement.getAttribute("size"));
                 thermometerBoard = new ThermometerBoard(size);
                 if (boardElement.getElementsByTagName("rowNumbers").getLength() != size) {
                     throw new InvalidFileFormatException("thermometer Importer: no rowNumbers found for board");
@@ -52,8 +52,8 @@ public class ThermometerImporter extends PuzzleImporter {
                     throw new InvalidFileFormatException("thermometer Importer: no colNumbers found for board");
                 }
             } else if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
-                int width = Integer.valueOf(boardElement.getAttribute("width"));
-                int height = Integer.valueOf(boardElement.getAttribute("height"));
+                int width = Integer.parseInt(boardElement.getAttribute("width"));
+                int height = Integer.parseInt(boardElement.getAttribute("height"));
                 if (boardElement.getElementsByTagName("colNumbers").getLength() != width) {
                     throw new InvalidFileFormatException("thermometer Importer: no colNumbers found for board");
                 }
@@ -78,8 +78,8 @@ public class ThermometerImporter extends PuzzleImporter {
                 int taily = Integer.parseInt(elementDataList.item(i).getAttributes().getNamedItem("taily").getNodeValue());
 
                 //value int issue again will have to fix later
-                ThermometerCell head = new ThermometerCell(0, new Point(headx, heady));
-                ThermometerCell tail = new ThermometerCell(0, new Point(tailx, taily))
+                ThermometerCell head = new ThermometerCell(new Point(headx, heady));
+                ThermometerCell tail = new ThermometerCell(new Point(tailx, taily));
                 thermometerBoard.addVial(head, tail);
             }
 
@@ -97,8 +97,7 @@ public class ThermometerImporter extends PuzzleImporter {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     if (thermometerBoard.getCell(x, y) == null) {
-                        //value int needs to be changed band aid solution until we understand this code
-                        ThermometerCell cell = new ThermometerCell(0, new Point(x, y));
+                        ThermometerCell cell = new ThermometerCell(new Point(x, y));
                         cell.setIndex(y * height + x);
                         cell.setModifiable(true);
                         thermometerBoard.setCell(x, y, cell);

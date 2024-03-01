@@ -7,8 +7,9 @@ import java.awt.Point;
 public class ThermometerCell extends GridCell<Integer> {
     private ThermometerType type;
     private ThermometerFill fill;
-    public ThermometerCell(int valueInt, Point location) {
-        super(valueInt, location);
+    public ThermometerCell(Point location) {
+        //since we do not use get/set data value int can be any value
+        super(0, location);
         type = ThermometerType.UNKNOWN;
         fill = ThermometerFill.UNKNOWN;
     }
@@ -48,7 +49,7 @@ public class ThermometerCell extends GridCell<Integer> {
 
     @Override
     public ThermometerCell copy() {
-        ThermometerCell copy = new ThermometerCell(data, (Point) location.clone());
+        ThermometerCell copy = new ThermometerCell((Point) location.clone());
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
