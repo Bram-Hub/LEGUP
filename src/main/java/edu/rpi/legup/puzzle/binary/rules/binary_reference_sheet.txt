@@ -1,8 +1,12 @@
 BINA-BASC-0001 : SurroundPairDirectRule
 BINA-BASC-0002 : OneTileGapDirectRule
-BINA-BASC-0003 : CompleteRowCloumnDirectRule
+BINA-BASC-0003 : CompleteRowColumnDirectRule
 
-BINA-CONT-0001 : ThreeInARowContradictionRule
-BINA-CONT-0002 : UnbalancedRowColumnContradictionRule
+BINA-CONT-0001 : ThreeAdjacentZerosContradictionRule
+BINA-CONT-0002 : ThreeAdjacentOnesContradictionRule
+BINA-CONT-0003 : UnbalancedRowContradictionRule
+BINA-CONT-0004 : UnbalancedColumnContradictionRule
+BINA-CONT-0005 : DuplicateRowsContradictionRule
+BINA-CONT-0006 : DuplicateColumnsContradictionRule
 
 BINA-CASE-0001 : OneOrZeroCaseRule
