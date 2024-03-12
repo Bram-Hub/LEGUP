@@ -1,5 +1,6 @@
 package edu.rpi.legup.puzzle.minesweeper;
 
+import edu.rpi.legup.puzzle.lightup.LightUpView;
 import edu.rpi.legup.ui.boardview.GridElementView;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -57,6 +58,20 @@ public class MinesweeperElementView extends GridElementView {
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
             graphics2D.setColor(Color.GRAY);
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
+        }
+        if (type == MinesweeperTileType.BOMB) {
+            graphics2D.setColor(Color.LIGHT_GRAY);
+            graphics2D.fillRect(location.x, location.y, size.width, size.height);
+            graphics2D.drawImage(
+                    MinesweeperView.BOMB_IMAGE,
+                    location.x,
+                    location.y,
+                    size.width,
+                    size.height,
+                    Color.GRAY,
+                    null);
+            graphics2D.setColor(Color.BLACK);
+            graphics2D.drawRect(location.x, location.y, size.width, size.height);
         }
     }
 }
