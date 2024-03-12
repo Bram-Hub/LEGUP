@@ -23,7 +23,6 @@ public abstract class Rule {
     protected RuleType ruleType;
 
     private final String INVALID_USE_MESSAGE;
-    private final String TOO_MANY_CASES_MESSAGE;
 
     /**
      * Rule Constructor creates a new rule
@@ -39,7 +38,6 @@ public abstract class Rule {
         this.description = description;
         this.imageName = imageName;
         this.INVALID_USE_MESSAGE = "Invalid use of the rule " + this.ruleName;
-        this.TOO_MANY_CASES_MESSAGE = "Too many cases were generated using the " + this.ruleName;
         loadImage();
     }
 
@@ -168,6 +166,4 @@ public abstract class Rule {
     public String getInvalidUseOfRuleMessage() {
         return this.INVALID_USE_MESSAGE;
     }
-
-    public String getTooManyCasesMessage() { return this.TOO_MANY_CASES_MESSAGE; }
 }

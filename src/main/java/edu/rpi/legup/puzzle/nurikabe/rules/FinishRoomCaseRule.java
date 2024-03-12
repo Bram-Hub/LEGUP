@@ -24,6 +24,7 @@ public class FinishRoomCaseRule extends CaseRule {
                 "Finish Room",
                 "Room can be finished in up to five ways",
                 "edu/rpi/legup/images/nurikabe/cases/BlackOrWhite.png"); //new image
+        this.MAX_CASES = 5;
     }
 
     /**
@@ -39,7 +40,6 @@ public class FinishRoomCaseRule extends CaseRule {
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
         if (childTransitions.size() > 5) {
             return super.getInvalidUseOfRuleMessage() + ": This case rule must have 5 or less children.";
-            //return super.getTooManyCasesMessage() + ": This case rule must have 5 or less children.";
         }
         Set<Point> locations = new HashSet<>();
         for (TreeTransition t1 : childTransitions) {
@@ -92,7 +92,7 @@ public class FinishRoomCaseRule extends CaseRule {
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {//throws IllegalStateException {
         ArrayList<Board> cases = new ArrayList<>(); //makes array list of cases
         NurikabeBoard nuriBoard = (NurikabeBoard) board.copy(); //nurikabe board to edit
         NurikabeCell numbaCell = nuriBoard.getCell(((NurikabeCell) puzzleElement).getLocation().x,
@@ -112,11 +112,13 @@ public class FinishRoomCaseRule extends CaseRule {
             DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nuriBoard); //gathers regions
             Set<NurikabeCell> disRow = regions.getSet(numbaCell); //set of white spaces
             for (NurikabeCell d : disRow) { //loops through white spaces
-                if(cases.size() >= 10) { //no need to check this many cases
+                if(cases.size() >= 6) { //no need to check this many cases
+                    //throw new IllegalStateException("Too many cases");
                     continue; //crash/runtime protection
                 }
                 for(Point direction : directions) {
-                    if(cases.size() >= 10) { //no need to check this many cases
+                    if(cases.size() >= 6) { //no need to check this many cases
+                        //throw new IllegalStateException("Too many cases");
                         continue; //crash/runtime protection
                     }
                     if(!((nuriBoard.getWidth() > (d.getLocation().x + direction.x) && (nuriBoard.getHeight() > d.getLocation().y + direction.y) &&
@@ -125,7 +127,7 @@ public class FinishRoomCaseRule extends CaseRule {
                     }
                     NurikabeCell curr = nuriBoard.getCell(d.getLocation().x + direction.x, d.getLocation().y + direction.y);
                     if(checkedPoints.contains(curr.getLocation())) {
-                        continue; //if we already checked whether or not making this tile white would copmlete the room then continue
+                        continue; //if we already checked whether or not making this tile white would complete the room then continue
                     }
                     checkedPoints.add(curr.getLocation()); //adds location to checkedPoints so we don't check it again and accidentally add
                         if (curr.getType() == NurikabeType.UNKNOWN) { //found adjacent space to region that is currently unknown
