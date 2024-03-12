@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="2.0.0">
+    <puzzle name="RippleEffect">
+        <board height="3" width="3">
+            <region>
+                <cells>
+                    <cell value="1" x="0" y="0"/>
+                    <cell value="2" x="1" y="0"/>
+                </cells>
+            </region>
+            <region>
+                <cells>
+                    <cell value="4" x="0" y="1"/>
+                    <cell value="3" x="0" y="2"/>
+                    <cell value="5" x="1" y="2"/>
+                </cells>
+            </region>
+            <region>
+                <cells>
+                    <cell value="6" x="2" y="0"/>
+                    <cell value="7" x="1" y="1"/>
+                    <cell value="8" x="2" y="1"/>
+                    <cell value="9" x="2" y="2"/>
+                </cells>
+            </region>
+        </board>
+    </puzzle>
+    <solved isSolved="false" lastSaved="--"/>
+</Legup>
