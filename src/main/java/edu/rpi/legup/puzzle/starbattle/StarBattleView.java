@@ -7,8 +7,6 @@ import javax.imageio.ImageIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeView;
 import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleController;

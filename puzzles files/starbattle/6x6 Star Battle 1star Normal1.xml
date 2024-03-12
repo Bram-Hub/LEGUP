@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Legup version="2.0.0">
     <puzzle name="StarBattle">
-        <board height="6" width="6">
+        <board size="6">
             <region>
                 <cells>
                     <cell value="0" x="0" y="0"/>
