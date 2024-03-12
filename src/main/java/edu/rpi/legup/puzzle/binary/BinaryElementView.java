@@ -22,7 +22,8 @@ public class BinaryElementView extends GridElementView {
     public BinaryCell getPuzzleElement() {
         return (BinaryCell) super.getPuzzleElement();
     
-    }@Override
+    }
+    @Override
     public void drawGiven(Graphics2D graphics2D) {
             BinaryCell cell = (BinaryCell) puzzleElement;
         BinaryType type = cell.getType();
