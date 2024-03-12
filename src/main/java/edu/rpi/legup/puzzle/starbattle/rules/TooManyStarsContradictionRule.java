@@ -28,6 +28,11 @@ public class TooManyStarsContradictionRule extends ContradictionRule {
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
+        // check row
+
+        // check column
+
+        // check region
         return super.getNoContradictionMessage();
     }
 }
