@@ -2,6 +2,7 @@ package edu.rpi.legup.puzzle.starbattle.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -30,6 +31,21 @@ public class BlackoutDirectRule extends DirectRule {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
 
+        StarBattleBoard board = (StarBattleBoard) transition.getBoard();
+        StarBattleBoard origBoard = (StarBattleBoard) transition.getParents().get(0).getBoard();
+        ContradictionRule contraRule = new TooManyStarsContradictionRule();
+
+        StarBattleCell cell = (StarBattleCell) board.getPuzzleElement(puzzleElement);
+
+        if (cell.getType() != StarBattleCellType.BLACK) {
+            return "Only black cells are allowed for this rule!";
+        }
+
+        StarBattleBoard modified = (StarBattleBoard) origBoard.copy();
+        modified.getPuzzleElement(puzzleElement).setData(StarBattleCellType.STAR);
+        if (contraRule.checkContradictionAt(modified, puzzleElement) != null) {
+            return "Black cells must be placed in a row, region, or column with enough stars!";
+        }
         return null;
     }
 

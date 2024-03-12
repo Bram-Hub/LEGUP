@@ -41,7 +41,6 @@ public class SurroundStarDirectRule extends DirectRule {
         }
 
         StarBattleBoard modified = (StarBattleBoard) origBoard.copy();
-        //TODO: please for the love of god make a copy method for star battle board because this isn't actually going to work otherwise
         modified.getPuzzleElement(puzzleElement).setData(StarBattleCellType.STAR);
         if (contraRule.checkContradictionAt(modified, puzzleElement) != null) {
             return "Black cells must be placed adjacent to a star!";
