@@ -9,6 +9,8 @@ import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
 
+import java.awt.*;
+
 public class ClashingOrbitContradictionRule extends ContradictionRule {
 
     public ClashingOrbitContradictionRule() {
@@ -28,6 +30,29 @@ public class ClashingOrbitContradictionRule extends ContradictionRule {
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
+        StarBattleBoard starbattleBoard = (StarBattleBoard) board;
+        StarBattleCell cell = (StarBattleCell) starbattleBoard.getPuzzleElement(puzzleElement);
+
+        if (cell.getType() != StarBattleCellType.STAR) {
+            return super.getNoContradictionMessage();
+        }
+
+        // check neighboring cells for a star
+        Point location = cell.getLocation();
+
+        int rowStart  = Math.max( location.x - 1, 0 );
+        int rowEnd = Math.min( location.x + 1, starbattleBoard.getSize() - 1 );
+        int colStart  = Math.max( location.y - 1, 0 );
+        int colEnd = Math.min( location.y + 1, starbattleBoard.getSize() - 1 );
+
+        for (int row = rowStart; rowStart <= rowEnd; row++) {
+            for (int col = colStart; colStart <= colEnd; col++) {
+                if (starbattleBoard.getCell(row, col).getType() == StarBattleCellType.STAR) {
+                    return null;
+                }
+            }
+        }
+
         return super.getNoContradictionMessage();
     }
 }
