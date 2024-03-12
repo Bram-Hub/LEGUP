@@ -16,7 +16,7 @@ public class OneTileGapDirectRule extends DirectRule {
         super("BINA-BASC-0002",
                 "One Tile Gap",
                 "If an empty tile is in between the same value, fill the gap with the other value.",
-                "FILL IN WITH IMAGE");
+                "edu/rpi/legup/images/binary/rules/OneTileGapDirectRule.png");
     }
 
     @Override

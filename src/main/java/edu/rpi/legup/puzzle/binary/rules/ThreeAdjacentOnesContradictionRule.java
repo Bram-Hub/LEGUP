@@ -13,7 +13,7 @@ public class ThreeAdjacentOnesContradictionRule extends ContradictionRule {
         super("BINA-CONT-0002",
                 "Three Adjacent Ones",
                 "There must not be three adjacent ones in a row or column",
-                "currentlynoimage.png");
+                "edu/rpi/legup/images/binary/rules/ThreeAdjacentOnesContradictionRule.png");
     }
 
     @Override

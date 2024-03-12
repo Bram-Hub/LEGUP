@@ -18,7 +18,7 @@ public class OneOrZeroCaseRule extends CaseRule {
         super("BINA-CASE-0001",
                 "One or Zero",
                 "Each blank cell is either a one or a zero.",
-                "FILL IN WITH IMAGE");
+                "edu/rpi/legup/images/binary/rules/OneOrZeroCaseRule.png");
     }
 
     @Override

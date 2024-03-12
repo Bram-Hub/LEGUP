@@ -16,7 +16,7 @@ public class SurroundPairDirectRule extends DirectRule {
         super("BINA-BASC-0001",
                 "Surround Pair",
                 "If two adjacent tiles have the same value, surround the tiles with the other value.",
-                "FILL IN WITH IMAGE");
+                "edu/rpi/legup/images/binary/rules/SurroundPairDirectRule.png");
     }
     
     @Override

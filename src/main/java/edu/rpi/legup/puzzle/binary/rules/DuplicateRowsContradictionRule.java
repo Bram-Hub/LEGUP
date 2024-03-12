@@ -16,7 +16,7 @@ public class DuplicateRowsContradictionRule extends ContradictionRule {
         super("BINA-CONT-0005",
                 "Duplicate Rows",
                 "There must not be two rows that are duplicates",
-                "currentlynoimage.png");
+                "edu/rpi/legup/images/binary/rules/DuplicateRowsContradictionRule.png");
     }
 
     @Override

@@ -17,7 +17,7 @@ public class UnbalancedColumnContradictionRule extends ContradictionRule {
         super("BINA-CONT-0004",
                 "Unbalanced Column",
                 "Each column must contain an equal number of zeros and ones",
-                "currentlynoimage.png");
+                "edu/rpi/legup/images/binary/rules/UnbalancedColumnContradictionRule.png");
     }
 
     @Override

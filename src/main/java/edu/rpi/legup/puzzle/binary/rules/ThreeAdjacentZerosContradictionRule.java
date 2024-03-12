@@ -13,7 +13,7 @@ public class ThreeAdjacentZerosContradictionRule extends ContradictionRule {
         super("BINA-CONT-0001",
                 "Three Adjacent Zeros",
                 "There must not be three adjacent zeros in a row or column",
-                "currentlynoimage.png");
+                "edu/rpi/legup/images/binary/rules/ThreeAdjacentZerosContradictionRule.png");
     }
 
     @Override
