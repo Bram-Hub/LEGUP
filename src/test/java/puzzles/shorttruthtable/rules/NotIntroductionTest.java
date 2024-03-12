@@ -27,18 +27,23 @@ public class NotIntroductionTest {
     /**
      * Given one statement: ¬A where A is false
      *
-     * Asserts that this is a valid application of this rule if and only if ¬ is true
+     * <p>Asserts that this is a valid application of this rule if and only if ¬ is true
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void FalseNot() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/NotIntroductionDirectRule/FalseA", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/NotIntroductionDirectRule/FalseA", stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
-        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
+        ShortTruthTableCellType[] cellTypes = {
+            ShortTruthTableCellType.TRUE,
+            ShortTruthTableCellType.FALSE,
+            ShortTruthTableCellType.UNKNOWN
+        };
 
         for (ShortTruthTableCellType cellType : cellTypes) {
             ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
@@ -48,8 +53,7 @@ public class NotIntroductionTest {
 
             if (cellType == ShortTruthTableCellType.TRUE) {
                 Assert.assertNull(RULE.checkRule(transition));
-            }
-            else {
+            } else {
                 Assert.assertNotNull(RULE.checkRule(transition));
             }
         }
@@ -58,18 +62,23 @@ public class NotIntroductionTest {
     /**
      * Given one statement: ¬A where A is true
      *
-     * Asserts that this is a valid application of this rule if and only if ¬ is false
+     * <p>Asserts that this is a valid application of this rule if and only if ¬ is false
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void TrueNot() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/NotIntroductionDirectRule/TrueA", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/NotIntroductionDirectRule/TrueA", stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
-        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
+        ShortTruthTableCellType[] cellTypes = {
+            ShortTruthTableCellType.TRUE,
+            ShortTruthTableCellType.FALSE,
+            ShortTruthTableCellType.UNKNOWN
+        };
 
         for (ShortTruthTableCellType cellType : cellTypes) {
             ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
@@ -79,8 +88,7 @@ public class NotIntroductionTest {
 
             if (cellType == ShortTruthTableCellType.FALSE) {
                 Assert.assertNull(RULE.checkRule(transition));
-            }
-            else {
+            } else {
                 Assert.assertNotNull(RULE.checkRule(transition));
             }
         }
@@ -89,19 +97,24 @@ public class NotIntroductionTest {
     /**
      * Given one statement: ¬A
      *
-     * Asserts that setting both ¬ and A to any values would not be a valid
-     * application of this rule
+     * <p>Asserts that setting both ¬ and A to any values would not be a valid application of this
+     * rule
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void CannotSetBothAtOnceTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/NotIntroductionDirectRule/BlankA", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/NotIntroductionDirectRule/BlankA", stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
-        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
+        ShortTruthTableCellType[] cellTypes = {
+            ShortTruthTableCellType.TRUE,
+            ShortTruthTableCellType.FALSE,
+            ShortTruthTableCellType.UNKNOWN
+        };
 
         for (ShortTruthTableCellType cellType1 : cellTypes) {
             for (ShortTruthTableCellType cellType2 : cellTypes) {

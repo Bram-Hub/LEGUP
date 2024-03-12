@@ -3,6 +3,7 @@ package edu.rpi.legup.puzzle.minesweeper;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -14,6 +15,7 @@ public class MinesweeperExporter extends PuzzleExporter {
     }
 
     @Override
+    @Contract(pure = true)
     protected @NotNull Element createBoardElement(@NotNull Document newDocument) {
         MinesweeperBoard board;
         if (puzzle.getTree() != null) {

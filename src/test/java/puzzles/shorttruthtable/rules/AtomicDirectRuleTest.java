@@ -25,13 +25,10 @@ public class AtomicDirectRuleTest {
     }
 
     /**
-     * Given two statements:
-     * A
-     * A
-     * where the first A is set to false.
-     * 
-     * This test sets the second A to false and then asserts that this
-     * is a valid application of the rule.
+     * Given two statements: A A where the first A is set to false.
+     *
+     * <p>This test sets the second A to false and then asserts that this is a valid application of
+     * the rule.
      *
      * @throws InvalidFileFormatException
      */
@@ -52,13 +49,10 @@ public class AtomicDirectRuleTest {
     }
 
     /**
-     * Given two statements:
-     * A
-     * A
-     * where the first A is set to false.
-     * 
-     * This test sets the second A to true and then asserts that this
-     * is not a valid application of the rule.
+     * Given two statements: A A where the first A is set to false.
+     *
+     * <p>This test sets the second A to true and then asserts that this is not a valid application
+     * of the rule.
      *
      * @throws InvalidFileFormatException
      */
@@ -79,13 +73,10 @@ public class AtomicDirectRuleTest {
     }
 
     /**
-     * Given two statements:
-     * B
-     * B
-     * where the first B is set to true.
-     * 
-     * This test sets the second B to true and then asserts that this
-     * is a valid application of the rule.
+     * Given two statements: B B where the first B is set to true.
+     *
+     * <p>This test sets the second B to true and then asserts that this is a valid application of
+     * the rule.
      *
      * @throws InvalidFileFormatException
      */
@@ -106,13 +97,10 @@ public class AtomicDirectRuleTest {
     }
 
     /**
-     * Given two statements:
-     * B
-     * B
-     * where the first B is set to true.
-     * 
-     * This test sets the second B to false and then asserts that this
-     * is not a valid application of the rule.
+     * Given two statements: B B where the first B is set to true.
+     *
+     * <p>This test sets the second B to false and then asserts that this is not a valid application
+     * of the rule.
      *
      * @throws InvalidFileFormatException
      */
@@ -133,13 +121,10 @@ public class AtomicDirectRuleTest {
     }
 
     /**
-     * Given two statements:
-     * C
-     * C
-     * where neither statement is set to anything.
-     * 
-     * This test sets the second C to false and then asserts that this
-     * is not a valid application of the rule.
+     * Given two statements: C C where neither statement is set to anything.
+     *
+     * <p>This test sets the second C to false and then asserts that this is not a valid application
+     * of the rule.
      *
      * @throws InvalidFileFormatException
      */
@@ -160,13 +145,10 @@ public class AtomicDirectRuleTest {
     }
 
     /**
-     * Given two statements:
-     * C
-     * C
-     * where neither statement is set to anything.
-     * 
-     * This test sets the second C to true and then asserts that this
-     * is not a valid application of the rule.
+     * Given two statements: C C where neither statement is set to anything.
+     *
+     * <p>This test sets the second C to true and then asserts that this is not a valid application
+     * of the rule.
      *
      * @throws InvalidFileFormatException
      */

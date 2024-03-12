@@ -5,12 +5,9 @@ import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.ui.lookandfeel.components.MaterialTabbedPaneUI;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
 import javax.swing.*;
-
 import javax.swing.border.TitledBorder;
 
 public class RuleFrame extends JPanel {
@@ -33,13 +30,14 @@ public class RuleFrame extends JPanel {
 
     public RuleFrame(RuleController controller) {
 
-        MaterialTabbedPaneUI tabOverride = new MaterialTabbedPaneUI() {
-            //this prevents the tabs from moving around when you select them
-            @Override
-            protected boolean shouldRotateTabRuns(int i) {
-                return false;
-            }
-        };
+        MaterialTabbedPaneUI tabOverride =
+                new MaterialTabbedPaneUI() {
+                    // this prevents the tabs from moving around when you select them
+                    @Override
+                    protected boolean shouldRotateTabRuns(int i) {
+                        return false;
+                    }
+                };
 
         this.controller = controller;
 
@@ -51,7 +49,11 @@ public class RuleFrame extends JPanel {
         DirectRulePanel = new DirectRulePanel(this);
         JScrollPane newbrp = new JScrollPane(DirectRulePanel);
         newbrp.getVerticalScrollBar().setUnitIncrement(16);
-        tabbedPane.addTab(DirectRulePanel.getName(), DirectRulePanel.getIcon(), newbrp, DirectRulePanel.getToolTip());
+        tabbedPane.addTab(
+                DirectRulePanel.getName(),
+                DirectRulePanel.getIcon(),
+                newbrp,
+                DirectRulePanel.getToolTip());
 
         casePanel = new CaseRulePanel(this);
         JScrollPane newcp = new JScrollPane(casePanel);
@@ -61,7 +63,8 @@ public class RuleFrame extends JPanel {
         contradictionPanel = new ContradictionRulePanel(this);
         JScrollPane newp = new JScrollPane(contradictionPanel);
         newp.getVerticalScrollBar().setUnitIncrement(16);
-        tabbedPane.addTab(contradictionPanel.name, contradictionPanel.icon, newp, contradictionPanel.toolTip);
+        tabbedPane.addTab(
+                contradictionPanel.name, contradictionPanel.icon, newp, contradictionPanel.toolTip);
 
         searchPanel = new SearchBarPanel(this);
         JScrollPane newsp = new JScrollPane(searchPanel);
@@ -95,25 +98,20 @@ public class RuleFrame extends JPanel {
         contradictionPanel.setSelectionByRule(rule);
     }
 
-    /**
-     * Reset the rules button and status string
-     */
+    /** Reset the rules button and status string */
     public void resetRuleButtons() {
         resetStatus();
     }
 
-    /**
-     * Reset the status label to the empty string
-     */
+    /** Reset the status label to the empty string */
     public void resetStatus() {
-        //((GridUI)GameBoardFacade.getInstance().getLegupUI()).getTreePanel().updateStatus();
+        // ((GridUI)GameBoardFacade.getInstance().getLegupUI()).getTreePanel().updateStatus();
     }
 
-    /**
-     * Resets the dimension of the rule frame
-     */
+    /** Resets the dimension of the rule frame */
     public void resetSize() {
-        int buttonWidth = ((RulePanel) tabbedPane.getSelectedComponent()).getRuleButtons()[0].getWidth();
+        int buttonWidth =
+                ((RulePanel) tabbedPane.getSelectedComponent()).getRuleButtons()[0].getWidth();
         this.setMinimumSize(new Dimension(2 * buttonWidth + 64, this.getHeight()));
     }
 
@@ -121,12 +119,12 @@ public class RuleFrame extends JPanel {
      * Set the status label to a value. Use resetStatus to clear it.
      *
      * @param check true iff we want a check box, if false we'll have a red x box
-     * @param text  the text we're setting the label to display
+     * @param text the text we're setting the label to display
      */
     public void setStatus(boolean check, String text) {
         String box = (check ? checkBox : xBox);
-        //status.setText(htmlHead + box + text + htmlTail);
-        //((GridUI)GameBoardFacade.getInstance().getLegupUI()).getTreePanel().getStatus().setText(htmlHead + box + text + htmlTail);
+        // status.setText(htmlHead + box + text + htmlTail);
+        // ((GridUI)GameBoardFacade.getInstance().getLegupUI()).getTreePanel().getStatus().setText(htmlHead + box + text + htmlTail);
     }
 
     /**
