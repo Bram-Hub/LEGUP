@@ -1,6 +1,7 @@
 package edu.rpi.legup.puzzle.thermometer;
 
 import edu.rpi.legup.model.PuzzleImporter;
+import edu.rpi.legup.puzzle.thermometer.ThermometerVialFactory;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -72,38 +73,18 @@ public class ThermometerImporter extends PuzzleImporter {
             int height = thermometerBoard.getHeight();
 
             for (int i = 0; i < elementDataList.getLength(); i++) {
-                int headx = Integer.parseInt(elementDataList.item(i).getAttributes().getNamedItem("headx").getNodeValue());
-                int heady = Integer.parseInt(elementDataList.item(i).getAttributes().getNamedItem("heady").getNodeValue());
-                int tailx = Integer.parseInt(elementDataList.item(i).getAttributes().getNamedItem("tailx").getNodeValue());
-                int taily = Integer.parseInt(elementDataList.item(i).getAttributes().getNamedItem("taily").getNodeValue());
-
-                //value int issue again will have to fix later
-                ThermometerCell head = new ThermometerCell(new Point(headx, heady));
-                ThermometerCell tail = new ThermometerCell(new Point(tailx, taily));
-                thermometerBoard.addVial(head, tail);
+                ThermometerVialFactory.importThermometerVial(elementDataList.item(i), thermometerBoard);
             }
 
-            /* Potentially useless keeping to appease James ego
-            for (int i = 0; i < elementDataList.getLength(); i++) {
-                ThermometerCell cell = (ThermometerCell) puzzle.getFactory().importCell(elementDataList.item(i), thermometerBoard);
-                Point loc = cell.getLocation();
-                if (cell.getType() != ThermometerType.UNKNOWN) {
-                    cell.setModifiable(false);
-                    cell.setGiven(true);
-                }
-                thermometerBoard.setCell(loc.x, loc.y, cell);
-            }
-            */
+            //verifying all vials were used
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     if (thermometerBoard.getCell(x, y) == null) {
-                        ThermometerCell cell = new ThermometerCell(new Point(x, y));
-                        cell.setIndex(y * height + x);
-                        cell.setModifiable(true);
-                        thermometerBoard.setCell(x, y, cell);
+                        throw new InvalidFileFormatException("thermometer Importer: invalid puzzle, unused tiles");
                     }
                 }
             }
+
             puzzle.setCurrentBoard(thermometerBoard);
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException("thermometer Importer: unknown value where integer expected");

@@ -46,12 +46,8 @@ public class ThermometerBoard extends GridBoard{
     }
 
     //setters and accessors for our array of vials
-    public boolean addVial(ThermometerCell headCell, ThermometerCell tipCell) {
-        if(verifyVial(headCell, tipCell, this)) {
-            thermometerVials.add(new ThermometerVial(headCell, tipCell, this));
-            return true;
-        }
-        return false;
+    public void addVial(ThermometerVial v) {
+        thermometerVials.add(v);
     }
     public ArrayList<ThermometerVial> getVials() {
         return thermometerVials;

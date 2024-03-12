@@ -1,5 +1,6 @@
 package edu.rpi.legup.puzzle.thermometer;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import static java.lang.Math.*;
@@ -7,20 +8,14 @@ import static java.lang.Math.*;
 public class ThermometerVial {
     private ArrayList<ThermometerCell> cells;
 
-    public ThermometerVial(ThermometerCell headCell, ThermometerCell tipCell, ThermometerBoard board) {
+    public ThermometerVial(int headX, int headY, int tipX, int tipY, ThermometerBoard board) {
         cells = new ArrayList<>();
-        fillData(headCell, tipCell, board);
+        fillData(headX, headY, tipX, tipY, board);
     }
 
     //function called by the constructor which adds in all of the cells to the array
     //as well as updates their type on the board
-    private void fillData(ThermometerCell headCell, ThermometerCell tipCell, ThermometerBoard board) {
-        //shorthand for useful variables
-        int headX = (int) headCell.getLocation().getX();
-        int headY = (int) headCell.getLocation().getY();
-        int tipX = (int) tipCell.getLocation().getX();
-        int tipY = (int) tipCell.getLocation().getY();
-
+    private void fillData(int headX, int headY, int tipX, int tipY, ThermometerBoard board) {
         //not totally happy with layout of code but most readable version I can think of atm
         //top left coordinate is 0,0 cells are added from head to tip always
         //because cells have already been verified by time constructor is called
@@ -58,6 +53,10 @@ public class ThermometerVial {
 
     //helper function for adding a single cell
     private void addCell(int x, int y, ThermometerType t, ThermometerBoard board){
+        ThermometerCell cell = new ThermometerCell(new Point(x, y));
+        cell.setIndex(y * board.getHeight() + x);
+        cell.setModifiable(true);
+        board.setCell(x, y, cell);
         board.getCell(x, y).setType(t);
         cells.add(board.getCell(x, y));
     }
@@ -105,7 +104,7 @@ public class ThermometerVial {
 
             //verifying that every cell along path is currently unclaimed
             for (int i = top; i < bottom; i++) {
-                if(board.getCell(headX, i).getType() != ThermometerType.UNKNOWN) return false;
+                if(board.getCell(headX, i) != null || board.getCell(headX, i).getType() != ThermometerType.UNKNOWN) return false;
             }
         }
         else if (headY == tipY) {
