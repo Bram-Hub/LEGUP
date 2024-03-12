@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Legup version="2.0.0">
+<Legup version="3.0.0">
+    <saved/>
     <puzzle name="TreeTent">
         <board height="8" width="8">
             <cells>
@@ -37,6 +38,49 @@
                 <clue index="8" value="2"/>
             </axis>
         </board>
+        <proof>
+            <tree>
+                <node id="1456676015" root="true">
+                    <transition child="898356340" id="2071826600" rule="Finish with Grass" rule_id="TREE-BASC-0002">
+                        <cell value="2" x="1" y="5"/>
+                        <cell value="2" x="1" y="1"/>
+                        <cell value="2" x="1" y="7"/>
+                        <cell value="2" x="1" y="6"/>
+                        <cell value="2" x="1" y="4"/>
+                        <cell value="2" x="1" y="0"/>
+                        <cell value="2" x="3" y="1"/>
+                        <cell value="2" x="7" y="1"/>
+                        <cell value="2" x="1" y="2"/>
+                        <cell value="2" x="5" y="1"/>
+                        <cell value="2" x="4" y="1"/>
+                    </transition>
+                </node>
+                <node id="898356340">
+                    <transition child="880004795" id="1019946845" rule="Last Camping Spot" rule_id="TREE-BASC-0004">
+                        <cell value="3" x="0" y="6"/>
+                        <cell value="3" x="0" y="3"/>
+                    </transition>
+                </node>
+                <node id="880004795">
+                    <transition child="1505764179" id="1060946986" rule="Surround Tent with Grass" rule_id="TREE-BASC-0005">
+                        <cell value="2" x="0" y="2"/>
+                        <cell value="2" x="0" y="5"/>
+                        <cell value="2" x="0" y="4"/>
+                    </transition>
+                </node>
+                <node id="1505764179">
+                    <transition child="72368848" id="1992557164" rule="Last Camping Spot" rule_id="TREE-BASC-0004">
+                        <cell value="3" x="0" y="0"/>
+                    </transition>
+                </node>
+                <node id="72368848">
+                    <transition child="1027645674" id="1037001858" rule="Tent for Tree" rule_id="TREE-BASC-0006">
+                        <line x1="0" x2="0" y1="0" y2="1"/>
+                    </transition>
+                </node>
+                <node id="1027645674"/>
+            </tree>
+        </proof>
     </puzzle>
-    <solved isSolved="false" lastSaved="--"/>
+    <solved isSolved="false" lastSaved="2024-03-12 17:29:25"/>
 </Legup>
