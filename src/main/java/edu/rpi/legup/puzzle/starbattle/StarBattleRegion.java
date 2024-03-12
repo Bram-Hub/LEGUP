@@ -6,4 +6,12 @@ public class StarBattleRegion extends GridRegion<StarBattleCell>{
     public StarBattleRegion() {
         super();
     }
+
+    public StarBattleRegion copy() {
+        StarBattleRegion copy = new StarBattleRegion();
+        for (StarBattleCell c: regionCells) {
+            copy.addCell(c.copy());
+        }
+        return copy;
+    }
 }
