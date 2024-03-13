@@ -1,20 +1,25 @@
 package edu.rpi.legup.controller;
 
-import static edu.rpi.legup.app.GameBoardFacade.getInstance;
-
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.history.*;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.rules.*;
-import edu.rpi.legup.model.tree.*;
+import edu.rpi.legup.model.tree.TreeElement;
+import edu.rpi.legup.model.tree.TreeElementType;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleButton;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RulePanel;
-import edu.rpi.legup.ui.proofeditorui.treeview.*;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeElementView;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+
+import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class RuleController implements ActionListener {
     protected Object lastSource;
@@ -33,9 +38,12 @@ public class RuleController implements ActionListener {
      * @param rule rule of the button that was pressed
      */
     public void buttonPressed(Rule rule) {
+        // Board is modified before this point
+
         TreePanel treePanel = GameBoardFacade.getInstance().getLegupUI().getTreePanel();
         TreeView treeView = treePanel.getTreeView();
-        Puzzle puzzle = getInstance().getPuzzleModule();
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+        System.out.println(puzzle.getCurrentBoard().getModifiedData().size());
         TreeViewSelection selection = treeView.getSelection();
         List<TreeElementView> selectedViews = selection.getSelectedViews();
 
@@ -78,30 +86,31 @@ public class RuleController implements ActionListener {
                     updateErrorString = caseRuleCommand.getError();
                 }
             }
-        } else {
-            if (rule.getRuleType() == RuleType.CONTRADICTION) {
-                ICommand validate =
-                        new ValidateContradictionRuleCommand(selection, (ContradictionRule) rule);
-                if (validate.canExecute()) {
-                    getInstance().getHistory().pushChange(validate);
-                    validate.execute();
-                } else {
-                    updateErrorString = validate.getError();
-                }
+        } else if (rule.getRuleType() == RuleType.CONTRADICTION) {
+            System.out.println("Selection: " + selection.getFirstSelection().getTreeElement().getType());
+
+            ICommand validate =
+                    new ValidateContradictionRuleCommand(selection, (ContradictionRule) rule);
+            if (validate.canExecute()) {
+                System.out.println("Contradiction rule can execute");
+                getInstance().getHistory().pushChange(validate);
+                validate.execute();
             } else {
-                boolean def =
-                        LegupPreferences.getInstance()
-                                .getUserPrefAsBool(LegupPreferences.ALLOW_DEFAULT_RULES);
-                ICommand validate =
-                        def
-                                ? new ApplyDefaultDirectRuleCommand(selection, (DirectRule) rule)
-                                : new ValidateDirectRuleCommand(selection, (DirectRule) rule);
-                if (validate.canExecute()) {
-                    getInstance().getHistory().pushChange(validate);
-                    validate.execute();
-                } else {
-                    updateErrorString = validate.getError();
-                }
+                updateErrorString = validate.getError();
+            }
+        } else {
+            boolean def =
+                    LegupPreferences.getInstance()
+                            .getUserPrefAsBool(LegupPreferences.ALLOW_DEFAULT_RULES);
+            ICommand validate =
+                    def
+                            ? new ApplyDefaultDirectRuleCommand(selection, (DirectRule) rule)
+                            : new ValidateDirectRuleCommand(selection, (DirectRule) rule);
+            if (validate.canExecute()) {
+                getInstance().getHistory().pushChange(validate);
+                validate.execute();
+            } else {
+                updateErrorString = validate.getError();
             }
         }
         GameBoardFacade.getInstance().getLegupUI().getTreePanel().updateError(updateErrorString);
