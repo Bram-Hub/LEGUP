@@ -1,8 +1,5 @@
 package edu.rpi.legup.puzzle.thermometer;
 
-public class ThermometerExporter {
-}
-
 import java.util.ArrayList;
 
 import edu.rpi.legup.model.PuzzleExporter;
