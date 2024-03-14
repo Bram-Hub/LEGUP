@@ -88,6 +88,10 @@ public class ThermometerBoard extends GridBoard{
         return colNumbers.get(col);
     }
 
+    // Accessors for saving row/column
+    public ArrayList<Integer> getRowNumbers() { return rowNumbers; }
+    public ArrayList<Integer> getColNumbers() { return colNumbers; }
+
 
     @Override
     public ThermometerCell getCell(int x, int y){
