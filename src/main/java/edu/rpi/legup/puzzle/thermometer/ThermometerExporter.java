@@ -1,13 +1,10 @@
 package edu.rpi.legup.puzzle.thermometer;
 
-public class ThermometerExporter {
-}
-
 import java.util.ArrayList;
 
 import edu.rpi.legup.model.PuzzleExporter;
 import org.w3c.dom.Document;
-import edu.rpi.legup.puzzle.thermometer.elements.Vial;
+import edu.rpi.legup.puzzle.thermometer.ThermometerVial;
 
 public class ThermometerExporter extends PuzzleExporter {
 
@@ -26,8 +23,8 @@ public class ThermometerExporter extends PuzzleExporter {
 
         // Creating the XML section for the vials and appending to the board
         org.w3c.dom.Element vialsElement = newDocument.createElement("vials");
-        ArrayList<Vial> vials = board.getVials();
-        for (Vial vial : vials) {
+        ArrayList<ThermometerVial> vials = board.getVials();
+        for (ThermometerVial vial : vials) {
             org.w3c.dom.Element vialElement = newDocument.createElement("vial");
             // Temp for now, waiting on final implementation of vial
 //            vialElement.setAttribute("headx", vial.getHeadX());
