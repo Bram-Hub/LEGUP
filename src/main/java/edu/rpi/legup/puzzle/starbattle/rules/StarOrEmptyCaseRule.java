@@ -5,11 +5,14 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StarOrEmptyCaseRule extends CaseRule {
 
@@ -29,7 +32,29 @@ public class StarOrEmptyCaseRule extends CaseRule {
      */
     @Override
     public String checkRuleRaw(TreeTransition transition) {
-        //TODO: implement this
+        List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
+        if (childTransitions.size() != 2) {
+            return super.getInvalidUseOfRuleMessage() + ": This case rule must have 2 children.";
+        }
+
+        TreeTransition case1 = childTransitions.get(0);
+        TreeTransition case2 = childTransitions.get(1);
+        if (case1.getBoard().getModifiedData().size() != 1 ||
+                case2.getBoard().getModifiedData().size() != 1) {
+            return super.getInvalidUseOfRuleMessage() + ": This case rule must have 1 modified cell for each case.";
+        }
+
+        StarBattleCell mod1 = (StarBattleCell) case1.getBoard().getModifiedData().iterator().next();
+        StarBattleCell mod2 = (StarBattleCell) case2.getBoard().getModifiedData().iterator().next();
+        if (!mod1.getLocation().equals(mod2.getLocation())) {
+            return super.getInvalidUseOfRuleMessage() + ": This case rule must modify the same cell for each case.";
+        }
+
+        if (!((mod1.getType() == StarBattleCellType.STAR && mod2.getType() == StarBattleCellType.BLACK) ||
+                (mod2.getType() == StarBattleCellType.STAR && mod1.getType() == StarBattleCellType.BLACK))) {
+            return super.getInvalidUseOfRuleMessage() + ": This case rule must create a star cell and a black cell.";
+        }
+
         return null;
     }
 
