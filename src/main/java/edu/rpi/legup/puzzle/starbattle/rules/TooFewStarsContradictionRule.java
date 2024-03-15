@@ -8,6 +8,9 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
+import edu.rpi.legup.puzzle.starbattle.StarBattleRegion;
+
+import java.awt.*;
 
 public class TooFewStarsContradictionRule extends ContradictionRule {
 
@@ -28,6 +31,34 @@ public class TooFewStarsContradictionRule extends ContradictionRule {
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
+        StarBattleBoard sbBoard = (StarBattleBoard) board;
+        StarBattleCell cell = (StarBattleCell) puzzleElement;
+        Point location = cell.getLocation();
+        int column = location.x;
+        int row = location.y;
+        int rowCount = 0;
+        int columnCount = 0;
+        for (int i = 0; i < sbBoard.getSize(); ++i) {
+            if (sbBoard.getCell(row, i).getType() != StarBattleCellType.BLACK) {
+                ++rowCount;
+            }
+            if (sbBoard.getCell(i, column).getType() != StarBattleCellType.BLACK) {
+                ++columnCount;
+            }
+        }
+        if (rowCount < sbBoard.getPuzzleNumber() || columnCount < sbBoard.getPuzzleNumber()) {
+            return null;
+        }
+        StarBattleRegion region = sbBoard.getRegion(cell);
+        int regionCount = 0;
+        for (StarBattleCell c: region.getCells()) {
+            if (c.getType() != StarBattleCellType.BLACK) {
+                ++regionCount;
+            }
+        }
+        if (regionCount < sbBoard.getPuzzleNumber()) {
+            return null;
+        }
         return super.getNoContradictionMessage();
     }
 }

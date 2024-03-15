@@ -58,6 +58,10 @@ public class StarBattleBoard extends GridBoard {
         return regions.get(index);
     }
 
+    public StarBattleRegion getRegion(StarBattleCell cell) {
+        return getRegion(cell.getGroupIndex());
+    }
+
     public StarBattleBoard copy() {
         StarBattleBoard copy = new StarBattleBoard(size, puzzleNum);
         for (int x = 0; x < this.dimension.width; x++) {

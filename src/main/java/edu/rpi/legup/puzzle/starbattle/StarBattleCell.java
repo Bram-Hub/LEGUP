@@ -24,6 +24,8 @@ public class StarBattleCell extends GridCell<Integer> {
         this.max = size;
     }
 
+    public int getGroupIndex() { return groupIndex; }
+
     @Override
     public void setType(Element e, MouseEvent m) {
         switch (e.getElementID()) {
