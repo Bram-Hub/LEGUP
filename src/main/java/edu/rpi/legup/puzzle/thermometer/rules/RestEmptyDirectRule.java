@@ -48,19 +48,43 @@ public class RestEmptyDirectRule extends DirectRule {
                 host = vials;
             }
         }
-        if(host == null) return super.getInvalidUseOfRuleMessage() + ": Something went wrong";
+        if(host == null) return super.getInvalidUseOfRuleMessage() + ": Something went wrong - 1";
+        int x = (int)cell.getLocation().getX();
+        int y = (int)cell.getLocation().getX();
 
-        /*if(host.containsCell(finalBoard.getCell())){
-
-        }else if{
-
-        }else if{
-
-        }else{
-
-        }*/
-
-        return super.getInvalidUseOfRuleMessage() + ": Blocked cell is not forced";
+        //Identifies previous cell from head location, checks if it is blocked
+        if(host.getHead() == cell){
+            return super.getInvalidUseOfRuleMessage() + ": rule can not apply to head";
+        }else if(host.getHead().getLocation().getX() == x){
+            if(host.getHead().getLocation().getY() > y){
+                if(initialBoard.getCell(x, y + 1).getFill() == ThermometerFill.BLOCKED){
+                    return null;
+                } else{
+                    return super.getInvalidUseOfRuleMessage() + "rule does not apply to this cell";
+                }
+            }else if(host.getHead().getLocation().getY() < y){
+                if(initialBoard.getCell(x, y - 1).getFill() == ThermometerFill.BLOCKED){
+                    return null;
+                } else{
+                    return super.getInvalidUseOfRuleMessage() + "rule does not apply to this cell";
+                }
+            } else return super.getInvalidUseOfRuleMessage() + ": Something went wrong - 2";
+        }else if(host.getHead().getLocation().getY() == y){
+            if(host.getHead().getLocation().getX() > x){
+                if(initialBoard.getCell(x + 1, y).getFill() == ThermometerFill.BLOCKED){
+                    return null;
+                } else{
+                    return super.getInvalidUseOfRuleMessage() + "rule does not apply to this cell";
+                }
+            }else if(host.getHead().getLocation().getX() < x){
+                if(initialBoard.getCell(x - 1, y).getFill() == ThermometerFill.BLOCKED){
+                    return null;
+                } else{
+                    return super.getInvalidUseOfRuleMessage() + "rule does not apply to this cell";
+                }
+            } else return super.getInvalidUseOfRuleMessage() + ": Something went wrong - 2.1";
+        }
+        return super.getInvalidUseOfRuleMessage() + "Something went wrong - 3";
     }
 
     @Override
