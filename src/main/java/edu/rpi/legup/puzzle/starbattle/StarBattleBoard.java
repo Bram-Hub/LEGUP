@@ -8,12 +8,14 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 public class StarBattleBoard extends GridBoard {
 
     private int size;
+    private int puzzleNum;
     protected List<StarBattleRegion> regions;
     //private ArrayList<Integer> groupSizes;
 
-    public StarBattleBoard(int size) {
+    public StarBattleBoard(int size, int num) {
         super(size, size);
         this.size = size;
+        this.puzzleNum = num;
         this.regions = new ArrayList<>();
     }
 
@@ -39,6 +41,8 @@ public class StarBattleBoard extends GridBoard {
         return row;
     }
 
+    public int getPuzzleNumber() { return puzzleNum; }
+
     public Set<StarBattleCell> getCol(int colNum) {
         Set<StarBattleCell> column = new HashSet<>();
         for (int i = 0; i < size; i++) {
@@ -55,7 +59,7 @@ public class StarBattleBoard extends GridBoard {
     }
 
     public StarBattleBoard copy() {
-        StarBattleBoard copy = new StarBattleBoard(size);
+        StarBattleBoard copy = new StarBattleBoard(size, puzzleNum);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {
                 copy.setCell(x, y, getCell(x, y).copy());
