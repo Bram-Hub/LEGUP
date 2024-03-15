@@ -45,9 +45,10 @@ public class ClashingOrbitContradictionRule extends ContradictionRule {
         int colStart  = Math.max( location.y - 1, 0 );
         int colEnd = Math.min( location.y + 1, starbattleBoard.getSize() - 1 );
 
-        for (int row = rowStart; rowStart <= rowEnd; row++) {
-            for (int col = colStart; colStart <= colEnd; col++) {
-                if (starbattleBoard.getCell(row, col).getType() == StarBattleCellType.STAR) {
+        for (int row = rowStart; row <= rowEnd; row++) {
+            for (int col = colStart; col <= colEnd; col++) {
+                if (starbattleBoard.getCell(row, col).getType() == StarBattleCellType.STAR
+                && (row != location.x || col != location.y)) {
                     return null;
                 }
             }
