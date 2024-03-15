@@ -11,16 +11,15 @@ import edu.rpi.legup.puzzle.thermometer.ThermometerFill;
 import edu.rpi.legup.puzzle.thermometer.elements.Vial;
 
 import java.util.ArrayList;
-import java.util.Set;
 
-public class RestEmptyDirectRule extends DirectRule {
+public class PriorFilledDirectRule extends DirectRule {
 
-    public RestEmptyDirectRule() {
+    public PriorFilledDirectRule() {
         super(
-                "THERM-BASC-0001",
-                "Rest is Empty",
+                "THERM-BASC-0002",
+                "Previous is Filled",
                 "All tiles following a blocked tile in a vial must be blocked",
-                "edu/rpi/legup/images/Thermometer/RestEmpty.png");
+                "edu/rpi/legup/images/Thermometer/PriorIsFilled.png");
     }
 
     /**
@@ -37,8 +36,8 @@ public class RestEmptyDirectRule extends DirectRule {
         ThermometerBoard finalBoard = (ThermometerBoard) transition.getBoard();
 
         ThermometerCell cell = (ThermometerCell) finalBoard.getPuzzleElement(puzzleElement);
-        if (cell.getFill() != ThermometerFill.BLOCKED) {
-            return super.getInvalidUseOfRuleMessage() + ": Cell is not blocked at this index";
+        if (cell.getFill() != ThermometerFill.FILLED) {
+            return super.getInvalidUseOfRuleMessage() + ": Cell is not filled at this index";
         }
 
         ArrayList<Vial> allVials = finalBoard.getVials();
@@ -53,30 +52,30 @@ public class RestEmptyDirectRule extends DirectRule {
         int y = (int)cell.getLocation().getX();
 
         //Identifies previous cell from head location, checks if it is blocked
-        if(host.getHead() == cell){
-            return super.getInvalidUseOfRuleMessage() + ": rule can not apply to head";
-        }else if(host.getHead().getLocation().getX() == x){
-            if(host.getHead().getLocation().getY() > y){
+        if(host.getTail() == cell){
+            return super.getInvalidUseOfRuleMessage() + ": rule can not apply to tail";
+        }else if(host.getTail().getLocation().getX() == x){
+            if(host.getTail().getLocation().getY() > y){
                 if(initialBoard.getCell(x, y + 1).getFill() == ThermometerFill.BLOCKED){
                     return null;
                 } else{
                     return super.getInvalidUseOfRuleMessage() + "rule does not apply to this cell";
                 }
-            }else if(host.getHead().getLocation().getY() < y){
+            }else if(host.getTail().getLocation().getY() < y){
                 if(initialBoard.getCell(x, y - 1).getFill() == ThermometerFill.BLOCKED){
                     return null;
                 } else{
                     return super.getInvalidUseOfRuleMessage() + "rule does not apply to this cell";
                 }
             } else return super.getInvalidUseOfRuleMessage() + ": Something went wrong - 2";
-        }else if(host.getHead().getLocation().getY() == y){
-            if(host.getHead().getLocation().getX() > x){
+        }else if(host.getTail().getLocation().getY() == y){
+            if(host.getTail().getLocation().getX() > x){
                 if(initialBoard.getCell(x + 1, y).getFill() == ThermometerFill.BLOCKED){
                     return null;
                 } else{
                     return super.getInvalidUseOfRuleMessage() + "rule does not apply to this cell";
                 }
-            }else if(host.getHead().getLocation().getX() < x){
+            }else if(host.getTail().getLocation().getX() < x){
                 if(initialBoard.getCell(x - 1, y).getFill() == ThermometerFill.BLOCKED){
                     return null;
                 } else{
