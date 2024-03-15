@@ -10,7 +10,7 @@ import edu.rpi.legup.puzzle.thermometer.ThermometerBoard;
 public class FinishRowWithEmptyDirectRule extends DirectRule {
 
     public FinishRowWithEmptyDirectRule() {
-        super("FRE",
+        super("THERM-BASIC-0002",
                 "Finish Row with Empty",
                 "When a row is filled with mercury equal to the corresponding edge number, the rest are blocked.",
                 "edu/rpi/legup/images/nurikabe/rules/FinishRowWithEmpty.png");

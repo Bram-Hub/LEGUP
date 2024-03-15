@@ -10,7 +10,7 @@ import edu.rpi.legup.puzzle.thermometer.ThermometerBoard;
 public class RestIsEmptyDirectRule extends DirectRule {
 
     public RestIsEmptyDirectRule() {
-        super("RIE",
+        super("THERM-BASIC-0003",
                 "Rest Is Empty",
                 "If mercury is blocked at a non-tail section, the rest of the thermometer is also blocked.",
                 "edu/rpi/legup/images/nurikabe/rules/RestIsEmpty.png");

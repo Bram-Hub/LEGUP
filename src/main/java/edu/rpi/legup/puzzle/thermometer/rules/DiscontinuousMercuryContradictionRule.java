@@ -15,7 +15,7 @@ public class DiscontinuousMercuryContradictionRule extends ContradictionRule{
     private final String INVALID_USE_MESSAGE = "Contradiction must be a vial";
 
     public DiscontinuousMercuryContradictionRule() {
-        super("DiscontinuousMercury",
+        super("THERM-CONT-0001",
                 "Discontinuous Mercury",
                 "A vial has a filled cell after an empty or blocked cell",
                  null);
