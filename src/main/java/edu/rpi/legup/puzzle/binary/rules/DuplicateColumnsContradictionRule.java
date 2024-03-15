@@ -16,7 +16,7 @@ public class DuplicateColumnsContradictionRule extends ContradictionRule {
         super("BINA-CONT-0006",
                 "Duplicate Columns",
                 "There must not be two columns that are duplicates",
-                "currentlynoimage.png");
+                "edu/rpi/legup/images/binary/rules/DuplicateColumnsContradictionRule.png");
     }
 
     @Override
