@@ -17,6 +17,9 @@ public class StarBattleBoard extends GridBoard {
         this.size = size;
         this.puzzleNum = num;
         this.regions = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            regions.add(new StarBattleRegion());
+        }
     }
 
     @Override
@@ -57,9 +60,13 @@ public class StarBattleBoard extends GridBoard {
         }
         return regions.get(index);
     }
-
+    
     public StarBattleRegion getRegion(StarBattleCell cell) {
         return getRegion(cell.getGroupIndex());
+    }
+
+    public void setRegion(int regionNum, StarBattleRegion region) {
+        regions.set(regionNum, region);
     }
 
     public StarBattleBoard copy() {

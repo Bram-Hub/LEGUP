@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class StarBattleImporter  extends PuzzleImporter{
+public class StarBattleImporter extends PuzzleImporter{
     
    
     public StarBattleImporter(StarBattle starbattle) {
@@ -38,14 +38,14 @@ public class StarBattleImporter  extends PuzzleImporter{
         return false;
     }
 
-
-    /**
+    /** 
      * Constructs empty StarBattle gameboard as per the provided dimensions
      * @param rows number of rows and columns for the gameboard
      */
     @Override
     public void initializeBoard(int rows, int columns) {
-        StarBattleBoard StarBattleBoard = new StarBattleBoard(rows);
+        int puzzle_num = 1;
+        StarBattleBoard StarBattleBoard = new StarBattleBoard(rows, puzzle_num);
         puzzle.setCurrentBoard(StarBattleBoard);
     }
 
@@ -59,19 +59,19 @@ public class StarBattleImporter  extends PuzzleImporter{
     @Override
     public void initializeBoard(Node node) throws InvalidFileFormatException {
         Element puzzleElement = (Element) node;
-
+        int puzzle_num = Integer.parseInt(puzzleElement.getAttribute("puzzle_num"));
         NodeList regionNodes = puzzleElement.getElementsByTagName("region");
-        if (regionNodes.getLength() == 0) {
-            throw new InvalidFileFormatException("No regions found for the StarBattle puzzle");
+        int size = Integer.parseInt(puzzleElement.getAttribute("size"));
+        if (regionNodes.getLength() != size) {
+            throw new InvalidFileFormatException("Not the current amount of regions in the puzzle.");
         }
 
-        int size = Integer.parseInt(puzzleElement.getAttribute("size"));
-
-        StarBattleBoard StarBattleBoard = new StarBattleBoard(size); // Initialize the board with width and height from XML
+        StarBattleBoard StarBattleBoard = new StarBattleBoard(size, puzzle_num); // Initialize the board with width and height from XML
 
         for (int i = 0; i < regionNodes.getLength(); i++) {
             Element regionElement = (Element) regionNodes.item(i);
             NodeList cellNodes = regionElement.getElementsByTagName("cell");
+            StarBattleRegion region_i = new StarBattleRegion();
 
             for (int j = 0; j < cellNodes.getLength(); j++) {
                 Element cellElement = (Element) cellNodes.item(j);
@@ -88,7 +88,9 @@ public class StarBattleImporter  extends PuzzleImporter{
 
                 // Add the cell to the board
                 StarBattleBoard.setCell(x, y, cell);
+                region_i.addCell(cell);
             }
+            StarBattleBoard.setRegion(i, region_i);
         }
 
         puzzle.setCurrentBoard(StarBattleBoard);
@@ -102,7 +104,7 @@ public class StarBattleImporter  extends PuzzleImporter{
      */
     @Override
     public void initializeBoard(String[] statements) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("Ripple Effect does not accept text input");
+        throw new UnsupportedOperationException("Star Battle does not accept text input");
     }
 }
 
