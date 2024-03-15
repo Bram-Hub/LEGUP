@@ -23,7 +23,7 @@ public class PossibleCellsForNumberColumnCaseRule extends CaseRule {
     public PossibleCellsForNumberColumnCaseRule() {
         super("SUDO-CASE-0004", "Possible Cells for Number - Column",
                 "An empty cell has a limited set of possible numbers that can fill it.",
-                "edu/rpi/legup/images/sudoku/possible_cells_number.png");
+                "edu/rpi/legup/images/sudoku/possible_cells_number_column.png");
     }
 
     /**
