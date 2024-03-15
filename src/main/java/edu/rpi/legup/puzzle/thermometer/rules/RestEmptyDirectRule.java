@@ -8,7 +8,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.thermometer.ThermometerBoard;
 import edu.rpi.legup.puzzle.thermometer.ThermometerCell;
 import edu.rpi.legup.puzzle.thermometer.ThermometerFill;
-import edu.rpi.legup.puzzle.thermometer.elements.Vial;
+import edu.rpi.legup.puzzle.thermometer.ThermometerVial;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -41,9 +41,9 @@ public class RestEmptyDirectRule extends DirectRule {
             return super.getInvalidUseOfRuleMessage() + ": Cell is not blocked at this index";
         }
 
-        ArrayList<Vial> allVials = finalBoard.getVials();
-        Vial host = null;
-        for(Vial vials: allVials){
+        ArrayList<ThermometerVial> allVials = finalBoard.getVials();
+        ThermometerVial host = null;
+        for(ThermometerVial vials: allVials){
             if(vials.containsCell((cell))){
                 host = vials;
             }
