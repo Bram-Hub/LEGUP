@@ -17,8 +17,8 @@ public class PriorFilledDirectRule extends DirectRule {
     public PriorFilledDirectRule() {
         super(
                 "THERM-BASC-0002",
-                "Previous is Filled",
-                "All tiles following a blocked tile in a vial must be blocked",
+                "Prior is Filled",
+                "All tiles proceeding a filled tile in a vial must be filled",
                 "edu/rpi/legup/images/Thermometer/PriorIsFilled.png");
     }
 
@@ -51,18 +51,18 @@ public class PriorFilledDirectRule extends DirectRule {
         int x = (int)cell.getLocation().getX();
         int y = (int)cell.getLocation().getX();
 
-        //Identifies previous cell from head location, checks if it is blocked
+        //Identifies next cell from tail location, checks if it is filled
         if(host.getTail() == cell){
             return super.getInvalidUseOfRuleMessage() + ": rule can not apply to tail";
         }else if(host.getTail().getLocation().getX() == x){
             if(host.getTail().getLocation().getY() > y){
-                if(initialBoard.getCell(x, y + 1).getFill() == ThermometerFill.BLOCKED){
+                if(initialBoard.getCell(x, y + 1).getFill() == ThermometerFill.FILLED){
                     return null;
                 } else{
                     return super.getInvalidUseOfRuleMessage() + "rule does not apply to this cell";
                 }
             }else if(host.getTail().getLocation().getY() < y){
-                if(initialBoard.getCell(x, y - 1).getFill() == ThermometerFill.BLOCKED){
+                if(initialBoard.getCell(x, y - 1).getFill() == ThermometerFill.FILLED){
                     return null;
                 } else{
                     return super.getInvalidUseOfRuleMessage() + "rule does not apply to this cell";
@@ -70,13 +70,13 @@ public class PriorFilledDirectRule extends DirectRule {
             } else return super.getInvalidUseOfRuleMessage() + ": Something went wrong - 2";
         }else if(host.getTail().getLocation().getY() == y){
             if(host.getTail().getLocation().getX() > x){
-                if(initialBoard.getCell(x + 1, y).getFill() == ThermometerFill.BLOCKED){
+                if(initialBoard.getCell(x + 1, y).getFill() == ThermometerFill.FILLED){
                     return null;
                 } else{
                     return super.getInvalidUseOfRuleMessage() + "rule does not apply to this cell";
                 }
             }else if(host.getTail().getLocation().getX() < x){
-                if(initialBoard.getCell(x - 1, y).getFill() == ThermometerFill.BLOCKED){
+                if(initialBoard.getCell(x - 1, y).getFill() == ThermometerFill.FILLED){
                     return null;
                 } else{
                     return super.getInvalidUseOfRuleMessage() + "rule does not apply to this cell";
