@@ -91,11 +91,8 @@ public class FillinRowCaseRuleTest {
      * and a clue of 2 tent in the row. The column rules make the board impossible, but
      * they are not checked here.
      *
-     * <p>checks 3 cases are created checks;
-     * first case is TENT tiles at x=0 and x=1,
-     * second case is TENT tiles at x=1 and x=2,
-     * and a third case is TENT tiles at x=0 and x=2.
-     * The cases can be in any order.
+     * <p>checks 1 case is created. Checks that the case is when
+     * there are TENT tiles at x=0 and x=2.
      * Then, it checks that other cells have not been modified
      *
      * @throws InvalidFileFormatException
@@ -113,17 +110,14 @@ public class FillinRowCaseRuleTest {
         ArrayList<Board> cases = RULE.getCases(board, testing_row);
 
         // assert correct number of cases created
-        Assert.assertEquals(3, cases.size());
+        Assert.assertEquals(1, cases.size());
 
-        for (Board testCaseBoard : cases) {
-            TreeTentBoard testCase = (TreeTentBoard) testCaseBoard;
+        TreeTentBoard testCase = (TreeTentBoard) cases.getFirst();
 
-            // Each case must have 2 tents in the row
-            Assert.assertEquals(2, testCase.getRowCol(1, TreeTentType.TENT, true).size());
+        Assert.assertEquals(TreeTentType.TENT, testCase.getCell(0, 1).getType());
+        Assert.assertEquals(TreeTentType.TENT, testCase.getCell(2, 1).getType());
 
-            // and they must have 2 grass tiles in the row
-            Assert.assertEquals(1, testCase.getRowCol(1, TreeTentType.GRASS, true).size());
-        }
+        Assert.assertEquals(TreeTentType.GRASS, testCase.getCell(1, 1).getType());
 
         // checks other cells have not been modified
         TreeTentCell original_cell;
@@ -137,14 +131,33 @@ public class FillinRowCaseRuleTest {
 
                 original_cell = board.getCell(w, h);
 
-                for (Board testCaseBoard : cases) {
-                    TreeTentBoard testCase = (TreeTentBoard) testCaseBoard;
-
-                    case_cell = testCase.getCell(w, h);
-                    Assert.assertEquals(original_cell.getType(), case_cell.getType());
-
-                }
+                case_cell = testCase.getCell(w, h);
+                Assert.assertEquals(original_cell.getType(), case_cell.getType());
             }
         }
+    }
+
+    /**
+     * empty 3x3 TreeTent puzzle Tests FillinRowCaseRule on row with 3 UNKNOWN tiles
+     * and a clue of 3 tent in the row.
+     *
+     * <p>checks 0 cases are created
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void TentOrTreeTestThreeTentClue() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/FillinRowCaseRule/EmptyRowThreeTent", treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+        TreeTentClue testing_row = board.getClue(3, 1);
+        ArrayList<Board> cases = RULE.getCases(board, testing_row);
+
+        // assert there were no cases found
+        Assert.assertEquals(null, cases);
     }
 }

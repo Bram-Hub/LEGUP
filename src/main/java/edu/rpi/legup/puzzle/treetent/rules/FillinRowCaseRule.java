@@ -110,6 +110,7 @@ public class FillinRowCaseRule extends CaseRule {
             Integer index,
             boolean isRow) {
         ArrayList<Board> b = new ArrayList<>();
+        // Base case: enough tents have been placed
         if (target == current) {
             TreeTentBoard temp = iBoard.copy();
             for (TreeTentCell c : original) {
