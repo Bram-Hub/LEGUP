@@ -92,5 +92,36 @@ public class TentForTreeDirectRuleTest {
         }
     }
 
+    /***
+     * @throws InvalidFileFormatException Test to check if attempting to connect a tree to
+     *  an already connected tent fails
+     */
+    // Currently Cannot Create a board with a pre-existing line.
+    @Test
+    public void TentForTreeOneTreeConnectedTent() throws InvalidFileFormatException {
 
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/TentForTreeDirectRule/TentForTreeOneTreeTwoTent",
+                treetent);
+
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        TreeTentCell cell1 = board.getCell(1, 2);
+        TreeTentCell cell2 = board.getCell(1, 1);
+        TreeTentLine line = new TreeTentLine(cell1, cell2);
+
+        board.addModifiedData(line);
+        board.getLines().add(line);
+
+        Assert.assertNull(RULE.checkRule(transition));
+
+        ArrayList<TreeTentLine> lines = board.getLines();
+        for (TreeTentLine l : lines) {
+            Assert.assertNotNull(RULE.checkRuleAt(transition, l));
+        }
+    }
 }
