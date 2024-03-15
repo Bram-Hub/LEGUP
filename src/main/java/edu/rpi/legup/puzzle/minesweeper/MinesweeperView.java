@@ -2,12 +2,35 @@ package edu.rpi.legup.puzzle.minesweeper;
 
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.puzzle.lightup.LightUpView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.IOException;
+import java.util.Objects;
 
 public class MinesweeperView extends GridBoardView {
+
+    private static final Logger LOGGER = LogManager.getLogger(MinesweeperView.class.getName());
+    public static final Image BOMB_IMAGE;
+
+    static {
+        Image tempBombImage = null;
+        try {
+            tempBombImage =
+                    ImageIO.read(
+                            Objects.requireNonNull(ClassLoader.getSystemClassLoader()
+                                    .getResource("edu/rpi/legup/images/minesweeper/tiles/Bomb.png")));
+        } catch (IOException e) {
+            LOGGER.error("Failed to open Minesweeper images");
+        }
+        BOMB_IMAGE = tempBombImage;
+    }
+
 
     public MinesweeperView(@NotNull MinesweeperBoard board) {
         super(new BoardController(), new MinesweeperController(), board.getDimension());
