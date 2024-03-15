@@ -6,11 +6,16 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import java.awt.Point;
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 public class RippleEffectImporter extends PuzzleImporter {
     public RippleEffectImporter(RippleEffect rippleEffect) {
         super(rippleEffect);
     }
+
+    private Map<Point, RippleEffectRegion> regionsMap;
 
     /**
      * Puzzle setting to support row and column inputs
@@ -37,17 +42,6 @@ public class RippleEffectImporter extends PuzzleImporter {
     @Override
     public void initializeBoard(int rows, int columns) {
         RippleEffectBoard rippleEffectBoard = new RippleEffectBoard(rows, columns);
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < columns; x++) {
-                // new ripple effect cell
-                if (rippleEffectBoard.getCell(x, y) == null) {
-                    RippleEffectCell cell = new RippleEffectCell(RippleEffectCellType.EMPTY, new Point(x, y));
-                    cell.setIndex(y * columns + x);
-                    cell.setModifiable(true);
-                    rippleEffectBoard.setCell(x, y, cell);
-                }
-            }
-        }
         puzzle.setCurrentBoard(rippleEffectBoard);
     }
 
@@ -60,7 +54,45 @@ public class RippleEffectImporter extends PuzzleImporter {
      */
     @Override
     public void initializeBoard(Node node) throws InvalidFileFormatException {
-        if (node == null) throw new InvalidFileFormatException("Invalid format");
+        Element puzzleElement = (Element) node;
+
+        NodeList regionNodes = puzzleElement.getElementsByTagName("region");
+        if (regionNodes.getLength() == 0) {
+            throw new InvalidFileFormatException("No regions found for the RippleEffect puzzle");
+        }
+
+        int width = Integer.parseInt(puzzleElement.getAttribute("width"));
+        int height = Integer.parseInt(puzzleElement.getAttribute("height"));
+
+        RippleEffectBoard rippleEffectBoard = new RippleEffectBoard(width, height); // Initialize the board with width and height from XML
+        int cellType = 1; // Start with cell type 1
+
+        for (int i = 0; i < regionNodes.getLength(); i++) {
+            Element regionElement = (Element) regionNodes.item(i);
+            NodeList cellNodes = regionElement.getElementsByTagName("cell");
+
+            for (int j = 0; j < cellNodes.getLength(); j++) {
+                Element cellElement = (Element) cellNodes.item(j);
+                int x = Integer.parseInt(cellElement.getAttribute("x"));
+                int y = Integer.parseInt(cellElement.getAttribute("y"));
+                int value = Integer.parseInt(cellElement.getAttribute("value"));
+
+                Point cellPoint = new Point(x, y);
+
+                // Create the RippleEffectCell with the cell type and value
+                RippleEffectCell cell = new RippleEffectCell(cellType, cellPoint, value);
+                cell.setIndex(y * width + x); // Calculate the index based on width and height
+                cell.setModifiable(true);
+
+                // Add the cell to the board
+                rippleEffectBoard.setCell(x, y, cell);
+            }
+
+            // Increment cell type for the next region
+            cellType++;
+        }
+
+        puzzle.setCurrentBoard(rippleEffectBoard);
     }
 
 
