@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="5.1.0">
+    <puzzle name="Thermometer">
+        <board height="4" width="4">
+            <vials>
+                <vial headx="0" heady="0" tailx="2" taily="0"/>
+                <vial headx="3" heady="0" tailx="3" taily="3"/>
+                <vial headx="0" heady="1" tailx="1" taily="1"/>
+                <vial headx="2" heady="1" tailx="2" taily="3"/>
+                <vial headx="0" heady="3" tailx="0" taily="2"/>
+                <vial headx="1" heady="2" tailx="1" taily="3"/>
+            </vials>
+            <rowNumbers>
+                <row value="3"/>
+                <row value="2"/>
+                <row value="2"/>
+                <row value="2"/>
+            </rowNumbers>
+            <colNumbers>
+                <col value="2"/>
+                <col value="4"/>
+                <col value="2"/>
+                <col value="1"/>
+            </colNumbers>
+        </board>
+    </puzzle>
+</Legup>
