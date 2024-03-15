@@ -13,9 +13,21 @@ public class TooFewMercuryContradiction extends ContradictionRule{
 
 
     public TooFewMercuryContradiction(){
-        super("THERM-CONT-0002", "Too Many Mercury", "More mercury in column/row than target", "edu/rpi/legup/images/thermometer/TooManyMercury.png");
+        super("THERM-CONT-0002",
+                "Too Many Mercury",
+                "More mercury in column/row than target",
+                "edu/rpi/legup/images/thermometer/TooManyMercury.png");
     }
 
+    /**
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
+     *
+     * @param board board to check contradiction
+     * @param puzzleElement equivalent puzzleElement
+     * @return null if the transition contains a contradiction at the specified puzzleElement,
+     *     otherwise error message
+     */
     @Override
     //Checks if row or column of input element has too many blocked tiles
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {

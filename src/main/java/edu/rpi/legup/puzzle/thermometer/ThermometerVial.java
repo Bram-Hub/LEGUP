@@ -71,6 +71,9 @@ public class ThermometerVial {
         return false;
     }
 
+    public ThermometerCell getHead(){return cells.get(0);}
+    public ThermometerCell getTail(){return cells.get(cells.size());}
+
     //checking for discontinuous flow inside of vial
     public boolean continuousFlow(){
         //bool which is true until it runs into an empty/blocked cell in the vial

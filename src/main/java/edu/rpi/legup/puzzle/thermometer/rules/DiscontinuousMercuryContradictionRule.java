@@ -18,7 +18,7 @@ public class DiscontinuousMercuryContradictionRule extends ContradictionRule{
         super("THERM-CONT-0001",
                 "Discontinuous Mercury",
                 "A vial has a filled cell after an empty or blocked cell",
-                 null);
+                "edu/rpi/legup/images/thermometer/MercuryInBody.png");
     }
 
 
