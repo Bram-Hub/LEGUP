@@ -34,8 +34,7 @@ public class ThreeAdjacentContradictionRule extends ContradictionRule {
         BinaryCell downTwo = binaryBoard.getCell(cell.getLocation().x, cell.getLocation().y-2);
         BinaryCell downOne = binaryBoard.getCell(cell.getLocation().x, cell.getLocation().y-1);
 
-        if (cell.getType() == BinaryType.ZERO)
-        {
+        if (cell.getType() == BinaryType.ZERO) {
             if ((upTwo.getType() == BinaryType.ZERO && upOne.getType() == BinaryType.ZERO) ||
                     (leftTwo.getType() == BinaryType.ZERO && leftOne.getType() == BinaryType.ZERO) ||
                     (rightTwo.getType() == BinaryType.ZERO && rightOne.getType() == BinaryType.ZERO) ||
@@ -45,8 +44,7 @@ public class ThreeAdjacentContradictionRule extends ContradictionRule {
                 return null;
             }
         }
-        else if (cell.getType() == BinaryType.ONE)
-        {
+        else if (cell.getType() == BinaryType.ONE) {
             if ((upTwo.getType() == BinaryType.ONE && upOne.getType() == BinaryType.ONE) ||
                     (leftTwo.getType() == BinaryType.ONE && leftOne.getType() == BinaryType.ONE) ||
                     (rightTwo.getType() == BinaryType.ONE && rightOne.getType() == BinaryType.ONE) ||
