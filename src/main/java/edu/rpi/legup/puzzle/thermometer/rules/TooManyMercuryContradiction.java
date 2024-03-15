@@ -13,11 +13,22 @@ public class TooManyMercuryContradiction extends ContradictionRule{
 
 
     public TooManyMercuryContradiction(){
-        super("THERM-CONT-0002", "Too Many Mercury", "More mercury in column/row than target", "edu/rpi/legup/images/thermometer/TooManyMercury.png");
+        super("THERM-CONT-0001",
+                "Too Many Mercury",
+                "More mercury in column/row than target",
+                "edu/rpi/legup/images/thermometer/TooManyMercury.png");
     }
 
+    /**
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
+     *
+     * @param board board to check contradiction
+     * @param puzzleElement equivalent puzzleElement
+     * @return null if the transition contains a contradiction at the specified puzzleElement,
+     *     otherwise error message
+     */
     @Override
-    //Checks if mercury tiles in column or row of input element exceed limit.
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
         ThermometerBoard grid = (ThermometerBoard) board;
         ThermometerCell cell = (ThermometerCell) grid.getPuzzleElement(puzzleElement);

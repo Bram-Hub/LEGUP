@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MercuryOrBlockedCaseRule extends CaseRule {
     public MercuryOrBlockedCaseRule() {
-        super("MOB",
+        super("THERM-CASE-0001",
                 "Mercury or Blocked",
                 "Each unassigned tile must be filled with mercury or blocked.",
                 "edu/rpi/legup/images/thermometers/cases/MercuryOrBlocked.png");
