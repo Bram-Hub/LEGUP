@@ -8,15 +8,15 @@ import edu.rpi.legup.puzzle.binary.BinaryCell;
 import edu.rpi.legup.puzzle.binary.BinaryType;
 
 import java.util.Set;
-public class UnbalancedRowContradictionRule extends ContradictionRule {
+public class UnbalancedRowOrColumnContradictionRule extends ContradictionRule {
 
     private final String NO_CONTRADICTION_MESSAGE = "Does not contain a contradiction at this index";
-    private final String INVALID_USE_MESSAGE = "Row must have a value in each cell";
+    private final String INVALID_USE_MESSAGE = "Row or column must have a value in each cell";
 
-    public UnbalancedRowContradictionRule() {
-        super("BINA-CONT-0003",
-                "Unbalanced Row",
-                "Each row must contain an equal number of zeros and ones",
+    public UnbalancedRowOrColumnContradictionRule() {
+        super("BINA-CONT-0002",
+                "Unbalanced Row Or Column",
+                "Each row or column must contain an equal number of zeros and ones",
                 "edu/rpi/legup/images/binary/rules/UnbalancedRowContradictionRule.png");
     }
 
@@ -28,23 +28,45 @@ public class UnbalancedRowContradictionRule extends ContradictionRule {
         Set<BinaryCell> row = binaryBoard.getRow(cell.getLocation().y);
 
         int size = row.size();
-        int numZeros = 0;
-        int numOnes = 0;
+        int rowNumZeros = 0;
+        int rowNumOnes = 0;
 
         for (BinaryCell item : row) {
             if (item.getType() == BinaryType.ZERO) {
-                numZeros++;
+                rowNumZeros++;
             }
             else if(item.getType() == BinaryType.ONE) {
-                numOnes++;
+                rowNumOnes++;
             }
         }
-        if (numZeros + numOnes != size) {
+        if (rowNumZeros + rowNumOnes != size) {
             return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
         }
-        if (numZeros != numOnes) {
+        if (rowNumZeros != rowNumOnes) {
             return null;
         }
+
+        Set<BinaryCell> col = binaryBoard.getCol(cell.getLocation().x);
+
+        size = col.size();
+        int colNumZeros = 0;
+        int colNumOnes = 0;
+
+        for (BinaryCell item : col) {
+            if (item.getType() == BinaryType.ZERO) {
+                colNumZeros++;
+            }
+            else if(item.getType() == BinaryType.ONE) {
+                colNumOnes++;
+            }
+        }
+        if (colNumZeros + colNumOnes != size) {
+            return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
+        }
+        if (colNumZeros != colNumOnes) {
+            return null;
+        }
+
         return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
     }
 }
