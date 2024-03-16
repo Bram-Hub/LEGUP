@@ -33,6 +33,7 @@ public class ClashingOrbitContradictionRule extends ContradictionRule {
         StarBattleBoard starbattleBoard = (StarBattleBoard) board;
         StarBattleCell cell = (StarBattleCell) starbattleBoard.getPuzzleElement(puzzleElement);
 
+        // Contradiction rule can only be applied to cells with a star in it
         if (cell.getType() != StarBattleCellType.STAR) {
             return super.getNoContradictionMessage();
         }
