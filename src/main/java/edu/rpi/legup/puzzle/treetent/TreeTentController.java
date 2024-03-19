@@ -32,13 +32,17 @@ public class TreeTentController extends ElementController {
     public void mousePressed(MouseEvent e) {
         if (e.getButton() != MouseEvent.BUTTON2) {
             BoardView boardView = getInstance().getLegupUI().getBoardView();
-            dragStart = boardView.getElement(e.getPoint());
-            lastCellPressed = boardView.getElement(e.getPoint());
+            if (boardView != null) {
+                dragStart = boardView.getElement(e.getPoint());
+                lastCellPressed = boardView.getElement(e.getPoint());
+            }
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        super.mouseReleased(e);
+
         if (GameBoardFacade.getInstance().getLegupUI().getTreePanel() != null
                 && e.getButton() != MouseEvent.BUTTON2) {
             TreePanel treePanel = GameBoardFacade.getInstance().getLegupUI().getTreePanel();
