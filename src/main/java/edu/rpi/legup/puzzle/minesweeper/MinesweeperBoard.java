@@ -1,8 +1,6 @@
 package edu.rpi.legup.puzzle.minesweeper;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
-import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
 
 public class MinesweeperBoard extends GridBoard {
 
@@ -14,6 +12,12 @@ public class MinesweeperBoard extends GridBoard {
         super(size);
     }
 
+    @Override
+    public MinesweeperCell getCell(int x, int y) {
+        return (MinesweeperCell) super.getCell(x, y);
+    }
+
+
     /**
      * Performs a deep copy of the Board
      *
@@ -21,15 +25,12 @@ public class MinesweeperBoard extends GridBoard {
      */
     @Override
     public MinesweeperBoard copy() {
-        MinesweeperBoard copy = new MinesweeperBoard(dimension.width, dimension.height);
+        MinesweeperBoard newMinesweeperBoard = new MinesweeperBoard(this.dimension.width, this.dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {
-                copy.setCell(x, y, getCell(x, y).copy());
+                newMinesweeperBoard.setCell(x, y, getCell(x, y).copy());
             }
         }
-        for (PuzzleElement e : modifiedData) {
-            copy.getPuzzleElement(e).setModifiable(false);
-        }
-        return copy;
+        return newMinesweeperBoard;
     }
 }

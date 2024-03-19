@@ -9,7 +9,7 @@ public enum MinesweeperTileType {
     UNSET,
 
     /**
-     * Represents a cell with no bombs in  it
+     * Represents a cell with no bombs in it
      */
     EMPTY,
     /**

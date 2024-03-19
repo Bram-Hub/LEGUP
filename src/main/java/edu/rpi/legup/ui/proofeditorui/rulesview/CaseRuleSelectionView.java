@@ -1,9 +1,8 @@
 package edu.rpi.legup.ui.proofeditorui.rulesview;
 
 import edu.rpi.legup.ui.WrapLayout;
-
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class CaseRuleSelectionView extends JPanel {
 

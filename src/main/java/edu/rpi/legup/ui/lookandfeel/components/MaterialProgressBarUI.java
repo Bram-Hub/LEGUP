@@ -3,17 +3,15 @@ package edu.rpi.legup.ui.lookandfeel.components;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialBorders;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialDrawingUtils;
-
+import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JProgressBar;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicProgressBarUI;
-import java.awt.Graphics;
 
 /**
  * @author https://github.com/vincenzopalazzo
  */
-
 public class MaterialProgressBarUI extends BasicProgressBarUI {
 
     public static ComponentUI createUI(JComponent c) {
@@ -34,5 +32,4 @@ public class MaterialProgressBarUI extends BasicProgressBarUI {
     public void paint(Graphics g, JComponent c) {
         super.paint(MaterialDrawingUtils.getAliasedGraphics(g), c);
     }
-
 }

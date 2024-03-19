@@ -1,10 +1,9 @@
 package edu.rpi.legup.ui.boardview;
 
 import edu.rpi.legup.controller.ElementController;
-
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
-import java.awt.*;
 
 public class DataSelectionView extends JPopupMenu {
 

@@ -2,7 +2,7 @@ package edu.rpi.legup.puzzle.minesweeper;
 
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
-import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -18,46 +18,46 @@ public class MinesweeperCell extends GridCell<MinesweeperTileData> {
         return super.data.type();
     }
 
-    public @NotNull int getTileNumber() {
-        return super.data.data();
-    }
-
-    public void setCellType(MinesweeperTileData type) {
-        data = type;
-    }
-
     @Override
+    @Contract(pure = false)
+    /**
+     * Sets this cell's data to the value specified by {@link Element#getElementID()}
+     */
     public void setType(@NotNull Element element, @NotNull MouseEvent event) {
         switch (element.getElementID()) {
-            case MinesweeperElementIdentifiers.BOMB:
+            case MinesweeperElementIdentifiers.BOMB -> {
                 this.data = MinesweeperTileData.bomb();
                 break;
-            case MinesweeperElementIdentifiers.FLAG:
+            }
+            case MinesweeperElementIdentifiers.FLAG -> {
                 final int currentData = super.data.data();
                 switch (event.getButton()) {
-                    case MouseEvent.BUTTON1:
+                    case MouseEvent.BUTTON1 -> {
                         if (currentData >= 8) {
                             this.data = MinesweeperTileData.empty();
                             return;
                         }
                         this.data = MinesweeperTileData.flag(currentData + 1);
                         return;
-                    case MouseEvent.BUTTON2:
-                    case MouseEvent.BUTTON3:
+                    }
+                    case MouseEvent.BUTTON2, MouseEvent.BUTTON3 -> {
                         if (currentData <= 0) {
                             this.data = MinesweeperTileData.empty();
                             return;
                         }
                         this.data = MinesweeperTileData.flag(currentData - 1);
                         return;
+                    }
                 }
-                return;
-            default:
+            }
+            default -> {
                 this.data = MinesweeperTileData.empty();
+            }
         }
     }
 
     @Override
+    @Contract(pure = true)
     public @NotNull MinesweeperCell copy() {
         MinesweeperCell copy = new MinesweeperCell(data, (Point) location.clone());
         copy.setIndex(index);

@@ -12,12 +12,13 @@ import edu.rpi.legup.puzzle.minesweeper.MinesweeperTileType;
 
 import java.util.ArrayList;
 import java.util.List;
-public class BombOrFilledCaseRule extends CaseRule{
+
+public class BombOrFilledCaseRule extends CaseRule {
+
     public BombOrFilledCaseRule() {
-        super("MINE-CASE-0001",
-                "Bomb or Filled",
-                "Each cell is either bomb or filled.",
-                "edu/rpi/legup/images/minesweeper/cases/BombOrFilled.jpg");
+        super("MINE-CASE-0000", "Bomb Or Filled",
+                "A cell can either be a bomb or filled.\n",
+                "");
     }
 
     @Override
@@ -27,7 +28,7 @@ public class BombOrFilledCaseRule extends CaseRule{
         minesweeperBoard.setModifiable(false);
         for (PuzzleElement data : minesweeperBoard.getPuzzleElements()) {
             MinesweeperCell cell = (MinesweeperCell) data;
-            if (cell.getTileType() == MinesweeperTileType.UNSET) {
+            if (cell.getData().isUnset()) {
                 caseBoard.addPickableElement(data);
             }
         }
@@ -35,21 +36,20 @@ public class BombOrFilledCaseRule extends CaseRule{
     }
 
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public List<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
 
         Board case1 = board.copy();
         MinesweeperCell cell1 = (MinesweeperCell) case1.getPuzzleElement(puzzleElement);
-        cell1.setCellType(MinesweeperTileData.bomb());
+        cell1.setData(MinesweeperTileData.bomb());
         case1.addModifiedData(cell1);
         cases.add(case1);
 
         Board case2 = board.copy();
         MinesweeperCell cell2 = (MinesweeperCell) case2.getPuzzleElement(puzzleElement);
-        cell2.setCellType(MinesweeperTileData.empty());
+        cell2.setData(MinesweeperTileData.empty());
         case2.addModifiedData(cell2);
         cases.add(case2);
-
         return cases;
     }
 
@@ -62,20 +62,23 @@ public class BombOrFilledCaseRule extends CaseRule{
 
         TreeTransition case1 = childTransitions.get(0);
         TreeTransition case2 = childTransitions.get(1);
-        if (case1.getBoard().getModifiedData().size() != 1 ||
-                case2.getBoard().getModifiedData().size() != 1) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must have 1 modified cell for each case.";
+        if (case1.getBoard().getModifiedData().size() != 1
+                || case2.getBoard().getModifiedData().size() != 1) {
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must have 1 modified cell for each case.";
         }
 
         MinesweeperCell mod1 = (MinesweeperCell) case1.getBoard().getModifiedData().iterator().next();
         MinesweeperCell mod2 = (MinesweeperCell) case2.getBoard().getModifiedData().iterator().next();
         if (!mod1.getLocation().equals(mod2.getLocation())) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must modify the same cell for each case.";
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must modify the same cell for each case.";
         }
 
-        if (!((mod1.getTileType() == MinesweeperTileType.BOMB && mod2.getTileType() == MinesweeperTileType.EMPTY)
-                || (mod2.getTileType() == MinesweeperTileType.BOMB && mod1.getTileType() == MinesweeperTileType.EMPTY))) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must an empty cell and a lit cell.";
+        if (!((mod1.getData().isBomb() && mod2.getData().isEmpty())
+                || (mod2.getData().isBomb() && mod1.getData().isEmpty()))) {
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must an empty cell and a bomb cell.";
         }
 
         return null;
