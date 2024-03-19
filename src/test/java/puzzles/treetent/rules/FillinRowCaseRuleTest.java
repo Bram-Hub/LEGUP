@@ -26,7 +26,7 @@ public class FillinRowCaseRuleTest {
 
     /**
      * empty 3x3 TreeTent puzzle Tests FillinRowCaseRule on row with 3 UNKNOWN tiles
-     * and a clue of 0 tent in the row.
+     * and a clue of 0 tents in the row.
      *
      * <p>checks that 1 case is created and that it is equivalent to FinishWithGrass rule
      *
@@ -155,12 +155,16 @@ public class FillinRowCaseRuleTest {
 
         // assert correct number of cases created
         Assert.assertEquals(1, cases.size());
+        // Only one arrangement is possible when taking into account the
+        // touching tents contradiction rule.
 
         TreeTentBoard testCase = (TreeTentBoard) cases.getFirst();
 
+        // The two side tiles are tents,
         Assert.assertEquals(TreeTentType.TENT, testCase.getCell(0, 1).getType());
         Assert.assertEquals(TreeTentType.TENT, testCase.getCell(2, 1).getType());
 
+        // and the center tile is grass.
         Assert.assertEquals(TreeTentType.GRASS, testCase.getCell(1, 1).getType());
 
         // checks other cells have not been modified
@@ -201,7 +205,7 @@ public class FillinRowCaseRuleTest {
         TreeTentClue testing_row = board.getClue(3, 1);
         ArrayList<Board> cases = RULE.getCases(board, testing_row);
 
-        // assert there were no cases found
+        // assert there were no cases found, as filling in all tiles causes the tents to touch
         Assert.assertEquals(null, cases);
     }
 }
