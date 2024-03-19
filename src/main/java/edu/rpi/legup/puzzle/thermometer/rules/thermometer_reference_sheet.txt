@@ -1,6 +1,5 @@
-THERM-BASIC-0001 : FinishColumnWithEmptyDirectRule
-THERM-BASIC-0002 : FinishRowWithEmptyDirectRule
-THERM-BASIC-0003 : RestIsEmptyDirectRule
+THERM-BASC-0001 : RestEmptyDirectRule
+THERM-BASC-0002 : PriorFilledDirectRule
 
 THERM-CONT-0001 : DiscontinuousMercuryContradictionRule
 THERM-CONT-0002 : TooFewMercuryContradiction
