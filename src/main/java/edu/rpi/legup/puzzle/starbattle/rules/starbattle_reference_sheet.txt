@@ -4,10 +4,12 @@ Star or Empty: STBL-CASE-0002
 
 Basic Rules:
 Blackout: STBL-BASC-0001
-Finish With Stars: STBL-BASC-0002
-Regions Within Rows or Columns: STBL-BASC-0003
-Rows or Columns Within Regions: STBL-BASC-0004
-Surround Star: STBL-BASC-0005
+Columns Within Regions: STBL-BASC-0002
+Finish With Stars: STBL-BASC-0003
+Regions Within Columns: STBL-BASC-0004
+Regions Within Rows: STBL-BASC-0005
+Rows Within Regions: STBL-BASC-0006
+Surround Star: STBL-BASC-0007
 
 Contradiction Rules:
 Too Many Stars: STBL-CONT-0001

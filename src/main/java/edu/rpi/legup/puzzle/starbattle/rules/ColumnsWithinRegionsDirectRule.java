@@ -5,15 +5,12 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
-import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
-import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
 
-public class RowsColumnsWithinRegionsDirectRule extends DirectRule {
-    public RowsColumnsWithinRegionsDirectRule() {
-        super("STBL-BASC-0004",
-                "Rows/Columns Within Regions",
-                "If a number of rows or columns is fully contained by an equal number of regions, spaces of other rows or columns, respectively, in those regions must be black.",
+public class ColumnsWithinRegionsDirectRule extends DirectRule {
+    public ColumnsWithinRegionsDirectRule() {
+        super("STBL-BASC-0002",
+                "Columns Within Regions",
+                "If a number of columns is fully contained by an equal number of regions, spaces of other columns in those regions must be black.",
                 "INSERT IMAGE NAME HERE");
     }
 

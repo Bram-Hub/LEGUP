@@ -60,7 +60,7 @@ public class StarBattleBoard extends GridBoard {
         }
         return regions.get(index);
     }
-    
+
     public StarBattleRegion getRegion(StarBattleCell cell) {
         return getRegion(cell.getGroupIndex());
     }

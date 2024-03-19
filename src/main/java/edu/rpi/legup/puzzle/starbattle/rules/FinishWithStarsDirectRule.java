@@ -13,7 +13,7 @@ import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
 public class FinishWithStarsDirectRule extends DirectRule {
 
     public FinishWithStarsDirectRule() {
-        super("STBL-BASC-0002",
+        super("STBL-BASC-0003",
                 "Finish With Stars",
                 "Unknown spaces must be stars if there are just enough in a row, column, or region to satisfy the puzzle number.",
                 "INSERT IMAGE NAME HERE");
