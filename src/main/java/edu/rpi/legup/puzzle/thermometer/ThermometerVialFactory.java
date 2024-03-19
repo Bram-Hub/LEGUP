@@ -51,18 +51,19 @@ public class ThermometerVialFactory extends ElementFactory{
             int bottom = max(headY, tipY);
 
             //verifying that every cell along path is currently unconstructed
-            for (int i = top; i < bottom; i++) {
+            for (int i = top; i <= bottom; i++) {
                 if(board.getCell(headX, i) != null) return false;
             }
         }
         else if (headY == tipY) {
             //finding start and end of Vial
-            int top = min(headX, tipX);
-            int bottom = max(headX, tipX);
+            //I have words to say to james
+            int left = min(headX, tipX);
+            int right = max(headX, tipX);
 
             //verifying that every cell along path is currently unconstructed
-            for (int i = top; i < bottom; i++) {
-                if(board.getCell(headX, i) != null) return false;
+            for (int i = left; i <= right; i++) {
+                if(board.getCell(i, headY) != null) return false;
             }
         }
         else{
