@@ -1,6 +1,7 @@
 package edu.rpi.legup;
 
 import edu.rpi.legup.app.GameBoardFacade;
+import edu.rpi.legup.ui.color.ColorPreferences;
 import edu.rpi.legup.utility.Logger;
 
 public class Legup {
@@ -14,5 +15,6 @@ public class Legup {
         Logger.initLogger();
         GameBoardFacade.getInstance();
         GameBoardFacade.setupConfig();
+        ColorPreferences.loadColorScheme();
     }
 }

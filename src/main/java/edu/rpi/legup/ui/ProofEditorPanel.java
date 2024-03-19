@@ -29,6 +29,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import javax.swing.*;
@@ -40,7 +41,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private static final Logger LOGGER = LogManager.getLogger(ProofEditorPanel.class.getName());
     private JMenuBar mBar;
     private TreePanel treePanel;
-    private FileDialog fileDialog;
+    private JFileChooser fileChooser;
     private JFrame frame;
     private RuleFrame ruleFrame;
     private DynamicView dynamicBoardView;
@@ -111,8 +112,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     protected JMenuItem testAI = new JMenuItem("Test AI!");
     protected JMenuItem hintAI = new JMenuItem("Hint");
 
-    public ProofEditorPanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
-        this.fileDialog = fileDialog;
+    public ProofEditorPanel(JFileChooser fileChooser, JFrame frame, LegupUI legupUI) {
+        this.fileChooser = fileChooser;
         this.frame = frame;
         this.legupUI = legupUI;
         setLayout(new BorderLayout());
@@ -581,21 +582,25 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             return;
         }
 
-        fileDialog.setMode(FileDialog.SAVE);
-        fileDialog.setTitle("Save As");
+        fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
+//        fileChooser.setMode(JFileChooser.SAVE);
+//        fileChooser.setTitle("Save As");
+        fileChooser.setDialogTitle("Save as");
         String curFileName = GameBoardFacade.getInstance().getCurFileName();
         if (curFileName == null) {
-            fileDialog.setDirectory(
-                    LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY));
+            fileChooser.setCurrentDirectory(
+//            fileChooser.setDirectory(
+                    Path.of(LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY)).toFile());
         } else {
             File curFile = new File(curFileName);
-            fileDialog.setDirectory(curFile.getParent());
+//            fileChooser.setDirectory(curFile.getParent());
+            fileChooser.setCurrentDirectory(curFile.getParentFile());
         }
-        fileDialog.setVisible(true);
+        fileChooser.setVisible(true);
 
         String fileName = null;
-        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
-            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
+        if (fileChooser.getCurrentDirectory() != null && fileChooser.getSelectedFile() != null) {
+            fileName = fileChooser.getCurrentDirectory() + File.separator + fileChooser.getSelectedFile();
         }
 
         if (fileName != null) {
