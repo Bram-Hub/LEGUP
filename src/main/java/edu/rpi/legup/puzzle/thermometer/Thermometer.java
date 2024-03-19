@@ -6,11 +6,19 @@ import edu.rpi.legup.model.gameboard.Board;
 public class Thermometer extends Puzzle {
     public Thermometer() {
         super();
+
+        this.name = "Thermometer";
+
+        this.importer = new ThermometerImporter(this);
+        this.exporter = new ThermometerExporter(this);
+
+        this.factory = new ThermometerVialFactory();
     }
 
     @Override
     public void initializeView() {
         boardView = new ThermometerView((ThermometerBoard) currentBoard);
+        boardView.setBoard(currentBoard);
         addBoardListener(boardView);
     }
 

@@ -15,7 +15,7 @@ public class MercuryOrBlockedCaseRule extends CaseRule {
         super("THERM-CASE-0001",
                 "Mercury or Blocked",
                 "Each unassigned tile must be filled with mercury or blocked.",
-                "edu/rpi/legup/images/thermometers/cases/MercuryOrBlocked.png");
+                "edu/rpi/legup/images/thermometers/MercOrBlocked.png");
     }
 
     @Override
