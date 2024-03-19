@@ -31,28 +31,37 @@ public class LastNumberForCellDirectRule extends DirectRule {
         SudokuBoard initialBoard = (SudokuBoard) transition.getParents().get(0).getBoard();
         SudokuBoard finalBoard = (SudokuBoard) transition.getBoard();
 
-        int index = puzzleElement.getIndex();
+        //Assign basics
         int groupSize = initialBoard.getWidth();
         int groupDim = (int) Math.sqrt(groupSize);
+
+        //Get position info
+        int index = puzzleElement.getIndex();
         int rowIndex = index / groupSize;
         int colIndex = index % groupSize;
-        int groupNum = rowIndex / groupDim * groupDim + colIndex % groupDim;
+        int groupNum = (rowIndex / groupDim) * groupDim + (colIndex / groupDim);
+
+        //Create hashset of all numbers
         HashSet<Integer> numbers = new HashSet<>();
         for (int i = 1; i <= groupSize; i++) {
             numbers.add(i);
         }
+
+        //Run through region, row, col to see contradicitng numbers
         for (int i = 0; i < groupSize; i++) {
             SudokuCell cell = initialBoard.getCell(groupNum, i % groupDim, i / groupDim);
             numbers.remove(cell.getData());
         }
         for (int i = 0; i < groupSize; i++) {
-            SudokuCell cell = initialBoard.getCell(i, colIndex);
+            SudokuCell cell = initialBoard.getCell(i, rowIndex);
             numbers.remove(cell.getData());
         }
         for (int i = 0; i < groupSize; i++) {
-            SudokuCell cell = initialBoard.getCell(rowIndex, i);
+            SudokuCell cell = initialBoard.getCell(colIndex, i);
             numbers.remove(cell.getData());
         }
+
+        //Check if plausible
         if (numbers.size() > 1) {
             return super.getInvalidUseOfRuleMessage() + ": The number at the index is not forced";
         }
@@ -61,7 +70,9 @@ public class LastNumberForCellDirectRule extends DirectRule {
                 return super.getInvalidUseOfRuleMessage() + ": The number at the index is forced but not correct";
             }
         }
-        return null;
+        if(numbers.toArray(new Integer[1])[0] == puzzleElement.getData())
+            return null;
+        return super.getInvalidUseOfRuleMessage() + ": The number at the index is forced but not correct";
     }
 
     /**
