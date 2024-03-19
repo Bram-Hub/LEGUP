@@ -39,26 +39,24 @@ public class ThermometerImporter extends PuzzleImporter {
             if (boardElement.getElementsByTagName("vials").getLength() == 0) {
                 throw new InvalidFileFormatException("thermometer Importer: no puzzleElement found for board");
             }
-            Element dataElement = (Element) boardElement.getElementsByTagName("cells").item(0);
-            NodeList elementDataList = dataElement.getElementsByTagName("cell");
+            Element dataElement = (Element) boardElement.getElementsByTagName("vials").item(0);
+            NodeList elementDataList = dataElement.getElementsByTagName("vial");
 
             ThermometerBoard thermometerBoard = null;
-            if (!boardElement.getAttribute("size").isEmpty()) {
-                int size = Integer.parseInt(boardElement.getAttribute("size"));
-                thermometerBoard = new ThermometerBoard(size);
-                if (boardElement.getElementsByTagName("rowNumbers").getLength() != size) {
-                    throw new InvalidFileFormatException("thermometer Importer: no rowNumbers found for board");
-                }
-                if (boardElement.getElementsByTagName("colNumbers").getLength() != size) {
-                    throw new InvalidFileFormatException("thermometer Importer: no colNumbers found for board");
-                }
-            } else if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
+            if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
                 int width = Integer.parseInt(boardElement.getAttribute("width"));
                 int height = Integer.parseInt(boardElement.getAttribute("height"));
-                if (boardElement.getElementsByTagName("colNumbers").getLength() != width) {
-                    throw new InvalidFileFormatException("thermometer Importer: no colNumbers found for board");
+
+                Element rowElement = (Element) boardElement.getElementsByTagName("rowNumbers").item(0);
+                NodeList rowNodeList = rowElement.getElementsByTagName("row");
+
+                Element colElement = (Element) boardElement.getElementsByTagName("colNumbers").item(0);
+                NodeList colNodeList = colElement.getElementsByTagName("col");
+
+                if (colNodeList.getLength() != width) {
+                    throw new InvalidFileFormatException("Mismatch between width and number of colNums.\n colNodeList.length:" + colNodeList.getLength() + " width:" + width);
                 }
-                if (boardElement.getElementsByTagName("rowNumbers").getLength() != height) {
+                if (rowNodeList.getLength() != height) {
                     throw new InvalidFileFormatException("thermometer Importer: no rowNumbers found for board");
                 }
                 //TODO: potentially have to deal with size issues and non interactable cells

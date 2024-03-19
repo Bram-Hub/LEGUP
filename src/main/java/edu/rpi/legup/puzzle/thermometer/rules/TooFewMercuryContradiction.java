@@ -16,7 +16,7 @@ public class TooFewMercuryContradiction extends ContradictionRule{
         super("THERM-CONT-0002",
                 "Too Many Mercury",
                 "More mercury in column/row than target",
-                "edu/rpi/legup/images/thermometer/TooManyMercury.png");
+                "edu/rpi/legup/images/thermometer/NotEnoughMercury.png");
     }
 
     /**
