@@ -4,6 +4,8 @@ import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.ui.color.ColorPreferences;
 import edu.rpi.legup.utility.Logger;
 
+import java.awt.*;
+
 public class Legup {
 
     /**

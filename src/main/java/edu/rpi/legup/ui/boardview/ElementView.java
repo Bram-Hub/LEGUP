@@ -1,6 +1,8 @@
 package edu.rpi.legup.ui.boardview;
 
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.ui.color.ColorPreferences;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
@@ -8,6 +10,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
+import edu.rpi.legup.ui.color.ColorPreferences.UIColor;
 
 public abstract class ElementView implements Shape {
     protected int index;
@@ -79,7 +82,7 @@ public abstract class ElementView implements Shape {
                 new Rectangle2D.Double(
                         location.x + 0.5f, location.y + 0.5f, size.width - 2, size.height - 2));
 
-        graphics2D.setColor(Color.BLACK);
+        graphics2D.setColor(UIColor.ELEMENT_VIEW_DEFAULT.get());
         FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
         String value = String.valueOf(puzzleElement.getData());
         int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
