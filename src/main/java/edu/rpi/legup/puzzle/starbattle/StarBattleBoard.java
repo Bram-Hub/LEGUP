@@ -80,6 +80,17 @@ public class StarBattleBoard extends GridBoard {
         return stars;
     }
 
+    public int rowStars(int rowIndex) {
+        int stars = 0;
+        if (rowIndex < size) {
+            for (StarBattleCell c: this.getRow(rowIndex)) {
+                if (c.getType() == StarBattleCellType.STAR)
+                    ++stars;
+            }
+        }
+        return stars;
+    }
+
     public StarBattleBoard copy() {
         StarBattleBoard copy = new StarBattleBoard(size, puzzleNum);
         for (int x = 0; x < this.dimension.width; x++) {

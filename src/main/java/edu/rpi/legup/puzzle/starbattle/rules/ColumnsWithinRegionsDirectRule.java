@@ -11,6 +11,7 @@ import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class ColumnsWithinRegionsDirectRule extends DirectRule {
     public ColumnsWithinRegionsDirectRule() {
@@ -31,19 +32,23 @@ public class ColumnsWithinRegionsDirectRule extends DirectRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+        //TODO: fix this
         StarBattleBoard board = (StarBattleBoard) transition.getBoard();
         StarBattleCell cell = (StarBattleCell) board.getPuzzleElement(puzzleElement);
         if (cell.getType() != StarBattleCellType.BLACK) {
             return "Only black cells are allowed for this rule!";
         }
         //which columns are within the region
-        HashSet<Integer> columns = new HashSet<Integer>();
+        Set<Integer> columns = new HashSet<Integer>();
         int columnStars = 0;
         for (PuzzleElement r: board.getRegion(cell).getCells()) {
-            columns.add(((StarBattleCell) r).getLocation().x);
+            int column = ((StarBattleCell) r).getLocation().x;
+            if (columns.add(column)) {
+                columnStars += board.columnStars(column);
+            }
         }
         //which regions are the columns within
-        HashSet<Integer> regions = new HashSet<Integer>();
+        Set<Integer> regions = new HashSet<Integer>();
         int regionStars = 0;
         for (Integer c: columns) {
             for (int i = 0; i < board.getSize(); ++i) {
@@ -53,6 +58,9 @@ public class ColumnsWithinRegionsDirectRule extends DirectRule {
             }
         }
         // are the columns and regions missing an equal amount of stars
+        if (board.getPuzzleNumber() * columns.size() - columnStars != board.getPuzzleNumber() * regions.size() - regionStars) {
+            return "The number of missing stars in the ";
+        }
         return null;
     }
 
