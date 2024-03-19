@@ -69,6 +69,17 @@ public class StarBattleBoard extends GridBoard {
         regions.set(regionNum, region);
     }
 
+    public int columnStars(int columnIndex) {
+        int stars = 0;
+        if (columnIndex < size) {
+            for (StarBattleCell c: this.getCol(columnIndex)) {
+                if (c.getType() == StarBattleCellType.STAR)
+                    ++stars;
+            }
+        }
+        return stars;
+    }
+
     public StarBattleBoard copy() {
         StarBattleBoard copy = new StarBattleBoard(size, puzzleNum);
         for (int x = 0; x < this.dimension.width; x++) {
