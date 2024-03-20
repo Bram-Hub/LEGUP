@@ -39,30 +39,30 @@ public class TooManyStarsContradictionRule extends ContradictionRule {
         Point location = cell.getLocation();
         int starCount = 0;
         int puzzleNum = starbattleBoard.getPuzzleNumber();
-        boolean valid = false;
+        boolean valid = true;
 
         if (cell.getType() != StarBattleCellType.STAR) {
-            return INVALID_USE_MESSAGE;
+            return this.INVALID_USE_MESSAGE;
         }
 
         // check row
-        for (int i = location.x - 1; i >= 0; i--) { // to the left of selected cell
+        for (int i = location.x - 1; i >= 0; i--) {
             StarBattleCell check = starbattleBoard.getCell(i, location.y);
             if (check.getType() == StarBattleCellType.STAR) {
                 starCount++;
                 if (starCount >= puzzleNum) {
-                    valid = true;
+                    valid = false;
                     break;
                 }
             }
         }
 
-        for (int i = location.x + 1; i < starbattleBoard.getWidth(); i++) { // to the right of selected cell
+        for (int i = location.x + 1; i < starbattleBoard.getWidth(); i++) {
             StarBattleCell check = starbattleBoard.getCell(i, location.y);
             if (check.getType() == StarBattleCellType.STAR) {
                 starCount++;
                 if (starCount >= puzzleNum) {
-                    valid = true;
+                    valid = false;
                     break;
                 }
             }
@@ -70,23 +70,23 @@ public class TooManyStarsContradictionRule extends ContradictionRule {
 
         // check column
         starCount = 0;
-        for (int j = location.y - 1; j >= 0; j--) { // above selected cell
+        for (int j = location.y - 1; j >= 0; j--) {
             StarBattleCell check = starbattleBoard.getCell(location.x, j);
             if (check.getType() == StarBattleCellType.STAR) {
                 starCount++;
                 if (starCount >= puzzleNum) {
-                    valid = true;
+                    valid = false;
                     break;
                 }
             }
         }
 
-        for (int j = location.y + 1; j < starbattleBoard.getWidth(); j++) { // below selected cell
+        for (int j = location.y + 1; j < starbattleBoard.getWidth(); j++) {
             StarBattleCell check = starbattleBoard.getCell(location.x, j);
             if (check.getType() == StarBattleCellType.STAR) {
                 starCount++;
                 if (starCount >= puzzleNum) {
-                    valid = true;
+                    valid = false;
                     break;
                 }
             }
@@ -97,15 +97,16 @@ public class TooManyStarsContradictionRule extends ContradictionRule {
         StarBattleRegion reg = starbattleBoard.getRegion(cell);
         List<StarBattleCell> cellList = reg.getCells(); // list of cells
         for (int k = 0; k < cellList.size(); k++) {
-            if (cellList.get(k) == cell) {
-                continue;
-            } else if (cellList.get(k).getType() == StarBattleCellType.STAR) {
-                valid = true;
-                break;
+            if (cellList.get(k).getType() == StarBattleCellType.STAR) {
+                starCount++;
+                if (starCount >= puzzleNum) {
+                    valid = false;
+                    break;
+                }
             }
         }
 
-        if (valid == true) {
+        if (valid == false) {
             return super.getNoContradictionMessage();
         }
         return null;
