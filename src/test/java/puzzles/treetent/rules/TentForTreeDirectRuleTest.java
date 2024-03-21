@@ -96,6 +96,7 @@ public class TentForTreeDirectRuleTest {
      * @throws InvalidFileFormatException Test to check if attempting to connect a tree to
      *  an already connected tent fails
      */
+    //TODO
     // Currently Cannot Create a board with a pre-existing line.
     @Test
     public void TentForTreeOneTreeConnectedTent() throws InvalidFileFormatException {
