@@ -6,11 +6,7 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.minesweeper.MinesweeperBoard;
-import edu.rpi.legup.puzzle.minesweeper.MinesweeperCell;
-import edu.rpi.legup.puzzle.minesweeper.MinesweeperTileData;
-import edu.rpi.legup.puzzle.minesweeper.MinesweeperTileType;
-import edu.rpi.legup.puzzle.minesweeper.MinesweeperUtilities;
+import edu.rpi.legup.puzzle.minesweeper.*;
 
 import java.awt.*;
 import java.util.*;
@@ -46,37 +42,37 @@ public class SatisfyFlagCaseRule extends CaseRule{
         MinesweeperBoard minesweeperBoard = (MinesweeperBoard) board.copy();
         MinesweeperCell cell = (MinesweeperCell) minesweeperBoard.getPuzzleElement(puzzleElement);
         int cellMaxBlack = cell.getTileNumber();
-        if (cellMaxBlack < 0 || cellMaxBlack > 8) { // cell is not valid cell
+        if (cellMaxBlack <= 0 || cellMaxBlack > 8) { // cell is not valid cell
             return null;
         }
 
-        // find number of black & empty squares
+        // find number of black & unset squares
         int cellNumBomb = 0;
-        int cellNumEmpty = 0;
-        ArrayList<MinesweeperCell> emptyCells = new ArrayList<MinesweeperCell>();
+        int cellNumUnset = 0;
+        ArrayList<MinesweeperCell> unsetCells = new ArrayList<MinesweeperCell>();
         ArrayList<MinesweeperCell> adjCells = MinesweeperUtilities.getAdjacentCells(minesweeperBoard, cell);
         for (MinesweeperCell adjCell : adjCells) {
             if (adjCell.getTileType() == MinesweeperTileType.BOMB) {
                 cellNumBomb++;
             }
-            if (adjCell.getTileType() == MinesweeperTileType.EMPTY) {
-                cellNumEmpty++;
-                emptyCells.add(adjCell);
+            if (adjCell.getTileType() == MinesweeperTileType.UNSET) {
+                cellNumUnset++;
+                unsetCells.add(adjCell);
             }
         }
         // no cases if no empty or if too many black already
-        if (cellNumBomb > cellMaxBlack || cellNumEmpty == 0) {
+        if (cellNumBomb >= cellMaxBlack || cellNumUnset == 0) {
             return cases;
         }
 
         // generate all cases as boolean expressions
         ArrayList<boolean[]> combinations;
-        combinations = MinesweeperUtilities.getCombinations(cellMaxBlack - cellNumBomb, cellNumEmpty);
+        combinations = MinesweeperUtilities.getCombinations(cellMaxBlack - cellNumBomb, cellNumUnset);
 
         for (int i=0; i < combinations.size(); i++) {
             Board case_ = board.copy();
             for (int j=0; j < combinations.get(i).length; j++) {
-                cell = (MinesweeperCell) case_.getPuzzleElement(emptyCells.get(j));
+                cell = (MinesweeperCell) case_.getPuzzleElement(unsetCells.get(j));
                 if (combinations.get(i)[j]) {
                     cell.setCellType(MinesweeperTileData.bomb());
                 }
@@ -103,7 +99,7 @@ public class SatisfyFlagCaseRule extends CaseRule{
          *          * all modified cells must share at least one common adjacent
          *              cell
          *          * all modified cells must fit within a 3X3 square
-         *          * the center of one of the possible squaress must be a cell
+         *          * the center of one of the possible squares must be a cell
          *              with a number
          *          * that cells possible combinations must match the transitions
          * If all the above is verified, then the transition is valid
@@ -143,13 +139,16 @@ public class SatisfyFlagCaseRule extends CaseRule{
         /* get the center of all possible 3X3 squares,
          * and collect all that have numbers */
         MinesweeperBoard board = (MinesweeperBoard) transition.getParents().get(0).getBoard();
-        Set<MinesweeperCell> possibleCenters = new TreeSet<MinesweeperCell>();
-        possibleCenters.addAll(MinesweeperUtilities.getAdjacentCells(board, (MinesweeperCell) modCells.iterator().next()));
+        ArrayList<MinesweeperCell> possibleCenters = new ArrayList<MinesweeperCell>();
         for (PuzzleElement modCell : modCells) {
-            possibleCenters.retainAll((MinesweeperUtilities.getAdjacentCells(board, (MinesweeperCell) modCell)));
+            ArrayList<MinesweeperCell> adjacentCells = MinesweeperUtilities.getAdjacentCells(board, (MinesweeperCell) modCell);
+            for (MinesweeperCell cell : adjacentCells) {
+                possibleCenters.add(cell);
+            }
         }
+
         // removing all elements without a valid number
-        possibleCenters.removeIf(x -> x.getTileNumber() < 0 || x.getTileNumber() >= 9);
+        possibleCenters.removeIf(x -> x.getTileNumber() <= 0 || x.getTileNumber() >= 9);
         if (possibleCenters.isEmpty()) {
             return super.getInvalidUseOfRuleMessage();
         }
