@@ -30,7 +30,25 @@ public class OneTileGapDirectRule extends DirectRule {
         BinaryCell downOne = finalBoard.getCell(cell.getLocation().x, cell.getLocation().y-1);
         BinaryCell leftOne = finalBoard.getCell(cell.getLocation().x-1, cell.getLocation().y);
         BinaryCell rightOne = finalBoard.getCell(cell.getLocation().x+1, cell.getLocation().y);
+        BinaryType cellType = cell.getType();
 
+        if(downOne.getType() == upOne.getType())
+        {
+            if(downOne.getType() == cellType)
+            {
+                return "Filled cell matches vertical outer cells";
+            }
+        }
+        if(rightOne.getType() == leftOne.getType())
+        {
+            if(rightOne.getType() == cellType)
+            {
+                return "Filled cell matches hroizontal outer cells";
+            }
+        }
+        return null;
+    }
+/*
         if ((upOne.getType() == BinaryType.ONE && downOne.getType() == BinaryType.ONE && cell.getType() != BinaryType.ONE) ||
                 (upOne.getType() == BinaryType.ZERO && downOne.getType() == BinaryType.ZERO && cell.getType() != BinaryType.ZERO) ||
                 (leftOne.getType() == BinaryType.ONE && rightOne.getType() == BinaryType.ONE && cell.getType() != BinaryType.ONE) ||
@@ -39,6 +57,7 @@ public class OneTileGapDirectRule extends DirectRule {
         }
         return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
     }
+*/
 
     @Override
     public Board getDefaultBoard(TreeNode node) {

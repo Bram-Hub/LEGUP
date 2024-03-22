@@ -20,6 +20,10 @@ public class BinaryBoard extends GridBoard {
 
     @Override
     public BinaryCell getCell(int x, int y) {
+        if (y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
+                y >= dimension.height || x < 0 || y < 0) {
+            return null;
+        }
         return (BinaryCell) super.getCell(x, y);
     }
 
@@ -37,5 +41,21 @@ public class BinaryBoard extends GridBoard {
             col.add(getCell(colNum, i));
         }
         return col;
+    }
+
+
+    @Override
+    public BinaryBoard copy() {
+        System.out.println("BinaryBoard copy()");
+        BinaryBoard copy = new BinaryBoard(dimension.width, dimension.height);
+        for (int x = 0; x < this.dimension.width; x++) {
+            for (int y = 0; y < this.dimension.height; y++) {
+                copy.setCell(x, y, getCell(x, y).copy());
+            }
+        }
+        for (PuzzleElement e : modifiedData) {
+            copy.getPuzzleElement(e).setModifiable(false);
+        }
+        return copy;
     }
 }

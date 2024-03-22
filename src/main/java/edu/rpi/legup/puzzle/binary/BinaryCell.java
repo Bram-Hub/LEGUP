@@ -10,7 +10,6 @@ public class BinaryCell extends GridCell<Integer> {
     }
 
     public BinaryType getType() {
-        System.out.println(data);
         switch (data) {
             case 0:
                 return BinaryType.ZERO;
