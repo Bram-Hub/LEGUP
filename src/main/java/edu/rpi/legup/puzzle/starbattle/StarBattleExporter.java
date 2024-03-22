@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.starbattle;
 
 import edu.rpi.legup.model.PuzzleExporter;
-import edu.rpi.legup.model.gameboard.PuzzleElement;
 
 import org.w3c.dom.Document;
 
@@ -16,14 +15,12 @@ public class StarBattleExporter extends PuzzleExporter {
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("size", String.valueOf(board.getSize()));
         boardElement.setAttribute("puzzle_num", String.valueOf(board.getPuzzleNumber()));
-        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
+        for (StarBattleRegion sb_region : board.regions) {
             org.w3c.dom.Element regionsElement = newDocument.createElement("region");
-            StarBattleRegion region = (StarBattleRegion) puzzleElement;
             org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
-            for (PuzzleElement puzzleElement : region.getPuzzleElements()) {
-                StarBattleCell cell = (StarBattleCell) puzzleElement;
-                if (cell.getData() != -2) {
-                    org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
+            for (StarBattleCell cell : sb_region.getCells()) {
+                if (cell.getData() == 0) {
+                    org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, cell);
                     cellsElement.appendChild(cellElement);
                 }
                 regionsElement.appendChild(cellsElement);
