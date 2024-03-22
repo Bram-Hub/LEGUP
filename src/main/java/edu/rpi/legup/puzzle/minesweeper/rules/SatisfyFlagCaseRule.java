@@ -7,14 +7,14 @@ import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.*;
+
 import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-public class SatisfyFlagCaseRule extends CaseRule {
+public class SatisfyFlagCaseRule extends CaseRule{
     public SatisfyFlagCaseRule() {
-        super(
-                "MINE-CASE-0002",
+        super("MINE-CASE-0002",
                 "Satisfy Flag",
                 "Create a different path for each valid way to mark bombs and filled cells around a flag",
                 "edu/rpi/legup/images/minesweeper/cases/SatisfyFlag.jpg");
@@ -27,9 +27,7 @@ public class SatisfyFlagCaseRule extends CaseRule {
         minesweeperBoard.setModifiable(false);
         for (PuzzleElement data : minesweeperBoard.getPuzzleElements()) {
             MinesweeperCell cell = (MinesweeperCell) data;
-            if (cell.getTileNumber() >= 0
-                    && cell.getTileNumber() <= 8
-                    && MinesweeperUtilities.hasEmptyAdjacent(minesweeperBoard, cell)) {
+            if (cell.getTileNumber() >= 0 && cell.getTileNumber() <= 8 && MinesweeperUtilities.hasEmptyAdjacent(minesweeperBoard, cell)) {
                 caseBoard.addPickableElement(data);
             }
         }
@@ -52,8 +50,7 @@ public class SatisfyFlagCaseRule extends CaseRule {
         int cellNumBomb = 0;
         int cellNumUnset = 0;
         ArrayList<MinesweeperCell> unsetCells = new ArrayList<MinesweeperCell>();
-        ArrayList<MinesweeperCell> adjCells =
-                MinesweeperUtilities.getAdjacentCells(minesweeperBoard, cell);
+        ArrayList<MinesweeperCell> adjCells = MinesweeperUtilities.getAdjacentCells(minesweeperBoard, cell);
         for (MinesweeperCell adjCell : adjCells) {
             if (adjCell.getTileType() == MinesweeperTileType.BOMB) {
                 cellNumBomb++;
@@ -70,16 +67,16 @@ public class SatisfyFlagCaseRule extends CaseRule {
 
         // generate all cases as boolean expressions
         ArrayList<boolean[]> combinations;
-        combinations =
-                MinesweeperUtilities.getCombinations(cellMaxBlack - cellNumBomb, cellNumUnset);
+        combinations = MinesweeperUtilities.getCombinations(cellMaxBlack - cellNumBomb, cellNumUnset);
 
-        for (int i = 0; i < combinations.size(); i++) {
+        for (int i=0; i < combinations.size(); i++) {
             Board case_ = board.copy();
-            for (int j = 0; j < combinations.get(i).length; j++) {
+            for (int j=0; j < combinations.get(i).length; j++) {
                 cell = (MinesweeperCell) case_.getPuzzleElement(unsetCells.get(j));
                 if (combinations.get(i)[j]) {
                     cell.setCellType(MinesweeperTileData.bomb());
-                } else {
+                }
+                else {
                     cell.setCellType(MinesweeperTileData.empty());
                 }
                 case_.addModifiedData(cell);
@@ -108,11 +105,13 @@ public class SatisfyFlagCaseRule extends CaseRule {
          * If all the above is verified, then the transition is valid
          */
 
+
         /* ensure there are modified cells */
         Set<PuzzleElement> modCells = transition.getBoard().getModifiedData();
         if (modCells.size() <= 0) {
             return super.getInvalidUseOfRuleMessage();
         }
+
 
         /* ensure modified cells occur within a 3X3 square */
         int minVertLoc = Integer.MAX_VALUE, maxVertLoc = Integer.MIN_VALUE;
@@ -136,13 +135,13 @@ public class SatisfyFlagCaseRule extends CaseRule {
             return super.getInvalidUseOfRuleMessage();
         }
 
+
         /* get the center of all possible 3X3 squares,
          * and collect all that have numbers */
         MinesweeperBoard board = (MinesweeperBoard) transition.getParents().get(0).getBoard();
         ArrayList<MinesweeperCell> possibleCenters = new ArrayList<MinesweeperCell>();
         for (PuzzleElement modCell : modCells) {
-            ArrayList<MinesweeperCell> adjacentCells =
-                    MinesweeperUtilities.getAdjacentCells(board, (MinesweeperCell) modCell);
+            ArrayList<MinesweeperCell> adjacentCells = MinesweeperUtilities.getAdjacentCells(board, (MinesweeperCell) modCell);
             for (MinesweeperCell cell : adjacentCells) {
                 possibleCenters.add(cell);
             }
@@ -154,14 +153,14 @@ public class SatisfyFlagCaseRule extends CaseRule {
             return super.getInvalidUseOfRuleMessage();
         }
 
+
         /* Now go through the remaining centers, and check if their combinations
          * match the transitions */
         for (MinesweeperCell possibleCenter : possibleCenters) {
             int numBlack = 0;
             int numEmpty = 0;
             int maxBlack = possibleCenter.getTileNumber();
-            for (MinesweeperCell adjCell :
-                    MinesweeperUtilities.getAdjacentCells(board, possibleCenter)) {
+            for (MinesweeperCell adjCell : MinesweeperUtilities.getAdjacentCells(board, possibleCenter)) {
                 if (adjCell.getTileType() == MinesweeperTileType.BOMB) {
                     numBlack++;
                 }
@@ -174,8 +173,7 @@ public class SatisfyFlagCaseRule extends CaseRule {
                 continue;
             }
 
-            ArrayList<boolean[]> combinations =
-                    MinesweeperUtilities.getCombinations(maxBlack - numBlack, numEmpty);
+            ArrayList<boolean[]> combinations = MinesweeperUtilities.getCombinations(maxBlack - numBlack, numEmpty);
             if (combinations.size() != childTransitions.size()) {
                 // not this center because combinations do not match transitions
                 continue;
@@ -191,10 +189,11 @@ public class SatisfyFlagCaseRule extends CaseRule {
                 }
 
                 boolean[] translatedModCells = new boolean[transModCells.size()];
-                for (int i = 0; i < transModCells.size(); i++) {
+                for (int i=0; i < transModCells.size(); i++) {
                     if (transModCells.get(i).getTileType() == MinesweeperTileType.BOMB) {
                         translatedModCells[i] = true;
-                    } else {
+                    }
+                    else {
                         translatedModCells[i] = false;
                     }
                 }
@@ -223,6 +222,7 @@ public class SatisfyFlagCaseRule extends CaseRule {
 
         return super.getInvalidUseOfRuleMessage();
     }
+
 
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {

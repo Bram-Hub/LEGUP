@@ -20,7 +20,8 @@ public class MinesweeperExporter extends PuzzleExporter {
         MinesweeperBoard board;
         if (puzzle.getTree() != null) {
             board = (MinesweeperBoard) puzzle.getTree().getRootNode().getBoard();
-        } else {
+        }
+        else {
             board = (MinesweeperBoard) puzzle.getBoardView().getBoard();
         }
 
@@ -32,8 +33,7 @@ public class MinesweeperExporter extends PuzzleExporter {
         for (PuzzleElement<?> puzzleElement : board.getPuzzleElements()) {
             final MinesweeperCell cell = (MinesweeperCell) puzzleElement;
             if (!MinesweeperTileData.unset().equals(cell.getData())) {
-                final org.w3c.dom.Element cellElement =
-                        puzzle.getFactory().exportCell(newDocument, puzzleElement);
+                final org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
                 cellsElement.appendChild(cellElement);
             }
         }

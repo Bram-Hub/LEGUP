@@ -2,10 +2,11 @@ package edu.rpi.legup.puzzle.minesweeper;
 
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
-import java.awt.*;
-import java.awt.event.MouseEvent;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class MinesweeperCell extends GridCell<MinesweeperTileData> {
 
@@ -23,7 +24,9 @@ public class MinesweeperCell extends GridCell<MinesweeperTileData> {
 
     @Override
     @Contract(pure = false)
-    /** Sets this cell's data to the value specified by {@link Element#getElementID()} */
+    /**
+     * Sets this cell's data to the value specified by {@link Element#getElementID()}
+     */
     public void setType(@NotNull Element element, @NotNull MouseEvent event) {
         switch (element.getElementID()) {
             case MinesweeperElementIdentifiers.BOMB -> {
@@ -57,7 +60,7 @@ public class MinesweeperCell extends GridCell<MinesweeperTileData> {
         }
     }
 
-    public void setCellType(MinesweeperTileData type) {
+    public void setCellType(MinesweeperTileData type){
         this.data = type;
     }
 

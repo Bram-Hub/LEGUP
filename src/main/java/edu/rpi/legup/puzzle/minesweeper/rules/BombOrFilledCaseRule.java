@@ -8,15 +8,15 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperBoard;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperCell;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperTileData;
+import edu.rpi.legup.puzzle.minesweeper.MinesweeperTileType;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class BombOrFilledCaseRule extends CaseRule {
 
     public BombOrFilledCaseRule() {
-        super(
-                "MINE-CASE-0001",
-                "Bomb Or Filled",
+        super("MINE-CASE-0001", "Bomb Or Filled",
                 "A cell can either be a bomb or filled.\n",
                 "edu/rpi/legup/images/minesweeper/cases/BombOrFilled.jpg");
     }
@@ -68,10 +68,8 @@ public class BombOrFilledCaseRule extends CaseRule {
                     + ": This case rule must have 1 modified cell for each case.";
         }
 
-        MinesweeperCell mod1 =
-                (MinesweeperCell) case1.getBoard().getModifiedData().iterator().next();
-        MinesweeperCell mod2 =
-                (MinesweeperCell) case2.getBoard().getModifiedData().iterator().next();
+        MinesweeperCell mod1 = (MinesweeperCell) case1.getBoard().getModifiedData().iterator().next();
+        MinesweeperCell mod2 = (MinesweeperCell) case2.getBoard().getModifiedData().iterator().next();
         if (!mod1.getLocation().equals(mod2.getLocation())) {
             return super.getInvalidUseOfRuleMessage()
                     + ": This case rule must modify the same cell for each case.";

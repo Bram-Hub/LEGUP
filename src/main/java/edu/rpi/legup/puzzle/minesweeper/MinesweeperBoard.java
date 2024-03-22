@@ -17,6 +17,7 @@ public class MinesweeperBoard extends GridBoard {
         return (MinesweeperCell) super.getCell(x, y);
     }
 
+
     /**
      * Performs a deep copy of the Board
      *
@@ -24,8 +25,7 @@ public class MinesweeperBoard extends GridBoard {
      */
     @Override
     public MinesweeperBoard copy() {
-        MinesweeperBoard newMinesweeperBoard =
-                new MinesweeperBoard(this.dimension.width, this.dimension.height);
+        MinesweeperBoard newMinesweeperBoard = new MinesweeperBoard(this.dimension.width, this.dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {
                 newMinesweeperBoard.setCell(x, y, getCell(x, y).copy());

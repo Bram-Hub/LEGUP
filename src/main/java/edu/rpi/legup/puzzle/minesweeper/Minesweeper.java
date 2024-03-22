@@ -54,11 +54,14 @@ public class Minesweeper extends Puzzle {
 
     @Override
     @Contract(pure = true)
-    public void onBoardChange(@NotNull Board board) {}
+    public void onBoardChange(@NotNull Board board) {
+
+    }
 
     @Override
     @Contract(pure = true)
     public boolean isValidDimensions(int rows, int columns) {
         return rows >= 1 && columns >= 1;
     }
+
 }
