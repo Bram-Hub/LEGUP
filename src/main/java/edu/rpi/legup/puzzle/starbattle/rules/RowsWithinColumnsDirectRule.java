@@ -5,12 +5,19 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
+import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
+import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
 
-public class RegionsWithinColumnsDirectRule extends DirectRule {
-    public RegionsWithinColumnsDirectRule() {
-        super("STBL-BASC-0004",
-                "Regions Within Columns",
-                "If a number of regions is fully contained by an equal number of columns, spaces of other regions in those columns must be black.",
+import java.util.HashSet;
+import java.util.Set;
+
+public class RowsWithinColumnsDirectRule extends DirectRule {
+
+    public RowsWithinColumnsDirectRule() {
+        super("STBL-BASC-XXXX",
+                "Rows Withing Columns",
+                "If a number of rows is fully contained by an equal number of columns, spaces of other rows in those columns must be black.",
                 "INSERT IMAGE NAME HERE");
     }
 
@@ -25,7 +32,8 @@ public class RegionsWithinColumnsDirectRule extends DirectRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        ColumnsWithinRegionsDirectRule correspondingRule = new ColumnsWithinRegionsDirectRule();
+
+        ColumnsWithinRowsDirectRule correspondingRule = new ColumnsWithinRowsDirectRule();
         return correspondingRule.checkRuleRawAt(transition, puzzleElement);
     }
 

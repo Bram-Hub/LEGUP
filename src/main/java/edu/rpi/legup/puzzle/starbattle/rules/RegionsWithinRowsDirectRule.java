@@ -9,8 +9,8 @@ import edu.rpi.legup.model.tree.TreeTransition;
 public class RegionsWithinRowsDirectRule extends DirectRule {
     public RegionsWithinRowsDirectRule() {
         super("STBL-BASC-0005",
-                "Regions Within Rows/Columns",
-                "If a number of regions is fully contained by an equal number of rows or columns, spaces of other regions in those rows or columns must be black.",
+                "Regions Within Rows",
+                "If a number of regions is fully contained by an equal number of rows, spaces of other regions in those rows must be black.",
                 "INSERT IMAGE NAME HERE");
     }
 
@@ -26,7 +26,8 @@ public class RegionsWithinRowsDirectRule extends DirectRule {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
 
-        return null;
+        RowsWithinRegionsDirectRule correspondingRule = new RowsWithinRegionsDirectRule();
+        return correspondingRule.checkRuleRawAt(transition, puzzleElement);
     }
 
     /**
