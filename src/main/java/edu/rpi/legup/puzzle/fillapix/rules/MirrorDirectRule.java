@@ -1,9 +1,5 @@
 package edu.rpi.legup.puzzle.fillapix.rules;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
@@ -14,19 +10,25 @@ import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
 import edu.rpi.legup.puzzle.fillapix.FillapixCell;
 import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
 import edu.rpi.legup.puzzle.fillapix.FillapixUtilities;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class MirrorDirectRule extends DirectRule {
     public MirrorDirectRule() {
-        super("FPIX-BASC-0003",
+        super(
+                "FPIX-BASC-0003",
                 "Mirror",
-                "Two adjacent clues with the same value must have the same number of black squares in their unshared regions",
+                "Two adjacent clues with the same value must have the same number of black squares"
+                        + " in their unshared regions",
                 "edu/rpi/legup/images/fillapix/rules/Mirror.png");
     }
 
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         FillapixBoard board = (FillapixBoard) transition.getBoard();
-        FillapixBoard parentBoard = (FillapixBoard) transition.getParents().get(0).getBoard().copy();
+        FillapixBoard parentBoard =
+                (FillapixBoard) transition.getParents().get(0).getBoard().copy();
         FillapixCell cell = (FillapixCell) board.getPuzzleElement(puzzleElement);
         FillapixCell parentCell = (FillapixCell) parentBoard.getPuzzleElement(puzzleElement);
 
@@ -41,9 +43,10 @@ public class MirrorDirectRule extends DirectRule {
         }
 
         // find all cells adjacent to cell that are numbered
-        ArrayList<FillapixCell> adjCells = FillapixUtilities.getAdjacentCells(parentBoard, parentCell);
+        ArrayList<FillapixCell> adjCells =
+                FillapixUtilities.getAdjacentCells(parentBoard, parentCell);
         ArrayList<FillapixCell> adjNums = new ArrayList<FillapixCell>();
-        for (int i=0; i < adjCells.size(); i++) {
+        for (int i = 0; i < adjCells.size(); i++) {
             if ((adjCells.get(i)).getNumber() >= 0 && adjCells.get(i).getNumber() < 10) {
                 adjNums.add(adjCells.get(i));
             }
@@ -55,7 +58,8 @@ public class MirrorDirectRule extends DirectRule {
             adjCells = FillapixUtilities.getAdjacentCells(parentBoard, adjNum);
             boolean found = false;
             for (FillapixCell adjCell : adjCells) {
-                if (adjCell.getNumber() == adjNum.getNumber() && adjCell.getIndex() != adjNum.getIndex()) {
+                if (adjCell.getNumber() == adjNum.getNumber()
+                        && adjCell.getIndex() != adjNum.getIndex()) {
                     found = true;
                 }
             }
@@ -67,8 +71,7 @@ public class MirrorDirectRule extends DirectRule {
         // change the color of the  parentCell, and check if there exists a valid board
         if (cell.getType() == FillapixCellType.BLACK) {
             parentCell.setCellType(FillapixCellType.WHITE);
-        }
-        else {
+        } else {
             parentCell.setCellType(FillapixCellType.BLACK);
         }
         parentBoard.addModifiedData(parentCell);
@@ -91,13 +94,14 @@ public class MirrorDirectRule extends DirectRule {
     }
 
     /**
-     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
      *
      * @param node tree node used to create default transition board
      * @return default board or null if this rule cannot be applied to this tree node
      */
     @Override
     public Board getDefaultBoard(TreeNode node) {
-       return null;
+        return null;
     }
 }

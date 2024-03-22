@@ -1,15 +1,11 @@
 package edu.rpi.legup.ui;
 
-
 import edu.rpi.legup.app.GameBoardFacade;
-
 import java.awt.Container;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.io.File;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -36,7 +32,6 @@ public class PickGameDialog extends JDialog implements ActionListener {
     JButton ok = new JButton("Ok");
     JButton cancel = new JButton("Cancel");
 
-
     JCheckBox autotreeCheckBox = new JCheckBox("Auto-tree");
     JCheckBox showtreeCheckBox = new JCheckBox("Show tree");
     JCheckBox autojustifyCheckBox = new JCheckBox("Auto-justify");
@@ -47,9 +42,9 @@ public class PickGameDialog extends JDialog implements ActionListener {
     /**
      * Initialize the dialog
      *
-     * @param parent         the parent JFrame
-     * @param pickBothAtOnce if true they can pick a game type and a specific edu.rpi.legup.puzzle, if
-     *                       false they can only pick a game type
+     * @param parent the parent JFrame
+     * @param pickBothAtOnce if true they can pick a game type and a specific edu.rpi.legup.puzzle,
+     *     if false they can only pick a game type
      */
     public PickGameDialog(JFrame parent, boolean pickBothAtOnce) {
         super(parent, true);
@@ -75,14 +70,12 @@ public class PickGameDialog extends JDialog implements ActionListener {
         if (pickBoth) {
             gameLabel.setBounds(10, 10, 70, 25);
             gameBox.setBounds(80, 10, 190, 25);
-        }
-        else {
+        } else {
             gameLabel.setBounds(10, 30, 70, 25);
             gameBox.setBounds(80, 30, 190, 25);
         }
 
         puzzleLabel.setBounds(10, 40, 70, 25);
-
 
         puzzleBox.setBounds(80, 40, 190, 25);
         puzzleButton.setBounds(270, 40, 25, 25);
@@ -92,7 +85,6 @@ public class PickGameDialog extends JDialog implements ActionListener {
 
         c.add(gameLabel);
         c.add(gameBox);
-
 
         if (pickBoth) {
             c.add(puzzleLabel);
@@ -147,24 +139,25 @@ public class PickGameDialog extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == gameBox) {
             int index = gameBox.getSelectedIndex();
-        }
-        else {
+        } else {
             if (e.getSource() == ok) {
                 okPressed = true;
                 setVisible(false);
-            }
-            else {
+            } else {
                 if (e.getSource() == cancel) {
                     okPressed = false;
                     setVisible(false);
-                }
-                else {
+                } else {
                     if (e.getSource() == puzzleButton) {
-                        File f = new File("puzzlefiles" + File.separator + gameBox.getSelectedItem().toString().toLowerCase() + File.separator);
+                        File f =
+                                new File(
+                                        "puzzlefiles"
+                                                + File.separator
+                                                + gameBox.getSelectedItem().toString().toLowerCase()
+                                                + File.separator);
                         if (f.exists() && f.isDirectory()) {
                             puzzleChooser = new JFileChooser(f);
-                        }
-                        else {
+                        } else {
                             puzzleChooser = new JFileChooser();
                         }
                         if (puzzleChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
