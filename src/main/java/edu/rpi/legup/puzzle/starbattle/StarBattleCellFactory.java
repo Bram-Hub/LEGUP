@@ -2,14 +2,10 @@ package edu.rpi.legup.puzzle.starbattle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
-import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import java.awt.*;
 

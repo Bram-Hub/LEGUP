@@ -31,7 +31,7 @@ public class StarBattleView extends GridBoardView {
             STAR = ImageIO.read(ClassLoader.getSystemResourceAsStream("edu/rpi/legup/images/starbattle/star.png"));
         }
         catch (IOException e) {
-            LOGGER.error("Failed to open StarBattle images");
+            LOGGER.error("Failed to open starbattle image.");
         }
     }
 

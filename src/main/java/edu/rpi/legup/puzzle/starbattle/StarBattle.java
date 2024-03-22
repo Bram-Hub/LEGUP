@@ -5,12 +5,12 @@ import edu.rpi.legup.model.gameboard.Board;
 public class StarBattle extends Puzzle {
     public StarBattle() {
         super();
-        //this.name = "StarBattle";
+        this.name = "StarBattle";
 
-        //this.importer = new StarBattleImporter(this);
-        //this.exporter = new StarBattleExporter(this);
+        this.importer = new StarBattleImporter(this);
+        this.exporter = new StarBattleExporter(this);
 
-        //this.factory = new StarBattleCellFactory();
+        this.factory = new StarBattleCellFactory();
     }
 
     @Override

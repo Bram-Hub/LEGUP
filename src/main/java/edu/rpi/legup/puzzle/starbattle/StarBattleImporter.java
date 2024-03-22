@@ -5,12 +5,7 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import java.awt.*;
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 public class StarBattleImporter extends PuzzleImporter{
@@ -19,8 +14,6 @@ public class StarBattleImporter extends PuzzleImporter{
     public StarBattleImporter(StarBattle starbattle) {
         super(starbattle);
     }
-
-    private Map<Point, StarBattleRegion> regionsMap;
 
     /**
      * Puzzle setting to support row and column inputs
@@ -48,8 +41,6 @@ public class StarBattleImporter extends PuzzleImporter{
         StarBattleBoard StarBattleBoard = new StarBattleBoard(rows, puzzle_num);
         puzzle.setCurrentBoard(StarBattleBoard);
     }
-
-
 
     /**
      * Constructs StarBattle gameboard
