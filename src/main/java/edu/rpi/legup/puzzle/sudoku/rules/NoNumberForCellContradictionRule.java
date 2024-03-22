@@ -39,15 +39,19 @@ public class NoNumberForCellContradictionRule extends ContradictionRule {
         Set<SudokuCell> row = sudokuBoard.getRow(cell.getLocation().y);
         Set<SudokuCell> col = sudokuBoard.getCol(cell.getLocation().x);
         Set<Integer> solution = new HashSet<>();
-        for (int i = 1; i <= groupSize; i++) {
-            solution.add(i);
+        for(SudokuCell s : region) {
+            solution.add(s.getData());
+        }
+        for(SudokuCell s : row) {
+            solution.add(s.getData());
         }
 
-        for (SudokuCell c : region) {
-            solution.remove(c.getData());
+        for(SudokuCell s : col) {
+            solution.add(s.getData());
         }
+        solution.remove(0);
 
-        if (solution.isEmpty()) {
+        if(solution.size() == 9) {
             return null;
         }
 
