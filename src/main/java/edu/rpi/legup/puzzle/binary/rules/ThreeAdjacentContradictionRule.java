@@ -66,21 +66,26 @@ public class ThreeAdjacentContradictionRule extends ContradictionRule {
                 return null;
             }
         }*/
+        if(cell.getType() == BinaryType.ONE || cell.getType() == BinaryType.ZERO)
+        {
+            for (int x = cell.getLocation().x - 2; x >= 0 && x < cell.getLocation().x && x < width - 2; x++) {
 
-        for (int x = cell.getLocation().x - 2; x >= 0 && x < cell.getLocation().x && x < width - 1; x++) {
-            if(binaryBoard.getCell(x, cellY).getType() == binaryBoard.getCell(x + 1, cellY).getType() &&
-                binaryBoard.getCell(x + 1, cellY).getType() == binaryBoard.getCell(x + 2, cellY).getType()) {
-                return null;
+                if(binaryBoard.getCell(x, cellY).getType() == binaryBoard.getCell(x + 1, cellY).getType() &&
+                    binaryBoard.getCell(x + 1, cellY).getType() == binaryBoard.getCell(x + 2, cellY).getType()) {
+                    System.out.println("CUR XY fail X= " + cellX + " , " + cellY);
+                    return null;
+                }
+            }
+
+            for (int y = cell.getLocation().y - 2; y >= 0 && y < cell.getLocation().y && y < height - 2; y++) {
+
+                if(binaryBoard.getCell(cellX, y).getType() == binaryBoard.getCell(cellX, y + 1).getType() &&
+                    binaryBoard.getCell(cellX, y + 1).getType() == binaryBoard.getCell(cellX, y + 2).getType()) {
+                    System.out.println("CUR XY fail Y= " + cellX + " , " + cellY);
+                    return null;
+                }
             }
         }
-
-        for (int y = cell.getLocation().y - 2; y >= 0 && y < cell.getLocation().y && y < height - 1; y++) {
-            if(binaryBoard.getCell(cellX, y).getType() == binaryBoard.getCell(cellX, y + 1).getType() &&
-                binaryBoard.getCell(cellX, y + 1).getType() == binaryBoard.getCell(cellX, y + 2).getType()) {
-                return null;
-            }
-        }
-
         return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
     }
 }
