@@ -23,7 +23,7 @@ public class FinishRoomCaseRule extends CaseRule {
         super("NURI-CASE-0002",
                 "Finish Room",
                 "Room can be finished in up to five ways",
-                "edu/rpi/legup/images/nurikabe/cases/BlackOrWhite.png"); //new image
+                "edu/rpi/legup/images/nurikabe/cases/FinishRoom.png"); //new image
         this.MAX_CASES = 5;
     }
 
