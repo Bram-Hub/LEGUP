@@ -5,6 +5,8 @@ import com.formdev.flatlaf.FlatLightLaf;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.ui.boardview.BoardView;
+import edu.rpi.legup.ui.color.ColorPreferences;
+import edu.rpi.legup.ui.lookandfeel.LegupLookAndFeel;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
 import java.awt.*;
 import java.awt.event.*;
@@ -45,10 +47,16 @@ public class LegupUI extends JFrame implements WindowListener {
         LegupPreferences prefs = LegupPreferences.getInstance();
 
         try {
-            if (Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
-                UIManager.setLookAndFeel(new FlatDarkLaf());
-            } else {
-                UIManager.setLookAndFeel(new FlatLightLaf());
+            final String colorFileName = prefs.getUserPref(LegupPreferences.COLOR_THEME_FILE);
+            if (colorFileName.endsWith(".txt")) {
+                UIManager.setLookAndFeel(new LegupLookAndFeel(colorFileName));
+            }else {
+                if (Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
+                    UIManager.setLookAndFeel(new LegupLookAndFeel(ColorPreferences.DARK_COLOR_THEME_FILE_NAME));
+                }
+                else {
+                    UIManager.setLookAndFeel(new LegupLookAndFeel(ColorPreferences.LIGHT_COLOR_THEME_FILE_NAME));
+                }
             }
         } catch (UnsupportedLookAndFeelException e) {
             System.err.println("Not supported ui look and feel");

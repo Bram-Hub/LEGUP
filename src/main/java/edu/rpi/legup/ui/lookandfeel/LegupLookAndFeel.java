@@ -1,5 +1,6 @@
 package edu.rpi.legup.ui.lookandfeel;
 
+import edu.rpi.legup.ui.color.ColorPreferences;
 import edu.rpi.legup.ui.lookandfeel.components.*;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialBorders;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
@@ -11,6 +12,14 @@ import javax.swing.plaf.basic.BasicLookAndFeel;
 import edu.rpi.legup.ui.color.ColorPreferences.UIColor;
 
 public class LegupLookAndFeel extends BasicLookAndFeel {
+
+    private final String colorThemeFileName;
+
+    public LegupLookAndFeel(String colorThemeFileName) {
+        this.colorThemeFileName = colorThemeFileName;
+        ColorPreferences.loadColorScheme(colorThemeFileName);
+    }
+
     /**
      * Return a short string that identifies this look and feel, e.g. "CDE/Motif". This string
      * should be appropriate for a menu item. Distinct look and feels should have different names,
@@ -145,180 +154,181 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
         super.initComponentDefaults(table);
 
 //        table.put("Button.highlight", MaterialColors.GRAY_300);
-        table.put("Button.highlight", UIColor.BUTTON_HIGHLIGHT_DEFAULT.get());
+
+        table.put("Button.highlight", UIColor.BUTTON_HIGHLIGHT.get());
         table.put("Button.opaque", false);
         table.put("Button.border", BorderFactory.createEmptyBorder(7, 17, 7, 17));
 //        table.put("Button.background", MaterialColors.GRAY_200);
-        table.put("Button.background", UIColor.BUTTON_BACKGROUND_DEFAULT.get());
+        table.put("Button.background", UIColor.BUTTON_BACKGROUND.get());
 //        table.put("Button.foreground", Color.BLACK);
-        table.put("Button.foreground", UIColor.BUTTON_FOREGROUND_DEFAULT.get());
+        table.put("Button.foreground", UIColor.BUTTON_FOREGROUND.get());
         table.put("Button.font", MaterialFonts.MEDIUM);
 
         table.put("CheckBox.font", MaterialFonts.REGULAR);
 //        table.put("CheckBox.background", Color.WHITE);
-        table.put("CheckBox.background", UIColor.CHECKBOX_BACKGROUND_DEFAULT.get());
+        table.put("CheckBox.background", UIColor.CHECKBOX_BACKGROUND.get());
 //        table.put("CheckBox.foreground", Color.BLACK);
-        table.put("CheckBox.foreground", UIColor.CHECKBOX_FOREGROUND_DEFAULT.get());
+        table.put("CheckBox.foreground", UIColor.CHECKBOX_FOREGROUND.get());
         table.put("CheckBox.icon", new ImageIcon(MaterialImages.UNCHECKED_BOX));
         table.put("CheckBox.selectedIcon", new ImageIcon(MaterialImages.PAINTED_CHECKED_BOX));
 
         table.put("ComboBox.font", MaterialFonts.REGULAR);
 //        table.put("ComboBox.background", Color.WHITE);
-        table.put("ComboBox.background", UIColor.COMBOBOX_BACKGROUND_DEFAULT.get());
+        table.put("ComboBox.background", UIColor.COMBOBOX_BACKGROUND.get());
 //        table.put("ComboBox.foreground", Color.BLACK);
-        table.put("ComboBox.foreground", UIColor.COMBOBOX_FOREGROUND_DEFAULT.get());
+        table.put("ComboBox.foreground", UIColor.COMBOBOX_FOREGROUND.get());
         table.put(
                 "ComboBox.border",
                 BorderFactory.createCompoundBorder(
                         MaterialBorders.LIGHT_LINE_BORDER,
                         BorderFactory.createEmptyBorder(0, 5, 0, 0)));
 //        table.put("ComboBox.buttonBackground", MaterialColors.GRAY_300);
-        table.put("ComboBox.buttonBackground", UIColor.COMBOBOX_BUTTON_BACKGROUND_DEFAULT.get());
+        table.put("ComboBox.buttonBackground", UIColor.COMBOBOX_BUTTON_BACKGROUND.get());
 //        table.put("ComboBox.selectionBackground", Color.WHITE);
-        table.put("ComboBox.selectionBackground", UIColor.COMBOBOX_SELECTION_BACKGROUND_DEFAULT.get());
+        table.put("ComboBox.selectionBackground", UIColor.COMBOBOX_SELECTION_BACKGROUND.get());
 //        table.put("ComboBox.selectionForeground", Color.BLACK);
-        table.put("ComboBox.selectionForeground", UIColor.COMBOBOX_SELECTION_FOREGROUND_DEFAULT.get());
+        table.put("ComboBox.selectionForeground", UIColor.COMBOBOX_SELECTION_FOREGROUND.get());
 //        table.put("ComboBox.selectedInDropDownBackground", MaterialColors.GRAY_200);
-        table.put("ComboBox.selectedInDropDownBackground", UIColor.COMBOBOX_SELECTED_IN_DROP_DOWN_BACKGROUND_DEFAULT.get());
+        table.put("ComboBox.selectedInDropDownBackground", UIColor.COMBOBOX_SELECTED_IN_DROP_DOWN_BACKGROUND.get());
 
         table.put("Label.font", MaterialFonts.REGULAR);
 //        table.put("Label.background", Color.WHITE);
-        table.put("Label.background", UIColor.LABEL_BACKGROUND_DEFAULT.get());
+        table.put("Label.background", UIColor.LABEL_BACKGROUND.get());
 //        table.put("Label.foreground", Color.BLACK);
-        table.put("Label.foreground", UIColor.LABEL_FOREGROUND_DEFAULT.get());
+        table.put("Label.foreground", UIColor.LABEL_FOREGROUND.get());
         table.put("Label.border", BorderFactory.createEmptyBorder());
 
         table.put("Menu.font", MaterialFonts.BOLD);
         table.put("Menu.border", BorderFactory.createEmptyBorder(5, 5, 5, 5));
 //        table.put("Menu.background", Color.WHITE);
-        table.put("Menu.background", UIColor.MENU_BACKGROUND_DEFAULT.get());
+        table.put("Menu.background", UIColor.MENU_BACKGROUND.get());
 //        table.put("Menu.foreground", Color.BLACK);
-        table.put("Menu.foreground", UIColor.MENU_FOREGROUND_DEFAULT.get());
+        table.put("Menu.foreground", UIColor.MENU_FOREGROUND.get());
         table.put("Menu.opaque", true);
 //        table.put("Menu.selectionBackground", MaterialColors.GRAY_200);
-        table.put("Menu.selectionBackground", UIColor.MENU_SELECTION_BACKGROUND_DEFAULT.get());
+        table.put("Menu.selectionBackground", UIColor.MENU_SELECTION_BACKGROUND.get());
 //        table.put("Menu.selectionForeground", Color.BLACK);
-        table.put("Menu.selectionForeground", UIColor.MENU_SELECTION_FOREGROUND_DEFAULT.get());
+        table.put("Menu.selectionForeground", UIColor.MENU_SELECTION_FOREGROUND.get());
 //        table.put("Menu.disabledForeground", new Color(0, 0, 0, 100));
-        table.put("Menu.disabledForeground", UIColor.MENU_DISABLED_FOREGROUND_DEFAULT.get());
+        table.put("Menu.disabledForeground", UIColor.MENU_DISABLED_FOREGROUND.get());
         table.put("Menu.menuPopupOffsetY", 3);
 
         table.put("MenuBar.font", MaterialFonts.BOLD);
 //        table.put("MenuBar.background", Color.WHITE);
-        table.put("MenuBar.background", UIColor.MENU_BAR_BACKGROUND_DEFAULT.get());
+        table.put("MenuBar.background", UIColor.MENU_BAR_BACKGROUND.get());
         table.put("MenuBar.border", MaterialBorders.LIGHT_SHADOW_BORDER);
 //        table.put("MenuBar.foreground", Color.BLACK);
-        table.put("MenuBar.foreground", UIColor.MENU_BAR_FOREGROUND_DEFAULT.get());
+        table.put("MenuBar.foreground", UIColor.MENU_BAR_FOREGROUND.get());
 
 //        table.put("MenuItem.disabledForeground", new Color(0, 0, 0, 100));
-        table.put("MenuItem.disabledForeground", UIColor.MENU_ITEM_DISABLED_FOREGROUND_DEFAULT.get());
+        table.put("MenuItem.disabledForeground", UIColor.MENU_ITEM_DISABLED_FOREGROUND.get());
 //        table.put("MenuItem.selectionBackground", MaterialColors.GRAY_200);
-        table.put("MenuItem.selectionBackground", UIColor.MENU_ITEM_SELECTION_BACKGROUND_DEFAULT.get());
+        table.put("MenuItem.selectionBackground", UIColor.MENU_ITEM_SELECTION_BACKGROUND.get());
 //        table.put("MenuItem.selectionForeground", Color.BLACK);
-        table.put("MenuItem.selectionForeground", UIColor.MENU_ITEM_SELECTION_FOREGROUND_DEFAULT.get());
+        table.put("MenuItem.selectionForeground", UIColor.MENU_ITEM_SELECTION_FOREGROUND.get());
         table.put("MenuItem.font", MaterialFonts.MEDIUM);
 //        table.put("MenuItem.background", Color.WHITE);
-        table.put("MenuItem.background", UIColor.MENU_ITEM_BACKGROUND_DEFAULT.get());
+        table.put("MenuItem.background", UIColor.MENU_ITEM_BACKGROUND.get());
 //        table.put("MenuItem.foreground", Color.BLACK);
-        table.put("MenuItem.foreground", UIColor.MENU_ITEM_FOREGROUND_DEFAULT.get());
+        table.put("MenuItem.foreground", UIColor.MENU_ITEM_FOREGROUND.get());
         table.put("MenuItem.border", BorderFactory.createEmptyBorder(5, 0, 5, 0));
 
 //        table.put("OptionPane.background", Color.WHITE);
-        table.put("OptionPane.background", UIColor.OPTION_PANE_BACKGROUND_DEFAULT.get());
+        table.put("OptionPane.background", UIColor.OPTION_PANE_BACKGROUND.get());
         table.put("OptionPane.border", MaterialBorders.DEFAULT_SHADOW_BORDER);
         table.put("OptionPane.font", MaterialFonts.REGULAR);
 
         table.put("Panel.font", MaterialFonts.REGULAR);
 //        table.put("Panel.background", Color.WHITE);
-        table.put("Panel.background", UIColor.PANEL_BACKGROUND_COLOR_DEFAULT.get());
+        table.put("Panel.background", UIColor.PANEL_BACKGROUND_COLOR.get());
         table.put("Panel.border", BorderFactory.createEmptyBorder());
 
         table.put("PopupMenu.border", MaterialBorders.LIGHT_LINE_BORDER);
 //        table.put("PopupMenu.background", Color.WHITE);
-        table.put("PopupMenu.background", UIColor.POPUP_MENU_BACKGROUND_DEFAULT.get());
+        table.put("PopupMenu.background", UIColor.POPUP_MENU_BACKGROUND.get());
 //        table.put("PopupMenu.foreground", Color.BLACK);
-        table.put("PopupMenu.foreground", UIColor.POPUP_MENU_FOREGROUND_DEFAULT.get());
+        table.put("PopupMenu.foreground", UIColor.POPUP_MENU_FOREGROUND.get());
 
         table.put("RadioButton.font", MaterialFonts.REGULAR);
 //        table.put("RadioButton.background", Color.WHITE);
-        table.put("RadioButton.background", UIColor.RADIO_BUTTON_BACKGROUND_DEFAULT.get());
+        table.put("RadioButton.background", UIColor.RADIO_BUTTON_BACKGROUND.get());
 //        table.put("RadioButton.foreground", Color.BLACK);
-        table.put("RadioButton.foreground", UIColor.RADIO_BUTTON_FOREGROUND_DEFAULT.get());
+        table.put("RadioButton.foreground", UIColor.RADIO_BUTTON_FOREGROUND.get());
         table.put("RadioButton.icon", new ImageIcon(MaterialImages.RADIO_BUTTON_OFF));
         table.put("RadioButton.selectedIcon", new ImageIcon(MaterialImages.RADIO_BUTTON_ON));
 
         table.put("Spinner.font", MaterialFonts.REGULAR);
 //        table.put("Spinner.background", Color.WHITE);
-        table.put("Spinner.background", UIColor.SPINNER_BACKGROUND_DEFAULT.get());
+        table.put("Spinner.background", UIColor.SPINNER_BACKGROUND.get());
 //        table.put("Spinner.foreground", Color.BLACK);
-        table.put("Spinner.foreground", UIColor.SPINNER_FOREGROUND_DEFAULT.get());
+        table.put("Spinner.foreground", UIColor.SPINNER_FOREGROUND.get());
         table.put("Spinner.border", MaterialBorders.LIGHT_LINE_BORDER);
 //        table.put("Spinner.arrowButtonBackground", MaterialColors.GRAY_200);
-        table.put("Spinner.arrowButtonBackground", UIColor.SPINNER_ARROW_BUTTON_BACKGROUND_DEFAULT.get());
+        table.put("Spinner.arrowButtonBackground", UIColor.SPINNER_ARROW_BUTTON_BACKGROUND.get());
         table.put("Spinner.arrowButtonBorder", BorderFactory.createEmptyBorder());
 
         table.put("ScrollBar.font", MaterialFonts.REGULAR);
 //        table.put("ScrollBar.track", MaterialColors.GRAY_200);
-        table.put("ScrollBar.track", UIColor.SCROLL_BAR_TRACK_DEFAULT.get());
+        table.put("ScrollBar.track", UIColor.SCROLL_BAR_TRACK.get());
 //        table.put("ScrollBar.thumb", MaterialColors.GRAY_300);
-        table.put("ScrollBar.thumb", UIColor.SCROLL_BAR_THUMB_DEFAULT.get());
+        table.put("ScrollBar.thumb", UIColor.SCROLL_BAR_THUMB.get());
 //        table.put("ScrollBar.thumbDarkShadow", MaterialColors.GRAY_300);
-        table.put("ScrollBar.thumbDarkShadow", UIColor.SCROLL_BAR_THUMB_DARK_SHADOW_DEFAULT.get());
+        table.put("ScrollBar.thumbDarkShadow", UIColor.SCROLL_BAR_THUMB_DARK_SHADOW.get());
 //        table.put("ScrollBar.thumbHighlight", MaterialColors.GRAY_300);
-        table.put("ScrollBar.thumbHighlight", UIColor.SCROLL_BAR_THUMB_HIGHLIGHT_DEFAULT.get());
+        table.put("ScrollBar.thumbHighlight", UIColor.SCROLL_BAR_THUMB_HIGHLIGHT.get());
 //        table.put("ScrollBar.thumbShadow", MaterialColors.GRAY_300);
-        table.put("ScrollBar.thumbShadow", UIColor.SCROLL_BAR_THUMB_SHADOW_DEFAULT.get());
+        table.put("ScrollBar.thumbShadow", UIColor.SCROLL_BAR_THUMB_SHADOW.get());
 //        table.put("ScrollBar.arrowButtonBackground", MaterialColors.GRAY_300);
-        table.put("ScrollBar.arrowButtonBackground", UIColor.SCROLL_BAR_ARROW_BUTTON_BACKGROUND_DEFAULT.get());
+        table.put("ScrollBar.arrowButtonBackground", UIColor.SCROLL_BAR_ARROW_BUTTON_BACKGROUND.get());
         table.put("ScrollBar.arrowButtonBorder", BorderFactory.createEmptyBorder());
 
 //        table.put("ScrollPane.background", Color.WHITE);
-        table.put("ScrollPane.background", UIColor.SCROLL_PANE_BACKGROUND_DEFAULT.get());
+        table.put("ScrollPane.background", UIColor.SCROLL_PANE_BACKGROUND.get());
         table.put("ScrollPane.border", BorderFactory.createEmptyBorder());
         table.put("ScrollPane.font", MaterialFonts.REGULAR);
 
         table.put("Slider.font", MaterialFonts.REGULAR);
 //        table.put("Slider.background", Color.WHITE);
-        table.put("Slider.background", UIColor.SLIDER_BACKGROUND_DEFAULT.get());
+        table.put("Slider.background", UIColor.SLIDER_BACKGROUND.get());
 //        table.put("Slider.foreground", MaterialColors.GRAY_700);
-        table.put("Slider.foreground", UIColor.SLIDER_FOREGROUND_DEFAULT.get());
+        table.put("Slider.foreground", UIColor.SLIDER_FOREGROUND.get());
 //        table.put("Slider.trackColor", Color.BLACK);
-        table.put("Slider.trackColor", UIColor.SLIDER_TRACK_COLOR_DEFAULT.get());
+        table.put("Slider.trackColor", UIColor.SLIDER_TRACK_COLOR.get());
         //        table.put ("Slider.border",
         // BorderFactory.createCompoundBorder(MaterialBorders.LIGHT_LINE_BORDER,
         // BorderFactory.createEmptyBorder (5, 5, 5, 5)));
 
         table.put("SplitPane.border", MaterialBorders.LIGHT_LINE_BORDER);
 //        table.put("SplitPane.background", Color.WHITE);
-        table.put("SplitPane.background", UIColor.SPLIT_PANE_BACKGROUND_DEFAULT.get());
+        table.put("SplitPane.background", UIColor.SPLIT_PANE_BACKGROUND.get());
         table.put("SplitPane.dividerSize", 10);
         table.put("SplitPaneDivider.border", MaterialBorders.LIGHT_SHADOW_BORDER);
 
         table.put("TabbedPane.font", MaterialFonts.REGULAR);
 //        table.put("TabbedPane.background", Color.WHITE);
-        table.put("TabbedPane.background", UIColor.TABBED_PANE_BACKGROUND_DEFAULT.get());
+        table.put("TabbedPane.background", UIColor.TABBED_PANE_BACKGROUND.get());
 //        table.put("TabbedPane.foreground", Color.BLACK);
-        table.put("TabbedPane.foreground", UIColor.TABBED_PANE_FOREGROUND_DEFAULT.get());
+        table.put("TabbedPane.foreground", UIColor.TABBED_PANE_FOREGROUND.get());
         table.put("TabbedPane.border", BorderFactory.createEmptyBorder());
         table.put("TabbedPane.shadow", null);
         table.put("TabbedPane.darkShadow", null);
 //        table.put("TabbedPane.highlight", MaterialColors.GRAY_200);
-        table.put("TabbedPane.highlight", UIColor.TABBED_PANE_HIGHLIGHT_DEFAULT.get());
+        table.put("TabbedPane.highlight", UIColor.TABBED_PANE_HIGHLIGHT.get());
 //        table.put("TabbedPane.borderHighlightColor", MaterialColors.GRAY_300);
-        table.put("TabbedPane.borderHighlightColor", UIColor.TABBED_PANE_BORDER_HIGHLIGHT_DEFAULT.get());
+        table.put("TabbedPane.borderHighlightColor", UIColor.TABBED_PANE_BORDER_HIGHLIGHT.get());
 
 //        table.put("Table.selectionBackground", MaterialColors.GRAY_100);
-        table.put("Table.selectionBackground", UIColor.TABLE_SELECTION_BACKGROUND_DEFAULT.get());
+        table.put("Table.selectionBackground", UIColor.TABLE_SELECTION_BACKGROUND.get());
 //        table.put("Table.selectionForeground", Color.BLACK);
-        table.put("Table.selectionForeground", UIColor.TABLE_SELECTION_FOREGROUND_DEFAULT.get());
+        table.put("Table.selectionForeground", UIColor.TABLE_SELECTION_FOREGROUND.get());
 //        table.put("Table.background", Color.WHITE);
-        table.put("Table.background", UIColor.TABLE_BACKGROUND_DEFAULT.get());
+        table.put("Table.background", UIColor.TABLE_BACKGROUND.get());
         table.put("Table.font", MaterialFonts.REGULAR);
         table.put("Table.border", MaterialBorders.LIGHT_LINE_BORDER);
 //        table.put("Table.gridColor", MaterialColors.GRAY_200);
-        table.put("Table.gridColor", UIColor.TABLE_GRID_COLOR_DEFAULT.get());
+        table.put("Table.gridColor", UIColor.TABLE_GRID_COLOR.get());
 //        table.put("TableHeader.background", MaterialColors.GRAY_200);
-        table.put("TableHeader.background", UIColor.TABLE_HEADER_BACKGROUND_DEFAULT.get());
+        table.put("TableHeader.background", UIColor.TABLE_HEADER_BACKGROUND.get());
         table.put("TableHeader.font", MaterialFonts.BOLD);
         table.put(
                 "TableHeader.cellBorder",
@@ -327,53 +337,53 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
                         BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 //        table.put("TextArea.background", MaterialColors.GRAY_200);
-        table.put("TextArea.background", UIColor.TEXT_AREA_BACKGROUND_DEFAULT.get());
+        table.put("TextArea.background", UIColor.TEXT_AREA_BACKGROUND.get());
         table.put("TextArea.border", BorderFactory.createEmptyBorder());
 //        table.put("TextArea.foreground", Color.BLACK);
-        table.put("TextArea.foreground", UIColor.TEXT_AREA_FOREGROUND_DEFAULT.get());
+        table.put("TextArea.foreground", UIColor.TEXT_AREA_FOREGROUND.get());
 
         table.put("ToggleButton.border", BorderFactory.createEmptyBorder());
         table.put("ToggleButton.font", MaterialFonts.REGULAR);
 //        table.put("ToggleButton.background", Color.WHITE);
-        table.put("ToggleButton.background", UIColor.TOGGLE_BUTTON_BACKGROUND_DEFAULT.get());
+        table.put("ToggleButton.background", UIColor.TOGGLE_BUTTON_BACKGROUND.get());
 //        table.put("ToggleButton.foreground", Color.BLACK);
-        table.put("ToggleButton.foreground", UIColor.TOGGLE_BUTTON_FOREGROUND_DEFAULT.get());
+        table.put("ToggleButton.foreground", UIColor.TOGGLE_BUTTON_FOREGROUND.get());
         table.put("ToggleButton.icon", new ImageIcon(MaterialImages.TOGGLE_BUTTON_OFF));
         table.put("ToggleButton.selectedIcon", new ImageIcon(MaterialImages.TOGGLE_BUTTON_ON));
 
         table.put("ToolBar.font", MaterialFonts.REGULAR);
 //        table.put("ToolBar.background", Color.WHITE);
-        table.put("ToolBar.background", UIColor.TOOL_BAR_BACKGROUND_DEFAULT.get());
+        table.put("ToolBar.background", UIColor.TOOL_BAR_BACKGROUND.get());
 //        table.put("ToolBar.foreground", Color.BLACK);
-        table.put("ToolBar.foreground", UIColor.TOOL_BAR_FOREGROUND_DEFAULT.get());
+        table.put("ToolBar.foreground", UIColor.TOOL_BAR_FOREGROUND.get());
         table.put("ToolBar.border", MaterialBorders.LIGHT_SHADOW_BORDER);
 //        table.put("ToolBar.dockingBackground", MaterialColors.LIGHT_GREEN_A100);
-        table.put("ToolBar.dockingBackground", UIColor.TOOL_BAR_DOCKING_BACKGROUND_DEFAULT.get());
+        table.put("ToolBar.dockingBackground", UIColor.TOOL_BAR_DOCKING_BACKGROUND.get());
 //        table.put("ToolBar.floatingBackground", MaterialColors.GRAY_200);
-        table.put("ToolBar.floatingBackground", UIColor.TOOL_BAR_FLOATING_BACKGROUND_DEFAULT.get());
+        table.put("ToolBar.floatingBackground", UIColor.TOOL_BAR_FLOATING_BACKGROUND.get());
 
         table.put("Tree.font", MaterialFonts.REGULAR);
 //        table.put("Tree.selectionForeground", Color.BLACK);
-        table.put("Tree.selectionForeground", UIColor.TREE_SELECTION_FOREGROUND_DEFAULT.get());
+        table.put("Tree.selectionForeground", UIColor.TREE_SELECTION_FOREGROUND.get());
 //        table.put("Tree.foreground", Color.BLACK);
-        table.put("Tree.foreground", UIColor.TREE_FOREGROUND_DEFAULT.get());
+        table.put("Tree.foreground", UIColor.TREE_FOREGROUND.get());
 //        table.put("Tree.selectionBackground", MaterialColors.GRAY_200);
-        table.put("Tree.selectionBackground", UIColor.TREE_SELECTION_BACKGROUND_DEFAULT.get());
+        table.put("Tree.selectionBackground", UIColor.TREE_SELECTION_BACKGROUND.get());
 //        table.put("Tree.background", Color.WHITE);
-        table.put("Tree.background", UIColor.TREE_BACKGROUND_DEFAULT.get());
+        table.put("Tree.background", UIColor.TREE_BACKGROUND.get());
         table.put("Tree.closedIcon", new ImageIcon(MaterialImages.RIGHT_ARROW));
         table.put("Tree.openIcon", new ImageIcon(MaterialImages.DOWN_ARROW));
         table.put("Tree.selectionBorderColor", null);
 
 //        table.put("RadioButtonMenuItem.foreground", Color.BLACK);
-        table.put("RadioButtonMenuItem.foreground", UIColor.RADIO_BUTTON_FOREGROUND_DEFAULT.get());
+        table.put("RadioButtonMenuItem.foreground", UIColor.RADIO_BUTTON_FOREGROUND.get());
 //        table.put("RadioButtonMenuItem.selectionForeground", Color.BLACK);
-        table.put("RadioButtonMenuItem.selectionForeground", UIColor.RADIO_BUTTON_MENU_ITEM_SELECTION_FOREGROUND_DEFAULT.get());
+        table.put("RadioButtonMenuItem.selectionForeground", UIColor.RADIO_BUTTON_MENU_ITEM_SELECTION_FOREGROUND.get());
         // If it changes the background of the menuitem it must change this too, irrespective of its
         // setting
         table.put("RadioButtonMenuItem.background", UIManager.getColor("MenuItem.background"));
 //        table.put("RadioButtonMenuItem.selectionBackground", MaterialColors.GRAY_200);
-        table.put("RadioButtonMenuItem.selectionBackground", UIColor.RADIO_BUTTON_MENU_ITEM_SELECTION_BACKGROUND_DEFAULT.get());
+        table.put("RadioButtonMenuItem.selectionBackground", UIColor.RADIO_BUTTON_MENU_ITEM_SELECTION_BACKGROUND.get());
         table.put("RadioButtonMenuItem.border", BorderFactory.createEmptyBorder(5, 5, 5, 5));
         table.put("RadioButtonMenuItem.checkIcon", new ImageIcon(MaterialImages.RADIO_BUTTON_OFF));
         table.put(
@@ -384,11 +394,11 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
         // setting
         table.put("CheckBoxMenuItem.background", UIManager.getColor("MenuItem.background"));
 //        table.put("CheckBoxMenuItem.selectionBackground", MaterialColors.GRAY_200);
-        table.put("CheckBoxMenuItem.selectionBackground", UIColor.CHECKBOX_MENU_ITEM_SELECTION_BACKGROUND_DEFAULT.get());
+        table.put("CheckBoxMenuItem.selectionBackground", UIColor.CHECKBOX_MENU_ITEM_SELECTION_BACKGROUND.get());
 //        table.put("CheckBoxMenuItem.foreground", Color.BLACK);
-        table.put("CheckBoxMenuItem.foreground", UIColor.CHECKBOX_MENU_ITEM_FOREGROUND_DEFAULT.get());
+        table.put("CheckBoxMenuItem.foreground", UIColor.CHECKBOX_MENU_ITEM_FOREGROUND.get());
 //        table.put("CheckBoxMenuItem.selectionForeground", Color.BLACK);
-        table.put("CheckBoxMenuItem.selectionForeground", UIColor.CHECKBOX_MENU_ITEM_SELECTION_FOREGROUND_DEFAULT.get());
+        table.put("CheckBoxMenuItem.selectionForeground", UIColor.CHECKBOX_MENU_ITEM_SELECTION_FOREGROUND.get());
         table.put("CheckBoxMenuItem.border", BorderFactory.createEmptyBorder(5, 5, 5, 5));
         table.put("CheckBoxMenuItem.checkIcon", new ImageIcon(MaterialImages.UNCHECKED_BOX));
         table.put(
@@ -397,36 +407,36 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
 
         table.put("TextPane.border", MaterialBorders.LIGHT_LINE_BORDER);
 //        table.put("TextPane.background", MaterialColors.GRAY_50);
-        table.put("TextPane.background", UIColor.TEXT_PANE_BACKGROUND_DEFAULT.get());
+        table.put("TextPane.background", UIColor.TEXT_PANE_BACKGROUND.get());
 //        table.put("TextPane.selectionBackground", MaterialColors.LIGHT_BLUE_200);
-        table.put("TextPane.selectionBackground", UIColor.TEXT_PANE_SELECTION_BACKGROUND_DEFAULT.get());
+        table.put("TextPane.selectionBackground", UIColor.TEXT_PANE_SELECTION_BACKGROUND.get());
 //        table.put("TextPane.inactiveForeground", MaterialColors.GRAY_500);
-        table.put("TextPane.inactiveForeground", UIColor.TEXT_PANE_INACTIVE_FOREGROUND_DEFAULT.get());
+        table.put("TextPane.inactiveForeground", UIColor.TEXT_PANE_INACTIVE_FOREGROUND.get());
         table.put("TextPane.font", MaterialFonts.REGULAR);
 
         table.put("EditorPane.border", MaterialBorders.LIGHT_LINE_BORDER);
 //        table.put("EditorPane.background", MaterialColors.GRAY_50);
-        table.put("EditorPane.background", UIColor.EDITOR_PANE_BACKGROUND_DEFAULT.get());
+        table.put("EditorPane.background", UIColor.EDITOR_PANE_BACKGROUND.get());
 //        table.put("EditorPane.selectionBackground", MaterialColors.LIGHT_BLUE_200);
-        table.put("EditorPane.selectionBackground", UIColor.EDITOR_PANE_SELECTION_BACKGROUND_DEFAULT.get());
+        table.put("EditorPane.selectionBackground", UIColor.EDITOR_PANE_SELECTION_BACKGROUND.get());
 //        table.put("EditorPane.inactiveForeground", MaterialColors.GRAY_500);
-        table.put("EditorPane.inactiveForeground", UIColor.EDITOR_PANE_INACTIVE_FOREGROUND_DEFAULT.get());
+        table.put("EditorPane.inactiveForeground", UIColor.EDITOR_PANE_INACTIVE_FOREGROUND.get());
         table.put("EditorPane.font", MaterialFonts.REGULAR);
 
 //        table.put("Separator.background", MaterialColors.GRAY_300);
-        table.put("Separator.background", UIColor.SEPARATOR_BACKGROUND_DEFAULT.get());
+        table.put("Separator.background", UIColor.SEPARATOR_BACKGROUND.get());
 //        table.put("Separator.foreground", MaterialColors.GRAY_300);
-        table.put("Separator.foreground", UIColor.SEPARATOR_FOREGROUND_DEFAULT.get());
+        table.put("Separator.foreground", UIColor.SEPARATOR_FOREGROUND.get());
 
 //        table.put("ToolTip.background", MaterialColors.GRAY_500);
-        table.put("ToolTip.background", UIColor.TOOL_TIP_BACKGROUND_DEFAULT.get());
+        table.put("ToolTip.background", UIColor.TOOL_TIP_BACKGROUND.get());
 //        table.put("ToolTip.foreground", MaterialColors.GRAY_50);
-        table.put("ToolTip.foreground", UIColor.TOOL_TIP_FOREGROUND_DEFAULT.get());
+        table.put("ToolTip.foreground", UIColor.TOOL_TIP_FOREGROUND.get());
         table.put("ToolTip.border", BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 //        table.put("ColorChooser.background", MaterialColors.WHITE);
-        table.put("ColorChooser.background", UIColor.COLOR_CHOOSER_BACKGROUND_DEFAULT.get());
+        table.put("ColorChooser.background", UIColor.COLOR_CHOOSER_BACKGROUND.get());
 //        table.put("ColorChooser.foreground", MaterialColors.BLACK);
-        table.put("ColorChooser.foreground", UIColor.COLOR_CHOOSER_FOREGROUND_DEFAULT.get());
+        table.put("ColorChooser.foreground", UIColor.COLOR_CHOOSER_FOREGROUND.get());
     }
 }

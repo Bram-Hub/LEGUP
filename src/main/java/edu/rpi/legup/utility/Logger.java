@@ -13,7 +13,7 @@ import org.apache.logging.log4j.core.layout.PatternLayout;
 public class Logger {
 
     private static final String LEGUP_HOME =
-            System.getProperty("user.home") + File.separator + ".legup" + File.separator;
+            System.getProperty("user.dir") + File.separator + ".legup" + File.separator;
 
     public static void initLogger() {
         LoggerContext context = (LoggerContext) LogManager.getContext(false);

@@ -5,6 +5,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.Rule;
+import edu.rpi.legup.ui.color.ColorPreferences;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialBorders;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
@@ -34,6 +35,7 @@ public class PreferencesDialog extends JDialog {
             colorBlind;
 
     private JTextField workDirectory;
+    private JTextField colorThemeFile;
 
     private static Image folderIcon;
 
@@ -290,6 +292,33 @@ public class PreferencesDialog extends JDialog {
                 new Dimension(Integer.MAX_VALUE, showMistakesRow.getPreferredSize().height));
         contentPane.add(colorBlindRow);
 
+        JPanel colorThemeRow = new JPanel();
+        colorThemeRow.setLayout(new BorderLayout());
+        JLabel colorThemeDirLabel = new JLabel("Color Theme File");
+        colorThemeDirLabel.setToolTipText("This is the color theme LEGUP will use.");
+        colorThemeRow.add(colorThemeDirLabel, BorderLayout.WEST);
+        colorThemeFile = new JTextField(prefs.getUserPref(LegupPreferences.WORK_DIRECTORY) + "/" + ColorPreferences.LIGHT_COLOR_THEME_FILE_NAME);
+        colorThemeRow.add(colorThemeFile, BorderLayout.CENTER);
+        JButton openColorThemeFile = new JButton(new ImageIcon(folderIcon));
+        openColorThemeFile.addActionListener(
+                a -> {
+                    JFileChooser chooser = new JFileChooser();
+                    chooser.setCurrentDirectory(new File(colorThemeDirLabel.getText()));
+                    chooser.setDialogTitle("Choose color theme file");
+                    chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                    chooser.setAcceptAllFileFilterUsed(false);
+                    chooser.setVisible(true);
+
+                    if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                        File newFile = chooser.getSelectedFile();
+                        colorThemeFile.setText(newFile.toString());
+                    }
+                });
+        colorThemeRow.add(openColorThemeFile, BorderLayout.EAST);
+        colorThemeRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, colorThemeRow.getPreferredSize().height));
+        contentPane.add(colorThemeRow);
+
+
         scrollPane.setViewportView(contentPane);
         return scrollPane;
     }
@@ -424,6 +453,7 @@ public class PreferencesDialog extends JDialog {
         prefs.setUserPref(
                 LegupPreferences.IMMEDIATE_FEEDBACK, Boolean.toString(immFeedback.isSelected()));
         prefs.setUserPref(LegupPreferences.COLOR_BLIND, Boolean.toString(colorBlind.isSelected()));
+        prefs.setUserPref(LegupPreferences.COLOR_THEME_FILE, colorThemeFile.getText());
 
         if (rulesFrame != null) {
             rulesFrame.getCasePanel().updateRules();

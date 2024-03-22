@@ -5,7 +5,8 @@ import static java.awt.BorderLayout.*;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
+//import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
+import edu.rpi.legup.ui.color.ColorPreferences.UIColor;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 import java.awt.*;
 import java.awt.event.*;
@@ -24,10 +25,10 @@ public class DynamicView extends JPanel {
     private JLabel status;
 
     private static final Font ERROR_FONT = MaterialFonts.ITALIC;
-    private static final Color ERROR_COLOR = MaterialColors.RED_700;
+//    private static final Color ERROR_COLOR = MaterialColors.RED_700;
 
     private static final Font INFO_FONT = MaterialFonts.REGULAR;
-    private static final Color INFO_COLOR = MaterialColors.GRAY_900;
+//    private static final Color INFO_COLOR = MaterialColors.GRAY_900;
 
     public DynamicView(ScrollView scrollView, DynamicViewType type) {
         this.scrollView = scrollView;
@@ -199,13 +200,13 @@ public class DynamicView extends JPanel {
 
     public void updateInfo(String message) {
         status.setFont(INFO_FONT);
-        status.setForeground(INFO_COLOR);
+        status.setForeground(UIColor.INFO.get());
         status.setText(message);
     }
 
     public void updateError(String message) {
         status.setFont(ERROR_FONT);
-        status.setForeground(ERROR_COLOR);
+        status.setForeground(UIColor.ERROR.get());
         status.setText(message);
     }
 

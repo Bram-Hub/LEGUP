@@ -1,6 +1,7 @@
 package edu.rpi.legup.ui.lookandfeel.components;
 
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
+import edu.rpi.legup.ui.color.ColorPreferences.UIColor;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialDrawingUtils;
 import java.awt.Color;
 import java.awt.FontMetrics;
@@ -45,10 +46,10 @@ public class MaterialPasswordFieldUI extends BasicPasswordFieldUI
         JPasswordField passwordField = (JPasswordField) c;
         passwordField.setOpaque(false);
         passwordField.setBorder(BorderFactory.createEmptyBorder(5, 2, 10, 0));
-        passwordField.setBackground(MaterialColors.LIGHT_BLUE_400);
+        passwordField.setBackground(UIColor.PASSWORD_FIELD_BACKGROUND.get());
 
         this.focusedBackground = passwordField.getBackground();
-        this.unfocusedBackground = MaterialColors.GRAY_200;
+        this.unfocusedBackground = UIColor.PASSWORD_FIELD_UNFOCUSED_BACKGROUND.get();
 
         this.focusedSelectionBackground = MaterialColors.bleach(focusedBackground, 0.3f);
         this.unfocusedSelectionBackground = unfocusedBackground;
