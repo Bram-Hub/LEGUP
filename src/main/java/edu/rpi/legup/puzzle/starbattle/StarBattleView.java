@@ -22,7 +22,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class StarBattleView extends GridBoardView {
-    private final static Logger LOGGER = LogManager.getLogger(StarBattleView.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(StarBattleView.class.getName());
 
     static Image STAR;
 

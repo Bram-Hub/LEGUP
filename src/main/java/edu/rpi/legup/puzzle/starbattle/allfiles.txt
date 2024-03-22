@@ -228,3 +228,8 @@ public enum StarBattleType {
 //StarBattleExporter.java
 //StarBattleImporter.java
 //StarBattleView.java
+
+How to run Legup:
+
+./gradlew build
+Java -jar build/libs/Legup.jar 
