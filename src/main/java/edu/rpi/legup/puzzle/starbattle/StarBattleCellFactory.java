@@ -2,9 +2,8 @@ package edu.rpi.legup.puzzle.starbattle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
-import edu.rpi.legup.puzzle.starbattle.starbattleBoard;
-import edu.rpi.legup.puzzle.starbattle.starbattleCell;
+import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
+import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -54,7 +53,7 @@ public class StarBattleCellFactory extends ElementFactory {
     public org.w3c.dom.Element exportCell(Document document, PuzzleElement puzzleElement) {
         org.w3c.dom.Element cellElement = document.createElement("cell");
 
-        NurikabeCell cell = (NurikabeCell) puzzleElement;
+        StarBattleCell cell = (StarBattleCell) puzzleElement;
         Point loc = cell.getLocation();
 
         cellElement.setAttribute("value", String.valueOf(cell.getData()));
