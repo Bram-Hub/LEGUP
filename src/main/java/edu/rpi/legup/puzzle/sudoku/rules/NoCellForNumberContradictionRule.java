@@ -29,6 +29,12 @@ public class NoCellForNumberContradictionRule extends ContradictionRule {
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
         SudokuBoard sudokuBoard = (SudokuBoard) board;
+
+        //Loop through every individual region
+        //Check if there is a number that cannot exist in region with current board
+
+
+
         SudokuCell cell = (SudokuCell) sudokuBoard.getPuzzleElement(puzzleElement);
         if (cell.getData() != 0) {
             return super.getNoContradictionMessage();
@@ -38,8 +44,6 @@ public class NoCellForNumberContradictionRule extends ContradictionRule {
 
         Set<SudokuCell> region = sudokuBoard.getRegion(cell.getGroupIndex());
         Set<Integer> numbersNotInRegion = new HashSet<>();
-        Set<Integer> numberNotFit = new HashSet<>();
-        Set<Integer> numberCanFit = new HashSet<>();
 
         for (int i = 1; i <= groupSize; i++) {
             numbersNotInRegion.add(i);
@@ -49,23 +53,39 @@ public class NoCellForNumberContradictionRule extends ContradictionRule {
                 numbersNotInRegion.remove(c.getData());
             }
         }
-        for (SudokuCell c : region) {
 
-            Set<SudokuCell> row = sudokuBoard.getRow(c.getLocation().y);
-            Set<SudokuCell> col = sudokuBoard.getCol(c.getLocation().x);
-            for(SudokuCell c1 : row) {
-                numberNotFit.add(c1.getData());
-            }
-            for(SudokuCell c2 : col) {
-                numberNotFit.add(c2.getData());
-            }
+        for (Integer i : numbersNotInRegion) {
+            //Check if number can be in cell
+            boolean canFit = false;
+            for(SudokuCell c : region){
+                if(c.getData() != 0)
+                    continue;
 
-            for(int i : numbersNotInRegion) {
-                numbersNotInRegion.remove(numberNotFit);
+                //Get row and col groups
+                Set<SudokuCell> row = sudokuBoard.getRow(c.getLocation().y);
+                Set<SudokuCell> col = sudokuBoard.getCol(c.getLocation().x);
+
+                //Check if it alr exists in row or col
+                boolean duplicate = false;
+                for(SudokuCell rc : row) {
+                    if(rc.getData() == i)
+                        duplicate = true;
+                }
+                for(SudokuCell cc : col) {
+                    if(cc.getData() == i)
+                        duplicate = true;
+                }
+
+                //If there is no duplicate it can exist in the region
+                if(!duplicate) {
+                    canFit = true;
+                    break;
+                }
             }
+            //If the number can't fit anywhere in region then contradiction
+            if(!canFit)
+                return null;
         }
-
-
         return super.getNoContradictionMessage();
     }
 }
