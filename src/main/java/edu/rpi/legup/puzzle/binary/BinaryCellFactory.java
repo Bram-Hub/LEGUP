@@ -51,7 +51,6 @@ public class BinaryCellFactory extends ElementFactory {
 
         BinaryCell cell = (BinaryCell) puzzleElement;
         Point loc = cell.getLocation();
-
         cellElement.setAttribute("value", String.valueOf(cell.getData()));
         cellElement.setAttribute("x", String.valueOf(loc.x));
         cellElement.setAttribute("y", String.valueOf(loc.y));
