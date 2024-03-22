@@ -82,10 +82,10 @@ public class PossibleNumbersForCellCaseRule extends CaseRule {
         List<SudokuCell> caseCells = new ArrayList<>();
         SudokuCell cell = (SudokuCell) puzzleElement;
 
-        for (int i = 0; i < 9; i++) {
+        for (int i = 1; i <= 9; i++) {
             Board newCase = sudokuBoard.copy();
             PuzzleElement element = newCase.getPuzzleElement(puzzleElement);
-            element.setData(value);
+            element.setData(i);
             newCase.addModifiedData(element);
             cases.add(newCase);
         }
