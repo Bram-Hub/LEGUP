@@ -39,9 +39,14 @@ public class StarBattleCellFactory extends ElementFactory {
             cell.setIndex(y * size + x);
             return cell;
         }
+
         catch (NumberFormatException e1) {
+            e1.printStackTrace();
             throw new InvalidFileFormatException("starbattle Factory: unknown value where integer expected");
-        } catch (NullPointerException e2) {
+        } 
+        
+        catch (NullPointerException e2) {
+            e2.printStackTrace();
             throw new InvalidFileFormatException("starbattle Factory: could not find attribute(s)");
         }
     }
