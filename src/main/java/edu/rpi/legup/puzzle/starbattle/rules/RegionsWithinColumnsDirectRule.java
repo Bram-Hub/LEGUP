@@ -8,9 +8,9 @@ import edu.rpi.legup.model.tree.TreeTransition;
 
 public class RegionsWithinColumnsDirectRule extends DirectRule {
     public RegionsWithinColumnsDirectRule() {
-        super("STBL-BASC-0004",
+        super("STBL-BASC-0005",
                 "Regions Within Columns",
-                "If a number of regions is fully contained by an equal number of columns, spaces of other regions in those columns must be black.",
+                "If a number of regions is fully contained by a number of columns with an equal number of missing stars, spaces of other regions in those columns must be black.",
                 "INSERT IMAGE NAME HERE");
     }
 

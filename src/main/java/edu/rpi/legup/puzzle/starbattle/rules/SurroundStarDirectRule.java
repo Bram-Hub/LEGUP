@@ -13,7 +13,7 @@ import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
 public class SurroundStarDirectRule extends DirectRule {
 
     public SurroundStarDirectRule() {
-        super("STBL-BASC-0007",
+        super("STBL-BASC-0009",
                 "Surround Star",
                 "Any space adjacent to a star must be black.",
                 "INSERT IMAGE NAME HERE");

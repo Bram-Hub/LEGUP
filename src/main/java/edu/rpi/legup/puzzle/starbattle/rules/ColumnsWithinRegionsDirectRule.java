@@ -17,7 +17,7 @@ public class ColumnsWithinRegionsDirectRule extends DirectRule {
     public ColumnsWithinRegionsDirectRule() {
         super("STBL-BASC-0002",
                 "Columns Within Regions",
-                "If a number of columns is fully contained by an equal number of regions, spaces of other columns in those regions must be black.",
+                "If a number of columns is fully contained by a number of regions with an equal number of missing stars, spaces of other columns in those regions must be black.",
                 "INSERT IMAGE NAME HERE");
     }
 

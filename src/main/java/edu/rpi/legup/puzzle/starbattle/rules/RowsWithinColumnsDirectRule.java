@@ -15,9 +15,9 @@ import java.util.Set;
 public class RowsWithinColumnsDirectRule extends DirectRule {
 
     public RowsWithinColumnsDirectRule() {
-        super("STBL-BASC-XXXX",
+        super("STBL-BASC-0007",
                 "Rows Withing Columns",
-                "If a number of rows is fully contained by an equal number of columns, spaces of other rows in those columns must be black.",
+                "If a number of rows is fully contained by a number of columns with an equal number of missing stars, spaces of other rows in those columns must be black.",
                 "INSERT IMAGE NAME HERE");
     }
 

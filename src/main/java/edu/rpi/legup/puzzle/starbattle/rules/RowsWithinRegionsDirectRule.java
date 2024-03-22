@@ -14,9 +14,9 @@ import java.util.Set;
 
 public class RowsWithinRegionsDirectRule extends DirectRule {
     public RowsWithinRegionsDirectRule() {
-        super("STBL-BASC-0006",
+        super("STBL-BASC-0008",
                 "Rows Within Regions",
-                "If a number of rows is fully contained by an equal number of regions, spaces of other rows in those regions must be black.",
+                "If a number of rows is fully contained by a number of regions with an equal number of missing stars, spaces of other rows in those regions must be black.",
                 "INSERT IMAGE NAME HERE");
     }
 
