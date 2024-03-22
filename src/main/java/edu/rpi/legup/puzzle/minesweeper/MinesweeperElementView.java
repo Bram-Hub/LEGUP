@@ -1,11 +1,9 @@
 package edu.rpi.legup.puzzle.minesweeper;
 
-import edu.rpi.legup.puzzle.lightup.LightUpView;
 import edu.rpi.legup.ui.boardview.GridElementView;
+import java.awt.*;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-
-import java.awt.*;
 
 public class MinesweeperElementView extends GridElementView {
 
@@ -40,7 +38,8 @@ public class MinesweeperElementView extends GridElementView {
             final FontMetrics metrics = graphics2D.getFontMetrics(FONT);
             final String value = String.valueOf(((MinesweeperCell) puzzleElement).getData().data());
             final int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
-            final int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
+            final int yText =
+                    location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
             graphics2D.drawString(value, xText, yText);
             return;
         }
