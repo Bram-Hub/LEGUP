@@ -63,14 +63,14 @@ public class MercuryOrBlockedCaseRule extends CaseRule {
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
         Board case1 = board.copy();
-        PuzzleElement data1 = case1.getPuzzleElement(puzzleElement);
-        data1.setData(ThermometerType.HEAD);
+        ThermometerCell data1 = (ThermometerCell) case1.getPuzzleElement(puzzleElement);
+        data1.setFill(ThermometerFill.FILLED);
         case1.addModifiedData(data1);
         cases.add(case1);
 
         Board case2 = board.copy();
-        PuzzleElement data2 = case2.getPuzzleElement(puzzleElement);
-        data2.setData(ThermometerFill.BLOCKED);
+        ThermometerCell data2 = (ThermometerCell) case2.getPuzzleElement(puzzleElement);
+        data2.setFill(ThermometerFill.BLOCKED);
         case2.addModifiedData(data2);
         cases.add(case2);
 

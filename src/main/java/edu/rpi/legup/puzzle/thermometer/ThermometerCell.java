@@ -7,11 +7,13 @@ import java.awt.Point;
 public class ThermometerCell extends GridCell<Integer> {
     private ThermometerType type;
     private ThermometerFill fill;
+    private int rotation;
     public ThermometerCell(Point location) {
         //since we do not use get/set data value int can be any value
         super(0, location);
         type = ThermometerType.UNKNOWN;
         fill = ThermometerFill.UNKNOWN;
+        rotation = 0;
     }
 
 
@@ -46,6 +48,9 @@ public class ThermometerCell extends GridCell<Integer> {
             default -> null;
         };
     }
+
+    public void setRotation(int r) {rotation = r;}
+    public int getRotation() {return rotation;}
 
     @Override
     public ThermometerCell copy() {
