@@ -63,7 +63,7 @@ public class UnbalancedRowOrColumnContradictionRule extends ContradictionRule {
 //        if (colNumZeros + colNumOnes != size) {
 //            return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
 //        }
-        if (colNumZeros > size/2 || rowNumOnes > size/2) {
+        if (colNumZeros > size/2 || colNumOnes > size/2) {
             return null;
         }
 
