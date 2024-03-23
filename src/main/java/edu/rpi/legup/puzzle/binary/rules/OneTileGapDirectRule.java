@@ -32,17 +32,13 @@ public class OneTileGapDirectRule extends DirectRule {
         BinaryCell rightOne = finalBoard.getCell(cell.getLocation().x+1, cell.getLocation().y);
         BinaryType cellType = cell.getType();
 
-        if(downOne.getType() == upOne.getType())
-        {
-            if(downOne.getType() == cellType)
-            {
+        if(downOne.getType() == upOne.getType()) {
+            if(downOne.getType() == cellType) {
                 return "Filled cell matches vertical outer cells";
             }
         }
-        if(rightOne.getType() == leftOne.getType())
-        {
-            if(rightOne.getType() == cellType)
-            {
+        if(rightOne.getType() == leftOne.getType()) {
+            if(rightOne.getType() == cellType) {
                 return "Filled cell matches hroizontal outer cells";
             }
         }
