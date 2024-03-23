@@ -31,8 +31,7 @@ public class ThreeAdjacentContradictionRule extends ContradictionRule {
         int cellY = cell.getLocation().y;
         System.out.println("X = " + cellX + ", Y = " + cellY);
 
-        if(cell.getType() == BinaryType.ONE || cell.getType() == BinaryType.ZERO)
-        {
+        if(cell.getType() == BinaryType.ONE || cell.getType() == BinaryType.ZERO) {
             for (int x = cell.getLocation().x - 2; x >= 0 && x < cell.getLocation().x && x < width - 2; x++) {
 
                 if(binaryBoard.getCell(x, cellY).getType() == binaryBoard.getCell(x + 1, cellY).getType() &&
