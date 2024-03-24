@@ -111,7 +111,7 @@ public class FillinRowCaseRule extends CaseRule {
             boolean isRow) {
         ArrayList<Board> generatedBoards = new ArrayList<>();
         genCombRecursive(
-                iBoard, tiles, target, 0, new ArrayList<TreeTentCell>(), tiles.iterator(), index, generatedBoards, isRow);
+                iBoard, tiles, target, 0, new ArrayList<TreeTentCell>(), 0, index, generatedBoards, isRow);
         return generatedBoards;
     }
 
@@ -124,7 +124,7 @@ public class FillinRowCaseRule extends CaseRule {
      * @param tiles Unknown Tiles to fill
      * @param target number of tents to place
      * @param current number of tents already placed
-     * @param currentTile Iterator pointing to the next tile to add
+     * @param currentTile index of the next tile to add
      * @param selected the cells which have tents
      * @param index The index of the clue
      * @param isRow Used for checking if the board is good
@@ -138,7 +138,7 @@ public class FillinRowCaseRule extends CaseRule {
             int target,
             int current,
             List<TreeTentCell> selected,
-            Iterator<TreeTentCell> currentTile,
+            int currentTile,
             Integer index,
             ArrayList<Board> generatedBoards,
             boolean isRow) {
@@ -168,14 +168,14 @@ public class FillinRowCaseRule extends CaseRule {
         //
         // Backtracking:
         // Remove the placed tent from the board and selected
-        while (currentTile.hasNext()) {
-            TreeTentCell tile = currentTile.next();
+        for (int i = currentTile; i < tiles.size(); ++i){
+            TreeTentCell tile = tiles.get(i);
             selected.add(tile);
             PuzzleElement element = iBoard.getPuzzleElement(tile);
             element.setData(TreeTentType.TENT);
             iBoard.addModifiedData(element);
             if (goodBoard(iBoard, index, isRow)) {
-                genCombRecursive(iBoard, tiles, target, current + 1, selected, currentTile, index, generatedBoards, isRow);
+                genCombRecursive(iBoard, tiles, target, current + 1, selected, i + 1, index, generatedBoards, isRow);
             }
             element.setData(TreeTentType.UNKNOWN);
             iBoard.addModifiedData(element);
