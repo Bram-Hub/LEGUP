@@ -57,7 +57,6 @@ public class BlackoutDirectRule extends DirectRule {
      */
     @Override
     public Board getDefaultBoard(TreeNode node) {
-
         return null;
     }
 }
