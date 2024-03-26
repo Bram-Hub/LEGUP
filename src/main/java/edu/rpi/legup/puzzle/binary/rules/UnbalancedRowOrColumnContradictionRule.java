@@ -25,7 +25,7 @@ public class UnbalancedRowOrColumnContradictionRule extends ContradictionRule {
         BinaryBoard binaryBoard = (BinaryBoard) board;
 
         BinaryCell cell = (BinaryCell) binaryBoard.getPuzzleElement(puzzleElement);
-        Set<BinaryCell> row = binaryBoard.getRow(cell.getLocation().y);
+        Set<BinaryCell> row = binaryBoard.getRowCells(cell.getLocation().y);
 
         int size = row.size();
         int rowNumZeros = 0;

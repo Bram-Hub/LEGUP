@@ -40,8 +40,6 @@ public class CompleteRowColumnDirectRule extends DirectRule {
         int boardDim = initialBoard.getWidth();
         int elementRow = elementIndex / boardDim;
         int elementCol = elementIndex % boardDim;
-        Set<BinaryCell> curRow = initialBoard.getRow(elementRow);
-        Set<BinaryCell> curCol = initialBoard.getCol(elementCol); 
      
             int numColZeros = 0;
             int numColOnes = 0;
@@ -51,7 +49,7 @@ public class CompleteRowColumnDirectRule extends DirectRule {
             if(cell.getData() == 1){
                 numColOnes ++;
             }
-            else if(cell.getData() == 0){
+            else if(cell.getData() == 0) {
                 numColZeros ++; 
             }
         }
@@ -60,10 +58,10 @@ public class CompleteRowColumnDirectRule extends DirectRule {
 
         for (int i = 0; i < boardDim; i++) {
             BinaryCell cell = initialBoard.getCell(elementRow, i);
-            if(cell.getData() == 1){
+            if(cell.getData() == 1) {
                 numRowOnes ++;
             }
-            else if(cell.getData() == 0){
+            else if(cell.getData() == 0) {
                 numRowZeros ++; 
             }
         }

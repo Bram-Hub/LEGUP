@@ -7,6 +7,8 @@ import edu.rpi.legup.puzzle.binary.BinaryBoard;
 import edu.rpi.legup.puzzle.binary.BinaryCell;
 import edu.rpi.legup.puzzle.binary.BinaryType;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Set;
 public class DuplicateRowsOrColumnsContradictionRule extends ContradictionRule {
     private final String NO_CONTRADICTION_MESSAGE = "Does not contain a contradiction at this index";
@@ -22,57 +24,69 @@ public class DuplicateRowsOrColumnsContradictionRule extends ContradictionRule {
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
         BinaryBoard binaryBoard = (BinaryBoard) board;
-        boolean rowValid = false;
-        boolean colValid = false;
         BinaryCell cell = (BinaryCell) binaryBoard.getPuzzleElement(puzzleElement);
-        Set<BinaryCell> row = binaryBoard.getRow(cell.getLocation().y);
-        BinaryCell[] rowArray = row.toArray(new BinaryCell[0]);
+
+        ArrayList<BinaryType> row = binaryBoard.getRowTypes(cell.getLocation().y);
+
+        System.out.println(row);
         int size = row.size();
-        int y = cell.getLocation().y;
-        for (int i = 0; i < size; i++) {
-            if (rowValid) {
-                break;
-            }
-            if (i != y) {
-                Set<BinaryCell> currRow = binaryBoard.getRow(i);
-                BinaryCell[] currRowArray = currRow.toArray(new BinaryCell[0]);
-                for (int j = 0; j < size; j++) {
-                    BinaryCell rowElement = rowArray[j];
-                    BinaryCell currRowElement = currRowArray[j];
-                    if (rowElement.getType() != currRowElement.getType()) {
-                        rowValid = true;
-                    }
-                }
-            }
-        }
-        if (!rowValid) {
-            return null;
-        }
-        Set<BinaryCell> col = binaryBoard.getCol(cell.getLocation().x);
-        BinaryCell[] colArray = col.toArray(new BinaryCell[0]);
-        size = col.size();
-        int x = cell.getLocation().x;
-        for (int i = 0; i < size; i++) {
-            if (colValid) {
-                break;
-            }
-            if (i != x) {
-                Set<BinaryCell> currCol = binaryBoard.getCol(i);
-                BinaryCell[] currColArray = currCol.toArray(new BinaryCell[0]);
-                for (int j = 0; j < size; j++) {
-                    BinaryCell colElement = colArray[j];
-                    BinaryCell currColElement = currColArray[j];
-                    if (colElement.getType() != currColElement.getType()) {
-                        colValid = true;
-                    }
-                }
-            }
-        }
-        if (!colValid) {
-            return null;
-        }
 
+
+        for (int i = 0; i < size; i++) {
+            if (i > cell.getLocation().y) {
+                ArrayList<BinaryType> currRow = binaryBoard.getRowTypes(i);
+                if (currRow.equals(row))
+                   return null;
+            }
+        }
+//        BinaryCell[] rowArray = row.toArray(new BinaryCell[0]);
+//
+//        boolean rowValid = false;
+//        int size = row.size();
+//        int y = cell.getLocation().y;
+//        for (int i = 0; i < size; i++) {
+//            if (i != y) {
+//                Set<BinaryCell> currRow = binaryBoard.getRow(i);
+//                BinaryCell[] currRowArray = currRow.toArray(new BinaryCell[0]);
+//                for (int j = 0; j < size; j++) {
+//                    BinaryCell rowElement = rowArray[j];
+//                    BinaryCell currRowElement = currRowArray[j];
+//                    System.out.println("Row: " + i + " Org x: " + rowElement.getLocation().x + " Curr x: " + currRowElement.getLocation().x);
+////                    if (rowElement.getType() != currRowElement.getType()) {
+////                        rowValid = true;
+////                        break;
+////                    }
+//                }
+////                if (!rowValid)
+////                    return null;
+//            }
+//        }
+//        return null;
+//        Set<BinaryCell> col = binaryBoard.getCol(cell.getLocation().x);
+//        BinaryCell[] colArray = col.toArray(new BinaryCell[0]);
+//        size = col.size();
+//        int x = cell.getLocation().x;
+//        for (int i = 0; i < size; i++) {
+//            if (colValid) {
+//                break;
+//            }
+//            if (i != x) {
+//                Set<BinaryCell> currCol = binaryBoard.getCol(i);
+//                BinaryCell[] currColArray = currCol.toArray(new BinaryCell[0]);
+//                for (int j = 0; j < size; j++) {
+//                    BinaryCell colElement = colArray[j];
+//                    BinaryCell currColElement = currColArray[j];
+//                    if (colElement.getType() != currColElement.getType()) {
+//                        colValid = true;
+//                    }
+//                }
+//            }
+//        }
+//        if (!colValid) {
+//            return null;
+//        }
+
+        //System.out.println(cell.getLocation().x + " " + cell.getLocation().y);
         return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
-
     }
 }

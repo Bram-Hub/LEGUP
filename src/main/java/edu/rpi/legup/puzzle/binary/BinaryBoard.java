@@ -4,6 +4,7 @@ import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 public class BinaryBoard extends GridBoard {
@@ -26,11 +27,20 @@ public class BinaryBoard extends GridBoard {
         }
         return (BinaryCell) super.getCell(x, y);
     }
-
-    public Set<BinaryCell> getRow(int rowNum) {
+    public Set<BinaryCell> getRowCells(int rowNum) {
         Set<BinaryCell> row = new HashSet<>();
         for (int i = 0; i < size; i++) {
-            row.add(getCell(i, rowNum));
+            BinaryCell cell = getCell(i, rowNum);
+            row.add(cell);
+        }
+        return row;
+    }
+
+    public ArrayList<BinaryType> getRowTypes(int rowNum) {
+        ArrayList<BinaryType> row = new ArrayList<BinaryType>();
+        for (int i = 0; i < size; i++) {
+            BinaryCell cell = getCell(i, rowNum);
+            row.add(cell.getType());
         }
         return row;
     }
