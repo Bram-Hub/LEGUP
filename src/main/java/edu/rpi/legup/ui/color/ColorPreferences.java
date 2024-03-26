@@ -3,6 +3,7 @@ package edu.rpi.legup.ui.color;
 //import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
 
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.awt.*;
 import java.io.*;
@@ -131,6 +132,41 @@ public class ColorPreferences {
         }
     }
 
+    private static void checkNewColors(Path path, Set<UIColor> usedColors) {
+        if (usedColors.size() == UIColor.values().length) {
+            return;
+        }
+        final InputStream input = ClassLoader.getSystemClassLoader().getResourceAsStream(path.getFileName().toString());
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+        final Map<UIColor, Color> newColors = loadColors(reader.lines().toList());
+        final Map<UIColor, Color> addColors = newColors.entrySet().stream()
+                .filter(e -> !usedColors.contains(e.getKey()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        try {
+            for (final var entry : addColors.entrySet()) {
+                final Color color = entry.getValue();
+                final String hex = String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
+                Files.writeString(
+                        path,
+                        entry.getKey().configKey() + ": " + hex + "\n",
+                        StandardOpenOption.APPEND
+                );
+                COLOR_MAP.put(entry.getKey(), color);
+            }
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static @Unmodifiable Map<UIColor, Color> loadColors(List<String> lines) {
+        return lines.stream()
+                .filter(l -> !l.startsWith("//")) // Use // for comments
+                .map(l -> l.split(":"))
+                .filter(a -> a.length == 2)
+                .collect(Collectors.toUnmodifiableMap(e -> UIColor.valueOf(e[0].replace("-", "_").toUpperCase()), e -> colorFromString(e[1].strip())));
+    }
+
     public static void loadColorScheme(String fileName) {
         final Path path = Path.of(fileName);
         final File file = path.toFile();
@@ -170,15 +206,9 @@ public class ColorPreferences {
             });
         }
 
-        Set<UIColor> temp = new HashSet<>();
+        COLOR_MAP.putAll(loadColors(lines));
 
-        COLOR_MAP.putAll(
-                lines.stream()
-                        .filter(l -> !l.startsWith("//")) // Use // for comments
-                        .map(l -> l.split(":"))
-                        .filter(a -> a.length == 2)
-                        .collect(Collectors.toMap(e -> UIColor.valueOf(e[0].replace("-", "_").toUpperCase()), e -> colorFromString(e[1].strip()))));
-        System.out.println("Colors: " + COLOR_MAP);
+        checkNewColors(path, COLOR_MAP.keySet());
     }
 
     public static Color colorFromString(String color) {
