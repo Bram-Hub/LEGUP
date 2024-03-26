@@ -66,7 +66,7 @@ public class HomePanel extends LegupPanel {
                 }
             };
 
-    public HomePanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
+    public HomePanel(JFrame frame, LegupUI legupUI) {
         this.legupUI = legupUI;
         this.frame = frame;
         setLayout(new GridLayout(1, 2));

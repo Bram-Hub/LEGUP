@@ -5,9 +5,12 @@ import com.formdev.flatlaf.FlatLightLaf;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.ui.boardview.BoardView;
+import edu.rpi.legup.ui.color.ColorPreferences;
+import edu.rpi.legup.ui.lookandfeel.LegupLookAndFeel;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.security.InvalidParameterException;
 import java.util.Objects;
 import javax.swing.*;
@@ -17,7 +20,8 @@ import org.apache.logging.log4j.Logger;
 public class LegupUI extends JFrame implements WindowListener {
     private static final Logger LOGGER = LogManager.getLogger(LegupUI.class.getName());
 
-    protected FileDialog fileDialog;
+//    protected FileDialog fileDialog;
+    protected JFileChooser fileChooser;
     protected JPanel window;
     protected LegupPanel[] panels;
 
@@ -43,16 +47,24 @@ public class LegupUI extends JFrame implements WindowListener {
         LegupPreferences prefs = LegupPreferences.getInstance();
 
         try {
-            if (Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
-                UIManager.setLookAndFeel(new FlatDarkLaf());
-            } else {
-                UIManager.setLookAndFeel(new FlatLightLaf());
+            final String colorFileName = prefs.getUserPref(LegupPreferences.COLOR_THEME_FILE);
+            if (colorFileName.endsWith(".txt")) {
+                UIManager.setLookAndFeel(new LegupLookAndFeel(colorFileName));
+            }else {
+                if (Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
+                    UIManager.setLookAndFeel(new LegupLookAndFeel(ColorPreferences.DARK_COLOR_THEME_FILE_NAME));
+                }
+                else {
+                    UIManager.setLookAndFeel(new LegupLookAndFeel(ColorPreferences.LIGHT_COLOR_THEME_FILE_NAME));
+                }
             }
         } catch (UnsupportedLookAndFeelException e) {
             System.err.println("Not supported ui look and feel");
         }
 
-        fileDialog = new FileDialog(this);
+//        fileDialog = new FileDialog(this);
+        fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
 
         initPanels();
         displayPanel(0);
@@ -97,9 +109,9 @@ public class LegupUI extends JFrame implements WindowListener {
         add(window);
         panels = new LegupPanel[3];
 
-        panels[0] = new HomePanel(this.fileDialog, this, this);
-        panels[1] = new ProofEditorPanel(this.fileDialog, this, this);
-        panels[2] = new PuzzleEditorPanel(this.fileDialog, this, this);
+        panels[0] = new HomePanel(this, this);
+        panels[1] = new ProofEditorPanel(this.fileChooser, this, this);
+        panels[2] = new PuzzleEditorPanel(this.fileChooser, this, this);
     }
 
     protected void displayPanel(int option) {

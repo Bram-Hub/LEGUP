@@ -1,5 +1,8 @@
 package edu.rpi.legup.app;
 
+import edu.rpi.legup.ui.color.ColorPreferences;
+
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.prefs.Preferences;
@@ -8,7 +11,7 @@ public class LegupPreferences {
 
     private static LegupPreferences instance;
 
-    private static String SAVED_PATH = "";
+    private static String savedPath = "";
 
     private static final Preferences preferences =
             Preferences.userNodeForPackage(LegupPreferences.class);
@@ -25,10 +28,11 @@ public class LegupPreferences {
     public static final String ALLOW_DEFAULT_RULES = "allow-default-rules";
     public static final String AUTO_GENERATE_CASES = "auto-generate-cases";
     public static final String IMMEDIATE_FEEDBACK = "immediate-feedback";
+    public static final String COLOR_THEME_FILE = "color-theme-file";
     public static final String COLOR_BLIND = "color-blind";
 
     static {
-        defaultPreferencesMap.put(WORK_DIRECTORY, System.getProperty("user.home"));
+        defaultPreferencesMap.put(WORK_DIRECTORY, System.getProperty("user.dir"));
         defaultPreferencesMap.put(START_FULL_SCREEN, Boolean.toString(false));
         defaultPreferencesMap.put(AUTO_UPDATE, Boolean.toString(true));
         defaultPreferencesMap.put(DARK_MODE, Boolean.toString(false));
@@ -38,6 +42,7 @@ public class LegupPreferences {
         defaultPreferencesMap.put(AUTO_GENERATE_CASES, Boolean.toString(true));
         defaultPreferencesMap.put(IMMEDIATE_FEEDBACK, Boolean.toString(true));
         defaultPreferencesMap.put(COLOR_BLIND, Boolean.toString(false));
+        defaultPreferencesMap.put(COLOR_THEME_FILE, System.getProperty("user.dir") + File.separator + ColorPreferences.LIGHT_COLOR_THEME_FILE_NAME);
     }
 
     static {
@@ -70,6 +75,7 @@ public class LegupPreferences {
                 preferences.get(IMMEDIATE_FEEDBACK, defaultPreferencesMap.get(IMMEDIATE_FEEDBACK)));
         preferencesMap.put(
                 COLOR_BLIND, preferences.get(COLOR_BLIND, defaultPreferencesMap.get(COLOR_BLIND)));
+        preferencesMap.put(COLOR_THEME_FILE, preferences.get(COLOR_THEME_FILE, defaultPreferencesMap.get(COLOR_THEME_FILE)));
     }
 
     /**
@@ -121,10 +127,10 @@ public class LegupPreferences {
     }
 
     public String getSavedPath() {
-        return SAVED_PATH;
+        return savedPath;
     }
 
     public void setSavedPath(String path) {
-        SAVED_PATH = path;
+        savedPath = path;
     }
 }

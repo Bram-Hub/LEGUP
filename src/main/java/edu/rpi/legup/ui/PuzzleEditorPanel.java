@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.Objects;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -44,7 +45,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private BoardView boardView;
     private TitledBorder boardBorder;
     // private JSplitPane splitPanel, topHalfPanel;
-    private FileDialog fileDialog;
+    private JFileChooser fileChooser;
     private JMenuItem undo, redo, fitBoardToScreen;
     private ElementFrame elementFrame;
     private JPanel treePanel;
@@ -52,8 +53,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private EditorElementController editorElementController;
     static final int[] TOOLBAR_SEPARATOR_BEFORE = {2, 4, 8};
 
-    public PuzzleEditorPanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
-        this.fileDialog = fileDialog;
+    public PuzzleEditorPanel(JFileChooser fileChooser, JFrame frame, LegupUI legupUI) {
+        this.fileChooser = fileChooser;
         this.frame = frame;
         this.legupUI = legupUI;
         setLayout(new BorderLayout());
@@ -384,20 +385,25 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 return new Object[0];
             }
         }
-        if (fileDialog == null) {
-            fileDialog = new FileDialog(this.frame);
+        if (fileChooser == null) {
+//            fileChooser = new JFileChooser(this.frame);
+            fileChooser = new JFileChooser();
         }
         LegupPreferences preferences = LegupPreferences.getInstance();
         String preferredDirectory = preferences.getUserPref(LegupPreferences.WORK_DIRECTORY);
 
-        fileDialog.setMode(FileDialog.LOAD);
-        fileDialog.setTitle("Select Puzzle");
-        fileDialog.setDirectory(preferredDirectory);
-        fileDialog.setVisible(true);
+//        fileChooser.setMode(JFileChooser.LOAD);
+        fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
+//        fileChooser.setTitle("Select Puzzle");
+        fileChooser.setDialogTitle("Select Puzzle");
+//        fileChooser.setDirectory(preferredDirectory);
+        fileChooser.setCurrentDirectory(Path.of(preferredDirectory).toFile());
+        fileChooser.showOpenDialog(this);
+        fileChooser.setVisible(true);
         String fileName = null;
         File puzzleFile = null;
-        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
-            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
+        if (fileChooser.getCurrentDirectory() != null && fileChooser.getSelectedFile() != null) {
+            fileName = fileChooser.getCurrentDirectory() + File.separator + fileChooser.getSelectedFile();
             puzzleFile = new File(fileName);
         } else {
             // The attempt to prompt a puzzle ended gracefully (cancel)
@@ -538,25 +544,33 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             }
         }
 
-        if (fileDialog == null) {
-            fileDialog = new FileDialog(this.frame);
+        if (fileChooser == null) {
+//            fileChooser = new JFileChooser(this.frame);
+            fileChooser = new JFileChooser();
+            fileChooser.showOpenDialog(this);
+            fileChooser.setVisible(true);
         }
 
-        fileDialog.setMode(FileDialog.SAVE);
-        fileDialog.setTitle("Save Proof");
+//        fileChooser.setMode(JFileChooser.SAVE);
+        fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
+//        fileChooser.setTitle("Save Proof");
+        fileChooser.setDialogTitle("Save Proof");
         String curFileName = GameBoardFacade.getInstance().getCurFileName();
         if (curFileName == null) {
-            fileDialog.setDirectory(
-                    LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY));
+//            fileChooser.setDirectory(
+            fileChooser.setCurrentDirectory(
+                    Path.of(LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY)).toFile());
         } else {
             File curFile = new File(curFileName);
-            fileDialog.setDirectory(curFile.getParent());
+//            fileChooser.setDirectory(curFile.getParent());
+            fileChooser.setCurrentDirectory(curFile.getParentFile());
         }
-        fileDialog.setVisible(true);
+        fileChooser.showOpenDialog(this);
+        fileChooser.setVisible(true);
 
         String fileName = null;
-        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
-            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
+        if (fileChooser.getCurrentDirectory() != null && fileChooser.getSelectedFile() != null) {
+            fileName = fileChooser.getCurrentDirectory() + File.separator + fileChooser.getSelectedFile();
         }
 
         if (fileName != null) {

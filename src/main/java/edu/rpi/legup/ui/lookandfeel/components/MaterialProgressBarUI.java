@@ -1,7 +1,8 @@
 package edu.rpi.legup.ui.lookandfeel.components;
 
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialBorders;
-import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
+//import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
+import edu.rpi.legup.ui.color.ColorPreferences.UIColor;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialDrawingUtils;
 import java.awt.Graphics;
 import javax.swing.JComponent;
@@ -24,8 +25,8 @@ public class MaterialProgressBarUI extends BasicProgressBarUI {
 
         JProgressBar progressBar = (JProgressBar) c;
         progressBar.setBorder(MaterialBorders.LIGHT_LINE_BORDER);
-        progressBar.setBackground(MaterialColors.GRAY_200);
-        progressBar.setForeground(MaterialColors.LIGHT_BLUE_400);
+        progressBar.setBackground(UIColor.PROGRESS_BAR_BACKGROUND.get());
+        progressBar.setForeground(UIColor.PROGRESS_BAR_FOREGROUND.get());
     }
 
     @Override
