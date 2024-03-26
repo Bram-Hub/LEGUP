@@ -23,7 +23,7 @@ public class OneOrZeroCaseRule extends CaseRule {
 
     @Override
     public String checkRuleRaw(TreeTransition transition) {
-        List<TreeTransition> childTransitions = transition.getParents().get(3).getChildren();
+        List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
         if (childTransitions.size() != 2) {
             return super.getInvalidUseOfRuleMessage() + ": This case rule must have 2 children.";
         }
