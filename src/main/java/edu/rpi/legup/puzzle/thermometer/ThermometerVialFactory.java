@@ -35,6 +35,7 @@ public class ThermometerVialFactory extends ElementFactory{
 
 
         if(verifyVial(headX, headY, tipX, tipY, board)) {
+            System.out.println("Vial successfully created");
             board.addVial(new ThermometerVial(headX, headY, tipX, tipY, board));
         }
         else {
