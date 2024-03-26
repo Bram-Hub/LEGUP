@@ -33,14 +33,13 @@ public class SurroundPairDirectRule extends DirectRule {
         }
 
             BinaryBoard modified = origBoard.copy();
-            modified.getPuzzleElement(puzzleElement).setData(BinaryType.WHITE.toValue());
-            if (contraRule.checkContradictionAt(modified, puzzleElement) != null) {
-                return "Black cells must be placed in a region of black cells!";
-            }
+            // modified.getPuzzleElement(puzzleElement).setData(BinaryType.WHITE.toValue());
+            // if (contraRule.checkContradictionAt(modified, puzzleElement) != null) {
+            //     return "Black cells must be placed in a region of black cells!";
+            // }
             return null;
         
-        return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
-    
+        
     }
 
     @Override
