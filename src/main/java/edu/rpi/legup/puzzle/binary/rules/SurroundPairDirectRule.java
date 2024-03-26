@@ -21,7 +21,26 @@ public class SurroundPairDirectRule extends DirectRule {
     
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        return null;
+        BinaryBoard board = (BinaryBoard) transition.getBoard();
+        BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
+        ContradictionRule contraRule = new ThreeAdjacentContradictionRule();
+
+
+        BinaryCell cell = (BinaryCell) board.getPuzzleElement(puzzleElement);   
+
+        if (cell.getType() == BinaryType.UNKNOWN) {
+            return "Only ONE or ZERO cells are allowed for this rule!";
+        }
+
+            BinaryBoard modified = origBoard.copy();
+            modified.getPuzzleElement(puzzleElement).setData(BinaryType.WHITE.toValue());
+            if (contraRule.checkContradictionAt(modified, puzzleElement) != null) {
+                return "Black cells must be placed in a region of black cells!";
+            }
+            return null;
+        
+        return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
+    
     }
 
     @Override
