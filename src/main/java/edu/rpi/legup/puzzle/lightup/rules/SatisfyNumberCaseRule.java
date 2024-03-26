@@ -9,6 +9,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.lightup.LightUpBoard;
 import edu.rpi.legup.puzzle.lightup.LightUpCell;
 import edu.rpi.legup.puzzle.lightup.LightUpCellType;
+import edu.rpi.legup.puzzle.lightup.rules.FinishWithBulbsDirectRule;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -188,8 +189,29 @@ public class SatisfyNumberCaseRule extends CaseRule {
         for (LightUpCell c : spots) {
             ArrayList<Board> cases = getCases(parent.getBoard(), c);
 
-            // We will allow case rules to have only one option
-            if (cases.size() == childTransitions.size() && cases.size() >= 1) {
+            // Note: we will allow case rules to have only one option
+
+            // Some error checking to make sure that weird stuff doesn't happen
+            // if this case rule is incorrectly used to justify changes on the
+            // puzzle board
+            if (cases.size() == childTransitions.size() && cases.size() == 1) {
+                TreeTransition childTransition = childTransitions.get(0);
+
+                // If there is only 1 case, then this case rule should function no
+                // differently than the Finish With Bulbs Direct Rule
+                FinishWithBulbsDirectRule finishWithBulbs = new FinishWithBulbsDirectRule();
+                childTransition.setRule(finishWithBulbs);
+                boolean isCorrect = childTransition.isCorrect();
+
+                // Changes the transition back to this case rule
+                childTransition.setRule(this);
+
+                if (isCorrect) {
+                    return null;
+                }
+                return super.getInvalidUseOfRuleMessage();
+            }
+            else if (cases.size() == childTransitions.size() && cases.size() > 1) {
                 boolean foundSpot = true;
                 for (TreeTransition childTrans : childTransitions) {
                     LightUpBoard actCase = (LightUpBoard) childTrans.getBoard();
@@ -206,7 +228,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
                                     LightUpCell posCell = (LightUpCell) posEle;
                                     if (actCell.getType() == posCell.getType()
                                             && actCell.getLocation()
-                                                    .equals(posCell.getLocation())) {
+                                            .equals(posCell.getLocation())) {
                                         foundCell = true;
                                         break;
                                     }
