@@ -48,7 +48,6 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
             oldRule.put(transition, transition.getRule());
 
             transition.setRule(caseRule);
-            transition.getBoard().setModifiable(false);
 
             TreeNode childNode = transition.getChildNode();
             if (childNode == null) {
