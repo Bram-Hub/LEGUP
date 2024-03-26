@@ -20,7 +20,7 @@ public class RestEmptyDirectRule extends DirectRule {
                 "THERM-BASC-0001",
                 "Rest is Empty",
                 "All tiles following a blocked tile in a vial must be blocked",
-                "edu/rpi/legup/images/Thermometer/RestEmpty.png");
+                "edu/rpi/legup/images/thermometer/RestIsEmpty.png");
     }
 
     /**

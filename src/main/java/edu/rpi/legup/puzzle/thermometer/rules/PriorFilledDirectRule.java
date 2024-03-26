@@ -19,7 +19,7 @@ public class PriorFilledDirectRule extends DirectRule {
                 "THERM-BASC-0002",
                 "Prior is Filled",
                 "All tiles proceeding a filled tile in a vial must be filled",
-                "edu/rpi/legup/images/Thermometer/PriorIsFilled.png");
+                "edu/rpi/legup/images/thermometer/PriorIsFilled.png");
     }
 
     /**

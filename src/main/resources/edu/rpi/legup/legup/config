@@ -39,5 +39,9 @@
 	        qualifiedClassName="edu.rpi.legup.puzzle.skyscrapers.Skyscrapers"
 	        fileType=".xml"
 	        fileCreationDisabled="false"/>
+	    <puzzle name="Thermometer"
+	        qualifiedClassName="edu.rpi.legup.puzzle.thermometer.Thermometer"
+	        fileType=".xml"
+	        fileCreationDisabled="false"/>
     </puzzles>
 </Legup>
