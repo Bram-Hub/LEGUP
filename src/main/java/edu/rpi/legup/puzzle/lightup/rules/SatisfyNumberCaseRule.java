@@ -205,9 +205,10 @@ public class SatisfyNumberCaseRule extends CaseRule {
 
                 // Changes the transition back to this case rule
                 childTransition.setRule(this);
-                
-                if (isCorrect)
+
+                if (isCorrect) {
                     return null;
+                }
                 return super.getInvalidUseOfRuleMessage();
             }
             else if (cases.size() == childTransitions.size() && cases.size() > 1) {
