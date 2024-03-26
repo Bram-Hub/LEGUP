@@ -1,10 +1,9 @@
 package puzzles.shorttruthtable;
 
-import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableStatement;
-//import org.junit.Test;
-//import static org.junit.Assert.assertEquals;
+// import org.junit.Test;
+// import static org.junit.Assert.assertEquals;
 
-//class ShortTruthTableStatementTest{
+// class ShortTruthTableStatementTest{
 
 //    @Test
 //    public void testCreateStatement(){
@@ -13,4 +12,4 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableStatement;
 //        assertEquals(statement.getLength(), 3);
 //    }
 
-//}
+// }

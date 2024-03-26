@@ -1,7 +1,6 @@
 package edu.rpi.legup.model.gameboard;
 
 import edu.rpi.legup.model.rules.CaseRule;
-
 import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.util.Set;

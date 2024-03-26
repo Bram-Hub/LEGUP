@@ -9,19 +9,18 @@ import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 import edu.rpi.legup.puzzle.treetent.rules.TentOrGrassCaseRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.*;
+import java.util.ArrayList;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.awt.*;
-import java.util.ArrayList;
-
 public class TentOrGrassCaseRuleTest {
     private static final TentOrGrassCaseRule RULE = new TentOrGrassCaseRule();
     private static TreeTent treetent;
- 
+
     @BeforeClass
     public static void setUp() {
         MockGameBoardFacade.getInstance();
@@ -29,20 +28,17 @@ public class TentOrGrassCaseRuleTest {
     }
 
     /**
-     * empty 3x3 TreeTent puzzle
-     * Tests TentOrGrassCaseRule on UNKOWN tile
-     * at (0,0)
-     * 
-     * checks 2 cases are created
-     * checks first case is TENT tile
-     * checks second case is GRASS tile
+     * empty 3x3 TreeTent puzzle Tests TentOrGrassCaseRule on UNKOWN tile at (0,0)
+     *
+     * <p>checks 2 cases are created checks first case is TENT tile checks second case is GRASS tile
      * checks other cells have not been modified
-     * 
+     *
      * @throws InvalidFileFormatException
      */
     @Test
     public void TentOrTreeTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/TentOrGrassCaseRule/TestPuzzle", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/TentOrGrassCaseRule/TestPuzzle", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -66,9 +62,9 @@ public class TentOrGrassCaseRuleTest {
         TreeTentCell original_cell;
         TreeTentCell case_cell;
 
-        for (int w =0; w < board.getWidth(); w++) {
+        for (int w = 0; w < board.getWidth(); w++) {
             for (int h = 0; h < board.getHeight(); h++) {
-                if (w == 0 && h ==0) {
+                if (w == 0 && h == 0) {
                     continue;
                 }
                 original_cell = board.getCell(w, h);

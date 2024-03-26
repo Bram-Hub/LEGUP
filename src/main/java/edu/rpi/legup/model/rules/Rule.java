@@ -1,17 +1,12 @@
 package edu.rpi.legup.model.rules;
 
+import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeTransition;
-
-import edu.rpi.legup.app.LegupPreferences;
-
-import javax.swing.ImageIcon;
-import java.awt.image.BufferedImage;
-import java.awt.Image;
 import java.awt.Graphics2D;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 
 @RegisterRule
 public abstract class Rule {
@@ -27,10 +22,10 @@ public abstract class Rule {
     /**
      * Rule Constructor creates a new rule
      *
-     * @param ruleID      ID of the rule
-     * @param ruleName    name of the rule
+     * @param ruleID ID of the rule
+     * @param ruleName name of the rule
      * @param description description of the rule
-     * @param imageName   file name of the image
+     * @param imageName file name of the image
      */
     public Rule(String ruleID, String ruleName, String description, String imageName) {
         this.ruleID = ruleID;
@@ -50,8 +45,8 @@ public abstract class Rule {
     public abstract String checkRule(TreeTransition transition);
 
     /**
-     * Checks whether the transition logically follows from the parent node using this rule.
-     * This method is the one that should overridden in child classes
+     * Checks whether the transition logically follows from the parent node using this rule. This
+     * method is the one that should overridden in child classes
      *
      * @param transition transition to check
      * @return null if the child node logically follow from the parent node, otherwise error message
@@ -59,43 +54,44 @@ public abstract class Rule {
     protected abstract String checkRuleRaw(TreeTransition transition);
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
     public abstract String checkRuleAt(TreeTransition transition, PuzzleElement puzzleElement);
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
-     * This method is the one that should overridden in child classes
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule This method is the one that should overridden in child
+     * classes
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
-    protected abstract String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement);
+    protected abstract String checkRuleRawAt(
+            TreeTransition transition, PuzzleElement puzzleElement);
 
-    /**
-     * Loads the image file
-     */
+    /** Loads the image file */
     public void loadImage() {
         if (imageName != null) {
             String name = imageName;
             LegupPreferences prefs = LegupPreferences.getInstance();
-            if (name.contains("shorttruthtable") && prefs.getUserPref(LegupPreferences.COLOR_BLIND).equals("true")) {
+            if (name.contains("shorttruthtable")
+                    && prefs.getUserPref(LegupPreferences.COLOR_BLIND).equals("true")) {
                 name = name.replace("ruleimages", "ruleimages_cb");
             }
             this.image = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(name));
-            //Resize images to be 100px wide
+            // Resize images to be 100px wide
             Image image = this.image.getImage();
             if (this.image.getIconWidth() < 120) return;
-            int height = (int) (100 * ((double) this.image.getIconHeight() / this.image.getIconWidth()));
+            int height =
+                    (int) (100 * ((double) this.image.getIconHeight() / this.image.getIconWidth()));
             if (height == 0) {
                 System.out.println("height is 0 error");
                 System.out.println("height: " + this.image.getIconHeight());

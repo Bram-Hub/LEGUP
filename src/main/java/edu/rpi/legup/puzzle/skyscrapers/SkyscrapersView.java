@@ -6,14 +6,13 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
+import java.awt.*;
+import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
-import java.util.ArrayList;
-
 public class SkyscrapersView extends GridBoardView {
-    private final static Logger LOGGER = LogManager.getLogger(SkyscrapersView.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(SkyscrapersView.class.getName());
 
     private ArrayList<SkyscrapersClueView> northClues;
     private ArrayList<SkyscrapersClueView> eastClues;
@@ -34,7 +33,8 @@ public class SkyscrapersView extends GridBoardView {
             SkyscrapersElementView elementView = new SkyscrapersElementView(cell);
             elementView.setIndex(cell.getIndex());
             elementView.setSize(elementSize);
-            elementView.setLocation(new Point((loc.x + 1) * elementSize.width, (loc.y + 1) * elementSize.height));
+            elementView.setLocation(
+                    new Point((loc.x + 1) * elementSize.width, (loc.y + 1) * elementSize.height));
             elementViews.add(elementView);
         }
 
@@ -44,7 +44,10 @@ public class SkyscrapersView extends GridBoardView {
             row.setSize(elementSize);
 
             SkyscrapersClueView clue = new SkyscrapersClueView(board.getEastClues().get(i));
-            clue.setLocation(new Point((gridSize.height + 1) * elementSize.height, (i + 1) * elementSize.height));
+            clue.setLocation(
+                    new Point(
+                            (gridSize.height + 1) * elementSize.height,
+                            (i + 1) * elementSize.height));
             clue.setSize(elementSize);
 
             westClues.add(row);
@@ -57,7 +60,9 @@ public class SkyscrapersView extends GridBoardView {
             col.setSize(elementSize);
 
             SkyscrapersClueView clue = new SkyscrapersClueView(board.getSouthClues().get(i));
-            clue.setLocation(new Point((i + 1) * elementSize.width, (gridSize.width + 1) * elementSize.width));
+            clue.setLocation(
+                    new Point(
+                            (i + 1) * elementSize.width, (gridSize.width + 1) * elementSize.width));
             clue.setSize(elementSize);
 
             northClues.add(col);
@@ -66,15 +71,18 @@ public class SkyscrapersView extends GridBoardView {
     }
 
     /**
-     * Gets the ElementView from the location specified or
-     * null if one does not exists at that location
+     * Gets the ElementView from the location specified or null if one does not exists at that
+     * location
      *
      * @param point location on the viewport
      * @return ElementView at the specified location
      */
     @Override
     public ElementView getElement(Point point) {
-        Point scaledPoint = new Point((int) Math.round(point.x / getScale()), (int) Math.round(point.y / getScale()));
+        Point scaledPoint =
+                new Point(
+                        (int) Math.round(point.x / getScale()),
+                        (int) Math.round(point.y / getScale()));
         for (ElementView element : elementViews) {
             if (element.isWithinBounds(scaledPoint)) {
                 return element;
@@ -131,10 +139,10 @@ public class SkyscrapersView extends GridBoardView {
 
             if (board instanceof CaseBoard) {
                 setCasePickable();
-            }
-            else {
+            } else {
                 for (ElementView elementView : elementViews) {
-                    elementView.setPuzzleElement(board.getPuzzleElement(elementView.getPuzzleElement()));
+                    elementView.setPuzzleElement(
+                            board.getPuzzleElement(elementView.getPuzzleElement()));
                     elementView.setShowCasePicker(false);
                 }
                 for (SkyscrapersClueView clueView : northClues) {
@@ -155,7 +163,8 @@ public class SkyscrapersView extends GridBoardView {
         Board baseBoard = caseBoard.getBaseBoard();
 
         for (ElementView elementView : elementViews) {
-            PuzzleElement puzzleElement = baseBoard.getPuzzleElement(elementView.getPuzzleElement());
+            PuzzleElement puzzleElement =
+                    baseBoard.getPuzzleElement(elementView.getPuzzleElement());
             elementView.setPuzzleElement(puzzleElement);
             elementView.setShowCasePicker(true);
             elementView.setCaseRulePickable(caseBoard.isPickable(puzzleElement, null));

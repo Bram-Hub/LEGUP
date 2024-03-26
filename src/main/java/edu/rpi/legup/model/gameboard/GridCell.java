@@ -8,7 +8,7 @@ public class GridCell<T> extends PuzzleElement<T> {
     /**
      * GridCell Constructor creates a grid cell at the specified location given as a {@link Point}
      *
-     * @param value    data value that represents the grid cell
+     * @param value data value that represents the grid cell
      * @param location location on the board
      */
     public GridCell(T value, Point location) {
@@ -20,8 +20,8 @@ public class GridCell<T> extends PuzzleElement<T> {
      * GridCell Constructor creates a grid cell at the specified location given as x,y pair
      *
      * @param value data value that represents the grid cell
-     * @param x     x location
-     * @param y     y location
+     * @param x x location
+     * @param y y location
      */
     public GridCell(T value, int x, int y) {
         this(value, new Point(x, y));
@@ -59,4 +59,3 @@ public class GridCell<T> extends PuzzleElement<T> {
         return copy;
     }
 }
-

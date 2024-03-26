@@ -1,21 +1,20 @@
 package edu.rpi.legup.ui;
 
+import static java.awt.BorderLayout.*;
+
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Objects;
-
-import static java.awt.BorderLayout.*;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 
 public class DynamicView extends JPanel {
 
@@ -42,16 +41,14 @@ public class DynamicView extends JPanel {
     /**
      * Sets up the zoomer for the given DynamicViewType
      *
-     * @param type The DynamicView that we are setting up the zoomer for (so
-     *             the zoomer for the board view or the zoomer for the proof
-     *             tree view)
+     * @param type The DynamicView that we are setting up the zoomer for (so the zoomer for the
+     *     board view or the zoomer for the proof tree view)
      * @return A JPanel containing the zoomer
      */
     private JPanel setUpZoomer(DynamicViewType type) {
         if (type == DynamicViewType.BOARD) {
             return setUpBoardZoomer();
-        }
-        else {
+        } else {
             if (type == DynamicViewType.PROOF_TREE) {
                 return setUpProofTreeZoomer();
             }
@@ -79,17 +76,20 @@ public class DynamicView extends JPanel {
      */
     private JPanel setUpProofTreeZoomer() {
         final String label = "Resize Proof";
-        ActionListener listener = (ActionListener) -> GameBoardFacade.getInstance().getLegupUI().getProofEditor().fitTreeViewToScreen();
+        ActionListener listener =
+                (ActionListener) ->
+                        GameBoardFacade.getInstance()
+                                .getLegupUI()
+                                .getProofEditor()
+                                .fitTreeViewToScreen();
         return this.setUpZoomerHelper(label, listener);
     }
 
     /**
      * Creates the zoomer
      *
-     * @param label    A string containing the label to be displayed
-     *                 on the fit to screen button
-     * @param listener A listener that determines what the resize
-     *                 button will do
+     * @param label A string containing the label to be displayed on the fit to screen button
+     * @param listener A listener that determines what the resize button will do
      * @return A JPanel containing the zoomer
      */
     private JPanel setUpZoomerHelper(final String label, ActionListener listener) {
@@ -111,39 +111,51 @@ public class DynamicView extends JPanel {
 
             JSlider zoomSlider = new JSlider(25, 400, 100);
 
-            JButton plus = new JButton(new ImageIcon(ImageIO.read(
-                    Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(
-                            "edu/rpi/legup/imgs/add.png")))));
+            JButton plus =
+                    new JButton(
+                            new ImageIcon(
+                                    ImageIO.read(
+                                            Objects.requireNonNull(
+                                                    ClassLoader.getSystemClassLoader()
+                                                            .getResource(
+                                                                    "edu/rpi/legup/imgs/add.png")))));
             plus.setFocusPainted(false);
             plus.setFont(MaterialFonts.getRegularFont(10f));
             plus.setPreferredSize(new Dimension(20, 20));
-            plus.addActionListener((ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() + 25));
+            plus.addActionListener(
+                    (ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() + 25));
 
-
-            JButton minus = new JButton(new ImageIcon(ImageIO.read(
-                    Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(
-                            "edu/rpi/legup/imgs/remove.png")))));
+            JButton minus =
+                    new JButton(
+                            new ImageIcon(
+                                    ImageIO.read(
+                                            Objects.requireNonNull(
+                                                    ClassLoader.getSystemClassLoader()
+                                                            .getResource(
+                                                                    "edu/rpi/legup/imgs/remove.png")))));
             minus.setFocusPainted(false);
             minus.setPreferredSize(new Dimension(20, 20));
             minus.setFont(MaterialFonts.getRegularFont(10f));
-            minus.addActionListener((ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() - 25));
+            minus.addActionListener(
+                    (ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() - 25));
             this.scrollView.setWheelScrollingEnabled(true);
 
             zoomSlider.setPreferredSize(new Dimension(160, 30));
 
-            scrollView.addComponentListener(new ComponentAdapter() {
-                @Override
-                public void componentResized(ComponentEvent e) {
-                    zoomSlider.setValue(scrollView.getZoom());
-                    zoomLabel.setText(zoomSlider.getValue() + "%");
-                }
-            });
+            scrollView.addComponentListener(
+                    new ComponentAdapter() {
+                        @Override
+                        public void componentResized(ComponentEvent e) {
+                            zoomSlider.setValue(scrollView.getZoom());
+                            zoomLabel.setText(zoomSlider.getValue() + "%");
+                        }
+                    });
 
-            zoomSlider.addChangeListener((ChangeEvent e) -> {
-                scrollView.zoomTo(zoomSlider.getValue() / 100.0);
-                zoomLabel.setText(zoomSlider.getValue() + "%");
-            });
-
+            zoomSlider.addChangeListener(
+                    (ChangeEvent e) -> {
+                        scrollView.zoomTo(zoomSlider.getValue() / 100.0);
+                        zoomLabel.setText(zoomSlider.getValue() + "%");
+                    });
 
             zoomSlider.setMajorTickSpacing(100);
             zoomSlider.setMinorTickSpacing(25);
@@ -167,8 +179,7 @@ public class DynamicView extends JPanel {
             zoomWrapper.setLayout(new BorderLayout());
             zoomWrapper.add(status, WEST);
             zoomWrapper.add(zoomer, EAST);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return zoomWrapper;

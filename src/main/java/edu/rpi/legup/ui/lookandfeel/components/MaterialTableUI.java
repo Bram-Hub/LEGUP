@@ -1,13 +1,12 @@
 package edu.rpi.legup.ui.lookandfeel.components;
 
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialDrawingUtils;
-
+import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicTableUI;
-import java.awt.Graphics;
 
 public class MaterialTableUI extends BasicTableUI {
 
@@ -32,8 +31,7 @@ public class MaterialTableUI extends BasicTableUI {
         int rowHeight = UIManager.getInt("Table.rowHeight");
         if (rowHeight > 0) {
             table.setRowHeight(rowHeight);
-        }
-        else {
+        } else {
             table.setRowHeight(table.getRowHeight() + 25);
         }
 

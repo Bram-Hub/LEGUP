@@ -8,13 +8,12 @@ import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 import edu.rpi.legup.puzzle.treetent.rules.LastCampingSpotDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.*;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.awt.*;
 
 public class LastCampingSpotDirectRuleTest {
 
@@ -29,12 +28,13 @@ public class LastCampingSpotDirectRuleTest {
 
     /**
      * @throws InvalidFileFormatException
-     *
-     * Checks if a test works for an empty square above a tree which is surrounded on all other sides.
+     *     <p>Checks if a test works for an empty square above a tree which is surrounded on all
+     *     other sides.
      */
     @Test
     public void EmptyFieldTest_Up() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/LastCampingSpotDirectRule/LastCampingSpotUp", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/LastCampingSpotDirectRule/LastCampingSpotUp", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -53,8 +53,7 @@ public class LastCampingSpotDirectRuleTest {
                 Point point = new Point(k, i);
                 if (point.equals(cell1.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
@@ -63,12 +62,13 @@ public class LastCampingSpotDirectRuleTest {
 
     /**
      * @throws InvalidFileFormatException
-     *
-     * Checks if a test works for an empty square below a tree which is surrounded on all other sides.
+     *     <p>Checks if a test works for an empty square below a tree which is surrounded on all
+     *     other sides.
      */
     @Test
     public void EmptyFieldTest_Down() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/LastCampingSpotDirectRule/LastCampingSpotDown", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/LastCampingSpotDirectRule/LastCampingSpotDown", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -87,8 +87,7 @@ public class LastCampingSpotDirectRuleTest {
                 Point point = new Point(k, i);
                 if (point.equals(cell1.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
@@ -97,12 +96,13 @@ public class LastCampingSpotDirectRuleTest {
 
     /**
      * @throws InvalidFileFormatException
-     *
-     * Checks if a test works for an empty square to the left of a tree which is surrounded on all other sides.
+     *     <p>Checks if a test works for an empty square to the left of a tree which is surrounded
+     *     on all other sides.
      */
     @Test
     public void EmptyFieldTest_Left() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/LastCampingSpotDirectRule/LastCampingSpotLeft", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/LastCampingSpotDirectRule/LastCampingSpotLeft", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -121,8 +121,7 @@ public class LastCampingSpotDirectRuleTest {
                 Point point = new Point(k, i);
                 if (point.equals(cell1.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
@@ -131,12 +130,13 @@ public class LastCampingSpotDirectRuleTest {
 
     /**
      * @throws InvalidFileFormatException
-     *
-     * Checks if a test works for an empty square to the right of a tree which is surrounded on all other sides.
+     *     <p>Checks if a test works for an empty square to the right of a tree which is surrounded
+     *     on all other sides.
      */
     @Test
     public void EmptyFieldTest_Right() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/LastCampingSpotDirectRule/LastCampingSpotRight", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/LastCampingSpotDirectRule/LastCampingSpotRight", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -155,14 +155,10 @@ public class LastCampingSpotDirectRuleTest {
                 Point point = new Point(k, i);
                 if (point.equals(cell1.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
         }
     }
 }
-
-
-

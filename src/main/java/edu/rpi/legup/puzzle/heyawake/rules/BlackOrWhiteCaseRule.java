@@ -5,21 +5,21 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
-
 import java.util.List;
 
 public class BlackOrWhiteCaseRule extends CaseRule {
 
     public BlackOrWhiteCaseRule() {
-        super("HEYA-CASE-0001",
+        super(
+                "HEYA-CASE-0001",
                 "Black or White",
                 "",
                 "edu/rpi/legup/images/heyawake/cases/BlackOrWhite.png");
     }
 
     /**
-     * Checks whether the {@link TreeTransition} logically follows from the parent node using this rule. This method is
-     * the one that should overridden in child classes.
+     * Checks whether the {@link TreeTransition} logically follows from the parent node using this
+     * rule. This method is the one that should overridden in child classes.
      *
      * @param transition transition to check
      * @return null if the child node logically follow from the parent node, otherwise error message
@@ -30,13 +30,14 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node at the specific puzzleElement index using
-     * this rule. This method is the one that should overridden in child classes.
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule. This method is the one that should overridden in child
+     * classes.
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
@@ -44,7 +45,8 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     }
 
     /**
-     * Gets the case board that indicates where this case rule can be applied on the given {@link Board}.
+     * Gets the case board that indicates where this case rule can be applied on the given {@link
+     * Board}.
      *
      * @param board board to find locations where this case rule can be applied
      * @return a case board
@@ -55,9 +57,10 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     }
 
     /**
-     * Gets the possible cases for this {@link Board} at a specific {@link PuzzleElement} based on this case rule.
+     * Gets the possible cases for this {@link Board} at a specific {@link PuzzleElement} based on
+     * this case rule.
      *
-     * @param board         the current board state
+     * @param board the current board state
      * @param puzzleElement equivalent puzzleElement
      * @return a list of elements the specified could be
      */

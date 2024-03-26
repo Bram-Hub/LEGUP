@@ -8,25 +8,26 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.lightup.LightUpBoard;
 import edu.rpi.legup.puzzle.lightup.LightUpCell;
 import edu.rpi.legup.puzzle.lightup.LightUpCellType;
-
 import java.awt.*;
 
 public class MustLightDirectRule extends DirectRule {
 
     public MustLightDirectRule() {
-        super("LTUP-BASC-0006", "Must Light",
+        super(
+                "LTUP-BASC-0006",
+                "Must Light",
                 "A cell must be a bulb if it is the only cell to be able to light another.",
                 "edu/rpi/legup/images/lightup/rules/MustLight.png");
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement index of the puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
@@ -34,7 +35,9 @@ public class MustLightDirectRule extends DirectRule {
         LightUpBoard finalBoard = (LightUpBoard) transition.getBoard();
         LightUpCell parentCell = (LightUpCell) parentBoard.getPuzzleElement(puzzleElement);
         LightUpCell finalCell = (LightUpCell) finalBoard.getPuzzleElement(puzzleElement);
-        if (!(parentCell.getType() == LightUpCellType.UNKNOWN && !parentCell.isLite() && finalCell.getType() == LightUpCellType.BULB)) {
+        if (!(parentCell.getType() == LightUpCellType.UNKNOWN
+                && !parentCell.isLite()
+                && finalCell.getType() == LightUpCellType.BULB)) {
             return super.getInvalidUseOfRuleMessage() + ": Modified cells must be bulbs";
         }
 
@@ -45,8 +48,7 @@ public class MustLightDirectRule extends DirectRule {
 
         if (isForced) {
             return null;
-        }
-        else {
+        } else {
             return super.getInvalidUseOfRuleMessage() + ": This cell can be lit by another cell";
         }
     }
@@ -56,59 +58,61 @@ public class MustLightDirectRule extends DirectRule {
         LightUpBoard modifiedBoard = board.copy();
         LightUpCell modifiedCell = modifiedBoard.getCell(loc.x, loc.y);
         modifiedCell.setData(LightUpCellType.EMPTY.value);
-        //Check if this cell itself (the one with the bulb) has no other lighting option
-        if ((modifiedCell.getType() == LightUpCellType.EMPTY || modifiedCell.getType() == LightUpCellType.UNKNOWN) &&
-                !modifiedCell.isLite() && cannotLite.checkContradictionAt(modifiedBoard, modifiedCell) == null) {
+        // Check if this cell itself (the one with the bulb) has no other lighting option
+        if ((modifiedCell.getType() == LightUpCellType.EMPTY
+                        || modifiedCell.getType() == LightUpCellType.UNKNOWN)
+                && !modifiedCell.isLite()
+                && cannotLite.checkContradictionAt(modifiedBoard, modifiedCell) == null) {
             return true;
         }
-        //Look right
+        // Look right
         for (int i = loc.x + 1; i < modifiedBoard.getWidth(); i++) {
             LightUpCell c = modifiedBoard.getCell(i, loc.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            }
-            else {
-                if (c.getType() == LightUpCellType.EMPTY &&
-                        !c.isLite() && cannotLite.checkContradictionAt(modifiedBoard, c) == null) {
+            } else {
+                if (c.getType() == LightUpCellType.EMPTY
+                        && !c.isLite()
+                        && cannotLite.checkContradictionAt(modifiedBoard, c) == null) {
                     return true;
                 }
             }
         }
-        //Look left
+        // Look left
         for (int i = loc.x - 1; i >= 0; i--) {
             LightUpCell c = modifiedBoard.getCell(i, loc.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            }
-            else {
-                if (c.getType() == LightUpCellType.EMPTY &&
-                        !c.isLite() && cannotLite.checkContradictionAt(modifiedBoard, c) == null) {
+            } else {
+                if (c.getType() == LightUpCellType.EMPTY
+                        && !c.isLite()
+                        && cannotLite.checkContradictionAt(modifiedBoard, c) == null) {
                     return true;
                 }
             }
         }
-        //Look down
+        // Look down
         for (int i = loc.y + 1; i < modifiedBoard.getHeight(); i++) {
             LightUpCell c = modifiedBoard.getCell(loc.x, i);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            }
-            else {
-                if (c.getType() == LightUpCellType.EMPTY &&
-                        !c.isLite() && cannotLite.checkContradictionAt(modifiedBoard, c) == null) {
+            } else {
+                if (c.getType() == LightUpCellType.EMPTY
+                        && !c.isLite()
+                        && cannotLite.checkContradictionAt(modifiedBoard, c) == null) {
                     return true;
                 }
             }
         }
-        //Look up
+        // Look up
         for (int i = loc.y - 1; i >= 0; i--) {
             LightUpCell c = modifiedBoard.getCell(loc.x, i);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            }
-            else {
-                if (c.getType() == LightUpCellType.EMPTY &&
-                        !c.isLite() && cannotLite.checkContradictionAt(modifiedBoard, c) == null) {
+            } else {
+                if (c.getType() == LightUpCellType.EMPTY
+                        && !c.isLite()
+                        && cannotLite.checkContradictionAt(modifiedBoard, c) == null) {
                     return true;
                 }
             }
@@ -117,7 +121,8 @@ public class MustLightDirectRule extends DirectRule {
     }
 
     /**
-     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
      *
      * @param node tree node used to create default transition board
      * @return default board or null if this rule cannot be applied to this tree node
@@ -141,8 +146,7 @@ public class MustLightDirectRule extends DirectRule {
         }
         if (lightUpBoard.getModifiedData().isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return lightUpBoard;
         }
     }
