@@ -70,8 +70,9 @@ public class LastNumberForCellDirectRule extends DirectRule {
                 return super.getInvalidUseOfRuleMessage() + ": The number at the index is forced but not correct";
             }
         }
-        if(numbers.toArray(new Integer[1])[0] == puzzleElement.getData())
+        if(numbers.toArray(new Integer[1])[0] == puzzleElement.getData()) {
             return null;
+        }
         return super.getInvalidUseOfRuleMessage() + ": The number at the index is forced but not correct";
     }
 

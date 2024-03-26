@@ -44,26 +44,32 @@ public class RepeatedNumberContradictionRule extends ContradictionRule {
 
             //Check for non zero duplicates to trigger contradiction
             for (SudokuCell c : region) {
-                if (c.getData() == 0)
+                if (c.getData() == 0) {
                     continue;
-                if (regionDup.contains(c.getData()))
+                }
+                if (regionDup.contains(c.getData())) {
                     return null;
+                }
                 regionDup.add(c.getData());
             }
 
             for (SudokuCell c : row) {
-                if (c.getData() == 0)
+                if (c.getData() == 0) {
                     continue;
-                if (rowDup.contains(c.getData()))
+                }
+                if (rowDup.contains(c.getData())) {
                     return null;
+                }
                 rowDup.add(c.getData());
             }
 
             for (SudokuCell c : col) {
-                if (c.getData() == 0)
+                if (c.getData() == 0) {
                     continue;
-                if (colDup.contains(c.getData()))
+                }
+                if (colDup.contains(c.getData())) {
                     return null;
+                }
                 colDup.add(c.getData());
             }
         }

@@ -44,16 +44,19 @@ public class LastCellForNumberDirectRule extends DirectRule {
 
         //Check if new cell conflicts group
         for(SudokuCell c : region){
-            if(c.getData() == cell.getData())
+            if(c.getData() == cell.getData()) {
                 return super.getInvalidUseOfRuleMessage() + ": Cell is not forced at this index";
+            }
         }
         for(SudokuCell c : row){
-            if(c.getData() == cell.getData())
+            if(c.getData() == cell.getData()) {
                 return super.getInvalidUseOfRuleMessage() + ": Cell is not forced at this index";
+            }
         }
         for(SudokuCell c : col){
-            if(c.getData() == cell.getData())
+            if(c.getData() == cell.getData()) {
                 return super.getInvalidUseOfRuleMessage() + ": Cell is not forced at this index";
+            }
         }
 
         //<REGION TEST>//
@@ -61,10 +64,12 @@ public class LastCellForNumberDirectRule extends DirectRule {
         boolean restrained = true;
         for(SudokuCell c : region){
             //Test if its not a valid testing cell
-            if(c.getData() != 0)
+            if(c.getData() != 0) {
                 continue;
-            if(c.getLocation().y == cell.getLocation().y && c.getLocation().x == cell.getLocation().x)
+            }
+            if(c.getLocation().y == cell.getLocation().y && c.getLocation().x == cell.getLocation().x) {
                 continue;
+            }
             //Check if cell is eligible to hold number
             Set<SudokuCell> crow = initialBoard.getRow(c.getLocation().y);
             Set<SudokuCell> ccol = initialBoard.getCol(c.getLocation().x);
@@ -86,18 +91,21 @@ public class LastCellForNumberDirectRule extends DirectRule {
             }
         }
         //Output if success
-        if(restrained)
+        if(restrained) {
             return null;
+        }
 
         //<ROW TEST>//
         //Loop to see if the number is constrained to the cell
         restrained = true;
         for(SudokuCell c : row){
             //Test if its not a valid testing cell
-            if(c.getData() != 0)
+            if(c.getData() != 0) {
                 continue;
-            if(c.getLocation().y == cell.getLocation().y && c.getLocation().x == cell.getLocation().x)
+            }
+            if(c.getLocation().y == cell.getLocation().y && c.getLocation().x == cell.getLocation().x) {
                 continue;
+            }
             //Check if cell is eligible to hold number
             Set<SudokuCell> cregion = initialBoard.getRegion(c.getGroupIndex());
             Set<SudokuCell> ccol = initialBoard.getCol(c.getLocation().x);
@@ -119,18 +127,21 @@ public class LastCellForNumberDirectRule extends DirectRule {
             }
         }
         //Output if success
-        if(restrained)
+        if(restrained) {
             return null;
+        }
 
         //<ROW TEST>//
         //Loop to see if the number is constrained to the cell
         restrained = true;
         for(SudokuCell c : col){
             //Test if its not a valid testing cell
-            if(c.getData() != 0)
+            if(c.getData() != 0) {
                 continue;
-            if(c.getLocation().y == cell.getLocation().y && c.getLocation().x == cell.getLocation().x)
+            }
+            if(c.getLocation().y == cell.getLocation().y && c.getLocation().x == cell.getLocation().x) {
                 continue;
+            }
             //Check if cell is eligible to hold number
             Set<SudokuCell> cregion = initialBoard.getRegion(c.getGroupIndex());
             Set<SudokuCell> crow = initialBoard.getRow(c.getLocation().y);
@@ -152,8 +163,9 @@ public class LastCellForNumberDirectRule extends DirectRule {
             }
         }
         //Output if success
-        if(restrained)
+        if(restrained) {
             return null;
+        }
 
         //Output fail
         return super.getInvalidUseOfRuleMessage() + ": Cell is not forced at this index";

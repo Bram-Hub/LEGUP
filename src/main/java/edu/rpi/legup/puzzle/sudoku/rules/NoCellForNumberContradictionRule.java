@@ -29,12 +29,6 @@ public class NoCellForNumberContradictionRule extends ContradictionRule {
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
         SudokuBoard sudokuBoard = (SudokuBoard) board;
-
-        //Loop through every individual region
-        //Check if there is a number that cannot exist in region with current board
-
-
-
         SudokuCell cell = (SudokuCell) sudokuBoard.getPuzzleElement(puzzleElement);
         if (cell.getData() != 0) {
             return super.getNoContradictionMessage();
@@ -58,8 +52,9 @@ public class NoCellForNumberContradictionRule extends ContradictionRule {
             //Check if number can be in cell
             boolean canFit = false;
             for(SudokuCell c : region){
-                if(c.getData() != 0)
+                if(c.getData() != 0) {
                     continue;
+                }
 
                 //Get row and col groups
                 Set<SudokuCell> row = sudokuBoard.getRow(c.getLocation().y);
@@ -68,12 +63,14 @@ public class NoCellForNumberContradictionRule extends ContradictionRule {
                 //Check if it alr exists in row or col
                 boolean duplicate = false;
                 for(SudokuCell rc : row) {
-                    if(rc.getData() == i)
+                    if(rc.getData() == i) {
                         duplicate = true;
+                    }
                 }
                 for(SudokuCell cc : col) {
-                    if(cc.getData() == i)
+                    if(cc.getData() == i) {
                         duplicate = true;
+                    }
                 }
 
                 //If there is no duplicate it can exist in the region
@@ -83,8 +80,9 @@ public class NoCellForNumberContradictionRule extends ContradictionRule {
                 }
             }
             //If the number can't fit anywhere in region then contradiction
-            if(!canFit)
+            if(!canFit) {
                 return null;
+            }
         }
         return super.getNoContradictionMessage();
     }
