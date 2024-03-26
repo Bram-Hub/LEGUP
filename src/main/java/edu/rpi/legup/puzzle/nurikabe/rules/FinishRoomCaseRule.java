@@ -160,10 +160,6 @@ public class FinishRoomCaseRule extends CaseRule {
                         }
                 }
             }
-//            if(cases.size() > 5) {
-//                cases.clear();
-//                //possibly return null and have conditional message return
-//            }
         return cases;
     }
 
