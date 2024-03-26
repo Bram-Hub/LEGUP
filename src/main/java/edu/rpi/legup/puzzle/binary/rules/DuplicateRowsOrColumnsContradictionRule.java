@@ -35,8 +35,9 @@ public class DuplicateRowsOrColumnsContradictionRule extends ContradictionRule {
         for (int i = 0; i < size; i++) {
             if (i > cell.getLocation().y) {
                 ArrayList<BinaryType> currRow = binaryBoard.getRowTypes(i);
-                if (currRow.equals(row))
+                if (currRow.equals(row)){    
                    return null;
+                }
             }
         }
 //        BinaryCell[] rowArray = row.toArray(new BinaryCell[0]);
