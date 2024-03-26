@@ -21,43 +21,45 @@ public class ThermometerVial {
         //because cells have already been verified by time constructor is called
         //we can guarantee that only the x or only the y coordinates wont line up
         if(headY < tipY){
-            addCell(headX, headY, ThermometerType.HEAD, board);
-            for (int i = headY + 1; i < tipY - 1; i++) {
-                addCell(headX, i, ThermometerType.SHAFT, board);
+            addCell(headX, headY, ThermometerType.HEAD, 0, board);
+            for (int i = headY + 1; i < tipY; i++) {
+                addCell(headX, i, ThermometerType.SHAFT, 0, board);
             }
-            addCell(tipX, tipY, ThermometerType.TIP, board);
+            addCell(tipX, tipY, ThermometerType.TIP, 0, board);
         }
         else if (tipY < headY) {
-            addCell(headX, headY, ThermometerType.HEAD, board);
+            addCell(headX, headY, ThermometerType.HEAD, 180, board);
             for (int i = headY - 1; i > tipY; i--) {
-                addCell(headX, i, ThermometerType.SHAFT, board);
+                addCell(headX, i, ThermometerType.SHAFT, 180, board);
             }
-            addCell(tipX, tipY, ThermometerType.TIP, board);
+            addCell(tipX, tipY, ThermometerType.TIP, 180, board);
         }
         else if (headX < tipX){
-            addCell(headX, headY, ThermometerType.HEAD, board);
-            for (int i = headX + 1; i < tipX - 1; i++) {
-                addCell(i, headY, ThermometerType.SHAFT, board);
+            addCell(headX, headY, ThermometerType.HEAD, 90, board);
+            for (int i = headX + 1; i < tipX; i++) {
+                addCell(i, headY, ThermometerType.SHAFT,90, board);
             }
-            addCell(tipX, tipY, ThermometerType.TIP, board);
+            addCell(tipX, tipY, ThermometerType.TIP, 90, board);
         }
         else{
-            addCell(headX, headY, ThermometerType.HEAD, board);
+            addCell(headX, headY, ThermometerType.HEAD, 270, board);
             for (int i = headX - 1; i > tipX; i--) {
-                addCell(i, headY, ThermometerType.SHAFT, board);
+                addCell(i, headY, ThermometerType.SHAFT, 270, board);
             }
-            addCell(tipX, tipY, ThermometerType.TIP, board);
+            addCell(tipX, tipY, ThermometerType.TIP, 270, board);
         }
 
     }
 
     //helper function for adding a single cell
-    private void addCell(int x, int y, ThermometerType t, ThermometerBoard board){
+    private void addCell(int x, int y, ThermometerType t, int rotation, ThermometerBoard board){
         ThermometerCell cell = new ThermometerCell(new Point(x, y));
         cell.setIndex(y * board.getHeight() + x);
         cell.setModifiable(true);
         board.setCell(x, y, cell);
         board.getCell(x, y).setType(t);
+        board.getCell(x, y).setFill(ThermometerFill.EMPTY);
+        board.getCell(x,y).setRotation(rotation);
         cells.add(board.getCell(x, y));
     }
 

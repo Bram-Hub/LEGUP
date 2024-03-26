@@ -39,7 +39,7 @@ public class ThermometerVialFactory extends ElementFactory{
             board.addVial(new ThermometerVial(headX, headY, tipX, tipY, board));
         }
         else {
-            throw new InvalidFileFormatException("thermometer Importer: overlapping vials");
+            throw new InvalidFileFormatException("thermometer Vial Factory: overlapping vials");
         }
     }
 
