@@ -38,7 +38,7 @@ public class ThermometerElementView extends GridElementView {
                         null,
                         null);
                 System.out.println(cell.getLocation().toString());
-                graphics2D.rotate(Math.toRadians(rotation), location.x, location.y);
+                //graphics2D.rotate(Math.toRadians(rotation), location.x + .5, location.y  + .5);
                 graphics2D.setColor(Color.BLACK);
                 graphics2D.drawRect(location.x, location.y, size.width, size.height);
             }
@@ -52,7 +52,7 @@ public class ThermometerElementView extends GridElementView {
                         null,
                         null);
                 System.out.println(cell.getLocation().toString());
-                graphics2D.rotate(Math.toRadians(rotation), location.x, location.y);
+                //graphics2D.rotate(Math.toRadians(rotation), location.x + .5, location.y  + .5);
                 graphics2D.setColor(Color.BLACK);
                 graphics2D.drawRect(location.x, location.y, size.width, size.height);
             }
@@ -66,7 +66,7 @@ public class ThermometerElementView extends GridElementView {
                             null,
                             null);
                     System.out.println(cell.getLocation().toString());
-                    graphics2D.rotate(Math.toRadians(rotation), location.x, location.y);
+                    //graphics2D.rotate(Math.toRadians(rotation), location.x + .5, location.y  + .5);
                     graphics2D.setColor(Color.BLACK);
                     graphics2D.drawRect(location.x, location.y, size.width, size.height);
             }
@@ -86,7 +86,7 @@ public class ThermometerElementView extends GridElementView {
                         null,
                         null);
                 System.out.println(cell.getLocation().toString());
-                graphics2D.rotate(Math.toRadians(rotation), location.x, location.y);
+                //graphics2D.rotate(Math.toRadians(rotation), location.x + .5, location.y  + .5);
                 graphics2D.setColor(Color.BLACK);
                 graphics2D.drawRect(location.x, location.y, size.width, size.height);
             }
@@ -100,7 +100,7 @@ public class ThermometerElementView extends GridElementView {
                         null,
                         null);
                 System.out.println(cell.getLocation().toString());
-                graphics2D.rotate(Math.toRadians(rotation), location.x, location.y);
+                //graphics2D.rotate(Math.toRadians(rotation), location.x + .5, location.y  + .5);
                 graphics2D.setColor(Color.BLACK);
                 graphics2D.drawRect(location.x, location.y, size.width, size.height);
             }
@@ -114,7 +114,7 @@ public class ThermometerElementView extends GridElementView {
                             null,
                             null);
                     System.out.println(cell.getLocation().toString());
-                    graphics2D.rotate(Math.toRadians(rotation), location.x, location.y);
+                    //graphics2D.rotate(Math.toRadians(rotation), location.x + .5, location.y  + .5);
                     graphics2D.setColor(Color.BLACK);
                     graphics2D.drawRect(location.x, location.y, size.width, size.height);
             }
@@ -133,7 +133,7 @@ public class ThermometerElementView extends GridElementView {
                         null,
                         null);
                 System.out.println(cell.getLocation().toString());
-                graphics2D.rotate(Math.toRadians(rotation), location.x, location.y);
+                //graphics2D.rotate(Math.toRadians(rotation), location.x + .5, location.y  + .5);
                 graphics2D.setColor(Color.BLACK);
                 graphics2D.drawRect(location.x, location.y, size.width, size.height);
             }
@@ -147,7 +147,7 @@ public class ThermometerElementView extends GridElementView {
                         null,
                         null);
                 System.out.println(cell.getLocation().toString());
-                graphics2D.rotate(Math.toRadians(rotation), location.x, location.y);
+                //graphics2D.rotate(Math.toRadians(rotation), location.x + .5, location.y  + .5);
                 graphics2D.setColor(Color.BLACK);
                 graphics2D.drawRect(location.x, location.y, size.width, size.height);
             }
@@ -161,7 +161,7 @@ public class ThermometerElementView extends GridElementView {
                             null,
                             null);
                     System.out.println(cell.getLocation().toString());
-                    graphics2D.rotate(Math.toRadians(rotation), location.x, location.y);
+                    //graphics2D.rotate(Math.toRadians(rotation), location.x + .5, location.y  + .5);
                     graphics2D.setColor(Color.BLACK);
                     graphics2D.drawRect(location.x, location.y, size.width, size.height);
             }
