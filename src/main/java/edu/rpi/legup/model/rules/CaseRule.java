@@ -15,6 +15,7 @@ public abstract class CaseRule extends Rule {
 
     private final String INVALID_USE_MESSAGE;
     public int MAX_CASES;
+    public int MIN_CASES;
 
     /**
      * CaseRule Constructor creates a new case rule.
@@ -29,6 +30,7 @@ public abstract class CaseRule extends Rule {
         this.ruleType = CASE;
         this.INVALID_USE_MESSAGE = "Invalid use of the case rule " + this.ruleName;
         this.MAX_CASES = 10;
+        this.MIN_CASES = 0; // By default, this will not actually have any effect
     }
 
     /**

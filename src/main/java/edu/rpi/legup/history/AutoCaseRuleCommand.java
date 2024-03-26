@@ -117,8 +117,13 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
             return "The selection must produce at least one case";
         }
 
-        if (caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size() > caseRule.MAX_CASES) {
+        int numberOfCaseRules = caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size();
+        System.out.println("Number of cases:" + numberOfCaseRules);
+        if (numberOfCaseRules > caseRule.MAX_CASES) {
             return "The selection can produce a max of " + caseRule.MAX_CASES + " cases";
+        }
+        if (numberOfCaseRules < caseRule.MIN_CASES) {
+            return "The selection must produce a minimum of " + caseRule.MIN_CASES + " cases";
         }
 
         return null;
