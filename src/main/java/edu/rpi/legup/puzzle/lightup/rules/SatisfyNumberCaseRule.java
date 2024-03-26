@@ -197,13 +197,17 @@ public class SatisfyNumberCaseRule extends CaseRule {
             if (cases.size() == childTransitions.size() && cases.size() == 1) {
                 TreeTransition childTransition = childTransitions.get(0);
 
+                // If there is only 1 case, then this case rule should function no
+                // differently than the Finish With Bulbs Direct Rule
                 FinishWithBulbsDirectRule finishWithBulbs = new FinishWithBulbsDirectRule();
                 childTransition.setRule(finishWithBulbs);
-                if (childTransition.isCorrect()) {
-                    childTransition.setRule(this);
-                    return null;
-                }
+                boolean isCorrect = childTransition.isCorrect();
+
+                // Changes the transition back to this case rule
                 childTransition.setRule(this);
+                
+                if (isCorrect)
+                    return null;
                 return super.getInvalidUseOfRuleMessage();
             }
             else if (cases.size() == childTransitions.size() && cases.size() > 1) {
