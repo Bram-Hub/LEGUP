@@ -116,7 +116,7 @@ public class TreeTentImporter extends PuzzleImporter {
                 for (int x = 0; x < width; x++) {
                     if (treeTentBoard.getCell(x, y) == null) {
                         TreeTentCell cell = new TreeTentCell(TreeTentType.UNKNOWN, new Point(x, y));
-                        cell.setIndex(y * height + x);
+                        cell.setIndex(y * width + x);
                         cell.setModifiable(true);
                         treeTentBoard.setCell(x, y, cell);
                     }
