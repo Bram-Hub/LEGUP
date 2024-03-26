@@ -2,11 +2,8 @@ package edu.rpi.legup.history;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.model.Puzzle;
-import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.tree.*;
-import edu.rpi.legup.puzzle.lightup.LightUpCell;
-import edu.rpi.legup.puzzle.lightup.LightUpCellType;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
 import java.util.ArrayList;
 import java.util.HashMap;

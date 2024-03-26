@@ -36,7 +36,7 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
     /** Executes an command */
     @Override
     public void executeCommand() {
-        Tree tree = GameBoardFacade.getInstance().getTree();
+        Tree tree = getInstance().getTree();
         TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         final TreeViewSelection newSelection = new TreeViewSelection();
