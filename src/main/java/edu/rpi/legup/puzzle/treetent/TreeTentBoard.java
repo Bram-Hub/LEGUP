@@ -3,6 +3,8 @@ package edu.rpi.legup.puzzle.treetent;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.tree.Tree;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,21 +55,29 @@ public class TreeTentBoard extends GridBoard {
 
     @Override
     public PuzzleElement getPuzzleElement(PuzzleElement element) {
-        switch (element.getIndex()) {
-            case -2:
-                return element;
-            case -1:
-                TreeTentLine line = (TreeTentLine) element;
-                TreeTentLine thisLine = null;
-                for (TreeTentLine l : lines) {
-                    if (line.compare(l)) {
-                        thisLine = l;
-                        break;
-                    }
-                }
-                return thisLine;
-            default:
-                return super.getPuzzleElement(element);
+        return switch (element.getIndex()) {
+            case -2 -> element;
+            case -1 -> element;
+            default -> super.getPuzzleElement(element);
+        };
+    }
+
+    @Override
+    public void setPuzzleElement(int index, PuzzleElement puzzleElement) {
+        if (index == -1) {
+            lines.add((TreeTentLine) puzzleElement);
+        } else if (index < puzzleElements.size()) {
+            puzzleElements.set(index, puzzleElement);
+        }
+    }
+
+    @Override
+    public void notifyChange(PuzzleElement puzzleElement) {
+        int index = puzzleElement.getIndex();
+        if (index == -1) {
+            lines.add((TreeTentLine) puzzleElement);
+        } else if (index < puzzleElements.size()) {
+            puzzleElements.set(index, puzzleElement);
         }
     }
 

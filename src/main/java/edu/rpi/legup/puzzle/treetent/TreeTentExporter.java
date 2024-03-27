@@ -52,7 +52,7 @@ public class TreeTentExporter extends PuzzleExporter {
 
         org.w3c.dom.Element axisSouth = newDocument.createElement("axis");
         axisSouth.setAttribute("side", "south");
-        for (TreeTentClue clue : board.getRowClues()) {
+        for (TreeTentClue clue : board.getColClues()) {
             org.w3c.dom.Element clueElement = newDocument.createElement("clue");
             clueElement.setAttribute("value", String.valueOf(clue.getData()));
             clueElement.setAttribute("index", String.valueOf(clue.getClueIndex()));

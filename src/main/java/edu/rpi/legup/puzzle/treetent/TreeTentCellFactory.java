@@ -39,7 +39,7 @@ public class TreeTentCellFactory extends ElementFactory {
                 }
 
                 TreeTentCell cell = new TreeTentCell(TreeTentType.valueOf(value), new Point(x, y));
-                cell.setIndex(y * height + x);
+                cell.setIndex(y * width + x);
                 return cell;
             } else {
                 if (node.getNodeName().equalsIgnoreCase("line")) {
