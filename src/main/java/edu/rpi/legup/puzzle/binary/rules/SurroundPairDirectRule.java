@@ -27,19 +27,17 @@ public class SurroundPairDirectRule extends DirectRule {
 
 
         BinaryCell cell = (BinaryCell) board.getPuzzleElement(puzzleElement);   
+        if(cell.getType() != BinaryType.UNKNOWN){
+            if (cell.getType() == BinaryType.UNKNOWN) {
+                return "Only ONE or ZERO cells are allowed for this rule!";
+            }
 
-        if (cell.getType() == BinaryType.UNKNOWN) {
-            return "Only ONE or ZERO cells are allowed for this rule!";
+            if (contraRule.checkContradictionAt(origBoard, puzzleElement) == null) {
+                return "Grouping of Three Ones or Zeros found";
+            }
+                
         }
-
-            BinaryBoard modified = origBoard.copy();
-            // modified.getPuzzleElement(puzzleElement).setData(BinaryType.WHITE.toValue());
-            // if (contraRule.checkContradictionAt(modified, puzzleElement) != null) {
-            //     return "Black cells must be placed in a region of black cells!";
-            // }
-            return null;
-        
-        
+        return null;
     }
 
     @Override

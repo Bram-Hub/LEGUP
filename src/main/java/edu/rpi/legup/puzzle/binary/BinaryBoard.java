@@ -45,6 +45,15 @@ public class BinaryBoard extends GridBoard {
         return row;
     }
 
+    public ArrayList<BinaryType> getColTypes(int colNum) {
+        ArrayList<BinaryType> col = new ArrayList<BinaryType>();
+        for (int i = 0; i < size; i++) {
+            BinaryCell cell = getCell(colNum, i);
+            col.add(cell.getType());
+        }
+        return col;
+    }
+
     public Set<BinaryCell> getCol(int colNum) {
         Set<BinaryCell> col = new HashSet<>();
         for (int i = 0; i < size; i ++) {
