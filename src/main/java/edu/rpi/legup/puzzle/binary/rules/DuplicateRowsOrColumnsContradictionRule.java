@@ -25,20 +25,33 @@ public class DuplicateRowsOrColumnsContradictionRule extends ContradictionRule {
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
         BinaryBoard binaryBoard = (BinaryBoard) board;
         BinaryCell cell = (BinaryCell) binaryBoard.getPuzzleElement(puzzleElement);
-
+       
         ArrayList<BinaryType> row = binaryBoard.getRowTypes(cell.getLocation().y);
-
-        System.out.println(row);
+ 
         int size = row.size();
-
-
+        System.out.println("Row: " + row);
         for (int i = 0; i < size; i++) {
             if (i > cell.getLocation().y) {
                 ArrayList<BinaryType> currRow = binaryBoard.getRowTypes(i);
-                if (currRow.equals(row))
+                if (currRow.equals(row)){    
                    return null;
+                }
             }
         }
+
+        ArrayList<BinaryType> col = binaryBoard.getColTypes(cell.getLocation().x);
+        
+        System.out.println("column: " + col);
+        for (int i = 0; i < size; i++) {
+            if (i > cell.getLocation().x) {
+                ArrayList<BinaryType> currCol = binaryBoard.getColTypes(i);
+                if (currCol.equals(col)){    
+                   return null;
+                }
+            }
+        }
+    
+
 //        BinaryCell[] rowArray = row.toArray(new BinaryCell[0]);
 //
 //        boolean rowValid = false;

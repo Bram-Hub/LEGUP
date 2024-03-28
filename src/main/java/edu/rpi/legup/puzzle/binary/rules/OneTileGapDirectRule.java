@@ -21,26 +21,21 @@ public class OneTileGapDirectRule extends DirectRule {
 
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        BinaryBoard iniitalBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
-        BinaryBoard finalBoard = (BinaryBoard) transition.getBoard();
-        int boardDim = iniitalBoard.getWidth();
-        BinaryCell cell = (BinaryCell) finalBoard.getPuzzleElement(puzzleElement);
+        BinaryBoard board = (BinaryBoard) transition.getBoard();
+        BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
+        ContradictionRule contraRule = new ThreeAdjacentContradictionRule();
 
-        BinaryCell upOne = finalBoard.getCell(cell.getLocation().x, cell.getLocation().y+1);
-        BinaryCell downOne = finalBoard.getCell(cell.getLocation().x, cell.getLocation().y-1);
-        BinaryCell leftOne = finalBoard.getCell(cell.getLocation().x-1, cell.getLocation().y);
-        BinaryCell rightOne = finalBoard.getCell(cell.getLocation().x+1, cell.getLocation().y);
-        BinaryType cellType = cell.getType();
 
-        if(downOne.getType() == upOne.getType()) {
-            if(downOne.getType() == cellType) {
-                return "Filled cell matches vertical outer cells";
+        BinaryCell cell = (BinaryCell) board.getPuzzleElement(puzzleElement);   
+        if(cell.getType() != BinaryType.UNKNOWN){
+            if (cell.getType() == BinaryType.UNKNOWN) {
+                return "Only ONE or ZERO cells are allowed for this rule!";
             }
-        }
-        if(rightOne.getType() == leftOne.getType()) {
-            if(rightOne.getType() == cellType) {
-                return "Filled cell matches hroizontal outer cells";
+
+            if (contraRule.checkContradictionAt(origBoard, puzzleElement) == null) {
+                return "Grouping of Three Ones or Zeros found";
             }
+                
         }
         return null;
     }
