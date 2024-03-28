@@ -39,9 +39,7 @@ public class UnbalancedRowOrColumnContradictionRule extends ContradictionRule {
                 rowNumOnes++;
             }
         }
-//        if (rowNumZeros + rowNumOnes != size) {
-//            return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
-//        }
+
         if (rowNumZeros > size/2 || rowNumOnes > size/2) {
             return null;
         }
@@ -60,9 +58,7 @@ public class UnbalancedRowOrColumnContradictionRule extends ContradictionRule {
                 colNumOnes++;
             }
         }
-//        if (colNumZeros + colNumOnes != size) {
-//            return super.getInvalidUseOfRuleMessage() + ": " + this.INVALID_USE_MESSAGE;
-//        }
+
         if (colNumZeros > size/2 || colNumOnes > size/2) {
             return null;
         }
