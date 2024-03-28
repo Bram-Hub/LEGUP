@@ -38,6 +38,7 @@ public class OneTileGapDirectRule extends DirectRule {
                 
         }
         return null;
+    }
 
     @Override
     public Board getDefaultBoard(TreeNode node) {
