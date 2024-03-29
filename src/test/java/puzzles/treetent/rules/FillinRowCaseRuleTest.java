@@ -35,7 +35,7 @@ public class FillinRowCaseRuleTest {
     @Test
     public void TentOrTreeTestZeroTentClue() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
-                "puzzles/treetent/rules/FillinRowCaseRule/EmptyRowZeroTent", treetent);
+                "puzzles/treetent/rules/FillinRowCaseRule/EmptyRow3x3ZeroTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -112,7 +112,7 @@ public class FillinRowCaseRuleTest {
     @Test
     public void FillInRowEmptyOneTentClue() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
-                "puzzles/treetent/rules/FillinRowCaseRule/EmptyRowOneTent", treetent);
+                "puzzles/treetent/rules/FillinRowCaseRule/EmptyRow3x3OneTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -210,7 +210,7 @@ public class FillinRowCaseRuleTest {
     @Test
     public void FillInRowEmptyTwoTentClue() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
-                "puzzles/treetent/rules/FillinRowCaseRule/EmptyRowTwoTent", treetent);
+                "puzzles/treetent/rules/FillinRowCaseRule/EmptyRow3x3TwoTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -295,7 +295,7 @@ public class FillinRowCaseRuleTest {
     @Test
     public void FillInRowEmptyThreeTentClue() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
-                "puzzles/treetent/rules/FillinRowCaseRule/EmptyRowThreeTent", treetent);
+                "puzzles/treetent/rules/FillinRowCaseRule/EmptyRow3x3ThreeTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
