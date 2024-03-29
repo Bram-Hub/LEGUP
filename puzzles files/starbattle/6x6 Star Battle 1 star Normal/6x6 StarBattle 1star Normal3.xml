@@ -64,4 +64,5 @@
             </region>
         </board>
     </puzzle>
+    <solved isSolved="false" lastSaved="--"/>
 </Legup>
