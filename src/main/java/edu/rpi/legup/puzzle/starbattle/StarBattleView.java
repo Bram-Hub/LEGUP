@@ -6,20 +6,12 @@ import javax.imageio.ImageIO;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
-import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
-import edu.rpi.legup.puzzle.starbattle.StarBattleController;
-import edu.rpi.legup.puzzle.starbattle.StarBattleElementView;
 import edu.rpi.legup.puzzle.starbattle.StarBattleView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 
 import edu.rpi.legup.controller.BoardController;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.ui.boardview.ElementView;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class StarBattleView extends GridBoardView {
     private static final Logger LOGGER = LogManager.getLogger(StarBattleView.class.getName());
