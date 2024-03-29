@@ -37,8 +37,9 @@ jobs:
           git config --global user.name 'Bram van Heuveln'
           git config --global user.email 'bram28@users.noreply.github.com'
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-          git checkout -b auto-format-code
-          git push --set-upstream origin auto-format-code          
+          branch_name="auto-format-code-$(date +%s)"
+          git checkout -b $branch_name
+          git push --set-upstream origin $branch_name        
           git add .
           git diff --cached --exit-code || git commit -am "Automated Java code formatting changes" && git push
 
@@ -46,6 +47,11 @@ jobs:
         run: gh pr create -B dev -H auto-format-code --title 'Automated Java code formatting changes' --body 'This pull request contains automated code formatting changes.'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Must approve auto-format pull request
+        run: |
+          echo "Please review and approve the appropriate auto-format-code pull request."
+          exit 1
 
   format_other_branches:
     if: |
