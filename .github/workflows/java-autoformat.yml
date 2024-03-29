@@ -4,7 +4,7 @@ on: pull_request
 jobs:
   format_master:
     if: |
-      github.event.pull_request.base.ref == 'master' && 
+      github.event.pull_request.base.ref == 'dev' && 
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
@@ -42,9 +42,7 @@ jobs:
           git push --set-upstream origin $branch_name        
           git add .
           git diff --cached --exit-code || git commit -am "Automated Java code formatting changes" && git push
-
-      - name: Open pull request
-        run: gh pr create -B dev -H auto-format-code --title 'Automated Java code formatting changes' --body 'This pull request contains automated code formatting changes.'
+          gh pr create -B dev -H $branch_name --title 'Automated Java code formatting changes' --body 'This pull request contains automated code formatting changes.'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -55,7 +53,7 @@ jobs:
 
   format_other_branches:
     if: |
-      github.event.pull_request.base.ref == 'dev' && 
+      github.event.pull_request.base.ref != 'dev' && 
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
