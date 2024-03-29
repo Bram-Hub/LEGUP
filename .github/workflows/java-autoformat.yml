@@ -46,6 +46,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Must approve auto-format pull request
+        if: steps.git-check.outputs.modified == 'true'
         run: |
           echo "Please review and approve the appropriate auto-format-code pull request."
           exit 1
