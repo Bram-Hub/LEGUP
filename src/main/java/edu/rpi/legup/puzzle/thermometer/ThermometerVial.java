@@ -9,7 +9,7 @@ public class ThermometerVial {
     private ArrayList<ThermometerCell> cells;
 
     public ThermometerVial(int headX, int headY, int tipX, int tipY, ThermometerBoard board) {
-        cells = new ArrayList<>();
+        cells = new ArrayList<ThermometerCell>();
         fillData(headX, headY, tipX, tipY, board);
     }
 
@@ -53,16 +53,17 @@ public class ThermometerVial {
 
     //helper function for adding a single cell
     private void addCell(int x, int y, ThermometerType t, int rotation, ThermometerBoard board){
-        ThermometerCell cell = new ThermometerCell(new Point(x, y));
+        ThermometerCell cell = new ThermometerCell(new Point(x, y), t, ThermometerFill.EMPTY, rotation);
         cell.setIndex(y * board.getHeight() + x);
         cell.setModifiable(true);
-        board.setCell(x, y, cell);
-        board.getCell(x, y).setType(t);
-        board.getCell(x, y).setFill(ThermometerFill.EMPTY);
-        board.getCell(x,y).setRotation(rotation);
-        cells.add(board.getCell(x, y));
+        this.cells.add(board.getCell(x, y));
     }
 
+
+    //TODO DOES NOT WORK AS INTENDED
+    // BECAUSE MOST RULES GET A PUZZLE ELEMENT PASSED IN AND WEIRD
+    // TYPE CASTING STUFF, PAY ATTENTION TO THIS WHEN WE START
+    // DEBUGGING RULES
     //a basic accessor to check if a cell is contained in vial
     public boolean containsCell(ThermometerCell cell){
         for (ThermometerCell c : cells) {
@@ -75,6 +76,7 @@ public class ThermometerVial {
 
     public ThermometerCell getHead(){return cells.get(0);}
     public ThermometerCell getTail(){return cells.get(cells.size());}
+    public ArrayList<ThermometerCell> getCells(){return cells;}
 
     //checking for discontinuous flow inside of vial
     public boolean continuousFlow(){

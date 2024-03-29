@@ -87,9 +87,15 @@ public class ThermometerBoard extends GridBoard{
     public ArrayList<Integer> getColNumbers() { return colNumbers; }
 
 
+    //we all suck at programming so instead of using provided array list
+    //instead just trusting vials to store the cells for us
     @Override
-    public ThermometerCell getCell(int x, int y){
-        if(x < 0 || y < 0 || x > dimension.height || y > dimension.width) return null;
-        return (ThermometerCell) super.getCell(x, y);
+    public ThermometerCell getCell(int x, int y) {
+        for(ThermometerVial vial: this.thermometerVials) {
+            for(ThermometerCell cell: vial.getCells()){
+                if(cell.getLocation().x == x && cell.getLocation().y == y) return cell;
+            }
+        }
+        return null;
     }
 }
