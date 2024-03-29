@@ -9,13 +9,12 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCell;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
 import edu.rpi.legup.puzzle.shorttruthtable.rules.caserule.CaseRuleBiconditional;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.util.ArrayList;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 public class BiconditionalCaseRuleTest {
 
@@ -28,11 +27,11 @@ public class BiconditionalCaseRuleTest {
         stt = new ShortTruthTable();
     }
 
-    private void trueBiconditionalTest(String fileName,
-                                     int biconditionalX, int biconditionalY,
-                                     int aX, int aY,
-                                     int bX, int bY) throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/BiconditionalCaseRule/" + fileName, stt);
+    private void trueBiconditionalTest(
+            String fileName, int biconditionalX, int biconditionalY, int aX, int aY, int bX, int bY)
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/BiconditionalCaseRule/" + fileName, stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -63,32 +62,37 @@ public class BiconditionalCaseRuleTest {
         // Assert that A and B are equal and either true or false in both branches
         Assert.assertEquals(board1A, board1B);
         Assert.assertTrue(
-                (board1A.equals(ShortTruthTableCellType.TRUE) && board1B.equals(ShortTruthTableCellType.TRUE)) || (board1A.equals(ShortTruthTableCellType.FALSE) && board1B.equals(ShortTruthTableCellType.FALSE))
-        );
+                (board1A.equals(ShortTruthTableCellType.TRUE)
+                                && board1B.equals(ShortTruthTableCellType.TRUE))
+                        || (board1A.equals(ShortTruthTableCellType.FALSE)
+                                && board1B.equals(ShortTruthTableCellType.FALSE)));
 
         Assert.assertNotEquals(board1B, board2B);
         Assert.assertTrue(
-                (board2A.equals(ShortTruthTableCellType.TRUE) && board2B.equals(ShortTruthTableCellType.TRUE)) || (board2A.equals(ShortTruthTableCellType.FALSE) && board2B.equals(ShortTruthTableCellType.FALSE))
-        );
+                (board2A.equals(ShortTruthTableCellType.TRUE)
+                                && board2B.equals(ShortTruthTableCellType.TRUE))
+                        || (board2A.equals(ShortTruthTableCellType.FALSE)
+                                && board2B.equals(ShortTruthTableCellType.FALSE)));
 
         // Verify the board dimensions are unchanged
         Assert.assertEquals(caseBoard1.getHeight(), caseBoard2.getHeight(), board.getHeight());
         Assert.assertEquals(caseBoard1.getWidth(), caseBoard2.getWidth(), board.getWidth());
 
         // Verify that everywhere else on the board is unchanged
-        for (int i = 0; i< caseBoard1.getWidth(); i++) {
+        for (int i = 0; i < caseBoard1.getWidth(); i++) {
             for (int j = 0; j < caseBoard1.getHeight(); j++) {
                 // Make sure not to check the two cells that should be different
                 if (!((i == aX && j == aY) || (i == bX && j == bY))) {
-                    Assert.assertEquals(caseBoard1.getCell(i, j).getType(), caseBoard2.getCell(i, j).getType());
+                    Assert.assertEquals(
+                            caseBoard1.getCell(i, j).getType(), caseBoard2.getCell(i, j).getType());
                 }
             }
         }
     }
 
     /**
-     * Given a statement A -> B where ^ is true, tests this case rule by ensuring that
-     * two branches are created: one where A is false and one where B is true.
+     * Given a statement A -> B where ^ is true, tests this case rule by ensuring that two branches
+     * are created: one where A is false and one where B is true.
      */
     @Test
     public void SimpleStatement1TrueTest() throws InvalidFileFormatException {
@@ -96,21 +100,19 @@ public class BiconditionalCaseRuleTest {
     }
 
     /**
-     * Given a statement ~(A|B) -> (C^D) where the -> is true, tests this case rule
-     * by ensuring that two branches are created: one where ~ is false and one where
-     * ^ is true.
+     * Given a statement ~(A|B) -> (C^D) where the -> is true, tests this case rule by ensuring that
+     * two branches are created: one where ~ is false and one where ^ is true.
      */
     @Test
     public void ComplexStatement1TrueTest() throws InvalidFileFormatException {
-        trueBiconditionalTest("ComplexStatement1_True", 6, 0, 0, 0,
-                9, 0);
+        trueBiconditionalTest("ComplexStatement1_True", 6, 0, 0, 0, 9, 0);
     }
 
-    private void falseBiconditionalTest(String fileName,
-                                      int biconditionalX, int biconditionalY,
-                                      int aX, int aY,
-                                      int bX, int bY) throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/BiconditionalCaseRule/" + fileName, stt);
+    private void falseBiconditionalTest(
+            String fileName, int biconditionalX, int biconditionalY, int aX, int aY, int bX, int bY)
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/BiconditionalCaseRule/" + fileName, stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -141,46 +143,49 @@ public class BiconditionalCaseRuleTest {
         // Assert that A and B are not equal and are both either true or false in both branches
         Assert.assertNotEquals(board1A, board1B);
         Assert.assertTrue(
-                (board1A.equals(ShortTruthTableCellType.TRUE) && board1B.equals(ShortTruthTableCellType.FALSE)) || (board1A.equals(ShortTruthTableCellType.FALSE) && board1B.equals(ShortTruthTableCellType.TRUE))
-        );
+                (board1A.equals(ShortTruthTableCellType.TRUE)
+                                && board1B.equals(ShortTruthTableCellType.FALSE))
+                        || (board1A.equals(ShortTruthTableCellType.FALSE)
+                                && board1B.equals(ShortTruthTableCellType.TRUE)));
 
         Assert.assertNotEquals(board2A, board2B);
         Assert.assertTrue(
-                (board2A.equals(ShortTruthTableCellType.TRUE) && board2B.equals(ShortTruthTableCellType.FALSE)) || (board2A.equals(ShortTruthTableCellType.FALSE) && board2B.equals(ShortTruthTableCellType.TRUE))
-        );
+                (board2A.equals(ShortTruthTableCellType.TRUE)
+                                && board2B.equals(ShortTruthTableCellType.FALSE))
+                        || (board2A.equals(ShortTruthTableCellType.FALSE)
+                                && board2B.equals(ShortTruthTableCellType.TRUE)));
 
         // Verify the board dimensions are unchanged
         Assert.assertEquals(caseBoard1.getHeight(), caseBoard2.getHeight(), board.getHeight());
         Assert.assertEquals(caseBoard1.getWidth(), caseBoard2.getWidth(), board.getWidth());
 
         // Verify that everywhere else on the board is unchanged
-        for (int i = 0; i< caseBoard1.getWidth(); i++) {
+        for (int i = 0; i < caseBoard1.getWidth(); i++) {
             for (int j = 0; j < caseBoard1.getHeight(); j++) {
                 // Make sure not to check the two cells that should be different
                 if (!((i == aX && j == aY) || (i == bX && j == bY))) {
-                    Assert.assertEquals(caseBoard1.getCell(i, j).getType(), caseBoard2.getCell(i, j).getType());
+                    Assert.assertEquals(
+                            caseBoard1.getCell(i, j).getType(), caseBoard2.getCell(i, j).getType());
                 }
             }
         }
     }
 
     /**
-     * Given a statement A -> B where -> is false, tests this case rule by ensuring that
-     * one branch is created where A is true and B is false.
+     * Given a statement A -> B where -> is false, tests this case rule by ensuring that one branch
+     * is created where A is true and B is false.
      */
     @Test
     public void SimpleStatement1FalseTest() throws InvalidFileFormatException {
-        falseBiconditionalTest("FalseBiconditional", 1, 0, 0, 0,
-                2, 0);
+        falseBiconditionalTest("FalseBiconditional", 1, 0, 0, 0, 2, 0);
     }
 
     /**
-     * Given a statement ~(A|B) -> (C^D) where -> is true, tests this case rule
-     * by ensuring that one branch is created where ~ is true and ^ is false.
+     * Given a statement ~(A|B) -> (C^D) where -> is true, tests this case rule by ensuring that one
+     * branch is created where ~ is true and ^ is false.
      */
     @Test
     public void ComplexStatement1FalseTest() throws InvalidFileFormatException {
-        falseBiconditionalTest("ComplexStatement1_False", 6, 0, 0, 0,
-                9, 0);
+        falseBiconditionalTest("ComplexStatement1_False", 6, 0, 0, 0, 9, 0);
     }
 }
