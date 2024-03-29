@@ -29,16 +29,22 @@ public class ThreeAdjacentContradictionRule extends ContradictionRule {
         int cellY = cell.getLocation().y;
 
         if(cell.getType() == BinaryType.ONE || cell.getType() == BinaryType.ZERO) {
-            for (int x = cell.getLocation().x - 2; x >= 0 && x < cell.getLocation().x && x < width - 2; x++){
+            for (int x = cell.getLocation().x - 2; x < cell.getLocation().x && x < width - 2; x++){
+                if (x < 0)
+                    continue;
                 if(binaryBoard.getCell(x, cellY).getType() == binaryBoard.getCell(x + 1, cellY).getType() &&
                     binaryBoard.getCell(x + 1, cellY).getType() == binaryBoard.getCell(x + 2, cellY).getType()) {
+                    System.out.println("Contradiction Found because of " + binaryBoard.getCell(x, cellY).getLocation().x + " " + binaryBoard.getCell(x, cellY).getLocation().y + "     " + + binaryBoard.getCell(x+1, cellY).getLocation().x + " " + binaryBoard.getCell(x+1, cellY).getLocation().y + "     " + + binaryBoard.getCell(x+2, cellY).getLocation().x + " " + binaryBoard.getCell(x+2, cellY).getLocation().y);
                     return null;
                 }
             }
 
-            for (int y = cell.getLocation().y - 2; y >= 0 && y < cell.getLocation().y && y < height - 2; y++){
+            for (int y = cell.getLocation().y - 2; y < cell.getLocation().y && y < height - 2; y++){
+                if (y < 0)
+                    continue;
                 if(binaryBoard.getCell(cellX, y).getType() == binaryBoard.getCell(cellX, y + 1).getType() &&
                     binaryBoard.getCell(cellX, y + 1).getType() == binaryBoard.getCell(cellX, y + 2).getType()) {
+                    System.out.println("Contradiction Found because of " + binaryBoard.getCell(cellX, y+2).getLocation().x + " " + binaryBoard.getCell(cellX, y).getLocation().y + "     " + + binaryBoard.getCell(cellX, y+1).getLocation().x + " " + binaryBoard.getCell(cellX, y+1).getLocation().y + "     " + + binaryBoard.getCell(cellX, y+2).getLocation().x + " " + binaryBoard.getCell(cellX, y+2).getLocation().y);
                     return null;
                 }
             }

@@ -34,42 +34,21 @@ public class CompleteRowColumnDirectRule extends DirectRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        BinaryBoard initialBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
-        BinaryBoard finalBoard = (BinaryBoard) transition.getBoard();
-        int elementIndex = puzzleElement.getIndex();
-        int boardDim = initialBoard.getWidth();
-        int elementRow = elementIndex / boardDim;
-        int elementCol = elementIndex % boardDim;
-     
-            int numColZeros = 0;
-            int numColOnes = 0;
 
-        for (int i = 0; i < boardDim; i++) {
-            BinaryCell cell = initialBoard.getCell(i, elementCol);
-            if(cell.getData() == 1){
-                numColOnes ++;
-            }
-            else if(cell.getData() == 0) {
-                numColZeros ++; 
-            }
-        }
-            int numRowZeros = 0;
-            int numRowOnes = 0;
+        BinaryBoard board = (BinaryBoard) transition.getBoard();
+        BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
+        ContradictionRule contraRule = new UnbalancedRowOrColumnContradictionRule();
 
-        for (int i = 0; i < boardDim; i++) {
-            BinaryCell cell = initialBoard.getCell(elementRow, i);
-            if(cell.getData() == 1) {
-                numRowOnes ++;
-            }
-            else if(cell.getData() == 0) {
-                numRowZeros ++; 
-            }
+        BinaryCell cell = (BinaryCell) board.getPuzzleElement(puzzleElement);
+        if (cell.getType() == BinaryType.UNKNOWN) {
+            return "Only ONE or ZERO cells are allowed for this rule!";
         }
-        if (numColOnes + numColZeros != boardDim) {
-            return super.getInvalidUseOfRuleMessage() + ": The column for the specificed element is not complete";
-        }
-         if (numRowOnes + numRowZeros != boardDim) {
-            return super.getInvalidUseOfRuleMessage() + ": The row for the specified element is not complete";
+
+        if(cell.getType() != BinaryType.UNKNOWN){
+            if (contraRule.checkContradictionAt(origBoard, puzzleElement) != null) {
+                return "Balanced row or column found";
+            }
+
         }
         return null;
     }
