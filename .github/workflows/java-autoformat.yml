@@ -17,7 +17,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 21
-          distribution: temurin
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -30,6 +29,8 @@ jobs:
 
       - name: Create temporary branch
         run: |
+          git config --global user.name 'Bram van Heuveln'
+          git config --global user.email 'bram28@users.noreply.github.com'
           git checkout -b auto-format-code
           git add .
           git commit -m "Automated Java code formatting changes"
