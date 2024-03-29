@@ -14,16 +14,14 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import java.awt.*;
 
 public class StarBattleView extends GridBoardView {
-    private static final Logger LOGGER = LogManager.getLogger(StarBattleView.class.getName());
-
     static Image STAR;
 
     static {
         try {
-            STAR = ImageIO.read(ClassLoader.getSystemResourceAsStream("edu/rpi/legup/images/starbattle/star.png"));
+            STAR = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("edu/rpi/legup/images/starbattle/star.gif"));
         }
         catch (IOException e) {
-            LOGGER.error("Failed to open starbattle image.");
+            // pass
         }
     }
 
