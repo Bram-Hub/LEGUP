@@ -22,11 +22,9 @@ public class StarBattleController extends ElementController {
         }
         else {
             if (e.getButton() == MouseEvent.BUTTON3) {
+                data.setData(cell.getData() - 1);
                 if (cell.getData() == -3) {
                     data.setData(0);
-                }
-                else {
-                    data.setData(cell.getData() - 1);
                 }
             }
         }
