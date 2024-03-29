@@ -28,8 +28,8 @@ public class BiconditionalContradictionRuleTest {
     /**
      * Given a statement: A <-> B where <-> is true
      *
-     * Asserts that this is a valid application of the rule if
-     * and only if A and B are not unknown and A does not equal B
+     * <p>Asserts that this is a valid application of the rule if and only if A and B are not
+     * unknown and A does not equal B
      *
      * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
@@ -55,10 +55,11 @@ public class BiconditionalContradictionRuleTest {
         ShortTruthTableCell a = board.getCell(0, 0);
         ShortTruthTableCell b = board.getCell(2, 0);
 
-        if (a.getType() != ShortTruthTableCellType.UNKNOWN && b.getType() != ShortTruthTableCellType.UNKNOWN && a.getType() != b.getType()) {
+        if (a.getType() != ShortTruthTableCellType.UNKNOWN
+                && b.getType() != ShortTruthTableCellType.UNKNOWN
+                && a.getType() != b.getType()) {
             Assert.assertNull(RULE.checkContradiction(transition.getBoard()));
-        }
-        else {
+        } else {
             Assert.assertNotNull(RULE.checkContradiction(transition.getBoard()));
         }
     }
@@ -66,8 +67,8 @@ public class BiconditionalContradictionRuleTest {
     /**
      * Given a statement: A <-> B where <-> is false
      *
-     * Asserts that this is a valid application of the rule if
-     * and only if A and B are not unknown and A equals B
+     * <p>Asserts that this is a valid application of the rule if and only if A and B are not
+     * unknown and A equals B
      *
      * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
@@ -93,10 +94,11 @@ public class BiconditionalContradictionRuleTest {
         ShortTruthTableCell a = board.getCell(0, 0);
         ShortTruthTableCell b = board.getCell(2, 0);
 
-        if (a.getType() != ShortTruthTableCellType.UNKNOWN && b.getType() != ShortTruthTableCellType.UNKNOWN && a.getType() == b.getType()) {
+        if (a.getType() != ShortTruthTableCellType.UNKNOWN
+                && b.getType() != ShortTruthTableCellType.UNKNOWN
+                && a.getType() == b.getType()) {
             Assert.assertNull(RULE.checkContradiction(transition.getBoard()));
-        }
-        else {
+        } else {
             Assert.assertNotNull(RULE.checkContradiction(transition.getBoard()));
         }
     }
@@ -104,7 +106,7 @@ public class BiconditionalContradictionRuleTest {
     /**
      * Given a statement: A <-> B where <-> is unknown
      *
-     * Asserts that this is not a valid application of this rule.
+     * <p>Asserts that this is not a valid application of this rule.
      *
      * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException

@@ -28,8 +28,8 @@ public class AtomicContradictionRuleTest {
     /**
      * Given two statements: A, A
      *
-     * Asserts that this is a valid application of the rule if
-     * and only if both A and B are not unknown and different.
+     * <p>Asserts that this is a valid application of the rule if and only if both A and B are not
+     * unknown and different.
      *
      * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
@@ -55,10 +55,11 @@ public class AtomicContradictionRuleTest {
         ShortTruthTableCell a = board.getCell(0, 0);
         ShortTruthTableCell b = board.getCell(0, 2);
 
-        if (a.getType() != ShortTruthTableCellType.UNKNOWN && b.getType() != ShortTruthTableCellType.UNKNOWN && a.getType() != b.getType()) {
+        if (a.getType() != ShortTruthTableCellType.UNKNOWN
+                && b.getType() != ShortTruthTableCellType.UNKNOWN
+                && a.getType() != b.getType()) {
             Assert.assertNull(RULE.checkContradiction(transition.getBoard()));
-        }
-        else {
+        } else {
             Assert.assertNotNull(RULE.checkContradiction(transition.getBoard()));
         }
     }
