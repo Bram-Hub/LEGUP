@@ -28,8 +28,8 @@ public class NotContradictionRuleTest {
     /**
      * Given a statement: ¬A
      *
-     * Asserts that this is a valid application of the rule if
-     * and only if A and B are both true or are both false.
+     * <p>Asserts that this is a valid application of the rule if and only if A and B are both true
+     * or are both false.
      *
      * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
@@ -54,11 +54,13 @@ public class NotContradictionRuleTest {
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
         ShortTruthTableCell not = board.getCell(0, 0);
         ShortTruthTableCell a = board.getCell(1, 0);
-        
-        if ((not.getType() == ShortTruthTableCellType.TRUE && a.getType() == ShortTruthTableCellType.TRUE) || (not.getType() == ShortTruthTableCellType.FALSE && a.getType() == ShortTruthTableCellType.FALSE)) {
+
+        if ((not.getType() == ShortTruthTableCellType.TRUE
+                        && a.getType() == ShortTruthTableCellType.TRUE)
+                || (not.getType() == ShortTruthTableCellType.FALSE
+                        && a.getType() == ShortTruthTableCellType.FALSE)) {
             Assert.assertNull(RULE.checkContradiction(transition.getBoard()));
-        }
-        else {
+        } else {
             Assert.assertNotNull(RULE.checkContradiction(transition.getBoard()));
         }
     }
