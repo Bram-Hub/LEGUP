@@ -12,6 +12,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class FillinRowCaseRuleTest {
@@ -76,7 +77,7 @@ public class FillinRowCaseRuleTest {
         // assert one case was created
         Assert.assertEquals(1, cases.size());
 
-        // assert the case filled the row with grass
+        // assert the case filled the column with grass
         testCase = (TreeTentBoard) cases.getFirst();
         Assert.assertEquals(3, testCase.getRowCol(1, TreeTentType.GRASS, false).size());
 
@@ -170,10 +171,10 @@ public class FillinRowCaseRuleTest {
         for (Board testCaseBoard : cases) {
             TreeTentBoard testCase = (TreeTentBoard) testCaseBoard;
 
-            // Each case must have 1 tent in the row
+            // Each case must have 1 tent in the column
             Assert.assertEquals(1, testCase.getRowCol(1, TreeTentType.TENT, false).size());
 
-            // and they must have 2 grass tiles in the row
+            // and they must have 2 grass tiles in the column
             Assert.assertEquals(2, testCase.getRowCol(1, TreeTentType.GRASS, false).size());
         }
 
@@ -301,11 +302,107 @@ public class FillinRowCaseRuleTest {
         transition.setRule(RULE);
 
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        /* Test the Row */
         TreeTentClue testing_row = board.getClue(3, 1);
         ArrayList<Board> cases = RULE.getCases(board, testing_row);
 
         // assert there were no cases found, as filling in all tiles causes the tents to touch
-        Assert.assertEquals(null, cases);
+        Assert.assertNull(cases);
+
+        /* Test the Column */
+        TreeTentClue testing_col = board.getClue(1, 3);
+        cases = RULE.getCases(board, testing_row);
+
+        Assert.assertNull(cases);
+    }
+
+    @Test
+    public void FillInRowEmpty5x5TwoTentClue() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/FillInRowCaseRule/EmptyRow5x5TwoTent", treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+
+        /* Test the Row */
+        TreeTentClue testing_row = board.getClue(5, 2);
+        ArrayList<Board> cases = RULE.getCases(board, testing_row);
+
+        // assert correct number of cases created
+        Assert.assertEquals(6, cases.size());
+        // Only one arrangement is possible when taking into account the
+        // touching tents contradiction rule.
+
+        for (Board testCaseBoard : cases) {
+            TreeTentBoard testCase = (TreeTentBoard) testCaseBoard;
+
+            // Each case must have 2 tens in the row
+            Assert.assertEquals(2, testCase.getRowCol(2, TreeTentType.TENT, true).size());
+
+            // and they must have 3 grass tiles in the row
+            Assert.assertEquals(3, testCase.getRowCol(2, TreeTentType.GRASS, true).size());
+        }
+
+        TreeTentCell original_cell;
+        TreeTentCell case_cell;
+
+        // checks other cells have not been modified
+        for (int w = 0; w < board.getWidth(); w++) {
+            for (int h = 0; h < board.getHeight(); h++) {
+                if (h == 2) {
+                    continue;
+                }
+
+                original_cell = board.getCell(w, h);
+
+                for (Board testCaseBoard : cases) {
+                    TreeTentBoard testCase = (TreeTentBoard) testCaseBoard;
+
+                    case_cell = testCase.getCell(w, h);
+                    Assert.assertEquals(original_cell.getType(), case_cell.getType());
+                }
+            }
+        }
+
+        /* Test the Column */
+        TreeTentClue testing_col = board.getClue(2, 5);
+        cases = RULE.getCases(board, testing_col);
+
+        // assert correct number of cases created
+        Assert.assertEquals(6, cases.size());
+        // Only one arrangement is possible when taking into account the
+        // touching tents contradiction rule.
+
+        for (Board testCaseBoard : cases) {
+            TreeTentBoard testCase = (TreeTentBoard) testCaseBoard;
+
+            // Each case must have 2 tents in the column
+            Assert.assertEquals(2, testCase.getRowCol(2, TreeTentType.TENT, false).size());
+
+            // and they must have 4 grass tiles in the column
+            Assert.assertEquals(3, testCase.getRowCol(2, TreeTentType.GRASS, false).size());
+        }
+
+        // checks other cells have not been modified
+        for (int w = 0; w < board.getWidth(); w++) {
+            for (int h = 0; h < board.getHeight(); h++) {
+                if (w == 2) {
+                    continue;
+                }
+
+                original_cell = board.getCell(w, h);
+
+                for (Board testCaseBoard : cases) {
+                    TreeTentBoard testCase = (TreeTentBoard) testCaseBoard;
+
+                    case_cell = testCase.getCell(w, h);
+                    Assert.assertEquals(original_cell.getType(), case_cell.getType());
+                }
+            }
+        }
     }
 
 //    /**
