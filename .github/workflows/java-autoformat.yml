@@ -36,7 +36,7 @@ jobs:
         run: |
           git config --global user.name 'Charles Tian'
           git config --global user.email 'charles.tian23@gmail.com'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.event.pull_request.head.repo.name }}
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git checkout -b auto-format-code
           git add .
           git commit -m "Automated Java code formatting changes"
@@ -85,6 +85,6 @@ jobs:
         run: |
           git config --global user.name 'Bram van Heuveln'
           git config --global user.email 'bram28@users.noreply.github.com'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.event.pull_request.head.repo.name }}
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git add .
           git diff --cached --exit-code || git commit -am "Automated Java code formatting changes" && git push
