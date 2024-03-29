@@ -29,7 +29,7 @@ jobs:
 
       - name: Check for modified files
         id: git-check
-        run: echo "modified=$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)" >> $GITHUB_OUTPUT
+        run: echo "modified=$(if git diff-index --quiet HEAD; then echo "false"; else echo "true"; fi)" >> ${{ env.GITHUB_ENV }}
 
       - name: Create temporary branch and pull request
         if: steps.git-check.outputs.modified == 'true'
@@ -39,7 +39,6 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           branch_name="auto-format-code-$(date +%s)"
           git checkout -b $branch_name
-          ./gradlew build -x test
           ./gradlew :spotlessApply
           git add .
           git commit -am "Automated Java code formatting changes"
