@@ -85,7 +85,14 @@ public class LegupUtils {
         for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
             if (!entry.isDirectory() && entry.getName().endsWith(".class") && entry.getName().startsWith(packageName)) {
                 String className = entry.getName().replace('/', '.');
-                classes.add(Class.forName(className.substring(0, className.length() - ".class".length())));
+                String substr = className.substring(0, className.length() - ".class".length());
+                try {
+                    Class<?> c = Class.forName(substr);
+                    classes.add(c);
+                }
+                catch (LinkageError | ClassNotFoundException e) {
+                    System.out.println("Failed on " + substr);
+                }
             }
         }
         return classes;
