@@ -49,8 +49,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         LightUpBoard lightUpBoard = (LightUpBoard) board;
         LightUpCell cell = (LightUpCell) puzzleElement;
-        Point loc =
-                cell.getLocation();
+        Point loc = cell.getLocation();
 
         List<LightUpCell> openSpots = new ArrayList<>();
 
