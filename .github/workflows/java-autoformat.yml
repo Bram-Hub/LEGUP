@@ -2,9 +2,9 @@ name: Java Code Auto Format
 on: pull_request
 
 jobs:
-  format_dev:
+  format_master:
     if: |
-      github.event.pull_request.base.ref == 'dev' && 
+      github.event.pull_request.base.ref == 'master' && 
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
@@ -49,7 +49,7 @@ jobs:
 
   format_other_branches:
     if: |
-      github.event.pull_request.base.ref != 'dev' && 
+      github.event.pull_request.base.ref == 'dev' && 
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
