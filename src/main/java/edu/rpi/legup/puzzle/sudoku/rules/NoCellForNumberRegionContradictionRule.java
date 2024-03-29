@@ -3,19 +3,18 @@ package edu.rpi.legup.puzzle.sudoku.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
-import edu.rpi.legup.puzzle.sudoku.Sudoku;
 import edu.rpi.legup.puzzle.sudoku.SudokuBoard;
 import edu.rpi.legup.puzzle.sudoku.SudokuCell;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class NoCellForNumberContradictionRule extends ContradictionRule {
+public class NoCellForNumberRegionContradictionRule extends ContradictionRule {
 
-    public NoCellForNumberContradictionRule() {
+    public NoCellForNumberRegionContradictionRule() {
         super("SUDO-CONT-0001", "No Cell for Number (Region)",
                 "Process of elimination yields no valid numbers for an empty cell in a region.",
-                "edu/rpi/legup/images/sudoku/NoSolution.png");
+                "edu/rpi/legup/images/sudoku/NoCellForNumberRegion.png");
     }
 
     /**
