@@ -31,6 +31,10 @@ jobs:
         id: git-check
         run: echo "modified=$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)" >> $GITHUB_OUTPUT
 
+      - name: Debug modified files
+        run: |
+          echo "Modified files: ${{ steps.git-check.outputs.modified }}"
+
       - name: Create temporary branch and pull request
         if: steps.git-check.outputs.modified == 'true'
         run: |
@@ -41,7 +45,7 @@ jobs:
           git checkout -b $branch_name
           ./gradlew :spotlessApply
           git add .
-          git diff --cached --exit-code || git commit -am "Automated Java code formatting changes" &&  git push --set-upstream origin $branch_name && gh pr create -B dev -H $branch_name --title 'Automated Java code formatting changes' --body 'This pull request contains automated code formatting changes.'
+          git diff --cached --exit-code || git commit -am "Automated Java code formatting changes" && git push --set-upstream origin $branch_name && gh pr create -B dev -H $branch_name --title 'Automated Java code formatting changes' --body 'This pull request contains automated code formatting changes.'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
