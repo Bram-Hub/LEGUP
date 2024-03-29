@@ -7,18 +7,19 @@ import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCell;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
-import edu.rpi.legup.puzzle.shorttruthtable.rules.caserule.CaseRuleOr;
+import edu.rpi.legup.puzzle.shorttruthtable.rules.caserule.CaseRuleConditional;
 import edu.rpi.legup.save.InvalidFileFormatException;
-import java.util.ArrayList;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class OrCaseRuleTest {
+import java.util.ArrayList;
 
-    private static final CaseRuleOr RULE = new CaseRuleOr();
+public class ConditionalCaseRuleTest {
+
+    private static final CaseRuleConditional RULE = new CaseRuleConditional();
     private static ShortTruthTable stt;
 
     @BeforeClass
@@ -27,15 +28,17 @@ public class OrCaseRuleTest {
         stt = new ShortTruthTable();
     }
 
-    private void trueOrTest(String fileName, int andX, int andY, int aX, int aY, int bX, int bY)
-            throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/OrCaseRule/" + fileName, stt);
+    private void trueConditionalTest(String fileName,
+                                     int conditionalX, int conditionalY,
+                                     int aX, int aY,
+                                     int bX, int bY) throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/ConditionalCaseRule/" + fileName, stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
-        ShortTruthTableCell cell = board.getCell(andX, andY);
+        ShortTruthTableCell cell = board.getCell(conditionalX, conditionalY);
         ArrayList<Board> cases = RULE.getCases(board, cell);
 
         // Make sure that the rule checks out
@@ -57,67 +60,67 @@ public class OrCaseRuleTest {
         Assert.assertNotEquals(board1A, board2A);
         Assert.assertNotEquals(board1B, board2B);
 
-        // First assert the two cells are not equal, then verify that they are either
-        // unknown or true.
-        Assert.assertNotEquals(board1A, board1B);
+        // Assert that A is unknown in one board and false in the other
+        Assert.assertNotEquals(board1A, board2A);
         Assert.assertTrue(
-                board1A.equals(ShortTruthTableCellType.UNKNOWN)
-                        || board1A.equals(ShortTruthTableCellType.TRUE));
-        Assert.assertTrue(
-                board1B.equals(ShortTruthTableCellType.UNKNOWN)
-                        || board1B.equals(ShortTruthTableCellType.TRUE));
+                (board1A.equals(ShortTruthTableCellType.UNKNOWN) && board2A.equals(ShortTruthTableCellType.FALSE))
+                || (board1A.equals(ShortTruthTableCellType.FALSE) && board2A.equals(ShortTruthTableCellType.UNKNOWN))
+        );
 
-        Assert.assertNotEquals(board2A, board2B);
+        // Assert that B is unknown in one board and true in the other
+        Assert.assertNotEquals(board1B, board2B);
         Assert.assertTrue(
-                board2A.equals(ShortTruthTableCellType.UNKNOWN)
-                        || board1A.equals(ShortTruthTableCellType.TRUE));
-        Assert.assertTrue(
-                board2B.equals(ShortTruthTableCellType.UNKNOWN)
-                        || board2B.equals(ShortTruthTableCellType.TRUE));
+                (board1B.equals(ShortTruthTableCellType.UNKNOWN) && board2B.equals(ShortTruthTableCellType.TRUE))
+                || (board1B.equals(ShortTruthTableCellType.TRUE) && board2B.equals(ShortTruthTableCellType.UNKNOWN))
+        );
 
         // Verify the board dimensions are unchanged
         Assert.assertEquals(caseBoard1.getHeight(), caseBoard2.getHeight(), board.getHeight());
         Assert.assertEquals(caseBoard1.getWidth(), caseBoard2.getWidth(), board.getWidth());
 
         // Verify that everywhere else on the board is unchanged
-        for (int i = 0; i < caseBoard1.getWidth(); i++) {
+        for (int i = 0; i< caseBoard1.getWidth(); i++) {
             for (int j = 0; j < caseBoard1.getHeight(); j++) {
                 // Make sure not to check the two cells that should be different
                 if (!((i == aX && j == aY) || (i == bX && j == bY))) {
-                    Assert.assertEquals(
-                            caseBoard1.getCell(i, j).getType(), caseBoard2.getCell(i, j).getType());
+                    Assert.assertEquals(caseBoard1.getCell(i, j).getType(), caseBoard2.getCell(i, j).getType());
                 }
             }
         }
     }
 
     /**
-     * Given a statement A ^ B where ^ is false, tests this case rule by ensuring that two branches
-     * are created: one where A is false and one where B is false.
+     * Given a statement A -> B where ^ is true, tests this case rule by ensuring that
+     * two branches are created: one where A is false and one where B is true.
      */
     @Test
     public void SimpleStatement1TrueTest() throws InvalidFileFormatException {
-        trueOrTest("SimpleStatement1_True", 1, 0, 0, 0, 2, 0);
+        trueConditionalTest("TrueConditional", 1, 0, 0, 0,
+                2, 0);
     }
 
     /**
-     * Given a statement ~(A|B)^(C^D) where the first ^ is false, tests this case rule by ensuring
-     * that two branches are created: one where ~ is false and one where the second ^ is false.
+     * Given a statement ~(A|B) -> (C^D) where the -> is true, tests this case rule
+     * by ensuring that two branches are created: one where ~ is false and one where
+     * ^ is true.
      */
     @Test
     public void ComplexStatement1TrueTest() throws InvalidFileFormatException {
-        trueOrTest("ComplexStatement1_True", 6, 0, 0, 0, 9, 0);
+        trueConditionalTest("ComplexStatement1_True", 6, 0, 0, 0,
+                9, 0);
     }
 
-    private void falseOrTest(String fileName, int andX, int andY, int aX, int aY, int bX, int bY)
-            throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/OrCaseRule/" + fileName, stt);
+    private void falseConditionalTest(String fileName,
+                                      int conditionalX, int conditionalY,
+                                      int aX, int aY,
+                                      int bX, int bY) throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/ConditionalCaseRule/" + fileName, stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
-        ShortTruthTableCell cell = board.getCell(andX, andY);
+        ShortTruthTableCell cell = board.getCell(conditionalX, conditionalY);
         ArrayList<Board> cases = RULE.getCases(board, cell);
 
         // Make sure that the rule checks out
@@ -130,30 +133,31 @@ public class OrCaseRuleTest {
         ShortTruthTableCellType caseBoardAType = caseBoard.getCell(aX, aY).getType();
         ShortTruthTableCellType caseBoardBType = caseBoard.getCell(bX, bY).getType();
 
-        // Both cells should be false
-        Assert.assertEquals(caseBoardAType, ShortTruthTableCellType.FALSE);
+        // A should be true and B should be false
+        Assert.assertEquals(caseBoardAType, ShortTruthTableCellType.TRUE);
         Assert.assertEquals(caseBoardBType, ShortTruthTableCellType.FALSE);
-        Assert.assertEquals(caseBoardAType, caseBoardBType);
 
         // Verify the board dimensions are unchanged
         Assert.assertEquals(caseBoard.getHeight(), caseBoard.getHeight(), board.getHeight());
     }
 
     /**
-     * Given a statement A ^ B where ^ is false, tests this case rule by ensuring that one branch is
-     * created where A and B are both true.
+     * Given a statement A -> B where -> is false, tests this case rule by ensuring that
+     * one branch is created where A is true and B is false.
      */
     @Test
     public void SimpleStatement1FalseTest() throws InvalidFileFormatException {
-        falseOrTest("SimpleStatement1_False", 1, 0, 0, 0, 2, 0);
+        falseConditionalTest("FalseConditional", 1, 0, 0, 0,
+                2, 0);
     }
 
     /**
-     * Given a statement ~(A|B)^(C^D) where the first ^ is true, tests this case rule by ensuring
-     * that one branch is created where both ~ and the second ^ are true.
+     * Given a statement ~(A|B) -> (C^D) where -> is true, tests this case rule
+     * by ensuring that one branch is created where ~ is true and ^ is false.
      */
     @Test
     public void ComplexStatement1FalseTest() throws InvalidFileFormatException {
-        falseOrTest("ComplexStatement1_False", 6, 0, 0, 0, 9, 0);
+        falseConditionalTest("ComplexStatement1_False", 6, 0, 0, 0,
+                9, 0);
     }
 }
