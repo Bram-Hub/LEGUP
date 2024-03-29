@@ -43,13 +43,9 @@ jobs:
           git diff --cached --exit-code || git commit -am "Automated Java code formatting changes" && git push
 
       - name: Open pull request
-        if: steps.git-check.outputs.modified == 'true'
-        uses: peter-evans/create-pull-request@v3
-        with:
-          title: Automated Java code formatting changes
-          body: This pull request contains automated code formatting changes.
-          branch: auto-format-code
-          base: dev
+        run: gh pr create -B dev -H auto-format-code --title 'Automated Java code formatting changes' --body 'This pull request contains automated code formatting changes.'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   format_other_branches:
     if: |
