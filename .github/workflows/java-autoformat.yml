@@ -34,8 +34,8 @@ jobs:
       - name: Create temporary branch
         if: steps.git-check.outputs.modified == 'true'
         run: |
-          git config --global user.name 'Charles Tian'
-          git config --global user.email 'charlestian23@users.noreply.github.com'
+          git config --global user.name 'Bram van Heuveln'
+          git config --global user.email 'bram28@users.noreply.github.com'
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git checkout -b auto-format-code
           git push --set-upstream origin auto-format-code          
