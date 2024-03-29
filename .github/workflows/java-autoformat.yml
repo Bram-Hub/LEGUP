@@ -41,7 +41,9 @@ jobs:
           git checkout -b $branch_name       
           ./gradlew :spotlessApply
           git add .
-          git diff --cached --exit-code || git commit -am "Automated Java code formatting changes" && git push --set-upstream origin $branch_name && git checkout - && gh pr create -B dev -H $branch_name --title 'Automated Java code formatting changes' --body 'This pull request contains automated code formatting changes.'
+          git commit -am "Automated Java code formatting changes"
+          git push --set-upstream origin $branch_name
+          gh pr create -B dev -H $branch_name --title 'Automated Java code formatting changes' --body 'This pull request contains automated code formatting changes.'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
