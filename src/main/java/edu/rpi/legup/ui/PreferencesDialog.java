@@ -9,14 +9,18 @@ import edu.rpi.legup.ui.color.ColorPreferences;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialBorders;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.*;
 
 public class PreferencesDialog extends JDialog {
 
@@ -44,7 +48,8 @@ public class PreferencesDialog extends JDialog {
             folderIcon =
                     ImageIO.read(
                             PreferencesDialog.class.getResource("/edu/rpi/legup/imgs/folder.png"));
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Unable to locate icons");
         }
     }
@@ -106,13 +111,15 @@ public class PreferencesDialog extends JDialog {
 
     private void toggleDarkMode(LegupPreferences prefs) {
         try {
-            if (Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
+            if (LegupPreferences.darkMode()) {
                 UIManager.setLookAndFeel(new FlatDarkLaf());
-            } else {
+            }
+            else {
                 UIManager.setLookAndFeel(new FlatLightLaf());
             }
             com.formdev.flatlaf.FlatLaf.updateUI();
-        } catch (UnsupportedLookAndFeelException e) {
+        }
+        catch (UnsupportedLookAndFeelException e) {
             System.err.println("Not supported ui look and feel");
         }
     }
@@ -131,7 +138,7 @@ public class PreferencesDialog extends JDialog {
         JLabel workDirLabel = new JLabel("Work Directory");
         workDirLabel.setToolTipText("This is where the open and save dialogs will open to.");
         workRow.add(workDirLabel, BorderLayout.WEST);
-        workDirectory = new JTextField(prefs.getUserPref(LegupPreferences.WORK_DIRECTORY));
+        workDirectory = new JTextField(LegupPreferences.workDirectory());
         workRow.add(workDirectory, BorderLayout.CENTER);
         JButton openDir = new JButton(new ImageIcon(folderIcon));
         openDir.addActionListener(
@@ -155,7 +162,7 @@ public class PreferencesDialog extends JDialog {
         fullScreen =
                 new JCheckBox(
                         "Full Screen",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.START_FULL_SCREEN)));
+                        LegupPreferences.startFullScreen());
         fullScreen.setToolTipText("If checked this starts Legup in full screen.");
         JPanel fullScreenRow = new JPanel();
         fullScreenRow.setLayout(new BorderLayout());
@@ -167,7 +174,7 @@ public class PreferencesDialog extends JDialog {
         autoUpdate =
                 new JCheckBox(
                         "Automatically Check for Updates",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.AUTO_UPDATE)));
+                        LegupPreferences.autoUpdate());
         autoUpdate.setToolTipText(
                 "If checked this automatically checks for updates on startup of Legup");
         JPanel autoUpdateRow = new JPanel();
@@ -181,7 +188,7 @@ public class PreferencesDialog extends JDialog {
         darkMode =
                 new JCheckBox(
                         "Dark Mode",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE)));
+                        LegupPreferences.darkMode());
         darkMode.setToolTipText("This turns dark mode on and off");
         JPanel darkModeRow = new JPanel();
         darkModeRow.setLayout(new BorderLayout());
@@ -196,7 +203,7 @@ public class PreferencesDialog extends JDialog {
         showMistakes =
                 new JCheckBox(
                         "Show Mistakes",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.SHOW_MISTAKES)));
+                        LegupPreferences.showMistakes());
         showMistakes.setToolTipText(
                 "If checked this show incorrectly applied rule applications in red on the board");
         JPanel showMistakesRow = new JPanel();
@@ -209,7 +216,7 @@ public class PreferencesDialog extends JDialog {
         showAnnotations =
                 new JCheckBox(
                         "Show Annotations",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.SHOW_ANNOTATIONS)));
+                        LegupPreferences.showAnnotations());
         showAnnotations.setToolTipText(
                 "If checked this show incorrectly applied rule applications in red on the board");
         JPanel showAnnotationsRow = new JPanel();
@@ -226,7 +233,7 @@ public class PreferencesDialog extends JDialog {
         allowDefault =
                 new JCheckBox(
                         "Allow Default Rule Applications",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.ALLOW_DEFAULT_RULES)));
+                        LegupPreferences.allowDefaultRules());
         allowDefault.setEnabled(false);
         allowDefault.setToolTipText(
                 "If checked this automatically applies a rule where it can on the board");
@@ -241,7 +248,7 @@ public class PreferencesDialog extends JDialog {
         generateCases =
                 new JCheckBox(
                         "Automatically Generate Cases",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.AUTO_GENERATE_CASES)));
+                        LegupPreferences.autoGenerateCases());
         generateCases.setToolTipText(
                 "If checked this automatically generates all cases for a case rule");
         JPanel generateCasesRow = new JPanel();
@@ -255,7 +262,7 @@ public class PreferencesDialog extends JDialog {
         immFeedback =
                 new JCheckBox(
                         "Provide Immediate Feedback",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.IMMEDIATE_FEEDBACK)));
+                        LegupPreferences.immediateFeedback());
         immFeedback.setToolTipText(
                 "If checked this will update the colors of the tree view elements immediately");
         JPanel immFeedbackRow = new JPanel();
@@ -270,7 +277,7 @@ public class PreferencesDialog extends JDialog {
         immFeedback =
                 new JCheckBox(
                         "Instructor Mode",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.IMMEDIATE_FEEDBACK)));
+                        LegupPreferences.immediateFeedback());
         immFeedback.setToolTipText("Currently unimplemented, this does nothing right now");
         immFeedbackRow.setLayout(new BorderLayout());
         immFeedbackRow.add(immFeedback, BorderLayout.WEST);
@@ -283,7 +290,7 @@ public class PreferencesDialog extends JDialog {
         colorBlind =
                 new JCheckBox(
                         "Deuteranomaly(red/green colorblindness)",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.COLOR_BLIND)));
+                        LegupPreferences.colorBlind());
 
         JPanel colorBlindRow = new JPanel();
         colorBlindRow.setLayout(new BorderLayout());
@@ -297,7 +304,7 @@ public class PreferencesDialog extends JDialog {
         JLabel colorThemeDirLabel = new JLabel("Color Theme File");
         colorThemeDirLabel.setToolTipText("This is the color theme LEGUP will use.");
         colorThemeRow.add(colorThemeDirLabel, BorderLayout.WEST);
-        colorThemeFile = new JTextField(prefs.getUserPref(LegupPreferences.WORK_DIRECTORY) + "/" + ColorPreferences.LIGHT_COLOR_THEME_FILE_NAME);
+        colorThemeFile = new JTextField(LegupPreferences.workDirectory() + "/" + ColorPreferences.LIGHT_COLOR_THEME_FILE_NAME);
         colorThemeRow.add(colorThemeFile, BorderLayout.CENTER);
         JButton openColorThemeFile = new JButton(new ImageIcon(folderIcon));
         openColorThemeFile.addActionListener(
@@ -391,10 +398,12 @@ public class PreferencesDialog extends JDialog {
                         String combo = "";
                         if (e.isControlDown()) {
                             combo += "Ctrl + ";
-                        } else {
+                        }
+                        else {
                             if (e.isShiftDown()) {
                                 combo += "Shift + ";
-                            } else {
+                            }
+                            else {
                                 if (e.isAltDown()) {
                                     combo += "Alt + ";
                                 }
@@ -437,23 +446,23 @@ public class PreferencesDialog extends JDialog {
 
     public void applyPreferences() {
         LegupPreferences prefs = LegupPreferences.getInstance();
-        prefs.setUserPref(LegupPreferences.WORK_DIRECTORY, workDirectory.getText());
+        prefs.setUserPref(LegupPreferences.LegupPreference.WORK_DIRECTORY, workDirectory.getText());
         prefs.setUserPref(
-                LegupPreferences.START_FULL_SCREEN, Boolean.toString(fullScreen.isSelected()));
-        prefs.setUserPref(LegupPreferences.AUTO_UPDATE, Boolean.toString(autoUpdate.isSelected()));
-        prefs.setUserPref(LegupPreferences.DARK_MODE, Boolean.toString(darkMode.isSelected()));
+                LegupPreferences.LegupPreference.START_FULL_SCREEN, fullScreen.isSelected());
+        prefs.setUserPref(LegupPreferences.LegupPreference.AUTO_UPDATE, autoUpdate.isSelected());
+        prefs.setUserPref(LegupPreferences.LegupPreference.DARK_MODE, darkMode.isSelected());
         prefs.setUserPref(
-                LegupPreferences.SHOW_MISTAKES, Boolean.toString(showMistakes.isSelected()));
+                LegupPreferences.LegupPreference.SHOW_MISTAKES, showMistakes.isSelected());
         prefs.setUserPref(
-                LegupPreferences.SHOW_ANNOTATIONS, Boolean.toString(showAnnotations.isSelected()));
+                LegupPreferences.LegupPreference.SHOW_ANNOTATIONS, showAnnotations.isSelected());
         prefs.setUserPref(
-                LegupPreferences.ALLOW_DEFAULT_RULES, Boolean.toString(allowDefault.isSelected()));
+                LegupPreferences.LegupPreference.ALLOW_DEFAULT_RULES, allowDefault.isSelected());
         prefs.setUserPref(
-                LegupPreferences.AUTO_GENERATE_CASES, Boolean.toString(generateCases.isSelected()));
+                LegupPreferences.LegupPreference.AUTO_GENERATE_CASES, generateCases.isSelected());
         prefs.setUserPref(
-                LegupPreferences.IMMEDIATE_FEEDBACK, Boolean.toString(immFeedback.isSelected()));
-        prefs.setUserPref(LegupPreferences.COLOR_BLIND, Boolean.toString(colorBlind.isSelected()));
-        prefs.setUserPref(LegupPreferences.COLOR_THEME_FILE, colorThemeFile.getText());
+                LegupPreferences.LegupPreference.IMMEDIATE_FEEDBACK, immFeedback.isSelected());
+        prefs.setUserPref(LegupPreferences.LegupPreference.COLOR_BLIND, colorBlind.isSelected());
+        prefs.setUserPref(LegupPreferences.LegupPreference.COLOR_THEME_FILE, colorThemeFile.getText());
 
         if (rulesFrame != null) {
             rulesFrame.getCasePanel().updateRules();

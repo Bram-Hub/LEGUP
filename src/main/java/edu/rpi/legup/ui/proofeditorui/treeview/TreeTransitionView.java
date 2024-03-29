@@ -98,7 +98,7 @@ public class TreeTransitionView extends TreeElementView {
         }
 
         LegupPreferences prefs = LegupPreferences.getInstance();
-        boolean colorBlind = prefs.getUserPref(LegupPreferences.COLOR_BLIND).equals("true");
+        boolean colorBlind = LegupPreferences.colorBlind();
 
         if (isSelected) {
             Color c = DEFAULT_COLOR;

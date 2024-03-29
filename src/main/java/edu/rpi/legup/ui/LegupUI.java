@@ -47,11 +47,11 @@ public class LegupUI extends JFrame implements WindowListener {
         LegupPreferences prefs = LegupPreferences.getInstance();
 
         try {
-            final String colorFileName = prefs.getUserPref(LegupPreferences.COLOR_THEME_FILE);
+            final String colorFileName = LegupPreferences.LegupPreference.COLOR_THEME_FILE.stringValue();
             if (colorFileName.endsWith(".txt")) {
                 UIManager.setLookAndFeel(new LegupLookAndFeel(colorFileName));
             }else {
-                if (Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
+                if (LegupPreferences.LegupPreference.DARK_MODE.asBoolean()) {
                     UIManager.setLookAndFeel(new LegupLookAndFeel(ColorPreferences.DARK_COLOR_THEME_FILE_NAME));
                 }
                 else {
@@ -64,7 +64,7 @@ public class LegupUI extends JFrame implements WindowListener {
 
 //        fileDialog = new FileDialog(this);
         fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+        fileChooser.setCurrentDirectory(new File(LegupPreferences.LegupPreference.WORK_DIRECTORY.defaultStringValue()));
 
         initPanels();
         displayPanel(0);
@@ -78,9 +78,7 @@ public class LegupUI extends JFrame implements WindowListener {
                                                                 + " Rules.gif")))
                         .getImage());
 
-        if (LegupPreferences.getInstance()
-                .getUserPref(LegupPreferences.START_FULL_SCREEN)
-                .equals(Boolean.toString(true))) {
+        if (LegupPreferences.LegupPreference.START_FULL_SCREEN.asBoolean()) {
             setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
         }
 

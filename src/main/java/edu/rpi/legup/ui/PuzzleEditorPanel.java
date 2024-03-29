@@ -390,7 +390,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             fileChooser = new JFileChooser();
         }
         LegupPreferences preferences = LegupPreferences.getInstance();
-        String preferredDirectory = preferences.getUserPref(LegupPreferences.WORK_DIRECTORY);
+        String preferredDirectory = LegupPreferences.LegupPreference.WORK_DIRECTORY.stringValue();
 
 //        fileChooser.setMode(JFileChooser.LOAD);
         fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
@@ -559,7 +559,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         if (curFileName == null) {
 //            fileChooser.setDirectory(
             fileChooser.setCurrentDirectory(
-                    Path.of(LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY)).toFile());
+                    Path.of(LegupPreferences.LegupPreference.WORK_DIRECTORY.stringValue()).toFile());
         } else {
             File curFile = new File(curFileName);
 //            fileChooser.setDirectory(curFile.getParent());

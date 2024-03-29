@@ -206,7 +206,7 @@ public class HomePanel extends LegupPanel {
 
         JFileChooser folderBrowser = new JFileChooser();
 
-        folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+        folderBrowser.setCurrentDirectory(new File(LegupPreferences.workDirectory()));
         folderBrowser.setDialogTitle("Select Directory");
         folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         folderBrowser.setAcceptAllFileFilterUsed(false);
@@ -283,7 +283,7 @@ public class HomePanel extends LegupPanel {
     private void use_xml_to_check() {
         /* Select a folder, go through each .xml file in the subfolders, look for "isSolved" flag */
         JFileChooser folderBrowser = new JFileChooser();
-        folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+        folderBrowser.setCurrentDirectory(new File(LegupPreferences.workDirectory()));
         folderBrowser.setDialogTitle("Select Directory");
         folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         folderBrowser.setAcceptAllFileFilterUsed(false);
@@ -544,12 +544,12 @@ public class HomePanel extends LegupPanel {
 
         LegupPreferences preferences = LegupPreferences.getInstance();
         File preferredDirectory =
-                new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
+                new File(LegupPreferences.workDirectory());
         folderBrowser = new JFileChooser(preferredDirectory);
 
         folderBrowser.showOpenDialog(this);
         folderBrowser.setVisible(true);
-        folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+        folderBrowser.setCurrentDirectory(new File(LegupPreferences.workDirectory()));
         folderBrowser.setDialogTitle("Select Directory");
         folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         folderBrowser.setAcceptAllFileFilterUsed(false);
