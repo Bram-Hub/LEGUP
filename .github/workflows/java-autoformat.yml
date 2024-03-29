@@ -2,8 +2,53 @@ name: Java Code Auto Format
 on: pull_request
 
 jobs:
-  format:
-    if: github.event.pull_request.head.repo.full_name == github.repository
+  format_dev:
+    if: |
+      github.event.pull_request.base.ref == 'dev' && 
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v1
+        with:
+          java-version: 21
+          distribution: temurin
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build -x test
+
+      - name: Run spotless
+        run: ./gradlew :spotlessApply
+
+      - name: Create temporary branch
+        run: |
+          git checkout -b auto-format-code
+          git add .
+          git commit -m "Automated Java code formatting changes"
+          git push origin auto-format-code
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          title: Automated Java code formatting changes
+          body: This pull request contains automated code formatting changes.
+          branch: auto-format-code
+          base: dev
+
+  format_other_branches:
+    if: |
+      github.event.pull_request.base.ref != 'dev' && 
+      github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
