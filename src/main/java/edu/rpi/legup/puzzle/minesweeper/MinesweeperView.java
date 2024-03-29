@@ -18,6 +18,8 @@ public class MinesweeperView extends GridBoardView {
     private static final Logger LOGGER = LogManager.getLogger(MinesweeperView.class.getName());
     public static final Image BOMB_IMAGE;
 
+    public static final Image EMPTY_IMAGE;
+
     static {
         Image tempBombImage = null;
         try {
@@ -29,6 +31,19 @@ public class MinesweeperView extends GridBoardView {
             LOGGER.error("Failed to open Minesweeper images");
         }
         BOMB_IMAGE = tempBombImage;
+    }
+
+    static {
+        Image tempEmptyImage = null;
+        try {
+            tempEmptyImage =
+                    ImageIO.read(
+                            Objects.requireNonNull(ClassLoader.getSystemClassLoader()
+                                    .getResource("edu/rpi/legup/images/minesweeper/tiles/Empty.png")));
+        } catch (IOException e) {
+            LOGGER.error("Failed to open Minesweeper images");
+        }
+        EMPTY_IMAGE = tempEmptyImage;
     }
 
 
