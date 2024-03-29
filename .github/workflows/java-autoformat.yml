@@ -36,12 +36,11 @@ jobs:
         run: |
           git config --global user.name 'Bram van Heuveln'
           git config --global user.email 'bram28@users.noreply.github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git checkout -b auto-format-code
           git add .
           git commit -m "Automated Java code formatting changes"
           git push origin auto-format-code
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Open pull request
         if: steps.git-check.outputs.modified == 'true'
