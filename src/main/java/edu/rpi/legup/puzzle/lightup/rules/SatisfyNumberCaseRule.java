@@ -50,8 +50,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
         LightUpBoard lightUpBoard =
                 (LightUpBoard) board;
         LightUpCell cell = (LightUpCell) puzzleElement;
-        Point loc =
-                cell.getLocation();
+        Point loc = cell.getLocation();
 
         List<LightUpCell> openSpots = new ArrayList<>();
 
