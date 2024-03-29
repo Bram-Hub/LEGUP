@@ -30,7 +30,7 @@ public abstract class CaseRule extends Rule {
         this.ruleType = CASE;
         this.INVALID_USE_MESSAGE = "Invalid use of the case rule " + this.ruleName;
         this.MAX_CASES = 10;
-        this.MIN_CASES = 0; // By default, this will not actually have any effect
+        this.MIN_CASES = 1; // By default, this will not actually have any effect
     }
 
     /**
