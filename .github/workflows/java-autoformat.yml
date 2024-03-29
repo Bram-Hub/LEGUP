@@ -41,7 +41,9 @@ jobs:
           git checkout -b $branch_name
           ./gradlew :spotlessApply
           git add .
-          git diff --cached --exit-code || git commit -am "Automated Java code formatting changes" && git push --set-upstream origin $branch_name && gh pr create -B dev -H $branch_name --title 'Automated Java code formatting changes' --body 'This pull request contains automated code formatting changes.'
+          git commit -am "Automated Java code formatting changes"
+          git push --set-upstream origin $branch_name
+          gh pr create -B dev -H $branch_name --title 'Automated Java code formatting changes' --body 'This pull request contains automated code formatting changes.' --reviewer ${{ github.actor }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -78,7 +80,7 @@ jobs:
 
       - name: Check for modified files
         id: git-check
-        run: echo "modified=$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)" >> $GITHUB_OUTPUT
+        run: echo "modified=$(if [[ -n $(git status -s) ]]; then echo "true"; else echo "false"; fi)" >> $GITHUB_OUTPUT
 
       - name: Push changes
         if: steps.git-check.outputs.modified == 'true'
@@ -87,4 +89,5 @@ jobs:
           git config --global user.email 'bram28@users.noreply.github.com'
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git add .
-          git diff --cached --exit-code || git commit -am "Automated Java code formatting changes" && git push
+          git commit -am "Automated Java code formatting changes"
+          git push
