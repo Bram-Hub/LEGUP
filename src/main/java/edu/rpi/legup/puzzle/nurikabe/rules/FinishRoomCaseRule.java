@@ -18,13 +18,13 @@ import java.util.List;
 import java.util.Set;
 
 public class FinishRoomCaseRule extends CaseRule {
-
     public FinishRoomCaseRule() {
         super("NURI-CASE-0002",
                 "Finish Room",
                 "Room can be finished in up to five ways",
-                "edu/rpi/legup/images/nurikabe/cases/FinishRoom.png"); //new image
+                "edu/rpi/legup/images/nurikabe/cases/FinishRoom.png");
         this.MAX_CASES = 5;
+        this.MIN_CASES = 2;
     }
 
     /**
@@ -40,6 +40,9 @@ public class FinishRoomCaseRule extends CaseRule {
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
         if (childTransitions.size() > 5) {
             return super.getInvalidUseOfRuleMessage() + ": This case rule must have 5 or less children.";
+        }
+        if(childTransitions.size() < 2) {
+            return super.getInvalidUseOfRuleMessage() + ": This case rule must have 2 or more children.";
         }
         Set<Point> locations = new HashSet<>();
         for (TreeTransition t1 : childTransitions) {
