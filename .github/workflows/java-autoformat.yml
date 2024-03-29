@@ -35,7 +35,7 @@ jobs:
         if: steps.git-check.outputs.modified == 'true'
         run: |
           git config --global user.name 'Charles Tian'
-          git config --global user.email 'charles.tian23@gmail.com'
+          git config --global user.email 'charlestian23@users.noreply.github.com'
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git checkout -b auto-format-code
           git add .
