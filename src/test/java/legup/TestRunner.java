@@ -42,7 +42,7 @@ public class TestRunner {
         Result result13 = JUnitCore.runClasses(TooManyBulbsContradictionRuleTest.class);
         printTestResults(result13);
 
-        //nurikabe tests
+        // nurikabe tests
         Result result14 = JUnitCore.runClasses(BlackBetweenRegionsDirectRuleTest.class);
         printTestResults(result14);
         Result result15 = JUnitCore.runClasses(BlackBottleNeckDirectRuleTest.class);
