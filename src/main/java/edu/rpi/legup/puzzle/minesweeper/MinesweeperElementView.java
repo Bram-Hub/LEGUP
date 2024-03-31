@@ -53,11 +53,18 @@ public class MinesweeperElementView extends GridElementView {
             return;
         }
         if (type == MinesweeperTileType.EMPTY) {
-            graphics2D.setStroke(new BasicStroke(1));
+            graphics2D.setColor(Color.LIGHT_GRAY);
+            graphics2D.fillRect(location.x, location.y, size.width, size.height);
+            graphics2D.drawImage(
+                    MinesweeperView.EMPTY_IMAGE,
+                    location.x,
+                    location.y,
+                    size.width,
+                    size.height,
+                    Color.GRAY,
+                    null);
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
-            graphics2D.setColor(Color.GRAY);
-            graphics2D.fillRect(location.x, location.y, size.width, size.height);
         }
         if (type == MinesweeperTileType.BOMB) {
             graphics2D.setColor(Color.LIGHT_GRAY);
