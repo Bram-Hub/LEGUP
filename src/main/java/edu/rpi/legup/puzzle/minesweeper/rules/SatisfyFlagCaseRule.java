@@ -17,7 +17,7 @@ public class SatisfyFlagCaseRule extends CaseRule{
         super("MINE-CASE-0002",
                 "Satisfy Flag",
                 "Create a different path for each valid way to mark bombs and filled cells around a flag",
-                "edu/rpi/legup/images/minesweeper/cases/SatisfyFlag.jpg");
+                "edu/rpi/legup/images/minesweeper/cases/Satisfy_Flag.png");
     }
 
     @Override
