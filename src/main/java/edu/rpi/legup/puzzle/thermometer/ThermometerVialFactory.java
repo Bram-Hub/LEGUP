@@ -10,7 +10,6 @@ import org.w3c.dom.Node;
 
 import java.awt.*;
 
-import static edu.rpi.legup.puzzle.thermometer.ThermometerVial.verifyVial;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 

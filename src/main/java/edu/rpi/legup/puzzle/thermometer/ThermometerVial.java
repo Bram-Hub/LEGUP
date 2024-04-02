@@ -9,7 +9,7 @@ public class ThermometerVial {
     private ArrayList<ThermometerCell> cells;
 
     public ThermometerVial(int headX, int headY, int tipX, int tipY, ThermometerBoard board) {
-        cells = new ArrayList<>();
+        cells = new ArrayList<ThermometerCell>();
         fillData(headX, headY, tipX, tipY, board);
     }
 
@@ -53,16 +53,18 @@ public class ThermometerVial {
 
     //helper function for adding a single cell
     private void addCell(int x, int y, ThermometerType t, int rotation, ThermometerBoard board){
-        ThermometerCell cell = new ThermometerCell(new Point(x, y));
+        ThermometerCell cell = new ThermometerCell(new Point(x, y), t, ThermometerFill.EMPTY, rotation);
         cell.setIndex(y * board.getHeight() + x);
-        cell.setModifiable(true);
+        this.cells.add(cell);
+        //still important for element view stuff
         board.setCell(x, y, cell);
-        board.getCell(x, y).setType(t);
-        board.getCell(x, y).setFill(ThermometerFill.EMPTY);
-        board.getCell(x,y).setRotation(rotation);
-        cells.add(board.getCell(x, y));
     }
 
+
+    //TODO DOES NOT WORK AS INTENDED
+    // BECAUSE MOST RULES GET A PUZZLE ELEMENT PASSED IN AND WEIRD
+    // TYPE CASTING STUFF, PAY ATTENTION TO THIS WHEN WE START
+    // DEBUGGING RULES
     //a basic accessor to check if a cell is contained in vial
     public boolean containsCell(ThermometerCell cell){
         for (ThermometerCell c : cells) {
@@ -75,6 +77,7 @@ public class ThermometerVial {
 
     public ThermometerCell getHead(){return cells.getFirst();}
     public ThermometerCell getTail(){return cells.getLast();}
+    public ArrayList<ThermometerCell> getCells(){return cells;}
 
     //checking for discontinuous flow inside of vial
     public boolean continuousFlow(){
@@ -91,41 +94,4 @@ public class ThermometerVial {
         return true;
     }
 
-
-    //used before calling the constructor to make sure the vial we are attempting to add is valid
-    public static boolean verifyVial(ThermometerCell headCell, ThermometerCell tipCell, ThermometerBoard board) {
-        //shorthand for useful variables
-        int headX = (int) headCell.getLocation().getX();
-        int headY = (int) headCell.getLocation().getY();
-        int tipX = (int) tipCell.getLocation().getX();
-        int tipY = (int) tipCell.getLocation().getY();
-
-
-        //figuring out which axis the thermometer travels along
-        if(headX == tipX) {
-            //finding start and end of Vial
-            int top = min(headY, tipY);
-            int bottom = max(headY, tipY);
-
-            //verifying that every cell along path is currently unclaimed
-            for (int i = top; i < bottom; i++) {
-                if(board.getCell(headX, i) != null || board.getCell(headX, i).getType() != ThermometerType.UNKNOWN) return false;
-            }
-        }
-        else if (headY == tipY) {
-            //finding start and end of Vial
-            int top = min(headX, tipX);
-            int bottom = max(headX, tipX);
-
-            //verifying that every cell along path is currently unclaimed
-            for (int i = top; i < bottom; i++) {
-                if(board.getCell(i, headY).getType() != ThermometerType.UNKNOWN) return false;
-            }
-        }
-        else{
-            //thermometer does not line up along a single axis
-            return false;
-        }
-        return true;
-    }
 }
