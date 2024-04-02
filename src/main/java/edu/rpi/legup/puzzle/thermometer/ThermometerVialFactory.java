@@ -52,7 +52,7 @@ public class ThermometerVialFactory extends ElementFactory{
 
             //verifying that every cell along path is currently unconstructed
             for (int i = top; i <= bottom; i++) {
-                if(board.getCell(headX, i) == null) return false;
+                if(board.getCell(headX, i) != null) return false;
             }
         }
         else if (headY == tipY) {
