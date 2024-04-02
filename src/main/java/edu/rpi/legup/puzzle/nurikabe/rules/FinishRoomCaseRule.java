@@ -17,7 +17,11 @@ import java.util.List;
 import java.util.Set;
 
 public class FinishRoomCaseRule extends CaseRule {
-    private int legitCases = 0; //placeholder for amount of cases originally generated in case user tries to delete cases
+    private int legitCases =
+            0; // placeholder for amount of cases originally generated in case user tries to delete
+
+    // cases
+
     public FinishRoomCaseRule() {
         super(
                 "NURI-CASE-0002",
@@ -48,8 +52,9 @@ public class FinishRoomCaseRule extends CaseRule {
                     + ": This case rule must have 2 or more children.";
         }
         if (childTransitions.size() != legitCases) {
-            return super.getInvalidUseOfRuleMessage() + ": Cases can not be removed from the branch.";
-        } //stops user from deleting 1 or mose generated cases and still having path show as green
+            return super.getInvalidUseOfRuleMessage()
+                    + ": Cases can not be removed from the branch.";
+        } // stops user from deleting 1 or mose generated cases and still having path show as green
         Set<Point> locations = new HashSet<>();
         for (TreeTransition t1 : childTransitions) {
             locations.add(
@@ -174,7 +179,7 @@ public class FinishRoomCaseRule extends CaseRule {
                 // it again and accidentally add
                 if (curr.getType()
                         == NurikabeType
-                        .UNKNOWN) { // found adjacent space to region that is currently
+                                .UNKNOWN) { // found adjacent space to region that is currently
                     // unknown
                     curr.setData(
                             NurikabeType.WHITE.toValue()); // changes adjacent cell color to white
