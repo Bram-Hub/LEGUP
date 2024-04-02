@@ -73,8 +73,8 @@ public class ThermometerVial {
         return false;
     }
 
-    public ThermometerCell getHead(){return cells.get(0);}
-    public ThermometerCell getTail(){return cells.get(cells.size());}
+    public ThermometerCell getHead(){return cells.getFirst();}
+    public ThermometerCell getTail(){return cells.getLast();}
 
     //checking for discontinuous flow inside of vial
     public boolean continuousFlow(){

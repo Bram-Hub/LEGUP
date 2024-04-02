@@ -87,6 +87,13 @@ public class RestEmptyDirectRule extends DirectRule {
         return super.getInvalidUseOfRuleMessage() + "Something went wrong - 3";
     }
 
+    /**
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
+     *
+     * @param node tree node used to create default transition board
+     * @return default board or null if this rule cannot be applied to this tree node
+     */
     @Override
     public Board getDefaultBoard(TreeNode node) {return null;}
 }
