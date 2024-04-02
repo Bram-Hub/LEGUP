@@ -8,22 +8,18 @@ public class ThermometerCell extends GridCell<Integer> {
     private ThermometerType type;
     private ThermometerFill fill;
     private int rotation;
-    public ThermometerCell(Point location) {
+    public ThermometerCell(Point location, ThermometerType t, ThermometerFill f, int r) {
         //since we do not use get/set data value int can be any value
         super(0, location);
-        type = ThermometerType.UNKNOWN;
-        fill = ThermometerFill.UNKNOWN;
-        rotation = 0;
+        type = t;
+        fill = f;
+        rotation = r;
     }
-
-
-
 
     //Note: setdata does not work for our purposes
     public void setType(ThermometerType t){
         type = t;
     }
-
 
     public ThermometerType getType() {
         return switch (type.ordinal()) {
@@ -54,7 +50,7 @@ public class ThermometerCell extends GridCell<Integer> {
 
     @Override
     public ThermometerCell copy() {
-        ThermometerCell copy = new ThermometerCell((Point) location.clone());
+        ThermometerCell copy = new ThermometerCell((Point) location.clone(), this.type, this.fill, this.rotation);
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);

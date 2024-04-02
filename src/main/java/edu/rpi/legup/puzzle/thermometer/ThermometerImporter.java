@@ -78,7 +78,7 @@ public class ThermometerImporter extends PuzzleImporter {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     if (thermometerBoard.getCell(x, y) == null) {
-                        throw new InvalidFileFormatException("Undefined tile at (" + x + "," + y + ")");
+                        throw new InvalidFileFormatException("Thermometer importer Undefined tile at (" + x + "," + y + ")");
                     }
                 }
             }
