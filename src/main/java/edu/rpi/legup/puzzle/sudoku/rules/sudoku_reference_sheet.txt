@@ -1,4 +1,3 @@
-SUDO-BASC-0001 : AdvancedDeductionDirectRule
 SUDO-BASC-0002 : LastCellForNumberDirectRule
 SUDO-BASC-0003 : LastNumberForCellDirectRule
 
