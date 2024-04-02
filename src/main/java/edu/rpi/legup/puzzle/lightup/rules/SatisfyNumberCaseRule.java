@@ -9,7 +9,6 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.lightup.LightUpBoard;
 import edu.rpi.legup.puzzle.lightup.LightUpCell;
 import edu.rpi.legup.puzzle.lightup.LightUpCellType;
-import edu.rpi.legup.puzzle.lightup.rules.FinishWithBulbsDirectRule;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -210,8 +209,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
                     return null;
                 }
                 return super.getInvalidUseOfRuleMessage();
-            }
-            else if (cases.size() == childTransitions.size() && cases.size() > 1) {
+            } else if (cases.size() == childTransitions.size() && cases.size() > 1) {
                 boolean foundSpot = true;
                 for (TreeTransition childTrans : childTransitions) {
                     LightUpBoard actCase = (LightUpBoard) childTrans.getBoard();
@@ -228,7 +226,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
                                     LightUpCell posCell = (LightUpCell) posEle;
                                     if (actCell.getType() == posCell.getType()
                                             && actCell.getLocation()
-                                            .equals(posCell.getLocation())) {
+                                                    .equals(posCell.getLocation())) {
                                         foundCell = true;
                                         break;
                                     }
