@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 public class FinishRoomCaseRule extends CaseRule {
+    private int legitCases = 0; //placeholder for amount of cases originally generated in case user tries to delete cases
     public FinishRoomCaseRule() {
         super(
                 "NURI-CASE-0002",
@@ -46,6 +47,9 @@ public class FinishRoomCaseRule extends CaseRule {
             return super.getInvalidUseOfRuleMessage()
                     + ": This case rule must have 2 or more children.";
         }
+        if (childTransitions.size() != legitCases) {
+            return super.getInvalidUseOfRuleMessage() + ": Cases can not be removed from the branch.";
+        } //stops user from deleting 1 or mose generated cases and still having path show as green
         Set<Point> locations = new HashSet<>();
         for (TreeTransition t1 : childTransitions) {
             locations.add(
@@ -220,7 +224,7 @@ public class FinishRoomCaseRule extends CaseRule {
                     regions = NurikabeUtilities.getNurikabeRegions(nuriBoard); // updates regions
                 }
             }
-        }
+            legitCases = cases.size();
         return cases;
     }
 
