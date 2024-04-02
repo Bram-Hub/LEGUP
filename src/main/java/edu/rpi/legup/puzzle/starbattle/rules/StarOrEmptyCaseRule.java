@@ -20,7 +20,7 @@ public class StarOrEmptyCaseRule extends CaseRule {
         super("STBL-CASE-0002",
                 "Star or Empty",
                 "Each unknown space is either a star or empty.",
-                "INSERT IMAGE NAME HERE");
+                "edu/rpi/legup/images/starbattle/cases/StarOrEmptyCaseRule.png");
     }
 
     /**
@@ -98,6 +98,6 @@ public class StarOrEmptyCaseRule extends CaseRule {
 
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        return null;
+        return checkRuleRaw(transition);
     }
 }

@@ -14,17 +14,21 @@ public class StarBattleController extends ElementController {
                 this.boardView.getSelectionPopupMenu().show(boardView, this.boardView.getCanvas().getX() + e.getX(), this.boardView.getCanvas().getY() + e.getY());
             }
             else {
-                data.setData(cell.getData() + 1);
                 if (cell.getData() >= 0) {
-                    data.setData(-3);
+                    data.setData(-2);
+                }
+                else { 
+                    data.setData(cell.getData() + 1);
                 }
             }
         }
         else {
             if (e.getButton() == MouseEvent.BUTTON3) {
-                data.setData(cell.getData() - 1);
-                if (cell.getData() == -3) {
+                if (cell.getData() == -2) {
                     data.setData(0);
+                }
+                else {
+                    data.setData(cell.getData() - 1);
                 }
             }
         }

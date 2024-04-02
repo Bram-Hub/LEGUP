@@ -29,12 +29,6 @@ public class StarBattleElementView extends GridElementView {
             graphics2D.setStroke(new BasicStroke(1));
             graphics2D.setColor(Color.BLACK);
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
-        } else if (type == StarBattleCellType.WHITE) {
-            graphics2D.setStroke(new BasicStroke(1));
-            graphics2D.setColor(Color.WHITE);
-            graphics2D.fillRect(location.x, location.y, size.width, size.height);
-            graphics2D.setColor(Color.BLACK);
-            graphics2D.drawRect(location.x, location.y, size.width, size.height);
         } else if (type == StarBattleCellType.UNKNOWN) {
             graphics2D.setStroke(new BasicStroke(1));
             graphics2D.setColor(Color.LIGHT_GRAY);
@@ -42,5 +36,6 @@ public class StarBattleElementView extends GridElementView {
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
         }
+        
     }
 }
