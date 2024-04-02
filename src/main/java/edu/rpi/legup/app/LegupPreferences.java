@@ -18,7 +18,6 @@ public class LegupPreferences {
             Preferences.userNodeForPackage(LegupPreferences.class);
 
     private static final Map<LegupPreference, Object> preferencesMap = new EnumMap<>(LegupPreference.class);
-    private static final Map<LegupPreference, Object> defaultPreferencesMap = new EnumMap<>(LegupPreference.class);
 
     public enum LegupPreference {
         WORK_DIRECTORY("work-directory", System.getProperty("user.dir"), o -> o),
@@ -36,7 +35,13 @@ public class LegupPreferences {
 
         private final String id;
         private final Object defaultValue;
+        /**
+         * Converts the object to a string so that it can be saved in preferences
+         */
         private final Function<Object, String> stringMapper;
+        /**
+         * Converts a string value to an object so it's more convenient to use in code
+         */
         private final Function<String, Object> stringToValueMapper;
 
         @SuppressWarnings("unchecked")
@@ -80,7 +85,7 @@ public class LegupPreferences {
          * @param <T>
          */
         public <T> T as(Class<T> clazz) {
-            return clazz.cast(defaultValue);
+            return clazz.cast(stringToValueMapper.apply(stringValue()));
         }
 
         public boolean asBoolean() {
@@ -109,41 +114,6 @@ public class LegupPreferences {
         }
     }
 
-//    public static final String WORK_DIRECTORY = "work-directory";
-//    public static final String START_FULL_SCREEN = "start-full-screen";
-//    public static final String AUTO_UPDATE = "auto-update";
-//    public static final String DARK_MODE = "night-mode";
-//    public static final String USE_CUSTOM_COLOR_THEME = "use-custom-color-theme";
-//    public static final String SHOW_MISTAKES = "show-mistakes";
-//    public static final String SHOW_ANNOTATIONS = "show-annotations";
-//    public static final String ALLOW_DEFAULT_RULES = "allow-default-rules";
-//    public static final String AUTO_GENERATE_CASES = "auto-generate-cases";
-//    public static final String IMMEDIATE_FEEDBACK = "immediate-feedback";
-//    public static final String COLOR_THEME_FILE = "color-theme-file";
-//    public static final String COLOR_BLIND = "color-blind";
-
-    private static void addDefaultPreference(LegupPreference preference) {
-        defaultPreferencesMap.put(preference, preference.defaultStringValue());
-    }
-
-    static {
-        for (final LegupPreference preference : LegupPreference.values()) {
-            addDefaultPreference(preference);
-        }
-//        defaultPreferencesMap.put(WORK_DIRECTORY, System.getProperty("user.dir"));
-//        defaultPreferencesMap.put(START_FULL_SCREEN, Boolean.toString(false));
-//        defaultPreferencesMap.put(AUTO_UPDATE, Boolean.toString(true));
-//        defaultPreferencesMap.put(DARK_MODE, Boolean.toString(false));
-//        defaultPreferencesMap.put(USE_CUSTOM_COLOR_THEME, Boolean.toString(false));
-//        defaultPreferencesMap.put(SHOW_MISTAKES, Boolean.toString(true));
-//        defaultPreferencesMap.put(SHOW_ANNOTATIONS, Boolean.toString(false));
-//        defaultPreferencesMap.put(ALLOW_DEFAULT_RULES, Boolean.toString(false));
-//        defaultPreferencesMap.put(AUTO_GENERATE_CASES, Boolean.toString(true));
-//        defaultPreferencesMap.put(IMMEDIATE_FEEDBACK, Boolean.toString(true));
-//        defaultPreferencesMap.put(COLOR_BLIND, Boolean.toString(false));
-//        defaultPreferencesMap.put(COLOR_THEME_FILE, System.getProperty("user.dir") + File.separator + ColorPreferences.LIGHT_COLOR_THEME_FILE_NAME);
-    }
-
     private static Object getPreferenceOrDefault(LegupPreference preference) {
         final String current = preferences.get(preference.id(), null);
         if (current == null) {
@@ -160,36 +130,6 @@ public class LegupPreferences {
         for (final LegupPreference preference : LegupPreference.values()) {
             addPreferenceFromDefault(preference);
         }
-//        preferencesMap.put(
-//                WORK_DIRECTORY,
-//                preferences.get(WORK_DIRECTORY, defaultPreferencesMap.get(WORK_DIRECTORY)));
-//        preferencesMap.put(
-//                START_FULL_SCREEN,
-//                preferences.get(START_FULL_SCREEN, defaultPreferencesMap.get(START_FULL_SCREEN)));
-//        preferencesMap.put(
-//                AUTO_UPDATE, preferences.get(AUTO_UPDATE, defaultPreferencesMap.get(AUTO_UPDATE)));
-//        preferencesMap.put(
-//                DARK_MODE, preferences.get(DARK_MODE, defaultPreferencesMap.get(DARK_MODE)));
-//        preferencesMap.put(
-//                SHOW_MISTAKES,
-//                preferences.get(SHOW_MISTAKES, defaultPreferencesMap.get(SHOW_MISTAKES)));
-//        preferencesMap.put(
-//                SHOW_ANNOTATIONS,
-//                preferences.get(SHOW_ANNOTATIONS, defaultPreferencesMap.get(SHOW_ANNOTATIONS)));
-//        preferencesMap.put(
-//                ALLOW_DEFAULT_RULES,
-//                preferences.get(
-//                        ALLOW_DEFAULT_RULES, defaultPreferencesMap.get(ALLOW_DEFAULT_RULES)));
-//        preferencesMap.put(
-//                AUTO_GENERATE_CASES,
-//                preferences.get(
-//                        AUTO_GENERATE_CASES, defaultPreferencesMap.get(AUTO_GENERATE_CASES)));
-//        preferencesMap.put(
-//                IMMEDIATE_FEEDBACK,
-//                preferences.get(IMMEDIATE_FEEDBACK, defaultPreferencesMap.get(IMMEDIATE_FEEDBACK)));
-//        preferencesMap.put(
-//                COLOR_BLIND, preferences.get(COLOR_BLIND, defaultPreferencesMap.get(COLOR_BLIND)));
-//        preferencesMap.put(COLOR_THEME_FILE, preferences.get(COLOR_THEME_FILE, defaultPreferencesMap.get(COLOR_THEME_FILE)));
     }
 
     /**
@@ -233,17 +173,6 @@ public class LegupPreferences {
 
     public boolean getUserPrefAsBool(LegupPreference preference) {
         return preference.asBoolean("Cannot get user preference - " + preference.id());
-//        if (preferencesMap.get(preference).equalsIgnoreCase(Boolean.toString(true))) {
-//            return true;
-//        }
-//        else {
-//            if (preferencesMap.get(preference).equalsIgnoreCase(Boolean.toString(false))) {
-//                return false;
-//            }
-//            else {
-//                throw new RuntimeException("Cannot get user preference - " + preference.id());
-//            }
-//        }
     }
 
     public String getSavedPath() {
@@ -293,4 +222,13 @@ public class LegupPreferences {
     public static boolean immediateFeedback() {
         return LegupPreference.IMMEDIATE_FEEDBACK.asBoolean();
     }
+
+    public static boolean useCustomColorTheme() {
+        return LegupPreference.USE_CUSTOM_COLOR_THEME.asBoolean();
+    }
+
+    public static String colorThemeFile() {
+        return LegupPreference.COLOR_THEME_FILE.stringValue();
+    }
+
 }

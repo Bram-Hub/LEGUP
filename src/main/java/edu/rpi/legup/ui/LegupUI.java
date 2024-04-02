@@ -5,22 +5,25 @@ import com.formdev.flatlaf.FlatLightLaf;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.ui.boardview.BoardView;
-import edu.rpi.legup.ui.color.ColorPreferences;
 import edu.rpi.legup.ui.lookandfeel.LegupLookAndFeel;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.security.InvalidParameterException;
 import java.util.Objects;
-import javax.swing.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class LegupUI extends JFrame implements WindowListener {
     private static final Logger LOGGER = LogManager.getLogger(LegupUI.class.getName());
 
-//    protected FileDialog fileDialog;
+    //    protected FileDialog fileDialog;
     protected JFileChooser fileChooser;
     protected JPanel window;
     protected LegupPanel[] panels;
@@ -34,33 +37,51 @@ public class LegupUI extends JFrame implements WindowListener {
         String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("mac")) {
             os = "mac";
-        } else {
+        }
+        else {
             os = "win";
         }
         return os;
     }
 
-    /** LegupUI Constructor - creates a new LegupUI to setup the menu and toolbar */
+    public static void updateColorTheme() {
+        try {
+            final String colorFileName = LegupPreferences.LegupPreference.COLOR_THEME_FILE.stringValue();
+            final boolean isTxt = colorFileName.endsWith(".txt");
+            boolean useCustomColorTheme = LegupPreferences.useCustomColorTheme();
+            System.out.println("Is txt: " + isTxt + " " + useCustomColorTheme);
+            if (!isTxt && useCustomColorTheme) {
+                System.err.printf("Invalid color theme file '%s', using default theme.\n", colorFileName);
+                useCustomColorTheme = false;
+            }
+            if (isTxt && useCustomColorTheme) {
+                UIManager.setLookAndFeel(new LegupLookAndFeel(colorFileName));
+                com.formdev.flatlaf.FlatLaf.updateUI();
+            }
+            else {
+                if (LegupPreferences.darkMode()) {
+                    UIManager.setLookAndFeel(new FlatDarkLaf());
+                }
+                else {
+                    UIManager.setLookAndFeel(new FlatLightLaf());
+                }
+            }
+            com.formdev.flatlaf.FlatLaf.updateUI();
+        }
+        catch (UnsupportedLookAndFeelException exception) {
+            throw new RuntimeException("Not supported ui look and feel", exception);
+        }
+    }
+
+    /**
+     * LegupUI Constructor - creates a new LegupUI to setup the menu and toolbar
+     */
     public LegupUI() {
         setTitle("LEGUP");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         LegupPreferences prefs = LegupPreferences.getInstance();
 
-        try {
-            final String colorFileName = LegupPreferences.LegupPreference.COLOR_THEME_FILE.stringValue();
-            if (colorFileName.endsWith(".txt")) {
-                UIManager.setLookAndFeel(new LegupLookAndFeel(colorFileName));
-            }else {
-                if (LegupPreferences.LegupPreference.DARK_MODE.asBoolean()) {
-                    UIManager.setLookAndFeel(new LegupLookAndFeel(ColorPreferences.DARK_COLOR_THEME_FILE_NAME));
-                }
-                else {
-                    UIManager.setLookAndFeel(new LegupLookAndFeel(ColorPreferences.LIGHT_COLOR_THEME_FILE_NAME));
-                }
-            }
-        } catch (UnsupportedLookAndFeelException e) {
-            System.err.println("Not supported ui look and feel");
-        }
+        updateColorTheme();
 
 //        fileDialog = new FileDialog(this);
         fileChooser = new JFileChooser();
@@ -71,11 +92,11 @@ public class LegupUI extends JFrame implements WindowListener {
 
         setIconImage(
                 new ImageIcon(
-                                Objects.requireNonNull(
-                                        ClassLoader.getSystemClassLoader()
-                                                .getResource(
-                                                        "edu/rpi/legup/images/Legup/Direct"
-                                                                + " Rules.gif")))
+                        Objects.requireNonNull(
+                                ClassLoader.getSystemClassLoader()
+                                        .getResource(
+                                                "edu/rpi/legup/images/Legup/Direct"
+                                                        + " Rules.gif")))
                         .getImage());
 
         if (LegupPreferences.LegupPreference.START_FULL_SCREEN.asBoolean()) {
@@ -167,16 +188,19 @@ public class LegupUI extends JFrame implements WindowListener {
     }
 
     @Override
-    public void windowOpened(WindowEvent e) {}
+    public void windowOpened(WindowEvent e) {
+    }
 
     public void windowClosing(WindowEvent e) {
         if (GameBoardFacade.getInstance().getHistory().getIndex() > -1) {
             if (noquit("Exiting LEGUP?")) {
                 this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-            } else {
+            }
+            else {
                 this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             }
-        } else {
+        }
+        else {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         }
     }
@@ -185,13 +209,17 @@ public class LegupUI extends JFrame implements WindowListener {
         System.exit(0);
     }
 
-    public void windowIconified(WindowEvent e) {}
+    public void windowIconified(WindowEvent e) {
+    }
 
-    public void windowDeiconified(WindowEvent e) {}
+    public void windowDeiconified(WindowEvent e) {
+    }
 
-    public void windowActivated(WindowEvent e) {}
+    public void windowActivated(WindowEvent e) {
+    }
 
-    public void windowDeactivated(WindowEvent e) {}
+    public void windowDeactivated(WindowEvent e) {
+    }
 
     public BoardView getBoardView() {
         return getProofEditor().getBoardView();
