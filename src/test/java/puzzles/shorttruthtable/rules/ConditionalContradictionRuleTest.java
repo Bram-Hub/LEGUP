@@ -28,8 +28,8 @@ public class ConditionalContradictionRuleTest {
     /**
      * Given a statement: A -> B where -> is true
      *
-     * Asserts that this is a valid application of the rule if
-     * and only if both A is true and B is false
+     * <p>Asserts that this is a valid application of the rule if and only if both A is true and B
+     * is false
      *
      * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
@@ -55,10 +55,10 @@ public class ConditionalContradictionRuleTest {
         ShortTruthTableCell a = board.getCell(0, 0);
         ShortTruthTableCell b = board.getCell(2, 0);
 
-        if (a.getType() == ShortTruthTableCellType.TRUE && b.getType() == ShortTruthTableCellType.FALSE) {
+        if (a.getType() == ShortTruthTableCellType.TRUE
+                && b.getType() == ShortTruthTableCellType.FALSE) {
             Assert.assertNull(RULE.checkContradiction(transition.getBoard()));
-        }
-        else {
+        } else {
             Assert.assertNotNull(RULE.checkContradiction(transition.getBoard()));
         }
     }
@@ -66,8 +66,8 @@ public class ConditionalContradictionRuleTest {
     /**
      * Given a statement: A -> B where -> is false
      *
-     * Asserts that this is a valid application of the rule if
-     * and only if A is false or B is true
+     * <p>Asserts that this is a valid application of the rule if and only if A is false or B is
+     * true
      *
      * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
@@ -93,10 +93,10 @@ public class ConditionalContradictionRuleTest {
         ShortTruthTableCell a = board.getCell(0, 0);
         ShortTruthTableCell b = board.getCell(2, 0);
 
-        if (a.getType() == ShortTruthTableCellType.FALSE || b.getType() == ShortTruthTableCellType.TRUE) {
+        if (a.getType() == ShortTruthTableCellType.FALSE
+                || b.getType() == ShortTruthTableCellType.TRUE) {
             Assert.assertNull(RULE.checkContradiction(transition.getBoard()));
-        }
-        else {
+        } else {
             Assert.assertNotNull(RULE.checkContradiction(transition.getBoard()));
         }
     }
@@ -104,7 +104,7 @@ public class ConditionalContradictionRuleTest {
     /**
      * Given a statement: A -> B where -> is unknown
      *
-     * Asserts that this is not a valid application of this rule.
+     * <p>Asserts that this is not a valid application of this rule.
      *
      * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException

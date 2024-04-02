@@ -28,8 +28,8 @@ public class OrContradictionRuleTest {
     /**
      * Given a statement: A V B where V is true
      *
-     * Asserts that this is a valid application of the rule if
-     * and only if both A and B are set to false.
+     * <p>Asserts that this is a valid application of the rule if and only if both A and B are set
+     * to false.
      *
      * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
@@ -55,10 +55,10 @@ public class OrContradictionRuleTest {
         ShortTruthTableCell a = board.getCell(0, 0);
         ShortTruthTableCell b = board.getCell(2, 0);
 
-        if (a.getType() == ShortTruthTableCellType.FALSE && b.getType() == ShortTruthTableCellType.FALSE) {
+        if (a.getType() == ShortTruthTableCellType.FALSE
+                && b.getType() == ShortTruthTableCellType.FALSE) {
             Assert.assertNull(RULE.checkContradiction(transition.getBoard()));
-        }
-        else {
+        } else {
             Assert.assertNotNull(RULE.checkContradiction(transition.getBoard()));
         }
     }
@@ -66,9 +66,8 @@ public class OrContradictionRuleTest {
     /**
      * Given a statement: A V B where V is false
      *
-     * Asserts that this is a valid application of the rule if
-     * and only if A or B is set to true or both A and B are set
-     * to true.
+     * <p>Asserts that this is a valid application of the rule if and only if A or B is set to true
+     * or both A and B are set to true.
      *
      * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
@@ -94,10 +93,10 @@ public class OrContradictionRuleTest {
         ShortTruthTableCell a = board.getCell(0, 0);
         ShortTruthTableCell b = board.getCell(2, 0);
 
-        if (a.getType() == ShortTruthTableCellType.TRUE || b.getType() == ShortTruthTableCellType.TRUE) {
+        if (a.getType() == ShortTruthTableCellType.TRUE
+                || b.getType() == ShortTruthTableCellType.TRUE) {
             Assert.assertNull(RULE.checkContradiction(transition.getBoard()));
-        }
-        else {
+        } else {
             Assert.assertNotNull(RULE.checkContradiction(transition.getBoard()));
         }
     }
@@ -105,7 +104,7 @@ public class OrContradictionRuleTest {
     /**
      * Given a statement: A V B where V is unknown
      *
-     * Asserts that this is not a valid application of this rule.
+     * <p>Asserts that this is not a valid application of this rule.
      *
      * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
