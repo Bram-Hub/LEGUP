@@ -119,8 +119,7 @@ public class FinishRoomCaseRule extends CaseRule {
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(
-            Board board, PuzzleElement puzzleElement) { // throws IllegalStateException {
+    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>(); // makes array list of cases
         NurikabeBoard nuriBoard = (NurikabeBoard) board.copy(); // nurikabe board to edit
         NurikabeCell numbaCell =
@@ -175,7 +174,7 @@ public class FinishRoomCaseRule extends CaseRule {
                 // it again and accidentally add
                 if (curr.getType()
                         == NurikabeType
-                                .UNKNOWN) { // found adjacent space to region that is currently
+                        .UNKNOWN) { // found adjacent space to region that is currently
                     // unknown
                     curr.setData(
                             NurikabeType.WHITE.toValue()); // changes adjacent cell color to white
@@ -225,6 +224,7 @@ public class FinishRoomCaseRule extends CaseRule {
                 }
             }
             legitCases = cases.size();
+        }
         return cases;
     }
 
