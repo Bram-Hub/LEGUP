@@ -47,6 +47,11 @@ public class MercuryOrBlockedCaseRule extends CaseRule {
     }
 
     @Override
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+        return null;
+    }
+
+    @Override
     public CaseBoard getCaseBoard(Board board) {
         ThermometerBoard thermometerBoard = (ThermometerBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(thermometerBoard, this);
@@ -75,10 +80,5 @@ public class MercuryOrBlockedCaseRule extends CaseRule {
         cases.add(case2);
 
         return cases;
-    }
-
-    @Override
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        return null;
     }
 }
