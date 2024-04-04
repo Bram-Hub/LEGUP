@@ -17,9 +17,9 @@ public class ThermometerTooLargeDirectRule extends DirectRule{
     public ThermometerTooLargeDirectRule() {
         super(
                 "THERM-BASC-0006",
-                "Minimum Fill",
-                "Some thermometers must be filled a minimum amount to satisfy requirement",
-                "edu/rpi/legup/images/thermometer/MinimumFill.png");
+                "Thermometer Too Large",
+                "If thermometer is larger than required mercury, some of it must be blocked",
+                "edu/rpi/legup/images/thermometer/ThermometerTooLarge.png");
     }
 
     @Override
