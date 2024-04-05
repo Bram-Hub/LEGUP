@@ -59,8 +59,10 @@ public class ThermometerImporter extends PuzzleImporter {
                 if (rowNodeList.getLength() != height) {
                     throw new InvalidFileFormatException("thermometer Importer: no rowNumbers found for board");
                 }
+
                 //TODO: potentially have to deal with size issues and non interactable cells
                 thermometerBoard = new ThermometerBoard(width, height);
+                importRowColNums(rowNodeList, colNodeList, thermometerBoard);
             }
 
             if (thermometerBoard == null) {
@@ -94,7 +96,16 @@ public class ThermometerImporter extends PuzzleImporter {
 
     }
 
-    private static void importThermometerVial(Node node, ThermometerBoard board) throws InvalidFileFormatException{
+    private void importRowColNums(NodeList rowNodes, NodeList colNodes, ThermometerBoard board) {
+
+        for (int i = 0; i < rowNodes.getLength(); i++) {
+            Node node = rowNodes.item(i);
+            int rowNum = Integer.parseInt(node.getAttributes().getNamedItem("value").getNodeValue());
+            //board.setRowNumber();
+        }
+    }
+
+    private void importThermometerVial(Node node, ThermometerBoard board) throws InvalidFileFormatException{
         int headX = Integer.parseInt(node.getAttributes().getNamedItem("headx").getNodeValue());
         int headY = Integer.parseInt(node.getAttributes().getNamedItem("heady").getNodeValue());
         int tipX = Integer.parseInt(node.getAttributes().getNamedItem("tailx").getNodeValue());
@@ -109,7 +120,7 @@ public class ThermometerImporter extends PuzzleImporter {
         }
     }
 
-    private static boolean verifyVial(int headX, int headY, int tipX, int tipY, ThermometerBoard board) {
+    private boolean verifyVial(int headX, int headY, int tipX, int tipY, ThermometerBoard board) {
         //figuring out which axis the thermometer travels along
         if(headX == tipX) {
             //finding start and end of Vial

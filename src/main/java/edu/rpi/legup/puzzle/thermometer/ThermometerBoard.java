@@ -1,6 +1,7 @@
 package edu.rpi.legup.puzzle.thermometer;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
+import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.util.ArrayList;
 
@@ -10,8 +11,8 @@ public class ThermometerBoard extends GridBoard{
     private ArrayList<ThermometerVial> thermometerVials;
 
     //representations of the number requirements along rows and columns of the board
-    private ArrayList<Integer> colNumbers;
-    private ArrayList<Integer> rowNumbers;
+    private ArrayList<GridCell<Integer>> colNumbers;
+    private ArrayList<GridCell<Integer>> rowNumbers;
 
     //constructors for the boards and variables
     public ThermometerBoard(int width, int height){
@@ -20,24 +21,11 @@ public class ThermometerBoard extends GridBoard{
         //filling the arrays with zeros so they can be properly updated later
         colNumbers = new ArrayList<>();
         for (int i = 0; i < width; i++) {
-            colNumbers.add(0);
+            colNumbers.add(new GridCell<Integer>(0, i, height));
         }
         rowNumbers = new ArrayList<>();
         for (int i = 0; i < height; i++) {
-            rowNumbers.add(0);
-        }
-
-        thermometerVials = new ArrayList<>();
-    }
-    public ThermometerBoard(int size){
-        super(size, size);
-
-        //filling the arrays with zeros so they can be properly updated later
-       colNumbers = new ArrayList<>();
-       rowNumbers = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            colNumbers.add(0);
-            rowNumbers.add(0);
+            rowNumbers.add(new GridCell<Integer>(0, width, i));
         }
 
         thermometerVials = new ArrayList<>();
@@ -57,7 +45,7 @@ public class ThermometerBoard extends GridBoard{
         //first check is to verify we are updating an element in range
         //second check is to verify the new number can be achieved by the puzzle
         if (row < rowNumbers.size() && num <= colNumbers.size()){
-            rowNumbers.set(row, num);
+            rowNumbers.get(row).setData(num);
             return true;
         }
         return false;
@@ -66,7 +54,7 @@ public class ThermometerBoard extends GridBoard{
         //first check is to verify we are updating an element in range
         //second check is to verify the new number can be achieved by the puzzle
         if (col < colNumbers.size() && num <= rowNumbers.size()){
-            rowNumbers.set(col, num);
+            rowNumbers.get(col).setData(num);
             return true;
         }
         return false;
