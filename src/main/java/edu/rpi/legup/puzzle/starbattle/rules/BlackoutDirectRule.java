@@ -16,7 +16,7 @@ public class BlackoutDirectRule extends DirectRule {
         super("STBL-BASC-0001",
                 "Blackout",
                 "If a row, column, or region has enough stars, its unknown spaces are black.",
-                "INSERT IMAGE NAME HERE");
+                "edu/rpi/legup/images/starbattle/rules/BlackOutDirectRule.png");
     }
 
     /**

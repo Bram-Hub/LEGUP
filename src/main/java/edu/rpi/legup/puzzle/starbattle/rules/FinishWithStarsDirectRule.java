@@ -16,7 +16,7 @@ public class FinishWithStarsDirectRule extends DirectRule {
         super("STBL-BASC-0004",
                 "Finish With Stars",
                 "Unknown spaces must be stars if there are just enough in a row, column, or region to satisfy the puzzle number.",
-                "INSERT IMAGE NAME HERE");
+                "edu/rpi/legup/images/starbattle/rules/FinishWithStarDirectRule.png");
     }
 
     /**
