@@ -18,7 +18,7 @@ public class TooFewStarsContradictionRule extends ContradictionRule {
         super("STBL-CONT-0002",
                 "Too Few Stars",
                 "There are too few stars in this region/row/column and there are not enough places to put the remaining stars.",
-                "INSERT IMAGE NAME HERE");
+                "edu/rpi/legup/images/starbattle/contradictions/TooFewStarsContradictionRule.png");
     }
 
     /**

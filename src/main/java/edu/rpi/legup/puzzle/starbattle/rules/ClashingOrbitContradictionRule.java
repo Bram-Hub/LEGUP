@@ -17,7 +17,7 @@ public class ClashingOrbitContradictionRule extends ContradictionRule {
         super("STBL-CONT-0003",
                 "Clashing Orbit",
                 "No two stars can be adjacent to each other.",
-                "INSERT IMAGE NAME HERE");
+                "edu/rpi/legup/images/starbattle/contradictions/ClashingOrbitContradictionRule.png");
     }
 
     /**
