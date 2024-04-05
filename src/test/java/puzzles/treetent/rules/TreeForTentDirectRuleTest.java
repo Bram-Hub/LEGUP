@@ -65,7 +65,7 @@ public class TreeForTentDirectRuleTest {
      *    at (1, 0)
      */
     @Test
-    public void TentForTreeArbitraryTreeTest() throws InvalidFileFormatException {
+    public void TentForTreeWithArbitraryTreeTest() throws InvalidFileFormatException {
 
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/TreeForTentDirectRule/ArbitraryTent",
