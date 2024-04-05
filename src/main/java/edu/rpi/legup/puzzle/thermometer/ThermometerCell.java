@@ -38,8 +38,8 @@ public class ThermometerCell extends GridCell<Integer> {
     public ThermometerFill getFill() {
         return switch (fill.ordinal()) {
             case 0 -> ThermometerFill.UNKNOWN;
-            case 1 -> ThermometerFill.FILLED;
-            case 2 -> ThermometerFill.EMPTY;
+            case 1 -> ThermometerFill.EMPTY;
+            case 2 -> ThermometerFill.FILLED;
             case 3 -> ThermometerFill.BLOCKED;
             default -> null;
         };
