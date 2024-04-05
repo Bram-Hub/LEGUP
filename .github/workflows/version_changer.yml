@@ -1,0 +1,18 @@
+name: Update Text on Merge
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  update_text:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Update text file
+        run: |
+          echo "File updated due to merge" >> legup-update/bin/main/edu.rpi.legupupdate/VERSION.txt
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
