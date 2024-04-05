@@ -10,7 +10,7 @@ public class ThermometerCell extends GridCell<Integer> {
     private int rotation;
     public ThermometerCell(Point location, ThermometerType t, ThermometerFill f, int r) {
         //since we do not use get/set data value int can be any value
-        super(0, location);
+        super(1, location);
         type = t;
         fill = f;
         rotation = r;

@@ -11,8 +11,6 @@ public class Thermometer extends Puzzle {
 
         this.importer = new ThermometerImporter(this);
         this.exporter = new ThermometerExporter(this);
-
-        this.factory = new ThermometerVialFactory();
     }
 
     @Override
