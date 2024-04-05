@@ -26,7 +26,7 @@ public class ThermometerController extends ElementController {
                 }
             }
         }
-        else if (e.getButton() == MouseEvent.BUTTON2) {
+        else if (e.getButton() == MouseEvent.BUTTON3) {
             if (cell.getFill() == ThermometerFill.EMPTY) {
                 cell.setFill(ThermometerFill.BLOCKED);
             }
