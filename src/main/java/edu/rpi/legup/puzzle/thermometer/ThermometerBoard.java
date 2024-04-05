@@ -87,6 +87,7 @@ public class ThermometerBoard extends GridBoard{
 
     //we all suck at programming so instead of using provided array list
     //instead just trusting vials to store the cells for us
+
     @Override
     public ThermometerCell getCell(int x, int y) {
         for(ThermometerVial vial: this.thermometerVials) {
