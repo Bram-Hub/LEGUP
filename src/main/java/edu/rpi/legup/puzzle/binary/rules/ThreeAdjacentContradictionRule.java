@@ -24,25 +24,37 @@ public class ThreeAdjacentContradictionRule extends ContradictionRule {
         int width = binaryBoard.getWidth();
 
         BinaryCell cell = (BinaryCell) binaryBoard.getPuzzleElement(puzzleElement);
-       
+        
         int cellX = cell.getLocation().x;
         int cellY = cell.getLocation().y;
+        BinaryCell oneUp = null;
+        BinaryCell oneDown = null;
+        BinaryCell oneForward = null;
+        BinaryCell oneBackward = null;
+        if(binaryBoard.getCell(cellX, cellY + 1) != null){
+            oneUp = binaryBoard.getCell(cellX, cellY + 1);
+        }
+        if(binaryBoard.getCell(cellX, cellY - 1) != null){
+            oneDown = binaryBoard.getCell(cellX, cellY - 1);
+        }
+        if(binaryBoard.getCell(cellX + 1, cellY) != null){
+            oneForward = binaryBoard.getCell(cellX + 1, cellY);
+        }
+        if(binaryBoard.getCell(cellX - 1, cellY) != null){
+            oneBackward = binaryBoard.getCell(cellX - 1, cellY);
+        }        
+        //System.out.println("UP: " + oneUp.getLocation() + " " + "DOWN: " + oneDown.getLocation() + 
+        //    " " + "BACKWARD: " + oneBackward.getLocation() + " " + "FORWARD: " + oneForward.getLocation() + " " + "CELL: " + cell.getLocation());        
+
 
         if(cell.getType() == BinaryType.ONE || cell.getType() == BinaryType.ZERO) {
-            for (int x = cell.getLocation().x - 2; x < 0 && x < cell.getLocation().x && x < width - 2; x++) {
-                if(binaryBoard.getCell(x, cellY).getType() == binaryBoard.getCell(x + 1, cellY).getType() &&
-                    binaryBoard.getCell(x + 1, cellY).getType() == binaryBoard.getCell(x + 2, cellY).getType()) {
-                    System.out.println("Contradiction Found because of " + binaryBoard.getCell(x, cellY).getLocation().x + " " + binaryBoard.getCell(x, cellY).getLocation().y + "     " + + binaryBoard.getCell(x+1, cellY).getLocation().x + " " + binaryBoard.getCell(x+1, cellY).getLocation().y + "     " + + binaryBoard.getCell(x+2, cellY).getLocation().x + " " + binaryBoard.getCell(x+2, cellY).getLocation().y);
+            if(oneBackward != null && oneForward != null){
+                if(oneBackward.getType() == cell.getType() && oneForward.getType() == cell.getType())
                     return null;
-                }
             }
-
-            for (int y = cell.getLocation().y - 2; y < 0 && y < cell.getLocation().y && y < height - 2; y++){
-                if(binaryBoard.getCell(cellX, y).getType() == binaryBoard.getCell(cellX, y + 1).getType() &&
-                    binaryBoard.getCell(cellX, y + 1).getType() == binaryBoard.getCell(cellX, y + 2).getType()) {
-                    System.out.println("Contradiction Found because of " + binaryBoard.getCell(cellX, y+2).getLocation().x + " " + binaryBoard.getCell(cellX, y).getLocation().y + "     " + + binaryBoard.getCell(cellX, y+1).getLocation().x + " " + binaryBoard.getCell(cellX, y+1).getLocation().y + "     " + + binaryBoard.getCell(cellX, y+2).getLocation().x + " " + binaryBoard.getCell(cellX, y+2).getLocation().y);
+            if(oneUp != null && oneDown != null){  
+                if(oneUp.getType() == cell.getType() && oneDown.getType() == cell.getType())
                     return null;
-                }
             }
         }
         return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;

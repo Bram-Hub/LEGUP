@@ -24,24 +24,38 @@ public class SurroundPairDirectRule extends DirectRule {
     
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        BinaryBoard destBoard = (BinaryBoard) transition.getBoard();
+        BinaryBoard board = (BinaryBoard) transition.getBoard();
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
         ContradictionRule contraRule = new ThreeAdjacentContradictionRule();
 
-        Set<PuzzleElement> changedCells = destBoard.getModifiedData();
-        for (PuzzleElement p : changedCells) {
-            BinaryCell c = (BinaryCell) destBoard.getPuzzleElement(p);
-            if (c.getData() == 0)
-                c.setData(1);
-            else if (c.getData() == 1)
-                c.setData(0);
-            else if (c.getData() == 2)
-                return "Only ONE or ZERO cells are allowed for this rule!";
+        BinaryCell cell = (BinaryCell) board.getPuzzleElement(puzzleElement);
+        if(cell.getType() == BinaryType.UNKNOWN){
+            return "Only ONE and ZERO allowed for this rule!";
         }
-        if (contraRule.checkContradictionAt(destBoard, puzzleElement) == null) {
-            return "Grouping of Three Ones or Zeros found";
+        BinaryBoard modified = origBoard.copy();
+        BinaryCell c = (BinaryCell) modified.getPuzzleElement(puzzleElement);
+        if (c.getData() == 0)
+            modified.getPuzzleElement(puzzleElement).setData(1);
+        else if (c.getData() == 1)
+            modified.getPuzzleElement(puzzleElement).setData(0);
+        if(contraRule.checkContradictionAt(modified, puzzleElement) != null){
+            return "Grouping of three ONEs or ZEROs found";
         }
+        
 
+
+        // Set<PuzzleElement> changedCells = destBoard.getModifiedData();
+        //     for (PuzzleElement p : changedCells) {
+        //         BinaryCell c = (BinaryCell) destBoard.getPuzzleElement(p);
+        //         System.out.println(c.getLocation());
+        //         // if (c.getData() == 0)
+        //         //     c.setData(1);
+        //         // else if (c.getData() == 1)
+        //         //     c.setData(0);
+        //         if (contraRule.checkContradictionAt(destBoard, puzzleElement) == null) {
+        //                 return "Grouping of Three Ones or Zeros found";
+        //         }
+        //     }
         return null;
     }
 
