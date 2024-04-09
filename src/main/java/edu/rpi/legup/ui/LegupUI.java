@@ -1,6 +1,7 @@
 package edu.rpi.legup.ui;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
@@ -18,6 +19,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.security.InvalidParameterException;
+import java.util.Collections;
 import java.util.Objects;
 
 public class LegupUI extends JFrame implements WindowListener {
@@ -55,6 +57,8 @@ public class LegupUI extends JFrame implements WindowListener {
             }
             if (isTxt && useCustomColorTheme) {
                 LegupCustomColorScheme.setupCustomColorScheme(colorFileName);
+            } else {
+                FlatLaf.setGlobalExtraDefaults(Collections.emptyMap());
             }
 
             if (LegupPreferences.darkMode()) {
