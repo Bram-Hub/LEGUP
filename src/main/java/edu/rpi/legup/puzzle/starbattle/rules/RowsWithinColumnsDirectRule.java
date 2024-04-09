@@ -18,7 +18,7 @@ public class RowsWithinColumnsDirectRule extends DirectRule {
         super("STBL-BASC-0007",
                 "Rows Withing Columns",
                 "If a number of rows is fully contained by a number of columns with an equal number of missing stars, spaces of other rows in those columns must be black.",
-                "INSERT IMAGE NAME HERE");
+                "edu/rpi/legup/images/starbattle/rules/RowsWithinColumnsDirectRule.png");
     }
 
     /**
