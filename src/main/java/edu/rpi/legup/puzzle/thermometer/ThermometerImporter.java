@@ -61,7 +61,7 @@ public class ThermometerImporter extends PuzzleImporter {
                 }
 
                 //TODO: potentially have to deal with size issues and non interactable cells
-                thermometerBoard = new ThermometerBoard(width, height);
+                thermometerBoard = new ThermometerBoard(width + 1, height + 1);
                 importRowColNums(rowNodeList, colNodeList, thermometerBoard);
             }
 
@@ -69,8 +69,8 @@ public class ThermometerImporter extends PuzzleImporter {
                 throw new InvalidFileFormatException("thermometer Importer: invalid board dimensions");
             }
 
-            int width = thermometerBoard.getWidth();
-            int height = thermometerBoard.getHeight();
+            int width = thermometerBoard.getWidth()-1;
+            int height = thermometerBoard.getHeight()-1;
 
             for (int i = 0; i < elementDataList.getLength(); i++) {
                 importThermometerVial(elementDataList.item(i), thermometerBoard);

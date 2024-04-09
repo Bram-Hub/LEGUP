@@ -15,17 +15,23 @@ public class ThermometerBoard extends GridBoard{
     private ArrayList<GridCell<Integer>> rowNumbers;
 
     //constructors for the boards and variables
-    public ThermometerBoard(int width, int height){
+    public ThermometerBoard(int width, int height) {
         super(width, height);
 
-        //filling the arrays with zeros so they can be properly updated later
+        //filling the arrays with zeros, so they can be properly updated later
         colNumbers = new ArrayList<>();
         for (int i = 0; i < width; i++) {
-            colNumbers.add(new GridCell<Integer>(0, i, height));
+            GridCell<Integer> cell = new GridCell<Integer>(0, i, height);
+            cell.setIndex((height-1) * this.getHeight() + i);
+            colNumbers.add(cell);
+            this.setCell(i, height, cell);
         }
         rowNumbers = new ArrayList<>();
         for (int i = 0; i < height; i++) {
-            rowNumbers.add(new GridCell<Integer>(0, width, i));
+            GridCell<Integer> cell = new GridCell<Integer>(0, width, i);
+            cell.setIndex(i * this.getHeight() + width);
+            rowNumbers.add(cell);
+            this.setCell(width, i, cell);
         }
 
         thermometerVials = new ArrayList<>();
@@ -62,15 +68,15 @@ public class ThermometerBoard extends GridBoard{
 
     //basic accessors, probably fine as is
     public int getRowNumber(int row){
-        return rowNumbers.get(row);
+        return rowNumbers.get(row).getData();
     }
     public int getColNumber(int col){
-        return colNumbers.get(col);
+        return colNumbers.get(col).getData();
     }
 
     // Accessors for saving row/column
-    public ArrayList<Integer> getRowNumbers() { return rowNumbers; }
-    public ArrayList<Integer> getColNumbers() { return colNumbers; }
+    public ArrayList<GridCell<Integer>> getRowNumbers() { return rowNumbers; }
+    public ArrayList<GridCell<Integer>> getColNumbers() { return colNumbers; }
 
 
     //we all suck at programming so instead of using provided array list
