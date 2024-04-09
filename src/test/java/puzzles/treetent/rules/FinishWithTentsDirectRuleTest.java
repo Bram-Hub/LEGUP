@@ -27,14 +27,17 @@ public class FinishWithTentsDirectRuleTest {
         treetent = new TreeTent();
     }
 
-    /**
-     * 3x3 TreeTent puzzle with a GRASS tile at (0,0) Tests FinishWithTentsDirectRule on TENT tiles
-     * horizontal of the GRASS tile at (1,0) and (2,0)
-     *
-     * @throws InvalidFileFormatException
-     */
-    @Test
-    public void FinishWithHorizontalTentsTest() throws InvalidFileFormatException {
+  /**
+   * 3x3 TreeTent puzzle Tests FinishWithTentsDirectRule
+   * <p> Grass at (0, 0)
+   * GTT 2
+   * XXX x
+   * XXX x
+   * xxx
+   * <p> Makes (1, 0) and (2, 0) GRASS
+   */
+  @Test
+  public void FinishWithHorizontalTentsTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithHorizontalTents",
                 treetent);
@@ -67,14 +70,17 @@ public class FinishWithTentsDirectRuleTest {
         }
     }
 
-    /**
-     * 3x3 TreeTent puzzle with a GRASS tile at (0,0) Tests FinishWithTentsDirectRule on TENT tiles
-     * vertical of the GRASS tile at (0,1) and (0,2)
-     *
-     * @throws InvalidFileFormatException
-     */
-    @Test
-    public void FinishWithVerticalTentsTest() throws InvalidFileFormatException {
+  /**
+   * 3x3 TreeTent puzzle Tests FinishWithTentsDirectRule
+   * <p> Grass at (0, 0)
+   * GXX x
+   * TXX x
+   * TXX x
+   * 2xx
+   * <p> Makes (0, 1) and (0, 2) GRASS
+   */
+  @Test
+  public void FinishWithVerticalTentsTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithVerticalTents",
                 treetent);
