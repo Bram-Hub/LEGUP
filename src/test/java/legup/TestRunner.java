@@ -7,6 +7,7 @@ import org.junit.runner.notification.Failure;
 import puzzles.battleship.rules.*;
 import puzzles.lightup.rules.*;
 import puzzles.nurikabe.rules.*;
+import puzzles.sudoku.rules.LastNumberForCellDirectRuleRegionTest;
 import puzzles.treetent.rules.*;
 
 /**
@@ -93,6 +94,10 @@ public class TestRunner {
         printTestResults(result35);
         Result result36 = JUnitCore.runClasses(TentOrGrassCaseRuleTest.class);
         printTestResults(result36);
+
+        //Sudoku Tests
+        Result result37 = JUnitCore.runClasses(LastNumberForCellDirectRuleRegionTest.class);
+        printTestResults(result37);
     }
 
     private static void printTestResults(Result result) {
