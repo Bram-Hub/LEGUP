@@ -30,16 +30,16 @@ public class LinkTreeCaseRuleTest {
 
     /**
      * empty 3x3 TreeTent puzzle Tests LinkTentCaseRule on a central tree
-     * with zero tents around it.
+     * with one tent above
      *
-     * <p> Ensures no cases are created
+     * <p> Ensures one case is created that connects the tree to the tent.
      *
      * @throws InvalidFileFormatException
      */
     @Test
-    public void LinkTentNoTreesTest() throws InvalidFileFormatException {
+    public void LinkTentOneTentTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
-                "puzzles/treetent/rules/LinkTreeCaseRule/NoTents", treetent);
+                "puzzles/treetent/rules/LinkTreeCaseRule/OneTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -49,31 +49,31 @@ public class LinkTreeCaseRuleTest {
         ArrayList<Board> cases = RULE.getCases(board, test_location);
 
         // assert that no cases were found
-        Assert.assertEquals(0, cases.size());
-    }
+        Assert.assertEquals(1, cases.size());
+        TreeTentBoard testCase = (TreeTentBoard) cases.getFirst();
 
-    /**
-     * empty 3x3 TreeTent puzzle Tests LinkTentCaseRule on a central tree
-     * with tents on a diagonal.
-     *
-     * <p> Ensures no cases are created
-     *
-     * @throws InvalidFileFormatException
-     */
-    @Test
-    public void LinkTentDiagTentsTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard(
-                "puzzles/treetent/rules/LinkTreeCaseRule/NoTents", treetent);
-        TreeNode rootNode = treetent.getTree().getRootNode();
-        TreeTransition transition = rootNode.getChildren().get(0);
-        transition.setRule(RULE);
+        TreeTentLine expectedLine = new TreeTentLine(board.getCell(1, 1), board.getCell(1, 0));
 
-        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
-        TreeTentCell test_location = board.getCell(1, 1);
-        ArrayList<Board> cases = RULE.getCases(board, test_location);
+        ArrayList<TreeTentLine> lines = testCase.getLines();
 
-        // assert that no cases were found
-        Assert.assertEquals(0, cases.size());
+        // One line connecting the tree to the tent
+        Assert.assertEquals(1, lines.size());
+        TreeTentLine line = lines.getFirst();
+
+        // Expected line
+        Assert.assertTrue(line.compare(expectedLine));
+
+        // checks other cells have not been modified
+        TreeTentCell original_cell;
+        TreeTentCell case_cell;
+
+        for (int w = 0; w < board.getWidth(); w++) {
+            for (int h = 0; h < board.getHeight(); h++) {
+                original_cell = board.getCell(w, h);
+                case_cell = testCase.getCell(w, h);
+                Assert.assertEquals(original_cell.getType(), case_cell.getType());
+            }
+        }
     }
 
     /**
@@ -144,16 +144,16 @@ public class LinkTreeCaseRuleTest {
 
     /**
      * empty 3x3 TreeTent puzzle Tests LinkTentCaseRule on a central tree
-     * with one tent above
+     * with zero tents around it.
      *
-     * <p> Ensures one case is created that connects the tree to the tent.
+     * <p> Ensures no cases are created
      *
      * @throws InvalidFileFormatException
      */
     @Test
-    public void LinkTentOneTentTest() throws InvalidFileFormatException {
+    public void LinkTentNoTreesTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
-                "puzzles/treetent/rules/LinkTreeCaseRule/OneTent", treetent);
+                "puzzles/treetent/rules/LinkTreeCaseRule/NoTents", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -163,30 +163,30 @@ public class LinkTreeCaseRuleTest {
         ArrayList<Board> cases = RULE.getCases(board, test_location);
 
         // assert that no cases were found
-        Assert.assertEquals(1, cases.size());
-        TreeTentBoard testCase = (TreeTentBoard) cases.getFirst();
+        Assert.assertEquals(0, cases.size());
+    }
 
-        TreeTentLine expectedLine = new TreeTentLine(board.getCell(1, 1), board.getCell(1, 0));
+    /**
+     * empty 3x3 TreeTent puzzle Tests LinkTentCaseRule on a central tree
+     * with tents on a diagonal.
+     *
+     * <p> Ensures no cases are created
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void LinkTentDiagTentsTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/LinkTreeCaseRule/NoTents", treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
 
-        ArrayList<TreeTentLine> lines = testCase.getLines();
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+        TreeTentCell test_location = board.getCell(1, 1);
+        ArrayList<Board> cases = RULE.getCases(board, test_location);
 
-        // One line connecting the tree to the tent
-        Assert.assertEquals(1, lines.size());
-        TreeTentLine line = lines.getFirst();
-
-        // Expected line
-        Assert.assertTrue(line.compare(expectedLine));
-
-        // checks other cells have not been modified
-        TreeTentCell original_cell;
-        TreeTentCell case_cell;
-
-        for (int w = 0; w < board.getWidth(); w++) {
-            for (int h = 0; h < board.getHeight(); h++) {
-                original_cell = board.getCell(w, h);
-                case_cell = testCase.getCell(w, h);
-                Assert.assertEquals(original_cell.getType(), case_cell.getType());
-            }
-        }
+        // assert that no cases were found
+        Assert.assertEquals(0, cases.size());
     }
 }

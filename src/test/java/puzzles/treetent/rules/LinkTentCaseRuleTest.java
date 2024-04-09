@@ -29,6 +29,54 @@ public class LinkTentCaseRuleTest {
 
     /**
      * empty 3x3 TreeTent puzzle Tests LinkTentCaseRule on a central tent
+     * with one tree surrounding it.
+     *
+     * <p>checks that 1 cases is with the line connecting the central tent and the tree
+     *
+     * @throws InvalidFileFormatException
+     */
+    @Test
+    public void LinkTentOneTreeTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/LinkTentCaseRule/OneTreeOneTent", treetent);
+        TreeNode rootNode = treetent.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
+        TreeTentCell test_location = board.getCell(1, 1);
+        ArrayList<Board> cases = RULE.getCases(board, test_location);
+
+        // assert that one cases was found
+        Assert.assertEquals(1, cases.size());
+        TreeTentBoard testCase = (TreeTentBoard) cases.getFirst();
+
+        TreeTentLine expectedLine = new TreeTentLine(board.getCell(1, 1), board.getCell(1, 0));
+
+        ArrayList<TreeTentLine> lines = testCase.getLines();
+
+        // One line connecting the tree to the tent
+        Assert.assertEquals(1, lines.size());
+        TreeTentLine line = lines.getFirst();
+
+        // Expected line
+        Assert.assertTrue(line.compare(expectedLine));
+
+        // checks other cells have not been modified
+        TreeTentCell original_cell;
+        TreeTentCell case_cell;
+
+        for (int w = 0; w < board.getWidth(); w++) {
+            for (int h = 0; h < board.getHeight(); h++) {
+                original_cell = board.getCell(w, h);
+                case_cell = testCase.getCell(w, h);
+                Assert.assertEquals(original_cell.getType(), case_cell.getType());
+            }
+        }
+    }
+
+    /**
+     * empty 3x3 TreeTent puzzle Tests LinkTentCaseRule on a central tent
      * with four trees surrounding it.
      *
      * <p>checks that 4 cases are created, each of which create a line
@@ -89,54 +137,6 @@ public class LinkTentCaseRuleTest {
                     case_cell = testCase.getCell(w, h);
                     Assert.assertEquals(original_cell.getType(), case_cell.getType());
                 }
-            }
-        }
-    }
-
-    /**
-     * empty 3x3 TreeTent puzzle Tests LinkTentCaseRule on a central tent
-     * with one tree surrounding it.
-     *
-     * <p>checks that 1 cases is with the line connecting the central tent and the tree
-     *
-     * @throws InvalidFileFormatException
-     */
-    @Test
-    public void LinkTentOneTreeTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard(
-                "puzzles/treetent/rules/LinkTentCaseRule/OneTreeOneTent", treetent);
-        TreeNode rootNode = treetent.getTree().getRootNode();
-        TreeTransition transition = rootNode.getChildren().get(0);
-        transition.setRule(RULE);
-
-        TreeTentBoard board = (TreeTentBoard) transition.getBoard();
-        TreeTentCell test_location = board.getCell(1, 1);
-        ArrayList<Board> cases = RULE.getCases(board, test_location);
-
-        // assert that one cases was found
-        Assert.assertEquals(1, cases.size());
-        TreeTentBoard testCase = (TreeTentBoard) cases.getFirst();
-
-        TreeTentLine expectedLine = new TreeTentLine(board.getCell(1, 1), board.getCell(1, 0));
-
-        ArrayList<TreeTentLine> lines = testCase.getLines();
-
-        // One line connecting the tree to the tent
-        Assert.assertEquals(1, lines.size());
-        TreeTentLine line = lines.getFirst();
-
-        // Expected line
-        Assert.assertTrue(line.compare(expectedLine));
-
-        // checks other cells have not been modified
-        TreeTentCell original_cell;
-        TreeTentCell case_cell;
-
-        for (int w = 0; w < board.getWidth(); w++) {
-            for (int h = 0; h < board.getHeight(); h++) {
-                original_cell = board.getCell(w, h);
-                case_cell = testCase.getCell(w, h);
-                Assert.assertEquals(original_cell.getType(), case_cell.getType());
             }
         }
     }

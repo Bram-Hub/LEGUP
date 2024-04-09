@@ -30,6 +30,7 @@ public class FillinRowCaseRuleTest {
      * and a clue of 0 tents in the row.
      *
      * <p>checks that 1 case is created and that it is equivalent to FinishWithGrass rule
+     * May need to change checks due to issue #777
      *
      * @throws InvalidFileFormatException
      */
@@ -318,8 +319,8 @@ public class FillinRowCaseRuleTest {
     }
 
     /**
-     * empty 5x5 TreeTent puzzle Tests FillinRowCaseRule on row with 3 UNKNOWN tiles separated
-     * by 2 GRASS tiles and a clue of 2 tents in the row.
+     * empty 5x5 TreeTent puzzle Tests FillinRowCaseRule on row with 5 UNKNOWN tiles
+     * and a clue of 2 tents in the row.
      *
      * <p>checks that 6 cases are created and each case has the right number of tents
      *
