@@ -42,7 +42,7 @@ public class FinishWithStarsDirectRule extends DirectRule {
         }
 
         StarBattleBoard modified = (StarBattleBoard) origBoard.copy();
-        modified.getPuzzleElement(puzzleElement).setData(StarBattleCellType.BLACK);
+        modified.getPuzzleElement(puzzleElement).setData(StarBattleCellType.BLACK.value);
         if (contraRule.checkContradictionAt(modified, puzzleElement) != null) {
             return "Star cells must be placed in a row, region, or column without extra spaces!";
         }

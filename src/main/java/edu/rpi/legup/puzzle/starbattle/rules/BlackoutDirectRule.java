@@ -42,7 +42,7 @@ public class BlackoutDirectRule extends DirectRule {
         }
 
         StarBattleBoard modified = (StarBattleBoard) origBoard.copy();
-        modified.getPuzzleElement(puzzleElement).setData(StarBattleCellType.STAR);
+        modified.getPuzzleElement(puzzleElement).setData(StarBattleCellType.STAR.value);
         if (contraRule.checkContradictionAt(modified, puzzleElement) != null) {
             return "Black cells must be placed in a row, region, or column with enough stars!";
         }

@@ -83,13 +83,13 @@ public class StarOrEmptyCaseRule extends CaseRule {
         ArrayList<Board> cases = new ArrayList<>();
         Board case1 = board.copy();
         PuzzleElement data1 = case1.getPuzzleElement(puzzleElement);
-        data1.setData(StarBattleCellType.STAR);
+        data1.setData(StarBattleCellType.STAR.value);
         case1.addModifiedData(data1);
         cases.add(case1);
 
         Board case2 = board.copy();
         PuzzleElement data2 = case2.getPuzzleElement(puzzleElement);
-        data2.setData(StarBattleCellType.BLACK);
+        data2.setData(StarBattleCellType.BLACK.value);
         case2.addModifiedData(data2);
         cases.add(case2);
 

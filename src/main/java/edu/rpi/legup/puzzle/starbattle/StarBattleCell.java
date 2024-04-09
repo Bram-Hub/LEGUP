@@ -13,7 +13,7 @@ public class StarBattleCell extends GridCell<Integer> {
     /**
      * StarBattleCell Constructor - creates a new StarBattle cell to hold the puzzleElement
      *
-     * @param valueInt   value of the star battle cell denoting its state
+     * @param value   value of the star battle cell denoting its state
      * @param location   location of the cell on the board
      * @param groupIndex indicates what group # the cell is in.
      * @param size       size of the star battle cell

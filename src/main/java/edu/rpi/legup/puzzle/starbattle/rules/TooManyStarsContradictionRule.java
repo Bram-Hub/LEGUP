@@ -99,14 +99,14 @@ public class TooManyStarsContradictionRule extends ContradictionRule {
         for (int k = 0; k < cellList.size(); k++) {
             if (cellList.get(k).getType() == StarBattleCellType.STAR) {
                 starCount++;
-                if (starCount >= puzzleNum) {
+                if (starCount > puzzleNum) {
                     valid = false;
                     break;
                 }
             }
         }
 
-        if (valid == false) {
+        if (valid) {
             return super.getNoContradictionMessage();
         }
         return null;
