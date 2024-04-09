@@ -11,7 +11,7 @@ public class RegionsWithinColumnsDirectRule extends DirectRule {
         super("STBL-BASC-0005",
                 "Regions Within Columns",
                 "If a number of regions is fully contained by a number of columns with an equal number of missing stars, spaces of other regions in those columns must be black.",
-                "INSERT IMAGE NAME HERE");
+                "edu/rpi/legup/images/starbattle/rules/RegionsWithinColumnsDirectRule.png");
     }
 
     /**
