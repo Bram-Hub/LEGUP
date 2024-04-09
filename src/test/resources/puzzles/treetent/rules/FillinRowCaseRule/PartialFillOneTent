@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="3.0.0">
+    <saved/>
+    <puzzle name="TreeTent">
+        <board height="7" width="3">
+            <cells>
+                <cell value="2" x="1" y="0"/>
+                <cell value="2" x="1" y="2"/>
+                <cell value="2" x="1" y="4"/>
+                <cell value="2" x="1" y="6"/>
+            </cells>
+            <axis side="east">
+                <clue index="A" value="0"/>
+                <clue index="B" value="0"/>
+                <clue index="C" value="0"/>
+                <clue index="D" value="0"/>
+                <clue index="E" value="0"/>
+                <clue index="F" value="0"/>
+                <clue index="G" value="0"/>
+            </axis>
+            <axis side="south">
+                <clue index="1" value="0"/>
+                <clue index="2" value="3"/>
+                <clue index="3" value="0"/>
+            </axis>
+        </board>
+    </puzzle>
+    <solved isSolved="false" lastSaved="2024-04-09 16:19:57"/>
+</Legup>

@@ -74,7 +74,7 @@ public class FillinRowCaseRule extends CaseRule {
         if (clue.getType() == TreeTentType.CLUE_SOUTH) {
             group = tBoard.getRowCol(clueIndex, TreeTentType.UNKNOWN, false);
             tentsLeft =
-                    tBoard.getRowClues().get(clueIndex).getData()
+                    tBoard.getColClues().get(clueIndex).getData()
                             - tBoard.getRowCol(clueIndex, TreeTentType.TENT, false).size();
             cases = genCombinations(tBoard, group, tentsLeft, clueIndex, false);
         } else {

@@ -178,20 +178,20 @@ public class TreeTentBoard extends GridBoard {
      *
      * @param index the row or column number
      * @param type type of TreeTent element
-     * @param isRow boolean value beased on whether a row of column is being checked
+     * @param isRow boolean value based on whether a row of column is being checked
      * @return List of TreeTentCells that match the given TreeTentType
      */
     public List<TreeTentCell> getRowCol(int index, TreeTentType type, boolean isRow) {
         List<TreeTentCell> list = new ArrayList<>();
         if (isRow) {
-            for (int i = 0; i < dimension.height; i++) {
+            for (int i = 0; i < dimension.width; i++) {
                 TreeTentCell cell = getCell(i, index);
                 if (cell.getType() == type) {
                     list.add(cell);
                 }
             }
         } else {
-            for (int i = 0; i < dimension.width; i++) {
+            for (int i = 0; i < dimension.height; i++) {
                 TreeTentCell cell = getCell(index, i);
                 if (cell.getType() == type) {
                     list.add(cell);
