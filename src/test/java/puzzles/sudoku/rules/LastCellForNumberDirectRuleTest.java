@@ -5,7 +5,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.sudoku.Sudoku;
 import edu.rpi.legup.puzzle.sudoku.SudokuBoard;
 import edu.rpi.legup.puzzle.sudoku.SudokuCell;
-import edu.rpi.legup.puzzle.sudoku.rules.LastNumberForCellDirectRule;
+import edu.rpi.legup.puzzle.sudoku.rules.LastCellForNumberDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
@@ -14,7 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class LastCellForNumberDirectRuleTest {
-    private static final LastNumberForCellDirectRule RULE = new LastNumberForCellDirectRule();
+    private static final LastCellForNumberDirectRule RULE = new LastCellForNumberDirectRule();
     private static Sudoku sudoku;
     @BeforeClass
     public static void setUp() {
@@ -22,10 +22,10 @@ public class LastCellForNumberDirectRuleTest {
         sudoku = new Sudoku();
     }
     @Test
-    public void LastNumberForCellDirectRuleTest() throws InvalidFileFormatException {
+    public void LastCellForNumberDirectRuleTest() throws InvalidFileFormatException {
         //Import board and create transition
-
-        TestUtilities.importTestBoard("puzzles/sudoku/rules/LasCellForNumberDirectRule/TestBoard", sudoku);
+        //puzzles\sudoku\rules\LastCellForNumberDirectRule\TestBoard
+        TestUtilities.importTestBoard("puzzles/sudoku/rules/LastCellForNumberDirectRule/TestBoard", sudoku);
         TreeNode rootNode = sudoku.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
