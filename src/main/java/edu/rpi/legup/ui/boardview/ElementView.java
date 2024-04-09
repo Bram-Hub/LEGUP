@@ -82,7 +82,7 @@ public abstract class ElementView implements Shape {
                 new Rectangle2D.Double(
                         location.x + 0.5f, location.y + 0.5f, size.width - 2, size.height - 2));
 
-        graphics2D.setColor(UIColor.ELEMENT_VIEW.get());
+        graphics2D.setColor(UIColor.ELEMENT_VIEW.getOrThrow());
         FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
         String value = String.valueOf(puzzleElement.getData());
         int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;

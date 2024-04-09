@@ -502,7 +502,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         fileBrowser.setAcceptAllFileFilterUsed(false);
 
         File puzzlePath = fileBrowser.getSelectedFile();
-        System.out.println(puzzlePath.getAbsolutePath());
 
         if (puzzlePath != null) {
             fileName = puzzlePath.getAbsolutePath();

@@ -23,7 +23,7 @@ public class MaterialButtonUI extends BasicButtonUI {
         super.installUI(c);
 
         AbstractButton button = (AbstractButton) c;
-        MaterialUIMovement.add(c, UIColor.UI_MOVEMENT.get());
+        MaterialUIMovement.add(c, UIColor.UI_MOVEMENT.getOrThrow());
         button.setOpaque(UIManager.getBoolean("Button.opaque"));
         button.setBorder(UIManager.getBorder("Button.border"));
         button.setBackground(UIManager.getColor("Button.background"));

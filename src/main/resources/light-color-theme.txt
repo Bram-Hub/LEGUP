@@ -14,7 +14,7 @@ thick-line-border: GRAY_200
 data-selection-background: GRAY
 element-view: BLACK
 button-highlight: GRAY_300
-button-background: GRAY_200
+button-background: WHITE
 button-foreground: BLACK
 checkbox-background: WHITE
 checkbox-foreground: BLACK

@@ -46,10 +46,10 @@ public class MaterialPasswordFieldUI extends BasicPasswordFieldUI
         JPasswordField passwordField = (JPasswordField) c;
         passwordField.setOpaque(false);
         passwordField.setBorder(BorderFactory.createEmptyBorder(5, 2, 10, 0));
-        passwordField.setBackground(UIColor.PASSWORD_FIELD_BACKGROUND.get());
+        passwordField.setBackground(UIColor.PASSWORD_FIELD_BACKGROUND.getOrThrow());
 
         this.focusedBackground = passwordField.getBackground();
-        this.unfocusedBackground = UIColor.PASSWORD_FIELD_UNFOCUSED_BACKGROUND.get();
+        this.unfocusedBackground = UIColor.PASSWORD_FIELD_UNFOCUSED_BACKGROUND.getOrThrow();
 
         this.focusedSelectionBackground = MaterialColors.bleach(focusedBackground, 0.3f);
         this.unfocusedSelectionBackground = unfocusedBackground;

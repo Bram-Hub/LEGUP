@@ -55,11 +55,11 @@ public class MaterialTextFieldUI extends BasicTextFieldUI
                         ? BorderFactory.createEmptyBorder(5, 2, 10, 0)
                         : BorderFactory.createEmptyBorder(2, 2, 2, 2));
 
-        textField.setBackground(UIColor.TEXT_FIELD_BACKGROUND.get());
+        textField.setBackground(UIColor.TEXT_FIELD_BACKGROUND.getOrThrow());
         textField.setFont(MaterialFonts.REGULAR);
 
         this.focusedBackground = textField.getBackground();
-        this.unfocusedBackground = UIColor.TEXT_FIELD_UNFOCUSED_BACKGROUND.get();
+        this.unfocusedBackground = UIColor.TEXT_FIELD_UNFOCUSED_BACKGROUND.getOrThrow();
 
         this.focusedSelectionBackground = MaterialColors.bleach(focusedBackground, 0.3f);
         this.unfocusedSelectionBackground = unfocusedBackground;

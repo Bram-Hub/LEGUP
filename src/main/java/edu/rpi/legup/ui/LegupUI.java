@@ -5,7 +5,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.ui.boardview.BoardView;
-import edu.rpi.legup.ui.lookandfeel.LegupLookAndFeel;
+import edu.rpi.legup.ui.lookandfeel.LegupCustomColorScheme;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,23 +49,21 @@ public class LegupUI extends JFrame implements WindowListener {
             final String colorFileName = LegupPreferences.LegupPreference.COLOR_THEME_FILE.stringValue();
             final boolean isTxt = colorFileName.endsWith(".txt");
             boolean useCustomColorTheme = LegupPreferences.useCustomColorTheme();
-            System.out.println("Is txt: " + isTxt + " " + useCustomColorTheme);
             if (!isTxt && useCustomColorTheme) {
                 System.err.printf("Invalid color theme file '%s', using default theme.\n", colorFileName);
                 useCustomColorTheme = false;
             }
             if (isTxt && useCustomColorTheme) {
-                UIManager.setLookAndFeel(new LegupLookAndFeel(colorFileName));
-                com.formdev.flatlaf.FlatLaf.updateUI();
+                LegupCustomColorScheme.setupCustomColorScheme(colorFileName);
+            }
+
+            if (LegupPreferences.darkMode()) {
+                UIManager.setLookAndFeel(new FlatDarkLaf());
             }
             else {
-                if (LegupPreferences.darkMode()) {
-                    UIManager.setLookAndFeel(new FlatDarkLaf());
-                }
-                else {
-                    UIManager.setLookAndFeel(new FlatLightLaf());
-                }
+                UIManager.setLookAndFeel(new FlatLightLaf());
             }
+
             com.formdev.flatlaf.FlatLaf.updateUI();
         }
         catch (UnsupportedLookAndFeelException exception) {

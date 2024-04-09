@@ -8,9 +8,9 @@ import javax.swing.border.Border;
 public class MaterialBorders {
 
     public static final Border LIGHT_LINE_BORDER =
-            BorderFactory.createLineBorder(UIColor.LIGHT_LINE_BORDER.get(), 1);
+            BorderFactory.createLineBorder(UIColor.LIGHT_LINE_BORDER.getOrThrow(), 1);
     public static final Border THICK_LINE_BORDER =
-            BorderFactory.createLineBorder(UIColor.THICK_LINE_BORDER.get(), 2);
+            BorderFactory.createLineBorder(UIColor.THICK_LINE_BORDER.getOrThrow(), 2);
 
     public static final Border LIGHT_SHADOW_BORDER =
             new DropShadowBorder(Color.BLACK, 0, 4, 0.3f, 12, true, true, true, true);

@@ -200,13 +200,13 @@ public class DynamicView extends JPanel {
 
     public void updateInfo(String message) {
         status.setFont(INFO_FONT);
-        status.setForeground(UIColor.INFO.get());
+        status.setForeground(UIColor.INFO.getOrThrow());
         status.setText(message);
     }
 
     public void updateError(String message) {
         status.setFont(ERROR_FONT);
-        status.setForeground(UIColor.ERROR.get());
+        status.setForeground(UIColor.ERROR.getOrThrow());
         status.setText(message);
     }
 

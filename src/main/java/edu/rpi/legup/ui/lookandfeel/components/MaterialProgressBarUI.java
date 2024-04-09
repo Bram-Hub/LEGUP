@@ -25,8 +25,8 @@ public class MaterialProgressBarUI extends BasicProgressBarUI {
 
         JProgressBar progressBar = (JProgressBar) c;
         progressBar.setBorder(MaterialBorders.LIGHT_LINE_BORDER);
-        progressBar.setBackground(UIColor.PROGRESS_BAR_BACKGROUND.get());
-        progressBar.setForeground(UIColor.PROGRESS_BAR_FOREGROUND.get());
+        progressBar.setBackground(UIColor.PROGRESS_BAR_BACKGROUND.getOrThrow());
+        progressBar.setForeground(UIColor.PROGRESS_BAR_FOREGROUND.getOrThrow());
     }
 
     @Override

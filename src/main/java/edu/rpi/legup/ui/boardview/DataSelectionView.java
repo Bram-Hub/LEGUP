@@ -11,7 +11,7 @@ import edu.rpi.legup.ui.color.ColorPreferences.*;
 public class DataSelectionView extends JPopupMenu {
 
     public DataSelectionView(ElementController controller) {
-        setBackground(UIColor.DATA_SELECTION_BACKGROUND.get());
+        setBackground(UIColor.DATA_SELECTION_BACKGROUND.getOrThrow());
         setBorder(new BevelBorder(BevelBorder.RAISED));
     }
 }

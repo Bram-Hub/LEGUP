@@ -3,6 +3,7 @@ package edu.rpi.legup.ui.color;
 //import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
 
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.awt.*;
@@ -23,21 +24,21 @@ public class ColorPreferences {
 
     public enum UIColor {
 
-        CORRECT,
-        INCORRECT,
-        ERROR,
-        INFO,
-        UI_MOVEMENT,
-        PASSWORD_FIELD_BACKGROUND,
-        PASSWORD_FIELD_UNFOCUSED_BACKGROUND,
-        PROGRESS_BAR_BACKGROUND,
-        PROGRESS_BAR_FOREGROUND,
-        TEXT_FIELD_BACKGROUND,
-        TEXT_FIELD_UNFOCUSED_BACKGROUND,
-        LIGHT_LINE_BORDER,
-        THICK_LINE_BORDER,
-        DATA_SELECTION_BACKGROUND,
-        ELEMENT_VIEW,
+        CORRECT(Color.GREEN),
+        INCORRECT(Color.RED),
+        ERROR(Color.RED),
+        INFO(Color.GREEN),
+        UI_MOVEMENT(MaterialColors.GRAY_300),
+        PASSWORD_FIELD_BACKGROUND(MaterialColors.LIGHT_BLUE_400),
+        PASSWORD_FIELD_UNFOCUSED_BACKGROUND(MaterialColors.GRAY_200),
+        PROGRESS_BAR_BACKGROUND(MaterialColors.GRAY_200),
+        PROGRESS_BAR_FOREGROUND(MaterialColors.LIGHT_BLUE_400),
+        TEXT_FIELD_BACKGROUND(MaterialColors.LIGHT_BLUE_400),
+        TEXT_FIELD_UNFOCUSED_BACKGROUND(MaterialColors.GRAY_200),
+        LIGHT_LINE_BORDER(MaterialColors.GRAY_200),
+        THICK_LINE_BORDER(MaterialColors.GRAY_200),
+        DATA_SELECTION_BACKGROUND(Color.GRAY),
+        ELEMENT_VIEW(Color.BLACK),
         BUTTON_HIGHLIGHT,
         BUTTON_BACKGROUND,
         BUTTON_FOREGROUND,
@@ -123,12 +124,34 @@ public class ColorPreferences {
         COLOR_CHOOSER_BACKGROUND,
         COLOR_CHOOSER_FOREGROUND;
 
+        private final Color defaultColor;
+
+        UIColor() {
+            this.defaultColor = null;
+        }
+
+        UIColor(Color defaultColor) {
+            this.defaultColor = defaultColor;
+        }
+
         public String configKey() {
             return this.toString().toLowerCase().replace('_', '-');
         }
 
-        public Color get() {
-            return Objects.requireNonNull(COLOR_MAP.get(this), "Could not get " + this.name() + " color.");
+        public Optional<Color> get() {
+            return Optional.ofNullable(COLOR_MAP.getOrDefault(this, defaultColor));
+        }
+
+        /**
+         * This method should only be used when this color <b>needs</b> to exist
+         */
+        public Color getOrThrow() throws IllegalStateException {
+            return this.get().orElseThrow(() -> new IllegalStateException(this + " is a required color!"));
+        }
+
+        public Optional<String> getAsHex() {
+            return this.get()
+                    .map(color -> String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()));
         }
     }
 
