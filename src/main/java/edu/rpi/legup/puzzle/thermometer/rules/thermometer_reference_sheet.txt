@@ -1,8 +1,13 @@
 THERM-BASC-0001 : RestEmptyDirectRule
 THERM-BASC-0002 : PriorFilledDirectRule
+THERM-BASC-0003 : FinishWithMercuryDirectRule
+THERM-BASC-0004 : FinishWithBlockedDirectRule
+THERM-BASC-0005 : MinimumFillDirectRule
+THERM-BASC-0006 : ThermometerTooLargeDirectRule
 
 THERM-CONT-0001 : DiscontinuousMercuryContradictionRule
 THERM-CONT-0002 : TooFewMercuryContradiction
 THERM-CONT-0003 : TooManyMercuryContradiction
 
 THERM-CASE-0001 : MercuryOrBlockedCaseRule
+THERM-CASE-0002 : SatisfyMercuryCaseRule
