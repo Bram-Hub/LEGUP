@@ -29,6 +29,7 @@ public class LastNumberForCellDirectRuleRegionTest {
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
+        //Loop all numbers at point
         for(int i = 1; i < 10; i++){
             //Reset board
             SudokuBoard board = (SudokuBoard) transition.getBoard();
@@ -45,5 +46,50 @@ public class LastNumberForCellDirectRuleRegionTest {
             }
         }
 
+        //Import Board and create transition
+        TestUtilities.importTestBoard("puzzles/sudoku/rules/LastNumberForCellDirectRule/FullRow", sudoku);
+        rootNode = sudoku.getTree().getRootNode();
+        transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        //Loop all numbers at point
+        for(int i = 1; i < 10; i++){
+            //Reset board
+            SudokuBoard board = (SudokuBoard) transition.getBoard();
+            //Set cell
+            SudokuCell cell = board.getCell(4, 4);
+            cell.setData(i);
+            board.addModifiedData(cell);
+
+            //Test the case
+            if(i == 5) {
+                Assert.assertNull(RULE.checkRuleAt(transition, cell));
+            } else {
+                Assert.assertNotNull(RULE.checkRuleAt(transition, cell));
+            }
+        }
+
+        //Import Board and create transition
+        TestUtilities.importTestBoard("puzzles/sudoku/rules/LastNumberForCellDirectRule/FullMixed", sudoku);
+        rootNode = sudoku.getTree().getRootNode();
+        transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        //Loop all numbers at point
+        for(int i = 1; i < 10; i++){
+            //Reset board
+            SudokuBoard board = (SudokuBoard) transition.getBoard();
+            //Set cell
+            SudokuCell cell = board.getCell(5, 3);
+            cell.setData(i);
+            board.addModifiedData(cell);
+
+            //Test the case
+            if(i == 2) {
+                Assert.assertNull(RULE.checkRuleAt(transition, cell));
+            } else {
+                Assert.assertNotNull(RULE.checkRuleAt(transition, cell));
+            }
+        }
     }
 }
