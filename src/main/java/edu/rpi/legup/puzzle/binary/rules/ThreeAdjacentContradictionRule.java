@@ -24,13 +24,17 @@ public class ThreeAdjacentContradictionRule extends ContradictionRule {
         int width = binaryBoard.getWidth();
 
         BinaryCell cell = (BinaryCell) binaryBoard.getPuzzleElement(puzzleElement);
-        
+        System.out.println("THE CELL IS : " + cell.getType());
         int cellX = cell.getLocation().x;
         int cellY = cell.getLocation().y;
         BinaryCell oneUp = null;
         BinaryCell oneDown = null;
         BinaryCell oneForward = null;
         BinaryCell oneBackward = null;
+        BinaryCell twoUp = null;
+        BinaryCell twoDown = null;
+        BinaryCell twoForward = null;
+        BinaryCell twoBackward = null;
         if(binaryBoard.getCell(cellX, cellY + 1) != null){
             oneUp = binaryBoard.getCell(cellX, cellY + 1);
         }
@@ -42,19 +46,56 @@ public class ThreeAdjacentContradictionRule extends ContradictionRule {
         }
         if(binaryBoard.getCell(cellX - 1, cellY) != null){
             oneBackward = binaryBoard.getCell(cellX - 1, cellY);
-        }        
-        //System.out.println("UP: " + oneUp.getLocation() + " " + "DOWN: " + oneDown.getLocation() + 
-        //    " " + "BACKWARD: " + oneBackward.getLocation() + " " + "FORWARD: " + oneForward.getLocation() + " " + "CELL: " + cell.getLocation());        
-
+        }
+        if(binaryBoard.getCell(cellX, cellY + 2) != null){
+            twoUp = binaryBoard.getCell(cellX, cellY + 2);
+        }
+        if(binaryBoard.getCell(cellX, cellY - 2) != null){
+            twoDown = binaryBoard.getCell(cellX, cellY - 2);
+        }
+        if(binaryBoard.getCell(cellX + 2, cellY) != null){
+            twoForward = binaryBoard.getCell(cellX + 2, cellY);
+        }
+        if(binaryBoard.getCell(cellX - 2, cellY) != null){
+            twoBackward = binaryBoard.getCell(cellX - 2, cellY);
+        }
 
         if(cell.getType() == BinaryType.ONE || cell.getType() == BinaryType.ZERO) {
-            if(oneBackward != null && oneForward != null){
-                if(oneBackward.getType() == cell.getType() && oneForward.getType() == cell.getType())
+            if(twoBackward != null && oneBackward != null && twoBackward.getType() != BinaryType.UNKNOWN && oneBackward.getType() != BinaryType.UNKNOWN) {
+                if(twoBackward.getType() == cell.getType() && oneBackward.getType() == cell.getType()) {
+                    System.out.println("1");
                     return null;
+                }
             }
-            if(oneUp != null && oneDown != null){  
-                if(oneUp.getType() == cell.getType() && oneDown.getType() == cell.getType())
+            if(twoForward != null && oneForward != null  && twoForward.getType() != BinaryType.UNKNOWN && oneForward.getType() != BinaryType.UNKNOWN){
+                if(twoForward.getType() == cell.getType() && oneForward.getType() == cell.getType()) {
+                    System.out.println("2");
                     return null;
+                }
+            }
+            if(twoDown != null && oneDown != null && twoDown.getType() != BinaryType.UNKNOWN && oneDown.getType() != BinaryType.UNKNOWN) {
+                if(twoDown.getType() == cell.getType() && oneDown.getType() == cell.getType()){
+                    System.out.println("3");
+                    return null;
+                }
+            }
+            if(twoUp != null && oneUp != null && twoUp.getType() != BinaryType.UNKNOWN && oneUp.getType() != BinaryType.UNKNOWN)  {
+                if (twoUp.getType() == cell.getType() && oneUp.getType() == cell.getType()){
+                    System.out.println("4");
+                    return null;
+                }
+            }
+            if(oneBackward != null && oneForward != null  && oneBackward.getType() != BinaryType.UNKNOWN && oneForward.getType() != BinaryType.UNKNOWN) {
+                if(oneBackward.getType() == cell.getType() && oneForward.getType() == cell.getType()){
+                    System.out.println("5");
+                    return null;
+                }
+            }
+            if(oneUp != null && oneDown != null && oneUp.getType() != BinaryType.UNKNOWN && oneDown.getType() != BinaryType.UNKNOWN) {
+                if(oneUp.getType() == cell.getType() && oneDown.getType() == cell.getType()){
+                    System.out.println("6");
+                    return null;
+                }
             }
         }
         return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;

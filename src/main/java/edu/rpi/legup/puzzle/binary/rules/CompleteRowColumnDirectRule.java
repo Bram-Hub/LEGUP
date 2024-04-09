@@ -34,23 +34,22 @@ public class CompleteRowColumnDirectRule extends DirectRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-
-        BinaryBoard board = (BinaryBoard) transition.getBoard();
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
         ContradictionRule contraRule = new UnbalancedRowOrColumnContradictionRule();
+        BinaryCell binaryCell = (BinaryCell) puzzleElement;
+        BinaryBoard modified = origBoard.copy();
+        BinaryCell c = (BinaryCell) modified.getPuzzleElement(puzzleElement);
 
-        BinaryCell cell = (BinaryCell) board.getPuzzleElement(puzzleElement);
-        if (cell.getType() == BinaryType.UNKNOWN) {
-            return "Only ONE or ZERO cells are allowed for this rule!";
+        //System.out.println("ORIG" + binaryCell.getData());
+        //System.out.println("AFTER" + Math.abs(binaryCell.getData() - 1));
+        modified.getPuzzleElement(puzzleElement).setData(binaryCell.getData());
+        System.out.println(contraRule.checkContradictionAt(modified, puzzleElement));
+
+        if (contraRule.checkContradictionAt(modified, puzzleElement) != null) {
+            return null;
         }
 
-        if(cell.getType() != BinaryType.UNKNOWN){
-            if (contraRule.checkContradictionAt(origBoard, puzzleElement) != null) {
-                return "Balanced row or column found";
-            }
-
-        }
-        return null;
+        return "Grouping of Three Ones or Zeros not found";
     }
 
     @Override

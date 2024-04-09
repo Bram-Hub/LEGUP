@@ -21,83 +21,31 @@ public class SurroundPairDirectRule extends DirectRule {
                 "If two adjacent tiles have the same value, surround the tiles with the other value.",
                 "edu/rpi/legup/images/binary/rules/SurroundPairDirectRule.png");
     }
-    
-    @Override
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        BinaryBoard board = (BinaryBoard) transition.getBoard();
-        BinaryBoard originalBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
-        ContradictionRule contraRule = new ThreeAdjacentContradictionRule();
-//        BinaryCell c = (BinaryCell) modified.getPuzzleElement(puzzleElement);
-//        System.out.println(c.getLocation());
-//
-//        System.out.println("BEFORE: " + c.getType());
-//        if (c.getData() == 0)
-//            c.setData(1);
-//        else if (c.getData() == 1)
-//            c.setData(0);
-//
-//        System.out.println("AFTER: " + c.getType());
-//        modified.setCell(c.getLocation().x, c.getLocation().y, c);
-//
-        BinaryBoard modified = originalBoard.copy();
-        BinaryCell binaryCell = (BinaryCell) puzzleElement;
 
-        System.out.println("ORIG" + binaryCell.getData());
-        System.out.println("AFTER" + Math.abs(binaryCell.getData() - 1));
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+        BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
+        ContradictionRule contraRule = new ThreeAdjacentContradictionRule();
+        BinaryCell binaryCell = (BinaryCell) puzzleElement;
+        BinaryBoard modified = origBoard.copy();
+
+        //System.out.println("ORIG" + binaryCell.getData());
+        //System.out.println("AFTER" + Math.abs(binaryCell.getData() - 1));
         modified.getPuzzleElement(puzzleElement).setData(Math.abs(binaryCell.getData() - 1));
 
-//
-        System.out.println(contraRule.checkContradictionAt(modified, puzzleElement));
-//
-        if (contraRule.checkContradictionAt(modified, puzzleElement) == null) {
+        PuzzleElement newP = binaryCell;
+
+        System.out.println(contraRule.checkContradictionAt(modified, newP));
+
+        if (contraRule.checkContradictionAt(modified, newP) == null) {
             return null;
         }
-        return "Grouping of Three Ones or Zeros found";
-//        BinaryCell cell = (BinaryCell) board.getPuzzleElement(puzzleElement);
-//        if(cell.getType() == BinaryType.UNKNOWN){
-//            return "Only ONE and ZERO allowed for this rule!";
-//        }
-//        BinaryBoard modified = board.copy();
-//        Set<PuzzleElement> changedCells = board.getModifiedData();
-//        for (PuzzleElement p : changedCells) {
-//            BinaryCell c = (BinaryCell) board.getPuzzleElement(p);
-//        }
-//
-//        if (c.getData() == 0)
-//            modified.getPuzzleElement(puzzleElement).setData(1);
-//        else if (c.getData() == 1)
-//            modified.getPuzzleElement(puzzleElement).setData(0);
-//        if(contraRule.checkContradictionAt(modified, puzzleElement) != null){
-//            return "Grouping of three ONEs or ZEROs found";
-//        }
+        modified.getPuzzleElement(puzzleElement).setData(Math.abs(binaryCell.getData() - 1));
 
-//
-//
-//        Set<PuzzleElement> changedCells = board.getModifiedData();
-//        System.out.println("SIZE" + changedCells.size());
-//        for (PuzzleElement p : changedCells) {
-//            BinaryCell c = (BinaryCell) board.getPuzzleElement(p);
-//            System.out.println(c.getLocation());
-//            if (c.getData() == 0)
-//                c.setData(1);
-//            else if (c.getData() == 1)
-//                c.setData(0);
-//            System.out.println("HI");
-//        }
-
-//        for (PuzzleElement p : changedCells) {
-//            BinaryCell c = (BinaryCell) board.getPuzzleElement(p);
-//            //System.out.println(c.getLocation());
-//            if (c.getData() == 0)
-//                c.setData(1);
-//            else if (c.getData() == 1)
-//                c.setData(0);
-//        }
+        return "Grouping of Three Ones or Zeros not found";
     }
 
     @Override
     public Board getDefaultBoard(TreeNode node) {
         return null;
     }
-
 }

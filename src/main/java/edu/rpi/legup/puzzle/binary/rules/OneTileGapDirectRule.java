@@ -33,44 +33,25 @@ public class OneTileGapDirectRule extends DirectRule {
     }
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        BinaryBoard destBoard = (BinaryBoard) transition.getBoard();
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
         ContradictionRule contraRule = new ThreeAdjacentContradictionRule();
+        BinaryCell binaryCell = (BinaryCell) puzzleElement;
+        BinaryBoard modified = origBoard.copy();
 
-        Set<PuzzleElement> changedCells = destBoard.getModifiedData();
-        for (PuzzleElement p : changedCells) {
-            BinaryCell c = (BinaryCell) destBoard.getPuzzleElement(p);
+        //System.out.println("ORIG" + binaryCell.getData());
+        //System.out.println("AFTER" + Math.abs(binaryCell.getData() - 1));
+        modified.getPuzzleElement(puzzleElement).setData(Math.abs(binaryCell.getData() - 1));
 
-            int x = c.getLocation().x;
-            int y = c.getLocation().y;
-            boolean xOutOfBounds = false;
-            boolean yOutOfBounds = false;
-            if ((x - 1 < 0 || x + 1 >= destBoard.getWidth())) {
-                xOutOfBounds = true;
-            }
-            if ((y - 1 < 0 || y + 1 >= destBoard.getHeight())) {
-                yOutOfBounds = true;
-            }
-            if (xOutOfBounds && yOutOfBounds) {
-                return "Corner of cell cannot have a one tile gap solution";
-            }
-            if (xOutOfBounds && !yOutOfBounds) {
-                if (!checkUpDown(c, destBoard)) {
-                    return "Not a valid one tile gap";
-                }
-            }
-            System.out.println(x + " " + y);
-            System.out.println(c.getType());
-            if (c.getType() != BinaryType.UNKNOWN) {
-                if (destBoard.getCell(x-1, y).getType() == c.getType() &&
-                        destBoard.getCell(x+1, y).getType() == c.getType() ||
-                        (destBoard.getCell(x, y-1).getType() == c.getType() &&
-                        destBoard.getCell(x, y+1).getType() == c.getType())) {
-                    return "Grouping of Three Ones or Zeros found";
-                }
-            }
+        PuzzleElement newP = binaryCell;
+
+        System.out.println(contraRule.checkContradictionAt(modified, newP));
+
+        if (contraRule.checkContradictionAt(modified, newP) == null) {
+            return null;
         }
-        return null;
+        modified.getPuzzleElement(puzzleElement).setData(Math.abs(binaryCell.getData() - 1));
+
+        return "Grouping of Three Ones or Zeros not found";
     }
 
     @Override
