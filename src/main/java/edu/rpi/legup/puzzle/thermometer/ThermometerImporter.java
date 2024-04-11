@@ -60,18 +60,17 @@ public class ThermometerImporter extends PuzzleImporter {
                     throw new InvalidFileFormatException("thermometer Importer: no rowNumbers found for board");
                 }
 
-                //TODO: potentially have to deal with size issues and non interactable cells
                 thermometerBoard = new ThermometerBoard(width + 1, height + 1);
                 importRowColNums(rowNodeList, colNodeList, thermometerBoard);
             }
-
-            if (thermometerBoard == null) {
-                throw new InvalidFileFormatException("thermometer Importer: invalid board dimensions");
+            else {
+                throw new InvalidFileFormatException("thermometer Importer: invalid board height/width");
             }
 
             int width = thermometerBoard.getWidth()-1;
             int height = thermometerBoard.getHeight()-1;
 
+            //adding in the vials
             for (int i = 0; i < elementDataList.getLength(); i++) {
                 importThermometerVial(elementDataList.item(i), thermometerBoard);
             }
@@ -96,12 +95,22 @@ public class ThermometerImporter extends PuzzleImporter {
 
     }
 
-    private void importRowColNums(NodeList rowNodes, NodeList colNodes, ThermometerBoard board) {
+    private void importRowColNums(NodeList rowNodes, NodeList colNodes, ThermometerBoard board) throws InvalidFileFormatException {
 
         for (int i = 0; i < rowNodes.getLength(); i++) {
             Node node = rowNodes.item(i);
             int rowNum = Integer.parseInt(node.getAttributes().getNamedItem("value").getNodeValue());
-            //board.setRowNumber();
+            if(!board.setRowNumber(i, rowNum)) {
+                throw new InvalidFileFormatException("thermometer Importer: out of bounds rowNum");
+            }
+        }
+
+        for (int i = 0; i < colNodes.getLength(); i++) {
+            Node node = colNodes.item(i);
+            int colNum = Integer.parseInt(node.getAttributes().getNamedItem("value").getNodeValue());
+            if(!board.setColNumber(i, colNum)) {
+                throw new InvalidFileFormatException("thermometer Importer: out of bounds colNum");
+            }
         }
     }
 

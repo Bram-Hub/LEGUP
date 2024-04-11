@@ -3,6 +3,7 @@ package edu.rpi.legup.puzzle.thermometer;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.GridCell;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class ThermometerBoard extends GridBoard{
@@ -11,8 +12,11 @@ public class ThermometerBoard extends GridBoard{
     private ArrayList<ThermometerVial> thermometerVials;
 
     //representations of the number requirements along rows and columns of the board
-    private ArrayList<GridCell<Integer>> colNumbers;
-    private ArrayList<GridCell<Integer>> rowNumbers;
+    //we use rotation to store the number
+    private ArrayList<ThermometerCell> colNumbers;
+    private ArrayList<ThermometerCell> rowNumbers;
+
+    private ThermometerCell dummyCell;
 
     //constructors for the boards and variables
     public ThermometerBoard(int width, int height) {
@@ -20,19 +24,27 @@ public class ThermometerBoard extends GridBoard{
 
         //filling the arrays with zeros, so they can be properly updated later
         colNumbers = new ArrayList<>();
-        for (int i = 0; i < width; i++) {
-            GridCell<Integer> cell = new GridCell<Integer>(0, i, height);
-            cell.setIndex((height-1) * this.getHeight() + i);
+        for (int i = 0; i < width-1; i++) {
+            ThermometerCell cell = new ThermometerCell(new Point(i, height-1),
+                    ThermometerType.UNKNOWN, ThermometerFill.UNKNOWN, 0);
+            cell.setIndex((height-1) * height + i);
             colNumbers.add(cell);
-            this.setCell(i, height, cell);
+            this.setCell(i, height-1, cell);
         }
         rowNumbers = new ArrayList<>();
-        for (int i = 0; i < height; i++) {
-            GridCell<Integer> cell = new GridCell<Integer>(0, width, i);
-            cell.setIndex(i * this.getHeight() + width);
+        for (int i = 0; i < height-1; i++) {
+            ThermometerCell cell = new ThermometerCell(new Point(width-1, i),
+                    ThermometerType.UNKNOWN, ThermometerFill.UNKNOWN, 0);
+            cell.setIndex(i * height + (width-1));
             rowNumbers.add(cell);
-            this.setCell(width, i, cell);
+            this.setCell(width-1, i, cell);
         }
+
+        //setting a dummy cell so board doesnt have null cells
+        dummyCell = new ThermometerCell(new Point(width-1, height-1),
+                ThermometerType.UNKNOWN, ThermometerFill.UNKNOWN, -1);
+        dummyCell.setIndex((height-1) * height + width);
+        this.setCell(width-1, height-1, dummyCell);
 
         thermometerVials = new ArrayList<>();
     }
@@ -51,7 +63,7 @@ public class ThermometerBoard extends GridBoard{
         //first check is to verify we are updating an element in range
         //second check is to verify the new number can be achieved by the puzzle
         if (row < rowNumbers.size() && num <= colNumbers.size()){
-            rowNumbers.get(row).setData(num);
+            rowNumbers.get(row).setRotation(num);
             return true;
         }
         return false;
@@ -60,7 +72,7 @@ public class ThermometerBoard extends GridBoard{
         //first check is to verify we are updating an element in range
         //second check is to verify the new number can be achieved by the puzzle
         if (col < colNumbers.size() && num <= rowNumbers.size()){
-            rowNumbers.get(col).setData(num);
+            colNumbers.get(col).setRotation(num);
             return true;
         }
         return false;
@@ -68,15 +80,15 @@ public class ThermometerBoard extends GridBoard{
 
     //basic accessors, probably fine as is
     public int getRowNumber(int row){
-        return rowNumbers.get(row).getData();
+        return rowNumbers.get(row).getRotation();
     }
     public int getColNumber(int col){
-        return colNumbers.get(col).getData();
+        return colNumbers.get(col).getRotation();
     }
 
     // Accessors for saving row/column
-    public ArrayList<GridCell<Integer>> getRowNumbers() { return rowNumbers; }
-    public ArrayList<GridCell<Integer>> getColNumbers() { return colNumbers; }
+    public ArrayList<ThermometerCell> getRowNumbers() { return rowNumbers; }
+    public ArrayList<ThermometerCell> getColNumbers() { return colNumbers; }
 
 
     //we all suck at programming so instead of using provided array list
@@ -88,6 +100,17 @@ public class ThermometerBoard extends GridBoard{
                 if(cell.getLocation().x == x && cell.getLocation().y == y) return cell;
             }
         }
+
+        for (ThermometerCell cell : rowNumbers) {
+            if(cell.getLocation().x == x && cell.getLocation().y == y) return cell;
+        }
+
+        for (ThermometerCell cell : colNumbers) {
+            if(cell.getLocation().x == x && cell.getLocation().y == y) return cell;
+        }
+
+        if(x == this.getWidth() - 1 && y == this.getHeight() - 1) return dummyCell;
+
         return null;
     }
 }

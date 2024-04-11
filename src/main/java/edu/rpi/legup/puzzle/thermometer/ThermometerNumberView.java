@@ -18,12 +18,15 @@ public class ThermometerNumberView extends GridElementView {
 
     @Override
     public void drawElement(Graphics2D graphics2D) {
-        GridCell cell = (GridCell) puzzleElement;
+        ThermometerCell cell = (ThermometerCell) puzzleElement;
 
         graphics2D.setColor(FONT_COLOR);
         graphics2D.setFont(FONT);
         FontMetrics metrics = graphics2D.getFontMetrics(FONT);
-        int val = (int) cell.getData();
+        int val;
+
+        if(cell != null) val = cell.getRotation();
+        else val = -1;
 
         int xText = location.x + (size.width - metrics.stringWidth(String.valueOf(val))) / 2;
         int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();

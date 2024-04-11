@@ -26,23 +26,25 @@ public class ThermometerView extends GridBoardView {
         }
 
 
-        for(GridCell<Integer> rowNum : board.getRowNumbers()) {
+        for(ThermometerCell rowNum : board.getRowNumbers()) {
             Point loc = rowNum.getLocation();
             ThermometerNumberView numberView = new ThermometerNumberView(rowNum);
             numberView.setIndex(rowNum.getIndex());
             numberView.setSize(elementSize);
             numberView.setLocation(new Point(loc.x * elementSize.width, loc.y * elementSize.height));
-            //elementViews.add(numberView);
+            elementViews.add(numberView);
         }
 
-        for(GridCell<Integer> colNum : board.getColNumbers()) {
+        for(ThermometerCell colNum : board.getColNumbers()) {
             Point loc = colNum.getLocation();
             ThermometerNumberView numberView = new ThermometerNumberView(colNum);
             numberView.setIndex(colNum.getIndex());
             numberView.setSize(elementSize);
             numberView.setLocation(new Point(loc.x * elementSize.width, loc.y * elementSize.height));
-            //elementViews.add(numberView);
+            elementViews.add(numberView);
         }
+
+
     }
 }
 
