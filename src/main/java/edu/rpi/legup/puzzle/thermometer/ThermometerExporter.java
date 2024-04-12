@@ -37,7 +37,8 @@ public class ThermometerExporter extends PuzzleExporter {
 
         // Creating the XML section for the row numbers and appending to the board
         org.w3c.dom.Element rowNumbersElement = newDocument.createElement("rowNumbers");
-        ArrayList<Integer> rowNumbers = board.getRowNumbers();
+        //when time available change to expect arraylist of gridcells
+        ArrayList<Integer> rowNumbers = null; //board.getRowNumbers();
         for (int number : rowNumbers) {
             org.w3c.dom.Element rowNumberElement = newDocument.createElement("row");
             rowNumberElement.setAttribute("value", String.valueOf(number));
@@ -47,7 +48,8 @@ public class ThermometerExporter extends PuzzleExporter {
 
         // Creating the XML section for the col numbers and appending ot the board
         org.w3c.dom.Element colNumbersElement = newDocument.createElement("colNumbers");
-        ArrayList<Integer> colNumbers = board.getColNumbers();
+        //when time available change to expect arraylist of gridcells
+        ArrayList<Integer> colNumbers = null; //board.getColNumbers();
         for (int number : colNumbers) {
             org.w3c.dom.Element colNumberElement = newDocument.createElement("col");
             colNumberElement.setAttribute("value", String.valueOf(number));
