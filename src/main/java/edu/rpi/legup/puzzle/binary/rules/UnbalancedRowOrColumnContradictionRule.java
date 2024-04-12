@@ -17,7 +17,7 @@ public class UnbalancedRowOrColumnContradictionRule extends ContradictionRule {
         super("BINA-CONT-0002",
                 "Unbalanced Row Or Column",
                 "Each row or column must contain an equal number of zeros and ones",
-                "edu/rpi/legup/images/binary/rules/UnbalancedRowContradictionRule.png");
+                "edu/rpi/legup/images/binary/rules/UnbalancedRowColumnContradictionRule.png");
     }
 
     @Override
