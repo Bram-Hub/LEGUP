@@ -11,7 +11,7 @@ public class ThermometerController extends ElementController {
     public void changeCell(MouseEvent e, PuzzleElement data) {
         ThermometerCell cell = (ThermometerCell) data;
 
-        System.out.println("Sanity Check");
+//        System.out.println("Sanity Check");
 
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (e.isControlDown()) {
@@ -29,7 +29,7 @@ public class ThermometerController extends ElementController {
                 }
             }
         }
-        else if (e.getButton() == MouseEvent.BUTTON2) {
+        else if (e.getButton() == MouseEvent.BUTTON3) {
             if (cell.getFill() == ThermometerFill.EMPTY) {
                 cell.setFill(ThermometerFill.BLOCKED);
             }
@@ -39,6 +39,9 @@ public class ThermometerController extends ElementController {
             else {
                 cell.setFill(ThermometerFill.EMPTY);
             }
+        }
+        else if(e.getButton() == MouseEvent.BUTTON2) {
+            System.out.println("[DEBUG] " + cell);
         }
     }
 }
