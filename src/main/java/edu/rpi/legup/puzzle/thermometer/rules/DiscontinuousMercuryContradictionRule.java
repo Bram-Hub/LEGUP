@@ -22,6 +22,15 @@ public class DiscontinuousMercuryContradictionRule extends ContradictionRule{
     }
 
 
+    /**
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
+     *
+     * @param board board to check contradiction
+     * @param puzzleElement equivalent puzzleElement
+     * @return null if the transition contains a contradiction at the specified puzzleElement,
+     *     otherwise error message
+     */
     //User can click on any cell in a vial with a discontinuous flow
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
