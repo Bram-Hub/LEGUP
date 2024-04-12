@@ -1,13 +1,13 @@
 package edu.rpi.legup.puzzle.thermometer;
 
 import edu.rpi.legup.model.PuzzleImporter;
-import edu.rpi.legup.puzzle.thermometer.ThermometerVialFactory;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.awt.*;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 public class ThermometerImporter extends PuzzleImporter {
     public ThermometerImporter(Thermometer thermometer) {
@@ -71,7 +71,7 @@ public class ThermometerImporter extends PuzzleImporter {
             int height = thermometerBoard.getHeight();
 
             for (int i = 0; i < elementDataList.getLength(); i++) {
-                ThermometerVialFactory.importThermometerVial(elementDataList.item(i), thermometerBoard);
+                importThermometerVial(elementDataList.item(i), thermometerBoard);
             }
 
             //verifying all vials were used
@@ -92,5 +92,50 @@ public class ThermometerImporter extends PuzzleImporter {
     @Override
     public void initializeBoard(String[] statements) throws UnsupportedOperationException, IllegalArgumentException {
 
+    }
+
+    private static void importThermometerVial(Node node, ThermometerBoard board) throws InvalidFileFormatException{
+        int headX = Integer.parseInt(node.getAttributes().getNamedItem("headx").getNodeValue());
+        int headY = Integer.parseInt(node.getAttributes().getNamedItem("heady").getNodeValue());
+        int tipX = Integer.parseInt(node.getAttributes().getNamedItem("tailx").getNodeValue());
+        int tipY = Integer.parseInt(node.getAttributes().getNamedItem("taily").getNodeValue());
+
+        if(verifyVial(headX, headY, tipX, tipY, board)) {
+            System.out.println("Vial successfully created");
+            board.addVial(new ThermometerVial(headX, headY, tipX, tipY, board));
+        }
+        else {
+            throw new InvalidFileFormatException("thermometer Vial Factory: overlapping vials");
+        }
+    }
+
+    private static boolean verifyVial(int headX, int headY, int tipX, int tipY, ThermometerBoard board) {
+        //figuring out which axis the thermometer travels along
+        if(headX == tipX) {
+            //finding start and end of Vial
+            int top = min(headY, tipY);
+            int bottom = max(headY, tipY);
+
+            //verifying that every cell along path is currently unconstructed
+            for (int i = top; i <= bottom; i++) {
+                if(board.getCell(headX, i) != null) return false;
+            }
+        }
+        else if (headY == tipY) {
+            //finding start and end of Vial
+            //I have words to say to james
+            int left = min(headX, tipX);
+            int right = max(headX, tipX);
+
+            //verifying that every cell along path is currently unconstructed
+            for (int i = left; i <= right; i++) {
+                if(board.getCell(i, headY) != null) return false;
+            }
+        }
+        else{
+            //thermometer does not line up along a single axis
+            return false;
+        }
+        return true;
     }
 }
