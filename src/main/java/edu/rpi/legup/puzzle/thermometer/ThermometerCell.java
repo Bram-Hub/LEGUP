@@ -22,13 +22,7 @@ public class ThermometerCell extends GridCell<Integer> {
     }
 
     public ThermometerType getType() {
-        return switch (type.ordinal()) {
-            case 0 -> ThermometerType.UNKNOWN;
-            case 1 -> ThermometerType.HEAD;
-            case 2 -> ThermometerType.SHAFT;
-            case 3 -> ThermometerType.TIP;
-            default -> null;
-        };
+        return type;
     }
 
     public void setFill(ThermometerFill f){
@@ -36,13 +30,7 @@ public class ThermometerCell extends GridCell<Integer> {
     }
 
     public ThermometerFill getFill() {
-        return switch (fill.ordinal()) {
-            case 0 -> ThermometerFill.UNKNOWN;
-            case 1 -> ThermometerFill.EMPTY;
-            case 2 -> ThermometerFill.FILLED;
-            case 3 -> ThermometerFill.BLOCKED;
-            default -> null;
-        };
+        return fill;
     }
 
     public void setRotation(int r) {rotation = r;}
@@ -55,5 +43,10 @@ public class ThermometerCell extends GridCell<Integer> {
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
         return copy;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + location.getX() + ", " + location.getY() + ") TYPE = " + getType() + " FILL = " + getFill();
     }
 }
