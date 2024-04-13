@@ -581,21 +581,35 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             return;
         }
 
-        fileDialog.setMode(FileDialog.SAVE);
-        fileDialog.setTitle("Save As");
-        String curFileName = GameBoardFacade.getInstance().getCurFileName();
-        if (curFileName == null) {
-            fileDialog.setDirectory(
-                    LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY));
-        } else {
-            File curFile = new File(curFileName);
-            fileDialog.setDirectory(curFile.getParent());
+        LegupPreferences preferences = LegupPreferences.getInstance();
+        String preferredDirectory = preferences.getUserPref(LegupPreferences.WORK_DIRECTORY);
+        if (preferences.getSavedPath() != "") {
+            preferredDirectory = preferences.getSavedPath();
         }
-        fileDialog.setVisible(true);
 
+        File preferredDirectoryFile = new File(preferredDirectory);
+        JFileChooser fileBrowser = new JFileChooser(preferredDirectoryFile);
         String fileName = null;
-        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
-            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
+        File puzzleFile = null;
+
+        fileBrowser.showOpenDialog(this);
+        fileBrowser.setVisible(true);
+        fileBrowser.setCurrentDirectory(new File(preferredDirectory));
+        fileBrowser.setDialogTitle("Select Proof File");
+        fileBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileBrowser.setAcceptAllFileFilterUsed(false);
+
+        File puzzlePath = fileBrowser.getSelectedFile();
+        System.out.println(puzzlePath.getAbsolutePath());
+
+        if (puzzlePath != null) {
+            fileName = puzzlePath.getAbsolutePath();
+            String lastDirectoryPath = fileName.substring(0, fileName.lastIndexOf(File.separator));
+            preferences.setSavedPath(lastDirectoryPath);
+            puzzleFile = puzzlePath;
+        } else {
+            // The attempt to prompt a puzzle ended gracefully (cancel)
+            return null;
         }
 
         if (fileName != null) {
