@@ -1,18 +1,52 @@
-name: Update Text on Merge
+name: Increment Version on Push
 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
-  update_text:
+  increment_version:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Update text file
+      - name: Determine new version
+        id: update_version
         run: |
-          echo "File updated due to merge" >> legup-update/bin/main/edu.rpi.legupupdate/VERSION.txt
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+          current_version=$(<version.txt)
+          IFS='.' read -r -a version_parts <<< "$current_version"
+          first_part="${version_parts[0]}"
+          second_part="${version_parts[1]}"
+          last_part="${version_parts[2]}"
+          
+          if [[ $last_part -eq 9 ]]; then
+            new_last_part=0
+            if [[ $second_part -eq 9 ]]; then
+              new_second_part=0
+              new_first_part=$((first_part + 1))
+            else
+              new_second_part=$((second_part + 1))
+              new_first_part=$first_part
+            fi
+          else
+            new_last_part=$((last_part + 1))
+            new_second_part=$second_part
+            new_first_part=$first_part
+          fi
+          
+          new_version="$new_first_part.$new_second_part.$new_last_part"
+          echo "New version: $new_version"
+          echo "::set-output name=version::$new_version"
+
+      - name: Update version.txt with new version
+        run: echo "${{ steps.update_version.outputs.version }}" > version.txt
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "your-email@example.com"
+          git config --global user.name "Your Name"
+          git add version.txt
+          git commit -m "Increment version number"
+          git push origin main
