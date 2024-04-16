@@ -1,3 +1,4 @@
+
 package edu.rpi.legup.puzzle.sudoku.rules;
 
 import edu.rpi.legup.model.gameboard.Board;

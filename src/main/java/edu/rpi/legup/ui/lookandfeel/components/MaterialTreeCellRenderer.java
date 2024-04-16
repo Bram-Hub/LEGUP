@@ -1,11 +1,11 @@
 package edu.rpi.legup.ui.lookandfeel.components;
 
+import java.awt.Component;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JTree;
 import javax.swing.UIManager;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import java.awt.Component;
 
 public class MaterialTreeCellRenderer extends DefaultTreeCellRenderer {
 
@@ -22,13 +22,22 @@ public class MaterialTreeCellRenderer extends DefaultTreeCellRenderer {
         setOpenIcon(UIManager.getIcon("Tree.openIcon"));
         setLeafIcon(null);
 
-
         setFont(UIManager.getFont("Tree.font"));
     }
 
     @Override
-    public Component getTreeCellRendererComponent(JTree tree, Object value, boolean isSelected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
-        JComponent component = (JComponent) super.getTreeCellRendererComponent(tree, value, isSelected, expanded, leaf, row, hasFocus);
+    public Component getTreeCellRendererComponent(
+            JTree tree,
+            Object value,
+            boolean isSelected,
+            boolean expanded,
+            boolean leaf,
+            int row,
+            boolean hasFocus) {
+        JComponent component =
+                (JComponent)
+                        super.getTreeCellRendererComponent(
+                                tree, value, isSelected, expanded, leaf, row, hasFocus);
         component.setBorder(BorderFactory.createEmptyBorder(5, 2, 5, 2));
 
         return component;

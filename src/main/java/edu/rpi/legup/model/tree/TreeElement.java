@@ -16,8 +16,8 @@ public abstract class TreeElement {
     }
 
     /**
-     * Determines if this tree node leads to a contradiction. Every path from this tree node
-     * must lead to a contradiction including all of its children
+     * Determines if this tree node leads to a contradiction. Every path from this tree node must
+     * lead to a contradiction including all of its children
      *
      * @return true if this tree node leads to a contradiction, false otherwise
      */
@@ -28,15 +28,16 @@ public abstract class TreeElement {
      * whether this tree puzzleElement and all descendants of this tree puzzleElement is justified
      * and justified correctly
      *
-     * @return true if this tree puzzleElement and all descendants of this tree puzzleElement is valid,
-     * false otherwise
+     * @return true if this tree puzzleElement and all descendants of this tree puzzleElement is
+     *     valid, false otherwise
      */
     public abstract boolean isValidBranch();
 
     /**
      * Gets the type of tree puzzleElement
      *
-     * @return NODE if this tree puzzleElement is a tree node, TRANSITION, if this tree puzzleElement is a transition
+     * @return NODE if this tree puzzleElement is a tree node, TRANSITION, if this tree
+     *     puzzleElement is a transition
      */
     public TreeElementType getType() {
         return type;

@@ -1,5 +1,7 @@
 package edu.rpi.legup.history;
 
+import static edu.rpi.legup.app.GameBoardFacade.getInstance;
+
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -8,11 +10,8 @@ import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
-
 import java.awt.event.MouseEvent;
 import java.util.List;
-
-import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class EditDataCommand extends PuzzleCommand {
     private TreeTransition transition;
@@ -27,8 +26,8 @@ public class EditDataCommand extends PuzzleCommand {
      * EditDataCommand Constructor create a puzzle command for editing a board
      *
      * @param elementView currently selected puzzle puzzleElement view that is being edited
-     * @param selection   currently selected tree puzzleElement views that is being edited
-     * @param event       mouse event
+     * @param selection currently selected tree puzzleElement views that is being edited
+     * @param event mouse event
      */
     public EditDataCommand(ElementView elementView, TreeViewSelection selection, MouseEvent event) {
         this.elementView = elementView;
@@ -39,9 +38,7 @@ public class EditDataCommand extends PuzzleCommand {
         this.transition = null;
     }
 
-    /**
-     * Executes a command
-     */
+    /** Executes a command */
     @SuppressWarnings("unchecked")
     @Override
     public void executeCommand() {
@@ -69,8 +66,7 @@ public class EditDataCommand extends PuzzleCommand {
 
             puzzleElement = board.getPuzzleElement(selectedPuzzleElement);
             savePuzzleElement = puzzleElement.copy();
-        }
-        else {
+        } else {
             transition = (TreeTransition) treeElement;
             puzzleElement = board.getPuzzleElement(selectedPuzzleElement);
             savePuzzleElement = puzzleElement.copy();
@@ -82,8 +78,7 @@ public class EditDataCommand extends PuzzleCommand {
 
         if (prevBoard.getPuzzleElement(selectedPuzzleElement).equalsData(puzzleElement)) {
             board.removeModifiedData(puzzleElement);
-        }
-        else {
+        } else {
             board.addModifiedData(puzzleElement);
         }
         transition.propagateChange(puzzleElement);
@@ -92,7 +87,8 @@ public class EditDataCommand extends PuzzleCommand {
         puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTreeElement));
         puzzle.notifyBoardListeners(listener -> listener.onBoardDataChanged(puzzleElement));
 
-        final TreeViewSelection newSelection = new TreeViewSelection(treeView.getElementView(transition));
+        final TreeViewSelection newSelection =
+                new TreeViewSelection(treeView.getElementView(transition));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
     }
 
@@ -100,7 +96,7 @@ public class EditDataCommand extends PuzzleCommand {
      * Gets the reason why the command cannot be executed
      *
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
-     * otherwise null if command can be executed
+     *     otherwise null if command can be executed
      */
     @Override
     public String getErrorString() {
@@ -116,19 +112,16 @@ public class EditDataCommand extends PuzzleCommand {
             TreeNodeView nodeView = (TreeNodeView) selectedView;
             if (!nodeView.getChildrenViews().isEmpty()) {
                 return CommandError.UNMODIFIABLE_BOARD.toString();
-            }
-            else {
+            } else {
                 if (!board.getPuzzleElement(selectedPuzzleElement).isModifiable()) {
                     return CommandError.UNMODIFIABLE_DATA.toString();
                 }
             }
-        }
-        else {
+        } else {
             TreeTransitionView transitionView = (TreeTransitionView) selectedView;
             if (!transitionView.getTreeElement().getBoard().isModifiable()) {
                 return CommandError.UNMODIFIABLE_BOARD.toString();
-            }
-            else {
+            } else {
                 if (!board.getPuzzleElement(selectedPuzzleElement).isModifiable()) {
                     return CommandError.UNMODIFIABLE_DATA.toString();
                 }
@@ -137,9 +130,7 @@ public class EditDataCommand extends PuzzleCommand {
         return null;
     }
 
-    /**
-     * Undoes an command
-     */
+    /** Undoes an command */
     @SuppressWarnings("unchecked")
     @Override
     public void undoCommand() {
@@ -152,7 +143,8 @@ public class EditDataCommand extends PuzzleCommand {
 
         if (selectedView.getType() == TreeElementType.NODE) {
             tree.removeTreeElement(transition);
-            puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeElementRemoved(transition));
+            puzzle.notifyTreeListeners(
+                    (ITreeListener listener) -> listener.onTreeElementRemoved(transition));
         }
 
         Board prevBoard = transition.getParents().get(0).getBoard();
@@ -162,8 +154,7 @@ public class EditDataCommand extends PuzzleCommand {
 
         if (prevBoard.getPuzzleElement(selectedPuzzleElement).equalsData(puzzleElement)) {
             board.removeModifiedData(puzzleElement);
-        }
-        else {
+        } else {
             board.addModifiedData(puzzleElement);
         }
         transition.propagateChange(puzzleElement);

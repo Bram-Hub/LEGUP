@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.fillapix;
 
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
 import org.w3c.dom.Document;
 
 public class FillapixExporter extends PuzzleExporter {
@@ -16,8 +15,7 @@ public class FillapixExporter extends PuzzleExporter {
         FillapixBoard board;
         if (puzzle.getTree() != null) {
             board = (FillapixBoard) puzzle.getTree().getRootNode().getBoard();
-        }
-        else {
+        } else {
             board = (FillapixBoard) puzzle.getBoardView().getBoard();
         }
 
@@ -29,7 +27,8 @@ public class FillapixExporter extends PuzzleExporter {
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             FillapixCell cell = (FillapixCell) puzzleElement;
             if (cell.getNumber() != -1 || cell.getType() != FillapixCellType.UNKNOWN) {
-                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
+                org.w3c.dom.Element cellElement =
+                        puzzle.getFactory().exportCell(newDocument, puzzleElement);
                 cellsElement.appendChild(cellElement);
             }
         }

@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.masyu;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +35,7 @@ public class MasyuBoard extends GridBoard {
     public void notifyChange(PuzzleElement puzzleElement) {
         if (puzzleElement instanceof MasyuLine) {
             lines.add((MasyuLine) puzzleElement);
-        }
-        else {
+        } else {
             super.notifyChange(puzzleElement);
         }
     }

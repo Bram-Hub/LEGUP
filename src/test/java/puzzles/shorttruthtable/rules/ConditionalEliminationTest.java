@@ -15,7 +15,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class ConditionalEliminationTest {
-    private static final DirectRuleConditionalElimination RULE = new DirectRuleConditionalElimination();
+    private static final DirectRuleConditionalElimination RULE =
+            new DirectRuleConditionalElimination();
     private static ShortTruthTable stt;
 
     @BeforeClass
@@ -27,19 +28,25 @@ public class ConditionalEliminationTest {
     /**
      * Given one statement: A -> B where -> is false
      *
-     * Asserts that the only valid combination of A and B that is a valid application
-     * of this rule is when A is true and B is false
+     * <p>Asserts that the only valid combination of A and B that is a valid application of this
+     * rule is when A is true and B is false
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void FalseConditionalTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/FalseConditional", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/FalseConditional",
+                stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
-        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
+        ShortTruthTableCellType[] cellTypes = {
+            ShortTruthTableCellType.TRUE,
+            ShortTruthTableCellType.FALSE,
+            ShortTruthTableCellType.UNKNOWN
+        };
 
         for (ShortTruthTableCellType cellType1 : cellTypes) {
             for (ShortTruthTableCellType cellType2 : cellTypes) {
@@ -53,10 +60,10 @@ public class ConditionalEliminationTest {
                 board.addModifiedData(aubergine);
                 board.addModifiedData(boniato);
 
-                if (cellType1 == ShortTruthTableCellType.TRUE && cellType2 == ShortTruthTableCellType.FALSE) {
+                if (cellType1 == ShortTruthTableCellType.TRUE
+                        && cellType2 == ShortTruthTableCellType.FALSE) {
                     Assert.assertNull(RULE.checkRule(transition));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRule(transition));
                 }
             }
@@ -66,14 +73,15 @@ public class ConditionalEliminationTest {
     /**
      * Given one statement: A -> B where -> is false
      *
-     * Asserts that this is a valid application of the rule if and only if A
-     * is set to true.
+     * <p>Asserts that this is a valid application of the rule if and only if A is set to true.
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void FalseConditionalTrueATest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/FalseConditional", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/FalseConditional",
+                stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -93,14 +101,15 @@ public class ConditionalEliminationTest {
     /**
      * Given one statement: A -> B where -> is false
      *
-     * Asserts that this is a valid application of the rule if and only if B is
-     * set to false.
+     * <p>Asserts that this is a valid application of the rule if and only if B is set to false.
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void FalseConditionalFalseBTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/FalseConditional", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/FalseConditional",
+                stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -120,18 +129,24 @@ public class ConditionalEliminationTest {
     /**
      * Given one statement: A -> B where -> is true
      *
-     * Asserts that you cannot set any combination of both A and B at the same time.
+     * <p>Asserts that you cannot set any combination of both A and B at the same time.
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void CannotSetBothAandBTrueConditionalTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/TrueConditional", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/TrueConditional",
+                stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
-        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE, ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
+        ShortTruthTableCellType[] cellTypes = {
+            ShortTruthTableCellType.TRUE,
+            ShortTruthTableCellType.FALSE,
+            ShortTruthTableCellType.UNKNOWN
+        };
 
         for (ShortTruthTableCellType cellType1 : cellTypes) {
             for (ShortTruthTableCellType cellType2 : cellTypes) {
@@ -153,14 +168,15 @@ public class ConditionalEliminationTest {
     /**
      * Given one statement: A -> B where A and -> are true
      *
-     * Asserts that this is a valid application of this rule if and only if B
-     * is set to true.
+     * <p>Asserts that this is a valid application of this rule if and only if B is set to true.
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void TrueAMeansTrueBTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/TrueConditionalWithTrueA", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/TrueConditionalWithTrueA",
+                stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -180,14 +196,15 @@ public class ConditionalEliminationTest {
     /**
      * Given one statement: A -> B where B is false and -> is true
      *
-     * Asserts that this is a valid application of this rule if and only if A
-     * is set to false.
+     * <p>Asserts that this is a valid application of this rule if and only if A is set to false.
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void FalseBMeansFalseATest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/TrueConditionalWithFalseB", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/TrueConditionalWithFalseB",
+                stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -207,14 +224,15 @@ public class ConditionalEliminationTest {
     /**
      * Given one statement: A -> B where B and -> are true
      *
-     * Asserts that this is not a valid application of this rule no matter what
-     * A is set to.
+     * <p>Asserts that this is not a valid application of this rule no matter what A is set to.
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void TrueBCannotDetermineA() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/TrueConditionalWithTrueB", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/ConditionalEliminationDirectRule/TrueConditionalWithTrueB",
+                stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
