@@ -1,7 +1,10 @@
 package edu.rpi.legup.history;
 
 public enum CommandState {
-    CREATED("Created"), EXECUTED("Executed"), UNDOED("Undoed"), REDOED("Redoed");
+    CREATED("Created"),
+    EXECUTED("Executed"),
+    UNDOED("Undoed"),
+    REDOED("Redoed");
 
     private String value;
 
