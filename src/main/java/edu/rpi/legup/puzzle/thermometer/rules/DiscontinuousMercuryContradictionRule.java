@@ -9,6 +9,7 @@ import edu.rpi.legup.puzzle.thermometer.ThermometerVial;
 
 import java.util.ArrayList;
 
+//TODO: Rule is untested
 public class DiscontinuousMercuryContradictionRule extends ContradictionRule{
 
     private final String NO_CONTRADICTION_MESSAGE = "Does not contain a contradiction at this index";
