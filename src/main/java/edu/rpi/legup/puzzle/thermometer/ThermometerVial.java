@@ -75,9 +75,13 @@ public class ThermometerVial {
         return false;
     }
 
-    //basic accessors
+    //Returns cell containing head of thermometer
     public ThermometerCell getHead(){return cells.getFirst();}
+
+    //Returns cell containing tail of thermometer
     public ThermometerCell getTail(){return cells.getLast();}
+
+    //Retruns all cells in vial, from head to tip
     public ArrayList<ThermometerCell> getCells(){return cells;}
 
     //checking for discontinuous flow inside of vial

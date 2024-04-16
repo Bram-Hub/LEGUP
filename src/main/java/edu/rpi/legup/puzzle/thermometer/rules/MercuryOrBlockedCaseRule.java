@@ -10,6 +10,7 @@ import edu.rpi.legup.puzzle.thermometer.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO: Rule is untested
 public class MercuryOrBlockedCaseRule extends CaseRule {
     public MercuryOrBlockedCaseRule() {
         super("THERM-CASE-0001",

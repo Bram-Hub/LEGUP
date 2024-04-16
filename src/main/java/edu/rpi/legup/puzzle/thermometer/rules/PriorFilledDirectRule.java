@@ -12,6 +12,7 @@ import edu.rpi.legup.puzzle.thermometer.ThermometerVial;
 
 import java.util.ArrayList;
 
+//TODO: Rule is untested
 public class PriorFilledDirectRule extends DirectRule {
 
     public PriorFilledDirectRule() {

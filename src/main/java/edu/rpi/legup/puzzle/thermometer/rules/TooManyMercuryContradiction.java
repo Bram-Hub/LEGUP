@@ -7,6 +7,7 @@ import edu.rpi.legup.puzzle.thermometer.ThermometerBoard;
 import edu.rpi.legup.puzzle.thermometer.ThermometerCell;
 import edu.rpi.legup.puzzle.thermometer.ThermometerFill;
 
+//TODO: Rule is untested
 public class TooManyMercuryContradiction extends ContradictionRule{
 
     private final String Invalid_Use_Message = "Mercury does not exceed limit";
