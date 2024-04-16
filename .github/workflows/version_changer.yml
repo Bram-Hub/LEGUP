@@ -47,6 +47,6 @@ jobs:
         run: |
           git config --global user.email "pitbull51067@yahoo.com"
           git config --global user.name "Pitbull51067"
-          git add legup-update/bin/main/edu.rpi.legupupdate/VERSION
+          git add -f legup-update/bin/main/edu.rpi.legupupdate/VERSION
           git commit -m "Increment version number"
-          git push origin main
+          git push
