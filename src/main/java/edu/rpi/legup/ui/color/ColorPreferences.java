@@ -3,7 +3,6 @@ package edu.rpi.legup.ui.color;
 //import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
 
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.awt.*;

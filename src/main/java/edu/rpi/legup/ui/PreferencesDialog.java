@@ -3,7 +3,6 @@ package edu.rpi.legup.ui;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.Rule;
-import edu.rpi.legup.ui.color.ColorPreferences;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialBorders;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
@@ -39,8 +38,8 @@ public class PreferencesDialog extends JDialog {
             immFeedback,
             colorBlind;
 
-    private JTextField workDirectory;
-    private JTextField colorThemeFile;
+    private FileChooserComponents workDirectory;
+    private FileChooserComponents colorThemeFile;
 
     private static Image folderIcon;
 
@@ -162,7 +161,25 @@ public class PreferencesDialog extends JDialog {
         contentPane.add(createLineSeparator());
     }
 
-    private JTextField addFileChooser(
+    private record FileChooserComponents(JTextField file, JButton openFile, JLabel label) {
+
+        private void setEnabled(boolean enabled) {
+            file.setVisible(enabled);
+            openFile.setVisible(enabled);
+            label.setVisible(enabled);
+        }
+
+        private void disable() {
+            setEnabled(false);
+        }
+
+        private void enable() {
+            setEnabled(true);
+        }
+
+    }
+
+    private FileChooserComponents addFileChooser(
             JPanel contentPane,
             String label,
             String hoverText,
@@ -200,7 +217,7 @@ public class PreferencesDialog extends JDialog {
         row.add(openFile, BorderLayout.EAST);
         row.setMaximumSize(new Dimension(Integer.MAX_VALUE, row.getPreferredSize().height));
         contentPane.add(row);
-        return file;
+        return new FileChooserComponents(file, openFile, fileLabel);
     }
 
     private JScrollPane createGeneralTab() {
@@ -233,19 +250,6 @@ public class PreferencesDialog extends JDialog {
                 "If checked this automatically checks for updates on startup of Legup",
                 contentPane
         );
-        darkMode = addDefaultCheckBox(
-                "Dark Mode",
-                LegupPreferences.darkMode(),
-                "This turns dark mode on and off",
-                contentPane
-        );
-        customColorTheme = addDefaultCheckBox(
-                "Custom Color Theme",
-                LegupPreferences.useCustomColorTheme(),
-                "This turns custom color theme on and off",
-                contentPane
-        );
-
         addRowLabel(contentPane, "Board View Preferences");
 
         showMistakes = addDefaultCheckBox(
@@ -303,7 +307,21 @@ public class PreferencesDialog extends JDialog {
                 new JCheckBox(
                         "Deuteranomaly(red/green colorblindness)",
                         LegupPreferences.colorBlind());
-
+        darkMode = addDefaultCheckBox(
+                "Dark Mode",
+                LegupPreferences.darkMode(),
+                "This turns dark mode on and off",
+                contentPane
+        );
+        customColorTheme = addDefaultCheckBox(
+                "Custom Color Theme",
+                LegupPreferences.useCustomColorTheme(),
+                "This turns custom color theme on and off",
+                contentPane
+        );
+        customColorTheme.addActionListener(event -> {
+            colorThemeFile.setEnabled(customColorTheme.isSelected());
+        });
         colorThemeFile = addFileChooser(
                 contentPane,
                 "Color Theme File",
@@ -313,6 +331,7 @@ public class PreferencesDialog extends JDialog {
                 "Choose color theme file",
                 JFileChooser.FILES_ONLY
         );
+        colorThemeFile.setEnabled(customColorTheme.isSelected());
 
         scrollPane.setViewportView(contentPane);
         return scrollPane;
@@ -434,7 +453,7 @@ public class PreferencesDialog extends JDialog {
 
     public void applyPreferences() {
         LegupPreferences prefs = LegupPreferences.getInstance();
-        prefs.setUserPref(LegupPreferences.LegupPreference.WORK_DIRECTORY, workDirectory.getText());
+        prefs.setUserPref(LegupPreferences.LegupPreference.WORK_DIRECTORY, workDirectory.file.getText());
         prefs.setUserPref(
                 LegupPreferences.LegupPreference.START_FULL_SCREEN, fullScreen.isSelected());
         prefs.setUserPref(LegupPreferences.LegupPreference.AUTO_UPDATE, autoUpdate.isSelected());
@@ -451,7 +470,7 @@ public class PreferencesDialog extends JDialog {
         prefs.setUserPref(
                 LegupPreferences.LegupPreference.IMMEDIATE_FEEDBACK, immFeedback.isSelected());
         prefs.setUserPref(LegupPreferences.LegupPreference.COLOR_BLIND, colorBlind.isSelected());
-        prefs.setUserPref(LegupPreferences.LegupPreference.COLOR_THEME_FILE, colorThemeFile.getText());
+        prefs.setUserPref(LegupPreferences.LegupPreference.COLOR_THEME_FILE, colorThemeFile.file.getText());
 
         if (rulesFrame != null) {
             rulesFrame.getCasePanel().updateRules();
