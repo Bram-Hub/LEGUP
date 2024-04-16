@@ -18,8 +18,9 @@ public class StarBattleRegion extends GridRegion<StarBattleCell>{
     public int numStars() {
         int stars = 0;
         for (StarBattleCell c: regionCells) {
-            if (c.getType() == StarBattleCellType.STAR)
+            if (c.getType() == StarBattleCellType.STAR) {
                 ++stars;
+            }
         }
         return stars;
     }

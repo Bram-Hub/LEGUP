@@ -73,8 +73,9 @@ public class StarBattleBoard extends GridBoard {
         int stars = 0;
         if (columnIndex < size) {
             for (StarBattleCell c: this.getCol(columnIndex)) {
-                if (c.getType() == StarBattleCellType.STAR)
+                if (c.getType() == StarBattleCellType.STAR) {
                     ++stars;
+                }
             }
         }
         return stars;
@@ -84,8 +85,9 @@ public class StarBattleBoard extends GridBoard {
         int stars = 0;
         if (rowIndex < size) {
             for (StarBattleCell c: this.getRow(rowIndex)) {
-                if (c.getType() == StarBattleCellType.STAR)
+                if (c.getType() == StarBattleCellType.STAR) {
                     ++stars;
+                }
             }
         }
         return stars;
@@ -97,8 +99,9 @@ public class StarBattleBoard extends GridBoard {
             for (int y = 0; y < this.dimension.height; y++) {
                 copy.setCell(x, y, getCell(x, y).copy());
             }
-            if (x < this.regions.size())
+            if (x < this.regions.size()) {
                 copy.regions.add(this.getRegion(x).copy());
+            }
         }
         for (PuzzleElement e : modifiedData) {
             copy.getPuzzleElement(e).setModifiable(false);
