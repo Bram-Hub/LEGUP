@@ -551,39 +551,35 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             }
         }
 
-        if (fileDialog == null) {
-            fileDialog = new FileDialog(this.frame);
+        LegupPreferences preferences = LegupPreferences.getInstance();
+        File preferredDirectory =
+                new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
+        if (preferences.getSavedPath() != "") {
+            preferredDirectory = new File(preferences.getSavedPath());
         }
+        folderBrowser = new JFileChooser(preferredDirectory);
 
-        fileDialog.setMode(FileDialog.SAVE);
-        fileDialog.setTitle("Save Proof");
-        String curFileName = GameBoardFacade.getInstance().getCurFileName();
-        if (curFileName == null) {
-            fileDialog.setDirectory(
-                    LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY));
-        } else {
-            File curFile = new File(curFileName);
-            fileDialog.setDirectory(curFile.getParent());
-        }
-        fileDialog.setVisible(true);
+        folderBrowser.showSaveDialog(this);
+        folderBrowser.setVisible(true);
+        folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+        folderBrowser.setDialogTitle("Select Directory");
+        folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        folderBrowser.setAcceptAllFileFilterUsed(false);
 
-        String fileName = null;
-        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
-            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
-        }
+        String path = folderBrowser.getSelectedFile().getAbsolutePath();
 
-        if (fileName != null) {
+        if (path != null) {
             try {
                 PuzzleExporter exporter = puzzle.getExporter();
                 if (exporter == null) {
                     throw new ExportFileException("Puzzle exporter null");
                 }
-                exporter.exportPuzzle(fileName);
+                exporter.exportPuzzle(path);
             } catch (ExportFileException e) {
                 e.printStackTrace();
             }
         }
-        return fileName;
+        return path;
     }
 
     public DynamicView getDynamicBoardView() {
