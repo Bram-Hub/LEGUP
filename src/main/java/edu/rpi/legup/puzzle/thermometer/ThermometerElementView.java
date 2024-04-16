@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class ThermometerElementView extends GridElementView {
 
+    //mixture of stuff stolen from tree tent and dev guide
     private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
     private static final Color FONT_COLOR = Color.BLACK;
 
@@ -20,6 +21,8 @@ public class ThermometerElementView extends GridElementView {
         return (ThermometerCell) super.getPuzzleElement();
     }
 
+    //method for drawing a thermometer cell
+    //basically copy/pasted from tree tent drawing tent images
     @Override
     public void drawElement(Graphics2D graphics2D) {
 
@@ -41,6 +44,7 @@ public class ThermometerElementView extends GridElementView {
         graphics2D.drawRect(location.x, location.y, size.width, size.height);
     }
 
+    //modified code from tree trent to display images
     private Image imageSrc(ThermometerType t, ThermometerFill f, int r) {
 
         //will have a 36 switch case at end to determine which image gets opened

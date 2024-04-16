@@ -7,11 +7,11 @@ import java.awt.event.MouseEvent;
 
 public class ThermometerController extends ElementController {
 
+    //method for updating thermometer cells since number cells have unknown for
+    //their fill type we don't need to worry about end user modifying them with this
     @Override
     public void changeCell(MouseEvent e, PuzzleElement data) {
         ThermometerCell cell = (ThermometerCell) data;
-
-//        System.out.println("Sanity Check");
 
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (e.isControlDown()) {

@@ -26,7 +26,8 @@ public class ThermometerExporter extends PuzzleExporter {
         ArrayList<ThermometerVial> vials = board.getVials();
         for (ThermometerVial vial : vials) {
             org.w3c.dom.Element vialElement = newDocument.createElement("vial");
-            // Temp for now, waiting on final implementation of vial
+            // The way the vials are created are with the head (bulb) position and the final position
+            // This implementation doesn't allow for curved thermometers, but for right now that's fine
             vialElement.setAttribute("headx", String.valueOf((int) vial.getHead().getLocation().getX()));
             vialElement.setAttribute("heady", String.valueOf((int) vial.getHead().getLocation().getY()));
             vialElement.setAttribute("tailx", String.valueOf((int) vial.getTail().getLocation().getX()));
@@ -37,8 +38,9 @@ public class ThermometerExporter extends PuzzleExporter {
 
         // Creating the XML section for the row numbers and appending to the board
         org.w3c.dom.Element rowNumbersElement = newDocument.createElement("rowNumbers");
-        //when time available change to expect arraylist of gridcells
         ArrayList<ThermometerCell> rowNumbers = board.getRowNumbers();
+        // The row numbers are the numbers on the right most column, labeling how many filled sections
+        // are in the row
         for (ThermometerCell cell : rowNumbers) {
             int number = cell.getRotation();
             org.w3c.dom.Element rowNumberElement = newDocument.createElement("row");
@@ -49,7 +51,8 @@ public class ThermometerExporter extends PuzzleExporter {
 
         // Creating the XML section for the col numbers and appending ot the board
         org.w3c.dom.Element colNumbersElement = newDocument.createElement("colNumbers");
-        //when time available change to expect arraylist of gridcells
+        // The col numbers are the numbers on the bottom row, labeling how many filled sections
+        // are in the column
         ArrayList<ThermometerCell> colNumbers = board.getColNumbers();
         for (ThermometerCell cell : colNumbers) {
             int number = cell.getRotation();
