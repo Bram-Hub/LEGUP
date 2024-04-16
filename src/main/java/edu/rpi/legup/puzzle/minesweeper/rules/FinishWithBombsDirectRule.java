@@ -10,6 +10,7 @@ import edu.rpi.legup.puzzle.minesweeper.*;
 public class FinishWithBombsDirectRule extends DirectRule {
     public FinishWithBombsDirectRule() {
         super(
+                "MINE-BASC-0001",
                 "Finish with Bombs",
                 "The remaining unknowns around a flag must be bombs to satisfy the number",
                 "edu/rpi/legup/images/minesweeper/direct/Fill_Bombs.jpg");
