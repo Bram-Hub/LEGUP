@@ -6,14 +6,14 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.thermometer.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO: Rule is untested
+// TODO: Rule is untested
 public class MercuryOrBlockedCaseRule extends CaseRule {
     public MercuryOrBlockedCaseRule() {
-        super("THERM-CASE-0001",
+        super(
+                "THERM-CASE-0001",
                 "Mercury or Blocked",
                 "Each unassigned tile must be filled with mercury or blocked.",
                 "edu/rpi/legup/images/thermometer/MercOrBlocked.png");
@@ -34,20 +34,27 @@ public class MercuryOrBlockedCaseRule extends CaseRule {
 
         TreeTransition case1 = childTransitions.get(0);
         TreeTransition case2 = childTransitions.get(1);
-        if (case1.getBoard().getModifiedData().size() != 1 ||
-                case2.getBoard().getModifiedData().size() != 1) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must have 1 modified cell for each case.";
+        if (case1.getBoard().getModifiedData().size() != 1
+                || case2.getBoard().getModifiedData().size() != 1) {
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must have 1 modified cell for each case.";
         }
 
-        ThermometerCell mod1 = (ThermometerCell) case1.getBoard().getModifiedData().iterator().next();
-        ThermometerCell mod2 = (ThermometerCell) case2.getBoard().getModifiedData().iterator().next();
+        ThermometerCell mod1 =
+                (ThermometerCell) case1.getBoard().getModifiedData().iterator().next();
+        ThermometerCell mod2 =
+                (ThermometerCell) case2.getBoard().getModifiedData().iterator().next();
         if (!mod1.getLocation().equals(mod2.getLocation())) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must modify the same cell for each case.";
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must modify the same cell for each case.";
         }
 
-        if (!((mod1.getFill() == ThermometerFill.BLOCKED && mod2.getFill() == ThermometerFill.FILLED) ||
-                (mod2.getFill() == ThermometerFill.BLOCKED && mod1.getFill() == ThermometerFill.FILLED))) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must have a filled or blocked cell.";
+        if (!((mod1.getFill() == ThermometerFill.BLOCKED
+                        && mod2.getFill() == ThermometerFill.FILLED)
+                || (mod2.getFill() == ThermometerFill.BLOCKED
+                        && mod1.getFill() == ThermometerFill.FILLED))) {
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must have a filled or blocked cell.";
         }
 
         return null;
@@ -66,7 +73,6 @@ public class MercuryOrBlockedCaseRule extends CaseRule {
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         return null;
     }
-
 
     @Override
     public CaseBoard getCaseBoard(Board board) {

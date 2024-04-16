@@ -7,10 +7,12 @@ import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.thermometer.*;
 import java.util.ArrayList;
-//TODO:This rule is unimplemented
+
+// TODO:This rule is unimplemented
 public class SatisfyMercuryCaseRule extends CaseRule {
     public SatisfyMercuryCaseRule() {
-        super("THERM-CASE-0002",
+        super(
+                "THERM-CASE-0002",
                 "Satisfy Mercury",
                 "There are multiple ways column/row requirements can be fufilled",
                 "edu/rpi/legup/images/thermometer/SatisfyMercury.png");
@@ -23,7 +25,9 @@ public class SatisfyMercuryCaseRule extends CaseRule {
      * @return null if the child node logically follow from the parent node, otherwise error message
      */
     @Override
-    public String checkRuleRaw(TreeTransition transition) {return null;}
+    public String checkRuleRaw(TreeTransition transition) {
+        return null;
+    }
 
     /**
      * Checks whether the child node logically follows from the parent node at the specific
@@ -47,9 +51,12 @@ public class SatisfyMercuryCaseRule extends CaseRule {
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {return null;}
+    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+        return null;
+    }
 
     @Override
-    public CaseBoard getCaseBoard(Board board) {return null;}
-
+    public CaseBoard getCaseBoard(Board board) {
+        return null;
+    }
 }

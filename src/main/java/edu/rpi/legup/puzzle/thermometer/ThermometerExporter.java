@@ -1,10 +1,8 @@
 package edu.rpi.legup.puzzle.thermometer;
 
-import java.util.ArrayList;
-
 import edu.rpi.legup.model.PuzzleExporter;
+import java.util.ArrayList;
 import org.w3c.dom.Document;
-import edu.rpi.legup.puzzle.thermometer.ThermometerVial;
 
 public class ThermometerExporter extends PuzzleExporter {
 
@@ -26,12 +24,18 @@ public class ThermometerExporter extends PuzzleExporter {
         ArrayList<ThermometerVial> vials = board.getVials();
         for (ThermometerVial vial : vials) {
             org.w3c.dom.Element vialElement = newDocument.createElement("vial");
-            // The way the vials are created are with the head (bulb) position and the final position
-            // This implementation doesn't allow for curved thermometers, but for right now that's fine
-            vialElement.setAttribute("headx", String.valueOf((int) vial.getHead().getLocation().getX()));
-            vialElement.setAttribute("heady", String.valueOf((int) vial.getHead().getLocation().getY()));
-            vialElement.setAttribute("tailx", String.valueOf((int) vial.getTail().getLocation().getX()));
-            vialElement.setAttribute("taily", String.valueOf((int) vial.getTail().getLocation().getY()));
+            // The way the vials are created are with the head (bulb) position and the final
+            // position
+            // This implementation doesn't allow for curved thermometers, but for right now that's
+            // fine
+            vialElement.setAttribute(
+                    "headx", String.valueOf((int) vial.getHead().getLocation().getX()));
+            vialElement.setAttribute(
+                    "heady", String.valueOf((int) vial.getHead().getLocation().getY()));
+            vialElement.setAttribute(
+                    "tailx", String.valueOf((int) vial.getTail().getLocation().getX()));
+            vialElement.setAttribute(
+                    "taily", String.valueOf((int) vial.getTail().getLocation().getY()));
             vialsElement.appendChild(vialElement);
         }
         boardElement.appendChild(vialsElement);
@@ -39,7 +43,8 @@ public class ThermometerExporter extends PuzzleExporter {
         // Creating the XML section for the row numbers and appending to the board
         org.w3c.dom.Element rowNumbersElement = newDocument.createElement("rowNumbers");
         ArrayList<ThermometerCell> rowNumbers = board.getRowNumbers();
-        // The row numbers are the numbers on the right most column, labeling how many filled sections
+        // The row numbers are the numbers on the right most column, labeling how many filled
+        // sections
         // are in the row
         for (ThermometerCell cell : rowNumbers) {
             int number = cell.getRotation();

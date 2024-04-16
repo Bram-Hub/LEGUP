@@ -7,14 +7,14 @@ import edu.rpi.legup.puzzle.thermometer.ThermometerBoard;
 import edu.rpi.legup.puzzle.thermometer.ThermometerCell;
 import edu.rpi.legup.puzzle.thermometer.ThermometerFill;
 
-//TODO: Rule is untested
-public class TooManyMercuryContradiction extends ContradictionRule{
+// TODO: Rule is untested
+public class TooManyMercuryContradiction extends ContradictionRule {
 
     private final String Invalid_Use_Message = "Mercury does not exceed limit";
 
-
-    public TooManyMercuryContradiction(){
-        super("THERM-CONT-0003",
+    public TooManyMercuryContradiction() {
+        super(
+                "THERM-CONT-0003",
                 "Too Many Mercury",
                 "More mercury in column/row than target",
                 "edu/rpi/legup/images/thermometer/TooManyMercury.png");
@@ -34,16 +34,22 @@ public class TooManyMercuryContradiction extends ContradictionRule{
         ThermometerBoard grid = (ThermometerBoard) board;
         ThermometerCell cell = (ThermometerCell) grid.getPuzzleElement(puzzleElement);
         int filled = 0;
-        for(int i = 0; i < grid.getHeight(); i++){
-            if(grid.getCell((int)cell.getLocation().getX(), i).getFill() == ThermometerFill.FILLED){ filled++;}
+        for (int i = 0; i < grid.getHeight(); i++) {
+            if (grid.getCell((int) cell.getLocation().getX(), i).getFill()
+                    == ThermometerFill.FILLED) {
+                filled++;
+            }
         }
-        if(grid.getRowNumber((int)cell.getLocation().getX()) > filled) return null;
+        if (grid.getRowNumber((int) cell.getLocation().getX()) > filled) return null;
 
         filled = 0;
-        for(int i = 0; i < grid.getWidth(); i++){
-            if(grid.getCell(i, (int)cell.getLocation().getY()).getFill() == ThermometerFill.FILLED){ filled++;}
+        for (int i = 0; i < grid.getWidth(); i++) {
+            if (grid.getCell(i, (int) cell.getLocation().getY()).getFill()
+                    == ThermometerFill.FILLED) {
+                filled++;
+            }
         }
-        if(grid.getColNumber((int)cell.getLocation().getY()) > filled) return null;
+        if (grid.getColNumber((int) cell.getLocation().getY()) > filled) return null;
 
         return Invalid_Use_Message;
     }

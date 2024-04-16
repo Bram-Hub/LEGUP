@@ -9,10 +9,9 @@ import edu.rpi.legup.puzzle.thermometer.ThermometerBoard;
 import edu.rpi.legup.puzzle.thermometer.ThermometerCell;
 import edu.rpi.legup.puzzle.thermometer.ThermometerFill;
 import edu.rpi.legup.puzzle.thermometer.ThermometerVial;
-
 import java.util.ArrayList;
 
-//TODO: Rule is untested
+// TODO: Rule is untested
 public class PriorFilledDirectRule extends DirectRule {
 
     public PriorFilledDirectRule() {
@@ -33,7 +32,8 @@ public class PriorFilledDirectRule extends DirectRule {
      *     puzzleElement, otherwise error message
      */
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        ThermometerBoard initialBoard = (ThermometerBoard) transition.getParents().get(0).getBoard();
+        ThermometerBoard initialBoard =
+                (ThermometerBoard) transition.getParents().get(0).getBoard();
         ThermometerBoard finalBoard = (ThermometerBoard) transition.getBoard();
 
         ThermometerCell cell = (ThermometerCell) finalBoard.getPuzzleElement(puzzleElement);
@@ -43,43 +43,43 @@ public class PriorFilledDirectRule extends DirectRule {
 
         ArrayList<ThermometerVial> allVials = finalBoard.getVials();
         ThermometerVial host = null;
-        for(ThermometerVial vials: allVials){
-            if(vials.containsCell((cell))){
+        for (ThermometerVial vials : allVials) {
+            if (vials.containsCell((cell))) {
                 host = vials;
             }
         }
-        if(host == null) return super.getInvalidUseOfRuleMessage() + ": Something went wrong - 1";
-        int x = (int)cell.getLocation().getX();
-        int y = (int)cell.getLocation().getX();
+        if (host == null) return super.getInvalidUseOfRuleMessage() + ": Something went wrong - 1";
+        int x = (int) cell.getLocation().getX();
+        int y = (int) cell.getLocation().getX();
 
-        //Identifies next cell from tail location, checks if it is filled
-        if(host.getTail() == cell){
+        // Identifies next cell from tail location, checks if it is filled
+        if (host.getTail() == cell) {
             return super.getInvalidUseOfRuleMessage() + ": rule can not apply to tail";
-        }else if(host.getTail().getLocation().getX() == x){
-            if(host.getTail().getLocation().getY() > y){
-                if(initialBoard.getCell(x, y + 1).getFill() == ThermometerFill.FILLED){
+        } else if (host.getTail().getLocation().getX() == x) {
+            if (host.getTail().getLocation().getY() > y) {
+                if (initialBoard.getCell(x, y + 1).getFill() == ThermometerFill.FILLED) {
                     return null;
-                } else{
+                } else {
                     return super.getInvalidUseOfRuleMessage() + "rule does not apply to this cell";
                 }
-            }else if(host.getTail().getLocation().getY() < y){
-                if(initialBoard.getCell(x, y - 1).getFill() == ThermometerFill.FILLED){
+            } else if (host.getTail().getLocation().getY() < y) {
+                if (initialBoard.getCell(x, y - 1).getFill() == ThermometerFill.FILLED) {
                     return null;
-                } else{
+                } else {
                     return super.getInvalidUseOfRuleMessage() + "rule does not apply to this cell";
                 }
             } else return super.getInvalidUseOfRuleMessage() + ": Something went wrong - 2";
-        }else if(host.getTail().getLocation().getY() == y){
-            if(host.getTail().getLocation().getX() > x){
-                if(initialBoard.getCell(x + 1, y).getFill() == ThermometerFill.FILLED){
+        } else if (host.getTail().getLocation().getY() == y) {
+            if (host.getTail().getLocation().getX() > x) {
+                if (initialBoard.getCell(x + 1, y).getFill() == ThermometerFill.FILLED) {
                     return null;
-                } else{
+                } else {
                     return super.getInvalidUseOfRuleMessage() + "rule does not apply to this cell";
                 }
-            }else if(host.getTail().getLocation().getX() < x){
-                if(initialBoard.getCell(x - 1, y).getFill() == ThermometerFill.FILLED){
+            } else if (host.getTail().getLocation().getX() < x) {
+                if (initialBoard.getCell(x - 1, y).getFill() == ThermometerFill.FILLED) {
                     return null;
-                } else{
+                } else {
                     return super.getInvalidUseOfRuleMessage() + "rule does not apply to this cell";
                 }
             } else return super.getInvalidUseOfRuleMessage() + ": Something went wrong - 2.1";
@@ -95,5 +95,7 @@ public class PriorFilledDirectRule extends DirectRule {
      * @return default board or null if this rule cannot be applied to this tree node
      */
     @Override
-    public Board getDefaultBoard(TreeNode node) {return null;}
+    public Board getDefaultBoard(TreeNode node) {
+        return null;
+    }
 }

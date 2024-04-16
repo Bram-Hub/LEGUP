@@ -5,15 +5,9 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.thermometer.ThermometerBoard;
-import edu.rpi.legup.puzzle.thermometer.ThermometerCell;
-import edu.rpi.legup.puzzle.thermometer.ThermometerFill;
-import edu.rpi.legup.puzzle.thermometer.ThermometerVial;
 
-import java.util.ArrayList;
-
-//TODO: Rule is unimplemented
-public class FinishWithMercuryDirectRule extends DirectRule{
+// TODO: Rule is unimplemented
+public class FinishWithMercuryDirectRule extends DirectRule {
     public FinishWithMercuryDirectRule() {
         super(
                 "THERM-BASC-0003",
@@ -32,7 +26,9 @@ public class FinishWithMercuryDirectRule extends DirectRule{
      *     puzzleElement, otherwise error message
      */
     @Override
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {return null;}
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+        return null;
+    }
 
     /**
      * Creates a transition {@link Board} that has this rule applied to it using the {@link
@@ -42,5 +38,7 @@ public class FinishWithMercuryDirectRule extends DirectRule{
      * @return default board or null if this rule cannot be applied to this tree node
      */
     @Override
-    public Board getDefaultBoard(TreeNode node) {return null;}
+    public Board getDefaultBoard(TreeNode node) {
+        return null;
+    }
 }
