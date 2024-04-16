@@ -15,7 +15,7 @@ jobs:
       - name: Determine new version
         id: update_version
         run: |
-          current_version=$(<version.txt)
+          current_version=$(<legup-update/bin/main/edu.rpi.legupupdate/VERSION)
           IFS='.' read -r -a version_parts <<< "$current_version"
           first_part="${version_parts[0]}"
           second_part="${version_parts[1]}"
@@ -41,12 +41,12 @@ jobs:
           echo "::set-output name=version::$new_version"
 
       - name: Update version.txt with new version
-        run: echo "${{ steps.update_version.outputs.version }}" > version.txt
+        run: echo "${{ steps.update_version.outputs.version }}" > legup-update/bin/main/edu.rpi.legupupdate/VERSION
 
       - name: Commit and push changes
         run: |
-          git config --global user.email "your-email@example.com"
-          git config --global user.name "Your Name"
-          git add version.txt
+          git config --global user.email "pitbull51067@yahoo.com"
+          git config --global user.name "Pitbull51067"
+          git add legup-update/bin/main/edu.rpi.legupupdate/VERSION
           git commit -m "Increment version number"
           git push origin main
