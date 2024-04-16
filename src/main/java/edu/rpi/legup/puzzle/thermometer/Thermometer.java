@@ -3,6 +3,7 @@ package edu.rpi.legup.puzzle.thermometer;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 
+//basically just copy-pasted from dev guide on wiki
 public class Thermometer extends Puzzle {
     public Thermometer() {
         super();
@@ -11,6 +12,8 @@ public class Thermometer extends Puzzle {
 
         this.importer = new ThermometerImporter(this);
         this.exporter = new ThermometerExporter(this);
+        //we do not have a thermometerCellFactory class as
+        //thermometerVial has its own thermometerCell factory method
     }
 
     /** Initializes the game board. Called by the invoker of the class */

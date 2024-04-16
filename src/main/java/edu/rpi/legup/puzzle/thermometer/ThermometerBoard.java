@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.thermometer;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
-import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -22,7 +21,8 @@ public class ThermometerBoard extends GridBoard{
     public ThermometerBoard(int width, int height) {
         super(width, height);
 
-        //filling the arrays with zeros, so they can be properly updated later
+        //initializing the row/col number arrays with zeros, so they can be
+        //easily updated using the setRow/ColNumber functions
         colNumbers = new ArrayList<>();
         for (int i = 0; i < width-1; i++) {
             ThermometerCell cell = new ThermometerCell(new Point(i, height-1),
@@ -40,12 +40,13 @@ public class ThermometerBoard extends GridBoard{
             this.setCell(width-1, i, cell);
         }
 
-        //setting a dummy cell so board doesnt have null cells
+        //setting a dummy cell so board doesn't have null cells
         dummyCell = new ThermometerCell(new Point(width-1, height-1),
                 ThermometerType.UNKNOWN, ThermometerFill.UNKNOWN, -1);
         dummyCell.setIndex((height-1) * height + width);
         this.setCell(width-1, height-1, dummyCell);
 
+        //creating our empty vial of thermometers to add to
         thermometerVials = new ArrayList<>();
     }
 
@@ -58,7 +59,7 @@ public class ThermometerBoard extends GridBoard{
     }
 
 
-    //our getters for row/col numbers with simple input verification
+    //our setters for row/col numbers with simple input verification
     public boolean setRowNumber(int row, int num) {
         //first check is to verify we are updating an element in range
         //second check is to verify the new number can be achieved by the puzzle
@@ -78,11 +79,13 @@ public class ThermometerBoard extends GridBoard{
         return false;
     }
 
-    //basic accessors, probably fine as is
+    //basic accessors for row/col numbers
     public int getRowNumber(int row){
+        if (row < 0 || row >= rowNumbers.size()) return -1;
         return rowNumbers.get(row).getRotation();
     }
     public int getColNumber(int col){
+        if (col < 0 || col >= rowNumbers.size()) return -1;
         return colNumbers.get(col).getRotation();
     }
 
@@ -92,7 +95,10 @@ public class ThermometerBoard extends GridBoard{
 
 
     //we all suck at programming so instead of using provided array list
-    //instead just trusting vials to store the cells for us
+    //we use our own array lists to keep track of the vials
+    //marginally useful because it means we are guaranteed to get a
+    //thermometer cell when calling get cell, but using some type casting
+    //this override function could very likely be refactored out
     @Override
     public ThermometerCell getCell(int x, int y) {
         for(ThermometerVial vial: this.thermometerVials) {

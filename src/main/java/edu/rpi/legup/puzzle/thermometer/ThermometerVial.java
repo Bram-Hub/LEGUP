@@ -3,12 +3,12 @@ package edu.rpi.legup.puzzle.thermometer;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static java.lang.Math.*;
-
 public class ThermometerVial {
     private ArrayList<ThermometerCell> cells;
 
     public ThermometerVial(int headX, int headY, int tipX, int tipY, ThermometerBoard board) {
+        //basic constructor, instantiating our members field and then
+        //calling helper function to do all the heavy lifting
         cells = new ArrayList<ThermometerCell>();
         fillData(headX, headY, tipX, tipY, board);
     }
@@ -61,7 +61,7 @@ public class ThermometerVial {
     }
 
 
-    //TODO DOES NOT WORK AS INTENDED
+    //TODO (probably) DOES NOT WORK AS INTENDED
     // BECAUSE MOST RULES GET A PUZZLE ELEMENT PASSED IN AND WEIRD
     // TYPE CASTING STUFF, PAY ATTENTION TO THIS WHEN WE START
     // DEBUGGING RULES
@@ -75,6 +75,7 @@ public class ThermometerVial {
         return false;
     }
 
+    //basic accessors
     public ThermometerCell getHead(){return cells.getFirst();}
     public ThermometerCell getTail(){return cells.getLast();}
     public ArrayList<ThermometerCell> getCells(){return cells;}
