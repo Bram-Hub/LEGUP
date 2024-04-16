@@ -27,7 +27,7 @@ public class SatisfyFlagCaseRule extends CaseRule{
         minesweeperBoard.setModifiable(false);
         for (PuzzleElement data : minesweeperBoard.getPuzzleElements()) {
             MinesweeperCell cell = (MinesweeperCell) data;
-            if (cell.getTileNumber() >= 0 && cell.getTileNumber() <= 8 && MinesweeperUtilities.hasEmptyAdjacent(minesweeperBoard, cell)) {
+            if (cell.getTileNumber() > 0 && cell.getTileNumber() <= 8 && MinesweeperUtilities.hasEmptyAdjacent(minesweeperBoard, cell)) {
                 caseBoard.addPickableElement(data);
             }
         }
