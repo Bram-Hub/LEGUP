@@ -11,16 +11,16 @@
                 <vial headx="1" heady="2" tailx="1" taily="3"/>
             </vials>
             <rowNumbers>
-                <row value="3"/>
                 <row value="2"/>
+                <row value="4"/>
                 <row value="2"/>
-                <row value="2"/>
+                <row value="1"/>
             </rowNumbers>
             <colNumbers>
+                <col value="3"/>
                 <col value="2"/>
-                <col value="4"/>
                 <col value="2"/>
-                <col value="1"/>
+                <col value="2"/>
             </colNumbers>
         </board>
     </puzzle>
