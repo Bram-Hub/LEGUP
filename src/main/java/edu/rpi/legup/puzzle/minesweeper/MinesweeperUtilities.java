@@ -1,5 +1,11 @@
 package edu.rpi.legup.puzzle.minesweeper;
 
+import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
+import edu.rpi.legup.puzzle.fillapix.FillapixCell;
+import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
+import edu.rpi.legup.puzzle.fillapix.rules.TooFewBlackCellsContradictionRule;
+import edu.rpi.legup.puzzle.minesweeper.rules.LessBombsThanFlagContradictionRule;
+
 import java.awt.*;
 import java.util.Objects;
 import java.util.stream.IntStream;
@@ -95,7 +101,7 @@ public final class MinesweeperUtilities {
                     continue;
                 }
                 MinesweeperCell adjCell = (MinesweeperCell) board.getCell(cellLoc.x + i, cellLoc.y + j);
-                if (adjCell == null) {
+                if (adjCell == null || adjCell == cell) {
                     continue;
                 }
                 adjCells.add(adjCell);
@@ -137,5 +143,20 @@ public final class MinesweeperUtilities {
         recurseCombinations(result, curIndex+1, maxBlack, numBlack, len, workingArray);
     }
 
+    public static boolean isForcedBomb(MinesweeperBoard board, MinesweeperCell cell) {
+
+        LessBombsThanFlagContradictionRule tooManyBombs =
+                new LessBombsThanFlagContradictionRule();
+        MinesweeperBoard emptyCaseBoard = board.copy();
+        MinesweeperCell emptyCell = (MinesweeperCell) emptyCaseBoard.getPuzzleElement(cell);
+        emptyCell.setCellType(MinesweeperTileData.empty());
+        ArrayList<MinesweeperCell> adjCells = getAdjacentCells(emptyCaseBoard, emptyCell);
+        for (MinesweeperCell adjCell : adjCells) {
+            if (tooManyBombs.checkContradictionAt(emptyCaseBoard, adjCell) == null) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
