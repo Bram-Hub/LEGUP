@@ -24,7 +24,6 @@ public class LastCellForNumberDirectRuleTest {
     @Test
     public void LastCellForNumberDirectRuleTest() throws InvalidFileFormatException {
         //Import board and create transition
-        //puzzles\sudoku\rules\LastCellForNumberDirectRule\TestBoard
         TestUtilities.importTestBoard("puzzles/sudoku/rules/LastCellForNumberDirectRule/TestBoard", sudoku);
         TreeNode rootNode = sudoku.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
