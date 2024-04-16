@@ -24,9 +24,14 @@ public class TentForTreeDirectRuleTest {
         treetent = new TreeTent();
     }
 
-  /***
-   * @throws InvalidFileFormatException Test to check that a line connecting a tree and tent
-   *    that are only adjacent to each other is valid
+  /**
+   * 3x3 TreeTent puzzle Tests TentForTreeDirectRule
+   * <p> TREE at (1, 0); TENT at (1, 1)
+   * XRX
+   * XTX
+   * XXX
+   * <p> Makes a line between (1, 0) and (1, 1)
+   * Checks that the rule correctly detects the central tent as the only possible connection
    */
   @Test
   public void TentForTreeTestOneTreeOneTentTest() throws InvalidFileFormatException {
@@ -60,16 +65,17 @@ public class TentForTreeDirectRuleTest {
     }
   }
 
-    /***
-     * @throws InvalidFileFormatException Test to check that a line connecting a tent to a tree
-     *    while there are multiple trees around the tent works
-     *
-     *    <p>3x3 board with trees at (1, 0) and (1, 2) and a tent at (1, 1). Creating a line
-     *    from (1, 0) to (1, 1) works because there is only one tent adjacent to the tree
-     *    at (1, 0)
-     */
-    @Test
-    public void TentForTreeArbitraryTreeTest() throws InvalidFileFormatException {
+  /**
+   * 3x3 TreeTent puzzle Tests TentForTreeDirectRule
+   * <p> TREE at (1, 0) and (1, 2); TENT at (1, 1)
+   * XRX
+   * XTX
+   * XRX
+   * <p> Makes a line between (1, 0) and (1, 1)
+   * Checks that the rule works when connecting a line between the tree at (1, 0) and tent at (1, 1)
+   */
+  @Test
+  public void TentForTreeArbitraryTreeTest() throws InvalidFileFormatException {
 
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/TentForTreeDirectRule/ArbitraryTree",
@@ -91,16 +97,17 @@ public class TentForTreeDirectRuleTest {
         Assert.assertNull(RULE.checkRule(transition));
     }
 
-    /***
-     * @throws InvalidFileFormatException Test to check if attempting to connect a tree to
-     *  an already connected tent fails
-     *
-     *  <p>3x3 Board with Trees at (1, 0) and (1, 2) and a Tent at (1, 1)
-     *  A Preexisting line connects the tent at (1, 0) and the central tent
-     *  Therefore, the tree at (1, 2) does not have a valid tent adjacent to it
-     */
-    @Test
-    public void TentForTreeConnectedTent() throws InvalidFileFormatException {
+  /**
+   * 3x3 TreeTent puzzle Tests TentForTreeDirectRule
+   * <p> TREE at (1, 0) and (1, 2); TENT at (1, 1); LINE between (1, 0) and (1, 1)
+   * XRX
+   * XTX
+   * XRX
+   * <p> Makes a line between (1, 1) and (1, 2)
+   * Checks that the rule fails for the tree at (1, 2) because there are no valid tents to connect to
+   */
+  @Test
+  public void TentForTreeConnectedTent() throws InvalidFileFormatException {
 
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/TentForTreeDirectRule/ArbitraryTree",
@@ -127,15 +134,17 @@ public class TentForTreeDirectRuleTest {
         }
     }
 
-    /***
-     * @throws InvalidFileFormatException Test to check if attempting to connect a tree to
-     *  a tent when there are two possibilities fails
-     *
-     *  <p>3x3 Board with Tree at (1, 1) and Tents at (1, 0) and (1, 2)
-     *  The central tree has two possible tents to connect to, so the rule should fail
-     */
-    @Test
-    public void TentForTreeOneTreeTwoAdjacentTent() throws InvalidFileFormatException {
+  /**
+   * 3x3 TreeTent puzzle Tests TentForTreeDirectRule
+   * <p> TREE at (1, 1); TENT at (1, 0) and (1, 2)
+   * XTX
+   * XRX
+   * XTX
+   * <p> Makes a line between (1, 1) and (1, 2)
+   * Checks that the rule fails for the tree at (1, 1) because there are two valid tents to connect to
+   */
+  @Test
+  public void TentForTreeOneTreeTwoAdjacentTent() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/TentForTreeDirectRule/OneTreeTwoAdjacentTent",
                 treetent);

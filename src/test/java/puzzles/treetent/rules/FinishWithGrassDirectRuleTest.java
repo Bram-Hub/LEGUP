@@ -36,6 +36,7 @@ public class FinishWithGrassDirectRuleTest {
    * XXX x
    * xxx
    * <p> Makes (0, 1) and (2, 1) GRASS
+   * Checks if the rule detects the middle row to be filled in correctly
    */
   @Test
   public void FinishWithGrassHorizontalTest() throws InvalidFileFormatException {
@@ -85,6 +86,7 @@ public class FinishWithGrassDirectRuleTest {
    * GXX x
    * 1xx
    * <p> Makes (0, 1) and (0, 2) GRASS
+   * Checks if the rule detects the leftmost column to be filled in correctly
    */
   @Test
   public void FinishWithGrassVerticalTest() throws InvalidFileFormatException {
@@ -134,6 +136,7 @@ public class FinishWithGrassDirectRuleTest {
      * GXX x
      * 1xx
      * <p> Makes (0, 1), (0, 2), (1, 0), and (2, 0) GRASS
+     * Checks if the rule detects the top row and leftmost column to be filled in correctly
      */
     @Test
     public void FinishWithGrassTest() throws InvalidFileFormatException {
@@ -191,6 +194,7 @@ public class FinishWithGrassDirectRuleTest {
    * GGG 0
    * 000
    * <p> Fill Board with GRASS
+   * Checks if the rule allows all cells to be filled when the clue for all rows and columns is zero.
    */
   @Test
   public void NoTentTest() throws InvalidFileFormatException {
@@ -235,6 +239,7 @@ public class FinishWithGrassDirectRuleTest {
    * XGX x
    * x1x
    * <p> Makes (1, 0), (0, 1), (2, 1), and (1, 2) GRASS
+   * Checks if the rule correctly allows the central row and column to be filled with grass.
    */
   @Test
   public void MiddleTentTest() throws InvalidFileFormatException {
@@ -293,6 +298,7 @@ public class FinishWithGrassDirectRuleTest {
    * GGG 1
    * 111
    * <p> Fill Board with GRASS
+   * Checks if the rule is not valid when a row or column does not have the required number of tents but is filled with grass
    */
   @Test
   public void FailTentTest() throws InvalidFileFormatException {
@@ -341,6 +347,7 @@ public class FinishWithGrassDirectRuleTest {
    * XXXXXXX x
    * xxxxxxx
    * <p> Makes (0, 3), (2, 3), (4, 3), and (6, 3) GRASS
+   * Checks if applying the rule on row 3 is valid
    */
   @Test
   public void SpacedOutTentTest() throws InvalidFileFormatException {

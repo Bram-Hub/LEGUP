@@ -33,6 +33,7 @@ public class EmptyFieldDirectRuleTest {
    * XGX
    * XXX
    * <p> Makes the (1, 1) tile GRASS
+   * Checks if the rule correctly detects no trees around the grass tile
    */
   @Test
   public void EmptyFieldTest() throws InvalidFileFormatException {
@@ -76,6 +77,7 @@ public class EmptyFieldDirectRuleTest {
    * XGX
    * RXR
    * <p> Makes the (1, 1) tile GRASS
+   * Checks if the rule correctly ignores the trees on the diagonals
    */
   @Test
   public void DiagonalTreeTest() throws InvalidFileFormatException {
@@ -119,6 +121,7 @@ public class EmptyFieldDirectRuleTest {
    * RGR
    * XRX
    * <p> Makes the (1, 1) tile GRASS
+   * Checks if the rule is not valid when there are adjacent trees
    */
   @Test
   public void EmptyFieldTestFail() throws InvalidFileFormatException {
@@ -157,6 +160,7 @@ public class EmptyFieldDirectRuleTest {
    * XGX
    * XXX
    * <p> Makes the (1, 1) tile GRASS
+   * Checks if the rule is not valid when there is one adjacent tree
    */
   @Test
   public void EmptyFieldTestFailTop() throws InvalidFileFormatException {
