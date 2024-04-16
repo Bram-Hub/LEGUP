@@ -6,7 +6,6 @@ import org.junit.runner.notification.Failure;
 import puzzles.battleship.rules.*;
 import puzzles.lightup.rules.*;
 import puzzles.nurikabe.rules.*;
-import puzzles.sudoku.rules.LastNumberForCellDirectRuleRegionTest;
 import puzzles.treetent.rules.*;
 
 /** This class runs all of the tests for the project without needing to run build scripts. */

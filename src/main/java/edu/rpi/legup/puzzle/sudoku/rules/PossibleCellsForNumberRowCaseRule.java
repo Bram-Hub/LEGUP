@@ -14,13 +14,16 @@ import java.util.Set;
 
 public class PossibleCellsForNumberRowCaseRule extends CaseRule {
 
-    //Board math for translating indexes to numbers
+    // Board math for translating indexes to numbers
     private ModelSudokuBoard model = new ModelSudokuBoard();
 
-    //Old board for caseBoard reference
+    // Old board for caseBoard reference
     private SudokuBoard lagBoard;
+
     public PossibleCellsForNumberRowCaseRule() {
-        super("SUDO-CASE-0003", "Possible Cells for Number - Row",
+        super(
+                "SUDO-CASE-0003",
+                "Possible Cells for Number - Row",
                 "An empty cell has a limited set of possible numbers that can fill it.",
                 "edu/rpi/legup/images/sudoku/possible_cells_number_row.png");
     }
@@ -77,20 +80,21 @@ public class PossibleCellsForNumberRowCaseRule extends CaseRule {
     /**
      * Gets the possible cases at a specific location based on this case rule
      *
-     * @param board         the current board state
+     * @param board the current board state
      * @param puzzleElement equivalent puzzleElement
-     * @param value         value that the rule will be applied from
-     * @param groupType     group type
+     * @param value value that the rule will be applied from
+     * @param groupType group type
      * @return a list of elements the specified could be
      */
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement, int value, GroupType groupType) {
+    public ArrayList<Board> getCases(
+            Board board, PuzzleElement puzzleElement, int value, GroupType groupType) {
         ArrayList<Board> cases = new ArrayList<>();
         SudokuBoard sudokuBoard = lagBoard;
         SudokuCell sourceCell = (SudokuCell) puzzleElement;
 
         Set<SudokuCell> group = sudokuBoard.getRow(sourceCell.getLocation().y);
-        for (SudokuCell cell : group){
-            if(cell.getData() == 0){
+        for (SudokuCell cell : group) {
+            if (cell.getData() == 0) {
                 Board newCase = sudokuBoard.copy();
                 PuzzleElement element = newCase.getPuzzleElement(cell);
                 element.setData(model.getModelRowNumbers(sourceCell.getIndex()));

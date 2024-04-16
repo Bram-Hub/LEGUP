@@ -11,8 +11,10 @@ import java.util.Set;
 public class NoNumberForCellContradictionRule extends ContradictionRule {
 
     public NoNumberForCellContradictionRule() {
-        super("SUDO-CONT-0004", "No Number for Cell",
-               "Process of elimination yields no valid numbers for an empty cell.",
+        super(
+                "SUDO-CONT-0004",
+                "No Number for Cell",
+                "Process of elimination yields no valid numbers for an empty cell.",
                 "edu/rpi/legup/images/sudoku/NoSolution.png");
     }
 
@@ -39,19 +41,19 @@ public class NoNumberForCellContradictionRule extends ContradictionRule {
         Set<SudokuCell> row = sudokuBoard.getRow(cell.getLocation().y);
         Set<SudokuCell> col = sudokuBoard.getCol(cell.getLocation().x);
         Set<Integer> solution = new HashSet<>();
-        for(SudokuCell s : region) {
+        for (SudokuCell s : region) {
             solution.add(s.getData());
         }
-        for(SudokuCell s : row) {
+        for (SudokuCell s : row) {
             solution.add(s.getData());
         }
 
-        for(SudokuCell s : col) {
+        for (SudokuCell s : col) {
             solution.add(s.getData());
         }
         solution.remove(0);
 
-        if(solution.size() == 9) {
+        if (solution.size() == 9) {
             return null;
         }
 

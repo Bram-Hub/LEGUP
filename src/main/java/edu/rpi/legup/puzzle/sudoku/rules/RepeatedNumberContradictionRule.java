@@ -11,7 +11,9 @@ import java.util.Set;
 public class RepeatedNumberContradictionRule extends ContradictionRule {
 
     public RepeatedNumberContradictionRule() {
-        super("SUDO-CONT-0005", "Repeated Numbers",
+        super(
+                "SUDO-CONT-0005",
+                "Repeated Numbers",
                 "Two identical numbers are placed in the same group.",
                 "edu/rpi/legup/images/sudoku/RepeatedNumber.png");
     }
@@ -27,12 +29,12 @@ public class RepeatedNumberContradictionRule extends ContradictionRule {
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
-        //Get board to check
+        // Get board to check
         SudokuBoard sudokuBoard = (SudokuBoard) board;
 
-        //Loop all group indexes
-        for(int i = 0; i < 9; i++) {
-            //Get regions and sets to check duplicates
+        // Loop all group indexes
+        for (int i = 0; i < 9; i++) {
+            // Get regions and sets to check duplicates
             Set<SudokuCell> region = sudokuBoard.getRegion(i);
             Set<Integer> regionDup = new HashSet<>();
 
@@ -42,7 +44,7 @@ public class RepeatedNumberContradictionRule extends ContradictionRule {
             Set<SudokuCell> col = sudokuBoard.getCol(i);
             Set<Integer> colDup = new HashSet<>();
 
-            //Check for non zero duplicates to trigger contradiction
+            // Check for non zero duplicates to trigger contradiction
             for (SudokuCell c : region) {
                 if (c.getData() == 0) {
                     continue;

@@ -8,12 +8,13 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.sudoku.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class PossibleNumbersForCellCaseRule extends CaseRule {
 
     public PossibleNumbersForCellCaseRule() {
-        super("SUDO-CASE-0001", "Possible Numbers for Cell",
+        super(
+                "SUDO-CASE-0001",
+                "Possible Numbers for Cell",
                 "An empty cell has a limited set of possible numbers that can fill it.",
                 "edu/rpi/legup/images/sudoku/PossibleValues.png");
     }
@@ -54,6 +55,7 @@ public class PossibleNumbersForCellCaseRule extends CaseRule {
         }
         return caseBoard;
     }
+
     /**
      * Gets the possible cases at a specific location based on this case rule
      *
