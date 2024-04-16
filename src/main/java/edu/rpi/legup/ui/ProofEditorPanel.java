@@ -581,34 +581,72 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             return;
         }
 
-        fileDialog.setMode(FileDialog.SAVE);
-        fileDialog.setTitle("Save As");
-        String curFileName = GameBoardFacade.getInstance().getCurFileName();
-        if (curFileName == null) {
-            fileDialog.setDirectory(
-                    LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY));
-        } else {
-            File curFile = new File(curFileName);
-            fileDialog.setDirectory(curFile.getParent());
-        }
-        fileDialog.setVisible(true);
+        //===================================
 
-        String fileName = null;
-        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
-            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
+        LegupPreferences preferences = LegupPreferences.getInstance();
+        File preferredDirectory =
+                new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
+        if (preferences.getSavedPath() != "") {
+            preferredDirectory = new File(preferences.getSavedPath());
         }
+        folderBrowser = new JFileChooser(preferredDirectory);
 
-        if (fileName != null) {
-            try {
-                PuzzleExporter exporter = puzzle.getExporter();
-                if (exporter == null) {
-                    throw new ExportFileException("Puzzle exporter null");
-                }
-                exporter.exportPuzzle(fileName);
-            } catch (ExportFileException e) {
-                e.printStackTrace();
+        folderBrowser.showSaveDialog(this);
+        folderBrowser.setVisible(true);
+        folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+        folderBrowser.setDialogTitle("Select Directory");
+        folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        folderBrowser.setAcceptAllFileFilterUsed(false);
+
+        File folder = folderBrowser.getSelectedFile();
+
+        // Write csv file (Path,File-Name,Puzzle-Type,Score,Solved?)
+        File resultFile = new File(folder.getAbsolutePath() + File.separator + "result.csv");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
+            writer.append("Name,File Name,Puzzle Type,Score,Solved?\n");
+
+            // Go through student folders
+            for (final File folderEntry :
+                    Objects.requireNonNull(folder.listFiles(File::isDirectory))) {
+                // Write path
+                String path = folderEntry.getName();
+                traverseDir(folderEntry, writer, path);
             }
+        } catch (IOException ex) {
+            LOGGER.error(ex.getMessage());
         }
+
+
+        //==========================================
+
+//        fileDialog.setMode(FileDialog.SAVE);
+//        fileDialog.setTitle("Save As");
+//        String curFileName = GameBoardFacade.getInstance().getCurFileName();
+//        if (curFileName == null) {
+//            fileDialog.setDirectory(
+//                    LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY));
+//        } else {
+//            File curFile = new File(curFileName);
+//            fileDialog.setDirectory(curFile.getParent());
+//        }
+//        fileDialog.setVisible(true);
+//
+//        String fileName = null;
+//        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
+//            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
+//        }
+//
+//        if (fileName != null) {
+//            try {
+//                PuzzleExporter exporter = puzzle.getExporter();
+//                if (exporter == null) {
+//                    throw new ExportFileException("Puzzle exporter null");
+//                }
+//                exporter.exportPuzzle(fileName);
+//            } catch (ExportFileException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     // Hyperlink for help button; links to wiki page for tutorials
