@@ -49,7 +49,8 @@ public class FinishWithBombsDirectRule extends DirectRule {
         for (PuzzleElement element : minesweeperBoard.getPuzzleElements()) {
             MinesweeperCell cell = (MinesweeperCell) element;
             if (cell.getTileType() == MinesweeperTileType.UNSET
-                    && MinesweeperUtilities.isForcedBomb((MinesweeperBoard) node.getBoard(), cell)) {
+                    && MinesweeperUtilities.isForcedBomb(
+                            (MinesweeperBoard) node.getBoard(), cell)) {
                 cell.setCellType(MinesweeperTileData.bomb());
                 minesweeperBoard.addModifiedData(cell);
             }

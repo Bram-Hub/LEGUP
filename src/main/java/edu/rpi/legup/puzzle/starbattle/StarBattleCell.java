@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.starbattle;
 
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -13,10 +12,10 @@ public class StarBattleCell extends GridCell<Integer> {
     /**
      * StarBattleCell Constructor - creates a new StarBattle cell to hold the puzzleElement
      *
-     * @param value   value of the star battle cell denoting its state
-     * @param location   location of the cell on the board
+     * @param value value of the star battle cell denoting its state
+     * @param location location of the cell on the board
      * @param groupIndex indicates what group # the cell is in.
-     * @param size       size of the star battle cell
+     * @param size size of the star battle cell
      */
     public StarBattleCell(int value, Point location, int groupIndex, int size) {
         super(value, location);
@@ -24,7 +23,9 @@ public class StarBattleCell extends GridCell<Integer> {
         this.max = size;
     }
 
-    public int getGroupIndex() { return groupIndex; }
+    public int getGroupIndex() {
+        return groupIndex;
+    }
 
     @Override
     public void setType(Element e, MouseEvent m) {
@@ -38,27 +39,25 @@ public class StarBattleCell extends GridCell<Integer> {
             case "STBL-PLAC-0003":
                 this.data = -1;
                 break;
-            
-            case "STBL-UNPL-0001"://Not sure how button events work
-                switch (m.getButton()){
+
+            case "STBL-UNPL-0001": // Not sure how button events work
+                switch (m.getButton()) {
                     case MouseEvent.BUTTON1:
                         if (this.data > 0 || this.data < -3) {
                             this.data = -3;
-                        }
-                        else {
+                        } else {
                             this.data = this.data + 1;
                         }
                         break;
                     case MouseEvent.BUTTON3:
                         if (this.data > -4) {
                             this.data = this.data - 1;
-                        }
-                        else {
-                            this.data = -1;//Unsure
+                        } else {
+                            this.data = -1; // Unsure
                         }
                         break;
                 }
-                break; 
+                break;
         }
     }
 

@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.starbattle;
 
 import edu.rpi.legup.model.PuzzleExporter;
-
 import org.w3c.dom.Document;
 
 public class StarBattleExporter extends PuzzleExporter {
@@ -20,14 +19,15 @@ public class StarBattleExporter extends PuzzleExporter {
             org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
             for (StarBattleCell cell : sb_region.getCells()) {
                 if (cell.getData() == 0) {
-                    org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, cell);
+                    org.w3c.dom.Element cellElement =
+                            puzzle.getFactory().exportCell(newDocument, cell);
                     cellsElement.appendChild(cellElement);
                 }
                 regionsElement.appendChild(cellsElement);
             }
             boardElement.appendChild(regionsElement);
         }
-        
+
         return boardElement;
     }
 }

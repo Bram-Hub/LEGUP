@@ -6,7 +6,6 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperBoard;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperCell;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperTileType;
-import edu.rpi.legup.puzzle.minesweeper.MinesweeperTileData;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperUtilities;
 import java.util.ArrayList;
 
@@ -39,7 +38,8 @@ public class MoreBombsThanFlagContradictionRule extends ContradictionRule {
             return super.getNoContradictionMessage();
         }
         int numBlack = 0;
-        ArrayList<MinesweeperCell> adjCells = MinesweeperUtilities.getAdjacentCells(minesweeperBoard, cell);
+        ArrayList<MinesweeperCell> adjCells =
+                MinesweeperUtilities.getAdjacentCells(minesweeperBoard, cell);
         for (MinesweeperCell adjCell : adjCells) {
             if (adjCell.getTileType() == MinesweeperTileType.BOMB) {
                 numBlack++;

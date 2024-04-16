@@ -1,23 +1,19 @@
 package edu.rpi.legup.puzzle.minesweeper;
 
-import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
-import edu.rpi.legup.puzzle.fillapix.FillapixCell;
-import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
-import edu.rpi.legup.puzzle.fillapix.rules.TooFewBlackCellsContradictionRule;
 import edu.rpi.legup.puzzle.minesweeper.rules.LessBombsThanFlagContradictionRule;
-
 import java.awt.*;
+import java.util.*;
 import java.util.Objects;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-import java.util.*;
 
 public final class MinesweeperUtilities {
 
     private static final int SURROUNDING_CELL_MIN_INDEX = 0;
     private static final int SURROUNDING_CELL_MAX_INDEX = 9;
 
-    public static Stream<MinesweeperCell> getSurroundingCells(MinesweeperBoard board, MinesweeperCell cell) {
+    public static Stream<MinesweeperCell> getSurroundingCells(
+            MinesweeperBoard board, MinesweeperCell cell) {
         final Point loc = cell.getLocation();
         final int height = board.getHeight();
         final int width = board.getWidth();
@@ -31,27 +27,31 @@ public final class MinesweeperUtilities {
         return IntStream.range(SURROUNDING_CELL_MIN_INDEX, SURROUNDING_CELL_MAX_INDEX)
                 // skip 0,0 element
                 .filter(i -> i != (SURROUNDING_CELL_MAX_INDEX - SURROUNDING_CELL_MIN_INDEX) / 2)
-                .mapToObj(index -> {
-                    final int newX = index / 3 - 1 + x;
-                    final int newY = index % 3 - 1 + y;
-                    // only keep valid locations
-                    if (newX < 0 || newY < 0 || newX >= width || newY >= height) {
-                        return null;
-                    }
-                    return board.getCell(newX, newY);
-                })
+                .mapToObj(
+                        index -> {
+                            final int newX = index / 3 - 1 + x;
+                            final int newY = index % 3 - 1 + y;
+                            // only keep valid locations
+                            if (newX < 0 || newY < 0 || newX >= width || newY >= height) {
+                                return null;
+                            }
+                            return board.getCell(newX, newY);
+                        })
                 .filter(Objects::nonNull);
     }
 
-    public static int countSurroundingType(MinesweeperBoard board, MinesweeperCell cell, MinesweeperTileType type) {
-        final Stream<MinesweeperTileData> stream = getSurroundingCells(board, cell)
-                .map(MinesweeperCell::getData);
-        return (int) (switch (type) {
-            case UNSET -> stream.filter(MinesweeperTileData::isUnset);
-            case BOMB -> stream.filter(MinesweeperTileData::isBomb);
-            case EMPTY -> stream.filter(MinesweeperTileData::isEmpty);
-            case FLAG -> stream.filter(MinesweeperTileData::isFlag);
-        }).count();
+    public static int countSurroundingType(
+            MinesweeperBoard board, MinesweeperCell cell, MinesweeperTileType type) {
+        final Stream<MinesweeperTileData> stream =
+                getSurroundingCells(board, cell).map(MinesweeperCell::getData);
+        return (int)
+                (switch (type) {
+                            case UNSET -> stream.filter(MinesweeperTileData::isUnset);
+                            case BOMB -> stream.filter(MinesweeperTileData::isBomb);
+                            case EMPTY -> stream.filter(MinesweeperTileData::isEmpty);
+                            case FLAG -> stream.filter(MinesweeperTileData::isFlag);
+                        })
+                        .count();
     }
 
     public static int countSurroundingBombs(MinesweeperBoard board, MinesweeperCell cell) {
@@ -71,9 +71,8 @@ public final class MinesweeperUtilities {
     }
 
     /**
-     *
-     * @return how many bombs are left that need to be placed
-     * around {@code cell} which must be a flag
+     * @return how many bombs are left that need to be placed around {@code cell} which must be a
+     *     flag
      */
     public int countNeededBombsFromFlag(MinesweeperBoard board, MinesweeperCell cell) {
         if (!cell.getData().isFlag()) {
@@ -92,15 +91,20 @@ public final class MinesweeperUtilities {
         return false;
     }
 
-    public static ArrayList<MinesweeperCell> getAdjacentCells(MinesweeperBoard board, MinesweeperCell cell) {
+    public static ArrayList<MinesweeperCell> getAdjacentCells(
+            MinesweeperBoard board, MinesweeperCell cell) {
         ArrayList<MinesweeperCell> adjCells = new ArrayList<MinesweeperCell>();
         Point cellLoc = cell.getLocation();
-        for (int i=-1; i <= 1; i++) {
-            for (int j=-1; j <= 1; j++) {
-                if (cellLoc.getX() + i < 0 || cellLoc.y + j < 0 || cellLoc.x + i >= board.getWidth() || cellLoc.y + j >= board.getHeight()) {
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (cellLoc.getX() + i < 0
+                        || cellLoc.y + j < 0
+                        || cellLoc.x + i >= board.getWidth()
+                        || cellLoc.y + j >= board.getHeight()) {
                     continue;
                 }
-                MinesweeperCell adjCell = (MinesweeperCell) board.getCell(cellLoc.x + i, cellLoc.y + j);
+                MinesweeperCell adjCell =
+                        (MinesweeperCell) board.getCell(cellLoc.x + i, cellLoc.y + j);
                 if (adjCell == null || adjCell == cell) {
                     continue;
                 }
@@ -120,7 +124,13 @@ public final class MinesweeperUtilities {
         return combinations;
     }
 
-    private static void recurseCombinations(ArrayList<boolean[]> result, int curIndex, int maxBlack, int numBlack, int len, boolean[] workingArray) {
+    private static void recurseCombinations(
+            ArrayList<boolean[]> result,
+            int curIndex,
+            int maxBlack,
+            int numBlack,
+            int len,
+            boolean[] workingArray) {
         if (curIndex == len) {
             // complete, but not valid solution
             if (numBlack != maxBlack) {
@@ -137,16 +147,15 @@ public final class MinesweeperUtilities {
 
         if (numBlack < maxBlack) {
             workingArray[curIndex] = true;
-            recurseCombinations(result, curIndex+1, maxBlack, numBlack+1, len, workingArray);
+            recurseCombinations(result, curIndex + 1, maxBlack, numBlack + 1, len, workingArray);
         }
         workingArray[curIndex] = false;
-        recurseCombinations(result, curIndex+1, maxBlack, numBlack, len, workingArray);
+        recurseCombinations(result, curIndex + 1, maxBlack, numBlack, len, workingArray);
     }
 
     public static boolean isForcedBomb(MinesweeperBoard board, MinesweeperCell cell) {
 
-        LessBombsThanFlagContradictionRule tooManyBombs =
-                new LessBombsThanFlagContradictionRule();
+        LessBombsThanFlagContradictionRule tooManyBombs = new LessBombsThanFlagContradictionRule();
         MinesweeperBoard emptyCaseBoard = board.copy();
         MinesweeperCell emptyCell = (MinesweeperCell) emptyCaseBoard.getPuzzleElement(cell);
         emptyCell.setCellType(MinesweeperTileData.empty());
@@ -158,5 +167,4 @@ public final class MinesweeperUtilities {
         }
         return false;
     }
-
 }
