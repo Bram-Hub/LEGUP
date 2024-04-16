@@ -2,7 +2,6 @@ package edu.rpi.legup.ui.proofeditorui.treeview;
 
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.model.tree.TreeElementType;
-
 import java.awt.*;
 
 public abstract class TreeElementView implements Shape {
@@ -18,7 +17,7 @@ public abstract class TreeElementView implements Shape {
     /**
      * TreeElementView Constructor creates a tree puzzleElement view
      *
-     * @param type        tree puzzleElement type
+     * @param type tree puzzleElement type
      * @param treeElement tree puzzleElement puzzleElement associated with this view
      */
     protected TreeElementView(TreeElementType type, TreeElement treeElement) {
@@ -136,8 +135,8 @@ public abstract class TreeElementView implements Shape {
     }
 
     /**
-     * Gets the visibility of the tree puzzleElement.
-     * Tells the TreeView whether or not to draw the tree puzzleElement
+     * Gets the visibility of the tree puzzleElement. Tells the TreeView whether or not to draw the
+     * tree puzzleElement
      *
      * @return visibility of the tree puzzleElement
      */

@@ -8,7 +8,6 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.lightup.LightUpBoard;
 import edu.rpi.legup.puzzle.lightup.LightUpCell;
 import edu.rpi.legup.puzzle.lightup.LightUpCellType;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,19 +15,22 @@ import java.util.List;
 public class EmptyCornersDirectRule extends DirectRule {
 
     public EmptyCornersDirectRule() {
-        super("LTUP-BASC-0003", "Empty Corners",
-                "Cells on the corners of a number must be empty if placing bulbs would prevent the number from being satisfied.",
+        super(
+                "LTUP-BASC-0003",
+                "Empty Corners",
+                "Cells on the corners of a number must be empty if placing bulbs would prevent the"
+                        + " number from being satisfied.",
                 "edu/rpi/legup/images/lightup/rules/EmptyCorners.png");
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement index of the puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
@@ -37,7 +39,8 @@ public class EmptyCornersDirectRule extends DirectRule {
         LightUpBoard finalBoard = (LightUpBoard) transition.getBoard();
         LightUpCell finalCell = (LightUpCell) finalBoard.getPuzzleElement(puzzleElement);
 
-        if (!(cell.getType() == LightUpCellType.UNKNOWN && finalCell.getType() == LightUpCellType.EMPTY)) {
+        if (!(cell.getType() == LightUpCellType.UNKNOWN
+                && finalCell.getType() == LightUpCellType.EMPTY)) {
             return super.getInvalidUseOfRuleMessage() + ": This cell must be an empty cell";
         }
 
@@ -60,7 +63,8 @@ public class EmptyCornersDirectRule extends DirectRule {
             numberedCells.add(lowerLeft);
         }
         if (numberedCells.isEmpty()) {
-            return super.getInvalidUseOfRuleMessage() + ": This cell must diagonal to a numbered cell";
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This cell must diagonal to a numbered cell";
         }
 
         TooFewBulbsContradictionRule tooFew = new TooFewBulbsContradictionRule();
@@ -75,14 +79,14 @@ public class EmptyCornersDirectRule extends DirectRule {
         }
         if (createsContra) {
             return null;
-        }
-        else {
+        } else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty";
         }
     }
 
     /**
-     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
      *
      * @param node tree node used to create default transition board
      * @return default board or null if this rule cannot be applied to this tree node
@@ -100,15 +104,13 @@ public class EmptyCornersDirectRule extends DirectRule {
                 LightUpCell modCell = (LightUpCell) lightUpBoard.getPuzzleElement(cell);
                 modCell.setData(LightUpCellType.EMPTY.value);
                 lightUpBoard.addModifiedData(modCell);
-            }
-            else {
+            } else {
                 cell.setData(temp);
             }
         }
         if (lightUpBoard.getModifiedData().isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return lightUpBoard;
         }
     }

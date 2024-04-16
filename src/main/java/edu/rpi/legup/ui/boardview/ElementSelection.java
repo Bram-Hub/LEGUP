@@ -26,8 +26,7 @@ public class ElementSelection {
         if (selection.contains(elementView)) {
             selection.remove(elementView);
             elementView.setSelected(false);
-        }
-        else {
+        } else {
             selection.add(elementView);
             elementView.setSelected(true);
         }

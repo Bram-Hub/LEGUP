@@ -1,29 +1,25 @@
 package edu.rpi.legup.ui;
 
+import java.awt.*;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
-import java.awt.*;
 
-/**
- * FlowLayout subclass that fully supports wrapping of components.
- */
+/** FlowLayout subclass that fully supports wrapping of components. */
 public class WrapLayout extends FlowLayout {
     private Dimension preferredLayoutSize;
 
     /**
-     * Constructs a new <code>WrapLayout</code> with a left
-     * alignment and a default 5-unit horizontal and vertical gap.
+     * Constructs a new <code>WrapLayout</code> with a left alignment and a default 5-unit
+     * horizontal and vertical gap.
      */
     public WrapLayout() {
         super(LEFT);
     }
 
     /**
-     * Constructs a new <code>FlowLayout</code> with the specified
-     * alignment and a default 5-unit horizontal and vertical gap.
-     * The value of the alignment argument must be one of
-     * <code>WrapLayout</code>, <code>WrapLayout</code>,
-     * or <code>WrapLayout</code>.
+     * Constructs a new <code>FlowLayout</code> with the specified alignment and a default 5-unit
+     * horizontal and vertical gap. The value of the alignment argument must be one of <code>
+     * WrapLayout</code>, <code>WrapLayout</code>, or <code>WrapLayout</code>.
      *
      * @param align the alignment value
      */
@@ -32,28 +28,27 @@ public class WrapLayout extends FlowLayout {
     }
 
     /**
-     * Creates a new flow layout manager with the indicated alignment
-     * and the indicated horizontal and vertical gaps.
-     * <p>
-     * The value of the alignment argument must be one of
-     * <code>WrapLayout</code>, <code>WrapLayout</code>,
-     * or <code>WrapLayout</code>.
+     * Creates a new flow layout manager with the indicated alignment and the indicated horizontal
+     * and vertical gaps.
+     *
+     * <p>The value of the alignment argument must be one of <code>WrapLayout</code>, <code>
+     * WrapLayout
+     * </code>, or <code>WrapLayout</code>.
      *
      * @param align the alignment value
-     * @param hgap  the horizontal gap between components
-     * @param vgap  the vertical gap between components
+     * @param hgap the horizontal gap between components
+     * @param vgap the vertical gap between components
      */
     public WrapLayout(int align, int hgap, int vgap) {
         super(align, hgap, vgap);
     }
 
     /**
-     * Returns the preferred dimensions for this layout given the
-     * visible components in the specified target container.
+     * Returns the preferred dimensions for this layout given the visible components in the
+     * specified target container.
      *
      * @param target the component which needs to be laid out
-     * @return the preferred dimensions to lay out the
-     * subcomponents of the specified container
+     * @return the preferred dimensions to lay out the subcomponents of the specified container
      */
     @Override
     public Dimension preferredLayoutSize(Container target) {
@@ -61,12 +56,11 @@ public class WrapLayout extends FlowLayout {
     }
 
     /**
-     * Returns the minimum dimensions needed to layout the visible
-     * components contained in the specified target container.
+     * Returns the minimum dimensions needed to layout the visible components contained in the
+     * specified target container.
      *
      * @param target the component which needs to be laid out
-     * @return the minimum dimensions to lay out the
-     * subcomponents of the specified container
+     * @return the minimum dimensions to lay out the subcomponents of the specified container
      */
     @Override
     public Dimension minimumLayoutSize(Container target) {
@@ -76,10 +70,9 @@ public class WrapLayout extends FlowLayout {
     }
 
     /**
-     * Returns the minimum or preferred dimension needed to layout the target
-     * container.
+     * Returns the minimum or preferred dimension needed to layout the target container.
      *
-     * @param target    target to get layout dimension for
+     * @param target target to get layout dimension for
      * @param preferred should preferred dimension be calculated
      * @return the dimension to layout the target container
      */
@@ -155,11 +148,11 @@ public class WrapLayout extends FlowLayout {
     }
 
     /**
-     * A new row has been completed. Use the dimensions of this row
-     * to update the preferred dimension for the container.
+     * A new row has been completed. Use the dimensions of this row to update the preferred
+     * dimension for the container.
      *
-     * @param dim       update the width and height when appropriate
-     * @param rowWidth  the width of the row to add
+     * @param dim update the width and height when appropriate
+     * @param rowWidth the width of the row to add
      * @param rowHeight the height of the row to add
      */
     private void addRow(Dimension dim, int rowWidth, int rowHeight) {

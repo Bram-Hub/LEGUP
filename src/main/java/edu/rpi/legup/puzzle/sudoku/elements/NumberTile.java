@@ -23,6 +23,4 @@ public class NumberTile extends PlaceableElement {
     public void setTileNumber(int num) {
         object_num = num;
     }
-
-
 }

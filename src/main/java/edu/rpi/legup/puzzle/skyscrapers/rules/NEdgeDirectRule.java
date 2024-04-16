@@ -8,33 +8,37 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersBoard;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersCell;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType;
-
 import java.awt.Point;
 
 public class NEdgeDirectRule extends DirectRule {
 
     public NEdgeDirectRule() {
-        super("SKYS-BASC-0004", "N Edge",
-                "If the maximum number appears on an edge, the row or column's numbers appear in ascending order, starting at that edge.",
+        super(
+                "SKYS-BASC-0004",
+                "N Edge",
+                "If the maximum number appears on an edge, the row or column's numbers appear in"
+                        + " ascending order, starting at that edge.",
                 "edu/rpi/legup/images/skyscrapers/rules/NEdge.png");
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement index of the puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        SkyscrapersBoard initialBoard = (SkyscrapersBoard) transition.getParents().get(0).getBoard();
+        SkyscrapersBoard initialBoard =
+                (SkyscrapersBoard) transition.getParents().get(0).getBoard();
         SkyscrapersCell initCell = (SkyscrapersCell) initialBoard.getPuzzleElement(puzzleElement);
         SkyscrapersBoard finalBoard = (SkyscrapersBoard) transition.getBoard();
         SkyscrapersCell finalCell = (SkyscrapersCell) finalBoard.getPuzzleElement(puzzleElement);
-        if (!(initCell.getType() == SkyscrapersType.UNKNOWN && finalCell.getType() == SkyscrapersType.Number)) {
+        if (!(initCell.getType() == SkyscrapersType.UNKNOWN
+                && finalCell.getType() == SkyscrapersType.Number)) {
             return super.getInvalidUseOfRuleMessage() + ": Modified cells must be number";
         }
 
@@ -43,21 +47,24 @@ public class NEdgeDirectRule extends DirectRule {
         Point loc = finalCell.getLocation();
         int max = initialBoard.getHeight();
 
-        if (initialBoard.getWestClues().get(loc.y).getData() == max && finalCell.getData() == loc.x + 1) {
+        if (initialBoard.getWestClues().get(loc.y).getData() == max
+                && finalCell.getData() == loc.x + 1) {
             return null;
         }
-        if (initialBoard.getEastClues().get(loc.y).getData() == max && finalCell.getData() == max - loc.x) {
+        if (initialBoard.getEastClues().get(loc.y).getData() == max
+                && finalCell.getData() == max - loc.x) {
             return null;
         }
-        if (initialBoard.getNorthClues().get(loc.x).getData() == max && finalCell.getData() == loc.y + 1) {
+        if (initialBoard.getNorthClues().get(loc.x).getData() == max
+                && finalCell.getData() == loc.y + 1) {
             return null;
         }
-        if (initialBoard.getSouthClues().get(loc.x).getData() == max && finalCell.getData() == max - loc.y) {
+        if (initialBoard.getSouthClues().get(loc.x).getData() == max
+                && finalCell.getData() == max - loc.y) {
             return null;
         }
 
         return super.getInvalidUseOfRuleMessage() + ": This cell is not forced.";
-
     }
 
     private boolean isForced(SkyscrapersBoard board, SkyscrapersCell cell) {
@@ -72,7 +79,8 @@ public class NEdgeDirectRule extends DirectRule {
     }
 
     /**
-     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
      *
      * @param node tree node used to create default transition board
      * @return default board or null if this rule cannot be applied to this tree node
@@ -81,18 +89,17 @@ public class NEdgeDirectRule extends DirectRule {
     public Board getDefaultBoard(TreeNode node) {
         SkyscrapersBoard initialBoard = (SkyscrapersBoard) node.getBoard();
         SkyscrapersBoard lightUpBoard = (SkyscrapersBoard) node.getBoard().copy();
-        //System.out.println(lightUpBoard.getPuzzleElements().size());
+        // System.out.println(lightUpBoard.getPuzzleElements().size());
         for (PuzzleElement element : lightUpBoard.getPuzzleElements()) {
             SkyscrapersCell cell = (SkyscrapersCell) element;
             if (cell.getType() == SkyscrapersType.UNKNOWN && isForced(initialBoard, cell)) {
-                //cell.setData(SkyscrapersType.BULB.value);
+                // cell.setData(SkyscrapersType.BULB.value);
                 lightUpBoard.addModifiedData(cell);
             }
         }
         if (lightUpBoard.getModifiedData().isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return lightUpBoard;
         }
     }

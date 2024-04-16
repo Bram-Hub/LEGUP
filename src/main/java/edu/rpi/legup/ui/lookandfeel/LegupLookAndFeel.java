@@ -5,20 +5,17 @@ import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialBorders;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialImages;
-
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicLookAndFeel;
-import java.awt.*;
 
 public class LegupLookAndFeel extends BasicLookAndFeel {
     /**
-     * Return a short string that identifies this look and feel, e.g.
-     * "CDE/Motif".  This string should be appropriate for a menu item.
-     * Distinct look and feels should have different names, e.g.
-     * a subclass of MotifLookAndFeel that changes the way a few components
-     * are rendered should be called "CDE/Motif My Way"; something
-     * that would be useful to a user trying to select a L&amp;F from a list
-     * of names.
+     * Return a short string that identifies this look and feel, e.g. "CDE/Motif". This string
+     * should be appropriate for a menu item. Distinct look and feels should have different names,
+     * e.g. a subclass of MotifLookAndFeel that changes the way a few components are rendered should
+     * be called "CDE/Motif My Way"; something that would be useful to a user trying to select a
+     * L&amp;F from a list of names.
      *
      * @return short identifier for the look and feel
      */
@@ -28,13 +25,11 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
     }
 
     /**
-     * Return a string that identifies this look and feel.  This string
-     * will be used by applications/services that want to recognize
-     * well known look and feel implementations.  Presently
-     * the well known names are "Motif", "Windows", "Mac", "Metal".  Note
-     * that a LookAndFeel derived from a well known superclass
-     * that doesn't make any fundamental changes to the look or feel
-     * shouldn't override this method.
+     * Return a string that identifies this look and feel. This string will be used by
+     * applications/services that want to recognize well known look and feel implementations.
+     * Presently the well known names are "Motif", "Windows", "Mac", "Metal". Note that a
+     * LookAndFeel derived from a well known superclass that doesn't make any fundamental changes to
+     * the look or feel shouldn't override this method.
      *
      * @return identifier for the look and feel
      */
@@ -44,9 +39,9 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
     }
 
     /**
-     * Return a one line description of this look and feel implementation,
-     * e.g. "The CDE/Motif Look and Feel".   This string is intended for
-     * the user, e.g. in the title of a window or in a ToolTip message.
+     * Return a one line description of this look and feel implementation, e.g. "The CDE/Motif Look
+     * and Feel". This string is intended for the user, e.g. in the title of a window or in a
+     * ToolTip message.
      *
      * @return short description for the look and feel
      */
@@ -56,14 +51,11 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
     }
 
     /**
-     * If the underlying platform has a "native" look and feel, and
-     * this is an implementation of it, return {@code true}.  For
-     * example, when the underlying platform is Solaris running CDE
-     * a CDE/Motif look and feel implementation would return {@code
-     * true}.
+     * If the underlying platform has a "native" look and feel, and this is an implementation of it,
+     * return {@code true}. For example, when the underlying platform is Solaris running CDE a
+     * CDE/Motif look and feel implementation would return {@code true}.
      *
-     * @return {@code true} if this look and feel represents the underlying
-     * platform look and feel
+     * @return {@code true} if this look and feel represents the underlying platform look and feel
      */
     @Override
     public boolean isNativeLookAndFeel() {
@@ -71,10 +63,9 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
     }
 
     /**
-     * Return {@code true} if the underlying platform supports and or permits
-     * this look and feel.  This method returns {@code false} if the look
-     * and feel depends on special resources or legal agreements that
-     * aren't defined for the current platform.
+     * Return {@code true} if the underlying platform supports and or permits this look and feel.
+     * This method returns {@code false} if the look and feel depends on special resources or legal
+     * agreements that aren't defined for the current platform.
      *
      * @return {@code true} if this is a supported look and feel
      * @see UIManager#setLookAndFeel
@@ -85,16 +76,12 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
     }
 
     /**
-     * Initializes the look and feel. While this method is public,
-     * it should only be invoked by the {@code UIManager} when a
-     * look and feel is installed as the current look and feel. This
-     * method is invoked before the {@code UIManager} invokes
-     * {@code getDefaults}. This method is intended to perform any
-     * initialization for the look and feel. Subclasses
-     * should do any one-time setup they need here, rather than
-     * in a static initializer, because look and feel class objects
-     * may be loaded just to discover that {@code isSupportedLookAndFeel()}
-     * returns {@code false}.
+     * Initializes the look and feel. While this method is public, it should only be invoked by the
+     * {@code UIManager} when a look and feel is installed as the current look and feel. This method
+     * is invoked before the {@code UIManager} invokes {@code getDefaults}. This method is intended
+     * to perform any initialization for the look and feel. Subclasses should do any one-time setup
+     * they need here, rather than in a static initializer, because look and feel class objects may
+     * be loaded just to discover that {@code isSupportedLookAndFeel()} returns {@code false}.
      *
      * @see #uninitialize
      * @see UIManager#setLookAndFeel
@@ -105,15 +92,12 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
     }
 
     /**
-     * Populates {@code table} with mappings from {@code uiClassID} to the
-     * fully qualified name of the ui class. The value for a
-     * particular {@code uiClassID} is {@code
-     * "javax.swing.plaf.basic.Basic + uiClassID"}. For example, the
-     * value for the {@code uiClassID} {@code TreeUI} is {@code
-     * "javax.swing.plaf.basic.BasicTreeUI"}.
+     * Populates {@code table} with mappings from {@code uiClassID} to the fully qualified name of
+     * the ui class. The value for a particular {@code uiClassID} is {@code
+     * "javax.swing.plaf.basic.Basic + uiClassID"}. For example, the value for the {@code uiClassID}
+     * {@code TreeUI} is {@code "javax.swing.plaf.basic.BasicTreeUI"}.
      *
-     * @param table the {@code UIDefaults} instance the entries are
-     *              added to
+     * @param table the {@code UIDefaults} instance the entries are added to
      * @throws NullPointerException if {@code table} is {@code null}
      * @see LookAndFeel
      * @see #getDefaults
@@ -132,7 +116,7 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
         table.put("PanelUI", MaterialPanelUI.class.getCanonicalName());
         table.put("LabelUI", MaterialLabelUI.class.getCanonicalName());
         table.put("MenuItemUI", MaterialMenuItemUI.class.getCanonicalName());
-//        table.put ("MenuBarUI", .class.getCanonicalName());
+        //        table.put ("MenuBarUI", .class.getCanonicalName());
         table.put("MenuUI", MaterialMenuUI.class.getCanonicalName());
         table.put("CheckBoxUI", MaterialCheckBoxUI.class.getCanonicalName());
         table.put("RadioButtonUI", MaterialRadioButtonUI.class.getCanonicalName());
@@ -152,7 +136,7 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
         table.put("FileChooserUI", MaterialFileChooserUI.class.getCanonicalName());
         table.put("ToolTipUI", MaterialToolTipUI.class.getCanonicalName());
         table.put("SplitPaneUI", MaterialSplitPaneUI.class.getCanonicalName());
-//        table.put ("ColorChooserUI", );
+        //        table.put ("ColorChooserUI", );
     }
 
     @Override
@@ -175,7 +159,11 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
         table.put("ComboBox.font", MaterialFonts.REGULAR);
         table.put("ComboBox.background", Color.WHITE);
         table.put("ComboBox.foreground", Color.BLACK);
-        table.put("ComboBox.border", BorderFactory.createCompoundBorder(MaterialBorders.LIGHT_LINE_BORDER, BorderFactory.createEmptyBorder(0, 5, 0, 0)));
+        table.put(
+                "ComboBox.border",
+                BorderFactory.createCompoundBorder(
+                        MaterialBorders.LIGHT_LINE_BORDER,
+                        BorderFactory.createEmptyBorder(0, 5, 0, 0)));
         table.put("ComboBox.buttonBackground", MaterialColors.GRAY_300);
         table.put("ComboBox.selectionBackground", Color.WHITE);
         table.put("ComboBox.selectionForeground", Color.BLACK);
@@ -251,7 +239,9 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
         table.put("Slider.background", Color.WHITE);
         table.put("Slider.foreground", MaterialColors.GRAY_700);
         table.put("Slider.trackColor", Color.BLACK);
-//        table.put ("Slider.border", BorderFactory.createCompoundBorder(MaterialBorders.LIGHT_LINE_BORDER, BorderFactory.createEmptyBorder (5, 5, 5, 5)));
+        //        table.put ("Slider.border",
+        // BorderFactory.createCompoundBorder(MaterialBorders.LIGHT_LINE_BORDER,
+        // BorderFactory.createEmptyBorder (5, 5, 5, 5)));
 
         table.put("SplitPane.border", MaterialBorders.LIGHT_LINE_BORDER);
         table.put("SplitPane.background", Color.WHITE);
@@ -275,7 +265,11 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
         table.put("Table.gridColor", MaterialColors.GRAY_200);
         table.put("TableHeader.background", MaterialColors.GRAY_200);
         table.put("TableHeader.font", MaterialFonts.BOLD);
-        table.put("TableHeader.cellBorder", BorderFactory.createCompoundBorder(MaterialBorders.LIGHT_LINE_BORDER, BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        table.put(
+                "TableHeader.cellBorder",
+                BorderFactory.createCompoundBorder(
+                        MaterialBorders.LIGHT_LINE_BORDER,
+                        BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
         table.put("TextArea.background", MaterialColors.GRAY_200);
         table.put("TextArea.border", BorderFactory.createEmptyBorder());
@@ -306,21 +300,27 @@ public class LegupLookAndFeel extends BasicLookAndFeel {
 
         table.put("RadioButtonMenuItem.foreground", Color.BLACK);
         table.put("RadioButtonMenuItem.selectionForeground", Color.BLACK);
-        //If it changes the background of the menuitem it must change this too, irrespective of its setting
+        // If it changes the background of the menuitem it must change this too, irrespective of its
+        // setting
         table.put("RadioButtonMenuItem.background", UIManager.getColor("MenuItem.background"));
         table.put("RadioButtonMenuItem.selectionBackground", MaterialColors.GRAY_200);
         table.put("RadioButtonMenuItem.border", BorderFactory.createEmptyBorder(5, 5, 5, 5));
         table.put("RadioButtonMenuItem.checkIcon", new ImageIcon(MaterialImages.RADIO_BUTTON_OFF));
-        table.put("RadioButtonMenuItem.selectedCheckIcon", new ImageIcon(MaterialImages.RADIO_BUTTON_ON));
+        table.put(
+                "RadioButtonMenuItem.selectedCheckIcon",
+                new ImageIcon(MaterialImages.RADIO_BUTTON_ON));
 
-        //If it changes the background of the menuitem it must change this too, irrespective of its setting
+        // If it changes the background of the menuitem it must change this too, irrespective of its
+        // setting
         table.put("CheckBoxMenuItem.background", UIManager.getColor("MenuItem.background"));
         table.put("CheckBoxMenuItem.selectionBackground", MaterialColors.GRAY_200);
         table.put("CheckBoxMenuItem.foreground", Color.BLACK);
         table.put("CheckBoxMenuItem.selectionForeground", Color.BLACK);
         table.put("CheckBoxMenuItem.border", BorderFactory.createEmptyBorder(5, 5, 5, 5));
         table.put("CheckBoxMenuItem.checkIcon", new ImageIcon(MaterialImages.UNCHECKED_BOX));
-        table.put("CheckBoxMenuItem.selectedCheckIcon", new ImageIcon(MaterialImages.PAINTED_CHECKED_BOX));
+        table.put(
+                "CheckBoxMenuItem.selectedCheckIcon",
+                new ImageIcon(MaterialImages.PAINTED_CHECKED_BOX));
 
         table.put("TextPane.border", MaterialBorders.LIGHT_LINE_BORDER);
         table.put("TextPane.background", MaterialColors.GRAY_50);
