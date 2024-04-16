@@ -11,3 +11,6 @@ THERM-CONT-0003 : TooManyMercuryContradiction
 
 THERM-CASE-0001 : MercuryOrBlockedCaseRule
 THERM-CASE-0002 : SatisfyMercuryCaseRule
+
+Images can be found/edited here:
+https://docs.google.com/presentation/d/1YHNog2fGvLJEx4kbJZiwwAlP-m2-E1O7hGh0HJ7S0gE/edit?usp=sharing
