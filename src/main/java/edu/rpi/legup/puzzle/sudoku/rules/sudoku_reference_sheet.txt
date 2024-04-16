@@ -5,7 +5,7 @@ SUDO-CONT-0001 : NoCellForNumberRegionContradictionRule
 SUDO-CONT-0002 : NoCellForNumberRowContradictionRule
 SUDO-CONT-0003 : NoCellForNumberColumnContradictionRule
 SUDO-CONT-0004 : NoNumberForCellContradictionRule
-SUDO-CONT-0002 : RepeatedNumberContradictionRule
+SUDO-CONT-0005 : RepeatedNumberContradictionRule
 
 SUDO-CASE-0001 : PossibleNumbersForCellCaseRule
 SUDO-CASE-0002 : PossibleCellsForNumberRegionCaseRule
