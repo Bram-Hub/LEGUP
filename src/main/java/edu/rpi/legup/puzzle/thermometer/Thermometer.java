@@ -13,6 +13,7 @@ public class Thermometer extends Puzzle {
         this.exporter = new ThermometerExporter(this);
     }
 
+    /** Initializes the game board. Called by the invoker of the class */
     @Override
     public void initializeView() {
         boardView = new ThermometerView((ThermometerBoard) currentBoard);
@@ -20,16 +21,33 @@ public class Thermometer extends Puzzle {
         addBoardListener(boardView);
     }
 
+    /**
+     * Generates a random edu.rpi.legup.puzzle based on the difficulty
+     *
+     * @param difficulty level of difficulty (1-10)
+     * @return board of the random edu.rpi.legup.puzzle
+     */
     @Override
     public Board generatePuzzle(int difficulty) {
         return null;
     }
 
+    /**
+     * Determines if the current board is a valid state
+     *
+     * @param board board to check for validity
+     * @return true if board is valid, false otherwise
+     */
     @Override
     public boolean isBoardComplete(Board board) {
         return true;
     }
 
+    /**
+     * Callback for when the board puzzleElement changes
+     *
+     * @param board the board that has changed
+     */
     @Override
     public void onBoardChange(Board board) {
     }
