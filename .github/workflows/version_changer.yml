@@ -3,7 +3,7 @@ name: Increment Version on Push
 on:
   push:
     branches:
-      - main
+      - Regions
 
 jobs:
   increment_version:
