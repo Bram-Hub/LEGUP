@@ -17,3 +17,4 @@ NURI-CONT-0006 : TooFewSpacesContradictionRule
 NURI-CONT-0007 : TooManySpacesContradictionRule
 
 NURI-CASE-0001 : BlackOrWhiteCaseRule
+NURI-CASE-0002 : FinishRoomCaseRule
