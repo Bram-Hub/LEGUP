@@ -329,7 +329,7 @@ public class FillinRowCaseRuleTest {
     @Test
     public void FillInRowEmpty5x5TwoTentClue() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
-                "puzzles/treetent/rules/FillInRowCaseRule/EmptyRow5x5TwoTent", treetent);
+                "puzzles/treetent/rules/FillinRowCaseRule/EmptyRow5x5TwoTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
