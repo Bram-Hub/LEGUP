@@ -5,6 +5,8 @@ import edu.rpi.legup.model.gameboard.GridCell;
 import java.awt.Point;
 
 public class ThermometerCell extends GridCell<Integer> {
+
+    //information about the cell needed to display it
     private ThermometerType type;
     private ThermometerFill fill;
     private int rotation;

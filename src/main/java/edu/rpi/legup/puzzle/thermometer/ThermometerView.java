@@ -1,19 +1,17 @@
 package edu.rpi.legup.puzzle.thermometer;
 
 import edu.rpi.legup.controller.BoardController;
-import edu.rpi.legup.model.gameboard.GridCell;
-import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.IOException;
 
 public class ThermometerView extends GridBoardView {
 
     public ThermometerView(ThermometerBoard board) {
         super(new BoardController(), new ThermometerController(), board.getDimension());
 
+        //loop for displaying the vial cells
+        //stolen largely from dev guide
         for(ThermometerVial vial : board.getVials()) {
             for(ThermometerCell cell : vial.getCells()) {
                 Point loc = cell.getLocation();
@@ -25,7 +23,7 @@ public class ThermometerView extends GridBoardView {
             }
         }
 
-
+        //loop for displaying row numbers, same as above
         for(ThermometerCell rowNum : board.getRowNumbers()) {
             Point loc = rowNum.getLocation();
             ThermometerNumberView numberView = new ThermometerNumberView(rowNum);
@@ -35,6 +33,7 @@ public class ThermometerView extends GridBoardView {
             elementViews.add(numberView);
         }
 
+        //loop for displaying col numbers, also same as above
         for(ThermometerCell colNum : board.getColNumbers()) {
             Point loc = colNum.getLocation();
             ThermometerNumberView numberView = new ThermometerNumberView(colNum);
