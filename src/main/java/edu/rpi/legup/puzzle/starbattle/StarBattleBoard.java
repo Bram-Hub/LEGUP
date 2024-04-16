@@ -1,16 +1,16 @@
 package edu.rpi.legup.puzzle.starbattle;
 
-import java.util.*;
-
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import java.util.*;
 
 public class StarBattleBoard extends GridBoard {
 
     private int size;
     private int puzzleNum;
     protected List<StarBattleRegion> regions;
-    //private ArrayList<Integer> groupSizes;
+
+    // private ArrayList<Integer> groupSizes;
 
     public StarBattleBoard(int size, int num) {
         super(size, size);
@@ -24,10 +24,10 @@ public class StarBattleBoard extends GridBoard {
 
     @Override
     public StarBattleCell getCell(int x, int y) {
-        return (StarBattleCell) super.getCell(x,y);
+        return (StarBattleCell) super.getCell(x, y);
     }
 
-    /* 
+    /*
     public StarBattleCell getCell(int groupIndex, int x, int y) {
         return getCell(x + (groupIndex % groupSize) * groupSize, y + (groupIndex / groupSize) * groupSize);
     }*/
@@ -44,7 +44,9 @@ public class StarBattleBoard extends GridBoard {
         return row;
     }
 
-    public int getPuzzleNumber() { return puzzleNum; }
+    public int getPuzzleNumber() {
+        return puzzleNum;
+    }
 
     public Set<StarBattleCell> getCol(int colNum) {
         Set<StarBattleCell> column = new HashSet<>();
@@ -72,7 +74,7 @@ public class StarBattleBoard extends GridBoard {
     public int columnStars(int columnIndex) {
         int stars = 0;
         if (columnIndex < size) {
-            for (StarBattleCell c: this.getCol(columnIndex)) {
+            for (StarBattleCell c : this.getCol(columnIndex)) {
                 if (c.getType() == StarBattleCellType.STAR) {
                     ++stars;
                 }
@@ -84,7 +86,7 @@ public class StarBattleBoard extends GridBoard {
     public int rowStars(int rowIndex) {
         int stars = 0;
         if (rowIndex < size) {
-            for (StarBattleCell c: this.getRow(rowIndex)) {
+            for (StarBattleCell c : this.getRow(rowIndex)) {
                 if (c.getType() == StarBattleCellType.STAR) {
                     ++stars;
                 }
@@ -109,5 +111,3 @@ public class StarBattleBoard extends GridBoard {
         return copy;
     }
 }
-
-

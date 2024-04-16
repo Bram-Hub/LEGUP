@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.binary;
 
 import edu.rpi.legup.model.gameboard.GridCell;
-
 import java.awt.Point;
 
 public class BinaryCell extends GridCell<Integer> {

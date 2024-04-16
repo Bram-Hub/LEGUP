@@ -2,13 +2,14 @@ package edu.rpi.legup.puzzle.binary;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+
 public class BinaryBoard extends GridBoard {
     private int size;
+
     public BinaryBoard(int width, int height) {
         super(width, height);
         this.size = width;
@@ -21,12 +22,16 @@ public class BinaryBoard extends GridBoard {
 
     @Override
     public BinaryCell getCell(int x, int y) {
-        if (y * dimension.width + x >= puzzleElements.size() || x >= dimension.width ||
-                y >= dimension.height || x < 0 || y < 0) {
+        if (y * dimension.width + x >= puzzleElements.size()
+                || x >= dimension.width
+                || y >= dimension.height
+                || x < 0
+                || y < 0) {
             return null;
         }
         return (BinaryCell) super.getCell(x, y);
     }
+
     public Set<BinaryCell> getRowCells(int rowNum) {
         Set<BinaryCell> row = new HashSet<>();
         for (int i = 0; i < size; i++) {
@@ -56,12 +61,11 @@ public class BinaryBoard extends GridBoard {
 
     public Set<BinaryCell> getCol(int colNum) {
         Set<BinaryCell> col = new HashSet<>();
-        for (int i = 0; i < size; i ++) {
+        for (int i = 0; i < size; i++) {
             col.add(getCell(colNum, i));
         }
         return col;
     }
-
 
     @Override
     public BinaryBoard copy() {

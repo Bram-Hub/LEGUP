@@ -2,37 +2,32 @@ package edu.rpi.legup.puzzle.starbattle;
 
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.Point;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import java.awt.Point;
 
+public class StarBattleImporter extends PuzzleImporter {
 
-public class StarBattleImporter extends PuzzleImporter{
-    
-   
     public StarBattleImporter(StarBattle starbattle) {
         super(starbattle);
     }
 
-    /**
-     * Puzzle setting to support row and column inputs
-     */
+    /** Puzzle setting to support row and column inputs */
     @Override
     public boolean acceptsRowsAndColumnsInput() {
         return true;
     }
 
-    /**
-     * Puzzle setting to disable support for text input
-     */
+    /** Puzzle setting to disable support for text input */
     @Override
     public boolean acceptsTextInput() {
         return false;
     }
 
-    /** 
+    /**
      * Constructs empty StarBattle gameboard as per the provided dimensions
+     *
      * @param rows number of rows and columns for the gameboard
      */
     @Override
@@ -44,6 +39,7 @@ public class StarBattleImporter extends PuzzleImporter{
 
     /**
      * Constructs StarBattle gameboard
+     *
      * @param node xml document node
      * @throws InvalidFileFormatException if file is invalid
      */
@@ -54,10 +50,13 @@ public class StarBattleImporter extends PuzzleImporter{
         NodeList regionNodes = puzzleElement.getElementsByTagName("region");
         int size = Integer.parseInt(puzzleElement.getAttribute("size"));
         if (regionNodes.getLength() != size) {
-            throw new InvalidFileFormatException("Not the current amount of regions in the puzzle.");
+            throw new InvalidFileFormatException(
+                    "Not the current amount of regions in the puzzle.");
         }
 
-        StarBattleBoard StarBattleBoard = new StarBattleBoard(size, puzzle_num); // Initialize the board with width and height from XML
+        StarBattleBoard StarBattleBoard =
+                new StarBattleBoard(
+                        size, puzzle_num); // Initialize the board with width and height from XML
 
         for (int i = 0; i < regionNodes.getLength(); i++) {
             Element regionElement = (Element) regionNodes.item(i);
@@ -87,10 +86,9 @@ public class StarBattleImporter extends PuzzleImporter{
         puzzle.setCurrentBoard(StarBattleBoard);
     }
 
-
-
     /**
      * Initialize board via string of statements.
+     *
      * @throws UnsupportedOperationException since StarBattle does not support text input
      */
     @Override
@@ -98,6 +96,3 @@ public class StarBattleImporter extends PuzzleImporter{
         throw new UnsupportedOperationException("Star Battle does not accept text input");
     }
 }
-
-
-

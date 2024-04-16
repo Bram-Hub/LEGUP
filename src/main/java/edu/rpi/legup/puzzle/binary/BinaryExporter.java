@@ -15,8 +15,7 @@ public class BinaryExporter extends PuzzleExporter {
         BinaryBoard board;
         if (puzzle.getTree() != null) {
             board = (BinaryBoard) puzzle.getTree().getRootNode().getBoard();
-        }
-        else {
+        } else {
             board = (BinaryBoard) puzzle.getBoardView().getBoard();
         }
 
@@ -28,7 +27,8 @@ public class BinaryExporter extends PuzzleExporter {
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             BinaryCell cell = (BinaryCell) puzzleElement;
             if (cell.getData() != -2) {
-                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
+                org.w3c.dom.Element cellElement =
+                        puzzle.getFactory().exportCell(newDocument, puzzleElement);
                 cellsElement.appendChild(cellElement);
             }
         }
