@@ -29,7 +29,7 @@ public class TooManyTentsContradictionRuleTest {
     TESTING BASIS:
     All test in this Rule use a 3x3 table.
     There is a Tree at (1,1)
-    There are tents at (0,1) and (2,2)
+    There are tents at (1,0) and (2,2)
     All Tent Counts are listed left to right or top to bottom
      */
 
