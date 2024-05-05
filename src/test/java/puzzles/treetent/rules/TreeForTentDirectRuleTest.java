@@ -8,13 +8,12 @@ import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentLine;
 import edu.rpi.legup.puzzle.treetent.rules.TreeForTentDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.util.ArrayList;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 public class TreeForTentDirectRuleTest {
 
@@ -29,19 +28,17 @@ public class TreeForTentDirectRuleTest {
 
     /**
      * 3x3 TreeTent puzzle Tests TreeForTentDirectRule
-     * <p> TENT at (1, 0); TREE at (1, 1)
-     * XTX
-     * XRX
-     * XXX
-     * <p> Makes a line between (1, 0) and (1, 1)
-     * Checks that the rule correctly detects the central tree as the only possible connection
+     *
+     * <p>TENT at (1, 0); TREE at (1, 1) XTX XRX XXX
+     *
+     * <p>Makes a line between (1, 0) and (1, 1) Checks that the rule correctly detects the central
+     * tree as the only possible connection
      */
-  @Test
-  public void TreeForTentTestOneTreeOneTentTest() throws InvalidFileFormatException {
+    @Test
+    public void TreeForTentTestOneTreeOneTentTest() throws InvalidFileFormatException {
 
         TestUtilities.importTestBoard(
-                "puzzles/treetent/rules/TreeForTentDirectRule/OneTentOneTree",
-                treetent);
+                "puzzles/treetent/rules/TreeForTentDirectRule/OneTentOneTree", treetent);
 
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -61,19 +58,17 @@ public class TreeForTentDirectRuleTest {
 
     /**
      * 3x3 TreeTent puzzle Tests TreeForTentDirectRule
-     * <p> TENT at (1, 0) and (1, 2); TREE at (1, 1)
-     * XTX
-     * XRX
-     * XTX
-     * <p> Makes a line between (1, 0) and (1, 1)
-     * Checks that the rule works when connecting a line between the tent at (1, 0) and the tree at (1, 1)
+     *
+     * <p>TENT at (1, 0) and (1, 2); TREE at (1, 1) XTX XRX XTX
+     *
+     * <p>Makes a line between (1, 0) and (1, 1) Checks that the rule works when connecting a line
+     * between the tent at (1, 0) and the tree at (1, 1)
      */
     @Test
     public void TentForTreeWithArbitraryTreeTest() throws InvalidFileFormatException {
 
         TestUtilities.importTestBoard(
-                "puzzles/treetent/rules/TreeForTentDirectRule/ArbitraryTent",
-                treetent);
+                "puzzles/treetent/rules/TreeForTentDirectRule/ArbitraryTent", treetent);
 
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -93,19 +88,17 @@ public class TreeForTentDirectRuleTest {
 
     /**
      * 3x3 TreeTent puzzle Tests TreeForTentDirectRule
-     * <p> TENT at (1, 0) and (1, 2); TREE at (1, 1); LINE between (1, 0) and (1, 1)
-     * XTX
-     * XRX
-     * XTX
-     * <p> Makes a line between (1, 1) and (1, 2)
-     * Checks that the rule fails for the tent at (1, 2) because there are no valid trees to connect to
+     *
+     * <p>TENT at (1, 0) and (1, 2); TREE at (1, 1); LINE between (1, 0) and (1, 1) XTX XRX XTX
+     *
+     * <p>Makes a line between (1, 1) and (1, 2) Checks that the rule fails for the tent at (1, 2)
+     * because there are no valid trees to connect to
      */
     @Test
     public void TentForTreeConnectedTent() throws InvalidFileFormatException {
 
         TestUtilities.importTestBoard(
-                "puzzles/treetent/rules/TreeForTentDirectRule/ConnectedTree",
-                treetent);
+                "puzzles/treetent/rules/TreeForTentDirectRule/ConnectedTree", treetent);
 
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -130,18 +123,16 @@ public class TreeForTentDirectRuleTest {
 
     /**
      * 3x3 TreeTent puzzle Tests TreeForTentDirectRule
-     * <p> TENT at (1, 1); TREE at (1, 0) and (1, 2)
-     * XRX
-     * XTX
-     * XRX
-     * <p> Makes a line between (1, 1) and (1, 2)
-     * Checks that the rule fails for the tree at (1, 1) because there are two valid trees to connect to
+     *
+     * <p>TENT at (1, 1); TREE at (1, 0) and (1, 2) XRX XTX XRX
+     *
+     * <p>Makes a line between (1, 1) and (1, 2) Checks that the rule fails for the tree at (1, 1)
+     * because there are two valid trees to connect to
      */
     @Test
     public void TentForTreeOneTreeTwoAdjacentTent() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
-                "puzzles/treetent/rules/TreeForTentDirectRule/OneTentTwoAdjacentTrees",
-                treetent);
+                "puzzles/treetent/rules/TreeForTentDirectRule/OneTentTwoAdjacentTrees", treetent);
 
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
