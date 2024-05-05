@@ -43,13 +43,17 @@
             qualifiedClassName="edu.rpi.legup.puzzle.treetent.TreeTent"
             fileType=".xml"
             fileCreationDisabled="false"/>
-	    <puzzle name="Skyscrapers"
-	        qualifiedClassName="edu.rpi.legup.puzzle.skyscrapers.Skyscrapers"
-	        fileType=".xml"
-	        fileCreationDisabled="false"/>
-	    <puzzle name="Minesweeper"
-	        qualifiedClassName="edu.rpi.legup.puzzle.minesweeper.Minesweeper"
-	        fileType=".xml"
-	        fileCreationDisabled="false"/>
+    	<puzzle name="Skyscrapers"
+	    qualifiedClassName="edu.rpi.legup.puzzle.skyscrapers.Skyscrapers"
+	    fileType=".xml"
+	    fileCreationDisabled="true"/>
+	<puzzle name="Thermometer"
+	    qualifiedClassName="edu.rpi.legup.puzzle.thermometer.Thermometer"
+            fileType=".xml"
+	    fileCreationDisabled="true"/>
+	<puzzle name="Minesweeper"
+	    qualifiedClassName="edu.rpi.legup.puzzle.minesweeper.Minesweeper"
+	    fileType=".xml"
+	    fileCreationDisabled="true"/>
     </puzzles>
 </Legup>
