@@ -580,7 +580,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         if (puzzle == null) {
             return;
         }
-        
+
         LegupPreferences preferences = LegupPreferences.getInstance();
         File preferredDirectory =
                 new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));

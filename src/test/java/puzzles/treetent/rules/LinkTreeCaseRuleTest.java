@@ -1,6 +1,5 @@
 package puzzles.treetent.rules;
 
-import com.sun.source.doctree.LinkTree;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -10,16 +9,15 @@ import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentLine;
 import edu.rpi.legup.puzzle.treetent.rules.LinkTreeCaseRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.util.ArrayList;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 public class LinkTreeCaseRuleTest {
-  private static final LinkTreeCaseRule RULE = new LinkTreeCaseRule();
+    private static final LinkTreeCaseRule RULE = new LinkTreeCaseRule();
     private static TreeTent treetent;
 
     @BeforeClass
@@ -29,17 +27,15 @@ public class LinkTreeCaseRuleTest {
     }
 
     /**
-     * empty 3x3 TreeTent puzzle Tests LinkTentCaseRule on a central tree
-     * with one tent above
+     * empty 3x3 TreeTent puzzle Tests LinkTentCaseRule on a central tree with one tent above
      *
-     * <p> Ensures one case is created that connects the tree to the tent.
+     * <p>Ensures one case is created that connects the tree to the tent.
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void LinkTentOneTentTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard(
-                "puzzles/treetent/rules/LinkTreeCaseRule/OneTent", treetent);
+        TestUtilities.importTestBoard("puzzles/treetent/rules/LinkTreeCaseRule/OneTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -77,20 +73,18 @@ public class LinkTreeCaseRuleTest {
     }
 
     /**
-     * empty 3x3 TreeTent puzzle Tests LinkTentCaseRule on a central tree
-     * with two tents, one on the left and one on the right.
+     * empty 3x3 TreeTent puzzle Tests LinkTentCaseRule on a central tree with two tents, one on the
+     * left and one on the right.
      *
-     * <p> Ensures two cases are created, one connecting the tree and the
-     * left tent, and one connecting the tree and the right tent.
-     * Because tents must be surrounded by grass, there can be at most
-     * two tents around a given tree.
+     * <p>Ensures two cases are created, one connecting the tree and the left tent, and one
+     * connecting the tree and the right tent. Because tents must be surrounded by grass, there can
+     * be at most two tents around a given tree.
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void LinkTentTwoTentsTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard(
-                "puzzles/treetent/rules/LinkTreeCaseRule/TwoTents", treetent);
+        TestUtilities.importTestBoard("puzzles/treetent/rules/LinkTreeCaseRule/TwoTents", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -107,7 +101,7 @@ public class LinkTreeCaseRuleTest {
         expectedLines.addFirst(new TreeTentLine(board.getCell(1, 1), board.getCell(2, 1)));
 
         for (Board testCaseBoard : cases) {
-            TreeTentBoard testCase = (TreeTentBoard) testCaseBoard ;
+            TreeTentBoard testCase = (TreeTentBoard) testCaseBoard;
             ArrayList<TreeTentLine> lines = testCase.getLines();
 
             // Each case should connect one line from the tent to
@@ -143,17 +137,15 @@ public class LinkTreeCaseRuleTest {
     }
 
     /**
-     * empty 3x3 TreeTent puzzle Tests LinkTentCaseRule on a central tree
-     * with zero tents around it.
+     * empty 3x3 TreeTent puzzle Tests LinkTentCaseRule on a central tree with zero tents around it.
      *
-     * <p> Ensures no cases are created
+     * <p>Ensures no cases are created
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void LinkTentNoTreesTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard(
-                "puzzles/treetent/rules/LinkTreeCaseRule/NoTents", treetent);
+        TestUtilities.importTestBoard("puzzles/treetent/rules/LinkTreeCaseRule/NoTents", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -167,17 +159,15 @@ public class LinkTreeCaseRuleTest {
     }
 
     /**
-     * empty 3x3 TreeTent puzzle Tests LinkTentCaseRule on a central tree
-     * with tents on a diagonal.
+     * empty 3x3 TreeTent puzzle Tests LinkTentCaseRule on a central tree with tents on a diagonal.
      *
-     * <p> Ensures no cases are created
+     * <p>Ensures no cases are created
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void LinkTentDiagTentsTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard(
-                "puzzles/treetent/rules/LinkTreeCaseRule/NoTents", treetent);
+        TestUtilities.importTestBoard("puzzles/treetent/rules/LinkTreeCaseRule/NoTents", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);

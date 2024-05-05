@@ -27,18 +27,15 @@ public class FinishWithTentsDirectRuleTest {
         treetent = new TreeTent();
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests FinishWithTentsDirectRule
-   * <p> Grass at (0, 0)
-   * GTT 2
-   * XXX x
-   * XXX x
-   * xxx
-   * <p> Makes (1, 0) and (2, 0) TENT
-   * Checks that the rule correctly fills in the first row
-   */
-  @Test
-  public void FinishWithHorizontalTentsTest() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests FinishWithTentsDirectRule
+     *
+     * <p>Grass at (0, 0) GTT 2 XXX x XXX x xxx
+     *
+     * <p>Makes (1, 0) and (2, 0) TENT Checks that the rule correctly fills in the first row
+     */
+    @Test
+    public void FinishWithHorizontalTentsTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithHorizontalTents",
                 treetent);
@@ -71,18 +68,15 @@ public class FinishWithTentsDirectRuleTest {
         }
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests FinishWithTentsDirectRule
-   * <p> Grass at (0, 0)
-   * GXX x
-   * TXX x
-   * TXX x
-   * 2xx
-   * <p> Makes (0, 1) and (0, 2) TENT
-   * Checks that the rule correctly fills in the first column
-   */
-  @Test
-  public void FinishWithVerticalTentsTest() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests FinishWithTentsDirectRule
+     *
+     * <p>Grass at (0, 0) GXX x TXX x TXX x 2xx
+     *
+     * <p>Makes (0, 1) and (0, 2) TENT Checks that the rule correctly fills in the first column
+     */
+    @Test
+    public void FinishWithVerticalTentsTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithVerticalTents",
                 treetent);
@@ -115,18 +109,16 @@ public class FinishWithTentsDirectRuleTest {
         }
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests FinishWithTentsDirectRule
-   * <p> Grass at (0, 0)
-   * GTT 2
-   * TXX x
-   * TXX x
-   * 2xx
-   * <p> Makes (1, 0), (2, 0), (0, 1) and (0, 2) TENT
-   * Checks that the rule correctly fills both the first row and first column
-   */
-  @Test
-  public void FinishWithTentsTest() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests FinishWithTentsDirectRule
+     *
+     * <p>Grass at (0, 0) GTT 2 TXX x TXX x 2xx
+     *
+     * <p>Makes (1, 0), (2, 0), (0, 1) and (0, 2) TENT Checks that the rule correctly fills both the
+     * first row and first column
+     */
+    @Test
+    public void FinishWithTentsTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithTents", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
@@ -167,18 +159,16 @@ public class FinishWithTentsDirectRuleTest {
         }
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests FinishWithTentsDirectRule
-   * <p> Tent at (1, 1)
-   * XTX x
-   * TTT 3
-   * XTX x
-   * x3x
-   * <p> Makes (1, 0), (0, 1), (2, 1), and (1, 2) TENT
-   * Checks that the rule correctly fills in the middle row and column when a tent starts at (1, 1)
-   */
-  @Test
-  public void AdditionalTentsTest() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests FinishWithTentsDirectRule
+     *
+     * <p>Tent at (1, 1) XTX x TTT 3 XTX x x3x
+     *
+     * <p>Makes (1, 0), (0, 1), (2, 1), and (1, 2) TENT Checks that the rule correctly fills in the
+     * middle row and column when a tent starts at (1, 1)
+     */
+    @Test
+    public void AdditionalTentsTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/FinishWithTentsDirectRule/AdditionalTents", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
@@ -219,18 +209,16 @@ public class FinishWithTentsDirectRuleTest {
         }
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests FinishWithTentsDirectRule
-   * <p> Empty
-   * TTT 0
-   * TTT 0
-   * TTT 0
-   * 000
-   * <p> Fills the board with tents
-   * Checks that the rule does not allow for more tents in any of the rows or columns
-   */
-  @Test
-  public void FinishWithTentsFailTest() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests FinishWithTentsDirectRule
+     *
+     * <p>Empty TTT 0 TTT 0 TTT 0 000
+     *
+     * <p>Fills the board with tents Checks that the rule does not allow for more tents in any of
+     * the rows or columns
+     */
+    @Test
+    public void FinishWithTentsFailTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/FinishWithTentsDirectRule/FinishWithTentsFail", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
@@ -259,18 +247,16 @@ public class FinishWithTentsDirectRuleTest {
         }
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests FinishWithTentsDirectRule
-   * <p> Tent at (1, 1)
-   * XTX x
-   * TTT 1
-   * XTX x
-   * x1x
-   * <p> Makes (1, 0), (0, 1), (2, 1) and (1, 2) Tent
-   * Checks that the rule does not allow for more tents in the central row or central column
-   */
-  @Test
-  public void TooManyTentsTest() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests FinishWithTentsDirectRule
+     *
+     * <p>Tent at (1, 1) XTX x TTT 1 XTX x x1x
+     *
+     * <p>Makes (1, 0), (0, 1), (2, 1) and (1, 2) Tent Checks that the rule does not allow for more
+     * tents in the central row or central column
+     */
+    @Test
+    public void TooManyTentsTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/FinishWithTentsDirectRule/TooManyTents", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
@@ -302,18 +288,16 @@ public class FinishWithTentsDirectRuleTest {
         }
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests FinishWithTentsDirectRule
-   * <p> Tent at (1, 1)
-   * XTX x
-   * TTT 2
-   * XTX x
-   * x2x
-   * <p> Makes (1, 0), (0, 1), (2, 1) and (1, 2) Tent
-   * Checks that the rule is not satisfied because there are multiple configurations of tents for the central row and central column
-   */
-  @Test
-  public void AmbiguousTentsTest() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests FinishWithTentsDirectRule
+     *
+     * <p>Tent at (1, 1) XTX x TTT 2 XTX x x2x
+     *
+     * <p>Makes (1, 0), (0, 1), (2, 1) and (1, 2) Tent Checks that the rule is not satisfied because
+     * there are multiple configurations of tents for the central row and central column
+     */
+    @Test
+    public void AmbiguousTentsTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/FinishWithTentsDirectRule/AmbiguousTents", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
