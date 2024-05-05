@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.starbattle;
 
 import edu.rpi.legup.ui.boardview.GridElementView;
-
 import java.awt.*;
 
 public class StarBattleElementView extends GridElementView {
@@ -22,7 +21,14 @@ public class StarBattleElementView extends GridElementView {
         if (type == StarBattleCellType.STAR) {
             graphics2D.setColor(Color.LIGHT_GRAY);
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
-            graphics2D.drawImage(StarBattleView.STAR, location.x, location.y, size.width, size.height, Color.WHITE, null);
+            graphics2D.drawImage(
+                    StarBattleView.STAR,
+                    location.x,
+                    location.y,
+                    size.width,
+                    size.height,
+                    Color.WHITE,
+                    null);
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
         } else if (type == StarBattleCellType.BLACK) {
@@ -36,6 +42,5 @@ public class StarBattleElementView extends GridElementView {
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
         }
-        
     }
 }

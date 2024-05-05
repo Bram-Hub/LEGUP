@@ -98,8 +98,7 @@ public class LegupUtils {
                 try {
                     Class<?> c = Class.forName(substr);
                     classes.add(c);
-                }
-                catch (LinkageError | ClassNotFoundException e) {
+                } catch (LinkageError | ClassNotFoundException e) {
                     System.out.println("Failed on " + substr);
                 }
             }
