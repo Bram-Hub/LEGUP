@@ -4,6 +4,10 @@
             qualifiedClassName="edu.rpi.legup.puzzle.battleship.Battleship"
             fileType=".xml"
             fileCreationDisabled="true"/>
+        <puzzle name="Binary"
+            qualifiedClassName="edu.rpi.legup.puzzle.binary.Binary"
+            fileType=".xml"
+            fileCreationDisabled="false"/>
         <puzzle name="Fillapix"
             qualifiedClassName="edu.rpi.legup.puzzle.fillapix.Fillapix"
             fileType=".xml"
