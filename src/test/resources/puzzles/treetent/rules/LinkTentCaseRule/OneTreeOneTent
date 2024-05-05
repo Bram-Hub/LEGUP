@@ -1,20 +1,23 @@
-<Legup>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="3.0.0">
+    <saved/>
     <puzzle name="TreeTent">
         <board height="3" width="3">
             <cells>
-                <cell value="1" x="1" y="2"/>
+                <cell value="1" x="1" y="0"/>
+                <cell value="3" x="1" y="1"/>
             </cells>
             <axis side="east">
                 <clue index="A" value="0"/>
-                <clue index="B" value="0"/>
+                <clue index="B" value="1"/>
                 <clue index="C" value="0"/>
             </axis>
             <axis side="south">
                 <clue index="1" value="0"/>
-                <clue index="2" value="0"/>
+                <clue index="2" value="1"/>
                 <clue index="3" value="0"/>
             </axis>
         </board>
     </puzzle>
-    <solved isSolved="false" lastSaved="--"/>
+    <solved isSolved="false" lastSaved="2024-03-19 17:03:46"/>
 </Legup>

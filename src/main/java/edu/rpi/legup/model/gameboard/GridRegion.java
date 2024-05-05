@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class GridRegion<T> {
-
+    
     protected List<T> regionCells;
-
-    /** Region Constructor */
+    
+    /**
+     * Region Constructor
+     */
     public GridRegion() {
         this.regionCells = new ArrayList<>();
     }
 
     /**
      * Adds the cell to the region
-     *
      * @param cell cell to be added to the region
      */
     public void addCell(T cell) {
@@ -23,7 +24,6 @@ public abstract class GridRegion<T> {
 
     /**
      * Removes the cell from the region
-     *
      * @param cell cell to be remove from the region
      */
     public void removeCell(T cell) {
@@ -32,7 +32,6 @@ public abstract class GridRegion<T> {
 
     /**
      * Returns the list of cells in the region
-     *
      * @return list of cells in region
      */
     public List<T> getCells() {
@@ -41,15 +40,14 @@ public abstract class GridRegion<T> {
 
     /**
      * Returns the number of cells in the region
-     *
      * @return number of cells in the region
      */
-    public int getSize() {
+    public int getSize(){
         return regionCells.size();
     }
 
     /*
     public void colorRegion(){}
      */
-
+    
 }
