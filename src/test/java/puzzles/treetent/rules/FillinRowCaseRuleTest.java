@@ -6,17 +6,15 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.treetent.*;
 import edu.rpi.legup.puzzle.treetent.rules.FillinRowCaseRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.util.ArrayList;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 public class FillinRowCaseRuleTest {
-  private static final FillinRowCaseRule RULE = new FillinRowCaseRule();
+    private static final FillinRowCaseRule RULE = new FillinRowCaseRule();
     private static TreeTent treetent;
 
     @BeforeClass
@@ -26,11 +24,11 @@ public class FillinRowCaseRuleTest {
     }
 
     /**
-     * empty 3x3 TreeTent puzzle Tests FillinRowCaseRule on row with 3 UNKNOWN tiles
-     * and a clue of 0 tents in the row.
+     * empty 3x3 TreeTent puzzle Tests FillinRowCaseRule on row with 3 UNKNOWN tiles and a clue of 0
+     * tents in the row.
      *
-     * <p>checks that 1 case is created and that it is equivalent to FinishWithGrass rule
-     * May need to change checks due to issue #777
+     * <p>checks that 1 case is created and that it is equivalent to FinishWithGrass rule May need
+     * to change checks due to issue #777
      *
      * @throws InvalidFileFormatException
      */
@@ -98,16 +96,12 @@ public class FillinRowCaseRuleTest {
     }
 
     /**
-     * empty 3x3 TreeTent puzzle Tests FillinRowCaseRule on row with 3 UNKNOWN tiles
-     * and a clue of 1 tent in the row. The column rules make the board impossible, but
-     * they are not checked here.
+     * empty 3x3 TreeTent puzzle Tests FillinRowCaseRule on row with 3 UNKNOWN tiles and a clue of 1
+     * tent in the row. The column rules make the board impossible, but they are not checked here.
      *
-     * <p>checks 3 cases are created checks;
-     * first case is TENT tile at x=0,
-     * second case is TENT tile at x=1,
-     * and a third case is TENT tile at x=2.
-     * The cases can be in any order.
-     * Then, it checks that other cells have not been modified
+     * <p>checks 3 cases are created checks; first case is TENT tile at x=0, second case is TENT
+     * tile at x=1, and a third case is TENT tile at x=2. The cases can be in any order. Then, it
+     * checks that other cells have not been modified
      *
      * @throws InvalidFileFormatException
      */
@@ -145,7 +139,7 @@ public class FillinRowCaseRuleTest {
         for (int w = 0; w < board.getWidth(); w++) {
             for (int h = 0; h < board.getHeight(); h++) {
                 if (h == 1) {
-                  continue;
+                    continue;
                 }
 
                 original_cell = board.getCell(w, h);
@@ -155,7 +149,6 @@ public class FillinRowCaseRuleTest {
 
                     case_cell = testCase.getCell(w, h);
                     Assert.assertEquals(original_cell.getType(), case_cell.getType());
-
                 }
             }
         }
@@ -199,13 +192,11 @@ public class FillinRowCaseRuleTest {
     }
 
     /**
-     * empty 3x3 TreeTent puzzle Tests FillinRowCaseRule on row with 3 UNKNOWN tiles
-     * and a clue of 2 tent in the row. The column rules make the board impossible, but
-     * they are not checked here.
+     * empty 3x3 TreeTent puzzle Tests FillinRowCaseRule on row with 3 UNKNOWN tiles and a clue of 2
+     * tent in the row. The column rules make the board impossible, but they are not checked here.
      *
-     * <p>checks 1 case is created. Checks that the case is when
-     * there are TENT tiles at x=0 and x=2.
-     * Then, it checks that other cells have not been modified
+     * <p>checks 1 case is created. Checks that the case is when there are TENT tiles at x=0 and
+     * x=2. Then, it checks that other cells have not been modified
      *
      * @throws InvalidFileFormatException
      */
@@ -287,8 +278,8 @@ public class FillinRowCaseRuleTest {
     }
 
     /**
-     * empty 3x3 TreeTent puzzle Tests FillinRowCaseRule on row with 3 UNKNOWN tiles
-     * and a clue of 3 tent in the row.
+     * empty 3x3 TreeTent puzzle Tests FillinRowCaseRule on row with 3 UNKNOWN tiles and a clue of 3
+     * tent in the row.
      *
      * <p>checks that 0 cases are created
      *
@@ -319,8 +310,8 @@ public class FillinRowCaseRuleTest {
     }
 
     /**
-     * empty 5x5 TreeTent puzzle Tests FillinRowCaseRule on row with 5 UNKNOWN tiles
-     * and a clue of 2 tents in the row.
+     * empty 5x5 TreeTent puzzle Tests FillinRowCaseRule on row with 5 UNKNOWN tiles and a clue of 2
+     * tents in the row.
      *
      * <p>checks that 6 cases are created and each case has the right number of tents
      *

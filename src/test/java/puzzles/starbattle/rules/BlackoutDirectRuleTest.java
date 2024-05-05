@@ -2,30 +2,30 @@
 // Commenting this out for now, but once Star Battle is fully implemented this should
 // be uncommented and finished.
 
-//package puzzles.starbattle.rules;
+// package puzzles.starbattle.rules;
 //
-//import edu.rpi.legup.puzzle.nurikabe.Nurikabe;
-//import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
-//import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
-//import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
-//import legup.MockGameBoardFacade;
-//import legup.TestUtilities;
-//import edu.rpi.legup.model.tree.TreeNode;
-//import edu.rpi.legup.model.tree.TreeTransition;
-//import org.junit.Assert;
-//import org.junit.BeforeClass;
-//import org.junit.Test;
+// import edu.rpi.legup.puzzle.nurikabe.Nurikabe;
+// import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
+// import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
+// import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
+// import legup.MockGameBoardFacade;
+// import legup.TestUtilities;
+// import edu.rpi.legup.model.tree.TreeNode;
+// import edu.rpi.legup.model.tree.TreeTransition;
+// import org.junit.Assert;
+// import org.junit.BeforeClass;
+// import org.junit.Test;
 //
-//import edu.rpi.legup.puzzle.starbattle.StarBattle;
-//import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
-//import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
-//import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
-//import edu.rpi.legup.puzzle.starbattle.rules.BlackoutDirectRule;
-//import edu.rpi.legup.save.InvalidFileFormatException;
+// import edu.rpi.legup.puzzle.starbattle.StarBattle;
+// import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
+// import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
+// import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
+// import edu.rpi.legup.puzzle.starbattle.rules.BlackoutDirectRule;
+// import edu.rpi.legup.save.InvalidFileFormatException;
 //
-//import java.awt.*;
+// import java.awt.*;
 //
-//public class BlackoutDirectRuleTest {
+// public class BlackoutDirectRuleTest {
 //
 //    private static final BlackoutDirectRule RULE = new BlackoutDirectRule();
 //    private static StarBattle starbattle;
@@ -38,7 +38,9 @@
 //
 //    @Test
 //    public void BlackoutDirectRuleTest_ColumnBlackout() throws InvalidFileFormatException {
-//        TestUtilities.importTestBoard("puzzles/starbattle/rules/BlackoutDirectRule/ColumnBlackout", starbattle);
+//
+// TestUtilities.importTestBoard("puzzles/starbattle/rules/BlackoutDirectRule/ColumnBlackout",
+// starbattle);
 //        TreeNode rootNode = starbattle.getTree().getRootNode();
 //        TreeTransition transition = rootNode.getChildren().get(0);
 //        transition.setRule(RULE);
@@ -61,7 +63,8 @@
 //        for (int i = 0; i < board.getHeight(); i++) {
 //            for (int k = 0; k < board.getWidth(); k++) {
 //                Point point = new Point(k, i);
-//                if (point.equals(cell1.getLocation()) || point.equals(cell2.getLocation()) || point.equals(cell3.getLocation())) {
+//                if (point.equals(cell1.getLocation()) || point.equals(cell2.getLocation()) ||
+// point.equals(cell3.getLocation())) {
 //                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
 //                }
 //                else {
@@ -70,4 +73,4 @@
 //            }
 //        }
 //    }
-//}
+// }

@@ -26,17 +26,15 @@ public class LastCampingSpotDirectRuleTest {
         treetent = new TreeTent();
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests LastCampingSpotDirectRule
-   * <p> TREE at (1, 1) and (0, 1); GRASS at (1, 2) and (2, 1)
-   * XTX
-   * RRG
-   * XGX
-   * <p> Makes (1, 0) TENT
-   * Checks that a tent must be placed above the central tree
-   */
-  @Test
-  public void EmptyFieldTest_Up() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests LastCampingSpotDirectRule
+     *
+     * <p>TREE at (1, 1) and (0, 1); GRASS at (1, 2) and (2, 1) XTX RRG XGX
+     *
+     * <p>Makes (1, 0) TENT Checks that a tent must be placed above the central tree
+     */
+    @Test
+    public void EmptyFieldTest_Up() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/LastCampingSpotDirectRule/LastCampingSpotUp", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
@@ -64,17 +62,15 @@ public class LastCampingSpotDirectRuleTest {
         }
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests LastCampingSpotDirectRule
-   * <p> TREE at (1, 1) and (0, 1); GRASS at (1, 0) and (1, 2)
-   * XGX
-   * RRG
-   * XTX
-   * <p> Makes (1, 2) TENT
-   * Checks that a tent must be placed below the central tree
-   */
-  @Test
-  public void EmptyFieldTest_Down() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests LastCampingSpotDirectRule
+     *
+     * <p>TREE at (1, 1) and (0, 1); GRASS at (1, 0) and (1, 2) XGX RRG XTX
+     *
+     * <p>Makes (1, 2) TENT Checks that a tent must be placed below the central tree
+     */
+    @Test
+    public void EmptyFieldTest_Down() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/LastCampingSpotDirectRule/LastCampingSpotDown", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
@@ -102,17 +98,15 @@ public class LastCampingSpotDirectRuleTest {
         }
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests LastCampingSpotDirectRule
-   * <p> TREE at (1, 1) and (2, 1); GRASS at (1, 0) and (1, 2)
-   * XGX
-   * TRR
-   * XGX
-   * <p> Makes (0, 1) TENT
-   * Checks that a tent must be placed on the left of the central tree
-   */
-  @Test
-  public void EmptyFieldTest_Left() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests LastCampingSpotDirectRule
+     *
+     * <p>TREE at (1, 1) and (2, 1); GRASS at (1, 0) and (1, 2) XGX TRR XGX
+     *
+     * <p>Makes (0, 1) TENT Checks that a tent must be placed on the left of the central tree
+     */
+    @Test
+    public void EmptyFieldTest_Left() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/LastCampingSpotDirectRule/LastCampingSpotLeft", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
@@ -140,17 +134,15 @@ public class LastCampingSpotDirectRuleTest {
         }
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests LastCampingSpotDirectRule
-   * <p> TREE at (1, 1) and (1, 2); GRASS at (0, 1) and (1, 0)
-   * XGX
-   * GRT
-   * XRX
-   * <p> Makes (2, 1) TENT
-   * Checks that a tent must be placed to the right of the central tree
-   */
-  @Test
-  public void EmptyFieldTest_Right() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests LastCampingSpotDirectRule
+     *
+     * <p>TREE at (1, 1) and (1, 2); GRASS at (0, 1) and (1, 0) XGX GRT XRX
+     *
+     * <p>Makes (2, 1) TENT Checks that a tent must be placed to the right of the central tree
+     */
+    @Test
+    public void EmptyFieldTest_Right() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/LastCampingSpotDirectRule/LastCampingSpotRight", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
