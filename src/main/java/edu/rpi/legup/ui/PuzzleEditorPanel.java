@@ -35,6 +35,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private JMenuItem helpLegup, aboutLegup;
     private JMenuBar menuBar;
     private JToolBar toolBar;
+    private JFileChooser folderBrowser;
     private JFrame frame;
     private JButton[] buttons;
     JSplitPane splitPanel;
@@ -380,25 +381,37 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     public Object[] promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
-            if (noQuit("Opening a new puzzle to edit?")) {
+            if (noQuit("Opening a new puzzle?")) {
                 return new Object[0];
             }
         }
-        if (fileDialog == null) {
-            fileDialog = new FileDialog(this.frame);
-        }
+
         LegupPreferences preferences = LegupPreferences.getInstance();
         String preferredDirectory = preferences.getUserPref(LegupPreferences.WORK_DIRECTORY);
+        if (preferences.getSavedPath() != "") {
+            preferredDirectory = preferences.getSavedPath();
+        }
 
-        fileDialog.setMode(FileDialog.LOAD);
-        fileDialog.setTitle("Select Puzzle");
-        fileDialog.setDirectory(preferredDirectory);
-        fileDialog.setVisible(true);
+        File preferredDirectoryFile = new File(preferredDirectory);
+        JFileChooser fileBrowser = new JFileChooser(preferredDirectoryFile);
         String fileName = null;
         File puzzleFile = null;
-        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
-            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
-            puzzleFile = new File(fileName);
+
+        fileBrowser.showOpenDialog(this);
+        fileBrowser.setVisible(true);
+        fileBrowser.setCurrentDirectory(new File(preferredDirectory));
+        fileBrowser.setDialogTitle("Select Proof File");
+        fileBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileBrowser.setAcceptAllFileFilterUsed(false);
+
+        File puzzlePath = fileBrowser.getSelectedFile();
+        System.out.println(puzzlePath.getAbsolutePath());
+
+        if (puzzlePath != null) {
+            fileName = puzzlePath.getAbsolutePath();
+            String lastDirectoryPath = fileName.substring(0, fileName.lastIndexOf(File.separator));
+            preferences.setSavedPath(lastDirectoryPath);
+            puzzleFile = puzzlePath;
         } else {
             // The attempt to prompt a puzzle ended gracefully (cancel)
             return null;
@@ -538,39 +551,35 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             }
         }
 
-        if (fileDialog == null) {
-            fileDialog = new FileDialog(this.frame);
+        LegupPreferences preferences = LegupPreferences.getInstance();
+        File preferredDirectory =
+                new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
+        if (preferences.getSavedPath() != "") {
+            preferredDirectory = new File(preferences.getSavedPath());
         }
+        folderBrowser = new JFileChooser(preferredDirectory);
 
-        fileDialog.setMode(FileDialog.SAVE);
-        fileDialog.setTitle("Save Proof");
-        String curFileName = GameBoardFacade.getInstance().getCurFileName();
-        if (curFileName == null) {
-            fileDialog.setDirectory(
-                    LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY));
-        } else {
-            File curFile = new File(curFileName);
-            fileDialog.setDirectory(curFile.getParent());
-        }
-        fileDialog.setVisible(true);
+        folderBrowser.showSaveDialog(this);
+        folderBrowser.setVisible(true);
+        folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+        folderBrowser.setDialogTitle("Select Directory");
+        folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        folderBrowser.setAcceptAllFileFilterUsed(false);
 
-        String fileName = null;
-        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
-            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
-        }
+        String path = folderBrowser.getSelectedFile().getAbsolutePath();
 
-        if (fileName != null) {
+        if (path != null) {
             try {
                 PuzzleExporter exporter = puzzle.getExporter();
                 if (exporter == null) {
                     throw new ExportFileException("Puzzle exporter null");
                 }
-                exporter.exportPuzzle(fileName);
+                exporter.exportPuzzle(path);
             } catch (ExportFileException e) {
                 e.printStackTrace();
             }
         }
-        return fileName;
+        return path;
     }
 
     public DynamicView getDynamicBoardView() {
