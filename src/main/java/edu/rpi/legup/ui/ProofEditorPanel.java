@@ -580,31 +580,31 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         if (puzzle == null) {
             return;
         }
-
-        fileDialog.setMode(FileDialog.SAVE);
-        fileDialog.setTitle("Save As");
-        String curFileName = GameBoardFacade.getInstance().getCurFileName();
-        if (curFileName == null) {
-            fileDialog.setDirectory(
-                    LegupPreferences.getInstance().getUserPref(LegupPreferences.WORK_DIRECTORY));
-        } else {
-            File curFile = new File(curFileName);
-            fileDialog.setDirectory(curFile.getParent());
+        
+        LegupPreferences preferences = LegupPreferences.getInstance();
+        File preferredDirectory =
+                new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
+        if (preferences.getSavedPath() != "") {
+            preferredDirectory = new File(preferences.getSavedPath());
         }
-        fileDialog.setVisible(true);
+        folderBrowser = new JFileChooser(preferredDirectory);
 
-        String fileName = null;
-        if (fileDialog.getDirectory() != null && fileDialog.getFile() != null) {
-            fileName = fileDialog.getDirectory() + File.separator + fileDialog.getFile();
-        }
+        folderBrowser.showSaveDialog(this);
+        folderBrowser.setVisible(true);
+        folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+        folderBrowser.setDialogTitle("Select Directory");
+        folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        folderBrowser.setAcceptAllFileFilterUsed(false);
 
-        if (fileName != null) {
+        String path = folderBrowser.getSelectedFile().getAbsolutePath();
+
+        if (path != null) {
             try {
                 PuzzleExporter exporter = puzzle.getExporter();
                 if (exporter == null) {
                     throw new ExportFileException("Puzzle exporter null");
                 }
-                exporter.exportPuzzle(fileName);
+                exporter.exportPuzzle(path);
             } catch (ExportFileException e) {
                 e.printStackTrace();
             }
