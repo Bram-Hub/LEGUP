@@ -28,18 +28,16 @@ public class FinishWithGrassDirectRuleTest {
         treetent = new TreeTent();
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests FinishWithGrassDirectRule
-   * <p> Tent at (1, 1)
-   * XXX x
-   * GTG 1
-   * XXX x
-   * xxx
-   * <p> Makes (0, 1) and (2, 1) GRASS
-   * Checks if the rule detects the middle row to be filled in correctly
-   */
-  @Test
-  public void FinishWithGrassHorizontalTest() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests FinishWithGrassDirectRule
+     *
+     * <p>Tent at (1, 1) XXX x GTG 1 XXX x xxx
+     *
+     * <p>Makes (0, 1) and (2, 1) GRASS Checks if the rule detects the middle row to be filled in
+     * correctly
+     */
+    @Test
+    public void FinishWithGrassHorizontalTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/FinishWithGrassDirectRule/CornerTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
@@ -78,18 +76,16 @@ public class FinishWithGrassDirectRuleTest {
         }
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests FinishWithGrassDirectRule
-   * <p> Tent at (0, 0)
-   * TXX x
-   * GXX x
-   * GXX x
-   * 1xx
-   * <p> Makes (0, 1) and (0, 2) GRASS
-   * Checks if the rule detects the leftmost column to be filled in correctly
-   */
-  @Test
-  public void FinishWithGrassVerticalTest() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests FinishWithGrassDirectRule
+     *
+     * <p>Tent at (0, 0) TXX x GXX x GXX x 1xx
+     *
+     * <p>Makes (0, 1) and (0, 2) GRASS Checks if the rule detects the leftmost column to be filled
+     * in correctly
+     */
+    @Test
+    public void FinishWithGrassVerticalTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/FinishWithGrassDirectRule/CornerTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
@@ -130,13 +126,11 @@ public class FinishWithGrassDirectRuleTest {
 
     /**
      * 3x3 TreeTent puzzle Tests FinishWithGrassDirectRule
-     * <p> Tent at (0, 0)
-     * TGG 1
-     * GXX x
-     * GXX x
-     * 1xx
-     * <p> Makes (0, 1), (0, 2), (1, 0), and (2, 0) GRASS
-     * Checks if the rule detects the top row and leftmost column to be filled in correctly
+     *
+     * <p>Tent at (0, 0) TGG 1 GXX x GXX x 1xx
+     *
+     * <p>Makes (0, 1), (0, 2), (1, 0), and (2, 0) GRASS Checks if the rule detects the top row and
+     * leftmost column to be filled in correctly
      */
     @Test
     public void FinishWithGrassTest() throws InvalidFileFormatException {
@@ -186,18 +180,16 @@ public class FinishWithGrassDirectRuleTest {
         }
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests FinishWithGrassDirectRule
-   * <p> Empty
-   * GGG 0
-   * GGG 0
-   * GGG 0
-   * 000
-   * <p> Fill Board with GRASS
-   * Checks if the rule allows all cells to be filled when the clue for all rows and columns is zero.
-   */
-  @Test
-  public void NoTentTest() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests FinishWithGrassDirectRule
+     *
+     * <p>Empty GGG 0 GGG 0 GGG 0 000
+     *
+     * <p>Fill Board with GRASS Checks if the rule allows all cells to be filled when the clue for
+     * all rows and columns is zero.
+     */
+    @Test
+    public void NoTentTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/FinishWithGrassDirectRule/NoTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
@@ -231,18 +223,16 @@ public class FinishWithGrassDirectRuleTest {
         }
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests FinishWithGrassDirectRule
-   * <p> Tent at (1, 1)
-   * XGX x
-   * GTG 1
-   * XGX x
-   * x1x
-   * <p> Makes (1, 0), (0, 1), (2, 1), and (1, 2) GRASS
-   * Checks if the rule correctly allows the central row and column to be filled with grass.
-   */
-  @Test
-  public void MiddleTentTest() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests FinishWithGrassDirectRule
+     *
+     * <p>Tent at (1, 1) XGX x GTG 1 XGX x x1x
+     *
+     * <p>Makes (1, 0), (0, 1), (2, 1), and (1, 2) GRASS Checks if the rule correctly allows the
+     * central row and column to be filled with grass.
+     */
+    @Test
+    public void MiddleTentTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/FinishWithGrassDirectRule/MiddleTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
@@ -290,18 +280,16 @@ public class FinishWithGrassDirectRuleTest {
         }
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests FinishWithGrassDirectRule
-   * <p> Empty
-   * GGG 1
-   * GGG 1
-   * GGG 1
-   * 111
-   * <p> Fill Board with GRASS
-   * Checks if the rule is not valid when a row or column does not have the required number of tents but is filled with grass
-   */
-  @Test
-  public void FailTentTest() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests FinishWithGrassDirectRule
+     *
+     * <p>Empty GGG 1 GGG 1 GGG 1 111
+     *
+     * <p>Fill Board with GRASS Checks if the rule is not valid when a row or column does not have
+     * the required number of tents but is filled with grass
+     */
+    @Test
+    public void FailTentTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/FinishWithGrassDirectRule/FailTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
@@ -335,22 +323,17 @@ public class FinishWithGrassDirectRuleTest {
         }
     }
 
-  /**
-   * 7x7 TreeTent puzzle Tests FinishWithGrassDirectRule
-   * <p> Tents at (1, 3), (3, 3), and (5, 3)
-   * XXXXXXX x
-   * XXXXXXX x
-   * XXXXXXX x
-   * TGTGTGT 4
-   * XXXXXXX x
-   * XXXXXXX x
-   * XXXXXXX x
-   * xxxxxxx
-   * <p> Makes (0, 3), (2, 3), (4, 3), and (6, 3) GRASS
-   * Checks if applying the rule on row 3 is valid
-   */
-  @Test
-  public void SpacedOutTentTest() throws InvalidFileFormatException {
+    /**
+     * 7x7 TreeTent puzzle Tests FinishWithGrassDirectRule
+     *
+     * <p>Tents at (1, 3), (3, 3), and (5, 3) XXXXXXX x XXXXXXX x XXXXXXX x TGTGTGT 4 XXXXXXX x
+     * XXXXXXX x XXXXXXX x xxxxxxx
+     *
+     * <p>Makes (0, 3), (2, 3), (4, 3), and (6, 3) GRASS Checks if applying the rule on row 3 is
+     * valid
+     */
+    @Test
+    public void SpacedOutTentTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/FinishWithGrassDirectRule/SpacedOutTent", treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();

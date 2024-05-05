@@ -46,6 +46,10 @@
 	    <puzzle name="Skyscrapers"
 	        qualifiedClassName="edu.rpi.legup.puzzle.skyscrapers.Skyscrapers"
 	        fileType=".xml"
-	        fileCreationDisabled="true"/>
+	        fileCreationDisabled="false"/>
+	    <puzzle name="Minesweeper"
+	        qualifiedClassName="edu.rpi.legup.puzzle.minesweeper.Minesweeper"
+	        fileType=".xml"
+	        fileCreationDisabled="false"/>
     </puzzles>
 </Legup>

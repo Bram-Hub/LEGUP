@@ -6,8 +6,6 @@ import edu.rpi.legup.model.rules.MergeRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.save.InvalidFileFormatException;
-
-import java.lang.reflect.Array;
 import java.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -132,18 +130,19 @@ public abstract class PuzzleImporter {
     public abstract void initializeBoard(String[] statements)
             throws UnsupportedOperationException, IllegalArgumentException;
 
-  /**
-   * Used to check that elements in the proof tree are saved properly.
-   * <p> Make sure the list elements are lowercase
-   *
-   * @return A list of elements that will change when solving the puzzle
-   *      * e.g. {"cell"}, {"cell", "line"}
-   */
-  public List<String> getImporterElements() {
-      List<String> elements = new ArrayList<>();
-      elements.add("cell");
-      return elements;
-  }
+    /**
+     * Used to check that elements in the proof tree are saved properly.
+     *
+     * <p>Make sure the list elements are lowercase
+     *
+     * @return A list of elements that will change when solving the puzzle * e.g. {"cell"}, {"cell",
+     *     "line"}
+     */
+    public List<String> getImporterElements() {
+        List<String> elements = new ArrayList<>();
+        elements.add("cell");
+        return elements;
+    }
 
     /**
      * Creates the proof for building
