@@ -8,28 +8,30 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeUtilities;
 import edu.rpi.legup.utility.DisjointSets;
-
 import java.util.Set;
 
 public class MultipleNumbersContradictionRule extends ContradictionRule {
 
-    private final String NO_CONTRADICTION_MESSAGE = "Does not contain a contradiction at this index";
+    private final String NO_CONTRADICTION_MESSAGE =
+            "Does not contain a contradiction at this index";
     private final String INVALID_USE_MESSAGE = "Contradiction must be a numbered cell";
 
     public MultipleNumbersContradictionRule() {
-        super("NURI-CONT-0004",
+        super(
+                "NURI-CONT-0004",
                 "Multiple Numbers",
                 "All white regions cannot have more than one number.",
                 "edu/rpi/legup/images/nurikabe/contradictions/MultipleNumbers.png");
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
      *
-     * @param board         board to check contradiction
+     * @param board board to check contradiction
      * @param puzzleElement equivalent puzzleElement
      * @return null if the transition contains a contradiction at the specified puzzleElement,
-     * otherwise error message
+     *     otherwise error message
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {

@@ -3,23 +3,21 @@ package edu.rpi.legup.model;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import org.w3c.dom.Document;
 import edu.rpi.legup.save.ExportFileException;
-
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.util.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.ZoneId;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public abstract class PuzzleExporter {
@@ -60,7 +58,8 @@ public abstract class PuzzleExporter {
             legupElement.appendChild(puzzleElement);
 
             puzzleElement.appendChild(createBoardElement(newDocument));
-            if (puzzle.getTree() != null && !puzzle.getTree().getRootNode().getChildren().isEmpty()) {
+            if (puzzle.getTree() != null
+                    && !puzzle.getTree().getRootNode().getChildren().isEmpty()) {
                 puzzleElement.appendChild(createProofElement(newDocument));
             }
 
@@ -84,13 +83,11 @@ public abstract class PuzzleExporter {
             StreamResult result = new StreamResult(new File(fileName));
 
             transformer.transform(source, result);
-        }
-        catch (ParserConfigurationException | TransformerException e) {
+        } catch (ParserConfigurationException | TransformerException e) {
             throw new ExportFileException("Puzzle Exporter: parser configuration exception");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw e;
-            //throw new ExportFileException(e.getMessage());
+            // throw new ExportFileException(e.getMessage());
         }
     }
 

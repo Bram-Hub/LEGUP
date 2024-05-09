@@ -6,24 +6,26 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.puzzle.lightup.LightUpBoard;
 import edu.rpi.legup.puzzle.lightup.LightUpCell;
 import edu.rpi.legup.puzzle.lightup.LightUpCellType;
-
 import java.awt.*;
 
 public class BulbsInPathContradictionRule extends ContradictionRule {
 
     public BulbsInPathContradictionRule() {
-        super("LTUP-CONT-0001", "Bulbs In Path",
+        super(
+                "LTUP-CONT-0001",
+                "Bulbs In Path",
                 "A bulb cannot be placed in another bulb's path.",
                 "edu/rpi/legup/images/lightup/contradictions/BulbsInPath.png");
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
      *
-     * @param board         board to check contradiction
+     * @param board board to check contradiction
      * @param puzzleElement equivalent puzzleElement
      * @return null if the transition contains a contradiction at the specified puzzleElement,
-     * otherwise error message
+     *     otherwise error message
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
@@ -38,8 +40,7 @@ public class BulbsInPathContradictionRule extends ContradictionRule {
             LightUpCell c = lightUpBoard.getCell(i, location.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            }
-            else {
+            } else {
                 if (c.getType() == LightUpCellType.BULB) {
                     return null;
                 }
@@ -49,8 +50,7 @@ public class BulbsInPathContradictionRule extends ContradictionRule {
             LightUpCell c = lightUpBoard.getCell(i, location.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            }
-            else {
+            } else {
                 if (c.getType() == LightUpCellType.BULB) {
                     return null;
                 }
@@ -60,8 +60,7 @@ public class BulbsInPathContradictionRule extends ContradictionRule {
             LightUpCell c = lightUpBoard.getCell(location.x, i);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            }
-            else {
+            } else {
                 if (c.getType() == LightUpCellType.BULB) {
                     return null;
                 }
@@ -71,8 +70,7 @@ public class BulbsInPathContradictionRule extends ContradictionRule {
             LightUpCell c = lightUpBoard.getCell(location.x, i);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            }
-            else {
+            } else {
                 if (c.getType() == LightUpCellType.BULB) {
                     return null;
                 }

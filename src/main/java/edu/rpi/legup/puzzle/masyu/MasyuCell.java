@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.masyu;
 
 import edu.rpi.legup.model.gameboard.GridCell;
-
 import java.awt.*;
 
 public class MasyuCell extends GridCell<MasyuType> {
