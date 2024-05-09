@@ -2,11 +2,10 @@ package edu.rpi.legup.puzzle.binary;
 
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import java.awt.*;
 
 public class BinaryImporter extends PuzzleImporter {
     public BinaryImporter(Binary binary) {
@@ -48,11 +47,13 @@ public class BinaryImporter extends PuzzleImporter {
     public void initializeBoard(Node node) throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("board")) {
-                throw new InvalidFileFormatException("binary Importer: cannot find board puzzleElement");
+                throw new InvalidFileFormatException(
+                        "binary Importer: cannot find board puzzleElement");
             }
             Element boardElement = (Element) node;
             if (boardElement.getElementsByTagName("cells").getLength() == 0) {
-                throw new InvalidFileFormatException("binary Importer: no puzzleElement found for board");
+                throw new InvalidFileFormatException(
+                        "binary Importer: no puzzleElement found for board");
             }
 
             Element dataElement = (Element) boardElement.getElementsByTagName("cells").item(0);
@@ -62,9 +63,9 @@ public class BinaryImporter extends PuzzleImporter {
             if (!boardElement.getAttribute("size").isEmpty()) {
                 int size = Integer.valueOf(boardElement.getAttribute("size"));
                 binaryBoard = new BinaryBoard(size);
-            }
-            else {
-                if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
+            } else {
+                if (!boardElement.getAttribute("width").isEmpty()
+                        && !boardElement.getAttribute("height").isEmpty()) {
                     int width = Integer.valueOf(boardElement.getAttribute("width"));
                     int height = Integer.valueOf(boardElement.getAttribute("height"));
                     binaryBoard = new BinaryBoard(width, height);
@@ -73,14 +74,16 @@ public class BinaryImporter extends PuzzleImporter {
 
             int width = binaryBoard.getWidth();
             int height = binaryBoard.getHeight();
-            
+
             if (binaryBoard == null || width % 2 != 0 || height % 2 != 0) {
                 throw new InvalidFileFormatException("binary Importer: invalid board dimensions");
             }
 
-
             for (int i = 0; i < elementDataList.getLength(); i++) {
-                BinaryCell cell = (BinaryCell) puzzle.getFactory().importCell(elementDataList.item(i), binaryBoard);
+                BinaryCell cell =
+                        (BinaryCell)
+                                puzzle.getFactory()
+                                        .importCell(elementDataList.item(i), binaryBoard);
                 Point loc = cell.getLocation();
                 if (cell.getData() != BinaryType.UNKNOWN.toValue()) {
                     cell.setModifiable(false);
@@ -92,7 +95,8 @@ public class BinaryImporter extends PuzzleImporter {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     if (binaryBoard.getCell(x, y) == null) {
-                        BinaryCell cell = new BinaryCell(BinaryType.UNKNOWN.toValue(), new Point(x, y));
+                        BinaryCell cell =
+                                new BinaryCell(BinaryType.UNKNOWN.toValue(), new Point(x, y));
                         cell.setIndex(y * height + x);
                         cell.setModifiable(true);
                         binaryBoard.setCell(x, y, cell);
@@ -100,9 +104,9 @@ public class BinaryImporter extends PuzzleImporter {
                 }
             }
             puzzle.setCurrentBoard(binaryBoard);
-        }
-        catch (NumberFormatException e) {
-            throw new InvalidFileFormatException("binary Importer: unknown value where integer expected");
+        } catch (NumberFormatException e) {
+            throw new InvalidFileFormatException(
+                    "binary Importer: unknown value where integer expected");
         }
     }
 

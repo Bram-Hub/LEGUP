@@ -6,13 +6,12 @@ import edu.rpi.legup.model.rules.MergeRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import java.util.*;
 
 public abstract class PuzzleImporter {
     private static final Logger LOGGER = LogManager.getLogger(PuzzleImporter.class.getName());
@@ -35,20 +34,20 @@ public abstract class PuzzleImporter {
     /**
      * Initializes an empty puzzle
      *
-     * @param rows    number of rows on the puzzle
+     * @param rows number of rows on the puzzle
      * @param columns number of columns on the puzzle
      * @throws RuntimeException if puzzle can not be made
      */
     public void initializePuzzle(int rows, int columns) throws RuntimeException {
         if (this.puzzle.isValidDimensions(rows, columns)) {
             initializeBoard(rows, columns);
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Invalid dimensions provided");
         }
     }
 
-    public void initializePuzzle(String[] statements) throws InputMismatchException, IllegalArgumentException {
+    public void initializePuzzle(String[] statements)
+            throws InputMismatchException, IllegalArgumentException {
         // Note: Error checking for the statements will be left up to the puzzles that support
         // text input. For example, some puzzles may be okay with "blank" statements (Strings with
         // length = 0) while others may not.
@@ -72,46 +71,49 @@ public abstract class PuzzleImporter {
                 Node n = childNodes.item(i);
                 if (n.getNodeName().equalsIgnoreCase("board")) {
                     if (initBoard) {
-                        throw new InvalidFileFormatException("Puzzle creation error: duplicate board puzzleElement found");
+                        throw new InvalidFileFormatException(
+                                "Puzzle creation error: duplicate board puzzleElement found");
                     }
                     initializeBoard(n);
                     initBoard = true;
-                }
-                else {
+                } else {
                     if (n.getNodeName().equalsIgnoreCase("proof")) {
                         if (initProof) {
-                            throw new InvalidFileFormatException("Puzzle creation error: duplicate proof puzzleElement found");
+                            throw new InvalidFileFormatException(
+                                    "Puzzle creation error: duplicate proof puzzleElement found");
                         }
                         if (!initBoard) {
-                            throw new InvalidFileFormatException("Puzzle creation error: could not find board puzzleElement");
+                            throw new InvalidFileFormatException(
+                                    "Puzzle creation error: could not find board puzzleElement");
                         }
                         initializeProof(n);
                         initProof = true;
-                    }
-                    else {
+                    } else {
                         if (!n.getNodeName().equalsIgnoreCase("#text")) {
-                            throw new InvalidFileFormatException("Puzzle creation error: unknown node found in file");
+                            throw new InvalidFileFormatException(
+                                    "Puzzle creation error: unknown node found in file");
                         }
                     }
                 }
             }
 
             if (!initBoard) {
-                throw new InvalidFileFormatException("Puzzle creation error: could not find board puzzleElement");
+                throw new InvalidFileFormatException(
+                        "Puzzle creation error: could not find board puzzleElement");
             }
             if (!initProof) {
                 createDefaultTree();
             }
-        }
-        else {
-            throw new InvalidFileFormatException("Invalid file format; does not contain \"puzzle\" node");
+        } else {
+            throw new InvalidFileFormatException(
+                    "Invalid file format; does not contain \"puzzle\" node");
         }
     }
 
     /**
      * Creates the board for building
      *
-     * @param rows    number of rows on the puzzle
+     * @param rows number of rows on the puzzle
      * @param columns number of columns on the puzzle
      * @throws RuntimeException if board can not be created
      */
@@ -125,7 +127,22 @@ public abstract class PuzzleImporter {
      */
     public abstract void initializeBoard(Node node) throws InvalidFileFormatException;
 
-    public abstract void initializeBoard(String[] statements) throws UnsupportedOperationException, IllegalArgumentException;
+    public abstract void initializeBoard(String[] statements)
+            throws UnsupportedOperationException, IllegalArgumentException;
+
+    /**
+     * Used to check that elements in the proof tree are saved properly.
+     *
+     * <p>Make sure the list elements are lowercase
+     *
+     * @return A list of elements that will change when solving the puzzle * e.g. {"cell"}, {"cell",
+     *     "line"}
+     */
+    public List<String> getImporterElements() {
+        List<String> elements = new ArrayList<>();
+        elements.add("cell");
+        return elements;
+    }
 
     /**
      * Creates the proof for building
@@ -143,21 +160,22 @@ public abstract class PuzzleImporter {
                 Node n = treeList.item(i);
                 if (n.getNodeName().equalsIgnoreCase("tree")) {
                     if (initTree) {
-                        throw new InvalidFileFormatException("Proof Tree construction error: duplicate tree puzzleElement");
+                        throw new InvalidFileFormatException(
+                                "Proof Tree construction error: duplicate tree puzzleElement");
                     }
                     createTree(n);
                     initTree = true;
-                }
-                else {
-                    throw new InvalidFileFormatException("Proof Tree construction error: unknown puzzleElement found");
+                } else {
+                    throw new InvalidFileFormatException(
+                            "Proof Tree construction error: unknown puzzleElement found");
                 }
             }
             if (!initTree) {
                 createDefaultTree();
             }
-        }
-        else {
-            throw new InvalidFileFormatException("Invalid file format; does not contain \"proof\" node");
+        } else {
+            throw new InvalidFileFormatException(
+                    "Invalid file format; does not contain \"proof\" node");
         }
     }
 
@@ -171,7 +189,8 @@ public abstract class PuzzleImporter {
         NodeList dataList = ((org.w3c.dom.Element) node).getElementsByTagName("cell");
         Board board = puzzle.getCurrentBoard();
         for (int i = 0; i < dataList.getLength(); i++) {
-            PuzzleElement data = puzzle.getFactory().importCell(dataList.item(i), puzzle.getCurrentBoard());
+            PuzzleElement data =
+                    puzzle.getFactory().importCell(dataList.item(i), puzzle.getCurrentBoard());
             board.setPuzzleElement(data.getIndex(), data);
         }
     }
@@ -199,22 +218,24 @@ public abstract class PuzzleImporter {
             String nodeId = treeNodeElement.getAttribute("id");
             String isRoot = treeNodeElement.getAttribute("root");
             if (nodeId.isEmpty()) {
-                throw new InvalidFileFormatException("Proof Tree construction error: cannot find node ID");
+                throw new InvalidFileFormatException(
+                        "Proof Tree construction error: cannot find node ID");
             }
             if (treeNodes.containsKey(nodeId)) {
-                throw new InvalidFileFormatException("Proof Tree construction error: duplicate tree node ID found");
+                throw new InvalidFileFormatException(
+                        "Proof Tree construction error: duplicate tree node ID found");
             }
             TreeNode treeNode = new TreeNode(puzzle.getCurrentBoard().copy());
             if (isRoot.equalsIgnoreCase("true")) {
                 if (tree.getRootNode() != null) {
-                    throw new InvalidFileFormatException("Proof Tree construction error: multiple root nodes declared");
+                    throw new InvalidFileFormatException(
+                            "Proof Tree construction error: multiple root nodes declared");
                 }
                 treeNode.setRoot(true);
                 tree.setRootNode(treeNode);
             }
             treeNodes.put(nodeId, treeNode);
         }
-
 
         for (int i = 0; i < nodeList.getLength(); i++) {
             org.w3c.dom.Element treeNodeElement = (org.w3c.dom.Element) nodeList.item(i);
@@ -231,11 +252,10 @@ public abstract class PuzzleImporter {
                         transition.addParent(treeNode);
                         treeNode.addChild(transition);
                         continue;
+                    } else {
+                        throw new InvalidFileFormatException(
+                                "Proof Tree construction error: duplicate transition ID found");
                     }
-                    else {
-                        throw new InvalidFileFormatException("Proof Tree construction error: duplicate transition ID found");
-                    }
-
                 }
 
                 String childId = trans.getAttribute("child");
@@ -250,7 +270,8 @@ public abstract class PuzzleImporter {
                 if (!ruleName.isEmpty()) {
                     rule = puzzle.getRuleByID(ruleId);
                     if (rule == null) {
-                        throw new InvalidFileFormatException("Proof Tree construction error: could not find rule by ID");
+                        throw new InvalidFileFormatException(
+                                "Proof Tree construction error: could not find rule by ID");
                     }
                     transition.setRule(rule);
                 }
@@ -266,14 +287,16 @@ public abstract class PuzzleImporter {
             }
         }
 
-        //validateTreeStructure(treeNodes, treeTransitions);
+        // validateTreeStructure(treeNodes, treeTransitions);
         System.err.println("Tree Size: " + treeTransitions.size());
         for (Map.Entry<TreeTransition, Node> entry : nodeChanges.entrySet()) {
             makeTransitionChanges(entry.getKey(), entry.getValue());
         }
     }
 
-    protected void validateTreeStructure(HashMap<String, TreeNode> nodes, HashMap<String, TreeTransition> transitions) throws InvalidFileFormatException {
+    protected void validateTreeStructure(
+            HashMap<String, TreeNode> nodes, HashMap<String, TreeTransition> transitions)
+            throws InvalidFileFormatException {
         Tree tree = puzzle.getTree();
 
         if (tree == null) {
@@ -300,25 +323,27 @@ public abstract class PuzzleImporter {
                 TreeNode treeNode = (TreeNode) element;
 
                 if (connectedNodes.get(treeNode)) {
-//                    for(TreeTransition trans : treeNode.getParents())
-//                    {
-//                        if(!(trans.getRule() instanceof MergeRule))
-//                        {
-//                            throw new InvalidFileFormatException("Proof Tree structure validation error: cyclic tree detected");
-//                        }
-//                    }
+                    //                    for(TreeTransition trans : treeNode.getParents())
+                    //                    {
+                    //                        if(!(trans.getRule() instanceof MergeRule))
+                    //                        {
+                    //                            throw new InvalidFileFormatException("Proof Tree
+                    // structure
+                    // validation error: cyclic tree detected");
+                    //                        }
+                    //                    }
                 }
                 connectedNodes.replace(treeNode, true);
 
                 for (TreeTransition trans : treeNode.getChildren()) {
                     treeElements.add(trans);
                 }
-            }
-            else {
+            } else {
                 TreeTransition treeTransition = (TreeTransition) element;
 
                 if (connectedTransitions.get(treeTransition)) {
-                    throw new InvalidFileFormatException("Proof Tree structure validation error: cyclic tree detected");
+                    throw new InvalidFileFormatException(
+                            "Proof Tree structure validation error: cyclic tree detected");
                 }
                 connectedTransitions.replace(treeTransition, true);
 
@@ -330,18 +355,21 @@ public abstract class PuzzleImporter {
 
         for (TreeNode node : nodes.values()) {
             if (!connectedNodes.get(node)) {
-                throw new InvalidFileFormatException("Proof Tree structure validation error: disjoint node detected");
+                throw new InvalidFileFormatException(
+                        "Proof Tree structure validation error: disjoint node detected");
             }
         }
 
         for (TreeTransition trans : transitions.values()) {
             if (!connectedTransitions.get(trans)) {
-                throw new InvalidFileFormatException("Proof Tree structure validation error: disjoint transition detected");
+                throw new InvalidFileFormatException(
+                        "Proof Tree structure validation error: disjoint transition detected");
             }
         }
     }
 
-    protected void makeTransitionChanges(TreeTransition transition, Node transElement) throws InvalidFileFormatException {
+    protected void makeTransitionChanges(TreeTransition transition, Node transElement)
+            throws InvalidFileFormatException {
         if (transition.getRule() instanceof MergeRule) {
             List<TreeNode> mergingNodes = transition.getParents();
             List<Board> mergingBoards = new ArrayList<>();
@@ -349,7 +377,8 @@ public abstract class PuzzleImporter {
 
             TreeNode lca = Tree.getLowestCommonAncestor(mergingNodes);
             if (lca == null) {
-                throw new InvalidFileFormatException("Proof Tree construction error: unable to find merge node");
+                throw new InvalidFileFormatException(
+                        "Proof Tree construction error: unable to find merge node");
             }
             Board lcaBoard = lca.getBoard();
 
@@ -360,22 +389,22 @@ public abstract class PuzzleImporter {
             if (childNode != null) {
                 childNode.setBoard(mergedBoard.copy());
             }
-        }
-        else {
+        } else {
             NodeList cellList = transElement.getChildNodes();
             for (int i = 0; i < cellList.getLength(); i++) {
                 Node node = cellList.item(i);
-                if (node.getNodeName().equalsIgnoreCase("cell")) {
+                List<String> elements = getImporterElements();
+                if (elements.contains(node.getNodeName().toLowerCase())) {
                     Board board = transition.getBoard();
                     PuzzleElement cell = puzzle.getFactory().importCell(node, board);
 
                     board.setPuzzleElement(cell.getIndex(), cell);
                     board.addModifiedData(cell);
                     transition.propagateChange(cell);
-                }
-                else {
+                } else {
                     if (!node.getNodeName().equalsIgnoreCase("#text")) {
-                        throw new InvalidFileFormatException("Proof Tree construction error: unknown node in transition");
+                        throw new InvalidFileFormatException(
+                                "Proof Tree construction error: unknown node in transition");
                     }
                 }
             }

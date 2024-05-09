@@ -4,6 +4,10 @@
             qualifiedClassName="edu.rpi.legup.puzzle.battleship.Battleship"
             fileType=".xml"
             fileCreationDisabled="true"/>
+        <puzzle name="Binary"
+            qualifiedClassName="edu.rpi.legup.puzzle.binary.Binary"
+            fileType=".xml"
+            fileCreationDisabled="false"/>
         <puzzle name="Fillapix"
             qualifiedClassName="edu.rpi.legup.puzzle.fillapix.Fillapix"
             fileType=".xml"
@@ -29,6 +33,10 @@
             fileType=".xml"
             fileCreationDisabled="false"/>
         <puzzle name="Sudoku" qualifiedClassName="edu.rpi.legup.puzzle.sudoku.Sudoku"
+            fileType=".xml"
+            fileCreationDisabled="true"/>
+        <puzzle name="StarBattle" 
+            qualifiedClassName="edu.rpi.legup.puzzle.starbattle.StarBattle" 
             fileType=".xml"
             fileCreationDisabled="true"/>
         <puzzle name="TreeTent"

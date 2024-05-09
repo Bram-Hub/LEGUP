@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.binary;
 
 import edu.rpi.legup.model.gameboard.GridCell;
-
 import java.awt.Point;
 
 public class BinaryCell extends GridCell<Integer> {
@@ -11,15 +10,15 @@ public class BinaryCell extends GridCell<Integer> {
 
     public BinaryType getType() {
         switch (data) {
-            case -2:
-                return BinaryType.UNKNOWN;
-            case -1:
-                return BinaryType.ONE;
             case 0:
                 return BinaryType.ZERO;
+            case 1:
+                return BinaryType.ONE;
+            case 2:
+                return BinaryType.UNKNOWN;
             default:
-                if (data > 0) {
-                    return BinaryType.NUMBER;
+                if (data > 1) {
+                    return BinaryType.UNKNOWN;
                 }
         }
         return null;

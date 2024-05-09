@@ -6,7 +6,6 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,10 +17,11 @@ public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
     private Map<TreeNode, TreeTransition> addMap;
 
     /**
-     * ApplyDefaultDirectRuleCommand Constructor creates a command for applying the default of a basic rule
+     * ApplyDefaultDirectRuleCommand Constructor creates a command for applying the default of a
+     * basic rule
      *
      * @param selection selection of tree element views
-     * @param rule      basic rule for the command
+     * @param rule basic rule for the command
      */
     public ApplyDefaultDirectRuleCommand(TreeViewSelection selection, DirectRule rule) {
         this.selection = selection.copy();
@@ -33,39 +33,43 @@ public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
      * Gets the reason why the command cannot be executed
      *
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
-     * otherwise null if command can be executed
+     *     otherwise null if command can be executed
      */
     @Override
     public String getErrorString() {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         if (selectedViews.isEmpty()) {
-            return CommandError.DEFAULT_APPLICATION + " - " + CommandError.NO_SELECTED_VIEWS.toString();
-        }
-        else {
+            return CommandError.DEFAULT_APPLICATION
+                    + " - "
+                    + CommandError.NO_SELECTED_VIEWS.toString();
+        } else {
             for (TreeElementView view : selectedViews) {
                 TreeElement element = view.getTreeElement();
                 if (element.getType() == TreeElementType.NODE) {
                     TreeNode node = (TreeNode) element;
                     if (!node.getChildren().isEmpty()) {
-                        return CommandError.DEFAULT_APPLICATION + " - " + CommandError.NO_CHILDREN.toString();
-                    }
-                    else {
+
+                        return CommandError.DEFAULT_APPLICATION
+                                + " - "
+                                + CommandError.NO_CHILDREN.toString();
+                    } else {
                         if (rule.getDefaultBoard(node) == null) {
-                            return CommandError.DEFAULT_APPLICATION + " - " + "This selection contains a tree element that this rule cannot be applied to.";
+                            return CommandError.DEFAULT_APPLICATION
+                                    + " - This selection contains a tree element that this rule"
+                                    + " cannot be applied to.";
                         }
                     }
-                }
-                else {
-                    return CommandError.DEFAULT_APPLICATION + " - " + CommandError.SELECTION_CONTAINS_TRANSITION.toString();
+                } else {
+                    return CommandError.DEFAULT_APPLICATION
+                            + " - "
+                            + CommandError.SELECTION_CONTAINS_TRANSITION.toString();
                 }
             }
         }
         return null;
     }
 
-    /**
-     * Executes an command
-     */
+    /** Executes an command */
     @Override
     public void executeCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
@@ -82,8 +86,7 @@ public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
                 transition = (TreeTransition) tree.addTreeElement(node);
                 childNode = (TreeNode) tree.addTreeElement(transition);
                 addMap.put(node, transition);
-            }
-            else {
+            } else {
                 tree.addTreeElement(node, transition);
                 childNode = transition.getChildNode();
             }
@@ -106,9 +109,7 @@ public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
     }
 
-    /**
-     * Undoes an command
-     */
+    /** Undoes an command */
     @Override
     public void undoCommand() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();

@@ -1,5 +1,7 @@
 package edu.rpi.legup.puzzle.treetent;
 
+import static edu.rpi.legup.app.GameBoardFacade.getInstance;
+
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.history.AutoCaseRuleCommand;
@@ -13,10 +15,7 @@ import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
-
 import java.awt.event.MouseEvent;
-
-import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class TreeTentController extends ElementController {
 
@@ -33,16 +32,20 @@ public class TreeTentController extends ElementController {
     public void mousePressed(MouseEvent e) {
         if (e.getButton() != MouseEvent.BUTTON2) {
             BoardView boardView = getInstance().getLegupUI().getBoardView();
-            dragStart = boardView.getElement(e.getPoint());
-            lastCellPressed = boardView.getElement(e.getPoint());
+            if (boardView != null) {
+                dragStart = boardView.getElement(e.getPoint());
+                lastCellPressed = boardView.getElement(e.getPoint());
+            }
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (GameBoardFacade.getInstance().getLegupUI().getTreePanel() != null && e.getButton() != MouseEvent.BUTTON2) {
+        if (GameBoardFacade.getInstance().getLegupUI().getTreePanel() != null
+                && e.getButton() != MouseEvent.BUTTON2) {
             TreePanel treePanel = GameBoardFacade.getInstance().getLegupUI().getTreePanel();
-            TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
+            TreeView treeView =
+                    GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
             BoardView boardView = getInstance().getLegupUI().getBoardView();
             lastCellPressed = boardView.getElement(e.getPoint());
             Board board = boardView.getBoard();
@@ -51,17 +54,17 @@ public class TreeTentController extends ElementController {
             if (dragStart != null) {
                 if (board instanceof CaseBoard) {
                     CaseBoard caseBoard = (CaseBoard) board;
-                    AutoCaseRuleCommand autoCaseRuleCommand = new AutoCaseRuleCommand(dragStart, selection, caseBoard.getCaseRule(), caseBoard, e);
+                    AutoCaseRuleCommand autoCaseRuleCommand =
+                            new AutoCaseRuleCommand(
+                                    dragStart, selection, caseBoard.getCaseRule(), caseBoard, e);
                     if (autoCaseRuleCommand.canExecute()) {
                         autoCaseRuleCommand.execute();
                         getInstance().getHistory().pushChange(autoCaseRuleCommand);
                         treePanel.updateError("");
-                    }
-                    else {
+                    } else {
                         treePanel.updateError(autoCaseRuleCommand.getError());
                     }
-                }
-                else {
+                } else {
                     if (dragStart == lastCellPressed) {
                         if (dragStart.getPuzzleElement().getIndex() >= 0) {
                             ICommand edit = new EditDataCommand(lastCellPressed, selection, e);
@@ -69,32 +72,32 @@ public class TreeTentController extends ElementController {
                                 edit.execute();
                                 getInstance().getHistory().pushChange(edit);
                                 treePanel.updateError("");
-                            }
-                            else {
+                            } else {
                                 treePanel.updateError(edit.getError());
                             }
-                        }
-                        else {
-                            ClueCommand edit = new ClueCommand(selection, (TreeTentClueView) dragStart);
+                        } else {
+                            ClueCommand edit =
+                                    new ClueCommand(selection, (TreeTentClueView) dragStart);
                             if (edit.canExecute()) {
                                 edit.execute();
                                 getInstance().getHistory().pushChange(edit);
                                 treePanel.updateError("");
-                            }
-                            else {
+                            } else {
                                 treePanel.updateError(edit.getError());
                             }
                         }
-                    }
-                    else {
+                    } else {
                         if (lastCellPressed != null) {
                             if (dragStart instanceof TreeTentElementView) {
-                                ICommand editLine = new EditLineCommand(selection, (TreeTentElementView) dragStart, lastCellPressed);
+                                ICommand editLine =
+                                        new EditLineCommand(
+                                                selection,
+                                                (TreeTentElementView) dragStart,
+                                                lastCellPressed);
                                 if (editLine.canExecute()) {
                                     editLine.execute();
                                     getInstance().getHistory().pushChange(editLine);
-                                }
-                                else {
+                                } else {
                                     treePanel.updateError(editLine.getError());
                                 }
                             }
@@ -104,6 +107,8 @@ public class TreeTentController extends ElementController {
             }
             dragStart = null;
             lastCellPressed = null;
+        } else {
+            super.mouseReleased(e);
         }
     }
 
@@ -113,26 +118,21 @@ public class TreeTentController extends ElementController {
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (cell.getData() == TreeTentType.UNKNOWN) {
                 element.setData(TreeTentType.GRASS);
-            }
-            else {
+            } else {
                 if (cell.getData() == TreeTentType.GRASS) {
                     element.setData(TreeTentType.TENT);
-                }
-                else {
+                } else {
                     element.setData(TreeTentType.UNKNOWN);
                 }
             }
-        }
-        else {
+        } else {
             if (e.getButton() == MouseEvent.BUTTON3) {
                 if (cell.getData() == TreeTentType.UNKNOWN) {
                     element.setData(TreeTentType.TENT);
-                }
-                else {
+                } else {
                     if (cell.getData() == TreeTentType.GRASS) {
                         element.setData(TreeTentType.UNKNOWN);
-                    }
-                    else {
+                    } else {
                         element.setData(TreeTentType.GRASS);
                     }
                 }

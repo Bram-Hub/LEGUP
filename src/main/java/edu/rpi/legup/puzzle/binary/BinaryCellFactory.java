@@ -4,18 +4,18 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import java.awt.*;
-
 public class BinaryCellFactory extends ElementFactory {
-    
+
     public BinaryCell importCell(Node node, Board board) throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("cell")) {
-                throw new InvalidFileFormatException("nurikabe Factory: unknown puzzleElement puzzleElement");
+                throw new InvalidFileFormatException(
+                        "binary Factory: unknown puzzleElement puzzleElement");
             }
 
             BinaryBoard binaryBoard = (BinaryBoard) board;
@@ -38,7 +38,8 @@ public class BinaryCellFactory extends ElementFactory {
             cell.setIndex(y * height + x);
             return cell;
         } catch (NumberFormatException e) {
-            throw new InvalidFileFormatException("binary Factory: unknown value where integer expected");
+            throw new InvalidFileFormatException(
+                    "binary Factory: unknown value where integer expected");
         } catch (NullPointerException e) {
             throw new InvalidFileFormatException("binary Factory: could not find attribute(s)");
         }
@@ -49,7 +50,6 @@ public class BinaryCellFactory extends ElementFactory {
 
         BinaryCell cell = (BinaryCell) puzzleElement;
         Point loc = cell.getLocation();
-
         cellElement.setAttribute("value", String.valueOf(cell.getData()));
         cellElement.setAttribute("x", String.valueOf(loc.x));
         cellElement.setAttribute("y", String.valueOf(loc.y));

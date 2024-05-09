@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.battleship;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,7 @@ public class BattleshipBoard extends GridBoard {
     /**
      * Constructor for creating a rectangular battleship board.
      *
-     * @param width  width of the board
+     * @param width width of the board
      * @param height height of the board
      */
     public BattleshipBoard(int width, int height) {
@@ -44,8 +43,7 @@ public class BattleshipBoard extends GridBoard {
     /**
      * Gets the east {@link BattleshipClue}
      *
-     * @return List of <code>BattleShipClue</code> objects on the east
-     * side of the board
+     * @return List of <code>BattleShipClue</code> objects on the east side of the board
      */
     public List<BattleshipClue> getEast() {
         return east;
@@ -90,8 +88,7 @@ public class BattleshipBoard extends GridBoard {
      * Get a list of all orthogonally adjacent cells.
      *
      * @param cell The cell to get adjacent cells from.
-     * @return List of adjacent cells in clockwise order:
-     * <code>{ up, right, down, left }</code>
+     * @return List of adjacent cells in clockwise order: <code>{ up, right, down, left }</code>
      */
     public List<BattleshipCell> getAdjOrthogonals(BattleshipCell cell) {
         List<BattleshipCell> adj = new ArrayList<>();
@@ -111,8 +108,8 @@ public class BattleshipBoard extends GridBoard {
      * Get a list of all diagonally adjacent cells.
      *
      * @param cell The cell to get diagonally adjacent cells from.
-     * @return List of diagonally adjacent cells in clockwise order:
-     * <code>{ upRight, downRight, downLeft, upLeft }</code>
+     * @return List of diagonally adjacent cells in clockwise order: <code>
+     *     { upRight, downRight, downLeft, upLeft }</code>
      */
     public List<BattleshipCell> getAdjDiagonals(BattleshipCell cell) {
         List<BattleshipCell> dia = new ArrayList<>();

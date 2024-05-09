@@ -1,4 +1,3 @@
 package edu.rpi.legup.ui.puzzleeditorui.resizeview;
 
-public class ResizePanel {
-}
+public class ResizePanel {}

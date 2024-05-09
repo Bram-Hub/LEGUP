@@ -15,8 +15,7 @@ public class NurikabeExporter extends PuzzleExporter {
         NurikabeBoard board;
         if (puzzle.getTree() != null) {
             board = (NurikabeBoard) puzzle.getTree().getRootNode().getBoard();
-        }
-        else {
+        } else {
             board = (NurikabeBoard) puzzle.getBoardView().getBoard();
         }
 
@@ -28,7 +27,8 @@ public class NurikabeExporter extends PuzzleExporter {
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             NurikabeCell cell = (NurikabeCell) puzzleElement;
             if (cell.getData() != -2) {
-                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
+                org.w3c.dom.Element cellElement =
+                        puzzle.getFactory().exportCell(newDocument, puzzleElement);
                 cellsElement.appendChild(cellElement);
             }
         }

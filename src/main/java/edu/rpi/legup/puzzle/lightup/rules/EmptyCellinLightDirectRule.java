@@ -12,19 +12,21 @@ import edu.rpi.legup.puzzle.lightup.LightUpCellType;
 public class EmptyCellinLightDirectRule extends DirectRule {
 
     public EmptyCellinLightDirectRule() {
-        super("LTUP-BASC-0002", "Empty Cells in Light",
+        super(
+                "LTUP-BASC-0002",
+                "Empty Cells in Light",
                 "Cells in light must be empty.",
                 "edu/rpi/legup/images/lightup/rules/EmptyCellInLight.png");
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement index of the puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
@@ -32,14 +34,17 @@ public class EmptyCellinLightDirectRule extends DirectRule {
         initialBoard.fillWithLight();
         LightUpCell initCell = (LightUpCell) initialBoard.getPuzzleElement(puzzleElement);
         LightUpCell finalCell = (LightUpCell) transition.getBoard().getPuzzleElement(puzzleElement);
-        if (finalCell.getType() == LightUpCellType.EMPTY && initCell.getType() == LightUpCellType.UNKNOWN && initCell.isLite()) {
+        if (finalCell.getType() == LightUpCellType.EMPTY
+                && initCell.getType() == LightUpCellType.UNKNOWN
+                && initCell.isLite()) {
             return null;
         }
         return super.getInvalidUseOfRuleMessage() + ": Cell is not forced to be empty";
     }
 
     /**
-     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
      *
      * @param node tree node used to create default transition board
      * @return default board or null if this rule cannot be applied to this tree node
@@ -56,8 +61,7 @@ public class EmptyCellinLightDirectRule extends DirectRule {
         }
         if (lightUpBoard.getModifiedData().isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return lightUpBoard;
         }
     }

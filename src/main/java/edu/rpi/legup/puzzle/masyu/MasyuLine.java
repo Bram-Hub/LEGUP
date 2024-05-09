@@ -25,8 +25,10 @@ public class MasyuLine extends PuzzleElement<Entry<MasyuCell, MasyuCell>> {
     }
 
     public boolean compare(MasyuLine line) {
-        return ((line.getC1().getLocation().equals(data.getKey().getLocation()) && line.getC2().getLocation().equals(data.getValue().getLocation())) ||
-                (line.getC1().getLocation().equals(data.getValue().getLocation()) && line.getC2().getLocation().equals(data.getKey().getLocation())));
+        return ((line.getC1().getLocation().equals(data.getKey().getLocation())
+                        && line.getC2().getLocation().equals(data.getValue().getLocation()))
+                || (line.getC1().getLocation().equals(data.getValue().getLocation())
+                        && line.getC2().getLocation().equals(data.getKey().getLocation())));
     }
 
     /**

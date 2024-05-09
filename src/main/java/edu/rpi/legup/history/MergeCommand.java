@@ -6,7 +6,6 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.rules.MergeRule;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -25,9 +24,7 @@ public class MergeCommand extends PuzzleCommand {
         this.transition = null;
     }
 
-    /**
-     * Executes an command
-     */
+    /** Executes an command */
     @Override
     public void executeCommand() {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
@@ -55,8 +52,7 @@ public class MergeCommand extends PuzzleCommand {
             transition.setRule(new MergeRule());
             transition.setChildNode(mergedNode);
             mergedNode.setParent(transition);
-        }
-        else {
+        } else {
             mergedNode = transition.getChildNode();
         }
 
@@ -75,15 +71,14 @@ public class MergeCommand extends PuzzleCommand {
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
     }
 
-    /**
-     * Undoes an command
-     */
+    /** Undoes an command */
     @Override
     public void undoCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
-        TreeTransition transition = ((TreeNode) selection.getFirstSelection().getTreeElement()).getChildren().get(0);
+        TreeTransition transition =
+                ((TreeNode) selection.getFirstSelection().getTreeElement()).getChildren().get(0);
         tree.removeTreeElement(transition);
 
         puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(transition));
@@ -94,7 +89,7 @@ public class MergeCommand extends PuzzleCommand {
      * Gets the reason why the command cannot be executed
      *
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
-     * otherwise null if command can be executed
+     *     otherwise null if command can be executed
      */
     @Override
     public String getErrorString() {
@@ -112,8 +107,7 @@ public class MergeCommand extends PuzzleCommand {
                     return CommandError.NO_CHILDREN.toString();
                 }
                 nodeList.add(nodeView.getTreeElement());
-            }
-            else {
+            } else {
                 return CommandError.SELECTION_CONTAINS_TRANSITION.toString();
             }
         }
@@ -130,12 +124,12 @@ public class MergeCommand extends PuzzleCommand {
         }
         Set<TreeElement> leafNodes = tree.getLeafTreeElements(lca);
         if (leafNodes.size() != mergingNodes.size()) {
-//            return "Unable to merge tree elements.";
+            //            return "Unable to merge tree elements.";
         }
 
         for (TreeNode node : mergingNodes) {
             if (!leafNodes.contains(node)) {
-//                return "Unable to merge tree elements.";
+                //                return "Unable to merge tree elements.";
             }
         }
 
