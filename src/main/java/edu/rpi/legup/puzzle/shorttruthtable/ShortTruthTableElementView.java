@@ -47,14 +47,14 @@ public class ShortTruthTableElementView extends GridElementView {
         LegupPreferences prefs = LegupPreferences.getInstance();
         switch (type) {
             case TRUE:
-                if (prefs.getUserPref(LegupPreferences.COLOR_BLIND).equals("true")) {
+                if (LegupPreferences.colorBlind()) {
                     graphics2D.setColor(TRUE_COLOR_COLORBLIND);
                     break;
                 }
                 graphics2D.setColor(TRUE_COLOR);
                 break;
             case FALSE:
-                if (prefs.getUserPref(LegupPreferences.COLOR_BLIND).equals("true")) {
+                if (LegupPreferences.colorBlind()) {
                     graphics2D.setColor(FALSE_COLOR_COLORBLIND);
                     break;
                 }
