@@ -131,6 +131,20 @@ public abstract class PuzzleImporter {
             throws UnsupportedOperationException, IllegalArgumentException;
 
     /**
+     * Used to check that elements in the proof tree are saved properly.
+     *
+     * <p>Make sure the list elements are lowercase
+     *
+     * @return A list of elements that will change when solving the puzzle * e.g. {"cell"}, {"cell",
+     *     "line"}
+     */
+    public List<String> getImporterElements() {
+        List<String> elements = new ArrayList<>();
+        elements.add("cell");
+        return elements;
+    }
+
+    /**
      * Creates the proof for building
      *
      * @param node xml document node
@@ -379,7 +393,8 @@ public abstract class PuzzleImporter {
             NodeList cellList = transElement.getChildNodes();
             for (int i = 0; i < cellList.getLength(); i++) {
                 Node node = cellList.item(i);
-                if (node.getNodeName().equalsIgnoreCase("cell")) {
+                List<String> elements = getImporterElements();
+                if (elements.contains(node.getNodeName().toLowerCase())) {
                     Board board = transition.getBoard();
                     PuzzleElement cell = puzzle.getFactory().importCell(node, board);
 
