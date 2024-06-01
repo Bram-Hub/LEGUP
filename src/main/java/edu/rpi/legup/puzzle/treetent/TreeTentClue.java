@@ -50,6 +50,6 @@ public class TreeTentClue extends PuzzleElement<Integer> {
     }
 
     public TreeTentClue copy() {
-        return null;
+        return new TreeTentClue(data, clueIndex, type);
     }
 }

@@ -1,0 +1,235 @@
+//StarBattle.java
+
+package edu.rpi.legup.puzzle.starbattle;
+
+import edu.rpi.legup.model.Puzzle;
+import edu.rpi.legup.model.gameboard.Board;
+
+public class StarBattle extends Puzzle {
+    public StarBattle() {
+        super();
+        this.name = "StarBattle";
+
+        this.importer = new StarBattleImporter(this);
+        this.exporter = new StarBattleExporter(this);
+
+        this.factory = new StarBattleCellFactory();
+    }
+
+    @Override
+    public void initializeView() {
+    }
+
+    @Override
+    public Board generatePuzzle(int difficulty) {
+        return null;
+    }
+
+    @Override
+    public boolean isBoardComplete(Board board) {
+        return true;
+    }
+
+    @Override
+    public void onBoardChange(Board board) {
+    }
+}
+
+//StarBattleBoard.java
+
+package edu.rpi.legup.puzzle.lightup;
+
+import edu.rpi.legup.model.gameboard.GridBoard;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
+
+import java.awt.*;
+import java.util.HashSet;
+import java.util.Set;
+
+public class StarBattleBoard extends GridBoard {
+
+    private int size;
+    private vector<int> group_sizes;
+
+    /**
+     * StarBattleBoard Constructor - create a new Star Battle board
+     *
+     * @param size size of one side of the star battle board
+     */
+
+    public StarBattleBoard(int size) {
+        super(size, size);
+        group_sizes = vector<int>(size);
+    }
+
+    @Override
+    public StarBattleCell getCell(int x, int y) {
+        return (StarBattleCell) super.getCell(x, y);
+    }
+
+    
+}
+
+//StarBattleCell.java
+
+package edu.rpi.legup.puzzle.starbattle;
+
+import edu.rpi.legup.model.gameboard.GridCell;
+
+import java.awt.*;
+import java.util.HashSet;
+import java.util.Set;
+
+public class StarBattleCell extends GridCell<Integer> {
+    private int groupIndex;
+    private int max;
+
+    /**
+     * StarBattleCell Constructor - creates a new StarBattle cell to hold the puzzleElement
+     *
+     * @param valueInt   value of the star battle cell denoting its state
+     * @param location   location of the cell on the board
+     * @param size       size of the star battle cell
+     */
+    public StarBattleCell(int value, Point location, int groupIndex, int size) {
+        super(value, location);
+        this.groupIndex = groupIndex;
+        this.max = size;
+    }
+
+    @Override
+    public void setType(Element e, MouseEvent m) {
+        switch (e.getElementID()) {
+            case "SBUP-PLAC-0001":
+                this.data = -3;
+                break;
+            case "SBUP-PLAC-0002":
+                this.data = -2;
+                break;
+            case "SBUP-PLAC-0003":
+                this.data = -1;
+                break;
+            case "SBUP-UNPL-0001"://Not sure how button events work
+                switch (m.getButton()){
+                    case MouseEvent.BUTTON1:
+                        if (this.data < 0 || this.data > 3) {
+                            this.data = 0;
+                        }
+                        else {
+                            this.data = this.data + 1;
+                        }
+                        break;
+                    case MouseEvent.BUTTON3:
+                        if (this.data > 0) {
+                            this.data = this.data - 1;
+                        }
+                        else {
+                            this.data = 3;//Unsure
+                        }
+                        break;
+                }
+                break;
+        }
+    }
+
+    public LightUpCellType getType() {
+        switch (data) {
+            case -3:
+                return LightUpCellType.UNKNOWN;
+            case -2:
+                return LightUpCellType.STAR;
+            case -1:
+                return LightUpCellType.BLACK;
+            default:
+                if (data >= 0) {
+                    return StarBattleCellType.WHITE;
+                }
+        }
+        return null;
+    }
+    
+    /**
+     * Gets the region index of the cell
+     *
+     * @return group index of the cell
+     */
+    public int getGroupIndex() {
+        return groupIndex;
+    }
+
+    /**
+     * Gets the size of the cell
+     *
+     * @return size of the cell
+     */
+
+    public int getMax() {
+        return max;
+    }
+
+}
+
+//StarBattleCellController.java
+
+package edu.rpi.legup.puzzle.starbattle;
+
+import edu.rpi.legup.controller.ElementController;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
+
+import java.awt.event.MouseEvent;
+
+public class StarBattleCellController extends ElementController {
+    @Override
+    public void changeCell(MouseEvent e, PuzzleElement data) {
+        StarBattleCell cell = (StarBattleCell) data;
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            if (e.isControlDown()) {
+                this.boardView.getSelectionPopupMenu().show(boardView, this.boardView.getCanvas().getX() + e.getX(), this.boardView.getCanvas().getY() + e.getY());
+            }
+            else {
+                if (cell.getData() == 0) {
+                    data.setData(-3);
+                }
+                else {
+                    data.setData(cell.getData() + 1);
+                }
+            }
+        }
+        else {
+            if (e.getButton() == MouseEvent.BUTTON3) {
+                if (cell.getData() == -3) {
+                    data.setData(0);
+                }
+                else {
+                    data.setData(cell.getData() - 1);
+                }
+            }
+        }
+    }
+}
+
+//StarBattleCellFactory.java
+
+
+
+//StarBattleCellType.java
+package edu.rpi.legup.puzzle.starbattle;
+
+public enum StarBattleType {
+    UNKNOWN(-3), STAR(-2), BLACK(-1), WHITE(0);
+
+    public int value; 
+
+    StarBattleCell(int value) {
+        this.value = value;
+    }
+}
+
+//StarBattleExporter.java
+//StarBattleImporter.java
+//StarBattleView.java
+
+How to run Legup:
+
+./gradlew build
+Java -jar build/libs/Legup.jar 

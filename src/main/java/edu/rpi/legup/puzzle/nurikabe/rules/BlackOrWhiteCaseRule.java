@@ -19,6 +19,7 @@ public class BlackOrWhiteCaseRule extends CaseRule {
                 "Black or White",
                 "Each blank cell is either black or white.",
                 "edu/rpi/legup/images/nurikabe/cases/BlackOrWhite.png");
+        this.MAX_CASES = 2;
     }
 
     /**

@@ -53,21 +53,29 @@ public class TreeTentBoard extends GridBoard {
 
     @Override
     public PuzzleElement getPuzzleElement(PuzzleElement element) {
-        switch (element.getIndex()) {
-            case -2:
-                return element;
-            case -1:
-                TreeTentLine line = (TreeTentLine) element;
-                TreeTentLine thisLine = null;
-                for (TreeTentLine l : lines) {
-                    if (line.compare(l)) {
-                        thisLine = l;
-                        break;
-                    }
-                }
-                return thisLine;
-            default:
-                return super.getPuzzleElement(element);
+        return switch (element.getIndex()) {
+            case -2 -> element;
+            case -1 -> element;
+            default -> super.getPuzzleElement(element);
+        };
+    }
+
+    @Override
+    public void setPuzzleElement(int index, PuzzleElement puzzleElement) {
+        if (index == -1) {
+            lines.add((TreeTentLine) puzzleElement);
+        } else if (index < puzzleElements.size()) {
+            puzzleElements.set(index, puzzleElement);
+        }
+    }
+
+    @Override
+    public void notifyChange(PuzzleElement puzzleElement) {
+        int index = puzzleElement.getIndex();
+        if (index == -1) {
+            lines.add((TreeTentLine) puzzleElement);
+        } else if (index < puzzleElements.size()) {
+            puzzleElements.set(index, puzzleElement);
         }
     }
 
@@ -168,20 +176,20 @@ public class TreeTentBoard extends GridBoard {
      *
      * @param index the row or column number
      * @param type type of TreeTent element
-     * @param isRow boolean value beased on whether a row of column is being checked
+     * @param isRow boolean value based on whether a row of column is being checked
      * @return List of TreeTentCells that match the given TreeTentType
      */
     public List<TreeTentCell> getRowCol(int index, TreeTentType type, boolean isRow) {
         List<TreeTentCell> list = new ArrayList<>();
         if (isRow) {
-            for (int i = 0; i < dimension.height; i++) {
+            for (int i = 0; i < dimension.width; i++) {
                 TreeTentCell cell = getCell(i, index);
                 if (cell.getType() == type) {
                     list.add(cell);
                 }
             }
         } else {
-            for (int i = 0; i < dimension.width; i++) {
+            for (int i = 0; i < dimension.height; i++) {
                 TreeTentCell cell = getCell(index, i);
                 if (cell.getType() == type) {
                     list.add(cell);
