@@ -570,7 +570,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         String fileName = null;
         if (fileChooser.getCurrentDirectory() != null && fileChooser.getSelectedFile() != null) {
-            fileName = fileChooser.getCurrentDirectory() + File.separator + fileChooser.getSelectedFile();
+            fileName = fileChooser.getSelectedFile().getAbsolutePath();
         }
 
         if (fileName != null) {
@@ -584,6 +584,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 e.printStackTrace();
             }
         }
+
         return fileName;
     }
 
