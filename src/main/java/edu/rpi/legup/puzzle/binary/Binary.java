@@ -68,4 +68,6 @@ public class Binary extends Puzzle {
 
     @Override
     public void onBoardChange(Board board) {}
+
+    // TEST
 }
