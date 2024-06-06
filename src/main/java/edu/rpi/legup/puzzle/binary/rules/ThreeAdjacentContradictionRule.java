@@ -20,14 +20,10 @@ public class ThreeAdjacentContradictionRule extends ContradictionRule {
                 "edu/rpi/legup/images/binary/rules/ThreeAdjacentContradictionRule.png");
     }
 
-    @Override
-    public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
+    public boolean checkSurroundPair(Board board, PuzzleElement puzzleElement) {
         BinaryBoard binaryBoard = (BinaryBoard) board;
-        int height = binaryBoard.getHeight();
-        int width = binaryBoard.getWidth();
-
         BinaryCell cell = (BinaryCell) binaryBoard.getPuzzleElement(puzzleElement);
-        System.out.println("THE CELL IS : " + cell.getType());
+
         int cellX = cell.getLocation().x;
         int cellY = cell.getLocation().y;
         BinaryCell oneUp = null;
@@ -70,8 +66,7 @@ public class ThreeAdjacentContradictionRule extends ContradictionRule {
                     && oneBackward.getType() != BinaryType.UNKNOWN) {
                 if (twoBackward.getType() == cell.getType()
                         && oneBackward.getType() == cell.getType()) {
-                    System.out.println("1");
-                    return null;
+                    return false;
                 }
             }
             if (twoForward != null
@@ -80,8 +75,7 @@ public class ThreeAdjacentContradictionRule extends ContradictionRule {
                     && oneForward.getType() != BinaryType.UNKNOWN) {
                 if (twoForward.getType() == cell.getType()
                         && oneForward.getType() == cell.getType()) {
-                    System.out.println("2");
-                    return null;
+                    return false;
                 }
             }
             if (twoDown != null
@@ -89,8 +83,7 @@ public class ThreeAdjacentContradictionRule extends ContradictionRule {
                     && twoDown.getType() != BinaryType.UNKNOWN
                     && oneDown.getType() != BinaryType.UNKNOWN) {
                 if (twoDown.getType() == cell.getType() && oneDown.getType() == cell.getType()) {
-                    System.out.println("3");
-                    return null;
+                    return false;
                 }
             }
             if (twoUp != null
@@ -98,18 +91,47 @@ public class ThreeAdjacentContradictionRule extends ContradictionRule {
                     && twoUp.getType() != BinaryType.UNKNOWN
                     && oneUp.getType() != BinaryType.UNKNOWN) {
                 if (twoUp.getType() == cell.getType() && oneUp.getType() == cell.getType()) {
-                    System.out.println("4");
-                    return null;
+                    return false;
                 }
             }
+        }
+
+        return true;
+    }
+
+    public boolean checkOneTileGap(Board board, PuzzleElement puzzleElement) {
+        BinaryBoard binaryBoard = (BinaryBoard) board;
+
+        BinaryCell cell = (BinaryCell) binaryBoard.getPuzzleElement(puzzleElement);
+
+
+        int cellX = cell.getLocation().x;
+        int cellY = cell.getLocation().y;
+        BinaryCell oneUp = null;
+        BinaryCell oneDown = null;
+        BinaryCell oneForward = null;
+        BinaryCell oneBackward = null;
+        if (binaryBoard.getCell(cellX, cellY + 1) != null) {
+            oneUp = binaryBoard.getCell(cellX, cellY + 1);
+        }
+        if (binaryBoard.getCell(cellX, cellY - 1) != null) {
+            oneDown = binaryBoard.getCell(cellX, cellY - 1);
+        }
+        if (binaryBoard.getCell(cellX + 1, cellY) != null) {
+            oneForward = binaryBoard.getCell(cellX + 1, cellY);
+        }
+        if (binaryBoard.getCell(cellX - 1, cellY) != null) {
+            oneBackward = binaryBoard.getCell(cellX - 1, cellY);
+        }
+
+        if (cell.getType() == BinaryType.ONE || cell.getType() == BinaryType.ZERO) {
             if (oneBackward != null
                     && oneForward != null
                     && oneBackward.getType() != BinaryType.UNKNOWN
                     && oneForward.getType() != BinaryType.UNKNOWN) {
                 if (oneBackward.getType() == cell.getType()
                         && oneForward.getType() == cell.getType()) {
-                    System.out.println("5");
-                    return null;
+                    return false;
                 }
             }
             if (oneUp != null
@@ -117,11 +139,25 @@ public class ThreeAdjacentContradictionRule extends ContradictionRule {
                     && oneUp.getType() != BinaryType.UNKNOWN
                     && oneDown.getType() != BinaryType.UNKNOWN) {
                 if (oneUp.getType() == cell.getType() && oneDown.getType() == cell.getType()) {
-                    System.out.println("6");
-                    return null;
+                    return false;
                 }
             }
         }
+        return true;
+    }
+
+    @Override
+    public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
+
+        boolean surroundPairValid = checkSurroundPair(board, puzzleElement);
+        if (!surroundPairValid) {
+            return null;
+        }
+        boolean oneTileGapValid = checkOneTileGap(board, puzzleElement);
+        if (!oneTileGapValid) {
+            return null;
+        }
+
         return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
     }
 }

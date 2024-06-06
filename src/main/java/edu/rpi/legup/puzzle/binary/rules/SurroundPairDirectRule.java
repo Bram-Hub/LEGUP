@@ -21,21 +21,22 @@ public class SurroundPairDirectRule extends DirectRule {
 
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
-        ContradictionRule contraRule = new ThreeAdjacentContradictionRule();
+        ThreeAdjacentContradictionRule contraRule = new ThreeAdjacentContradictionRule();
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
         BinaryBoard modified = origBoard.copy();
 
-        // System.out.println("ORIG" + binaryCell.getData());
-        // System.out.println("AFTER" + Math.abs(binaryCell.getData() - 1));
         modified.getPuzzleElement(puzzleElement).setData(Math.abs(binaryCell.getData() - 1));
-
         PuzzleElement newP = binaryCell;
 
-        System.out.println(contraRule.checkContradictionAt(modified, newP));
+        //System.out.println(contraRule.checkContradictionAt(modified, newP));
 
-        if (contraRule.checkContradictionAt(modified, newP) == null) {
+        if (!contraRule.checkSurroundPair(modified, newP)) {
             return null;
         }
+
+//        if (contraRule.checkContradictionAt(modified, newP) == null) {
+//            return null;
+//        }
         modified.getPuzzleElement(puzzleElement).setData(Math.abs(binaryCell.getData() - 1));
 
         return "Grouping of Three Ones or Zeros not found";

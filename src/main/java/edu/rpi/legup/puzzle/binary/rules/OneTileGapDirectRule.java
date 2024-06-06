@@ -47,7 +47,7 @@ public class OneTileGapDirectRule extends DirectRule {
 
         PuzzleElement newP = binaryCell;
 
-        System.out.println(contraRule.checkContradictionAt(modified, newP));
+        // System.out.println(contraRule.checkContradictionAt(modified, newP));
 
         if (contraRule.checkContradictionAt(modified, newP) == null) {
             return null;
