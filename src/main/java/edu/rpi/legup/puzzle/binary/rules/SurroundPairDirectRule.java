@@ -26,18 +26,10 @@ public class SurroundPairDirectRule extends DirectRule {
         BinaryBoard modified = origBoard.copy();
 
         modified.getPuzzleElement(puzzleElement).setData(Math.abs(binaryCell.getData() - 1));
-        PuzzleElement newP = binaryCell;
 
-        //System.out.println(contraRule.checkContradictionAt(modified, newP));
-
-        if (!contraRule.checkSurroundPair(modified, newP)) {
+        if (!contraRule.checkSurroundPair(modified, binaryCell)) {
             return null;
         }
-
-//        if (contraRule.checkContradictionAt(modified, newP) == null) {
-//            return null;
-//        }
-        modified.getPuzzleElement(puzzleElement).setData(Math.abs(binaryCell.getData() - 1));
 
         return "Grouping of Three Ones or Zeros not found";
     }

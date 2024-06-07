@@ -101,9 +101,7 @@ public class ThreeAdjacentContradictionRule extends ContradictionRule {
 
     public boolean checkOneTileGap(Board board, PuzzleElement puzzleElement) {
         BinaryBoard binaryBoard = (BinaryBoard) board;
-
         BinaryCell cell = (BinaryCell) binaryBoard.getPuzzleElement(puzzleElement);
-
 
         int cellX = cell.getLocation().x;
         int cellY = cell.getLocation().y;
