@@ -20,20 +20,6 @@ public class OneTileGapDirectRule extends DirectRule {
                 "edu/rpi/legup/images/binary/rules/OneTileGapDirectRule.png");
     }
 
-    boolean checkLeftRight(BinaryCell c, BinaryBoard board) {
-        int x = c.getLocation().x;
-        int y = c.getLocation().y;
-        return board.getCell(x - 1, y).getType() != c.getType()
-                || board.getCell(x + 1, y).getType() != c.getType();
-    }
-
-    boolean checkUpDown(BinaryCell c, BinaryBoard board) {
-        int x = c.getLocation().x;
-        int y = c.getLocation().y;
-        return board.getCell(x, y - 1).getType() != c.getType()
-                || board.getCell(x, y + 1).getType() != c.getType();
-    }
-
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
