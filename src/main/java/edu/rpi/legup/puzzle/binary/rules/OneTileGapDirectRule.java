@@ -20,39 +20,18 @@ public class OneTileGapDirectRule extends DirectRule {
                 "edu/rpi/legup/images/binary/rules/OneTileGapDirectRule.png");
     }
 
-    boolean checkLeftRight(BinaryCell c, BinaryBoard board) {
-        int x = c.getLocation().x;
-        int y = c.getLocation().y;
-        return board.getCell(x - 1, y).getType() != c.getType()
-                || board.getCell(x + 1, y).getType() != c.getType();
-    }
-
-    boolean checkUpDown(BinaryCell c, BinaryBoard board) {
-        int x = c.getLocation().x;
-        int y = c.getLocation().y;
-        return board.getCell(x, y - 1).getType() != c.getType()
-                || board.getCell(x, y + 1).getType() != c.getType();
-    }
-
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
-        ContradictionRule contraRule = new ThreeAdjacentContradictionRule();
+        ThreeAdjacentContradictionRule contraRule = new ThreeAdjacentContradictionRule();
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
         BinaryBoard modified = origBoard.copy();
 
-        // System.out.println("ORIG" + binaryCell.getData());
-        // System.out.println("AFTER" + Math.abs(binaryCell.getData() - 1));
         modified.getPuzzleElement(puzzleElement).setData(Math.abs(binaryCell.getData() - 1));
 
-        PuzzleElement newP = binaryCell;
-
-        System.out.println(contraRule.checkContradictionAt(modified, newP));
-
-        if (contraRule.checkContradictionAt(modified, newP) == null) {
+        if (!contraRule.checkOneTileGap(modified, binaryCell)) {
             return null;
         }
-        modified.getPuzzleElement(puzzleElement).setData(Math.abs(binaryCell.getData() - 1));
 
         return "Grouping of Three Ones or Zeros not found";
     }

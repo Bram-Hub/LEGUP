@@ -20,108 +20,125 @@ public class ThreeAdjacentContradictionRule extends ContradictionRule {
                 "edu/rpi/legup/images/binary/rules/ThreeAdjacentContradictionRule.png");
     }
 
-    @Override
-    public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
+    public BinaryCell[] getCellsXAway(Board board, PuzzleElement puzzleElement, int x) {
         BinaryBoard binaryBoard = (BinaryBoard) board;
-        int height = binaryBoard.getHeight();
-        int width = binaryBoard.getWidth();
-
         BinaryCell cell = (BinaryCell) binaryBoard.getPuzzleElement(puzzleElement);
-        System.out.println("THE CELL IS : " + cell.getType());
         int cellX = cell.getLocation().x;
         int cellY = cell.getLocation().y;
-        BinaryCell oneUp = null;
-        BinaryCell oneDown = null;
-        BinaryCell oneForward = null;
-        BinaryCell oneBackward = null;
-        BinaryCell twoUp = null;
-        BinaryCell twoDown = null;
-        BinaryCell twoForward = null;
-        BinaryCell twoBackward = null;
-        if (binaryBoard.getCell(cellX, cellY + 1) != null) {
-            oneUp = binaryBoard.getCell(cellX, cellY + 1);
+
+        BinaryCell[] cells = new BinaryCell[4]; // [0] up x, [1] down x, [2] forward x, [3] backward x
+        cells[0] = null;
+        cells[1] = null;
+        cells[2] = null;
+        cells[3] = null;
+
+        if (binaryBoard.getCell(cellX, cellY + x) != null) {
+            cells[0] = binaryBoard.getCell(cellX, cellY + x);
         }
-        if (binaryBoard.getCell(cellX, cellY - 1) != null) {
-            oneDown = binaryBoard.getCell(cellX, cellY - 1);
+        if (binaryBoard.getCell(cellX, cellY - x) != null) {
+            cells[1] = binaryBoard.getCell(cellX, cellY - x);
         }
-        if (binaryBoard.getCell(cellX + 1, cellY) != null) {
-            oneForward = binaryBoard.getCell(cellX + 1, cellY);
+        if (binaryBoard.getCell(cellX + x, cellY) != null) {
+            cells[2] = binaryBoard.getCell(cellX + x, cellY);
         }
-        if (binaryBoard.getCell(cellX - 1, cellY) != null) {
-            oneBackward = binaryBoard.getCell(cellX - 1, cellY);
-        }
-        if (binaryBoard.getCell(cellX, cellY + 2) != null) {
-            twoUp = binaryBoard.getCell(cellX, cellY + 2);
-        }
-        if (binaryBoard.getCell(cellX, cellY - 2) != null) {
-            twoDown = binaryBoard.getCell(cellX, cellY - 2);
-        }
-        if (binaryBoard.getCell(cellX + 2, cellY) != null) {
-            twoForward = binaryBoard.getCell(cellX + 2, cellY);
-        }
-        if (binaryBoard.getCell(cellX - 2, cellY) != null) {
-            twoBackward = binaryBoard.getCell(cellX - 2, cellY);
+        if (binaryBoard.getCell(cellX - x, cellY) != null) {
+            cells[3] = binaryBoard.getCell(cellX - x, cellY);
         }
 
+        return cells;
+    }
+    public boolean checkSurroundPair(Board board, PuzzleElement puzzleElement) {
+        BinaryBoard binaryBoard = (BinaryBoard) board;
+        BinaryCell cell = (BinaryCell) binaryBoard.getPuzzleElement(puzzleElement);
+
+        // [0] up x, [1] down x, [2] forward x, [3] backward x
+        BinaryCell[] cellsOneAway = getCellsXAway(board, puzzleElement, 1);
+        BinaryCell[] cellsTwoAway = getCellsXAway(board, puzzleElement, 2);
+
         if (cell.getType() == BinaryType.ONE || cell.getType() == BinaryType.ZERO) {
-            if (twoBackward != null
-                    && oneBackward != null
-                    && twoBackward.getType() != BinaryType.UNKNOWN
-                    && oneBackward.getType() != BinaryType.UNKNOWN) {
-                if (twoBackward.getType() == cell.getType()
-                        && oneBackward.getType() == cell.getType()) {
-                    System.out.println("1");
-                    return null;
+            if (cellsOneAway[3] != null
+                    && cellsTwoAway[3] != null
+                    && cellsOneAway[3].getType() != BinaryType.UNKNOWN
+                    && cellsTwoAway[3].getType() != BinaryType.UNKNOWN) {
+                if (cellsOneAway[3].getType() == cell.getType()
+                        && cellsTwoAway[3].getType() == cell.getType()) {
+                    return false;
                 }
             }
-            if (twoForward != null
-                    && oneForward != null
-                    && twoForward.getType() != BinaryType.UNKNOWN
-                    && oneForward.getType() != BinaryType.UNKNOWN) {
-                if (twoForward.getType() == cell.getType()
-                        && oneForward.getType() == cell.getType()) {
-                    System.out.println("2");
-                    return null;
+            if (cellsOneAway[2] != null
+                    && cellsTwoAway[2] != null
+                    && cellsOneAway[2].getType() != BinaryType.UNKNOWN
+                    && cellsTwoAway[2].getType() != BinaryType.UNKNOWN) {
+                if (cellsOneAway[2].getType() == cell.getType()
+                        && cellsTwoAway[2].getType() == cell.getType()) {
+                    return false;
                 }
             }
-            if (twoDown != null
-                    && oneDown != null
-                    && twoDown.getType() != BinaryType.UNKNOWN
-                    && oneDown.getType() != BinaryType.UNKNOWN) {
-                if (twoDown.getType() == cell.getType() && oneDown.getType() == cell.getType()) {
-                    System.out.println("3");
-                    return null;
+            if (cellsOneAway[1] != null
+                    && cellsTwoAway[1] != null
+                    && cellsOneAway[1].getType() != BinaryType.UNKNOWN
+                    && cellsTwoAway[1].getType() != BinaryType.UNKNOWN) {
+                if (cellsOneAway[1].getType() == cell.getType()
+                        && cellsTwoAway[1].getType() == cell.getType()) {
+                    return false;
                 }
             }
-            if (twoUp != null
-                    && oneUp != null
-                    && twoUp.getType() != BinaryType.UNKNOWN
-                    && oneUp.getType() != BinaryType.UNKNOWN) {
-                if (twoUp.getType() == cell.getType() && oneUp.getType() == cell.getType()) {
-                    System.out.println("4");
-                    return null;
-                }
-            }
-            if (oneBackward != null
-                    && oneForward != null
-                    && oneBackward.getType() != BinaryType.UNKNOWN
-                    && oneForward.getType() != BinaryType.UNKNOWN) {
-                if (oneBackward.getType() == cell.getType()
-                        && oneForward.getType() == cell.getType()) {
-                    System.out.println("5");
-                    return null;
-                }
-            }
-            if (oneUp != null
-                    && oneDown != null
-                    && oneUp.getType() != BinaryType.UNKNOWN
-                    && oneDown.getType() != BinaryType.UNKNOWN) {
-                if (oneUp.getType() == cell.getType() && oneDown.getType() == cell.getType()) {
-                    System.out.println("6");
-                    return null;
+            if (cellsOneAway[0] != null
+                    && cellsTwoAway[0] != null
+                    && cellsOneAway[0].getType() != BinaryType.UNKNOWN
+                    && cellsTwoAway[0].getType() != BinaryType.UNKNOWN) {
+                if (cellsOneAway[0].getType() == cell.getType()
+                        && cellsTwoAway[0].getType() == cell.getType()) {
+                    return false;
                 }
             }
         }
+
+        return true;
+    }
+
+    public boolean checkOneTileGap(Board board, PuzzleElement puzzleElement) {
+        BinaryBoard binaryBoard = (BinaryBoard) board;
+        BinaryCell cell = (BinaryCell) binaryBoard.getPuzzleElement(puzzleElement);
+
+        // [0] up x, [1] down x, [2] forward x, [3] backward x
+        BinaryCell[] cellsOneAway = getCellsXAway(board, puzzleElement, 1);
+
+        if (cell.getType() == BinaryType.ONE || cell.getType() == BinaryType.ZERO) {
+            if (cellsOneAway[3] != null
+                    && cellsOneAway[2] != null
+                    && cellsOneAway[3].getType() != BinaryType.UNKNOWN
+                    && cellsOneAway[2].getType() != BinaryType.UNKNOWN) {
+                if (cellsOneAway[3].getType() == cell.getType()
+                        && cellsOneAway[2].getType() == cell.getType()) {
+                    return false;
+                }
+            }
+            if (cellsOneAway[1] != null
+                    && cellsOneAway[0] != null
+                    && cellsOneAway[1].getType() != BinaryType.UNKNOWN
+                    && cellsOneAway[0].getType() != BinaryType.UNKNOWN) {
+                if (cellsOneAway[1].getType() == cell.getType()
+                        && cellsOneAway[0].getType() == cell.getType()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
+
+        boolean surroundPairValid = checkSurroundPair(board, puzzleElement);
+        if (!surroundPairValid) {
+            return null;
+        }
+        boolean oneTileGapValid = checkOneTileGap(board, puzzleElement);
+        if (!oneTileGapValid) {
+            return null;
+        }
+
         return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
     }
 }
