@@ -6,8 +6,12 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.puzzle.binary.Binary;
 import edu.rpi.legup.puzzle.binary.BinaryBoard;
 import edu.rpi.legup.puzzle.binary.BinaryCell;
+import edu.rpi.legup.puzzle.binary.BinaryType;
+
+import java.util.Set;
 
 public class CompleteRowColumnDirectRule extends DirectRule {
 
@@ -31,21 +35,55 @@ public class CompleteRowColumnDirectRule extends DirectRule {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
-        ContradictionRule contraRule = new UnbalancedRowOrColumnContradictionRule();
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
         BinaryBoard modified = origBoard.copy();
-        BinaryCell c = (BinaryCell) modified.getPuzzleElement(puzzleElement);
 
-        // System.out.println("ORIG" + binaryCell.getData());
-        // System.out.println("AFTER" + Math.abs(binaryCell.getData() - 1));
         modified.getPuzzleElement(puzzleElement).setData(binaryCell.getData());
-        System.out.println(contraRule.checkContradictionAt(modified, puzzleElement));
 
-        if (contraRule.checkContradictionAt(modified, puzzleElement) != null) {
+        Set<BinaryCell> row = modified.getRowCells(binaryCell.getLocation().y);
+        int size = row.size();
+        int rowNumZeros = 0;
+        int rowNumOnes = 0;
+
+        for (BinaryCell item : row) {
+            if (item.getType() == BinaryType.ZERO) {
+                rowNumZeros++;
+            } else if (item.getType() == BinaryType.ONE) {
+                rowNumOnes++;
+            }
+        }
+
+        if (rowNumZeros == size / 2 && binaryCell.getType() == BinaryType.ONE) {
+            return null;
+        }
+        else if (rowNumOnes == size / 2 && binaryCell.getType() == BinaryType.ZERO) {
             return null;
         }
 
-        return "Grouping of Three Ones or Zeros not found";
+        Set<BinaryCell> col = modified.getColCells(binaryCell.getLocation().x);
+        int colNumZeros = 0;
+        int colNumOnes = 0;
+
+        for (BinaryCell item : col) {
+            if (item.getType() == BinaryType.ZERO) {
+                colNumZeros++;
+            } else if (item.getType() == BinaryType.ONE) {
+                colNumOnes++;
+            }
+        }
+
+        if (colNumZeros == size / 2 && binaryCell.getType() == BinaryType.ONE) {
+            return null;
+        }
+        else if (colNumOnes == size / 2 && binaryCell.getType() == BinaryType.ZERO) {
+            return null;
+        }
+
+//        if (contraRule.checkContradictionAt(modified, binaryCell) != null) {
+//            return null;
+//        }
+
+        return "Row or column unbalanced";
     }
 
     @Override
