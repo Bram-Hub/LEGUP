@@ -6,6 +6,8 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.puzzle.binary.BinaryBoard;
 import edu.rpi.legup.puzzle.binary.BinaryCell;
 import edu.rpi.legup.puzzle.binary.BinaryType;
+
+import java.util.ArrayList;
 import java.util.Set;
 
 public class UnbalancedRowOrColumnContradictionRule extends ContradictionRule {
@@ -21,6 +23,7 @@ public class UnbalancedRowOrColumnContradictionRule extends ContradictionRule {
                 "Each row or column must contain an equal number of zeros and ones",
                 "edu/rpi/legup/images/binary/rules/UnbalancedRowColumnContradictionRule.png");
     }
+
 
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
