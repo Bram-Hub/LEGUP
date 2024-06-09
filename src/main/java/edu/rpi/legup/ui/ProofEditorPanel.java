@@ -51,6 +51,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private JMenu file;
     private JMenuItem newPuzzle,
             resetPuzzle,
+            //createPuzzle,
             saveProofAs,
             saveProofChange,
             helpTutorial,
@@ -135,6 +136,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         file = new JMenu("File");
         newPuzzle = new JMenuItem("Open");
         resetPuzzle = new JMenuItem("Reset Puzzle");
+        //createPuzzle = new JMenuItem("Create Puzzle");
         //        genPuzzle = new JMenuItem("Puzzle Generators"); // TODO: implement puzzle
         // generator
         saveProofAs = new JMenuItem("Save As"); // create a new file to save
@@ -310,6 +312,18 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         } else {
             resetPuzzle.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.CTRL_DOWN_MASK));
         }
+
+//        file.add(createPuzzle);
+//        createPuzzle.addActionListener((ActionEvent) -> openNewPuzzleDialog());
+//        if (os.equals("mac")) {
+//            createPuzzle.setAccelerator(
+//                    KeyStroke.getKeyStroke(
+//                            'C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+//        } else {
+//            createPuzzle.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_DOWN_MASK));
+//        }
+
+
         file.addSeparator();
 
         file.add(saveProofAs);
@@ -553,6 +567,11 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             }
         }
     }
+
+//    public void openNewPuzzleDialog() {
+//        CreatePuzzleDialog cpd = new CreatePuzzleDialog(this.frame, new HomePanel);
+//        cpd.setVisible(true);
+//    }
 
     /** save the proof in the current file */
     private void direct_save() {
