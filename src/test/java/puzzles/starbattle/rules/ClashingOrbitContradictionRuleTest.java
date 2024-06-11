@@ -1,6 +1,5 @@
 package puzzles.starbattle.rules;
 
-import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
 import edu.rpi.legup.puzzle.starbattle.rules.ClashingOrbitContradictionRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
