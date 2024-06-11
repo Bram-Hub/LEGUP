@@ -59,7 +59,7 @@ public class BinaryBoard extends GridBoard {
         return col;
     }
 
-    public Set<BinaryCell> getCol(int colNum) {
+    public Set<BinaryCell> getColCells(int colNum) {
         Set<BinaryCell> col = new HashSet<>();
         for (int i = 0; i < size; i++) {
             col.add(getCell(colNum, i));

@@ -141,7 +141,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         saveProofChange = new JMenuItem("Save"); // save to the current file
         preferences = new JMenuItem("Preferences");
         helpTutorial = new JMenuItem("Help"); // jump to web page
-        exit = new JMenuItem("Exit");
+        exit = new JMenuItem("Exit Solve Puzzle");
 
         edit = new JMenu("Edit");
         undo = new JMenuItem("Undo");
@@ -310,6 +310,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         } else {
             resetPuzzle.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.CTRL_DOWN_MASK));
         }
+
         file.addSeparator();
 
         file.add(saveProofAs);
