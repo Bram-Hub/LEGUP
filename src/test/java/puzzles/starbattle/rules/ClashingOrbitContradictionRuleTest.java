@@ -32,7 +32,7 @@ public class ClashingOrbitContradictionRuleTest {
     public void ClashingOrbitContradictionRule_DirectlyAdjacentCenter()
         throws InvalidFileFormatException
     {
-        TestUtilities.importTestBoard("puzzles/starbattle.rules/ClashingOrbitContradictionRule/DirectlyAdjacentCenter", starBattle);
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/ClashingOrbitContradictionRule/DirectlyAdjacentCenter", starBattle);
         TreeNode rootNode = starBattle.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
