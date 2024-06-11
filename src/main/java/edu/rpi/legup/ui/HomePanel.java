@@ -136,7 +136,7 @@ public class HomePanel extends LegupPanel {
         this.buttons[0].addActionListener(CursorController.createListener(this, openProofListener));
 
         this.buttons[1] =
-                new JButton("Create Puzzle") {
+                new JButton("Create New Puzzle") {
                     {
                         setSize(buttonSize, buttonSize);
                         setMaximumSize(getSize());
@@ -153,7 +153,7 @@ public class HomePanel extends LegupPanel {
         this.buttons[1].addActionListener(l -> this.openNewPuzzleDialog());
 
         this.buttons[2] =
-                new JButton("Edit Puzzle") {
+                new JButton("Edit Existing Puzzle") {
                     {
                         setSize(buttonSize, buttonSize);
                         setMaximumSize(getSize());

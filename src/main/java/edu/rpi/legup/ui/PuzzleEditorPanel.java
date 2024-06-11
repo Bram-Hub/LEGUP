@@ -274,10 +274,10 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             lastone = i;
         }
 
-        URL check_and_save =
+        URL save_and_check =
                 ClassLoader.getSystemClassLoader()
                         .getResource("edu/rpi/legup/images/Legup/Check.png");
-        ImageIcon imageIcon = new ImageIcon(check_and_save);
+        ImageIcon imageIcon = new ImageIcon(save_and_check);
         Image image = imageIcon.getImage();
         imageIcon =
                 new ImageIcon(
@@ -286,9 +286,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                                 this.TOOLBAR_ICON_SCALE,
                                 Image.SCALE_SMOOTH));
 
-        JButton checkandsave = new JButton("check and Save", imageIcon);
-        checkandsave.setFocusPainted(false);
-        checkandsave.addActionListener(
+        JButton saveandcheck = new JButton("Save And Check", imageIcon);
+        saveandcheck.setFocusPainted(false);
+        saveandcheck.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -307,8 +307,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                         frame.setTitle(puzzleName + " - " + puzzlename.getName());
                     }
                 });
-        getToolBarButtons()[lastone + 1] = checkandsave;
-        System.out.println("it is create new file");
+        getToolBarButtons()[lastone + 1] = saveandcheck;
 
         toolBar = new JToolBar();
         toolBar.setFloatable(false);
@@ -507,7 +506,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             elementFrame.setElements(puzzle);
         }
 
-        toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
+        //toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
         //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
     }
 
