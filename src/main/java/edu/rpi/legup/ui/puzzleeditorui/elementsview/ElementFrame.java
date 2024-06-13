@@ -57,6 +57,7 @@ public class ElementFrame extends JPanel {
         setMinimumSize(new Dimension(250, 256));
         setPreferredSize(new Dimension(330, 256));
 
+
         add(tabbedPane);
         add(status, BorderLayout.SOUTH);
 
@@ -77,8 +78,10 @@ public class ElementFrame extends JPanel {
     }
 
     public void setElements(Puzzle puzzle) {
-        nonPlaceableElementPanel.setElements(puzzle.getNonPlaceableElements());
-        placeableElementPanel.setElements(puzzle.getPlaceableElements());
+        if (nonPlaceableElementPanel.setElements(puzzle.getNonPlaceableElements()) == 0)
+            tabbedPane.remove(0);
+        if (placeableElementPanel.setElements(puzzle.getPlaceableElements()) == 0)
+            tabbedPane.remove(1);
     }
 
     public EditorElementController getController() {
