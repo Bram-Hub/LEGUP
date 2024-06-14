@@ -130,8 +130,7 @@ public class ClashingOrbitContradictionRuleTest {
 
         for (int i = 0; i < board.getHeight(); ++i) {
             for (int j = 0; j < board.getWidth(); ++j) {
-                Point point = new Point(j,i);
-                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(j, i)));
+                Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(j, i)));
             }
         }
     }
