@@ -7,7 +7,6 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeUtilities;
-
 import java.awt.*;
 import java.util.*;
 
@@ -17,19 +16,21 @@ public class UnreachableWhiteCellContradictionRule extends ContradictionRule {
     private final String INVALID_USE_MESSAGE = "Does not contain a contradiction at this index";
 
     public UnreachableWhiteCellContradictionRule() {
-        super("NURI-CONT-0002",
+        super(
+                "NURI-CONT-0002",
                 "Unreachable White Cell",
                 "A white cell must be able to reach a white region",
                 "edu/rpi/legup/images/nurikabe/contradictions/CantReach.png");
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
      *
-     * @param board         board to check contradiction
+     * @param board board to check contradiction
      * @param puzzleElement equivalent puzzleElement
      * @return null if the transition contains a contradiction at the specified puzzleElement,
-     * otherwise error message
+     *     otherwise error message
      */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
@@ -44,7 +45,8 @@ public class UnreachableWhiteCellContradictionRule extends ContradictionRule {
         int width = nurikabeBoard.getWidth();
 
         // Get regions
-        HashMap<NurikabeCell, Integer> whiteRegionMap = NurikabeUtilities.getWhiteRegionMap(nurikabeBoard);
+        HashMap<NurikabeCell, Integer> whiteRegionMap =
+                NurikabeUtilities.getWhiteRegionMap(nurikabeBoard);
         if (whiteRegionMap.containsKey(cell)) {
             return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
         }
@@ -83,15 +85,17 @@ public class UnreachableWhiteCellContradictionRule extends ContradictionRule {
                 for (NurikabeCell n : adj) {
                     int regionNeed = whiteRegionMap.getOrDefault(n, -1);
                     if (pathLength <= regionNeed) {
-                        return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
+                        return super.getNoContradictionMessage()
+                                + ": "
+                                + this.NO_CONTRADICTION_MESSAGE;
                     }
                 }
             }
 
             for (NurikabeCell n : adj) {
                 if (!visited.getOrDefault(n, false)
-                        && (n.getType() == NurikabeType.UNKNOWN ||
-                        n.getType() == NurikabeType.WHITE)) {
+                        && (n.getType() == NurikabeType.UNKNOWN
+                                || n.getType() == NurikabeType.WHITE)) {
                     visited.put(n, true);
                     queue.add(n);
                 }

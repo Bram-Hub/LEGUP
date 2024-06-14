@@ -1,18 +1,17 @@
 package edu.rpi.legup.ui.lookandfeel.components;
 
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialDrawingUtils;
-
+import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JRadioButton;
 import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicRadioButtonUI;
-import java.awt.Graphics;
 
 /*
  * Contributed by https://github.com/downToHell
  * */
-//TODO cambio colore del radio button.
+// TODO cambio colore del radio button.
 public class MaterialRadioButtonUI extends BasicRadioButtonUI {
 
     public static ComponentUI createUI(JComponent c) {

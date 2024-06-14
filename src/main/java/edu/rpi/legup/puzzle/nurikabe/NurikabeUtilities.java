@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.nurikabe;
 
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.utility.DisjointSets;
-
 import java.awt.*;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -50,18 +49,18 @@ public class NurikabeUtilities {
                 NurikabeCell rightCell = board.getCell(x + 1, y);
                 NurikabeCell downCell = board.getCell(x, y + 1);
 
-                if (cell.getType() == NurikabeType.NUMBER ||
-                        cell.getType() == NurikabeType.WHITE) {
-                    if (rightCell != null && (rightCell.getType() == NurikabeType.NUMBER ||
-                            rightCell.getType() == NurikabeType.WHITE)) {
+                if (cell.getType() == NurikabeType.NUMBER || cell.getType() == NurikabeType.WHITE) {
+                    if (rightCell != null
+                            && (rightCell.getType() == NurikabeType.NUMBER
+                                    || rightCell.getType() == NurikabeType.WHITE)) {
                         regions.union(cell, rightCell);
                     }
-                    if (downCell != null && (downCell.getType() == NurikabeType.NUMBER ||
-                            downCell.getType() == NurikabeType.WHITE)) {
+                    if (downCell != null
+                            && (downCell.getType() == NurikabeType.NUMBER
+                                    || downCell.getType() == NurikabeType.WHITE)) {
                         regions.union(cell, downCell);
                     }
-                }
-                else {
+                } else {
                     if (cell.getType() == NurikabeType.BLACK) {
                         if (rightCell != null && rightCell.getType() == NurikabeType.BLACK) {
                             regions.union(cell, rightCell);
@@ -69,8 +68,7 @@ public class NurikabeUtilities {
                         if (downCell != null && downCell.getType() == NurikabeType.BLACK) {
                             regions.union(cell, downCell);
                         }
-                    }
-                    else {
+                    } else {
                         if (cell.getType() == NurikabeType.UNKNOWN) {
                             if (rightCell != null && rightCell.getType() == NurikabeType.UNKNOWN) {
                                 regions.union(cell, rightCell);
@@ -110,13 +108,16 @@ public class NurikabeUtilities {
                 NurikabeCell cell = board.getCell(x, y);
                 NurikabeCell rightCell = board.getCell(x + 1, y);
                 NurikabeCell downCell = board.getCell(x, y + 1);
-                if (cell.getType() == NurikabeType.BLACK || cell.getType() == NurikabeType.UNKNOWN) {
-                    if (rightCell != null && (rightCell.getType() == NurikabeType.BLACK ||
-                            rightCell.getType() == NurikabeType.UNKNOWN)) {
+                if (cell.getType() == NurikabeType.BLACK
+                        || cell.getType() == NurikabeType.UNKNOWN) {
+                    if (rightCell != null
+                            && (rightCell.getType() == NurikabeType.BLACK
+                                    || rightCell.getType() == NurikabeType.UNKNOWN)) {
                         blackRegions.union(cell, rightCell);
                     }
-                    if (downCell != null && (downCell.getType() == NurikabeType.BLACK ||
-                            downCell.getType() == NurikabeType.UNKNOWN)) {
+                    if (downCell != null
+                            && (downCell.getType() == NurikabeType.BLACK
+                                    || downCell.getType() == NurikabeType.UNKNOWN)) {
                         blackRegions.union(cell, downCell);
                     }
                 }
@@ -139,7 +140,9 @@ public class NurikabeUtilities {
         DisjointSets<NurikabeCell> whiteRegions = new DisjointSets<>();
         for (PuzzleElement data : board.getPuzzleElements()) {
             NurikabeCell cell = (NurikabeCell) data;
-            if (cell.getType() == NurikabeType.WHITE || cell.getType() == NurikabeType.NUMBER || cell.getType() == NurikabeType.UNKNOWN) {
+            if (cell.getType() == NurikabeType.WHITE
+                    || cell.getType() == NurikabeType.NUMBER
+                    || cell.getType() == NurikabeType.UNKNOWN) {
                 whiteRegions.createSet(cell);
             }
         }
@@ -149,14 +152,19 @@ public class NurikabeUtilities {
                 NurikabeCell cell = board.getCell(x, y);
                 NurikabeCell rightCell = board.getCell(x + 1, y);
                 NurikabeCell downCell = board.getCell(x, y + 1);
-                if (cell.getType() == NurikabeType.WHITE || cell.getType() == NurikabeType.NUMBER ||
-                        cell.getType() == NurikabeType.UNKNOWN) {
-                    if (rightCell != null && (rightCell.getType() == NurikabeType.WHITE ||
-                            rightCell.getType() == NurikabeType.NUMBER || rightCell.getType() == NurikabeType.UNKNOWN)) {
+                if (cell.getType() == NurikabeType.WHITE
+                        || cell.getType() == NurikabeType.NUMBER
+                        || cell.getType() == NurikabeType.UNKNOWN) {
+                    if (rightCell != null
+                            && (rightCell.getType() == NurikabeType.WHITE
+                                    || rightCell.getType() == NurikabeType.NUMBER
+                                    || rightCell.getType() == NurikabeType.UNKNOWN)) {
                         whiteRegions.union(cell, rightCell);
                     }
-                    if (downCell != null && (downCell.getType() == NurikabeType.WHITE ||
-                            downCell.getType() == NurikabeType.NUMBER || downCell.getType() == NurikabeType.UNKNOWN)) {
+                    if (downCell != null
+                            && (downCell.getType() == NurikabeType.WHITE
+                                    || downCell.getType() == NurikabeType.NUMBER
+                                    || downCell.getType() == NurikabeType.UNKNOWN)) {
                         whiteRegions.union(cell, downCell);
                     }
                 }
@@ -166,9 +174,8 @@ public class NurikabeUtilities {
     }
 
     /**
-     * Makes a map where the keys are white/numbered cells
-     * and the values are the amount of cells that need
-     * to be added to the region
+     * Makes a map where the keys are white/numbered cells and the values are the amount of cells
+     * that need to be added to the region
      *
      * @param board nurikabe board
      * @return a map of cell keys to integer values
@@ -181,7 +188,7 @@ public class NurikabeUtilities {
         // Final mapping of cell to size
         HashMap<NurikabeCell, Integer> whiteRegionMap = new HashMap<>();
         for (NurikabeCell center : numberedCells) {
-            //BFS for each center to find the size of the region
+            // BFS for each center to find the size of the region
             int size = 1;
             // Mark all the vertices as not visited(By default
             // set as false)
@@ -224,8 +231,7 @@ public class NurikabeUtilities {
                 // If a adjacent has not been visited, then mark it
                 // visited and enqueue it
                 for (NurikabeCell n : adj) {
-                    if (!visited.getOrDefault(n, false)
-                            && n.getType() == NurikabeType.WHITE) {
+                    if (!visited.getOrDefault(n, false) && n.getType() == NurikabeType.WHITE) {
                         connected.add(n);
                         visited.put(n, true);
                         queue.add(n);
@@ -249,7 +255,8 @@ public class NurikabeUtilities {
      * @param center nurikabe cell
      * @return a set of all white/numbered cells in the region
      */
-    public static Set<NurikabeCell> getSurroundedRegionOf(NurikabeBoard board, NurikabeCell center) {
+    public static Set<NurikabeCell> getSurroundedRegionOf(
+            NurikabeBoard board, NurikabeCell center) {
         int width = board.getWidth();
         int height = board.getHeight();
 

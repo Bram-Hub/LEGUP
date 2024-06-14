@@ -7,13 +7,15 @@ import java.util.List;
 import java.util.Set;
 
 public final class ConnectedRegions {
-    public static List<Set<Point>> getConnectedRegions(int boundaryCell, int[][] cells, int width, int height) {
+    public static List<Set<Point>> getConnectedRegions(
+            int boundaryCell, int[][] cells, int width, int height) {
         Set<Integer> boundaryCells = new HashSet<>();
         boundaryCells.add(boundaryCell);
         return getConnectedRegions(boundaryCells, cells, width, height);
     }
 
-    public static List<Set<Point>> getConnectedRegions(Set<Integer> boundaryCells, int[][] cells, int width, int height) {
+    public static List<Set<Point>> getConnectedRegions(
+            Set<Integer> boundaryCells, int[][] cells, int width, int height) {
         boolean[][] visited = new boolean[height][width];
         List<Set<Point>> results = new ArrayList<>();
         for (int y = 0; y < height; y++) {
@@ -36,17 +38,26 @@ public final class ConnectedRegions {
         return false;
     }
 
-    public static Set<Point> getRegionAroundPoint(Point p, int boundaryCell, int[][] cells, int width, int height) {
+    public static Set<Point> getRegionAroundPoint(
+            Point p, int boundaryCell, int[][] cells, int width, int height) {
         Set<Integer> boundaryCells = new HashSet<>();
         boundaryCells.add(boundaryCell);
         return getRegionAroundPoint(p, boundaryCells, cells, width, height);
     }
 
-    public static Set<Point> getRegionAroundPoint(Point p, Set<Integer> boundaryCells, int[][] cells, int width, int height) {
+    public static Set<Point> getRegionAroundPoint(
+            Point p, Set<Integer> boundaryCells, int[][] cells, int width, int height) {
         return floodfill(boundaryCells, cells, new boolean[height][width], width, height, p.x, p.y);
     }
 
-    private static Set<Point> floodfill(Set<Integer> boundaryCells, int[][] cells, boolean[][] visited, int w, int h, int x, int y) {
+    private static Set<Point> floodfill(
+            Set<Integer> boundaryCells,
+            int[][] cells,
+            boolean[][] visited,
+            int w,
+            int h,
+            int x,
+            int y) {
         HashSet<Point> result = new HashSet<>();
         if ((x < 0) || (x >= w)) {
             return result;
