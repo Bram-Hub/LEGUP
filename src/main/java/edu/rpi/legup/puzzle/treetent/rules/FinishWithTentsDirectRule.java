@@ -9,26 +9,28 @@ import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentLine;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
-
 import java.awt.*;
 import java.util.List;
 
 public class FinishWithTentsDirectRule extends DirectRule {
 
     public FinishWithTentsDirectRule() {
-        super("TREE-BASC-0003", "Finish with Tents",
-                "Tents can be added to finish a row or column that has one open spot per required tent.",
+        super(
+                "TREE-BASC-0003",
+                "Finish with Tents",
+                "Tents can be added to finish a row or column that has one open spot per required"
+                        + " tent.",
                 "edu/rpi/legup/images/treetent/finishTent.png");
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
@@ -39,14 +41,14 @@ public class FinishWithTentsDirectRule extends DirectRule {
         TreeTentCell initCell = (TreeTentCell) initialBoard.getPuzzleElement(puzzleElement);
         TreeTentBoard finalBoard = (TreeTentBoard) transition.getBoard();
         TreeTentCell finalCell = (TreeTentCell) finalBoard.getPuzzleElement(puzzleElement);
-        if (!(initCell.getType() == TreeTentType.UNKNOWN && finalCell.getType() == TreeTentType.TENT)) {
+        if (!(initCell.getType() == TreeTentType.UNKNOWN
+                && finalCell.getType() == TreeTentType.TENT)) {
             return super.getInvalidUseOfRuleMessage() + ": This cell must be a tent.";
         }
 
         if (isForced(initialBoard, initCell)) {
             return null;
-        }
-        else {
+        } else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be tent.";
         }
     }
@@ -58,12 +60,13 @@ public class FinishWithTentsDirectRule extends DirectRule {
         List<TreeTentCell> tentsCol = board.getRowCol(loc.x, TreeTentType.TENT, false);
         List<TreeTentCell> unknownsCol = board.getRowCol(loc.x, TreeTentType.UNKNOWN, false);
 
-        return unknownsRow.size() <= board.getRowClues().get(loc.y).getData() - tentsRow.size() ||
-                unknownsCol.size() <= board.getColClues().get(loc.x).getData() - tentsCol.size();
+        return unknownsRow.size() <= board.getRowClues().get(loc.y).getData() - tentsRow.size()
+                || unknownsCol.size() <= board.getColClues().get(loc.x).getData() - tentsCol.size();
     }
 
     /**
-     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
      *
      * @param node tree node used to create default transition board
      * @return default board or null if this rule cannot be applied to this tree node
@@ -80,8 +83,7 @@ public class FinishWithTentsDirectRule extends DirectRule {
         }
         if (treeTentBoard.getModifiedData().isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return treeTentBoard;
         }
     }

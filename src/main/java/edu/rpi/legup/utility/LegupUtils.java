@@ -17,7 +17,8 @@ public class LegupUtils {
     private static final Logger LOGGER = Logger.getLogger(LegupUtils.class.getName());
 
     /**
-     * Scans all classes accessible from the context class loader which belong to the given package and subpackages.
+     * Scans all classes accessible from the context class loader which belong to the given package
+     * and subpackages.
      *
      * @param packageName The base package
      * @return The classes
@@ -54,12 +55,13 @@ public class LegupUtils {
     /**
      * Recursive method used to find all classes in a given directory and subdirs.
      *
-     * @param directory   The base directory
+     * @param directory The base directory
      * @param packageName The package name for classes found inside the base directory
      * @return The classes
      * @throws ClassNotFoundException
      */
-    private static List<Class> findClasses(File directory, String packageName) throws ClassNotFoundException {
+    private static List<Class> findClasses(File directory, String packageName)
+            throws ClassNotFoundException {
         List<Class> classes = new ArrayList<>();
         if (!directory.exists()) {
             return classes;
@@ -69,28 +71,34 @@ public class LegupUtils {
             if (file.isDirectory()) {
                 assert !file.getName().contains(".");
                 classes.addAll(findClasses(file, packageName + "." + file.getName()));
-            }
-            else {
+            } else {
                 if (file.getName().endsWith(".class")) {
-                    classes.add(Class.forName(packageName + '.' + file.getName().substring(0, file.getName().length() - 6)));
+                    classes.add(
+                            Class.forName(
+                                    packageName
+                                            + '.'
+                                            + file.getName()
+                                                    .substring(0, file.getName().length() - 6)));
                 }
             }
         }
         return classes;
     }
 
-    private static List<Class> findClassesZip(String path, String packageName) throws IOException, ClassNotFoundException {
+    private static List<Class> findClassesZip(String path, String packageName)
+            throws IOException, ClassNotFoundException {
         List<Class> classes = new ArrayList<>();
         ZipInputStream zip = new ZipInputStream(new FileInputStream(path));
         for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
-            if (!entry.isDirectory() && entry.getName().endsWith(".class") && entry.getName().startsWith(packageName)) {
+            if (!entry.isDirectory()
+                    && entry.getName().endsWith(".class")
+                    && entry.getName().startsWith(packageName)) {
                 String className = entry.getName().replace('/', '.');
                 String substr = className.substring(0, className.length() - ".class".length());
                 try {
                     Class<?> c = Class.forName(substr);
                     classes.add(c);
-                }
-                catch (LinkageError | ClassNotFoundException e) {
+                } catch (LinkageError | ClassNotFoundException e) {
                     System.out.println("Failed on " + substr);
                 }
             }

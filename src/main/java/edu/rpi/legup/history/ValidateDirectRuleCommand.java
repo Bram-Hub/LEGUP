@@ -6,7 +6,6 @@ import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
      * ValidateDesireRuleCommand Constructor creates a command for verifying a basic rule
      *
      * @param selection selection of tree elements
-     * @param rule      basic rule
+     * @param rule basic rule
      */
     public ValidateDirectRuleCommand(TreeViewSelection selection, DirectRule rule) {
         this.selection = selection.copy();
@@ -31,9 +30,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
         this.addNode = new HashMap<>();
     }
 
-    /**
-     * Executes an command
-     */
+    /** Executes an command */
     @Override
     public void executeCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
@@ -48,8 +45,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
             if (element.getType() == TreeElementType.NODE) {
                 TreeNodeView nodeView = (TreeNodeView) selectedView;
                 transitionView = nodeView.getChildrenViews().get(0);
-            }
-            else {
+            } else {
                 transitionView = (TreeTransitionView) selectedView;
             }
             TreeTransition transition = transitionView.getTreeElement();
@@ -63,8 +59,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
                 if (childNode == null) {
                     childNode = (TreeNode) tree.addTreeElement(transition);
                     addNode.put(transition, childNode);
-                }
-                else {
+                } else {
                     tree.addTreeElement(transition, childNode);
                 }
 
@@ -78,8 +73,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
         if (firstSelectedView.getType() == TreeElementType.NODE) {
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
             finalTreeElement = nodeView.getChildrenViews().get(0).getTreeElement();
-        }
-        else {
+        } else {
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
             finalTreeElement = transitionView.getChildView().getTreeElement();
         }
@@ -91,7 +85,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
      * Gets the reason why the command cannot be executed
      *
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
-     * otherwise null if command can be executed
+     *     otherwise null if command can be executed
      */
     @Override
     public String getErrorString() {
@@ -106,8 +100,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
                 if (nodeView.getChildrenViews().size() != 1) {
                     return CommandError.ONE_CHILD.toString();
                 }
-            }
-            else {
+            } else {
                 TreeTransitionView transView = (TreeTransitionView) view;
                 if (transView.getParentViews().size() > 1) {
                     return CommandError.CONTAINS_MERGE.toString();
@@ -117,9 +110,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
         return null;
     }
 
-    /**
-     * Undoes an command
-     */
+    /** Undoes an command */
     @Override
     public void undoCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
@@ -131,8 +122,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
             if (element.getType() == TreeElementType.NODE) {
                 TreeNodeView nodeView = (TreeNodeView) selectedView;
                 transitionView = nodeView.getChildrenViews().get(0);
-            }
-            else {
+            } else {
                 transitionView = (TreeTransitionView) selectedView;
             }
             TreeTransition transition = transitionView.getTreeElement();

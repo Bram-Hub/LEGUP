@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.sudoku;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,23 +34,23 @@ public class SudokuBoard extends GridBoard {
     }
 
     /**
-     * Gets the SudokuCell in the specified group index at the x and y location given
-     * The group index must be by less than the width (or height) of the board and the
-     * x and y location is relative to the group. This means the x and y values must be
-     * less the square root of the width (or height) of the board.
+     * Gets the SudokuCell in the specified group index at the x and y location given The group
+     * index must be by less than the width (or height) of the board and the x and y location is
+     * relative to the group. This means the x and y values must be less the square root of the
+     * width (or height) of the board.
      *
      * @param groupIndex group index of the cell
-     * @param x          x location relative to the group
-     * @param y          y location relative to the group
+     * @param x x location relative to the group
+     * @param y y location relative to the group
      * @return cell in the specified group index at the given x and y location
      */
     public SudokuCell getCell(int groupIndex, int x, int y) {
-        return getCell(x + (groupIndex % groupSize) * groupSize, y + (groupIndex / groupSize) * groupSize);
+        return getCell(
+                x + (groupIndex % groupSize) * groupSize, y + (groupIndex / groupSize) * groupSize);
     }
 
     /**
-     * Gets the size of the sudoku board
-     * Standard board is 9x9
+     * Gets the size of the sudoku board Standard board is 9x9
      *
      * @return size of the board
      */
@@ -60,8 +59,7 @@ public class SudokuBoard extends GridBoard {
     }
 
     /**
-     * Gets the minor group size of the sudoku board
-     * Standard board is 3x3x3x3
+     * Gets the minor group size of the sudoku board Standard board is 3x3x3x3
      *
      * @return minor group size
      */
@@ -139,8 +137,8 @@ public class SudokuBoard extends GridBoard {
     }
 
     /**
-     * Called when a {@link PuzzleElement} data on this has changed and passes in the equivalent puzzle element with
-     * the new data.
+     * Called when a {@link PuzzleElement} data on this has changed and passes in the equivalent
+     * puzzle element with the new data.
      *
      * @param puzzleElement equivalent puzzle element with the new data.
      */

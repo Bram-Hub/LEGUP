@@ -1,9 +1,5 @@
 package edu.rpi.legup.puzzle.shorttruthtable;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.TreeMap;
-
 public class ShortTruthTableOperation {
 
     public static final char AND = '^';
@@ -12,8 +8,7 @@ public class ShortTruthTableOperation {
     public static final char CONDITIONAL = '>';
     public static final char BICONDITIONAL = '-';
 
-    private ShortTruthTableOperation() {
-    }
+    private ShortTruthTableOperation() {}
 
     public static String getLogicSymbol(char c) {
         switch (c) {
@@ -48,10 +43,6 @@ public class ShortTruthTableOperation {
     }
 
     public static boolean isOperation(char c) {
-        return c == AND ||
-                c == OR ||
-                c == NOT ||
-                c == CONDITIONAL ||
-                c == BICONDITIONAL;
+        return c == AND || c == OR || c == NOT || c == CONDITIONAL || c == BICONDITIONAL;
     }
 }
