@@ -78,10 +78,12 @@ public class ElementFrame extends JPanel {
     }
 
     public void setElements(Puzzle puzzle) {
-        if (nonPlaceableElementPanel.setElements(puzzle.getNonPlaceableElements()) == 0)
+        if (nonPlaceableElementPanel.setElements(puzzle.getNonPlaceableElements()) == 0) {
             tabbedPane.remove(0);
-        if (placeableElementPanel.setElements(puzzle.getPlaceableElements()) == 0)
+        }
+        if (placeableElementPanel.setElements(puzzle.getPlaceableElements()) == 0) {
             tabbedPane.remove(1);
+        }
     }
 
     public EditorElementController getController() {
