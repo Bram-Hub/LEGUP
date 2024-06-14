@@ -249,107 +249,152 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         setMenuBar();
     }
 
-    private void setupToolBar() {
-        setToolBarButtons(new JButton[ToolbarName.values().length + 1]);
-        int lastone = 0;
-        for (int i = 0; i < ToolbarName.values().length - 1; i++) {
-            String toolBarName = ToolbarName.values()[i].toString();
-            URL resourceLocation =
-                    ClassLoader.getSystemClassLoader()
-                            .getResource("edu/rpi/legup/images/Legup/" + toolBarName + ".png");
+//    private void setupToolBar() {
+//        setToolBarButtons(new JButton[ToolbarName.values().length + 1]);
+//        int lastone = 0;
+//        for (int i = 0; i < ToolbarName.values().length - 1; i++) {
+//            String toolBarName = ToolbarName.values()[i].toString();
+//            URL resourceLocation =
+//                    ClassLoader.getSystemClassLoader()
+//                            .getResource("edu/rpi/legup/images/Legup/" + toolBarName + ".png");
+//
+//            // Scale the image icons down to make the buttons smaller
+//            ImageIcon imageIcon = new ImageIcon(resourceLocation);
+//            Image image = imageIcon.getImage();
+//            imageIcon =
+//                    new ImageIcon(
+//                            image.getScaledInstance(
+//                                    this.TOOLBAR_ICON_SCALE,
+//                                    this.TOOLBAR_ICON_SCALE,
+//                                    Image.SCALE_SMOOTH));
+//
+//            JButton button = new JButton(toolBarName, imageIcon);
+//            button.setFocusPainted(false);
+//            getToolBarButtons()[i] = button;
+//            lastone = i;
+//        }
+//
+//        URL save_and_check =
+//                ClassLoader.getSystemClassLoader()
+//                        .getResource("edu/rpi/legup/images/Legup/Check.png");
+//        ImageIcon imageIcon = new ImageIcon(save_and_check);
+//        Image image = imageIcon.getImage();
+//        imageIcon =
+//                new ImageIcon(
+//                        image.getScaledInstance(
+//                                this.TOOLBAR_ICON_SCALE,
+//                                this.TOOLBAR_ICON_SCALE,
+//                                Image.SCALE_SMOOTH));
+//
+//        JButton saveandcheck = new JButton("Save And Check", imageIcon);
+//        saveandcheck.setFocusPainted(false);
+//        saveandcheck.addActionListener(
+//                new ActionListener() {
+//                    @Override
+//                    public void actionPerformed(ActionEvent e) {
+//                        // savePuzzle();
+//                        String filename = savePuzzle();
+//                        File puzzlename = new File(filename);
+//                        System.out.println(filename);
+//
+//                        GameBoardFacade.getInstance().getLegupUI().displayPanel(1);
+//                        GameBoardFacade.getInstance()
+//                                .getLegupUI()
+//                                .getProofEditor()
+//                                .loadPuzzle(filename, new File(filename));
+//                        String puzzleName =
+//                                GameBoardFacade.getInstance().getPuzzleModule().getName();
+//                        frame.setTitle(puzzleName + " - " + puzzlename.getName());
+//                    }
+//                });
+//        getToolBarButtons()[lastone + 1] = saveandcheck;
+//
+//        toolBar = new JToolBar();
+//        toolBar.setFloatable(false);
+//        toolBar.setRollover(true);
+//
+//        for (int i = 0; i < getToolBarButtons().length - 1; i++) {
+//            for (int s = 0; s < TOOLBAR_SEPARATOR_BEFORE.length; s++) {
+//                if (i == TOOLBAR_SEPARATOR_BEFORE[s]) {
+//                    toolBar.addSeparator();
+//                }
+//            }
+//            String toolBarName = ToolbarName.values()[i].toString();
+//
+//            toolBar.add(getToolBarButtons()[i]);
+//            getToolBarButtons()[i].setToolTipText(toolBarName);
+//
+//            getToolBarButtons()[i].setVerticalTextPosition(SwingConstants.BOTTOM);
+//            getToolBarButtons()[i].setHorizontalTextPosition(SwingConstants.CENTER);
+//        }
+//
+//        //        toolBarButtons[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent
+//        // e) ->
+//        // promptPuzzle());
+//        //        toolBarButtons[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e) ->
+//        // saveProof());
+//        //        toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e) ->
+//        // GameBoardFacade.getInstance().getHistory().undo());
+//        //        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e) ->
+//        // GameBoardFacade.getInstance().getHistory().redo());
+//        toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e) -> {});
+//        toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e) -> {});
+//        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e) -> {});
+//
+//        //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
+//        //        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
+//        //        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
+//        toolBarButtons[ToolbarName.HINT.ordinal()].setEnabled(false);
+//        toolBarButtons[ToolbarName.SUBMIT.ordinal()].setEnabled(false);
+//        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].setEnabled(false);
+//
+//        this.add(toolBar, BorderLayout.NORTH);
+//    }
 
-            // Scale the image icons down to make the buttons smaller
-            ImageIcon imageIcon = new ImageIcon(resourceLocation);
-            Image image = imageIcon.getImage();
-            imageIcon =
-                    new ImageIcon(
-                            image.getScaledInstance(
-                                    this.TOOLBAR_ICON_SCALE,
-                                    this.TOOLBAR_ICON_SCALE,
-                                    Image.SCALE_SMOOTH));
+private void setupToolBar() {
+    setToolBarButtons(new JButton[1]);
 
-            JButton button = new JButton(toolBarName, imageIcon);
-            button.setFocusPainted(false);
-            getToolBarButtons()[i] = button;
-            lastone = i;
-        }
+    URL save_and_solve =
+            ClassLoader.getSystemClassLoader()
+                    .getResource("edu/rpi/legup/images/Legup/Check.png");
+    ImageIcon imageIcon = new ImageIcon(save_and_solve);
+    Image image = imageIcon.getImage();
+    imageIcon =
+            new ImageIcon(
+                    image.getScaledInstance(
+                            this.TOOLBAR_ICON_SCALE,
+                            this.TOOLBAR_ICON_SCALE,
+                            Image.SCALE_SMOOTH));
 
-        URL save_and_check =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/Check.png");
-        ImageIcon imageIcon = new ImageIcon(save_and_check);
-        Image image = imageIcon.getImage();
-        imageIcon =
-                new ImageIcon(
-                        image.getScaledInstance(
-                                this.TOOLBAR_ICON_SCALE,
-                                this.TOOLBAR_ICON_SCALE,
-                                Image.SCALE_SMOOTH));
+    JButton saveandsolve = new JButton("Save And Solve", imageIcon);
+    saveandsolve.setFocusPainted(false);
+    saveandsolve.addActionListener(
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // savePuzzle();
+                    String filename = savePuzzle();
+                    File puzzlename = new File(filename);
+                    System.out.println(filename);
 
-        JButton saveandcheck = new JButton("Save And Check", imageIcon);
-        saveandcheck.setFocusPainted(false);
-        saveandcheck.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        // savePuzzle();
-                        String filename = savePuzzle();
-                        File puzzlename = new File(filename);
-                        System.out.println(filename);
-
-                        GameBoardFacade.getInstance().getLegupUI().displayPanel(1);
-                        GameBoardFacade.getInstance()
-                                .getLegupUI()
-                                .getProofEditor()
-                                .loadPuzzle(filename, new File(filename));
-                        String puzzleName =
-                                GameBoardFacade.getInstance().getPuzzleModule().getName();
-                        frame.setTitle(puzzleName + " - " + puzzlename.getName());
-                    }
-                });
-        getToolBarButtons()[lastone + 1] = saveandcheck;
-
-        toolBar = new JToolBar();
-        toolBar.setFloatable(false);
-        toolBar.setRollover(true);
-
-        for (int i = 0; i < getToolBarButtons().length - 1; i++) {
-            for (int s = 0; s < TOOLBAR_SEPARATOR_BEFORE.length; s++) {
-                if (i == TOOLBAR_SEPARATOR_BEFORE[s]) {
-                    toolBar.addSeparator();
+                    GameBoardFacade.getInstance().getLegupUI().displayPanel(1);
+                    GameBoardFacade.getInstance()
+                            .getLegupUI()
+                            .getProofEditor()
+                            .loadPuzzle(filename, new File(filename));
+                    String puzzleName =
+                            GameBoardFacade.getInstance().getPuzzleModule().getName();
+                    frame.setTitle(puzzleName + " - " + puzzlename.getName());
                 }
-            }
-            String toolBarName = ToolbarName.values()[i].toString();
+            });
+    getToolBarButtons()[0] = saveandsolve;
 
-            toolBar.add(getToolBarButtons()[i]);
-            getToolBarButtons()[i].setToolTipText(toolBarName);
-
-            getToolBarButtons()[i].setVerticalTextPosition(SwingConstants.BOTTOM);
-            getToolBarButtons()[i].setHorizontalTextPosition(SwingConstants.CENTER);
-        }
-
-        //        toolBarButtons[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent
-        // e) ->
-        // promptPuzzle());
-        //        toolBarButtons[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e) ->
-        // saveProof());
-        //        toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e) ->
-        // GameBoardFacade.getInstance().getHistory().undo());
-        //        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e) ->
-        // GameBoardFacade.getInstance().getHistory().redo());
-        toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e) -> {});
-        toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e) -> {});
-        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e) -> {});
-
-        //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
-        //        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
-        //        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.HINT.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.SUBMIT.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].setEnabled(false);
-
-        this.add(toolBar, BorderLayout.NORTH);
-    }
+    toolBar = new JToolBar();
+    toolBar.setFloatable(false);
+    toolBar.setRollover(true);
+    toolBar.add(getToolBarButtons()[0]);
+    this.add(toolBar, BorderLayout.NORTH);
+}
 
     public void loadPuzzleFromHome(String game, int rows, int columns)
             throws IllegalArgumentException {

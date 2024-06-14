@@ -1,11 +1,11 @@
 package edu.rpi.legup.puzzle.binary.elements;
 
-import edu.rpi.legup.model.elements.NonPlaceableElement;
+import edu.rpi.legup.model.elements.PlaceableElement;
 
-public class UnknownTile extends NonPlaceableElement {
+public class UnknownTile extends PlaceableElement {
     public UnknownTile() {
         super(
-                "BINA-UNPL-0002",
+                "BINA-PLAC-0002",
                 "Unknown Tile",
                 "A blank tile",
                 "edu/rpi/legup/images/binary/tiles/UnknownTile.png");
