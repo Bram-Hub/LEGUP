@@ -641,6 +641,11 @@ public class HomePanel extends LegupPanel {
             throw new IllegalArgumentException("ERROR: Invalid dimensions given");
         }
 
+        if (this.legupUI == null) {
+            System.err.println("Error: legupUI is null in HomePanel");
+            return;
+        }
+
         // Set game type on the puzzle editor
         this.legupUI.displayPanel(2);
         this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, rows, columns);

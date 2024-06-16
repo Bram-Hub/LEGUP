@@ -14,53 +14,36 @@ public class ElementFrame extends JPanel {
     private static final String htmlTail = "</html>";
 
     private PlaceableElementPanel placeableElementPanel;
-    private NonPlaceableElementPanel nonPlaceableElementPanel;
-    private JTabbedPane tabbedPane;
+    //private JTabbedPane tabbedPane;
     private ButtonGroup buttonGroup;
 
     private EditorElementController controller;
 
     public ElementFrame(EditorElementController controller) {
-        this.controller = controller;
-        MaterialTabbedPaneUI tabOverride =
-                new MaterialTabbedPaneUI() {
-                    // this prevents the tabs from moving around when you select them
-                    @Override
-                    protected boolean shouldRotateTabRuns(int i) {
-                        return false;
-                    }
-                };
 
-        this.tabbedPane = new JTabbedPane();
-        tabbedPane.setUI(tabOverride);
+        this.controller = controller;
+
         JLabel status = new JLabel("", SwingConstants.CENTER);
         this.buttonGroup = new ButtonGroup();
 
-        nonPlaceableElementPanel = new NonPlaceableElementPanel(this);
-        // nonPlaceableElementPanel.setMinimumSize(new Dimension(100,200));
-        tabbedPane.addTab(
-                nonPlaceableElementPanel.getName(),
-                nonPlaceableElementPanel.getIcon(),
-                new JScrollPane(nonPlaceableElementPanel),
-                nonPlaceableElementPanel.getToolTip());
+        // Parent panel to hold all elements
+        JPanel elementPanel = new JPanel();
+        elementPanel.setLayout(new BoxLayout(elementPanel, BoxLayout.Y_AXIS));
 
         placeableElementPanel = new PlaceableElementPanel(this);
-        // placeableElementPanel.setMinimuSize(new Dimension(100,200));
-        tabbedPane.addTab(
-                placeableElementPanel.getName(),
-                placeableElementPanel.getIcon(),
-                new JScrollPane(placeableElementPanel),
-                placeableElementPanel.getToolTip());
-        tabbedPane.setTabPlacement(JTabbedPane.TOP);
+        placeableElementPanel.setMinimumSize(new Dimension(100, 200));
+        elementPanel.add(new JScrollPane(placeableElementPanel));
 
+        // Set layout and dimensions for the main panel
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(250, 256));
         setPreferredSize(new Dimension(330, 256));
 
-
-        add(tabbedPane);
+        // Add components to the main panel
+        add(elementPanel, BorderLayout.CENTER);
         add(status, BorderLayout.SOUTH);
 
+        // Center-align the titled border
         TitledBorder title = BorderFactory.createTitledBorder("Elements");
         title.setTitleJustification(TitledBorder.CENTER);
         setBorder(title);
@@ -70,19 +53,16 @@ public class ElementFrame extends JPanel {
         return buttonGroup;
     }
 
-    public void resetSize() {
-        int buttonWidth =
-                ((ElementPanel) tabbedPane.getSelectedComponent())
-                        .getElementButtons()[0].getWidth();
-        this.setMinimumSize(new Dimension(2 * buttonWidth + 64, this.getHeight()));
-    }
+//    public void resetSize() {
+//        int buttonWidth =
+//                ((ElementPanel) tabbedPane.getSelectedComponent())
+//                        .getElementButtons()[0].getWidth();
+//        this.setMinimumSize(new Dimension(2 * buttonWidth + 64, this.getHeight()));
+//    }
 
     public void setElements(Puzzle puzzle) {
-        if (nonPlaceableElementPanel.setElements(puzzle.getNonPlaceableElements()) == 0) {
-            tabbedPane.remove(0);
-        }
         if (placeableElementPanel.setElements(puzzle.getPlaceableElements()) == 0) {
-            tabbedPane.remove(1);
+
         }
     }
 
@@ -90,13 +70,9 @@ public class ElementFrame extends JPanel {
         return controller;
     }
 
-    public JTabbedPane getTabbedPane() {
-        return tabbedPane;
-    }
-
-    public NonPlaceableElementPanel getNonPlaceableElementPanel() {
-        return nonPlaceableElementPanel;
-    }
+//    public JTabbedPane getTabbedPane() {
+//        return tabbedPane;
+//    }
 
     public PlaceableElementPanel getPlaceableElementPanel() {
         return placeableElementPanel;
