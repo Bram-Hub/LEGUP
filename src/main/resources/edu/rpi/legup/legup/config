@@ -32,20 +32,21 @@
             qualifiedClassName="edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTable"
             fileType=".xml"
             fileCreationDisabled="false"/>
-        <puzzle name="Sudoku" qualifiedClassName="edu.rpi.legup.puzzle.sudoku.Sudoku"
+        <puzzle name="Skyscrapers"
+            qualifiedClassName="edu.rpi.legup.puzzle.skyscrapers.Skyscrapers"
             fileType=".xml"
             fileCreationDisabled="true"/>
-        <puzzle name="StarBattle" 
-            qualifiedClassName="edu.rpi.legup.puzzle.starbattle.StarBattle" 
+        <puzzle name="StarBattle"
+            qualifiedClassName="edu.rpi.legup.puzzle.starbattle.StarBattle"
+            fileType=".xml"
+            fileCreationDisabled="true"/>
+        <puzzle name="Sudoku"
+            qualifiedClassName="edu.rpi.legup.puzzle.sudoku.Sudoku"
             fileType=".xml"
             fileCreationDisabled="true"/>
         <puzzle name="TreeTent"
             qualifiedClassName="edu.rpi.legup.puzzle.treetent.TreeTent"
             fileType=".xml"
             fileCreationDisabled="false"/>
-	    <puzzle name="Skyscrapers"
-	        qualifiedClassName="edu.rpi.legup.puzzle.skyscrapers.Skyscrapers"
-	        fileType=".xml"
-	        fileCreationDisabled="true"/>
     </puzzles>
 </Legup>
