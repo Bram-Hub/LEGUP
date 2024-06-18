@@ -25,7 +25,7 @@ public class EliminateTheImpossible extends DirectRule {
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
 
-        return "Grouping of Three Ones or Zeros not found";
+        return "Grouping of Three Ones or Zeros not found TEST";
     }
 
     @Override
