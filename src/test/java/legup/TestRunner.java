@@ -94,7 +94,7 @@ public class TestRunner {
         printTestResults(result36);
         Result result37 = JUnitCore.runClasses(TentOrGrassCaseRuleTest.class);
         printTestResults(result37);
-      
+
         // Minesweeper
         Result result38 = JUnitCore.runClasses(MinesweeperUtilitiesTest.class);
         printTestResults(result38);
