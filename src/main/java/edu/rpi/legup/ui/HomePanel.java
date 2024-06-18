@@ -70,6 +70,7 @@ public class HomePanel extends LegupPanel {
         this.legupUI = legupUI;
         this.frame = frame;
         setLayout(new GridLayout(1, 2));
+        setPreferredSize(new Dimension(440, 250));
         initText();
         initButtons();
     }
@@ -136,7 +137,7 @@ public class HomePanel extends LegupPanel {
         this.buttons[0].addActionListener(CursorController.createListener(this, openProofListener));
 
         this.buttons[1] =
-                new JButton("Create New Puzzle") {
+                new JButton("Create Puzzle") {
                     {
                         setSize(buttonSize, buttonSize);
                         setMaximumSize(getSize());
@@ -169,6 +170,8 @@ public class HomePanel extends LegupPanel {
         this.buttons[2].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[2].addActionListener(
                 CursorController.createListener(this, openPuzzleListener)); // PLACEHOLDER
+
+        this.buttons[2].setVisible(false);
 
         for (int i = 0; i < this.buttons.length - 1; i++) { // -1 to avoid the batch grader button
             this.buttons[i].setBounds(200, 200, 700, 700);
@@ -502,7 +505,7 @@ public class HomePanel extends LegupPanel {
         this.removeAll();
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        this.legupUI.setTitle("LEGUP: A Better Way to Learn Formal Logic");
+        this.legupUI.setTitle("LEGUP: A Better Way To Learn Formal Logic");
 
         JPanel buttons = new JPanel();
         buttons.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -639,6 +642,11 @@ public class HomePanel extends LegupPanel {
                     "ERROR: Invalid Dimensions",
                     JOptionPane.ERROR_MESSAGE);
             throw new IllegalArgumentException("ERROR: Invalid dimensions given");
+        }
+
+        if (this.legupUI == null) {
+            System.err.println("Error: legupUI is null in HomePanel");
+            return;
         }
 
         // Set game type on the puzzle editor

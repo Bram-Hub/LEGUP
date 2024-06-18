@@ -1,2 +1,2 @@
-BINA-PLAC-0001 : NumberTile
-BINA-PLAC-0002 : UnknownTile
+BINA-ELEM-0001 : NumberTile
+BINA-ELEM-0002 : UnknownTile
