@@ -113,9 +113,9 @@ public class TooManyStarsContradictionRuleTests {
             }
         }
     }
-    /* Tests the Too Many Stars contradiction rule where it is used incorrectly */
+    /*Tests the Too Many Stars contradiction rule for a false contradiction. */
     @Test
-    public void TooManyStarsContradictionRule_Correct()
+    public void TooManyStarsContradictionRule_FalseContradiction()
             throws InvalidFileFormatException
     {
         TestUtilities.importTestBoard("puzzles/starbattle/rules/TooManyStarsContradictionRule/Correct", starBattle);
@@ -125,13 +125,12 @@ public class TooManyStarsContradictionRuleTests {
 
         StarBattleBoard board = (StarBattleBoard) transition.getBoard();
 
-        Assert.assertNull(RULE.checkContradiction((StarBattleBoard) transition.getBoard()));
+        Assert.assertNotNull(RULE.checkContradiction((StarBattleBoard) transition.getBoard()));
 
         for (int i = 0; i < board.getHeight(); ++i) {
             for (int j = 0; j < board.getWidth(); ++j) {
                 Point point = new Point(j,i);
                 Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(j, i)));
-
             }
         }
     }
