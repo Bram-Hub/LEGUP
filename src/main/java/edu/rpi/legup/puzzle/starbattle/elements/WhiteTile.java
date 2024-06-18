@@ -5,7 +5,7 @@ import edu.rpi.legup.model.elements.PlaceableElement;
 public class WhiteTile extends PlaceableElement {
     public WhiteTile() {
         super(
-                "STBL-PLAC-0001",
+                "STBL-ELEM-0004",
                 "White Tile",
                 "The white tile",
                 "edu/rpi/legup/images/starbattle/white.gif");
