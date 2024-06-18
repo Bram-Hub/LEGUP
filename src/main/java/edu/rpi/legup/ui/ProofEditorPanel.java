@@ -864,7 +864,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     private void directionsToolButton() {
         String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
-        System.out.println(puzzleName);
+        //System.out.println(puzzleName);
         try {
             if (puzzleName.equals("Fillapix")) {
                 java.awt.Desktop.getDesktop()
