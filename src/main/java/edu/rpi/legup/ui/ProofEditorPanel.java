@@ -81,7 +81,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     public static final int IMD_FEEDBACK = 32;
     public static final int INTERN_RO = 64;
     public static final int AUTO_JUST = 128;
-    static final int[] TOOLBAR_SEPARATOR_BEFORE = {2, 4, 8};
+    static final int[] TOOLBAR_SEPARATOR_BEFORE = {1};
     private static final String[] PROFILES = {
         "No Assistance",
         "Rigorous Proof",
@@ -167,7 +167,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
         proof.add(add);
 
-        delete = new JMenuItem("Delete");
+        delete = new JMenuItem("D\"Check All\"elete");
         delete.addActionListener(a -> treePanel.delete());
         if (os.equals("mac")) {
             delete.setAccelerator(
@@ -792,23 +792,27 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         // GameBoardFacade.getInstance().getHistory().undo());
         //        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e) ->
         // GameBoardFacade.getInstance().getHistory().redo());
-        toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e) -> {});
+        //toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e) -> {});
         toolBarButtons[ToolbarName.CHECK.ordinal()].addActionListener(
                 (ActionEvent e) -> checkProof());
-        toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e) -> {});
-        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e) -> {});
+        //toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e) -> {});
+        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e) -> directionsToolButton());
 
-        toolBarButtons[ToolbarName.CHECK_ALL.ordinal()].addActionListener(
-                (ActionEvent e) -> checkProofAll());
+//        toolBarButtons[ToolbarName.CHECK_ALL.ordinal()].addActionListener(
+//                (ActionEvent e) -> checkProofAll());
 
         //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
         //        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
         //        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.HINT.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.SUBMIT.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.CHECK_ALL.ordinal()].setEnabled(true);
+        //toolBarButtons[ToolbarName.HINT.ordinal()].setEnabled(false);
+        toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
+        //toolBarButtons[ToolbarName.SUBMIT.ordinal()].setEnabled(false);
+        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].setEnabled(true);
+        //toolBarButtons[ToolbarName.CHECK_ALL.ordinal()].setEnabled(false);
+
+//        toolBarButtons[ToolbarName.HINT.ordinal()].setVisible(false);
+//        toolBarButtons[ToolbarName.SUBMIT.ordinal()].setVisible(false);
+//        toolBarButtons[ToolbarName.CHECK_ALL.ordinal()].setVisible(false);
 
         this.add(toolBar, BorderLayout.NORTH);
     }
@@ -858,6 +862,34 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
     }
 
+    private void directionsToolButton() {
+        String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+        System.out.println(puzzleName);
+        try {
+            if (puzzleName.equals("Fillapix")) {
+                java.awt.Desktop.getDesktop()
+                        .browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki/Fill-a-pix-rules"));
+            }
+            else if (puzzleName.equals("LightUp")) {
+                java.awt.Desktop.getDesktop()
+                        .browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki/Light-up-rules"));
+            }
+            else if (puzzleName.equals("TreeTent")) {
+                java.awt.Desktop.getDesktop()
+                        .browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki/Tree-tent-rules"));
+            }
+            else if (puzzleName.equals("ShortTruthTables")) {
+                java.awt.Desktop.getDesktop()
+                        .browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki/Short-truth-table-rules"));
+            }
+            else {
+                java.awt.Desktop.getDesktop()
+                        .browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki/" + puzzleName + "-rules"));
+            }
+        } catch (IOException e) {
+            LOGGER.error("Can't open web page");
+        }
+    }
     private void repaintAll() {
         boardView.repaint();
         treePanel.repaint();
