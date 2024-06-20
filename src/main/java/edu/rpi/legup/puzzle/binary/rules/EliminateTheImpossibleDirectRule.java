@@ -11,6 +11,8 @@ import edu.rpi.legup.puzzle.binary.BinaryCell;
 
 import java.util.ArrayList;
 
+// dont mind me
+
 public class EliminateTheImpossibleDirectRule extends DirectRule {
     private final String INVALID_USE_MESSAGE = "Number at cell is incorrect";
 
