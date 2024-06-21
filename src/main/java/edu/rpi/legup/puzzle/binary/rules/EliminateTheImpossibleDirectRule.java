@@ -8,6 +8,9 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.binary.BinaryBoard;
 import edu.rpi.legup.puzzle.binary.BinaryCell;
 
+import java.util.LinkedList;
+import java.util.Queue;
+import java.lang.Math.*;
 import java.util.ArrayList;
 
 public class EliminateTheImpossibleDirectRule extends DirectRule {
@@ -22,37 +25,39 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
     }
 
     // Function to generate all binary strings
-    static String generateAllBinaryStrings(int n, String arr, int i)
+    void generateAllBinaryStrings(double x, int poss, ArrayList<String> possibilities)
     {
-        if (i == n)
-        {
-            return arr;
+        int count = (int)x;
+        int finalLen = poss;
+        
+        Queue<String> q = new LinkedList<String>();
+        q.add("1");
+        while (count-- > 0) {
+            String s1 = q.peek();
+            q.remove();
+            
+            String newS1 = s1;
+            int curLen = newS1.length();
+            
+            int runFor = poss - curLen;
+            if(curLen < finalLen){
+                
+                
+                for(int i = 0; i < runFor; i++){
+                    newS1 = "0" + newS1;
+                }
+                
+            }
+            
+            System.out.println(newS1);
+            possibilities.add(newS1);
+            String s2 = s1;
+            q.add(s1 + "0");
+            q.add(s2 + "1");
         }
 
-        // First assign "0" at ith position
-        // and try for all other permutations
-        // for remaining positions
-        arr = arr + "0";
-        generateAllBinaryStrings(n, arr, i + 1);
-
-        // And then assign "1" at ith position
-        // and try for all other permutations
-        // for remaining positions
-        arr = arr + "1";
-        generateAllBinaryStrings(n, arr, i + 1);
-
-        return null;
     }
 
-    public ArrayList<String> binaryCombiniations(int numEmpty) {
-
-        ArrayList<String> possibilities = new ArrayList<>();
-        String arr = "";
-        if (generateAllBinaryStrings(numEmpty, arr, 0) != null) {
-            possibilities.add(arr);
-        }
-        return null;
-    }
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         // This function should first check if there are three open spaces, if so, continue, else figure out
@@ -62,6 +67,13 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
 
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
+
+        ArrayList<String> result = new ArrayList<String>();
+        generateAllBinaryStrings(10,4,result);
+
+        for(String s : result){
+            System.out.println(s);
+        }
 
         return "Grouping of Three Ones or Zeros not found TEST";
     }
