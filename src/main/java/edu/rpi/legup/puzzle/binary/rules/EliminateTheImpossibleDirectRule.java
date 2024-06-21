@@ -1,6 +1,5 @@
 package edu.rpi.legup.puzzle.binary.rules;
 
-
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.DirectRule;
@@ -10,8 +9,6 @@ import edu.rpi.legup.puzzle.binary.BinaryBoard;
 import edu.rpi.legup.puzzle.binary.BinaryCell;
 
 import java.util.ArrayList;
-
-// dont mind me
 
 public class EliminateTheImpossibleDirectRule extends DirectRule {
     private final String INVALID_USE_MESSAGE = "Number at cell is incorrect";
@@ -58,6 +55,11 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
     }
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+        // This function should first check if there are three open spaces, if so, continue, else figure out
+        // how many spots are open, all the possible binary combinations that could be put there, and by
+        // analyzing the common factors, logically determine which number has a set spot, meaning that we know
+        // that a certain spot must be a zero or a one
+
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
 
