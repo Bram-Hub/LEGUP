@@ -38,13 +38,14 @@ public class TooFewStarsContradictionRule extends ContradictionRule {
         int rowCount = 0;
         int columnCount = 0;
         for (int i = 0; i < sbBoard.getSize(); ++i) {
-            if (sbBoard.getCell(row, i).getType() != StarBattleCellType.BLACK) {
+            if (sbBoard.getCell(i, row).getType() != StarBattleCellType.BLACK) {
                 ++rowCount;
             }
-            if (sbBoard.getCell(i, column).getType() != StarBattleCellType.BLACK) {
+            if (sbBoard.getCell(column, i).getType() != StarBattleCellType.BLACK) {
                 ++columnCount;
             }
         }
+
         if (rowCount < sbBoard.getPuzzleNumber() || columnCount < sbBoard.getPuzzleNumber()) {
             return null;
         }
