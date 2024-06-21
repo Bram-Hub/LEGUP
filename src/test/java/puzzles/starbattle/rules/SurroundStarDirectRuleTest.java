@@ -150,7 +150,7 @@ public class SurroundStarDirectRuleTest {
     }
 
     @Test
-    public void SurroundStarDirectRule_FalseContradiction()
+    public void SurroundStarDirectRule_FalseSurroundStar()
         throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/starbattle/rules/SurroundStarDirectRule/CornerStar", starbattle);
         TreeNode rootNode = starbattle.getTree().getRootNode();
