@@ -25,10 +25,15 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
     }
 
     // Function to generate all binary strings
-    void generateAllBinaryStrings(double x, int poss, ArrayList<String> possibilities)
+    void generateAllBinaryStrings(double countTo, int spots, ArrayList<String> possibilities)
+    // This function generates all the possible combinations of 0s and 1s for a certain size, it does this
+    // by basically just counting from 0 to the number - 1, so if you want all the possible combinations for 3
+    // spots, you can just count in binary from 0 to 7 (taking 3 spots, so from 000 to 111). To be practical,
+    // the function does not return an array with all the possibilities as an array, but populates the 
+    // arraylist you pass in (possibilities)
     {
-        int count = (int)x;
-        int finalLen = poss;
+        int count = (int)countTo;
+        int finalLen = spots;
         
         Queue<String> q = new LinkedList<String>();
         q.add("1");
@@ -39,7 +44,7 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
             String newS1 = s1;
             int curLen = newS1.length();
             
-            int runFor = poss - curLen;
+            int runFor = spots - curLen;
             if(curLen < finalLen){
                 
                 
@@ -69,7 +74,7 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
 
         ArrayList<String> result = new ArrayList<String>();
-        generateAllBinaryStrings(10,4,result);
+        generateAllBinaryStrings(16,4,result);
 
         for(String s : result){
             System.out.println(s);
