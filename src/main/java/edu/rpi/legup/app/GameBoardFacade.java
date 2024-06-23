@@ -175,44 +175,47 @@ public class GameBoardFacade implements IHistorySubject {
      * @param columns the number of columns on the board
      */
     public void loadPuzzle(String game, int rows, int columns) throws RuntimeException {
-        String qualifiedClassName = config.getPuzzleClassForName(game);
-        LOGGER.debug("Loading " + qualifiedClassName);
+        if (!game.equals("")) {
+            String qualifiedClassName = config.getPuzzleClassForName(game);
+            LOGGER.debug("Loading " + qualifiedClassName);
 
-        try {
-            Class<?> c = Class.forName(qualifiedClassName);
-            Constructor<?> cons = c.getConstructor();
-            Puzzle puzzle = (Puzzle) cons.newInstance();
+            try {
+                Class<?> c = Class.forName(qualifiedClassName);
+                Constructor<?> cons = c.getConstructor();
+                Puzzle puzzle = (Puzzle) cons.newInstance();
 
-            PuzzleImporter importer = puzzle.getImporter();
-            if (importer == null) {
-                LOGGER.error("Puzzle importer is null");
-                throw new RuntimeException("Puzzle importer null");
+                PuzzleImporter importer = puzzle.getImporter();
+                if (importer == null) {
+                    LOGGER.error("Puzzle importer is null");
+                    throw new RuntimeException("Puzzle importer null");
+                }
+
+                // Theoretically, this exception should never be thrown, since LEGUP should not be
+                // allowing the user to give row/column input for a puzzle that doesn't support it
+                if (!importer.acceptsRowsAndColumnsInput()) {
+                    throw new IllegalArgumentException(
+                            puzzle.getName() + " does not accept rows and columns input");
+                }
+
+                setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
+                importer.initializePuzzle(rows, columns);
+
+                puzzle.initializeView();
+                //
+                // puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
+                setPuzzleEditor(puzzle);
+            } catch (IllegalArgumentException exception) {
+                throw new IllegalArgumentException(exception.getMessage());
+            } catch (ClassNotFoundException
+                     | NoSuchMethodException
+                     | InvocationTargetException
+                     | IllegalAccessException
+                     | InstantiationException e) {
+                LOGGER.error(e);
+                throw new RuntimeException("Puzzle creation error");
             }
-
-            // Theoretically, this exception should never be thrown, since LEGUP should not be
-            // allowing the user to give row/column input for a puzzle that doesn't support it
-            if (!importer.acceptsRowsAndColumnsInput()) {
-                throw new IllegalArgumentException(
-                        puzzle.getName() + " does not accept rows and columns input");
-            }
-
-            setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
-            importer.initializePuzzle(rows, columns);
-
-            puzzle.initializeView();
-            //
-            // puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
-            setPuzzleEditor(puzzle);
-        } catch (IllegalArgumentException exception) {
-            throw new IllegalArgumentException(exception.getMessage());
-        } catch (ClassNotFoundException
-                | NoSuchMethodException
-                | InvocationTargetException
-                | IllegalAccessException
-                | InstantiationException e) {
-            LOGGER.error(e);
-            throw new RuntimeException("Puzzle creation error");
         }
+
     }
 
     public void loadPuzzle(String game, String[] statements) {

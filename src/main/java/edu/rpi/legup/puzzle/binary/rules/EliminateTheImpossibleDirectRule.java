@@ -16,7 +16,7 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
 
     public EliminateTheImpossibleDirectRule() {
         super(
-                "BINA-BASC-0003",
+                "BINA-BASC-0004",
                 "Eliminate The Impossible",
                 "If three adjacent empty cells are open, prevents a trio of numbers to exist",
                 "edu/rpi/legup/images/binary/rules/OneTileGapDirectRule.png");
@@ -25,6 +25,7 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
     // Function to generate all binary strings
     static String generateAllBinaryStrings(int n, String arr, int i)
     {
+        System.out.println(i);
         if (i == n)
         {
             return arr;
@@ -42,23 +43,34 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
         arr = arr + "1";
         generateAllBinaryStrings(n, arr, i + 1);
 
+
         return null;
     }
 
     public ArrayList<String> binaryCombiniations(int numEmpty) {
-
+        System.out.println("FUNCTION");
         ArrayList<String> possibilities = new ArrayList<>();
         String arr = "";
-        if (generateAllBinaryStrings(numEmpty, arr, 0) != null) {
-            possibilities.add(arr);
+
+        generateAllBinaryStrings(numEmpty, arr, 0);
+//
+//        if (generateAllBinaryStrings(numEmpty, arr, 0) != null) {
+//            //System.out.println("T)");
+//            possibilities.add(arr);
+//        }
+
+        for (int i = 0; i < possibilities.size(); i++) {
+            System.out.println(possibilities.get(i));
         }
         return null;
     }
+
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
-
+        System.out.println("HI");
+        binaryCombiniations(4);
         return "Grouping of Three Ones or Zeros not found";
     }
 

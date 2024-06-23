@@ -248,10 +248,10 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     @Override
     public void makeVisible() {
         this.removeAll();
-
         setupToolBar();
         setupContent();
         setMenuBar();
+        toolBar.setVisible(false);
     }
 
     private void setupToolBar() {
@@ -292,24 +292,26 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                                 this.TOOLBAR_ICON_SCALE,
                                 Image.SCALE_SMOOTH));
 
-        JButton saveandsolve = new JButton("Save And Solve", SaveSolveImageIcon);
+        JButton saveandsolve = new JButton("Save & Solve", SaveSolveImageIcon);
         saveandsolve.setFocusPainted(false);
         saveandsolve.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        String filename = savePuzzle();
-                        File puzzlename = new File(filename);
-                        System.out.println(filename);
+                        if (GameBoardFacade.getInstance().getPuzzleModule() != null) {
+                            String filename = savePuzzle();
+                            File puzzlename = new File(filename);
+                            System.out.println(filename);
 
-                        GameBoardFacade.getInstance().getLegupUI().displayPanel(1);
-                        GameBoardFacade.getInstance()
-                                .getLegupUI()
-                                .getProofEditor()
-                                .loadPuzzle(filename, new File(filename));
-                        String puzzleName =
-                                GameBoardFacade.getInstance().getPuzzleModule().getName();
-                        frame.setTitle(puzzleName + " - " + puzzlename.getName());
+                            GameBoardFacade.getInstance().getLegupUI().displayPanel(1);
+                            GameBoardFacade.getInstance()
+                                    .getLegupUI()
+                                    .getProofEditor()
+                                    .loadPuzzle(filename, new File(filename));
+                            String puzzleName =
+                                    GameBoardFacade.getInstance().getPuzzleModule().getName();
+                            frame.setTitle(puzzleName + " - " + puzzlename.getName());
+                        }
                     }
                 });
         getToolBarButtons()[1] = saveandsolve;
@@ -320,6 +322,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         this.add(toolBar, BorderLayout.NORTH);
     }
+
+    public JToolBar getToolBar () { return toolBar; }
 
     public void loadPuzzleFromHome(String game, int rows, int columns)
             throws IllegalArgumentException {
@@ -476,8 +480,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             elementFrame.setElements(puzzle);
         }
 
-        //toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
-        //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
+        toolBar.setVisible(true);
     }
 
     /** Saves a puzzle */
