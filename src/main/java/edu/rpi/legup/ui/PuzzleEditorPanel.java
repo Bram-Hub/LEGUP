@@ -35,12 +35,14 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private JMenu[] menus;
     private JMenuItem helpLegup, aboutLegup;
     private JMenuBar menuBar;
-    private JToolBar toolBar;
+    private JToolBar toolBar1;
+    private JToolBar toolBar2;
     private JFileChooser folderBrowser;
     private JFrame frame;
     private JButton[] buttons;
     JSplitPane splitPanel;
-    private JButton[] toolBarButtons;
+    private JButton[] toolBar1Buttons;
+    private JButton[] toolBar2Buttons;
     private JPanel elementPanel;
     private DynamicView dynamicBoardView;
     private BoardView boardView;
@@ -52,7 +54,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private JPanel treePanel;
     private LegupUI legupUI;
     private EditorElementController editorElementController;
-    static final int[] TOOLBAR_SEPARATOR_BEFORE = {2, 4, 8};
 
     public PuzzleEditorPanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
         this.fileDialog = fileDialog;
@@ -248,14 +249,67 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     @Override
     public void makeVisible() {
         this.removeAll();
-        setupToolBar();
+        setupToolBar1();
         setupContent();
         setMenuBar();
-        toolBar.setVisible(false);
+    }
+    private void setupToolBar1() {
+        setToolBar1Buttons(new JButton[2]);
+
+        URL open_url =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/Open.png");
+        ImageIcon OpenImageIcon = new ImageIcon(open_url);
+        Image OpenImage = OpenImageIcon.getImage();
+        OpenImageIcon =
+                new ImageIcon(
+                        OpenImage.getScaledInstance(
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE,
+                                Image.SCALE_SMOOTH));
+
+        JButton open = new JButton("Open", OpenImageIcon);
+        open.setFocusPainted(false);
+        open.addActionListener((ActionEvent) -> loadPuzzle());
+
+        getToolBar1Buttons()[0] = open;
+
+        toolBar1 = new JToolBar();
+        toolBar1.setFloatable(false);
+        toolBar1.setRollover(true);
+        toolBar1.add(getToolBar1Buttons()[0]);
+
+        URL create_url =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/Open Puzzle.png");
+        ImageIcon CreateImageIcon = new ImageIcon(create_url);
+        Image CreateImage = CreateImageIcon.getImage();
+        CreateImageIcon =
+                new ImageIcon(
+                        CreateImage.getScaledInstance(
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE,
+                                Image.SCALE_SMOOTH));
+
+        JButton create = new JButton("Create", CreateImageIcon);
+        create.setFocusPainted(false);
+        create.addActionListener((ActionEvent) -> {
+            HomePanel hp = new HomePanel(this.fileDialog, this.frame, this.legupUI);
+            CreatePuzzleDialog cpd = new CreatePuzzleDialog(this.frame, hp);
+            cpd.setLocationRelativeTo(null);
+            cpd.setVisible(true);
+        });
+        getToolBar1Buttons()[1] = create;
+
+        toolBar1.setFloatable(false);
+        toolBar1.setRollover(true);
+        toolBar1.add(getToolBar1Buttons()[1]);
+
+        this.add(toolBar1, BorderLayout.NORTH);
     }
 
-    private void setupToolBar() {
-        setToolBarButtons(new JButton[2]);
+    private void setupToolBar2() {
+        setToolBar2Buttons(new JButton[2]);
 
         URL save_as =
                 ClassLoader.getSystemClassLoader()
@@ -273,12 +327,12 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         saveas.setFocusPainted(false);
         saveas.addActionListener((ActionEvent) -> savePuzzle());
 
-        getToolBarButtons()[0] = saveas;
+        getToolBar2Buttons()[0] = saveas;
 
-        toolBar = new JToolBar();
-        toolBar.setFloatable(false);
-        toolBar.setRollover(true);
-        toolBar.add(getToolBarButtons()[0]);
+        toolBar2 = new JToolBar();
+        toolBar2.setFloatable(false);
+        toolBar2.setRollover(true);
+        toolBar2.add(getToolBar2Buttons()[0]);
 
         URL save_and_solve =
                 ClassLoader.getSystemClassLoader()
@@ -314,16 +368,14 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                         }
                     }
                 });
-        getToolBarButtons()[1] = saveandsolve;
+        getToolBar2Buttons()[1] = saveandsolve;
 
-        toolBar.setFloatable(false);
-        toolBar.setRollover(true);
-        toolBar.add(getToolBarButtons()[1]);
+        toolBar2.setFloatable(false);
+        toolBar2.setRollover(true);
+        toolBar2.add(getToolBar2Buttons()[1]);
 
-        this.add(toolBar, BorderLayout.NORTH);
+        this.add(toolBar2, BorderLayout.NORTH);
     }
-
-    public JToolBar getToolBar () { return toolBar; }
 
     public void loadPuzzleFromHome(String game, int rows, int columns)
             throws IllegalArgumentException {
@@ -447,13 +499,20 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     public BoardView getBoardView() {
         return boardView;
     }
-
-    public JButton[] getToolBarButtons() {
-        return toolBarButtons;
+    public JButton[] getToolBar1Buttons() {
+        return toolBar1Buttons;
     }
 
-    public void setToolBarButtons(JButton[] toolBarButtons) {
-        this.toolBarButtons = toolBarButtons;
+    public void setToolBar1Buttons(JButton[] toolBar1Buttons) {
+        this.toolBar1Buttons = toolBar1Buttons;
+    }
+
+    public JButton[] getToolBar2Buttons() {
+        return toolBar2Buttons;
+    }
+
+    public void setToolBar2Buttons(JButton[] toolBar2Buttons) {
+        this.toolBar2Buttons = toolBar2Buttons;
     }
 
     private void repaintAll() {
@@ -479,8 +538,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         if (this.elementFrame != null) {
             elementFrame.setElements(puzzle);
         }
-
-        toolBar.setVisible(true);
+        toolBar1.setVisible(false);
+        setupToolBar2();
     }
 
     /** Saves a puzzle */
