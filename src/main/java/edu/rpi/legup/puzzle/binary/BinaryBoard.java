@@ -41,14 +41,15 @@ public class BinaryBoard extends GridBoard {
         return row;
     }
 
-    public ArrayList<BinaryType> getRowTypes(int rowNum) {
-        ArrayList<BinaryType> row = new ArrayList<BinaryType>();
+    public ArrayList<BinaryCell> listRowCells(int rowNum) {
+        ArrayList<BinaryCell> row = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             BinaryCell cell = getCell(i, rowNum);
-            row.add(cell.getType());
+            row.add(cell);
         }
         return row;
     }
+
 
     public ArrayList<BinaryType> getColTypes(int colNum) {
         ArrayList<BinaryType> col = new ArrayList<BinaryType>();
@@ -59,8 +60,25 @@ public class BinaryBoard extends GridBoard {
         return col;
     }
 
+    public ArrayList<BinaryType> getRowTypes(int rowNum) {
+        ArrayList<BinaryType> row = new ArrayList<BinaryType>();
+        for (int i = 0; i < size; i++) {
+            BinaryCell cell = getCell(i, rowNum);
+            row.add(cell.getType());
+        }
+        return row;
+    }
+
     public Set<BinaryCell> getColCells(int colNum) {
         Set<BinaryCell> col = new HashSet<>();
+        for (int i = 0; i < size; i++) {
+            col.add(getCell(colNum, i));
+        }
+        return col;
+    }
+
+    public ArrayList<BinaryCell> listColCells(int colNum) {
+        ArrayList<BinaryCell> col = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             col.add(getCell(colNum, i));
         }
