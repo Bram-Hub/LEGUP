@@ -136,4 +136,22 @@ public class TooFewStarsContradictionRuleTest {
         }
     }
 
+    @Test
+    public void TooFewStarsContradictionRule_NotEnoughSpace()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/TooFewStarsContradictionRule/NotEnoughSpace", starBattle);
+        TreeNode rootNode = starBattle.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        StarBattleBoard board = (StarBattleBoard) transition.getBoard();
+
+        Assert.assertNull(RULE.checkContradiction((StarBattleBoard) transition.getBoard()));
+        for (int i = 0; i < board.getHeight(); ++i) {
+            for (int j = 0; j < board.getWidth(); ++j) {
+                Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(j, i)));
+            }
+        }
+    }
+
 }
