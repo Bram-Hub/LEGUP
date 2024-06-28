@@ -124,36 +124,32 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
         // form), the amount of zeros left and ones left
         generatePossibilitites((size - rowNumZeros - rowNumOnes), rowResult, size / 2 - rowNumZeros, size / 2 - rowNumOnes);
 
-        for (String s : rowResult)
-            System.out.println(s);
+        ArrayList<ArrayList<BinaryCell>> rowCopies = new ArrayList<>();
+        for(int i = 0; i < rowResult.size(); i++){
+            rowCopies.add( new ArrayList<BinaryCell>(row) );
+        }
 
-         ArrayList<ArrayList<BinaryCell>> rowCopies = new ArrayList<>();
-         for(int i = 0; i < rowResult.size(); i++){
-             rowCopies.add( new ArrayList<BinaryCell>(row) );
-         }
-         System.out.println("Number of possible binary combinations: " + rowCopies.size());
+        System.out.println("Number of possible binary combinations: " + rowCopies.size());
 
-//         for(ArrayList<BinaryCell> curRow : rowCopies){
-//             int idx = 0;
-//             for(int i = 0; i < curRow.size(); i++ ){
-//                 if(curRow.get(i).getType().equals(BinaryType.UNKNOWN)){
-//                     if (rowResult.get(i).equals("0"))
-//                        curRow.get(i).setData(0);
-//                     else if (rowResult.get(i).equals("1"))
-//                         curRow.get(i).setData(1);
-//                     idx++;
-//                 }
-//                 System.out.print(curRow.get(i));
-//             }
-//             System.out.println("");
-//         }
+        int rowIdx = 0;
+        for(ArrayList<BinaryCell> curRow : rowCopies){
+            int charIdx = 0;
+            System.out.println(rowResult.get(rowIdx));
+            for(int i = 0; i < curRow.size(); i++ ) {
+                if (curRow.get(i).getData() == 2) {
+                    if (rowResult.get(rowIdx).charAt(charIdx) == '0')
+                        curRow.get(i).setData(0);
+                    else if (rowResult.get(rowIdx).charAt(charIdx) == '1')
+                        curRow.get(i).setData(1);
+                    charIdx++;
+                }
+                System.out.print(curRow.get(i).getData() + " ");
+            }
+            rowIdx++;
+            System.out.println();
+        }
 
-        // System.out.println("printing result");
-        // for (String s : rowResult) {
-        //     System.out.println(s);
-        // }
-
-        return "Grouping of Three Ones or Zeros not found TEST";
+        return "Grouping of Three Ones or Zeros not found";
         
     }
 
