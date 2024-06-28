@@ -102,42 +102,51 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
 
-        ArrayList<String> rowResult = new ArrayList<String>();
-
-        int zerosLeft = 3;
-        int onesLeft = 1;
-
-        // To call generatePossibilitites(), you must call it and pass in the amount of
-        // spots left,
-        // an ArrayList that will be populated with the possible results (in String
-        // form), the amount of zeros left and ones left
-        generatePossibilitites(4, rowResult, zerosLeft, onesLeft);
-        
-        //Getting the row and col where the user clicked
+        //Getting the row where the user clicked
         ArrayList<BinaryCell> row = origBoard.listRowCells(binaryCell.getLocation().y);
+        int size = row.size();
+        int rowNumZeros = 0;
+        int rowNumOnes = 0;
 
-        for(BinaryCell t : row){
-            System.out.println(t.getType());
-            // if(t.equals(BinaryType.UNKNOWN));
+        for (BinaryCell item : row) {
+            if (item.getType() == BinaryType.ZERO) {
+                rowNumZeros++;
+            } else if (item.getType() == BinaryType.ONE) {
+                rowNumOnes++;
+            }
         }
 
-        // ArrayList<ArrayList<BinaryType>> rowCopies = new ArrayList<>();
-        // for(int i = 0; i < rowResult.size(); i++){
-        //     rowCopies.add( new ArrayList<BinaryType>(row) );
-        // }
+        ArrayList<String> rowResult = new ArrayList<String>();
 
-        // for(ArrayList<BinaryType> curRow : rowCopies){
-        //     int idx = 0;
-        //     for(int i = 0; i < curRow.size(); i++ ){
-        //         if(curRow.get(i).getType().equals(BinaryType.UNKNOWN)){
-        //             curRow.get(i).setType();
-        //         }
-        //         
-        //     }
-        //
-        // }
+        // To call generatePossibilitites(), you must call it and pass in the amount of
+        // unknown spots left,
+        // an ArrayList that will be populated with the possible results (in String
+        // form), the amount of zeros left and ones left
+        generatePossibilitites((size - rowNumZeros - rowNumOnes), rowResult, size / 2 - rowNumZeros, size / 2 - rowNumOnes);
 
+        for (String s : rowResult)
+            System.out.println(s);
 
+         ArrayList<ArrayList<BinaryCell>> rowCopies = new ArrayList<>();
+         for(int i = 0; i < rowResult.size(); i++){
+             rowCopies.add( new ArrayList<BinaryCell>(row) );
+         }
+         System.out.println("Number of possible binary combinations: " + rowCopies.size());
+
+//         for(ArrayList<BinaryCell> curRow : rowCopies){
+//             int idx = 0;
+//             for(int i = 0; i < curRow.size(); i++ ){
+//                 if(curRow.get(i).getType().equals(BinaryType.UNKNOWN)){
+//                     if (rowResult.get(i).equals("0"))
+//                        curRow.get(i).setData(0);
+//                     else if (rowResult.get(i).equals("1"))
+//                         curRow.get(i).setData(1);
+//                     idx++;
+//                 }
+//                 System.out.print(curRow.get(i));
+//             }
+//             System.out.println("");
+//         }
 
         // System.out.println("printing result");
         // for (String s : rowResult) {
