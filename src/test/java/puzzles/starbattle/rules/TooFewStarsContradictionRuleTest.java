@@ -154,4 +154,34 @@ public class TooFewStarsContradictionRuleTest {
         }
     }
 
+    @Test
+    public void TooFewStarsContradictionRule_TwoStarColumn()
+        throws InvalidFileFormatException {
+
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/TooFewStarsContradictionRule/TwoStarColumn", starBattle);
+        TreeNode rootNode = starBattle.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        StarBattleBoard board = (StarBattleBoard) transition.getBoard();
+        StarBattleCell cell1 = board.getCell(0,0);
+        StarBattleCell cell2 = board.getCell(0,1);
+        StarBattleCell cell3 = board.getCell(0,2);
+        StarBattleCell cell4 = board.getCell(0,3);
+
+        Assert.assertNull(RULE.checkContradiction((StarBattleBoard) transition.getBoard()));
+        for (int i = 0; i < board.getHeight(); ++i) {
+            for (int j = 0; j < board.getWidth(); ++j) {
+                Point point = new Point(j,i);
+                if (point.equals(cell1.getLocation()) || point.equals(cell2.getLocation()) ||
+                        point.equals(cell3.getLocation()) || point.equals(cell4.getLocation())) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(j, i)));
+                }
+                else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(j, i)));
+                }
+            }
+        }
+    }
+
 }
