@@ -34,7 +34,7 @@
             fileCreationDisabled="false"/>
         <puzzle name="Sudoku" qualifiedClassName="edu.rpi.legup.puzzle.sudoku.Sudoku"
             fileType=".xml"
-            fileCreationDisabled="true"/>
+            fileCreationDisabled="false"/>
         <puzzle name="TreeTent"
             qualifiedClassName="edu.rpi.legup.puzzle.treetent.TreeTent"
             fileType=".xml"
