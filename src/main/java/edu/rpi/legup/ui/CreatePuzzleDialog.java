@@ -61,6 +61,9 @@ public class CreatePuzzleDialog extends JDialog {
                             Config.convertDisplayNameToClassName(
                                     (String) gameBox.getSelectedItem());
 
+                    if (game.equals("OpeningPuzzleEditor")) {
+
+                    }
                     // Check if all 3 TextFields are filled
                     if (game.equals("ShortTruthTable") && textArea.getText().isEmpty()) {
                         System.out.println("Unfilled fields");

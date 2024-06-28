@@ -20,7 +20,7 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
 
     public EliminateTheImpossibleDirectRule() {
         super(
-                "BINA-BASC-0003",
+                "BINA-BASC-0004",
                 "Eliminate The Impossible",
                 "If three adjacent empty cells are open, prevents a trio of numbers to exist",
                 "edu/rpi/legup/images/binary/rules/OneTileGapDirectRule.png");

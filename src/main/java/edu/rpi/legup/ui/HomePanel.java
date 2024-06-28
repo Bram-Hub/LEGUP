@@ -136,8 +136,25 @@ public class HomePanel extends LegupPanel {
         this.buttons[0].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[0].addActionListener(CursorController.createListener(this, openProofListener));
 
+//        this.buttons[1] =
+//                new JButton("Create Puzzle") {
+//                    {
+//                        setSize(buttonSize, buttonSize);
+//                        setMaximumSize(getSize());
+//                    }
+//                };
+//        URL button1IconLocation =
+//                ClassLoader.getSystemClassLoader()
+//                        .getResource("edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.png");
+//        ImageIcon button1Icon = new ImageIcon(button1IconLocation);
+//        this.buttons[1].setFocusPainted(false);
+//        this.buttons[1].setIcon(resizeButtonIcon(button1Icon, this.buttonSize, this.buttonSize));
+//        this.buttons[1].setHorizontalTextPosition(AbstractButton.CENTER);
+//        this.buttons[1].setVerticalTextPosition(AbstractButton.BOTTOM);
+//        this.buttons[1].addActionListener(l -> this.openNewPuzzleDialog());
+
         this.buttons[1] =
-                new JButton("Create Puzzle") {
+                new JButton("Puzzle Editor") {
                     {
                         setSize(buttonSize, buttonSize);
                         setMaximumSize(getSize());
@@ -151,7 +168,8 @@ public class HomePanel extends LegupPanel {
         this.buttons[1].setIcon(resizeButtonIcon(button1Icon, this.buttonSize, this.buttonSize));
         this.buttons[1].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[1].setVerticalTextPosition(AbstractButton.BOTTOM);
-        this.buttons[1].addActionListener(l -> this.openNewPuzzleDialog());
+        this.buttons[1].addActionListener(l -> this.openPuzzleEditorDialog());
+        //this.buttons[1].addActionListener(l -> this.openNewPuzzleDialog());
 
         this.buttons[2] =
                 new JButton("Edit Existing Puzzle") {
@@ -534,6 +552,10 @@ public class HomePanel extends LegupPanel {
         cpd.setVisible(true);
     }
 
+    private void openPuzzleEditorDialog() {
+        PuzzleEditorDialog ped = new PuzzleEditorDialog(this);
+    }
+
     private void checkProofAll() {
         /*
          * Select dir to grade; recursively grade sub-dirs using traverseDir()
@@ -631,27 +653,34 @@ public class HomePanel extends LegupPanel {
 
     public void openEditorWithNewPuzzle(String game, int rows, int columns)
             throws IllegalArgumentException {
-        // Validate the dimensions
-        GameBoardFacade facade = GameBoardFacade.getInstance();
-        boolean isValidDimensions = facade.validateDimensions(game, rows, columns);
-        if (!isValidDimensions) {
-            JOptionPane.showMessageDialog(
-                    null,
-                    "The dimensions you entered are invalid. Please double check \n"
-                            + "the number of rows and columns and try again.",
-                    "ERROR: Invalid Dimensions",
-                    JOptionPane.ERROR_MESSAGE);
-            throw new IllegalArgumentException("ERROR: Invalid dimensions given");
+        if (game.equals("")) {
+            this.legupUI.displayPanel(2);
+            this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, rows, columns);
+        }
+        else {
+            // Validate the dimensions
+            GameBoardFacade facade = GameBoardFacade.getInstance();
+            boolean isValidDimensions = facade.validateDimensions(game, rows, columns);
+            if (!isValidDimensions) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "The dimensions you entered are invalid. Please double check \n"
+                                + "the number of rows and columns and try again.",
+                        "ERROR: Invalid Dimensions",
+                        JOptionPane.ERROR_MESSAGE);
+                throw new IllegalArgumentException("ERROR: Invalid dimensions given");
+            }
+
+            if (this.legupUI == null) {
+                System.err.println("Error: legupUI is null in HomePanel");
+                return;
+            }
+
+            // Set game type on the puzzle editor
+            this.legupUI.displayPanel(2);
+            this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, rows, columns);
         }
 
-        if (this.legupUI == null) {
-            System.err.println("Error: legupUI is null in HomePanel");
-            return;
-        }
-
-        // Set game type on the puzzle editor
-        this.legupUI.displayPanel(2);
-        this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, rows, columns);
     }
 
     /**

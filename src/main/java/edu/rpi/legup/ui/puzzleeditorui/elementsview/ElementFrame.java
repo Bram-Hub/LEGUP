@@ -61,8 +61,8 @@ public class ElementFrame extends JPanel {
 //    }
 
     public void setElements(Puzzle puzzle) {
-        if (placeableElementPanel.setElements(puzzle.getPlaceableElements()) == 0) {
-
+        if (puzzle != null) {
+            placeableElementPanel.setElements(puzzle.getPlaceableElements());
         }
     }
 
