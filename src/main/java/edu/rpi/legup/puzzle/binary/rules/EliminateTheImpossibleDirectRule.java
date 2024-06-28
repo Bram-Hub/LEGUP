@@ -124,9 +124,14 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
         // form), the amount of zeros left and ones left
         generatePossibilitites((size - rowNumZeros - rowNumOnes), rowResult, size / 2 - rowNumZeros, size / 2 - rowNumOnes);
 
+        // Create deep copies of each row
         ArrayList<ArrayList<BinaryCell>> rowCopies = new ArrayList<>();
-        for(int i = 0; i < rowResult.size(); i++){
-            rowCopies.add( new ArrayList<BinaryCell>(row) );
+        for (int i = 0; i < rowResult.size(); i++) {
+            ArrayList<BinaryCell> newRow = new ArrayList<>();
+            for (BinaryCell cell : row) {
+                newRow.add(cell.copy());
+            }
+            rowCopies.add(newRow);
         }
 
         System.out.println("Number of possible binary combinations: " + rowCopies.size());
