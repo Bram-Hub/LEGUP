@@ -1,6 +1,5 @@
 package edu.rpi.legup.puzzle.binary.rules;
 
-
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.DirectRule;
@@ -8,7 +7,12 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.binary.BinaryBoard;
 import edu.rpi.legup.puzzle.binary.BinaryCell;
+import edu.rpi.legup.puzzle.binary.BinaryType;
 
+import java.util.LinkedList;
+import java.util.Queue;
+import java.lang.Math.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class EliminateTheImpossibleDirectRule extends DirectRule {
@@ -23,55 +27,125 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
     }
 
     // Function to generate all binary strings
-    static String generateAllBinaryStrings(int n, String arr, int i)
+    void generatePossibilitites(int spots, ArrayList<String> possibilities, int zeroCount, int oneCount)
+    // This function generates all the possible combinations of 0s and 1s for a
+    // certain size, it does this
+    // by basically just counting from 0 to the number - 1, so if you want all the
+    // possible combinations for 3
+    // spots, you can just count in binary from 0 to 7 (taking 3 spots, so from 000
+    // to 111). To be practical,
+    // the function does not return an array with all the possibilities as an array,
+    // but populates the
+    // arraylist you pass in (possibilities)
     {
-        System.out.println(i);
-        if (i == n)
-        {
-            return arr;
+        if (zeroCount + oneCount != spots) {
+            System.out.println("INVALID INPUT");
+            return;
         }
 
-        // First assign "0" at ith position
-        // and try for all other permutations
-        // for remaining positions
-        arr = arr + "0";
-        generateAllBinaryStrings(n, arr, i + 1);
+        if (zeroCount == spots) {
+            String zero = "";
+            for (int i = 0; i < spots; i++) {
+                zero = zero + "0";
+            }
+            possibilities.add(zero);
 
-        // And then assign "1" at ith position
-        // and try for all other permutations
-        // for remaining positions
-        arr = arr + "1";
-        generateAllBinaryStrings(n, arr, i + 1);
-
-
-        return null;
-    }
-
-    public ArrayList<String> binaryCombiniations(int numEmpty) {
-        System.out.println("FUNCTION");
-        ArrayList<String> possibilities = new ArrayList<>();
-        String arr = "";
-
-        generateAllBinaryStrings(numEmpty, arr, 0);
-//
-//        if (generateAllBinaryStrings(numEmpty, arr, 0) != null) {
-//            //System.out.println("T)");
-//            possibilities.add(arr);
-//        }
-
-        for (int i = 0; i < possibilities.size(); i++) {
-            System.out.println(possibilities.get(i));
         }
-        return null;
+        int count = (int) Math.pow(2, spots) - 1;
+        int finalLen = spots;
+        Queue<String> q = new LinkedList<String>();
+        q.add("1");
+
+        while (count-- > 0) {
+            String s1 = q.peek();
+            q.remove();
+
+            String newS1 = s1;
+            int curLen = newS1.length();
+            int runFor = spots - curLen;
+            if (curLen < finalLen) {
+                for (int i = 0; i < runFor; i++) {
+                    newS1 = "0" + newS1;
+                }
+            }
+            int curZeros = 0;
+            int curOnes = 0;
+
+            for (int i = 0; i < spots; i++) {
+                if (newS1.charAt(i) == '0') {
+                    curZeros++;
+                }
+                if (newS1.charAt(i) == '1') {
+                    curOnes++;
+                }
+            }
+
+            if (zeroCount == curZeros && oneCount == curOnes) {
+                possibilities.add(newS1);
+            }
+            String s2 = s1;
+            q.add(s1 + "0");
+            q.add(s2 + "1");
+        }
     }
 
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+        // This function should first check if there are three open spaces, if so,
+        // continue, else figure out
+        // how many spots are open, all the possible binary combinations that could be
+        // put there, and by
+        // analyzing the common factors, logically determine which number has a set
+        // spot, meaning that we know
+        // that a certain spot must be a zero or a one
+
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
-        System.out.println("HI");
-        binaryCombiniations(4);
-        return "Grouping of Three Ones or Zeros not found";
+
+        ArrayList<String> rowResult = new ArrayList<String>();
+
+        int zerosLeft = 3;
+        int onesLeft = 1;
+
+        // To call generatePossibilitites(), you must call it and pass in the amount of
+        // spots left,
+        // an ArrayList that will be populated with the possible results (in String
+        // form), the amount of zeros left and ones left
+        generatePossibilitites(4, rowResult, zerosLeft, onesLeft);
+        
+        //Getting the row and col where the user clicked
+        ArrayList<BinaryCell> row = origBoard.listRowCells(binaryCell.getLocation().y);
+
+        for(BinaryCell t : row){
+            System.out.println(t.getType());
+            // if(t.equals(BinaryType.UNKNOWN));
+        }
+
+        // ArrayList<ArrayList<BinaryType>> rowCopies = new ArrayList<>();
+        // for(int i = 0; i < rowResult.size(); i++){
+        //     rowCopies.add( new ArrayList<BinaryType>(row) );
+        // }
+
+        // for(ArrayList<BinaryType> curRow : rowCopies){
+        //     int idx = 0;
+        //     for(int i = 0; i < curRow.size(); i++ ){
+        //         if(curRow.get(i).getType().equals(BinaryType.UNKNOWN)){
+        //             curRow.get(i).setType();
+        //         }
+        //         
+        //     }
+        //
+        // }
+
+
+
+        // System.out.println("printing result");
+        // for (String s : rowResult) {
+        //     System.out.println(s);
+        // }
+
+        return "Grouping of Three Ones or Zeros not found TEST";
+        
     }
 
     @Override
