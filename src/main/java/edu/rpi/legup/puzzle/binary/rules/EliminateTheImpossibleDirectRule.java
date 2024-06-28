@@ -142,10 +142,12 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
             System.out.println(rowResult.get(rowIdx));
             for(int i = 0; i < curRow.size(); i++ ) {
                 if (curRow.get(i).getData() == 2) {
-                    if (rowResult.get(rowIdx).charAt(charIdx) == '0')
+                    if (rowResult.get(rowIdx).charAt(charIdx) == '0') {
                         curRow.get(i).setData(0);
-                    else if (rowResult.get(rowIdx).charAt(charIdx) == '1')
+                    }
+                    else if (rowResult.get(rowIdx).charAt(charIdx) == '1') {
                         curRow.get(i).setData(1);
+                    }
                     charIdx++;
                 }
                 System.out.print(curRow.get(i).getData() + " ");
