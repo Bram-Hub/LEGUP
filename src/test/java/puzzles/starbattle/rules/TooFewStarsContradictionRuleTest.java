@@ -184,4 +184,22 @@ public class TooFewStarsContradictionRuleTest {
         }
     }
 
+    @Test
+    public void TooFewStarsContradictionRule_TwoStarFalseContradiction()
+        throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/TooFewStarsContradictionRule/TwoStarFalseContradiction", starBattle);
+        TreeNode rootNode = starBattle.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        StarBattleBoard board = (StarBattleBoard) transition.getBoard();
+
+        Assert.assertNotNull(RULE.checkContradiction((StarBattleBoard) transition.getBoard()));
+        for (int i = 0; i < board.getHeight(); ++i) {
+            for (int j = 0; j < board.getWidth(); ++j) {
+                Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(j, i)));
+            }
+        }
+    }
+
 }
