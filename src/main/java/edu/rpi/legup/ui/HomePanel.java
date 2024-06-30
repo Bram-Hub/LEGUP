@@ -40,14 +40,15 @@ public class HomePanel extends LegupPanel {
             new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Object[] items = legupUI.getProofEditor().promptPuzzle();
-                    if (items == null) {
-                        // The attempt to prompt a puzzle ended gracefully (cancel)
-                        return;
-                    }
-                    String fileName = (String) items[0];
-                    File puzzleFile = (File) items[1];
-                    legupUI.getProofEditor().loadPuzzle(fileName, puzzleFile);
+//                    Object[] items = legupUI.getProofEditor().promptPuzzle();
+//                    if (items == null) {
+//                        // The attempt to prompt a puzzle ended gracefully (cancel)
+//                        return;
+//                    }
+//                    String fileName = (String) items[0];
+//                    File puzzleFile = (File) items[1];
+                    legupUI.getProofEditor().loadPuzzle("", null);
+//                   legupUI.getProofEditor().loadPuzzle();
                 }
             };
 
@@ -116,10 +117,10 @@ public class HomePanel extends LegupPanel {
     }
 
     private void initButtons() {
-        this.buttons = new JButton[4];
+        this.buttons = new JButton[3];
 
         this.buttons[0] =
-                new JButton("Solve Puzzle") {
+                new JButton("Puzzle Solver") {
                     {
                         setSize(buttonSize, buttonSize);
                         setMaximumSize(getSize());
@@ -135,23 +136,6 @@ public class HomePanel extends LegupPanel {
         this.buttons[0].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[0].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[0].addActionListener(CursorController.createListener(this, openProofListener));
-
-//        this.buttons[1] =
-//                new JButton("Create Puzzle") {
-//                    {
-//                        setSize(buttonSize, buttonSize);
-//                        setMaximumSize(getSize());
-//                    }
-//                };
-//        URL button1IconLocation =
-//                ClassLoader.getSystemClassLoader()
-//                        .getResource("edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.png");
-//        ImageIcon button1Icon = new ImageIcon(button1IconLocation);
-//        this.buttons[1].setFocusPainted(false);
-//        this.buttons[1].setIcon(resizeButtonIcon(button1Icon, this.buttonSize, this.buttonSize));
-//        this.buttons[1].setHorizontalTextPosition(AbstractButton.CENTER);
-//        this.buttons[1].setVerticalTextPosition(AbstractButton.BOTTOM);
-//        this.buttons[1].addActionListener(l -> this.openNewPuzzleDialog());
 
         this.buttons[1] =
                 new JButton("Puzzle Editor") {
@@ -169,37 +153,16 @@ public class HomePanel extends LegupPanel {
         this.buttons[1].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[1].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[1].addActionListener(l -> this.openPuzzleEditorDialog());
-        //this.buttons[1].addActionListener(l -> this.openNewPuzzleDialog());
-
-        this.buttons[2] =
-                new JButton("Edit Existing Puzzle") {
-                    {
-                        setSize(buttonSize, buttonSize);
-                        setMaximumSize(getSize());
-                    }
-                };
-        URL button2IconLocation =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/homepanel/puzzle_file.png");
-        ImageIcon button2Icon = new ImageIcon(button2IconLocation);
-        this.buttons[2].setFocusPainted(false);
-        this.buttons[2].setIcon(resizeButtonIcon(button2Icon, this.buttonSize, this.buttonSize));
-        this.buttons[2].setHorizontalTextPosition(AbstractButton.CENTER);
-        this.buttons[2].setVerticalTextPosition(AbstractButton.BOTTOM);
-        this.buttons[2].addActionListener(
-                CursorController.createListener(this, openPuzzleListener)); // PLACEHOLDER
-
-        this.buttons[2].setVisible(false);
 
         for (int i = 0; i < this.buttons.length - 1; i++) { // -1 to avoid the batch grader button
             this.buttons[i].setBounds(200, 200, 700, 700);
         }
-        this.buttons[3] = new JButton("Batch Grader");
-        this.buttons[3].setFocusPainted(false);
-        this.buttons[3].setHorizontalTextPosition(AbstractButton.CENTER);
-        this.buttons[3].setVerticalTextPosition(AbstractButton.BOTTOM);
+        this.buttons[2] = new JButton("Batch Grader");
+        this.buttons[2].setFocusPainted(false);
+        this.buttons[2].setHorizontalTextPosition(AbstractButton.CENTER);
+        this.buttons[2].setVerticalTextPosition(AbstractButton.BOTTOM);
 
-        this.buttons[3].addActionListener(
+        this.buttons[2].addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -293,7 +256,7 @@ public class HomePanel extends LegupPanel {
             }
         } catch (IOException ex) {
             LOGGER.error(ex.getMessage());
-            this.buttons[3].addActionListener((ActionEvent e) -> use_xml_to_check());
+            this.buttons[2].addActionListener((ActionEvent e) -> use_xml_to_check());
         }
     }
 
@@ -531,11 +494,8 @@ public class HomePanel extends LegupPanel {
         buttons.add(Box.createRigidArea(new Dimension(5, 0)));
         buttons.add(this.buttons[1]);
         buttons.add(Box.createRigidArea(new Dimension(5, 0)));
-        buttons.add(this.buttons[2]);
-        buttons.add(Box.createRigidArea(new Dimension(5, 0)));
-
         JPanel batchGraderButton = new JPanel();
-        batchGraderButton.add(this.buttons[3]);
+        batchGraderButton.add(this.buttons[2]);
         batchGraderButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         this.add(Box.createRigidArea(new Dimension(0, 5)));
