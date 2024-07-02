@@ -9,9 +9,11 @@ import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.puzzle.binary.BinaryType;
 import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
@@ -1088,6 +1090,13 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
         File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
         frame.setTitle(puzzleName + " - " + puzzleFile.getName() + " *");
+//        Board curBoard = GameBoardFacade.getInstance().getBoard();
+//        List<PuzzleElement> allElements = curBoard.getPuzzleElements();
+//        for (PuzzleElement p : allElements) {
+//            if (p.getData() == BinaryType.UNKNOWN) {
+//                p.setModifiable(true);
+//            }
+//        }
     }
 
     /** Called when the history is cleared */

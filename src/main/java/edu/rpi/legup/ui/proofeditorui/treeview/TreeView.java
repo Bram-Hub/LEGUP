@@ -533,7 +533,6 @@ public class TreeView extends ScrollView implements ITreeListener {
                         PuzzleElement oldElement =
                                 ancestor.getParent().getBoard().getPuzzleElement(element);
                         oldElement.setCasesDepended(oldElement.getCasesDepended() + 1);
-                        oldElement.setModifiable(false);
                     }
                 }
             }

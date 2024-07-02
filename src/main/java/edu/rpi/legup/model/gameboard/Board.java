@@ -37,6 +37,8 @@ public abstract class Board {
      * @return equivalent puzzleElement on this board
      */
     public PuzzleElement getPuzzleElement(PuzzleElement puzzleElement) {
+        if (puzzleElement == null)
+            return null;
         int index = puzzleElement.getIndex();
         return index < puzzleElements.size() ? puzzleElements.get(index) : null;
     }

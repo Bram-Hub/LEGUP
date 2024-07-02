@@ -60,7 +60,7 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
                     caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
             for (Board board : cases) {
                 final TreeTransition transition = (TreeTransition) tree.addTreeElement(node);
-                board.setModifiable(false);
+                //board.setModifiable(false);
                 transition.setBoard(board);
                 transition.setRule(caseRule);
                 transition.setSelection(elementView.getPuzzleElement().copy());

@@ -115,6 +115,10 @@ public class FinishRoomCaseRule extends CaseRule {
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>(); // makes array list of cases
+        if (puzzleElement == null) {
+            return cases;
+        }
+
         NurikabeBoard nuriBoard = (NurikabeBoard) board.copy(); // nurikabe board to edit
         NurikabeCell numberCell = nuriBoard.getCell(((NurikabeCell) puzzleElement).getLocation().x,
                 ((NurikabeCell) puzzleElement).getLocation().y); // number cell whose room we want to fill
