@@ -88,6 +88,7 @@ public class Tree {
             }
 
             node.getParent().setChildNode(null);
+
             System.out.println("Deleted node: " + node);
         } else {
             TreeTransition transition = (TreeTransition) element;

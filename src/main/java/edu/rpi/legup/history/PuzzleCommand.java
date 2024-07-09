@@ -52,13 +52,13 @@ public abstract class PuzzleCommand implements ICommand {
      */
     public abstract String getErrorString();
 
-    /** Executes an command */
+    /** Executes a command */
     public abstract void executeCommand();
 
-    /** Undoes an command */
+    /** Undoes a command */
     public abstract void undoCommand();
 
-    /** Redoes an command */
+    /** Redoes a command */
     public void redoCommand() {
         if (state == CommandState.UNDOED) {
             executeCommand();
@@ -68,7 +68,7 @@ public abstract class PuzzleCommand implements ICommand {
         }
     }
 
-    /** Undoes an command */
+    /** Undoes a command */
     @Override
     public final void undo() {
         if (state == CommandState.EXECUTED || state == CommandState.REDOED) {
@@ -79,7 +79,7 @@ public abstract class PuzzleCommand implements ICommand {
         }
     }
 
-    /** Redoes an command */
+    /** Redoes a command */
     public final void redo() {
         if (state == CommandState.UNDOED) {
             redoCommand();

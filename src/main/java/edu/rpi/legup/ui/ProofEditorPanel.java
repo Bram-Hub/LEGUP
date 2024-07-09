@@ -19,6 +19,7 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeTransitionView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 import edu.rpi.legup.user.Submission;
 import java.awt.*;
@@ -781,13 +782,12 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         toolBar2 = new JToolBar();
         toolBar2.setFloatable(false);
         toolBar2.setRollover(true);
-        setToolBar2Buttons(new JButton[2]);
+        setToolBar2Buttons(new JButton[4]);
 
         URL directions_url =
                 ClassLoader.getSystemClassLoader()
                         .getResource("edu/rpi/legup/images/Legup/Directions.png");
 
-        // Scale the image icons down to make the buttons smaller
         ImageIcon DirectionsImageIcon = new ImageIcon(directions_url);
         Image DirectionsImage = DirectionsImageIcon.getImage();
         DirectionsImageIcon =
@@ -804,11 +804,52 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         getToolBar2Buttons()[0] = directions;
         toolBar2.add(getToolBar2Buttons()[0]);
 
+        URL undo_url =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/Undo.png");
+
+        ImageIcon UndoImageIcon = new ImageIcon(undo_url);
+        Image UndoImage = UndoImageIcon.getImage();
+        UndoImageIcon =
+                new ImageIcon(
+                        UndoImage.getScaledInstance(
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE,
+                                Image.SCALE_SMOOTH));
+
+        JButton undo = new JButton("Undo", UndoImageIcon);
+        undo.setFocusPainted(false);
+        undo.addActionListener((ActionEvent) -> GameBoardFacade.getInstance().getHistory().undo());
+
+        getToolBar2Buttons()[1] = undo;
+        toolBar2.add(getToolBar2Buttons()[1]);
+
+        URL redo_url =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/Redo.png");
+
+        ImageIcon RedoImageIcon = new ImageIcon(redo_url);
+        Image RedoImage = RedoImageIcon.getImage();
+        RedoImageIcon =
+                new ImageIcon(
+                        RedoImage.getScaledInstance(
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE,
+                                Image.SCALE_SMOOTH));
+
+        JButton redo = new JButton("Redo", RedoImageIcon);
+        redo.setFocusPainted(false);
+        redo.addActionListener((ActionEvent) -> {
+            GameBoardFacade.getInstance().getHistory().redo();
+        });
+
+        getToolBar2Buttons()[2] = redo;
+        toolBar2.add(getToolBar2Buttons()[2]);
+
         URL check_url =
                 ClassLoader.getSystemClassLoader()
                         .getResource("edu/rpi/legup/images/Legup/Check.png");
 
-        // Scale the image icons down to make the buttons smaller
         ImageIcon CheckImageIcon = new ImageIcon(check_url);
         Image CheckImage = CheckImageIcon.getImage();
         CheckImageIcon =
@@ -822,8 +863,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         check.setFocusPainted(false);
         check.addActionListener((ActionEvent) -> checkProof());
 
-        getToolBar2Buttons()[1] = check;
-        toolBar2.add(getToolBar2Buttons()[1]);
+        getToolBar2Buttons()[3] = check;
+        toolBar2.add(getToolBar2Buttons()[3]);
+
 
         this.add(toolBar2, BorderLayout.NORTH);
     }
