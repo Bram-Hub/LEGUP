@@ -53,7 +53,8 @@ public class OneOrZeroCaseRule extends CaseRule {
     public CaseBoard getCaseBoard(Board board) {
         BinaryBoard binaryBoard = (BinaryBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(binaryBoard, this);
-        binaryBoard.setModifiable(false);
+        caseBoard.setModifiable(true);
+        //binaryBoard.setModifiable(false);
         for (PuzzleElement element : binaryBoard.getPuzzleElements()) {
             if (((BinaryCell) element).getType() == BinaryType.UNKNOWN) {
                 caseBoard.addPickableElement(element);
@@ -65,6 +66,10 @@ public class OneOrZeroCaseRule extends CaseRule {
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
+        if (puzzleElement == null) {
+            return cases;
+        }
+
         Board case1 = board.copy();
         PuzzleElement data1 = case1.getPuzzleElement(puzzleElement);
         data1.setData(BinaryType.ZERO.toValue());

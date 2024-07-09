@@ -84,6 +84,10 @@ public class PossibleNumberCaseRule extends CaseRule {
     public ArrayList<Board> getCases(
             Board board, PuzzleElement puzzleElement, int value, GroupType groupType) {
         ArrayList<Board> cases = new ArrayList<>();
+        if (puzzleElement == null) {
+            return cases;
+        }
+
         SudokuBoard sudokuBoard = (SudokuBoard) board;
         List<SudokuCell> caseCells = new ArrayList<>();
         SudokuCell cell = (SudokuCell) puzzleElement;

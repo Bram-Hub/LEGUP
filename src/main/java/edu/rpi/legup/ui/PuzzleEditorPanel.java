@@ -309,6 +309,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     private void setupToolBar2() {
+        toolBar2 = new JToolBar();
+        toolBar2.setFloatable(false);
+        toolBar2.setRollover(true);
         setToolBar2Buttons(new JButton[2]);
 
         URL save_as =
@@ -328,10 +331,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         saveas.addActionListener((ActionEvent) -> savePuzzle());
 
         getToolBar2Buttons()[0] = saveas;
-
-        toolBar2 = new JToolBar();
-        toolBar2.setFloatable(false);
-        toolBar2.setRollover(true);
         toolBar2.add(getToolBar2Buttons()[0]);
 
         URL save_and_solve =
@@ -369,9 +368,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                     }
                 });
         getToolBar2Buttons()[1] = saveandsolve;
-
-        toolBar2.setFloatable(false);
-        toolBar2.setRollover(true);
         toolBar2.add(getToolBar2Buttons()[1]);
 
         this.add(toolBar2, BorderLayout.NORTH);

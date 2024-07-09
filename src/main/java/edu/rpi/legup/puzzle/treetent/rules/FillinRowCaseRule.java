@@ -61,7 +61,11 @@ public class FillinRowCaseRule extends CaseRule {
      */
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+        if (puzzleElement == null) {
+            return new ArrayList<Board>();
+        }
         ArrayList<Board> cases;
+
         List<TreeTentCell> group;
         int tentsLeft;
         TreeTentClue clue = ((TreeTentClue) puzzleElement);

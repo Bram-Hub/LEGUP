@@ -44,8 +44,8 @@ public class UnbalancedRowOrColumnContradictionRule extends ContradictionRule {
             }
         }
 
-        if (rowNumZeros == size / 2 && rowNumOnes == size / 2) {
-            return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
+        if (rowNumZeros > size / 2 || rowNumOnes > size / 2) {
+            return null;
         }
 
         Set<BinaryCell> col = binaryBoard.getColCells(cell.getLocation().x);
@@ -62,10 +62,10 @@ public class UnbalancedRowOrColumnContradictionRule extends ContradictionRule {
             }
         }
 
-        if (colNumZeros == size / 2 && colNumOnes == size / 2) {
-            return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
+        if (colNumZeros > size / 2 || colNumOnes > size / 2) {
+            return null;
         }
 
-        return null;
+        return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
     }
 }
