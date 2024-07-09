@@ -38,6 +38,7 @@ public class ColumnsWithinRegionsDirectRule extends DirectRule {
         // are now mutually encompassing
         StarBattleBoard board = (StarBattleBoard) transition.getBoard();
         StarBattleCell cell = (StarBattleCell) board.getPuzzleElement(puzzleElement);
+        System.out.println(cell.getLocation().x + "," + cell.getLocation().y);
         if (cell.getType() != StarBattleCellType.BLACK) {
             return "Only black cells are allowed for this rule!";
         }
@@ -59,7 +60,7 @@ public class ColumnsWithinRegionsDirectRule extends DirectRule {
                 regionStars += board.getRegion(r).numStars();
                 for (PuzzleElement c : board.getRegion(r).getCells()) {
                     int column = ((StarBattleCell) c).getLocation().x;
-                    if (columns.add(column)) {
+                    if (((StarBattleCell) c).getType() != StarBattleCellType.BLACK && columns.add(column)) {
                         columnsToCheck.add(column);
                     }
                 }
@@ -71,7 +72,7 @@ public class ColumnsWithinRegionsDirectRule extends DirectRule {
                 columnStars += board.columnStars(c);
                 for (int i = 0; i < board.getSize(); ++i) {
                     int region = board.getCell(c, i).getGroupIndex();
-                    if (regions.add(region)) {
+                    if (board.getCell(c,i).getType() != StarBattleCellType.BLACK && regions.add(region)) {
                         regionsToCheck.add(region);
                     }
                 }
@@ -83,6 +84,11 @@ public class ColumnsWithinRegionsDirectRule extends DirectRule {
         if (board.getPuzzleNumber() * columns.size() - columnStars
                 != board.getPuzzleNumber() * regions.size() - regionStars) {
             return "The number of missing stars in the columns and regions must be equal and every extraneous cell must be black!";
+        }
+        for (int c: columns) {
+            if (c == cell.getLocation().x) {
+                return "Only black out cells outside the column(s)!";
+            }
         }
         return null;
     }
