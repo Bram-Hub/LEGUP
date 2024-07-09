@@ -8,7 +8,10 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ColumnsWithinRowsDirectRule extends DirectRule {
@@ -46,8 +49,8 @@ public class ColumnsWithinRowsDirectRule extends DirectRule {
         // the rows that contain them
         Set<Integer> rows = new HashSet<Integer>();
         // columns and rows to process
-        Set<Integer> columnsToCheck = new HashSet<Integer>();
-        Set<Integer> rowsToCheck = new HashSet<Integer>();
+        List<Integer> columnsToCheck = new ArrayList<Integer>();
+        List<Integer> rowsToCheck = new ArrayList<Integer>();
         int columnStars = 0;
         int rowStars = 0;
         int firstRow = cell.getLocation().y;
@@ -55,7 +58,8 @@ public class ColumnsWithinRowsDirectRule extends DirectRule {
         rowsToCheck.add(firstRow);
 
         while (!columnsToCheck.isEmpty() || !rowsToCheck.isEmpty()) {
-            for (int r : rowsToCheck) {
+            for (int i = 0; i < rowsToCheck.size(); ++i) {
+                int r = rowsToCheck.get(i);
                 rowStars += board.rowStars(r);
                 for (PuzzleElement c : board.getRow(r)) {
                     int column = ((StarBattleCell) c).getLocation().x;
@@ -63,9 +67,11 @@ public class ColumnsWithinRowsDirectRule extends DirectRule {
                         columnsToCheck.add(column);
                     }
                 }
-                rowsToCheck.remove(r);
+                rowsToCheck.remove(i);
+                --i;
             }
-            for (int c : columnsToCheck) {
+            for (int i = 0; i < columnsToCheck.size(); ++i) {
+                int c = columnsToCheck.get(i);
                 columnStars += board.columnStars(c);
                 for (PuzzleElement r : board.getCol(c)) {
                     int row = ((StarBattleCell) r).getLocation().y;
@@ -73,7 +79,8 @@ public class ColumnsWithinRowsDirectRule extends DirectRule {
                         rowsToCheck.add(row);
                     }
                 }
-                columnsToCheck.remove(c);
+                columnsToCheck.remove(i);
+                --i;
             }
         }
         // are the columns and regions missing an equal amount of stars

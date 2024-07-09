@@ -8,7 +8,10 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class RowsWithinRegionsDirectRule extends DirectRule {
@@ -44,15 +47,16 @@ public class RowsWithinRegionsDirectRule extends DirectRule {
         // the regions that contain them
         Set<Integer> regions = new HashSet<Integer>();
         // rows and regions to process
-        Set<Integer> rowsToCheck = new HashSet<Integer>();
-        Set<Integer> regionsToCheck = new HashSet<Integer>();
+        List<Integer> rowsToCheck = new ArrayList<Integer>();
+        List<Integer> regionsToCheck = new ArrayList<Integer>();
         int rowStars = 0;
         int regionStars = 0;
         regions.add(cell.getGroupIndex());
         regionsToCheck.add(cell.getGroupIndex());
 
         while (!rowsToCheck.isEmpty() || !regionsToCheck.isEmpty()) {
-            for (int r : regionsToCheck) {
+            for (int i = 0; i < regionsToCheck.size(); ++i) {
+                int r = regionsToCheck.get(i);
                 regionStars += board.getRegion(r).numStars();
                 for (PuzzleElement ro : board.getRegion(r).getCells()) {
                     int row = ((StarBattleCell) ro).getLocation().y;
@@ -60,9 +64,11 @@ public class RowsWithinRegionsDirectRule extends DirectRule {
                         rowsToCheck.add(row);
                     }
                 }
-                regionsToCheck.remove(r);
+                regionsToCheck.remove(i);
+                --i;
             }
-            for (int r : rowsToCheck) {
+            for (int j = 0; j < rowsToCheck.size(); ++j) {
+                int r = rowsToCheck.get(j);
                 rowStars += board.rowStars(r);
                 for (int i = 0; i < board.getSize(); ++i) {
                     int region = board.getCell(i, r).getGroupIndex();
@@ -70,7 +76,8 @@ public class RowsWithinRegionsDirectRule extends DirectRule {
                         regionsToCheck.add(region);
                     }
                 }
-                rowsToCheck.remove(r);
+                rowsToCheck.remove(j);
+                --j;
             }
         }
         // are the columns and regions missing an equal amount of stars
