@@ -136,11 +136,12 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
 
         System.out.println("Number of possible binary combinations: " + rowCopies.size());
 
+        ArrayList<ArrayList<BinaryCell>> nonContraRows = new ArrayList<>();
         int rowIdx = 0;
         for(ArrayList<BinaryCell> curRow : rowCopies){
             int charIdx = 0;
             System.out.println(rowResult.get(rowIdx));
-            for(int i = 0; i < curRow.size(); i++ ) {
+            for(int i = 0; i < curRow.size(); i++) {
                 if (curRow.get(i).getData() == 2) {
                     if (rowResult.get(rowIdx).charAt(charIdx) == '0') {
                         curRow.get(i).setData(0);
@@ -152,8 +153,41 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
                 }
                 System.out.print(curRow.get(i).getData() + " ");
             }
+
+            boolean threeAdjacent = false;
+            int count = 1;
+            for(int i = 1; i < curRow.size(); i++) {
+                if (curRow.get(i).getData() == curRow.get(i-1).getData()) {
+                    count++;
+                    if (count == 3) {
+                        threeAdjacent = true;
+                        break;
+                    }
+                } else {
+                    count = 1;
+                }
+            }
+
+            if (!threeAdjacent) {
+                nonContraRows.add(curRow);
+            }
+
             rowIdx++;
             System.out.println();
+        }
+
+        System.out.println("Number of non contradiction rows: " + nonContraRows.size());
+        int colNum = binaryCell.getLocation().x;
+        boolean invalid = false;
+        for(int i = 0; i < nonContraRows.size(); i++) {
+            if (nonContraRows.get(i).get(colNum).getData() != binaryCell.getData()) {
+                invalid = true;
+                break;
+            }
+        }
+
+        if (!invalid) {
+            return null;
         }
 
         return "Grouping of Three Ones or Zeros not found";
