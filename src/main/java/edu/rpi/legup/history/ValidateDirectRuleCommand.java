@@ -102,18 +102,9 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
 
             if (element.getType() == TreeElementType.NODE) {
                 TreeNodeView nodeView = (TreeNodeView) selectedView;
-                if (nodeView.getChildrenViews().isEmpty()) {
-                    LOGGER.error("NodeView has no children views");
-                    continue;
-                }
                 transitionView = nodeView.getChildrenViews().get(0);
             } else {
                 transitionView = (TreeTransitionView) selectedView;
-            }
-
-            if (transitionView == null) {
-                LOGGER.error("Transition view is null");
-                continue;
             }
 
             TreeTransition transition = transitionView.getTreeElement();
@@ -143,10 +134,6 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
         }
 
         TreeElementView firstSelectedView = selection.getFirstSelection();
-        if (firstSelectedView == null) {
-            LOGGER.error("First selected view is null");
-            return;
-        }
 
         final TreeElement finalTreeElement;
         if (firstSelectedView.getType() == TreeElementType.NODE) {
@@ -162,15 +149,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
             if (childView == null) {
                 LOGGER.error("Child view is null for transition view: " + transitionView);
                 TreeNode childNode = transitionView.getTreeElement().getChildNode();
-                if (childNode == null) {
-                    LOGGER.error("Child node is null for transition: " + transitionView.getTreeElement());
-                    return;
-                }
                 childView = (TreeNodeView) treeView.getElementView(childNode);
-                if (childView == null) {
-                    LOGGER.error("Failed to initialize child view for node: " + childNode);
-                    return;
-                }
                 transitionView.setChildView(childView);
             }
             TreeTransition transition = transitionView.getTreeElement();
