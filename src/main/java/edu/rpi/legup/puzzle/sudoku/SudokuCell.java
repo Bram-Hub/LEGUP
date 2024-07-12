@@ -1,14 +1,18 @@
 package edu.rpi.legup.puzzle.sudoku;
 
+import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.awt.event.MouseEvent;
+
 
 public class SudokuCell extends GridCell<Integer> {
     private int groupIndex;
     private Set<Integer> annotations;
     private int max;
+    //private int data;
 
     /**
      * SudokuCell Constructor - creates a new Sudoku cell to hold the puzzleElement
@@ -58,5 +62,35 @@ public class SudokuCell extends GridCell<Integer> {
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
         return copy;
+    }
+
+    @Override
+    public void setType(Element e, MouseEvent m) {
+        System.out.println("Attempting to change tile");
+        if(e.getElementName().equals("Number Tile")){
+            if (e.getElementName().equals("Number Tile")) {
+                if (m.getButton() == MouseEvent.BUTTON1) {
+                    if (this.data <= 0 || this.data > 8) {
+                        this.data = 1;
+                    }
+                    else {
+                        this.data = this.data + 1;
+                    }
+                }
+                else {
+                    if (m.getButton() == MouseEvent.BUTTON3) {
+                        if (this.data > 1) {
+                            this.data = this.data - 1;
+                        }
+                        else {
+                            this.data = 9;
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            this.data = 0;
+        }
     }
 }
