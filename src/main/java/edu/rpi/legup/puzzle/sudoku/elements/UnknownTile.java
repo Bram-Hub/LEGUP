@@ -1,8 +1,8 @@
 package edu.rpi.legup.puzzle.sudoku.elements;
 
-import edu.rpi.legup.model.elements.NonPlaceableElement;
+import edu.rpi.legup.model.elements.PlaceableElement;
 
-public class UnknownTile extends NonPlaceableElement {
+public class UnknownTile extends PlaceableElement {
     public UnknownTile() {
         super(
                 "SUDO-UNPL-0001",

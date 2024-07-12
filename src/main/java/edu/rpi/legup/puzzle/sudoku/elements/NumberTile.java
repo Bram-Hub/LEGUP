@@ -1,8 +1,8 @@
 package edu.rpi.legup.puzzle.sudoku.elements;
 
-import edu.rpi.legup.model.elements.PlaceableElement;
+import edu.rpi.legup.model.elements.NonPlaceableElement;
 
-public class NumberTile extends PlaceableElement {
+public class NumberTile extends NonPlaceableElement {
     private int object_num;
 
     public NumberTile() {

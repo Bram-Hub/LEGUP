@@ -8,7 +8,7 @@ public class SudokuCellController extends ElementController {
     @Override
     public void changeCell(MouseEvent e, PuzzleElement data) {
         SudokuCell cell = (SudokuCell) data;
-        System.out.print(111);
+        //System.out.print(111);
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (e.isControlDown()) {
                 this.boardView

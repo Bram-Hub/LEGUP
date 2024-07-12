@@ -66,10 +66,11 @@ public class SudokuCell extends GridCell<Integer> {
 
     @Override
     public void setType(Element e, MouseEvent m) {
+        System.out.println("Attempting to change tile");
         if(e.getElementName().equals("Number Tile")){
             if (e.getElementName().equals("Number Tile")) {
                 if (m.getButton() == MouseEvent.BUTTON1) {
-                    if (this.data <= 0 || this.data > 9) {
+                    if (this.data <= 0 || this.data > 8) {
                         this.data = 1;
                     }
                     else {
