@@ -88,6 +88,9 @@ public class ColumnsWithinRowsDirectRule extends DirectRule {
                 != board.getPuzzleNumber() * rows.size() - rowStars) {
             return "The number of missing stars in the columns and rows must be equal and every extraneous cell must be black!";
         }
+        if (columns.contains(cell.getLocation().x)) {
+            return "Only black out cells outside the column(s)!";
+        }
         return null;
     }
 

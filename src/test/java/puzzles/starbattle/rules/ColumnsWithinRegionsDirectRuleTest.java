@@ -179,4 +179,35 @@ public class ColumnsWithinRegionsDirectRuleTest {
         }
     }
 
+    @Test
+    public void ColumnsWithinRegionsDirectRule_FalseColumnsWithinRegions2()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/ColumnsWithinRegionsDirectRule/OneColumnOneCell", starbattle);
+        TreeNode rootNode = starbattle.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        StarBattleBoard board = (StarBattleBoard) transition.getBoard();
+        StarBattleCell cell1 = board.getCell(1,0);
+        cell1.setData(StarBattleCellType.BLACK.value);
+        board.addModifiedData(cell1);
+        StarBattleCell cell2 = board.getCell(1,1);
+        cell2.setData(StarBattleCellType.BLACK.value);
+        board.addModifiedData(cell2);
+
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        Point location = new Point(1, 0);
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Point point = new Point(k, i);
+                if (point.equals(location)) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                } else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
+            }
+        }
+    }
+
 }

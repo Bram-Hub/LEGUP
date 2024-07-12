@@ -38,7 +38,6 @@ public class ColumnsWithinRegionsDirectRule extends DirectRule {
         // are now mutually encompassing
         StarBattleBoard board = (StarBattleBoard) transition.getBoard();
         StarBattleCell cell = (StarBattleCell) board.getPuzzleElement(puzzleElement);
-        System.out.println(cell.getLocation().x + "," + cell.getLocation().y);
         if (cell.getType() != StarBattleCellType.BLACK) {
             return "Only black cells are allowed for this rule!";
         }
@@ -85,11 +84,16 @@ public class ColumnsWithinRegionsDirectRule extends DirectRule {
                 != board.getPuzzleNumber() * regions.size() - regionStars) {
             return "The number of missing stars in the columns and regions must be equal and every extraneous cell must be black!";
         }
+        if (columns.contains(cell.getLocation().x)) {
+            return "Only black out cells outside the column(s)!";
+        }
+        /*
         for (int c: columns) {
             if (c == cell.getLocation().x) {
                 return "Only black out cells outside the column(s)!";
             }
         }
+        */
         return null;
     }
 

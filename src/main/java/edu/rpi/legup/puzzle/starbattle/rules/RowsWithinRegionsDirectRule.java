@@ -85,6 +85,9 @@ public class RowsWithinRegionsDirectRule extends DirectRule {
                 != board.getPuzzleNumber() * regions.size() - regionStars) {
             return "The number of missing stars in the rows and regions must be equal and every extraneous cell must be black!";
         }
+        if (rows.contains(cell.getLocation().y)) {
+            return "Only black out cells outside the row(s)!";
+        }
         return null;
     }
 
