@@ -104,6 +104,9 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
 
         //Getting the row where the user clicked
         ArrayList<BinaryCell> row = origBoard.listRowCells(binaryCell.getLocation().y);
+        ArrayList<BinaryCell> col = origBoard.listRowCells(binaryCell.getLocation().x);
+
+
         int size = row.size();
         int rowNumZeros = 0;
         int rowNumOnes = 0;
@@ -167,6 +170,12 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
                     count = 1;
                 }
             }
+
+            // NOTE: we're still forgetting that after checking for "threeAdjacent" we should
+            // check if there is more than one possibility and if so, check what number those 
+            // possibilities have in common and *hopefully*(probably) that will be our correct 
+            // answer (either way, print out some error if there are multiple common numbers 
+            // because that means the rule is wrong)
 
             if (!threeAdjacent) {
                 nonContraRows.add(curRow);

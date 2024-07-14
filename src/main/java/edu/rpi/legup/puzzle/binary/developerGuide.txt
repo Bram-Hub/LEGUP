@@ -1,0 +1,58 @@
+Developer Setup Guide (For Linux Users)
+
+This setup guide is aimed towards developers planning on using a 
+device using linux to contribute to this project.
+
+Software used:
+    package manager: apt
+    text editor: neovim
+    Git
+    Gradle
+    Java
+
+This step-by-step guide assumes the use of Ubuntu, one of the most 
+commonly used Linux Distros (the steps are the same for any Ubuntu Flavors)
+and for any ubuntu/debian based systems, like Linux mint, elementary os, pop os,
+and others. For other linux distros, the steps will be extremely similar, but the 
+commands will change slightly based on the development environment and package manager.
+For example, updating in ubuntu will be "$ sudo apt update" because it uses the apt 
+package manager, but in Arch based distros, updating could be "sudo pacman -Syy" 
+because it uses the pacman package manager, so for uncommon distros, you just have
+to familiarize yourself with their commands (or do some quick google searches).
+
+Before getting started with any installation, for good practice always update your packages,
+so first enter the following command in the terminal:
+
+        sudo apt update
+
+
+1. Choosing where to code
+
+The fist step is choosing where you will be coding, that could be a full fledge IDE or just 
+a simple text editor, anything from nano to JetBrains Intellij, a fantastic in between is the
+neovim text editor, which is a terminal based text editor that supports plugins using the Lua
+programming language
+
+to install neovim first make sure your system has snapd:
+    
+    sudo apt install snapd
+
+then install neovim
+
+    sudo snap install nvim --classic
+
+
+
+
+Choose where to code – neovim
+
+How to use git - terminal or github desktop
+
+Forking the repository
+
+Downloading the project
+
+Opening the project with ide or text editor
+
+running legup
+
