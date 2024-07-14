@@ -469,8 +469,6 @@ public class TreeView extends ScrollView implements ITreeListener {
         // Update transition modifiability if removing a case rule
         List<TreeNode> parents = trans.getParents();
         for (TreeNode parent : parents) {
-            System.out.println(parent.getParent().getRule());
-
             // if transition is a case rule, unlock ancestor elements up until latest case rule or root node
             boolean nextAncestorIsCaseRule = false;
             Rule rule = trans.getRule();

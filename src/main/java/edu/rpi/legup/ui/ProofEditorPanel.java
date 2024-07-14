@@ -168,7 +168,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
         proof.add(add);
 
-        delete = new JMenuItem("D\"Check All\"elete");
+        delete = new JMenuItem("Delete");
         delete.addActionListener(a -> treePanel.delete());
         if (os.equals("mac")) {
             delete.setAccelerator(
