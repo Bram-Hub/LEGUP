@@ -5,6 +5,7 @@ public enum CommandError {
     ONE_SELECTED_VIEW("The selection must have exactly one tree element."),
     UNMODIFIABLE_BOARD("The selection contains a board which is not modifiable."),
     UNMODIFIABLE_DATA("The selection contains a board where the data element is not modifiable."),
+    UNMODIFIABLE_DATA_CASE_RULE("The proof tree contains a future case rule, causing previous transitions to become unmodifiable."),
     CONTAINS_ROOT("The selection contains the root tree node."),
     ONE_CHILD("The selection contains a tree node that does not have exactly one child."),
     ADD_WITH_CHILD("The selection contains a tree transition that already has a child tree node."),

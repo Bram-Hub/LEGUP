@@ -1,6 +1,10 @@
 package edu.rpi.legup.model.tree;
 
+import edu.rpi.legup.controller.TreeController;
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.rules.CaseRule;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -95,6 +99,9 @@ public class Tree {
             System.out.println("Deleted arrow: " + transition);
 
             transition.getParents().forEach(n -> n.removeChild(transition));
+            TreeController treeController = new TreeController();
+            TreeView treeView = new TreeView(treeController);
+            treeView.removeTreeTransition(transition);
             transition.getParents().get(0).getChildren().forEach(TreeTransition::reverify);
         }
     }

@@ -24,7 +24,7 @@ public class MergeCommand extends PuzzleCommand {
         this.transition = null;
     }
 
-    /** Executes an command */
+    /** Executes a command */
     @Override
     public void executeCommand() {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
