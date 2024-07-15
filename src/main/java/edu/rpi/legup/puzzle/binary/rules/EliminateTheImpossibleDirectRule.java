@@ -23,7 +23,7 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
                 "BINA-BASC-0004",
                 "Eliminate The Impossible",
                 "If three adjacent empty cells are open, prevents a trio of numbers to exist",
-                "edu/rpi/legup/images/binary/rules/OneTileGapDirectRule.png");
+                "edu/rpi/legup/images/binary/rules/EliminateTheImpossibleDirectRule.png");
     }
 
     // Function to generate all binary strings
