@@ -4,11 +4,11 @@ This setup guide is aimed towards developers planning on using a
 device using linux to contribute to this project.
 
 Software used:
-    package manager: apt
-    text editor: neovim
-    Git
-    Gradle
-    Java
+    - package manager: apt & sdk
+    - text editor: neovim
+    - Git
+    - Gradle
+    - Java (v21)  (yes the version matters)
 
 This step-by-step guide assumes the use of Ubuntu, one of the most 
 commonly used Linux Distros (the steps are the same for any Ubuntu Flavors)
@@ -17,7 +17,7 @@ and others. For other linux distros, the steps will be extremely similar, but th
 commands will change slightly based on the development environment and package manager.
 For example, updating in ubuntu will be "$ sudo apt update" because it uses the apt 
 package manager, but in Arch based distros, updating could be "sudo pacman -Syy" 
-because it uses the pacman package manager, so for uncommon distros, you just have
+because it uses the pacman package manager, so for other distros, you just have
 to familiarize yourself with their commands (or do some quick google searches).
 
 Before getting started with any installation, for good practice always update your packages,
@@ -33,26 +33,78 @@ a simple text editor, anything from nano to JetBrains Intellij, a fantastic in b
 neovim text editor, which is a terminal based text editor that supports plugins using the Lua
 programming language
 
+
 to install neovim first make sure your system has snapd:
     
     sudo apt install snapd
+
 
 then install neovim
 
     sudo snap install nvim --classic
 
 
+install git (you can use github desktop if you wish)
+    
+    sudo apt install git
 
 
-Choose where to code – neovim
+install java
 
-How to use git - terminal or github desktop
+ if you already installed java, like throught the "install default-jre" command, check your java version with
+
+    java -version
+
+
+in order for legup to work, you need java 21 on your system, so get it through
+
+    sudo apt install openjdk-21-jdk -y
+
+    wget https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.deb
+
+    sudo apt install ./jdk-21_linux-x64_bin.deb
+
+now running "java -version" should show java 21 installed
+
+
+install gradle 
+
+    sudo apt install curl
+
+    sudo apt install curl
+
+    source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+    sdk install gradle
+
 
 Forking the repository
+    
+    SAME PROCCESS AS NORMAL SETUP GUIDE [COPY]
 
 Downloading the project
+    
+    git clone "https://github.com/*YOUR USERNAME*/*YOUR FORK OF LEGUP*"
 
 Opening the project with ide or text editor
 
+    go to where the project is, go to the directory where the files are then do
+
+    nvim filename
+
+    to exit and save in neovim you must do Esc, :, w, q, Enter
+
+
 running legup
+
+    to run legup, you have to go to the directory where the "build.gradle file is"
+    assuming you cloned the repository into your Documents/GitHub directory, you
+    should go to (you can do cd and the following directory) ~/Documents/GitHub/*YOUR FORKED REPO*
+    and enter 
+            
+            ./gradlew build
+
+    and to run
+        
+            ./gradlew run
 
