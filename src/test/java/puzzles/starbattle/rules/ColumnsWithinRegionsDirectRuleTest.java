@@ -288,4 +288,29 @@ public class ColumnsWithinRegionsDirectRuleTest {
         }
     }
 
+    @Test
+    public void ColumnsWithinRegionsDirectRule_FalseColumnsWithinRegions4()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/ColumnsWithinRegionsDirectRule/FalseStarOverlap", starbattle);
+        TreeNode rootNode = starbattle.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        StarBattleBoard board = (StarBattleBoard) transition.getBoard();
+        StarBattleCell cell1 = board.getCell(2,2);
+        cell1.setData(StarBattleCellType.BLACK.value);
+        board.addModifiedData(cell1);
+        StarBattleCell cell2 = board.getCell(2,3);
+        cell2.setData(StarBattleCellType.BLACK.value);
+        board.addModifiedData(cell2);
+
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+            }
+        }
+    }
+
 }
