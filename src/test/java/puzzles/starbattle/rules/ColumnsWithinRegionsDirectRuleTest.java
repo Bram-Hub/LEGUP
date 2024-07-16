@@ -148,6 +148,34 @@ public class ColumnsWithinRegionsDirectRuleTest {
     }
 
     @Test
+    public void ColumnsWithinRegionsDirectRule_TwoColumnsStarOverlap()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/ColumnsWithinRegionsDirectRule/TwoColumnsStarOverlap", starbattle);
+        TreeNode rootNode = starbattle.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        StarBattleBoard board = (StarBattleBoard) transition.getBoard();
+        StarBattleCell cell1 = board.getCell(2,3);
+        cell1.setData(StarBattleCellType.BLACK.value);
+        board.addModifiedData(cell1);
+
+        Assert.assertNull(RULE.checkRule(transition));
+
+        Point location1 = new Point(2, 3);
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Point point = new Point(k, i);
+                if (point.equals(location1)) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                } else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
+            }
+        }
+    }
+
+    @Test
     public void ColumnsWithinRegionsDirectRule_FalseColumnsWithinRegions1()
             throws InvalidFileFormatException {
         System.out.println("Starting false CWR:");
@@ -206,6 +234,28 @@ public class ColumnsWithinRegionsDirectRuleTest {
                 } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
+            }
+        }
+    }
+
+    @Test
+    public void ColumnsWithinRegionsDirectRule_FalseColumnsWithinRegions3()
+        throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/ColumnsWithinRegionsDirectRule/PartialColumnTwoCells", starbattle);
+        TreeNode rootNode = starbattle.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        StarBattleBoard board = (StarBattleBoard) transition.getBoard();
+        StarBattleCell cell1 = board.getCell(0,1);
+        cell1.setData(StarBattleCellType.BLACK.value);
+        board.addModifiedData(cell1);
+
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
             }
         }
     }
