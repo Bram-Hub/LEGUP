@@ -9,11 +9,9 @@ import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.binary.BinaryType;
 import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
@@ -170,7 +168,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
         proof.add(add);
 
-        delete = new JMenuItem("D\"Check All\"elete");
+        delete = new JMenuItem("Delete");
         delete.addActionListener(a -> treePanel.delete());
         if (os.equals("mac")) {
             delete.setAccelerator(

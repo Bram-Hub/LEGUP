@@ -7,19 +7,18 @@ import edu.rpi.legup.puzzle.binary.BinaryBoard;
 import edu.rpi.legup.puzzle.binary.BinaryCell;
 import edu.rpi.legup.puzzle.binary.BinaryType;
 
-import java.util.ArrayList;
 import java.util.Set;
 
-public class UnbalancedRowOrColumnContradictionRule extends ContradictionRule {
+public class UnbalancedRowColumnContradictionRule extends ContradictionRule {
 
     private final String NO_CONTRADICTION_MESSAGE =
             "Does not contain a contradiction at this index";
     private final String INVALID_USE_MESSAGE = "Row or column must have a value in each cell";
 
-    public UnbalancedRowOrColumnContradictionRule() {
+    public UnbalancedRowColumnContradictionRule() {
         super(
                 "BINA-CONT-0002",
-                "Unbalanced Row Or Column",
+                "Unbalanced Row/Column",
                 "Each row or column must contain an equal number of zeros and ones",
                 "edu/rpi/legup/images/binary/rules/UnbalancedRowColumnContradictionRule.png");
     }

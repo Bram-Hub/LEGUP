@@ -8,17 +8,17 @@ import edu.rpi.legup.puzzle.binary.BinaryCell;
 import edu.rpi.legup.puzzle.binary.BinaryType;
 import java.util.ArrayList;
 
-public class DuplicateRowsOrColumnsContradictionRule extends ContradictionRule {
+public class DuplicateRowsColumnsContradictionRule extends ContradictionRule {
     private final String NO_CONTRADICTION_MESSAGE =
             "Does not contain a contradiction at this index";
     private final String INVALID_USE_MESSAGE = "Row or column must have a value in each cell";
 
-    public DuplicateRowsOrColumnsContradictionRule() {
+    public DuplicateRowsColumnsContradictionRule() {
         super(
                 "BINA-CONT-0003",
-                "Duplicate Rows Or Columns",
-                "There must not be two rows or two columns that are duplicates",
-                "edu/rpi/legup/images/binary/rules/DuplicateRowOrColumnContradictionRule.png");
+                "Duplicate Rows/Columns",
+                "There must not be two of the same row or two of the same column in the puzzle",
+                "edu/rpi/legup/images/binary/rules/DuplicateRowsColumnsContradictionRule.png");
     }
 
     @Override

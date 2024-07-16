@@ -28,7 +28,7 @@ public class FinishRoomCaseRule extends CaseRule {
                 "Room can be finished in up to nine ways",
                 "edu/rpi/legup/images/nurikabe/cases/FinishRoom.png");
         this.MAX_CASES = 9;
-        this.MIN_CASES = 2;
+        this.MIN_CASES = 1;
         this.uniqueCases = new HashSet<>();
     }
 
@@ -49,7 +49,7 @@ public class FinishRoomCaseRule extends CaseRule {
         }
         if (childTransitions.size() < MIN_CASES) {
             return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must have 2 or more children.";
+                    + ": This case rule must have 1 or more children.";
         }
         if (childTransitions.size() != legitCases) {
             return super.getInvalidUseOfRuleMessage()
