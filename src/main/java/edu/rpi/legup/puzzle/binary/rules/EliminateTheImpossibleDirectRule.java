@@ -22,7 +22,7 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
         super(
                 "BINA-BASC-0004",
                 "Eliminate The Impossible",
-                "If three adjacent empty cells are open, prevents a trio of numbers to exist",
+                "Out of the remaining empty cells in this row or column, this digit must go here, otherwise there will be a future contradiction",
                 "edu/rpi/legup/images/binary/rules/EliminateTheImpossibleDirectRule.png");
     }
 
