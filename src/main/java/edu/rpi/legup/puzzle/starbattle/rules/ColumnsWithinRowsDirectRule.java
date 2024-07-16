@@ -61,9 +61,9 @@ public class ColumnsWithinRowsDirectRule extends DirectRule {
             for (int i = 0; i < rowsToCheck.size(); ++i) {
                 int r = rowsToCheck.get(i);
                 rowStars += board.rowStars(r);
-                for (PuzzleElement c : board.getRow(r)) {
-                    int column = ((StarBattleCell) c).getLocation().x;
-                    if (columns.add(column)) {
+                for (StarBattleCell c : board.getRow(r)) {
+                    int column = c.getLocation().x;
+                    if (c.getType() == StarBattleCellType.UNKNOWN && columns.add(column)) {
                         columnsToCheck.add(column);
                     }
                 }
@@ -73,9 +73,9 @@ public class ColumnsWithinRowsDirectRule extends DirectRule {
             for (int i = 0; i < columnsToCheck.size(); ++i) {
                 int c = columnsToCheck.get(i);
                 columnStars += board.columnStars(c);
-                for (PuzzleElement r : board.getCol(c)) {
-                    int row = ((StarBattleCell) r).getLocation().y;
-                    if (rows.add(row)) {
+                for (StarBattleCell r : board.getCol(c)) {
+                    int row = r.getLocation().y;
+                    if (r.getType() == StarBattleCellType.UNKNOWN && rows.add(row)) {
                         rowsToCheck.add(row);
                     }
                 }

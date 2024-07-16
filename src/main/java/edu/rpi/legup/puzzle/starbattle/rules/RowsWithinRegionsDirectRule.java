@@ -58,9 +58,9 @@ public class RowsWithinRegionsDirectRule extends DirectRule {
             for (int i = 0; i < regionsToCheck.size(); ++i) {
                 int r = regionsToCheck.get(i);
                 regionStars += board.getRegion(r).numStars();
-                for (PuzzleElement ro : board.getRegion(r).getCells()) {
-                    int row = ((StarBattleCell) ro).getLocation().y;
-                    if (rows.add(row)) {
+                for (StarBattleCell ro : board.getRegion(r).getCells()) {
+                    int row = ro.getLocation().y;
+                    if (ro.getType() == StarBattleCellType.UNKNOWN && rows.add(row)) {
                         rowsToCheck.add(row);
                     }
                 }
@@ -72,7 +72,7 @@ public class RowsWithinRegionsDirectRule extends DirectRule {
                 rowStars += board.rowStars(r);
                 for (int i = 0; i < board.getSize(); ++i) {
                     int region = board.getCell(i, r).getGroupIndex();
-                    if (regions.add(region)) {
+                    if (board.getCell(i,r).getType() == StarBattleCellType.UNKNOWN && regions.add(region)) {
                         regionsToCheck.add(region);
                     }
                 }

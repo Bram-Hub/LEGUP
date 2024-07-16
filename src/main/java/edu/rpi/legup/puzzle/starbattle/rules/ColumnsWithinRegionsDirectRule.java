@@ -57,9 +57,9 @@ public class ColumnsWithinRegionsDirectRule extends DirectRule {
             for (int i = 0; i < regionsToCheck.size(); ++i) {
                 int r = regionsToCheck.get(i);
                 regionStars += board.getRegion(r).numStars();
-                for (PuzzleElement c : board.getRegion(r).getCells()) {
+                for (StarBattleCell c : board.getRegion(r).getCells()) {
                     int column = ((StarBattleCell) c).getLocation().x;
-                    if (column != cell.getLocation().x && ((StarBattleCell) c).getType() == StarBattleCellType.UNKNOWN && columns.add(column)) {
+                    if (column != cell.getLocation().x && c.getType() == StarBattleCellType.UNKNOWN && columns.add(column)) {
                         columnsToCheck.add(column);
                     }
                 }
