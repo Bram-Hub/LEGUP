@@ -72,7 +72,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
         return null;
     }
 
-    /** Undoes an command */
+    /** Undoes a command */
     @Override
     public void undoCommand() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
