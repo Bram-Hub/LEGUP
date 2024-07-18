@@ -11,14 +11,14 @@ import edu.rpi.legup.puzzle.binary.BinaryType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OneOrZeroCaseRule extends CaseRule {
+public class ZeroOrOneCaseRule extends CaseRule {
 
-    public OneOrZeroCaseRule() {
+    public ZeroOrOneCaseRule() {
         super(
                 "BINA-CASE-0001",
-                "One or Zero",
-                "Each blank cell is either a one or a zero.",
-                "edu/rpi/legup/images/binary/rules/OneOrZeroCaseRule.png");
+                "Zero Or One",
+                "Each blank cell is either a zero or a one.",
+                "edu/rpi/legup/images/binary/rules/ZeroOrOneCaseRule.png");
     }
 
     @Override
@@ -53,8 +53,7 @@ public class OneOrZeroCaseRule extends CaseRule {
     public CaseBoard getCaseBoard(Board board) {
         BinaryBoard binaryBoard = (BinaryBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(binaryBoard, this);
-        caseBoard.setModifiable(true);
-        //binaryBoard.setModifiable(false);
+        binaryBoard.setModifiable(false);
         for (PuzzleElement element : binaryBoard.getPuzzleElements()) {
             if (((BinaryCell) element).getType() == BinaryType.UNKNOWN) {
                 caseBoard.addPickableElement(element);
@@ -72,13 +71,13 @@ public class OneOrZeroCaseRule extends CaseRule {
 
         Board case1 = board.copy();
         PuzzleElement data1 = case1.getPuzzleElement(puzzleElement);
-        data1.setData(BinaryType.ZERO.toValue());
+        data1.setData(BinaryType.ONE.toValue());
         case1.addModifiedData(data1);
         cases.add(case1);
 
         Board case2 = board.copy();
         PuzzleElement data2 = case2.getPuzzleElement(puzzleElement);
-        data2.setData(BinaryType.ONE.toValue());
+        data2.setData(BinaryType.ZERO.toValue());
         case2.addModifiedData(data2);
         cases.add(case2);
 
