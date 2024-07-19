@@ -11,7 +11,7 @@ public class RowsWithinColumnsDirectRule extends DirectRule {
     public RowsWithinColumnsDirectRule() {
         super(
                 "STBL-BASC-0007",
-                "Rows Withing Columns",
+                "Rows Within Columns",
                 "If a number of rows is fully contained by a number of columns with an equal number of missing stars, spaces of other rows in those columns must be black.",
                 "edu/rpi/legup/images/starbattle/rules/RowsWithinColumnsDirectRule.png");
     }
@@ -29,7 +29,11 @@ public class RowsWithinColumnsDirectRule extends DirectRule {
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
 
         ColumnsWithinRowsDirectRule correspondingRule = new ColumnsWithinRowsDirectRule();
-        return correspondingRule.checkRuleRawAt(transition, puzzleElement);
+        String result = correspondingRule.checkRuleRawAt(transition, puzzleElement);
+        if (result != null && result.equals("Only black out cells outside the column(s)!")) {
+            return "Only black out cells outside the row(s)!";
+        }
+        return result;
     }
 
     /**
