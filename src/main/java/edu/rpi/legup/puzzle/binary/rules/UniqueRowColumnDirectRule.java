@@ -90,9 +90,46 @@ public class UniqueRowColumnDirectRule extends DirectRule {
         ArrayList<BinaryType> row = origBoard.getRowTypes(binaryCell.getLocation().y);
         int numEmptyInRow = getNumEmpty(row);
         if (numEmptyInRow != 2) {
-            return "Row or column must have 2 empty cells";
+            return "Row must have 2 empty cells";
         }
 
+        boolean valid = false;
+        for (int i = 0; i < row.size(); i++) {
+            if (i == binaryCell.getLocation().y) {
+                continue;
+            }
+            ArrayList<BinaryType> currRow;
+            currRow = origBoard.getRowTypes(i);
+            for (int j = 0; j < currRow.size(); j++) {
+                int numEmptyInCurrRow = getNumEmpty(currRow);
+                if (numEmptyInCurrRow != 0) {
+                    continue;
+                }
+                if (!row.get(j).equals(currRow.get(j)) && !row.get(j).equals(BinaryType.UNKNOWN)) {
+                    valid = false;
+                    break;
+                }
+                System.out.println(" POS X: " + j + " Y: " + i);
+                System.out.println(" CEL X: " + binaryCell.getLocation().x + " Y: " + binaryCell.getLocation().y);
+
+                if (currRow.get(j).equals(BinaryType.ZERO) && row.get(j).equals(BinaryType.UNKNOWN) && binaryCell.getType().equals(BinaryType.ONE) && binaryCell.getLocation().x == j) {
+                    System.out.println("ROW: " + i + " " + row.get(j).toString() + " = " + currRow.get(j).toString() + "?");
+                    valid = true;
+                }
+                else if (currRow.get(j).equals(BinaryType.ONE) && row.get(j).equals(BinaryType.UNKNOWN) && binaryCell.getType().equals(BinaryType.ZERO) && binaryCell.getLocation().x == j) {
+                    System.out.println("ROW: " + i + " " + row.get(j).toString() + " = " + currRow.get(j).toString() + "?");
+                    valid = true;
+                }
+                System.out.println(j);
+            }
+            if (valid) {
+                break;
+            }
+        }
+
+        if (!valid) {
+            return "Duplicate Row Found";
+        }
         return null;
     }
 
