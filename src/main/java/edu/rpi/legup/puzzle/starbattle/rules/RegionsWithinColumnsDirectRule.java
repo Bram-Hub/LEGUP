@@ -28,7 +28,7 @@ public class RegionsWithinColumnsDirectRule extends DirectRule {
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         ColumnsWithinRegionsDirectRule correspondingRule = new ColumnsWithinRegionsDirectRule();
         String result = correspondingRule.checkRuleRawAt(transition, puzzleElement);
-        if (result.equals("Only black out cells outside the column(s)!")) {
+        if (result != null && result.equals("Only black out cells outside the column(s)!")) {
             return "Only black out cells outside the region(s)!";
         }
         return result;

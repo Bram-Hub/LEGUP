@@ -29,7 +29,7 @@ public class RegionsWithinRowsDirectRule extends DirectRule {
 
         RowsWithinRegionsDirectRule correspondingRule = new RowsWithinRegionsDirectRule();
         String result = correspondingRule.checkRuleRawAt(transition, puzzleElement);
-        if (result.equals("Only black out cells outside the row(s)!")) {
+        if (result != null && result.equals("Only black out cells outside the row(s)!")) {
             return "Only black out cells outside the region(s)!";
         }
         return result;

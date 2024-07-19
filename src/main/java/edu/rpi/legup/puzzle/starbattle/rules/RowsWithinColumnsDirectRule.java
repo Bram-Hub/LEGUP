@@ -30,7 +30,7 @@ public class RowsWithinColumnsDirectRule extends DirectRule {
 
         ColumnsWithinRowsDirectRule correspondingRule = new ColumnsWithinRowsDirectRule();
         String result = correspondingRule.checkRuleRawAt(transition, puzzleElement);
-        if (result.equals("Only black out cells outside the column(s)!")) {
+        if (result != null && result.equals("Only black out cells outside the column(s)!")) {
             return "Only black out cells outside the row(s)!";
         }
         return result;
