@@ -7,7 +7,7 @@ public class NumberTile extends NonPlaceableElement {
 
     public NumberTile() {
         super("SUDO-PLAC-0001", "Number Tile", "A numbered tile", "edu/rpi/legup/images/sudoku/tiles/NumberTile.png");
-        object_num = 0;
+        object_num = 1;
     }
 
     /**
