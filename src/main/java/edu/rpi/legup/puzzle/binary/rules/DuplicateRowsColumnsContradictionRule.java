@@ -31,7 +31,7 @@ public class DuplicateRowsColumnsContradictionRule extends ContradictionRule {
         int size = row.size();
 
         for (int i = 0; i < size; i++) {
-            if (i > cell.getLocation().y) {
+            if (i != cell.getLocation().y) {
                 ArrayList<BinaryType> currRow = binaryBoard.getRowTypes(i);
                 if (currRow.equals(row)) {
                     return null;
@@ -42,7 +42,7 @@ public class DuplicateRowsColumnsContradictionRule extends ContradictionRule {
         ArrayList<BinaryType> col = binaryBoard.getColTypes(cell.getLocation().x);
 
         for (int i = 0; i < size; i++) {
-            if (i > cell.getLocation().x) {
+            if (i != cell.getLocation().x) {
                 ArrayList<BinaryType> currCol = binaryBoard.getColTypes(i);
                 if (currCol.equals(col)) {
                     return null;
