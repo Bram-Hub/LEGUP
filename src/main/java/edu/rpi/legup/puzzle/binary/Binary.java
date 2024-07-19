@@ -66,6 +66,6 @@ public class Binary extends Puzzle {
      */
     @Override
     public boolean isValidDimensions(int rows, int columns){
-        return rows >= 4 && rows % 2 == 0 && rows == columns;
+        return rows >= 2 && rows % 2 == 0 && rows == columns;
     }
 }

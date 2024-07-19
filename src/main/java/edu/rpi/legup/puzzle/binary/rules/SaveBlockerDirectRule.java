@@ -8,21 +8,21 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.binary.BinaryBoard;
 import edu.rpi.legup.puzzle.binary.BinaryCell;
 
-public class PreventWastedDigitDirectRule extends DirectRule  {
+public class SaveBlockerDirectRule extends DirectRule  {
 
     private final String INVALID_USE_MESSAGE = "Number at cell is incorrect";
 
-    public PreventWastedDigitDirectRule() {
+    public SaveBlockerDirectRule() {
         super(
                 "BINA-BASC-0004",
-                "Prevent Wasted Digit",
-                "If somewhere in a row/col a future trio must be blocked, insert th",
-                "edu/rpi/legup/images/binary/rules/PreventWastedDigitDirectRule.png");
+                "Save Blocker",
+                "If a future trio could appear in this row/col, save the digit that could block that trio",
+                "edu/rpi/legup/images/binary/rules/SaveBlockerDirectRule.png");
     }
 
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
-        WastedDigitContradictionRule contraRule = new WastedDigitContradictionRule();
+        WastedBlockerContradictionRule contraRule = new WastedBlockerContradictionRule();
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
         BinaryBoard modified = origBoard.copy();
 

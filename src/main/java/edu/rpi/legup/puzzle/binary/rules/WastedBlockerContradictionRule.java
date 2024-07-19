@@ -9,15 +9,15 @@ import edu.rpi.legup.puzzle.binary.BinaryType;
 
 import java.util.ArrayList;
 
-public class WastedDigitContradictionRule extends ContradictionRule {
+public class WastedBlockerContradictionRule extends ContradictionRule {
     private final String NO_CONTRADICTION_MESSAGE = "Does not contain a contradiction at this index";
 
-    public WastedDigitContradictionRule() {
+    public WastedBlockerContradictionRule() {
         super(
                 "BINA-CONT-0004",
-                "Wasted Digit",
+                "Wasted Blocker",
                 "There exists a cell in this row/column that allocates a digit unnecessarily and will cause a future trio to appear",
-                "edu/rpi/legup/images/binary/rules/WastedDigitContradictionRule.png");
+                "edu/rpi/legup/images/binary/rules/WastedBlockerContradictionRule.png");
     }
 
 
