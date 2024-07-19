@@ -7,17 +7,17 @@ import edu.rpi.legup.puzzle.binary.BinaryBoard;
 import edu.rpi.legup.puzzle.binary.BinaryCell;
 import edu.rpi.legup.puzzle.binary.BinaryType;
 
-public class ThreeAdjacentContradictionRule extends ContradictionRule {
+public class TrioContradictionRule extends ContradictionRule {
     private final String NO_CONTRADICTION_MESSAGE =
             "Does not contain a contradiction at this index";
     private final String INVALID_USE_MESSAGE = "Contradiction must be a zero or one";
 
-    public ThreeAdjacentContradictionRule() {
+    public TrioContradictionRule() {
         super(
                 "BINA-CONT-0001",
-                "Three Adjacent",
+                "Trio",
                 "There must not be three adjacent zeros or three adjacent ones in a row or column",
-                "edu/rpi/legup/images/binary/rules/ThreeAdjacentContradictionRule.png");
+                "edu/rpi/legup/images/binary/rules/TrioContradictionRule.png");
     }
 
     public BinaryCell[] getCellsXAway(Board board, PuzzleElement puzzleElement, int x) {

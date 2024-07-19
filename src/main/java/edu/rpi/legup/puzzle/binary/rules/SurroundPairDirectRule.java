@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.binary.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -21,7 +20,7 @@ public class SurroundPairDirectRule extends DirectRule {
 
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
-        ThreeAdjacentContradictionRule contraRule = new ThreeAdjacentContradictionRule();
+        TrioContradictionRule contraRule = new TrioContradictionRule();
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
         BinaryBoard modified = origBoard.copy();
 
@@ -31,7 +30,7 @@ public class SurroundPairDirectRule extends DirectRule {
             return null;
         }
 
-        return "Grouping of Three Ones or Zeros not found";
+        return "Trio Found";
     }
 
     @Override
