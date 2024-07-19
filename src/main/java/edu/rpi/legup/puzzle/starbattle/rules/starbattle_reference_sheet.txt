@@ -12,6 +12,7 @@ Regions Within Rows: STBL-BASC-0006
 Rows Within Columns: STBL-BASC-0007
 Rows Within Regions: STBL-BASC-0008
 Surround Star: STBL-BASC-0009
+Empty Adjacent: STBL-BASC-0010
 
 Contradiction Rules:
 Too Many Stars: STBL-CONT-0001
