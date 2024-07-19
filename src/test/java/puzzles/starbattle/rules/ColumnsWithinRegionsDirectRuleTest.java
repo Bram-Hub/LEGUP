@@ -147,6 +147,8 @@ public class ColumnsWithinRegionsDirectRuleTest {
         }
     }
 
+    /* Wrote this to figure out the specifics of how the rule is functioning - might change
+    * what the expected result is. */
     @Test
     public void ColumnsWithinRegionsDirectRule_TwoColumnsWaitAMinute()
             throws InvalidFileFormatException {
