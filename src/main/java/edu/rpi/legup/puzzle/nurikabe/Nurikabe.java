@@ -4,6 +4,7 @@ import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
+import org.jetbrains.annotations.Contract;
 
 public class Nurikabe extends Puzzle {
     public Nurikabe() {
@@ -37,6 +38,7 @@ public class Nurikabe extends Puzzle {
     }
 
     @Override
+    @Contract(pure = true)
     /**
      * Determines if the given dimensions are valid for Nurikabe
      *

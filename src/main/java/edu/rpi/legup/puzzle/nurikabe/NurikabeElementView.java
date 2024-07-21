@@ -2,13 +2,15 @@ package edu.rpi.legup.puzzle.nurikabe;
 
 import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class NurikabeElementView extends GridElementView {
 
     private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
     private static final Color FONT_COLOR = Color.BLACK;
 
-    public NurikabeElementView(NurikabeCell cell) {
+    public NurikabeElementView(@NotNull NurikabeCell cell) {
         super(cell);
     }
 
@@ -18,11 +20,12 @@ public class NurikabeElementView extends GridElementView {
      * @return PuzzleElement associated with this view
      */
     @Override
-    public NurikabeCell getPuzzleElement() {
+    public  @NotNull NurikabeCell getPuzzleElement() {
         return (NurikabeCell) super.getPuzzleElement();
     }
 
     @Override
+    @Contract(pure = true)
     public void drawElement(Graphics2D graphics2D) {
         NurikabeCell cell = (NurikabeCell) puzzleElement;
         NurikabeType type = cell.getType();

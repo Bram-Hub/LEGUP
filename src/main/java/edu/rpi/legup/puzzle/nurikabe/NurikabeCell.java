@@ -4,6 +4,7 @@ import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import org.jetbrains.annotations.Contract;
 
 public class NurikabeCell extends GridCell<Integer> {
 
@@ -82,6 +83,7 @@ public class NurikabeCell extends GridCell<Integer> {
      * @return a new copy of the NurikabeCell that is independent of this one
      */
     @Override
+    @Contract(pure = true)
     public NurikabeCell copy() {
         NurikabeCell copy = new NurikabeCell(data, (Point) location.clone());
         copy.setIndex(index);

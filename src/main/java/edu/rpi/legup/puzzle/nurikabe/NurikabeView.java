@@ -4,10 +4,11 @@ import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 import java.awt.*;
+import org.jetbrains.annotations.NotNull;
 
 public class NurikabeView extends GridBoardView {
 
-    public NurikabeView(NurikabeBoard board) {
+    public NurikabeView(@NotNull NurikabeBoard board) {
         super(new BoardController(), new NurikabeController(), board.getDimension());
 
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {

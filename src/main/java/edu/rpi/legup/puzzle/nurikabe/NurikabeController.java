@@ -2,11 +2,15 @@ package edu.rpi.legup.puzzle.nurikabe;
 
 import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import org.jetbrains.annotations.Contract;
+
 import java.awt.event.MouseEvent;
 
 public class NurikabeController extends ElementController {
 
     @Override
+    @Contract(pure = false)
+
     public void changeCell(MouseEvent e, PuzzleElement data) {
         NurikabeCell cell = (NurikabeCell) data;
         if (e.getButton() == MouseEvent.BUTTON1) {
