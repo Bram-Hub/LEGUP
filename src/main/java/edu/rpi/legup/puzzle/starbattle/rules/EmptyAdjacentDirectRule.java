@@ -6,6 +6,8 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
@@ -17,7 +19,7 @@ public class EmptyAdjacentDirectRule extends DirectRule {
                 "STBL-BASC-0010",
                 "Empty Adjacent",
                 "Tiles next to other tiles that need to contain a star to reach the puzzle number for their region/row/column need to be blacked out.",
-                "edu/rpi/legup/images/starbattle/rules/EmptyAdjacent.png");
+                "edu/rpi/legup/images/starbattle/rules/EmptyAdjacentDirectRule.png");
     }
 
     /**
@@ -38,20 +40,30 @@ public class EmptyAdjacentDirectRule extends DirectRule {
         StarBattleCell cell = (StarBattleCell) board.getPuzzleElement(puzzleElement);
 
         if (cell.getType() != StarBattleCellType.BLACK) {
-            return "Only black cells are allowed for this rule!";
+            return super.getInvalidUseOfRuleMessage()
+                    + ": Only black cells are allowed for this rule!";
         }
 
+        int x = cell.getLocation().x;
+        int y = cell.getLocation().y;
+
+        StarBattleCell northWest = board.getCell(x - 1, y - 1);
+        StarBattleCell north = board.getCell(x, y - 1);
+        StarBattleCell northEast = board.getCell(x + 1, y - 1);
+        StarBattleCell west = board.getCell(x - 1, y);
+        StarBattleCell east = board.getCell(x + 1, y);
+        StarBattleCell southWest = board.getCell(x - 1, y + 1);
+        StarBattleCell south = board.getCell(x, y + 1);
+        StarBattleCell southEast = board.getCell(x + 1, y + 1);
+
+        StarBattleCell[] adjacent = {northWest, north, northEast, west, east, southWest, south, southEast};
+
         StarBattleBoard modified = (StarBattleBoard) origBoard.copy();
-        int X = cell.getLocation().x;
-        int Y = cell.getLocation().y;
-        for(int i = X-1; i <= X+1; i++){
-            for(int j = Y-1; j <= Y+1; j++){
-                if(i < 0 || i >= modified.getPuzzleNumber() || j < 0 || j >= modified.getPuzzleNumber()){
-                    continue;
-                } //else
-                if(modified.getCell(i,j).getType() == StarBattleCellType.UNKNOWN){
-                    modified.getCell(i,j).setData(StarBattleCellType.BLACK.value);
-                }//only modify empty cells, star cells remain as is and black cells ignored in case they're unmodifiable
+        for(int i = 0; i < 8; i++){                 //sets each spot to a black square if not filled
+            StarBattleCell temp = adjacent[i];
+
+            if (temp != null && temp.getType() == StarBattleCellType.UNKNOWN) {
+                modified.getCell(temp.getLocation().x, temp.getLocation().y).setData(-1);
             }
         }
 
