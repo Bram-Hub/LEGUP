@@ -10,10 +10,14 @@ import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
+import edu.rpi.legup.model.tree.Tree;
+import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.HomePanel;
 import edu.rpi.legup.ui.boardview.BoardView;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 import edu.rpi.legup.ui.puzzleeditorui.elementsview.ElementFrame;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.util.List;
 import java.util.Objects;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -54,6 +59,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private JPanel treePanel;
     private LegupUI legupUI;
     private EditorElementController editorElementController;
+    private CreatePuzzleDialog cpd;
+    private HomePanel hp;
 
     public PuzzleEditorPanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
         this.fileDialog = fileDialog;
@@ -117,8 +124,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         // file>create
         JMenuItem createPuzzle = new JMenuItem("Create");
         createPuzzle.addActionListener((ActionEvent) -> {
-            HomePanel hp = new HomePanel(this.fileDialog, this.frame, this.legupUI);
-            CreatePuzzleDialog cpd = new CreatePuzzleDialog(this.frame, hp);
+            hp = new HomePanel(this.fileDialog, this.frame, this.legupUI);
+            cpd = new CreatePuzzleDialog(this.frame, hp);
             cpd.setLocationRelativeTo(null);
             cpd.setVisible(true);
         });
@@ -312,7 +319,33 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         toolBar2 = new JToolBar();
         toolBar2.setFloatable(false);
         toolBar2.setRollover(true);
-        setToolBar2Buttons(new JButton[2]);
+        setToolBar2Buttons(new JButton[3]);
+
+        URL reset =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/Reset.png");
+        ImageIcon ResetImageIcon = new ImageIcon(reset);
+        Image ResetImage = ResetImageIcon.getImage();
+        ResetImageIcon =
+                new ImageIcon(
+                        ResetImage.getScaledInstance(
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE,
+                                Image.SCALE_SMOOTH));
+
+        JButton resetButton = new JButton("Reset", ResetImageIcon);
+        resetButton.setFocusPainted(false);
+
+        resetButton.addActionListener(
+            a -> {
+                hp.openEditorWithNewPuzzle(
+                        cpd.getGame(),
+                        Integer.valueOf(cpd.getRows()),
+                        Integer.valueOf(cpd.getColumns()));
+            });
+
+        getToolBar2Buttons()[0] = resetButton;
+        toolBar2.add(getToolBar2Buttons()[0]);
 
         URL save_as =
                 ClassLoader.getSystemClassLoader()
@@ -330,8 +363,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         saveas.setFocusPainted(false);
         saveas.addActionListener((ActionEvent) -> savePuzzle());
 
-        getToolBar2Buttons()[0] = saveas;
-        toolBar2.add(getToolBar2Buttons()[0]);
+        getToolBar2Buttons()[1] = saveas;
+        toolBar2.add(getToolBar2Buttons()[1]);
 
         URL save_and_solve =
                 ClassLoader.getSystemClassLoader()
@@ -367,8 +400,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                         }
                     }
                 });
-        getToolBar2Buttons()[1] = saveandsolve;
-        toolBar2.add(getToolBar2Buttons()[1]);
+        getToolBar2Buttons()[2] = saveandsolve;
+        toolBar2.add(getToolBar2Buttons()[2]);
 
         this.add(toolBar2, BorderLayout.NORTH);
     }

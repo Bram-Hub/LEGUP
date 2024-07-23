@@ -36,89 +36,52 @@ public class UniqueRowColumnDirectRule extends DirectRule {
         }
         return numEmpty;
     }
-
     private String checkSequence(ArrayList<BinaryType> seq, BinaryBoard origBoard, BinaryCell binaryCell, int rowOrColumn) {
-        // rowOrColumn : 0 = row, 1 = column
-        int numEmptyInRow = getNumEmpty(seq);
-        if (numEmptyInRow == 2) {
-            for (int i = 0; i < seq.size(); i++) {
-                if (rowOrColumn == 0) {
-                    if (i == binaryCell.getLocation().y) {
-                        continue;
-                    }
-                } else {
-                    if (i == binaryCell.getLocation().x) {
-                        continue;
-                    }
-                }
-
-                ArrayList<BinaryType> currSeq;
-                if (rowOrColumn == 0) {
-                    currSeq = origBoard.getRowTypes(i);
-                } else {
-                    currSeq = origBoard.getColTypes(i);
-                }
-
-                if (getNumEmpty(currSeq) != 0) {
-                    continue;
-                }
-
-                for (int j = 0; j < seq.size(); j++) {
-                    if (seq.get(j).equals(currSeq.get(j))) {
-                        continue;
-                    }
-                    if (seq.get(j).equals(BinaryType.UNKNOWN)) {
-                        if ((currSeq.get(j).equals(BinaryType.ZERO) && binaryCell.getType().equals(BinaryType.ONE) && binaryCell.getLocation().x == j) ||
-                                (currSeq.get(j).equals(BinaryType.ONE) && binaryCell.getType().equals(BinaryType.ZERO) && binaryCell.getLocation().x == j)) {
-                            continue;
-                        }
-                        else {
-                            return "Duplicate row/column found";
-                        }
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
-        BinaryCell binaryCell = (BinaryCell) puzzleElement;
-
-
-        ArrayList<BinaryType> row = origBoard.getRowTypes(binaryCell.getLocation().y);
-        int numEmptyInRow = getNumEmpty(row);
-        if (numEmptyInRow != 2) {
-            return "Row must have 2 empty cells";
+        // rowOrColumn : 0 for row, 1 for column
+        int numEmpty = getNumEmpty(seq);
+        if (numEmpty > 2) {
+            return "Row/Col must have at most 2 empty cells";
         }
 
         boolean valid = false;
-        for (int i = 0; i < row.size(); i++) {
-            if (i == binaryCell.getLocation().y) {
-                continue;
-            }
-            ArrayList<BinaryType> currRow;
-            currRow = origBoard.getRowTypes(i);
-            for (int j = 0; j < currRow.size(); j++) {
-                int numEmptyInCurrRow = getNumEmpty(currRow);
-                if (numEmptyInCurrRow != 0) {
+        for (int i = 0; i < seq.size(); i++) {
+            ArrayList<BinaryType> currSeq;
+            if (rowOrColumn == 0) {
+                if (i == binaryCell.getLocation().y) {
                     continue;
                 }
-                if (!row.get(j).equals(currRow.get(j)) && !row.get(j).equals(BinaryType.UNKNOWN)) {
-                    valid = false;
-                    break;
+                currSeq = origBoard.getRowTypes(i);
+            } else {
+                if (i == binaryCell.getLocation().x) {
+                    continue;
+                }
+                currSeq = origBoard.getColTypes(i);
+            }
+
+            int numDifferentCells = 0;
+            for (int j = 0; j < currSeq.size(); j++) {
+                int numEmptyInCurrSeq = getNumEmpty(currSeq);
+                if (numEmptyInCurrSeq != 0) {
+                    continue;
+                }
+                if (!seq.get(j).equals(currSeq.get(j)) && !seq.get(j).equals(BinaryType.UNKNOWN)) {
+                    if (++numDifferentCells > 1 || numEmpty != 1) {
+                        valid = false;
+                        break;
+                    }
                 }
                 System.out.println(" POS X: " + j + " Y: " + i);
                 System.out.println(" CEL X: " + binaryCell.getLocation().x + " Y: " + binaryCell.getLocation().y);
 
-                if (currRow.get(j).equals(BinaryType.ZERO) && row.get(j).equals(BinaryType.UNKNOWN) && binaryCell.getType().equals(BinaryType.ONE) && binaryCell.getLocation().x == j) {
-                    System.out.println("ROW: " + i + " " + row.get(j).toString() + " = " + currRow.get(j).toString() + "?");
-                    valid = true;
+                if (currSeq.get(j).equals(BinaryType.ZERO) && seq.get(j).equals(BinaryType.UNKNOWN) && binaryCell.getType().equals(BinaryType.ONE)) {
+                    if ((rowOrColumn == 0 && binaryCell.getLocation().x == j) || rowOrColumn == 1 && binaryCell.getLocation().y == j) {
+                        valid = true;
+                    }
                 }
-                else if (currRow.get(j).equals(BinaryType.ONE) && row.get(j).equals(BinaryType.UNKNOWN) && binaryCell.getType().equals(BinaryType.ZERO) && binaryCell.getLocation().x == j) {
-                    System.out.println("ROW: " + i + " " + row.get(j).toString() + " = " + currRow.get(j).toString() + "?");
-                    valid = true;
+                else if (currSeq.get(j).equals(BinaryType.ONE) && seq.get(j).equals(BinaryType.UNKNOWN) && binaryCell.getType().equals(BinaryType.ZERO)) {
+                    if ((rowOrColumn == 0 && binaryCell.getLocation().x == j) || rowOrColumn == 1 && binaryCell.getLocation().y == j) {
+                        valid = true;
+                    }
                 }
                 System.out.println(j);
             }
@@ -128,9 +91,26 @@ public class UniqueRowColumnDirectRule extends DirectRule {
         }
 
         if (!valid) {
-            return "Duplicate Row Found";
+            return "Rule is not applicable";
         }
         return null;
+    }
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+        BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
+        BinaryCell binaryCell = (BinaryCell) puzzleElement;
+
+
+        ArrayList<BinaryType> row = origBoard.getRowTypes(binaryCell.getLocation().y);
+        if (checkSequence(row, origBoard, binaryCell, 0) == null) {
+            return null;
+        }
+
+        ArrayList<BinaryType> col = origBoard.getColTypes(binaryCell.getLocation().x);
+        if (checkSequence(col, origBoard, binaryCell, 1) == null) {
+            return null;
+        }
+
+        return "Rule is not applicable";
     }
 
     @Override
