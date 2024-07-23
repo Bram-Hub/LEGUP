@@ -208,7 +208,6 @@ public class ColumnsWithinRegionsDirectRuleTest {
     @Test
     public void ColumnsWithinRegionsDirectRule_FalseColumnsWithinRegions1()
             throws InvalidFileFormatException {
-        System.out.println("Starting false CWR:");
         TestUtilities.importTestBoard("puzzles/starbattle/rules/ColumnsWithinRegionsDirectRule/OneColumnOneCell", starbattle);
         TreeNode rootNode = starbattle.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
