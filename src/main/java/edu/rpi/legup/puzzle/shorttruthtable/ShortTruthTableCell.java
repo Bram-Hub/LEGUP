@@ -2,6 +2,8 @@ package edu.rpi.legup.puzzle.shorttruthtable;
 
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
+import org.jetbrains.annotations.Contract;
+
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 
@@ -114,9 +116,9 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType> {
     // Copy function
 
     @Override
+    @Contract(pure = true)
     public ShortTruthTableCell copy() {
         ShortTruthTableCell copy = new ShortTruthTableCell(symbol, data, (Point) location.clone());
-        copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
         return copy;

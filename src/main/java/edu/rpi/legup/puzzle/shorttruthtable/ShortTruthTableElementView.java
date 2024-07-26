@@ -3,6 +3,8 @@ package edu.rpi.legup.puzzle.shorttruthtable;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class ShortTruthTableElementView extends GridElementView {
 
@@ -28,11 +30,12 @@ public class ShortTruthTableElementView extends GridElementView {
      * @return PuzzleElement associated with this view
      */
     @Override
-    public ShortTruthTableCell getPuzzleElement() {
+    public @NotNull ShortTruthTableCell getPuzzleElement() {
         return (ShortTruthTableCell) super.getPuzzleElement();
     }
 
     @Override
+    @Contract(pure = true)
     public void drawElement(Graphics2D graphics2D) {
 
         // get information about the cell

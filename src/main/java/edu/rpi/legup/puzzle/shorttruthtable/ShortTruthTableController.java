@@ -2,11 +2,14 @@ package edu.rpi.legup.puzzle.shorttruthtable;
 
 import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import org.jetbrains.annotations.Contract;
+
 import java.awt.event.MouseEvent;
 
 public class ShortTruthTableController extends ElementController {
 
     @Override
+    @Contract(pure = false)
     public void changeCell(MouseEvent e, PuzzleElement data) {
 
         System.out.println("STTController: Cell change");

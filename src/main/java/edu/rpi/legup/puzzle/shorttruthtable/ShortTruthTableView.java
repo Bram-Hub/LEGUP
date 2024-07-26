@@ -4,10 +4,11 @@ import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 import java.awt.*;
+import org.jetbrains.annotations.NotNull;
 
 public class ShortTruthTableView extends GridBoardView {
 
-    public ShortTruthTableView(ShortTruthTableBoard board) {
+    public ShortTruthTableView(@NotNull ShortTruthTableBoard board) {
         super(new BoardController(), new ShortTruthTableController(), board.getDimension());
 
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {

@@ -3,15 +3,18 @@ package edu.rpi.legup.puzzle.shorttruthtable;
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import org.w3c.dom.Document;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class ShortTruthTableExporter extends PuzzleExporter {
 
-    public ShortTruthTableExporter(ShortTruthTable stt) {
+    public ShortTruthTableExporter(@NotNull ShortTruthTable stt) {
         super(stt);
     }
 
     @Override
-    protected org.w3c.dom.Element createBoardElement(Document newDocument) {
+    @Contract(pure = true)
+    protected @NotNull org.w3c.dom.Element createBoardElement(Document newDocument) {
         ShortTruthTableBoard board;
         if (puzzle.getTree() != null) {
             board = (ShortTruthTableBoard) puzzle.getTree().getRootNode().getBoard();

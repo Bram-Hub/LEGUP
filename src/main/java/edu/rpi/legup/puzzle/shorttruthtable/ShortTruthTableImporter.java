@@ -11,10 +11,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 class ShortTruthTableImporter extends PuzzleImporter {
 
-    public ShortTruthTableImporter(ShortTruthTable stt) {
+    public ShortTruthTableImporter(@NotNull ShortTruthTable stt) {
         super(stt);
     }
 
@@ -253,11 +255,13 @@ class ShortTruthTableImporter extends PuzzleImporter {
     }
 
     @Override
+    @Contract(pure = true, value = "-> false")
     public boolean acceptsRowsAndColumnsInput() {
         return false;
     }
 
     @Override
+    @Contract(pure = true, value = "-> true")
     public boolean acceptsTextInput() {
         return true;
     }
@@ -270,6 +274,7 @@ class ShortTruthTableImporter extends PuzzleImporter {
      * @throws RuntimeException
      */
     @Override
+    @Contract(pure = false)
     public void initializeBoard(int rows, int columns) {}
 
     // STATEMENT IMPORTER
@@ -281,6 +286,7 @@ class ShortTruthTableImporter extends PuzzleImporter {
      * @throws InvalidFileFormatException
      */
     @Override
+    @Contract(pure = false)
     public void initializeBoard(Node node) throws InvalidFileFormatException {
 
         try {
@@ -331,6 +337,7 @@ class ShortTruthTableImporter extends PuzzleImporter {
      * @throws UnsupportedOperationException
      * @throws IllegalArgumentException
      */
+    @Contract(pure = false)
     public void initializeBoard(String[] statementInput)
             throws UnsupportedOperationException, IllegalArgumentException {
         List<String> statementsList = new LinkedList<>();

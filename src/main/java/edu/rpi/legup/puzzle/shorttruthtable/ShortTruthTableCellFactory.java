@@ -5,6 +5,8 @@ import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
+
+import org.jetbrains.annotations.Contract;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -19,6 +21,7 @@ public class ShortTruthTableCellFactory extends ElementFactory {
      * @throws InvalidFileFormatException if file is invalid
      */
     @Override
+    @Contract(pure = false)
     public ShortTruthTableCell importCell(Node node, Board board)
             throws InvalidFileFormatException {
 
@@ -59,6 +62,7 @@ public class ShortTruthTableCellFactory extends ElementFactory {
      * @param puzzleElement PuzzleElement cell
      * @return xml PuzzleElement
      */
+    @Contract(pure = false)
     public org.w3c.dom.Element exportCell(Document document, PuzzleElement puzzleElement) {
 
         ShortTruthTableCell cell = (ShortTruthTableCell) puzzleElement;
