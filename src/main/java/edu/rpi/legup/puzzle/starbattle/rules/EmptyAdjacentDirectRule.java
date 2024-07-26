@@ -59,18 +59,25 @@ public class EmptyAdjacentDirectRule extends DirectRule {
         StarBattleCell[] adjacent = {northWest, north, northEast, west, east, southWest, south, southEast};
 
         StarBattleBoard modified = (StarBattleBoard) origBoard.copy();
+        modified.getPuzzleElement(puzzleElement).setData(StarBattleCellType.STAR.value);
         for(int i = 0; i < 8; i++){                 //sets each spot to a black square if not filled
             StarBattleCell temp = adjacent[i];
 
             if (temp != null && temp.getType() == StarBattleCellType.UNKNOWN) {
-                modified.getCell(temp.getLocation().x, temp.getLocation().y).setData(-1);
+                temp.setData(StarBattleCellType.BLACK.value);
+                int X = temp.getLocation().x;
+                int Y = temp.getLocation().y;
+                modified.getCell(X,Y).setData(StarBattleCellType.BLACK.value);
+                System.out.println("covering square " + X + " " + Y + " type " + modified.getCell(X,Y).getType() + " i = " + i + "\n");
+                if(contraRule.checkContradictionAt(modified, temp) == null){
+                    System.out.println("Good job!");
+                    return null;        //used correctly if even one space causes a toofewstars issue
+                }
             }
         }
+        System.out.println("Wait why did this exit?\n");
 
-        if (contraRule.checkContradictionAt(modified, puzzleElement) != null) {
-            return "Black cells must be placed adjacent to a tile(s) where a star is needed!";
-        }
-        return null;
+        return "Black cells must be placed adjacent to a tile(s) where a star is needed!";
     }
 
     /**
