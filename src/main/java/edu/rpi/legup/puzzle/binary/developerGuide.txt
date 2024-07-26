@@ -3,12 +3,15 @@ Developer Setup Guide (For Linux Users)
 This setup guide is aimed towards developers planning on using a 
 device using linux to contribute to this project.
 
+In summary, what you need to contribute to this project is a text editor, git, gradle, and java 21, if you have those or a way to get them, you can use them to contribute, otherwise, follow this guide, which might look a little intimidating, but it really isn'nt as bad as it looks.
+
 Software used:
     - package manager: apt & sdk
     - text editor: neovim
     - Git
     - Gradle
     - Java (v21)  (yes the version matters)
+
 
 This step-by-step guide assumes the use of Ubuntu, one of the most 
 commonly used Linux Distros (the steps are the same for any Ubuntu Flavors)
@@ -44,14 +47,14 @@ then install neovim
     sudo snap install nvim --classic
 
 
-install git (you can use github desktop if you wish)
+2. Install git (you can use github desktop if you wish)
     
     sudo apt install git
 
 
-install java
+3. Install java
 
- if you already installed java, like throught the "install default-jre" command, check your java version with
+ if you already installed java, like through the "install default-jre" command, check your java version with
 
     java -version
 
@@ -67,26 +70,40 @@ in order for legup to work, you need java 21 on your system, so get it through
 now running "java -version" should show java 21 installed
 
 
-install gradle 
+4. Install gradle 
 
     sudo apt install curl
 
-    sudo apt install curl
+    curl -s "https://get.sdkman.io" | bash
 
     source "$HOME/.sdkman/bin/sdkman-init.sh"
 
     sdk install gradle
 
 
-Forking the repository
+5. Forking the repository
     
-    SAME PROCCESS AS NORMAL SETUP GUIDE [COPY]
+    Most of the work you will doing will be in your forked repository. Follow the following steps to fork the main repository:
 
-Downloading the project
+    1. Go to the the main LEGUP repository: https://github.com/Bram-Hub/Legup
+    2. Press the "Fork" button on the top right side of the page.
+    3. When forking, uncheck the box saying to fork from the default branch only; dev work should be done on the dev branch then pushed into the dev branch of the original LEGUP
+
+
+6. Downloading the project
     
     git clone "https://github.com/*YOUR USERNAME*/*YOUR FORK OF LEGUP*"
 
-Opening the project with ide or text editor
+    if you experience any errors when cloning the repository, like an authentication error, you might need 
+    to add a github ssh key to your home directory/.ssh, if not there, create a folder called .ssh in your
+    home directory, open the terminal at that location and enter the following command:
+        
+    ssh-keygen -t ed25519 -C "your_email@example.com"
+
+
+    you will then need to open the file and add it to your github account in security/ssh keys
+
+7. Opening the project with ide or text editor
 
     go to where the project is, go to the directory where the files are then do
 
@@ -95,7 +112,7 @@ Opening the project with ide or text editor
     to exit and save in neovim you must do Esc, :, w, q, Enter
 
 
-running legup
+8. running legup
 
     to run legup, you have to go to the directory where the "build.gradle file is"
     assuming you cloned the repository into your Documents/GitHub directory, you
