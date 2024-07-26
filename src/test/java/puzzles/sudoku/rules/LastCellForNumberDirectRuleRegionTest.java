@@ -22,5 +22,10 @@ public class LastCellForNumberDirectRuleRegionTest {
         MockGameBoardFacade.getInstance();
         sudoku = new Sudoku();
     }
+    /*test ideas:
+    -basic test (based off icon)
+    -"staircase" test
+    -false
+    */
 
 }
