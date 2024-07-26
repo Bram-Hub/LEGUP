@@ -27,5 +27,30 @@ public class LastCellForNumberDirectRuleRegionTest {
     -"staircase" test
     -false
     */
+    @Test
+    public void basicSpotTest() throws InvalidFileFormatException{
+        TestUtilities.importTestBoard(
+                "puzzles/sudoku/rules/LastCellForNumberDirectRule/OnePossible", sudoku
+                );
+        TreeNode rootNode = sudoku.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        for(int i = 1; i <= 9; ++i) {
+            SudokuBoard board = (SudokuBoard) transition.getBoard();
+            SudokuCell cell = board.getCell(1,1);
+
+            cell.setData(i);
+            board.addModifiedData(cell);
+            if(i == 5) {
+                Assert.assertNull(RULE.checkRuleAt(transition, cell));
+            }
+            else {
+                Assert.assertNotNull(RULE.checkRuleAt(transition, cell));
+            }
+
+        }
+
+    }
 
 }
