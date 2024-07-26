@@ -6,21 +6,25 @@ import java.awt.Point;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class StarBattleImporter extends PuzzleImporter {
 
-    public StarBattleImporter(StarBattle starbattle) {
+    public StarBattleImporter(@NotNull StarBattle starbattle) {
         super(starbattle);
     }
 
     /** Puzzle setting to support row and column inputs */
     @Override
+    @Contract(pure = true, value = "-> true")
     public boolean acceptsRowsAndColumnsInput() {
         return true;
     }
 
     /** Puzzle setting to disable support for text input */
     @Override
+    @Contract(pure = true, value = "-> false")
     public boolean acceptsTextInput() {
         return false;
     }
@@ -44,6 +48,7 @@ public class StarBattleImporter extends PuzzleImporter {
      * @throws InvalidFileFormatException if file is invalid
      */
     @Override
+    @Contract(pure = false)
     public void initializeBoard(Node node) throws InvalidFileFormatException {
         Element puzzleElement = (Element) node;
         int puzzle_num = Integer.parseInt(puzzleElement.getAttribute("puzzle_num"));
@@ -92,7 +97,8 @@ public class StarBattleImporter extends PuzzleImporter {
      * @throws UnsupportedOperationException since StarBattle does not support text input
      */
     @Override
-    public void initializeBoard(String[] statements) throws UnsupportedOperationException {
+    @Contract(value = "_ -> fail", pure = false)
+    public void initializeBoard(@NotNull String[] statements) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Star Battle does not accept text input");
     }
 }

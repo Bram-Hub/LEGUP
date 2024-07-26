@@ -2,11 +2,15 @@ package edu.rpi.legup.puzzle.starbattle;
 
 import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.event.MouseEvent;
 
 public class StarBattleController extends ElementController {
     @Override
-    public void changeCell(MouseEvent e, PuzzleElement data) {
+    @Contract(pure = false)
+    public void changeCell(@NotNull MouseEvent e, @NotNull PuzzleElement data) {
         StarBattleCell cell = (StarBattleCell) data;
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (e.isControlDown()) {

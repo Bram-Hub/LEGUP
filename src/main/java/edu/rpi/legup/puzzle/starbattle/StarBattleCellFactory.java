@@ -8,10 +8,13 @@ import java.awt.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class StarBattleCellFactory extends ElementFactory {
     @Override
-    public StarBattleCell importCell(Node node, Board board) throws InvalidFileFormatException {
+    @Contract(pure = false)
+    public StarBattleCell importCell(@NotNull Node node, @NotNull Board board) throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("cell")) {
                 throw new InvalidFileFormatException(
@@ -50,8 +53,8 @@ public class StarBattleCellFactory extends ElementFactory {
             throw new InvalidFileFormatException("starbattle Factory: could not find attribute(s)");
         }
     }
-
-    public org.w3c.dom.Element exportCell(Document document, PuzzleElement puzzleElement) {
+    @Contract(pure = false)
+    public org.w3c.dom.Element exportCell(@NotNull Document document, @NotNull PuzzleElement puzzleElement) {
         org.w3c.dom.Element cellElement = document.createElement("cell");
 
         StarBattleCell cell = (StarBattleCell) puzzleElement;

@@ -2,6 +2,9 @@ package edu.rpi.legup.puzzle.starbattle;
 
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -17,7 +20,7 @@ public class StarBattleCell extends GridCell<Integer> {
      * @param groupIndex indicates what group # the cell is in.
      * @param size size of the star battle cell
      */
-    public StarBattleCell(int value, Point location, int groupIndex, int size) {
+    public StarBattleCell(int value, @NotNull Point location, int groupIndex, int size) {
         super(value, location);
         this.groupIndex = groupIndex;
         this.max = size;
@@ -28,7 +31,7 @@ public class StarBattleCell extends GridCell<Integer> {
     }
 
     @Override
-    public void setType(Element e, MouseEvent m) {
+    public void setType(@NotNull Element e, @NotNull MouseEvent m) {
         switch (e.getElementID()) {
             case "STBL-PLAC-0001":
                 this.data = -3;
@@ -77,6 +80,7 @@ public class StarBattleCell extends GridCell<Integer> {
         return null;
     }
 
+    @Contract(pure = true)
     public StarBattleCell copy() {
         StarBattleCell copy = new StarBattleCell(data, (Point) location.clone(), groupIndex, max);
         copy.setIndex(index);

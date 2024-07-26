@@ -5,6 +5,7 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class Nurikabe extends Puzzle {
     public Nurikabe() {
@@ -20,6 +21,7 @@ public class Nurikabe extends Puzzle {
 
     /** Initializes the game board. Called by the invoker of the class */
     @Override
+    @Contract(pure = false)
     public void initializeView() {
         boardView = new NurikabeView((NurikabeBoard) currentBoard);
         boardView.setBoard(currentBoard);
@@ -33,6 +35,7 @@ public class Nurikabe extends Puzzle {
      * @return board of the random edu.rpi.legup.puzzle
      */
     @Override
+    @Contract("_ -> null")
     public Board generatePuzzle(int difficulty) {
         return null;
     }
@@ -57,7 +60,8 @@ public class Nurikabe extends Puzzle {
      * @return true if board is valid, false otherwise
      */
     @Override
-    public boolean isBoardComplete(Board board) {
+    @Contract(pure = true)
+    public boolean isBoardComplete(@NotNull Board board) {
         NurikabeBoard nurikabeBoard = (NurikabeBoard) board;
 
         for (ContradictionRule rule : contradictionRules) {
@@ -80,5 +84,6 @@ public class Nurikabe extends Puzzle {
      * @param board the board that has changed
      */
     @Override
-    public void onBoardChange(Board board) {}
+    @Contract(pure = true)
+    public void onBoardChange(@NotNull Board board) {}
 }

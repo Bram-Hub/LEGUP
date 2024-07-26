@@ -2,20 +2,23 @@ package edu.rpi.legup.puzzle.starbattle;
 
 import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class StarBattleElementView extends GridElementView {
 
-    public StarBattleElementView(StarBattleCell cell) {
+    public StarBattleElementView(@NotNull StarBattleCell cell) {
         super(cell);
     }
 
     @Override
-    public StarBattleCell getPuzzleElement() {
+    public @NotNull StarBattleCell getPuzzleElement() {
         return (StarBattleCell) super.getPuzzleElement();
     }
 
     @Override
-    public void drawElement(Graphics2D graphics2D) {
+    @Contract(pure = true)
+    public void drawElement(@NotNull Graphics2D graphics2D) {
         StarBattleCell cell = (StarBattleCell) puzzleElement;
         StarBattleCellType type = cell.getType();
         if (type == StarBattleCellType.STAR) {

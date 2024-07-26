@@ -2,6 +2,8 @@ package edu.rpi.legup.puzzle.starbattle;
 
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class StarBattle extends Puzzle {
     public StarBattle() {
@@ -15,12 +17,14 @@ public class StarBattle extends Puzzle {
     }
 
     @Override
+    @Contract(pure = false)
     public void initializeView() {
         boardView = new StarBattleView((StarBattleBoard) currentBoard);
         addBoardListener(boardView);
     }
 
     @Override
+    @Contract("_ -> null")
     public Board generatePuzzle(int difficulty) {
         return null;
     }
@@ -31,5 +35,6 @@ public class StarBattle extends Puzzle {
     }
 
     @Override
-    public void onBoardChange(Board board) {}
+    @Contract(pure = true)
+    public void onBoardChange(@NotNull Board board) {}
 }

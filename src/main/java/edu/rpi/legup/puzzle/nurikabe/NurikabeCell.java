@@ -5,6 +5,7 @@ import edu.rpi.legup.model.gameboard.GridCell;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class NurikabeCell extends GridCell<Integer> {
 
@@ -14,7 +15,7 @@ public class NurikabeCell extends GridCell<Integer> {
      * @param value value of the NurikabeCell
      * @param location position of the NurikabeCell
      */
-    public NurikabeCell(int value, Point location) {
+    public NurikabeCell(int value, @NotNull Point location) {
         super(value, location);
     }
 
@@ -45,7 +46,7 @@ public class NurikabeCell extends GridCell<Integer> {
      * @param e element to set the type of this nurikabe cell to
      */
     @Override
-    public void setType(Element e, MouseEvent m) {
+    public void setType(@NotNull Element e, @NotNull MouseEvent m) {
         switch (e.getElementID()) {
             case "NURI-PLAC-0001":
                 this.data = -1;

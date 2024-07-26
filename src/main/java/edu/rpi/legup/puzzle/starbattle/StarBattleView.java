@@ -6,6 +6,7 @@ import edu.rpi.legup.ui.boardview.GridBoardView;
 import java.awt.*;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import org.jetbrains.annotations.NotNull;
 
 public class StarBattleView extends GridBoardView {
     static Image STAR;
@@ -21,7 +22,7 @@ public class StarBattleView extends GridBoardView {
         }
     }
 
-    public StarBattleView(StarBattleBoard board) {
+    public StarBattleView(@NotNull StarBattleBoard board) {
         super(new BoardController(), new StarBattleController(), board.getDimension());
 
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
