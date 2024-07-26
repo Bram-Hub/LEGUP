@@ -4,6 +4,8 @@ import static edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType.convertToSkyType;
 
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
+import org.jetbrains.annotations.Contract;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -56,6 +58,7 @@ public class SkyscrapersCell extends GridCell<Integer> {
     }
 
     @Override
+    @Contract(pure = true)
     public SkyscrapersCell copy() {
         SkyscrapersCell copy = new SkyscrapersCell(data, (Point) location.clone(), max);
         copy.setIndex(index);

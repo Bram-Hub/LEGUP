@@ -2,6 +2,8 @@ package edu.rpi.legup.puzzle.skyscrapers;
 
 import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class SkyscrapersElementView extends GridElementView {
     private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
@@ -9,11 +11,12 @@ public class SkyscrapersElementView extends GridElementView {
     private static final Color BORDER_COLOR = new Color(0x424242);
     private static final Color BACKGROUND_COLOR = new Color(0xEEEEEE);
 
-    public SkyscrapersElementView(SkyscrapersCell cell) {
+    public SkyscrapersElementView(@NotNull SkyscrapersCell cell) {
         super(cell);
     }
 
     @Override
+    @Contract (pure = true)
     public void drawElement(Graphics2D graphics2D) {
         graphics2D.setStroke(new BasicStroke(1));
         graphics2D.setColor(BACKGROUND_COLOR);

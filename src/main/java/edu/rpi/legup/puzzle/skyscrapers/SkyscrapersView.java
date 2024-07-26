@@ -10,6 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 public class SkyscrapersView extends GridBoardView {
     private static final Logger LOGGER = LogManager.getLogger(SkyscrapersView.class.getName());
@@ -19,7 +20,7 @@ public class SkyscrapersView extends GridBoardView {
     private ArrayList<SkyscrapersClueView> southClues;
     private ArrayList<SkyscrapersClueView> westClues;
 
-    public SkyscrapersView(SkyscrapersBoard board) {
+    public SkyscrapersView(@NotNull SkyscrapersBoard board) {
         super(new BoardController(), new SkyscrapersController(), board.getDimension());
 
         this.northClues = new ArrayList<>();

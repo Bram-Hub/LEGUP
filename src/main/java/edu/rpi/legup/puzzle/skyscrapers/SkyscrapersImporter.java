@@ -6,18 +6,22 @@ import java.awt.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class SkyscrapersImporter extends PuzzleImporter {
-    public SkyscrapersImporter(Skyscrapers skyscrapers) {
+    public SkyscrapersImporter(@NotNull Skyscrapers skyscrapers) {
         super(skyscrapers);
     }
 
     @Override
+    @Contract(pure = true, value = "-> true")
     public boolean acceptsRowsAndColumnsInput() {
         return true;
     }
 
     @Override
+    @Contract(pure = true, value = "-> false")
     public boolean acceptsTextInput() {
         return false;
     }
@@ -30,6 +34,7 @@ public class SkyscrapersImporter extends PuzzleImporter {
      * @throws RuntimeException if board can not be created
      */
     @Override
+    @Contract(pure = false)
     public void initializeBoard(int rows, int columns) {
         // assert(rows == columns);
         int size = rows;
@@ -74,7 +79,8 @@ public class SkyscrapersImporter extends PuzzleImporter {
      * @throws InvalidFileFormatException if file is invalid
      */
     @Override
-    public void initializeBoard(Node node) throws InvalidFileFormatException {
+    @Contract(pure = false)
+    public void initializeBoard(@NotNull Node node) throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("board")) {
                 throw new InvalidFileFormatException(
@@ -218,6 +224,7 @@ public class SkyscrapersImporter extends PuzzleImporter {
     }
 
     @Override
+    @Contract(value = "_ -> fail", pure = false)
     public void initializeBoard(String[] statements) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Skyscrapers cannot accept text input");
     }

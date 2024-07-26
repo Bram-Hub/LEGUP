@@ -3,15 +3,18 @@ package edu.rpi.legup.puzzle.skyscrapers;
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import org.w3c.dom.Document;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class SkyscrapersExporter extends PuzzleExporter {
 
-    public SkyscrapersExporter(Skyscrapers skyscrapers) {
+    public SkyscrapersExporter(@NotNull Skyscrapers skyscrapers) {
         super(skyscrapers);
     }
 
     @Override
-    protected org.w3c.dom.Element createBoardElement(Document newDocument) {
+    @Contract (pure = true)
+    protected @NotNull org.w3c.dom.Element createBoardElement(@NotNull Document newDocument) {
         SkyscrapersBoard board;
         if (puzzle.getTree() != null) {
             board = (SkyscrapersBoard) puzzle.getTree().getRootNode().getBoard();

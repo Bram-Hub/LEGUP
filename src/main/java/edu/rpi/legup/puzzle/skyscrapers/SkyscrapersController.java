@@ -2,6 +2,8 @@ package edu.rpi.legup.puzzle.skyscrapers;
 
 import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import org.jetbrains.annotations.Contract;
+
 import java.awt.event.MouseEvent;
 
 public class SkyscrapersController extends ElementController {
@@ -11,6 +13,7 @@ public class SkyscrapersController extends ElementController {
     }
 
     @Override
+    @Contract(pure = false)
     public void changeCell(MouseEvent e, PuzzleElement element) {
         SkyscrapersCell cell = (SkyscrapersCell) element;
         if (e.getButton() == MouseEvent.BUTTON1) {
