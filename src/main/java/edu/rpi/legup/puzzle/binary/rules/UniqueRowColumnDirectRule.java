@@ -18,7 +18,7 @@ public class UniqueRowColumnDirectRule extends DirectRule {
 
     public UniqueRowColumnDirectRule() {
         super(
-                "BINA-BASC-0005",
+                "BINA-BASC-0004",
                 "Unique Row/Column",
                 "If an unfinished row/column only differs by two empty cells from a finished one, fill empty cells with the opposite digits",
                 "edu/rpi/legup/images/binary/rules/UniqueRowColumnDirectRule.png");
