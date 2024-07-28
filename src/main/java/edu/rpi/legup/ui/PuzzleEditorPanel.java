@@ -301,8 +301,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         JButton create = new JButton("Create", CreateImageIcon);
         create.setFocusPainted(false);
         create.addActionListener((ActionEvent) -> {
-            HomePanel hp = new HomePanel(this.fileDialog, this.frame, this.legupUI);
-            CreatePuzzleDialog cpd = new CreatePuzzleDialog(this.frame, hp);
+            hp = new HomePanel(this.fileDialog, this.frame, this.legupUI);
+            cpd = new CreatePuzzleDialog(this.frame, hp);
             cpd.setLocationRelativeTo(null);
             cpd.setVisible(true);
         });
@@ -338,10 +338,12 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         resetButton.addActionListener(
             a -> {
-                hp.openEditorWithNewPuzzle(
-                        cpd.getGame(),
-                        Integer.valueOf(cpd.getRows()),
-                        Integer.valueOf(cpd.getColumns()));
+                if (cpd.getGame().equals("ShortTruthTable")) {
+                    GameBoardFacade.getInstance().loadPuzzle(cpd.getGame(), cpd.getTextArea());
+                }
+                else {
+                    GameBoardFacade.getInstance().loadPuzzle(cpd.getGame(), Integer.valueOf(cpd.getRows()), Integer.valueOf(cpd.getColumns()));
+                }
             });
 
         getToolBar2Buttons()[0] = resetButton;

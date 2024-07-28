@@ -233,4 +233,6 @@ public class CreatePuzzleDialog extends JDialog {
     public String getColumns() {
         return columns.getText();
     }
+
+    public String[] getTextArea() { return textArea.getText().split("\n"); }
 }
