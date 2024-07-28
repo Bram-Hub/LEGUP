@@ -82,21 +82,13 @@ public class Tree {
     public void removeTreeElement(TreeElement element) {
         if (element.getType() == TreeElementType.NODE) {
             TreeNode node = (TreeNode) element;
+            System.out.println("Recognized node: " + node);
 
-            // Output when node has children
-            if (!node.getChildren().isEmpty()) {
-                System.out.println("Deleting children of node: " + node);
-                for (TreeTransition child : new ArrayList<>(node.getChildren())) {
-                    removeTreeElement(child);
-                }
-            }
-
+            node.getParent().removeChild(node);
             node.getParent().setChildNode(null);
-
-            System.out.println("Deleted node: " + node);
         } else {
             TreeTransition transition = (TreeTransition) element;
-            System.out.println("Deleted arrow: " + transition);
+            System.out.println("Recognized transition: " + transition);
 
             transition.getParents().forEach(n -> n.removeChild(transition));
             TreeController treeController = new TreeController();
@@ -105,8 +97,6 @@ public class Tree {
             transition.getParents().get(0).getChildren().forEach(TreeTransition::reverify);
         }
     }
-
-
 
     /**
      * Determines if the tree is valid by checking whether this tree puzzleElement and all
