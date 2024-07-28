@@ -1,8 +1,7 @@
-BINA-BASC-0001 : SurroundPairDirectRule
-BINA-BASC-0002 : OneTileGapDirectRule
-BINA-BASC-0003 : CompleteRowColumnDirectRule
-BINA-BASC-0004 : SaveBlockerDirectRule
-BINA-BASC-0005 : UniqueRowColumnDirectRule
+BINA-BASC-0001 : PreventTrioContradictionRule
+BINA-BASC-0002 : CompleteRowColumnDirectRule
+BINA-BASC-0003 : SaveBlockerDirectRule
+BINA-BASC-0004 : UniqueRowColumnDirectRule
 
 BINA-CONT-0001 : TrioContradictionRule
 BINA-CONT-0002 : UnbalancedRowColumnContradictionRule

@@ -14,7 +14,7 @@ public class SaveBlockerDirectRule extends DirectRule  {
 
     public SaveBlockerDirectRule() {
         super(
-                "BINA-BASC-0004",
+                "BINA-BASC-0003",
                 "Save Blocker",
                 "If a future trio could appear in this row/col, save the digit that could block that trio",
                 "edu/rpi/legup/images/binary/rules/SaveBlockerDirectRule.png");
