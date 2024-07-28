@@ -31,10 +31,10 @@ public class BinaryController extends ElementController {
         } else {
             if (e.getButton() == MouseEvent.BUTTON3) {
                 if (cell.getData() == 0) {
-                    data.setData(1);
+                    data.setData(2);
                 } else {
-                    if (cell.getData() == 1) {
-                        data.setData(2);
+                    if (cell.getData() == 2) {
+                        data.setData(1);
                     } else {
                         data.setData(0);
                     }
