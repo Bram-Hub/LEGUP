@@ -61,6 +61,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private EditorElementController editorElementController;
     private CreatePuzzleDialog cpd;
     private HomePanel hp;
+    private boolean existingPuzzle;
+    private String fileName;
+    private File puzzleFile;
 
     public PuzzleEditorPanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
         this.fileDialog = fileDialog;
@@ -128,6 +131,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             cpd = new CreatePuzzleDialog(this.frame, hp);
             cpd.setLocationRelativeTo(null);
             cpd.setVisible(true);
+            existingPuzzle = false;
         });
         if (os.equals("mac")) {
             createPuzzle.setAccelerator(
@@ -305,6 +309,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             cpd = new CreatePuzzleDialog(this.frame, hp);
             cpd.setLocationRelativeTo(null);
             cpd.setVisible(true);
+            existingPuzzle = false;
         });
         getToolBar1Buttons()[1] = create;
 
@@ -338,11 +343,16 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         resetButton.addActionListener(
             a -> {
-                if (cpd.getGame().equals("ShortTruthTable")) {
-                    GameBoardFacade.getInstance().loadPuzzle(cpd.getGame(), cpd.getTextArea());
+                if (existingPuzzle) {
+                    legupUI.getPuzzleEditor().loadPuzzle(fileName, puzzleFile);
                 }
                 else {
-                    GameBoardFacade.getInstance().loadPuzzle(cpd.getGame(), Integer.valueOf(cpd.getRows()), Integer.valueOf(cpd.getColumns()));
+                    if (cpd.getGame().equals("ShortTruthTable")) {
+                        GameBoardFacade.getInstance().loadPuzzle(cpd.getGame(), cpd.getTextArea());
+                    }
+                    else {
+                        GameBoardFacade.getInstance().loadPuzzle(cpd.getGame(), Integer.valueOf(cpd.getRows()), Integer.valueOf(cpd.getColumns()));
+                    }
                 }
             });
 
@@ -494,6 +504,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 GameBoardFacade.getInstance().loadPuzzleEditor(fileName);
                 String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
                 frame.setTitle(puzzleName + " - " + puzzleFile.getName());
+                existingPuzzle = true;
+                this.fileName = fileName;
+                this.puzzleFile = puzzleFile;
             } catch (InvalidFileFormatException e) {
                 legupUI.displayPanel(0);
                 LOGGER.error(e.getMessage());
