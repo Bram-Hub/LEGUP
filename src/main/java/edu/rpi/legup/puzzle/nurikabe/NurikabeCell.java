@@ -46,13 +46,13 @@ public class NurikabeCell extends GridCell<Integer> {
     @Override
     public void setType(Element e, MouseEvent m) {
         switch (e.getElementID()) {
-            case "NURI-PLAC-0001":
+            case "NURI-ELEM-0001":
                 this.data = -1;
                 break;
-            case "NURI-PLAC-0002":
+            case "NURI-ELEM-0004":
                 this.data = 0;
                 break;
-            case "NURI-UNPL-0001":
+            case "NURI-ELEM-0002":
                 switch (m.getButton()) {
                     case MouseEvent.BUTTON1:
                         if (this.data <= 0 || this.data > 8) {

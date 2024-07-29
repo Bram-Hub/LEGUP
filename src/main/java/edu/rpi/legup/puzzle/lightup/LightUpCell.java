@@ -16,16 +16,16 @@ public class LightUpCell extends GridCell<Integer> {
     @Override
     public void setType(Element e, MouseEvent m) {
         switch (e.getElementID()) {
-            case "LTUP-PLAC-0001":
+            case "LTUP-ELEM-0002":
                 this.data = -4;
                 break;
-            case "LTUP-UNPL-0002":
+            case "LTUP-ELEM-0001":
                 this.data = -1;
                 break;
-            case "LTUP-UNPL-0003":
+            case "LTUP-ELEM-0004":
                 this.data = -2;
                 break;
-            case "LTUP-UNPL-0001":
+            case "LTUP-ELEM-0003":
                 switch (m.getButton()) {
                     case MouseEvent.BUTTON1:
                         if (this.data < 0 || this.data > 3) {

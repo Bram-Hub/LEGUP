@@ -53,11 +53,11 @@ public class BinaryCell extends GridCell<Integer> {
             }
             else {
                 if (m.getButton() == MouseEvent.BUTTON3) {
-                    if (this.data == 0) {
-                        this.data = 1;
+                    if (this.data == 1) {
+                        this.data = 0;
                     }
                     else {
-                        this.data = 0;
+                        this.data = 1;
                     }
                 }
             }
