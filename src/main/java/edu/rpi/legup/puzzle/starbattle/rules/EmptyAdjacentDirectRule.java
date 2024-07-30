@@ -64,7 +64,7 @@ public class EmptyAdjacentDirectRule extends DirectRule {
             StarBattleCell temp = adjacent[i];
 
             if (temp != null && temp.getType() == StarBattleCellType.UNKNOWN) {
-                temp.setData(StarBattleCellType.BLACK.value);
+                //temp.setData(StarBattleCellType.BLACK.value);
                 int X = temp.getLocation().x;
                 int Y = temp.getLocation().y;
                 modified.getCell(X,Y).setData(StarBattleCellType.BLACK.value);
