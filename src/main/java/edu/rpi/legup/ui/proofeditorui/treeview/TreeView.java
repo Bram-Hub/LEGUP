@@ -467,7 +467,6 @@ public class TreeView extends ScrollView implements ITreeListener {
     }
 
     public void removeTreeTransition(TreeTransition trans) {
-        System.out.println("DELETED TRANS");
         viewMap.remove(trans);
         if (trans.getChildNode() != null) {
             removeTreeNode(trans.getChildNode());
@@ -537,14 +536,10 @@ public class TreeView extends ScrollView implements ITreeListener {
             }
 
             node.getChildren().forEach(t -> addTreeTransition(t));
-        } else {
-            System.out.println("NO CHILDREN");
         }
     }
 
     private void addTreeTransition(TreeTransition trans) {
-
-        System.out.println("HI");
         List<TreeNode> parents = trans.getParents();
         TreeTransitionView transView = new TreeTransitionView(trans);
 
