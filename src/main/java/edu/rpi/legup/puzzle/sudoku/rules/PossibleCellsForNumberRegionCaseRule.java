@@ -22,7 +22,7 @@ public class PossibleCellsForNumberRegionCaseRule extends CaseRule {
                 "SUDO-CASE-0002",
                 "Possible Cells for Number - Region",
                 "An empty cell has a limited set of possible numbers that can fill it.",
-                "edu/rpi/legup/images/sudoku/possible_cells_number_region.png");
+                "edu/rpi/legup/images/sudoku/rules/possible_cells_number_region.png");
     }
 
     /**
