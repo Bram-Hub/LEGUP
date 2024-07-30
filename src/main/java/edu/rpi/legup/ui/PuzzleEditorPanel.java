@@ -10,9 +10,14 @@ import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
+import edu.rpi.legup.model.tree.Tree;
+import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import edu.rpi.legup.ui.HomePanel;
 import edu.rpi.legup.ui.boardview.BoardView;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 import edu.rpi.legup.ui.puzzleeditorui.elementsview.ElementFrame;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.util.List;
 import java.util.Objects;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -34,12 +40,14 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private JMenu[] menus;
     private JMenuItem helpLegup, aboutLegup;
     private JMenuBar menuBar;
-    private JToolBar toolBar;
+    private JToolBar toolBar1;
+    private JToolBar toolBar2;
     private JFileChooser folderBrowser;
     private JFrame frame;
     private JButton[] buttons;
     JSplitPane splitPanel;
-    private JButton[] toolBarButtons;
+    private JButton[] toolBar1Buttons;
+    private JButton[] toolBar2Buttons;
     private JPanel elementPanel;
     private DynamicView dynamicBoardView;
     private BoardView boardView;
@@ -51,7 +59,11 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private JPanel treePanel;
     private LegupUI legupUI;
     private EditorElementController editorElementController;
-    static final int[] TOOLBAR_SEPARATOR_BEFORE = {2, 4, 8};
+    private CreatePuzzleDialog cpd;
+    private HomePanel hp;
+    private boolean existingPuzzle;
+    private String fileName;
+    private File puzzleFile;
 
     public PuzzleEditorPanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
         this.fileDialog = fileDialog;
@@ -103,27 +115,32 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         menus[0] = new JMenu("File");
 
         // file>new
-        JMenuItem newPuzzle = new JMenuItem("New");
-        newPuzzle.addActionListener((ActionEvent) -> loadPuzzle());
+        JMenuItem openPuzzle = new JMenuItem("Open");
+        openPuzzle.addActionListener((ActionEvent) -> loadPuzzle());
         if (os.equals("mac")) {
-            newPuzzle.setAccelerator(
+            openPuzzle.setAccelerator(
                     KeyStroke.getKeyStroke(
-                            'N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                            'O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         } else {
-            newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
+            openPuzzle.setAccelerator(KeyStroke.getKeyStroke('O', InputEvent.CTRL_DOWN_MASK));
         }
-        // file>save
-        JMenuItem savePuzzle = new JMenuItem("Save As");
-        savePuzzle.addActionListener((ActionEvent) -> savePuzzle());
-        JMenuItem directSavePuzzle = new JMenuItem("Direct Save Proof ");
-        directSavePuzzle.addActionListener((ActionEvent) -> direct_save());
+        // file>create
+        JMenuItem createPuzzle = new JMenuItem("Create");
+        createPuzzle.addActionListener((ActionEvent) -> {
+            hp = new HomePanel(this.fileDialog, this.frame, this.legupUI);
+            cpd = new CreatePuzzleDialog(this.frame, hp);
+            cpd.setLocationRelativeTo(null);
+            cpd.setVisible(true);
+            existingPuzzle = false;
+        });
         if (os.equals("mac")) {
-            newPuzzle.setAccelerator(
+            createPuzzle.setAccelerator(
                     KeyStroke.getKeyStroke(
-                            'D', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                            'C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         } else {
-            newPuzzle.setAccelerator(KeyStroke.getKeyStroke('D', InputEvent.CTRL_DOWN_MASK));
+            createPuzzle.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_DOWN_MASK));
         }
+
 
         JMenuItem exit = new JMenuItem("Exit");
         exit.addActionListener((ActionEvent) -> exitEditor());
@@ -134,9 +151,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         } else {
             exit.setAccelerator(KeyStroke.getKeyStroke('Q', InputEvent.CTRL_DOWN_MASK));
         }
-        menus[0].add(newPuzzle);
-        menus[0].add(savePuzzle);
-        menus[0].add(directSavePuzzle);
+        menus[0].add(openPuzzle);
+        menus[0].add(createPuzzle);
+        //menus[0].add(directSavePuzzle);
         menus[0].add(exit);
 
         // EDIT
@@ -243,113 +260,162 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     @Override
     public void makeVisible() {
         this.removeAll();
-
-        setupToolBar();
+        setupToolBar1();
         setupContent();
         setMenuBar();
     }
+    private void setupToolBar1() {
+        setToolBar1Buttons(new JButton[2]);
 
-    private void setupToolBar() {
-        setToolBarButtons(new JButton[ToolbarName.values().length + 1]);
-        int lastone = 0;
-        for (int i = 0; i < ToolbarName.values().length - 1; i++) {
-            String toolBarName = ToolbarName.values()[i].toString();
-            URL resourceLocation =
-                    ClassLoader.getSystemClassLoader()
-                            .getResource("edu/rpi/legup/images/Legup/" + toolBarName + ".png");
-
-            // Scale the image icons down to make the buttons smaller
-            ImageIcon imageIcon = new ImageIcon(resourceLocation);
-            Image image = imageIcon.getImage();
-            imageIcon =
-                    new ImageIcon(
-                            image.getScaledInstance(
-                                    this.TOOLBAR_ICON_SCALE,
-                                    this.TOOLBAR_ICON_SCALE,
-                                    Image.SCALE_SMOOTH));
-
-            JButton button = new JButton(toolBarName, imageIcon);
-            button.setFocusPainted(false);
-            getToolBarButtons()[i] = button;
-            lastone = i;
-        }
-
-        URL check_and_save =
+        URL open_url =
                 ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/Check.png");
-        ImageIcon imageIcon = new ImageIcon(check_and_save);
-        Image image = imageIcon.getImage();
-        imageIcon =
+                        .getResource("edu/rpi/legup/images/Legup/Open.png");
+        ImageIcon OpenImageIcon = new ImageIcon(open_url);
+        Image OpenImage = OpenImageIcon.getImage();
+        OpenImageIcon =
                 new ImageIcon(
-                        image.getScaledInstance(
+                        OpenImage.getScaledInstance(
                                 this.TOOLBAR_ICON_SCALE,
                                 this.TOOLBAR_ICON_SCALE,
                                 Image.SCALE_SMOOTH));
 
-        JButton checkandsave = new JButton("check and Save", imageIcon);
-        checkandsave.setFocusPainted(false);
-        checkandsave.addActionListener(
+        JButton open = new JButton("Open", OpenImageIcon);
+        open.setFocusPainted(false);
+        open.addActionListener((ActionEvent) -> loadPuzzle());
+
+        getToolBar1Buttons()[0] = open;
+
+        toolBar1 = new JToolBar();
+        toolBar1.setFloatable(false);
+        toolBar1.setRollover(true);
+        toolBar1.add(getToolBar1Buttons()[0]);
+
+        URL create_url =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/Open Puzzle.png");
+        ImageIcon CreateImageIcon = new ImageIcon(create_url);
+        Image CreateImage = CreateImageIcon.getImage();
+        CreateImageIcon =
+                new ImageIcon(
+                        CreateImage.getScaledInstance(
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE,
+                                Image.SCALE_SMOOTH));
+
+        JButton create = new JButton("Create", CreateImageIcon);
+        create.setFocusPainted(false);
+        create.addActionListener((ActionEvent) -> {
+            hp = new HomePanel(this.fileDialog, this.frame, this.legupUI);
+            cpd = new CreatePuzzleDialog(this.frame, hp);
+            cpd.setLocationRelativeTo(null);
+            cpd.setVisible(true);
+            existingPuzzle = false;
+        });
+        getToolBar1Buttons()[1] = create;
+
+        toolBar1.setFloatable(false);
+        toolBar1.setRollover(true);
+        toolBar1.add(getToolBar1Buttons()[1]);
+
+        this.add(toolBar1, BorderLayout.NORTH);
+    }
+
+    private void setupToolBar2() {
+        toolBar2 = new JToolBar();
+        toolBar2.setFloatable(false);
+        toolBar2.setRollover(true);
+        setToolBar2Buttons(new JButton[3]);
+
+        URL reset =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/Reset.png");
+        ImageIcon ResetImageIcon = new ImageIcon(reset);
+        Image ResetImage = ResetImageIcon.getImage();
+        ResetImageIcon =
+                new ImageIcon(
+                        ResetImage.getScaledInstance(
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE,
+                                Image.SCALE_SMOOTH));
+
+        JButton resetButton = new JButton("Reset", ResetImageIcon);
+        resetButton.setFocusPainted(false);
+
+        resetButton.addActionListener(
+            a -> {
+                if (existingPuzzle) {
+                    legupUI.getPuzzleEditor().loadPuzzle(fileName, puzzleFile);
+                }
+                else {
+                    if (cpd.getGame().equals("ShortTruthTable")) {
+                        GameBoardFacade.getInstance().loadPuzzle(cpd.getGame(), cpd.getTextArea());
+                    }
+                    else {
+                        GameBoardFacade.getInstance().loadPuzzle(cpd.getGame(), Integer.valueOf(cpd.getRows()), Integer.valueOf(cpd.getColumns()));
+                    }
+                }
+            });
+
+        getToolBar2Buttons()[0] = resetButton;
+        toolBar2.add(getToolBar2Buttons()[0]);
+
+        URL save_as =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/Save.png");
+        ImageIcon SaveAsImageIcon = new ImageIcon(save_as);
+        Image SaveAsImage = SaveAsImageIcon.getImage();
+        SaveAsImageIcon =
+                new ImageIcon(
+                        SaveAsImage.getScaledInstance(
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE,
+                                Image.SCALE_SMOOTH));
+
+        JButton saveas = new JButton("Save As", SaveAsImageIcon);
+        saveas.setFocusPainted(false);
+        saveas.addActionListener((ActionEvent) -> savePuzzle());
+
+        getToolBar2Buttons()[1] = saveas;
+        toolBar2.add(getToolBar2Buttons()[1]);
+
+        URL save_and_solve =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/Check.png");
+        ImageIcon SaveSolveImageIcon = new ImageIcon(save_and_solve);
+        Image SaveSolveImage = SaveSolveImageIcon.getImage();
+        SaveSolveImageIcon =
+                new ImageIcon(
+                        SaveSolveImage.getScaledInstance(
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE,
+                                Image.SCALE_SMOOTH));
+
+        JButton saveandsolve = new JButton("Save & Solve", SaveSolveImageIcon);
+        saveandsolve.setFocusPainted(false);
+        saveandsolve.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // savePuzzle();
-                        String filename = savePuzzle();
-                        File puzzlename = new File(filename);
-                        System.out.println(filename);
+                        if (GameBoardFacade.getInstance().getPuzzleModule() != null) {
+                            String filename = savePuzzle();
+                            File puzzlename = new File(filename);
+                            System.out.println(filename);
 
-                        GameBoardFacade.getInstance().getLegupUI().displayPanel(1);
-                        GameBoardFacade.getInstance()
-                                .getLegupUI()
-                                .getProofEditor()
-                                .loadPuzzle(filename, new File(filename));
-                        String puzzleName =
-                                GameBoardFacade.getInstance().getPuzzleModule().getName();
-                        frame.setTitle(puzzleName + " - " + puzzlename.getName());
+                            GameBoardFacade.getInstance().getLegupUI().displayPanel(1);
+                            GameBoardFacade.getInstance()
+                                    .getLegupUI()
+                                    .getProofEditor()
+                                    .loadPuzzle(filename, new File(filename));
+                            String puzzleName =
+                                    GameBoardFacade.getInstance().getPuzzleModule().getName();
+                            frame.setTitle(puzzleName + " - " + puzzlename.getName());
+                        }
                     }
                 });
-        getToolBarButtons()[lastone + 1] = checkandsave;
-        System.out.println("it is create new file");
+        getToolBar2Buttons()[2] = saveandsolve;
+        toolBar2.add(getToolBar2Buttons()[2]);
 
-        toolBar = new JToolBar();
-        toolBar.setFloatable(false);
-        toolBar.setRollover(true);
-
-        for (int i = 0; i < getToolBarButtons().length - 1; i++) {
-            for (int s = 0; s < TOOLBAR_SEPARATOR_BEFORE.length; s++) {
-                if (i == TOOLBAR_SEPARATOR_BEFORE[s]) {
-                    toolBar.addSeparator();
-                }
-            }
-            String toolBarName = ToolbarName.values()[i].toString();
-
-            toolBar.add(getToolBarButtons()[i]);
-            getToolBarButtons()[i].setToolTipText(toolBarName);
-
-            getToolBarButtons()[i].setVerticalTextPosition(SwingConstants.BOTTOM);
-            getToolBarButtons()[i].setHorizontalTextPosition(SwingConstants.CENTER);
-        }
-
-        //        toolBarButtons[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent
-        // e) ->
-        // promptPuzzle());
-        //        toolBarButtons[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e) ->
-        // saveProof());
-        //        toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e) ->
-        // GameBoardFacade.getInstance().getHistory().undo());
-        //        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e) ->
-        // GameBoardFacade.getInstance().getHistory().redo());
-        toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e) -> {});
-        toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e) -> {});
-        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e) -> {});
-
-        //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
-        //        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
-        //        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.HINT.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.SUBMIT.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].setEnabled(false);
-
-        this.add(toolBar, BorderLayout.NORTH);
+        this.add(toolBar2, BorderLayout.NORTH);
     }
 
     public void loadPuzzleFromHome(String game, int rows, int columns)
@@ -381,7 +447,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     public Object[] promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
-            if (noQuit("Opening a new puzzle?")) {
+            if (noQuit("Open an existing puzzle?")) {
                 return new Object[0];
             }
         }
@@ -438,6 +504,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 GameBoardFacade.getInstance().loadPuzzleEditor(fileName);
                 String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
                 frame.setTitle(puzzleName + " - " + puzzleFile.getName());
+                existingPuzzle = true;
+                this.fileName = fileName;
+                this.puzzleFile = puzzleFile;
             } catch (InvalidFileFormatException e) {
                 legupUI.displayPanel(0);
                 LOGGER.error(e.getMessage());
@@ -474,13 +543,20 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     public BoardView getBoardView() {
         return boardView;
     }
-
-    public JButton[] getToolBarButtons() {
-        return toolBarButtons;
+    public JButton[] getToolBar1Buttons() {
+        return toolBar1Buttons;
     }
 
-    public void setToolBarButtons(JButton[] toolBarButtons) {
-        this.toolBarButtons = toolBarButtons;
+    public void setToolBar1Buttons(JButton[] toolBar1Buttons) {
+        this.toolBar1Buttons = toolBar1Buttons;
+    }
+
+    public JButton[] getToolBar2Buttons() {
+        return toolBar2Buttons;
+    }
+
+    public void setToolBar2Buttons(JButton[] toolBar2Buttons) {
+        this.toolBar2Buttons = toolBar2Buttons;
     }
 
     private void repaintAll() {
@@ -502,13 +578,11 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         dynamicBoardView.setBorder(titleBoard);
 
         puzzle.addBoardListener(puzzle.getBoardView());
-        System.out.println("Setting elements");
         if (this.elementFrame != null) {
             elementFrame.setElements(puzzle);
         }
-
-        toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
-        //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
+        toolBar1.setVisible(false);
+        setupToolBar2();
     }
 
     /** Saves a puzzle */

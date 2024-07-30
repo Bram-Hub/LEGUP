@@ -48,6 +48,7 @@ public class SudokuImporter extends PuzzleImporter {
         }
 
         puzzle.setCurrentBoard(sudokuBoard);
+        System.out.println(sudokuBoard);
     }
 
     /**

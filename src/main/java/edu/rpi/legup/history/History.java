@@ -51,6 +51,8 @@ public class History {
                 ICommand command = history.get(curIndex--);
                 command.undo();
                 LOGGER.info("Undoed " + command.getClass().getSimpleName());
+
+
                 GameBoardFacade.getInstance()
                         .notifyHistoryListeners(
                                 l -> l.onUndo(curIndex < 0, curIndex == history.size() - 1));

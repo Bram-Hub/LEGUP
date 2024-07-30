@@ -16,7 +16,7 @@ public class PossibleNumbersForCellCaseRule extends CaseRule {
                 "SUDO-CASE-0001",
                 "Possible Numbers for Cell",
                 "An empty cell has a limited set of possible numbers that can fill it.",
-                "edu/rpi/legup/images/sudoku/PossibleValues.png");
+                "edu/rpi/legup/images/sudoku/rules/PossibleValues.png");
     }
 
     /**
@@ -80,6 +80,10 @@ public class PossibleNumbersForCellCaseRule extends CaseRule {
     public ArrayList<Board> getCases(
             Board board, PuzzleElement puzzleElement, int value, GroupType groupType) {
         ArrayList<Board> cases = new ArrayList<>();
+        if (puzzleElement == null) {
+            return cases;
+        }
+
         SudokuBoard sudokuBoard = (SudokuBoard) board;
         List<SudokuCell> caseCells = new ArrayList<>();
         SudokuCell cell = (SudokuCell) puzzleElement;

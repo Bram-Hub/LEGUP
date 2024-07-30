@@ -57,9 +57,7 @@ public class CreatePuzzleDialog extends JDialog {
                  */
                 @Override
                 public void actionPerformed(ActionEvent ae) {
-                    String game =
-                            Config.convertDisplayNameToClassName(
-                                    (String) gameBox.getSelectedItem());
+                    String game = getGame();
 
                     // Check if all 3 TextFields are filled
                     if (game.equals("ShortTruthTable") && textArea.getText().isEmpty()) {
@@ -68,8 +66,8 @@ public class CreatePuzzleDialog extends JDialog {
                     }
                     if (!game.equals("ShortTruthTable")
                             && (game.isEmpty()
-                                    || rows.getText().isEmpty()
-                                    || columns.getText().isEmpty())) {
+                                    || getRows().isEmpty()
+                                    || getColumns().isEmpty())) {
                         System.out.println("Unfilled fields");
                         return;
                     }
@@ -81,8 +79,8 @@ public class CreatePuzzleDialog extends JDialog {
                         } else {
                             homePanel.openEditorWithNewPuzzle(
                                     game,
-                                    Integer.valueOf(rows.getText()),
-                                    Integer.valueOf(columns.getText()));
+                                    Integer.valueOf(getRows()),
+                                    Integer.valueOf(getColumns()));
                         }
                         setVisible(false);
                     } catch (IllegalArgumentException e) {
@@ -223,4 +221,18 @@ public class CreatePuzzleDialog extends JDialog {
             }
         }
     }
+
+    public String getGame() {
+        return Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
+    }
+
+    public String getRows() {
+        return rows.getText();
+    }
+
+    public String getColumns() {
+        return columns.getText();
+    }
+
+    public String[] getTextArea() { return textArea.getText().split("\n"); }
 }

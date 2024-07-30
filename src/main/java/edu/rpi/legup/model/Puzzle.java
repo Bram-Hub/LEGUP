@@ -53,7 +53,6 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     protected List<ContradictionRule> contradictionRules;
     protected List<CaseRule> caseRules;
     protected List<PlaceableElement> placeableElements;
-    protected List<NonPlaceableElement> nonPlaceableElements;
 
     /** Puzzle Constructor - creates a new Puzzle */
     public Puzzle() {
@@ -65,7 +64,6 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         this.caseRules = new ArrayList<>();
 
         this.placeableElements = new ArrayList<>();
-        this.nonPlaceableElements = new ArrayList<>();
 
         registerRules();
         registerPuzzleElements();
@@ -79,6 +77,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
             for (Class c : possElements) {
 
+                String classPackageName = c.getPackage().getName();
+                if (!classPackageName.startsWith("edu.rpi.legup.puzzle.") || !classPackageName.endsWith(".elements")) {
+                    continue;
+                }
                 System.out.println("possible element: " + c.getName());
 
                 // check that the element is not abstract
@@ -94,9 +96,6 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                             switch (element.getElementType()) {
                                 case PLACEABLE:
                                     this.addPlaceableElement((PlaceableElement) element);
-                                    break;
-                                case NONPLACEABLE:
-                                    this.addNonPlaceableElement((NonPlaceableElement) element);
                                     break;
                                 default:
                                     break;
@@ -129,6 +128,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
             for (Class c : possRules) {
 
+                String classPackageName = c.getPackage().getName();
+                if (!classPackageName.startsWith("edu.rpi.legup.puzzle.") || !classPackageName.endsWith(".rules")) {
+                    continue;
+                }
                 System.out.println("possible rule: " + c.getName());
 
                 // check that the rule is not abstract
@@ -338,10 +341,6 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         return placeableElements;
     }
 
-    public List<NonPlaceableElement> getNonPlaceableElements() {
-        return nonPlaceableElements;
-    }
-
     /**
      * Sets the list of direct rules
      *
@@ -362,10 +361,6 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
     public void addPlaceableElement(PlaceableElement element) {
         placeableElements.add(element);
-    }
-
-    public void addNonPlaceableElement(NonPlaceableElement element) {
-        nonPlaceableElements.add(element);
     }
 
     /**

@@ -20,7 +20,7 @@ public abstract class ElementPanel extends JPanel {
         setLayout(new WrapLayout());
     }
 
-    public void setElements(List<? extends Element> elements) {
+    public int setElements(List<? extends Element> elements) {
         this.elements = elements;
         clearButtons();
 
@@ -38,6 +38,7 @@ public abstract class ElementPanel extends JPanel {
             add(elementButtons[i]);
         }
         revalidate();
+        return elements.size();
     }
 
     protected void clearButtons() {

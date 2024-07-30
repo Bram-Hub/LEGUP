@@ -333,6 +333,25 @@ public class TreeTransition extends TreeElement {
     }
 
     /**
+     * Removes the child to this tree transition
+     *
+     * @param child child to remove
+     */
+    public void removeChild(TreeNode child) {
+        parents.remove(child);
+    }
+
+    /**
+     * Add the child to this tree transition
+     *
+     * @param child child to add
+     */
+    public void addChild(TreeNode child) {
+        parents.add(child);
+    }
+
+
+    /**
      * Gets the rule associated with this transition
      *
      * @return rule of this transition

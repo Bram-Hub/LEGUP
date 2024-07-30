@@ -1,6 +1,10 @@
 package edu.rpi.legup.model.tree;
 
+import edu.rpi.legup.controller.TreeController;
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.rules.CaseRule;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -46,7 +50,7 @@ public class Tree {
         } else {
             TreeTransition transition = (TreeTransition) element;
             Board copyBoard = transition.board.copy();
-            copyBoard.setModifiable(false);
+            copyBoard.setModifiable(true);
             return addTreeElement(transition, new TreeNode(copyBoard));
         }
     }
@@ -63,13 +67,33 @@ public class Tree {
         return treeNode;
     }
 
+//    public void removeTreeElement(TreeElement element) {
+//        if (element.getType() == TreeElementType.NODE) {
+//            TreeNode node = (TreeNode) element;
+//            node.getParent().setChildNode(null);
+//        } else {
+//            TreeTransition transition = (TreeTransition) element;
+//            System.out.println("DELETED CHILD");
+//            transition.getParents().forEach(n -> n.removeChild(transition));
+//            transition.getParents().get(0).getChildren().forEach(TreeTransition::reverify);
+//        }
+//    }
+
     public void removeTreeElement(TreeElement element) {
         if (element.getType() == TreeElementType.NODE) {
             TreeNode node = (TreeNode) element;
+            System.out.println("Recognized node: " + node);
+
+            node.getParent().removeChild(node);
             node.getParent().setChildNode(null);
         } else {
             TreeTransition transition = (TreeTransition) element;
+            System.out.println("Recognized transition: " + transition);
+
             transition.getParents().forEach(n -> n.removeChild(transition));
+            TreeController treeController = new TreeController();
+            TreeView treeView = new TreeView(treeController);
+            treeView.removeTreeTransition(transition);
             transition.getParents().get(0).getChildren().forEach(TreeTransition::reverify);
         }
     }

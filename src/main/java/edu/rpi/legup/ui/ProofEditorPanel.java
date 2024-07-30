@@ -17,6 +17,7 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeTransitionView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 import edu.rpi.legup.user.Submission;
 import java.awt.*;
@@ -46,8 +47,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private DynamicView dynamicBoardView;
     private JSplitPane topHalfPanel, mainPanel;
     private TitledBorder boardBorder;
-
-    private JButton[] toolBarButtons;
+    private JButton[] toolBar1Buttons;
+    private JButton[] toolBar2Buttons;
     private JMenu file;
     private JMenuItem newPuzzle,
             resetPuzzle,
@@ -67,7 +68,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private JMenu about, help;
     private JMenuItem helpLegup, aboutLegup;
 
-    private JToolBar toolBar;
+    private JToolBar toolBar1;
+    private JToolBar toolBar2;
     private BoardView boardView;
     private JFileChooser folderBrowser;
 
@@ -81,7 +83,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     public static final int IMD_FEEDBACK = 32;
     public static final int INTERN_RO = 64;
     public static final int AUTO_JUST = 128;
-    static final int[] TOOLBAR_SEPARATOR_BEFORE = {2, 4, 8};
     private static final String[] PROFILES = {
         "No Assistance",
         "Rigorous Proof",
@@ -123,7 +124,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     public void makeVisible() {
         this.removeAll();
 
-        setupToolBar();
+        setupToolBar1();
         setupContent();
         frame.setJMenuBar(getMenuBar());
     }
@@ -141,7 +142,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         saveProofChange = new JMenuItem("Save"); // save to the current file
         preferences = new JMenuItem("Preferences");
         helpTutorial = new JMenuItem("Help"); // jump to web page
-        exit = new JMenuItem("Exit");
+        exit = new JMenuItem("Exit Solve Puzzle");
 
         edit = new JMenu("Edit");
         undo = new JMenuItem("Undo");
@@ -310,6 +311,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         } else {
             resetPuzzle.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.CTRL_DOWN_MASK));
         }
+
         file.addSeparator();
 
         file.add(saveProofAs);
@@ -520,6 +522,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     public void loadPuzzle(String fileName, File puzzleFile) {
+        if (puzzleFile == null && fileName.equals("")) {
+            legupUI.displayPanel(1);
+        }
         if (puzzleFile != null && puzzleFile.exists()) {
             try {
                 legupUI.displayPanel(1);
@@ -740,94 +745,163 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         revalidate();
     }
 
-    private void setupToolBar() {
-        setToolBarButtons(new JButton[ToolbarName.values().length]);
-        for (int i = 0; i < ToolbarName.values().length; i++) {
-            String toolBarName = ToolbarName.values()[i].toString();
-            URL resourceLocation =
-                    ClassLoader.getSystemClassLoader()
-                            .getResource("edu/rpi/legup/images/Legup/" + toolBarName + ".png");
+    private void setupToolBar1() {
+        toolBar1 = new JToolBar();
+        toolBar1.setFloatable(false);
+        toolBar1.setRollover(true);
+        setToolBar2Buttons(new JButton[1]);
 
-            // Scale the image icons down to make the buttons smaller
-            ImageIcon imageIcon = new ImageIcon(resourceLocation);
-            Image image = imageIcon.getImage();
-            imageIcon =
-                    new ImageIcon(
-                            image.getScaledInstance(
-                                    this.TOOLBAR_ICON_SCALE,
-                                    this.TOOLBAR_ICON_SCALE,
-                                    Image.SCALE_SMOOTH));
+        URL open_url =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/Open.png");
 
-            JButton button = new JButton(toolBarName, imageIcon);
-            button.setFocusPainted(false);
-            getToolBarButtons()[i] = button;
-        }
+        // Scale the image icons down to make the buttons smaller
+        ImageIcon OpenImageIcon = new ImageIcon(open_url);
+        Image OpenImage = OpenImageIcon.getImage();
+        OpenImageIcon =
+                new ImageIcon(
+                        OpenImage.getScaledInstance(
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE,
+                                Image.SCALE_SMOOTH));
 
-        toolBar = new JToolBar();
-        toolBar.setFloatable(false);
-        toolBar.setRollover(true);
+        JButton open = new JButton("Open", OpenImageIcon);
+        open.setFocusPainted(false);
 
-        for (int i = 0; i < getToolBarButtons().length; i++) {
-            for (int s = 0; s < TOOLBAR_SEPARATOR_BEFORE.length; s++) {
-                if (i == TOOLBAR_SEPARATOR_BEFORE[s]) {
-                    toolBar.addSeparator();
-                }
-            }
-            String toolBarName = ToolbarName.values()[i].toString();
+        open.addActionListener((ActionEvent) -> loadPuzzle());
 
-            toolBar.add(getToolBarButtons()[i]);
-            getToolBarButtons()[i].setToolTipText(toolBarName);
+        getToolBar2Buttons()[0] = open;
+        toolBar1.add(getToolBar2Buttons()[0]);
 
-            getToolBarButtons()[i].setVerticalTextPosition(SwingConstants.BOTTOM);
-            getToolBarButtons()[i].setHorizontalTextPosition(SwingConstants.CENTER);
-        }
+        this.add(toolBar1, BorderLayout.NORTH);
+    }
 
-        //        toolBarButtons[ToolbarName.OPEN_PUZZLE.ordinal()].addActionListener((ActionEvent
-        // e) ->
-        // promptPuzzle());
-        //        toolBarButtons[ToolbarName.SAVE.ordinal()].addActionListener((ActionEvent e) ->
-        // saveProof());
-        //        toolBarButtons[ToolbarName.UNDO.ordinal()].addActionListener((ActionEvent e) ->
-        // GameBoardFacade.getInstance().getHistory().undo());
-        //        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e) ->
-        // GameBoardFacade.getInstance().getHistory().redo());
-        toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e) -> {});
-        toolBarButtons[ToolbarName.CHECK.ordinal()].addActionListener(
-                (ActionEvent e) -> checkProof());
-        toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e) -> {});
-        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e) -> {});
+    private void setupToolBar2() {
+        toolBar2 = new JToolBar();
+        toolBar2.setFloatable(false);
+        toolBar2.setRollover(true);
+        setToolBar2Buttons(new JButton[4]);
 
-        toolBarButtons[ToolbarName.CHECK_ALL.ordinal()].addActionListener(
-                (ActionEvent e) -> checkProofAll());
+        URL directions_url =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/Directions.png");
 
-        //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(false);
-        //        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
-        //        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.HINT.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.SUBMIT.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].setEnabled(false);
-        toolBarButtons[ToolbarName.CHECK_ALL.ordinal()].setEnabled(true);
+        ImageIcon DirectionsImageIcon = new ImageIcon(directions_url);
+        Image DirectionsImage = DirectionsImageIcon.getImage();
+        DirectionsImageIcon =
+                new ImageIcon(
+                        DirectionsImage.getScaledInstance(
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE,
+                                Image.SCALE_SMOOTH));
 
-        this.add(toolBar, BorderLayout.NORTH);
+        JButton directions = new JButton("Directions", DirectionsImageIcon);
+        directions.setFocusPainted(false);
+        directions.addActionListener((ActionEvent) -> directionsToolButton());
+
+        getToolBar2Buttons()[0] = directions;
+        toolBar2.add(getToolBar2Buttons()[0]);
+
+        URL undo_url =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/Undo.png");
+
+        ImageIcon UndoImageIcon = new ImageIcon(undo_url);
+        Image UndoImage = UndoImageIcon.getImage();
+        UndoImageIcon =
+                new ImageIcon(
+                        UndoImage.getScaledInstance(
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE,
+                                Image.SCALE_SMOOTH));
+
+        JButton undo = new JButton("Undo", UndoImageIcon);
+        undo.setFocusPainted(false);
+        undo.addActionListener((ActionEvent) -> GameBoardFacade.getInstance().getHistory().undo());
+
+        getToolBar2Buttons()[1] = undo;
+        toolBar2.add(getToolBar2Buttons()[1]);
+
+        URL redo_url =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/Redo.png");
+
+        ImageIcon RedoImageIcon = new ImageIcon(redo_url);
+        Image RedoImage = RedoImageIcon.getImage();
+        RedoImageIcon =
+                new ImageIcon(
+                        RedoImage.getScaledInstance(
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE,
+                                Image.SCALE_SMOOTH));
+
+        JButton redo = new JButton("Redo", RedoImageIcon);
+        redo.setFocusPainted(false);
+        redo.addActionListener((ActionEvent) -> {
+            GameBoardFacade.getInstance().getHistory().redo();
+        });
+
+        getToolBar2Buttons()[2] = redo;
+        toolBar2.add(getToolBar2Buttons()[2]);
+
+        URL check_url =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/Check.png");
+
+        ImageIcon CheckImageIcon = new ImageIcon(check_url);
+        Image CheckImage = CheckImageIcon.getImage();
+        CheckImageIcon =
+                new ImageIcon(
+                        CheckImage.getScaledInstance(
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE,
+                                Image.SCALE_SMOOTH));
+
+        JButton check = new JButton("Check", CheckImageIcon);
+        check.setFocusPainted(false);
+        check.addActionListener((ActionEvent) -> checkProof());
+
+        getToolBar2Buttons()[3] = check;
+        toolBar2.add(getToolBar2Buttons()[3]);
+
+
+        this.add(toolBar2, BorderLayout.NORTH);
     }
 
     /**
-     * Sets the toolbar buttons
+     * Sets the toolbar1 buttons
      *
-     * @param toolBarButtons toolbar buttons
+     * @param toolBar1Buttons toolbar buttons
      */
-    public void setToolBarButtons(JButton[] toolBarButtons) {
-        this.toolBarButtons = toolBarButtons;
+    public void setToolBar1Buttons(JButton[] toolBar1Buttons) {
+        this.toolBar1Buttons = toolBar1Buttons;
     }
 
     /**
-     * Gets the toolbar buttons
+     * Sets the toolbar2 buttons
      *
-     * @return toolbar buttons
+     * @param toolBar2Buttons toolbar buttons
      */
-    public JButton[] getToolBarButtons() {
-        return toolBarButtons;
+    public void setToolBar2Buttons(JButton[] toolBar2Buttons) {
+        this.toolBar2Buttons = toolBar2Buttons;
+    }
+
+    /**
+     * Gets the toolbar1 buttons
+     *
+     * @return toolbar1 buttons
+     */
+    public JButton[] getToolBar1Buttons() {
+        return toolBar1Buttons;
+    }
+
+    /**
+     * Gets the toolbar2 buttons
+     *
+     * @return toolbar2 buttons
+     */
+    public JButton[] getToolBar2Buttons() {
+        return toolBar2Buttons;
     }
 
     /** Checks the proof for correctness */
@@ -857,6 +931,34 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
     }
 
+    private void directionsToolButton() {
+        String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+        //System.out.println(puzzleName);
+        try {
+            if (puzzleName.equals("Fillapix")) {
+                java.awt.Desktop.getDesktop()
+                        .browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki/Fill-a-pix-rules"));
+            }
+            else if (puzzleName.equals("LightUp")) {
+                java.awt.Desktop.getDesktop()
+                        .browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki/Light-up-rules"));
+            }
+            else if (puzzleName.equals("TreeTent")) {
+                java.awt.Desktop.getDesktop()
+                        .browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki/Tree-tent-rules"));
+            }
+            else if (puzzleName.equals("ShortTruthTables")) {
+                java.awt.Desktop.getDesktop()
+                        .browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki/Short-truth-table-rules"));
+            }
+            else {
+                java.awt.Desktop.getDesktop()
+                        .browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki/" + puzzleName + "-rules"));
+            }
+        } catch (IOException e) {
+            LOGGER.error("Can't open web page");
+        }
+    }
     private void repaintAll() {
         boardView.repaint();
         treePanel.repaint();
@@ -885,9 +987,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         ruleFrame.getContradictionPanel().setRules(puzzle.getContradictionRules());
         ruleFrame.getSearchPanel().setSearchBar(puzzle);
 
-        toolBarButtons[ToolbarName.CHECK.ordinal()].setEnabled(true);
-        //        toolBarButtons[ToolbarName.SAVE.ordinal()].setEnabled(true);
-
+        toolBar1.setVisible(false);
+        setupToolBar2();
         reloadGui();
     }
 
@@ -1024,22 +1125,27 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     public void onPushChange(ICommand command) {
         LOGGER.info("Pushing " + command.getClass().getSimpleName() + " to stack.");
         undo.setEnabled(true);
-        //        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(true);
         redo.setEnabled(false);
-        //        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
 
         String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
         File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
         frame.setTitle(puzzleName + " - " + puzzleFile.getName() + " *");
+//        Board curBoard = GameBoardFacade.getInstance().getBoard();
+//        List<PuzzleElement> allElements = curBoard.getPuzzleElements();
+//        for (PuzzleElement p : allElements) {
+//            if (p.getData() == BinaryType.UNKNOWN) {
+//                p.setModifiable(true);
+//            }
+//        }
     }
 
     /** Called when the history is cleared */
     @Override
     public void onClearHistory() {
         // undo.setEnabled(false);
-        //        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
+        //        toolBar2Buttons[ToolbarName.UNDO.ordinal()].setEnabled(false);
         // redo.setEnabled(false);
-        //        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
+        //        toolBar2Buttons[ToolbarName.REDO.ordinal()].setEnabled(false);
     }
 
     /**
@@ -1051,9 +1157,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     @Override
     public void onRedo(boolean isBottom, boolean isTop) {
         undo.setEnabled(!isBottom);
-        //        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
         redo.setEnabled(!isTop);
-        //        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(!isTop);
         if (isBottom) {
             String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
             File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
@@ -1074,9 +1178,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     @Override
     public void onUndo(boolean isBottom, boolean isTop) {
         undo.setEnabled(!isBottom);
-        //        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(!isBottom);
         redo.setEnabled(!isTop);
-        //        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(!isTop);
         String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
         File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
         if (isBottom) {

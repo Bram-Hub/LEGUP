@@ -86,6 +86,7 @@ public class ElementController
         if (boardView == null) {
             boardView = getInstance().getLegupUI().getEditorBoardView();
         }
+
         Board board = boardView.getBoard();
         ElementView elementView = boardView.getElement(e.getPoint());
         TreeViewSelection selection = null;
@@ -137,6 +138,7 @@ public class ElementController
         if (this.boardView.getBoard() instanceof TreeTentBoard) {
             scaledPoint.setLocation(scaledPoint.getX() - 1, scaledPoint.getY() - 1);
         }
+
         System.out.printf(
                 "selected Element is NOT null, attempting to change board at (%d, %d)\n",
                 scaledPoint.x, scaledPoint.y);
