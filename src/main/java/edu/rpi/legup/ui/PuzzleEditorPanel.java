@@ -578,7 +578,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         dynamicBoardView.setBorder(titleBoard);
 
         puzzle.addBoardListener(puzzle.getBoardView());
-        System.out.println("Setting elements");
         if (this.elementFrame != null) {
             elementFrame.setElements(puzzle);
         }

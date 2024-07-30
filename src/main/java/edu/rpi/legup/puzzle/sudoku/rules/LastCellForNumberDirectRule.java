@@ -15,7 +15,7 @@ public class LastCellForNumberDirectRule extends DirectRule {
                 "SUDO-BASC-0002",
                 "Last Cell for Number",
                 "This is the only cell open in its group for some number.",
-                "edu/rpi/legup/images/sudoku/forcedByElimination.png");
+                "edu/rpi/legup/images/sudoku/rules/forcedByElimination.png");
     }
 
     /**

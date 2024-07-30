@@ -15,7 +15,7 @@ public class NoSolutionContradictionRule extends ContradictionRule {
                 "SUDO-CONT-0001",
                 "No Solution for Cell",
                 "Process of elimination yields no valid numbers for an empty cell.",
-                "edu/rpi/legup/images/sudoku/NoSolution.png");
+                "edu/rpi/legup/images/sudoku/rules/NoSolution.png");
     }
 
     /**

@@ -20,7 +20,7 @@ public class PossibleNumberCaseRule extends CaseRule {
                 "SUDO-CASE-0002",
                 "Possible Numbers for Cell",
                 "An empty cell has a limited set of possible numbers that can fill it.",
-                "edu/rpi/legup/images/sudoku/PossibleValues.png");
+                "edu/rpi/legup/images/sudoku/rules/PossibleValues.png");
     }
 
     /**

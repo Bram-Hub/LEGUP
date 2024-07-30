@@ -77,6 +77,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
             for (Class c : possElements) {
 
+                String classPackageName = c.getPackage().getName();
+                if (!classPackageName.startsWith("edu.rpi.legup.puzzle.") || !classPackageName.endsWith(".elements")) {
+                    continue;
+                }
                 System.out.println("possible element: " + c.getName());
 
                 // check that the element is not abstract
@@ -124,6 +128,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
             for (Class c : possRules) {
 
+                String classPackageName = c.getPackage().getName();
+                if (!classPackageName.startsWith("edu.rpi.legup.puzzle.") || !classPackageName.endsWith(".rules")) {
+                    continue;
+                }
                 System.out.println("possible rule: " + c.getName());
 
                 // check that the rule is not abstract

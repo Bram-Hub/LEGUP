@@ -16,7 +16,7 @@ public class LastNumberForCellDirectRule extends DirectRule {
                 "SUDO-BASC-0003",
                 "Last Number for Cell",
                 "This is the only number left that can fit in the cell of a group.",
-                "edu/rpi/legup/images/sudoku/forcedByDeduction.png");
+                "edu/rpi/legup/images/sudoku/rules/forcedByDeduction.png");
     }
 
     /**
