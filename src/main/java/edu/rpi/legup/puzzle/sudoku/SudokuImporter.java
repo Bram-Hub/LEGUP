@@ -48,7 +48,6 @@ public class SudokuImporter extends PuzzleImporter {
         }
 
         puzzle.setCurrentBoard(sudokuBoard);
-        System.out.println(sudokuBoard);
     }
 
     /**
@@ -111,16 +110,6 @@ public class SudokuImporter extends PuzzleImporter {
                     }
                 }
             }
-            //
-            //            for(int y = 0; y < size; y++)
-            //            {
-            //                for(int x = 0; x < size; x++)
-            //                {
-            //                    SudokuCell cell = sudokuBoard.getCell(x, y);
-            //                    System.err.println("(" + x + ", " + y + ") - " +
-            // cell.getGroupIndex());
-            //                }
-            //            }
 
             puzzle.setCurrentBoard(sudokuBoard);
         } catch (NumberFormatException e) {
