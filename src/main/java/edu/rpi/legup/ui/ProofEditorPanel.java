@@ -135,14 +135,14 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         file = new JMenu("File");
         newPuzzle = new JMenuItem("Open");
-        resetPuzzle = new JMenuItem("Reset Puzzle");
+        resetPuzzle = new JMenuItem("Reset");
         //        genPuzzle = new JMenuItem("Puzzle Generators"); // TODO: implement puzzle
         // generator
         saveProofAs = new JMenuItem("Save As"); // create a new file to save
         saveProofChange = new JMenuItem("Save"); // save to the current file
         preferences = new JMenuItem("Preferences");
         helpTutorial = new JMenuItem("Help"); // jump to web page
-        exit = new JMenuItem("Exit Solve Puzzle");
+        exit = new JMenuItem("Exit");
 
         edit = new JMenu("Edit");
         undo = new JMenuItem("Undo");
@@ -966,6 +966,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     public void setPuzzleView(Puzzle puzzle) {
         this.boardView = puzzle.getBoardView();
+
 
         dynamicBoardView = new DynamicView(boardView, DynamicViewType.BOARD);
         this.topHalfPanel.setRightComponent(dynamicBoardView);
