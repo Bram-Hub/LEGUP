@@ -1,3 +1,2 @@
-SKYS-ELEM-0001: ClueTile
-SKYS-ELEM-0002: NumberTile
-SKYS-ELEM-0003: UnknownTile
+SKYS-ELEM-0001: NumberTile
+SKYS-ELEM-0002: UnknownTile
