@@ -36,6 +36,12 @@ public class Binary extends Puzzle {
         return null;
     }
 
+    /**
+     * Determines if the current board is a valid state
+     *
+     * @param board board to check for validity
+     * @return true if board is valid, false otherwise
+     */
     @Override
     public boolean isBoardComplete(Board board) {
         BinaryBoard binaryBoard = (BinaryBoard) board;
@@ -54,6 +60,11 @@ public class Binary extends Puzzle {
         return true;
     }
 
+    /**
+     * Callback for when the board puzzleElement changes
+     *
+     * @param board the board that has changed
+     */
     @Override
     public void onBoardChange(Board board) {}
 
