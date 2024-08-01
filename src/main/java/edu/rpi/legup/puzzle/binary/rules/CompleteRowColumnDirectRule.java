@@ -15,7 +15,8 @@ public class CompleteRowColumnDirectRule extends DirectRule {
         super(
                 "BINA-BASC-0003",
                 "Complete Row/Column",
-                "If a row/column of length n contains n/2 of a single value, the remaining cells must contain the other value",
+                "If a row/column of length n contains n/2 of a single value, the remaining " +
+                        "cells must contain the other value",
                 "edu/rpi/legup/images/binary/rules/CompleteRowColumnDirectRule.png");
     }
 
@@ -35,15 +36,23 @@ public class CompleteRowColumnDirectRule extends DirectRule {
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
         BinaryBoard modified = origBoard.copy();
 
-        modified.getPuzzleElement(puzzleElement).setData(binaryCell.getData());
-
-        if (contraRule.checkContradictionAt(modified, puzzleElement) != null) {
+        // Flip the cell and check to see if there will be an unbalanced row/column contradiction,
+        // if so the rule is applied correctly
+        modified.getPuzzleElement(puzzleElement).setData(Math.abs(binaryCell.getData() - 1));
+        if (contraRule.checkContradictionAt(modified, puzzleElement) == null) {
             return null;
         }
 
-        return "Grouping of Three Ones or Zeros not found";
+        return "Unbalanced row/column found";
     }
 
+    /**
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
+     *
+     * @param node tree node used to create default transition board
+     * @return default board or null if this rule cannot be applied to this tree node
+     */
     @Override
     public Board getDefaultBoard(TreeNode node) {
         return null;

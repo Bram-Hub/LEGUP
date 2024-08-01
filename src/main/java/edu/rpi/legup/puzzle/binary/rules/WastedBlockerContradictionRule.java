@@ -16,11 +16,26 @@ public class WastedBlockerContradictionRule extends ContradictionRule {
         super(
                 "BINA-CONT-0004",
                 "Wasted Blocker",
-                "There exists a cell in this row/column that allocates a digit unnecessarily and will cause a future trio to appear",
+                "There exists a cell in this row/column that allocates a digit unnecessarily and" +
+                        " will cause a future trio to appear",
                 "edu/rpi/legup/images/binary/rules/WastedBlockerContradictionRule.png");
     }
 
-
+    /*
+     i [ n ] j
+     i -> digit on left (0 if no digit exists)
+     n -> number of empty cells
+     j -> digit on right (0 if no digit exists)
+     neededZeros = ( n + i + j ) / 3
+    */
+    /**
+     * Calculates the number of zeros needed in a sequence based on the values on either side and the number of empty cells.
+     *
+     * @param leftVal The value on the left side of the empty cells
+     * @param rightVal The value on the right side of the empty cells
+     * @param emptyCellsInCurSec The number of empty cells in the current section
+     * @return The number of zeros needed in the sequence
+     */
     private int calculateNeededZeros(int leftVal, int rightVal, int emptyCellsInCurSec) {
         int leftCopy = leftVal;
         int rightCopy = rightVal;
@@ -33,6 +48,21 @@ public class WastedBlockerContradictionRule extends ContradictionRule {
         return ((emptyCellsInCurSec + leftCopy + rightCopy) / 3);
     }
 
+    /*
+     i [ n ] j
+     i -> digit on left (1 if no digit exists)
+     n -> number of empty cells
+     j -> digit on right (1 if no digit exists)
+     neededOnes = ( n + ( 1 - i ) + ( 1 - j ) ) / 3
+    */
+    /**
+     * Calculates the number of ones needed in a sequence based on the values on either side and the number of empty cells
+     *
+     * @param leftVal The value on the left side of the empty cells
+     * @param rightVal The value on the right side of the empty cells
+     * @param emptyCellsInCurSec The number of empty cells in the current section
+     * @return The number of ones needed in the sequence
+     */
     private int calculateNeededOnes(int leftVal, int rightVal, int emptyCellsInCurSec) {
         int leftCopy = leftVal;
         int rightCopy = rightVal;
@@ -45,16 +75,12 @@ public class WastedBlockerContradictionRule extends ContradictionRule {
         return ((emptyCellsInCurSec + (1 - leftCopy) + (1 - rightCopy)) / 3);
     }
 
-    private int convertTypeToInt(BinaryType type) {
-        if (type.equals(BinaryType.ZERO)) {
-            return 0;
-        } else if (type.equals(BinaryType.ONE)) {
-            return 1;
-        } else {
-            return -1;
-        }
-    }
-
+    /**
+     * Checks a sequence (row or column) to see if a wasted blocker digit is used
+     *
+     * @param seq The sequence to check
+     * @return Null if the sequence contains a contradiction, otherwise an error message
+     */
     private String checkSequence(ArrayList<BinaryType> seq) {
         int numZeros = 0;
         int numOnes = 0;
@@ -72,24 +98,18 @@ public class WastedBlockerContradictionRule extends ContradictionRule {
                 }
 
                 if (emptyCell) {
-                    if (emptyCellsInCurSec > 1) {
+                    if (emptyCellsInCurSec > 1) { // Ignore case where there is only one empty cell
+                        int leftVal;
+                        int rightVal;
+                        // Check if left cell is out of bounds
                         if (i-emptyCellsInCurSec-1 < 0) {
-                            int leftVal = -1;
-                            int rightVal = convertTypeToInt(seq.get(i));
-                            neededZeros += calculateNeededZeros(leftVal, rightVal, emptyCellsInCurSec);
-                            neededOnes += calculateNeededOnes(leftVal, rightVal, emptyCellsInCurSec);
-//                            System.out.println("NEEDED ZEROS: " + calculateNeededZeros(leftVal, rightVal, emptyCellsInCurSec);
-//                            System.out.println("NEEDED ONES: " + calculateNeededOnes(leftVal, rightVal, emptyCellsInCurSec);
-//                            System.out.println("NUM EMPTY BEFORE THIS : " + emptyCellsInCurSec + ", surrounded by " + leftVal + " and " + rightVal);
+                            leftVal = -1;
                         } else {
-                            int leftVal = convertTypeToInt(seq.get(i-emptyCellsInCurSec-1));
-                            int rightVal = convertTypeToInt(seq.get(i));
-                            neededZeros += calculateNeededZeros(leftVal, rightVal, emptyCellsInCurSec);
-                            neededOnes += calculateNeededOnes(leftVal, rightVal, emptyCellsInCurSec);
-//                            System.out.println("NEEDED ZEROS: " + calculateNeededZeros(leftVal, rightVal, emptyCellsInCurSec);
-//                            System.out.println("NEEDED ONES: " + calculateNeededOnes(leftVal, rightVal, emptyCellsInCurSec);
-//                            System.out.println("NUM EMPTY BEFORE THIS : " + emptyCellsInCurSec + ", surrounded by " + leftVal + " and " + rightVal);
+                            leftVal = seq.get(i-emptyCellsInCurSec-1).toValue();
                         }
+                        rightVal = seq.get(i).toValue();
+                        neededZeros += calculateNeededZeros(leftVal, rightVal, emptyCellsInCurSec);
+                        neededOnes += calculateNeededOnes(leftVal, rightVal, emptyCellsInCurSec);
                     }
                     emptyCell = false;
                     emptyCellsInCurSec = 0;
@@ -100,44 +120,27 @@ public class WastedBlockerContradictionRule extends ContradictionRule {
                 }
                 emptyCellsInCurSec++;
             }
-            //System.out.println(seq.get(i).toString());
         }
 
-        // check if empty cells surrounded by out of bounds
+        // Check last cell is empty
         if (emptyCell) {
-            if (emptyCellsInCurSec > 1) {
+            if (emptyCellsInCurSec > 1) { // Ignore case where there is only one empty cell
+                int leftVal;
+                int rightVal;
+                // Check if left cell is out of bounds
                 if (seq.size()-1-emptyCellsInCurSec-1 < 0) {
-                    int leftVal = -1;
-                    int rightVal = -1;
-                    neededZeros += calculateNeededZeros(leftVal, rightVal, emptyCellsInCurSec);
-                    neededOnes += calculateNeededOnes(leftVal, rightVal, emptyCellsInCurSec);
-//                    System.out.println("NEEDED ZEROS: " + calculateNeededZeros(leftVal, rightVal, emptyCellsInCurSec);
-//                    System.out.println("NEEDED ONES: " + calculateNeededOnes(leftVal, rightVal, emptyCellsInCurSec);
-//                    System.out.println("NUM EMPTY BEFORE THIS : " + emptyCellsInCurSec+ ", surrounded by " + leftVal + " and " + rightVal);
+                    leftVal = -1;
                 } else {
-                    int leftVal = convertTypeToInt(seq.get(seq.size()-1-emptyCellsInCurSec));
-                    int rightVal = -1;
-                    neededZeros += calculateNeededZeros(leftVal, rightVal, emptyCellsInCurSec);
-                    neededOnes += calculateNeededOnes(leftVal, rightVal, emptyCellsInCurSec);
-//                    System.out.println("NEEDED ZEROS: " + calculateNeededZeros(leftVal, rightVal, emptyCellsInCurSec);
-//                    System.out.println("NEEDED ONES: " + calculateNeededOnes(leftVal, rightVal, emptyCellsInCurSec);
-//                    System.out.println("NUM EMPTY BEFORE THIS : " + emptyCellsInCurSec+ ", surrounded by " + leftVal + " and " + rightVal);
+                    leftVal = seq.get(seq.size()-1-emptyCellsInCurSec).toValue();
                 }
+                rightVal = -1;
+                neededZeros += calculateNeededZeros(leftVal, rightVal, emptyCellsInCurSec);
+                neededOnes += calculateNeededOnes(leftVal, rightVal, emptyCellsInCurSec);
             }
-            emptyCell = false;
-            emptyCellsInCurSec = 0;
         }
 
-//        if (numZeros + neededZeros > seq.size()/2) {
-//            System.out.println("NEED TOO MANY ZEROS");
-//            return null;
-//        }
-//
-//        if (numOnes + neededOnes > seq.size()/2) {
-//            System.out.println("NEED TOO MANY ONES");
-//            return null;
-//        }
-
+        // Check if the number of needed zeros or ones exceeds half the sequence length
+        // If so, return null to indicate contradiction has occurred
         if ((numZeros + neededZeros > seq.size()/2) || (numOnes + neededOnes > seq.size()/2)) {
             return null;
         }
@@ -145,6 +148,15 @@ public class WastedBlockerContradictionRule extends ContradictionRule {
         return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
     }
 
+    /**
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
+     *
+     * @param board board to check contradiction
+     * @param puzzleElement equivalent puzzleElement
+     * @return null if the transition contains a contradiction at the specified puzzleElement,
+     *     otherwise error message
+     */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
 

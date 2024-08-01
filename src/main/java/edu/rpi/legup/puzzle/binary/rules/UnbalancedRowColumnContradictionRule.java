@@ -23,7 +23,15 @@ public class UnbalancedRowColumnContradictionRule extends ContradictionRule {
                 "edu/rpi/legup/images/binary/rules/UnbalancedRowColumnContradictionRule.png");
     }
 
-
+    /**
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
+     *
+     * @param board board to check contradiction
+     * @param puzzleElement equivalent puzzleElement
+     * @return null if the transition contains a contradiction at the specified puzzleElement,
+     *     otherwise error message
+     */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
         BinaryBoard binaryBoard = (BinaryBoard) board;
@@ -43,6 +51,7 @@ public class UnbalancedRowColumnContradictionRule extends ContradictionRule {
             }
         }
 
+        // if there are too many zeros or ones in this row
         if (rowNumZeros > size / 2 || rowNumOnes > size / 2) {
             return null;
         }
@@ -62,6 +71,7 @@ public class UnbalancedRowColumnContradictionRule extends ContradictionRule {
             }
         }
 
+        // if there are too many zeros or ones in this column
         if (colNumZeros > size / 2 || colNumOnes > size / 2) {
             return null;
         }

@@ -20,42 +20,61 @@ public class TrioContradictionRule extends ContradictionRule {
                 "edu/rpi/legup/images/binary/rules/TrioContradictionRule.png");
     }
 
-    public BinaryCell[] getCellsXAway(Board board, PuzzleElement puzzleElement, int x) {
+    /**
+     * This method checks the surrounding cells of a given puzzle element at a specified distance
+     * in both the vertical and horizontal directions
+     *
+     * @param board The board where the puzzle elements are located
+     * @param puzzleElement The puzzle element from which the distance is calculated
+     * @param n The distance away from the puzzle element to retrieve the surrounding cells
+     * @return An array of BinaryCells representing the surrounding cells
+     */
+    public BinaryCell[] getCellsNAway(Board board, PuzzleElement puzzleElement, int n) {
         BinaryBoard binaryBoard = (BinaryBoard) board;
         BinaryCell cell = (BinaryCell) binaryBoard.getPuzzleElement(puzzleElement);
         int cellX = cell.getLocation().x;
         int cellY = cell.getLocation().y;
 
-        BinaryCell[] cells = new BinaryCell[4]; // [0] up x, [1] down x, [2] forward x, [3] backward x
+        BinaryCell[] cells = new BinaryCell[4]; // [0] up x, [1] down x, [2] right x, [3] left x
         cells[0] = null;
         cells[1] = null;
         cells[2] = null;
         cells[3] = null;
 
-        if (binaryBoard.getCell(cellX, cellY + x) != null) {
-            cells[0] = binaryBoard.getCell(cellX, cellY + x);
+        if (binaryBoard.getCell(cellX, cellY + n) != null) {
+            cells[0] = binaryBoard.getCell(cellX, cellY + n);
         }
-        if (binaryBoard.getCell(cellX, cellY - x) != null) {
-            cells[1] = binaryBoard.getCell(cellX, cellY - x);
+        if (binaryBoard.getCell(cellX, cellY - n) != null) {
+            cells[1] = binaryBoard.getCell(cellX, cellY - n);
         }
-        if (binaryBoard.getCell(cellX + x, cellY) != null) {
-            cells[2] = binaryBoard.getCell(cellX + x, cellY);
+        if (binaryBoard.getCell(cellX + n, cellY) != null) {
+            cells[2] = binaryBoard.getCell(cellX + n, cellY);
         }
-        if (binaryBoard.getCell(cellX - x, cellY) != null) {
-            cells[3] = binaryBoard.getCell(cellX - x, cellY);
+        if (binaryBoard.getCell(cellX - n, cellY) != null) {
+            cells[3] = binaryBoard.getCell(cellX - n, cellY);
         }
 
         return cells;
     }
+
+    /**
+     * Checks whether the cell and its two surrounding cells form a trio of zeros or ones;
+     * If a trio is found, it indicates a contradiction
+     *
+     * @param board The board where the puzzle elements are located
+     * @param puzzleElement The puzzle element to check for contradiction
+     * @return true if no contradiction is found, false if contradiction detected
+     */
     public boolean checkSurroundPair(Board board, PuzzleElement puzzleElement) {
         BinaryBoard binaryBoard = (BinaryBoard) board;
         BinaryCell cell = (BinaryCell) binaryBoard.getPuzzleElement(puzzleElement);
 
-        // [0] up x, [1] down x, [2] forward x, [3] backward x
-        BinaryCell[] cellsOneAway = getCellsXAway(board, puzzleElement, 1);
-        BinaryCell[] cellsTwoAway = getCellsXAway(board, puzzleElement, 2);
+        // [0] up n, [1] down n, [2] right n, [3] left n
+        BinaryCell[] cellsOneAway = getCellsNAway(board, puzzleElement, 1);
+        BinaryCell[] cellsTwoAway = getCellsNAway(board, puzzleElement, 2);
 
         if (cell.getType() == BinaryType.ONE || cell.getType() == BinaryType.ZERO) {
+            // left one and left two
             if (cellsOneAway[3] != null
                     && cellsTwoAway[3] != null
                     && cellsOneAway[3].getType() != BinaryType.UNKNOWN
@@ -65,6 +84,7 @@ public class TrioContradictionRule extends ContradictionRule {
                     return false;
                 }
             }
+            // right one and right two
             if (cellsOneAway[2] != null
                     && cellsTwoAway[2] != null
                     && cellsOneAway[2].getType() != BinaryType.UNKNOWN
@@ -74,6 +94,7 @@ public class TrioContradictionRule extends ContradictionRule {
                     return false;
                 }
             }
+            // down one and down two
             if (cellsOneAway[1] != null
                     && cellsTwoAway[1] != null
                     && cellsOneAway[1].getType() != BinaryType.UNKNOWN
@@ -83,6 +104,7 @@ public class TrioContradictionRule extends ContradictionRule {
                     return false;
                 }
             }
+            // up one and up two
             if (cellsOneAway[0] != null
                     && cellsTwoAway[0] != null
                     && cellsOneAway[0].getType() != BinaryType.UNKNOWN
@@ -97,14 +119,23 @@ public class TrioContradictionRule extends ContradictionRule {
         return true;
     }
 
+    /**
+     * Checks whether there are two of the same cell type separated by one cell that also has
+     * the same type in any direction. If a trio is found, it indicates a contradiction
+     *
+     * @param board The board where the puzzle elements are located
+     * @param puzzleElement The puzzle element to check for contradiction
+     * @return true if no contradiction is found, false if contradiction detected
+     */
     public boolean checkOneTileGap(Board board, PuzzleElement puzzleElement) {
         BinaryBoard binaryBoard = (BinaryBoard) board;
         BinaryCell cell = (BinaryCell) binaryBoard.getPuzzleElement(puzzleElement);
 
-        // [0] up x, [1] down x, [2] forward x, [3] backward x
-        BinaryCell[] cellsOneAway = getCellsXAway(board, puzzleElement, 1);
+        // [0] up n, [1] down n, [2] right n, [3] left n
+        BinaryCell[] cellsOneAway = getCellsNAway(board, puzzleElement, 1);
 
         if (cell.getType() == BinaryType.ONE || cell.getType() == BinaryType.ZERO) {
+            // left one and right one
             if (cellsOneAway[3] != null
                     && cellsOneAway[2] != null
                     && cellsOneAway[3].getType() != BinaryType.UNKNOWN
@@ -114,6 +145,7 @@ public class TrioContradictionRule extends ContradictionRule {
                     return false;
                 }
             }
+            // down one and up one
             if (cellsOneAway[1] != null
                     && cellsOneAway[0] != null
                     && cellsOneAway[1].getType() != BinaryType.UNKNOWN
@@ -127,6 +159,15 @@ public class TrioContradictionRule extends ContradictionRule {
         return true;
     }
 
+    /**
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
+     *
+     * @param board board to check contradiction
+     * @param puzzleElement equivalent puzzleElement
+     * @return null if the transition contains a contradiction at the specified puzzleElement,
+     *     otherwise error message
+     */
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
 

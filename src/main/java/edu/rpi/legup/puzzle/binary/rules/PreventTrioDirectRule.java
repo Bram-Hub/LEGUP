@@ -19,6 +19,15 @@ public class PreventTrioDirectRule extends DirectRule {
                 "edu/rpi/legup/images/binary/rules/PreventTrioDirectRule.png");
     }
 
+    /**
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
+     *
+     * @param transition transition to check
+     * @param puzzleElement equivalent puzzleElement
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
+     */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
@@ -26,8 +35,8 @@ public class PreventTrioDirectRule extends DirectRule {
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
         BinaryBoard modified = origBoard.copy();
 
+        // Flip the cell and check to see if there will be a trio contradiction, if so the rule is applied correctly
         modified.getPuzzleElement(puzzleElement).setData(Math.abs(binaryCell.getData() - 1));
-
         if (contraRule.checkContradictionAt(modified, binaryCell) == null) {
             return null;
         }
@@ -35,6 +44,13 @@ public class PreventTrioDirectRule extends DirectRule {
         return "Trio Found";
     }
 
+    /**
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
+     *
+     * @param node tree node used to create default transition board
+     * @return default board or null if this rule cannot be applied to this tree node
+     */
     @Override
     public Board getDefaultBoard(TreeNode node) {
         return null;

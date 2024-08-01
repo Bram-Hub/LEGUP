@@ -21,6 +21,13 @@ public class ZeroOrOneCaseRule extends CaseRule {
                 "edu/rpi/legup/images/binary/rules/ZeroOrOneCaseRule.png");
     }
 
+    /**
+     * Checks whether the {@link TreeTransition} logically follows from the parent node using this
+     * rule. This method is the one that should be overridden in child classes.
+     *
+     * @param transition transition to check
+     * @return null if the child node logically follow from the parent node, otherwise error message
+     */
     @Override
     public String checkRuleRaw(TreeTransition transition) {
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
@@ -49,6 +56,13 @@ public class ZeroOrOneCaseRule extends CaseRule {
         return null;
     }
 
+    /**
+     * Generates a {@link CaseBoard} that includes all blank cells from the given board that this
+     * case rule can be applied to
+     *
+     * @param board The board to find locations where this case rule can be applied
+     * @return A CaseBoard containing pickable elements where the case rule can be applied
+     */
     @Override
     public CaseBoard getCaseBoard(Board board) {
         BinaryBoard binaryBoard = (BinaryBoard) board.copy();
@@ -62,6 +76,13 @@ public class ZeroOrOneCaseRule extends CaseRule {
         return caseBoard;
     }
 
+    /**
+     * Gets the possible cases at a specific location based on this case rule
+     *
+     * @param board the current board state
+     * @param puzzleElement equivalent puzzleElement
+     * @return a list of elements the specified could be
+     */
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
@@ -84,6 +105,15 @@ public class ZeroOrOneCaseRule extends CaseRule {
         return cases;
     }
 
+    /**
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
+     *
+     * @param transition transition to check
+     * @param puzzleElement equivalent puzzleElement
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
+     */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         return null;
