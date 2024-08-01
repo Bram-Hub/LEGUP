@@ -162,8 +162,9 @@ public class TreeView extends ScrollView implements ITreeListener {
     }
 
     public void zoomFit() {
-        double fitWidth = (viewport.getWidth() - 8.0) / (getSize().width - 200);
-        double fitHeight = (viewport.getHeight() - 8.0) / (getSize().height - 120);
+        final int MIN_HEIGHT = 200;
+        double fitWidth = (viewport.getWidth() - 7.0) / (getSize().width - 75);
+        double fitHeight = (viewport.getHeight()) / Math.max((getSize().height - 115), MIN_HEIGHT);
         zoomTo(Math.min(fitWidth, fitHeight));
         viewport.setViewPosition(new Point(0, viewport.getHeight() / 2));
     }
