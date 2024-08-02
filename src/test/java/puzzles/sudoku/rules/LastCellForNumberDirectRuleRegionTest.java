@@ -25,7 +25,8 @@ public class LastCellForNumberDirectRuleRegionTest {
     /*test ideas:
     -basic test (based off icon)
     -"staircase" test
-    -false
+    -no possible test
+    -almost but not actually test
     */
     @Test
     public void basicSpotTest() throws InvalidFileFormatException{
@@ -51,6 +52,30 @@ public class LastCellForNumberDirectRuleRegionTest {
 
         }
 
+    }
+    @Test
+    public void staircaseTest() throws InvalidFileFormatException{
+        TestUtilities.importTestBoard(
+                "puzzles/sudoku/rules/LastCellForNumberDirectRule/StaircaseCase", sudoku
+        );
+        TreeNode rootNode = sudoku.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        for(int i = 1; i <= 9; ++i) {
+            SudokuBoard board = (SudokuBoard) transition.getBoard();
+            SudokuCell cell = board.getCell(4,4);
+
+            cell.setData(i);
+            board.addModifiedData(cell);
+            if(i == 7) {
+                Assert.assertNull(RULE.checkRuleAt(transition, cell));
+            }
+            else {
+                Assert.assertNotNull(RULE.checkRuleAt(transition, cell));
+            }
+
+        }
     }
 
 }
