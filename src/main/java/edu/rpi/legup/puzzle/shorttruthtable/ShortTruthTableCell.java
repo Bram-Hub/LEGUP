@@ -119,6 +119,7 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType> {
     @Contract(pure = true)
     public ShortTruthTableCell copy() {
         ShortTruthTableCell copy = new ShortTruthTableCell(symbol, data, (Point) location.clone());
+        copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
         return copy;
