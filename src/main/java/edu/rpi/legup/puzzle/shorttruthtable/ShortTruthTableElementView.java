@@ -4,7 +4,7 @@ import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
+
 
 public class ShortTruthTableElementView extends GridElementView {
 
@@ -30,7 +30,7 @@ public class ShortTruthTableElementView extends GridElementView {
      * @return PuzzleElement associated with this view
      */
     @Override
-    public @NotNull ShortTruthTableCell getPuzzleElement() {
+    public ShortTruthTableCell getPuzzleElement() {
         return (ShortTruthTableCell) super.getPuzzleElement();
     }
 

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 class ShortTruthTableImporter extends PuzzleImporter {
 
-    public ShortTruthTableImporter(@NotNull ShortTruthTable stt) {
+    public ShortTruthTableImporter( ShortTruthTable stt) {
         super(stt);
     }
 
