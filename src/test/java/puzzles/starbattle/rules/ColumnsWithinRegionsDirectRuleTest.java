@@ -268,7 +268,7 @@ public class ColumnsWithinRegionsDirectRuleTest {
     }
 
     @Test
-    public void ColumnsWithinRegionsDirectRule_FalseColumnsWithinRegions3()
+    public void ColumnsWithinRegionsDirectRule_PartialRemoval()
         throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/starbattle/rules/ColumnsWithinRegionsDirectRule/PartialColumnTwoCells", starbattle);
         TreeNode rootNode = starbattle.getTree().getRootNode();
@@ -280,11 +280,18 @@ public class ColumnsWithinRegionsDirectRuleTest {
         cell1.setData(StarBattleCellType.BLACK.value);
         board.addModifiedData(cell1);
 
-        Assert.assertNotNull(RULE.checkRule(transition));
+        Assert.assertNull(RULE.checkRule(transition));
 
+        Point location1 = new Point(0, 1);
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
-                Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                Point point = new Point(k,i);
+                if (point.equals(location1)) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
+                else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
             }
         }
     }

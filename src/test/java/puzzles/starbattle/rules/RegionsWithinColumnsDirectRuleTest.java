@@ -335,11 +335,18 @@ public class RegionsWithinColumnsDirectRuleTest {
         cell.setData(StarBattleCellType.BLACK.value);
         board.addModifiedData(cell);
 
-        Assert.assertNotNull(RULE.checkRule(transition));
+        Assert.assertNull(RULE.checkRule(transition));
 
+        Point location = new Point(0,3);
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
-                Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                Point point = new Point(k,i);
+                if (point.equals(location)) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
+                else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
             }
         }
     }
