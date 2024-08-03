@@ -24,13 +24,23 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
                 "edu/rpi/legup/images/binary/rules/EliminateTheImpossibleDirectRule.png");
     }
 
-    // Function to generate all binary strings
+    /**
+     * Function to generate all possible binary strings with a given number of zeros
+     * and ones.
+     *
+     * @param spots         The total number of spots (length of the binary string).
+     * @param possibilities An ArrayList that will be populated with the possible
+     *                      results.
+     * @param zeroCount     The number of zeros required.
+     * @param oneCount      The number of ones required.
+     */
     void generatePossibilities(int spots, ArrayList<String> possibilities, int zeroCount, int oneCount) {
         if (zeroCount + oneCount != spots) {
             System.out.println("INVALID INPUT");
             return;
         }
 
+        // Add the string consisting of all zeros if applicable
         if (zeroCount == spots) {
             String zero = "";
             for (int i = 0; i < spots; i++) {
@@ -39,6 +49,7 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
             possibilities.add(zero);
         }
 
+        // Generate all binary strings of length 'spots'
         int count = (int) Math.pow(2, spots) - 1;
         int finalLen = spots;
         Queue<String> q = new LinkedList<>();
@@ -76,6 +87,15 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
         }
     }
 
+    /**
+     * Checks if a binary string combination is valid based on the rule that no
+     * three consecutive
+     * digits should be the same.
+     *
+     * @param cells       The current state of the row or column cells.
+     * @param combination The binary string combination to check.
+     * @return True if the combination is valid, false otherwise.
+     */
     private boolean isValidCombination(ArrayList<BinaryCell> cells, String combination) {
         int count = 1;
         for (int i = 1; i < combination.length(); i++) {
@@ -91,6 +111,14 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
         return true;
     }
 
+    /**
+     * Filters out the invalid combinations that have three consecutive identical
+     * digits.
+     *
+     * @param combinations The list of all possible combinations.
+     * @param cells        The current state of the row or column cells.
+     * @return The list of valid combinations.
+     */
     private ArrayList<String> filterValidCombinations(ArrayList<String> combinations, ArrayList<BinaryCell> cells) {
         ArrayList<String> validCombinations = new ArrayList<>();
         for (String combination : combinations) {
@@ -101,6 +129,13 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
         return validCombinations;
     }
 
+    /**
+     * Checks the validity of a row configuration for the given binary cell.
+     *
+     * @param origBoard  The original board state.
+     * @param binaryCell The cell to check.
+     * @return True if the row configuration is valid, false otherwise.
+     */
     private boolean checkValidityForRow(BinaryBoard origBoard, BinaryCell binaryCell) {
         ArrayList<BinaryCell> row = origBoard.listRowCells(binaryCell.getLocation().y);
 
@@ -108,6 +143,7 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
         int rowNumZeros = 0;
         int rowNumOnes = 0;
 
+        // Count the number of zeros and ones in the row
         for (BinaryCell item : row) {
             if (item.getType() == BinaryType.ZERO) {
                 rowNumZeros++;
@@ -123,6 +159,8 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
         ArrayList<String> validRowCombinations = filterValidCombinations(rowResult, row);
 
         int colNum = binaryCell.getLocation().x;
+        // Check if the column value of the binary cell is valid in all valid row
+        // combinations
         for (String combination : validRowCombinations) {
             if (combination.charAt(colNum) != (char) (binaryCell.getData() + '0')) {
                 return false;
@@ -131,6 +169,13 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
         return true;
     }
 
+    /**
+     * Checks the validity of a column configuration for the given binary cell.
+     *
+     * @param origBoard  The original board state.
+     * @param binaryCell The cell to check.
+     * @return True if the column configuration is valid, false otherwise.
+     */
     private boolean checkValidityForColumn(BinaryBoard origBoard, BinaryCell binaryCell) {
         ArrayList<BinaryCell> col = origBoard.listColCells(binaryCell.getLocation().x);
 
@@ -138,6 +183,7 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
         int colNumZeros = 0;
         int colNumOnes = 0;
 
+        // Count the number of zeros and ones in the column
         for (BinaryCell item : col) {
             if (item.getType() == BinaryType.ZERO) {
                 colNumZeros++;
@@ -153,6 +199,8 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
         ArrayList<String> validColCombinations = filterValidCombinations(colResult, col);
 
         int rowNum = binaryCell.getLocation().y;
+        // Check if the row value of the binary cell is valid in all valid column
+        // combinations
         for (String combination : validColCombinations) {
             if (combination.charAt(rowNum) != (char) (binaryCell.getData() + '0')) {
                 return false;
@@ -161,6 +209,13 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
         return true;
     }
 
+    /**
+     * Checks the rule for the given tree transition and puzzle element.
+     *
+     * @param transition    The current tree transition.
+     * @param puzzleElement The puzzle element to check.
+     * @return A message if the rule is invalid, null otherwise.
+     */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
@@ -169,10 +224,13 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
         boolean validRow = checkValidityForRow(origBoard, binaryCell);
         boolean validColumn = checkValidityForColumn(origBoard, binaryCell);
 
+        // If both row and column configurations are valid, return null (no error)
         if (validRow && validColumn) {
             return null;
         }
 
+        // If either the row or column configuration is invalid, return the error
+        // message
         return INVALID_USE_MESSAGE;
     }
 
