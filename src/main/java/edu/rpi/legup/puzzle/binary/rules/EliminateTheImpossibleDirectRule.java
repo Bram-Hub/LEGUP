@@ -11,8 +11,6 @@ import edu.rpi.legup.puzzle.binary.BinaryType;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.lang.Math.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class EliminateTheImpossibleDirectRule extends DirectRule {
@@ -27,17 +25,7 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
     }
 
     // Function to generate all binary strings
-    void generatePossibilitites(int spots, ArrayList<String> possibilities, int zeroCount, int oneCount)
-    // This function generates all the possible combinations of 0s and 1s for a
-    // certain size, it does this
-    // by basically just counting from 0 to the number - 1, so if you want all the
-    // possible combinations for 3
-    // spots, you can just count in binary from 0 to 7 (taking 3 spots, so from 000
-    // to 111). To be practical,
-    // the function does not return an array with all the possibilities as an array,
-    // but populates the
-    // arraylist you pass in (possibilities)
-    {
+    void generatePossibilities(int spots, ArrayList<String> possibilities, int zeroCount, int oneCount) {
         if (zeroCount + oneCount != spots) {
             System.out.println("INVALID INPUT");
             return;
@@ -49,11 +37,11 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
                 zero = zero + "0";
             }
             possibilities.add(zero);
-
         }
+
         int count = (int) Math.pow(2, spots) - 1;
         int finalLen = spots;
-        Queue<String> q = new LinkedList<String>();
+        Queue<String> q = new LinkedList<>();
         q.add("1");
 
         while (count-- > 0) {
@@ -68,9 +56,9 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
                     newS1 = "0" + newS1;
                 }
             }
+
             int curZeros = 0;
             int curOnes = 0;
-
             for (int i = 0; i < spots; i++) {
                 if (newS1.charAt(i) == '0') {
                     curZeros++;
@@ -83,29 +71,38 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
             if (zeroCount == curZeros && oneCount == curOnes) {
                 possibilities.add(newS1);
             }
-            String s2 = s1;
             q.add(s1 + "0");
-            q.add(s2 + "1");
+            q.add(s1 + "1");
         }
     }
 
-    @Override
-    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        // This function should first check if there are three open spaces, if so,
-        // continue, else figure out
-        // how many spots are open, all the possible binary combinations that could be
-        // put there, and by
-        // analyzing the common factors, logically determine which number has a set
-        // spot, meaning that we know
-        // that a certain spot must be a zero or a one
+    private boolean isValidCombination(ArrayList<BinaryCell> cells, String combination) {
+        int count = 1;
+        for (int i = 1; i < combination.length(); i++) {
+            if (combination.charAt(i) == combination.charAt(i - 1)) {
+                count++;
+                if (count == 3) {
+                    return false;
+                }
+            } else {
+                count = 1;
+            }
+        }
+        return true;
+    }
 
-        BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
-        BinaryCell binaryCell = (BinaryCell) puzzleElement;
+    private ArrayList<String> filterValidCombinations(ArrayList<String> combinations, ArrayList<BinaryCell> cells) {
+        ArrayList<String> validCombinations = new ArrayList<>();
+        for (String combination : combinations) {
+            if (isValidCombination(cells, combination)) {
+                validCombinations.add(combination);
+            }
+        }
+        return validCombinations;
+    }
 
-        //Getting the row where the user clicked
+    private boolean checkValidityForRow(BinaryBoard origBoard, BinaryCell binaryCell) {
         ArrayList<BinaryCell> row = origBoard.listRowCells(binaryCell.getLocation().y);
-        ArrayList<BinaryCell> col = origBoard.listRowCells(binaryCell.getLocation().x);
-
 
         int size = row.size();
         int rowNumZeros = 0;
@@ -119,88 +116,64 @@ public class EliminateTheImpossibleDirectRule extends DirectRule {
             }
         }
 
-        ArrayList<String> rowResult = new ArrayList<String>();
+        ArrayList<String> rowResult = new ArrayList<>();
+        generatePossibilities((size - rowNumZeros - rowNumOnes), rowResult, size / 2 - rowNumZeros,
+                size / 2 - rowNumOnes);
 
-        // To call generatePossibilitites(), you must call it and pass in the amount of
-        // unknown spots left,
-        // an ArrayList that will be populated with the possible results (in String
-        // form), the amount of zeros left and ones left
-        generatePossibilitites((size - rowNumZeros - rowNumOnes), rowResult, size / 2 - rowNumZeros, size / 2 - rowNumOnes);
+        ArrayList<String> validRowCombinations = filterValidCombinations(rowResult, row);
 
-        // Create deep copies of each row
-        ArrayList<ArrayList<BinaryCell>> rowCopies = new ArrayList<>();
-        for (int i = 0; i < rowResult.size(); i++) {
-            ArrayList<BinaryCell> newRow = new ArrayList<>();
-            for (BinaryCell cell : row) {
-                newRow.add(cell.copy());
-            }
-            rowCopies.add(newRow);
-        }
-
-        System.out.println("Number of possible binary combinations: " + rowCopies.size());
-
-        ArrayList<ArrayList<BinaryCell>> nonContraRows = new ArrayList<>();
-        int rowIdx = 0;
-        for(ArrayList<BinaryCell> curRow : rowCopies){
-            int charIdx = 0;
-            System.out.println(rowResult.get(rowIdx));
-            for(int i = 0; i < curRow.size(); i++) {
-                if (curRow.get(i).getData() == 2) {
-                    if (rowResult.get(rowIdx).charAt(charIdx) == '0') {
-                        curRow.get(i).setData(0);
-                    }
-                    else if (rowResult.get(rowIdx).charAt(charIdx) == '1') {
-                        curRow.get(i).setData(1);
-                    }
-                    charIdx++;
-                }
-                System.out.print(curRow.get(i).getData() + " ");
-            }
-
-            boolean threeAdjacent = false;
-            int count = 1;
-            for(int i = 1; i < curRow.size(); i++) {
-                if (curRow.get(i).getData() == curRow.get(i-1).getData()) {
-                    count++;
-                    if (count == 3) {
-                        threeAdjacent = true;
-                        break;
-                    }
-                } else {
-                    count = 1;
-                }
-            }
-
-            // NOTE: we're still forgetting that after checking for "threeAdjacent" we should
-            // check if there is more than one possibility and if so, check what number those 
-            // possibilities have in common and *hopefully*(probably) that will be our correct 
-            // answer (either way, print out some error if there are multiple common numbers 
-            // because that means the rule is wrong)
-
-            if (!threeAdjacent) {
-                nonContraRows.add(curRow);
-            }
-
-            rowIdx++;
-            System.out.println();
-        }
-
-        System.out.println("Number of non contradiction rows: " + nonContraRows.size());
         int colNum = binaryCell.getLocation().x;
-        boolean invalid = false;
-        for(int i = 0; i < nonContraRows.size(); i++) {
-            if (nonContraRows.get(i).get(colNum).getData() != binaryCell.getData()) {
-                invalid = true;
-                break;
+        for (String combination : validRowCombinations) {
+            if (combination.charAt(colNum) != (char) (binaryCell.getData() + '0')) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean checkValidityForColumn(BinaryBoard origBoard, BinaryCell binaryCell) {
+        ArrayList<BinaryCell> col = origBoard.listColCells(binaryCell.getLocation().x);
+
+        int size = col.size();
+        int colNumZeros = 0;
+        int colNumOnes = 0;
+
+        for (BinaryCell item : col) {
+            if (item.getType() == BinaryType.ZERO) {
+                colNumZeros++;
+            } else if (item.getType() == BinaryType.ONE) {
+                colNumOnes++;
             }
         }
 
-        if (!invalid) {
+        ArrayList<String> colResult = new ArrayList<>();
+        generatePossibilities((size - colNumZeros - colNumOnes), colResult, size / 2 - colNumZeros,
+                size / 2 - colNumOnes);
+
+        ArrayList<String> validColCombinations = filterValidCombinations(colResult, col);
+
+        int rowNum = binaryCell.getLocation().y;
+        for (String combination : validColCombinations) {
+            if (combination.charAt(rowNum) != (char) (binaryCell.getData() + '0')) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
+        BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
+        BinaryCell binaryCell = (BinaryCell) puzzleElement;
+
+        boolean validRow = checkValidityForRow(origBoard, binaryCell);
+        boolean validColumn = checkValidityForColumn(origBoard, binaryCell);
+
+        if (validRow && validColumn) {
             return null;
         }
 
-        return "Grouping of Three Ones or Zeros not found";
-        
+        return INVALID_USE_MESSAGE;
     }
 
     @Override
