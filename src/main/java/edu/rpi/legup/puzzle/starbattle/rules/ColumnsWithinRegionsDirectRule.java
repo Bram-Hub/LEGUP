@@ -72,11 +72,11 @@ public class ColumnsWithinRegionsDirectRule extends DirectRule {
             int columnStars = 0;
             int regionStars = 0;
             for (int c: columnSubset) {
-                columnStars += board.columnStars(c);
+                columnStars += origBoard.columnStars(c);
                 for (StarBattleCell ce: origBoard.getCol(c)) {
                     if (ce.getType() == StarBattleCellType.UNKNOWN) {
                         if (regions.add(ce.getGroupIndex())) {
-                            regionStars += board.getRegion(ce.getGroupIndex()).numStars();
+                            regionStars += origBoard.getRegion(ce.getGroupIndex()).numStars();
                         }
                         if (ce.getGroupIndex() == region) {
                             containsRegion = true;
@@ -89,64 +89,7 @@ public class ColumnsWithinRegionsDirectRule extends DirectRule {
                 return null;
             }
         }
-    /*
-        //StarBattleBoard modified = (StarBattleBoard) origBoard.copy();
-        //modified.getPuzzleElement(puzzleElement).setData(StarBattleCellType.BLACK.value);
-
-        // the columns that are contained
-        Set<Integer> columns = new HashSet<Integer>();
-        // the regions that contain them
-        Set<Integer> regions = new HashSet<Integer>();
-        // columns and regions to process
-        List<Integer> columnsToCheck = new ArrayList<Integer>();
-        List<Integer> regionsToCheck = new ArrayList<Integer>();
-        int columnStars = 0;
-        int regionStars = 0;
-        regions.add(cell.getGroupIndex());
-        regionsToCheck.add(cell.getGroupIndex());
-
-        while (!columnsToCheck.isEmpty() || !regionsToCheck.isEmpty()) {
-            for (int i = 0; i < regionsToCheck.size(); ++i) {
-                int r = regionsToCheck.get(i);
-                regionStars += board.getRegion(r).numStars();
-                for (StarBattleCell c : board.getRegion(r).getCells()) {
-                    int column = ((StarBattleCell) c).getLocation().x;
-                    if (column != cell.getLocation().x && c.getType() == StarBattleCellType.UNKNOWN && columns.add(column)) {
-                        columnsToCheck.add(column);
-                    }
-                }
-                regionsToCheck.remove(i);
-                --i;
-            }
-            for (int j = 0; j < columnsToCheck.size(); ++j) {
-                int c = columnsToCheck.get(j);
-                columnStars += board.columnStars(c);
-                for (int i = 0; i < board.getSize(); ++i) {
-                    int region = board.getCell(c, i).getGroupIndex();
-                    if (board.getCell(c,i).getType() == StarBattleCellType.UNKNOWN && regions.add(region)) {
-                        regionsToCheck.add(region);
-                    }
-                }
-                columnsToCheck.remove(j);
-                --j;
-            }
-        }
-        // are the columns and regions missing an equal amount of stars
-        if (board.getPuzzleNumber() * columns.size() - columnStars
-                != board.getPuzzleNumber() * regions.size() - regionStars) {
-            return "The number of missing stars in the columns and regions must be equal and every extraneous cell must be black!";
-        }
-        if (columns.contains(cell.getLocation().x)) {
-            return "Only black out cells outside the column(s)!";
-        }
-        /*
-        for (int c: columns) {
-            if (c == cell.getLocation().x) {
-                return "Only black out cells outside the column(s)!";
-            }
-        }
-        */
-        return "Wrong!";
+        return "The columns must fully fit within regions with the same number of stars missing!";
     }
 
     /**
