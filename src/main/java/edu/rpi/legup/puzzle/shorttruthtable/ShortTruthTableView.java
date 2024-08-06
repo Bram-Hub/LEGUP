@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ShortTruthTableView extends GridBoardView {
 
-    public ShortTruthTableView( ShortTruthTableBoard board) {
+    public ShortTruthTableView(@NotNull ShortTruthTableBoard board) {
         super(new BoardController(), new ShortTruthTableController(), board.getDimension());
 
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
