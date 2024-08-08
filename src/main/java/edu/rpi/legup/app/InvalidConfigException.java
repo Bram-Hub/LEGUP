@@ -1,7 +1,7 @@
 package edu.rpi.legup.app;
 
 /**
- * Custom exception class for handling invalid configuration errors
+ * {@code InvalidConfigException} is a custom exception class for handling invalid configuration errors
  */
 public class InvalidConfigException extends Exception {
     /**

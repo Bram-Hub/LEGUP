@@ -31,6 +31,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+/**
+ * {@code GameBoardFacade} is a class designed to manage the game board operations within the application.
+ * It integrates various components such as UI elements, puzzle management, and history tracking
+ */
 public class GameBoardFacade implements IHistorySubject {
     private static final Logger LOGGER = LogManager.getLogger(GameBoardFacade.class.getName());
 

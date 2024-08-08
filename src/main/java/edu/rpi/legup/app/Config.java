@@ -12,6 +12,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * The {@code Config} class manages the configuration for puzzles by loading configuration data
+ * from an XML file. It provides methods to access puzzle class names, display names, and their
+ * file creation statuses
+ */
 public class Config {
     private static final Logger Logger = LogManager.getLogger(Config.class.getName());
 

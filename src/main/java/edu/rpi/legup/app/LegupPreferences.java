@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.prefs.Preferences;
 
+/**
+ * {@code LegupPreferences} is a class responsible for managing user preferences within the application.
+ * It uses Java's Preferences API to store and retrieve preferences, and it provides methods for accessing and updating these preferences.
+ */
 public class LegupPreferences {
 
     private static LegupPreferences instance;
