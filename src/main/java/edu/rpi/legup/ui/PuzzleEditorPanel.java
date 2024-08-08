@@ -471,7 +471,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         fileBrowser.setAcceptAllFileFilterUsed(false);
 
         File puzzlePath = fileBrowser.getSelectedFile();
-        System.out.println(puzzlePath.getAbsolutePath());
 
         if (puzzlePath != null) {
             fileName = puzzlePath.getAbsolutePath();
@@ -641,7 +640,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         folderBrowser.setAcceptAllFileFilterUsed(false);
 
         String path = folderBrowser.getSelectedFile().getAbsolutePath();
-
+        preferences.setSavedPath(path);
         if (path != null) {
             try {
                 PuzzleExporter exporter = puzzle.getExporter();
