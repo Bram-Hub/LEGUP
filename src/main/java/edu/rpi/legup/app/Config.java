@@ -74,6 +74,13 @@ public class Config {
         return displayName;
     }
 
+    /**
+     * Converts the display name of the puzzle back to its corresponding class name.
+     * For example: convertDisplayNameToClassName("Tree Tent") returns "TreeTent"
+     *
+     * @param displayName the display name of the puzzle
+     * @return the class name of the puzzle as a String
+     */
     public static String convertDisplayNameToClassName(String displayName) {
         String className = "";
         for (int i = 0; i < displayName.length(); i++) {
@@ -84,6 +91,11 @@ public class Config {
         return className;
     }
 
+    /**
+     * Gets a list of all available puzzle display names
+     *
+     * @return a List of puzzle display names as Strings
+     */
     public List<String> getPuzzleNames() {
         List<String> names = new LinkedList<String>();
         for (String puzzle : this.getPuzzleClassNames()) {
@@ -92,6 +104,12 @@ public class Config {
         return names;
     }
 
+    /**
+     * Returns a list of the display names of the puzzles that can have files created and edited within
+     * the proof editor
+     *
+     * @return a List of puzzle display names as Strings with file creation enabled
+     */
     public List<String> getFileCreationEnabledPuzzleNames() {
         List<String> names = new LinkedList<String>();
         for (String puzzle : this.getFileCreationEnabledPuzzles()) {
