@@ -507,6 +507,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             return null;
         }
 
+        System.out.println(preferences.getSavedPath());
         return new Object[] {fileName, puzzleFile};
     }
 
