@@ -10,6 +10,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Represents a tree structure in a puzzle.
+ * The tree consists of {@link TreeNode}s and {@link TreeTransition}s
+ * and allows adding, removing, and validating elements.
+ */
 public class Tree {
     private TreeNode rootNode;
 
@@ -28,6 +33,12 @@ public class Tree {
         this.rootNode = null;
     }
 
+    /**
+     * Adds a new transition to the specified node.
+     *
+     * @param treeNode the node to add a transition to
+     * @return the created transition
+     */
     public TreeTransition addNewTransition(TreeNode treeNode) {
         TreeTransition transition = new TreeTransition(treeNode, treeNode.getBoard().copy());
         treeNode.addChild(transition);
@@ -35,13 +46,12 @@ public class Tree {
         return transition;
     }
 
-    public TreeNode addNode(TreeTransition transition) {
-        TreeNode treeNode = new TreeNode(transition.getBoard().copy());
-        transition.setChildNode(treeNode);
-        treeNode.setParent(transition);
-        return treeNode;
-    }
-
+    /**
+     * Adds a tree element (node or transition) to the tree.
+     *
+     * @param element the tree element to add
+     * @return the added tree element
+     */
     public TreeElement addTreeElement(TreeElement element) {
         if (element.getType() == TreeElementType.NODE) {
             TreeNode treeNode = (TreeNode) element;
@@ -55,40 +65,45 @@ public class Tree {
         }
     }
 
+    /**
+     * Adds a tree node and its associated transition to the tree.
+     *
+     * @param treeNode the tree node to add
+     * @param transition the transition to associate with the node
+     * @return the added transition
+     */
     public TreeElement addTreeElement(TreeNode treeNode, TreeTransition transition) {
         treeNode.addChild(transition);
         treeNode.getChildren().forEach(TreeTransition::reverify);
         return transition;
     }
 
+    /**
+     * Adds a transition and its associated tree node to the tree.
+     *
+     * @param transition the transition to add
+     * @param treeNode the tree node to associate with the transition
+     * @return the added tree node
+     */
     public TreeElement addTreeElement(TreeTransition transition, TreeNode treeNode) {
         transition.setChildNode(treeNode);
         treeNode.setParent(transition);
         return treeNode;
     }
 
-//    public void removeTreeElement(TreeElement element) {
-//        if (element.getType() == TreeElementType.NODE) {
-//            TreeNode node = (TreeNode) element;
-//            node.getParent().setChildNode(null);
-//        } else {
-//            TreeTransition transition = (TreeTransition) element;
-//            System.out.println("DELETED CHILD");
-//            transition.getParents().forEach(n -> n.removeChild(transition));
-//            transition.getParents().get(0).getChildren().forEach(TreeTransition::reverify);
-//        }
-//    }
-
+    /**
+     * Removes a tree element (node or transition) from the tree.
+     *
+     * @param element the tree element to remove
+     */
     public void removeTreeElement(TreeElement element) {
         if (element.getType() == TreeElementType.NODE) {
             TreeNode node = (TreeNode) element;
-            System.out.println("Recognized node: " + node);
 
             node.getParent().removeChild(node);
             node.getParent().setChildNode(null);
         } else {
             TreeTransition transition = (TreeTransition) element;
-            System.out.println("Recognized transition: " + transition);
 
             transition.getParents().forEach(n -> n.removeChild(transition));
             TreeController treeController = new TreeController();
@@ -120,10 +135,10 @@ public class Tree {
     }
 
     /**
-     * Gets a Set of TreeNodes that are leaf nodes from the sub tree rooted at the specified node
+     * Gets a Set of TreeNodes that are leaf nodes from the subtree rooted at the specified node
      *
      * @param node node that is input
-     * @return Set of TreeNodes that are leaf nodes from the sub tree
+     * @return Set of TreeNodes that are leaf nodes from the subtree
      */
     public Set<TreeElement> getLeafTreeElements(TreeNode node) {
         Set<TreeElement> leafs = new HashSet<>();
