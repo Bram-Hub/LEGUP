@@ -7,6 +7,11 @@ import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
 import java.util.List;
 
+/**
+ * The DeleteTreeElementCommand class represents a command to delete tree elements from a proof tree.
+ * It extends PuzzleCommand and implements the functionality to remove selected tree elements and
+ * handle undo operations.
+ */
 public class DeleteTreeElementCommand extends PuzzleCommand {
     private TreeViewSelection selection;
 
@@ -20,7 +25,9 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
         this.selection = selection.copy();
     }
 
-    /** Executes a command */
+    /**
+     * Executes the delete command, removing the selected tree elements from the tree.
+     */
     @Override
     public void executeCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
@@ -77,23 +84,22 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
         return null;
     }
 
-    /** Undoes a command */
+    /**
+     * Undoes the delete command, re-adding the previously deleted tree elements.
+     */
     @Override
     public void undoCommand() {
-        System.out.println("UNDOED");
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         List<TreeElementView> selectedViews = selection.getSelectedViews();
 
         for (TreeElementView selectedView : selectedViews) {
             TreeElement element = selectedView.getTreeElement();
             if (element.getType() == TreeElementType.NODE) {
-                System.out.println("ADDING A NODE");
                 TreeNode node = (TreeNode) element;
                 node.getParent().setChildNode(node);
 
                 puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(node));
             } else {
-                System.out.println("ADDING A TRANSITION");
                 TreeTransition transition = (TreeTransition) element;
                 transition.getParents().forEach(node -> node.addChild(transition));
                 transition.getParents().get(0).getChildren().forEach(TreeTransition::reverify);

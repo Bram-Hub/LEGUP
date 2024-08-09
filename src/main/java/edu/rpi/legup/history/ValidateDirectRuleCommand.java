@@ -13,6 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The ValidateDirectRuleCommand class represents a command for validating and applying a DirectRule
+ * to a set of selected tree elements. It extends the PuzzleCommand class and implements the ICommand interface.
+ */
 public class ValidateDirectRuleCommand extends PuzzleCommand {
     private static final Logger LOGGER = LogManager.getLogger(History.class.getName());
     private TreeViewSelection selection;
@@ -34,60 +38,9 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
         this.addNode = new HashMap<>();
     }
 
-//    /** Executes a command */
-//    @Override
-//    public void executeCommand() {
-//        Tree tree = GameBoardFacade.getInstance().getTree();
-//        TreeView treeView = GameBoardFacade.getInstance().getLegupUI().getTreePanel().getTreeView();
-//        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
-//        final TreeViewSelection newSelection = new TreeViewSelection();
-//
-//        List<TreeElementView> selectedViews = selection.getSelectedViews();
-//        int count = 1;
-//        for (TreeElementView selectedView : selectedViews) {
-//            System.out.println(count);
-//            count++;
-//            TreeElement element = selectedView.getTreeElement();
-//            TreeTransitionView transitionView;
-//            if (element.getType() == TreeElementType.NODE) {
-//                TreeNodeView nodeView = (TreeNodeView) selectedView;
-//                transitionView = nodeView.getChildrenViews().get(0);
-//            } else {
-//                transitionView = (TreeTransitionView) selectedView;
-//            }
-//            TreeTransition transition = transitionView.getTreeElement();
-//
-//            oldRules.put(transition, transition.getRule());
-//            transition.setRule(newRule);
-//
-//            TreeNode childNode = transition.getChildNode();
-//            if (childNode == null) {
-//                childNode = addNode.get(transition);
-//                if (childNode == null) {
-//                    childNode = (TreeNode) tree.addTreeElement(transition);
-//                    addNode.put(transition, childNode);
-//                } else {
-//                    tree.addTreeElement(transition, childNode);
-//                }
-//
-//                final TreeNode finalNode = childNode;
-//                puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(finalNode));
-//            }
-//            newSelection.addToSelection(treeView.getElementView(childNode));
-//        }
-//        TreeElementView firstSelectedView = selection.getFirstSelection();
-//        final TreeElement finalTreeElement;
-//        if (firstSelectedView.getType() == TreeElementType.NODE) {
-//            TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
-//            finalTreeElement = nodeView.getChildrenViews().get(0).getTreeElement();
-//        } else {
-//            TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
-//            finalTreeElement = transitionView.getChildView().getTreeElement();
-//        }
-//        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTreeElement));
-//        puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
-//    }
-    /** Executes a command */
+    /**
+     * Executes the command to validate and apply the DirectRule.
+     */
     @Override
     public void executeCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
@@ -193,7 +146,9 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
         return null;
     }
 
-    /** Undoes a command */
+    /**
+     * Undoes the validation command, restoring the previous state.
+     */
     @Override
     public void undoCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
