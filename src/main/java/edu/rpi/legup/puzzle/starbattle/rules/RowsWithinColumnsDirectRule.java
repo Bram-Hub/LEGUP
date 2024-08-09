@@ -30,8 +30,8 @@ public class RowsWithinColumnsDirectRule extends DirectRule {
 
         ColumnsWithinRowsDirectRule correspondingRule = new ColumnsWithinRowsDirectRule();
         String result = correspondingRule.checkRuleRawAt(transition, puzzleElement);
-        if (result != null && result.equals("Only black out cells outside the column(s)!")) {
-            return "Only black out cells outside the row(s)!";
+        if (result != null && result.equals("The columns must fully fit within rows with the same number of stars missing!")) {
+            return "The rows must fully fit within columns with the same number of stars missing!";
         }
         return result;
     }

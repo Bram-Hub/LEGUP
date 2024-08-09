@@ -9,10 +9,7 @@ import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class RowsWithinRegionsDirectRule extends DirectRule {
     public RowsWithinRegionsDirectRule() {
@@ -21,6 +18,25 @@ public class RowsWithinRegionsDirectRule extends DirectRule {
                 "Rows Within Regions",
                 "If a number of rows is fully contained by a number of regions with an equal number of missing stars, spaces of other rows in those regions must be black.",
                 "edu/rpi/legup/images/starbattle/rules/RowsWithinRegionsDirectRule.png");
+    }
+
+    private void generateSubsets(List<List<Integer>> subsets, int current, int skip, int size) {
+        if (current == size) {
+            return;
+        }
+        List<List<Integer>> newSubsets = new LinkedList<List<Integer>>();
+        if (current != skip) {
+            for (List<Integer> subset: subsets) {
+                List<Integer> copy = new LinkedList<Integer>(subset);
+                copy.add(current);
+                newSubsets.add(copy);
+            }
+            subsets.addAll(newSubsets);
+            List<Integer> oneMember = new LinkedList<Integer>();
+            oneMember.add(current);
+            subsets.add(oneMember);
+        }
+        generateSubsets(subsets, current + 1 == skip ? current + 2 : current + 1, skip, size);
     }
 
     /**
@@ -38,10 +54,45 @@ public class RowsWithinRegionsDirectRule extends DirectRule {
         // assumption: the rule has been applied to its fullest extent and the rows and regions
         // are now mutually encompassing
         StarBattleBoard board = (StarBattleBoard) transition.getBoard();
+        StarBattleBoard origBoard = (StarBattleBoard) transition.getParents().get(0).getBoard();
         StarBattleCell cell = (StarBattleCell) board.getPuzzleElement(puzzleElement);
+        int dim = board.getSize();
+        int region = cell.getGroupIndex();
+        int row = cell.getLocation().y;
+
         if (cell.getType() != StarBattleCellType.BLACK) {
             return "Only black cells are allowed for this rule!";
         }
+
+        List<List<Integer>> subsets = new LinkedList<List<Integer>>();
+        generateSubsets(subsets,0, row, dim);
+
+        for (List<Integer> rowSubset: subsets) {
+            Set<Integer> regions = new HashSet<Integer>();
+            boolean containsRegion = false;
+            int rowStars = 0;
+            int regionStars = 0;
+            for (int r: rowSubset) {
+                rowStars += origBoard.rowStars(r);
+                for (StarBattleCell ce: origBoard.getRow(r)) {
+                    if (ce.getType() == StarBattleCellType.UNKNOWN) {
+                        if (regions.add(ce.getGroupIndex())) {
+                            regionStars += origBoard.getRegion(ce.getGroupIndex()).numStars();
+                        }
+                        if (ce.getGroupIndex() == region) {
+                            containsRegion = true;
+                        }
+                    }
+                }
+            }
+            if (containsRegion && board.getPuzzleNumber() * rowSubset.size() - rowStars
+                    >= board.getPuzzleNumber() * regions.size() - regionStars) {
+                return null;
+            }
+        }
+        return "The rows must fully fit within regions with the same number of stars missing!";
+
+        /*
         // the rows that are contained
         Set<Integer> rows = new HashSet<Integer>();
         // the regions that contain them
@@ -89,6 +140,8 @@ public class RowsWithinRegionsDirectRule extends DirectRule {
             return "Only black out cells outside the row(s)!";
         }
         return null;
+
+         */
     }
 
     /**

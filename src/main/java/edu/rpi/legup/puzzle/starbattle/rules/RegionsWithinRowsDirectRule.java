@@ -29,8 +29,8 @@ public class RegionsWithinRowsDirectRule extends DirectRule {
 
         RowsWithinRegionsDirectRule correspondingRule = new RowsWithinRegionsDirectRule();
         String result = correspondingRule.checkRuleRawAt(transition, puzzleElement);
-        if (result != null && result.equals("Only black out cells outside the row(s)!")) {
-            return "Only black out cells outside the region(s)!";
+        if (result != null && result.equals("The rows must fully fit within regions with the same number of stars missing!")) {
+            return "The regions must fully fit within rows with the same number of stars missing!";
         }
         return result;
     }

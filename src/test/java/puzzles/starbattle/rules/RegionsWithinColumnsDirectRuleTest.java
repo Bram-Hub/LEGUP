@@ -6,7 +6,7 @@ import edu.rpi.legup.puzzle.starbattle.StarBattle;
 import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
-import edu.rpi.legup.puzzle.starbattle.rules.ColumnsWithinRegionsDirectRule;
+import edu.rpi.legup.puzzle.starbattle.rules.RegionsWithinColumnsDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
@@ -16,9 +16,9 @@ import org.junit.Test;
 
 import java.awt.*;
 
-public class ColumnsWithinRegionsDirectRuleTest {
+public class RegionsWithinColumnsDirectRuleTest {
 
-    private static final ColumnsWithinRegionsDirectRule RULE = new ColumnsWithinRegionsDirectRule();
+    private static final RegionsWithinColumnsDirectRule RULE = new RegionsWithinColumnsDirectRule();
     private static StarBattle starbattle;
 
     @BeforeClass
@@ -28,21 +28,21 @@ public class ColumnsWithinRegionsDirectRuleTest {
     }
 
     @Test
-    public void ColumnsWithinRegionsDirectRule_OneColumnOneCell()
-        throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/starbattle/rules/ColumnsWithinRegionsDirectRule/OneColumnOneCell", starbattle);
+    public void RegionsWithinColumnsDirectRule_OneRegionOneCell()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/RegionsWithinColumnsDirectRule/OneRegionOneCell", starbattle);
         TreeNode rootNode = starbattle.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
         StarBattleBoard board = (StarBattleBoard) transition.getBoard();
-        StarBattleCell cell = board.getCell(1,0);
+        StarBattleCell cell = board.getCell(0,2);
         cell.setData(StarBattleCellType.BLACK.value);
         board.addModifiedData(cell);
 
         Assert.assertNull(RULE.checkRule(transition));
 
-        Point location = new Point(1, 0);
+        Point location = new Point(0,2);
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 Point point = new Point(k, i);
@@ -56,37 +56,9 @@ public class ColumnsWithinRegionsDirectRuleTest {
     }
 
     @Test
-    public void ColumnsWithinRegionsDirectRule_PartialColumnOneCell()
+    public void RegionsWithinColumnsDirectRule_OneRegionTwoCells()
             throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/starbattle/rules/ColumnsWithinRegionsDirectRule/PartialColumnOneCell", starbattle);
-        TreeNode rootNode = starbattle.getTree().getRootNode();
-        TreeTransition transition = rootNode.getChildren().get(0);
-        transition.setRule(RULE);
-
-        StarBattleBoard board = (StarBattleBoard) transition.getBoard();
-        StarBattleCell cell = board.getCell(1,2);
-        cell.setData(StarBattleCellType.BLACK.value);
-        board.addModifiedData(cell);
-
-        Assert.assertNull(RULE.checkRule(transition));
-
-        Point location = new Point(1, 2);
-        for (int i = 0; i < board.getHeight(); i++) {
-            for (int k = 0; k < board.getWidth(); k++) {
-                Point point = new Point(k, i);
-                if (point.equals(location)) {
-                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                } else {
-                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-            }
-        }
-    }
-
-    @Test
-    public void ColumnsWithinRegionsDirectRule_PartialColumnTwoCells()
-            throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/starbattle/rules/ColumnsWithinRegionsDirectRule/PartialColumnTwoCells", starbattle);
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/RegionsWithinColumnsDirectRule/OneRegionTwoCells", starbattle);
         TreeNode rootNode = starbattle.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -95,14 +67,14 @@ public class ColumnsWithinRegionsDirectRuleTest {
         StarBattleCell cell1 = board.getCell(0,1);
         cell1.setData(StarBattleCellType.BLACK.value);
         board.addModifiedData(cell1);
-        StarBattleCell cell2 = board.getCell(2,1);
+        StarBattleCell cell2 = board.getCell(0,2);
         cell2.setData(StarBattleCellType.BLACK.value);
         board.addModifiedData(cell2);
 
         Assert.assertNull(RULE.checkRule(transition));
 
-        Point location1 = new Point(0, 1);
-        Point location2 = new Point(2,1);
+        Point location1 = new Point(0,1);
+        Point location2 = new Point(0,2);
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 Point point = new Point(k, i);
@@ -116,25 +88,81 @@ public class ColumnsWithinRegionsDirectRuleTest {
     }
 
     @Test
-    public void ColumnsWithinRegionsDirectRule_TwoColumns()
+    public void RegionsWithinColumnsDirectRule_PartialRegionOneCell()
             throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/starbattle/rules/ColumnsWithinRegionsDirectRule/TwoColumns", starbattle);
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/RegionsWithinColumnsDirectRule/PartialRegionOneCell", starbattle);
         TreeNode rootNode = starbattle.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
         StarBattleBoard board = (StarBattleBoard) transition.getBoard();
-        StarBattleCell cell1 = board.getCell(2,1);
+        StarBattleCell cell = board.getCell(0,2);
+        cell.setData(StarBattleCellType.BLACK.value);
+        board.addModifiedData(cell);
+
+        Assert.assertNull(RULE.checkRule(transition));
+
+        Point location = new Point(0,2);
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Point point = new Point(k, i);
+                if (point.equals(location)) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                } else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
+            }
+        }
+    }
+
+    @Test
+    public void RegionsWithinColumnsDirectRule_TwoRegionsOneCell()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/RegionsWithinColumnsDirectRule/TwoRegionsOneCell", starbattle);
+        TreeNode rootNode = starbattle.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        StarBattleBoard board = (StarBattleBoard) transition.getBoard();
+        StarBattleCell cell = board.getCell(1,3);
+        cell.setData(StarBattleCellType.BLACK.value);
+        board.addModifiedData(cell);
+
+        Assert.assertNull(RULE.checkRule(transition));
+
+        Point location = new Point(1,3);
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Point point = new Point(k, i);
+                if (point.equals(location)) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                } else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
+            }
+        }
+    }
+
+    @Test
+    public void RegionsWithinColumnsDirectRule_TwoRegionsTwoCells()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/RegionsWithinColumnsDirectRule/TwoRegionsTwoCells", starbattle);
+        TreeNode rootNode = starbattle.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        StarBattleBoard board = (StarBattleBoard) transition.getBoard();
+        StarBattleCell cell1 = board.getCell(1,1);
         cell1.setData(StarBattleCellType.BLACK.value);
         board.addModifiedData(cell1);
-        StarBattleCell cell2 = board.getCell(2,2);
+        StarBattleCell cell2 = board.getCell(1,3);
         cell2.setData(StarBattleCellType.BLACK.value);
         board.addModifiedData(cell2);
 
         Assert.assertNull(RULE.checkRule(transition));
 
-        Point location1 = new Point(2, 1);
-        Point location2 = new Point(2,2);
+        Point location1 = new Point(1,1);
+        Point location2 = new Point(1,3);
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 Point point = new Point(k, i);
@@ -147,83 +175,54 @@ public class ColumnsWithinRegionsDirectRuleTest {
         }
     }
 
-    /* Wrote this to figure out the specifics of how the rule is functioning - might change
-    * what the expected result is. */
     @Test
-    public void ColumnsWithinRegionsDirectRule_TwoColumnsWaitAMinute()
+    public void RegionsWithinColumnsDirectRule_TwoRegionsTwoCells2()
             throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/starbattle/rules/ColumnsWithinRegionsDirectRule/TwoColumns", starbattle);
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/RegionsWithinColumnsDirectRule/TwoRegionsTwoCells2", starbattle);
         TreeNode rootNode = starbattle.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
         StarBattleBoard board = (StarBattleBoard) transition.getBoard();
-        StarBattleCell cell1 = board.getCell(2,1);
+        StarBattleCell cell1 = board.getCell(0,3);
         cell1.setData(StarBattleCellType.BLACK.value);
         board.addModifiedData(cell1);
-
-        Assert.assertNull(RULE.checkRule(transition));
-
-        Point location1 = new Point(2, 1);
-        for (int i = 0; i < board.getHeight(); i++) {
-            for (int k = 0; k < board.getWidth(); k++) {
-                Point point = new Point(k, i);
-                if (point.equals(location1)) {
-                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                } else {
-                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-            }
-        }
-    }
-
-    @Test
-    public void ColumnsWithinRegionsDirectRule_TwoColumnsStarOverlap()
-            throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/starbattle/rules/ColumnsWithinRegionsDirectRule/TwoColumnsStarOverlap", starbattle);
-        TreeNode rootNode = starbattle.getTree().getRootNode();
-        TreeTransition transition = rootNode.getChildren().get(0);
-        transition.setRule(RULE);
-
-        StarBattleBoard board = (StarBattleBoard) transition.getBoard();
-        StarBattleCell cell1 = board.getCell(2,3);
-        cell1.setData(StarBattleCellType.BLACK.value);
-        board.addModifiedData(cell1);
-
-        Assert.assertNull(RULE.checkRule(transition));
-
-        Point location1 = new Point(2, 3);
-        for (int i = 0; i < board.getHeight(); i++) {
-            for (int k = 0; k < board.getWidth(); k++) {
-                Point point = new Point(k, i);
-                if (point.equals(location1)) {
-                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                } else {
-                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-            }
-        }
-    }
-
-    @Test
-    public void ColumnsWithinRegionsDirectRule_FalseColumnsWithinRegions1()
-            throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/starbattle/rules/ColumnsWithinRegionsDirectRule/OneColumnOneCell", starbattle);
-        TreeNode rootNode = starbattle.getTree().getRootNode();
-        TreeTransition transition = rootNode.getChildren().get(0);
-        transition.setRule(RULE);
-
-        StarBattleBoard board = (StarBattleBoard) transition.getBoard();
-        StarBattleCell cell1 = board.getCell(1,0);
-        cell1.setData(StarBattleCellType.BLACK.value);
-        board.addModifiedData(cell1);
-        StarBattleCell cell2 = board.getCell(0,0);
+        StarBattleCell cell2 = board.getCell(1,3);
         cell2.setData(StarBattleCellType.BLACK.value);
         board.addModifiedData(cell2);
 
-        Assert.assertNotNull(RULE.checkRule(transition));
+        Assert.assertNull(RULE.checkRule(transition));
 
-        Point location = new Point(1, 0);
+        Point location1 = new Point(0,3);
+        Point location2 = new Point(1,3);
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Point point = new Point(k, i);
+                if (point.equals(location1) || point.equals(location2)) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                } else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
+            }
+        }
+    }
+
+    @Test
+    public void RegionsWithinColumnsDirectRule_TwoRegionsStarOverlap()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/RegionsWithinColumnsDirectRule/TwoRegionsStarOverlap", starbattle);
+        TreeNode rootNode = starbattle.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        StarBattleBoard board = (StarBattleBoard) transition.getBoard();
+        StarBattleCell cell = board.getCell(1,1);
+        cell.setData(StarBattleCellType.BLACK.value);
+        board.addModifiedData(cell);
+
+        Assert.assertNull(RULE.checkRule(transition));
+
+        Point location = new Point(1,1);
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 Point point = new Point(k, i);
@@ -237,59 +236,30 @@ public class ColumnsWithinRegionsDirectRuleTest {
     }
 
     @Test
-    public void ColumnsWithinRegionsDirectRule_FalseColumnsWithinRegions2()
-            throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/starbattle/rules/ColumnsWithinRegionsDirectRule/OneColumnOneCell", starbattle);
-        TreeNode rootNode = starbattle.getTree().getRootNode();
-        TreeTransition transition = rootNode.getChildren().get(0);
-        transition.setRule(RULE);
-
-        StarBattleBoard board = (StarBattleBoard) transition.getBoard();
-        StarBattleCell cell1 = board.getCell(1,0);
-        cell1.setData(StarBattleCellType.BLACK.value);
-        board.addModifiedData(cell1);
-        StarBattleCell cell2 = board.getCell(1,1);
-        cell2.setData(StarBattleCellType.BLACK.value);
-        board.addModifiedData(cell2);
-
-        Assert.assertNotNull(RULE.checkRule(transition));
-
-        Point location = new Point(1, 0);
-        for (int i = 0; i < board.getHeight(); i++) {
-            for (int k = 0; k < board.getWidth(); k++) {
-                Point point = new Point(k, i);
-                if (point.equals(location)) {
-                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                } else {
-                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-            }
-        }
-    }
-
-    @Test
-    public void ColumnsWithinRegionsDirectRule_PartialRemoval()
+    public void RegionsWithinColumnsDirectRule_FalseRegionsWithinColumns1()
         throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/starbattle/rules/ColumnsWithinRegionsDirectRule/PartialColumnTwoCells", starbattle);
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/RegionsWithinColumnsDirectRule/OneRegionOneCell", starbattle);
         TreeNode rootNode = starbattle.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
         StarBattleBoard board = (StarBattleBoard) transition.getBoard();
-        StarBattleCell cell1 = board.getCell(0,1);
-        cell1.setData(StarBattleCellType.BLACK.value);
-        board.addModifiedData(cell1);
+        StarBattleCell cell = board.getCell(0,2);
+        cell.setData(StarBattleCellType.BLACK.value);
+        board.addModifiedData(cell);
+        StarBattleCell cell2 = board.getCell(1,2);
+        cell2.setData(StarBattleCellType.BLACK.value);
+        board.addModifiedData(cell2);
 
-        Assert.assertNull(RULE.checkRule(transition));
+        Assert.assertNotNull(RULE.checkRule(transition));
 
-        Point location1 = new Point(0, 1);
+        Point location = new Point(0,2);
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
-                Point point = new Point(k,i);
-                if (point.equals(location1)) {
+                Point point = new Point(k, i);
+                if (point.equals(location)) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
@@ -297,18 +267,49 @@ public class ColumnsWithinRegionsDirectRuleTest {
     }
 
     @Test
-    public void ColumnsWithinRegionsDirectRule_FalseColumnsWithinRegions4()
+    public void RegionsWithinColumnsDirectRule_FalseRegionsWithinColumns2()
             throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/starbattle/rules/ColumnsWithinRegionsDirectRule/FalseStarOverlap", starbattle);
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/RegionsWithinColumnsDirectRule/OneRegionOneCell", starbattle);
         TreeNode rootNode = starbattle.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
         StarBattleBoard board = (StarBattleBoard) transition.getBoard();
-        StarBattleCell cell1 = board.getCell(2,2);
-        cell1.setData(StarBattleCellType.BLACK.value);
-        board.addModifiedData(cell1);
-        StarBattleCell cell2 = board.getCell(2,3);
+        StarBattleCell cell = board.getCell(0,2);
+        cell.setData(StarBattleCellType.BLACK.value);
+        board.addModifiedData(cell);
+        StarBattleCell cell2 = board.getCell(0,1);
+        cell2.setData(StarBattleCellType.BLACK.value);
+        board.addModifiedData(cell2);
+
+        Assert.assertNotNull(RULE.checkRule(transition));
+
+        Point location = new Point(0,2);
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Point point = new Point(k, i);
+                if (point.equals(location)) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                } else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
+            }
+        }
+    }
+
+    @Test
+    public void RegionsWithinColumnsDirectRule_FalseRegionsWithinColumns3()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/RegionsWithinColumnsDirectRule/FalseStarOverlap", starbattle);
+        TreeNode rootNode = starbattle.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        StarBattleBoard board = (StarBattleBoard) transition.getBoard();
+        StarBattleCell cell = board.getCell(1,1);
+        cell.setData(StarBattleCellType.BLACK.value);
+        board.addModifiedData(cell);
+        StarBattleCell cell2 = board.getCell(1,3);
         cell2.setData(StarBattleCellType.BLACK.value);
         board.addModifiedData(cell2);
 
@@ -321,4 +322,32 @@ public class ColumnsWithinRegionsDirectRuleTest {
         }
     }
 
+    @Test
+    public void RegionsWithinColumnsDirectRule_FalseRegionsWithinColumns4()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/starbattle/rules/RegionsWithinColumnsDirectRule/TwoRegionsTwoCells2", starbattle);
+        TreeNode rootNode = starbattle.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        StarBattleBoard board = (StarBattleBoard) transition.getBoard();
+        StarBattleCell cell = board.getCell(0,3);
+        cell.setData(StarBattleCellType.BLACK.value);
+        board.addModifiedData(cell);
+
+        Assert.assertNull(RULE.checkRule(transition));
+
+        Point location = new Point(0,3);
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Point point = new Point(k,i);
+                if (point.equals(location)) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
+                else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
+            }
+        }
+    }
 }
