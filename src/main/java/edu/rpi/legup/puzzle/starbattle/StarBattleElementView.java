@@ -42,5 +42,14 @@ public class StarBattleElementView extends GridElementView {
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
         }
+        //else if (type == StarBattleCellType.BORDER){          //would likely define border as a cell type so as to
+                                                                //not have to rewrite this whole function
+        /*                                                      //maybe one type for vertical and another for horizontal
+            graphics2D.setStrike(new BasicStrike(1));
+            graphics2D.setColor(Color.BLACK);
+            graphics2D.drawRect(location.x, location.y, size.width, size.height);
+        }
+        */
+        }
     }
 }
