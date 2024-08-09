@@ -3,6 +3,12 @@ package edu.rpi.legup.model.gameboard;
 import edu.rpi.legup.model.elements.Element;
 import java.awt.event.MouseEvent;
 
+/**
+ * PuzzleElement represents a single element in a puzzle grid. It holds data and provides various
+ * methods to manage and retrieve its properties, including modifiability, modification status, and validity.
+ *
+ * @param <T> the type of data held by the PuzzleElement
+ */
 public abstract class PuzzleElement<T> {
     protected int index;
     protected T data;
