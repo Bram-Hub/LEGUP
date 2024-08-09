@@ -35,6 +35,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+/**
+ * Abstract class representing a puzzle.
+ * The Puzzle class manages the core components of a puzzle game, including the board, rules, and elements.
+ * It also handles importing and exporting puzzle configurations and notifies listeners about changes.
+ */
 public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     private static final Logger LOGGER = LogManager.getLogger(Puzzle.class.getName());
 
@@ -69,6 +74,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         registerPuzzleElements();
     }
 
+    /**
+     * Registers puzzle elements from the package of the derived class.
+     * Scans for classes annotated with {@link RegisterElement} and initializes them.
+     */
     private void registerPuzzleElements() {
         String packageName = this.getClass().getPackage().toString().replace("package ", "");
 
@@ -107,19 +116,15 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                     }
                 }
             }
-
-            //        } catch (IOException | ClassNotFoundException | NoSuchMethodException |
-            //                InstantiationException | IllegalAccessException |
-            // InvocationTargetException
-            // e) {
-            //            LOGGER.error("Unable to find rules for " +
-            // this.getClass().getSimpleName(), e);
-            //        }
         } catch (Exception e) {
             LOGGER.error("Unable to find elements for " + this.getClass().getSimpleName(), e);
         }
     }
 
+    /**
+     * Registers rules from the package of the derived class.
+     * Scans for classes annotated with {@link RegisterRule} and initializes them.
+     */
     private void registerRules() {
         String packageName = this.getClass().getPackage().toString().replace("package ", "");
 
@@ -166,20 +171,14 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                     }
                 }
             }
-
-            //        } catch (IOException | ClassNotFoundException | NoSuchMethodException |
-            //                InstantiationException | IllegalAccessException |
-            // InvocationTargetException
-            // e) {
-            //            LOGGER.error("Unable to find rules for " +
-            // this.getClass().getSimpleName(), e);
-            //        }
         } catch (Exception e) {
             LOGGER.error("Unable to find rules for " + this.getClass().getSimpleName(), e);
         }
     }
 
-    /** Initializes the view. Called by the invoker of the class */
+    /**
+     * Initializes the view. Called by the invoker of the class
+     */
     public abstract void initializeView();
 
     /**
@@ -202,10 +201,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     }
 
     /**
-     * Checks if the given array of statements is valid text input for the given puzzle
+     * Checks if the provided text input is valid for the puzzle.
      *
-     * @param statements
-     * @return
+     * @param statements array of statements to check
+     * @return true if input is valid, false otherwise
      */
     public boolean isValidTextInput(String[] statements) {
         return statements.length > 0;
@@ -337,6 +336,11 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         return directRules;
     }
 
+    /**
+     * Gets the list of placeable elements.
+     *
+     * @return list of PlaceableElement instances
+     */
     public List<PlaceableElement> getPlaceableElements() {
         return placeableElements;
     }
@@ -359,6 +363,11 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         directRules.add(rule);
     }
 
+    /**
+     * Adds a placeable element to this puzzle.
+     *
+     * @param element PlaceableElement to add
+     */
     public void addPlaceableElement(PlaceableElement element) {
         placeableElements.add(element);
     }
@@ -575,9 +584,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     }
 
     /**
-     * Adds a board listener
+     * Adds a board listener to the list of listeners.
+     * This allows the puzzle to notify the listener about changes to the board.
      *
-     * @param listener listener to add
+     * @param listener The IBoardListener to be added to the list of listeners.
      */
     @Override
     public void addBoardListener(IBoardListener listener) {
@@ -585,9 +595,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     }
 
     /**
-     * Removes a board listener
+     * Removes a board listener from the list of listeners.
+     * This prevents the puzzle from notifying the listener about future changes to the board.
      *
-     * @param listener listener to remove
+     * @param listener The IBoardListener to be removed from the list of listeners.
      */
     @Override
     public void removeBoardListener(IBoardListener listener) {
@@ -595,9 +606,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     }
 
     /**
-     * Notifies listeners
+     * Notifies all registered board listeners about changes.
+     * The provided algorithm is applied to each listener to process the notification.
      *
-     * @param algorithm algorithm to notify the listeners with
+     * @param algorithm A Consumer function that takes an IBoardListener and performs operations to notify the listener.
      */
     @Override
     public void notifyBoardListeners(Consumer<? super IBoardListener> algorithm) {
@@ -605,9 +617,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     }
 
     /**
-     * Adds a board listener
+     * Adds a tree listener to the list of listeners.
+     * This allows the puzzle to notify the listener about changes to the tree.
      *
-     * @param listener listener to add
+     * @param listener The ITreeListener to be added to the list of listeners.
      */
     @Override
     public void addTreeListener(ITreeListener listener) {
@@ -615,9 +628,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     }
 
     /**
-     * Removes a tree listener
+     * Removes a tree listener from the list of listeners.
+     * This prevents the puzzle from notifying the listener about future changes to the tree.
      *
-     * @param listener listener to remove
+     * @param listener The ITreeListener to be removed from the list of listeners.
      */
     @Override
     public void removeTreeListener(ITreeListener listener) {
@@ -625,9 +639,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     }
 
     /**
-     * Notifies listeners
+     * Notifies all registered tree listeners about changes.
+     * The provided algorithm is applied to each listener to process the notification.
      *
-     * @param algorithm algorithm to notify the listeners with
+     * @param algorithm A Consumer function that takes an ITreeListener and performs operations to notify the listener.
      */
     @Override
     public void notifyTreeListeners(Consumer<? super ITreeListener> algorithm) {
@@ -635,9 +650,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     }
 
     /**
-     * Check if the puzzle is valid
+     * Checks if the puzzle is valid.
+     * The implementation of this method can vary based on the specific criteria for puzzle validity.
      *
-     * @return if the puzzle is valid
+     * @return true if the puzzle is valid, false otherwise.
      */
     public boolean checkValidity() {
         return true;
