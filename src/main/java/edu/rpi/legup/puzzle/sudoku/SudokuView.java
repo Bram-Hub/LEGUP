@@ -8,13 +8,14 @@ import edu.rpi.legup.ui.boardview.SelectionItemView;
 import java.awt.*;
 import java.util.Set;
 import javax.swing.*;
+import org.jetbrains.annotations.NotNull;
 
 public class SudokuView extends GridBoardView {
     private static final Color STROKE_COLOR = new Color(0, 0, 0);
     private static final Stroke MINOR_STOKE = new BasicStroke(1);
     private static final Stroke MAJOR_STOKE = new BasicStroke(4);
 
-    public SudokuView(SudokuBoard board) {
+    public SudokuView(@NotNull SudokuBoard board) {
         super(new BoardController(), new SudokuCellController(), board.getDimension());
 
         int minorSize = (int) Math.sqrt(gridSize.width);

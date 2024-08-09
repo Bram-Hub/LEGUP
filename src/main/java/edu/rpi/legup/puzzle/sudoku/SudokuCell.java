@@ -4,6 +4,8 @@ import edu.rpi.legup.model.gameboard.GridCell;
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
+import org.jetbrains.annotations.Contract;
+
 
 public class SudokuCell extends GridCell<Integer> {
     private int groupIndex;
@@ -52,6 +54,7 @@ public class SudokuCell extends GridCell<Integer> {
      * @return a new copy of the SudokuCell that is independent of this one
      */
     @Override
+    @Contract (pure = true)
     public SudokuCell copy() {
         SudokuCell copy = new SudokuCell(data, (Point) location.clone(), groupIndex, max);
         copy.setIndex(index);

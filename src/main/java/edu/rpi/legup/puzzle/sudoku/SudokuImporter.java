@@ -6,18 +6,22 @@ import java.awt.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class SudokuImporter extends PuzzleImporter {
-    public SudokuImporter(Sudoku sudoku) {
+    public SudokuImporter(@NotNull Sudoku sudoku) {
         super(sudoku);
     }
 
     @Override
+    @Contract(pure = true, value = "-> true")
     public boolean acceptsRowsAndColumnsInput() {
         return true;
     }
 
     @Override
+    @Contract(pure = true, value = "-> false")
     public boolean acceptsTextInput() {
         return false;
     }
@@ -30,6 +34,7 @@ public class SudokuImporter extends PuzzleImporter {
      * @throws RuntimeException if board can not be created
      */
     @Override
+    @Contract (pure = false)
     public void initializeBoard(int rows, int columns) {
         SudokuBoard sudokuBoard;
         int minorSize = (int) Math.sqrt(rows);
@@ -57,7 +62,8 @@ public class SudokuImporter extends PuzzleImporter {
      * @throws InvalidFileFormatException if file is invalid
      */
     @Override
-    public void initializeBoard(Node node) throws InvalidFileFormatException {
+    @Contract(pure = false)
+    public void initializeBoard(@NotNull Node node) throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("board")) {
                 throw new InvalidFileFormatException(
@@ -129,7 +135,8 @@ public class SudokuImporter extends PuzzleImporter {
     }
 
     @Override
-    public void initializeBoard(String[] statements) throws UnsupportedOperationException {
+    @Contract(value = "_ -> fail", pure = false)
+    public void initializeBoard(@NotNull String[] statements) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Sudoku cannot accept text input");
     }
 }

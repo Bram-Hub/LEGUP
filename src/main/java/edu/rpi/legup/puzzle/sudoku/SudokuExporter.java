@@ -3,15 +3,18 @@ package edu.rpi.legup.puzzle.sudoku;
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import org.w3c.dom.Document;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class SudokuExporter extends PuzzleExporter {
 
-    public SudokuExporter(Sudoku sudoku) {
+    public SudokuExporter(@NotNull Sudoku sudoku) {
         super(sudoku);
     }
 
     @Override
-    protected org.w3c.dom.Element createBoardElement(Document newDocument) {
+    @Contract (pure = true)
+    protected @NotNull org.w3c.dom.Element createBoardElement(@NotNull Document newDocument) {
         SudokuBoard board;
         if (puzzle.getTree() != null) {
             board = (SudokuBoard) puzzle.getTree().getRootNode().getBoard();

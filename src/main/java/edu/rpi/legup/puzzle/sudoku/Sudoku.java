@@ -5,6 +5,8 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.ui.boardview.BoardView;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class Sudoku extends Puzzle {
     private SudokuView boardView;
@@ -43,6 +45,7 @@ public class Sudoku extends Puzzle {
     }
 
     @Override
+    @Contract(pure = true)
     /**
      * Determines if the given dimensions are valid for Sudoku
      *
@@ -80,6 +83,7 @@ public class Sudoku extends Puzzle {
      * @return true if board is valid, false otherwise
      */
     @Override
+    @Contract(pure = true)
     public boolean isBoardComplete(Board board) {
         SudokuBoard sudokuBoard = (SudokuBoard) board;
 
@@ -104,5 +108,5 @@ public class Sudoku extends Puzzle {
      * @param board the board that has changed
      */
     @Override
-    public void onBoardChange(Board board) {}
+    public void onBoardChange(@NotNull Board board) {}
 }

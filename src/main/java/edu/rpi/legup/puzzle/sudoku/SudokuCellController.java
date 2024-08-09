@@ -3,10 +3,13 @@ package edu.rpi.legup.puzzle.sudoku;
 import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import java.awt.event.MouseEvent;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class SudokuCellController extends ElementController {
     @Override
-    public void changeCell(MouseEvent e, PuzzleElement data) {
+    @Contract(pure = false)
+    public void changeCell(@NotNull MouseEvent e,@NotNull PuzzleElement data) {
         SudokuCell cell = (SudokuCell) data;
         System.out.print(111);
         if (e.getButton() == MouseEvent.BUTTON1) {

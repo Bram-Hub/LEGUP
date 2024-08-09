@@ -8,6 +8,7 @@ import java.awt.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.jetbrains.annotations.Contract;
 
 public class SudokuCellFactory extends ElementFactory {
     /**
@@ -19,6 +20,7 @@ public class SudokuCellFactory extends ElementFactory {
      * @throws InvalidFileFormatException if file is invalid
      */
     @Override
+    @Contract (pure = false)
     public SudokuCell importCell(Node node, Board board) throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("cell")) {
@@ -59,6 +61,7 @@ public class SudokuCellFactory extends ElementFactory {
      * @param puzzleElement PuzzleElement cell
      * @return xml PuzzleElement
      */
+    @Contract (pure = false)
     public org.w3c.dom.Element exportCell(Document document, PuzzleElement puzzleElement) {
         org.w3c.dom.Element cellElement = document.createElement("cell");
 
