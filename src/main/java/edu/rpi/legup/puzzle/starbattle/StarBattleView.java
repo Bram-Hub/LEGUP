@@ -42,14 +42,39 @@ public class StarBattleView extends GridBoardView {
             elementViews.add(elementView);
         }
 
-        //initialize horizontal borders
+        //initialize horizontal borders, the ones that are between two cells along the y-axis, and look like -- not |
         for(int i = 0; i < board.getWidth(); i++){
             ArrayList<Boolean> temp = new ArrayList<>();
-            for(int j = 0; j < board.getHeight() + 1; j++){
+            for(int j = 0; j < board.getHeight() + 1; j++){     //+1 to account for sides of board
                 if(j == 0 || j == board.getHeight()){       //set borders at the ends of the board
                     temp.add(Boolean.TRUE);
                 }
+                else if(board.getCell(i, j-1).getGroupIndex() != board.getCell(i, j).getGroupIndex()){       //general case
+                    temp.add(Boolean.TRUE);         //adds border when two adjacent cells aren't from the same region
+                }
+                else{
+                    temp.add(Boolean.FALSE);
+                }
             }
+            horizontalBorders.add(temp);
+        }
+        //initialize vertical borders, the ones that are between two cells along the x-axis, and look like | not --
+        //largely the same code as horizontal border adder but i and j are flipped and general case checks cells adjacent
+        //along i (x) instead of j (y)
+        for(int j = 0; j < board.getHeight(); j++){         //initialize j (y) first since we're checking the opposite axis
+            ArrayList<Boolean> temp = new ArrayList<>();
+            for(int i = 0; i < board.getHeight() + 1; i++){     //+1 to account for sides of board
+                if(i == 0 || i == board.getWidth()){       //set borders at the ends of the board
+                    temp.add(Boolean.TRUE);
+                }
+                else if(board.getCell(i-1, j).getGroupIndex() != board.getCell(i, j).getGroupIndex()){       //general case
+                    temp.add(Boolean.TRUE);         //adds border when two adjacent cells aren't from the same region
+                }
+                else{
+                    temp.add(Boolean.FALSE);
+                }
+            }
+            verticalBorders.add(temp);
         }
     }
 }
