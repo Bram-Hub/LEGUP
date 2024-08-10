@@ -3,10 +3,11 @@ package edu.rpi.legup.puzzle.thermometer;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 import java.awt.*;
+import org.jetbrains.annotations.NotNull;
 
 public class ThermometerView extends GridBoardView {
 
-    public ThermometerView(ThermometerBoard board) {
+    public ThermometerView(@NotNull ThermometerBoard board) {
         super(new BoardController(), new ThermometerController(), board.getDimension());
 
         // loop for displaying the vial cells

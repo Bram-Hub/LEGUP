@@ -8,31 +8,37 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class ThermometerImporter extends PuzzleImporter {
 
     // basic stuff stolen from dev guide/filled in by default
-    public ThermometerImporter(Thermometer thermometer) {
+    public ThermometerImporter(@NotNull Thermometer thermometer) {
         super(thermometer);
     }
 
     @Override
+    @Contract(pure = true, value = "-> false")
     public boolean acceptsRowsAndColumnsInput() {
         return false;
     }
 
     @Override
+    @Contract(pure = true, value = "-> false")
     public boolean acceptsTextInput() {
         return false;
     }
 
     @Override
+    @Contract (pure = false)
     public void initializeBoard(int rows, int columns) {}
 
     // method for initializing board from an xml file which has
     // a provided width/height
     @Override
-    public void initializeBoard(Node node) throws InvalidFileFormatException {
+    @Contract (pure = false)
+    public void initializeBoard(@NotNull Node node) throws InvalidFileFormatException {
         // sticking everything in a try statement because god has forsaken everyone
         try {
             // checking basic formatting of file
@@ -120,6 +126,7 @@ public class ThermometerImporter extends PuzzleImporter {
     }
 
     @Override
+    @Contract(value = "_ -> fail", pure = false)
     public void initializeBoard(String[] statements)
             throws UnsupportedOperationException, IllegalArgumentException {}
 

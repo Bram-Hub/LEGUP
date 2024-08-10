@@ -2,6 +2,7 @@ package edu.rpi.legup.puzzle.thermometer;
 
 import edu.rpi.legup.model.gameboard.GridCell;
 import java.awt.Point;
+import org.jetbrains.annotations.Contract;
 
 public class ThermometerCell extends GridCell<Integer> {
 
@@ -44,6 +45,7 @@ public class ThermometerCell extends GridCell<Integer> {
     }
 
     @Override
+    @Contract(pure = true)
     public ThermometerCell copy() {
         ThermometerCell copy =
                 new ThermometerCell((Point) location.clone(), this.type, this.fill, this.rotation);

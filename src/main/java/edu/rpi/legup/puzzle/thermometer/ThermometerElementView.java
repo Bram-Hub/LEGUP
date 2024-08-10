@@ -4,6 +4,8 @@ import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class ThermometerElementView extends GridElementView {
 
@@ -11,18 +13,19 @@ public class ThermometerElementView extends GridElementView {
     private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
     private static final Color FONT_COLOR = Color.BLACK;
 
-    public ThermometerElementView(ThermometerCell cell) {
+    public ThermometerElementView(@NotNull ThermometerCell cell) {
         super(cell);
     }
 
     @Override
-    public ThermometerCell getPuzzleElement() {
+    public @NotNull ThermometerCell getPuzzleElement() {
         return (ThermometerCell) super.getPuzzleElement();
     }
 
     // method for drawing a thermometer cell
     // basically copy/pasted from tree tent drawing tent images
     @Override
+    @Contract(pure = true)
     public void drawElement(Graphics2D graphics2D) {
 
         ThermometerCell cell = (ThermometerCell) puzzleElement;

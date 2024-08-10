@@ -3,12 +3,14 @@ package edu.rpi.legup.puzzle.thermometer;
 import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import java.awt.event.MouseEvent;
+import org.jetbrains.annotations.Contract;
 
 public class ThermometerController extends ElementController {
 
     // method for updating thermometer cells since number cells have unknown for
     // their fill type we don't need to worry about end user modifying them with this
     @Override
+    @Contract(pure = false)
     public void changeCell(MouseEvent e, PuzzleElement data) {
         ThermometerCell cell = (ThermometerCell) data;
 

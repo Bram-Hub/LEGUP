@@ -3,15 +3,18 @@ package edu.rpi.legup.puzzle.thermometer;
 import edu.rpi.legup.model.PuzzleExporter;
 import java.util.ArrayList;
 import org.w3c.dom.Document;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class ThermometerExporter extends PuzzleExporter {
 
-    public ThermometerExporter(Thermometer thermometer) {
+    public ThermometerExporter(@NotNull Thermometer thermometer) {
         super(thermometer);
     }
 
     @Override
-    protected org.w3c.dom.Element createBoardElement(Document newDocument) {
+    @Contract(pure = true)
+    protected @NotNull org.w3c.dom.Element createBoardElement(@NotNull Document newDocument) {
         ThermometerBoard board = (ThermometerBoard) puzzle.getTree().getRootNode().getBoard();
 
         // Creating the XML section for the board
