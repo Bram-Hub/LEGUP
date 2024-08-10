@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 
+/**
+ * Abstract base class for panels displaying rules. Each subclass will represent a specific type
+ * of rule panel (e.g., DirectRulePanel, CaseRulePanel).
+ */
 public abstract class RulePanel extends JPanel {
     protected ImageIcon icon;
     protected String name;
@@ -32,7 +36,7 @@ public abstract class RulePanel extends JPanel {
     }
 
     /**
-     * Gets the rule rule buttons
+     * Gets the array of rule buttons
      *
      * @return rule ruleButtons
      */
@@ -76,6 +80,9 @@ public abstract class RulePanel extends JPanel {
         revalidate();
     }
 
+    /**
+     * Updates the rules displayed by reloading images and setting the rules again.
+     */
     public void updateRules() {
         for (Rule rule : rules) {
             rule.loadImage();
@@ -331,28 +338,58 @@ public abstract class RulePanel extends JPanel {
         return rules;
     }
 
+    /**
+     * Gets the icon associated with this panel
+     *
+     * @return The ImageIcon associated with this panel
+     */
     public ImageIcon getIcon() {
         return icon;
     }
 
+    /**
+     * Sets the icon for this panel
+     *
+     * @return the ImageIcon associated with this panel
+     */
     public void setIcon(ImageIcon icon) {
         this.icon = icon;
     }
 
+    /**
+     * Gets the name of this panel
+     *
+     * @return the name of this panel in a String
+     */
     @Override
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the name of this panel
+     *
+     * @param name the name to set for this panel
+     */
     @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets the tooltip text associated with this panel
+     *
+     * @return the tooltip text of this panel
+     */
     public String getToolTip() {
         return toolTip;
     }
 
+    /**
+     * Sets the tooltip text for this panel
+     *
+     * @param toolTip the tooltip text to set for this panel
+     */
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
     }
