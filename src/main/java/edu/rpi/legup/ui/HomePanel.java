@@ -513,7 +513,16 @@ public class HomePanel extends LegupPanel {
     }
 
     private void openPuzzleEditorDialog() {
-        PuzzleEditorDialog ped = new PuzzleEditorDialog(this);
+        String game = "";
+        int r = 0;
+        int c = 0;
+
+        try {
+            this.openEditorWithNewPuzzle(game, r, c);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Failed to open editor with new puzzle");
+            e.printStackTrace(System.out);
+        }
     }
 
     private void checkProofAll() {
