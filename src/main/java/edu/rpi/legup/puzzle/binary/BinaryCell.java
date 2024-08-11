@@ -61,7 +61,7 @@ public class BinaryCell extends GridCell<Integer> {
     public void setType(Element e, MouseEvent m) {
         if (e.getElementName().equals("Number Tile")) {
             if (m.getButton() == MouseEvent.BUTTON1) {
-                if (this.data == 2) {
+                if (this.data >= 1) {
                     this.data = 0;
                 }
                 else {
@@ -74,7 +74,7 @@ public class BinaryCell extends GridCell<Integer> {
                         this.data = this.data - 1;
                     }
                     else {
-                        this.data = 2;
+                        this.data = 1;
                     }
                 }
             }
