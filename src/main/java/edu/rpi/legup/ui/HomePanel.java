@@ -25,6 +25,12 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * The {@code HomePanel} class represents the home panel of the LEGUP application.
+ * This panel provides buttons for functionalities of opening the proof editor,
+ * opening the puzzle editor, and performing batch grading. It also includes a menu bar with
+ * options for preferences.
+ */
 public class HomePanel extends LegupPanel {
     private static final Logger LOGGER = LogManager.getLogger(HomePanel.class.getName());
     private LegupUI legupUI;
@@ -36,38 +42,24 @@ public class HomePanel extends LegupPanel {
 
     private final int buttonSize = 100;
 
+    /**
+     * Initialize the proof solver to an empty panel with no puzzle
+     */
     private ActionListener openProofListener =
             new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-//                    Object[] items = legupUI.getProofEditor().promptPuzzle();
-//                    if (items == null) {
-//                        // The attempt to prompt a puzzle ended gracefully (cancel)
-//                        return;
-//                    }
-//                    String fileName = (String) items[0];
-//                    File puzzleFile = (File) items[1];
                     legupUI.getProofEditor().loadPuzzle("", null);
-//                   legupUI.getProofEditor().loadPuzzle();
                 }
             };
 
-    private ActionListener openPuzzleListener =
-            new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    Object[] items = legupUI.getPuzzleEditor().promptPuzzle();
-                    if (items == null) {
-                        // The attempt to prompt a puzzle ended gracefully (cancel)
-                        return;
-                    }
-                    String fileName = (String) items[0];
-                    File puzzleFile = (File) items[1];
-                    legupUI.getPuzzleEditor().loadPuzzle(fileName, puzzleFile);
-                }
-            };
-
-    public HomePanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
+    /**
+     * Constructs a {@code HomePanel} with the specified {@code JFrame} and {@code LegupUI}.
+     *
+     * @param frame the main application frame
+     * @param legupUI the LEGUP user interface
+     */
+    public HomePanel(JFrame frame, LegupUI legupUI) {
         this.legupUI = legupUI;
         this.frame = frame;
         setLayout(new GridLayout(1, 2));
@@ -76,6 +68,11 @@ public class HomePanel extends LegupPanel {
         initButtons();
     }
 
+    /**
+     * Creates and returns the menu bar for this panel
+     *
+     * @return the menu bar
+     */
     public JMenuBar getMenuBar() {
         this.menuBar = new JMenuBar();
         JMenu settings = new JMenu("Settings");
@@ -104,18 +101,32 @@ public class HomePanel extends LegupPanel {
         return this.menuBar;
     }
 
+    /**
+     * Makes the panel visible and sets the menu bar of the frame
+     */
     @Override
     public void makeVisible() {
         render();
         frame.setJMenuBar(this.getMenuBar());
     }
 
+    /**
+     * Resizes the provided icon to the specified width and height
+     *
+     * @param icon the icon to resize
+     * @param width the target width
+     * @param height the target height
+     * @return the resized icon
+     */
     private static ImageIcon resizeButtonIcon(ImageIcon icon, int width, int height) {
         Image image = icon.getImage();
         Image resizedImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImage);
     }
 
+    /**
+     * Initializes the buttons for this panel
+     */
     private void initButtons() {
         this.buttons = new JButton[3];
 
@@ -176,6 +187,10 @@ public class HomePanel extends LegupPanel {
                 });
     }
 
+    /**
+     * Opens a folder chooser dialog and grades puzzles in the selected folder.
+     * The results are written to a CSV file.
+     */
     public void checkFolder() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         /*
@@ -261,8 +276,12 @@ public class HomePanel extends LegupPanel {
     }
 
     /**
-     * @effect batch grade using .xml parser - go through a collection of files and report their
-     *     "solved?" status
+     * Processes XML files within a selected directory and generates a CSV report on their "solved?" status.
+     * The method allows the user to select a directory, and evaluates each XML file for a "solved?" status.
+     * Results are saved in a "result.csv" file.
+     *
+     * @effect Selects a directory, processes each XML file to check for "solved?" status,
+     *         and writes results to "result.csv". Opens the CSV file upon completion.
      */
     private void use_xml_to_check() {
         /* Select a folder, go through each .xml file in the subfolders, look for "isSolved" flag */
@@ -461,6 +480,10 @@ public class HomePanel extends LegupPanel {
         }
     }
 
+    /**
+     * Initializes the text labels for the user interface.
+     * Sets up labels for welcome message, led by Bram, and version information.
+     */
     private void initText() {
         // TODO: add version text after auto-changing version label is implemented. (text[2] =
         // version)
@@ -482,6 +505,9 @@ public class HomePanel extends LegupPanel {
         this.text[1] = credits;
     }
 
+    /**
+     * Renders the user interface components
+     */
     private void render() {
         this.removeAll();
 
@@ -507,11 +533,11 @@ public class HomePanel extends LegupPanel {
         this.add(Box.createRigidArea(new Dimension(0, 5)));
     }
 
-    private void openNewPuzzleDialog() {
-        CreatePuzzleDialog cpd = new CreatePuzzleDialog(this.frame, this);
-        cpd.setVisible(true);
-    }
-
+    /**
+     * Opens the puzzle editor dialog with no selected puzzle, leaving a blank panel
+     *
+     * @throws IllegalArgumentException if the configuration parameters are invalid (should never happen)
+     */
     private void openPuzzleEditorDialog() {
         String game = "";
         int r = 0;
@@ -525,6 +551,10 @@ public class HomePanel extends LegupPanel {
         }
     }
 
+    /**
+     * Opens a dialog to select a directory, recursively processes the directory to grade puzzles,
+     * and generates a CSV report of the grading results.
+     */
     private void checkProofAll() {
         /*
          * Select dir to grade; recursively grade sub-dirs using traverseDir()
@@ -568,6 +598,14 @@ public class HomePanel extends LegupPanel {
         JOptionPane.showMessageDialog(null, "Batch grading complete.");
     }
 
+    /**
+     * Recursively traverses directories to grade puzzles and writes results to a CSV file
+     *
+     * @param folder the folder to traverse
+     * @param writer the BufferedWriter to write results to the CSV file
+     * @param path the current path within the directory structure
+     * @throws IOException if an I/O error occurs while writing to the CSV file
+     */
     private void traverseDir(File folder, BufferedWriter writer, String path) throws IOException {
         // Recursively traverse directory
         GameBoardFacade facade = GameBoardFacade.getInstance();
@@ -620,6 +658,14 @@ public class HomePanel extends LegupPanel {
         }
     }
 
+    /**
+     * Opens the puzzle editor for the specified puzzle with the specified dimensions
+     *
+     * @param game the name of the game
+     * @param rows the number of rows in the puzzle
+     * @param columns the number of columns in the puzzle
+     * @throws IllegalArgumentException if the dimensions are invalid
+     */
     public void openEditorWithNewPuzzle(String game, int rows, int columns)
             throws IllegalArgumentException {
         if (game.equals("")) {
@@ -653,7 +699,7 @@ public class HomePanel extends LegupPanel {
     }
 
     /**
-     * Opens the puzzle editor for the specified game with the given statements
+     * Opens the puzzle editor for the specified puzzle with the given statements
      *
      * @param game a String containing the name of the game
      * @param statements an array of statements
