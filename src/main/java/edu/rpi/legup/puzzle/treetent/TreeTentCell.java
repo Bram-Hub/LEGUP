@@ -4,6 +4,7 @@ import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import org.jetbrains.annotations.Contract;
 
 public class TreeTentCell extends GridCell<TreeTentType> {
 
@@ -15,6 +16,7 @@ public class TreeTentCell extends GridCell<TreeTentType> {
         return data;
     }
 
+    @Contract(pure = true)
     public int getValue() {
         switch (data) {
             case TREE:
@@ -46,6 +48,7 @@ public class TreeTentCell extends GridCell<TreeTentType> {
     }
 
     @Override
+    @Contract(pure = true)
     public TreeTentCell copy() {
         TreeTentCell copy = new TreeTentCell(data, (Point) location.clone());
         copy.setIndex(index);

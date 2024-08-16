@@ -3,10 +3,12 @@ package edu.rpi.legup.puzzle.treetent;
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import org.w3c.dom.Document;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class TreeTentExporter extends PuzzleExporter {
 
-    public TreeTentExporter(TreeTent treeTent) {
+    public TreeTentExporter(@NotNull TreeTent treeTent) {
         super(treeTent);
     }
 
@@ -17,7 +19,8 @@ public class TreeTentExporter extends PuzzleExporter {
      * @return the new board element
      */
     @Override
-    protected org.w3c.dom.Element createBoardElement(Document newDocument) {
+    @Contract(pure = true)
+    protected @NotNull org.w3c.dom.Element createBoardElement(@NotNull Document newDocument) {
         TreeTentBoard board;
         if (puzzle.getTree() != null) {
             board = (TreeTentBoard) puzzle.getTree().getRootNode().getBoard();

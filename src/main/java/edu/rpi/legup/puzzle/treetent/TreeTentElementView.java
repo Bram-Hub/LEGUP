@@ -3,6 +3,9 @@ package edu.rpi.legup.puzzle.treetent;
 import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 
 public class TreeTentElementView extends GridElementView {
     public TreeTentElementView(TreeTentCell cell) {
@@ -15,7 +18,8 @@ public class TreeTentElementView extends GridElementView {
      * @param graphics2D the frame to be drawn on
      */
     @Override
-    public void drawElement(Graphics2D graphics2D) {
+    @Contract(pure = true)
+    public void drawElement(@NotNull Graphics2D graphics2D) {
         TreeTentCell cell = (TreeTentCell) puzzleElement;
         TreeTentType type = cell.getType();
         graphics2D.setStroke(new BasicStroke(0));

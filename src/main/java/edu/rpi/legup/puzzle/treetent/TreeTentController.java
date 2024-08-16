@@ -16,6 +16,8 @@ import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 import java.awt.event.MouseEvent;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class TreeTentController extends ElementController {
 
@@ -113,7 +115,8 @@ public class TreeTentController extends ElementController {
     }
 
     @Override
-    public void changeCell(MouseEvent e, PuzzleElement element) {
+    @Contract(pure = false)
+    public void changeCell(@NotNull MouseEvent e,@NotNull PuzzleElement element) {
         TreeTentCell cell = (TreeTentCell) element;
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (cell.getData() == TreeTentType.UNKNOWN) {
