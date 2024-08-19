@@ -8,8 +8,9 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
-import java.util.HashSet;
-import java.util.Set;
+import io.opencensus.trace.Link;
+
+import java.util.*;
 
 public class ColumnsWithinRegionsDirectRule extends DirectRule {
     public ColumnsWithinRegionsDirectRule() {
@@ -18,6 +19,25 @@ public class ColumnsWithinRegionsDirectRule extends DirectRule {
                 "Columns Within Regions",
                 "If a number of columns is fully contained by a number of regions with an equal number of missing stars, spaces of other columns in those regions must be black.",
                 "edu/rpi/legup/images/starbattle/rules/ColumnsWithinRegionsDirectRule.png");
+    }
+
+    private void generateSubsets(List<List<Integer>> subsets, int current, int skip, int size) {
+        if (current == size) {
+            return;
+        }
+        List<List<Integer>> newSubsets = new LinkedList<List<Integer>>();
+        if (current != skip) {
+            for (List<Integer> subset: subsets) {
+                List<Integer> copy = new LinkedList<Integer>(subset);
+                copy.add(current);
+                newSubsets.add(copy);
+            }
+            subsets.addAll(newSubsets);
+            List<Integer> oneMember = new LinkedList<Integer>();
+            oneMember.add(current);
+            subsets.add(oneMember);
+        }
+        generateSubsets(subsets, current + 1 == skip ? current + 2 : current + 1, skip, size);
     }
 
     /**
@@ -31,53 +51,45 @@ public class ColumnsWithinRegionsDirectRule extends DirectRule {
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        // assumption: the rule has been applied to its fullest extent and the rows and regions
-        // are now mutually encompassing
+
         StarBattleBoard board = (StarBattleBoard) transition.getBoard();
+        StarBattleBoard origBoard = (StarBattleBoard) transition.getParents().get(0).getBoard();
         StarBattleCell cell = (StarBattleCell) board.getPuzzleElement(puzzleElement);
+        int dim = board.getSize();
+        int region = cell.getGroupIndex();
+        int column = cell.getLocation().x;
+
         if (cell.getType() != StarBattleCellType.BLACK) {
             return "Only black cells are allowed for this rule!";
         }
-        // the columns that are contained
-        Set<Integer> columns = new HashSet<Integer>();
-        // the regions that contain them
-        Set<Integer> regions = new HashSet<Integer>();
-        // columns and regions to process
-        Set<Integer> columnsToCheck = new HashSet<Integer>();
-        Set<Integer> regionsToCheck = new HashSet<Integer>();
-        int columnStars = 0;
-        int regionStars = 0;
-        regions.add(cell.getGroupIndex());
-        regionsToCheck.add(cell.getGroupIndex());
 
-        while (!columnsToCheck.isEmpty() || !regionsToCheck.isEmpty()) {
-            for (int r : regionsToCheck) {
-                regionStars += board.getRegion(r).numStars();
-                for (PuzzleElement c : board.getRegion(r).getCells()) {
-                    int column = ((StarBattleCell) c).getLocation().x;
-                    if (columns.add(column)) {
-                        columnsToCheck.add(column);
+        List<List<Integer>> subsets = new LinkedList<List<Integer>>();
+        generateSubsets(subsets,0, column, dim);
+
+        for (List<Integer> columnSubset: subsets) {
+            Set<Integer> regions = new HashSet<Integer>();
+            boolean containsRegion = false;
+            int columnStars = 0;
+            int regionStars = 0;
+            for (int c: columnSubset) {
+                columnStars += origBoard.columnStars(c);
+                for (StarBattleCell ce: origBoard.getCol(c)) {
+                    if (ce.getType() == StarBattleCellType.UNKNOWN) {
+                        if (regions.add(ce.getGroupIndex())) {
+                            regionStars += origBoard.getRegion(ce.getGroupIndex()).numStars();
+                        }
+                        if (ce.getGroupIndex() == region) {
+                            containsRegion = true;
+                        }
                     }
                 }
-                regionsToCheck.remove(r);
             }
-            for (int c : columnsToCheck) {
-                columnStars += board.columnStars(c);
-                for (int i = 0; i < board.getSize(); ++i) {
-                    int region = board.getCell(c, i).getGroupIndex();
-                    if (regions.add(region)) {
-                        regionsToCheck.add(region);
-                    }
-                }
-                columnsToCheck.remove(c);
+            if (containsRegion && board.getPuzzleNumber() * columnSubset.size() - columnStars
+                    >= board.getPuzzleNumber() * regions.size() - regionStars) {
+                return null;
             }
         }
-        // are the columns and regions missing an equal amount of stars
-        if (board.getPuzzleNumber() * columns.size() - columnStars
-                != board.getPuzzleNumber() * regions.size() - regionStars) {
-            return "The number of missing stars in the columns and regions must be equal and every extraneous cell must be black!";
-        }
-        return null;
+        return "The columns must fully fit within regions with the same number of stars missing!";
     }
 
     /**
