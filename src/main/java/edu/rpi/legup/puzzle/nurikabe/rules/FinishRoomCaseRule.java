@@ -17,24 +17,24 @@ import java.util.List;
 import java.util.Set;
 
 public class FinishRoomCaseRule extends CaseRule {
-    private int legitCases =
-            0; // placeholder for amount of cases originally generated in case user tries to delete
-
+    private int legitCases = 0; // placeholder for amount of cases originally generated in case user tries to delete
+    private Set<Integer> uniqueCases; // stores the unique case hashes
     // cases
 
     public FinishRoomCaseRule() {
         super(
                 "NURI-CASE-0002",
                 "Finish Room",
-                "Room can be finished in up to five ways",
+                "Room can be finished in up to nine ways",
                 "edu/rpi/legup/images/nurikabe/cases/FinishRoom.png");
-        this.MAX_CASES = 5;
-        this.MIN_CASES = 2;
+        this.MAX_CASES = 9;
+        this.MIN_CASES = 1;
+        this.uniqueCases = new HashSet<>();
     }
 
     /**
      * Checks whether the {@link TreeTransition} logically follows from the parent node using this
-     * rule. This method is the one that should overridden in child classes.
+     * rule. This method is the one that should have overridden in child classes.
      *
      * @param transition transition to check
      * @return null if the child node logically follow from the parent node, otherwise error message
@@ -43,18 +43,18 @@ public class FinishRoomCaseRule extends CaseRule {
     public String checkRuleRaw(TreeTransition transition) {
         NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-        if (childTransitions.size() > 5) {
+        if (childTransitions.size() > MAX_CASES) {
             return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must have 5 or less children.";
+                    + ": This case rule must have 9 or less children.";
         }
-        if (childTransitions.size() < 2) {
+        if (childTransitions.size() < MIN_CASES) {
             return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must have 2 or more children.";
+                    + ": This case rule must have 1 or more children.";
         }
         if (childTransitions.size() != legitCases) {
             return super.getInvalidUseOfRuleMessage()
                     + ": Cases can not be removed from the branch.";
-        } // stops user from deleting 1 or mose generated cases and still having path show as green
+        } // stops user from deleting 1 or more generated cases and still having path show as green
         Set<Point> locations = new HashSet<>();
         for (TreeTransition t1 : childTransitions) {
             locations.add(
@@ -84,31 +84,20 @@ public class FinishRoomCaseRule extends CaseRule {
         DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nurikabeBoard);
         nurikabeBoard.setModifiable(false);
 
-        for (PuzzleElement element :
-                nurikabeBoard.getPuzzleElements()) { // loops all puzzle elements
-            if (((NurikabeCell) element).getType()
-                    == NurikabeType.NUMBER) { // if the tile is a white number block
-                Set<NurikabeCell> disRow =
-                        regions.getSet(
-                                ((NurikabeCell) element)); // store the row of the white region
-                boolean only =
-                        true; // placeholder boolean of if the element being tested is the only
-                // number block in the room or not
+        for (PuzzleElement element : nurikabeBoard.getPuzzleElements()) { // loops all puzzle elements
+            if (((NurikabeCell) element).getType() == NurikabeType.NUMBER) { // if the tile is a white number block
+                Set<NurikabeCell> disRow = regions.getSet(((NurikabeCell) element)); // store the row of the white region
+                boolean only = true; // placeholder boolean of if the element being tested is the only number block in the room or not
+
                 for (NurikabeCell d : disRow) { // loops through tiles in the room
+                    // if found another number tile and it's data is different from the element we're working with
                     if ((d.getType() == NurikabeType.NUMBER)
-                            && !(d.getData()
-                                    .equals(
-                                            ((NurikabeCell) element)
-                                                    .getData()))) { // if found another number tile
-                        // and it's data is different
-                        // than the element we're
-                        // working with
-                        only = false; // set only to false
+                            && !(d.getData().equals(((NurikabeCell) element).getData()))) {
+                        only = false;
                     }
                 }
-                if (disRow.size() + 1 == ((NurikabeCell) element).getData()
-                        && only) { // if size of region is 1 less than the number block and the
-                    // number block is only number block in the region
+                // if size of region is 1 less than the number block and the number block is only number block in the region
+                if (disRow.size() < ((NurikabeCell) element).getData() && only) {
                     caseBoard.addPickableElement(element); // add that room as a pickable element
                 }
             }
@@ -126,16 +115,19 @@ public class FinishRoomCaseRule extends CaseRule {
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>(); // makes array list of cases
+        if (puzzleElement == null) {
+            return cases;
+        }
+
         NurikabeBoard nuriBoard = (NurikabeBoard) board.copy(); // nurikabe board to edit
-        NurikabeCell numbaCell =
-                nuriBoard.getCell(
-                        ((NurikabeCell) puzzleElement).getLocation().x,
-                        ((NurikabeCell) puzzleElement)
-                                .getLocation()
-                                .y); // number cell whose room we want to fill
-        int filledRoomSize = numbaCell.getData(); // size of room we want afterward
-        Set<Point> locations =
-                new HashSet<>(); // locations where white space is added to finish room
+        NurikabeCell numberCell = nuriBoard.getCell(
+                ((NurikabeCell) puzzleElement).getLocation().x,
+                ((NurikabeCell) puzzleElement).getLocation().y
+        ); // number cell whose room we want to fill
+
+        Point origPoint = new Point(numberCell.getLocation().x, numberCell.getLocation().y);
+        int filledRoomSize = numberCell.getData(); // size of room we want afterward
+
         Point left = new Point(-1, 0);
         Point right = new Point(1, 0);
         Point bot = new Point(0, -1);
@@ -145,92 +137,114 @@ public class FinishRoomCaseRule extends CaseRule {
         directions.add(right);
         directions.add(top);
         directions.add(bot);
-        Set<Point> checkedPoints =
-                new HashSet<>(); // add all into checked points and continue at start of loop if
-        // inside
-        DisjointSets<NurikabeCell> regions =
-                NurikabeUtilities.getNurikabeRegions(nuriBoard); // gathers regions
-        Set<NurikabeCell> disRow = regions.getSet(numbaCell); // set of white spaces
-        for (NurikabeCell d : disRow) { // loops through white spaces
-            if (cases.size() >= 6) { // no need to check this many cases
-                // throw new IllegalStateException("Too many cases");
-                continue; // crash/runtime protection
+
+        Set<Point> checkedPoints = new HashSet<>(); // add all into checked points and continue at start of loop if inside
+        DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nuriBoard); // gathers regions
+        Set<NurikabeCell> numberCellRegion = regions.getSet(numberCell); // set of white spaces
+
+        for (NurikabeCell d : numberCellRegion) { // loops through white spaces
+            generateCases(nuriBoard, d, filledRoomSize, directions, checkedPoints, cases, origPoint);
+        }
+
+        legitCases = cases.size();
+        return cases;
+    }
+
+    /**
+     * Recursively generates possible cases for filling a room with white cells based on the current
+     * board state and specified parameters.
+     *
+     * @param nuriBoard the current Nurikabe board state
+     * @param currentCell the current cell being evaluated
+     * @param filledRoomSize the target size for the room being filled
+     * @param directions the set of possible directions to expand the room
+     * @param checkedPoints the set of points already evaluated to avoid redundancy
+     * @param cases the list of valid board cases generated
+     * @param origPoint the original point of the number cell initiating the room filling
+     */
+    private void generateCases(NurikabeBoard nuriBoard, NurikabeCell currentCell, int filledRoomSize,
+                               Set<Point> directions, Set<Point> checkedPoints, ArrayList<Board> cases, Point origPoint) {
+        for (Point direction : directions) {
+            Point newPoint = new Point(
+                    currentCell.getLocation().x + direction.x,
+                    currentCell.getLocation().y + direction.y
+            );
+
+            if (newPoint.x < 0 || newPoint.y < 0 ||
+                newPoint.x >= nuriBoard.getWidth() || newPoint.y >= nuriBoard.getHeight()) {
+                continue; // out of bounds
             }
-            for (Point direction : directions) {
-                if (cases.size() >= 6) { // no need to check this many cases
-                    // throw new IllegalStateException("Too many cases");
-                    continue; // crash/runtime protection
-                }
-                if (!((nuriBoard.getWidth() > (d.getLocation().x + direction.x)
-                        && (nuriBoard.getHeight() > d.getLocation().y + direction.y)
-                        && (d.getLocation().x + direction.x >= 0)
-                        && (d.getLocation().y + direction.y >= 0)))) {
-                    continue; // if next location check would be outside of grid then continue
-                }
-                NurikabeCell curr =
-                        nuriBoard.getCell(
-                                d.getLocation().x + direction.x, d.getLocation().y + direction.y);
-                if (checkedPoints.contains(curr.getLocation())) {
-                    continue; // if we already checked whether or not making this tile white would
-                    // complete the room then continue
-                }
-                checkedPoints.add(
-                        curr.getLocation()); // adds location to checkedPoints so we don't check
-                // it again and accidentally add
-                if (curr.getType()
-                        == NurikabeType
-                                .UNKNOWN) { // found adjacent space to region that is currently
-                    // unknown
-                    curr.setData(
-                            NurikabeType.WHITE.toValue()); // changes adjacent cell color to white
-                    nuriBoard.addModifiedData(curr); // adds modified before check
-                    regions = NurikabeUtilities.getNurikabeRegions(nuriBoard); // update regions
-                    Set<NurikabeCell> disCreatedRow =
-                            regions.getSet(
-                                    curr); // gets set of created row with new white cell added
-                    if (disCreatedRow.size()
-                            == filledRoomSize) { // If adding white fills the room to exact size of
-                        // number block and doesn't connect with another
-                        // room
-                        Point here = curr.getLocation(); // gets current location of new white tile
-                        // that fills room
-                        boolean alreadyIn =
-                                false; // sets whether or not the tile has already been added to
-                        // false
-                        for (Point p :
-                                locations) { // loops through locations of previously added tiles
-                            if (p == here) { // if point is already in
-                                alreadyIn = true; // change already in to true
+
+            NurikabeCell newCell = nuriBoard.getCell(newPoint.x, newPoint.y);
+            if (checkedPoints.contains(newPoint)) {
+                continue; // already checked
+            }
+
+            if (newCell.getType() == NurikabeType.UNKNOWN) {
+                newCell.setData(NurikabeType.WHITE.toValue()); // changes adjacent cell color to white
+                newCell.setModifiable(false);
+                checkedPoints.add(newPoint);
+
+                DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nuriBoard); // update regions variable
+                Set<NurikabeCell> newRoomSet = regions.getSet(newCell); // gets set of cells in room with new white cell added
+
+                if (!touchesDifferentRoom(nuriBoard, newCell, filledRoomSize, directions, origPoint)) {
+                    if (newRoomSet.size() == filledRoomSize) { // if adding white fills the room to exact size of
+                        // number block and doesn't connect with another room
+                        Board caseBoard = nuriBoard.copy();
+                        // check if case for board already exists
+                        boolean unique = true;
+                        for (Board board : cases) {
+                            if (caseBoard.equalsBoard(board)) {
+                                unique = false;
                                 break;
                             }
                         }
-                        if (!alreadyIn) { // if point wasn't already in
-                            Board casey =
-                                    nuriBoard.copy(); // copy the current board with white tile
-                            // changed
-                            PuzzleElement datacasey =
-                                    curr; // gets changed white tile as a puzzle element
-                            datacasey.setData(
-                                    NurikabeType.WHITE
-                                            .toValue()); // ensure set to white, probably redundant
-                            casey.addModifiedData(datacasey); // ensure confirmed white change
-                            regions =
-                                    NurikabeUtilities.getNurikabeRegions(
-                                            nuriBoard); // update regions
-                            cases.add(casey); // add this case to list of cases
-                            locations.add(
-                                    here); // add location of new white tile to list of locations so
-                            // that we don't accidentally add it again later
+                        if (unique) {
+                            caseBoard.addModifiedData(newCell);
+                            cases.add(caseBoard);
                         }
+                    } else if (newRoomSet.size() < filledRoomSize) {
+                        generateCases(nuriBoard, newCell, filledRoomSize, directions, checkedPoints, cases, origPoint);
                     }
-                    curr.setData(NurikabeType.UNKNOWN.toValue()); // set cell type back to unknown
-                    nuriBoard.addModifiedData(curr); // confirms change back to unknown
-                    regions = NurikabeUtilities.getNurikabeRegions(nuriBoard); // updates regions
+                }
+                newCell.setData(NurikabeType.UNKNOWN.toValue());
+                newCell.setModifiable(true);
+                checkedPoints.remove(newPoint);
+            }
+        }
+    }
+
+    /**
+     * Determines if a given cell touches a different room by checking adjacent cells in specified directions.
+     *
+     * @param board the current Nurikabe board state
+     * @param cell the cell being evaluated
+     * @param origRoomSize the size of the original room being filled
+     * @param directions the set of possible directions to check around the cell
+     * @param origPoint the original point of the number cell initiating the room filling
+     * @return true if the cell touches a different room, false otherwise
+     */
+    private boolean touchesDifferentRoom(NurikabeBoard board, NurikabeCell cell, int origRoomSize, Set<Point> directions, Point origPoint) {
+        for (Point direction : directions) {
+            Point adjacentPoint = new Point(
+                    cell.getLocation().x + direction.x,
+                    cell.getLocation().y + direction.y
+            );
+
+            if (adjacentPoint.x >= 0 && adjacentPoint.y >= 0 &&
+                adjacentPoint.x < board.getWidth() && adjacentPoint.y < board.getHeight()) { // check if out of bounds
+                NurikabeCell adjacentCell = board.getCell(adjacentPoint.x, adjacentPoint.y);
+                // check if the adjacent cell is a number cell
+                if (adjacentCell.getType() == NurikabeType.NUMBER) {
+                    // check if it's different from the original number cell
+                    if (origRoomSize != adjacentCell.getData() || (adjacentPoint.x != origPoint.x || adjacentPoint.y != origPoint.y)) {
+                        return true;
+                    }
                 }
             }
-            legitCases = cases.size();
         }
-        return cases;
+        return false;
     }
 
     /**

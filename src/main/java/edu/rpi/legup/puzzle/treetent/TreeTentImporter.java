@@ -3,6 +3,8 @@ package edu.rpi.legup.puzzle.treetent;
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -113,7 +115,7 @@ public class TreeTentImporter extends PuzzleImporter {
                 for (int x = 0; x < width; x++) {
                     if (treeTentBoard.getCell(x, y) == null) {
                         TreeTentCell cell = new TreeTentCell(TreeTentType.UNKNOWN, new Point(x, y));
-                        cell.setIndex(y * height + x);
+                        cell.setIndex(y * width + x);
                         cell.setModifiable(true);
                         treeTentBoard.setCell(x, y, cell);
                     }
@@ -215,5 +217,13 @@ public class TreeTentImporter extends PuzzleImporter {
     @Override
     public void initializeBoard(String[] statements) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Tree Tent cannot accept text input");
+    }
+
+    @Override
+    public List<String> getImporterElements() {
+        List<String> elements = new ArrayList<>();
+        elements.add("cell");
+        elements.add("line");
+        return elements;
     }
 }

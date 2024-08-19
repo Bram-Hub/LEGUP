@@ -209,7 +209,7 @@ public class SkyscrapersBoard extends GridBoard {
         SkyscrapersClue clue = this.getClue(x, y);
         if (e == null) return;
         if (clue != null) {
-            if (!e.getElementID().equals("SKYS-UNPL-0003")) {
+            if (!e.getElementID().equals("SKYS-ELEM-0001")) {
                 return;
             }
 
@@ -217,10 +217,10 @@ public class SkyscrapersBoard extends GridBoard {
                 if (clue.getData() < dimension.height) {
                     clue.setData(clue.getData() + 1);
                 } else {
-                    clue.setData(0);
+                    clue.setData(1);
                 }
             } else {
-                if (clue.getData() > 0) {
+                if (clue.getData() > 1) {
                     clue.setData(clue.getData() - 1);
                 } else {
                     clue.setData(dimension.height);

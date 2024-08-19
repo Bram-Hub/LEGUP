@@ -1,7 +1,9 @@
 package edu.rpi.legup.puzzle.sudoku;
 
+import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,10 +15,10 @@ public class SudokuCell extends GridCell<Integer> {
     /**
      * SudokuCell Constructor - creates a new Sudoku cell to hold the puzzleElement
      *
-     * @param value value of the sudoku cell
-     * @param location location of the cell on the board
+     * @param value      value of the sudoku cell
+     * @param location   location of the cell on the board
      * @param groupIndex index of the group the cell is in on the board
-     * @param size size of the sudoku cell
+     * @param size       size of the sudoku cell
      */
     public SudokuCell(int value, Point location, int groupIndex, int size) {
         super(value, location);
@@ -58,5 +60,37 @@ public class SudokuCell extends GridCell<Integer> {
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
         return copy;
+    }
+
+    /**
+     * Sets the type of this NurikabeCell
+     *
+     * @param e element to set the type of this nurikabe cell to
+     */
+    @Override
+    public void setType(Element e, MouseEvent m) {
+        if (e.getElementName().equals("Number Tile")) {
+            if (m.getButton() == MouseEvent.BUTTON1) {
+                if (this.data <= 0 || this.data > 8) {
+                    this.data = 1;
+                }
+                else {
+                    this.data = this.data + 1;
+                }
+            }
+            else {
+                if (m.getButton() == MouseEvent.BUTTON3) {
+                    if (this.data > 1) {
+                        this.data = this.data - 1;
+                    }
+                    else {
+                        this.data = 9;
+                    }
+                }
+            }
+        }
+        else if (e.getElementName().equals("Unknown Tile")) {
+            this.data = 0;
+        }
     }
 }

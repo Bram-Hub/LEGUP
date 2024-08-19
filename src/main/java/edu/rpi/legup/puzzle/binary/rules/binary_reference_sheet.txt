@@ -1,0 +1,11 @@
+BINA-BASC-0001 : PreventTrioContradictionRule
+BINA-BASC-0002 : CompleteRowColumnDirectRule
+BINA-BASC-0003 : SaveBlockerDirectRule
+BINA-BASC-0004 : UniqueRowColumnDirectRule
+
+BINA-CONT-0001 : TrioContradictionRule
+BINA-CONT-0002 : UnbalancedRowColumnContradictionRule
+BINA-CONT-0003 : RepeatedRowColumnContradictionRule
+BINA-CONT-0004 : WastedBlockerContradictionRule
+
+BINA-CASE-0001 : ZeroOrOneCaseRule

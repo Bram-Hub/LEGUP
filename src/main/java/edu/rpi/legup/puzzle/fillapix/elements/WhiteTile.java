@@ -5,7 +5,7 @@ import edu.rpi.legup.model.elements.PlaceableElement;
 public class WhiteTile extends PlaceableElement {
     public WhiteTile() {
         super(
-                "FPIX-PLAC-0002",
+                "FPIX-ELEM-0004",
                 "White Tile",
                 "The white tile",
                 "edu/rpi/legup/images/fillapix/tiles/WhiteTile.png");

@@ -3,11 +3,18 @@ package edu.rpi.legup.model.gameboard;
 import edu.rpi.legup.model.elements.Element;
 import java.awt.event.MouseEvent;
 
+/**
+ * PuzzleElement represents a single element in a puzzle grid. It holds data and provides various
+ * methods to manage and retrieve its properties, including modifiability, modification status, and validity.
+ *
+ * @param <T> the type of data held by the PuzzleElement
+ */
 public abstract class PuzzleElement<T> {
     protected int index;
     protected T data;
     protected boolean isModifiable;
     protected boolean isModified;
+    protected boolean isModifiableCaseRule;
     protected boolean isGiven;
     protected boolean isValid;
     protected int casesDepended;
@@ -17,6 +24,7 @@ public abstract class PuzzleElement<T> {
         this.index = -1;
         this.data = null;
         this.isModifiable = true;
+        this.isModifiableCaseRule = true;
         this.isModified = false;
         this.isGiven = false;
         this.isValid = true;
@@ -71,6 +79,24 @@ public abstract class PuzzleElement<T> {
      */
     public void setModifiable(boolean isModifiable) {
         this.isModifiable = isModifiable;
+    }
+
+    /**
+     * Gets whether this puzzle element is modifiable as a result of a case rule.
+     *
+     * @return true if this puzzle element is modifiable, false otherwise
+     */
+    public boolean isModifiableCaseRule() {
+        return isModifiableCaseRule;
+    }
+
+    /**
+     * Sets whether this puzzle element is modifiable as a result of a case rule.
+     *
+     * @param isModifiableCaseRule true if this puzzle element is modifiable, false otherwise
+     */
+    public void setModifiableCaseRule(boolean isModifiableCaseRule) {
+        this.isModifiableCaseRule = isModifiableCaseRule;
     }
 
     /**

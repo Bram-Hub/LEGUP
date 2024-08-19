@@ -10,6 +10,10 @@ import java.util.Arrays;
 import java.util.Objects;
 import javax.swing.*;
 
+/**
+ * Provides the user interface components for creating a new puzzle in the Legup application.
+ * This package includes classes for displaying dialog boxes to configure and initialize puzzles.
+ */
 public class CreatePuzzleDialog extends JDialog {
     private HomePanel homePanel;
 
@@ -17,6 +21,13 @@ public class CreatePuzzleDialog extends JDialog {
     private JComboBox gameBox;
     private ActionListener gameBoxListener =
             new ActionListener() {
+                /**
+                 * An ActionListener that handles changes in the drop-down menu for selecting puzzle types.
+                 * When a new item is selected in the drop-down menu, this listener updates the visibility of
+                 * the text input area and the row/column input fields based on the selected puzzle type.
+                 * If "ShortTruthTable" is selected, the text input area is shown and the row/column fields are hidden.
+                 * For other puzzle types, the row/column fields are shown and the text input area is hidden.
+                 */
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     JComboBox comboBox = (JComboBox) e.getSource();
@@ -57,9 +68,7 @@ public class CreatePuzzleDialog extends JDialog {
                  */
                 @Override
                 public void actionPerformed(ActionEvent ae) {
-                    String game =
-                            Config.convertDisplayNameToClassName(
-                                    (String) gameBox.getSelectedItem());
+                    String game = getGame();
 
                     // Check if all 3 TextFields are filled
                     if (game.equals("ShortTruthTable") && textArea.getText().isEmpty()) {
@@ -68,8 +77,8 @@ public class CreatePuzzleDialog extends JDialog {
                     }
                     if (!game.equals("ShortTruthTable")
                             && (game.isEmpty()
-                                    || rows.getText().isEmpty()
-                                    || columns.getText().isEmpty())) {
+                                    || getRows().isEmpty()
+                                    || getColumns().isEmpty())) {
                         System.out.println("Unfilled fields");
                         return;
                     }
@@ -81,8 +90,8 @@ public class CreatePuzzleDialog extends JDialog {
                         } else {
                             homePanel.openEditorWithNewPuzzle(
                                     game,
-                                    Integer.valueOf(rows.getText()),
-                                    Integer.valueOf(columns.getText()));
+                                    Integer.valueOf(getRows()),
+                                    Integer.valueOf(getColumns()));
                         }
                         setVisible(false);
                     } catch (IllegalArgumentException e) {
@@ -106,6 +115,12 @@ public class CreatePuzzleDialog extends JDialog {
                 }
             };
 
+    /**
+     * Constructs a new CreatePuzzleDialog
+     *
+     * @param parent the parent frame of the dialog
+     * @param homePanel the home panel where the created puzzle will be added
+     */
     public CreatePuzzleDialog(JFrame parent, HomePanel homePanel) {
         super(parent, true);
 
@@ -184,6 +199,10 @@ public class CreatePuzzleDialog extends JDialog {
         cancel.addActionListener(cursorPressedCancel);
     }
 
+    /**
+     * Initializes the puzzle options available for selection in the dialog.
+     * The options are retrieved from the game board facade and sorted alphabetically.
+     */
     public void initPuzzles() {
         this.games =
                 GameBoardFacade.getInstance()
@@ -194,7 +213,12 @@ public class CreatePuzzleDialog extends JDialog {
         gameBox = new JComboBox(this.games);
     }
 
-    // ^This method seems useless and never got covered
+
+    /**
+     * Handles the action events for the dialog, including interactions with the Ok and Cancel buttons
+     *
+     * @param e The action event to be processed
+     */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == ok) {
             String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
@@ -211,9 +235,7 @@ public class CreatePuzzleDialog extends JDialog {
                 }
                 this.setVisible(false);
             } catch (IllegalArgumentException exception) {
-                // Don't do anything. This is here to prevent the dialog from closing if the
-                // dimensions are
-                // invalid.
+                // Do nothing. This is here to prevent the dialog from closing if the dimensions are invalid.
             }
         } else {
             if (e.getSource() == cancel) {
@@ -223,4 +245,38 @@ public class CreatePuzzleDialog extends JDialog {
             }
         }
     }
+
+    /**
+     * Retrieves the selected game from the combo box
+     *
+     * @return the class name of the selected game
+     */
+    public String getGame() {
+        return Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
+    }
+
+    /**
+     * Retrieves the number of rows specified in the dialog
+     *
+     * @return the number of rows as a string
+     */
+    public String getRows() {
+        return rows.getText();
+    }
+
+    /**
+     * Retrieves the number of columns specified in the dialog
+     *
+     * @return the number of columns as a string
+     */
+    public String getColumns() {
+        return columns.getText();
+    }
+
+    /**
+     * Retrieves the text entered in the text area, split by new lines.
+     *
+     * @return an array of strings, each representing as a line of text
+     */
+    public String[] getTextArea() { return textArea.getText().split("\n"); }
 }
