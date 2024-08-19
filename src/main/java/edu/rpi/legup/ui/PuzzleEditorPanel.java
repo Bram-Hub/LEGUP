@@ -630,8 +630,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      */
     @Override
     public void onClearHistory() {
-        undo.setEnabled(false);
-        redo.setEnabled(false);
     }
 
 

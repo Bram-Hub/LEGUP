@@ -1283,8 +1283,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      */
     @Override
     public void onClearHistory() {
-        undo.setEnabled(false);
-        redo.setEnabled(false);
     }
 
     /**
