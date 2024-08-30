@@ -1,0 +1,4 @@
+NURI-ELEM-0001 : BlackTile
+NURI-ELEM-0002 : NumberTile
+NURI-ELEM-0003 : UnknownTile
+NURI-ELEM-0004 : WhiteTile

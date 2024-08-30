@@ -16,6 +16,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * The RuleController class is responsible for handling UI events related to rule buttons
+ * in the RulePanel of the Legup application. It implements ActionListener to process action
+ * events triggered by rule buttons and applies rules to the puzzle accordingly
+ */
 public class RuleController implements ActionListener {
     protected Object lastSource;
 
