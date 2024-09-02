@@ -19,6 +19,11 @@ import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 import edu.rpi.legup.user.Submission;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,18 +34,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private static final Logger LOGGER = LogManager.getLogger(ProofEditorPanel.class.getName());
     private JMenuBar mBar;
     private TreePanel treePanel;
-    private FileDialog fileDialog;
+    private JFileChooser fileChooser;
     private JFrame frame;
     private RuleFrame ruleFrame;
     private DynamicView dynamicBoardView;
@@ -83,22 +85,22 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     public static final int AUTO_JUST = 128;
     static final int[] TOOLBAR_SEPARATOR_BEFORE = {2, 4, 8};
     private static final String[] PROFILES = {
-        "No Assistance",
-        "Rigorous Proof",
-        "Casual Proof",
-        "Assisted Proof",
-        "Guided Proof",
-        "Training-Wheels Proof",
-        "No Restrictions"
+            "No Assistance",
+            "Rigorous Proof",
+            "Casual Proof",
+            "Assisted Proof",
+            "Guided Proof",
+            "Training-Wheels Proof",
+            "No Restrictions"
     };
     private static final int[] PROF_FLAGS = {
-        0,
-        ALLOW_JUST | REQ_STEP_JUST,
-        ALLOW_JUST,
-        ALLOW_HINTS | ALLOW_JUST | AUTO_JUST,
-        ALLOW_HINTS | ALLOW_JUST | REQ_STEP_JUST,
-        ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_JUST | IMD_FEEDBACK | INTERN_RO,
-        ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_FULLAI | ALLOW_JUST
+            0,
+            ALLOW_JUST | REQ_STEP_JUST,
+            ALLOW_JUST,
+            ALLOW_HINTS | ALLOW_JUST | AUTO_JUST,
+            ALLOW_HINTS | ALLOW_JUST | REQ_STEP_JUST,
+            ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_JUST | IMD_FEEDBACK | INTERN_RO,
+            ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_FULLAI | ALLOW_JUST
     };
     private JMenu proofMode = new JMenu("Proof Mode");
     private JCheckBoxMenuItem[] proofModeItems = new JCheckBoxMenuItem[PROF_FLAGS.length];
@@ -111,8 +113,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     protected JMenuItem testAI = new JMenuItem("Test AI!");
     protected JMenuItem hintAI = new JMenuItem("Hint");
 
-    public ProofEditorPanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
-        this.fileDialog = fileDialog;
+    public ProofEditorPanel(JFileChooser fileChooser, JFrame frame, LegupUI legupUI) {
+        this.fileChooser = fileChooser;
         this.frame = frame;
         this.legupUI = legupUI;
         setLayout(new BorderLayout());
@@ -162,7 +164,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             add.setAccelerator(
                     KeyStroke.getKeyStroke(
                             'A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        } else {
+        }
+        else {
             add.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_DOWN_MASK));
         }
         proof.add(add);
@@ -173,7 +176,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             delete.setAccelerator(
                     KeyStroke.getKeyStroke(
                             'D', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        } else {
+        }
+        else {
             delete.setAccelerator(KeyStroke.getKeyStroke('D', InputEvent.CTRL_DOWN_MASK));
         }
         proof.add(delete);
@@ -184,7 +188,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             merge.setAccelerator(
                     KeyStroke.getKeyStroke(
                             'M', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        } else {
+        }
+        else {
             merge.setAccelerator(KeyStroke.getKeyStroke('M', InputEvent.CTRL_DOWN_MASK));
         }
         proof.add(merge);
@@ -195,7 +200,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             collapse.setAccelerator(
                     KeyStroke.getKeyStroke(
                             'C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        } else {
+        }
+        else {
             collapse.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_DOWN_MASK));
         }
         collapse.setEnabled(false);
@@ -204,45 +210,39 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         allowDefault =
                 new JCheckBoxMenuItem(
                         "Allow Default Rule Applications",
-                        LegupPreferences.getInstance()
-                                .getUserPref(LegupPreferences.ALLOW_DEFAULT_RULES)
-                                .equalsIgnoreCase(Boolean.toString(true)));
+                        LegupPreferences.LegupPreference.ALLOW_DEFAULT_RULES.asBoolean());
         allowDefault.addChangeListener(
                 e -> {
                     LegupPreferences.getInstance()
                             .setUserPref(
-                                    LegupPreferences.ALLOW_DEFAULT_RULES,
-                                    Boolean.toString(allowDefault.isSelected()));
+                                    LegupPreferences.LegupPreference.ALLOW_DEFAULT_RULES,
+                                    allowDefault.isSelected());
                 });
         proof.add(allowDefault);
 
         caseRuleGen =
                 new JCheckBoxMenuItem(
                         "Automatically generate cases for CaseRule",
-                        LegupPreferences.getInstance()
-                                .getUserPref(LegupPreferences.AUTO_GENERATE_CASES)
-                                .equalsIgnoreCase(Boolean.toString(true)));
+                        LegupPreferences.LegupPreference.AUTO_GENERATE_CASES.asBoolean());
         caseRuleGen.addChangeListener(
                 e -> {
                     LegupPreferences.getInstance()
                             .setUserPref(
-                                    LegupPreferences.AUTO_GENERATE_CASES,
-                                    Boolean.toString(caseRuleGen.isSelected()));
+                                    LegupPreferences.LegupPreference.AUTO_GENERATE_CASES,
+                                    caseRuleGen.isSelected());
                 });
         proof.add(caseRuleGen);
 
         imdFeedback =
                 new JCheckBoxMenuItem(
                         "Provide immediate feedback",
-                        LegupPreferences.getInstance()
-                                .getUserPref(LegupPreferences.IMMEDIATE_FEEDBACK)
-                                .equalsIgnoreCase(Boolean.toString(true)));
+                        LegupPreferences.LegupPreference.IMMEDIATE_FEEDBACK.asBoolean());
         imdFeedback.addChangeListener(
                 e -> {
                     LegupPreferences.getInstance()
                             .setUserPref(
-                                    LegupPreferences.IMMEDIATE_FEEDBACK,
-                                    Boolean.toString(imdFeedback.isSelected()));
+                                    LegupPreferences.LegupPreference.IMMEDIATE_FEEDBACK,
+                                    imdFeedback.isSelected());
                 });
         proof.add(imdFeedback);
 
@@ -257,7 +257,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             newPuzzle.setAccelerator(
                     KeyStroke.getKeyStroke(
                             'N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        } else {
+        }
+        else {
             newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
         }
 
@@ -307,7 +308,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             resetPuzzle.setAccelerator(
                     KeyStroke.getKeyStroke(
                             'R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        } else {
+        }
+        else {
             resetPuzzle.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.CTRL_DOWN_MASK));
         }
         file.addSeparator();
@@ -320,7 +322,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             saveProofAs.setAccelerator(
                     KeyStroke.getKeyStroke(
                             'S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        } else {
+        }
+        else {
             saveProofAs.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK));
         }
 
@@ -329,7 +332,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             saveProofChange.setAccelerator(
                     KeyStroke.getKeyStroke(
                             'A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        } else {
+        }
+        else {
             saveProofChange.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_DOWN_MASK));
         }
 
@@ -352,7 +356,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             helpTutorial.setAccelerator(
                     KeyStroke.getKeyStroke(
                             'H', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        } else {
+        }
+        else {
             helpTutorial.setAccelerator(KeyStroke.getKeyStroke('H', InputEvent.CTRL_DOWN_MASK));
         }
         file.add(helpTutorial);
@@ -367,7 +372,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             exit.setAccelerator(
                     KeyStroke.getKeyStroke(
                             'Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        } else {
+        }
+        else {
             exit.setAccelerator(KeyStroke.getKeyStroke('Q', InputEvent.CTRL_DOWN_MASK));
         }
         mBar.add(edit);
@@ -378,7 +384,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             undo.setAccelerator(
                     KeyStroke.getKeyStroke(
                             'Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        } else {
+        }
+        else {
             undo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK));
         }
 
@@ -410,7 +417,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                             'Z',
                             Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()
                                     + InputEvent.SHIFT_DOWN_MASK));
-        } else {
+        }
+        else {
             redo.getInputMap(WHEN_IN_FOCUSED_WINDOW)
                     .put(KeyStroke.getKeyStroke('Y', InputEvent.CTRL_DOWN_MASK), "redoAction");
             redo.getInputMap(WHEN_IN_FOCUSED_WINDOW)
@@ -447,7 +455,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                     try {
                         java.awt.Desktop.getDesktop()
                                 .browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki"));
-                    } catch (IOException e) {
+                    }
+                    catch (IOException e) {
                         LOGGER.error("Can't open web page");
                     }
                 });
@@ -475,7 +484,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
 
         LegupPreferences preferences = LegupPreferences.getInstance();
-        String preferredDirectory = preferences.getUserPref(LegupPreferences.WORK_DIRECTORY);
+        String preferredDirectory = LegupPreferences.LegupPreference.WORK_DIRECTORY.stringValue();
         if (preferences.getSavedPath() != "") {
             preferredDirectory = preferences.getSavedPath();
         }
@@ -493,19 +502,19 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         fileBrowser.setAcceptAllFileFilterUsed(false);
 
         File puzzlePath = fileBrowser.getSelectedFile();
-        System.out.println(puzzlePath.getAbsolutePath());
 
         if (puzzlePath != null) {
             fileName = puzzlePath.getAbsolutePath();
             String lastDirectoryPath = fileName.substring(0, fileName.lastIndexOf(File.separator));
             preferences.setSavedPath(lastDirectoryPath);
             puzzleFile = puzzlePath;
-        } else {
+        }
+        else {
             // The attempt to prompt a puzzle ended gracefully (cancel)
             return null;
         }
 
-        return new Object[] {fileName, puzzleFile};
+        return new Object[]{fileName, puzzleFile};
     }
 
     public void loadPuzzle() {
@@ -526,7 +535,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 GameBoardFacade.getInstance().loadPuzzle(fileName);
                 String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
                 frame.setTitle(puzzleName + " - " + puzzleFile.getName());
-            } catch (InvalidFileFormatException e) {
+            }
+            catch (InvalidFileFormatException e) {
                 legupUI.displayPanel(0);
                 LOGGER.error(e.getMessage());
                 if (e.getMessage()
@@ -542,7 +552,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
                     loadPuzzle();
-                } else {
+                }
+                else {
                     JOptionPane.showMessageDialog(
                             null,
                             "File does not exist or it cannot be read",
@@ -554,7 +565,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
     }
 
-    /** save the proof in the current file */
+    /**
+     * save the proof in the current file
+     */
     private void direct_save() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
@@ -568,44 +581,53 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                     throw new ExportFileException("Puzzle exporter null");
                 }
                 exporter.exportPuzzle(fileName);
-            } catch (ExportFileException e) {
+            }
+            catch (ExportFileException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    /** Create a new file and save proof to it */
+    /**
+     * Create a new file and save proof to it
+     */
     private void saveProofAs() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
             return;
         }
 
-        LegupPreferences preferences = LegupPreferences.getInstance();
-        File preferredDirectory =
-                new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
-        if (preferences.getSavedPath() != "") {
-            preferredDirectory = new File(preferences.getSavedPath());
+        fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
+//        fileChooser.setMode(JFileChooser.SAVE);
+//        fileChooser.setTitle("Save As");
+        fileChooser.setDialogTitle("Save as");
+        String curFileName = GameBoardFacade.getInstance().getCurFileName();
+        if (curFileName == null) {
+            fileChooser.setCurrentDirectory(
+//            fileChooser.setDirectory(
+                    Path.of(LegupPreferences.LegupPreference.WORK_DIRECTORY.stringValue()).toFile());
         }
-        folderBrowser = new JFileChooser(preferredDirectory);
+        else {
+            File curFile = new File(curFileName);
+//            fileChooser.setDirectory(curFile.getParent());
+            fileChooser.setCurrentDirectory(curFile.getParentFile());
+        }
+        fileChooser.setVisible(true);
 
-        folderBrowser.showSaveDialog(this);
-        folderBrowser.setVisible(true);
-        folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
-        folderBrowser.setDialogTitle("Select Directory");
-        folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        folderBrowser.setAcceptAllFileFilterUsed(false);
+        String fileName = null;
+        if (fileChooser.getCurrentDirectory() != null && fileChooser.getSelectedFile() != null) {
+            fileName = fileChooser.getCurrentDirectory() + File.separator + fileChooser.getSelectedFile();
+        }
 
-        String path = folderBrowser.getSelectedFile().getAbsolutePath();
-
-        if (path != null) {
+        if (fileName != null) {
             try {
                 PuzzleExporter exporter = puzzle.getExporter();
                 if (exporter == null) {
                     throw new ExportFileException("Puzzle exporter null");
                 }
-                exporter.exportPuzzle(path);
-            } catch (ExportFileException e) {
+                exporter.exportPuzzle(fileName);
+            }
+            catch (ExportFileException e) {
                 e.printStackTrace();
             }
         }
@@ -643,7 +665,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         try {
             // rt.exec("rundll32 url.dll,FileProtocolHandler "+url);
             java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -682,7 +705,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 // Save confirmation
                 JOptionPane.showMessageDialog(
                         null, "Successfully Saved", "Confirm", JOptionPane.INFORMATION_MESSAGE);
-            } catch (ExportFileException e) {
+            }
+            catch (ExportFileException e) {
                 e.printStackTrace();
             }
         }
@@ -694,7 +718,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         return n != JOptionPane.YES_OPTION;
     }
 
-    /** Sets the main content for the edu.rpi.legup.user interface */
+    /**
+     * Sets the main content for the edu.rpi.legup.user interface
+     */
     protected void setupContent() {
         //        JPanel consoleBox = new JPanel(new BorderLayout());
         JPanel treeBox = new JPanel(new BorderLayout());
@@ -791,11 +817,14 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         // GameBoardFacade.getInstance().getHistory().undo());
         //        toolBarButtons[ToolbarName.REDO.ordinal()].addActionListener((ActionEvent e) ->
         // GameBoardFacade.getInstance().getHistory().redo());
-        toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e) -> {});
+        toolBarButtons[ToolbarName.HINT.ordinal()].addActionListener((ActionEvent e) -> {
+        });
         toolBarButtons[ToolbarName.CHECK.ordinal()].addActionListener(
                 (ActionEvent e) -> checkProof());
-        toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e) -> {});
-        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e) -> {});
+        toolBarButtons[ToolbarName.SUBMIT.ordinal()].addActionListener((ActionEvent e) -> {
+        });
+        toolBarButtons[ToolbarName.DIRECTIONS.ordinal()].addActionListener((ActionEvent e) -> {
+        });
 
         toolBarButtons[ToolbarName.CHECK_ALL.ordinal()].addActionListener(
                 (ActionEvent e) -> checkProofAll());
@@ -830,7 +859,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         return toolBarButtons;
     }
 
-    /** Checks the proof for correctness */
+    /**
+     * Checks the proof for correctness
+     */
     private void checkProof() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         Tree tree = GameBoardFacade.getInstance().getTree();
@@ -850,7 +881,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 submission.submit();
             }*/
             JOptionPane.showMessageDialog(null, "Congratulations! Your proof is correct.");
-        } else {
+        }
+        else {
             String message = "\nThe game board is not solved.";
             JOptionPane.showMessageDialog(
                     null, message, "Invalid proof.", JOptionPane.ERROR_MESSAGE);
@@ -899,7 +931,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         treePanel.repaintTreeView(GameBoardFacade.getInstance().getTree());
     }
 
-    /** Checks the proof for all files */
+    /**
+     * Checks the proof for all files
+     */
     private void checkProofAll() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
 
@@ -915,12 +949,12 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         LegupPreferences preferences = LegupPreferences.getInstance();
         File preferredDirectory =
-                new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
+                new File(LegupPreferences.LegupPreference.WORK_DIRECTORY.stringValue());
         folderBrowser = new JFileChooser(preferredDirectory);
 
         folderBrowser.showOpenDialog(this);
         folderBrowser.setVisible(true);
-        folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+        folderBrowser.setCurrentDirectory(new File(LegupPreferences.LegupPreference.WORK_DIRECTORY.stringValue()));
         folderBrowser.setDialogTitle("Select Directory");
         folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         folderBrowser.setAcceptAllFileFilterUsed(false);
@@ -939,7 +973,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 String path = folderEntry.getName();
                 traverseDir(folderEntry, writer, path);
             }
-        } catch (IOException ex) {
+        }
+        catch (IOException ex) {
             LOGGER.error(ex.getMessage());
         }
         JOptionPane.showMessageDialog(null, "Batch grading complete.");
@@ -991,13 +1026,16 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                     writer.append(puzzle.getName()).append(",");
                     if (puzzle.isPuzzleComplete()) {
                         writer.append("1,Solved\n");
-                    } else {
+                    }
+                    else {
                         writer.append("0,Unsolved\n");
                     }
-                } catch (InvalidFileFormatException e) {
+                }
+                catch (InvalidFileFormatException e) {
                     writer.append(fName).append(",Invalid,,Ungradeable\n");
                 }
-            } else {
+            }
+            else {
                 LOGGER.debug("Failed to run sim");
             }
         }
@@ -1033,7 +1071,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         frame.setTitle(puzzleName + " - " + puzzleFile.getName() + " *");
     }
 
-    /** Called when the history is cleared */
+    /**
+     * Called when the history is cleared
+     */
     @Override
     public void onClearHistory() {
         // undo.setEnabled(false);
@@ -1046,7 +1086,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * Called when an action is redone
      *
      * @param isBottom true if there are no more actions to undo, false otherwise
-     * @param isTop true if there are no more changes to redo, false otherwise
+     * @param isTop    true if there are no more changes to redo, false otherwise
      */
     @Override
     public void onRedo(boolean isBottom, boolean isTop) {
@@ -1058,7 +1098,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
             File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
             frame.setTitle(puzzleName + " - " + puzzleFile.getName());
-        } else {
+        }
+        else {
             String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
             File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
             frame.setTitle(puzzleName + " - " + puzzleFile.getName() + " *");
@@ -1069,7 +1110,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * Called when an action is undone
      *
      * @param isBottom true if there are no more actions to undo, false otherwise
-     * @param isTop true if there are no more changes to redo, false otherwise
+     * @param isTop    true if there are no more changes to redo, false otherwise
      */
     @Override
     public void onUndo(boolean isBottom, boolean isTop) {
@@ -1081,12 +1122,15 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         File puzzleFile = new File(GameBoardFacade.getInstance().getCurFileName());
         if (isBottom) {
             frame.setTitle(puzzleName + " - " + puzzleFile.getName());
-        } else {
+        }
+        else {
             frame.setTitle(puzzleName + " - " + puzzleFile.getName() + " *");
         }
     }
 
-    /** Submits the proof file */
+    /**
+     * Submits the proof file
+     */
     private void submit() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         Board board = facade.getBoard();
@@ -1106,7 +1150,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 Submission submission = new Submission(board);
                 submission.submit();
             }
-        } else {
+        }
+        else {
             JOptionPane.showConfirmDialog(
                     null,
                     "Your proof is incorrect! Are you sure you wish to submit?",

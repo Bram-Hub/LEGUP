@@ -1,7 +1,8 @@
 package edu.rpi.legup.ui.lookandfeel.components;
 
 import edu.rpi.legup.ui.lookandfeel.animation.MaterialUIMovement;
-import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
+//import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
+import edu.rpi.legup.ui.color.ColorPreferences.UIColor;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialDrawingUtils;
 import java.awt.Graphics;
 import javax.swing.AbstractButton;
@@ -9,6 +10,7 @@ import javax.swing.JComponent;
 import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicButtonUI;
+import edu.rpi.legup.ui.color.ColorPreferences.UIColor;
 
 public class MaterialButtonUI extends BasicButtonUI {
 
@@ -21,7 +23,7 @@ public class MaterialButtonUI extends BasicButtonUI {
         super.installUI(c);
 
         AbstractButton button = (AbstractButton) c;
-        MaterialUIMovement.add(c, MaterialColors.GRAY_300);
+        MaterialUIMovement.add(c, UIColor.UI_MOVEMENT.getOrThrow());
         button.setOpaque(UIManager.getBoolean("Button.opaque"));
         button.setBorder(UIManager.getBorder("Button.border"));
         button.setBackground(UIManager.getColor("Button.background"));

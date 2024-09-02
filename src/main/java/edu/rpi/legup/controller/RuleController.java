@@ -1,20 +1,25 @@
 package edu.rpi.legup.controller;
 
-import static edu.rpi.legup.app.GameBoardFacade.getInstance;
-
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.history.*;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.rules.*;
-import edu.rpi.legup.model.tree.*;
+import edu.rpi.legup.model.tree.TreeElement;
+import edu.rpi.legup.model.tree.TreeElementType;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleButton;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RulePanel;
-import edu.rpi.legup.ui.proofeditorui.treeview.*;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeElementView;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+
+import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class RuleController implements ActionListener {
     protected Object lastSource;
@@ -50,48 +55,54 @@ public class RuleController implements ActionListener {
                     if (caseRuleCommand.canExecute()) {
                         caseRuleCommand.execute();
                         getInstance().getHistory().pushChange(caseRuleCommand);
-                    } else {
+                    }
+                    else {
                         updateErrorString = caseRuleCommand.getError();
                     }
-                } else {
-                    if (LegupPreferences.getInstance()
-                            .getUserPref(LegupPreferences.AUTO_GENERATE_CASES)
-                            .equalsIgnoreCase(Boolean.toString(true))) {
+                }
+                else {
+                    if (LegupPreferences.LegupPreference.AUTO_GENERATE_CASES.asBoolean()) {
                         CaseBoard caseBoard = caseRule.getCaseBoard(element.getBoard());
                         if (caseBoard != null && caseBoard.getCount() > 0) {
                             puzzle.notifyBoardListeners(
                                     listener -> listener.onCaseBoardAdded(caseBoard));
-                        } else {
+                        }
+                        else {
                             updateErrorString = "This board cannot be applied with this case rule.";
                         }
-                    } else {
+                    }
+                    else {
                         updateErrorString =
                                 "Auto generated case rules are turned off in preferences.";
                     }
                 }
-            } else {
+            }
+            else {
                 ICommand caseRuleCommand = new ValidateCaseRuleCommand(selection, caseRule);
                 if (caseRuleCommand.canExecute()) {
                     caseRuleCommand.execute();
                     getInstance().getHistory().pushChange(caseRuleCommand);
-                } else {
+                }
+                else {
                     updateErrorString = caseRuleCommand.getError();
                 }
             }
-        } else {
+        }
+        else {
             if (rule.getRuleType() == RuleType.CONTRADICTION) {
                 ICommand validate =
                         new ValidateContradictionRuleCommand(selection, (ContradictionRule) rule);
                 if (validate.canExecute()) {
                     getInstance().getHistory().pushChange(validate);
                     validate.execute();
-                } else {
+                }
+                else {
                     updateErrorString = validate.getError();
                 }
-            } else {
+            }
+            else {
                 boolean def =
-                        LegupPreferences.getInstance()
-                                .getUserPrefAsBool(LegupPreferences.ALLOW_DEFAULT_RULES);
+                        LegupPreferences.allowDefaultRules();
                 ICommand validate =
                         def
                                 ? new ApplyDefaultDirectRuleCommand(selection, (DirectRule) rule)
@@ -99,7 +110,8 @@ public class RuleController implements ActionListener {
                 if (validate.canExecute()) {
                     getInstance().getHistory().pushChange(validate);
                     validate.execute();
-                } else {
+                }
+                else {
                     updateErrorString = validate.getError();
                 }
             }

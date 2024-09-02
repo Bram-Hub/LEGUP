@@ -2,6 +2,7 @@ package edu.rpi.legup.ui.lookandfeel.materialdesign;
 
 import java.awt.*;
 
+@SuppressWarnings("unused")
 public class MaterialColors {
     public static final Color RED_50 = new Color(255, 235, 238);
     public static final Color RED_100 = new Color(255, 205, 210);
