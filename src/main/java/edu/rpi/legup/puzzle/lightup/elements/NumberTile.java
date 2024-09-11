@@ -1,15 +1,15 @@
 package edu.rpi.legup.puzzle.lightup.elements;
 
-import edu.rpi.legup.model.elements.NonPlaceableElement;
+import edu.rpi.legup.model.elements.PlaceableElement;
 
-public class NumberTile extends NonPlaceableElement {
+public class NumberTile extends PlaceableElement {
 
     int object_number;
 
     // Follow the default format and resolves the NoSuchMethod error
     public NumberTile() {
         super(
-                "LTUP-UNPL-0001",
+                "LTUP-ELEM-0003",
                 "Number Tile",
                 "The number tile",
                 "edu/rpi/legup/images/lightup/1.gif");
@@ -17,7 +17,7 @@ public class NumberTile extends NonPlaceableElement {
 
     public NumberTile(int num) {
         super(
-                "LTUP-UNPL-0001",
+                "LTUP-ELEM-0003",
                 "Number Tile",
                 "The number tile",
                 "edu/rpi/legup/images/lightup/" + num + ".gif");

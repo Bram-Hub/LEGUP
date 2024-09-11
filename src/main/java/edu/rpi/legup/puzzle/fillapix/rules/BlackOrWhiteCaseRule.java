@@ -37,6 +37,9 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
+        if (puzzleElement == null) {
+            return cases;
+        }
 
         Board case1 = board.copy();
         FillapixCell cell1 = (FillapixCell) case1.getPuzzleElement(puzzleElement);

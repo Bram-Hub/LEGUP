@@ -8,8 +8,8 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
-
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ColumnsWithinRowsDirectRule extends DirectRule {
 
@@ -19,25 +19,6 @@ public class ColumnsWithinRowsDirectRule extends DirectRule {
                 "Columns Within Rows",
                 "If a number of columns is fully contained by a number of rows with an equal number of missing stars, spaces of other columns in those rows must be black.",
                 "edu/rpi/legup/images/starbattle/rules/ColumnsWithinRowsDirectRule.png");
-    }
-
-    private void generateSubsets(List<List<Integer>> subsets, int current, int skip, int size) {
-        if (current == size) {
-            return;
-        }
-        List<List<Integer>> newSubsets = new LinkedList<List<Integer>>();
-        if (current != skip) {
-            for (List<Integer> subset: subsets) {
-                List<Integer> copy = new LinkedList<Integer>(subset);
-                copy.add(current);
-                newSubsets.add(copy);
-            }
-            subsets.addAll(newSubsets);
-            List<Integer> oneMember = new LinkedList<Integer>();
-            oneMember.add(current);
-            subsets.add(oneMember);
-        }
-        generateSubsets(subsets, current + 1 == skip ? current + 2 : current + 1, skip, size);
     }
 
     /**
@@ -55,43 +36,52 @@ public class ColumnsWithinRowsDirectRule extends DirectRule {
         // assumption: the rule has been applied to its fullest extent and the rows and columns
         // are now mutually encompassing
         StarBattleBoard board = (StarBattleBoard) transition.getBoard();
-        StarBattleBoard origBoard = (StarBattleBoard) transition.getParents().get(0).getBoard();
         StarBattleCell cell = (StarBattleCell) board.getPuzzleElement(puzzleElement);
-        int dim = board.getSize();
-        int row = cell.getLocation().y;
-        int column = cell.getLocation().x;
-
         if (cell.getType() != StarBattleCellType.BLACK) {
             return "Only black cells are allowed for this rule!";
         }
 
-        List<List<Integer>> subsets = new LinkedList<List<Integer>>();
-        generateSubsets(subsets,0, column, dim);
+        // the columns that are contained
+        Set<Integer> columns = new HashSet<Integer>();
+        // the rows that contain them
+        Set<Integer> rows = new HashSet<Integer>();
+        // columns and rows to process
+        Set<Integer> columnsToCheck = new HashSet<Integer>();
+        Set<Integer> rowsToCheck = new HashSet<Integer>();
+        int columnStars = 0;
+        int rowStars = 0;
+        int firstRow = cell.getLocation().y;
+        rows.add(firstRow);
+        rowsToCheck.add(firstRow);
 
-        for (List<Integer> columnSubset: subsets) {
-            Set<Integer> rows = new HashSet<Integer>();
-            boolean containsRow = false;
-            int columnStars = 0;
-            int rowStars = 0;
-            for (int c: columnSubset) {
-                columnStars += origBoard.columnStars(c);
-                for (StarBattleCell ce: origBoard.getCol(c)) {
-                    if (ce.getType() == StarBattleCellType.UNKNOWN) {
-                        if (rows.add(ce.getLocation().y)) {
-                            rowStars += origBoard.rowStars(ce.getLocation().y);
-                        }
-                        if (ce.getLocation().y == row) {
-                            containsRow = true;
-                        }
+        while (!columnsToCheck.isEmpty() || !rowsToCheck.isEmpty()) {
+            for (int r : rowsToCheck) {
+                rowStars += board.rowStars(r);
+                for (PuzzleElement c : board.getRow(r)) {
+                    int column = ((StarBattleCell) c).getLocation().x;
+                    if (columns.add(column)) {
+                        columnsToCheck.add(column);
                     }
                 }
+                rowsToCheck.remove(r);
             }
-            if (containsRow && board.getPuzzleNumber() * columnSubset.size() - columnStars
-                    >= board.getPuzzleNumber() * rows.size() - rowStars) {
-                return null;
+            for (int c : columnsToCheck) {
+                columnStars += board.columnStars(c);
+                for (PuzzleElement r : board.getCol(c)) {
+                    int row = ((StarBattleCell) r).getLocation().y;
+                    if (rows.add(row)) {
+                        rowsToCheck.add(row);
+                    }
+                }
+                columnsToCheck.remove(c);
             }
         }
-        return "The columns must fully fit within rows with the same number of stars missing!";
+        // are the columns and regions missing an equal amount of stars
+        if (board.getPuzzleNumber() * columns.size() - columnStars
+                != board.getPuzzleNumber() * rows.size() - rowStars) {
+            return "The number of missing stars in the columns and rows must be equal and every extraneous cell must be black!";
+        }
+        return null;
     }
 
     /**

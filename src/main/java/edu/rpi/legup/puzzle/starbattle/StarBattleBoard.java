@@ -97,25 +97,14 @@ public class StarBattleBoard extends GridBoard {
 
     public StarBattleBoard copy() {
         StarBattleBoard copy = new StarBattleBoard(size, puzzleNum);
-        for (int r = 0; r < this.regions.size(); ++r) {
-            StarBattleRegion regionCopy = this.regions.get(r).copy();
-            for (StarBattleCell cell: regionCopy.getCells()) {
-                copy.setCell(cell.getLocation().x, cell.getLocation().y, cell);
-            }
-            copy.setRegion(r, regionCopy);
-        }
-        /*
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {
                 copy.setCell(x, y, getCell(x, y).copy());
             }
-
             if (x < this.regions.size()) {
                 copy.regions.add(this.getRegion(x).copy());
             }
-
         }
-         */
         for (PuzzleElement e : modifiedData) {
             copy.getPuzzleElement(e).setModifiable(false);
         }
