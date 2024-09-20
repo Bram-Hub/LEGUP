@@ -77,4 +77,44 @@ public class StarBattleView extends GridBoardView {
             verticalBorders.add(temp);
         }
     }
+    @Override
+    public void drawBoard(Graphics2D graphics2D){
+        super.drawBoard(graphics2D);
+        int x = 0;
+        int y = 0;
+
+        for(ArrayList<Boolean> border: horizontalBorders){
+            for(Boolean lines: border){
+                if(lines){
+                    //draw a horizontal line
+
+                    StarBattleBorder Horiz = new StarBattleBorder(StarBattleCellType.HORIZ_BORDER);
+                    StarBattleBorderView horizontalBorder = new StarBattleBorderView(Horiz);
+
+                    //offset by an amount that makes puts borders between two vertically adjacent borders
+                    horizontalBorder.setLocation(new Point((x/ gridSize.width) * elementSize.width, (y/gridSize.height) * elementSize.height));
+
+                    //still need to figure out how to translate over a location
+                }
+                y++;//keep track of y index as the program iterates
+            }
+            x++;    //keep track of x index as the program iterates
+        }
+
+        for(ArrayList<Boolean> border: horizontalBorders){
+            for(Boolean lines: border){
+                if(lines){
+                    //draw a vertical line according to the index
+
+                    StarBattleBorder Vert = new StarBattleBorder(StarBattleCellType.VERT_BORDER);
+                    StarBattleBorderView verticalBorder = new StarBattleBorderView(Vert);
+
+                    //offset by an amount that makes puts borders between two horizontally adjacent borders
+                    verticalBorder.setLocation(new Point((x/ gridSize.width) * elementSize.width, (y/gridSize.height) * elementSize.height));
+                }
+                x++;//keep track of x index, and yes I'm pretty sure the x and y axes are swapped
+            }
+            y++;    //keep track of y index
+        }
+    }
 }
