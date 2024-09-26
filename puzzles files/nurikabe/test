@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="3.0.0">
+    <saved/>
+    <puzzle name="Nurikabe">
+        <board height="5" width="5" >
+            <cells>
+                <cell value="3" x="2" y="2"/>
+            </cells>
+        </board>
+    </puzzle>
+    <solved isSolved="0" lastSaved="--"/>
+</Legup>
