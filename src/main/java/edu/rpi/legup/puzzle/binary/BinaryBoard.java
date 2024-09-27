@@ -2,7 +2,7 @@ package edu.rpi.legup.puzzle.binary;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,13 +20,6 @@ public class BinaryBoard extends GridBoard {
         this.size = size;
     }
 
-    /**
-     * Gets the cell at the (x,y) position
-     *
-     * @param x x-coordinate
-     * @param y y-coordinate
-     * @return BinaryCell cell at (x,y)
-     */
     @Override
     public BinaryCell getCell(int x, int y) {
         if (y * dimension.width + x >= puzzleElements.size()
@@ -39,12 +32,6 @@ public class BinaryBoard extends GridBoard {
         return (BinaryCell) super.getCell(x, y);
     }
 
-    /**
-     * Get all the binary cells in a row
-     *
-     * @param rowNum row number
-     * @return set of all binary cells in specified rowNum
-     */
     public Set<BinaryCell> getRowCells(int rowNum) {
         Set<BinaryCell> row = new HashSet<>();
         for (int i = 0; i < size; i++) {
@@ -54,26 +41,6 @@ public class BinaryBoard extends GridBoard {
         return row;
     }
 
-    /**
-     *  Get all the binary cells in a column
-     *
-     * @param colNum column number
-     * @return set of all binary cells in specified colNum
-     */
-    public Set<BinaryCell> getColCells(int colNum) {
-        Set<BinaryCell> col = new HashSet<>();
-        for (int i = 0; i < size; i++) {
-            col.add(getCell(colNum, i));
-        }
-        return col;
-    }
-
-    /**
-     *  Get all the binary types in a row
-     *
-     * @param rowNum row number
-     * @return ArrayList of all binary types in specified rowNum
-     */
     public ArrayList<BinaryType> getRowTypes(int rowNum) {
         ArrayList<BinaryType> row = new ArrayList<BinaryType>();
         for (int i = 0; i < size; i++) {
@@ -83,12 +50,6 @@ public class BinaryBoard extends GridBoard {
         return row;
     }
 
-    /**
-     *  Get all the binary types in a column
-     *
-     * @param colNum column number
-     * @return ArrayList of all binary types in specified colNum
-     */
     public ArrayList<BinaryType> getColTypes(int colNum) {
         ArrayList<BinaryType> col = new ArrayList<BinaryType>();
         for (int i = 0; i < size; i++) {
@@ -98,12 +59,17 @@ public class BinaryBoard extends GridBoard {
         return col;
     }
 
-    /**
-     * Get a copy of the binary board
-     * @return copy of current BinaryBoard
-     */
+    public Set<BinaryCell> getCol(int colNum) {
+        Set<BinaryCell> col = new HashSet<>();
+        for (int i = 0; i < size; i++) {
+            col.add(getCell(colNum, i));
+        }
+        return col;
+    }
+
     @Override
     public BinaryBoard copy() {
+        System.out.println("BinaryBoard copy()");
         BinaryBoard copy = new BinaryBoard(dimension.width, dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {

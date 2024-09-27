@@ -1,12 +1,11 @@
 package edu.rpi.legup.ui;
 
-/**
- * This enum defines constants for toolbar names used in the user interface.
- * Each represents a specific toolbar action.
- */
 public enum ToolbarName {
+    HINT,
+    CHECK,
+    SUBMIT,
     DIRECTIONS,
-    CHECK;
+    CHECK_ALL;
 
     /**
      * Gets the String representation of the ToolbarName enum

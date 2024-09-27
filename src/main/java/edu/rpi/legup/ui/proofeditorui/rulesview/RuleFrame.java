@@ -10,13 +10,6 @@ import java.awt.Dimension;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-/**
- * The {@code RuleFrame} class is a panel that contains and manages multiple rule-related panels
- * within a tabbed interface. It extends {@link JPanel} and organizes the display of various rule types
- * such as direct rules, contradiction rules, and case rules.
- * The frame uses a {@link JTabbedPane} to allow users to switch between different rule panels.
- * It also includes a search bar panel and a status label for displaying additional information.
- */
 public class RuleFrame extends JPanel {
     private static final String checkBox = "<font style=\"color:#00CD00\"> \u2714 </font>";
     private static final String xBox = "<font style=\"color:#FF0000\"> \u2718 </font>";
@@ -35,12 +28,6 @@ public class RuleFrame extends JPanel {
 
     private RuleController controller;
 
-    /**
-     * Constructs a new {@code RuleFrame} instance.
-     * Initializes the frame with tabs for the different rule panels, a search bar panel, and a status label.
-     *
-     * @param controller the {@link RuleController} instance that manages the rules for this frame
-     */
     public RuleFrame(RuleController controller) {
 
         MaterialTabbedPaneUI tabOverride =
@@ -131,7 +118,7 @@ public class RuleFrame extends JPanel {
     /**
      * Set the status label to a value. Use resetStatus to clear it.
      *
-     * @param check true if we want a checkbox, if false we'll have a red x box
+     * @param check true iff we want a check box, if false we'll have a red x box
      * @param text the text we're setting the label to display
      */
     public void setStatus(boolean check, String text) {
@@ -169,47 +156,22 @@ public class RuleFrame extends JPanel {
         return controller;
     }
 
-    /**
-     * Gets the JTabbedPane used in this frame
-     *
-     * @return the JTabbedPane instance
-     */
     public JTabbedPane getTabbedPane() {
         return tabbedPane;
     }
 
-    /**
-     * Gets the {@code DirectRulePanel} contained in this frame
-     *
-     * @return the {@link DirectRulePanel} instance
-     */
     public DirectRulePanel getDirectRulePanel() {
         return DirectRulePanel;
     }
 
-    /**
-     * Gets the {@code CaseRulePanel} contained in this frame
-     *
-     * @return the {@link CaseRulePanel} instance
-     */
     public CaseRulePanel getCasePanel() {
         return casePanel;
     }
 
-    /**
-     * Gets the {@code ContradictionRulePanel} contained in this frame
-     *
-     * @return the {@link ContradictionRulePanel} instance
-     */
     public ContradictionRulePanel getContradictionPanel() {
         return contradictionPanel;
     }
 
-    /**
-     * Gets the {@code SearchBarPanel} contained in this frame
-     *
-     * @return the {@link SearchBarPanel} instance
-     */
     public SearchBarPanel getSearchPanel() {
         return searchPanel;
     }

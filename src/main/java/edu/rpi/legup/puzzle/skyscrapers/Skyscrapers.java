@@ -46,7 +46,7 @@ public class Skyscrapers extends Puzzle {
      * @return true if the given dimensions are valid for Skyscrapers, false otherwise
      */
     public boolean isValidDimensions(int rows, int columns) {
-        return rows >= 3 && rows == columns;
+        return rows >= 4 && rows == columns;
     }
 
     /**

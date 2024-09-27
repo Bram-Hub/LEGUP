@@ -1,8 +1,8 @@
 package edu.rpi.legup.puzzle.starbattle.elements;
 
-import edu.rpi.legup.model.elements.PlaceableElement;
+import edu.rpi.legup.model.elements.NonPlaceableElement;
 
-public class UnknownTile extends PlaceableElement {
+public class UnknownTile extends NonPlaceableElement {
     public UnknownTile() {
         super(
                 "STBL-UNPL-0001",

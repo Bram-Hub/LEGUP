@@ -6,7 +6,7 @@ public class GrassTile extends PlaceableElement {
 
     public GrassTile() {
         super(
-                "TREE-ELEM-0001",
+                "TREE-PlAC-0002",
                 "Grass Tile",
                 "The grass crest tile",
                 "edu/rpi/legup/images/treetent/grass.png");
