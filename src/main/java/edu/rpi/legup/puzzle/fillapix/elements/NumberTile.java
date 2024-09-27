@@ -1,13 +1,13 @@
 package edu.rpi.legup.puzzle.fillapix.elements;
 
-import edu.rpi.legup.model.elements.PlaceableElement;
+import edu.rpi.legup.model.elements.NonPlaceableElement;
 
-public class NumberTile extends PlaceableElement {
+public class NumberTile extends NonPlaceableElement {
     private int object_num;
 
     public NumberTile() {
         super(
-                "FPIX-ELEM-0002",
+                "FPIX-UNPL-0001",
                 "Number Tile",
                 "A numbered tile",
                 "edu/rpi/legup/images/fillapix/tiles/NumberTile.png");

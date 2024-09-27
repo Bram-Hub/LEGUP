@@ -15,11 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-/**
- * A dialog for selecting a game.
- * This class extends {@link JDialog} and implements {@link ActionListener}
- * to handle user interactions for selecting a game type and puzzle file.
- */
 public class PickGameDialog extends JDialog implements ActionListener {
     JLabel gameLabel = new JLabel("Game:");
     String[] games;
@@ -111,10 +106,6 @@ public class PickGameDialog extends JDialog implements ActionListener {
         c.add(autojustifyCheckBox);
     }
 
-    /**
-     * Initializes the available games and puzzles.
-     * Populates the {@link JComboBox} with game types and sets up the puzzle options.
-     */
     public void initPuzzles() {
         Object[] o = GameBoardFacade.getInstance().getConfig().getPuzzleClassNames().toArray();
 
@@ -137,31 +128,14 @@ public class PickGameDialog extends JDialog implements ActionListener {
         gameBox = new JComboBox(games);
     }
 
-    /**
-     * Gets the selected puzzle file path
-     *
-     * @return the puzzle file path as a String
-     */
     public String getPuzzle() {
         return puzzleBox.getText();
     }
 
-    /**
-     * Returns the selected puzzle
-     *
-     * @return the selected puzzle as a String
-     */
     public String getGame() {
         return (String) gameBox.getSelectedItem();
     }
 
-    /**
-     * Handles action events for the dialog components.
-     * Responds to user interactions such as selecting a puzzle, choosing a puzzle file,
-     * and pressing the 'Ok' or 'Cancel' buttons.
-     *
-     * @param e the action event
-     */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == gameBox) {
             int index = gameBox.getSelectedIndex();

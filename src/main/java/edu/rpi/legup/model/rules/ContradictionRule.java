@@ -6,10 +6,6 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeTransition;
 
-/**
- * ContradictionRule is an abstract class representing a rule that identifies contradictions in a puzzle.
- * It provides methods to check for contradictions both globally and at specific puzzle elements.
- */
 public abstract class ContradictionRule extends Rule {
 
     private final String NO_CONTRADICTION_MESSAGE =

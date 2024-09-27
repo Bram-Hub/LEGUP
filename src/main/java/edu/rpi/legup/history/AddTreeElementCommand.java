@@ -10,11 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-/**
- * The AddTreeElementCommand class represents a command to add tree elements to the proof tree.
- * It extends the PuzzleCommand class to handle the addition of tree elements and undo operation.
- */
 public class AddTreeElementCommand extends PuzzleCommand {
 
     private TreeViewSelection selection;
@@ -32,10 +27,7 @@ public class AddTreeElementCommand extends PuzzleCommand {
         this.addChild = new HashMap<>();
     }
 
-    /**
-     * Executes the command to add selected tree elements to the tree.
-     * Updates the puzzle and tree view accordingly
-     */
+    /** Executes an command */
     @Override
     public void executeCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
@@ -103,10 +95,7 @@ public class AddTreeElementCommand extends PuzzleCommand {
         return null;
     }
 
-    /**
-     * Undoes the command by removing the added tree elements.
-     * Updates the puzzle and tree view accordingly
-     */
+    /** Undoes an command */
     @Override
     public void undoCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();

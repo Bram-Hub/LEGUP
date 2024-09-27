@@ -85,11 +85,6 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
     @SuppressWarnings("unchecked")
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
-
-        if (puzzleElement == null) {
-            return new ArrayList<Board>();
-        }
-
         ShortTruthTableBoard sttBoard = ((ShortTruthTableBoard) board);
         ShortTruthTableCell cell = sttBoard.getCellFromElement(puzzleElement);
 

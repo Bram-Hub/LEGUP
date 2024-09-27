@@ -6,11 +6,6 @@ import edu.rpi.legup.puzzle.treetent.TreeTentClue;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-/**
- * GridBoard represents a grid-based board where each cell can be manipulated based on its
- * coordinates. The board supports operations such as getting and setting cells, and provides
- * dimensions of the grid. It also supports deep copying of the board.
- */
 public class GridBoard extends Board {
 
     protected Dimension dimension;

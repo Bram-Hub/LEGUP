@@ -10,11 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * The ApplyDefaultDirectRuleCommand class represents a command to apply a default direct rule
- * to selected tree nodes in the proof tree.
- * It extends the PuzzleCommand class to handle rule application and undo operation.
- */
 public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
 
     private TreeViewSelection selection;
@@ -74,10 +69,7 @@ public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
         return null;
     }
 
-    /**
-     * Executes the command to apply the default rule to the selected tree nodes.
-     * Updates the puzzle and tree view accordingly.
-     */
+    /** Executes an command */
     @Override
     public void executeCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
@@ -117,10 +109,7 @@ public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
     }
 
-    /**
-     * Undoes the command by removing the applied default rule from the tree nodes.
-     * Updates the puzzle and tree view accordingly.
-     */
+    /** Undoes an command */
     @Override
     public void undoCommand() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();

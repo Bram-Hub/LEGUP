@@ -24,7 +24,7 @@ public class BlackOrWhiteCaseRule extends CaseRule {
 
     /**
      * Checks whether the {@link TreeTransition} logically follows from the parent node using this
-     * rule. This method is the one that should be overridden in child classes.
+     * rule. This method is the one that should overridden in child classes.
      *
      * @param transition transition to check
      * @return null if the child node logically follow from the parent node, otherwise error message
@@ -84,10 +84,6 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
-        if (puzzleElement == null) {
-            return cases;
-        }
-
         Board case1 = board.copy();
         PuzzleElement data1 = case1.getPuzzleElement(puzzleElement);
         data1.setData(NurikabeType.WHITE.toValue());

@@ -1,2 +1,0 @@
-SUDO-ELEM-0001 : NumberTile
-SUDO-ELEM-0002 : UnknownTile

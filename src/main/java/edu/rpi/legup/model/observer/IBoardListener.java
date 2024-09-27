@@ -4,10 +4,6 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeElement;
 
-/**
- * IBoardListener defines methods for receiving notifications about changes to the board,
- * including updates to tree elements, case boards, and puzzle elements.
- */
 public interface IBoardListener {
     /**
      * Called when the tree element has changed.
@@ -17,7 +13,7 @@ public interface IBoardListener {
     void onTreeElementChanged(TreeElement treeElement);
 
     /**
-     * Called when a case board has been added to the view.
+     * Called when the a case board has been added to the view.
      *
      * @param caseBoard case board to be added
      */

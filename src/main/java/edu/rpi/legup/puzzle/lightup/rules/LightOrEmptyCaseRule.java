@@ -44,10 +44,6 @@ public class LightOrEmptyCaseRule extends CaseRule {
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
-        if (puzzleElement == null) {
-            return cases;
-        }
-
         Board case1 = board.copy();
         PuzzleElement data1 = case1.getPuzzleElement(puzzleElement);
         data1.setData(-4);

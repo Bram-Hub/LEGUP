@@ -5,10 +5,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/**
- * {@code Controller} is an abstract class designed to handle various mouse events and provide control functionality for a {@code ScrollView}.
- * It implements several mouse event interfaces to manage interactions such as panning and zooming within a {@code ScrollView}
- */
 public abstract class Controller implements MouseMotionListener, MouseListener, MouseWheelListener {
     protected ScrollView viewer;
     private int x, y;
@@ -23,11 +19,6 @@ public abstract class Controller implements MouseMotionListener, MouseListener, 
         pan = false;
     }
 
-    /**
-     * Sets the ScrollView instance that this controller manages
-     *
-     * @param viewer The ScrollView instance to be set
-     */
     public void setViewer(ScrollView viewer) {
         this.viewer = viewer;
     }
