@@ -26,10 +26,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * The {@code HomePanel} class represents the home panel of the LEGUP application.
- * This panel provides buttons for functionalities of opening the proof editor,
- * opening the puzzle editor, and performing batch grading. It also includes a menu bar with
- * options for preferences.
+ * The {@code HomePanel} class represents the home panel of the LEGUP application. This panel
+ * provides buttons for functionalities of opening the proof editor, opening the puzzle editor, and
+ * performing batch grading. It also includes a menu bar with options for preferences.
  */
 public class HomePanel extends LegupPanel {
     private static final Logger LOGGER = LogManager.getLogger(HomePanel.class.getName());
@@ -42,9 +41,7 @@ public class HomePanel extends LegupPanel {
 
     private final int buttonSize = 100;
 
-    /**
-     * Initialize the proof solver to an empty panel with no puzzle
-     */
+    /** Initialize the proof solver to an empty panel with no puzzle */
     private ActionListener openProofListener =
             new ActionListener() {
                 @Override
@@ -101,9 +98,7 @@ public class HomePanel extends LegupPanel {
         return this.menuBar;
     }
 
-    /**
-     * Makes the panel visible and sets the menu bar of the frame
-     */
+    /** Makes the panel visible and sets the menu bar of the frame */
     @Override
     public void makeVisible() {
         render();
@@ -124,9 +119,7 @@ public class HomePanel extends LegupPanel {
         return new ImageIcon(resizedImage);
     }
 
-    /**
-     * Initializes the buttons for this panel
-     */
+    /** Initializes the buttons for this panel */
     private void initButtons() {
         this.buttons = new JButton[3];
 
@@ -188,8 +181,8 @@ public class HomePanel extends LegupPanel {
     }
 
     /**
-     * Opens a folder chooser dialog and grades puzzles in the selected folder.
-     * The results are written to a CSV file.
+     * Opens a folder chooser dialog and grades puzzles in the selected folder. The results are
+     * written to a CSV file.
      */
     public void checkFolder() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
@@ -276,12 +269,12 @@ public class HomePanel extends LegupPanel {
     }
 
     /**
-     * Processes XML files within a selected directory and generates a CSV report on their "solved?" status.
-     * The method allows the user to select a directory, and evaluates each XML file for a "solved?" status.
-     * Results are saved in a "result.csv" file.
+     * Processes XML files within a selected directory and generates a CSV report on their "solved?"
+     * status. The method allows the user to select a directory, and evaluates each XML file for a
+     * "solved?" status. Results are saved in a "result.csv" file.
      *
-     * @effect Selects a directory, processes each XML file to check for "solved?" status,
-     *         and writes results to "result.csv". Opens the CSV file upon completion.
+     * @effect Selects a directory, processes each XML file to check for "solved?" status, and
+     *     writes results to "result.csv". Opens the CSV file upon completion.
      */
     private void use_xml_to_check() {
         /* Select a folder, go through each .xml file in the subfolders, look for "isSolved" flag */
@@ -481,8 +474,8 @@ public class HomePanel extends LegupPanel {
     }
 
     /**
-     * Initializes the text labels for the user interface.
-     * Sets up labels for welcome message, led by Bram, and version information.
+     * Initializes the text labels for the user interface. Sets up labels for welcome message, led
+     * by Bram, and version information.
      */
     private void initText() {
         // TODO: add version text after auto-changing version label is implemented. (text[2] =
@@ -505,9 +498,7 @@ public class HomePanel extends LegupPanel {
         this.text[1] = credits;
     }
 
-    /**
-     * Renders the user interface components
-     */
+    /** Renders the user interface components */
     private void render() {
         this.removeAll();
 
@@ -536,7 +527,8 @@ public class HomePanel extends LegupPanel {
     /**
      * Opens the puzzle editor dialog with no selected puzzle, leaving a blank panel
      *
-     * @throws IllegalArgumentException if the configuration parameters are invalid (should never happen)
+     * @throws IllegalArgumentException if the configuration parameters are invalid (should never
+     *     happen)
      */
     private void openPuzzleEditorDialog() {
         String game = "";
@@ -668,11 +660,10 @@ public class HomePanel extends LegupPanel {
      */
     public void openEditorWithNewPuzzle(String game, int rows, int columns)
             throws IllegalArgumentException {
-        if (game.equals("")) {
+        if (game.isEmpty()) {
             this.legupUI.displayPanel(2);
             this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, rows, columns);
-        }
-        else {
+        } else {
             // Validate the dimensions
             GameBoardFacade facade = GameBoardFacade.getInstance();
             boolean isValidDimensions = facade.validateDimensions(game, rows, columns);
@@ -695,7 +686,6 @@ public class HomePanel extends LegupPanel {
             this.legupUI.displayPanel(2);
             this.legupUI.getPuzzleEditor().loadPuzzleFromHome(game, rows, columns);
         }
-
     }
 
     /**

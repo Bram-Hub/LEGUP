@@ -6,7 +6,6 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.puzzle.binary.BinaryBoard;
 import edu.rpi.legup.puzzle.binary.BinaryCell;
 import edu.rpi.legup.puzzle.binary.BinaryType;
-
 import java.util.Set;
 
 public class UnbalancedRowColumnContradictionRule extends ContradictionRule {
@@ -55,7 +54,6 @@ public class UnbalancedRowColumnContradictionRule extends ContradictionRule {
         if (rowNumZeros > size / 2 || rowNumOnes > size / 2) {
             return null;
         }
-
 
         Set<BinaryCell> col = binaryBoard.getColCells(cell.getLocation().x);
 

@@ -5,9 +5,9 @@ import edu.rpi.legup.utility.DisjointSets;
 import java.util.*;
 
 /**
- * Represents a node in a tree structure. Extends {@link TreeElement}.
- * A {@code TreeNode} contains a board, references to its parent and children transitions, and indicates
- * if it is the root node of the tree.
+ * Represents a node in a tree structure. Extends {@link TreeElement}. A {@code TreeNode} contains a
+ * board, references to its parent and children transitions, and indicates if it is the root node of
+ * the tree.
  */
 public class TreeNode extends TreeElement {
     private TreeTransition parent;
@@ -332,8 +332,8 @@ public class TreeNode extends TreeElement {
     }
 
     /**
-     * Clears all children transitions from this tree node.
-     * After calling this method, the node will have no child transitions.
+     * Clears all children transitions from this tree node. After calling this method, the node will
+     * have no child transitions.
      */
     public void clearChildren() {
         this.children.clear();

@@ -6,16 +6,16 @@ import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The ValidateDirectRuleCommand class represents a command for validating and applying a DirectRule
- * to a set of selected tree elements. It extends the PuzzleCommand class and implements the ICommand interface.
+ * to a set of selected tree elements. It extends the PuzzleCommand class and implements the
+ * ICommand interface.
  */
 public class ValidateDirectRuleCommand extends PuzzleCommand {
     private static final Logger LOGGER = LogManager.getLogger(History.class.getName());
@@ -38,9 +38,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
         this.addNode = new HashMap<>();
     }
 
-    /**
-     * Executes the command to validate and apply the DirectRule.
-     */
+    /** Executes the command to validate and apply the DirectRule. */
     @Override
     public void executeCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
@@ -116,7 +114,6 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
     }
 
-
     /**
      * Gets the reason why the command cannot be executed
      *
@@ -146,9 +143,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
         return null;
     }
 
-    /**
-     * Undoes the validation command, restoring the previous state.
-     */
+    /** Undoes the validation command, restoring the previous state. */
     @Override
     public void undoCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
@@ -162,7 +157,6 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
                 transitionView = nodeView.getChildrenViews().get(0);
             } else {
                 transitionView = (TreeTransitionView) selectedView;
-
             }
             TreeTransition transition = transitionView.getTreeElement();
 

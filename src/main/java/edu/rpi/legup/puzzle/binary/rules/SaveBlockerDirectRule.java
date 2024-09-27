@@ -8,7 +8,7 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.binary.BinaryBoard;
 import edu.rpi.legup.puzzle.binary.BinaryCell;
 
-public class SaveBlockerDirectRule extends DirectRule  {
+public class SaveBlockerDirectRule extends DirectRule {
 
     private final String INVALID_USE_MESSAGE = "Number at cell is incorrect";
 
@@ -35,7 +35,8 @@ public class SaveBlockerDirectRule extends DirectRule  {
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
         BinaryBoard modified = origBoard.copy();
 
-        // Flip the cell and check to see if a blocker digit is wasted, if so the rule is applied correctly
+        // Flip the cell and check to see if a blocker digit is wasted, if so the rule is applied
+        // correctly
         modified.getPuzzleElement(puzzleElement).setData(Math.abs(binaryCell.getData() - 1));
         if (contraRule.checkContradictionAt(modified, binaryCell) == null) {
             return null;
@@ -55,6 +56,4 @@ public class SaveBlockerDirectRule extends DirectRule  {
     public Board getDefaultBoard(TreeNode node) {
         return null;
     }
-
-
 }

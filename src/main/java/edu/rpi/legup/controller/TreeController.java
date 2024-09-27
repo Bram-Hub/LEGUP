@@ -12,8 +12,8 @@ import java.awt.event.MouseWheelEvent;
 import javax.swing.*;
 
 /**
- * The TreeController class handles UI events from a TreePanel.
- * It extends the Controller class to provide specific behavior for tree interactions
+ * The TreeController class handles UI events from a TreePanel. It extends the Controller class to
+ * provide specific behavior for tree interactions
  */
 public class TreeController extends Controller {
     /**

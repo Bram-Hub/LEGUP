@@ -2,7 +2,6 @@ package edu.rpi.legup.ui.puzzleeditorui.elementsview;
 
 import edu.rpi.legup.controller.EditorElementController;
 import edu.rpi.legup.model.Puzzle;
-import edu.rpi.legup.ui.lookandfeel.components.MaterialTabbedPaneUI;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -14,7 +13,7 @@ public class ElementFrame extends JPanel {
     private static final String htmlTail = "</html>";
 
     private PlaceableElementPanel placeableElementPanel;
-    //private JTabbedPane tabbedPane;
+    // private JTabbedPane tabbedPane;
     private ButtonGroup buttonGroup;
 
     private EditorElementController controller;
@@ -53,12 +52,12 @@ public class ElementFrame extends JPanel {
         return buttonGroup;
     }
 
-//    public void resetSize() {
-//        int buttonWidth =
-//                ((ElementPanel) tabbedPane.getSelectedComponent())
-//                        .getElementButtons()[0].getWidth();
-//        this.setMinimumSize(new Dimension(2 * buttonWidth + 64, this.getHeight()));
-//    }
+    //    public void resetSize() {
+    //        int buttonWidth =
+    //                ((ElementPanel) tabbedPane.getSelectedComponent())
+    //                        .getElementButtons()[0].getWidth();
+    //        this.setMinimumSize(new Dimension(2 * buttonWidth + 64, this.getHeight()));
+    //    }
 
     public void setElements(Puzzle puzzle) {
         if (puzzle != null) {
@@ -70,9 +69,9 @@ public class ElementFrame extends JPanel {
         return controller;
     }
 
-//    public JTabbedPane getTabbedPane() {
-//        return tabbedPane;
-//    }
+    //    public JTabbedPane getTabbedPane() {
+    //        return tabbedPane;
+    //    }
 
     public PlaceableElementPanel getPlaceableElementPanel() {
         return placeableElementPanel;

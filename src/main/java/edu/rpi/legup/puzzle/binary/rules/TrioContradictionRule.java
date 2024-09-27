@@ -21,8 +21,8 @@ public class TrioContradictionRule extends ContradictionRule {
     }
 
     /**
-     * This method checks the surrounding cells of a given puzzle element at a specified distance
-     * in both the vertical and horizontal directions
+     * This method checks the surrounding cells of a given puzzle element at a specified distance in
+     * both the vertical and horizontal directions
      *
      * @param board The board where the puzzle elements are located
      * @param puzzleElement The puzzle element from which the distance is calculated
@@ -58,8 +58,8 @@ public class TrioContradictionRule extends ContradictionRule {
     }
 
     /**
-     * Checks whether the cell and its two surrounding cells form a trio of zeros or ones;
-     * If a trio is found, it indicates a contradiction
+     * Checks whether the cell and its two surrounding cells form a trio of zeros or ones; If a trio
+     * is found, it indicates a contradiction
      *
      * @param board The board where the puzzle elements are located
      * @param puzzleElement The puzzle element to check for contradiction
@@ -120,8 +120,8 @@ public class TrioContradictionRule extends ContradictionRule {
     }
 
     /**
-     * Checks whether there are two of the same cell type separated by one cell that also has
-     * the same type in any direction. If a trio is found, it indicates a contradiction
+     * Checks whether there are two of the same cell type separated by one cell that also has the
+     * same type in any direction. If a trio is found, it indicates a contradiction
      *
      * @param board The board where the puzzle elements are located
      * @param puzzleElement The puzzle element to check for contradiction

@@ -1,4 +1,3 @@
-
 package edu.rpi.legup.puzzle.sudoku.elements;
 
 import edu.rpi.legup.model.elements.PlaceableElement;

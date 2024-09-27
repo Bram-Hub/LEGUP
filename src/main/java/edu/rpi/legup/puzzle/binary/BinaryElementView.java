@@ -24,7 +24,6 @@ public class BinaryElementView extends GridElementView {
         return (BinaryCell) super.getPuzzleElement();
     }
 
-
     /**
      * Draws the cells provided in the puzzle's .xml file with light gray background
      *
@@ -49,7 +48,7 @@ public class BinaryElementView extends GridElementView {
      * Helper method to handle drawing the cell based on its type and background color
      *
      * @param graphics2D The graphics object to draw on
-     * @param bgColor    The background color for the cell
+     * @param bgColor The background color for the cell
      */
     private void drawCell(Graphics2D graphics2D, Color bgColor) {
         BinaryCell cell = (BinaryCell) puzzleElement;
@@ -86,4 +85,3 @@ public class BinaryElementView extends GridElementView {
         graphics2D.drawString(value, xText, yText);
     }
 }
-

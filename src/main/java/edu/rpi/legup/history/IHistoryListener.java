@@ -1,9 +1,9 @@
 package edu.rpi.legup.history;
 
 /**
- * The IHistoryListener interface defines methods for listening to changes in the history of commands.
- * Implementations of this interface can respond to events related to command history such as pushing,
- * undoing, redoing commands, and clearing the history.
+ * The IHistoryListener interface defines methods for listening to changes in the history of
+ * commands. Implementations of this interface can respond to events related to command history such
+ * as pushing, undoing, redoing commands, and clearing the history.
  */
 public interface IHistoryListener {
 
@@ -30,8 +30,6 @@ public interface IHistoryListener {
      */
     void onRedo(boolean isBottom, boolean isTop);
 
-    /**
-     * Called when the history stack is cleared.
-     */
+    /** Called when the history stack is cleared. */
     void onClearHistory();
 }

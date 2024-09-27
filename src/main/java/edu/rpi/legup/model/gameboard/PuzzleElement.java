@@ -5,7 +5,8 @@ import java.awt.event.MouseEvent;
 
 /**
  * PuzzleElement represents a single element in a puzzle grid. It holds data and provides various
- * methods to manage and retrieve its properties, including modifiability, modification status, and validity.
+ * methods to manage and retrieve its properties, including modifiability, modification status, and
+ * validity.
  *
  * @param <T> the type of data held by the PuzzleElement
  */

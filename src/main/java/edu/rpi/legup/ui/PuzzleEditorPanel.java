@@ -10,14 +10,9 @@ import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
-import edu.rpi.legup.model.tree.Tree;
-import edu.rpi.legup.model.tree.TreeNode;
-import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
-import edu.rpi.legup.ui.HomePanel;
 import edu.rpi.legup.ui.boardview.BoardView;
-import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 import edu.rpi.legup.ui.puzzleeditorui.elementsview.ElementFrame;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -27,7 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.util.List;
 import java.util.Objects;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -35,9 +29,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Represents the panel used for puzzle editor in the LEGUP.
- * This panel includes a variety of UI components such as toolbars, menus, and split panes.
- * It handles puzzle file operations, including creating and editing puzzles.
+ * Represents the panel used for puzzle editor in the LEGUP. This panel includes a variety of UI
+ * components such as toolbars, menus, and split panes. It handles puzzle file operations, including
+ * creating and editing puzzles.
  */
 public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
@@ -71,7 +65,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private File puzzleFile;
 
     /**
-     * Constructs a {@code PuzzleEditorPanel} with the specified file dialog, frame, and Legup UI instance
+     * Constructs a {@code PuzzleEditorPanel} with the specified file dialog, frame, and Legup UI
+     * instance
      *
      * @param fileDialog the file dialog used for file operations
      * @param frame the main application frame
@@ -86,8 +81,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     /**
-     * Sets up the content of the panel, including the layout and UI components.
-     * Initializes and configures the {@code DynamicView} and {@code ElementFrame}, and adds them to the panel.
+     * Sets up the content of the panel, including the layout and UI components. Initializes and
+     * configures the {@code DynamicView} and {@code ElementFrame}, and adds them to the panel.
      */
     protected void setupContent() {
         JSplitPane splitPanel;
@@ -121,9 +116,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     /**
-     * Configures the menu bar with menus and menu items for the application.
-     * Adds actions for opening, creating, and exiting puzzles.
-     * Also sets up help and about menu items.
+     * Configures the menu bar with menus and menu items for the application. Adds actions for
+     * opening, creating, and exiting puzzles. Also sets up help and about menu items.
      */
     public void setMenuBar() {
         String os = LegupUI.getOS();
@@ -147,13 +141,14 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
         // file>create
         JMenuItem createPuzzle = new JMenuItem("Create");
-        createPuzzle.addActionListener((ActionEvent) -> {
-            hp = new HomePanel(this.frame, this.legupUI);
-            cpd = new CreatePuzzleDialog(this.frame, hp);
-            cpd.setLocationRelativeTo(null);
-            cpd.setVisible(true);
-            existingPuzzle = false;
-        });
+        createPuzzle.addActionListener(
+                (ActionEvent) -> {
+                    hp = new HomePanel(this.frame, this.legupUI);
+                    cpd = new CreatePuzzleDialog(this.frame, hp);
+                    cpd.setLocationRelativeTo(null);
+                    cpd.setVisible(true);
+                    existingPuzzle = false;
+                });
         if (os.equals("mac")) {
             createPuzzle.setAccelerator(
                     KeyStroke.getKeyStroke(
@@ -161,7 +156,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         } else {
             createPuzzle.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_DOWN_MASK));
         }
-
 
         JMenuItem exit = new JMenuItem("Exit");
         exit.addActionListener((ActionEvent) -> exitEditor());
@@ -174,7 +168,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
         menus[0].add(openPuzzle);
         menus[0].add(createPuzzle);
-        //menus[0].add(directSavePuzzle);
+        // menus[0].add(directSavePuzzle);
         menus[0].add(exit);
 
         // EDIT
@@ -186,7 +180,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         fitBoardToScreen = new JMenuItem("Fit Board to Screen");
 
         // TODO: Undo operation currently does not get updated correctly in history
-        //menus[1].add(undo);
+        // menus[1].add(undo);
         undo.addActionListener((ActionEvent) -> GameBoardFacade.getInstance().getHistory().undo());
         if (os.equals("mac")) {
             undo.setAccelerator(
@@ -197,7 +191,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
 
         // TODO: Redo operation currently does not get updated correctly in history
-        //menus[1].add(redo);
+        // menus[1].add(redo);
         // Created action to support two keybinds (CTRL-SHIFT-Z, CTRL-Y)
         Action redoAction =
                 new AbstractAction() {
@@ -272,10 +266,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     /**
-     * Exits the puzzle editor and resets the application state to its initial condition.
-     * This method clears the current puzzle from the {@code GameBoardFacade},
-     * resets the display to the initial panel, and nullifies references to the
-     * tree panel and board view.
+     * Exits the puzzle editor and resets the application state to its initial condition. This
+     * method clears the current puzzle from the {@code GameBoardFacade}, resets the display to the
+     * initial panel, and nullifies references to the tree panel and board view.
      */
     public void exitEditor() {
         // Wipes the puzzle entirely as if LEGUP just started
@@ -286,8 +279,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     /**
-     * Makes the panel visible by setting up the toolbar, content, and menu bar.
-     * This method is called to refresh the panel's user interface.
+     * Makes the panel visible by setting up the toolbar, content, and menu bar. This method is
+     * called to refresh the panel's user interface.
      */
     @Override
     public void makeVisible() {
@@ -298,8 +291,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     /**
-     * Sets up the first toolbar with buttons for opening and creating puzzles.
-     * This method initializes the toolbar buttons with their icons and actions.
+     * Sets up the first toolbar with buttons for opening and creating puzzles. This method
+     * initializes the toolbar buttons with their icons and actions.
      */
     private void setupToolBar1() {
         setToolBar1Buttons(new JButton[2]);
@@ -341,13 +334,14 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         JButton create = new JButton("Create", CreateImageIcon);
         create.setFocusPainted(false);
-        create.addActionListener((ActionEvent) -> {
-            hp = new HomePanel(this.frame, this.legupUI);
-            cpd = new CreatePuzzleDialog(this.frame, hp);
-            cpd.setLocationRelativeTo(null);
-            cpd.setVisible(true);
-            existingPuzzle = false;
-        });
+        create.addActionListener(
+                (ActionEvent) -> {
+                    hp = new HomePanel(this.frame, this.legupUI);
+                    cpd = new CreatePuzzleDialog(this.frame, hp);
+                    cpd.setLocationRelativeTo(null);
+                    cpd.setVisible(true);
+                    existingPuzzle = false;
+                });
         getToolBar1Buttons()[1] = create;
 
         toolBar1.setFloatable(false);
@@ -383,19 +377,22 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         resetButton.setFocusPainted(false);
 
         resetButton.addActionListener(
-            a -> {
-                if (existingPuzzle) {
-                    legupUI.getPuzzleEditor().loadPuzzle(fileName, puzzleFile);
-                }
-                else {
-                    if (cpd.getGame().equals("ShortTruthTable")) {
-                        GameBoardFacade.getInstance().loadPuzzle(cpd.getGame(), cpd.getTextArea());
+                a -> {
+                    if (existingPuzzle) {
+                        legupUI.getPuzzleEditor().loadPuzzle(fileName, puzzleFile);
+                    } else {
+                        if (cpd.getGame().equals("ShortTruthTable")) {
+                            GameBoardFacade.getInstance()
+                                    .loadPuzzle(cpd.getGame(), cpd.getTextArea());
+                        } else {
+                            GameBoardFacade.getInstance()
+                                    .loadPuzzle(
+                                            cpd.getGame(),
+                                            Integer.valueOf(cpd.getRows()),
+                                            Integer.valueOf(cpd.getColumns()));
+                        }
                     }
-                    else {
-                        GameBoardFacade.getInstance().loadPuzzle(cpd.getGame(), Integer.valueOf(cpd.getRows()), Integer.valueOf(cpd.getColumns()));
-                    }
-                }
-            });
+                });
 
         getToolBar2Buttons()[0] = resetButton;
         toolBar2.add(getToolBar2Buttons()[0]);
@@ -500,11 +497,12 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     /**
-     * Prompts the user to select a puzzle file to open.
-     * Opens a file chooser dialog and returns the selected file's name and file object.
-     * If a puzzle is currently loaded, prompts the user to confirm if they want to open a new puzzle.
+     * Prompts the user to select a puzzle file to open. Opens a file chooser dialog and returns the
+     * selected file's name and file object. If a puzzle is currently loaded, prompts the user to
+     * confirm if they want to open a new puzzle.
      *
-     * @return an array containing the selected file name and file object, or null if the operation was canceled
+     * @return an array containing the selected file name and file object, or null if the operation
+     *     was canceled
      */
     public Object[] promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
@@ -548,9 +546,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     /**
-     * Loads a puzzle by prompting the user to select a puzzle file.
-     * If the user cancels the operation, no action is taken. If a puzzle file is selected,
-     * it will be loaded using the file name and file object.
+     * Loads a puzzle by prompting the user to select a puzzle file. If the user cancels the
+     * operation, no action is taken. If a puzzle file is selected, it will be loaded using the file
+     * name and file object.
      */
     public void loadPuzzle() {
         Object[] items = promptPuzzle();
@@ -564,9 +562,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     /**
-     * Loads a puzzle from the specified file.
-     * If the puzzle file is valid and exists, it loads the puzzle and updates the UI.
-     * If the file format is invalid, an error message is displayed.
+     * Loads a puzzle from the specified file. If the puzzle file is valid and exists, it loads the
+     * puzzle and updates the UI. If the file format is invalid, an error message is displayed.
      *
      * @param fileName the name of the puzzle file
      * @param puzzleFile the file object representing the puzzle file
@@ -595,9 +592,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     /**
-     * Displays a confirmation dialog with the given instruction message.
-     * The method returns true if the user selected "No" or cancelled the dialog,
-     * and false if the user selected "Yes".
+     * Displays a confirmation dialog with the given instruction message. The method returns true if
+     * the user selected "No" or cancelled the dialog, and false if the user selected "Yes".
      *
      * @param instr the instruction message to display in the confirmation dialog
      * @return true if the user selected "No" or canceled; false if the user selected "Yes"
@@ -607,31 +603,21 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         return n != JOptionPane.YES_OPTION;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void onPushChange(ICommand command) {}
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void onUndo(boolean isBottom, boolean isTop) {}
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void onRedo(boolean isBottom, boolean isTop) {}
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void onClearHistory() {
-    }
-
+    public void onClearHistory() {}
 
     /**
      * Returns the current board view
@@ -678,16 +664,14 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         this.toolBar2Buttons = toolBar2Buttons;
     }
 
-    /**
-     * Repaints the current board view
-     */
+    /** Repaints the current board view */
     private void repaintAll() {
         boardView.repaint();
     }
 
     /**
-     * Sets the puzzle view based on the provided puzzle object.
-     * Updates the UI components to display the new puzzle.
+     * Sets the puzzle view based on the provided puzzle object. Updates the UI components to
+     * display the new puzzle.
      *
      * @param puzzle the puzzle object to display
      */
@@ -734,11 +718,11 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     /**
-     * Saves the current puzzle to a user-selected directory.
-     * Prompts the user to select a directory and saves the puzzle to that directory.
-     * Returns the path where the puzzle was saved.
+     * Saves the current puzzle to a user-selected directory. Prompts the user to select a directory
+     * and saves the puzzle to that directory. Returns the path where the puzzle was saved.
      *
-     * @return the path where the puzzle was saved, or an empty string if the save operation was canceled
+     * @return the path where the puzzle was saved, or an empty string if the save operation was
+     *     canceled
      */
     private String savePuzzle() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();

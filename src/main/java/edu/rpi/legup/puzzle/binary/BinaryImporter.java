@@ -129,6 +129,7 @@ public class BinaryImporter extends PuzzleImporter {
 
     /**
      * Initializes a board with text
+     *
      * @param statements the text being used
      * @throws UnsupportedOperationException Binary does not use text input
      */

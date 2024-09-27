@@ -6,18 +6,18 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.puzzle.binary.BinaryBoard;
 import edu.rpi.legup.puzzle.binary.BinaryCell;
 import edu.rpi.legup.puzzle.binary.BinaryType;
-
 import java.util.ArrayList;
 
 public class WastedBlockerContradictionRule extends ContradictionRule {
-    private final String NO_CONTRADICTION_MESSAGE = "Does not contain a contradiction at this index";
+    private final String NO_CONTRADICTION_MESSAGE =
+            "Does not contain a contradiction at this index";
 
     public WastedBlockerContradictionRule() {
         super(
                 "BINA-CONT-0004",
                 "Wasted Blocker",
-                "There exists a cell in this row/column that allocates a digit unnecessarily and" +
-                        " will cause a future trio to appear",
+                "There exists a cell in this row/column that allocates a digit unnecessarily and"
+                        + " will cause a future trio to appear",
                 "edu/rpi/legup/images/binary/rules/WastedBlockerContradictionRule.png");
     }
 
@@ -29,7 +29,8 @@ public class WastedBlockerContradictionRule extends ContradictionRule {
      neededZeros = ( n + i + j ) / 3
     */
     /**
-     * Calculates the number of zeros needed in a sequence based on the values on either side and the number of empty cells.
+     * Calculates the number of zeros needed in a sequence based on the values on either side and
+     * the number of empty cells.
      *
      * @param leftVal The value on the left side of the empty cells
      * @param rightVal The value on the right side of the empty cells
@@ -56,7 +57,8 @@ public class WastedBlockerContradictionRule extends ContradictionRule {
      neededOnes = ( n + ( 1 - i ) + ( 1 - j ) ) / 3
     */
     /**
-     * Calculates the number of ones needed in a sequence based on the values on either side and the number of empty cells
+     * Calculates the number of ones needed in a sequence based on the values on either side and the
+     * number of empty cells
      *
      * @param leftVal The value on the left side of the empty cells
      * @param rightVal The value on the right side of the empty cells
@@ -102,10 +104,10 @@ public class WastedBlockerContradictionRule extends ContradictionRule {
                         int leftVal;
                         int rightVal;
                         // Check if left cell is out of bounds
-                        if (i-emptyCellsInCurSec-1 < 0) {
+                        if (i - emptyCellsInCurSec - 1 < 0) {
                             leftVal = -1;
                         } else {
-                            leftVal = seq.get(i-emptyCellsInCurSec-1).toValue();
+                            leftVal = seq.get(i - emptyCellsInCurSec - 1).toValue();
                         }
                         rightVal = seq.get(i).toValue();
                         neededZeros += calculateNeededZeros(leftVal, rightVal, emptyCellsInCurSec);
@@ -128,10 +130,10 @@ public class WastedBlockerContradictionRule extends ContradictionRule {
                 int leftVal;
                 int rightVal;
                 // Check if left cell is out of bounds
-                if (seq.size()-1-emptyCellsInCurSec-1 < 0) {
+                if (seq.size() - 1 - emptyCellsInCurSec - 1 < 0) {
                     leftVal = -1;
                 } else {
-                    leftVal = seq.get(seq.size()-1-emptyCellsInCurSec).toValue();
+                    leftVal = seq.get(seq.size() - 1 - emptyCellsInCurSec).toValue();
                 }
                 rightVal = -1;
                 neededZeros += calculateNeededZeros(leftVal, rightVal, emptyCellsInCurSec);
@@ -141,7 +143,7 @@ public class WastedBlockerContradictionRule extends ContradictionRule {
 
         // Check if the number of needed zeros or ones exceeds half the sequence length
         // If so, return null to indicate contradiction has occurred
-        if ((numZeros + neededZeros > seq.size()/2) || (numOnes + neededOnes > seq.size()/2)) {
+        if ((numZeros + neededZeros > seq.size() / 2) || (numOnes + neededOnes > seq.size() / 2)) {
             return null;
         }
 

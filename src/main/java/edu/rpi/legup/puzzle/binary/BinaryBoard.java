@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.binary;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -55,7 +54,7 @@ public class BinaryBoard extends GridBoard {
     }
 
     /**
-     *  Get all the binary cells in a column
+     * Get all the binary cells in a column
      *
      * @param colNum column number
      * @return set of all binary cells in specified colNum
@@ -69,7 +68,7 @@ public class BinaryBoard extends GridBoard {
     }
 
     /**
-     *  Get all the binary types in a row
+     * Get all the binary types in a row
      *
      * @param rowNum row number
      * @return ArrayList of all binary types in specified rowNum
@@ -84,7 +83,7 @@ public class BinaryBoard extends GridBoard {
     }
 
     /**
-     *  Get all the binary types in a column
+     * Get all the binary types in a column
      *
      * @param colNum column number
      * @return ArrayList of all binary types in specified colNum
@@ -100,6 +99,7 @@ public class BinaryBoard extends GridBoard {
 
     /**
      * Get a copy of the binary board
+     *
      * @return copy of current BinaryBoard
      */
     @Override

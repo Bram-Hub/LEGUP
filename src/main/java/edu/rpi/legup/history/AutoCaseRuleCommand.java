@@ -15,8 +15,8 @@ import java.util.*;
 
 /**
  * The AutoCaseRuleCommand class represents a command to automatically apply a case rule to a
- * selected tree node in the proof tree.
- * It extends the PuzzleCommand class to handle case rule application and undo operation.
+ * selected tree node in the proof tree. It extends the PuzzleCommand class to handle case rule
+ * application and undo operation.
  */
 public class AutoCaseRuleCommand extends PuzzleCommand {
 
@@ -52,8 +52,8 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
     }
 
     /**
-     * Executes the command to apply the case rule to the selected tree node.
-     * Updates the puzzle and tree view accordingly.
+     * Executes the command to apply the case rule to the selected tree node. Updates the puzzle and
+     * tree view accordingly.
      */
     @Override
     public void executeCommand() {
@@ -64,10 +64,11 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
 
         TreeNode node = (TreeNode) selection.getFirstSelection().getTreeElement();
         if (caseTrans.isEmpty()) {
-            List<Board> cases = caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
+            List<Board> cases =
+                    caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
             for (Board board : cases) {
                 final TreeTransition transition = (TreeTransition) tree.addTreeElement(node);
-                //board.setModifiable(false);
+                // board.setModifiable(false);
                 transition.setBoard(board);
                 transition.setRule(caseRule);
                 transition.setSelection(elementView.getPuzzleElement().copy());
@@ -118,11 +119,13 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
             return "The selected data element is not pickable with this case rule.";
         }
 
-        if (caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size() == 0) {
+        if (caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size()
+                == 0) {
             return "The selection must produce at least one case";
         }
 
-        int numberOfCaseRules = caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size();
+        int numberOfCaseRules =
+                caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size();
         System.out.println("Number of cases:" + numberOfCaseRules);
         if (numberOfCaseRules > caseRule.MAX_CASES) {
             return "The selection can produce a max of " + caseRule.MAX_CASES + " cases";
@@ -135,8 +138,8 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
     }
 
     /**
-     * Undoes the command by removing the applied case rules from the tree node.
-     * Updates the puzzle and tree view accordingly
+     * Undoes the command by removing the applied case rules from the tree node. Updates the puzzle
+     * and tree view accordingly
      */
     @Override
     public void undoCommand() {

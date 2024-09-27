@@ -6,9 +6,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 /**
- * A view class for a grid-based board that displays elements in a grid layout.
- * This class extends BoardView and is responsible for managing and rendering
- * grid-based elements.
+ * A view class for a grid-based board that displays elements in a grid layout. This class extends
+ * BoardView and is responsible for managing and rendering grid-based elements.
  */
 public class GridBoardView extends BoardView {
     protected Dimension gridSize;
@@ -57,8 +56,8 @@ public class GridBoardView extends BoardView {
     }
 
     /**
-     * Retrieves the GridElementView at the specified grid coordinates (xIndex, yIndex).
-     * Returns null if the coordinates are out of bounds.
+     * Retrieves the GridElementView at the specified grid coordinates (xIndex, yIndex). Returns
+     * null if the coordinates are out of bounds.
      *
      * @param xIndex the x-coordinate (column) of the element view to retrieve
      * @param yIndex the y-coordinate (row) of the element view to retrieve
@@ -72,8 +71,8 @@ public class GridBoardView extends BoardView {
     }
 
     /**
-     * Initializes the initial dimension of the viewport for the GridBoardView.
-     * Sets the size of the board view and adjusts the zoom to fit.
+     * Initializes the initial dimension of the viewport for the GridBoardView. Sets the size of the
+     * board view and adjusts the zoom to fit.
      */
     @Override
     public void initSize() {
@@ -94,8 +93,8 @@ public class GridBoardView extends BoardView {
     }
 
     /**
-     * Retrieves the selection popup menu for data selection.
-     * Currently returns null as there is no implementation.
+     * Retrieves the selection popup menu for data selection. Currently returns null as there is no
+     * implementation.
      *
      * @return null
      */

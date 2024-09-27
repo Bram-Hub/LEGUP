@@ -10,8 +10,9 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
- * {@code EditorElementController} manages actions related to UI elements within the puzzle editor environment.
- * It handles button presses, updates element selection, and manages visual states of buttons
+ * {@code EditorElementController} manages actions related to UI elements within the puzzle editor
+ * environment. It handles button presses, updates element selection, and manages visual states of
+ * buttons
  */
 public class EditorElementController implements ActionListener {
     protected Object lastSource;
