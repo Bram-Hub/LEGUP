@@ -12,16 +12,33 @@ public class BinaryImporter extends PuzzleImporter {
         super(binary);
     }
 
+    /**
+     * Determines if puzzle uses row and column input
+     *
+     * @return true if row and column input is used, false otherwise
+     */
     @Override
     public boolean acceptsRowsAndColumnsInput() {
         return true;
     }
 
+    /**
+     * Determines if puzzle uses text input
+     *
+     * @return true if text input is used, false otherwise
+     */
     @Override
     public boolean acceptsTextInput() {
         return false;
     }
 
+    /**
+     * Creates an empty board for building
+     *
+     * @param rows the number of rows on the board
+     * @param columns the number of columns on the board
+     * @throws RuntimeException if board can not be created
+     */
     @Override
     public void initializeBoard(int rows, int columns) {
         BinaryBoard binaryBoard = new BinaryBoard(columns, rows);
@@ -48,12 +65,12 @@ public class BinaryImporter extends PuzzleImporter {
         try {
             if (!node.getNodeName().equalsIgnoreCase("board")) {
                 throw new InvalidFileFormatException(
-                        "binary Importer: cannot find board puzzleElement");
+                        "Binary Importer: cannot find board puzzleElement");
             }
             Element boardElement = (Element) node;
             if (boardElement.getElementsByTagName("cells").getLength() == 0) {
                 throw new InvalidFileFormatException(
-                        "binary Importer: no puzzleElement found for board");
+                        "Binary Importer: no puzzleElement found for board");
             }
 
             Element dataElement = (Element) boardElement.getElementsByTagName("cells").item(0);
@@ -76,7 +93,7 @@ public class BinaryImporter extends PuzzleImporter {
             int height = binaryBoard.getHeight();
 
             if (binaryBoard == null || width % 2 != 0 || height % 2 != 0) {
-                throw new InvalidFileFormatException("binary Importer: invalid board dimensions");
+                throw new InvalidFileFormatException("Binary Importer: invalid board dimensions");
             }
 
             for (int i = 0; i < elementDataList.getLength(); i++) {
@@ -110,6 +127,11 @@ public class BinaryImporter extends PuzzleImporter {
         }
     }
 
+    /**
+     * Initializes a board with text
+     * @param statements the text being used
+     * @throws UnsupportedOperationException Binary does not use text input
+     */
     @Override
     public void initializeBoard(String[] statements) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Binary cannot accept text input");

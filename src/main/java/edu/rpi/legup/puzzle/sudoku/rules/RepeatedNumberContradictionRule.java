@@ -15,7 +15,7 @@ public class RepeatedNumberContradictionRule extends ContradictionRule {
                 "SUDO-CONT-0005",
                 "Repeated Numbers",
                 "Two identical numbers are placed in the same group.",
-                "edu/rpi/legup/images/sudoku/RepeatedNumber.png");
+                "edu/rpi/legup/images/sudoku/rules/RepeatedNumber.png");
     }
 
     /**

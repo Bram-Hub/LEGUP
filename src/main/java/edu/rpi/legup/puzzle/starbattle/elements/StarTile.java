@@ -1,8 +1,8 @@
 package edu.rpi.legup.puzzle.starbattle.elements;
 
-import edu.rpi.legup.model.elements.NonPlaceableElement;
+import edu.rpi.legup.model.elements.PlaceableElement;
 
-public class StarTile extends NonPlaceableElement {
+public class StarTile extends PlaceableElement {
     public StarTile() {
         super(
                 "STBL-PLAC-0001",

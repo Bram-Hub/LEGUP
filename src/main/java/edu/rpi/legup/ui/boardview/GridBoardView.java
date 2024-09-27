@@ -5,6 +5,11 @@ import edu.rpi.legup.controller.ElementController;
 import java.awt.Color;
 import java.awt.Dimension;
 
+/**
+ * A view class for a grid-based board that displays elements in a grid layout.
+ * This class extends BoardView and is responsible for managing and rendering
+ * grid-based elements.
+ */
 public class GridBoardView extends BoardView {
     protected Dimension gridSize;
     protected Dimension elementSize;
@@ -51,6 +56,14 @@ public class GridBoardView extends BoardView {
         return null;
     }
 
+    /**
+     * Retrieves the GridElementView at the specified grid coordinates (xIndex, yIndex).
+     * Returns null if the coordinates are out of bounds.
+     *
+     * @param xIndex the x-coordinate (column) of the element view to retrieve
+     * @param yIndex the y-coordinate (row) of the element view to retrieve
+     * @return the GridElementView at the specified coordinates, or null if out of bounds
+     */
     public GridElementView getElement(int xIndex, int yIndex) {
         if (xIndex < gridSize.width && yIndex < gridSize.height) {
             return (GridElementView) elementViews.get(yIndex * gridSize.width + xIndex);
@@ -58,7 +71,10 @@ public class GridBoardView extends BoardView {
         return null;
     }
 
-    /** Initializes the initial dimension of the viewport for the GridBoardView */
+    /**
+     * Initializes the initial dimension of the viewport for the GridBoardView.
+     * Sets the size of the board view and adjusts the zoom to fit.
+     */
     @Override
     public void initSize() {
         setSize(getProperSize());
@@ -66,9 +82,9 @@ public class GridBoardView extends BoardView {
     }
 
     /**
-     * Helper method to determine the proper dimension of the grid view
+     * Determines the proper dimension of the grid view based on grid size and element size.
      *
-     * @return proper dimension of the grid view
+     * @return the dimension of the grid view
      */
     protected Dimension getProperSize() {
         Dimension boardViewSize = new Dimension();
@@ -77,10 +93,21 @@ public class GridBoardView extends BoardView {
         return boardViewSize;
     }
 
+    /**
+     * Retrieves the selection popup menu for data selection.
+     * Currently returns null as there is no implementation.
+     *
+     * @return null
+     */
     public DataSelectionView getSelectionPopupMenu() {
         return null;
     }
 
+    /**
+     * Gets the size of each element in the grid
+     *
+     * @return the dimension of each element in the grid
+     */
     public Dimension getElementSize() {
         return this.elementSize;
     }

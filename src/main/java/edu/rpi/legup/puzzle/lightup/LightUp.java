@@ -47,7 +47,7 @@ public class LightUp extends Puzzle {
      * @return true if the given dimensions are valid for Light Up, false otherwise
      */
     public boolean isValidDimensions(int rows, int columns) {
-        return rows > 0 && columns > 0;
+        return rows >= 0 && columns >= 0;
     }
 
     /**
