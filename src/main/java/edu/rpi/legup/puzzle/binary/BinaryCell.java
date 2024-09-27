@@ -5,7 +5,6 @@ import edu.rpi.legup.model.gameboard.GridCell;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 
-
 public class BinaryCell extends GridCell<Integer> {
     /**
      * BinaryCell Constructor - creates a BinaryCell from the specified value and location
@@ -63,23 +62,19 @@ public class BinaryCell extends GridCell<Integer> {
             if (m.getButton() == MouseEvent.BUTTON1) {
                 if (this.data == 2) {
                     this.data = 0;
-                }
-                else {
+                } else {
                     this.data = this.data + 1;
                 }
-            }
-            else {
+            } else {
                 if (m.getButton() == MouseEvent.BUTTON3) {
                     if (this.data > 0) {
                         this.data = this.data - 1;
-                    }
-                    else {
+                    } else {
                         this.data = 2;
                     }
                 }
             }
-        }
-        else { // unknown tile
+        } else { // unknown tile
             this.data = 2;
         }
     }

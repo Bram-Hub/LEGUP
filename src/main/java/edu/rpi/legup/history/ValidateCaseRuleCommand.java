@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The ValidateCaseRuleCommand class represents a command for validating a CaseRule in the tree structure.
- * It extends the PuzzleCommand class and implements the ICommand interface.
+ * The ValidateCaseRuleCommand class represents a command for validating a CaseRule in the tree
+ * structure. It extends the PuzzleCommand class and implements the ICommand interface.
  */
 public class ValidateCaseRuleCommand extends PuzzleCommand {
 
@@ -37,9 +37,7 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
         this.addNode = new HashMap<>();
     }
 
-    /**
-     * Executes the command to validate the CaseRule
-     */
+    /** Executes the command to validate the CaseRule */
     @Override
     public void executeCommand() {
         Tree tree = getInstance().getTree();
@@ -111,10 +109,7 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
         return null;
     }
 
-
-    /**
-     * Undoes the validation command, restoring the previous state
-     */
+    /** Undoes the validation command, restoring the previous state */
     @Override
     public void undoCommand() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();

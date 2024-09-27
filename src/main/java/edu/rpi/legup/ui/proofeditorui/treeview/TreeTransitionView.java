@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@code TreeTransitionView} is a visual representation of a tree transition in the tree view.
- * It extends TreeElementView and displays a transition arrow between tree nodes and handles various
+ * {@code TreeTransitionView} is a visual representation of a tree transition in the tree view. It
+ * extends TreeElementView and displays a transition arrow between tree nodes and handles various
  * visual states such as selection, hover, and correctness.
  */
 public class TreeTransitionView extends TreeElementView {
@@ -342,7 +342,8 @@ public class TreeTransitionView extends TreeElementView {
      *
      * @param x the x-coordinate of the point to check
      * @param y the y-coordinate of the point to check
-     * @return {@code true} if the point is within the bounds of this TreeTransitionView; {@code false} otherwise
+     * @return {@code true} if the point is within the bounds of this TreeTransitionView; {@code
+     *     false} otherwise
      */
     @Override
     public boolean contains(double x, double y) {
@@ -353,7 +354,8 @@ public class TreeTransitionView extends TreeElementView {
      * Determines if the specified Point2D object is within the bounds of this TreeTransitionView
      *
      * @param p the Point2D object representing the point to check
-     * @return {@code true} if the point is within the bounds of this TreeTransitionView; {@code false} otherwise
+     * @return {@code true} if the point is within the bounds of this TreeTransitionView; {@code
+     *     false} otherwise
      */
     @Override
     public boolean contains(Point2D p) {
@@ -361,13 +363,15 @@ public class TreeTransitionView extends TreeElementView {
     }
 
     /**
-     * Determines if the specified rectangle defined by (x, y, width, height) intersects with the bounds of this TreeTransitionView.
+     * Determines if the specified rectangle defined by (x, y, width, height) intersects with the
+     * bounds of this TreeTransitionView.
      *
      * @param x The x-coordinate of the rectangle to check
      * @param y The y-coordinate of the rectangle to check
      * @param w The width of the rectangle to check
      * @param h The height of the rectangle to check
-     * @return {@code true} if the rectangle intersects with the bounds of this TreeTransitionView; {@code false} otherwise
+     * @return {@code true} if the rectangle intersects with the bounds of this TreeTransitionView;
+     *     {@code false} otherwise
      */
     @Override
     public boolean intersects(double x, double y, double w, double h) {
@@ -375,10 +379,12 @@ public class TreeTransitionView extends TreeElementView {
     }
 
     /**
-     * Determines if the specified Rectangle2D object intersects with the bounds of this TreeTransitionView.
+     * Determines if the specified Rectangle2D object intersects with the bounds of this
+     * TreeTransitionView.
      *
      * @param r the Rectangle2D object representing the rectangle to check
-     * @return {@code true} if the rectangle intersects with the bounds of this TreeTransitionView; {@code false} otherwise
+     * @return {@code true} if the rectangle intersects with the bounds of this TreeTransitionView;
+     *     {@code false} otherwise
      */
     @Override
     public boolean intersects(Rectangle2D r) {
@@ -386,13 +392,15 @@ public class TreeTransitionView extends TreeElementView {
     }
 
     /**
-     * Determines if the specified rectangle defined by (x, y, width, height) is entirely contained within the bounds of this TreeTransitionView
+     * Determines if the specified rectangle defined by (x, y, width, height) is entirely contained
+     * within the bounds of this TreeTransitionView
      *
      * @param x the x-coordinate of the rectangle to check
      * @param y the y-coordinate of the rectangle to check
      * @param w the width of the rectangle to check
      * @param h the height of the rectangle to check
-     * @return {@code true} if the rectangle is entirely contained within the bounds of this TreeTransitionView; {@code false} otherwise
+     * @return {@code true} if the rectangle is entirely contained within the bounds of this
+     *     TreeTransitionView; {@code false} otherwise
      */
     @Override
     public boolean contains(double x, double y, double w, double h) {
@@ -400,10 +408,12 @@ public class TreeTransitionView extends TreeElementView {
     }
 
     /**
-     * Determines if the specified Rectangle2D object is entirely contained within the bounds of this TreeTransitionView.
+     * Determines if the specified Rectangle2D object is entirely contained within the bounds of
+     * this TreeTransitionView.
      *
      * @param r the Rectangle2D object representing the rectangle to check
-     * @return {@code true} if the rectangle is entirely contained within the bounds of this TreeTransitionView; {@code false} otherwise
+     * @return {@code true} if the rectangle is entirely contained within the bounds of this
+     *     TreeTransitionView; {@code false} otherwise
      */
     @Override
     public boolean contains(Rectangle2D r) {
@@ -411,8 +421,9 @@ public class TreeTransitionView extends TreeElementView {
     }
 
     /**
-     * Returns an iterator over the path geometry of this TreeTransitionView. The iterator provides access to the path's
-     * segments and their coordinates, which can be used for rendering or hit testing.
+     * Returns an iterator over the path geometry of this TreeTransitionView. The iterator provides
+     * access to the path's segments and their coordinates, which can be used for rendering or hit
+     * testing.
      *
      * @param at the AffineTransform to apply to the path geometry
      * @return a PathIterator that iterates over the path geometry of this TreeTransitionView
@@ -423,8 +434,9 @@ public class TreeTransitionView extends TreeElementView {
     }
 
     /**
-     * Returns an iterator over the path geometry of this TreeTransitionView with the specified flatness. The iterator provides
-     * access to the path's segments and their coordinates, which can be used for rendering or hit testing.
+     * Returns an iterator over the path geometry of this TreeTransitionView with the specified
+     * flatness. The iterator provides access to the path's segments and their coordinates, which
+     * can be used for rendering or hit testing.
      *
      * @param at the AffineTransform to apply to the path geometry
      * @param flatness the maximum distance that the line segments can deviate from the true path

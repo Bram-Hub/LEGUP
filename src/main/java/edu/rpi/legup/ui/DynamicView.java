@@ -244,16 +244,12 @@ public class DynamicView extends JPanel {
         status.setText(message);
     }
 
-    /**
-     * Clears the status label
-     */
+    /** Clears the status label */
     public void resetStatus() {
         status.setText("");
     }
 
-    /**
-     * Resets the view to its default state and zooms the content to fit the screen
-     */
+    /** Resets the view to its default state and zooms the content to fit the screen */
     public void reset() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         Board board1 = GameBoardFacade.getInstance().getBoard();
@@ -262,9 +258,7 @@ public class DynamicView extends JPanel {
         this.getScrollView().zoomFit();
     }
 
-    /**
-     * Fits the board view to the screen
-     */
+    /** Fits the board view to the screen */
     protected void fitBoardViewToScreen() {
         scrollView.zoomFit();
     }

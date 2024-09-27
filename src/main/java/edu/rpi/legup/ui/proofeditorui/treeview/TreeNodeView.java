@@ -8,10 +8,10 @@ import java.awt.geom.*;
 import java.util.ArrayList;
 
 /**
- * Represents a view of a tree node in the tree structure.
- * This class extends {@link TreeElementView} and provides specific rendering and interaction
- * functionality for tree nodes. It includes visual properties and methods to manage the
- * node's appearance, location, and its relationships with other nodes.
+ * Represents a view of a tree node in the tree structure. This class extends {@link
+ * TreeElementView} and provides specific rendering and interaction functionality for tree nodes. It
+ * includes visual properties and methods to manage the node's appearance, location, and its
+ * relationships with other nodes.
  */
 public class TreeNodeView extends TreeElementView {
     static final int RADIUS = 25;
@@ -291,7 +291,8 @@ public class TreeNodeView extends TreeElementView {
      *
      * @param x the x-coordinate of the point to check
      * @param y the y-coordinate of the point to check
-     * @return {@code true} if the point is within the bounds of this TreeNodeView; {@code false} otherwise
+     * @return {@code true} if the point is within the bounds of this TreeNodeView; {@code false}
+     *     otherwise
      */
     @Override
     public boolean contains(double x, double y) {
@@ -302,7 +303,8 @@ public class TreeNodeView extends TreeElementView {
      * Determines if the specified Point2D object is within the bounds of this TreeNodeView
      *
      * @param p the Point2D object representing the point to check
-     * @return {@code true} if the point is within the bounds of this TreeNodeView; {@code false} otherwise
+     * @return {@code true} if the point is within the bounds of this TreeNodeView; {@code false}
+     *     otherwise
      */
     @Override
     public boolean contains(Point2D p) {
@@ -310,13 +312,15 @@ public class TreeNodeView extends TreeElementView {
     }
 
     /**
-     * Determines if the specified rectangle defined by (x, y, width, height) intersects with the bounds of this TreeNodeView.
+     * Determines if the specified rectangle defined by (x, y, width, height) intersects with the
+     * bounds of this TreeNodeView.
      *
      * @param x The x-coordinate of the rectangle to check
      * @param y The y-coordinate of the rectangle to check
      * @param w The width of the rectangle to check
      * @param h The height of the rectangle to check
-     * @return {@code true} if the rectangle intersects with the bounds of this TreeNodeView; {@code false} otherwise
+     * @return {@code true} if the rectangle intersects with the bounds of this TreeNodeView; {@code
+     *     false} otherwise
      */
     @Override
     public boolean intersects(double x, double y, double w, double h) {
@@ -324,10 +328,12 @@ public class TreeNodeView extends TreeElementView {
     }
 
     /**
-     * Determines if the specified Rectangle2D object intersects with the bounds of this TreeNodeView.
+     * Determines if the specified Rectangle2D object intersects with the bounds of this
+     * TreeNodeView.
      *
      * @param r the Rectangle2D object representing the rectangle to check
-     * @return {@code true} if the rectangle intersects with the bounds of this TreeNodeView; {@code false} otherwise
+     * @return {@code true} if the rectangle intersects with the bounds of this TreeNodeView; {@code
+     *     false} otherwise
      */
     @Override
     public boolean intersects(Rectangle2D r) {
@@ -335,13 +341,15 @@ public class TreeNodeView extends TreeElementView {
     }
 
     /**
-     * Determines if the specified rectangle defined by (x, y, width, height) is entirely contained within the bounds of this TreeNodeView
+     * Determines if the specified rectangle defined by (x, y, width, height) is entirely contained
+     * within the bounds of this TreeNodeView
      *
      * @param x the x-coordinate of the rectangle to check
      * @param y the y-coordinate of the rectangle to check
      * @param w the width of the rectangle to check
      * @param h the height of the rectangle to check
-     * @return {@code true} if the rectangle is entirely contained within the bounds of this TreeNodeView; {@code false} otherwise
+     * @return {@code true} if the rectangle is entirely contained within the bounds of this
+     *     TreeNodeView; {@code false} otherwise
      */
     @Override
     public boolean contains(double x, double y, double w, double h) {
@@ -349,10 +357,12 @@ public class TreeNodeView extends TreeElementView {
     }
 
     /**
-     * Determines if the specified Rectangle2D object is entirely contained within the bounds of this TreeNodeView.
+     * Determines if the specified Rectangle2D object is entirely contained within the bounds of
+     * this TreeNodeView.
      *
      * @param r the Rectangle2D object representing the rectangle to check
-     * @return {@code true} if the rectangle is entirely contained within the bounds of this TreeNodeView; {@code false} otherwise
+     * @return {@code true} if the rectangle is entirely contained within the bounds of this
+     *     TreeNodeView; {@code false} otherwise
      */
     @Override
     public boolean contains(Rectangle2D r) {
@@ -360,8 +370,8 @@ public class TreeNodeView extends TreeElementView {
     }
 
     /**
-     * Returns an iterator over the path geometry of this TreeNodeView. The iterator provides access to the path's
-     * segments and their coordinates, which can be used for rendering or hit testing.
+     * Returns an iterator over the path geometry of this TreeNodeView. The iterator provides access
+     * to the path's segments and their coordinates, which can be used for rendering or hit testing.
      *
      * @param at the AffineTransform to apply to the path geometry
      * @return a PathIterator that iterates over the path geometry of this TreeNodeView
@@ -372,8 +382,9 @@ public class TreeNodeView extends TreeElementView {
     }
 
     /**
-     * Returns an iterator over the path geometry of this TreeNodeView with the specified flatness. The iterator provides
-     * access to the path's segments and their coordinates, which can be used for rendering or hit testing.
+     * Returns an iterator over the path geometry of this TreeNodeView with the specified flatness.
+     * The iterator provides access to the path's segments and their coordinates, which can be used
+     * for rendering or hit testing.
      *
      * @param at the AffineTransform to apply to the path geometry
      * @param flatness the maximum distance that the line segments can deviate from the true path

@@ -2,18 +2,15 @@ package edu.rpi.legup.model.tree;
 
 import edu.rpi.legup.controller.TreeController;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /**
- * Represents a tree structure in a puzzle.
- * The tree consists of {@link TreeNode}s and {@link TreeTransition}s
- * and allows adding, removing, and validating elements.
+ * Represents a tree structure in a puzzle. The tree consists of {@link TreeNode}s and {@link
+ * TreeTransition}s and allows adding, removing, and validating elements.
  */
 public class Tree {
     private TreeNode rootNode;

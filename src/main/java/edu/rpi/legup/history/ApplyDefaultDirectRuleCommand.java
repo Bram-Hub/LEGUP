@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The ApplyDefaultDirectRuleCommand class represents a command to apply a default direct rule
- * to selected tree nodes in the proof tree.
- * It extends the PuzzleCommand class to handle rule application and undo operation.
+ * The ApplyDefaultDirectRuleCommand class represents a command to apply a default direct rule to
+ * selected tree nodes in the proof tree. It extends the PuzzleCommand class to handle rule
+ * application and undo operation.
  */
 public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
 
@@ -75,8 +75,8 @@ public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
     }
 
     /**
-     * Executes the command to apply the default rule to the selected tree nodes.
-     * Updates the puzzle and tree view accordingly.
+     * Executes the command to apply the default rule to the selected tree nodes. Updates the puzzle
+     * and tree view accordingly.
      */
     @Override
     public void executeCommand() {
@@ -118,8 +118,8 @@ public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
     }
 
     /**
-     * Undoes the command by removing the applied default rule from the tree nodes.
-     * Updates the puzzle and tree view accordingly.
+     * Undoes the command by removing the applied default rule from the tree nodes. Updates the
+     * puzzle and tree view accordingly.
      */
     @Override
     public void undoCommand() {

@@ -13,9 +13,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * The {@code Config} class manages the configuration for puzzles by loading configuration data
- * from an XML file. It provides methods to access puzzle class names, display names, and their
- * file creation statuses
+ * The {@code Config} class manages the configuration for puzzles by loading configuration data from
+ * an XML file. It provides methods to access puzzle class names, display names, and their file
+ * creation statuses
  */
 public class Config {
     private static final Logger Logger = LogManager.getLogger(Config.class.getName());
@@ -80,8 +80,8 @@ public class Config {
     }
 
     /**
-     * Converts the display name of the puzzle back to its corresponding class name.
-     * For example: convertDisplayNameToClassName("Tree Tent") returns "TreeTent"
+     * Converts the display name of the puzzle back to its corresponding class name. For example:
+     * convertDisplayNameToClassName("Tree Tent") returns "TreeTent"
      *
      * @param displayName the display name of the puzzle
      * @return the class name of the puzzle as a String
@@ -110,8 +110,8 @@ public class Config {
     }
 
     /**
-     * Returns a list of the display names of the puzzles that can have files created and edited within
-     * the proof editor
+     * Returns a list of the display names of the puzzles that can have files created and edited
+     * within the proof editor
      *
      * @return a List of puzzle display names as Strings with file creation enabled
      */

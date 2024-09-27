@@ -3,10 +3,10 @@ package edu.rpi.legup.ui.proofeditorui.rulesview;
 import javax.swing.ImageIcon;
 
 /**
- * The {@code CaseRulePanel} class is a specialized panel that represents case rules
- * within a {@link RuleFrame}. It extends the {@link RulePanel} and provides
- * specific functionality and UI components related to case rules.
- * This class initializes with an icon and name that are specific to case rules.
+ * The {@code CaseRulePanel} class is a specialized panel that represents case rules within a {@link
+ * RuleFrame}. It extends the {@link RulePanel} and provides specific functionality and UI
+ * components related to case rules. This class initializes with an icon and name that are specific
+ * to case rules.
  */
 public class CaseRulePanel extends RulePanel {
     /**

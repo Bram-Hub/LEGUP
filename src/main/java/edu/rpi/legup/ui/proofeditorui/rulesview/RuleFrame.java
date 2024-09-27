@@ -12,10 +12,10 @@ import javax.swing.border.TitledBorder;
 
 /**
  * The {@code RuleFrame} class is a panel that contains and manages multiple rule-related panels
- * within a tabbed interface. It extends {@link JPanel} and organizes the display of various rule types
- * such as direct rules, contradiction rules, and case rules.
- * The frame uses a {@link JTabbedPane} to allow users to switch between different rule panels.
- * It also includes a search bar panel and a status label for displaying additional information.
+ * within a tabbed interface. It extends {@link JPanel} and organizes the display of various rule
+ * types such as direct rules, contradiction rules, and case rules. The frame uses a {@link
+ * JTabbedPane} to allow users to switch between different rule panels. It also includes a search
+ * bar panel and a status label for displaying additional information.
  */
 public class RuleFrame extends JPanel {
     private static final String checkBox = "<font style=\"color:#00CD00\"> \u2714 </font>";
@@ -36,8 +36,8 @@ public class RuleFrame extends JPanel {
     private RuleController controller;
 
     /**
-     * Constructs a new {@code RuleFrame} instance.
-     * Initializes the frame with tabs for the different rule panels, a search bar panel, and a status label.
+     * Constructs a new {@code RuleFrame} instance. Initializes the frame with tabs for the
+     * different rule panels, a search bar panel, and a status label.
      *
      * @param controller the {@link RuleController} instance that manages the rules for this frame
      */

@@ -5,12 +5,9 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.binary.Binary;
 import edu.rpi.legup.puzzle.binary.BinaryBoard;
 import edu.rpi.legup.puzzle.binary.BinaryCell;
 import edu.rpi.legup.puzzle.binary.BinaryType;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class UniqueRowColumnDirectRule extends DirectRule {
@@ -20,8 +17,8 @@ public class UniqueRowColumnDirectRule extends DirectRule {
         super(
                 "BINA-BASC-0004",
                 "Unique Row/Column",
-                "If an unfinished row/column only differs by empty cells from a finished one, " +
-                        "fill contradicting empty cells with opposite digit to prevent a repeated row/column",
+                "If an unfinished row/column only differs by empty cells from a finished one, "
+                        + "fill contradicting empty cells with opposite digit to prevent a repeated row/column",
                 "edu/rpi/legup/images/binary/rules/UniqueRowColumnDirectRule.png");
     }
 
@@ -50,8 +47,11 @@ public class UniqueRowColumnDirectRule extends DirectRule {
      * @param rowOrColumn Flag to indicate whether checking a row (0) or a column (1)
      * @return Null if a valid opposite digit is found, otherwise an error message
      */
-    private String checkOppositeDigitDifference(ArrayList<BinaryType> seq, BinaryBoard origBoard,
-                                                BinaryCell binaryCell, int rowOrColumn) {
+    private String checkOppositeDigitDifference(
+            ArrayList<BinaryType> seq,
+            BinaryBoard origBoard,
+            BinaryCell binaryCell,
+            int rowOrColumn) {
         // rowOrColumn : 0 for row, 1 for column
 
         int numEmpty = getNumEmpty(seq);
@@ -83,7 +83,8 @@ public class UniqueRowColumnDirectRule extends DirectRule {
                     valid = false;
                     break;
                 }
-                // Count differences between the sequences, stopping if more than 1 difference is found
+                // Count differences between the sequences, stopping if more than 1 difference is
+                // found
                 if (!seq.get(j).equals(currSeq.get(j)) && !seq.get(j).equals(BinaryType.UNKNOWN)) {
                     if (++numDifferentCells > 1 || numEmpty != 1) {
                         valid = false;
@@ -92,17 +93,18 @@ public class UniqueRowColumnDirectRule extends DirectRule {
                 }
 
                 // Check if there's a contradiction with the current cell, if not mark as valid
-                if (currSeq.get(j).equals(BinaryType.ZERO) && seq.get(j).equals(BinaryType.UNKNOWN)
+                if (currSeq.get(j).equals(BinaryType.ZERO)
+                        && seq.get(j).equals(BinaryType.UNKNOWN)
                         && binaryCell.getType().equals(BinaryType.ONE)) {
-                    if ((rowOrColumn == 0 && binaryCell.getLocation().x == j) || rowOrColumn == 1
-                            && binaryCell.getLocation().y == j) {
+                    if ((rowOrColumn == 0 && binaryCell.getLocation().x == j)
+                            || rowOrColumn == 1 && binaryCell.getLocation().y == j) {
                         valid = true;
                     }
-                }
-                else if (currSeq.get(j).equals(BinaryType.ONE) && seq.get(j).equals(BinaryType.UNKNOWN)
+                } else if (currSeq.get(j).equals(BinaryType.ONE)
+                        && seq.get(j).equals(BinaryType.UNKNOWN)
                         && binaryCell.getType().equals(BinaryType.ZERO)) {
-                    if ((rowOrColumn == 0 && binaryCell.getLocation().x == j) || rowOrColumn == 1
-                            && binaryCell.getLocation().y == j) {
+                    if ((rowOrColumn == 0 && binaryCell.getLocation().x == j)
+                            || rowOrColumn == 1 && binaryCell.getLocation().y == j) {
                         valid = true;
                     }
                 }
@@ -130,8 +132,12 @@ public class UniqueRowColumnDirectRule extends DirectRule {
      * @param zeroOrOne Flag to indicate whether checking for 0s (0) or 1s (1)
      * @return Null if the rule can be applied, otherwise an error message
      */
-    private String checkRemainingOneDigitDifference(ArrayList<BinaryType> seq, BinaryBoard origBoard,
-                                                    BinaryCell binaryCell, int rowOrColumn, int zeroOrOne) {
+    private String checkRemainingOneDigitDifference(
+            ArrayList<BinaryType> seq,
+            BinaryBoard origBoard,
+            BinaryCell binaryCell,
+            int rowOrColumn,
+            int zeroOrOne) {
         // zeroOrOne: zero for 0, one for 1
 
         for (int i = 0; i < seq.size(); i++) {
@@ -141,8 +147,7 @@ public class UniqueRowColumnDirectRule extends DirectRule {
                     continue;
                 }
                 currSeq = origBoard.getRowTypes(i);
-            }
-            else {
+            } else {
                 if (i == binaryCell.getLocation().x) {
                     continue;
                 }
@@ -172,23 +177,26 @@ public class UniqueRowColumnDirectRule extends DirectRule {
                     currSeqCell = currSeq.get(binaryCell.getLocation().y);
                 }
 
-                // Check if this sequence has only one more zero remaining and current sequence fills that zero in,
+                // Check if this sequence has only one more zero remaining and current sequence
+                // fills that zero in,
                 // if so, zero in this seq must go in another cell to prevent repetition
                 if (zeroOrOne == 0) {
-                    if (currSeqCell.equals(BinaryType.ZERO) && binaryCell.getType().equals(BinaryType.ONE)) {
+                    if (currSeqCell.equals(BinaryType.ZERO)
+                            && binaryCell.getType().equals(BinaryType.ONE)) {
                         return null;
                     }
                 }
-                // Check if this sequence has only one more one remaining and current sequence fills that one in,
+                // Check if this sequence has only one more one remaining and current sequence fills
+                // that one in,
                 // if so, one in this seq must go in another cell to prevent repetition
                 else if (zeroOrOne == 1) {
-                    if (currSeqCell.equals(BinaryType.ONE) && binaryCell.getType().equals(BinaryType.ZERO)) {
+                    if (currSeqCell.equals(BinaryType.ONE)
+                            && binaryCell.getType().equals(BinaryType.ZERO)) {
                         return null;
                     }
                 }
             }
         }
-
 
         return "There does not exist a sequence that can be prevented by a remaining digit difference";
     }
@@ -206,7 +214,8 @@ public class UniqueRowColumnDirectRule extends DirectRule {
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
 
-        // Check if filling the current cell with the opposite digit would prevent repetition with another row
+        // Check if filling the current cell with the opposite digit would prevent repetition with
+        // another row
         ArrayList<BinaryType> row = origBoard.getRowTypes(binaryCell.getLocation().y);
         if (checkOppositeDigitDifference(row, origBoard, binaryCell, 0) == null) {
             return null;
@@ -216,15 +225,14 @@ public class UniqueRowColumnDirectRule extends DirectRule {
         for (int i = 0; i < row.size(); i++) {
             if (row.get(i).equals(BinaryType.ZERO)) {
                 numZeros++;
-            }
-            else if (row.get(i).equals(BinaryType.ONE)) {
+            } else if (row.get(i).equals(BinaryType.ONE)) {
                 numOnes++;
             }
         }
 
         // Check if only one more zero is needed, then see this row will be repeated by another row
         // if current cell is filled in with last zero as well
-        if (numZeros == row.size()/2 - 1) {
+        if (numZeros == row.size() / 2 - 1) {
             if (checkRemainingOneDigitDifference(row, origBoard, binaryCell, 0, 0) == null) {
                 return null;
             }
@@ -232,13 +240,14 @@ public class UniqueRowColumnDirectRule extends DirectRule {
 
         // Check if only one more one is needed, then see this row will be repeated by another row
         // if current cell is filled in with last one as well
-        if (numOnes == row.size()/2 - 1) {
+        if (numOnes == row.size() / 2 - 1) {
             if (checkRemainingOneDigitDifference(row, origBoard, binaryCell, 0, 1) == null) {
                 return null;
             }
         }
 
-        // Check if filling the current cell with the opposite digit would prevent repetition with another column
+        // Check if filling the current cell with the opposite digit would prevent repetition with
+        // another column
         ArrayList<BinaryType> col = origBoard.getColTypes(binaryCell.getLocation().x);
         if (checkOppositeDigitDifference(col, origBoard, binaryCell, 1) == null) {
             return null;
@@ -249,29 +258,31 @@ public class UniqueRowColumnDirectRule extends DirectRule {
         for (int i = 0; i < col.size(); i++) {
             if (col.get(i).equals(BinaryType.ZERO)) {
                 numZeros++;
-            }
-            else if (col.get(i).equals(BinaryType.ONE)) {
+            } else if (col.get(i).equals(BinaryType.ONE)) {
                 numOnes++;
             }
         }
 
-        // Check if only one more zero is needed, then see this column will be repeated by another column
+        // Check if only one more zero is needed, then see this column will be repeated by another
+        // column
         // if current cell is filled in with last zero as well
-        if (numZeros == col.size()/2 - 1) {
+        if (numZeros == col.size() / 2 - 1) {
             if (checkRemainingOneDigitDifference(col, origBoard, binaryCell, 1, 0) == null) {
                 return null;
             }
         }
 
-        // Check if only one more one is needed, then see this column will be repeated by another column
+        // Check if only one more one is needed, then see this column will be repeated by another
+        // column
         // if current cell is filled in with last one as well
-        if (numOnes == col.size()/2 - 1) {
+        if (numOnes == col.size() / 2 - 1) {
             if (checkRemainingOneDigitDifference(col, origBoard, binaryCell, 1, 1) == null) {
                 return null;
             }
         }
 
-        return "There is no row/column that forces this cell to be a " + binaryCell.getData().toString();
+        return "There is no row/column that forces this cell to be a "
+                + binaryCell.getData().toString();
     }
 
     /**

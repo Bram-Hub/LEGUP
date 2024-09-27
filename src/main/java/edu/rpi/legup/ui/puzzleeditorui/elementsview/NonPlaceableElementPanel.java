@@ -1,8 +1,8 @@
-//package edu.rpi.legup.ui.puzzleeditorui.elementsview;
+// package edu.rpi.legup.ui.puzzleeditorui.elementsview;
 //
-//import javax.swing.*;
+// import javax.swing.*;
 //
-//public class NonPlaceableElementPanel extends ElementPanel {
+// public class NonPlaceableElementPanel extends ElementPanel {
 //    public NonPlaceableElementPanel(ElementFrame elementFrame) {
 //        super(elementFrame);
 //        this.icon =
@@ -12,4 +12,4 @@
 //        this.name = "Non-Placeable Elements";
 //        this.toolTip = "Non-Placeable Elements";
 //    }
-//}
+// }

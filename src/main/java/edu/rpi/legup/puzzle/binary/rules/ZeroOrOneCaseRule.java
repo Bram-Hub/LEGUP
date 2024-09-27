@@ -39,18 +39,21 @@ public class ZeroOrOneCaseRule extends CaseRule {
         TreeTransition case2 = childTransitions.get(1);
         if (case1.getBoard().getModifiedData().size() != 1
                 || case2.getBoard().getModifiedData().size() != 1) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must have 1 modified cell for each case.";
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must have 1 modified cell for each case.";
         }
 
         BinaryCell mod1 = (BinaryCell) case1.getBoard().getModifiedData().iterator().next();
         BinaryCell mod2 = (BinaryCell) case2.getBoard().getModifiedData().iterator().next();
         if (!mod1.getLocation().equals(mod2.getLocation())) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must modify the same cell for each case.";
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must modify the same cell for each case.";
         }
 
         if (!((mod1.getType() == BinaryType.ZERO && mod2.getType() == BinaryType.ONE)
                 || (mod2.getType() == BinaryType.ZERO && mod1.getType() == BinaryType.ONE))) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must modify an empty cell.";
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must modify an empty cell.";
         }
 
         return null;
