@@ -50,6 +50,6 @@ public class StarBattleElementView extends GridElementView {
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
         }
         */
-        }
+
     }
 }

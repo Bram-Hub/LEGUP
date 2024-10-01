@@ -6,9 +6,11 @@ import java.awt.geom.Rectangle2D;
 
 public class StarBattleBorderView extends ElementView {
     private static final Color Border_COLOR = Color.BLACK;
+    private StarBattleCellType type;
 
     public StarBattleBorderView(StarBattleBorder border) {
         super(border);
+        type = border.getType();
     }
 
     /**
@@ -38,9 +40,15 @@ public class StarBattleBorderView extends ElementView {
 
         StarBattleBorder border= getPuzzleElement();
 
-        int xBorder = location.x + (size.width / 2);
-        int yBorder = location.y + (size.height / 2);
+        int xSize = size.width;
+        int ySize = size.height;
+        if(type == StarBattleCellType.HORIZ_BORDER){    //minimize ySize / height
+            ySize = ySize / 8;
+        }
+        else if(type == StarBattleCellType.VERT_BORDER){    //minimize xSize / width
+            xSize = xSize / 8;
+        }
         graphics2D.draw(new Rectangle2D.Double(
-                location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
+                location.x, location.y, xSize, ySize));
     }
 }
