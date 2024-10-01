@@ -22,12 +22,21 @@ public class MinesweeperController extends ElementController {
     public static @NotNull MinesweeperTileData getNewCellDataOnClick(
             @NotNull MouseEvent event, @NotNull MinesweeperTileData current) {
         final int numberData = current.data();
-        return switch (event.getButton()) {
-            case MouseEvent.BUTTON1 -> MinesweeperTileData.fromData(numberData + 1);
-            case MouseEvent.BUTTON2, MouseEvent.BUTTON3 ->
-                    MinesweeperTileData.fromData(numberData - 1);
-            default -> MinesweeperTileData.empty();
-        };
+        switch (event.getButton()) { //git?
+            case MouseEvent.BUTTON1:
+                if(numberData >= 0 && numberData <= 8) {
+                    return MinesweeperTileData.fromData(numberData);
+                }
+                return MinesweeperTileData.fromData(numberData + 1);
+
+            case MouseEvent.BUTTON2, MouseEvent.BUTTON3:
+                if((numberData >= 1 && numberData <= 8)) {
+                    return MinesweeperTileData.fromData(numberData);
+                }
+                return MinesweeperTileData.fromData(numberData - 1);
+            default:
+                return MinesweeperTileData.empty();
+        }
     }
 
     /**
