@@ -15,7 +15,7 @@ import org.w3c.dom.Node;
 public class MinesweeperCellFactory extends ElementFactory {
 
     /** The key of the data used in {@link NamedNodeMap} */
-    private static final String DATA_ATTRIBUTE = "data";
+    private static final String DATA_ATTRIBUTE = "value";
 
     /** The key of the x position used in {@link NamedNodeMap} */
     private static final String X_ATTRIBUTE = "x";
