@@ -39,6 +39,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     private static final Logger LOGGER = LogManager.getLogger(Puzzle.class.getName());
 
     protected String name;
+    protected String tag = "";
     protected Board currentBoard;
     protected Tree tree;
     protected BoardView boardView;

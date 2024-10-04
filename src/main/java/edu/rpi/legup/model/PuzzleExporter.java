@@ -7,6 +7,7 @@ import edu.rpi.legup.save.ExportFileException;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.xml.parsers.DocumentBuilder;
@@ -34,6 +35,44 @@ public abstract class PuzzleExporter {
         this.puzzle = puzzle;
     }
 
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    /**
+     * Takes the puzzle state and the current date/time to obfuscate
+     * the solved state with an onto function to prevent cheating
+     *
+     * @param solved the solved state of the board, true if solved
+     * @param date the current date and time, passed during export
+     * @return hash value of time and solved state
+     */
+    public static int obfHash(boolean solved, String date) {
+        LocalDateTime dateTime = LocalDateTime.parse(date, DATE_FORMAT);
+        String obf = solved + ":" + dateTime.toEpochSecond(ZoneOffset.UTC) + ";";
+        LOGGER.debug("Hashed Val: '{}'", obf);
+        return obf.hashCode();
+    }
+
+    /**
+     * Deobfuscates the solved state of the board from hash value using
+     * the time provided in the puzzle xml-style export
+     *
+     * @param hash the hash value saved to the export
+     * @param date the date/time value saved to the export
+     * @return boolean value of the solved state of the board
+     */
+    public static boolean inverseHash(int hash, String date) {
+        LocalDateTime dateTime = LocalDateTime.parse(date, DATE_FORMAT);
+        long timestamp = dateTime.toEpochSecond(ZoneOffset.UTC);
+
+        if ((true+":"+timestamp+";").hashCode() == hash) {
+            return true;
+        } else if ((false+":"+timestamp+";").hashCode() == hash) {
+            return false;
+        } else {
+            throw new IllegalArgumentException("Hash does not inverse hash");
+        }
+    }
+
     /**
      * Exports the puzzle to an xml formatted file
      *
@@ -55,6 +94,17 @@ public abstract class PuzzleExporter {
 
             org.w3c.dom.Element puzzleElement = newDocument.createElement("puzzle");
             puzzleElement.setAttribute("name", puzzle.getName());
+
+            // adds puzzle id as file name if untagged
+            if (this.puzzle.tag.isEmpty()) {
+                // format string to only be export file name (without extension
+                String idStr = fileName.substring(fileName.lastIndexOf("/") + 1);
+                idStr = idStr.contains(".") ? idStr.substring(0, idStr.lastIndexOf('.')) : idStr;
+                puzzleElement.setAttribute("id", idStr);
+            } else {
+                puzzleElement.setAttribute("id", this.puzzle.tag);
+            }
+
             legupElement.appendChild(puzzleElement);
 
             puzzleElement.appendChild(createBoardElement(newDocument));
@@ -64,14 +114,11 @@ public abstract class PuzzleExporter {
             }
 
             org.w3c.dom.Element statusElement = newDocument.createElement("solved");
-            String isSolved = "false";
-            if (puzzle.isPuzzleComplete()) {
-                isSolved = "true";
-            }
-            statusElement.setAttribute("isSolved", isSolved);
             LocalDateTime dateTime = LocalDateTime.now(ZoneId.of("America/New_York"));
-            String time = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            String time = dateTime.format(DATE_FORMAT);
             statusElement.setAttribute("lastSaved", time);
+            int hashedState = obfHash(puzzle.isPuzzleComplete(), time);
+            statusElement.setAttribute("isSolved", hashedState+"");
             legupElement.appendChild(statusElement);
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
