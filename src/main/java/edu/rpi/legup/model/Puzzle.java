@@ -135,8 +135,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             for (Class c : possRules) {
 
                 String classPackageName = c.getPackage().getName();
-                if (!classPackageName.startsWith("edu.rpi.legup.puzzle.")
-                        || !classPackageName.endsWith(".rules")) {
+                if (!classPackageName.contains(".rules")) {
                     continue;
                 }
                 System.out.println("possible rule: " + c.getName());
