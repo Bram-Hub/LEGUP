@@ -10,6 +10,10 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * MergeRule is an implementation of a rule that merges multiple nodes into one. It validates if the
+ * merging of nodes is done correctly.
+ */
 public class MergeRule extends Rule {
     /** MergeRule Constructor merges to board states together */
     public MergeRule() {

@@ -46,7 +46,7 @@ public class OneOrZeroCaseRule extends CaseRule {
         if (!((mod1.getType() == BinaryType.ZERO && mod2.getType() == BinaryType.ONE)
                 || (mod2.getType() == BinaryType.ZERO && mod1.getType() == BinaryType.ONE))) {
             return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must an empty white and black cell.";
+                    + ": This case rule must modify an empty cell.";
         }
 
         return null;

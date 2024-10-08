@@ -27,10 +27,7 @@ public class FinishRoomCaseRuleTest {
         nurikabe = new Nurikabe();
     }
 
-    /**
-     * Tests the Finish Room case rule by ensuring that it results in 5 or less children, that
-     * contain a modified cell that is white
-     */
+    /** Tests the Finish Room case rule by ensuring it produces the correct number of children */
     @Test
     public void FinishRoomCaseRule_FinishRoomCaseRuleBaseTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(

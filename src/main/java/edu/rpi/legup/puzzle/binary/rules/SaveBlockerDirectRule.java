@@ -2,22 +2,22 @@ package edu.rpi.legup.puzzle.binary.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.binary.BinaryBoard;
 import edu.rpi.legup.puzzle.binary.BinaryCell;
 
-public class CompleteRowColumnDirectRule extends DirectRule {
+public class SaveBlockerDirectRule extends DirectRule {
 
-    public CompleteRowColumnDirectRule() {
+    private final String INVALID_USE_MESSAGE = "Number at cell is incorrect";
+
+    public SaveBlockerDirectRule() {
         super(
                 "BINA-BASC-0003",
-                "Complete Row/Column",
-                "If a row/column of length n contains n/2 of a single value, the remaining "
-                        + "cells must contain the other value",
-                "edu/rpi/legup/images/binary/rules/CompleteRowColumnDirectRule.png");
+                "Save Blocker",
+                "If a future trio could appear in this row/col, save the digit that could block that trio",
+                "edu/rpi/legup/images/binary/rules/SaveBlockerDirectRule.png");
     }
 
     /**
@@ -29,26 +29,29 @@ public class CompleteRowColumnDirectRule extends DirectRule {
      * @return null if the child node logically follow from the parent node at the specified
      *     puzzleElement, otherwise error message
      */
-    @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
-        ContradictionRule contraRule = new UnbalancedRowOrColumnContradictionRule();
+        WastedBlockerContradictionRule contraRule = new WastedBlockerContradictionRule();
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
         BinaryBoard modified = origBoard.copy();
-        BinaryCell c = (BinaryCell) modified.getPuzzleElement(puzzleElement);
 
-        // System.out.println("ORIG" + binaryCell.getData());
-        // System.out.println("AFTER" + Math.abs(binaryCell.getData() - 1));
-        modified.getPuzzleElement(puzzleElement).setData(binaryCell.getData());
-        System.out.println(contraRule.checkContradictionAt(modified, puzzleElement));
-
-        if (contraRule.checkContradictionAt(modified, puzzleElement) != null) {
+        // Flip the cell and check to see if a blocker digit is wasted, if so the rule is applied
+        // correctly
+        modified.getPuzzleElement(puzzleElement).setData(Math.abs(binaryCell.getData() - 1));
+        if (contraRule.checkContradictionAt(modified, binaryCell) == null) {
             return null;
         }
 
-        return "Grouping of Three Ones or Zeros not found";
+        return "Wasted Digit Found";
     }
 
+    /**
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
+     *
+     * @param node tree node used to create default transition board
+     * @return default board or null if this rule cannot be applied to this tree node
+     */
     @Override
     public Board getDefaultBoard(TreeNode node) {
         return null;

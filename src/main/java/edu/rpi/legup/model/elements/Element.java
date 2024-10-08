@@ -4,6 +4,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 
+/**
+ * The Element class serves as an abstract base class for various elements used in the system. It
+ * handles basic properties such as ID, name, description, and image associated with the element.
+ */
 @RegisterElement
 public abstract class Element {
     protected String elementID;
@@ -26,6 +30,10 @@ public abstract class Element {
         loadImage();
     }
 
+    /**
+     * Loads the image for the element and resizes it to a width of 100 pixels while maintaining
+     * aspect ratio
+     */
     private void loadImage() {
         if (imageName != null) {
             this.image = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(imageName));

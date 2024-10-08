@@ -8,6 +8,11 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 
+/**
+ * Abstract base class for defining rules. This class encapsulates the common functionality and
+ * attributes of all rules, including rule identification, description, image handling, and
+ * validation logic. Subclasses must provide implementations for specific rule checking logic.
+ */
 @RegisterRule
 public abstract class Rule {
     protected String ruleID;

@@ -11,6 +11,10 @@ import edu.rpi.legup.ui.ScrollView;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * An abstract class representing a view for a board in the puzzle game. It handles the visual
+ * representation and user interactions with the board elements.
+ */
 public abstract class BoardView extends ScrollView implements IBoardListener {
     protected TreeElement treeElement;
     protected Board board;
@@ -125,6 +129,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
         }
     }
 
+    /** Configures the view to handle case interactions */
     protected void setCasePickable() {
         CaseBoard caseBoard = (CaseBoard) board;
         Board baseBoard = caseBoard.getBaseBoard();

@@ -10,9 +10,16 @@ import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import javax.swing.*;
 
+/**
+ * The EditDataCommand class represents a command to edit the data of a puzzle element within a tree
+ * transition. It extends PuzzleCommand and provides functionality to execute and undo changes made
+ * to puzzle elements.
+ */
 public class EditDataCommand extends PuzzleCommand {
     private TreeTransition transition;
     private PuzzleElement savePuzzleElement;
@@ -38,7 +45,7 @@ public class EditDataCommand extends PuzzleCommand {
         this.transition = null;
     }
 
-    /** Executes a command */
+    /** Executes the edit data command, modifying the puzzle element and propagating changes */
     @SuppressWarnings("unchecked")
     @Override
     public void executeCommand() {
@@ -130,7 +137,17 @@ public class EditDataCommand extends PuzzleCommand {
         return null;
     }
 
-    /** Undoes an command */
+    /** Causes the TreeView background to flash red for a short duration when an error occurs. */
+    private void flashTreeViewRed() {
+        TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
+        Color originalColor = treeView.getBackground();
+        treeView.setBackground(MaterialColors.RED_700);
+        Timer timer = new Timer(400, e -> treeView.setBackground(originalColor));
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    /** Undoes the edit data command, restoring the previous state of the puzzle element. */
     @SuppressWarnings("unchecked")
     @Override
     public void undoCommand() {

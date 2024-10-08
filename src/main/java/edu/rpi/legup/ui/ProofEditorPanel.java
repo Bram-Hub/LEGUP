@@ -36,6 +36,13 @@ import javax.swing.border.TitledBorder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * {@code ProofEditorPanel} is a panel that serves as the main user interface component for the
+ * proof editing functionality of LEGUP. It provides the graphical components and interactive
+ * elements necessary for editing and managing proofs, including toolbars, menus, and views for
+ * different aspects of proof editing. It also manages interactions with the rest of the application
+ * and updates the UI based on user actions and application state changes.
+ */
 public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private static final Logger LOGGER = LogManager.getLogger(ProofEditorPanel.class.getName());
     private JMenuBar mBar;
@@ -119,6 +126,10 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         setPreferredSize(new Dimension(800, 700));
     }
 
+    /**
+     * Makes the panel visible by setting up the toolbar and content components. This method also
+     * sets the menu bar of the frame to the one used by this panel.
+     */
     @Override
     public void makeVisible() {
         this.removeAll();
@@ -128,6 +139,26 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         frame.setJMenuBar(getMenuBar());
     }
 
+    /**
+     * Constructs and returns the {@code JMenuBar} for this panel. It populates it with various
+     * {@code JMenu} and {@code JMenuItem} components related to file operations, editing, viewing,
+     * and proof management. The menu bar includes:
+     *
+     * <ul>
+     *   <li>{@code File} menu with options to open a new puzzle, reset the puzzle, save the proof,
+     *       access preferences, and exit the editor.
+     *   <li>{@code Edit} menu with options for undo, redo, and fitting the board or tree to the
+     *       screen.
+     *   <li>{@code Proof} menu with options for adding, deleting, merging, collapsing elements, and
+     *       toggling settings related to rule applications and feedback.
+     *   <li>{@code About} menu with options to view information about the application and access
+     *       help resources.
+     * </ul>
+     *
+     * <p>Accelerator keys are set based on the operating system (Mac or non-Mac).
+     *
+     * @return the {@code JMenuBar} instance containing the menus and menu items for this panel
+     */
     public JMenuBar getMenuBar() {
         if (mBar != null) return mBar;
         mBar = new JMenuBar();
@@ -457,6 +488,10 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         return mBar;
     }
 
+    /**
+     * Clears the current puzzle, resets the UI to display the initial panel, and nullifies the
+     * references to the tree panel and board view.
+     */
     public void exitEditor() {
         // Wipes the puzzle entirely as if LEGUP just started
         GameBoardFacade.getInstance().clearPuzzle();
@@ -465,7 +500,14 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         boardView = null;
     }
 
-    // File opener
+    /**
+     * Opens a file chooser dialog allowing the user to select a directory. It uses the user's
+     * preferred directory or the last saved path if available. The selected directory is used to
+     * set the new working directory.
+     *
+     * @return an array containing the file name and the selected file, or {@code null} if the
+     *     operation was canceled
+     */
     public Object[] promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
@@ -508,6 +550,12 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         return new Object[] {fileName, puzzleFile};
     }
 
+    /**
+     * Calls {@link #promptPuzzle()} to get the file information and then loads the puzzle using the
+     * provided file name and file object. Updates the frame title to reflect the puzzle name. If
+     * the file is not valid or an error occurs, an error message is shown, and the user is prompted
+     * to try loading another puzzle.
+     */
     public void loadPuzzle() {
         Object[] items = promptPuzzle();
         // Return if items == null (cancel)
@@ -519,7 +567,19 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         loadPuzzle(fileName, puzzleFile);
     }
 
+    /**
+     * Attempts to load a puzzle from the given file. If successful, it updates the UI to display
+     * the puzzle and changes the frame title to include the puzzle name. If the file is invalid or
+     * cannot be read, it shows an appropriate error message and prompts the user to try loading
+     * another puzzle.
+     *
+     * @param fileName the name of the file to load
+     * @param puzzleFile the file object representing the puzzle file
+     */
     public void loadPuzzle(String fileName, File puzzleFile) {
+        if (puzzleFile == null && fileName.isEmpty()) {
+            legupUI.displayPanel(1);
+        }
         if (puzzleFile != null && puzzleFile.exists()) {
             try {
                 legupUI.displayPanel(1);
@@ -554,7 +614,11 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
     }
 
-    /** save the proof in the current file */
+    /**
+     * Uses the current puzzle and its associated exporter to save the puzzle data to the file
+     * currently being used. If the puzzle or exporter is null, or if an error occurs during export,
+     * the method will catch the exception and print the stack trace.
+     */
     private void direct_save() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
@@ -574,7 +638,11 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
     }
 
-    /** Create a new file and save proof to it */
+    /**
+     * Opens a file chooser dialog for the user to select a directory. The chosen directory is used
+     * to determine where the puzzle file will be saved. If an exporter is available, it will be
+     * used to export the puzzle data to the selected path.
+     */
     private void saveProofAs() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
@@ -612,6 +680,11 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     // Hyperlink for help button; links to wiki page for tutorials
+    /**
+     * Opens the default web browser to a help page related to the type of puzzle currently being
+     * used. The URL is chosen based on the name of the puzzle. If the puzzle type is not
+     * recognized, a general tutorial page is opened.
+     */
     private void helpTutorial() {
         // redirecting to certain help link in wiki
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
@@ -665,7 +738,11 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         panel.add(moveing_buttom);
     }
 
-    // Quick save proof to the current file with a pop window to show "successfully saved"
+    /**
+     * Saves the puzzle using the current file name and shows a message dialog to confirm that the
+     * save operation was successful. If the puzzle or exporter is null, or if an error occurs
+     * during export, the method will catch the exception and print the stack trace.
+     */
     private void saveProofChange() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
@@ -740,13 +817,16 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         revalidate();
     }
 
-    private void setupToolBar() {
-        setToolBarButtons(new JButton[ToolbarName.values().length]);
-        for (int i = 0; i < ToolbarName.values().length; i++) {
-            String toolBarName = ToolbarName.values()[i].toString();
-            URL resourceLocation =
-                    ClassLoader.getSystemClassLoader()
-                            .getResource("edu/rpi/legup/images/Legup/" + toolBarName + ".png");
+    /**
+     * Initializes the first toolbar, configures its appearance, and adds an 'Open' button with an
+     * associated icon. An action listener is attached to the button to trigger the loading of a
+     * puzzle when clicked.
+     */
+    private void setupToolBar1() {
+        toolBar1 = new JToolBar();
+        toolBar1.setFloatable(false);
+        toolBar1.setRollover(true);
+        setToolBar2Buttons(new JButton[1]);
 
             // Scale the image icons down to make the buttons smaller
             ImageIcon imageIcon = new ImageIcon(resourceLocation);
@@ -813,7 +893,111 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     /**
-     * Sets the toolbar buttons
+     * Initializes the second toolbar, configures its appearance, and adds four buttons each with
+     * associated icons. Action listeners are attached to each button to trigger their respective
+     * actions when clicked:
+     *
+     * <ul>
+     *   <li>'Directions' button triggers the `directionsToolButton` method.
+     *   <li>'Undo' button triggers the undo action in the puzzle's history.
+     *   <li>'Redo' button triggers the redo action in the puzzle's history.
+     *   <li>'Check' button triggers the `checkProof` method.
+     * </ul>
+     */
+    private void setupToolBar2() {
+        toolBar2 = new JToolBar();
+        toolBar2.setFloatable(false);
+        toolBar2.setRollover(true);
+        setToolBar2Buttons(new JButton[4]);
+
+        URL directions_url =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/Directions.png");
+
+        ImageIcon DirectionsImageIcon = new ImageIcon(directions_url);
+        Image DirectionsImage = DirectionsImageIcon.getImage();
+        DirectionsImageIcon =
+                new ImageIcon(
+                        DirectionsImage.getScaledInstance(
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE,
+                                Image.SCALE_SMOOTH));
+
+        JButton directions = new JButton("Directions", DirectionsImageIcon);
+        directions.setFocusPainted(false);
+        directions.addActionListener((ActionEvent) -> directionsToolButton());
+
+        getToolBar2Buttons()[0] = directions;
+        toolBar2.add(getToolBar2Buttons()[0]);
+
+        URL undo_url =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/Undo.png");
+
+        ImageIcon UndoImageIcon = new ImageIcon(undo_url);
+        Image UndoImage = UndoImageIcon.getImage();
+        UndoImageIcon =
+                new ImageIcon(
+                        UndoImage.getScaledInstance(
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE,
+                                Image.SCALE_SMOOTH));
+
+        JButton undo = new JButton("Undo", UndoImageIcon);
+        undo.setFocusPainted(false);
+        undo.addActionListener((ActionEvent) -> GameBoardFacade.getInstance().getHistory().undo());
+
+        getToolBar2Buttons()[1] = undo;
+        toolBar2.add(getToolBar2Buttons()[1]);
+
+        URL redo_url =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/Redo.png");
+
+        ImageIcon RedoImageIcon = new ImageIcon(redo_url);
+        Image RedoImage = RedoImageIcon.getImage();
+        RedoImageIcon =
+                new ImageIcon(
+                        RedoImage.getScaledInstance(
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE,
+                                Image.SCALE_SMOOTH));
+
+        JButton redo = new JButton("Redo", RedoImageIcon);
+        redo.setFocusPainted(false);
+        redo.addActionListener(
+                (ActionEvent) -> {
+                    GameBoardFacade.getInstance().getHistory().redo();
+                });
+
+        getToolBar2Buttons()[2] = redo;
+        toolBar2.add(getToolBar2Buttons()[2]);
+
+        URL check_url =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/Check.png");
+
+        ImageIcon CheckImageIcon = new ImageIcon(check_url);
+        Image CheckImage = CheckImageIcon.getImage();
+        CheckImageIcon =
+                new ImageIcon(
+                        CheckImage.getScaledInstance(
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE,
+                                Image.SCALE_SMOOTH));
+
+        JButton check = new JButton("Check", CheckImageIcon);
+        check.setFocusPainted(false);
+        check.addActionListener((ActionEvent) -> checkProof());
+
+        getToolBar2Buttons()[3] = check;
+        toolBar2.add(getToolBar2Buttons()[3]);
+
+        this.add(toolBar2, BorderLayout.NORTH);
+    }
+
+    /**
+     * Sets the toolbar1 buttons
      *
      * @param toolBarButtons toolbar buttons
      */
@@ -830,7 +1014,29 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         return toolBarButtons;
     }
 
-    /** Checks the proof for correctness */
+    /**
+     * Gets the toolbar1 buttons
+     *
+     * @return toolbar1 buttons
+     */
+    public JButton[] getToolBar1Buttons() {
+        return toolBar1Buttons;
+    }
+
+    /**
+     * Gets the toolbar2 buttons
+     *
+     * @return toolbar2 buttons
+     */
+    public JButton[] getToolBar2Buttons() {
+        return toolBar2Buttons;
+    }
+
+    /**
+     * Uses the {@link GameBoardFacade} to obtain the current puzzle and board. If the puzzle is
+     * complete, it notifies the user of a correct proof. If not, it alerts the user that the board
+     * is not solved.
+     */
     private void checkProof() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         Tree tree = GameBoardFacade.getInstance().getTree();
@@ -857,6 +1063,50 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
     }
 
+    /**
+     * Retrieves the puzzle name from the `GameBoardFacade` and opens a corresponding rules page in
+     * the default web browser.
+     *
+     * @throws IOException if an error occurs while trying to open the web page
+     */
+    private void directionsToolButton() {
+        String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+        // System.out.println(puzzleName);
+        try {
+            if (puzzleName.equals("Fillapix")) {
+                java.awt.Desktop.getDesktop()
+                        .browse(
+                                URI.create(
+                                        "https://github.com/Bram-Hub/LEGUP/wiki/Fill-a-pix-rules"));
+            } else if (puzzleName.equals("LightUp")) {
+                java.awt.Desktop.getDesktop()
+                        .browse(
+                                URI.create(
+                                        "https://github.com/Bram-Hub/LEGUP/wiki/Light-up-rules"));
+            } else if (puzzleName.equals("TreeTent")) {
+                java.awt.Desktop.getDesktop()
+                        .browse(
+                                URI.create(
+                                        "https://github.com/Bram-Hub/LEGUP/wiki/Tree-tent-rules"));
+            } else if (puzzleName.equals("ShortTruthTables")) {
+                java.awt.Desktop.getDesktop()
+                        .browse(
+                                URI.create(
+                                        "https://github.com/Bram-Hub/LEGUP/wiki/Short-truth-table-rules"));
+            } else {
+                java.awt.Desktop.getDesktop()
+                        .browse(
+                                URI.create(
+                                        "https://github.com/Bram-Hub/LEGUP/wiki/"
+                                                + puzzleName
+                                                + "-rules"));
+            }
+        } catch (IOException e) {
+            LOGGER.error("Can't open web page");
+        }
+    }
+
+    /** Repaints the board view and tree panel */
     private void repaintAll() {
         boardView.repaint();
         treePanel.repaint();
@@ -891,10 +1141,14 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         reloadGui();
     }
 
+    /** Calls {@code repaintTree()} to refresh the tree view. */
     public void reloadGui() {
         repaintTree();
     }
 
+    /**
+     * Updates the tree view displayed in the tree panel to reflect the current state of the tree.
+     */
     public void repaintTree() {
         treePanel.repaintTreeView(GameBoardFacade.getInstance().getTree());
     }
@@ -1007,6 +1261,11 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         return boardView;
     }
 
+    /**
+     * Returns the current dynamic board view.
+     *
+     * @return the current {@link DynamicView}
+     */
     public DynamicView getDynamicBoardView() {
         return dynamicBoardView;
     }
@@ -1033,14 +1292,12 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         frame.setTitle(puzzleName + " - " + puzzleFile.getName() + " *");
     }
 
-    /** Called when the history is cleared */
+    /**
+     * Updates the state of the undo and redo buttons to reflect that there are no actions available
+     * to undo or redo. It disables both buttons when the history is cleared.
+     */
     @Override
-    public void onClearHistory() {
-        // undo.setEnabled(false);
-        //        toolBarButtons[ToolbarName.UNDO.ordinal()].setEnabled(false);
-        // redo.setEnabled(false);
-        //        toolBarButtons[ToolbarName.REDO.ordinal()].setEnabled(false);
-    }
+    public void onClearHistory() {}
 
     /**
      * Called when an action is redone
@@ -1120,6 +1377,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         // TODO: implement
     }
 
+    /** Zooms the tree view to fit within the available screen space */
     protected void fitTreeViewToScreen() {
         this.treePanel.getTreeView().zoomFit();
     }

@@ -4,6 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.prefs.Preferences;
 
+/**
+ * {@code LegupPreferences} is a class responsible for managing user preferences within the
+ * application. It uses Java's Preferences API to store and retrieve preferences, and it provides
+ * methods for accessing and updating these preferences.
+ */
 public class LegupPreferences {
 
     private static LegupPreferences instance;
@@ -73,7 +78,8 @@ public class LegupPreferences {
     }
 
     /**
-     * Gets the legup preferences singleton instance.
+     * Gets the legup preferences singleton instance This method ensures that only one instance of
+     * LegupPreferences exists
      *
      * @return legup preferences
      */
@@ -84,7 +90,10 @@ public class LegupPreferences {
         return instance;
     }
 
-    /** Private LegupPreferences Singleton Constructor */
+    /**
+     * Private constructor to prevent instantiation from outside the class Use {@link
+     * #getInstance()} to access the singleton instance
+     */
     private LegupPreferences() {}
 
     /**

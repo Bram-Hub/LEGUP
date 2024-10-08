@@ -45,7 +45,7 @@ public class UnbalancedRowOrColumnContradictionRule extends ContradictionRule {
             return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
         }
 
-        Set<BinaryCell> col = binaryBoard.getCol(cell.getLocation().x);
+        Set<BinaryCell> col = binaryBoard.getColCells(cell.getLocation().x);
 
         size = col.size();
         int colNumZeros = 0;

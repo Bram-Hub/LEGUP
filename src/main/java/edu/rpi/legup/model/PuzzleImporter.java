@@ -13,6 +13,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * Abstract class for importing puzzle data from various sources into a puzzle object. This class
+ * provides methods to initialize and set up a puzzle, including its board and proof structure, from
+ * different input formats such as dimensions, statements, or XML files. Subclasses must implement
+ * methods to handle specific formats for board initialization and proof creation.
+ */
 public abstract class PuzzleImporter {
     private static final Logger LOGGER = LogManager.getLogger(PuzzleImporter.class.getName());
 
@@ -46,6 +52,14 @@ public abstract class PuzzleImporter {
         }
     }
 
+    /**
+     * Initializes the puzzle with the given array of statements
+     *
+     * @param statements the statements used to initialize the puzzle
+     * @throws InputMismatchException if the input statements are invalid
+     * @throws IllegalArgumentException if the statements are not suitable for initializing the
+     *     puzzle
+     */
     public void initializePuzzle(String[] statements)
             throws InputMismatchException, IllegalArgumentException {
         // Note: Error checking for the statements will be left up to the puzzles that support
@@ -127,6 +141,14 @@ public abstract class PuzzleImporter {
      */
     public abstract void initializeBoard(Node node) throws InvalidFileFormatException;
 
+    /**
+     * Initializes the board using an array of statements.
+     *
+     * @param statements the statements used to initialize the board
+     * @throws UnsupportedOperationException if the operation is not supported
+     * @throws IllegalArgumentException if the statements are not suitable for initializing the
+     *     board
+     */
     public abstract void initializeBoard(String[] statements)
             throws UnsupportedOperationException, IllegalArgumentException;
 
@@ -368,6 +390,14 @@ public abstract class PuzzleImporter {
         }
     }
 
+    /**
+     * Updates the board state based on the changes specified in the TreeTransition.
+     *
+     * @param transition the TreeTransition object representing the transition to be updated
+     * @param transElement the XML node containing the transition data
+     * @throws InvalidFileFormatException if the XML node format is incorrect or unknown nodes are
+     *     encountered
+     */
     protected void makeTransitionChanges(TreeTransition transition, Node transElement)
             throws InvalidFileFormatException {
         if (transition.getRule() instanceof MergeRule) {
@@ -411,6 +441,10 @@ public abstract class PuzzleImporter {
         }
     }
 
+    /**
+     * Creates a default proof tree with a single root node. The root node is initialized with the
+     * current board state. The created tree is then set as the proof tree for the puzzle.
+     */
     protected void createDefaultTree() {
         TreeNode root = new TreeNode(puzzle.getCurrentBoard());
         root.setRoot(true);

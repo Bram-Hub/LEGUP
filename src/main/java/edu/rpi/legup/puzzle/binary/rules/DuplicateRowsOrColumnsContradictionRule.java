@@ -26,6 +26,8 @@ public class DuplicateRowsOrColumnsContradictionRule extends ContradictionRule {
         BinaryBoard binaryBoard = (BinaryBoard) board;
         BinaryCell cell = (BinaryCell) binaryBoard.getPuzzleElement(puzzleElement);
 
+        // Compare each row with row of current cell to see if they are equal, if so the rule is
+        // applied correctly
         ArrayList<BinaryType> row = binaryBoard.getRowTypes(cell.getLocation().y);
 
         int size = row.size();
@@ -39,6 +41,8 @@ public class DuplicateRowsOrColumnsContradictionRule extends ContradictionRule {
             }
         }
 
+        // Compare each column with column of current cell to see if they are equal, if so the rule
+        // is applied correctly
         ArrayList<BinaryType> col = binaryBoard.getColTypes(cell.getLocation().x);
 
         for (int i = 0; i < size; i++) {

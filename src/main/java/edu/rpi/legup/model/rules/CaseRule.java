@@ -11,6 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * CaseRule is an abstract class representing a rule that can be applied with multiple cases in a
+ * puzzle board. It defines methods for applying and checking the rule, as well as retrieving the
+ * necessary elements.
+ */
 public abstract class CaseRule extends Rule {
 
     private final String INVALID_USE_MESSAGE;

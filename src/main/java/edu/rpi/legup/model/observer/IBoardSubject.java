@@ -2,6 +2,10 @@ package edu.rpi.legup.model.observer;
 
 import java.util.function.Consumer;
 
+/**
+ * IBoardSubject defines methods for managing and notifying board listeners. It allows for adding
+ * and removing listeners, and for notifying them using a specified algorithm.
+ */
 public interface IBoardSubject {
     /**
      * Adds a board listener.

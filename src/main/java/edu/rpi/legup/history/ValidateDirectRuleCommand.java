@@ -9,7 +9,14 @@ import edu.rpi.legup.ui.proofeditorui.treeview.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+/**
+ * The ValidateDirectRuleCommand class represents a command for validating and applying a DirectRule
+ * to a set of selected tree elements. It extends the PuzzleCommand class and implements the
+ * ICommand interface.
+ */
 public class ValidateDirectRuleCommand extends PuzzleCommand {
     private TreeViewSelection selection;
 
@@ -30,7 +37,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
         this.addNode = new HashMap<>();
     }
 
-    /** Executes an command */
+    /** Executes the command to validate and apply the DirectRule. */
     @Override
     public void executeCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
@@ -110,7 +117,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
         return null;
     }
 
-    /** Undoes an command */
+    /** Undoes the validation command, restoring the previous state. */
     @Override
     public void undoCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();

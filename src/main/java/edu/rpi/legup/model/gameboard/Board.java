@@ -5,6 +5,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Abstract class representing a game board. This class provides functionality for managing puzzle
+ * elements, tracking modifications, and determining if the board is modifiable.
+ */
 public abstract class Board {
 
     protected List<PuzzleElement> puzzleElements;

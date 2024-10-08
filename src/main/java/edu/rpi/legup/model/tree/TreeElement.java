@@ -2,6 +2,10 @@ package edu.rpi.legup.model.tree;
 
 import edu.rpi.legup.model.gameboard.Board;
 
+/**
+ * Represents an element in a tree structure, which can be either a {@link TreeNode} or a {@link
+ * TreeTransition}.
+ */
 public abstract class TreeElement {
     protected TreeElementType type;
     protected Board board;

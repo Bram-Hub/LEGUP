@@ -17,6 +17,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+/**
+ * {@code TreePanel} is a JPanel that manages and displays a tree view with associated toolbar and
+ * status information. It provides methods to interact with the tree view, such as adding, deleting,
+ * and merging tree elements, and updating the status based on actions performed.
+ */
 public class TreePanel extends JPanel {
     public boolean modifiedSinceSave = false;
     public boolean modifiedSinceUndoPush = false;
@@ -29,6 +34,7 @@ public class TreePanel extends JPanel {
 
     private JLabel status;
 
+    /** Constructs a {@code TreePanel} and initializes the UI components. */
     public TreePanel(/*LegupUI legupUI*/ ) {
         // this.legupUI = legupUI;
 
@@ -71,6 +77,10 @@ public class TreePanel extends JPanel {
         // colorTransitions();
     }
 
+    /**
+     * Updates the status display based on the status timer. If the timer is greater than 0, the
+     * status will not be updated. Otherwise, it clears the status text.
+     */
     public void updateStatus() {
         updateStatusTimer = ((updateStatusTimer - 1) > 0) ? (updateStatusTimer - 1) : 0;
         if (updateStatusTimer > 0) {
@@ -95,6 +105,10 @@ public class TreePanel extends JPanel {
         return treeView;
     }
 
+    /**
+     * Adds a new tree element by executing an {@link AddTreeElementCommand}. If the command cannot
+     * be executed, it updates the status display with an error and error message.
+     */
     public void add() {
         TreeViewSelection selection = treeView.getSelection();
 
@@ -107,6 +121,10 @@ public class TreePanel extends JPanel {
         }
     }
 
+    /**
+     * Deletes the selected tree element by executing a {@link DeleteTreeElementCommand}. If the
+     * command cannot be executed, it updates the status display with an error and an error message.
+     */
     public void delete() {
         TreeViewSelection selection = treeView.getSelection();
 
@@ -119,6 +137,10 @@ public class TreePanel extends JPanel {
         }
     }
 
+    /**
+     * Merges selected tree elements by executing a {@link MergeCommand}. If the command cannot be
+     * executed, it updates the status display with an error and an error message.
+     */
     public void merge() {
         TreeViewSelection selection = treeView.getSelection();
 
@@ -131,6 +153,10 @@ public class TreePanel extends JPanel {
         }
     }
 
+    /**
+     * Toggles the collapsed state of the selected tree elements. If an element is collapsed, it
+     * will be expanded, and vice versa.
+     */
     public void collapse() {
         TreeViewSelection selection = treeView.getSelection();
         for (TreeElementView view : selection.getSelectedViews()) {

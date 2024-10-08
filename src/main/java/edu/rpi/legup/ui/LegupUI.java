@@ -14,6 +14,11 @@ import javax.swing.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The main user interface class for the LEGUP application. This class extends {@link JFrame} and
+ * implements {@link WindowListener} to manage the overall window and provide functionality for
+ * displaying various panels.
+ */
 public class LegupUI extends JFrame implements WindowListener {
     private static final Logger LOGGER = LogManager.getLogger(LegupUI.class.getName());
 
@@ -91,6 +96,7 @@ public class LegupUI extends JFrame implements WindowListener {
         setVisible(true);
     }
 
+    /** Initializes the panels used in the UI. Sets up the layout and adds panels to the window. */
     private void initPanels() {
         window = new JPanel();
         window.setLayout(new BorderLayout());
@@ -123,6 +129,7 @@ public class LegupUI extends JFrame implements WindowListener {
         return (PuzzleEditorPanel) panels[2];
     }
 
+    /** Repaints the tree view in the proof editor. */
     public void repaintTree() {
         getProofEditor().repaintTree();
     }

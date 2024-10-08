@@ -3,6 +3,12 @@ package edu.rpi.legup.model.gameboard;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * GridRegion represents a collection of cells within a grid. It manages a list of cells and
+ * provides methods to add, remove, and retrieve cells from the region.
+ *
+ * @param <T> the type of cell managed by the GridRegion
+ */
 public abstract class GridRegion<T> {
 
     protected List<T> regionCells;

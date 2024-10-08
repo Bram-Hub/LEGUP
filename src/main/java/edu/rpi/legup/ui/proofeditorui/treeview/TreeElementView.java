@@ -4,6 +4,11 @@ import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.model.tree.TreeElementType;
 import java.awt.*;
 
+/**
+ * Abstract base class for views of tree elements in the tree structure. This class implements the
+ * Shape interface to support custom drawing and interaction with tree elements. It holds properties
+ * for rendering, interaction, and layout of the tree elements.
+ */
 public abstract class TreeElementView implements Shape {
     protected TreeElement treeElement;
     protected double span;

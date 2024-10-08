@@ -26,6 +26,12 @@ import javax.swing.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The {@code TreeView} class provides a graphical representation of a {@code Tree} structure,
+ * allowing interaction and visualization of tree elements, transitions, and selections. It extends
+ * {@code ScrollView} and implements {@code ITreeListener} to respond to updates in the tree
+ * structure.
+ */
 public class TreeView extends ScrollView implements ITreeListener {
     private static final Logger LOGGER = LogManager.getLogger(TreeView.class.getName());
 
@@ -148,6 +154,7 @@ public class TreeView extends ScrollView implements ITreeListener {
         this.tree = tree;
     }
 
+    /** Updates the size of the tree view based on the bounds of its tree */
     public void updateTreeSize() {
         if (GameBoardFacade.getInstance().getTree() == null) {
             return;
@@ -155,12 +162,17 @@ public class TreeView extends ScrollView implements ITreeListener {
         setSize(bounds.getSize());
     }
 
+    /** Resets the view if the tree bounds have been modified */
     public void reset() {
         if (bounds.x != 0 || bounds.y != 0) {
             updateTreeSize();
         }
     }
 
+    /**
+     * Adjusts the zoom level to fit the entire tree within the viewport when the Resize Proof
+     * button is selected
+     */
     public void zoomFit() {
         double fitWidth = (viewport.getWidth() - 8.0) / (getSize().width - 200);
         double fitHeight = (viewport.getHeight() - 8.0) / (getSize().height - 120);
@@ -234,6 +246,10 @@ public class TreeView extends ScrollView implements ITreeListener {
         }
     }
 
+    /**
+     * Resets the zoom level to its default state and positions the viewport from the top-left
+     * corner
+     */
     public void zoomReset() {
         zoomTo(1.0);
         viewport.setViewPosition(new Point(0, 0));
@@ -282,6 +298,7 @@ public class TreeView extends ScrollView implements ITreeListener {
         }
     }
 
+    /** Resets the view by clearing the current tree, root node view, and selection */
     public void resetView() {
         this.tree = null;
         this.rootNodeView = null;
@@ -465,6 +482,36 @@ public class TreeView extends ScrollView implements ITreeListener {
         if (trans.getChildNode() != null) {
             removeTreeNode(trans.getChildNode());
         }
+
+        // Update transition modifiability if removing a case rule
+        List<TreeNode> parents = trans.getParents();
+        for (TreeNode parent : parents) {
+            // if transition is a case rule, unlock ancestor elements up until latest case rule or
+            // root node
+            boolean nextAncestorIsCaseRule = false;
+            Rule rule = trans.getRule();
+            if (rule instanceof CaseRule) {
+                List<TreeNode> ancestors = parent.getAncestors();
+                for (int i = 0; i < ancestors.size(); i++) {
+                    if (ancestors.get(i).getParent() == null) {
+                        continue;
+                    }
+                    if (nextAncestorIsCaseRule) {
+                        break;
+                    }
+                    for (PuzzleElement element : parent.getBoard().getPuzzleElements()) {
+                        PuzzleElement curElement =
+                                ancestors.get(i).getParent().getBoard().getPuzzleElement(element);
+                        if (!curElement.isModifiableCaseRule()) {
+                            curElement.setModifiableCaseRule(true);
+                        }
+                    }
+                    if (ancestors.get(i).getParent().getRule() instanceof CaseRule) {
+                        nextAncestorIsCaseRule = true;
+                    }
+                }
+            }
+        }
     }
 
     private void addTreeNode(TreeNode node) {
@@ -527,13 +574,11 @@ public class TreeView extends ScrollView implements ITreeListener {
                     if (ancestor.getParent() == null) {
                         continue;
                     }
-                    for (PuzzleElement element :
-                            caseRule.dependentElements(parent.getBoard(), trans.getSelection())) {
-                        // increment and lock
-                        PuzzleElement oldElement =
+
+                    for (PuzzleElement element : parent.getBoard().getPuzzleElements()) {
+                        PuzzleElement curElement =
                                 ancestor.getParent().getBoard().getPuzzleElement(element);
-                        oldElement.setCasesDepended(oldElement.getCasesDepended() + 1);
-                        oldElement.setModifiable(false);
+                        curElement.setModifiableCaseRule(false);
                     }
                 }
             }
@@ -606,6 +651,14 @@ public class TreeView extends ScrollView implements ITreeListener {
         }
     }
 
+    /**
+     * Calculates the layout locations (x and y coordinates) of the nodes in the tree. This method
+     * recursively traverses the tree and updates the positions of nodes and transitions based on
+     * their depth and parent relationships.
+     *
+     * @param nodeView the node view to calculate the positions for
+     * @param depth the depth of the node in the tree, used to calculate its x-coordinate
+     */
     public void calculateViewLocations(TreeNodeView nodeView, int depth) {
         nodeView.setDepth(depth);
         int xLoc = (NODE_GAP_WIDTH + DIAMETER) * depth + DIAMETER;
@@ -711,6 +764,13 @@ public class TreeView extends ScrollView implements ITreeListener {
         }
     }
 
+    /**
+     * Calculates the span (height) required for the given view, including its children. This method
+     * recursively determines the span for nodes and transitions based on their children and the
+     * merging branches they belong to.
+     *
+     * @param view the view whose span is to be calculated
+     */
     public void calcSpan(TreeElementView view) {
         if (view.getType() == NODE) {
             TreeNodeView nodeView = (TreeNodeView) view;
@@ -779,12 +839,12 @@ public class TreeView extends ScrollView implements ITreeListener {
     }
 
     /**
-     * Calculates the sub span of a given sub tree rooted at the specified view and stops at the
-     * tree puzzleElement view specified as stop. Stop tree puzzleElement is NOT included in the
-     * span calculation
+     * Calculates the span of a subtree rooted at the specified view, stopping at the given stop
+     * view. The stop view is not included in the span calculation.
      *
-     * @param view
-     * @param stop
+     * @param view the root view of the subtree to calculate the span for
+     * @param stop the view at which to stop the span calculation. The stop view itself is not
+     *     included in the span calculation
      */
     private void subCalcSpan(TreeElementView view, TreeElementView stop) {
         // safe-guard for infinite loop
@@ -859,12 +919,14 @@ public class TreeView extends ScrollView implements ITreeListener {
     }
 
     /**
-     * Reorders branches such that merging branches are sequentially grouped together and
-     * transitions are kept in relative order in the list of child transitions of the specified node
+     * Reorders the branches of a given node such that branches that merge are grouped together
+     * sequentially. Transitions are kept in their relative order based on their original positions
+     * in the list of child transitions of the specified node. This ensures that the visual
+     * representation of the branches and transitions maintains a logical and readable structure.
      *
-     * @param node root node of the branches
-     * @param branches DisjointSets of the child branches of the specified node which determine
-     *     which branches merge
+     * @param node the root node whose branches are to be reordered
+     * @param branches a DisjointSets structure representing the merging relationships of the child
+     *     branches of the specified node. This determines which branches should be grouped together
      */
     private void reorderBranches(TreeNode node, DisjointSets<TreeTransition> branches) {
         List<TreeTransition> children = node.getChildren();

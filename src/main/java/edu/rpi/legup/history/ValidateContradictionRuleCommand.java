@@ -10,6 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The ValidateContradictionRuleCommand class represents a command for validating and applying a
+ * ContradictionRule within a tree structure. It extends the PuzzleCommand class and implements the
+ * ICommand interface.
+ */
 public class ValidateContradictionRuleCommand extends PuzzleCommand {
     private TreeViewSelection selection;
 
@@ -31,7 +36,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
         this.addTran = new HashMap<>();
     }
 
-    /** Executes a command */
+    /** Executes the command to validate and apply the ContradictionRule. */
     @Override
     public void executeCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
@@ -84,7 +89,11 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
         final TreeElement finalTreeElement;
         if (firstSelectedView.getType() == TreeElementType.NODE) {
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
-            finalTreeElement = nodeView.getChildrenViews().get(0).getTreeElement();
+            if (!nodeView.getChildrenViews().isEmpty()) {
+                finalTreeElement = nodeView.getChildrenViews().get(0).getTreeElement();
+            } else {
+                finalTreeElement = null;
+            }
         } else {
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
             if (transitionView.getChildView() != null) {
@@ -125,7 +134,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
         return null;
     }
 
-    /** Undoes a command */
+    /** Undoes the validation command, restoring the previous state. */
     @Override
     public void undoCommand() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();

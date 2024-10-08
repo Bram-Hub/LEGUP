@@ -10,6 +10,13 @@ public class BinaryExporter extends PuzzleExporter {
         super(binary);
     }
 
+    /**
+     * Generates an XML element for the binary puzzle board, including its dimensions and the state
+     * of each cell. Binary cells that are not in the `UNKNOWN` state are included in the XML.
+     *
+     * @param newDocument The XML document to which the board element belongs.
+     * @return The XML element representing the board.
+     */
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
         BinaryBoard board;

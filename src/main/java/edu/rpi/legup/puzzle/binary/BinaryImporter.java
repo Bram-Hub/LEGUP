@@ -110,6 +110,12 @@ public class BinaryImporter extends PuzzleImporter {
         }
     }
 
+    /**
+     * Initializes a board with text
+     *
+     * @param statements the text being used
+     * @throws UnsupportedOperationException Binary does not use text input
+     */
     @Override
     public void initializeBoard(String[] statements) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Binary cannot accept text input");

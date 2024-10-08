@@ -22,8 +22,33 @@ public class BinaryElementView extends GridElementView {
         return (BinaryCell) super.getPuzzleElement();
     }
 
+    /**
+     * Draws the cells provided in the puzzle's .xml file with light gray background
+     *
+     * @param graphics2D The graphics object to draw on
+     */
     @Override
     public void drawGiven(Graphics2D graphics2D) {
+        drawCell(graphics2D, GIVEN_COLOR);
+    }
+
+    /**
+     * Draws new cells being added to board with white background
+     *
+     * @param graphics2D The graphics object to draw on
+     */
+    @Override
+    public void drawElement(Graphics2D graphics2D) {
+        drawCell(graphics2D, ELEMENT_COLOR);
+    }
+
+    /**
+     * Helper method to handle drawing the cell based on its type and background color
+     *
+     * @param graphics2D The graphics object to draw on
+     * @param bgColor The background color for the cell
+     */
+    private void drawCell(Graphics2D graphics2D, Color bgColor) {
         BinaryCell cell = (BinaryCell) puzzleElement;
         BinaryType type = cell.getType();
         if (type == BinaryType.ZERO) {

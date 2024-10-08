@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 
+/**
+ * Abstract base class for panels displaying rules. Each subclass will represent a specific type of
+ * rule panel (e.g., DirectRulePanel, CaseRulePanel).
+ */
 public abstract class RulePanel extends JPanel {
     protected ImageIcon icon;
     protected String name;
@@ -57,6 +61,15 @@ public abstract class RulePanel extends JPanel {
             ruleButtons[i] = new RuleButton(rule);
             ruleButtons[i].setPreferredSize(
                     new Dimension(150, 150)); // adjust the size of each RuleButton
+
+            if (rule.getRuleName().length() > 18) {
+                ruleButtons[i].setFont(new Font("Segoe UI", Font.PLAIN, 11));
+            }
+            if (rule.getRuleName().length() > 20) {
+                ruleButtons[i].setFont(new Font("Segoe UI", Font.PLAIN, 10));
+            }
+            System.out.println(ruleButtons[i].getFont().getName());
+
             ruleButtons[i].setHorizontalTextPosition(JButton.CENTER);
             ruleButtons[i].setVerticalTextPosition(JButton.BOTTOM);
 
@@ -69,6 +82,7 @@ public abstract class RulePanel extends JPanel {
         revalidate();
     }
 
+    /** Updates the rules displayed by reloading images and setting the rules again. */
     public void updateRules() {
         for (Rule rule : rules) {
             rule.loadImage();

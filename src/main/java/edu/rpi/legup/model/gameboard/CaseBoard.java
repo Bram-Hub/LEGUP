@@ -5,6 +5,10 @@ import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Represents a game board with specific rules for selecting puzzle elements. Extends the abstract
+ * `Board` class and adds functionality for handling pickable elements and case rules.
+ */
 public class CaseBoard extends Board {
     protected Board baseBoard;
     protected CaseRule caseRule;
@@ -48,6 +52,11 @@ public class CaseBoard extends Board {
         return pickablePuzzleElements.size();
     }
 
+    /**
+     * Performs a deep copy of this CaseBoard. CURRENTLY NOT IMPLEMENTED AND RETURNS NULL
+     *
+     * @return a new copy of the CaseBoard
+     */
     public CaseBoard copy() {
         return null;
     }

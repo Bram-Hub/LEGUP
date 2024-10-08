@@ -7,6 +7,10 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 
+/**
+ * DirectRule is an abstract class representing a direct rule for transitions in a puzzle. It
+ * provides methods for checking whether transitions and specific puzzle elements follow the rule.
+ */
 public abstract class DirectRule extends Rule {
     /**
      * DirectRule Constructor creates a new basic rule.
