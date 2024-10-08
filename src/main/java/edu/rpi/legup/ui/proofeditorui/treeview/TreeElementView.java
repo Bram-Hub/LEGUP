@@ -41,7 +41,7 @@ public abstract class TreeElementView implements Shape {
     public abstract void draw(Graphics2D graphics2D);
 
     /**
-     * Gets the span for the subtree rooted at this view
+     * Gets the span for the sub tree rooted at this view
      *
      * @return span bounded y span
      */
@@ -50,7 +50,7 @@ public abstract class TreeElementView implements Shape {
     }
 
     /**
-     * Sets the span for the subtree rooted at this view.
+     * Sets the span for the sub tree rooted at this view.
      *
      * @param span bounded y span
      */

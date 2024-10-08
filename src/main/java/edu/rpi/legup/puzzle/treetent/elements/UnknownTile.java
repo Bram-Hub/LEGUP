@@ -1,11 +1,11 @@
 package edu.rpi.legup.puzzle.treetent.elements;
 
-import edu.rpi.legup.model.elements.PlaceableElement;
+import edu.rpi.legup.model.elements.NonPlaceableElement;
 
-public class UnknownTile extends PlaceableElement {
+public class UnknownTile extends NonPlaceableElement {
     public UnknownTile() {
         super(
-                "TREE-ELEM-0004",
+                "TREE-UNPL-0002",
                 "Unknown Tile",
                 "The blank tile",
                 "edu/rpi/legup/images/treetent/UnknownTile.png");

@@ -10,14 +10,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 public class BinaryCellFactory extends ElementFactory {
-    /**
-     * Creates a puzzleElement based on the xml document Node and adds it to the board
-     *
-     * @param node node that represents the puzzleElement
-     * @param board board to add the newly created cell
-     * @return newly created cell from the xml document Node
-     * @throws InvalidFileFormatException if file is invalid
-     */
+
     public BinaryCell importCell(Node node, Board board) throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("cell")) {
@@ -52,13 +45,6 @@ public class BinaryCellFactory extends ElementFactory {
         }
     }
 
-    /**
-     * Creates a xml document puzzleElement from a cell for exporting
-     *
-     * @param document xml document
-     * @param puzzleElement PuzzleElement cell
-     * @return xml PuzzleElement
-     */
     public org.w3c.dom.Element exportCell(Document document, PuzzleElement puzzleElement) {
         org.w3c.dom.Element cellElement = document.createElement("cell");
 

@@ -18,7 +18,6 @@ import org.apache.logging.log4j.Logger;
  * ICommand interface.
  */
 public class ValidateDirectRuleCommand extends PuzzleCommand {
-    private static final Logger LOGGER = LogManager.getLogger(History.class.getName());
     private TreeViewSelection selection;
 
     private Map<TreeElement, Rule> oldRules;
@@ -50,15 +49,14 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
         for (TreeElementView selectedView : selectedViews) {
             TreeElement element = selectedView.getTreeElement();
             TreeTransitionView transitionView;
-
             if (element.getType() == TreeElementType.NODE) {
                 TreeNodeView nodeView = (TreeNodeView) selectedView;
                 transitionView = nodeView.getChildrenViews().get(0);
             } else {
                 transitionView = (TreeTransitionView) selectedView;
             }
-
             TreeTransition transition = transitionView.getTreeElement();
+
             oldRules.put(transition, transition.getRule());
             transition.setRule(newRule);
 
@@ -75,41 +73,17 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
                 final TreeNode finalNode = childNode;
                 puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(finalNode));
             }
-
-            TreeElementView childView = treeView.getElementView(childNode);
-            if (childView == null) {
-                LOGGER.error("Child view is null for child node: " + childNode);
-                continue;
-            }
-            newSelection.addToSelection(childView);
+            newSelection.addToSelection(treeView.getElementView(childNode));
         }
-
         TreeElementView firstSelectedView = selection.getFirstSelection();
-
         final TreeElement finalTreeElement;
         if (firstSelectedView.getType() == TreeElementType.NODE) {
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
-            if (nodeView.getChildrenViews().isEmpty()) {
-                LOGGER.error("NodeView has no children views");
-                return;
-            }
             finalTreeElement = nodeView.getChildrenViews().get(0).getTreeElement();
         } else {
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
-            TreeNodeView childView = transitionView.getChildView();
-            if (childView == null) {
-                LOGGER.error("Child view is null for transition view: " + transitionView);
-                TreeNode childNode = transitionView.getTreeElement().getChildNode();
-                childView = (TreeNodeView) treeView.getElementView(childNode);
-                transitionView.setChildView(childView);
-            }
-            TreeTransition transition = transitionView.getTreeElement();
-            if (transition.getParents().get(0).getChildren().isEmpty()) {
-                transition.getParents().get(0).addChild(transition);
-            }
             finalTreeElement = transitionView.getChildView().getTreeElement();
         }
-
         puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTreeElement));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
     }
@@ -159,7 +133,6 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
                 transitionView = (TreeTransitionView) selectedView;
             }
             TreeTransition transition = transitionView.getTreeElement();
-
             transition.setRule(oldRules.get(transition));
 
             if (addNode.get(transition) != null) {

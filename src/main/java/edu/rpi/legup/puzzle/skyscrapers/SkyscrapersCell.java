@@ -27,10 +27,10 @@ public class SkyscrapersCell extends GridCell<Integer> {
     @Override
     public void setType(Element e, MouseEvent m) {
         switch (e.getElementID()) {
-            case "SKYS-ELEM-0002":
+            case "SKYS-UNPL-0001":
                 this.data = 0;
                 break;
-            case "SKYS-ELEM-0001":
+            case "SKYS-UNPL-0002":
                 switch (m.getButton()) {
                     case MouseEvent.BUTTON1:
                         if (this.data <= 0 || this.data >= this.max) {

@@ -27,7 +27,7 @@ public class MergeRule extends Rule {
 
     /**
      * Checks whether the transition logically follows from the parent node using this rule. This
-     * method is the one that should have overridden in child classes
+     * method is the one that should overridden in child classes
      *
      * @param transition transition to check
      * @return null if the child node logically follow from the parent node, otherwise error message

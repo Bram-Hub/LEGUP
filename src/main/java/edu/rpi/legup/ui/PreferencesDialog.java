@@ -53,24 +53,12 @@ public class PreferencesDialog extends JDialog {
         }
     }
 
-    /**
-     * Creates a new instance of PreferencesDialog for the proof editor
-     *
-     * @param frame the parent frame
-     * @param rules the RuleFrame associated with the proof editor
-     * @return a new instance of PreferencesDialog
-     */
     public static PreferencesDialog CreateDialogForProofEditor(Frame frame, RuleFrame rules) {
         PreferencesDialog p = new PreferencesDialog(frame);
         p.rulesFrame = rules;
         return p;
     }
 
-    /**
-     * Constructs a PreferencesDialog
-     *
-     * @param frame the parent frame
-     */
     public PreferencesDialog(Frame frame) {
         super(frame);
 
@@ -120,11 +108,6 @@ public class PreferencesDialog extends JDialog {
         setVisible(true);
     }
 
-    /**
-     * Toggles between dark mode and light mode based on the given preferences
-     *
-     * @param prefs the LegupPreferences instance holding user preferences
-     */
     private void toggleDarkMode(LegupPreferences prefs) {
         try {
             if (Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
@@ -138,11 +121,6 @@ public class PreferencesDialog extends JDialog {
         }
     }
 
-    /**
-     * Creates the general preferences tab
-     *
-     * @return a JScrollPane containing the general preferences panel
-     */
     private JScrollPane createGeneralTab() {
         LegupPreferences prefs = LegupPreferences.getInstance();
         JScrollPane scrollPane = new JScrollPane();

@@ -48,10 +48,7 @@ public class History {
         }
     }
 
-    /**
-     * Undoes the last action by calling the undo method of the command at the current index.
-     * Updates the current index and notifies listeners.
-     */
+    /** Undoes an action */
     public void undo() {
         synchronized (lock) {
             if (curIndex > -1) {
@@ -66,10 +63,7 @@ public class History {
         }
     }
 
-    /**
-     * Redoes the next action by calling the redo method of the command at the current index.
-     * Updates the current index and notifies listeners.
-     */
+    /** Redoes an action */
     public void redo() {
         synchronized (lock) {
             if (curIndex < history.size() - 1) {

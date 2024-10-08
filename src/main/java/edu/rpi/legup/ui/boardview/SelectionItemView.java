@@ -58,11 +58,6 @@ public class SelectionItemView extends JMenuItem {
         this(data, (Integer) data.getData());
     }
 
-    /**
-     * Gets the PuzzleElement associated with this menu item
-     *
-     * @return the PuzzleElement associated with this menu item
-     */
     public PuzzleElement getData() {
         return data;
     }

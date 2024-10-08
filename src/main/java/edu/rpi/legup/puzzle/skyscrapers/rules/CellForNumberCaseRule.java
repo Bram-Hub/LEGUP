@@ -61,9 +61,6 @@ public class CellForNumberCaseRule extends CaseRule {
 
     public ArrayList<Board> getCasesFor(Board board, PuzzleElement puzzleElement, Integer number) {
         ArrayList<Board> cases = new ArrayList<>();
-        if (puzzleElement == null) {
-            return cases;
-        }
 
         SkyscrapersClue clue = (SkyscrapersClue) puzzleElement;
         SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board;

@@ -30,7 +30,6 @@ public class SudokuView extends GridBoardView {
                 //                                i * elementSize.height);
                 SudokuElementView element = new SudokuElementView(board.getCell(k, i));
                 element.setIndex(i * gridSize.width + k);
-                element.setIndex(i * gridSize.width);
                 element.setSize(elementSize);
                 element.setLocation(location);
                 elementViews.add(element);

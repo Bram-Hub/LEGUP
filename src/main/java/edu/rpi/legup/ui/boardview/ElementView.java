@@ -97,19 +97,8 @@ public abstract class ElementView implements Shape {
         graphics2D.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
     }
 
-    /**
-     * Draws additional elements for given PuzzleElements (default implementation does nothing).
-     * Overriden in some puzzle element views.
-     *
-     * @param graphics2D the Graphics2D context to use for drawing
-     */
     public void drawGiven(Graphics2D graphics2D) {}
 
-    /**
-     * Draws a hover effect on the ElementView.
-     *
-     * @param graphics2D the Graphics2D context to use for drawing
-     */
     public void drawHover(Graphics2D graphics2D) {
         graphics2D.setColor(hoverColor);
         graphics2D.setStroke(new BasicStroke(2));
@@ -118,11 +107,6 @@ public abstract class ElementView implements Shape {
                         location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
     }
 
-    /**
-     * Draws a modified effect on the ElementView.
-     *
-     * @param graphics2D the Graphics2D context to use for drawing
-     */
     public void drawModified(Graphics2D graphics2D) {
         graphics2D.setColor(puzzleElement.isValid() ? modifiedColor : invalidColor);
         graphics2D.setStroke(new BasicStroke(2));
@@ -131,11 +115,6 @@ public abstract class ElementView implements Shape {
                         location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
     }
 
-    /**
-     * Draws a case rule picker on the ElementView.
-     *
-     * @param graphics2D the Graphics2D context to use for drawing
-     */
     public void drawCase(Graphics2D graphics2D) {
         graphics2D.setColor(caseColor);
         graphics2D.fill(
@@ -143,11 +122,6 @@ public abstract class ElementView implements Shape {
                         location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
     }
 
-    /**
-     * Creates an image representation of the ElementView.
-     *
-     * @return a BufferedImage of the ElementView
-     */
     public BufferedImage getImage() {
         BufferedImage image =
                 new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
@@ -229,20 +203,10 @@ public abstract class ElementView implements Shape {
         this.puzzleElement = data;
     }
 
-    /**
-     * Checks if the case picker should be shown for this ElementView
-     *
-     * @return true if the case picker should be shown, false otherwise
-     */
     public boolean isShowCasePicker() {
         return showCasePicker;
     }
 
-    /**
-     * Sets whether the case picker should be shown for this ElementView
-     *
-     * @param showCasePicker true if the case picker should be shown, false otherwise
-     */
     public void setShowCasePicker(boolean showCasePicker) {
         this.showCasePicker = showCasePicker;
     }
@@ -450,21 +414,11 @@ public abstract class ElementView implements Shape {
                 .getPathIterator(at, flatness);
     }
 
-    /**
-     * Returns the bounding rectangle of this ElementView
-     *
-     * @return a Rectangle representing the bounding box of this ElementView
-     */
     @Override
     public Rectangle getBounds() {
         return new Rectangle(location.x, location.y, size.width, size.height);
     }
 
-    /**
-     * Returns the bounding rectangle of this ElementView as a Rectangle2D
-     *
-     * @return a Rectangle2D representing the bounding box of this ElementView
-     */
     @Override
     public Rectangle2D getBounds2D() {
         return new Rectangle(location.x, location.y, size.width, size.height);

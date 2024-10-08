@@ -12,20 +12,10 @@ public enum CommandState {
 
     private String value;
 
-    /**
-     * Constructs a CommandState with the specified state name
-     *
-     * @param value The name associated with the command state
-     */
     CommandState(String value) {
         this.value = value;
     }
 
-    /**
-     * Returns the name associated with this CommandState
-     *
-     * @return The state name
-     */
     @Override
     public String toString() {
         return value;

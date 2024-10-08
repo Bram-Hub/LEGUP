@@ -16,7 +16,7 @@ public class LastNumberForCellDirectRule extends DirectRule {
                 "SUDO-BASC-0003",
                 "Last Number for Cell",
                 "This is the only number left that can fit in the cell of a group.",
-                "edu/rpi/legup/images/sudoku/rules/forcedByDeduction.png");
+                "edu/rpi/legup/images/sudoku/forcedByDeduction.png");
     }
 
     /**
@@ -32,37 +32,28 @@ public class LastNumberForCellDirectRule extends DirectRule {
         SudokuBoard initialBoard = (SudokuBoard) transition.getParents().get(0).getBoard();
         SudokuBoard finalBoard = (SudokuBoard) transition.getBoard();
 
-        // Assign basics
+        int index = puzzleElement.getIndex();
         int groupSize = initialBoard.getWidth();
         int groupDim = (int) Math.sqrt(groupSize);
-
-        // Get position info
-        int index = puzzleElement.getIndex();
         int rowIndex = index / groupSize;
         int colIndex = index % groupSize;
-        int groupNum = (rowIndex / groupDim) * groupDim + (colIndex / groupDim);
-
-        // Create hashset of all numbers
+        int groupNum = rowIndex / groupDim * groupDim + colIndex % groupDim;
         HashSet<Integer> numbers = new HashSet<>();
         for (int i = 1; i <= groupSize; i++) {
             numbers.add(i);
         }
-
-        // Run through region, row, col to see contradicitng numbers
         for (int i = 0; i < groupSize; i++) {
             SudokuCell cell = initialBoard.getCell(groupNum, i % groupDim, i / groupDim);
             numbers.remove(cell.getData());
         }
         for (int i = 0; i < groupSize; i++) {
-            SudokuCell cell = initialBoard.getCell(i, rowIndex);
+            SudokuCell cell = initialBoard.getCell(i, colIndex);
             numbers.remove(cell.getData());
         }
         for (int i = 0; i < groupSize; i++) {
-            SudokuCell cell = initialBoard.getCell(colIndex, i);
+            SudokuCell cell = initialBoard.getCell(rowIndex, i);
             numbers.remove(cell.getData());
         }
-
-        // Check if plausible
         if (numbers.size() > 1) {
             return super.getInvalidUseOfRuleMessage() + ": The number at the index is not forced";
         } else {
@@ -73,11 +64,7 @@ public class LastNumberForCellDirectRule extends DirectRule {
                         + ": The number at the index is forced but not correct";
             }
         }
-        if (numbers.toArray(new Integer[1])[0] == puzzleElement.getData()) {
-            return null;
-        }
-        return super.getInvalidUseOfRuleMessage()
-                + ": The number at the index is forced but not correct";
+        return null;
     }
 
     /**

@@ -28,7 +28,7 @@ public abstract class TreeElement {
     public abstract boolean isContradictoryBranch();
 
     /**
-     * Recursively determines if the subtree rooted at this tree puzzleElement is valid by checking
+     * Recursively determines if the sub-tree rooted at this tree puzzleElement is valid by checking
      * whether this tree puzzleElement and all descendants of this tree puzzleElement is justified
      * and justified correctly
      *

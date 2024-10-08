@@ -78,6 +78,34 @@ public class FinishRoomCaseRuleTest {
         NurikabeCell cell2 = board.getCell(4, 2);
         ArrayList<Board> cases2 = RULE.getCases(board, cell2);
 
-        Assert.assertEquals(9, cases2.size());
+        Assert.assertEquals(6, cases2.size()); // correctly stops generating possible cases after
+        // more than 5 (the max) is found. Would have generated 8 cases
+        //        FinishRoomCaseRule finny = new FinishRoomCaseRule();
+        //        finny.checkRuleRaw();
+        // "Invalid use of the case rule FinishRoom: This case rule must have 5 or less children."
+
+        // getErrorString in auto case rule
+        // should display "The selection can produce a max of 5 cases."
+        // AutoCaseRuleCommand autoCaseRuleCommand = new AutoCaseRuleCommand(elementView, selection,
+        // caseBoard.getCaseRule(), caseBoard, e);
+
+        //        NurikabeBoard caseyBoard = (NurikabeBoard) cases2.get(0);
+        //        NurikabeBoard caseyBoard2 = (NurikabeBoard) cases2.get(1);
+        //        NurikabeBoard caseyBoard3 = (NurikabeBoard) cases2.get(2);
+        //        NurikabeBoard caseyBoard4 = (NurikabeBoard) cases2.get(3);
+        //        NurikabeBoard caseyBoard5 = (NurikabeBoard) cases2.get(4);
+        //        NurikabeBoard caseyBoard6 = (NurikabeBoard) cases2.get(5);
+        //        NurikabeBoard caseyBoard7 = (NurikabeBoard) cases2.get(6);
+        //        NurikabeBoard caseyBoard8 = (NurikabeBoard) cases2.get(7);
+        //
+        //        NurikabeType boardy1Type = caseyBoard.getCell(5,5).getType();
+        //        NurikabeType boardy2Type = caseyBoard2.getCell(6,6).getType();
+        //        NurikabeType boardy3Type = caseyBoard.getCell(5,5).getType();
+        //        NurikabeType boardy4Type = caseyBoard2.getCell(6,6).getType();
+        //        NurikabeType boardy5Type = caseyBoard.getCell(5,5).getType();
+        //        NurikabeType boardy6Type = caseyBoard2.getCell(6,6).getType();
+        //        NurikabeType boardy7Type = caseyBoard.getCell(5,5).getType();
+        //        NurikabeType boardy8Type = caseyBoard2.getCell(6,6).getType();
+
     }
 }

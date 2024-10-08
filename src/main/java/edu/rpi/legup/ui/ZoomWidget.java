@@ -10,10 +10,6 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-/**
- * The {@code ZoomWidget} displays a zoom icon that, when clicked, shows a popup slider to adjust
- * the zoom level of the associated {@code ScrollView}.
- */
 public class ZoomWidget extends JLabel {
     private ScrollView parent;
     private PopupSlider palette = new PopupSlider();
@@ -52,11 +48,6 @@ public class ZoomWidget extends JLabel {
             slider.addChangeListener(this);
         }
 
-        /**
-         * Handles state changes in the slider by adjusting the zoom level of the {@code ScrollView}
-         *
-         * @param e the {@code ChangeEvent} indicating that the slider's state has changed
-         */
         public void stateChanged(ChangeEvent e) {
             if (slider.getValueIsAdjusting()) {
                 parent.zoomTo((double) slider.getValue() / 100.0);

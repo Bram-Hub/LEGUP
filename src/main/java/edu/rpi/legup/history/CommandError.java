@@ -25,20 +25,10 @@ public enum CommandError {
 
     private String value;
 
-    /**
-     * Constructs a CommandError with the specified error message
-     *
-     * @param value The error message associated with the command error
-     */
     CommandError(String value) {
         this.value = value;
     }
 
-    /**
-     * Returns the error message associated with this CommandError
-     *
-     * @return The error message
-     */
     @Override
     public String toString() {
         return value;

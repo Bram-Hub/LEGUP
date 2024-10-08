@@ -58,6 +58,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     protected List<ContradictionRule> contradictionRules;
     protected List<CaseRule> caseRules;
     protected List<PlaceableElement> placeableElements;
+    protected List<NonPlaceableElement> nonPlaceableElements;
 
     /** Puzzle Constructor - creates a new Puzzle */
     public Puzzle() {
@@ -69,6 +70,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         this.caseRules = new ArrayList<>();
 
         this.placeableElements = new ArrayList<>();
+        this.nonPlaceableElements = new ArrayList<>();
 
         registerRules();
         registerPuzzleElements();
@@ -107,6 +109,9 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                                 case PLACEABLE:
                                     this.addPlaceableElement((PlaceableElement) element);
                                     break;
+                                case NONPLACEABLE:
+                                    this.addNonPlaceableElement((NonPlaceableElement) element);
+                                    break;
                                 default:
                                     break;
                             }
@@ -117,6 +122,14 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                     }
                 }
             }
+
+            //        } catch (IOException | ClassNotFoundException | NoSuchMethodException |
+            //                InstantiationException | IllegalAccessException |
+            // InvocationTargetException
+            // e) {
+            //            LOGGER.error("Unable to find rules for " +
+            // this.getClass().getSimpleName(), e);
+            //        }
         } catch (Exception e) {
             LOGGER.error("Unable to find elements for " + this.getClass().getSimpleName(), e);
         }
@@ -172,6 +185,14 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                     }
                 }
             }
+
+            //        } catch (IOException | ClassNotFoundException | NoSuchMethodException |
+            //                InstantiationException | IllegalAccessException |
+            // InvocationTargetException
+            // e) {
+            //            LOGGER.error("Unable to find rules for " +
+            // this.getClass().getSimpleName(), e);
+            //        }
         } catch (Exception e) {
             LOGGER.error("Unable to find rules for " + this.getClass().getSimpleName(), e);
         }
@@ -200,10 +221,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     }
 
     /**
-     * Checks if the provided text input is valid for the puzzle.
+     * Checks if the given array of statements is valid text input for the given puzzle
      *
-     * @param statements array of statements to check
-     * @return true if input is valid, false otherwise
+     * @param statements
+     * @return
      */
     public boolean isValidTextInput(String[] statements) {
         return statements.length > 0;
@@ -335,13 +356,12 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         return directRules;
     }
 
-    /**
-     * Gets the list of placeable elements.
-     *
-     * @return list of PlaceableElement instances
-     */
     public List<PlaceableElement> getPlaceableElements() {
         return placeableElements;
+    }
+
+    public List<NonPlaceableElement> getNonPlaceableElements() {
+        return nonPlaceableElements;
     }
 
     /**
@@ -362,13 +382,12 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         directRules.add(rule);
     }
 
-    /**
-     * Adds a placeable element to this puzzle.
-     *
-     * @param element PlaceableElement to add
-     */
     public void addPlaceableElement(PlaceableElement element) {
         placeableElements.add(element);
+    }
+
+    public void addNonPlaceableElement(NonPlaceableElement element) {
+        nonPlaceableElements.add(element);
     }
 
     /**
@@ -586,7 +605,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * Adds a board listener to the list of listeners. This allows the puzzle to notify the listener
      * about changes to the board.
      *
-     * @param listener The IBoardListener to be added to the list of listeners.
+     * @param listener listener to add
      */
     @Override
     public void addBoardListener(IBoardListener listener) {
@@ -597,7 +616,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * Removes a board listener from the list of listeners. This prevents the puzzle from notifying
      * the listener about future changes to the board.
      *
-     * @param listener The IBoardListener to be removed from the list of listeners.
+     * @param listener listener to remove
      */
     @Override
     public void removeBoardListener(IBoardListener listener) {
@@ -620,7 +639,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * Adds a tree listener to the list of listeners. This allows the puzzle to notify the listener
      * about changes to the tree.
      *
-     * @param listener The ITreeListener to be added to the list of listeners.
+     * @param listener listener to add
      */
     @Override
     public void addTreeListener(ITreeListener listener) {
@@ -631,7 +650,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * Removes a tree listener from the list of listeners. This prevents the puzzle from notifying
      * the listener about future changes to the tree.
      *
-     * @param listener The ITreeListener to be removed from the list of listeners.
+     * @param listener listener to remove
      */
     @Override
     public void removeTreeListener(ITreeListener listener) {
@@ -654,7 +673,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * Checks if the puzzle is valid. The implementation of this method can vary based on the
      * specific criteria for puzzle validity.
      *
-     * @return true if the puzzle is valid, false otherwise.
+     * @return if the puzzle is valid
      */
     public boolean checkValidity() {
         return true;

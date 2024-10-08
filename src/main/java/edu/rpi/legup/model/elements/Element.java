@@ -21,14 +21,6 @@ public abstract class Element {
 
     private final String INVALID_USE_MESSAGE;
 
-    /**
-     * Constructs an Element with the specified ID, name, description, and image name
-     *
-     * @param elementID Unique identifier for the element
-     * @param elementName Name of the element
-     * @param description Description of the element
-     * @param imageName File name of the image associated with the element
-     */
     public Element(String elementID, String elementName, String description, String imageName) {
         this.elementID = elementID;
         this.elementName = elementName;
@@ -63,65 +55,30 @@ public abstract class Element {
         }
     }
 
-    /**
-     * Gets the name of the element
-     *
-     * @return The name of the element
-     */
     public String getElementName() {
         return elementName;
     }
 
-    /**
-     * Sets the name of the element
-     *
-     * @param elementName The new name for the element
-     */
     public void setElementName(String elementName) {
         this.elementName = elementName;
     }
 
-    /**
-     * Gets the unique identifier of the element
-     *
-     * @return The ID of the element
-     */
     public String getElementID() {
         return elementID;
     }
 
-    /**
-     * Gets the description of the element
-     *
-     * @return The description of the element
-     */
     public String getDescription() {
         return description;
     }
 
-    /**
-     * Gets the image icon associated with the element
-     *
-     * @return The ImageIcon for the element
-     */
     public ImageIcon getImageIcon() {
         return image;
     }
 
-    /**
-     * Gets the type of the element
-     *
-     * @return The ElementType of the element
-     */
     public ElementType getElementType() {
         return elementType;
     }
 
-    /**
-     * Gets the message for invalid use of the rule
-     *
-     * @return The invalid use message
-     */
     public String getInvalidUseOfRuleMessage() {
         return this.INVALID_USE_MESSAGE;
     }

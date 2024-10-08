@@ -35,24 +35,21 @@ public abstract class Board {
     }
 
     /**
-     * Gets a specific {@link PuzzleElement} from the board.
+     * Gets a specific {@link PuzzleElement} on this board.
      *
-     * @param puzzleElement the puzzle element to retrieve
-     * @return the puzzle element at the corresponding index, or null if not found
+     * @param puzzleElement equivalent puzzleElement
+     * @return equivalent puzzleElement on this board
      */
     public PuzzleElement getPuzzleElement(PuzzleElement puzzleElement) {
-        if (puzzleElement == null) {
-            return null;
-        }
         int index = puzzleElement.getIndex();
         return index < puzzleElements.size() ? puzzleElements.get(index) : null;
     }
 
     /**
-     * Sets a specific {@link PuzzleElement} on the board
+     * Sets a specific {@link PuzzleElement} on the board.
      *
      * @param index index of the puzzleElement
-     * @param puzzleElement the puzzleElement to set at the index
+     * @param puzzleElement new puzzleElement at the index
      */
     public void setPuzzleElement(int index, PuzzleElement puzzleElement) {
         if (index < puzzleElements.size()) {
@@ -61,7 +58,7 @@ public abstract class Board {
     }
 
     /**
-     * Gets the number of elements on the board
+     * Gets the number of elements on the board.
      *
      * @return number of elements on the board
      */

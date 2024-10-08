@@ -1,4 +1,0 @@
-LTUP-ELEM-0001 : BlackTile
-LTUP-ELEM-0002 : BulbTile
-LTUP-ELEM-0003 : NumberTile
-LTUP-ELEM-0004 : UnknownTile

@@ -30,7 +30,7 @@ public abstract class GridRegion<T> {
     /**
      * Removes the cell from the region
      *
-     * @param cell cell to be removed from the region
+     * @param cell cell to be remove from the region
      */
     public void removeCell(T cell) {
         regionCells.remove(cell);
@@ -53,4 +53,9 @@ public abstract class GridRegion<T> {
     public int getSize() {
         return regionCells.size();
     }
+
+    /*
+    public void colorRegion(){}
+     */
+
 }

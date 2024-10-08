@@ -19,30 +19,45 @@ public class ElementFrame extends JPanel {
     private EditorElementController controller;
 
     public ElementFrame(EditorElementController controller) {
-
         this.controller = controller;
+        MaterialTabbedPaneUI tabOverride =
+                new MaterialTabbedPaneUI() {
+                    // this prevents the tabs from moving around when you select them
+                    @Override
+                    protected boolean shouldRotateTabRuns(int i) {
+                        return false;
+                    }
+                };
 
+        this.tabbedPane = new JTabbedPane();
+        tabbedPane.setUI(tabOverride);
         JLabel status = new JLabel("", SwingConstants.CENTER);
         this.buttonGroup = new ButtonGroup();
 
-        // Parent panel to hold all elements
-        JPanel elementPanel = new JPanel();
-        elementPanel.setLayout(new BoxLayout(elementPanel, BoxLayout.Y_AXIS));
+        nonPlaceableElementPanel = new NonPlaceableElementPanel(this);
+        // nonPlaceableElementPanel.setMinimumSize(new Dimension(100,200));
+        tabbedPane.addTab(
+                nonPlaceableElementPanel.getName(),
+                nonPlaceableElementPanel.getIcon(),
+                new JScrollPane(nonPlaceableElementPanel),
+                nonPlaceableElementPanel.getToolTip());
 
         placeableElementPanel = new PlaceableElementPanel(this);
-        placeableElementPanel.setMinimumSize(new Dimension(100, 200));
-        elementPanel.add(new JScrollPane(placeableElementPanel));
+        // placeableElementPanel.setMinimuSize(new Dimension(100,200));
+        tabbedPane.addTab(
+                placeableElementPanel.getName(),
+                placeableElementPanel.getIcon(),
+                new JScrollPane(placeableElementPanel),
+                placeableElementPanel.getToolTip());
+        tabbedPane.setTabPlacement(JTabbedPane.TOP);
 
-        // Set layout and dimensions for the main panel
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(250, 256));
         setPreferredSize(new Dimension(330, 256));
 
-        // Add components to the main panel
-        add(elementPanel, BorderLayout.CENTER);
+        add(tabbedPane);
         add(status, BorderLayout.SOUTH);
 
-        // Center-align the titled border
         TitledBorder title = BorderFactory.createTitledBorder("Elements");
         title.setTitleJustification(TitledBorder.CENTER);
         setBorder(title);
@@ -60,9 +75,8 @@ public class ElementFrame extends JPanel {
     //    }
 
     public void setElements(Puzzle puzzle) {
-        if (puzzle != null) {
-            placeableElementPanel.setElements(puzzle.getPlaceableElements());
-        }
+        nonPlaceableElementPanel.setElements(puzzle.getNonPlaceableElements());
+        placeableElementPanel.setElements(puzzle.getPlaceableElements());
     }
 
     public EditorElementController getController() {

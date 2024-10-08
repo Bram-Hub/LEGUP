@@ -46,30 +46,40 @@ public class HomePanel extends LegupPanel {
             new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    legupUI.getProofEditor().loadPuzzle("", null);
+                    Object[] items = legupUI.getProofEditor().promptPuzzle();
+                    if (items == null) {
+                        // The attempt to prompt a puzzle ended gracefully (cancel)
+                        return;
+                    }
+                    String fileName = (String) items[0];
+                    File puzzleFile = (File) items[1];
+                    legupUI.getProofEditor().loadPuzzle(fileName, puzzleFile);
                 }
             };
 
-    /**
-     * Constructs a {@code HomePanel} with the specified {@code JFrame} and {@code LegupUI}.
-     *
-     * @param frame the main application frame
-     * @param legupUI the LEGUP user interface
-     */
-    public HomePanel(JFrame frame, LegupUI legupUI) {
+    private ActionListener openPuzzleListener =
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Object[] items = legupUI.getPuzzleEditor().promptPuzzle();
+                    if (items == null) {
+                        // The attempt to prompt a puzzle ended gracefully (cancel)
+                        return;
+                    }
+                    String fileName = (String) items[0];
+                    File puzzleFile = (File) items[1];
+                    legupUI.getPuzzleEditor().loadPuzzle(fileName, puzzleFile);
+                }
+            };
+
+    public HomePanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
         this.legupUI = legupUI;
         this.frame = frame;
         setLayout(new GridLayout(1, 2));
-        setPreferredSize(new Dimension(440, 250));
         initText();
         initButtons();
     }
 
-    /**
-     * Creates and returns the menu bar for this panel
-     *
-     * @return the menu bar
-     */
     public JMenuBar getMenuBar() {
         this.menuBar = new JMenuBar();
         JMenu settings = new JMenu("Settings");
@@ -105,14 +115,6 @@ public class HomePanel extends LegupPanel {
         frame.setJMenuBar(this.getMenuBar());
     }
 
-    /**
-     * Resizes the provided icon to the specified width and height
-     *
-     * @param icon the icon to resize
-     * @param width the target width
-     * @param height the target height
-     * @return the resized icon
-     */
     private static ImageIcon resizeButtonIcon(ImageIcon icon, int width, int height) {
         Image image = icon.getImage();
         Image resizedImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
@@ -121,10 +123,10 @@ public class HomePanel extends LegupPanel {
 
     /** Initializes the buttons for this panel */
     private void initButtons() {
-        this.buttons = new JButton[3];
+        this.buttons = new JButton[4];
 
         this.buttons[0] =
-                new JButton("Puzzle Solver") {
+                new JButton("Solve Puzzle") {
                     {
                         setSize(buttonSize, buttonSize);
                         setMaximumSize(getSize());
@@ -142,7 +144,7 @@ public class HomePanel extends LegupPanel {
         this.buttons[0].addActionListener(CursorController.createListener(this, openProofListener));
 
         this.buttons[1] =
-                new JButton("Puzzle Editor") {
+                new JButton("Create Puzzle") {
                     {
                         setSize(buttonSize, buttonSize);
                         setMaximumSize(getSize());
@@ -156,17 +158,35 @@ public class HomePanel extends LegupPanel {
         this.buttons[1].setIcon(resizeButtonIcon(button1Icon, this.buttonSize, this.buttonSize));
         this.buttons[1].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[1].setVerticalTextPosition(AbstractButton.BOTTOM);
-        this.buttons[1].addActionListener(l -> this.openPuzzleEditorDialog());
+        this.buttons[1].addActionListener(l -> this.openNewPuzzleDialog());
+
+        this.buttons[2] =
+                new JButton("Edit Puzzle") {
+                    {
+                        setSize(buttonSize, buttonSize);
+                        setMaximumSize(getSize());
+                    }
+                };
+        URL button2IconLocation =
+                ClassLoader.getSystemClassLoader()
+                        .getResource("edu/rpi/legup/images/Legup/homepanel/puzzle_file.png");
+        ImageIcon button2Icon = new ImageIcon(button2IconLocation);
+        this.buttons[2].setFocusPainted(false);
+        this.buttons[2].setIcon(resizeButtonIcon(button2Icon, this.buttonSize, this.buttonSize));
+        this.buttons[2].setHorizontalTextPosition(AbstractButton.CENTER);
+        this.buttons[2].setVerticalTextPosition(AbstractButton.BOTTOM);
+        this.buttons[2].addActionListener(
+                CursorController.createListener(this, openPuzzleListener)); // PLACEHOLDER
 
         for (int i = 0; i < this.buttons.length - 1; i++) { // -1 to avoid the batch grader button
             this.buttons[i].setBounds(200, 200, 700, 700);
         }
-        this.buttons[2] = new JButton("Batch Grader");
-        this.buttons[2].setFocusPainted(false);
-        this.buttons[2].setHorizontalTextPosition(AbstractButton.CENTER);
-        this.buttons[2].setVerticalTextPosition(AbstractButton.BOTTOM);
+        this.buttons[3] = new JButton("Batch Grader");
+        this.buttons[3].setFocusPainted(false);
+        this.buttons[3].setHorizontalTextPosition(AbstractButton.CENTER);
+        this.buttons[3].setVerticalTextPosition(AbstractButton.BOTTOM);
 
-        this.buttons[2].addActionListener(
+        this.buttons[3].addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -264,7 +284,7 @@ public class HomePanel extends LegupPanel {
             }
         } catch (IOException ex) {
             LOGGER.error(ex.getMessage());
-            this.buttons[2].addActionListener((ActionEvent e) -> use_xml_to_check());
+            this.buttons[3].addActionListener((ActionEvent e) -> use_xml_to_check());
         }
     }
 
@@ -503,7 +523,7 @@ public class HomePanel extends LegupPanel {
         this.removeAll();
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        this.legupUI.setTitle("LEGUP: A Better Way To Learn Formal Logic");
+        this.legupUI.setTitle("LEGUP: A Better Way to Learn Formal Logic");
 
         JPanel buttons = new JPanel();
         buttons.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -511,8 +531,11 @@ public class HomePanel extends LegupPanel {
         buttons.add(Box.createRigidArea(new Dimension(5, 0)));
         buttons.add(this.buttons[1]);
         buttons.add(Box.createRigidArea(new Dimension(5, 0)));
+        buttons.add(this.buttons[2]);
+        buttons.add(Box.createRigidArea(new Dimension(5, 0)));
+
         JPanel batchGraderButton = new JPanel();
-        batchGraderButton.add(this.buttons[2]);
+        batchGraderButton.add(this.buttons[3]);
         batchGraderButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         this.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -543,10 +566,6 @@ public class HomePanel extends LegupPanel {
         }
     }
 
-    /**
-     * Opens a dialog to select a directory, recursively processes the directory to grade puzzles,
-     * and generates a CSV report of the grading results.
-     */
     private void checkProofAll() {
         /*
          * Select dir to grade; recursively grade sub-dirs using traverseDir()
@@ -590,14 +609,6 @@ public class HomePanel extends LegupPanel {
         JOptionPane.showMessageDialog(null, "Batch grading complete.");
     }
 
-    /**
-     * Recursively traverses directories to grade puzzles and writes results to a CSV file
-     *
-     * @param folder the folder to traverse
-     * @param writer the BufferedWriter to write results to the CSV file
-     * @param path the current path within the directory structure
-     * @throws IOException if an I/O error occurs while writing to the CSV file
-     */
     private void traverseDir(File folder, BufferedWriter writer, String path) throws IOException {
         // Recursively traverse directory
         GameBoardFacade facade = GameBoardFacade.getInstance();
@@ -650,14 +661,6 @@ public class HomePanel extends LegupPanel {
         }
     }
 
-    /**
-     * Opens the puzzle editor for the specified puzzle with the specified dimensions
-     *
-     * @param game the name of the game
-     * @param rows the number of rows in the puzzle
-     * @param columns the number of columns in the puzzle
-     * @throws IllegalArgumentException if the dimensions are invalid
-     */
     public void openEditorWithNewPuzzle(String game, int rows, int columns)
             throws IllegalArgumentException {
         if (game.isEmpty()) {
@@ -689,7 +692,7 @@ public class HomePanel extends LegupPanel {
     }
 
     /**
-     * Opens the puzzle editor for the specified puzzle with the given statements
+     * Opens the puzzle editor for the specified game with the given statements
      *
      * @param game a String containing the name of the game
      * @param statements an array of statements

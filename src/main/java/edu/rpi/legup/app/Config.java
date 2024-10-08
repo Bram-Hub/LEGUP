@@ -96,11 +96,6 @@ public class Config {
         return className;
     }
 
-    /**
-     * Gets a list of all available puzzle display names
-     *
-     * @return a List of puzzle display names as Strings
-     */
     public List<String> getPuzzleNames() {
         List<String> names = new LinkedList<String>();
         for (String puzzle : this.getPuzzleClassNames()) {

@@ -16,10 +16,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 
-/**
- * A JPanel that provides a dynamic view with zooming capabilities for different types of content.
- * This class supports views such as game boards or proof trees, allowing users to zoom in and out.
- */
 public class DynamicView extends JPanel {
 
     private ScrollView scrollView;
@@ -33,12 +29,6 @@ public class DynamicView extends JPanel {
     private static final Font INFO_FONT = MaterialFonts.REGULAR;
     private static final Color INFO_COLOR = MaterialColors.GRAY_900;
 
-    /**
-     * Constructs a new DynamicView with the specified ScrollView and view type
-     *
-     * @param scrollView the ScrollView that provides the content to be displayed and zoomed
-     * @param type the type of dynamic view to set up (e.g., BOARD or PROOF_TREE)
-     */
     public DynamicView(ScrollView scrollView, DynamicViewType type) {
         this.scrollView = scrollView;
 
@@ -195,49 +185,24 @@ public class DynamicView extends JPanel {
         return zoomWrapper;
     }
 
-    /**
-     * Gets the ScrollView component associated with this DynamicView
-     *
-     * @return the ScrollView component
-     */
     public ScrollView getScrollView() {
         return this.scrollView;
     }
 
-    /**
-     * Gets the zoom wrapper that contains the zooming controls
-     *
-     * @return the zoom wrapper with zooming controls
-     */
     public JPanel getZoomWrapper() {
         return this.zoomWrapper;
     }
 
-    /**
-     * Gets the zoomer that contains the zoomer component
-     *
-     * @return the zoomer with the zoomer component
-     */
     public JPanel getZoomer() {
         return this.zoomer;
     }
 
-    /**
-     * Updates the status label with an informational message
-     *
-     * @param message the informational message to display
-     */
     public void updateInfo(String message) {
         status.setFont(INFO_FONT);
         status.setForeground(INFO_COLOR);
         status.setText(message);
     }
 
-    /**
-     * Updates the status label with an error message
-     *
-     * @param message the error message to display
-     */
     public void updateError(String message) {
         status.setFont(ERROR_FONT);
         status.setForeground(ERROR_COLOR);

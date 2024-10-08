@@ -6,7 +6,7 @@ public class TentTile extends PlaceableElement {
 
     public TentTile() {
         super(
-                "TREE-ELEM-0002",
+                "TREE-PLAC-0001",
                 "Tent Tile",
                 "The tent tile",
                 "edu/rpi/legup/images/treetent/tent.png");

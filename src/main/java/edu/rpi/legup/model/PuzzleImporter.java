@@ -69,10 +69,10 @@ public abstract class PuzzleImporter {
     }
 
     /**
-     * Initializes the puzzle attributes from the XML document node
+     * Initializes the puzzle attributes
      *
-     * @param node the XML document node representing the puzzle
-     * @throws InvalidFileFormatException if the file format is invalid
+     * @param node xml document node
+     * @throws InvalidFileFormatException if file is invalid
      */
     public void initializePuzzle(Node node) throws InvalidFileFormatException {
         if (node.getNodeName().equalsIgnoreCase("puzzle")) {
@@ -125,19 +125,19 @@ public abstract class PuzzleImporter {
     }
 
     /**
-     * Initializes the board with the specified number of rows and columns.
+     * Creates the board for building
      *
-     * @param rows the number of rows on the puzzle
-     * @param columns the number of columns on the puzzle
-     * @throws RuntimeException if the board cannot be created with the provided dimensions
+     * @param rows number of rows on the puzzle
+     * @param columns number of columns on the puzzle
+     * @throws RuntimeException if board can not be created
      */
     public abstract void initializeBoard(int rows, int columns);
 
     /**
-     * Initializes the board from the XML document node.
+     * Creates an empty board for building
      *
-     * @param node the XML document node representing the board
-     * @throws InvalidFileFormatException if the file format is invalid
+     * @param node xml document node
+     * @throws InvalidFileFormatException if file is invalid
      */
     public abstract void initializeBoard(Node node) throws InvalidFileFormatException;
 
@@ -454,7 +454,7 @@ public abstract class PuzzleImporter {
     }
 
     /**
-     * Gets the result of building the Puzzle object.
+     * Gets the result of building the Puzzle
      *
      * @return puzzle
      */

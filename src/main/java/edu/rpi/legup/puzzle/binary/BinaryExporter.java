@@ -33,7 +33,7 @@ public class BinaryExporter extends PuzzleExporter {
         org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             BinaryCell cell = (BinaryCell) puzzleElement;
-            if (cell.getData() != BinaryType.UNKNOWN.toValue()) {
+            if (cell.getData() != -2) {
                 org.w3c.dom.Element cellElement =
                         puzzle.getFactory().exportCell(newDocument, puzzleElement);
                 cellsElement.appendChild(cellElement);

@@ -1,2 +1,0 @@
-BINA-ELEM-0001 : NumberTile
-BINA-ELEM-0002 : UnknownTile

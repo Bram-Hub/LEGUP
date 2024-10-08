@@ -164,11 +164,6 @@ public abstract class Rule {
         return ruleType;
     }
 
-    /**
-     * Gets the message indicating an invalid use of the rule.
-     *
-     * @return the invalid use message
-     */
     public String getInvalidUseOfRuleMessage() {
         return this.INVALID_USE_MESSAGE;
     }

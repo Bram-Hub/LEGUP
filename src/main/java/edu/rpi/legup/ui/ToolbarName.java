@@ -5,8 +5,11 @@ package edu.rpi.legup.ui;
  * specific toolbar action.
  */
 public enum ToolbarName {
+    HINT,
+    CHECK,
+    SUBMIT,
     DIRECTIONS,
-    CHECK;
+    CHECK_ALL;
 
     /**
      * Gets the String representation of the ToolbarName enum

@@ -134,12 +134,12 @@ public class LightUpBoard extends GridBoard {
     }
 
     /**
-     * Gets the number of adjacent cells that are placeable
+     * Gets the number of adjacent cells that are placable
      *
      * @param cell specified cell
-     * @return number of adjacent cells that are placeable
+     * @return number of adjacent cells that are placable
      */
-    public int getNumPlaceable(LightUpCell cell) {
+    public int getNumPlacble(LightUpCell cell) {
         int num = 0;
         Set<LightUpCell> adjCells = getAdj(cell);
         for (LightUpCell c : adjCells) {

@@ -36,12 +36,18 @@ public class Binary extends Puzzle {
         return null;
     }
 
-    /**
-     * Determines if the current board is a valid state
-     *
-     * @param board board to check for validity
-     * @return true if board is valid, false otherwise
-     */
+    //    /**
+    //     * Determines if the given dimensions are valid for Binary
+    //     *
+    //     * @param rows      the number of rows
+    //     * @param columns   the number of columns
+    //     * @return true if the given dimensions are valid for Binary, false otherwise
+    //     */
+    //    @Override
+    //    public boolean isValidDimensions(int rows, int columns){
+    //        return rows >= 2 && rows % 2 == 0 && columns >= 2 && columns % 2 == 0;
+    //    }
+
     @Override
     public boolean isBoardComplete(Board board) {
         BinaryBoard binaryBoard = (BinaryBoard) board;
@@ -60,11 +66,6 @@ public class Binary extends Puzzle {
         return true;
     }
 
-    /**
-     * Callback for when the board puzzleElement changes
-     *
-     * @param board the board that has changed
-     */
     @Override
     public void onBoardChange(Board board) {}
 

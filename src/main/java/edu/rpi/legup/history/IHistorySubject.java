@@ -8,11 +8,10 @@ import java.util.function.Consumer;
  * listeners.
  */
 public interface IHistorySubject {
-
     /**
-     * Adds a history listener to receive updates about changes in the command history.
+     * Adds a history listener
      *
-     * @param listener the listener to add
+     * @param listener listener to add
      */
     void addHistoryListener(IHistoryListener listener);
 
@@ -20,12 +19,12 @@ public interface IHistorySubject {
      * Removes a history listener, so it no longer receives updates about changes in the command
      * history.
      *
-     * @param listener the listener to remove
+     * @param listener listener to remove
      */
     void removeHistoryListener(IHistoryListener listener);
 
     /**
-     * Notifies all registered listeners about a change in the command history.
+     * Notifies listeners
      *
      * @param algorithm a Consumer function that takes an IHistoryListener and performs some action
      *     with it
