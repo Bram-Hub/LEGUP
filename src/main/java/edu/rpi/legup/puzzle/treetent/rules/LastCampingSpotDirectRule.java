@@ -9,25 +9,27 @@ import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentLine;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
-
 import java.util.List;
 
 public class LastCampingSpotDirectRule extends DirectRule {
 
     public LastCampingSpotDirectRule() {
-        super("TREE-BASC-0004", "Last Camping Spot",
-                "If an unlinked tree is adjacent to only one blank cell and not adjacent to any unlinked tents, the blank cell must be a tent.",
+        super(
+                "TREE-BASC-0004",
+                "Last Camping Spot",
+                "If an unlinked tree is adjacent to only one blank cell and not adjacent to any"
+                        + " unlinked tents, the blank cell must be a tent.",
                 "edu/rpi/legup/images/treetent/oneTentPosition.png");
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
@@ -38,14 +40,14 @@ public class LastCampingSpotDirectRule extends DirectRule {
         TreeTentCell initCell = (TreeTentCell) initialBoard.getPuzzleElement(puzzleElement);
         TreeTentBoard finalBoard = (TreeTentBoard) transition.getBoard();
         TreeTentCell finalCell = (TreeTentCell) finalBoard.getPuzzleElement(puzzleElement);
-        if (!(initCell.getType() == TreeTentType.UNKNOWN && finalCell.getType() == TreeTentType.TENT)) {
+        if (!(initCell.getType() == TreeTentType.UNKNOWN
+                && finalCell.getType() == TreeTentType.TENT)) {
             return super.getInvalidUseOfRuleMessage() + ": This cell must be a tent.";
         }
 
         if (isForced(finalBoard, finalCell)) {
             return null;
-        }
-        else {
+        } else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be tent.";
         }
     }
@@ -58,13 +60,13 @@ public class LastCampingSpotDirectRule extends DirectRule {
             if (unkAroundTree.size() == 0) {
                 if (tntAroundTree.size() == 1) {
                     return true;
-                }
-                else {
+                } else {
                     for (TreeTentCell t : tntAroundTree) {
                         if (t == cell) {
                             continue;
                         }
-                        List<TreeTentCell> treesAroundTents = board.getAdjacent(t, TreeTentType.TREE);
+                        List<TreeTentCell> treesAroundTents =
+                                board.getAdjacent(t, TreeTentType.TREE);
                         if (treesAroundTents.size() == 1) {
                             return false;
                         }
@@ -77,7 +79,8 @@ public class LastCampingSpotDirectRule extends DirectRule {
     }
 
     /**
-     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
      *
      * @param node tree node used to create default transition board
      * @return default board or null if this rule cannot be applied to this tree node
@@ -94,8 +97,7 @@ public class LastCampingSpotDirectRule extends DirectRule {
         }
         if (treeTentBoard.getModifiedData().isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return treeTentBoard;
         }
     }

@@ -7,7 +7,6 @@ import javax.swing.plaf.basic.BasicEditorPaneUI;
 /**
  * @author https://github.com/vincenzopalazzo
  */
-
 public class MaterialEditorPaneUI extends BasicEditorPaneUI {
 
     public static ComponentUI createUI(JComponent c) {

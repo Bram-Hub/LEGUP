@@ -8,17 +8,17 @@ import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 import edu.rpi.legup.puzzle.treetent.rules.SurroundTentWithGrassDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.*;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.awt.*;
-
 public class SurroundTentWithGrassDirectRuleTest {
 
-    private static final SurroundTentWithGrassDirectRule RULE = new SurroundTentWithGrassDirectRule();
+    private static final SurroundTentWithGrassDirectRule RULE =
+            new SurroundTentWithGrassDirectRule();
     private static TreeTent treetent;
 
     @BeforeClass
@@ -28,12 +28,18 @@ public class SurroundTentWithGrassDirectRuleTest {
     }
 
     /**
-     * @throws InvalidFileFormatException
-     * Test to check if all adjacent and diagonals not filled with a tree are filled with grass
+     * 3x3 TreeTent puzzle Tests SurroundTentWithGrassDirectRule
+     *
+     * <p>TREE at (0, 0), (2, 0), (0, 1), (2, 1), (1, 2), and (2, 2); TENT at (1, 1) RGR RTR GRR
+     *
+     * <p>Makes (1, 0) and (0, 2) GRASS Checks that the rule detects unknown adjacent and diagonal
+     * tiles correctly
      */
     @Test
     public void SurroundTentWithGrassBasicRuleTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/SurroundTentWithGrassDirectRule/SurroundTentWithGrass", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/SurroundTentWithGrassDirectRule/SurroundTentWithGrass",
+                treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -55,8 +61,7 @@ public class SurroundTentWithGrassDirectRuleTest {
                 Point point = new Point(k, i);
                 if (point.equals(cell1.getLocation()) || point.equals(cell2.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
@@ -64,14 +69,18 @@ public class SurroundTentWithGrassDirectRuleTest {
     }
 
     /**
-     * @throws InvalidFileFormatException
+     * 3x3 TreeTent puzzle Tests SurroundTentWithGrassDirectRule
      *
-     * Test with a 3x3 board with an absolutely empty area aside from a tent in the middle
-     * While such a situation is an illegal treetent setup, this direct rule doesn't consider that aspect, so its ok in this context
+     * <p>TENT at (1, 1) GGG GTG GGG
+     *
+     * <p>Makes all cells adjacent and diagonal to the tent GRASS Checks that the rule detects all
+     * adjacent and diagonal tiles correctly
      */
     @Test
     public void SurroundTentWithGrassBasicRuleTest_BadBoard() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/treetent/rules/SurroundTentWithGrassDirectRule/SurroundTentWithGrassBad", treetent);
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/SurroundTentWithGrassDirectRule/SurroundTentWithGrassBad",
+                treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -86,7 +95,7 @@ public class SurroundTentWithGrassDirectRuleTest {
         cell3.setData(TreeTentType.GRASS);
         TreeTentCell cell4 = board.getCell(0, 1);
         cell4.setData(TreeTentType.GRASS);
-        //Skip (1,1) due to being the Tent
+        // Skip (1,1) due to being the Tent
         TreeTentCell cell5 = board.getCell(2, 1);
         cell5.setData(TreeTentType.GRASS);
         TreeTentCell cell6 = board.getCell(0, 2);
@@ -99,7 +108,7 @@ public class SurroundTentWithGrassDirectRuleTest {
         board.addModifiedData(cell1);
         board.addModifiedData(cell2);
         board.addModifiedData(cell3);
-        //board.addModifiedData(cell4);
+        // board.addModifiedData(cell4);
         board.addModifiedData(cell5);
         board.addModifiedData(cell6);
         board.addModifiedData(cell7);
@@ -110,14 +119,16 @@ public class SurroundTentWithGrassDirectRuleTest {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 Point point = new Point(k, i);
-                if (point.equals(cell1.getLocation()) || point.equals(cell2.getLocation()) ||
-                    point.equals(cell3.getLocation()) || //point.equals(cell4.getLocation()) ||
-                    point.equals(cell5.getLocation()) || point.equals(cell6.getLocation()) ||
-                    point.equals(cell7.getLocation()) || point.equals(cell8.getLocation())
-                ) {
+                if (point.equals(cell1.getLocation())
+                        || point.equals(cell2.getLocation())
+                        || point.equals(cell3.getLocation())
+                        || // point.equals(cell4.getLocation()) ||
+                        point.equals(cell5.getLocation())
+                        || point.equals(cell6.getLocation())
+                        || point.equals(cell7.getLocation())
+                        || point.equals(cell8.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
@@ -125,13 +136,17 @@ public class SurroundTentWithGrassDirectRuleTest {
     }
 
     /**
-     * @throws InvalidFileFormatException
+     * 3x3 TreeTent puzzle Tests SurroundTentWithGrassDirectRule
      *
-     * Test to see if the rule passes even if no grass was able to be placed due to the presence of trees.
+     * <p>TENT at (1, 1); TREE on all adjacent and diagonal tiles RRR RTR RRR
+     *
+     * <p>Null Checks that the rule correctly detects no missing tiles
      */
     @Test
-    public void SurroundTentWithGrassBasicRuleTest_FullBoard() throws InvalidFileFormatException{
-        TestUtilities.importTestBoard("puzzles/treetent/rules/SurroundTentWithGrassDirectRule/SurroundTentWithGrassTrees", treetent);
+    public void SurroundTentWithGrassBasicRuleTest_FullBoard() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/treetent/rules/SurroundTentWithGrassDirectRule/SurroundTentWithGrassTrees",
+                treetent);
         TreeNode rootNode = treetent.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -140,13 +155,10 @@ public class SurroundTentWithGrassDirectRuleTest {
 
         Assert.assertNull(RULE.checkRule(transition));
 
-        for (int i = 0; i < board.getHeight(); i++){
-            for (int k = 0; k < board.getWidth(); k++){
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
                 Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
             }
         }
     }
 }
-
-
-

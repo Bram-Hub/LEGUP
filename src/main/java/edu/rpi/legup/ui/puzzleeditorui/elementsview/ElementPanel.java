@@ -1,13 +1,10 @@
 package edu.rpi.legup.ui.puzzleeditorui.elementsview;
 
-import edu.rpi.legup.model.rules.Rule;
-import edu.rpi.legup.ui.WrapLayout;
 import edu.rpi.legup.model.elements.Element;
-import edu.rpi.legup.ui.proofeditorui.rulesview.RuleButton;
-
-import javax.swing.*;
+import edu.rpi.legup.ui.WrapLayout;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.*;
 
 public abstract class ElementPanel extends JPanel {
     protected ImageIcon icon;
@@ -35,7 +32,8 @@ public abstract class ElementPanel extends JPanel {
             elementFrame.getButtonGroup().add(elementButtons[i]);
             System.out.printf("added button: %d, element %s\n", i, element.getElementName());
 
-            elementButtons[i].setToolTipText(element.getElementName() + ": " + element.getDescription());
+            elementButtons[i].setToolTipText(
+                    element.getElementName() + ": " + element.getDescription());
             elementButtons[i].addActionListener(elementFrame.getController());
             add(elementButtons[i]);
         }
@@ -81,4 +79,3 @@ public abstract class ElementPanel extends JPanel {
         this.toolTip = toolTip;
     }
 }
-

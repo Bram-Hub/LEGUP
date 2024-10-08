@@ -1,10 +1,9 @@
 package edu.rpi.legup.controller;
 
 import edu.rpi.legup.ui.ScrollView;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 
 public abstract class Controller implements MouseMotionListener, MouseListener, MouseWheelListener {
     protected ScrollView viewer;
@@ -12,7 +11,8 @@ public abstract class Controller implements MouseMotionListener, MouseListener, 
     private boolean pan;
 
     /**
-     * Controller Constructor creates a controller object to listen to ui events from a {@link ScrollView}
+     * Controller Constructor creates a controller object to listen to ui events from a {@link
+     * ScrollView}
      */
     public Controller() {
         x = y = -1;
@@ -29,13 +29,10 @@ public abstract class Controller implements MouseMotionListener, MouseListener, 
      * @param e MouseEvent object
      */
     @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
+    public void mouseClicked(MouseEvent e) {}
 
     /**
-     * Mouse Pressed event sets the cursor to the move cursor and stores
-     * info for possible panning
+     * Mouse Pressed event sets the cursor to the move cursor and stores info for possible panning
      *
      * @param e MouseEvent object
      */
@@ -50,8 +47,7 @@ public abstract class Controller implements MouseMotionListener, MouseListener, 
     }
 
     /**
-     * Mouse Released event sets the cursor back to the default cursor and reset
-     * info for panning
+     * Mouse Released event sets the cursor back to the default cursor and reset info for panning
      *
      * @param e MouseEvent object
      */
@@ -69,9 +65,7 @@ public abstract class Controller implements MouseMotionListener, MouseListener, 
      * @param e MouseEvent object
      */
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
+    public void mouseEntered(MouseEvent e) {}
 
     /**
      * Mouse Exited event no default action
@@ -79,9 +73,7 @@ public abstract class Controller implements MouseMotionListener, MouseListener, 
      * @param e MouseEvent object
      */
     @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
+    public void mouseExited(MouseEvent e) {}
 
     /**
      * Mouse Dragged event adjusts the viewport
@@ -106,9 +98,7 @@ public abstract class Controller implements MouseMotionListener, MouseListener, 
      * @param e MouseEvent object
      */
     @Override
-    public void mouseMoved(MouseEvent e) {
-
-    }
+    public void mouseMoved(MouseEvent e) {}
 
     /**
      * Mouse Wheel Moved event zooms in on the viewport
@@ -122,8 +112,7 @@ public abstract class Controller implements MouseMotionListener, MouseListener, 
             if (e.getWheelRotation() != 0) {
                 viewer.zoom(e.getWheelRotation() * 2, e.getPoint());
             }
-        }
-        else {
+        } else {
             if (e.getWheelRotation() != 0) {
                 viewer.zoom(e.getWheelRotation(), e.getPoint());
             }

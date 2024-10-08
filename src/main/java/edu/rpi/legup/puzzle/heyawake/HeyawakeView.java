@@ -4,7 +4,6 @@ import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
-
 import java.awt.*;
 import java.awt.geom.Area;
 import java.util.HashMap;
@@ -25,14 +24,14 @@ public class HeyawakeView extends GridBoardView {
             HeyawakeElementView elementView = new HeyawakeElementView(cell);
             elementView.setIndex(cell.getIndex());
             elementView.setSize(elementSize);
-            elementView.setLocation(new Point(loc.x * elementSize.width, loc.y * elementSize.height));
+            elementView.setLocation(
+                    new Point(loc.x * elementSize.width, loc.y * elementSize.height));
             elementViews.add(elementView);
 
             int regionIndex = cell.getRegionIndex();
             if (regionsBoundaries.get(regionIndex) == null) {
                 regionsBoundaries.put(regionIndex, new Area(elementView.getBounds()));
-            }
-            else {
+            } else {
                 regionsBoundaries.get(regionIndex).add(new Area(elementView.getBounds()));
             }
         }

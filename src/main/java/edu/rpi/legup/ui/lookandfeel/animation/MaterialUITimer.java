@@ -1,12 +1,12 @@
 package edu.rpi.legup.ui.lookandfeel.animation;
 
-import javax.swing.JComponent;
-import javax.swing.Timer;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.JComponent;
+import javax.swing.Timer;
 
 public class MaterialUITimer implements MouseListener, ActionListener {
 
@@ -72,14 +72,10 @@ public class MaterialUITimer implements MouseListener, ActionListener {
     }
 
     @Override
-    public void mouseReleased(MouseEvent me) {
-
-    }
+    public void mouseReleased(MouseEvent me) {}
 
     @Override
-    public void mouseClicked(MouseEvent me) {
-
-    }
+    public void mouseClicked(MouseEvent me) {}
 
     @Override
     public void mouseExited(MouseEvent me) {
@@ -100,8 +96,7 @@ public class MaterialUITimer implements MouseListener, ActionListener {
         if (forward) {
             component.setBackground(nextColor());
             ++alpha;
-        }
-        else {
+        } else {
             component.setBackground(previousColor());
             --alpha;
         }
