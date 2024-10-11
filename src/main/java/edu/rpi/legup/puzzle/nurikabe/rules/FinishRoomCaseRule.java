@@ -27,15 +27,16 @@ public class FinishRoomCaseRule extends CaseRule {
         super(
                 "NURI-CASE-0002",
                 "Finish Room",
-                "Room can be finished in up to five ways",
+                "Room can be finished in up to nine ways",
                 "edu/rpi/legup/images/nurikabe/cases/FinishRoom.png");
-        this.MAX_CASES = 5;
-        this.MIN_CASES = 2;
+        this.MAX_CASES = 9;
+        this.MIN_CASES = 1;
+        this.uniqueCases = new HashSet<>();
     }
 
     /**
      * Checks whether the {@link TreeTransition} logically follows from the parent node using this
-     * rule. This method is the one that should overridden in child classes.
+     * rule. This method is the one that should have overridden in child classes.
      *
      * @param transition transition to check
      * @return null if the child node logically follow from the parent node, otherwise error message
@@ -44,18 +45,18 @@ public class FinishRoomCaseRule extends CaseRule {
     public String checkRuleRaw(TreeTransition transition) {
         NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-        if (childTransitions.size() > 5) {
+        if (childTransitions.size() > MAX_CASES) {
             return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must have 5 or less children.";
+                    + ": This case rule must have 9 or less children.";
         }
-        if (childTransitions.size() < 2) {
+        if (childTransitions.size() < MIN_CASES) {
             return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must have 2 or more children.";
+                    + ": This case rule must have 1 or more children.";
         }
         if (childTransitions.size() != legitCases) {
             return super.getInvalidUseOfRuleMessage()
                     + ": Cases can not be removed from the branch.";
-        } // stops user from deleting 1 or mose generated cases and still having path show as green
+        } // stops user from deleting 1 or more generated cases and still having path show as green
         Set<Point> locations = new HashSet<>();
         for (TreeTransition t1 : childTransitions) {
             locations.add(
@@ -100,14 +101,8 @@ public class FinishRoomCaseRule extends CaseRule {
                     // if found another number tile and it's data is different from the element
                     // we're working with
                     if ((d.getType() == NurikabeType.NUMBER)
-                            && !(d.getData()
-                                    .equals(
-                                            ((NurikabeCell) element)
-                                                    .getData()))) { // if found another number tile
-                        // and it's data is different
-                        // than the element we're
-                        // working with
-                        only = false; // set only to false
+                            && !(d.getData().equals(((NurikabeCell) element).getData()))) {
+                        only = false;
                     }
                 }
                 // if size of region is 1 less than the number block and the number block is only
@@ -130,6 +125,10 @@ public class FinishRoomCaseRule extends CaseRule {
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>(); // makes array list of cases
+        if (puzzleElement == null) {
+            return cases;
+        }
+
         NurikabeBoard nuriBoard = (NurikabeBoard) board.copy(); // nurikabe board to edit
         NurikabeCell numberCell =
                 nuriBoard.getCell(
@@ -231,23 +230,9 @@ public class FinishRoomCaseRule extends CaseRule {
                                 break;
                             }
                         }
-                        if (!alreadyIn) { // if point wasn't already in
-                            Board casey =
-                                    nuriBoard.copy(); // copy the current board with white tile
-                            // changed
-                            PuzzleElement datacasey =
-                                    curr; // gets changed white tile as a puzzle element
-                            datacasey.setData(
-                                    NurikabeType.WHITE
-                                            .toValue()); // ensure set to white, probably redundant
-                            casey.addModifiedData(datacasey); // ensure confirmed white change
-                            regions =
-                                    NurikabeUtilities.getNurikabeRegions(
-                                            nuriBoard); // update regions
-                            cases.add(casey); // add this case to list of cases
-                            locations.add(
-                                    here); // add location of new white tile to list of locations so
-                            // that we don't accidentally add it again later
+                        if (unique) {
+                            caseBoard.addModifiedData(newCell);
+                            cases.add(caseBoard);
                         }
                     } else if (newRoomSet.size() < filledRoomSize) {
                         generateCases(
@@ -301,14 +286,10 @@ public class FinishRoomCaseRule extends CaseRule {
                             || (adjacentPoint.x != origPoint.x || adjacentPoint.y != origPoint.y)) {
                         return true;
                     }
-                    curr.setData(NurikabeType.UNKNOWN.toValue()); // set cell type back to unknown
-                    nuriBoard.addModifiedData(curr); // confirms change back to unknown
-                    regions = NurikabeUtilities.getNurikabeRegions(nuriBoard); // updates regions
                 }
             }
-            legitCases = cases.size();
         }
-        return cases;
+        return false;
     }
 
     /**

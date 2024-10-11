@@ -8,7 +8,7 @@ import java.util.function.Consumer;
  */
 public interface ITreeSubject {
     /**
-     * Adds a board listener.
+     * Adds a tree listener.
      *
      * @param listener listener to add
      */
@@ -22,7 +22,7 @@ public interface ITreeSubject {
     void removeTreeListener(ITreeListener listener);
 
     /**
-     * Notifies all of the listeners using the specified algorithm.
+     * Notifies all the tree listeners using the specified algorithm.
      *
      * @param algorithm algorithm used to notify the listeners
      */

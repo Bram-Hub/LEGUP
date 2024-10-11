@@ -5,6 +5,11 @@ package edu.rpi.legup.app;
  * errors
  */
 public class InvalidConfigException extends Exception {
+    /**
+     * Constructs a new InvalidConfigException with the specified detail message
+     *
+     * @param message the detail message
+     */
     public InvalidConfigException(String message) {
         super(message);
     }

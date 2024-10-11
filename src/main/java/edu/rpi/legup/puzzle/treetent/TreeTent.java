@@ -59,7 +59,20 @@ public class TreeTent extends Puzzle {
      */
     @Override
     public boolean isBoardComplete(Board board) {
-        return false;
+        TreeTentBoard treeTentBoard = (TreeTentBoard) board;
+
+        for (ContradictionRule rule : contradictionRules) {
+            if (rule.checkContradiction(treeTentBoard) == null) {
+                return false;
+            }
+        }
+        for (PuzzleElement data : treeTentBoard.getPuzzleElements()) {
+            TreeTentCell cell = (TreeTentCell) data;
+            if (cell.getType() == TreeTentType.UNKNOWN) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

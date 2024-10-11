@@ -6,15 +6,16 @@ package edu.rpi.legup.history;
  * as pushing, undoing, redoing commands, and clearing the history.
  */
 public interface IHistoryListener {
+
     /**
-     * Called when a action is pushed onto the edu.rpi.legup.history stack
+     * Called when a command is pushed onto the history stack.
      *
-     * @param command action to push onto the stack
+     * @param command the command that was pushed onto the stack
      */
     void onPushChange(ICommand command);
 
     /**
-     * Called when an action is undone
+     * Called when a command is undone.
      *
      * @param isBottom true if there are no more actions to undo, false otherwise
      * @param isTop true if there are no more changes to redo, false otherwise
@@ -22,7 +23,7 @@ public interface IHistoryListener {
     void onUndo(boolean isBottom, boolean isTop);
 
     /**
-     * Called when an action is redone
+     * Called when a command is redone.
      *
      * @param isBottom true if there are no more actions to undo, false otherwise
      * @param isTop true if there are no more changes to redo, false otherwise

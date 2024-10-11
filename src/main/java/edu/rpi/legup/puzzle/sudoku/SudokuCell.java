@@ -1,7 +1,9 @@
 package edu.rpi.legup.puzzle.sudoku;
 
+import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.util.Set;
 

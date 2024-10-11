@@ -89,6 +89,11 @@ public class GameBoardFacade implements IHistorySubject {
                 });
     }
 
+    /**
+     * Sets the current puzzle in the game board
+     *
+     * @param puzzle the Puzzle to set
+     */
     public void setPuzzle(Puzzle puzzle) {
         this.puzzle = puzzle;
         this.puzzleSolver.setPuzzleView(puzzle);
@@ -113,11 +118,21 @@ public class GameBoardFacade implements IHistorySubject {
         GameBoardFacade.getInstance().setConfig(config);
     }
 
+    /**
+     * Sets the current puzzle editor with the given puzzle
+     *
+     * @param puzzle the Puzzle to set in the editor
+     */
     public void setPuzzleEditor(Puzzle puzzle) {
         this.puzzle = puzzle;
         this.puzzleEditor.setPuzzleView(puzzle);
     }
 
+    /**
+     * Sets the configuration object for the GameBoardFacade
+     *
+     * @param config config the Config object to set
+     */
     public void setConfig(Config config) {
         this.config = config;
     }
@@ -176,7 +191,7 @@ public class GameBoardFacade implements IHistorySubject {
     }
 
     /**
-     * Loads an empty puzzle
+     * Loads an empty puzzle with the specified dimensions
      *
      * @param game name of the puzzle
      * @param rows the number of rows on the board
@@ -187,10 +202,10 @@ public class GameBoardFacade implements IHistorySubject {
             String qualifiedClassName = config.getPuzzleClassForName(game);
             LOGGER.debug("Loading " + qualifiedClassName);
 
-        try {
-            Class<?> c = Class.forName(qualifiedClassName);
-            Constructor<?> cons = c.getConstructor();
-            Puzzle puzzle = (Puzzle) cons.newInstance();
+            try {
+                Class<?> c = Class.forName(qualifiedClassName);
+                Constructor<?> cons = c.getConstructor();
+                Puzzle puzzle = (Puzzle) cons.newInstance();
 
                 PuzzleImporter importer = puzzle.getImporter();
                 if (importer == null) {
@@ -225,6 +240,12 @@ public class GameBoardFacade implements IHistorySubject {
         }
     }
 
+    /**
+     * Loads an empty puzzle with the specified input
+     *
+     * @param game name of the puzzle
+     * @param statements an array of statements to load the puzzle with
+     */
     public void loadPuzzle(String game, String[] statements) {
         String qualifiedClassName = config.getPuzzleClassForName(game);
         LOGGER.debug("Loading " + qualifiedClassName);
@@ -267,7 +288,7 @@ public class GameBoardFacade implements IHistorySubject {
     }
 
     /**
-     * Loads a puzzle file
+     * Loads a puzzle file from the specified file
      *
      * @param fileName file name of the board file
      * @throws InvalidFileFormatException if the file format is invalid or if the file cannot be

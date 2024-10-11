@@ -15,6 +15,7 @@ public abstract class PuzzleElement<T> {
     protected T data;
     protected boolean isModifiable;
     protected boolean isModified;
+    protected boolean isModifiableCaseRule;
     protected boolean isGiven;
     protected boolean isValid;
     protected int casesDepended;
@@ -24,6 +25,7 @@ public abstract class PuzzleElement<T> {
         this.index = -1;
         this.data = null;
         this.isModifiable = true;
+        this.isModifiableCaseRule = true;
         this.isModified = false;
         this.isGiven = false;
         this.isValid = true;
@@ -78,6 +80,24 @@ public abstract class PuzzleElement<T> {
      */
     public void setModifiable(boolean isModifiable) {
         this.isModifiable = isModifiable;
+    }
+
+    /**
+     * Gets whether this puzzle element is modifiable as a result of a case rule.
+     *
+     * @return true if this puzzle element is modifiable, false otherwise
+     */
+    public boolean isModifiableCaseRule() {
+        return isModifiableCaseRule;
+    }
+
+    /**
+     * Sets whether this puzzle element is modifiable as a result of a case rule.
+     *
+     * @param isModifiableCaseRule true if this puzzle element is modifiable, false otherwise
+     */
+    public void setModifiableCaseRule(boolean isModifiableCaseRule) {
+        this.isModifiableCaseRule = isModifiableCaseRule;
     }
 
     /**

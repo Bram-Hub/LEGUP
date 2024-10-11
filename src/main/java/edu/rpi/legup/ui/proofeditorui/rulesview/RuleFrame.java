@@ -131,7 +131,7 @@ public class RuleFrame extends JPanel {
     /**
      * Set the status label to a value. Use resetStatus to clear it.
      *
-     * @param check true iff we want a check box, if false we'll have a red x box
+     * @param check true if we want a checkbox, if false we'll have a red x box
      * @param text the text we're setting the label to display
      */
     public void setStatus(boolean check, String text) {
@@ -169,22 +169,47 @@ public class RuleFrame extends JPanel {
         return controller;
     }
 
+    /**
+     * Gets the JTabbedPane used in this frame
+     *
+     * @return the JTabbedPane instance
+     */
     public JTabbedPane getTabbedPane() {
         return tabbedPane;
     }
 
+    /**
+     * Gets the {@code DirectRulePanel} contained in this frame
+     *
+     * @return the {@link DirectRulePanel} instance
+     */
     public DirectRulePanel getDirectRulePanel() {
         return DirectRulePanel;
     }
 
+    /**
+     * Gets the {@code CaseRulePanel} contained in this frame
+     *
+     * @return the {@link CaseRulePanel} instance
+     */
     public CaseRulePanel getCasePanel() {
         return casePanel;
     }
 
+    /**
+     * Gets the {@code ContradictionRulePanel} contained in this frame
+     *
+     * @return the {@link ContradictionRulePanel} instance
+     */
     public ContradictionRulePanel getContradictionPanel() {
         return contradictionPanel;
     }
 
+    /**
+     * Gets the {@code SearchBarPanel} contained in this frame
+     *
+     * @return the {@link SearchBarPanel} instance
+     */
     public SearchBarPanel getSearchPanel() {
         return searchPanel;
     }

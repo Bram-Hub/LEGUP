@@ -25,19 +25,33 @@ public class EditorElementController implements ActionListener {
         prevButton = null;
     }
 
+    /**
+     * Sets the ElementController instance for this controller
+     *
+     * @param elementController the ElementController instance to be set
+     */
     public void setElementController(ElementController elementController) {
         this.elementController = elementController;
     }
 
+    /**
+     * Handles the event when a button associated with an Element is pressed
+     *
+     * @param element the Element associated with the button that was pressed
+     */
     public void buttonPressed(Element element) {
         // TODO: implement what happens when element is pressed
 
-        System.out.printf("%s button pressed!\n", element.getElementName());
         if (elementController != null) {
             elementController.setSelectedElement(element);
         }
     }
 
+    /**
+     * Handles action events triggered by buttons
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         lastSource = e.getSource();

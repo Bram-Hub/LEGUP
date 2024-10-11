@@ -188,6 +188,11 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
         return elementViews;
     }
 
+    /**
+     * Gets the ElementController associated with this board view.
+     *
+     * @return the ElementController
+     */
     public ElementController getElementController() {
         return elementController;
     }
@@ -197,6 +202,11 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
         drawBoard(graphics2D);
     }
 
+    /**
+     * Draws the board and its elements.
+     *
+     * @param graphics2D the Graphics2D context used for drawing
+     */
     public void drawBoard(Graphics2D graphics2D) {
         for (ElementView element : elementViews) {
             element.draw(graphics2D);
@@ -213,5 +223,10 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
         repaint();
     }
 
+    /**
+     * Gets the selection popup menu for this board view.
+     *
+     * @return the DataSelectionView associated with this view
+     */
     public abstract DataSelectionView getSelectionPopupMenu();
 }

@@ -1,14 +1,26 @@
 package edu.rpi.legup.puzzle.binary;
 
+import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 
 public class BinaryCell extends GridCell<Integer> {
-    public BinaryCell(int valueInt, Point location) {
-        super(valueInt, location);
+    /**
+     * BinaryCell Constructor - creates a BinaryCell from the specified value and location
+     *
+     * @param value value of the BinaryCell
+     * @param location position of the BinaryCell
+     */
+    public BinaryCell(int value, Point location) {
+        super(value, location);
     }
 
+    /**
+     * Gets the type of this BinaryCell
+     *
+     * @return type of BinaryCell
+     */
     public BinaryType getType() {
         switch (data) {
             case 0:
@@ -25,6 +37,11 @@ public class BinaryCell extends GridCell<Integer> {
         return null;
     }
 
+    /**
+     * Performs a deep copy on the BinaryCell
+     *
+     * @return a new copy of the BinaryCell that is independent of this one
+     */
     @Override
     public BinaryCell copy() {
         BinaryCell copy = new BinaryCell(data, (Point) location.clone());

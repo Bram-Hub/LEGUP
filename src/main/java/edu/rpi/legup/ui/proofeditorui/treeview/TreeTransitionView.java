@@ -271,47 +271,67 @@ public class TreeTransitionView extends TreeElementView {
         }
     }
 
-    public Point getEndPoint() {
-        return endPoint;
-    }
-
-    public void setEndPoint(Point endPoint) {
-        this.endPoint = endPoint;
-    }
-
+    /**
+     * Gets the x-coordinate of the end point of the transition arrow
+     *
+     * @return the x-coordinate of the end point
+     */
     public int getEndX() {
         return endPoint.x;
     }
 
+    /**
+     * Sets the x-coordinate of the end point of the transition arrow
+     *
+     * @param x the new x-coordinate of the end point
+     */
     public void setEndX(int x) {
         this.endPoint.x = x;
     }
 
+    /**
+     * Gets the y-coordinate of the end point of the transition arrow
+     *
+     * @return the y-coordinate of the end point
+     */
     public int getEndY() {
         return endPoint.y;
     }
 
+    /**
+     * Sets the y-coordinate of the end point of the transition arrow
+     *
+     * @param y the new y-coordinate of the end point
+     */
     public void setEndY(int y) {
         this.endPoint.y = y;
     }
 
-    public List<Point> getLineStartPoints() {
-        return lineStartPoints;
-    }
-
-    public void setLineStartPoints(List<Point> lineStartPoints) {
-        this.lineStartPoints = lineStartPoints;
-    }
-
+    /**
+     * Gets the start point at the specified index from the list of start points
+     *
+     * @param index the index of the start point to retrieve
+     * @return the start point at the specified index, or null if the index is out of range
+     */
     public Point getLineStartPoint(int index) {
         return index < lineStartPoints.size() ? lineStartPoints.get(index) : null;
     }
 
+    /**
+     * Returns the bounding rectangle of this TreeTransitionView
+     *
+     * @return a Rectangle representing the bounding box of this TreeTransitionView
+     */
     @Override
     public Rectangle getBounds() {
         return arrowhead.getBounds();
     }
 
+    /**
+     * Returns the bounding rectangle of this TreeTransitionView as a Rectangle2D
+     *
+     * @return a Rectangle2D representing the bounding box of this TreeTransitionView
+     */
     @Override
     public Rectangle2D getBounds2D() {
         return arrowhead.getBounds2D();

@@ -6,6 +6,13 @@ package edu.rpi.legup.history;
  */
 public class InvalidCommandStateTransition extends RuntimeException {
 
+    /**
+     * Constructs a new InvalidCommandStateTransition exception with a detailed message
+     *
+     * @param puzzleCommand the PuzzleCommand involved in the invalid transition
+     * @param from the state from which the transition was attempted
+     * @param to the state to which the transition was attempted
+     */
     public InvalidCommandStateTransition(
             PuzzleCommand puzzleCommand, CommandState from, CommandState to) {
         super(

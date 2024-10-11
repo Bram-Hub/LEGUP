@@ -12,16 +12,29 @@ public class ElementSelection {
     private ElementView hover;
     private Point mousePoint;
 
+    /**
+     * Constructs an ElementSelection instance with an empty selection and no hover or mouse point
+     */
     public ElementSelection() {
         this.selection = new ArrayList<>();
         this.hover = null;
         this.mousePoint = null;
     }
 
+    /**
+     * Gets the list of currently selected ElementViews.
+     *
+     * @return the list of selected ElementViews
+     */
     public ArrayList<ElementView> getSelection() {
         return selection;
     }
 
+    /**
+     * Gets the first ElementView in the selection, or null if the selection is empty.
+     *
+     * @return the first selected ElementView, or null if there are no selections
+     */
     public ElementView getFirstSelection() {
         return selection.size() == 0 ? null : selection.get(0);
     }
@@ -62,10 +75,20 @@ public class ElementSelection {
         selection.clear();
     }
 
+    /**
+     * Gets the currently hovered ElementView.
+     *
+     * @return the currently hovered ElementView, or null if no element is hovered
+     */
     public ElementView getHover() {
         return hover;
     }
 
+    /**
+     * Sets a new hovered ElementView, updating the hover state of the previous and new elements.
+     *
+     * @param newHovered the new ElementView to be hovered
+     */
     public void newHover(ElementView newHovered) {
         newHovered.setHover(true);
         if (hover != null) {
@@ -82,10 +105,20 @@ public class ElementSelection {
         }
     }
 
+    /**
+     * Gets the current mouse point location.
+     *
+     * @return the current mouse point location
+     */
     public Point getMousePoint() {
         return mousePoint;
     }
 
+    /**
+     * Sets the mouse point location.
+     *
+     * @param point the new mouse point location
+     */
     public void setMousePoint(Point point) {
         this.mousePoint = point;
     }

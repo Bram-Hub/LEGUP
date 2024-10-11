@@ -42,13 +42,13 @@ public class FillapixCell extends GridCell<Integer> implements Comparable<Fillap
     @Override
     public void setType(Element e, MouseEvent m) {
         switch (e.getElementID()) {
-            case "FPIX-PLAC-0001":
+            case "FPIX-ELEM-0001":
                 this.setCellType(FillapixCellType.BLACK);
                 break;
-            case "FPIX-PLAC-0002":
+            case "FPIX-ELEM-0004":
                 this.setCellType(FillapixCellType.WHITE);
                 break;
-            case "FPIX-UNPL-0001":
+            case "FPIX-ELEM-0002":
                 int n = this.getNumber();
                 switch (m.getButton()) {
                     case MouseEvent.BUTTON1:

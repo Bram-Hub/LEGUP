@@ -66,10 +66,20 @@ public class TreePanel extends JPanel {
         updateStatusTimer = 0;
     }
 
+    /**
+     * Repaints the tree view with the provided {@link Tree} object
+     *
+     * @param tree the {@link Tree} object to update the view with
+     */
     public void repaintTreeView(Tree tree) {
         treeView.updateTreeView(tree);
     }
 
+    /**
+     * Updates the status of the panel based on changes to the {@link Board}
+     *
+     * @param board the {@link Board} object representing the current board state
+     */
     public void boardDataChanged(Board board) {
         modifiedSinceSave = true;
         modifiedSinceUndoPush = true;
@@ -89,18 +99,33 @@ public class TreePanel extends JPanel {
         this.status.setText("");
     }
 
+    /**
+     * Updates the status display with the given status string
+     *
+     * @param statusString the status string to display
+     */
     public void updateStatus(String statusString) {
         status.setForeground(Color.BLACK);
         status.setFont(MaterialFonts.REGULAR);
         status.setText(statusString);
     }
 
+    /**
+     * Updates the status display as an error with an error message
+     *
+     * @param error the error message to display
+     */
     public void updateError(String error) {
         status.setForeground(Color.RED);
         status.setFont(MaterialFonts.ITALIC);
         status.setText(error);
     }
 
+    /**
+     * Gets the {@link TreeView} instance associated with this panel
+     *
+     * @return the {@link TreeView} instance
+     */
     public TreeView getTreeView() {
         return treeView;
     }

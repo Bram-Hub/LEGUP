@@ -32,6 +32,9 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
         List<TreeElementView> selectedViews = selection.getSelectedViews();
+        if (selectedViews.isEmpty()) {
+            return;
+        }
 
         TreeElementView firstSelectedView = selectedViews.get(0);
         TreeElementView newSelectedView;
@@ -48,6 +51,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
         }
 
         for (TreeElementView selectedView : selectedViews) {
+            System.out.println("DELETED");
             TreeElement element = selectedView.getTreeElement();
             tree.removeTreeElement(element);
             puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(element));

@@ -136,10 +136,20 @@ public class PickGameDialog extends JDialog implements ActionListener {
         gameBox = new JComboBox(games);
     }
 
+    /**
+     * Gets the selected puzzle file path
+     *
+     * @return the puzzle file path as a String
+     */
     public String getPuzzle() {
         return puzzleBox.getText();
     }
 
+    /**
+     * Returns the selected puzzle
+     *
+     * @return the selected puzzle as a String
+     */
     public String getGame() {
         return (String) gameBox.getSelectedItem();
     }

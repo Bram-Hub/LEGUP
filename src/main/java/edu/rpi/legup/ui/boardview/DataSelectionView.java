@@ -11,6 +11,11 @@ import javax.swing.border.BevelBorder;
  */
 public class DataSelectionView extends JPopupMenu {
 
+    /**
+     * Constructs a DataSelectionView with the given controller.
+     *
+     * @param controller The ElementController to handle UI events.
+     */
     public DataSelectionView(ElementController controller) {
         setBackground(Color.GRAY);
         setBorder(new BevelBorder(BevelBorder.RAISED));

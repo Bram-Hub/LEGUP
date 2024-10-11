@@ -24,6 +24,11 @@ public abstract class Controller implements MouseMotionListener, MouseListener, 
         pan = false;
     }
 
+    /**
+     * Sets the ScrollView instance that this controller manages
+     *
+     * @param viewer The ScrollView instance to be set
+     */
     public void setViewer(ScrollView viewer) {
         this.viewer = viewer;
     }

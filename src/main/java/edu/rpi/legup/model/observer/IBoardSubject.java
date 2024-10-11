@@ -22,7 +22,7 @@ public interface IBoardSubject {
     void removeBoardListener(IBoardListener listener);
 
     /**
-     * Notifies all of the listeners using the specified algorithm.
+     * Notifies all the listeners using the specified algorithm.
      *
      * @param algorithm algorithm used to notify the listeners
      */

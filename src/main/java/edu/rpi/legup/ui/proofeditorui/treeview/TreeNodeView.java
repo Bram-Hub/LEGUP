@@ -266,11 +266,21 @@ public class TreeNodeView extends TreeElementView {
         return RADIUS;
     }
 
+    /**
+     * Returns the bounding rectangle of this TreeNodeView
+     *
+     * @return a Rectangle representing the bounding box of this TreeNodeView
+     */
     @Override
     public Rectangle getBounds() {
         return new Rectangle(location.x, location.y, DIAMETER, DIAMETER);
     }
 
+    /**
+     * Returns the bounding rectangle of this TreeNodeView as a Rectangle2D
+     *
+     * @return a Rectangle2D representing the bounding box of this TreeNodeView
+     */
     @Override
     public Rectangle2D getBounds2D() {
         return new Rectangle(location.x, location.y, DIAMETER, DIAMETER);

@@ -32,23 +32,27 @@ public class CompleteRowColumnDirectRule extends DirectRule {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         BinaryBoard origBoard = (BinaryBoard) transition.getParents().get(0).getBoard();
-        ContradictionRule contraRule = new UnbalancedRowOrColumnContradictionRule();
+        ContradictionRule contraRule = new UnbalancedRowColumnContradictionRule();
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
         BinaryBoard modified = origBoard.copy();
-        BinaryCell c = (BinaryCell) modified.getPuzzleElement(puzzleElement);
 
-        // System.out.println("ORIG" + binaryCell.getData());
-        // System.out.println("AFTER" + Math.abs(binaryCell.getData() - 1));
-        modified.getPuzzleElement(puzzleElement).setData(binaryCell.getData());
-        System.out.println(contraRule.checkContradictionAt(modified, puzzleElement));
-
-        if (contraRule.checkContradictionAt(modified, puzzleElement) != null) {
+        // Flip the cell and check to see if there will be an unbalanced row/column contradiction,
+        // if so the rule is applied correctly
+        modified.getPuzzleElement(puzzleElement).setData(Math.abs(binaryCell.getData() - 1));
+        if (contraRule.checkContradictionAt(modified, puzzleElement) == null) {
             return null;
         }
 
-        return "Grouping of Three Ones or Zeros not found";
+        return "Unbalanced row/column found";
     }
 
+    /**
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
+     *
+     * @param node tree node used to create default transition board
+     * @return default board or null if this rule cannot be applied to this tree node
+     */
     @Override
     public Board getDefaultBoard(TreeNode node) {
         return null;

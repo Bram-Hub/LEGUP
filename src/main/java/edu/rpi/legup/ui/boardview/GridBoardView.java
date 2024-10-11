@@ -81,9 +81,9 @@ public class GridBoardView extends BoardView {
     }
 
     /**
-     * Helper method to determine the proper dimension of the grid view
+     * Determines the proper dimension of the grid view based on grid size and element size.
      *
-     * @return proper dimension of the grid view
+     * @return the dimension of the grid view
      */
     protected Dimension getProperSize() {
         Dimension boardViewSize = new Dimension();
@@ -102,6 +102,11 @@ public class GridBoardView extends BoardView {
         return null;
     }
 
+    /**
+     * Gets the size of each element in the grid
+     *
+     * @return the dimension of each element in the grid
+     */
     public Dimension getElementSize() {
         return this.elementSize;
     }

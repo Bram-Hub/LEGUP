@@ -57,6 +57,11 @@ public class TreeView extends ScrollView implements ITreeListener {
 
     private TreeViewSelection selection;
 
+    /**
+     * Constructs a {@code TreeView} with the specified {@code TreeController}.
+     *
+     * @param treeController the {@code TreeController} used to manage tree operations
+     */
     public TreeView(TreeController treeController) {
         super(treeController);
         currentStateBoxes = new ArrayList<>();
@@ -68,6 +73,11 @@ public class TreeView extends ScrollView implements ITreeListener {
         selection = new TreeViewSelection();
     }
 
+    /**
+     * Gets the current tree view selection
+     *
+     * @return the {@code TreeViewSelection} object representing the current selection
+     */
     public TreeViewSelection getSelection() {
         return selection;
     }
@@ -137,6 +147,11 @@ public class TreeView extends ScrollView implements ITreeListener {
         return null;
     }
 
+    /**
+     * Updates the tree view with the specified {@code Tree}
+     *
+     * @param tree the {@code Tree} to display in the view
+     */
     public void updateTreeView(Tree tree) {
         this.tree = tree;
         if (selection.getSelectedViews().size() == 0) {
@@ -174,8 +189,9 @@ public class TreeView extends ScrollView implements ITreeListener {
      * button is selected
      */
     public void zoomFit() {
-        double fitWidth = (viewport.getWidth() - 8.0) / (getSize().width - 200);
-        double fitHeight = (viewport.getHeight() - 8.0) / (getSize().height - 120);
+        final int MIN_HEIGHT = 200;
+        double fitWidth = (viewport.getWidth() - 7.0) / (getSize().width - 75);
+        double fitHeight = (viewport.getHeight()) / Math.max((getSize().height - 115), MIN_HEIGHT);
         zoomTo(Math.min(fitWidth, fitHeight));
         viewport.setViewPosition(new Point(0, viewport.getHeight() / 2));
     }
@@ -224,6 +240,11 @@ public class TreeView extends ScrollView implements ITreeListener {
         };
     }
 
+    /**
+     * Draws the tree view on the provided {@code Graphics2D} context
+     *
+     * @param graphics2D the {@code Graphics2D} context to draw on
+     */
     public void draw(Graphics2D graphics2D) {
         currentStateBoxes.clear();
         Tree tree = GameBoardFacade.getInstance().getTree();
@@ -255,6 +276,12 @@ public class TreeView extends ScrollView implements ITreeListener {
         viewport.setViewPosition(new Point(0, 0));
     }
 
+    /**
+     * Recursively redraws the tree starting from the specified node view
+     *
+     * @param graphics2D the {@code Graphics2D} context to draw on
+     * @param nodeView the {@code TreeNodeView} to start drawing from
+     */
     private void redrawTree(Graphics2D graphics2D, TreeNodeView nodeView) {
         if (nodeView != null) {
             nodeView.draw(graphics2D);
@@ -265,6 +292,11 @@ public class TreeView extends ScrollView implements ITreeListener {
         }
     }
 
+    /**
+     * Removes the specified {@code TreeElementView} from the tree view
+     *
+     * @param view the {@code TreeElementView} to remove
+     */
     public void removeTreeElement(TreeElementView view) {
         if (view.getType() == NODE) {
             TreeNodeView nodeView = (TreeNodeView) view;
@@ -424,8 +456,17 @@ public class TreeView extends ScrollView implements ITreeListener {
         return viewMap.get(element);
     }
 
-    private void removeTreeNode(TreeNode node) {
+    /**
+     * Removes the specified {@link TreeNode} and its associated views
+     *
+     * @param node the {@link TreeNode} to be removed
+     */
+    public void removeTreeNode(TreeNode node) {
         viewMap.remove(node);
+        if (node.getChildren() != null) {
+            node.getChildren().forEach(t -> removeTreeTransition(t));
+        }
+
         List<TreeTransition> children = node.getChildren();
 
         // if child is a case rule, unlock ancestor elements
@@ -452,11 +493,13 @@ public class TreeView extends ScrollView implements ITreeListener {
                         }
 
                         // set modifiable if started modifiable
-                        boolean modifiable =
-                                tree.getRootNode()
-                                        .getBoard()
-                                        .getPuzzleElement(oldElement)
-                                        .isModifiable();
+                        boolean modifiable = false;
+                        if (tree != null) {
+                            tree.getRootNode()
+                                    .getBoard()
+                                    .getPuzzleElement(oldElement)
+                                    .isModifiable();
+                        }
 
                         // unmodifiable if already modified
                         TreeNode modNode = ancestor.getParent().getParents().get(0);
@@ -474,10 +517,14 @@ public class TreeView extends ScrollView implements ITreeListener {
                 }
             }
         }
-        node.getChildren().forEach(t -> removeTreeTransition(t));
     }
 
-    private void removeTreeTransition(TreeTransition trans) {
+    /**
+     * Removes the specified {@link TreeTransition} and its associated views
+     *
+     * @param trans the {@link TreeTransition} to be removed
+     */
+    public void removeTreeTransition(TreeTransition trans) {
         viewMap.remove(trans);
         if (trans.getChildNode() != null) {
             removeTreeNode(trans.getChildNode());
@@ -514,12 +561,16 @@ public class TreeView extends ScrollView implements ITreeListener {
         }
     }
 
+    /**
+     * Adds the specified {@link TreeNode} and its associated views
+     *
+     * @param node the {@link TreeNode} to be added
+     */
     private void addTreeNode(TreeNode node) {
         TreeTransition parent = node.getParent();
-
         TreeNodeView nodeView = new TreeNodeView(node);
-        TreeTransitionView parentView = (TreeTransitionView) viewMap.get(parent);
 
+        TreeTransitionView parentView = (TreeTransitionView) viewMap.get(parent);
         nodeView.setParentView(parentView);
         parentView.setChildView(nodeView);
 
@@ -554,20 +605,25 @@ public class TreeView extends ScrollView implements ITreeListener {
         }
     }
 
+    /**
+     * Adds the specified {@link TreeTransition} and its associated views
+     *
+     * @param trans The {@link TreeTransition} to be added
+     */
     private void addTreeTransition(TreeTransition trans) {
         List<TreeNode> parents = trans.getParents();
-
         TreeTransitionView transView = new TreeTransitionView(trans);
+
         for (TreeNode parent : parents) {
             TreeNodeView parentNodeView = (TreeNodeView) viewMap.get(parent);
             transView.addParentView(parentNodeView);
             parentNodeView.addChildrenView(transView);
 
+            viewMap.put(trans, transView);
+
             // if transition is a new case rule, lock dependent ancestor elements
             Rule rule = trans.getRule();
             if (rule instanceof CaseRule && parent.getChildren().size() == 1) {
-                CaseRule caseRule = (CaseRule) rule;
-
                 List<TreeNode> ancestors = parent.getAncestors();
                 for (TreeNode ancestor : ancestors) {
                     // for all ancestors but root
@@ -584,15 +640,16 @@ public class TreeView extends ScrollView implements ITreeListener {
             }
         }
 
-        viewMap.put(trans, transView);
-
         if (trans.getChildNode() != null) {
             addTreeNode(trans.getChildNode());
         }
     }
 
-    /// New Draw Methods
-
+    /**
+     * Draws the tree using the provided {@link Graphics2D} object
+     *
+     * @param graphics2D the {@link Graphics2D} object used for drawing the tree
+     */
     public void drawTree(Graphics2D graphics2D) {
         if (tree == null) {
             LOGGER.error("Unable to draw tree.");
@@ -618,6 +675,11 @@ public class TreeView extends ScrollView implements ITreeListener {
         }
     }
 
+    /**
+     * Creates views for the given {@link TreeNodeView} and its children
+     *
+     * @param nodeView the {@link TreeNodeView} for which to create views
+     */
     public void createViews(TreeNodeView nodeView) {
         if (nodeView != null) {
             viewMap.put(nodeView.getTreeElement(), nodeView);

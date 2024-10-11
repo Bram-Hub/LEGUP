@@ -61,9 +61,9 @@ public class TreeNode extends TreeElement {
     }
 
     /**
-     * Gets all of the ancestors of this node
+     * Gets a list of the ancestors of this node
      *
-     * @return list of all of the ancestors for this node
+     * @return list of all the ancestors for this node
      */
     public List<TreeNode> getAncestors() {
         List<TreeNode> ancestors = new ArrayList<>();

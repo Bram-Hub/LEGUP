@@ -293,6 +293,11 @@ public class ScrollView extends JScrollPane {
         updateSize();
     }
 
+    /**
+     * Gets the canvas for this {@code ScrollView}
+     *
+     * @return the ZoomablePane instance used as the canvas
+     */
     public ZoomablePane getCanvas() {
         return canvas;
     }

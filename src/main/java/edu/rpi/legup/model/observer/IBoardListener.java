@@ -17,7 +17,7 @@ public interface IBoardListener {
     void onTreeElementChanged(TreeElement treeElement);
 
     /**
-     * Called when the a case board has been added to the view.
+     * Called when a case board has been added to the view.
      *
      * @param caseBoard case board to be added
      */

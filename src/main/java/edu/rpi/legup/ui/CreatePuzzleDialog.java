@@ -69,9 +69,7 @@ public class CreatePuzzleDialog extends JDialog {
                  */
                 @Override
                 public void actionPerformed(ActionEvent ae) {
-                    String game =
-                            Config.convertDisplayNameToClassName(
-                                    (String) gameBox.getSelectedItem());
+                    String game = getGame();
 
                     // Check if all 3 TextFields are filled
                     if (game.equals("ShortTruthTable") && textArea.getText().isEmpty()) {
@@ -91,8 +89,8 @@ public class CreatePuzzleDialog extends JDialog {
                         } else {
                             homePanel.openEditorWithNewPuzzle(
                                     game,
-                                    Integer.valueOf(rows.getText()),
-                                    Integer.valueOf(columns.getText()));
+                                    Integer.valueOf(getRows()),
+                                    Integer.valueOf(getColumns()));
                         }
                         setVisible(false);
                     } catch (IllegalArgumentException e) {
@@ -116,6 +114,12 @@ public class CreatePuzzleDialog extends JDialog {
                 }
             };
 
+    /**
+     * Constructs a new CreatePuzzleDialog
+     *
+     * @param parent the parent frame of the dialog
+     * @param homePanel the home panel where the created puzzle will be added
+     */
     public CreatePuzzleDialog(JFrame parent, HomePanel homePanel) {
         super(parent, true);
 
