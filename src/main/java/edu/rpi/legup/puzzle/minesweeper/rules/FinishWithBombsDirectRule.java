@@ -25,6 +25,7 @@ public class FinishWithBombsDirectRule extends DirectRule {
 
         if (!(parentCell.getTileType() == MinesweeperTileType.UNSET
                 && cell.getTileType() == MinesweeperTileType.BOMB)) {
+
             return super.getInvalidUseOfRuleMessage()
                     + ": This cell must be black to be applicable with this rule.";
         }

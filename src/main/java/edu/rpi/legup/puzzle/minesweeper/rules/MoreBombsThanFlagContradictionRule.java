@@ -34,18 +34,35 @@ public class MoreBombsThanFlagContradictionRule extends ContradictionRule {
         MinesweeperCell cell = (MinesweeperCell) minesweeperBoard.getPuzzleElement(puzzleElement);
 
         int cellNum = cell.getTileNumber();
-        if (cellNum < 0 || cellNum >= 10) {
+        if (cellNum <= 0 || cellNum >= 9) {
             return super.getNoContradictionMessage();
         }
-        int numBlack = 0;
+        int numEmpty = 0;
+        int numAdj = 0;
+        int numBombs = 0;
+        int numUnset = 0;
         ArrayList<MinesweeperCell> adjCells =
                 MinesweeperUtilities.getAdjacentCells(minesweeperBoard, cell);
         for (MinesweeperCell adjCell : adjCells) {
-            if (adjCell.getTileType() == MinesweeperTileType.BOMB) {
-                numBlack++;
+            numAdj++;
+            if (adjCell.getTileType() == MinesweeperTileType.EMPTY) {
+                numEmpty++;
+                System.out.println("loc " + adjCell.getLocation().x + adjCell.getLocation().y);
+            }
+            if(adjCell.getTileType() == MinesweeperTileType.BOMB) {
+                numBombs++;
+            }
+            if(adjCell.getTileType() == MinesweeperTileType.UNSET) {
+                numUnset++;
             }
         }
-        if (numBlack > cellNum) {
+        System.out.println("num empty " + numEmpty);
+        System.out.println("num adj " + numAdj);
+        System.out.println("cell num " + cellNum);
+        System.out.println("num bombs " + numBombs);
+        System.out.println("num unset " + numUnset);
+
+        if (cellNum < numEmpty + numUnset + numBombs) {
             return null;
         }
 

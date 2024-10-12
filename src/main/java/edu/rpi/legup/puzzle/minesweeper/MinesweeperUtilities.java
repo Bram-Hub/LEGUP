@@ -1,6 +1,8 @@
 package edu.rpi.legup.puzzle.minesweeper;
 
 import edu.rpi.legup.puzzle.minesweeper.rules.LessBombsThanFlagContradictionRule;
+import edu.rpi.legup.puzzle.minesweeper.rules.MoreBombsThanFlagContradictionRule;
+
 import java.awt.*;
 import java.util.*;
 import java.util.Objects;
@@ -154,14 +156,17 @@ public final class MinesweeperUtilities {
     }
 
     public static boolean isForcedBomb(MinesweeperBoard board, MinesweeperCell cell) {
-
+        MoreBombsThanFlagContradictionRule tooFewBombs = new MoreBombsThanFlagContradictionRule();
         LessBombsThanFlagContradictionRule tooManyBombs = new LessBombsThanFlagContradictionRule();
         MinesweeperBoard emptyCaseBoard = board.copy();
         MinesweeperCell emptyCell = (MinesweeperCell) emptyCaseBoard.getPuzzleElement(cell);
         emptyCell.setCellType(MinesweeperTileData.empty());
         ArrayList<MinesweeperCell> adjCells = getAdjacentCells(emptyCaseBoard, emptyCell);
         for (MinesweeperCell adjCell : adjCells) {
-            if (tooManyBombs.checkContradictionAt(emptyCaseBoard, adjCell) == null) {
+            if(adjCell.getTileNumber() <= 0 || adjCell.getTileNumber() >= 9) {
+                continue;
+            }
+            if (tooManyBombs.checkContradictionAt(emptyCaseBoard, adjCell) != null && tooFewBombs.checkContradictionAt(emptyCaseBoard, adjCell) != null) {
                 return true;
             }
         }
