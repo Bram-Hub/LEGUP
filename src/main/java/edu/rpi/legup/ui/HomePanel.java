@@ -4,6 +4,7 @@ import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.controller.CursorController;
 import edu.rpi.legup.model.Puzzle;
+import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -391,6 +392,7 @@ public class HomePanel extends LegupPanel {
                                         Attributes attributes)
                                         throws SAXException {
                                     // append file type to the writer
+                                    // return if not designated puzzle ID
                                     if (qName.equals("puzzle")
                                             && attributes.getQName(0) == "name"
                                             && !puzzleTypeExists) {
@@ -406,27 +408,29 @@ public class HomePanel extends LegupPanel {
                                     else if (qName.equals("solved") && !solvedFlagExists) {
                                         String isSolved = attributes.getValue(0);
                                         String lastSaved = attributes.getValue(1);
-                                        if (isSolved != null) {
-                                            if (isSolved.equals("true")) {
-                                                try {
-                                                    writer.write("Solved");
-                                                } catch (IOException e) {
-                                                    throw new RuntimeException(e);
-                                                }
-                                            } else if (isSolved.equals("false")) {
-                                                try {
-                                                    writer.write("Not Solved");
-                                                } catch (IOException e) {
-                                                    throw new RuntimeException(e);
-                                                }
-                                            } else {
-                                                try {
-                                                    writer.write("Error");
-                                                } catch (IOException e) {
-                                                    throw new RuntimeException(e);
-                                                }
+
+                                        Boolean solvedState = PuzzleExporter.inverseHash(Integer.parseInt(isSolved), lastSaved);
+
+                                        if (solvedState == null) {
+                                            try {
+                                                writer.write("Error");
+                                            } catch (IOException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        } else if (solvedState) {
+                                            try {
+                                                writer.write("Solved");
+                                            } catch (IOException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        } else {
+                                            try {
+                                                writer.write("Not Solved");
+                                            } catch (IOException e) {
+                                                throw new RuntimeException(e);
                                             }
                                         }
+
                                         // append when is this proof last saved
                                         if (lastSaved != null) {
                                             try {

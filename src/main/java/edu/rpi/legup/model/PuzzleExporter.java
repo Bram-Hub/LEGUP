@@ -48,7 +48,6 @@ public abstract class PuzzleExporter {
     public static int obfHash(boolean solved, String date) {
         LocalDateTime dateTime = LocalDateTime.parse(date, DATE_FORMAT);
         String obf = solved + ":" + dateTime.toEpochSecond(ZoneOffset.UTC) + ";";
-        LOGGER.debug("Hashed Val: '{}'", obf);
         return obf.hashCode();
     }
 
@@ -60,17 +59,16 @@ public abstract class PuzzleExporter {
      * @param date the date/time value saved to the export
      * @return boolean value of the solved state of the board
      */
-    public static boolean inverseHash(int hash, String date) {
+    public static Boolean inverseHash(int hash, String date) {
         LocalDateTime dateTime = LocalDateTime.parse(date, DATE_FORMAT);
         long timestamp = dateTime.toEpochSecond(ZoneOffset.UTC);
 
         if ((true+":"+timestamp+";").hashCode() == hash) {
-            return true;
+            return Boolean.TRUE;
         } else if ((false+":"+timestamp+";").hashCode() == hash) {
-            return false;
-        } else {
-            throw new IllegalArgumentException("Hash does not inverse hash");
+            return Boolean.FALSE;
         }
+        return null;
     }
 
     /**
@@ -81,6 +79,10 @@ public abstract class PuzzleExporter {
      */
     public void exportPuzzle(String fileName) throws ExportFileException {
         try {
+            // quick patch for ParserConfigurationException thrown
+            // when a double quote is placed in the file name
+            fileName = fileName.replace("\"", "");
+
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             Document newDocument = docBuilder.newDocument();
@@ -89,22 +91,10 @@ public abstract class PuzzleExporter {
             legupElement.setAttribute("version", "3.0.0");
             newDocument.appendChild(legupElement);
 
-            org.w3c.dom.Element timeSavedElement = newDocument.createElement("saved");
-            legupElement.appendChild(timeSavedElement);
-
             org.w3c.dom.Element puzzleElement = newDocument.createElement("puzzle");
+            String idStr = puzzle.tag.isEmpty() ? fileName.substring(fileName.lastIndexOf("\\") + 1) : puzzle.tag;
+            puzzleElement.setAttribute("tag", idStr);
             puzzleElement.setAttribute("name", puzzle.getName());
-
-            // adds puzzle id as file name if untagged
-            if (this.puzzle.tag.isEmpty()) {
-                // format string to only be export file name (without extension
-                String idStr = fileName.substring(fileName.lastIndexOf("/") + 1);
-                idStr = idStr.contains(".") ? idStr.substring(0, idStr.lastIndexOf('.')) : idStr;
-                puzzleElement.setAttribute("id", idStr);
-            } else {
-                puzzleElement.setAttribute("id", this.puzzle.tag);
-            }
-
             legupElement.appendChild(puzzleElement);
 
             puzzleElement.appendChild(createBoardElement(newDocument));
