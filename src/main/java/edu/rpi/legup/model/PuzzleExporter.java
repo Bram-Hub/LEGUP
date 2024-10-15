@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -60,8 +61,13 @@ public abstract class PuzzleExporter {
      * @return boolean value of the solved state of the board
      */
     public static Boolean inverseHash(int hash, String date) {
-        LocalDateTime dateTime = LocalDateTime.parse(date, DATE_FORMAT);
-        long timestamp = dateTime.toEpochSecond(ZoneOffset.UTC);
+        long timestamp;
+        try {
+            LocalDateTime dateTime = LocalDateTime.parse(date, DATE_FORMAT);
+            timestamp = dateTime.toEpochSecond(ZoneOffset.UTC);
+        } catch (DateTimeParseException e) {
+            timestamp = -1;
+        }
 
         if ((true+":"+timestamp+";").hashCode() == hash) {
             return Boolean.TRUE;

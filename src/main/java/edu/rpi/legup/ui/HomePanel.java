@@ -409,7 +409,13 @@ public class HomePanel extends LegupPanel {
                                         String isSolved = attributes.getValue(0);
                                         String lastSaved = attributes.getValue(1);
 
-                                        Boolean solvedState = PuzzleExporter.inverseHash(Integer.parseInt(isSolved), lastSaved);
+                                        int solvedHash;
+                                        try {
+                                            solvedHash = Integer.parseInt(isSolved);
+                                        } catch (NumberFormatException e) {
+                                            solvedHash = -1;
+                                        }
+                                        Boolean solvedState = PuzzleExporter.inverseHash(solvedHash, lastSaved);
 
                                         if (solvedState == null) {
                                             try {
