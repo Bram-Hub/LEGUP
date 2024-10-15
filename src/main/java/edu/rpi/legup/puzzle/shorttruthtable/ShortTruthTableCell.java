@@ -135,22 +135,22 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType> {
         }
 
         // Red Element
-        if (e.getElementID().equals("STTT-PLAC-0002")) {
+        if (e.getElementID().equals("STTT-ELEM-0004")) {
             this.data = ShortTruthTableCellType.FALSE;
         }
         // Green Element
         else {
-            if (e.getElementID().equals("STTT-PLAC-0001")) {
+            if (e.getElementID().equals("STTT-ELEM-0002")) {
                 this.data = ShortTruthTableCellType.TRUE;
             }
             // Unknown Element
             else {
-                if (e.getElementID().equals("STTT-PLAC-0003")) {
+                if (e.getElementID().equals("STTT-ELEM-0005")) {
                     this.data = ShortTruthTableCellType.UNKNOWN;
                 }
                 // Argument Element
                 else {
-                    if (e.getElementID().equals("STTT-UNPL-0001")) {
+                    if (e.getElementID().equals("STTT-ELEM-0001")) {
                         // Prevents non-argument symbols from being changed
                         if (!(this.symbol >= 'A' && this.symbol <= 'Z')) {
                             return;
@@ -172,7 +172,7 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType> {
                     }
                     // And/Or Element
                     else {
-                        if (e.getElementID().equals("STTT-UNPL-0002")) {
+                        if (e.getElementID().equals("STTT-ELEM-0003")) {
                             if (m.getButton() == MouseEvent.BUTTON1) {
                                 if (this.symbol == '^') {
                                     this.symbol = '|';

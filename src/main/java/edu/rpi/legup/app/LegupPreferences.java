@@ -4,6 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.prefs.Preferences;
 
+/**
+ * {@code LegupPreferences} is a class responsible for managing user preferences within the
+ * application. It uses Java's Preferences API to store and retrieve preferences, and it provides
+ * methods for accessing and updating these preferences.
+ */
 public class LegupPreferences {
 
     private static LegupPreferences instance;
@@ -73,9 +78,10 @@ public class LegupPreferences {
     }
 
     /**
-     * Gets the legup preferences singleton instance.
+     * Gets the legup preferences singleton instance This method ensures that only one instance of
+     * LegupPreferences exists
      *
-     * @return legup preferences
+     * @return the singleton instance of LegupPreferences
      */
     public static LegupPreferences getInstance() {
         if (instance == null) {
@@ -84,30 +90,40 @@ public class LegupPreferences {
         return instance;
     }
 
-    /** Private LegupPreferences Singleton Constructor */
+    /**
+     * Private constructor to prevent instantiation from outside the class Use {@link
+     * #getInstance()} to access the singleton instance
+     */
     private LegupPreferences() {}
 
     /**
      * Gets the user preference by the string key
      *
      * @param key key name of the preference
-     * @return value of the preference
+     * @return value of the preference or {@code null} if the preference does not exist
      */
     public String getUserPref(String key) {
         return preferencesMap.get(key);
     }
 
     /**
-     * Gets the user preference by the string key, value pair
+     * Sets the user preference for the specified key to the provided value
      *
-     * @param key key name of the preference
-     * @param value value of the preference
+     * @param key key to set for the preference
+     * @param value value to set for the preference
      */
     public void setUserPref(String key, String value) {
         preferences.put(key, value);
         preferencesMap.put(key, value);
     }
 
+    /**
+     * Retrieves the user preference associated with the specified key as a boolean
+     *
+     * @param key the key for the preference to retrieve
+     * @return the boolean value of the preference
+     * @throws RuntimeException if the preference value cannot be interpreted as a boolean
+     */
     public boolean getUserPrefAsBool(String key) {
         if (preferencesMap.get(key).equalsIgnoreCase(Boolean.toString(true))) {
             return true;
@@ -120,10 +136,20 @@ public class LegupPreferences {
         }
     }
 
+    /**
+     * Gets the saved path
+     *
+     * @return the saved path as a String
+     */
     public String getSavedPath() {
         return SAVED_PATH;
     }
 
+    /**
+     * Sets the saved path to the specified value
+     *
+     * @param path the new saved path
+     */
     public void setSavedPath(String path) {
         SAVED_PATH = path;
     }

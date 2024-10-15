@@ -6,6 +6,11 @@ import java.util.TreeSet;
 import java.util.logging.Logger;
 import javax.swing.*;
 
+/**
+ * ScrollView extends {@link JScrollPane} to provide a customizable view with zoom and scroll
+ * capabilities. It uses a {@link ZoomablePane} as the canvas and allows for zooming and scrolling
+ * with respect to the canvas content.
+ */
 public class ScrollView extends JScrollPane {
     private static final Logger LOGGER = Logger.getLogger(ScrollView.class.getName());
 
@@ -165,6 +170,12 @@ public class ScrollView extends JScrollPane {
         revalidate();
     }
 
+    /**
+     * Adjusts the zoom level to the given scale and centers the viewport on the current center
+     * point
+     *
+     * @param newScale the new scale to set
+     */
     public void zoomTo(double newScale) {
         // check zoom bounds
         if (newScale < minScale) {
@@ -282,6 +293,11 @@ public class ScrollView extends JScrollPane {
         updateSize();
     }
 
+    /**
+     * Gets the canvas for this {@code ScrollView}
+     *
+     * @return the ZoomablePane instance used as the canvas
+     */
     public ZoomablePane getCanvas() {
         return canvas;
     }
