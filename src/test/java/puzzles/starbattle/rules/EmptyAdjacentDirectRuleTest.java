@@ -98,6 +98,7 @@ public class EmptyAdjacentDirectRuleTest {
         */
 
         Assert.assertNull(RULE.checkRule(transition));
+        System.out.println("General Case is done\n");
         for (int i = 0; i < board.getHeight(); ++i) {
             for (int j = 0; j < board.getWidth(); ++j) {
                 Point point = new Point(j,i);
