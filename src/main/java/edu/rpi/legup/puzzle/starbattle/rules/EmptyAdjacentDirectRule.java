@@ -6,6 +6,8 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
@@ -62,14 +64,18 @@ public class EmptyAdjacentDirectRule extends DirectRule {
             StarBattleCell temp = adjacent[i];
 
             if (temp != null && temp.getType() == StarBattleCellType.UNKNOWN) {
+                temp.setData(StarBattleCellType.BLACK.value);
                 int X = temp.getLocation().x;
                 int Y = temp.getLocation().y;
                 modified.getCell(X,Y).setData(StarBattleCellType.BLACK.value);
+                System.out.println("covering square " + X + " " + Y + " type " + modified.getCell(X,Y).getType() + " i = " + i + "\n");
                 if(contraRule.checkContradictionAt(modified, temp) == null){
+                    System.out.println("Good job!");
                     return null;        //used correctly if even one space causes a toofewstars issue
                 }
             }
         }
+        System.out.println("Wait why did this exit?\n");
 
         return "Black cells must be placed adjacent to a tile(s) where a star is needed!";
     }
