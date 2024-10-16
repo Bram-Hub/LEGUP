@@ -51,16 +51,17 @@ public class StarBattleView extends GridBoardView {
                 StarBattleBorderView temp = new StarBattleBorderView(new StarBattleBorder(StarBattleCellType.HORIZ_BORDER));
                 temp.setSize(elementSize);
                 if(j == 0){       //set borders at the ends of the board
-                    temp.setLocation(endCell(board.getCell(i,j), 8, elementSize));
+                    //set on top of cell
+                    temp.setLocation(endCell(board.getCell(i,0), 8, elementSize));
                     horizontalBorders.add(temp);
                 }
                 else if(j == board.getHeight()){
-                    temp.setLocation(endCell(board.getCell(i,j), 2, elementSize));
+                    temp.setLocation(endCell(board.getCell(i,board.getHeight()-1), 2, elementSize));
                     horizontalBorders.add(temp);
                 }
                 else if(board.getCell(i, j-1).getGroupIndex() != board.getCell(i, j).getGroupIndex()){       //general case
                              //adds border when two adjacent cells aren't from the same region
-                    temp.setLocation(betweenCells(board.getCell(i, j-1), board.getCell(i,j)));
+                    temp.setLocation(endCell(board.getCell(i,j), 8, elementSize));
                     horizontalBorders.add(temp);
                 }
                 //no else statement. If none of these ifs are met, then just don't add it to the list
@@ -74,16 +75,16 @@ public class StarBattleView extends GridBoardView {
                 StarBattleBorderView temp = new StarBattleBorderView(new StarBattleBorder(StarBattleCellType.VERT_BORDER));
                 temp.setSize(elementSize);
                 if(i == 0){       //set borders at the ends of the board
-                    temp.setLocation(endCell(board.getCell(i,j), 4, elementSize));
+                    temp.setLocation(endCell(board.getCell(0,j), 4, elementSize));
                     verticalBorders.add(temp);
                 }
-                else if(i == board.getHeight()){
-                    temp.setLocation(endCell(board.getCell(i,j), 6, elementSize));
+                else if(i == board.getWidth()){
+                    temp.setLocation(endCell(board.getCell(board.getWidth() - 1,j), 6, elementSize));
                     verticalBorders.add(temp);
                 }
                 else if(board.getCell(i-1, j).getGroupIndex() != board.getCell(i, j).getGroupIndex()){       //general case
                     //adds border when two adjacent cells aren't from the same region
-                    temp.setLocation(betweenCells(board.getCell(i-1, j), board.getCell(i,j)));
+                    temp.setLocation(endCell(board.getCell(i,j), 4, elementSize));
                     verticalBorders.add(temp);
                 }
             }
@@ -94,31 +95,36 @@ public class StarBattleView extends GridBoardView {
     //Numpad rules. 2 is down, 4 is left, 6 is right, 8 is up (based on visuals not coordinates, since y is from up to down)
     public Point endCell(StarBattleCell one, int direction, Dimension elementSize){
         Point temp = new Point(
-                one.getLocation().x,
-                one.getLocation().y
-        );
+                one.getLocation().x * elementSize.width,
+                one.getLocation().y * elementSize.height
+        );//dump this
+        //System.out.println("point is " + temp.x + "," + temp.y + "\n");
         if(direction == 2){
-            temp.y += elementSize.height / 2;
+            temp.y += elementSize.height * 15/16; //multiply  so it doesn't go off screen
         }
         if(direction == 4){
-            temp.y -= elementSize.width / 2;
+            temp.x -= elementSize.width / 16;   //divide  so it doesn't go off screen
         }
         if(direction == 6){
-            temp.y += elementSize.width / 2;
+            temp.x += elementSize.width * 15/16; //multiply  so it doesn't go off screen
+        }if(direction == 8){
+            temp.y -= elementSize.height / 16;   //multiply  so it doesn't go off screen
         }
-        if(direction == 8){
-            temp.y -= elementSize.height / 2;
-        }
+        //System.out.println("point is now " + temp.x + "," + temp.y + "\n");
         return temp;
     }
-
+    /*  shelved for redundancy
     //finds average point location between two cells
-    public Point betweenCells(StarBattleCell one, StarBattleCell two){
-        return new Point(
-                (one.getLocation().x + two.getLocation().x) / 2,
-                (one.getLocation().y + two.getLocation().y) / 2
-        );
-    }
+    public Point betweenCells(StarBattleCell one, StarBattleCell two, Dimension elementSize){
+        //dump this
+        System.out.println("point between is " + Math.max(one.getLocation().x,two.getLocation().x) + "," + Math.max(one.getLocation().y,two.getLocation().y) + "\n");
+        if(one.getLocation().x < two.getLocation().x){
+            return endCell(one, 6, elementSize);
+        }
+        else if(one.getLocation().y < two.getLocation().y){
+            return endCell(one, 6, elementSize);
+        }
+    }   */
 
     @Override
     public void drawBoard(Graphics2D graphics2D){

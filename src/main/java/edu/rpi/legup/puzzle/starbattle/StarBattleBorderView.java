@@ -36,19 +36,23 @@ public class StarBattleBorderView extends ElementView {
 
     @Override
     public void drawElement(Graphics2D graphics2D) {
-        graphics2D.setColor(Border_COLOR);
+        graphics2D.setColor(Color.BLACK);
 
         StarBattleBorder border= getPuzzleElement();
 
         int xSize = size.width;
         int ySize = size.height;
         if(type == StarBattleCellType.HORIZ_BORDER){    //minimize ySize / height
+            graphics2D.setColor(Color.RED);
+            //dump this
+            //System.out.println("Horizontal -- Border, coords " + location.x + "," + location.y + "\n");
             ySize = ySize / 8;
         }
         else if(type == StarBattleCellType.VERT_BORDER){    //minimize xSize / width
+            graphics2D.setColor(Color.RED);
+            //System.out.println("Vertical | Border, c0ords " + location.x + "," + location.y + "\n");
             xSize = xSize / 8;
         }
-        graphics2D.draw(new Rectangle2D.Double(
-                location.x, location.y, xSize, ySize));
+        graphics2D.fillRect(location.x, location.y, xSize, ySize);
     }
 }

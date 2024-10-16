@@ -18,6 +18,7 @@ public class StarBattleElementView extends GridElementView {
     public void drawElement(Graphics2D graphics2D) {
         StarBattleCell cell = (StarBattleCell) puzzleElement;
         StarBattleCellType type = cell.getType();
+        //System.out.println("point for cell is " + location.x + "," + location.y + "\n");
         if (type == StarBattleCellType.STAR) {
             graphics2D.setColor(Color.LIGHT_GRAY);
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
