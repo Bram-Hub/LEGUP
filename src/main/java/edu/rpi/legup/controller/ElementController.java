@@ -26,13 +26,17 @@ import edu.rpi.legup.ui.proofeditorui.treeview.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * The ElementController class manages UI interactions related to elements in a {@link BoardView}.
+ * It handles mouse events, key events, and actions related to element selection and manipulation
+ */
 public class ElementController
         implements MouseListener, MouseMotionListener, ActionListener, KeyListener {
     protected BoardView boardView;
     private Element selectedElement;
 
     /**
-     * ElementController Constructor controller to handles ui events associated interacting with a
+     * ElementController Constructor controller to handle ui events associated interacting with a
      * {@link BoardView}
      */
     public ElementController() {
@@ -86,6 +90,7 @@ public class ElementController
         if (boardView == null) {
             boardView = getInstance().getLegupUI().getEditorBoardView();
         }
+
         Board board = boardView.getBoard();
         ElementView elementView = boardView.getElement(e.getPoint());
         TreeViewSelection selection = null;
@@ -137,17 +142,8 @@ public class ElementController
         if (this.boardView.getBoard() instanceof TreeTentBoard) {
             scaledPoint.setLocation(scaledPoint.getX() - 1, scaledPoint.getY() - 1);
         }
-        System.out.printf(
-                "selected Element is NOT null, attempting to change board at (%d, %d)\n",
-                scaledPoint.x, scaledPoint.y);
-        //            System.out.println("Before: " + b.getCell(scaledPoint.x,
-        // scaledPoint.y).getData());
+
         b.setCell(scaledPoint.x, scaledPoint.y, this.selectedElement, e);
-        //            System.out.println("After: " + b.getCell(scaledPoint.x,
-        // scaledPoint.y).getData());
-        //        } else {
-        //            System.out.println("selected Element is null!");
-        //        }
         boardView.repaint();
     }
 

@@ -17,6 +17,12 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+/**
+ * A dialog for managing user preferences in the LEGUP application. This dialog allows users to
+ * configure various settings such as screen mode, update preferences, work directory path, and
+ * specific features related to board and tree views. Users can access this dialog from the home
+ * screen or proof editor.
+ */
 public class PreferencesDialog extends JDialog {
 
     private RuleFrame rulesFrame;
@@ -47,12 +53,24 @@ public class PreferencesDialog extends JDialog {
         }
     }
 
+    /**
+     * Creates a new instance of PreferencesDialog for the proof editor
+     *
+     * @param frame the parent frame
+     * @param rules the RuleFrame associated with the proof editor
+     * @return a new instance of PreferencesDialog
+     */
     public static PreferencesDialog CreateDialogForProofEditor(Frame frame, RuleFrame rules) {
         PreferencesDialog p = new PreferencesDialog(frame);
         p.rulesFrame = rules;
         return p;
     }
 
+    /**
+     * Constructs a PreferencesDialog
+     *
+     * @param frame the parent frame
+     */
     public PreferencesDialog(Frame frame) {
         super(frame);
 
@@ -102,6 +120,11 @@ public class PreferencesDialog extends JDialog {
         setVisible(true);
     }
 
+    /**
+     * Toggles between dark mode and light mode based on the given preferences
+     *
+     * @param prefs the LegupPreferences instance holding user preferences
+     */
     private void toggleDarkMode(LegupPreferences prefs) {
         try {
             if (Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
@@ -115,6 +138,11 @@ public class PreferencesDialog extends JDialog {
         }
     }
 
+    /**
+     * Creates the general preferences tab
+     *
+     * @return a JScrollPane containing the general preferences panel
+     */
     private JScrollPane createGeneralTab() {
         LegupPreferences prefs = LegupPreferences.getInstance();
         JScrollPane scrollPane = new JScrollPane();
@@ -335,6 +363,14 @@ public class PreferencesDialog extends JDialog {
         return scrollPane;
     }
 
+    /**
+     * Creates a JPanel that represents a single row for a rule in the rule list. Each row displays
+     * the rule's name and an area for showing keyboard shortcuts associated with the rule. The
+     * keyboard shortcuts are dynamically updated based on user input.
+     *
+     * @param rule the rule object to be displayed
+     * @return a JPanel representing the row for the rule
+     */
     private JPanel createRuleRow(Rule rule) {
         JPanel ruleRow = new JPanel();
         ruleRow.setLayout(new BorderLayout());
@@ -387,6 +423,13 @@ public class PreferencesDialog extends JDialog {
         return ruleRow;
     }
 
+    /**
+     * Creates a JPanel containing a left-aligned label with the specified text. This label is
+     * typically used for section headings or descriptive text in the preferences dialog.
+     *
+     * @param text the text to be displayed on the label
+     * @return a JPanel containing the left-aligned label
+     */
     private JPanel createLeftLabel(String text) {
         JPanel labelRow = new JPanel();
         labelRow.setLayout(new BorderLayout());
@@ -400,12 +443,24 @@ public class PreferencesDialog extends JDialog {
         return labelRow;
     }
 
+    /**
+     * Creates a JSeparator with a maximum height of 5 pixels. This separator is used to visually
+     * divide sections in the preferences dialog.
+     *
+     * @return a JSeparator with a fixed height
+     */
     private JSeparator createLineSeparator() {
         JSeparator separator = new JSeparator();
         separator.setMaximumSize(new Dimension(Integer.MAX_VALUE, 5));
         return separator;
     }
 
+    /**
+     * Applies the current user preferences and updates the associated components. This method
+     * retrieves user preferences from the dialog's components and stores them in the {@link
+     * LegupPreferences} instance. It also updates the rule panels in the rules frame if it is not
+     * null.
+     */
     public void applyPreferences() {
         LegupPreferences prefs = LegupPreferences.getInstance();
         prefs.setUserPref(LegupPreferences.WORK_DIRECTORY, workDirectory.getText());

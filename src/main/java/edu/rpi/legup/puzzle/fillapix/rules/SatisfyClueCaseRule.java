@@ -45,6 +45,9 @@ public class SatisfyClueCaseRule extends CaseRule {
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<Board>();
+        if (puzzleElement == null) {
+            return cases;
+        }
 
         // get value of cell
         FillapixBoard fillapixBoard = (FillapixBoard) board.copy();

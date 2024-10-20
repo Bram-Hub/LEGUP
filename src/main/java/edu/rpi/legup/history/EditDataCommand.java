@@ -9,10 +9,18 @@ import edu.rpi.legup.model.observer.ITreeListener;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.boardview.ElementView;
+import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import javax.swing.*;
 
+/**
+ * The EditDataCommand class represents a command to edit the data of a puzzle element within a tree
+ * transition. It extends PuzzleCommand and provides functionality to execute and undo changes made
+ * to puzzle elements.
+ */
 public class EditDataCommand extends PuzzleCommand {
     private TreeTransition transition;
     private PuzzleElement savePuzzleElement;
@@ -26,7 +34,7 @@ public class EditDataCommand extends PuzzleCommand {
      * EditDataCommand Constructor create a puzzle command for editing a board
      *
      * @param elementView currently selected puzzle puzzleElement view that is being edited
-     * @param selection currently selected tree puzzleElement views that is being edited
+     * @param selection currently selected tree puzzleElement views that are being edited
      * @param event mouse event
      */
     public EditDataCommand(ElementView elementView, TreeViewSelection selection, MouseEvent event) {
@@ -38,7 +46,7 @@ public class EditDataCommand extends PuzzleCommand {
         this.transition = null;
     }
 
-    /** Executes a command */
+    /** Executes the edit data command, modifying the puzzle element and propagating changes */
     @SuppressWarnings("unchecked")
     @Override
     public void executeCommand() {
@@ -54,16 +62,13 @@ public class EditDataCommand extends PuzzleCommand {
 
         if (treeElement.getType() == TreeElementType.NODE) {
             TreeNode treeNode = (TreeNode) treeElement;
-
             if (treeNode.getChildren().isEmpty()) {
                 if (transition == null) {
                     transition = tree.addNewTransition(treeNode);
                 }
                 puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(transition));
             }
-
             board = transition.getBoard();
-
             puzzleElement = board.getPuzzleElement(selectedPuzzleElement);
             savePuzzleElement = puzzleElement.copy();
         } else {
@@ -73,7 +78,6 @@ public class EditDataCommand extends PuzzleCommand {
         }
 
         Board prevBoard = transition.getParents().get(0).getBoard();
-
         boardView.getElementController().changeCell(event, puzzleElement);
 
         if (prevBoard.getPuzzleElement(selectedPuzzleElement).equalsData(puzzleElement)) {
@@ -102,35 +106,50 @@ public class EditDataCommand extends PuzzleCommand {
     public String getErrorString() {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         if (selectedViews.size() != 1) {
+            flashTreeViewRed();
             return CommandError.ONE_SELECTED_VIEW.toString();
         }
         TreeElementView selectedView = selection.getFirstSelection();
         Board board = selectedView.getTreeElement().getBoard();
         PuzzleElement selectedPuzzleElement = elementView.getPuzzleElement();
         if (selectedView.getType() == TreeElementType.NODE) {
-
             TreeNodeView nodeView = (TreeNodeView) selectedView;
             if (!nodeView.getChildrenViews().isEmpty()) {
+                flashTreeViewRed();
                 return CommandError.UNMODIFIABLE_BOARD.toString();
-            } else {
-                if (!board.getPuzzleElement(selectedPuzzleElement).isModifiable()) {
-                    return CommandError.UNMODIFIABLE_DATA.toString();
-                }
+            } else if (!board.getPuzzleElement(selectedPuzzleElement).isModifiable()) {
+                flashTreeViewRed();
+                return CommandError.UNMODIFIABLE_DATA.toString();
             }
         } else {
             TreeTransitionView transitionView = (TreeTransitionView) selectedView;
             if (!transitionView.getTreeElement().getBoard().isModifiable()) {
+                flashTreeViewRed();
                 return CommandError.UNMODIFIABLE_BOARD.toString();
             } else {
                 if (!board.getPuzzleElement(selectedPuzzleElement).isModifiable()) {
+                    flashTreeViewRed();
                     return CommandError.UNMODIFIABLE_DATA.toString();
+                } else if (!board.getPuzzleElement(selectedPuzzleElement).isModifiableCaseRule()) {
+                    flashTreeViewRed();
+                    return CommandError.UNMODIFIABLE_DATA_CASE_RULE.toString();
                 }
             }
         }
         return null;
     }
 
-    /** Undoes an command */
+    /** Causes the TreeView background to flash red for a short duration when an error occurs. */
+    private void flashTreeViewRed() {
+        TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
+        Color originalColor = treeView.getBackground();
+        treeView.setBackground(MaterialColors.RED_700);
+        Timer timer = new Timer(400, e -> treeView.setBackground(originalColor));
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    /** Undoes the edit data command, restoring the previous state of the puzzle element. */
     @SuppressWarnings("unchecked")
     @Override
     public void undoCommand() {
