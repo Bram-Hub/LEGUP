@@ -172,4 +172,27 @@ public final class MinesweeperUtilities {
         }
         return false;
     }
+
+    public static boolean isForcedEmpty(MinesweeperBoard board, MinesweeperCell cell) {
+        MinesweeperBoard emptyCaseBoard = board.copy();
+        MinesweeperCell emptyCell = (MinesweeperCell) emptyCaseBoard.getPuzzleElement(cell);
+        emptyCell.setCellType(MinesweeperTileData.empty());
+        ArrayList<MinesweeperCell> adjCells = getAdjacentCells(emptyCaseBoard, emptyCell);
+        int bombCount;
+        for (MinesweeperCell adjCell : adjCells) {
+            bombCount = 0;
+            if(adjCell.getTileNumber() >= 1 || adjCell.getTileNumber() <= 8) {
+                ArrayList<MinesweeperCell> adjCells2 = getAdjacentCells(emptyCaseBoard, adjCell);
+                for(MinesweeperCell adjCell2 : adjCells2) {
+                    if(adjCell2.getTileType() == MinesweeperTileType.BOMB) {
+                        bombCount++;
+                    }
+                }
+                if(bombCount == adjCell.getTileNumber()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

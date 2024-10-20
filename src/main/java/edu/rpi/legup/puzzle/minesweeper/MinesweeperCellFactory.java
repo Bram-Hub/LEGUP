@@ -66,6 +66,9 @@ public class MinesweeperCellFactory extends ElementFactory {
             final MinesweeperCell cell =
                     new MinesweeperCell(MinesweeperTileData.fromData(value), new Point(x, y));
             cell.setIndex(y * height + x);
+            if(1 <= value && value <= 8) {
+                cell.setModifiable(false);
+            }
             return cell;
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(

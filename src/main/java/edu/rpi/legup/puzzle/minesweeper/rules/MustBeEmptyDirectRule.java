@@ -7,12 +7,12 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.*;
 
-public class FinishWithBombsDirectRule extends DirectRule {
-    public FinishWithBombsDirectRule() {
+public class MustBeEmptyDirectRule extends DirectRule {
+    public MustBeEmptyDirectRule() {
         super(
                 "MINE-BASC-0001",
-                "Finish with Bombs",
-                "The remaining unknowns around a flag must be bombs to satisfy the number",
+                "Must be Empty Square",
+                "The current square must be empty to satisfy the flags around it",
                 "edu/rpi/legup/images/minesweeper/direct/Fill_Bombs.jpg");
     }
 
@@ -24,16 +24,16 @@ public class FinishWithBombsDirectRule extends DirectRule {
         MinesweeperCell parentCell = (MinesweeperCell) parentBoard.getPuzzleElement(puzzleElement);
 
         if (!(parentCell.getTileType() == MinesweeperTileType.UNSET
-                && cell.getTileType() == MinesweeperTileType.BOMB)) {
+                && cell.getTileType() == MinesweeperTileType.EMPTY)) {
 
             return super.getInvalidUseOfRuleMessage()
-                    + ": This cell must be black to be applicable with this rule.";
+                    + ": This cell must be empty to be applicable with this rule.";
         }
 
-        if (MinesweeperUtilities.isForcedBomb(parentBoard, cell)) {
+        if (MinesweeperUtilities.isForcedEmpty(parentBoard, cell)) {
             return null;
         } else {
-            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be black";
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty";
         }
     }
 

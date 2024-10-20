@@ -47,7 +47,7 @@ public class MoreBombsThanFlagContradictionRule extends ContradictionRule {
             numAdj++;
             if (adjCell.getTileType() == MinesweeperTileType.EMPTY) {
                 numEmpty++;
-                System.out.println("loc " + adjCell.getLocation().x + adjCell.getLocation().y);
+                System.out.println("loc " + adjCell.getLocation().x + ", " + adjCell.getLocation().y);
             }
             if(adjCell.getTileType() == MinesweeperTileType.BOMB) {
                 numBombs++;
@@ -62,7 +62,7 @@ public class MoreBombsThanFlagContradictionRule extends ContradictionRule {
         System.out.println("num bombs " + numBombs);
         System.out.println("num unset " + numUnset);
 
-        if (cellNum < numEmpty + numUnset + numBombs) {
+        if (cellNum < numUnset + numBombs) {
             return null;
         }
 
