@@ -2,8 +2,7 @@ package puzzles.fillapix.rules;
 
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.fillapix.Fillapix;
-import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
+import edu.rpi.legup.puzzle.fillapix.*;
 import edu.rpi.legup.puzzle.fillapix.rules.TouchingSidesDirectRule;
 import edu.rpi.legup.puzzle.fillapix.Fillapix;
 import edu.rpi.legup.puzzle.lightup.LightUpBoard;
@@ -30,24 +29,44 @@ public class TouchingSidesDirectRuleTest {
     @Test
     public void TouchingSidesTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
-                "puzzles/fillapix/rules/TouchingSidesDirectRule/FinishWithBulbs", fillapix);
+                "puzzles/fillapix/rules/TouchingSidesDirectRule/TouchingSides", fillapix);
         TreeNode rootNode = fillapix.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
-
         // get board state
-        LightUpBoard board = (LightUpBoard) transition.getBoard();
+        FillapixBoard board = (FillapixBoard) transition.getBoard();
 
-        // change the board's cells considering the FinishWithBulbs rule to empty
-        LightUpCell cell1 = board.getCell(1, 0);
-        cell1.setData(LightUpCellType.BULB.value);
+        // change the board's cells considering the TouchingSides rule
+        //(3 black cells to the left of 6 and 3 white cells to the right of 3)
+        FillapixCell cell1 = board.getCell(0, 1);
+        cell1.setData(FillapixCellType.BLACK.value);
         board.addModifiedData(cell1);
 
-        // confirm there is a logical following of the FinishWithBulbs rule
+        FillapixCell cell2 = board.getCell(0, 2);
+        cell2.setData(FillapixCellType.BLACK.value);
+        board.addModifiedData(cell2);
+
+        FillapixCell cell3 = board.getCell(0, 3);
+        cell3.setData(FillapixCellType.BLACK.value);
+        board.addModifiedData(cell3);
+
+        FillapixCell cell4 = board.getCell(3, 1);
+        cell4.setData(FillapixCellType.WHITE.value);
+        board.addModifiedData(cell4);
+
+        FillapixCell cell5 = board.getCell(3, 2);
+        cell5.setData(FillapixCellType.WHITE.value);
+        board.addModifiedData(cell5);
+
+        FillapixCell cell6 = board.getCell(3, 3);
+        cell6.setData(FillapixCellType.WHITE.value);
+        board.addModifiedData(cell6);
+
+        // confirm there is a logical following of the TouchingSides rule
         Assert.assertNull(RULE.checkRule(transition));
 
         // check every square except the top center (2,0)
-        LightUpCell c;
+        /*LightUpCell c;
         for (int i = 0; i < board.getHeight(); i++) {
             for (int j = 0; j < board.getWidth(); j++) {
                 c = board.getCell(j, i);
@@ -60,5 +79,7 @@ public class TouchingSidesDirectRuleTest {
                 }
             }
         }
+         */
+
     }
 }
