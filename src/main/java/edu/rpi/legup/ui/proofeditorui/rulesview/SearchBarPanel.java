@@ -2,6 +2,11 @@ package edu.rpi.legup.ui.proofeditorui.rulesview;
 
 import javax.swing.*;
 
+/**
+ * The {@code SearchBarPanel} class creates a panel that allows users to search for rules within the
+ * rule frame. This panel provides a search bar for entering rule names and finding corresponding
+ * rules.
+ */
 public class SearchBarPanel extends RulePanel {
     /**
      * SearchBarPanel Constructor creates a SearchBarPanel

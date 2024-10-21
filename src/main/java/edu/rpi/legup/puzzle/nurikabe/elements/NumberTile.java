@@ -1,13 +1,13 @@
 package edu.rpi.legup.puzzle.nurikabe.elements;
 
-import edu.rpi.legup.model.elements.NonPlaceableElement;
+import edu.rpi.legup.model.elements.PlaceableElement;
 
-public class NumberTile extends NonPlaceableElement {
+public class NumberTile extends PlaceableElement {
     private int object_num;
 
     public NumberTile() {
         super(
-                "NURI-UNPL-0001",
+                "NURI-ELEM-0002",
                 "Number Tile",
                 "A numbered tile",
                 "edu/rpi/legup/images/nurikabe/tiles/NumberTile.png");
