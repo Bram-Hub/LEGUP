@@ -2,15 +2,12 @@ package puzzles.fillapix.rules;
 
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.fillapix.*;
 import edu.rpi.legup.puzzle.fillapix.rules.TouchingSidesDirectRule;
 import edu.rpi.legup.puzzle.fillapix.Fillapix;
-import edu.rpi.legup.puzzle.lightup.LightUpBoard;
-import edu.rpi.legup.puzzle.lightup.LightUpCell;
-import edu.rpi.legup.puzzle.lightup.LightUpCellType;
+import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
+import edu.rpi.legup.puzzle.fillapix.FillapixCell;
+import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
 import edu.rpi.legup.save.InvalidFileFormatException;
-import java.awt.*;
-import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
