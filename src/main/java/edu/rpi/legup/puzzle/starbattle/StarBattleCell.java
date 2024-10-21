@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class StarBattleCell extends GridCell<Integer> {
-    private int groupIndex;
+    private int groupIndex;     //This is the region the cell is in
     private int max;
 
     /**
