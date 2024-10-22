@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
  * It maintains a list of commands and a current index to track the position in the history stack.
  */
 public class History {
+    // This object does not refer to edu.rpi.legup.utility's class Logger, but rather apache's interface Logger
     private static final Logger LOGGER = LogManager.getLogger(History.class.getName());
 
     private final Object lock = new Object();
