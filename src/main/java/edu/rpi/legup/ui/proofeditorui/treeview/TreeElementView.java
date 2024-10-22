@@ -141,7 +141,7 @@ public abstract class TreeElementView implements Shape {
     }
 
     /**
-     * Gets the visibility of the tree puzzleElement. Tells the TreeView whether or not to draw the
+     * Gets the visibility of the tree puzzleElement. Tells the TreeView whether to draw the
      * tree puzzleElement
      *
      * @return visibility of the tree puzzleElement

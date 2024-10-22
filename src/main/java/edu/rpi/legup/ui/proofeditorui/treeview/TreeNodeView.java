@@ -61,17 +61,20 @@ public class TreeNodeView extends TreeElementView {
     }
 
     /**
-     * Draws the TreeNodeView
-     *
+     * Draws the TreeNodeView as long as isVisible() is true
+     * and there is TreeNode attached to this TreeNodeView
      * @param graphics2D graphics2D used for drawing
      */
     public void draw(Graphics2D graphics2D) {
         if (isVisible() && treeElement != null) {
+            // If the logical statement correctly leads to a proof by contradiction,
+            // draw the X that marks the end of this logical sequence.
             if (getTreeElement().getParent() != null
                     && getTreeElement().getParent().isJustified()
                     && getTreeElement().getParent().getRule().getRuleType()
                             == RuleType.CONTRADICTION) {
                 isContradictoryState = true;
+                // Draw two lines that make up the X with the contradiction color
                 graphics2D.setColor(NODE_COLOR_CONTRADICTION);
                 graphics2D.drawLine(
                         location.x - RADIUS,
@@ -84,11 +87,14 @@ public class TreeNodeView extends TreeElementView {
                         location.x - RADIUS,
                         location.y + RADIUS);
             } else {
+                // Else the node being drawn is not a contradiction
                 isContradictoryState = false;
                 graphics2D.setStroke(MAIN_STROKE);
                 boolean isContraBranch = getTreeElement().isContradictoryBranch();
 
                 if (isSelected) {
+                    // If the TreeNode is selected, draw it on the TreePanel with specified colors,
+                    // outline, and special outline for selected nodes
                     graphics2D.setColor(SELECTION_COLOR);
                     graphics2D.fillOval(
                             location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
@@ -105,7 +111,10 @@ public class TreeNodeView extends TreeElementView {
                             DIAMETER + 8,
                             DIAMETER + 8);
                 } else {
+                    // Else the current node is not being selected
                     if (isHover) {
+                        // Checks if the current Node is being hovered over.
+                        // If it is, then draw the Node with specified properties
                         graphics2D.setColor(HOVER_COLOR);
                         graphics2D.fillOval(
                                 location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
@@ -122,6 +131,8 @@ public class TreeNodeView extends TreeElementView {
                                 DIAMETER + 8,
                                 DIAMETER + 8);
                     } else {
+                        // Otherwise, this is a normal Node that isn't a contradiction, selected, or hovered Node
+                        // Set color to contradiction color if this Node leads to a contradiction Node, or default color otherwise
                         graphics2D.setColor(
                                 isContraBranch ? NODE_COLOR_CONTRADICTION : NODE_COLOR_DEFAULT);
                         graphics2D.fillOval(
@@ -214,6 +225,10 @@ public class TreeNodeView extends TreeElementView {
 
     /**
      * Sets the location of the tree node
+     *
+     * This function is never used; the only call that sets the location for where the Node will be drawn
+     * is currently implemented in edu.rpi.legup.ui.proofeditorui.treeview.TreeView, which uses the setX()
+     * and setY() functions to update location. (As of October 22, 2024)
      *
      * @param location location of the tree node
      */
