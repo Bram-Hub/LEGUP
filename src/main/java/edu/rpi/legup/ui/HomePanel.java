@@ -17,14 +17,11 @@ import java.util.Objects;
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 public class HomePanel extends LegupPanel {
     private static final Logger LOGGER = LogManager.getLogger(HomePanel.class.getName());
@@ -319,19 +316,81 @@ public class HomePanel extends LegupPanel {
 
     /**
      * @param file - the input file
-     * @return true if it is a .xml file, else return false
+     * @return Parsed document of file if possible, null otherwise
      */
-    public boolean isxmlfile(File file) {
-        boolean flag = true;
+    public Document isxmlfile(File file) {
+        Document doc = null;
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            builder.parse(file);
-            flag = true;
+            doc = builder.parse(file);
+            /***************************
+            * ADD TAG CHECKING AS FLAG *
+            ***************************/
         } catch (Exception e) {
-            flag = false;
+            LOGGER.error("'{}' is not a valid XML file", file.getPath());
         }
-        return flag;
+        return doc;
+    }
+
+    /**
+     * reads the puzzle name and type, and outputs to .csv file
+     *
+     * @param doc - the parsed file currently being graded
+     * @param writer - write to .csv
+     * @throws IOException
+     */
+    private void parsePuzzle(Document doc, BufferedWriter writer) throws IOException {
+        NodeList puzzleNodes = doc.getElementsByTagName("puzzle");
+        if (puzzleNodes.getLength() <= 0) {
+            writer.write("not a LEGUP puzzle!");
+            return;
+        }
+
+        Element puzzleElement = (Element) puzzleNodes.item(0);
+        String puzzleType = puzzleElement.getAttribute("name");
+        writer.write(puzzleType.isEmpty() ? "not a LEGUP puzzle!" : puzzleType);
+    }
+
+    /**
+     * Reads the hashed solved state and export timestamp, unhashes information and prints out to csv
+     *
+     * @param doc - the parsed file currently being graded
+     * @param writer - write to .csv
+     * @throws IOException
+     */
+    private void parseSolvedState(Document doc, BufferedWriter writer) throws IOException {
+        NodeList solvedNodes = doc.getElementsByTagName("solved");
+        if (solvedNodes.getLength() <= 0) {
+            writer.write(",missing flag!");
+            return;
+        }
+
+        Element solvedElement = (Element) solvedNodes.item(0);
+        String isSolved = solvedElement.getAttribute("isSolved");
+        String lastSaved = solvedElement.getAttribute("lastSaved");
+
+        // unhash solved flag
+        writer.write(",");
+        try {
+            int solvedHash = Integer.parseInt(isSolved);
+            Boolean solvedState = PuzzleExporter.inverseHash(solvedHash, lastSaved);
+
+            if (solvedState == null) {
+                writer.write("Error");
+            } else if (solvedState) {
+                writer.write("Solved");
+            } else {
+                writer.write("Not Solved");
+            }
+        } catch (NumberFormatException e) {
+            writer.write("Error");
+            LOGGER.error("Solved state could not be unhashed:\n{}", e.getMessage());
+        }
+
+        // Append the lastSaved attribute
+        writer.write(",");
+        writer.write(!lastSaved.isEmpty() ? lastSaved : "Error");
     }
 
     /**
@@ -350,8 +409,6 @@ public class HomePanel extends LegupPanel {
         }
         // Go through every other file in the folder
         try {
-            SAXParserFactory spf = SAXParserFactory.newInstance();
-            SAXParser saxParser = spf.newSAXParser();
             for (final File fileEntry : Objects.requireNonNull(folder.listFiles())) {
                 if (fileEntry.getName().equals("result.csv")) {
                     continue;
@@ -363,7 +420,6 @@ public class HomePanel extends LegupPanel {
                 }
                 // Set path name
                 String fName = fileEntry.getName();
-                String fPath = fileEntry.getAbsolutePath();
                 if (fileEntry.getName().charAt(0) == '.') {
                     continue;
                 }
@@ -373,116 +429,22 @@ public class HomePanel extends LegupPanel {
                 writer.write(fName);
                 writer.write(",");
                 path = folder.getAbsolutePath() + File.separator + fileEntry.getName();
-                System.out.println(path);
-                if (isxmlfile(fileEntry)) {
-                    saxParser.parse(
-                            path,
-                            new DefaultHandler() {
-                                @Override
-                                public void startDocument() throws SAXException {}
 
-                                boolean solvedFlagExists = false;
-                                boolean puzzleTypeExists = false;
-
-                                @Override
-                                public void startElement(
-                                        String uri,
-                                        String localName,
-                                        String qName,
-                                        Attributes attributes)
-                                        throws SAXException {
-                                    // append file type to the writer
-                                    // return if not designated puzzle ID
-                                    if (qName.equals("puzzle")
-                                            && attributes.getQName(0) == "name"
-                                            && !puzzleTypeExists) {
-                                        try {
-                                            writer.write(attributes.getValue(0));
-                                            writer.write(",");
-                                            puzzleTypeExists = true;
-                                        } catch (IOException e) {
-                                            throw new RuntimeException(e);
-                                        }
-                                    }
-                                    // append the "solved?" status of the proof to the writer
-                                    else if (qName.equals("solved") && !solvedFlagExists) {
-                                        String isSolved = attributes.getValue(0);
-                                        String lastSaved = attributes.getValue(1);
-
-                                        int solvedHash;
-                                        try {
-                                            solvedHash = Integer.parseInt(isSolved);
-                                        } catch (NumberFormatException e) {
-                                            solvedHash = -1;
-                                        }
-                                        Boolean solvedState = PuzzleExporter.inverseHash(solvedHash, lastSaved);
-
-                                        if (solvedState == null) {
-                                            try {
-                                                writer.write("Error");
-                                            } catch (IOException e) {
-                                                throw new RuntimeException(e);
-                                            }
-                                        } else if (solvedState) {
-                                            try {
-                                                writer.write("Solved");
-                                            } catch (IOException e) {
-                                                throw new RuntimeException(e);
-                                            }
-                                        } else {
-                                            try {
-                                                writer.write("Not Solved");
-                                            } catch (IOException e) {
-                                                throw new RuntimeException(e);
-                                            }
-                                        }
-
-                                        // append when is this proof last saved
-                                        if (lastSaved != null) {
-                                            try {
-                                                writer.write(",");
-                                                writer.write(lastSaved);
-                                            } catch (IOException e) {
-                                                throw new RuntimeException(e);
-                                            }
-                                        }
-                                        solvedFlagExists = true;
-                                    }
-                                }
-
-                                @Override
-                                public void characters(char[] ch, int start, int length)
-                                        throws SAXException {}
-
-                                @Override
-                                public void endElement(String uri, String localName, String qName)
-                                        throws SAXException {}
-
-                                @Override
-                                public void endDocument() throws SAXException {
-                                    if (!puzzleTypeExists) {
-                                        try {
-                                            writer.write("not a LEGUP puzzle!");
-                                        } catch (IOException e) {
-                                            throw new RuntimeException(e);
-                                        }
-                                    } else if (!solvedFlagExists) {
-                                        try {
-                                            writer.write("missing flag!");
-                                        } catch (IOException e) {
-                                            throw new RuntimeException(e);
-                                        }
-                                    }
-                                }
-                            });
-                }
-                // If wrong file type, ungradeable
-                else {
+                Document doc;
+                // if file path can be parsed in xml format
+                if ( (doc = isxmlfile(fileEntry)) == null) {
                     writer.write("not a \".xml\" file!");
+                    writer.write("\n");
+                    continue;
                 }
+                doc.getDocumentElement().normalize();
+
+                parsePuzzle(doc, writer);
+                parseSolvedState(doc, writer);
+
                 writer.write("\n");
             }
-        } catch (ParserConfigurationException | SAXException | IOException e) {
+        } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
     }
