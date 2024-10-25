@@ -62,7 +62,7 @@ public class MoreBombsThanFlagContradictionRule extends ContradictionRule {
         System.out.println("num bombs " + numBombs);
         System.out.println("num unset " + numUnset);
 
-        if (cellNum < numUnset + numBombs) {
+        if (cellNum < numBombs) {
             return null;
         }
 

@@ -32,11 +32,47 @@ public class MinesweeperElementView extends GridElementView {
 
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
+            int intValue = ((MinesweeperCell) puzzleElement).getData().data();
+            boolean newClick = false;
+            if(intValue > 10) {
+                intValue -= 10;
+                //newClick = true; // uncomment this if you want to click on flag tiles
+            }
+            final String value = String.valueOf(intValue);
+            if(newClick) {
+                graphics2D.setColor(Color.RED);
+                graphics2D.fillRect(location.x, location.y, size.width, size.height);
+            }
+            if(intValue== 1) {
+                Color MSBLUE = new Color(7,3,251);
+                graphics2D.setColor(MSBLUE);
+            } else if(intValue == 2) {
+                Color MSGREEN = new Color(7,123,3);
+                graphics2D.setColor(MSGREEN);
+            } else if(intValue == 3) {
+                Color MSRED = new Color(255,3,3);
+                graphics2D.setColor(MSRED);
+            } else if(intValue == 4) {
+                Color MSDARKBLUE = new Color(0,0,125);
+                graphics2D.setColor(MSDARKBLUE);
+            } else if(intValue == 5) {
+                Color MSMAROON = new Color(135,3,3);
+                graphics2D.setColor(MSMAROON);
+            } else if(intValue == 6) {
+                Color MSCYAN = new Color(7,131,131);
+                graphics2D.setColor(MSCYAN);
+            } else if(intValue == 7) {
+                Color MSDARKGRAY = new Color(7,3,3);
+                graphics2D.setColor(MSDARKGRAY);
+            } else {
+                Color MSLIGHTGRAY = new Color(135,131,131);
+                graphics2D.setColor(MSLIGHTGRAY);
+            }
 
-            graphics2D.setColor(FONT_COLOR);
+
             graphics2D.setFont(FONT);
             final FontMetrics metrics = graphics2D.getFontMetrics(FONT);
-            final String value = String.valueOf(((MinesweeperCell) puzzleElement).getData().data());
+
             final int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             final int yText =
                     location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();

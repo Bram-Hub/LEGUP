@@ -160,13 +160,14 @@ public final class MinesweeperUtilities {
         LessBombsThanFlagContradictionRule tooManyBombs = new LessBombsThanFlagContradictionRule();
         MinesweeperBoard emptyCaseBoard = board.copy();
         MinesweeperCell emptyCell = (MinesweeperCell) emptyCaseBoard.getPuzzleElement(cell);
-        emptyCell.setCellType(MinesweeperTileData.empty());
+        emptyCell.setCellType(MinesweeperTileData.bomb());
         ArrayList<MinesweeperCell> adjCells = getAdjacentCells(emptyCaseBoard, emptyCell);
         for (MinesweeperCell adjCell : adjCells) {
             if(adjCell.getTileNumber() <= 0 || adjCell.getTileNumber() >= 9) {
                 continue;
             }
             if (tooManyBombs.checkContradictionAt(emptyCaseBoard, adjCell) != null && tooFewBombs.checkContradictionAt(emptyCaseBoard, adjCell) != null) {
+                System.out.println("this one" + adjCell.getLocation().x + " " + adjCell.getLocation().y);
                 return true;
             }
         }
@@ -195,4 +196,19 @@ public final class MinesweeperUtilities {
         }
         return false;
     }
+    /*
+    public static boolean surroundingMustBeBombs(MinesweeperBoard board, MinesweeperCell cell) {
+        int unsetCount = 0;
+        int cellNum = cell.getTileNumber() - 10;
+        MinesweeperBoard emptyCaseBoard = board.copy();
+        MinesweeperCell emptyCell = (MinesweeperCell) emptyCaseBoard.getPuzzleElement(cell);
+        emptyCell.setCellType(MinesweeperTileData.bomb());
+        ArrayList<MinesweeperCell> adjCells = getAdjacentCells(emptyCaseBoard, emptyCell);
+        for (MinesweeperCell adjCell : adjCells) {
+            if (adjCell.getTileType() == MinesweeperTileType.UNSET) {
+                unsetCount++;
+            }
+        }
+        return unsetCount == cellNum;
+    }*/
 }

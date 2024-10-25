@@ -56,7 +56,7 @@ public record MinesweeperTileData(MinesweeperTileType type, int data) {
             case BOMB_DATA -> bomb();
             case EMPTY_DATA -> empty();
             default -> {
-                if (data <= -2 || data > 8) {
+                if (data <= -2 || (data > 8 && data < 11)) {
                     yield unset();
                 }
                 yield flag(data);

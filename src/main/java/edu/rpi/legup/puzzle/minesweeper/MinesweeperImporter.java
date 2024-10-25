@@ -76,6 +76,10 @@ public class MinesweeperImporter extends PuzzleImporter {
                     cell.setModifiable(false);
                     cell.setGiven(true);
                 }
+                /*if(cell.getTileNumber() > 0) {
+                    cell.setModifiable(false);
+                    cell.setGiven(true);
+                }*/
                 minesweeperBoard.setCell(loc.x, loc.y, cell);
             }
 

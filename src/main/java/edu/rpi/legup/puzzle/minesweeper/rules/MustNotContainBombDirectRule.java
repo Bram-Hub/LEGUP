@@ -7,12 +7,12 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.*;
 
-public class MustBeBombDirectRule extends DirectRule {
-    public MustBeBombDirectRule() {
+public class MustNotContainBombDirectRule extends DirectRule {
+    public MustNotContainBombDirectRule() {
         super(
                 "MINE-BASC-0001",
-                "Must be Bomb",
-                "The current square must be a bomb to satisfy the flags around it",
+                "Must Not Contain Bomb",
+                "The only way for the flags around this cell to be satisfied is for this cell to not contain a bomb",
                 "edu/rpi/legup/images/minesweeper/direct/Fill_Bombs.jpg");
     }
 
@@ -24,16 +24,16 @@ public class MustBeBombDirectRule extends DirectRule {
         MinesweeperCell parentCell = (MinesweeperCell) parentBoard.getPuzzleElement(puzzleElement);
 
         if (!(parentCell.getTileType() == MinesweeperTileType.UNSET
-                && cell.getTileType() == MinesweeperTileType.BOMB)) {
+                && cell.getTileType() == MinesweeperTileType.EMPTY)) {
 
             return super.getInvalidUseOfRuleMessage()
-                    + ": This cell must be black to be applicable with this rule.";
+                    + ": This cell must be empty to be applicable with this rule.";
         }
 
-        if (MinesweeperUtilities.isForcedBomb(parentBoard, cell)) {
+        if (MinesweeperUtilities.isForcedEmpty(parentBoard, cell)) {
             return null;
         } else {
-            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be black";
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty";
         }
     }
 
