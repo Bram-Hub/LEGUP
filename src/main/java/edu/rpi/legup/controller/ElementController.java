@@ -1,10 +1,12 @@
 package edu.rpi.legup.controller;
 
-import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
-import edu.rpi.legup.ui.ScrollView;
+import static edu.rpi.legup.app.GameBoardFacade.*;
+
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.history.AutoCaseRuleCommand;
+import edu.rpi.legup.history.EditDataCommand;
+import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.Board;
@@ -14,26 +16,28 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.model.tree.TreeElementType;
 import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.ui.DynamicView;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.boardview.ElementSelection;
 import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.boardview.SelectionItemView;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
-import edu.rpi.legup.history.ICommand;
-import edu.rpi.legup.history.EditDataCommand;
-
 import java.awt.*;
 import java.awt.event.*;
 
-import static edu.rpi.legup.app.GameBoardFacade.*;
-
-public class ElementController implements MouseListener, MouseMotionListener, ActionListener, KeyListener {
+/**
+ * The ElementController class manages UI interactions related to elements in a {@link BoardView}.
+ * It handles mouse events, key events, and actions related to element selection and manipulation
+ */
+public class ElementController
+        implements MouseListener, MouseMotionListener, ActionListener, KeyListener {
     protected BoardView boardView;
     private Element selectedElement;
 
     /**
-     * ElementController Constructor controller to handles ui events associated interacting with a {@link BoardView}
+     * ElementController Constructor controller to handle ui events associated interacting with a
+     * {@link BoardView}
      */
     public ElementController() {
         this.boardView = null;
@@ -59,9 +63,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
      * @param e the event to be processed
      */
     @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
+    public void mouseClicked(MouseEvent e) {}
 
     /**
      * Invoked when a mouse button has been pressed on a component.
@@ -69,9 +71,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
      * @param e the event to be processed
      */
     @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
+    public void mousePressed(MouseEvent e) {}
 
     /**
      * Invoked when a mouse button has been released on a component.
@@ -90,6 +90,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         if (boardView == null) {
             boardView = getInstance().getLegupUI().getEditorBoardView();
         }
+
         Board board = boardView.getBoard();
         ElementView elementView = boardView.getElement(e.getPoint());
         TreeViewSelection selection = null;
@@ -100,21 +101,21 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         if (elementView != null) {
             if (board instanceof CaseBoard) {
                 CaseBoard caseBoard = (CaseBoard) board;
-                AutoCaseRuleCommand autoCaseRuleCommand = new AutoCaseRuleCommand(elementView, selection, caseBoard.getCaseRule(), caseBoard, e);
+                AutoCaseRuleCommand autoCaseRuleCommand =
+                        new AutoCaseRuleCommand(
+                                elementView, selection, caseBoard.getCaseRule(), caseBoard, e);
                 if (autoCaseRuleCommand.canExecute()) {
                     autoCaseRuleCommand.execute();
                     getInstance().getHistory().pushChange(autoCaseRuleCommand);
                     if (treePanel != null) {
                         treePanel.updateError("");
                     }
-                }
-                else {
+                } else {
                     if (treePanel != null) {
                         treePanel.updateError(autoCaseRuleCommand.getError());
                     }
                 }
-            }
-            else {
+            } else {
                 if (selection != null) {
                     ICommand edit = new EditDataCommand(elementView, selection, e);
                     if (edit.canExecute()) {
@@ -123,8 +124,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                         if (treePanel != null) {
                             treePanel.updateError("");
                         }
-                    }
-                    else {
+                    } else {
                         if (treePanel != null) {
                             treePanel.updateError(edit.getError());
                         }
@@ -132,20 +132,18 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                 }
             }
         }
-//        if (selectedElement != null) {
+        //        if (selectedElement != null) {
         GridBoard b = (GridBoard) this.boardView.getBoard();
         Point point = e.getPoint();
-        Point scaledPoint = new Point((int) Math.floor(point.x / (30 * this.boardView.getScale())), (int) Math.floor(point.y / (30 * this.boardView.getScale())));
+        Point scaledPoint =
+                new Point(
+                        (int) Math.floor(point.x / (30 * this.boardView.getScale())),
+                        (int) Math.floor(point.y / (30 * this.boardView.getScale())));
         if (this.boardView.getBoard() instanceof TreeTentBoard) {
             scaledPoint.setLocation(scaledPoint.getX() - 1, scaledPoint.getY() - 1);
         }
-        System.out.printf("selected Element is NOT null, attempting to change board at (%d, %d)\n", scaledPoint.x, scaledPoint.y);
-//            System.out.println("Before: " + b.getCell(scaledPoint.x, scaledPoint.y).getData());
+
         b.setCell(scaledPoint.x, scaledPoint.y, this.selectedElement, e);
-//            System.out.println("After: " + b.getCell(scaledPoint.x, scaledPoint.y).getData());
-//        } else {
-//            System.out.println("selected Element is null!");
-//        }
         boardView.repaint();
     }
 
@@ -175,7 +173,9 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
             selection.newHover(elementView);
             if (LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.SHOW_MISTAKES)) {
                 PuzzleElement element = elementView.getPuzzleElement();
-                if (treeElement != null && treeElement.getType() == TreeElementType.TRANSITION && board.getModifiedData().contains(element)) {
+                if (treeElement != null
+                        && treeElement.getType() == TreeElementType.TRANSITION
+                        && board.getModifiedData().contains(element)) {
                     TreeTransition transition = (TreeTransition) treeElement;
                     if (transition.isJustified() && !transition.isCorrect()) {
                         error = transition.getRule().checkRuleAt(transition, element);
@@ -183,8 +183,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                 }
                 if (error != null) {
                     dynamicView.updateError(error);
-                }
-                else {
+                } else {
                     dynamicView.resetStatus();
                 }
             }
@@ -222,9 +221,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
      * @param e the event to be processed
      */
     @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
+    public void mouseDragged(MouseEvent e) {}
 
     /**
      * Invoked when the mouse moved
@@ -250,7 +247,9 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
             selection.newHover(elementView);
             if (LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.SHOW_MISTAKES)) {
                 PuzzleElement element = elementView.getPuzzleElement();
-                if (treeElement != null && treeElement.getType() == TreeElementType.TRANSITION && board.getModifiedData().contains(element)) {
+                if (treeElement != null
+                        && treeElement.getType() == TreeElementType.TRANSITION
+                        && board.getModifiedData().contains(element)) {
                     TreeTransition transition = (TreeTransition) treeElement;
                     if (transition.isJustified() && !transition.isCorrect()) {
                         error = transition.getRule().checkRuleAt(transition, element);
@@ -258,8 +257,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
                 }
                 if (error != null) {
                     dynamicView.updateError(error);
-                }
-                else {
+                } else {
                     dynamicView.resetStatus();
                 }
             }
@@ -267,9 +265,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
         }
     }
 
-    public void changeCell(MouseEvent e, PuzzleElement data) {
-
-    }
+    public void changeCell(MouseEvent e, PuzzleElement data) {}
 
     /**
      * Invoked when an action occurs.
@@ -299,8 +295,7 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
 
         if (puzzleElement.equalsData(prevBord.getPuzzleElement(puzzleElement))) {
             puzzleElement.setModified(false);
-        }
-        else {
+        } else {
             puzzleElement.setModified(true);
         }
 
@@ -311,33 +306,26 @@ public class ElementController implements MouseListener, MouseMotionListener, Ac
     }
 
     /**
-     * Invoked when a key has been typed.
-     * See the class description for {@link KeyEvent} for a definition of
-     * a key typed event.
+     * Invoked when a key has been typed. See the class description for {@link KeyEvent} for a
+     * definition of a key typed event.
      *
      * @param e the event to be processed
      */
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
+    public void keyTyped(KeyEvent e) {}
 
     /**
-     * Invoked when a key has been pressed.
-     * See the class description for {@link KeyEvent} for a definition of
-     * a key pressed event.
+     * Invoked when a key has been pressed. See the class description for {@link KeyEvent} for a
+     * definition of a key pressed event.
      *
      * @param e the event to be processed
      */
     @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
+    public void keyPressed(KeyEvent e) {}
 
     /**
-     * Invoked when a key has been released.
-     * See the class description for {@link KeyEvent} for a definition of
-     * a key released event.
+     * Invoked when a key has been released. See the class description for {@link KeyEvent} for a
+     * definition of a key released event.
      *
      * @param e the event to be processed
      */

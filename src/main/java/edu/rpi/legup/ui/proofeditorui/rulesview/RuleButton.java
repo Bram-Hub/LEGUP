@@ -1,9 +1,13 @@
 package edu.rpi.legup.ui.proofeditorui.rulesview;
 
 import edu.rpi.legup.model.rules.Rule;
-
 import javax.swing.*;
 
+/**
+ * The {@code RuleButton} class is a custom button that represents a rule in the user interface.
+ * It extends {@link JButton} and is designed to display a rule's name and icon.
+ * The button is initialized with a {@link Rule} object, which provides the name and icon for the button.
+ */
 public class RuleButton extends JButton {
     private Rule rule;
 
@@ -13,7 +17,9 @@ public class RuleButton extends JButton {
      * @param rule rule to create the button
      */
     RuleButton(Rule rule) {
-        super(rule.getRuleName(), rule.getImageIcon()); // display rules' name under rule when load the icon
+        super(
+                rule.getRuleName(),
+                rule.getImageIcon()); // display rules' name under rule when load the icon
         this.rule = rule;
         this.setFocusPainted(false);
     }

@@ -3,25 +3,28 @@ package edu.rpi.legup.model;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import org.w3c.dom.Document;
 import edu.rpi.legup.save.ExportFileException;
-
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.util.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.ZoneId;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+/**
+ * Abstract class for exporting puzzle data to XML format.
+ * This class provides functionality to export a puzzle object, including its board and tree structure, to an XML file.
+ * Subclasses must implement methods to create specific elements for the board and the tree.
+ */
 public abstract class PuzzleExporter {
     private static final Logger LOGGER = LogManager.getLogger(PuzzleExporter.class.getName());
 
@@ -60,7 +63,8 @@ public abstract class PuzzleExporter {
             legupElement.appendChild(puzzleElement);
 
             puzzleElement.appendChild(createBoardElement(newDocument));
-            if (puzzle.getTree() != null && !puzzle.getTree().getRootNode().getChildren().isEmpty()) {
+            if (puzzle.getTree() != null
+                    && !puzzle.getTree().getRootNode().getChildren().isEmpty()) {
                 puzzleElement.appendChild(createProofElement(newDocument));
             }
 
@@ -84,18 +88,30 @@ public abstract class PuzzleExporter {
             StreamResult result = new StreamResult(new File(fileName));
 
             transformer.transform(source, result);
-        }
-        catch (ParserConfigurationException | TransformerException e) {
+        } catch (ParserConfigurationException | TransformerException e) {
             throw new ExportFileException("Puzzle Exporter: parser configuration exception");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw e;
-            //throw new ExportFileException(e.getMessage());
+            // throw new ExportFileException(e.getMessage());
         }
     }
 
+    /**
+     * Creates an XML element representing the board of the puzzle.
+     * Subclasses must implement this method to provide the XML structure for the board.
+     *
+     * @param newDocument The XML document to create elements within.
+     * @return An XML element representing the puzzle's board.
+     */
     protected abstract Element createBoardElement(Document newDocument);
 
+    /**
+     * Creates an XML element representing the proof of the puzzle, including its tree structure.
+     * This method is used to generate the proof section of the XML, which contains the tree representation.
+     *
+     * @param newDocument The XML document to create elements within.
+     * @return An XML element representing the proof of the puzzle.
+     */
     protected Element createProofElement(Document newDocument) {
         org.w3c.dom.Element proofElement = newDocument.createElement("proof");
         org.w3c.dom.Element treeElement = createTreeElement(newDocument);
@@ -103,6 +119,13 @@ public abstract class PuzzleExporter {
         return proofElement;
     }
 
+    /**
+     * Creates an XML element representing the tree structure of the puzzle.
+     * This method traverses the tree nodes and transitions, and creates XML elements for each.
+     *
+     * @param newDocument The XML document to create elements within.
+     * @return An XML element representing the puzzle's tree structure.
+     */
     protected Element createTreeElement(Document newDocument) {
         org.w3c.dom.Element treeElement = newDocument.createElement("tree");
 

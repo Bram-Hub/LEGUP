@@ -1,9 +1,13 @@
 package edu.rpi.legup.puzzle.skyscrapers.elements;
 
-import edu.rpi.legup.model.elements.NonPlaceableElement;
+import edu.rpi.legup.model.elements.PlaceableElement;
 
-public class UnknownTile extends NonPlaceableElement {
+public class UnknownTile extends PlaceableElement {
     public UnknownTile() {
-        super("SKYS-UNPL-0001", "Unknown", "A blank tile", "edu/rpi/legup/images/skyscrapers/tiles/UnknownTile.png");
+        super(
+                "SKYS-ELEM-0002",
+                "Unknown",
+                "A blank tile",
+                "edu/rpi/legup/images/skyscrapers/tiles/UnknownTile.png");
     }
 }

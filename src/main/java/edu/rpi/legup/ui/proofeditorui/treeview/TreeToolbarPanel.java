@@ -1,25 +1,50 @@
 package edu.rpi.legup.ui.proofeditorui.treeview;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
+
+/**
+ * {@code TreeToolbarPanel} is a JPanel that provides a toolbar for managing tree elements in the tree view.
+ * It includes buttons for adding, deleting, merging, and collapsing nodes.
+ */
 public class TreeToolbarPanel extends JPanel {
     private TreePanel treePanel;
     private TreeToolBarButton addChild, delChild, merge, collapse;
 
     /**
      * TreeToolbarPanel Constructor - creates the tree tool mBar panel
+     *
      * @param treePanel treePanel input
      */
     public TreeToolbarPanel(TreePanel treePanel) {
         this.treePanel = treePanel;
         this.setLayout(new GridLayout(4, 1, 0, 2));
 
-
-        addChild = new TreeToolBarButton(new ImageIcon(ClassLoader.getSystemResource("edu/rpi/legup/images/Legup/AddChild.png")), TreeToolBarName.ADD_CHILD);
-        delChild = new TreeToolBarButton(new ImageIcon(ClassLoader.getSystemResource("edu/rpi/legup/images/Legup/DelChild.png")), TreeToolBarName.DEL_CHILD);
-        merge = new TreeToolBarButton(new ImageIcon(ClassLoader.getSystemResource("edu/rpi/legup/images/Legup/Merge.png")), TreeToolBarName.MERGE);
-        collapse = new TreeToolBarButton(new ImageIcon(ClassLoader.getSystemResource("edu/rpi/legup/images/Legup/Collapse.png")), TreeToolBarName.COLLAPSE);
+        addChild =
+                new TreeToolBarButton(
+                        new ImageIcon(
+                                ClassLoader.getSystemResource(
+                                        "edu/rpi/legup/images/Legup/AddChild.png")),
+                        TreeToolBarName.ADD_CHILD);
+        delChild =
+                new TreeToolBarButton(
+                        new ImageIcon(
+                                ClassLoader.getSystemResource(
+                                        "edu/rpi/legup/images/Legup/DelChild.png")),
+                        TreeToolBarName.DEL_CHILD);
+        merge =
+                new TreeToolBarButton(
+                        new ImageIcon(
+                                ClassLoader.getSystemResource(
+                                        "edu/rpi/legup/images/Legup/Merge.png")),
+                        TreeToolBarName.MERGE);
+        collapse =
+                new TreeToolBarButton(
+                        new ImageIcon(
+                                ClassLoader.getSystemResource(
+                                        "edu/rpi/legup/images/Legup/Collapse.png")),
+                        TreeToolBarName.COLLAPSE);
 
         add(addChild);
         addChild.addActionListener(a -> treePanel.add());

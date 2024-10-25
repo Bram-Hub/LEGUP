@@ -6,12 +6,19 @@ import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The ValidateDirectRuleCommand class represents a command for validating and applying a DirectRule
+ * to a set of selected tree elements. It extends the PuzzleCommand class and implements the ICommand interface.
+ */
 public class ValidateDirectRuleCommand extends PuzzleCommand {
+    private static final Logger LOGGER = LogManager.getLogger(History.class.getName());
     private TreeViewSelection selection;
 
     private Map<TreeElement, Rule> oldRules;
@@ -22,7 +29,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
      * ValidateDesireRuleCommand Constructor creates a command for verifying a basic rule
      *
      * @param selection selection of tree elements
-     * @param rule      basic rule
+     * @param rule basic rule
      */
     public ValidateDirectRuleCommand(TreeViewSelection selection, DirectRule rule) {
         this.selection = selection.copy();
@@ -32,7 +39,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
     }
 
     /**
-     * Executes an command
+     * Executes the command to validate and apply the DirectRule.
      */
     @Override
     public void executeCommand() {
@@ -45,15 +52,15 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
         for (TreeElementView selectedView : selectedViews) {
             TreeElement element = selectedView.getTreeElement();
             TreeTransitionView transitionView;
+
             if (element.getType() == TreeElementType.NODE) {
                 TreeNodeView nodeView = (TreeNodeView) selectedView;
                 transitionView = nodeView.getChildrenViews().get(0);
-            }
-            else {
+            } else {
                 transitionView = (TreeTransitionView) selectedView;
             }
-            TreeTransition transition = transitionView.getTreeElement();
 
+            TreeTransition transition = transitionView.getTreeElement();
             oldRules.put(transition, transition.getRule());
             transition.setRule(newRule);
 
@@ -63,35 +70,58 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
                 if (childNode == null) {
                     childNode = (TreeNode) tree.addTreeElement(transition);
                     addNode.put(transition, childNode);
-                }
-                else {
+                } else {
                     tree.addTreeElement(transition, childNode);
                 }
 
                 final TreeNode finalNode = childNode;
                 puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(finalNode));
             }
-            newSelection.addToSelection(treeView.getElementView(childNode));
+
+            TreeElementView childView = treeView.getElementView(childNode);
+            if (childView == null) {
+                LOGGER.error("Child view is null for child node: " + childNode);
+                continue;
+            }
+            newSelection.addToSelection(childView);
         }
+
         TreeElementView firstSelectedView = selection.getFirstSelection();
+
         final TreeElement finalTreeElement;
         if (firstSelectedView.getType() == TreeElementType.NODE) {
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
+            if (nodeView.getChildrenViews().isEmpty()) {
+                LOGGER.error("NodeView has no children views");
+                return;
+            }
             finalTreeElement = nodeView.getChildrenViews().get(0).getTreeElement();
-        }
-        else {
+        } else {
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
+            TreeNodeView childView = transitionView.getChildView();
+            if (childView == null) {
+                LOGGER.error("Child view is null for transition view: " + transitionView);
+                TreeNode childNode = transitionView.getTreeElement().getChildNode();
+                childView = (TreeNodeView) treeView.getElementView(childNode);
+                transitionView.setChildView(childView);
+            }
+            TreeTransition transition = transitionView.getTreeElement();
+            if (transition.getParents().get(0).getChildren().isEmpty()) {
+                transition.getParents().get(0).addChild(transition);
+            }
             finalTreeElement = transitionView.getChildView().getTreeElement();
         }
+
         puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTreeElement));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
     }
+
 
     /**
      * Gets the reason why the command cannot be executed
      *
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
-     * otherwise null if command can be executed
+     *     otherwise null if command can be executed
      */
     @Override
     public String getErrorString() {
@@ -106,8 +136,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
                 if (nodeView.getChildrenViews().size() != 1) {
                     return CommandError.ONE_CHILD.toString();
                 }
-            }
-            else {
+            } else {
                 TreeTransitionView transView = (TreeTransitionView) view;
                 if (transView.getParentViews().size() > 1) {
                     return CommandError.CONTAINS_MERGE.toString();
@@ -118,7 +147,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
     }
 
     /**
-     * Undoes an command
+     * Undoes the validation command, restoring the previous state.
      */
     @Override
     public void undoCommand() {
@@ -131,11 +160,12 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
             if (element.getType() == TreeElementType.NODE) {
                 TreeNodeView nodeView = (TreeNodeView) selectedView;
                 transitionView = nodeView.getChildrenViews().get(0);
-            }
-            else {
+            } else {
                 transitionView = (TreeTransitionView) selectedView;
+
             }
             TreeTransition transition = transitionView.getTreeElement();
+
             transition.setRule(oldRules.get(transition));
 
             if (addNode.get(transition) != null) {

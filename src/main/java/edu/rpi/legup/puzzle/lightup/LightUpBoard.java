@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.lightup;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +16,8 @@ public class LightUpBoard extends GridBoard {
     }
 
     /**
-     * Sets cells in board to lite depending on whether there is a bulb cell in the current row or column
+     * Sets cells in board to lite depending on whether there is a bulb cell in the current row or
+     * column
      */
     public void fillWithLight() {
         for (int y = 0; y < this.dimension.height; y++) {
@@ -33,28 +33,32 @@ public class LightUpBoard extends GridBoard {
                     cell.setLite(true);
                     for (int i = x + 1; i < this.dimension.width; i++) {
                         LightUpCell c = getCell(i, y);
-                        if (c.getType() == LightUpCellType.NUMBER || c.getType() == LightUpCellType.BLACK) {
+                        if (c.getType() == LightUpCellType.NUMBER
+                                || c.getType() == LightUpCellType.BLACK) {
                             break;
                         }
                         c.setLite(true);
                     }
                     for (int i = x - 1; i >= 0; i--) {
                         LightUpCell c = getCell(i, y);
-                        if (c.getType() == LightUpCellType.NUMBER || c.getType() == LightUpCellType.BLACK) {
+                        if (c.getType() == LightUpCellType.NUMBER
+                                || c.getType() == LightUpCellType.BLACK) {
                             break;
                         }
                         c.setLite(true);
                     }
                     for (int i = y + 1; i < this.dimension.height; i++) {
                         LightUpCell c = getCell(x, i);
-                        if (c.getType() == LightUpCellType.NUMBER || c.getType() == LightUpCellType.BLACK) {
+                        if (c.getType() == LightUpCellType.NUMBER
+                                || c.getType() == LightUpCellType.BLACK) {
                             break;
                         }
                         c.setLite(true);
                     }
                     for (int i = y - 1; i >= 0; i--) {
                         LightUpCell c = getCell(x, i);
-                        if (c.getType() == LightUpCellType.NUMBER || c.getType() == LightUpCellType.BLACK) {
+                        if (c.getType() == LightUpCellType.NUMBER
+                                || c.getType() == LightUpCellType.BLACK) {
                             break;
                         }
                         c.setLite(true);
@@ -130,12 +134,12 @@ public class LightUpBoard extends GridBoard {
     }
 
     /**
-     * Gets the number of adjacent cells that are placable
+     * Gets the number of adjacent cells that are placeable
      *
      * @param cell specified cell
-     * @return number of adjacent cells that are placable
+     * @return number of adjacent cells that are placeable
      */
-    public int getNumPlacble(LightUpCell cell) {
+    public int getNumPlaceable(LightUpCell cell) {
         int num = 0;
         Set<LightUpCell> adjCells = getAdj(cell);
         for (LightUpCell c : adjCells) {

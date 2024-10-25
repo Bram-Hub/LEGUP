@@ -2,22 +2,30 @@ package edu.rpi.legup.ui.boardview;
 
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.ElementController;
-
 import java.awt.Color;
 import java.awt.Dimension;
 
+/**
+ * A view class for a grid-based board that displays elements in a grid layout.
+ * This class extends BoardView and is responsible for managing and rendering
+ * grid-based elements.
+ */
 public class GridBoardView extends BoardView {
     protected Dimension gridSize;
     protected Dimension elementSize;
 
     /**
-     * GridBoardView Constructor creates a GridBoardView object using the controller handle the ui events
+     * GridBoardView Constructor creates a GridBoardView object using the controller handle the ui
+     * events
      *
      * @param boardController controller that handles the ui events
      * @param gridSize dimension of the grid
      * @param elementController controller that handles the ui events
      */
-    public GridBoardView(BoardController boardController, ElementController elementController, Dimension gridSize) {
+    public GridBoardView(
+            BoardController boardController,
+            ElementController elementController,
+            Dimension gridSize) {
         this(boardController, elementController);
         this.gridSize = gridSize;
         this.elementSize = new Dimension(30, 30);
@@ -25,7 +33,8 @@ public class GridBoardView extends BoardView {
     }
 
     /**
-     * GridBoardView Constructor creates a GridBoardView object using the controller handle the ui events
+     * GridBoardView Constructor creates a GridBoardView object using the controller handle the ui
+     * events
      *
      * @param boardController controller that handles the ui events
      */
@@ -35,8 +44,7 @@ public class GridBoardView extends BoardView {
     }
 
     /**
-     * Gets the GridElementView from the puzzleElement index or
-     * null if out of bounds
+     * Gets the GridElementView from the puzzleElement index or null if out of bounds
      *
      * @param index index of the ElementView
      * @return GridElementView at the specified index
@@ -48,6 +56,14 @@ public class GridBoardView extends BoardView {
         return null;
     }
 
+    /**
+     * Retrieves the GridElementView at the specified grid coordinates (xIndex, yIndex).
+     * Returns null if the coordinates are out of bounds.
+     *
+     * @param xIndex the x-coordinate (column) of the element view to retrieve
+     * @param yIndex the y-coordinate (row) of the element view to retrieve
+     * @return the GridElementView at the specified coordinates, or null if out of bounds
+     */
     public GridElementView getElement(int xIndex, int yIndex) {
         if (xIndex < gridSize.width && yIndex < gridSize.height) {
             return (GridElementView) elementViews.get(yIndex * gridSize.width + xIndex);
@@ -56,7 +72,8 @@ public class GridBoardView extends BoardView {
     }
 
     /**
-     * Initializes the initial dimension of the viewport for the GridBoardView
+     * Initializes the initial dimension of the viewport for the GridBoardView.
+     * Sets the size of the board view and adjusts the zoom to fit.
      */
     @Override
     public void initSize() {
@@ -65,9 +82,9 @@ public class GridBoardView extends BoardView {
     }
 
     /**
-     * Helper method to determine the proper dimension of the grid view
+     * Determines the proper dimension of the grid view based on grid size and element size.
      *
-     * @return proper dimension of the grid view
+     * @return the dimension of the grid view
      */
     protected Dimension getProperSize() {
         Dimension boardViewSize = new Dimension();
@@ -76,13 +93,22 @@ public class GridBoardView extends BoardView {
         return boardViewSize;
     }
 
+    /**
+     * Retrieves the selection popup menu for data selection.
+     * Currently returns null as there is no implementation.
+     *
+     * @return null
+     */
     public DataSelectionView getSelectionPopupMenu() {
         return null;
     }
 
+    /**
+     * Gets the size of each element in the grid
+     *
+     * @return the dimension of each element in the grid
+     */
     public Dimension getElementSize() {
         return this.elementSize;
     }
-
 }
-

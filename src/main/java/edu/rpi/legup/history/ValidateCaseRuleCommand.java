@@ -1,18 +1,21 @@
 package edu.rpi.legup.history;
 
+import static edu.rpi.legup.app.GameBoardFacade.getInstance;
+
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static edu.rpi.legup.app.GameBoardFacade.getInstance;
-
+/**
+ * The ValidateCaseRuleCommand class represents a command for validating a CaseRule in the tree structure.
+ * It extends the PuzzleCommand class and implements the ICommand interface.
+ */
 public class ValidateCaseRuleCommand extends PuzzleCommand {
 
     private TreeViewSelection selection;
@@ -35,7 +38,7 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
     }
 
     /**
-     * Executes an command
+     * Executes the command to validate the CaseRule
      */
     @Override
     public void executeCommand() {
@@ -58,8 +61,7 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
                 if (childNode == null) {
                     childNode = (TreeNode) tree.addTreeElement(transition);
                     addNode.put(transition, childNode);
-                }
-                else {
+                } else {
                     childNode = (TreeNode) tree.addTreeElement(transition, childNode);
                 }
 
@@ -75,8 +77,7 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
         if (firstSelectedView.getType() == TreeElementType.NODE) {
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
             finalTreeElement = nodeView.getChildrenViews().get(0).getTreeElement();
-        }
-        else {
+        } else {
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
             finalTreeElement = transitionView.getChildView().getTreeElement();
         }
@@ -88,7 +89,7 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
      * Gets the reason why the command cannot be executed
      *
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
-     * otherwise null if command can be executed
+     *     otherwise null if command can be executed
      */
     @Override
     public String getErrorString() {
@@ -100,8 +101,7 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
         for (TreeElementView view : selectedViews) {
             if (view.getType() == TreeElementType.NODE) {
                 return CommandError.SELECTION_CONTAINS_NODE.toString();
-            }
-            else {
+            } else {
                 TreeTransitionView transView = (TreeTransitionView) view;
                 if (transView.getParentViews().size() > 1) {
                     return CommandError.CONTAINS_MERGE.toString();
@@ -111,8 +111,9 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
         return null;
     }
 
+
     /**
-     * Undoes an command
+     * Undoes the validation command, restoring the previous state
      */
     @Override
     public void undoCommand() {

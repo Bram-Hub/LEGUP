@@ -2,9 +2,13 @@ package edu.rpi.legup.model.tree;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.utility.DisjointSets;
-
 import java.util.*;
 
+/**
+ * Represents a node in a tree structure. Extends {@link TreeElement}.
+ * A {@code TreeNode} contains a board, references to its parent and children transitions, and indicates
+ * if it is the root node of the tree.
+ */
 public class TreeNode extends TreeElement {
     private TreeTransition parent;
     private List<TreeTransition> children;
@@ -24,8 +28,8 @@ public class TreeNode extends TreeElement {
     }
 
     /**
-     * Determines if this tree node leads to a contradiction. Every path from this tree node
-     * must lead to a contradiction including all of its children
+     * Determines if this tree node leads to a contradiction. Every path from this tree node must
+     * lead to a contradiction including all of its children
      *
      * @return true if this tree node leads to a contradiction, false otherwise
      */
@@ -43,8 +47,8 @@ public class TreeNode extends TreeElement {
      * whether this tree puzzleElement and all descendants of this tree puzzleElement is justified
      * and justified correctly
      *
-     * @return true if this tree puzzleElement and all descendants of this tree puzzleElement is valid,
-     * false otherwise
+     * @return true if this tree puzzleElement and all descendants of this tree puzzleElement is
+     *     valid, false otherwise
      */
     @Override
     public boolean isValidBranch() {
@@ -57,9 +61,9 @@ public class TreeNode extends TreeElement {
     }
 
     /**
-     * Gets all of the ancestors of this node
+     * Gets a list of the ancestors of this node
      *
-     * @return list of all of the ancestors for this node
+     * @return list of all the ancestors for this node
      */
     public List<TreeNode> getAncestors() {
         List<TreeNode> ancestors = new ArrayList<>();
@@ -104,8 +108,7 @@ public class TreeNode extends TreeElement {
                         it.add(transition);
                     }
                 }
-            }
-            else {
+            } else {
                 TreeTransition trans = (TreeTransition) next;
                 TreeNode childNode = trans.getChildNode();
                 if (childNode != null && !descendants.contains(childNode)) {
@@ -118,9 +121,9 @@ public class TreeNode extends TreeElement {
     }
 
     /**
-     * Gets a DisjointSets containing the children of this node such that the sets contained within the DisjointSets
-     * are such that elements in the same set are branches of this tree node that will eventually merge. This could
-     * mean that multiple merges take place before this happens.
+     * Gets a DisjointSets containing the children of this node such that the sets contained within
+     * the DisjointSets are such that elements in the same set are branches of this tree node that
+     * will eventually merge. This could mean that multiple merges take place before this happens.
      *
      * @return DisjointSets of tree transitions containing unique non-merging branches
      */
@@ -143,8 +146,7 @@ public class TreeNode extends TreeElement {
                     if (element.getType() == TreeElementType.NODE) {
                         TreeNode node = (TreeNode) element;
                         nodes.addAll(node.getChildren());
-                    }
-                    else {
+                    } else {
                         TreeTransition childTran = (TreeTransition) element;
                         if (childTran.getChildNode() != null) {
                             nodes.add(childTran.getChildNode());
@@ -169,8 +171,8 @@ public class TreeNode extends TreeElement {
     }
 
     /**
-     * Finds the point at which the set of tree elements passed in will merge. This must be a set gotten from
-     * findMergingBranches method DisjointSets
+     * Finds the point at which the set of tree elements passed in will merge. This must be a set
+     * gotten from findMergingBranches method DisjointSets
      *
      * @param branches tree elements to find the merging point
      * @return tree transition of the merging point or null if no such point exists
@@ -186,14 +188,15 @@ public class TreeNode extends TreeElement {
             mergeSet.createSet(element);
             if (element.getType() == TreeElementType.NODE) {
                 TreeNode node = (TreeNode) element;
-                node.getDescendants().forEach((TreeElement e) -> {
-                    if (!mergeSet.contains(e)) {
-                        mergeSet.createSet(e);
-                    }
-                    mergeSet.union(element, e);
-                });
-            }
-            else {
+                node.getDescendants()
+                        .forEach(
+                                (TreeElement e) -> {
+                                    if (!mergeSet.contains(e)) {
+                                        mergeSet.createSet(e);
+                                    }
+                                    mergeSet.union(element, e);
+                                });
+            } else {
                 TreeTransition transition = (TreeTransition) element;
                 TreeNode childNode = transition.getChildNode();
                 if (childNode != null) {
@@ -228,8 +231,7 @@ public class TreeNode extends TreeElement {
             if (element.getType() == TreeElementType.NODE) {
                 TreeNode node = (TreeNode) element;
                 next.addAll(node.getChildren());
-            }
-            else {
+            } else {
                 TreeTransition tran = (TreeTransition) element;
                 next.add(tran.getChildNode());
             }
@@ -329,8 +331,11 @@ public class TreeNode extends TreeElement {
         this.isRoot = isRoot;
     }
 
+    /**
+     * Clears all children transitions from this tree node.
+     * After calling this method, the node will have no child transitions.
+     */
     public void clearChildren() {
         this.children.clear();
     }
-
 }

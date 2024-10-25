@@ -1,16 +1,20 @@
 package edu.rpi.legup.ui.proofeditorui.treeview;
 
-import edu.rpi.legup.model.tree.TreeElementType;
-import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.app.LegupPreferences;
-
-import java.awt.*;
-import java.awt.geom.*;
-import java.util.List;
-import java.util.ArrayList;
-
 import static java.lang.Math.*;
 
+import edu.rpi.legup.app.LegupPreferences;
+import edu.rpi.legup.model.tree.TreeElementType;
+import edu.rpi.legup.model.tree.TreeTransition;
+import java.awt.*;
+import java.awt.geom.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * {@code TreeTransitionView} is a visual representation of a tree transition in the tree view.
+ * It extends TreeElementView and displays a transition arrow between tree nodes and handles various
+ * visual states such as selection, hover, and correctness.
+ */
 public class TreeTransitionView extends TreeElementView {
     static final int RADIUS = 25;
     static final int DIAMETER = 2 * RADIUS;
@@ -86,8 +90,15 @@ public class TreeTransitionView extends TreeElementView {
             double ctrlx2 = lineEndPoint.x - 25;
             double ctrly2 = lineEndPoint.y;
 
-            c.setCurve(lineStartPoint.x, lineStartPoint.y, ctrlx1,
-                    ctrly1, ctrlx2, ctrly2, lineEndPoint.x, lineEndPoint.y);
+            c.setCurve(
+                    lineStartPoint.x,
+                    lineStartPoint.y,
+                    ctrlx1,
+                    ctrly1,
+                    ctrlx2,
+                    ctrly2,
+                    lineEndPoint.x,
+                    lineEndPoint.y);
             graphics2D.draw(c);
         }
 
@@ -100,16 +111,13 @@ public class TreeTransitionView extends TreeElementView {
                 if (getTreeElement().isCorrect()) {
                     if (colorBlind) {
                         c = CORRECT_COLOR_COLORBLIND;
-                    }
-                    else {
+                    } else {
                         c = CORRECT_COLOR;
                     }
-                }
-                else {
+                } else {
                     if (colorBlind) {
                         c = INCORRECT_COLOR_COLORBLIND;
-                    }
-                    else {
+                    } else {
                         c = INCORRECT_COLOR;
                     }
                 }
@@ -127,8 +135,7 @@ public class TreeTransitionView extends TreeElementView {
             graphics2D.setStroke(SELECTION_STROKE);
             graphics2D.setColor(OUTLINE_SELECTION_COLOR);
             graphics2D.drawPolygon(selection_triangle);
-        }
-        else {
+        } else {
             if (isHover) {
                 graphics2D.setColor(HOVER_COLOR);
                 graphics2D.fillPolygon(arrowhead);
@@ -142,23 +149,19 @@ public class TreeTransitionView extends TreeElementView {
                 graphics2D.setStroke(SELECTION_STROKE);
                 graphics2D.setColor(OUTLINE_HOVER_COLOR);
                 graphics2D.drawPolygon(selection_triangle);
-            }
-            else {
+            } else {
                 Color c = DEFAULT_COLOR;
                 if (getTreeElement().isJustified()) {
                     if (getTreeElement().isCorrect()) {
                         if (colorBlind) {
                             c = CORRECT_COLOR_COLORBLIND;
-                        }
-                        else {
+                        } else {
                             c = CORRECT_COLOR;
                         }
-                    }
-                    else {
+                    } else {
                         if (colorBlind) {
                             c = INCORRECT_COLOR_COLORBLIND;
-                        }
-                        else {
+                        } else {
                             c = INCORRECT_COLOR;
                         }
                     }
@@ -172,9 +175,7 @@ public class TreeTransitionView extends TreeElementView {
         }
     }
 
-    /**
-     * Constructs the arrowhead shape from the start and end points
-     */
+    /** Constructs the arrowhead shape from the start and end points */
     private Polygon createTransitionTriangle(int radius) {
         double thetaArrow = Math.toRadians(30);
 
@@ -270,87 +271,165 @@ public class TreeTransitionView extends TreeElementView {
         }
     }
 
-    public Point getEndPoint() {
-        return endPoint;
-    }
-
-    public void setEndPoint(Point endPoint) {
-        this.endPoint = endPoint;
-    }
-
+    /**
+     * Gets the x-coordinate of the end point of the transition arrow
+     *
+     * @return the x-coordinate of the end point
+     */
     public int getEndX() {
         return endPoint.x;
     }
 
+    /**
+     * Sets the x-coordinate of the end point of the transition arrow
+     *
+     * @param x the new x-coordinate of the end point
+     */
     public void setEndX(int x) {
         this.endPoint.x = x;
     }
 
+    /**
+     * Gets the y-coordinate of the end point of the transition arrow
+     *
+     * @return the y-coordinate of the end point
+     */
     public int getEndY() {
         return endPoint.y;
     }
 
+    /**
+     * Sets the y-coordinate of the end point of the transition arrow
+     *
+     * @param y the new y-coordinate of the end point
+     */
     public void setEndY(int y) {
         this.endPoint.y = y;
     }
 
-    public List<Point> getLineStartPoints() {
-        return lineStartPoints;
-    }
-
-    public void setLineStartPoints(List<Point> lineStartPoints) {
-        this.lineStartPoints = lineStartPoints;
-    }
-
+    /**
+     * Gets the start point at the specified index from the list of start points
+     *
+     * @param index the index of the start point to retrieve
+     * @return the start point at the specified index, or null if the index is out of range
+     */
     public Point getLineStartPoint(int index) {
         return index < lineStartPoints.size() ? lineStartPoints.get(index) : null;
     }
 
+    /**
+     * Returns the bounding rectangle of this TreeTransitionView
+     *
+     * @return a Rectangle representing the bounding box of this TreeTransitionView
+     */
     @Override
     public Rectangle getBounds() {
         return arrowhead.getBounds();
     }
 
+    /**
+     * Returns the bounding rectangle of this TreeTransitionView as a Rectangle2D
+     *
+     * @return a Rectangle2D representing the bounding box of this TreeTransitionView
+     */
     @Override
     public Rectangle2D getBounds2D() {
         return arrowhead.getBounds2D();
     }
 
+    /**
+     * Determines if the specified point (x, y) is within the bounds of this TreeTransitionView
+     *
+     * @param x the x-coordinate of the point to check
+     * @param y the y-coordinate of the point to check
+     * @return {@code true} if the point is within the bounds of this TreeTransitionView; {@code false} otherwise
+     */
     @Override
     public boolean contains(double x, double y) {
         return arrowhead.contains(x, y);
     }
 
+    /**
+     * Determines if the specified Point2D object is within the bounds of this TreeTransitionView
+     *
+     * @param p the Point2D object representing the point to check
+     * @return {@code true} if the point is within the bounds of this TreeTransitionView; {@code false} otherwise
+     */
     @Override
     public boolean contains(Point2D p) {
         return arrowhead != null && arrowhead.contains(p);
     }
 
+    /**
+     * Determines if the specified rectangle defined by (x, y, width, height) intersects with the bounds of this TreeTransitionView.
+     *
+     * @param x The x-coordinate of the rectangle to check
+     * @param y The y-coordinate of the rectangle to check
+     * @param w The width of the rectangle to check
+     * @param h The height of the rectangle to check
+     * @return {@code true} if the rectangle intersects with the bounds of this TreeTransitionView; {@code false} otherwise
+     */
     @Override
     public boolean intersects(double x, double y, double w, double h) {
         return arrowhead.intersects(x, y, w, h);
     }
 
+    /**
+     * Determines if the specified Rectangle2D object intersects with the bounds of this TreeTransitionView.
+     *
+     * @param r the Rectangle2D object representing the rectangle to check
+     * @return {@code true} if the rectangle intersects with the bounds of this TreeTransitionView; {@code false} otherwise
+     */
     @Override
     public boolean intersects(Rectangle2D r) {
         return arrowhead.intersects(r);
     }
 
+    /**
+     * Determines if the specified rectangle defined by (x, y, width, height) is entirely contained within the bounds of this TreeTransitionView
+     *
+     * @param x the x-coordinate of the rectangle to check
+     * @param y the y-coordinate of the rectangle to check
+     * @param w the width of the rectangle to check
+     * @param h the height of the rectangle to check
+     * @return {@code true} if the rectangle is entirely contained within the bounds of this TreeTransitionView; {@code false} otherwise
+     */
     @Override
     public boolean contains(double x, double y, double w, double h) {
         return arrowhead.contains(x, y, w, h);
     }
 
+    /**
+     * Determines if the specified Rectangle2D object is entirely contained within the bounds of this TreeTransitionView.
+     *
+     * @param r the Rectangle2D object representing the rectangle to check
+     * @return {@code true} if the rectangle is entirely contained within the bounds of this TreeTransitionView; {@code false} otherwise
+     */
     @Override
     public boolean contains(Rectangle2D r) {
         return arrowhead.contains(r);
     }
 
+    /**
+     * Returns an iterator over the path geometry of this TreeTransitionView. The iterator provides access to the path's
+     * segments and their coordinates, which can be used for rendering or hit testing.
+     *
+     * @param at the AffineTransform to apply to the path geometry
+     * @return a PathIterator that iterates over the path geometry of this TreeTransitionView
+     */
     @Override
     public PathIterator getPathIterator(AffineTransform at) {
         return arrowhead.getPathIterator(at);
     }
 
+    /**
+     * Returns an iterator over the path geometry of this TreeTransitionView with the specified flatness. The iterator provides
+     * access to the path's segments and their coordinates, which can be used for rendering or hit testing.
+     *
+     * @param at the AffineTransform to apply to the path geometry
+     * @param flatness the maximum distance that the line segments can deviate from the true path
+     * @return a PathIterator that iterates over the path geometry of this TreeTransitionView
+     */
     @Override
     public PathIterator getPathIterator(AffineTransform at, double flatness) {
         return arrowhead.getPathIterator(at, flatness);

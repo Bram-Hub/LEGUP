@@ -5,10 +5,9 @@ import edu.rpi.legup.ui.boardview.DataSelectionView;
 import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 import edu.rpi.legup.ui.boardview.SelectionItemView;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.Set;
+import javax.swing.*;
 
 public class SudokuView extends GridBoardView {
     private static final Color STROKE_COLOR = new Color(0, 0, 0);
@@ -21,21 +20,26 @@ public class SudokuView extends GridBoardView {
         int minorSize = (int) Math.sqrt(gridSize.width);
         for (int i = 0; i < gridSize.height; i++) {
             for (int k = 0; k < gridSize.width; k++) {
-                Point location = new Point(k * elementSize.width + (k / minorSize) * 4 + 5,
-                        i * elementSize.height + (i / minorSize) * 4 + 5);
+                Point location =
+                        new Point(
+                                k * elementSize.width + (k / minorSize) * 4 + 5,//
+                               i * elementSize.height + (i / minorSize) * 4 + 5);
+//                Point location =
+//                        new Point(
+//                                k * elementSize.width,
+//                                i * elementSize.height);
                 SudokuElementView element = new SudokuElementView(board.getCell(k, i));
                 element.setIndex(i * gridSize.width + k);
+                element.setIndex(i * gridSize.width);
                 element.setSize(elementSize);
                 element.setLocation(location);
                 elementViews.add(element);
             }
         }
-
     }
 
     /**
-     * Gets the SudokuElementView from the puzzleElement index or
-     * null if out of bounds
+     * Gets the SudokuElementView from the puzzleElement index or null if out of bounds
      *
      * @param index index of the ElementView
      * @return SudokuElementView at the specified index
@@ -49,7 +53,9 @@ public class SudokuView extends GridBoardView {
         int minorSize = (int) Math.sqrt(gridSize.width);
         graphics2D.setColor(STROKE_COLOR);
         graphics2D.setStroke(MAJOR_STOKE);
-        graphics2D.drawRect(3, 3,
+        graphics2D.drawRect(
+                3,
+                3,
                 gridSize.width * (elementSize.width + 1) + 3,
                 gridSize.height * (elementSize.height + 1) + 3);
 
@@ -81,8 +87,7 @@ public class SudokuView extends GridBoardView {
                 ElementView element = elementViews.get(i * gridSize.height + k);
                 if (!element.isHover()) {
                     element.draw(graphics2D);
-                }
-                else {
+                } else {
                     hover = element;
                 }
             }
@@ -107,8 +112,7 @@ public class SudokuView extends GridBoardView {
                 ElementView element = elementViews.get(i * gridSize.height + k);
                 if (!element.isHover()) {
                     element.draw(graphics2D);
-                }
-                else {
+                } else {
                     hover = element;
                 }
             }
@@ -117,7 +121,10 @@ public class SudokuView extends GridBoardView {
         graphics2D.setColor(new Color(0x1A, 0x23, 0x7E, 200));
         for (int r : caseBoard.getPickableRegions()) {
             Set<SudokuCell> region = sudokuBoard.getRegion(r);
-            int x = Integer.MAX_VALUE, y = Integer.MAX_VALUE, w = Integer.MIN_VALUE, h = Integer.MIN_VALUE;
+            int x = Integer.MAX_VALUE,
+                    y = Integer.MAX_VALUE,
+                    w = Integer.MIN_VALUE,
+                    h = Integer.MIN_VALUE;
             for (SudokuCell c : region) {
                 x = Math.min(x, c.getLocation().x);
                 y = Math.min(y, c.getLocation().y);
@@ -134,8 +141,8 @@ public class SudokuView extends GridBoardView {
             graphics2D.fillRect(x + 4, y + 4, w - 8, h - 8);
         }
 
-//        if(hover != null)
-//            hover.draw(graphics2D);
+        //        if(hover != null)
+        //            hover.draw(graphics2D);
     }
 
     protected Dimension getProperSize() {
@@ -151,10 +158,14 @@ public class SudokuView extends GridBoardView {
         selectionView.setLayout(layout);
         for (int r = 1; r <= 3; r++) {
             for (int c = 1; c <= 3; c++) {
-                SudokuElementView element = new SudokuElementView(new SudokuCell((r - 1) * 3 + c, null, 0, gridSize.width));
+                SudokuElementView element =
+                        new SudokuElementView(
+                                new SudokuCell((r - 1) * 3 + c, null, 0, gridSize.width));
                 element.setSize(new Dimension(32, 32));
                 element.setLocation(new Point(0, 0));
-                SelectionItemView item = new SelectionItemView(element.getPuzzleElement(), new ImageIcon(element.getImage()));
+                SelectionItemView item =
+                        new SelectionItemView(
+                                element.getPuzzleElement(), new ImageIcon(element.getImage()));
                 item.addActionListener(elementController);
                 item.setHorizontalTextPosition(SwingConstants.CENTER);
                 selectionView.add(item);

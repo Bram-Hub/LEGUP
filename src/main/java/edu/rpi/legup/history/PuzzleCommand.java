@@ -1,15 +1,17 @@
 package edu.rpi.legup.history;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+/**
+ * The PuzzleCommand class is an abstract base class for commands that can be executed, undone, and redone
+ * within the puzzle model. It implements the ICommand interface and maintains the state and error handling
+ * for the command.
+ */
 public abstract class PuzzleCommand implements ICommand {
     private CommandState state;
     private boolean isCached;
     private String cachedError;
 
     /**
-     * Puzzle Command Constructor for creating an undoable and redoable change to the model.
+     * Puzzle Command Constructor for creating an undoable and redoable change to the model
      */
     protected PuzzleCommand() {
         this.state = CommandState.CREATED;
@@ -18,7 +20,7 @@ public abstract class PuzzleCommand implements ICommand {
     }
 
     /**
-     * Executes an command
+     * Executes the command if it can be executed
      */
     @Override
     public final void execute() {
@@ -29,7 +31,7 @@ public abstract class PuzzleCommand implements ICommand {
     }
 
     /**
-     * Determines whether this command can be executed
+     * Determines whether the command can be executed by checking the error state
      */
     @Override
     public final boolean canExecute() {
@@ -42,14 +44,13 @@ public abstract class PuzzleCommand implements ICommand {
      * Gets the reason why the command cannot be executed
      *
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
-     * otherwise null if command can be executed
+     *     otherwise null if command can be executed
      */
     @Override
     public final String getError() {
         if (isCached) {
             return cachedError;
-        }
-        else {
+        } else {
             return getErrorString();
         }
     }
@@ -58,56 +59,55 @@ public abstract class PuzzleCommand implements ICommand {
      * Gets the reason why the command cannot be executed
      *
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
-     * otherwise null if command can be executed
+     *     otherwise null if command can be executed
      */
     public abstract String getErrorString();
 
     /**
-     * Executes an command
+     * Executes the command.
+     * This method must be implemented by subclasses to define the command's execution behavior.
      */
     public abstract void executeCommand();
 
     /**
-     * Undoes an command
+     * Undoes the command.
+     * This method must be implemented by subclasses to define the command's undo behavior.
      */
     public abstract void undoCommand();
 
     /**
-     * Redoes an command
+     * Redoes the command. This method is called if the command was previously undone.
      */
     public void redoCommand() {
         if (state == CommandState.UNDOED) {
             executeCommand();
             state = CommandState.REDOED;
-        }
-        else {
+        } else {
             throw new InvalidCommandStateTransition(this, state, CommandState.REDOED);
         }
     }
 
     /**
-     * Undoes an command
+     * Undoes the command if it was executed or redone
      */
     @Override
     public final void undo() {
         if (state == CommandState.EXECUTED || state == CommandState.REDOED) {
             undoCommand();
             state = CommandState.UNDOED;
-        }
-        else {
+        } else {
             throw new InvalidCommandStateTransition(this, state, CommandState.UNDOED);
         }
     }
 
     /**
-     * Redoes an command
+     * Redoes the command if it was previously undone.
      */
     public final void redo() {
         if (state == CommandState.UNDOED) {
             redoCommand();
             state = CommandState.REDOED;
-        }
-        else {
+        } else {
             throw new InvalidCommandStateTransition(this, state, CommandState.REDOED);
         }
     }

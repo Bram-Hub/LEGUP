@@ -5,15 +5,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Abstract class representing a game board.
+ * This class provides functionality for managing puzzle elements, tracking modifications,
+ * and determining if the board is modifiable.
+ */
 public abstract class Board {
 
     protected List<PuzzleElement> puzzleElements;
     protected Set<PuzzleElement> modifiedData;
     protected boolean isModifiable;
 
-    /**
-     * Board Constructor creates an empty board.
-     */
+    /** Board Constructor creates an empty board. */
     public Board() {
         this.puzzleElements = new ArrayList<>();
         this.modifiedData = new HashSet<>();
@@ -33,21 +36,24 @@ public abstract class Board {
     }
 
     /**
-     * Gets a specific {@link PuzzleElement} on this board.
+     * Gets a specific {@link PuzzleElement} from the board.
      *
-     * @param puzzleElement equivalent puzzleElement
-     * @return equivalent puzzleElement on this board
+     * @param puzzleElement the puzzle element to retrieve
+     * @return the puzzle element at the corresponding index, or null if not found
      */
     public PuzzleElement getPuzzleElement(PuzzleElement puzzleElement) {
+        if (puzzleElement == null) {
+            return null;
+        }
         int index = puzzleElement.getIndex();
         return index < puzzleElements.size() ? puzzleElements.get(index) : null;
     }
 
     /**
-     * Sets a specific {@link PuzzleElement} on the board.
+     * Sets a specific {@link PuzzleElement} on the board
      *
-     * @param index         index of the puzzleElement
-     * @param puzzleElement new puzzleElement at the index
+     * @param index index of the puzzleElement
+     * @param puzzleElement the puzzleElement to set at the index
      */
     public void setPuzzleElement(int index, PuzzleElement puzzleElement) {
         if (index < puzzleElements.size()) {
@@ -56,7 +62,7 @@ public abstract class Board {
     }
 
     /**
-     * Gets the number of elements on the board.
+     * Gets the number of elements on the board
      *
      * @return number of elements on the board
      */
@@ -139,8 +145,8 @@ public abstract class Board {
     }
 
     /**
-     * Called when a {@link PuzzleElement} data on this has changed and passes in the equivalent puzzle element with
-     * the new data.
+     * Called when a {@link PuzzleElement} data on this has changed and passes in the equivalent
+     * puzzle element with the new data.
      *
      * @param puzzleElement equivalent puzzle element with the new data.
      */
@@ -150,22 +156,20 @@ public abstract class Board {
     }
 
     /**
-     * Called when a {@link PuzzleElement} has been added and passes in the equivalent puzzle element with the data.
+     * Called when a {@link PuzzleElement} has been added and passes in the equivalent puzzle
+     * element with the data.
      *
      * @param puzzleElement equivalent puzzle element with the data.
      */
-    public void notifyAddition(PuzzleElement puzzleElement) {
-
-    }
+    public void notifyAddition(PuzzleElement puzzleElement) {}
 
     /**
-     * Called when a {@link PuzzleElement} has been deleted and passes in the equivalent puzzle element with the data.
+     * Called when a {@link PuzzleElement} has been deleted and passes in the equivalent puzzle
+     * element with the data.
      *
      * @param puzzleElement equivalent puzzle element with the data.
      */
-    public void notifyDeletion(PuzzleElement puzzleElement) {
-
-    }
+    public void notifyDeletion(PuzzleElement puzzleElement) {}
 
     @SuppressWarnings("unchecked")
     public Board mergedBoard(Board lca, List<Board> boards) {

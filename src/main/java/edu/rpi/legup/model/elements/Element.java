@@ -1,11 +1,13 @@
 package edu.rpi.legup.model.elements;
 
-import edu.rpi.legup.model.rules.RuleType;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import javax.swing.*;
 
+/**
+ * The Element class serves as an abstract base class for various elements used in the system.
+ * It handles basic properties such as ID, name, description, and image associated with the element.
+ */
 @RegisterElement
 public abstract class Element {
     protected String elementID;
@@ -19,6 +21,14 @@ public abstract class Element {
 
     private final String INVALID_USE_MESSAGE;
 
+    /**
+     * Constructs an Element with the specified ID, name, description, and image name
+     *
+     * @param elementID Unique identifier for the element
+     * @param elementName Name of the element
+     * @param description Description of the element
+     * @param imageName File name of the image associated with the element
+     */
     public Element(String elementID, String elementName, String description, String imageName) {
         this.elementID = elementID;
         this.elementName = elementName;
@@ -28,13 +38,17 @@ public abstract class Element {
         loadImage();
     }
 
+    /**
+     * Loads the image for the element and resizes it to a width of 100 pixels while maintaining aspect ratio
+     */
     private void loadImage() {
         if (imageName != null) {
             this.image = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(imageName));
-            //Resize images to be 100px wide
+            // Resize images to be 100px wide
             Image image = this.image.getImage();
             if (this.image.getIconWidth() < 120) return;
-            int height = (int) (100 * ((double) this.image.getIconHeight() / this.image.getIconWidth()));
+            int height =
+                    (int) (100 * ((double) this.image.getIconHeight() / this.image.getIconWidth()));
             if (height == 0) {
                 System.out.println("height is 0 error");
                 System.out.println("height: " + this.image.getIconHeight());
@@ -48,30 +62,65 @@ public abstract class Element {
         }
     }
 
+    /**
+     * Gets the name of the element
+     *
+     * @return The name of the element
+     */
     public String getElementName() {
         return elementName;
     }
 
+    /**
+     * Sets the name of the element
+     *
+     * @param elementName The new name for the element
+     */
     public void setElementName(String elementName) {
         this.elementName = elementName;
     }
 
+    /**
+     * Gets the unique identifier of the element
+     *
+     * @return The ID of the element
+     */
     public String getElementID() {
         return elementID;
     }
 
+    /**
+     * Gets the description of the element
+     *
+     * @return The description of the element
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Gets the image icon associated with the element
+     *
+     * @return The ImageIcon for the element
+     */
     public ImageIcon getImageIcon() {
         return image;
     }
 
+    /**
+     * Gets the type of the element
+     *
+     * @return The ElementType of the element
+     */
     public ElementType getElementType() {
         return elementType;
     }
 
+    /**
+     * Gets the message for invalid use of the rule
+     *
+     * @return The invalid use message
+     */
     public String getInvalidUseOfRuleMessage() {
         return this.INVALID_USE_MESSAGE;
     }

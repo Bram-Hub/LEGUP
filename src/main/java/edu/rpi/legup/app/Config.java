@@ -2,21 +2,23 @@ package edu.rpi.legup.app;
 
 import java.io.*;
 import java.util.*;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * The {@code Config} class manages the configuration for puzzles by loading configuration data
+ * from an XML file. It provides methods to access puzzle class names, display names, and their
+ * file creation statuses
+ */
 public class Config {
-    private final static Logger Logger = LogManager.getLogger(Config.class.getName());
+    private static final Logger Logger = LogManager.getLogger(Config.class.getName());
 
     private Map<String, String> puzzles;
     private Map<String, Boolean> fileCreationDisabledStatuses;
@@ -43,8 +45,8 @@ public class Config {
     }
 
     /**
-     * Returns a list of the names of the puzzles which can have puzzles created and edited
-     * within the proof editor.
+     * Returns a list of the names of the puzzles which can have puzzles created and edited within
+     * the proof editor.
      *
      * @return the aforementioned list of Strings
      */
@@ -59,8 +61,8 @@ public class Config {
     }
 
     /**
-     * Converts the class name of the puzzles to their display names. Some examples of the conversion:
-     * convertClassNameToDisplayName("TreeTent") will return "Tree Tent"
+     * Converts the class name of the puzzles to their display names. Some examples of the
+     * conversion: convertClassNameToDisplayName("TreeTent") will return "Tree Tent"
      * convertClassNameToDisplayName("Nurikabe") will return "Nurikabe"
      *
      * @param className the name of the class
@@ -77,6 +79,13 @@ public class Config {
         return displayName;
     }
 
+    /**
+     * Converts the display name of the puzzle back to its corresponding class name.
+     * For example: convertDisplayNameToClassName("Tree Tent") returns "TreeTent"
+     *
+     * @param displayName the display name of the puzzle
+     * @return the class name of the puzzle as a String
+     */
     public static String convertDisplayNameToClassName(String displayName) {
         String className = "";
         for (int i = 0; i < displayName.length(); i++) {
@@ -87,6 +96,11 @@ public class Config {
         return className;
     }
 
+    /**
+     * Gets a list of all available puzzle display names
+     *
+     * @return a List of puzzle display names as Strings
+     */
     public List<String> getPuzzleNames() {
         List<String> names = new LinkedList<String>();
         for (String puzzle : this.getPuzzleClassNames()) {
@@ -95,6 +109,12 @@ public class Config {
         return names;
     }
 
+    /**
+     * Returns a list of the display names of the puzzles that can have files created and edited within
+     * the proof editor
+     *
+     * @return a List of puzzle display names as Strings with file creation enabled
+     */
     public List<String> getFileCreationEnabledPuzzleNames() {
         List<String> names = new LinkedList<String>();
         for (String puzzle : this.getFileCreationEnabledPuzzles()) {
@@ -140,14 +160,15 @@ public class Config {
                 Element puzzle = (Element) puzzleNodes.item(i);
                 String name = puzzle.getAttribute("name");
                 String className = puzzle.getAttribute("qualifiedClassName");
-                boolean status = Boolean.parseBoolean(puzzle.getAttribute("fileCreationDisabled").toLowerCase());
+                boolean status =
+                        Boolean.parseBoolean(
+                                puzzle.getAttribute("fileCreationDisabled").toLowerCase());
                 Logger.debug("Class Name: " + className);
                 this.puzzles.put(name, className);
                 this.fileCreationDisabledStatuses.put(name, Boolean.valueOf(status));
             }
 
-        }
-        catch (ParserConfigurationException | SAXException | IOException e) {
+        } catch (ParserConfigurationException | SAXException | IOException e) {
             throw new InvalidConfigException(e.getMessage());
         }
     }

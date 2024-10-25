@@ -7,9 +7,18 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.save.InvalidFileFormatException;
 
+import java.io.InputStream;
+
 public final class TestUtilities {
-    public static void importTestBoard(String fileName, Puzzle puzzle) throws InvalidFileFormatException {
-        puzzle.importPuzzle(ClassLoader.getSystemResourceAsStream(fileName));
+    public static void importTestBoard(String fileName, Puzzle puzzle)
+            throws InvalidFileFormatException {
+        InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName);
+
+        if (inputStream == null) {
+            throw new IllegalArgumentException("InputStream cannot be null. File not found: " + fileName);
+        }
+
+        puzzle.importPuzzle(inputStream);
         Tree tree = puzzle.getTree();
         TreeNode rootNode = tree.getRootNode();
         Board board = rootNode.getBoard().copy();

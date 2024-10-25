@@ -1,13 +1,15 @@
 package edu.rpi.legup.history;
 
 import edu.rpi.legup.app.GameBoardFacade;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The History class manages a stack of commands for undo and redo operations on the board and tree structure.
+ * It maintains a list of commands and a current index to track the position in the history stack.
+ */
 public class History {
     private static final Logger LOGGER = LogManager.getLogger(History.class.getName());
 
@@ -16,10 +18,8 @@ public class History {
     private int curIndex;
 
     /**
-     * History Constructor this holds information about changes to the board
-     * and Tree structure for undoing and redoing operations. Though history is
-     * an List, it is implemented like a stack. The curIndex points to the
-     * top of the stack (where the last change was made).
+     * Constructs a History object to keep track of changes and allow undo and redo operations.
+     * The history is implemented as a stack, with curIndex pointing to the top of the stack.
      */
     public History() {
         history = new ArrayList<>();
@@ -27,9 +27,9 @@ public class History {
     }
 
     /**
-     * Pushes a change to the history list and increments the current index.
-     * If the current index does not point to the top of the stack, then at least
-     * 1 undo operation was called and that information will be lost by the next change
+     * Pushes a change to the history list and increments the current index. If the current index
+     * does not point to the top of the stack, then at least 1 undo operation was called and that
+     * information will be lost by the next change
      *
      * @param command command to be pushed onto the stack
      */
@@ -48,7 +48,8 @@ public class History {
     }
 
     /**
-     * Undoes an action
+     * Undoes the last action by calling the undo method of the command at the current index.
+     * Updates the current index and notifies listeners.
      */
     public void undo() {
         synchronized (lock) {
@@ -56,13 +57,18 @@ public class History {
                 ICommand command = history.get(curIndex--);
                 command.undo();
                 LOGGER.info("Undoed " + command.getClass().getSimpleName());
-                GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onUndo(curIndex < 0, curIndex == history.size() - 1));
+
+
+                GameBoardFacade.getInstance()
+                        .notifyHistoryListeners(
+                                l -> l.onUndo(curIndex < 0, curIndex == history.size() - 1));
             }
         }
     }
 
     /**
-     * Redoes an action
+     * Redoes the next action by calling the redo method of the command at the current index.
+     * Updates the current index and notifies listeners.
      */
     public void redo() {
         synchronized (lock) {
@@ -70,13 +76,15 @@ public class History {
                 ICommand command = history.get(++curIndex);
                 command.redo();
                 LOGGER.info("Redoed " + command.getClass().getSimpleName());
-                GameBoardFacade.getInstance().notifyHistoryListeners(l -> l.onRedo(curIndex < 0, curIndex == history.size() - 1));
+                GameBoardFacade.getInstance()
+                        .notifyHistoryListeners(
+                                l -> l.onRedo(curIndex < 0, curIndex == history.size() - 1));
             }
         }
     }
 
     /**
-     * Clears all actions from the history stack
+     * Clears all actions from the history stack and resets the current index
      */
     public void clear() {
         history.clear();

@@ -5,14 +5,19 @@ import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.observer.ITreeListener;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
-
 import java.util.List;
 
+/**
+ * The DeleteTreeElementCommand class represents a command to delete tree elements from a proof tree.
+ * It extends PuzzleCommand and implements the functionality to remove selected tree elements and
+ * handle undo operations.
+ */
 public class DeleteTreeElementCommand extends PuzzleCommand {
     private TreeViewSelection selection;
 
     /**
-     * DeleteTreeElementCommand Constructor creates a PuzzleCommand for deleting a tree puzzleElement
+     * DeleteTreeElementCommand Constructor creates a PuzzleCommand for deleting a tree
+     * puzzleElement
      *
      * @param selection the currently selected tree elements before the command is executed
      */
@@ -21,7 +26,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
     }
 
     /**
-     * Executes an command
+     * Executes the delete command, removing the selected tree elements from the tree.
      */
     @Override
     public void executeCommand() {
@@ -29,19 +34,24 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
         List<TreeElementView> selectedViews = selection.getSelectedViews();
+        if (selectedViews.isEmpty()) {
+            return;
+        }
 
         TreeElementView firstSelectedView = selectedViews.get(0);
         TreeElementView newSelectedView;
         if (firstSelectedView.getType() == TreeElementType.NODE) {
+            //System.out.println("FIRST SELECTION NODE, total selection views: " + selectedViews.size());
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
             newSelectedView = nodeView.getParentView();
-        }
-        else {
+        } else {
+            //System.out.println("FIRST SELECTION TRANS, total selection views: " + selectedViews.size());
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
             newSelectedView = transitionView.getParentViews().get(0);
         }
 
         for (TreeElementView selectedView : selectedViews) {
+            System.out.println("DELETED");
             TreeElement element = selectedView.getTreeElement();
             tree.removeTreeElement(element);
             puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(element));
@@ -56,7 +66,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
      * Gets the reason why the command cannot be executed
      *
      * @return if command cannot be executed, returns reason for why the command cannot be executed,
-     * otherwise null if command can be executed
+     *     otherwise null if command can be executed
      */
     @Override
     public String getErrorString() {
@@ -75,7 +85,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
     }
 
     /**
-     * Undoes an command
+     * Undoes the delete command, re-adding the previously deleted tree elements.
      */
     @Override
     public void undoCommand() {
@@ -89,8 +99,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
                 node.getParent().setChildNode(node);
 
                 puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(node));
-            }
-            else {
+            } else {
                 TreeTransition transition = (TreeTransition) element;
                 transition.getParents().forEach(node -> node.addChild(transition));
                 transition.getParents().get(0).getChildren().forEach(TreeTransition::reverify);
@@ -99,7 +108,10 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
             }
         }
 
-        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(selection.getFirstSelection().getTreeElement()));
+        puzzle.notifyBoardListeners(
+                listener ->
+                        listener.onTreeElementChanged(
+                                selection.getFirstSelection().getTreeElement()));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
     }
 }

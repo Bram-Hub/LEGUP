@@ -7,5 +7,4 @@ public class DirectRuleOrElimination extends DirectRule_GenericElimination {
     public DirectRuleOrElimination() {
         super("STTT-BASC-0006", "Or", new ContradictionRuleOr());
     }
-
 }

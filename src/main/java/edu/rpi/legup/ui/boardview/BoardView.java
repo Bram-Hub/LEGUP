@@ -8,10 +8,13 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.observer.IBoardListener;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.ui.ScrollView;
-
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * An abstract class representing a view for a board in the puzzle game.
+ * It handles the visual representation and user interactions with the board elements.
+ */
 public abstract class BoardView extends ScrollView implements IBoardListener {
     protected TreeElement treeElement;
     protected Board board;
@@ -19,9 +22,9 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
     protected ElementController elementController;
     protected ElementSelection selection;
 
-
     /**
-     * BoardView Constructor creates a view for the board object using the controller handle the ui events
+     * BoardView Constructor creates a view for the board object using the controller handle the ui
+     * events
      *
      * @param boardController controller that handles the ui events
      * @param elementController controller that handles the ui events
@@ -40,9 +43,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
         addKeyListener(elementController);
     }
 
-    /**
-     * Initializes the initial dimension of the viewport for the BoardView
-     */
+    /** Initializes the initial dimension of the viewport for the BoardView */
     public abstract void initSize();
 
     /**
@@ -70,13 +71,17 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
     }
 
     /**
-     * Gets the ElementView from the location specified or null if one does not exists at that location
+     * Gets the ElementView from the location specified or null if one does not exists at that
+     * location
      *
      * @param point location on the viewport
      * @return ElementView at the specified location
      */
     public ElementView getElement(Point point) {
-        Point scaledPoint = new Point((int) Math.round(point.x / getScale()), (int) Math.round(point.y / getScale()));
+        Point scaledPoint =
+                new Point(
+                        (int) Math.round(point.x / getScale()),
+                        (int) Math.round(point.y / getScale()));
         for (ElementView element : elementViews) {
             if (element.isWithinBounds(scaledPoint)) {
                 return element;
@@ -114,22 +119,26 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
 
             if (board instanceof CaseBoard) {
                 setCasePickable();
-            }
-            else {
+            } else {
                 for (ElementView elementView : elementViews) {
-                    elementView.setPuzzleElement(board.getPuzzleElement(elementView.getPuzzleElement()));
+                    elementView.setPuzzleElement(
+                            board.getPuzzleElement(elementView.getPuzzleElement()));
                     elementView.setShowCasePicker(false);
                 }
             }
         }
     }
 
+    /**
+     * Configures the view to handle case interactions
+     */
     protected void setCasePickable() {
         CaseBoard caseBoard = (CaseBoard) board;
         Board baseBoard = caseBoard.getBaseBoard();
 
         for (ElementView elementView : elementViews) {
-            PuzzleElement puzzleElement = baseBoard.getPuzzleElement(elementView.getPuzzleElement());
+            PuzzleElement puzzleElement =
+                    baseBoard.getPuzzleElement(elementView.getPuzzleElement());
             elementView.setPuzzleElement(puzzleElement);
             elementView.setShowCasePicker(true);
             elementView.setCaseRulePickable(caseBoard.isPickable(puzzleElement, null));
@@ -181,15 +190,26 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
         return elementViews;
     }
 
+    /**
+     * Gets the ElementController associated with this board view.
+     *
+     * @return the ElementController
+     */
     public ElementController getElementController() {
         return elementController;
     }
+
 
     @Override
     public void draw(Graphics2D graphics2D) {
         drawBoard(graphics2D);
     }
 
+    /**
+     * Draws the board and its elements.
+     *
+     * @param graphics2D the Graphics2D context used for drawing
+     */
     public void drawBoard(Graphics2D graphics2D) {
         for (ElementView element : elementViews) {
             element.draw(graphics2D);
@@ -206,5 +226,10 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
         repaint();
     }
 
+    /**
+     * Gets the selection popup menu for this board view.
+     *
+     * @return the DataSelectionView associated with this view
+     */
     public abstract DataSelectionView getSelectionPopupMenu();
 }

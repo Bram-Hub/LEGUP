@@ -2,11 +2,10 @@ package edu.rpi.legup.puzzle.sudoku;
 
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import java.awt.*;
 
 public class SudokuImporter extends PuzzleImporter {
     public SudokuImporter(Sudoku sudoku) {
@@ -26,7 +25,7 @@ public class SudokuImporter extends PuzzleImporter {
     /**
      * Creates an empty board for building
      *
-     * @param rows    the number of rows on the board
+     * @param rows the number of rows on the board
      * @param columns the number of columns on the board
      * @throws RuntimeException if board can not be created
      */
@@ -61,11 +60,13 @@ public class SudokuImporter extends PuzzleImporter {
     public void initializeBoard(Node node) throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("board")) {
-                throw new InvalidFileFormatException("Sudoku Importer: cannot find board puzzleElement");
+                throw new InvalidFileFormatException(
+                        "Sudoku Importer: cannot find board puzzleElement");
             }
             Element boardElement = (Element) node;
             if (boardElement.getElementsByTagName("cells").getLength() == 0) {
-                throw new InvalidFileFormatException("Sudoku Importer: no puzzleElement found for board");
+                throw new InvalidFileFormatException(
+                        "Sudoku Importer: no puzzleElement found for board");
             }
             Element dataElement = (Element) boardElement.getElementsByTagName("cells").item(0);
             NodeList elementDataList = dataElement.getElementsByTagName("cell");
@@ -77,16 +78,19 @@ public class SudokuImporter extends PuzzleImporter {
                 size = Integer.valueOf(boardElement.getAttribute("size"));
                 minorSize = (int) Math.sqrt(size);
                 if (minorSize * minorSize != size) {
-                    throw new InvalidFileFormatException("Sudoku Importer: invalid board dimensions");
+                    throw new InvalidFileFormatException(
+                            "Sudoku Importer: invalid board dimensions");
                 }
                 sudokuBoard = new SudokuBoard(size);
-            }
-            else {
+            } else {
                 throw new InvalidFileFormatException("Sudoku Importer: invalid board dimensions");
             }
 
             for (int i = 0; i < elementDataList.getLength(); i++) {
-                SudokuCell cell = (SudokuCell) puzzle.getFactory().importCell(elementDataList.item(i), sudokuBoard);
+                SudokuCell cell =
+                        (SudokuCell)
+                                puzzle.getFactory()
+                                        .importCell(elementDataList.item(i), sudokuBoard);
                 Point loc = cell.getLocation();
                 if (cell.getData() != 0) {
                     cell.setModifiable(false);
@@ -106,20 +110,11 @@ public class SudokuImporter extends PuzzleImporter {
                     }
                 }
             }
-//
-//            for(int y = 0; y < size; y++)
-//            {
-//                for(int x = 0; x < size; x++)
-//                {
-//                    SudokuCell cell = sudokuBoard.getCell(x, y);
-//                    System.err.println("(" + x + ", " + y + ") - " + cell.getGroupIndex());
-//                }
-//            }
 
             puzzle.setCurrentBoard(sudokuBoard);
-        }
-        catch (NumberFormatException e) {
-            throw new InvalidFileFormatException("Sudoku Importer: unknown value where integer expected");
+        } catch (NumberFormatException e) {
+            throw new InvalidFileFormatException(
+                    "Sudoku Importer: unknown value where integer expected");
         }
     }
 

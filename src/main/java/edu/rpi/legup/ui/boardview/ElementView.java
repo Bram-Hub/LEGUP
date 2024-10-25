@@ -1,15 +1,18 @@
 package edu.rpi.legup.ui.boardview;
 
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import javax.swing.*;
 
+/**
+ * ElementView represents a visual representation of a PuzzleElement.
+ * It handles drawing, selection, hover states, and interaction with the PuzzleElement.
+ */
 public abstract class ElementView implements Shape {
     protected int index;
     protected Point location;
@@ -47,8 +50,10 @@ public abstract class ElementView implements Shape {
      * @return true if the point is within the ElementView, false otherwise
      */
     public boolean isWithinBounds(Point point) {
-        return point.x >= location.x && point.x <= location.x + size.width &&
-                point.y >= location.y && point.y <= location.y + size.height;
+        return point.x >= location.x
+                && point.x <= location.x + size.width
+                && point.y >= location.y
+                && point.y <= location.y + size.height;
     }
 
     /**
@@ -72,9 +77,16 @@ public abstract class ElementView implements Shape {
         }
     }
 
+    /**
+     * Draws the basic element representation (e.g., border, text) on the provided Graphics2D context.
+     *
+     * @param graphics2D the Graphics2D context to use for drawing
+     */
     public void drawElement(Graphics2D graphics2D) {
         graphics2D.setStroke(new BasicStroke(1));
-        graphics2D.draw(new Rectangle2D.Double(location.x + 0.5f, location.y + 0.5f, size.width - 2, size.height - 2));
+        graphics2D.draw(
+                new Rectangle2D.Double(
+                        location.x + 0.5f, location.y + 0.5f, size.width - 2, size.height - 2));
 
         graphics2D.setColor(Color.BLACK);
         FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
@@ -84,29 +96,60 @@ public abstract class ElementView implements Shape {
         graphics2D.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
     }
 
-    public void drawGiven(Graphics2D graphics2D) {
+    /**
+     * Draws additional elements for given PuzzleElements (default implementation does nothing).
+     * Overriden in some puzzle element views.
+     *
+     * @param graphics2D the Graphics2D context to use for drawing
+     */
+    public void drawGiven(Graphics2D graphics2D) {}
 
-    }
-
+    /**
+     * Draws a hover effect on the ElementView.
+     *
+     * @param graphics2D the Graphics2D context to use for drawing
+     */
     public void drawHover(Graphics2D graphics2D) {
         graphics2D.setColor(hoverColor);
         graphics2D.setStroke(new BasicStroke(2));
-        graphics2D.draw(new Rectangle2D.Double(location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
+        graphics2D.draw(
+                new Rectangle2D.Double(
+                        location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
     }
 
+    /**
+     * Draws a modified effect on the ElementView.
+     *
+     * @param graphics2D the Graphics2D context to use for drawing
+     */
     public void drawModified(Graphics2D graphics2D) {
         graphics2D.setColor(puzzleElement.isValid() ? modifiedColor : invalidColor);
         graphics2D.setStroke(new BasicStroke(2));
-        graphics2D.draw(new Rectangle2D.Double(location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
+        graphics2D.draw(
+                new Rectangle2D.Double(
+                        location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
     }
 
+    /**
+     * Draws a case rule picker on the ElementView.
+     *
+     * @param graphics2D the Graphics2D context to use for drawing
+     */
     public void drawCase(Graphics2D graphics2D) {
         graphics2D.setColor(caseColor);
-        graphics2D.fill(new Rectangle2D.Double(location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
+        graphics2D.fill(
+                new Rectangle2D.Double(
+                        location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
     }
 
+    /**
+     * Creates an image representation of the ElementView.
+     *
+     * @return a BufferedImage of the ElementView
+     */
     public BufferedImage getImage() {
-        BufferedImage image = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image =
+                new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics2D = image.createGraphics();
         drawElement(graphics2D);
         graphics2D.dispose();
@@ -185,18 +228,27 @@ public abstract class ElementView implements Shape {
         this.puzzleElement = data;
     }
 
+    /**
+     * Checks if the case picker should be shown for this ElementView
+     *
+     * @return true if the case picker should be shown, false otherwise
+     */
     public boolean isShowCasePicker() {
         return showCasePicker;
     }
 
+    /**
+     * Sets whether the case picker should be shown for this ElementView
+     *
+     * @param showCasePicker true if the case picker should be shown, false otherwise
+     */
     public void setShowCasePicker(boolean showCasePicker) {
         this.showCasePicker = showCasePicker;
     }
 
     /**
-     * Gets the isCaseRulePickable field to determine if this ElementView
-     * should be highlighted in some way to indicate if it can be chosen by
-     * the CaseRule
+     * Gets the isCaseRulePickable field to determine if this ElementView should be highlighted in
+     * some way to indicate if it can be chosen by the CaseRule
      *
      * @return true if the ElementView can be chosen for the CaseRule, false otherwise
      */
@@ -205,11 +257,11 @@ public abstract class ElementView implements Shape {
     }
 
     /**
-     * Sets the isCaseRulePickable field to determine if this ElementView
-     * should be highlighted in some way to indicate if it can be chosen by
-     * the CaseRule
+     * Sets the isCaseRulePickable field to determine if this ElementView should be highlighted in
+     * some way to indicate if it can be chosen by the CaseRule
      *
-     * @param isCaseRulePickable true if the ElementView can be chosen for the CaseRule, false otherwise
+     * @param isCaseRulePickable true if the ElementView can be chosen for the CaseRule, false
+     *     otherwise
      */
     public void setCaseRulePickable(boolean isCaseRulePickable) {
         this.isCaseRulePickable = isCaseRulePickable;
@@ -274,54 +326,134 @@ public abstract class ElementView implements Shape {
         return item;
     }
 
+    /**
+     * Determines if the specified point (x, y) is within the bounds of this ElementView
+     *
+     * @param x the x-coordinate of the point to check
+     * @param y the y-coordinate of the point to check
+     * @return {@code true} if the point is within the bounds of this ElementView; {@code false} otherwise
+     */
     @Override
     public boolean contains(double x, double y) {
-        return x >= location.x && x <= location.x + size.width &&
-                y >= location.y && y <= location.y + size.height;
+        return x >= location.x
+                && x <= location.x + size.width
+                && y >= location.y
+                && y <= location.y + size.height;
     }
 
+    /**
+     * Determines if the specified Point2D object is within the bounds of this ElementView
+     *
+     * @param point the Point2D object representing the point to check
+     * @return {@code true} if the point is within the bounds of this ElementView; {@code false} otherwise
+     */
     @Override
     public boolean contains(Point2D point) {
         return contains(point.getX(), point.getY());
     }
 
+    /**
+     * Determines if the specified rectangle defined by (x, y, width, height) intersects with the bounds of this ElementView.
+     *
+     * @param x The x-coordinate of the rectangle to check
+     * @param y The y-coordinate of the rectangle to check
+     * @param width The width of the rectangle to check
+     * @param height The height of the rectangle to check
+     * @return {@code true} if the rectangle intersects with the bounds of this ElementView; {@code false} otherwise
+     */
     @Override
     public boolean intersects(double x, double y, double width, double height) {
-        return (x + width >= location.x && x <= location.x + size.width) ||
-                (y + height >= location.y && y <= location.y + size.height);
+        return (x + width >= location.x && x <= location.x + size.width)
+                || (y + height >= location.y && y <= location.y + size.height);
     }
 
+    /**
+     * Determines if the specified Rectangle2D object intersects with the bounds of this ElementView.
+     *
+     * @param rectangle2D the Rectangle2D object representing the rectangle to check
+     * @return {@code true} if the rectangle intersects with the bounds of this ElementView; {@code false} otherwise
+     */
     @Override
     public boolean intersects(Rectangle2D rectangle2D) {
-        return intersects(rectangle2D.getX(), rectangle2D.getY(), rectangle2D.getWidth(), rectangle2D.getHeight());
+        return intersects(
+                rectangle2D.getX(),
+                rectangle2D.getY(),
+                rectangle2D.getWidth(),
+                rectangle2D.getHeight());
     }
 
+    /**
+     * Determines if the specified rectangle defined by (x, y, width, height) is entirely contained within the bounds of this ElementView
+     *
+     * @param x the x-coordinate of the rectangle to check
+     * @param y the y-coordinate of the rectangle to check
+     * @param width the width of the rectangle to check
+     * @param height the height of the rectangle to check
+     * @return {@code true} if the rectangle is entirely contained within the bounds of this ElementView; {@code false} otherwise
+     */
     @Override
     public boolean contains(double x, double y, double width, double height) {
-        return (x + width >= location.x && x <= location.x + size.width) &&
-                (y + height >= location.y && y <= location.y + size.height);
+        return (x + width >= location.x && x <= location.x + size.width)
+                && (y + height >= location.y && y <= location.y + size.height);
     }
 
+    /**
+     * Determines if the specified Rectangle2D object is entirely contained within the bounds of this ElementView.
+     *
+     * @param rectangle2D the Rectangle2D object representing the rectangle to check
+     * @return {@code true} if the rectangle is entirely contained within the bounds of this ElementView; {@code false} otherwise
+     */
     @Override
     public boolean contains(Rectangle2D rectangle2D) {
-        return contains(rectangle2D.getX(), rectangle2D.getY(), rectangle2D.getWidth(), rectangle2D.getHeight());
+        return contains(
+                rectangle2D.getX(),
+                rectangle2D.getY(),
+                rectangle2D.getWidth(),
+                rectangle2D.getHeight());
     }
 
+
+    /**
+     * Returns an iterator over the path geometry of this ElementView. The iterator provides access to the path's
+     * segments and their coordinates, which can be used for rendering or hit testing.
+     *
+     * @param at the AffineTransform to apply to the path geometry
+     * @return a PathIterator that iterates over the path geometry of this ElementView
+     */
     @Override
     public PathIterator getPathIterator(AffineTransform at) {
         return new Rectangle(location.x, location.y, size.width, size.height).getPathIterator(at);
     }
 
+    /**
+     * Returns an iterator over the path geometry of this ElementView with the specified flatness. The iterator provides
+     * access to the path's segments and their coordinates, which can be used for rendering or hit testing.
+     *
+     * @param at the AffineTransform to apply to the path geometry
+     * @param flatness the maximum distance that the line segments can deviate from the true path
+     * @return a PathIterator that iterates over the path geometry of this ElementView
+     */
     @Override
     public PathIterator getPathIterator(AffineTransform at, double flatness) {
-        return new Rectangle(location.x, location.y, size.width, size.height).getPathIterator(at, flatness);
+        return new Rectangle(location.x, location.y, size.width, size.height)
+                .getPathIterator(at, flatness);
     }
 
+    /**
+     * Returns the bounding rectangle of this ElementView
+     *
+     * @return a Rectangle representing the bounding box of this ElementView
+     */
     @Override
     public Rectangle getBounds() {
         return new Rectangle(location.x, location.y, size.width, size.height);
     }
 
+    /**
+     * Returns the bounding rectangle of this ElementView as a Rectangle2D
+     *
+     * @return a Rectangle2D representing the bounding box of this ElementView
+     */
     @Override
     public Rectangle2D getBounds2D() {
         return new Rectangle(location.x, location.y, size.width, size.height);

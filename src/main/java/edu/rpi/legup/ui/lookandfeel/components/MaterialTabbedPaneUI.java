@@ -1,14 +1,13 @@
 package edu.rpi.legup.ui.lookandfeel.components;
 
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialDrawingUtils;
-
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
-import java.awt.Graphics;
-import java.awt.Rectangle;
 
 public class MaterialTabbedPaneUI extends BasicTabbedPaneUI {
 
@@ -38,25 +37,60 @@ public class MaterialTabbedPaneUI extends BasicTabbedPaneUI {
     }
 
     @Override
-    protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
+    protected void paintTabBackground(
+            Graphics g,
+            int tabPlacement,
+            int tabIndex,
+            int x,
+            int y,
+            int w,
+            int h,
+            boolean isSelected) {
         g.setColor(isSelected ? lightHighlight : tabPane.getBackground());
         g.fillRect(x, y, w, h);
     }
 
     @Override
-    protected void paintTabBorder(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
+    protected void paintTabBorder(
+            Graphics g,
+            int tabPlacement,
+            int tabIndex,
+            int x,
+            int y,
+            int w,
+            int h,
+            boolean isSelected) {
         g.setColor(UIManager.getColor("TabbedPane.borderHighlightColor"));
         g.drawRect(x, y, w, h);
     }
 
     @Override
-    protected void paintFocusIndicator(Graphics g, int tabPlacement, Rectangle[] rects, int tabIndex, Rectangle iconRect, Rectangle textRect, boolean isSelected) {
+    protected void paintFocusIndicator(
+            Graphics g,
+            int tabPlacement,
+            Rectangle[] rects,
+            int tabIndex,
+            Rectangle iconRect,
+            Rectangle textRect,
+            boolean isSelected) {
         // do nothing
     }
 
     @Override
-    protected void paintTab(Graphics g, int tabPlacement, Rectangle[] rects, int tabIndex, Rectangle iconRect, Rectangle textRect) {
+    protected void paintTab(
+            Graphics g,
+            int tabPlacement,
+            Rectangle[] rects,
+            int tabIndex,
+            Rectangle iconRect,
+            Rectangle textRect) {
         // for some reason tabs aren't painted properly by paint()
-        super.paintTab(MaterialDrawingUtils.getAliasedGraphics(g), tabPlacement, rects, tabIndex, iconRect, textRect);
+        super.paintTab(
+                MaterialDrawingUtils.getAliasedGraphics(g),
+                tabPlacement,
+                rects,
+                tabIndex,
+                iconRect,
+                textRect);
     }
 }

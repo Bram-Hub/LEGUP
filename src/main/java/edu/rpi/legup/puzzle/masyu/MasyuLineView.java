@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.masyu;
 
 import edu.rpi.legup.ui.boardview.ElementView;
-
 import java.awt.*;
 
 public class MasyuLineView extends ElementView {

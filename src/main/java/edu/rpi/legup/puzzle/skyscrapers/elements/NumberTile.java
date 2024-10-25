@@ -1,9 +1,13 @@
 package edu.rpi.legup.puzzle.skyscrapers.elements;
 
-import edu.rpi.legup.model.elements.NonPlaceableElement;
+import edu.rpi.legup.model.elements.PlaceableElement;
 
-public class NumberTile extends NonPlaceableElement {
+public class NumberTile extends PlaceableElement {
     public NumberTile() {
-        super("SKYS-UNPL-0002", "Number Tile", "A numbered tile", "edu/rpi/legup/images/skyscrapers/tiles/ClueTile.png");
+        super(
+                "SKYS-ELEM-0001",
+                "Number Tile",
+                "A numbered tile",
+                "edu/rpi/legup/images/skyscrapers/tiles/ClueTile.png");
     }
 }

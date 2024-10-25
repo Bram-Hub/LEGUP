@@ -19,9 +19,7 @@ public class LightUp extends Puzzle {
         this.factory = new LightUpCellFactory();
     }
 
-    /**
-     * Initializes the game board. Called by the invoker of the class
-     */
+    /** Initializes the game board. Called by the invoker of the class */
     @Override
     public void initializeView() {
         boardView = new LightUpView((LightUpBoard) currentBoard);
@@ -44,12 +42,12 @@ public class LightUp extends Puzzle {
     /**
      * Determines if the given dimensions are valid for Light Up
      *
-     * @param rows      the number of rows
-     * @param columns   the number of columns
+     * @param rows the number of rows
+     * @param columns the number of columns
      * @return true if the given dimensions are valid for Light Up, false otherwise
      */
     public boolean isValidDimensions(int rows, int columns) {
-        return rows > 0 && columns > 0;
+        return rows >= 0 && columns >= 0;
     }
 
     /**
@@ -71,7 +69,9 @@ public class LightUp extends Puzzle {
         }
         for (PuzzleElement data : lightUpBoard.getPuzzleElements()) {
             LightUpCell cell = (LightUpCell) data;
-            if ((cell.getType() == LightUpCellType.UNKNOWN || cell.getType() == LightUpCellType.EMPTY) && !cell.isLite()) {
+            if ((cell.getType() == LightUpCellType.UNKNOWN
+                            || cell.getType() == LightUpCellType.EMPTY)
+                    && !cell.isLite()) {
                 return false;
             }
         }
@@ -84,7 +84,5 @@ public class LightUp extends Puzzle {
      * @param board the board that has changed
      */
     @Override
-    public void onBoardChange(Board board) {
-
-    }
+    public void onBoardChange(Board board) {}
 }
