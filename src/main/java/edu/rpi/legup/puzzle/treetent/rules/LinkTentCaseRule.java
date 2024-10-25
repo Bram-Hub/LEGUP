@@ -60,6 +60,10 @@ public class LinkTentCaseRule extends CaseRule {
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<Board>();
+        if (puzzleElement == null) {
+            return cases;
+        }
+
         TreeTentCell cell = (TreeTentCell) puzzleElement;
         List<TreeTentCell> adj = ((TreeTentBoard) board).getAdjacent(cell, TreeTentType.TREE);
         List<TreeTentLine> lines = ((TreeTentBoard) board).getLines();

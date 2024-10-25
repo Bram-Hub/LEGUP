@@ -31,6 +31,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+/**
+ * {@code GameBoardFacade} is a class designed to manage the game board operations within the
+ * application. It integrates various components such as UI elements, puzzle management, and history
+ * tracking
+ */
 public class GameBoardFacade implements IHistorySubject {
     private static final Logger LOGGER = LogManager.getLogger(GameBoardFacade.class.getName());
 
@@ -72,6 +77,7 @@ public class GameBoardFacade implements IHistorySubject {
         return instance;
     }
 
+    /** Initializes the UI components */
     public void initializeUI() {
         EventQueue.invokeLater(
                 () -> {
@@ -83,18 +89,25 @@ public class GameBoardFacade implements IHistorySubject {
                 });
     }
 
+    /**
+     * Sets the current puzzle in the game board
+     *
+     * @param puzzle the Puzzle to set
+     */
     public void setPuzzle(Puzzle puzzle) {
         this.puzzle = puzzle;
         this.puzzleSolver.setPuzzleView(puzzle);
         this.history.clear();
     }
 
+    /** Clears the current puzzle */
     public void clearPuzzle() {
         this.puzzle = null;
         this.curFileName = null;
         this.history.clear();
     }
 
+    /** Sets up the configuration by initializing the Config object */
     public static void setupConfig() {
         Config config = null;
         try {
@@ -105,11 +118,21 @@ public class GameBoardFacade implements IHistorySubject {
         GameBoardFacade.getInstance().setConfig(config);
     }
 
+    /**
+     * Sets the current puzzle editor with the given puzzle
+     *
+     * @param puzzle the Puzzle to set in the editor
+     */
     public void setPuzzleEditor(Puzzle puzzle) {
         this.puzzle = puzzle;
         this.puzzleEditor.setPuzzleView(puzzle);
     }
 
+    /**
+     * Sets the configuration object for the GameBoardFacade
+     *
+     * @param config config the Config object to set
+     */
     public void setConfig(Config config) {
         this.config = config;
     }
@@ -168,53 +191,61 @@ public class GameBoardFacade implements IHistorySubject {
     }
 
     /**
-     * Loads an empty puzzle
+     * Loads an empty puzzle with the specified dimensions
      *
      * @param game name of the puzzle
      * @param rows the number of rows on the board
      * @param columns the number of columns on the board
      */
     public void loadPuzzle(String game, int rows, int columns) throws RuntimeException {
-        String qualifiedClassName = config.getPuzzleClassForName(game);
-        LOGGER.debug("Loading " + qualifiedClassName);
+        if (!game.isEmpty()) {
+            String qualifiedClassName = config.getPuzzleClassForName(game);
+            LOGGER.debug("Loading " + qualifiedClassName);
 
-        try {
-            Class<?> c = Class.forName(qualifiedClassName);
-            Constructor<?> cons = c.getConstructor();
-            Puzzle puzzle = (Puzzle) cons.newInstance();
+            try {
+                Class<?> c = Class.forName(qualifiedClassName);
+                Constructor<?> cons = c.getConstructor();
+                Puzzle puzzle = (Puzzle) cons.newInstance();
 
-            PuzzleImporter importer = puzzle.getImporter();
-            if (importer == null) {
-                LOGGER.error("Puzzle importer is null");
-                throw new RuntimeException("Puzzle importer null");
+                PuzzleImporter importer = puzzle.getImporter();
+                if (importer == null) {
+                    LOGGER.error("Puzzle importer is null");
+                    throw new RuntimeException("Puzzle importer null");
+                }
+
+                // Theoretically, this exception should never be thrown, since LEGUP should not be
+                // allowing the user to give row/column input for a puzzle that doesn't support it
+                if (!importer.acceptsRowsAndColumnsInput()) {
+                    throw new IllegalArgumentException(
+                            puzzle.getName() + " does not accept rows and columns input");
+                }
+
+                setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
+                importer.initializePuzzle(rows, columns);
+
+                puzzle.initializeView();
+                //
+                // puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
+                setPuzzleEditor(puzzle);
+            } catch (IllegalArgumentException exception) {
+                throw new IllegalArgumentException(exception.getMessage());
+            } catch (ClassNotFoundException
+                    | NoSuchMethodException
+                    | InvocationTargetException
+                    | IllegalAccessException
+                    | InstantiationException e) {
+                LOGGER.error(e);
+                throw new RuntimeException("Puzzle creation error");
             }
-
-            // Theoretically, this exception should never be thrown, since LEGUP should not be
-            // allowing the user to give row/column input for a puzzle that doesn't support it
-            if (!importer.acceptsRowsAndColumnsInput()) {
-                throw new IllegalArgumentException(
-                        puzzle.getName() + " does not accept rows and columns input");
-            }
-
-            setWindowTitle(puzzle.getName(), "New " + puzzle.getName() + " Puzzle");
-            importer.initializePuzzle(rows, columns);
-
-            puzzle.initializeView();
-            //
-            // puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
-            setPuzzleEditor(puzzle);
-        } catch (IllegalArgumentException exception) {
-            throw new IllegalArgumentException(exception.getMessage());
-        } catch (ClassNotFoundException
-                | NoSuchMethodException
-                | InvocationTargetException
-                | IllegalAccessException
-                | InstantiationException e) {
-            LOGGER.error(e);
-            throw new RuntimeException("Puzzle creation error");
         }
     }
 
+    /**
+     * Loads an empty puzzle with the specified input
+     *
+     * @param game name of the puzzle
+     * @param statements an array of statements to load the puzzle with
+     */
     public void loadPuzzle(String game, String[] statements) {
         String qualifiedClassName = config.getPuzzleClassForName(game);
         LOGGER.debug("Loading " + qualifiedClassName);
@@ -257,10 +288,11 @@ public class GameBoardFacade implements IHistorySubject {
     }
 
     /**
-     * Loads a puzzle file
+     * Loads a puzzle file from the specified file
      *
      * @param fileName file name of the board file
-     * @throws InvalidFileFormatException if input is invalid
+     * @throws InvalidFileFormatException if the file format is invalid or if the file cannot be
+     *     created
      */
     public void loadPuzzle(String fileName) throws InvalidFileFormatException {
         try {
@@ -273,6 +305,13 @@ public class GameBoardFacade implements IHistorySubject {
         }
     }
 
+    /**
+     * Loads a puzzle into the editor from the specified file name
+     *
+     * @param fileName the name of the file to load
+     * @throws InvalidFileFormatException if the file format is invalid or if the file cannot be
+     *     created
+     */
     public void loadPuzzleEditor(String fileName) throws InvalidFileFormatException {
         try {
             loadPuzzleEditor(new FileInputStream(fileName));
@@ -284,6 +323,13 @@ public class GameBoardFacade implements IHistorySubject {
         }
     }
 
+    /**
+     * Loads a puzzle into the editor from the specified input stream
+     *
+     * @param inputStream the input stream to load the puzzle from
+     * @throws InvalidFileFormatException if the input stream cannot be processed or the file format
+     *     is invalid
+     */
     public void loadPuzzleEditor(InputStream inputStream) throws InvalidFileFormatException {
         Document document;
         try {

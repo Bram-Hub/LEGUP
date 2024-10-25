@@ -10,6 +10,13 @@ public class NurikabeExporter extends PuzzleExporter {
         super(nurikabe);
     }
 
+    /**
+     * Generates an XML element for the nurikabe puzzle board, including its dimensions and the
+     * state of each cell. Nurikabe cells that are not empty are included in the XML.
+     *
+     * @param newDocument The XML document to which the board element belongs.
+     * @return The XML element representing the board.
+     */
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
         NurikabeBoard board;
