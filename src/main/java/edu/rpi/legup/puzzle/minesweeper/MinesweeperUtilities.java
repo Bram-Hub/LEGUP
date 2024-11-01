@@ -163,11 +163,32 @@ public final class MinesweeperUtilities {
         emptyCell.setCellType(MinesweeperTileData.bomb());
         ArrayList<MinesweeperCell> adjCells = getAdjacentCells(emptyCaseBoard, emptyCell);
         for (MinesweeperCell adjCell : adjCells) {
-            if(adjCell.getTileNumber() <= 0 || adjCell.getTileNumber() >= 9) {
+            if(adjCell.getTileNumber() <= 0) {
                 continue;
             }
-            if (tooManyBombs.checkContradictionAt(emptyCaseBoard, adjCell) != null && tooFewBombs.checkContradictionAt(emptyCaseBoard, adjCell) != null) {
-                System.out.println("this one" + adjCell.getLocation().x + " " + adjCell.getLocation().y);
+            int cellNum = adjCell.getTileNumber();
+            if (cellNum <= 0 || cellNum >= 9) {
+                continue;
+            }
+            int numEmpty = 0;
+            int numAdj = 0;
+            int numBombs = 0;
+            int numUnset = 0;
+            ArrayList<MinesweeperCell> curAdjCells =
+                    MinesweeperUtilities.getAdjacentCells(emptyCaseBoard, adjCell);
+            for (MinesweeperCell curAdjCell : curAdjCells) {
+                numAdj++;
+                if (curAdjCell.getTileType() == MinesweeperTileType.EMPTY) {
+                    numEmpty++;
+                }
+                if(curAdjCell.getTileType() == MinesweeperTileType.BOMB) {
+                    numBombs++;
+                }
+                if(curAdjCell.getTileType() == MinesweeperTileType.UNSET) {
+                    numUnset++;
+                }
+            }
+            if(cellNum == numUnset + numBombs) {
                 return true;
             }
         }
@@ -180,21 +201,26 @@ public final class MinesweeperUtilities {
         emptyCell.setCellType(MinesweeperTileData.empty());
         ArrayList<MinesweeperCell> adjCells = getAdjacentCells(emptyCaseBoard, emptyCell);
         int bombCount;
+        int adjCellNum;
+        int emptyCells = 0;
         for (MinesweeperCell adjCell : adjCells) {
             bombCount = 0;
-            if(adjCell.getTileNumber() >= 1 || adjCell.getTileNumber() <= 8) {
-                ArrayList<MinesweeperCell> adjCells2 = getAdjacentCells(emptyCaseBoard, adjCell);
-                for(MinesweeperCell adjCell2 : adjCells2) {
-                    if(adjCell2.getTileType() == MinesweeperTileType.BOMB) {
+            adjCellNum = adjCell.getTileNumber();
+            if(adjCellNum >= 1) {
+                ArrayList<MinesweeperCell> adjAdjCells = getAdjacentCells(emptyCaseBoard, adjCell);
+                for(MinesweeperCell adjAdjCell : adjAdjCells) {
+                    if(adjAdjCell.getTileType() == MinesweeperTileType.BOMB) {
                         bombCount++;
                     }
                 }
-                if(bombCount == adjCell.getTileNumber()) {
+                if(bombCount == adjCellNum) {
                     return true;
                 }
+            } else {
+                emptyCells++;
             }
         }
-        return false;
+        return emptyCells == adjCells.size();
     }
     /*
     public static boolean surroundingMustBeBombs(MinesweeperBoard board, MinesweeperCell cell) {

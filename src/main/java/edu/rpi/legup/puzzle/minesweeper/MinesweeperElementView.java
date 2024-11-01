@@ -36,7 +36,7 @@ public class MinesweeperElementView extends GridElementView {
             boolean newClick = false;
             if(intValue > 10) {
                 intValue -= 10;
-                //newClick = true; // uncomment this if you want to click on flag tiles
+                //newClick = true; // uncomment this if you want to click on flag tiles to make them red
             }
             final String value = String.valueOf(intValue);
             if(newClick) {
@@ -68,7 +68,6 @@ public class MinesweeperElementView extends GridElementView {
                 Color MSLIGHTGRAY = new Color(135,131,131);
                 graphics2D.setColor(MSLIGHTGRAY);
             }
-
 
             graphics2D.setFont(FONT);
             final FontMetrics metrics = graphics2D.getFontMetrics(FONT);
