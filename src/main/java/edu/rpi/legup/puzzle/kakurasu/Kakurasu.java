@@ -10,6 +10,8 @@ public class Kakurasu extends Puzzle {
 
     @Override
     public void initializeView() {
+        boardView = new KakurasuView((KakurasuBoard) currentBoard);
+        addBoardListener(boardView);
     }
 
     @Override
