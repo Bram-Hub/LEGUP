@@ -3,9 +3,7 @@ package edu.rpi.legup.ui;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.controller.CursorController;
-import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
-import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,7 +31,7 @@ import org.w3c.dom.NodeList;
  */
 public class HomePanel extends LegupPanel {
     private static final Logger LOGGER = LogManager.getLogger(HomePanel.class.getName());
-    private static final ArrayList<String> puzzleIDs = new ArrayList<>();
+    private static final ArrayList<String> _tagsToGrade = new ArrayList<>();
     private LegupUI legupUI;
     private JFrame frame;
     private JButton[] buttons;
@@ -172,6 +170,7 @@ public class HomePanel extends LegupPanel {
                 e -> openBatchGraderMenu());
     }
 
+    /** Initializes screen for autograder options */
     public void openBatchGraderMenu() {
         JDialog batchGraderOptions = new JDialog(frame, "Batch Grader Options", true);
         batchGraderOptions.setSize(450, 150);
@@ -228,16 +227,14 @@ public class HomePanel extends LegupPanel {
             String directoryPath = directoryField.getText();
             String puzzles = puzzleIdField.getText();
 
-            ArrayList<String> result = new ArrayList<>();
+            _tagsToGrade.clear();
             if (!puzzles.isEmpty()) {
                 Pattern pattern = Pattern.compile("\"(.*?)\"");
                 Matcher matcher = pattern.matcher(puzzles);
 
                 while (matcher.find()) {
-                    result.add(matcher.group(1));
+                    _tagsToGrade.add(matcher.group(1));
                 }
-                puzzleIDs.clear();
-                puzzleIDs.addAll(result);
             }
 
             try {
@@ -246,7 +243,7 @@ public class HomePanel extends LegupPanel {
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
-            System.out.println("finished checking the folder");
+            LOGGER.debug("Finished autograding");
 
             batchGraderOptions.dispose(); // Close the options panel
         });
@@ -255,94 +252,6 @@ public class HomePanel extends LegupPanel {
         batchGraderOptions.setLocationRelativeTo(null);
         batchGraderOptions.setVisible(true);
     }
-
-    /**
-     * Opens a folder chooser dialog and grades puzzles in the selected folder. The results are
-     * written to a CSV file.
-     */
-//    public void checkFolder() {
-//        GameBoardFacade facade = GameBoardFacade.getInstance();
-//        /*
-//         * Select dir to grade; recursively grade sub-dirs using traverseDir()
-//         * Selected dir must have sub-dirs for each student:
-//         * GradeThis
-//         *    |
-//         *    | -> Student 1
-//         *    |       |
-//         *    |       | -> Proofs
-//         */
-//
-//        JFileChooser folderBrowser = new JFileChooser();
-//
-//        folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
-//        folderBrowser.setDialogTitle("Select Directory");
-//        folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-//        folderBrowser.setAcceptAllFileFilterUsed(false);
-//        folderBrowser.showOpenDialog(this);
-//        folderBrowser.setVisible(true);
-//        File folder = folderBrowser.getSelectedFile();
-//
-//        File resultFile = new File(folder.getAbsolutePath() + File.separator + "result.csv");
-//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
-//            writer.append("Name");
-//            writer.append(",");
-//            writer.append("File Name");
-//            writer.append(",");
-//            writer.append("Solved?");
-//            writer.append("\n");
-//
-//            for (final File folderEntry : folder.listFiles(File::isDirectory)) {
-//                writer.append(folderEntry.getName());
-//                writer.append(",");
-//                int count1 = 0;
-//                for (final File fileEntry : folderEntry.listFiles()) {
-//                    if (fileEntry.getName().charAt(0) == '.') {
-//                        continue;
-//                    }
-//                    count1++;
-//                    if (count1 > 1) {
-//                        writer.append(folderEntry.getName());
-//                        writer.append(",");
-//                    }
-//                    writer.append(fileEntry.getName());
-//                    writer.append(",");
-//                    String fileName =
-//                            folderEntry.getAbsolutePath() + File.separator + fileEntry.getName();
-//                    System.out.println("This is path " + fileName);
-//                    File puzzleFile = new File(fileName);
-//                    if (puzzleFile != null && puzzleFile.exists()) {
-//                        try {
-//                            legupUI.displayPanel(1);
-//                            legupUI.getProofEditor();
-//                            GameBoardFacade.getInstance().loadPuzzle(fileName);
-//                            String puzzleName =
-//                                    GameBoardFacade.getInstance().getPuzzleModule().getName();
-//                            legupUI.setTitle(puzzleName + " - " + puzzleFile.getName());
-//                            facade = GameBoardFacade.getInstance();
-//                            Puzzle puzzle = facade.getPuzzleModule();
-//                            if (puzzle.isPuzzleComplete()) {
-//                                writer.append("Solved");
-//                                System.out.println(fileEntry.getName() + "  solved");
-//                            } else {
-//                                writer.append("Not Solved");
-//                                System.out.println(fileEntry.getName() + "  not solved");
-//                            }
-//                            writer.append("\n");
-//                        } catch (InvalidFileFormatException e) {
-//                            LOGGER.error(e.getMessage());
-//                        }
-//                    }
-//                }
-//                if (count1 == 0) {
-//                    writer.append("No file");
-//                    writer.append("\n");
-//                }
-//            }
-//        } catch (IOException ex) {
-//            LOGGER.error(ex.getMessage());
-//            this.buttons[2].addActionListener((ActionEvent e) -> use_xml_to_check());
-//        }
-//    }
 
     /**
      * Processes XML files within a selected directory and generates a CSV report on their "solved?"
@@ -356,13 +265,13 @@ public class HomePanel extends LegupPanel {
         /* Select a folder, go through each .xml file in the subfolders, look for "isSolved" flag */
         File resultFile = new File(folder.getAbsolutePath() + File.separator + "result.csv");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
-            writer.append("Name,File Name,Puzzle Type,Solved?,Last Saved\n");
+            writer.append("Name,File Name,Puzzle Type,Puzzle Tag,Solved?,Last Saved\n");
             // Go through student folders, recurse for inner folders
             for (final File folderEntry :
                     Objects.requireNonNull(folder.listFiles(File::isDirectory))) {
                 String path = folderEntry.getName();
                 // use this helper function to write to the .csv file
-                recursive_parser(folderEntry, writer, path, path);
+                recursive_parser(folderEntry, writer, path);
             }
         } catch (IOException ex) {
             LOGGER.error(ex.getMessage());
@@ -376,6 +285,7 @@ public class HomePanel extends LegupPanel {
             }
         }
         JOptionPane.showMessageDialog(null, "Batch grading complete.");
+        _tagsToGrade.clear();
     }
 
     /**
@@ -411,6 +321,10 @@ public class HomePanel extends LegupPanel {
         Element puzzleElement = (Element) puzzleNodes.item(0);
         String puzzleType = puzzleElement.getAttribute("name");
         writer.write(puzzleType.isEmpty() ? "not a LEGUP puzzle!" : puzzleType);
+        writer.write(",");
+
+        String puzzleTag = puzzleElement.getAttribute("tag");
+        writer.write(puzzleTag.isEmpty() ? "No tag given" : puzzleTag);
     }
 
     /**
@@ -458,10 +372,9 @@ public class HomePanel extends LegupPanel {
      * @param folder - the input folder
      * @param writer - write to .csv
      * @param path - the current path
-     * @param name - student's name (the first subfolders of the main folder)
      * @throws IOException
      */
-    private void recursive_parser(File folder, BufferedWriter writer, String path, String name)
+    private void recursive_parser(File folder, BufferedWriter writer, String path)
             throws IOException {
         // Empty folder
         if (Objects.requireNonNull(folder.listFiles()).length == 0) {
@@ -476,7 +389,7 @@ public class HomePanel extends LegupPanel {
                 }
                 // Recurse if it is a subfolder
                 if (fileEntry.isDirectory()) {
-                    recursive_parser(fileEntry, writer, path + "/" + fileEntry.getName(), name);
+                    recursive_parser(fileEntry, writer, path + "/" + fileEntry.getName());
                     continue;
                 }
                 // Set path name
@@ -484,25 +397,28 @@ public class HomePanel extends LegupPanel {
                 if (fileEntry.getName().charAt(0) == '.') {
                     continue;
                 }
+
+                Document doc;
+                if ( (doc = isxmlfile(fileEntry)) == null) {
+                    LOGGER.debug("{} is not a '.xml' file", fName);
+                    continue;
+                }
+
+                NodeList puzzleNodes = doc.getElementsByTagName("puzzle");
+                Element puzzleElement = (Element) puzzleNodes.item(0);
+                String puzzleTag = puzzleElement.getAttribute("tag");
+                if (!_tagsToGrade.isEmpty() && !_tagsToGrade.contains(puzzleTag)) {
+                    LOGGER.debug("'{}' is not graded with tag '{}'", puzzleElement.getAttribute("name"), puzzleTag);
+                    continue;
+                }
+
                 // write data
-                writer.write(name);
+                //C:\Users\pukan\OneDrive\Desktop\Code\Java\LEGUP-RCOS-FORK\puzzles files\__testGrade
+                path = folder.getAbsolutePath();
+                writer.write(path.substring(path.lastIndexOf(File.separator) + 1));
                 writer.write(",");
                 writer.write(fName);
                 writer.write(",");
-                path = folder.getAbsolutePath() + File.separator + fileEntry.getName();
-
-                Document doc;
-                // if file path can be parsed in xml format
-                if ( (doc = isxmlfile(fileEntry)) == null) {
-                    writer.write("not a \".xml\" file!");
-                    writer.write("\n");
-                    continue;
-                }
-                String tag = doc.getElementsByTagName("puzzle").item(1).getTextContent();
-                if (!puzzleIDs.isEmpty() && !puzzleIDs.contains(tag)) {
-                    LOGGER.debug("{} is not graded with tag '{}'", name, tag);
-                    continue;
-                }
 
                 doc.getDocumentElement().normalize();
 
@@ -583,113 +499,6 @@ public class HomePanel extends LegupPanel {
         } catch (IllegalArgumentException e) {
             System.out.println("Failed to open editor with new puzzle");
             e.printStackTrace(System.out);
-        }
-    }
-
-    /**
-     * Opens a dialog to select a directory, recursively processes the directory to grade puzzles,
-     * and generates a CSV report of the grading results.
-     */
-    private void checkProofAll() {
-        /*
-         * Select dir to grade; recursively grade sub-dirs using traverseDir()
-         * Selected dir must have sub-dirs for each student:
-         * GradeThis
-         *    |
-         *    | -> Student 1
-         *    |       |
-         *    |       | -> Proofs
-         */
-
-        LegupPreferences preferences = LegupPreferences.getInstance();
-        File preferredDirectory =
-                new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
-        folderBrowser = new JFileChooser(preferredDirectory);
-
-        folderBrowser.showOpenDialog(this);
-        folderBrowser.setVisible(true);
-        folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
-        folderBrowser.setDialogTitle("Select Directory");
-        folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        folderBrowser.setAcceptAllFileFilterUsed(false);
-
-        File folder = folderBrowser.getSelectedFile();
-
-        // Write csv file (Path,File-Name,Puzzle-Type,Score,Solved?)
-        File resultFile = new File(folder.getAbsolutePath() + File.separator + "result.csv");
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
-            writer.append("Name,File Name,Puzzle Type,Score,Solved?\n");
-
-            // Go through student folders
-            for (final File folderEntry :
-                    Objects.requireNonNull(folder.listFiles(File::isDirectory))) {
-                // Write path
-                String path = folderEntry.getName();
-                traverseDir(folderEntry, writer, path);
-            }
-        } catch (IOException ex) {
-            LOGGER.error(ex.getMessage());
-        }
-        JOptionPane.showMessageDialog(null, "Batch grading complete.");
-    }
-
-    /**
-     * Recursively traverses directories to grade puzzles and writes results to a CSV file
-     *
-     * @param folder the folder to traverse
-     * @param writer the BufferedWriter to write results to the CSV file
-     * @param path the current path within the directory structure
-     * @throws IOException if an I/O error occurs while writing to the CSV file
-     */
-    private void traverseDir(File folder, BufferedWriter writer, String path) throws IOException {
-        // Recursively traverse directory
-        GameBoardFacade facade = GameBoardFacade.getInstance();
-        // Folder is empty
-        if (Objects.requireNonNull(folder.listFiles()).length == 0) {
-            writer.append(path).append(",Empty folder,Ungradeable\n");
-            return;
-        }
-        // Travese directory, recurse if sub-directory found
-        // If ungradeable, do not leave a score (0, 1)
-        for (final File f : Objects.requireNonNull(folder.listFiles())) {
-            // Recurse
-            if (f.isDirectory()) {
-                traverseDir(f, writer, path + "/" + f.getName());
-                continue;
-            }
-
-            // Set path name
-            writer.append(path).append(",");
-
-            // Load puzzle, run checker
-            // If wrong file type, ungradeable
-            String fName = f.getName();
-            String fPath = f.getAbsolutePath();
-            File puzzleFile = new File(fPath);
-            if (puzzleFile.exists()) {
-                // Try to load file. If invalid, note in csv
-                try {
-                    // Load puzzle, run checker
-                    GameBoardFacade.getInstance().loadPuzzle(fPath);
-                    String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
-                    frame.setTitle(puzzleName + " - " + puzzleFile.getName());
-                    facade = GameBoardFacade.getInstance();
-                    Puzzle puzzle = facade.getPuzzleModule();
-
-                    // Write data
-                    writer.append(fName).append(",");
-                    writer.append(puzzle.getName()).append(",");
-                    if (puzzle.isPuzzleComplete()) {
-                        writer.append("Solved\n");
-                    } else {
-                        writer.append("Unsolved\n");
-                    }
-                } catch (InvalidFileFormatException e) {
-                    writer.append(fName).append("InvalidFile,Ungradeable\n");
-                }
-            } else {
-                LOGGER.debug("Failed to run sim");
-            }
         }
     }
 
