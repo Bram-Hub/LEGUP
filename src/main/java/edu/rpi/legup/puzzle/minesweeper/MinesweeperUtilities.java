@@ -219,6 +219,7 @@ public final class MinesweeperUtilities {
         int y = emptyCell.getLocation().y;
         int numSmall;
         int numBig;
+        System.out.println(emptyCaseBoard.getHeight());
 
         // going 1 - 2 - X
         if(x - 2 >= 0 && y + 1 < emptyCaseBoard.getHeight()) {
@@ -227,7 +228,7 @@ public final class MinesweeperUtilities {
             if(emptyCaseBoard.getCell(x, y+1).getTileNumber() <= -1) {
                 numBig--;
             }
-            if(y + 2 <= emptyCaseBoard.getHeight() &&
+            if(y + 2 < emptyCaseBoard.getHeight() &&
                     emptyCaseBoard.getCell(x, y+2).getTileNumber() <= -1) {
                 numBig--;
             }
@@ -238,7 +239,7 @@ public final class MinesweeperUtilities {
                 if(emptyCaseBoard.getCell(x-3, y+1).getTileNumber() == -1) {
                     numSmall--;
                 }
-                if(y+2 <= emptyCaseBoard.getHeight() &&
+                if(y+2 < emptyCaseBoard.getHeight() &&
                         emptyCaseBoard.getCell(x-3, y+2).getTileNumber() == -1) {
                     numSmall--;
                 }
@@ -247,27 +248,141 @@ public final class MinesweeperUtilities {
                 return true;
             }
         }
-        return false;
-
-        /*if(x + 2 < emptyCaseBoard.getWidth() && y + 1 < emptyCaseBoard.getHeight() &&
-                emptyCaseBoard.getCell(x+1, y).getTileNumber() <= -2 &&
-                emptyCaseBoard.getCell(x+2, y).getTileNumber() <= -2 &&
-                emptyCaseBoard.getCell(x+1, y+1).getTileNumber() ==
-                        emptyCaseBoard.getCell(x+2, y+1).getTileNumber() + 1) {
-            return true;
-        } else if(x - 2 >= 0 && y - 1 <= 0 &&
-                emptyCaseBoard.getCell(x-1, y).getTileNumber() <= -2 &&
-                emptyCaseBoard.getCell(x-2, y).getTileNumber() <= -2 &&
-                emptyCaseBoard.getCell(x-1, y-1).getTileNumber() ==
-                        emptyCaseBoard.getCell(x-2, y-1).getTileNumber() + 1) {
-            return true;
-        } else if(x + 2 < emptyCaseBoard.getWidth() && y - 1 >= 0 &&
-                emptyCaseBoard.getCell(x+1, y).getTileNumber() <= -2 &&
-                emptyCaseBoard.getCell(x+2, y).getTileNumber() <= -2 &&
-                emptyCaseBoard.getCell(x+1, y-1).getTileNumber() ==
-                        emptyCaseBoard.getCell(x+2, y-1).getTileNumber() + 1) {
-            return true;
+        if(x - 2 >= 0) {
+            numBig = emptyCaseBoard.getCell(x-1, y).getTileNumber();
+            numSmall = emptyCaseBoard.getCell(x-2, y).getTileNumber();
+            if(y + 1 < emptyCaseBoard.getHeight() &&
+                    emptyCaseBoard.getCell(x, y+1).getTileNumber() <= -1) {
+                numBig--;
+            }
+            if(y - 1 >= 0 &&
+                    emptyCaseBoard.getCell(x, y-1).getTileNumber() <= -1) {
+                numBig--;
+            }
+            if(x - 3 >= 0) {
+                if(emptyCaseBoard.getCell(x-3, y).getTileNumber() == -1) {
+                    numSmall--;
+                }
+                if(y + 1 < emptyCaseBoard.getHeight() &&
+                        emptyCaseBoard.getCell(x-3, y+1).getTileNumber() == -1) {
+                    numSmall--;
+                }
+                if(y-1 >= 0 &&
+                        emptyCaseBoard.getCell(x-3, y-1).getTileNumber() == -1) {
+                    numSmall--;
+                }
+            }
+            if(numBig >= 1 && numSmall+1 == numBig) {
+                return true;
+            }
         }
-        return false;*/
+        if(x - 2 >= 0 && y - 1 >= 0) {
+            numBig = emptyCaseBoard.getCell(x-1, y-1).getTileNumber();
+            numSmall = emptyCaseBoard.getCell(x-2, y-1).getTileNumber();
+            if(emptyCaseBoard.getCell(x, y-1).getTileNumber() <= -1) {
+                numBig--;
+            }
+            if(y - 2 >= 0 && emptyCaseBoard.getCell(x, y-2).getTileNumber() <= -1) {
+                numBig--;
+            }
+            if(x - 3 >= 0) {
+                if(emptyCaseBoard.getCell(x-3, y).getTileNumber() == -1) {
+                    numSmall--;
+                }
+                if(emptyCaseBoard.getCell(x-3, y-1).getTileNumber() == -1) {
+                    numSmall--;
+                }
+                if(y-2 >= 0 &&
+                        emptyCaseBoard.getCell(x-3, y-2).getTileNumber() == -1) {
+                    numSmall--;
+                }
+            }
+            if(numBig >= 1 && numSmall+1 == numBig) {
+                return true;
+            }
+        }
+
+        //going X - 2 - 1
+        if(x + 2 < emptyCaseBoard.getWidth() && y + 1 < emptyCaseBoard.getHeight()) {
+            numBig = emptyCaseBoard.getCell(x+1, y+1).getTileNumber();
+            numSmall = emptyCaseBoard.getCell(x+2, y+1).getTileNumber();
+            if(emptyCaseBoard.getCell(x, y+1).getTileNumber() <= -1) {
+                numBig--;
+            }
+            if(y + 2 < emptyCaseBoard.getHeight() &&
+                    emptyCaseBoard.getCell(x, y+2).getTileNumber() <= -1) {
+                numBig--;
+            }
+            if(x + 3 < emptyCaseBoard.getWidth()) {
+                if(emptyCaseBoard.getCell(x+3, y).getTileNumber() == -1) {
+                    numSmall--;
+                }
+                if(emptyCaseBoard.getCell(x+3, y+1).getTileNumber() == -1) {
+                    numSmall--;
+                }
+                if(y+2 < emptyCaseBoard.getHeight() &&
+                        emptyCaseBoard.getCell(x+3, y+2).getTileNumber() == -1) {
+                    numSmall--;
+                }
+            }
+            if(numBig >= 1 && numSmall+1 == numBig) {
+                return true;
+            }
+        }
+        if(x + 2 < emptyCaseBoard.getWidth()) {
+            numBig = emptyCaseBoard.getCell(x+1, y).getTileNumber();
+            numSmall = emptyCaseBoard.getCell(x+2, y).getTileNumber();
+            if(y + 1 < emptyCaseBoard.getHeight() &&
+                    emptyCaseBoard.getCell(x, y+1).getTileNumber() <= -1) {
+                numBig--;
+            }
+            if(y - 1 >= 0 &&
+                    emptyCaseBoard.getCell(x, y-1).getTileNumber() <= -1) {
+                numBig--;
+            }
+            if(x + 3 < emptyCaseBoard.getWidth()) {
+                if(emptyCaseBoard.getCell(x+3, y).getTileNumber() == -1) {
+                    numSmall--;
+                }
+                if(y + 1 < emptyCaseBoard.getHeight() &&
+                        emptyCaseBoard.getCell(x+3, y+1).getTileNumber() == -1) {
+                    numSmall--;
+                }
+                if(y-1 >= 0 &&
+                        emptyCaseBoard.getCell(x+3, y-1).getTileNumber() == -1) {
+                    numSmall--;
+                }
+            }
+            if(numBig >= 1 && numSmall+1 == numBig) {
+                return true;
+            }
+        }
+        if(x + 2 < emptyCaseBoard.getWidth() && y - 1 >= 0) {
+            numBig = emptyCaseBoard.getCell(x+1, y-1).getTileNumber();
+            numSmall = emptyCaseBoard.getCell(x+2, y-1).getTileNumber();
+            if(emptyCaseBoard.getCell(x, y-1).getTileNumber() <= -1) {
+                numBig--;
+            }
+            if(y - 2 >= 0 && emptyCaseBoard.getCell(x, y-2).getTileNumber() <= -1) {
+                numBig--;
+            }
+            if(x + 3 < emptyCaseBoard.getWidth()) {
+                if(emptyCaseBoard.getCell(x+3, y).getTileNumber() == -1) {
+                    numSmall--;
+                }
+                if(emptyCaseBoard.getCell(x+3, y-1).getTileNumber() == -1) {
+                    numSmall--;
+                }
+                if(y-2 >= 0 &&
+                        emptyCaseBoard.getCell(x+3, y-2).getTileNumber() == -1) {
+                    numSmall--;
+                }
+            }
+            if(numBig >= 1 && numSmall+1 == numBig) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -33,16 +33,8 @@ public class MinesweeperElementView extends GridElementView {
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
             int intValue = ((MinesweeperCell) puzzleElement).getData().data();
-            boolean newClick = false;
-            if(intValue > 10) {
-                intValue -= 10;
-                //newClick = true; // uncomment this if you want to click on flag tiles to make them red
-            }
+
             final String value = String.valueOf(intValue);
-            if(newClick) {
-                graphics2D.setColor(Color.RED);
-                graphics2D.fillRect(location.x, location.y, size.width, size.height);
-            }
             if(intValue== 1) {
                 Color MSBLUE = new Color(7,3,251);
                 graphics2D.setColor(MSBLUE);

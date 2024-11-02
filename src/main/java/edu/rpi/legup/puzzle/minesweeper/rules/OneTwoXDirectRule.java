@@ -12,7 +12,8 @@ public class OneTwoXDirectRule extends DirectRule {
         super(
                 "MINE-BASC-0003",
                 "OneTwoX",
-                "When cells are lined up 1-2-X, the X is next to a mine",
+                "When clues n and n+k are directly next to each other, there are k bombs " +
+                        "in the part of the vision of n+k that doesn't overlap with the vision of n",
                 "edu/rpi/legup/images/minesweeper/direct/Fill_Bombs.jpg");
     }
 
