@@ -156,8 +156,6 @@ public final class MinesweeperUtilities {
     }
 
     public static boolean isForcedBomb(MinesweeperBoard board, MinesweeperCell cell) {
-        MoreBombsThanFlagContradictionRule tooFewBombs = new MoreBombsThanFlagContradictionRule();
-        LessBombsThanFlagContradictionRule tooManyBombs = new LessBombsThanFlagContradictionRule();
         MinesweeperBoard emptyCaseBoard = board.copy();
         MinesweeperCell emptyCell = (MinesweeperCell) emptyCaseBoard.getPuzzleElement(cell);
         emptyCell.setCellType(MinesweeperTileData.bomb());
@@ -167,20 +165,11 @@ public final class MinesweeperUtilities {
                 continue;
             }
             int cellNum = adjCell.getTileNumber();
-            if (cellNum <= 0 || cellNum >= 9) {
-                continue;
-            }
-            int numEmpty = 0;
-            int numAdj = 0;
             int numBombs = 0;
             int numUnset = 0;
             ArrayList<MinesweeperCell> curAdjCells =
                     MinesweeperUtilities.getAdjacentCells(emptyCaseBoard, adjCell);
             for (MinesweeperCell curAdjCell : curAdjCells) {
-                numAdj++;
-                if (curAdjCell.getTileType() == MinesweeperTileType.EMPTY) {
-                    numEmpty++;
-                }
                 if(curAdjCell.getTileType() == MinesweeperTileType.BOMB) {
                     numBombs++;
                 }
@@ -222,19 +211,63 @@ public final class MinesweeperUtilities {
         }
         return emptyCells == adjCells.size();
     }
-    /*
-    public static boolean surroundingMustBeBombs(MinesweeperBoard board, MinesweeperCell cell) {
-        int unsetCount = 0;
-        int cellNum = cell.getTileNumber() - 10;
+
+    public static boolean oneTwoX(MinesweeperBoard board, MinesweeperCell cell) {
         MinesweeperBoard emptyCaseBoard = board.copy();
         MinesweeperCell emptyCell = (MinesweeperCell) emptyCaseBoard.getPuzzleElement(cell);
-        emptyCell.setCellType(MinesweeperTileData.bomb());
-        ArrayList<MinesweeperCell> adjCells = getAdjacentCells(emptyCaseBoard, emptyCell);
-        for (MinesweeperCell adjCell : adjCells) {
-            if (adjCell.getTileType() == MinesweeperTileType.UNSET) {
-                unsetCount++;
+        int x = emptyCell.getLocation().x;
+        int y = emptyCell.getLocation().y;
+        int numSmall;
+        int numBig;
+
+        // going 1 - 2 - X
+        if(x - 2 >= 0 && y + 1 < emptyCaseBoard.getHeight()) {
+            numBig = emptyCaseBoard.getCell(x-1, y+1).getTileNumber();
+            numSmall = emptyCaseBoard.getCell(x-2, y+1).getTileNumber();
+            if(emptyCaseBoard.getCell(x, y+1).getTileNumber() <= -1) {
+                numBig--;
+            }
+            if(y + 2 <= emptyCaseBoard.getHeight() &&
+                    emptyCaseBoard.getCell(x, y+2).getTileNumber() <= -1) {
+                numBig--;
+            }
+            if(x - 3 >= 0) {
+                if(emptyCaseBoard.getCell(x-3, y).getTileNumber() == -1) {
+                    numSmall--;
+                }
+                if(emptyCaseBoard.getCell(x-3, y+1).getTileNumber() == -1) {
+                    numSmall--;
+                }
+                if(y+2 <= emptyCaseBoard.getHeight() &&
+                        emptyCaseBoard.getCell(x-3, y+2).getTileNumber() == -1) {
+                    numSmall--;
+                }
+            }
+            if(numBig >= 1 && numSmall+1 == numBig) {
+                return true;
             }
         }
-        return unsetCount == cellNum;
-    }*/
+        return false;
+
+        /*if(x + 2 < emptyCaseBoard.getWidth() && y + 1 < emptyCaseBoard.getHeight() &&
+                emptyCaseBoard.getCell(x+1, y).getTileNumber() <= -2 &&
+                emptyCaseBoard.getCell(x+2, y).getTileNumber() <= -2 &&
+                emptyCaseBoard.getCell(x+1, y+1).getTileNumber() ==
+                        emptyCaseBoard.getCell(x+2, y+1).getTileNumber() + 1) {
+            return true;
+        } else if(x - 2 >= 0 && y - 1 <= 0 &&
+                emptyCaseBoard.getCell(x-1, y).getTileNumber() <= -2 &&
+                emptyCaseBoard.getCell(x-2, y).getTileNumber() <= -2 &&
+                emptyCaseBoard.getCell(x-1, y-1).getTileNumber() ==
+                        emptyCaseBoard.getCell(x-2, y-1).getTileNumber() + 1) {
+            return true;
+        } else if(x + 2 < emptyCaseBoard.getWidth() && y - 1 >= 0 &&
+                emptyCaseBoard.getCell(x+1, y).getTileNumber() <= -2 &&
+                emptyCaseBoard.getCell(x+2, y).getTileNumber() <= -2 &&
+                emptyCaseBoard.getCell(x+1, y-1).getTileNumber() ==
+                        emptyCaseBoard.getCell(x+2, y-1).getTileNumber() + 1) {
+            return true;
+        }
+        return false;*/
+    }
 }

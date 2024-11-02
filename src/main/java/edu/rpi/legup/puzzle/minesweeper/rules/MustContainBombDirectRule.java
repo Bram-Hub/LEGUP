@@ -53,6 +53,7 @@ public class MustContainBombDirectRule extends DirectRule {
                     && MinesweeperUtilities.isForcedBomb(
                             (MinesweeperBoard) node.getBoard(), cell)) {
                 cell.setCellType(MinesweeperTileData.bomb());
+                cell.setModifiable(false);
                 minesweeperBoard.addModifiedData(cell);
             }
         }

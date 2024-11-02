@@ -6,13 +6,13 @@ import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.*;
-/*
-public class FinishWithEmptyDirectRule extends DirectRule {
-    public FinishWithEmptyDirectRule() {
+
+public class OneTwoXDirectRule extends DirectRule {
+    public OneTwoXDirectRule() {
         super(
-                "MINE-BASC-0001",
-                "Finish With Empty",
-                "The remaining unknowns around a flag must be empty to satisfy the number",
+                "MINE-BASC-0003",
+                "OneTwoX",
+                "When cells are lined up 1-2-X, the X is next to a mine",
                 "edu/rpi/legup/images/minesweeper/direct/Fill_Bombs.jpg");
     }
 
@@ -24,16 +24,16 @@ public class FinishWithEmptyDirectRule extends DirectRule {
         MinesweeperCell parentCell = (MinesweeperCell) parentBoard.getPuzzleElement(puzzleElement);
 
         if (!(parentCell.getTileType() == MinesweeperTileType.UNSET
-                && cell.getTileType() == MinesweeperTileType.EMPTY)) {
+                && cell.getTileType() == MinesweeperTileType.BOMB)) {
 
             return super.getInvalidUseOfRuleMessage()
-                    + ": This cell must be empty to be applicable with this rule.";
+                    + ": This cell must be black to be applicable with this rule.";
         }
 
-        if (MinesweeperUtilities.isForcedEmpty(parentBoard, cell)) {
+        if (MinesweeperUtilities.oneTwoX(parentBoard, cell)) {
             return null;
         } else {
-            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty";
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be black";
         }
     }
 
@@ -44,7 +44,6 @@ public class FinishWithEmptyDirectRule extends DirectRule {
      * @param node tree node used to create default transition board
      * @return default board or null if this rule cannot be applied to this tree node
      */
-/*
     @Override
     public Board getDefaultBoard(TreeNode node) {
         MinesweeperBoard minesweeperBoard = (MinesweeperBoard) node.getBoard().copy();
@@ -64,4 +63,3 @@ public class FinishWithEmptyDirectRule extends DirectRule {
         }
     }
 }
-*/

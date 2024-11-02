@@ -10,7 +10,7 @@ import edu.rpi.legup.puzzle.minesweeper.*;
 public class MustNotContainBombDirectRule extends DirectRule {
     public MustNotContainBombDirectRule() {
         super(
-                "MINE-BASC-0001",
+                "MINE-BASC-0002",
                 "Must Not Contain Bomb",
                 "The only way for the flags around this cell to be satisfied is for this cell to not contain a bomb",
                 "edu/rpi/legup/images/minesweeper/direct/Fill_Bombs.jpg");
