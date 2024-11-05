@@ -6,9 +6,6 @@ import java.awt.*;
 
 public class KakurasuElementView extends GridElementView {
 
-    private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
-    private static final Color FONT_COLOR = Color.BLACK;
-
     public KakurasuElementView(KakurasuCell cell) {
         super(cell);
     }

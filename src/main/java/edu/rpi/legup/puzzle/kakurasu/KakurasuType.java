@@ -1,5 +1,9 @@
 package edu.rpi.legup.puzzle.kakurasu;
 
 public enum KakurasuType {
-    UNKNOWN, FILLED, EMPTY;
+    UNKNOWN(0), FILLED(1), EMPTY(2);
+
+    int value;
+    private KakurasuType(int value) {}
+    int toValue() {return value;}
 }
