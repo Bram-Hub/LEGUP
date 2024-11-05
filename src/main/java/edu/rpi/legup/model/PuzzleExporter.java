@@ -41,7 +41,7 @@ public abstract class PuzzleExporter {
         this.puzzle = puzzle;
     }
 
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
      * Takes the puzzle state and the current date/time to obfuscate

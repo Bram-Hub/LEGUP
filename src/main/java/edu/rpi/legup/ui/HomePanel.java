@@ -11,6 +11,7 @@ import java.io.*;
 import java.io.FileWriter;
 import java.net.URI;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -18,10 +19,15 @@ import java.util.regex.Pattern;
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
@@ -201,11 +207,13 @@ public class HomePanel extends LegupPanel {
 
         // Create a save button at the bottom
         JButton gradeButton = new JButton("Grade");
+        JButton updateButton = new JButton("Update");
         JPanel gradePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         gradePanel.add(gradeButton);
+        gradePanel.add(updateButton);
         batchGraderOptions.add(gradePanel, BorderLayout.SOUTH);
 
-        // Action listener for the buttons
+        // Action listeners for the buttons
         gradeAllCheckbox.addActionListener(e -> puzzleIdField.setEnabled(!gradeAllCheckbox.isSelected()));
 
         browseButton.addActionListener(e -> {
@@ -245,7 +253,13 @@ public class HomePanel extends LegupPanel {
             }
             LOGGER.debug("Finished autograding");
 
-            batchGraderOptions.dispose(); // Close the options panel
+            batchGraderOptions.dispose();
+        });
+
+        updateButton.addActionListener(e -> {
+            recursiveUpdater(new File(directoryField.getText()));
+            JOptionPane.showMessageDialog(null, "Updating complete.");
+            batchGraderOptions.dispose();
         });
 
         // Center the dialog on the screen
@@ -413,14 +427,11 @@ public class HomePanel extends LegupPanel {
                 }
 
                 // write data
-                //C:\Users\pukan\OneDrive\Desktop\Code\Java\LEGUP-RCOS-FORK\puzzles files\__testGrade
                 path = folder.getAbsolutePath();
                 writer.write(path.substring(path.lastIndexOf(File.separator) + 1));
                 writer.write(",");
                 writer.write(fName);
                 writer.write(",");
-
-                doc.getDocumentElement().normalize();
 
                 parsePuzzle(doc, writer);
                 parseSolvedState(doc, writer);
@@ -429,6 +440,61 @@ public class HomePanel extends LegupPanel {
             }
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
+        }
+    }
+
+    /**
+     * Updates all old puzzle files to the new tagged variant and hashes all solved states
+     *
+     * @param folder Folder to update all files, and recurse for all subdirectories
+     */
+    private void recursiveUpdater(File folder) {
+        if (Objects.requireNonNull(folder.listFiles()).length == 0) {
+            LOGGER.debug("Empty directory");
+            return;
+        }
+        for(File fileEntry : Objects.requireNonNull(folder.listFiles())) {
+            if (fileEntry.isDirectory()) {
+                recursiveUpdater(fileEntry);
+                continue;
+            }
+
+            String fName = fileEntry.getName();
+            Document doc;
+            if ( (doc = isxmlfile(fileEntry)) == null) {
+                LOGGER.debug("{} is not a '.xml' file", fileEntry.getName());
+                continue;
+            }
+
+            try {
+                Element puzzleNodes = (Element) doc.getElementsByTagName("puzzle").item(0);
+                if (!puzzleNodes.hasAttribute("tag")) {
+                    puzzleNodes.setAttribute("tag", fName);
+                }
+
+                Element solvedNodes = (Element) doc.getElementsByTagName("solved").item(0);
+                String time = LocalDateTime.now().format(PuzzleExporter.DATE_FORMAT);
+                solvedNodes.getAttributeNode("isSolved").setValue(PuzzleExporter.obfHash(false, time) + "");
+                solvedNodes.getAttributeNode("lastSaved").setTextContent(time);
+            } catch (Exception e) {
+                LOGGER.error("File '{}' failed to update:\n{}", fName, e.getMessage());
+                continue;
+            }
+
+            try {
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer();
+                transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+                transformer.setOutputProperty(OutputKeys.INDENT, "no");
+                transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+
+                DOMSource source = new DOMSource(doc);
+                StreamResult result = new StreamResult(new File(folder.getAbsolutePath() + File.separator + fName));
+
+                transformer.transform(source, result);
+            } catch (TransformerException e) {
+                LOGGER.error("Unable to update file: {}:\n{}", fName, e.getMessage());
+            }
         }
     }
 
