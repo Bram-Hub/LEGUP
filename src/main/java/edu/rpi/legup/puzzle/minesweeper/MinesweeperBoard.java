@@ -34,6 +34,9 @@ public class MinesweeperBoard extends GridBoard {
                 newMinesweeperBoard.setCell(x, y, getCell(x, y).copy());
             }
         }
+        for (PuzzleElement e : modifiedData) {
+            newMinesweeperBoard.getPuzzleElement(e).setModifiable(false);
+        }
         return newMinesweeperBoard;
     }
 
