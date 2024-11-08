@@ -7,13 +7,13 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.*;
 
-public class OneTwoXDirectRule extends DirectRule {
-    public OneTwoXDirectRule() {
+public class OneOneEDirectRule extends DirectRule {
+    public OneOneEDirectRule() {
         super(
                 "MINE-BASC-0003",
-                "OneTwoX",
+                "OneTwoE",
                 "When clues n and n+k are directly next to each other, there are k bombs " +
-                        "in the part of the vision of n+k that doesn't overlap with the vision of n",
+                        "in the non-overlapping visions of n and n+k",
                 "edu/rpi/legup/images/minesweeper/direct/Fill_Bombs.jpg");
     }
 
@@ -25,13 +25,13 @@ public class OneTwoXDirectRule extends DirectRule {
         MinesweeperCell parentCell = (MinesweeperCell) parentBoard.getPuzzleElement(puzzleElement);
 
         if (!(parentCell.getTileType() == MinesweeperTileType.UNSET
-                && cell.getTileType() == MinesweeperTileType.BOMB)) {
+                && cell.getTileType() == MinesweeperTileType.EMPTY)) {
 
             return super.getInvalidUseOfRuleMessage()
                     + ": This cell must be a bomb to be applicable with this rule.";
         }
 
-        if (MinesweeperUtilities.oneTwoX(parentBoard, cell)) {
+        if (MinesweeperUtilities.oneOneE(parentBoard, cell)) {
             return null;
         } else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be a bomb";
@@ -51,9 +51,9 @@ public class OneTwoXDirectRule extends DirectRule {
         for (PuzzleElement element : minesweeperBoard.getPuzzleElements()) {
             MinesweeperCell cell = (MinesweeperCell) element;
             if (cell.getTileType() == MinesweeperTileType.UNSET
-                    && MinesweeperUtilities.isForcedBomb(
+                    && MinesweeperUtilities.isForcedEmpty(
                             (MinesweeperBoard) node.getBoard(), cell)) {
-                cell.setCellType(MinesweeperTileData.bomb());
+                cell.setCellType(MinesweeperTileData.empty());
                 minesweeperBoard.addModifiedData(cell);
             }
         }

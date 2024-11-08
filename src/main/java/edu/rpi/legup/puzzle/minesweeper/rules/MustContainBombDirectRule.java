@@ -27,13 +27,13 @@ public class MustContainBombDirectRule extends DirectRule {
                 && cell.getTileType() == MinesweeperTileType.BOMB)) {
 
             return super.getInvalidUseOfRuleMessage()
-                    + ": This cell must be black to be applicable with this rule.";
+                    + ": This cell must be a bomb to be applicable with this rule.";
         }
 
         if (MinesweeperUtilities.isForcedBomb(parentBoard, cell)) {
             return null;
         } else {
-            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be black";
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be a bomb";
         }
     }
 
