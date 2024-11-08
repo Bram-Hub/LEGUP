@@ -4,6 +4,7 @@ import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import org.w3c.dom.Document;
 
+// TODO: Include changes to puzzle implementation into the exporter
 public class KakurasuExporter extends PuzzleExporter {
     public KakurasuExporter(Kakurasu kakurasu) {
         super(kakurasu);

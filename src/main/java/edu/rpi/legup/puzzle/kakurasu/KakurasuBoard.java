@@ -2,7 +2,11 @@ package edu.rpi.legup.puzzle.kakurasu;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 
+import java.util.ArrayList;
+
 public class KakurasuBoard extends GridBoard {
+    // TODO: Add the vertical and horizontal clues to the kakurasu board, and also add the row/column labels
+
     public KakurasuBoard(int width, int height) {
         super(width, height);
     }

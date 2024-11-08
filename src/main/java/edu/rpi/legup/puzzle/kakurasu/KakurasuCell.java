@@ -5,6 +5,7 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 
 import java.awt.*;
 
+// TODO: Mirror the implementation of SkyscraperCell, in order to have clues on the edge
 public class KakurasuCell extends GridCell<Integer> {
 
     KakurasuCell(int value, Point location) {

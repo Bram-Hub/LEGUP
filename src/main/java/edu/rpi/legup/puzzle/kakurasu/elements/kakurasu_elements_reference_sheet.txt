@@ -1,0 +1,3 @@
+KAKU-ELEM-0001 : FilledTile
+KAKU-ELEM-0002 : EmptyTile
+KAKU-ELEM-0003 : UnknownTile

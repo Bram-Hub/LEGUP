@@ -10,6 +10,7 @@ import org.w3c.dom.Node;
 
 import java.awt.*;
 
+// TODO: Include changes to Kakurasu cell into the cell factory
 public class KakurasuCellFactory extends ElementFactory {
     @Override
     public KakurasuCell importCell(Node node, Board board) throws InvalidFileFormatException {

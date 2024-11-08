@@ -8,6 +8,7 @@ import org.w3c.dom.NodeList;
 
 import java.awt.*;
 
+// TODO: Include changes to puzzle implementation into the importer
 public class KakurasuImporter extends PuzzleImporter {
     public KakurasuImporter(Kakurasu kakurasu) {
         super(kakurasu);

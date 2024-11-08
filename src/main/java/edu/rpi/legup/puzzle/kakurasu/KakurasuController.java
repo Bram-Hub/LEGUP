@@ -14,21 +14,21 @@ public class KakurasuController extends ElementController {
             if (e.isControlDown()) {
                 this.boardView.getSelectionPopupMenu().show(boardView, this.boardView.getCanvas().getX() + e.getX(), this.boardView.getCanvas().getY() + e.getY());
             } else {
-                if (cell.getData() == KakurasuType.UNKNOWN) {
-                    data.setData(KakurasuType.FILLED);
-                } else if (cell.getData() == KakurasuType.FILLED) {
-                    data.setData(KakurasuType.EMPTY);
+                if (cell.getType() == KakurasuType.UNKNOWN) {
+                    cell.setData(KakurasuType.FILLED.toValue());
+                } else if (cell.getType() == KakurasuType.FILLED) {
+                    cell.setData(KakurasuType.EMPTY.toValue());
                 } else {
-                    data.setData(KakurasuType.UNKNOWN);
+                    cell.setData(KakurasuType.UNKNOWN.toValue());
                 }
             }
         } else if (e.getButton() == MouseEvent.BUTTON3) {
-            if (cell.getData() == KakurasuType.UNKNOWN) {
-                data.setData(KakurasuType.EMPTY);
-            } else if (cell.getData() == KakurasuType.FILLED) {
-                data.setData(KakurasuType.UNKNOWN);
+            if (cell.getType() == KakurasuType.UNKNOWN) {
+                cell.setData(KakurasuType.EMPTY.toValue());
+            } else if (cell.getType() == KakurasuType.FILLED) {
+                cell.setData(KakurasuType.UNKNOWN.toValue());
             } else {
-                data.setData(KakurasuType.FILLED);
+                cell.setData(KakurasuType.FILLED.toValue());
             }
         }
     }
