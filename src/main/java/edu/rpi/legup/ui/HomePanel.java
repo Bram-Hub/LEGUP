@@ -466,19 +466,22 @@ public class HomePanel extends LegupPanel {
                 continue;
             }
 
-            try {
-                Element puzzleNodes = (Element) doc.getElementsByTagName("puzzle").item(0);
-                if (!puzzleNodes.hasAttribute("tag")) {
-                    puzzleNodes.setAttribute("tag", fName);
-                }
+            Element puzzleNodes = (Element) doc.getElementsByTagName("puzzle").item(0);
+            if (!puzzleNodes.hasAttribute("tag")) {
+                puzzleNodes.setAttribute("tag", fName);
+            }
 
-                Element solvedNodes = (Element) doc.getElementsByTagName("solved").item(0);
-                String time = LocalDateTime.now().format(PuzzleExporter.DATE_FORMAT);
-                solvedNodes.getAttributeNode("isSolved").setValue(PuzzleExporter.obfHash(false, time) + "");
+            Element solvedNodes = (Element) doc.getElementsByTagName("solved").item(0);
+            String time = LocalDateTime.now().format(PuzzleExporter.DATE_FORMAT);
+            String unsolved = PuzzleExporter.obfHash(false, time) + "";
+            if (solvedNodes != null) {
+                solvedNodes.getAttributeNode("isSolved").setValue(unsolved);
                 solvedNodes.getAttributeNode("lastSaved").setTextContent(time);
-            } catch (Exception e) {
-                LOGGER.error("File '{}' failed to update:\n{}", fName, e.getMessage());
-                continue;
+            } else {
+                solvedNodes = doc.createElement("solved");
+                solvedNodes.setAttribute("isSolved", unsolved);
+                solvedNodes.setAttribute("lastSaved", time);
+                doc.getElementsByTagName("Legup").item(0).appendChild(solvedNodes);
             }
 
             try {
