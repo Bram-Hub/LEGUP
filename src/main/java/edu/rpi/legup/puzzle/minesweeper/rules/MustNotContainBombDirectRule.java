@@ -13,7 +13,7 @@ public class MustNotContainBombDirectRule extends DirectRule {
                 "MINE-BASC-0002",
                 "Must Not Contain Bomb",
                 "The only way for the flags around this cell to be satisfied is for this cell to not contain a bomb",
-                "edu/rpi/legup/images/minesweeper/direct/Fill_Bombs.jpg");
+                "edu/rpi/legup/images/minesweeper/direct/MustNotBeBomb.png");
     }
 
     @Override

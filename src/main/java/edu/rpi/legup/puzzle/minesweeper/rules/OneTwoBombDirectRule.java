@@ -7,14 +7,14 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.*;
 
-public class OneTwoXDirectRule extends DirectRule {
-    public OneTwoXDirectRule() {
+public class OneTwoBombDirectRule extends DirectRule {
+    public OneTwoBombDirectRule() {
         super(
                 "MINE-BASC-0003",
-                "OneTwoX",
+                "OneTwoBomb",
                 "When clues n and n+k are directly next to each other, there are k bombs " +
                         "in the part of the vision of n+k that doesn't overlap with the vision of n",
-                "edu/rpi/legup/images/minesweeper/direct/Fill_Bombs.jpg");
+                "edu/rpi/legup/images/minesweeper/direct/OneTwoBomb.png");
     }
 
     @Override
@@ -31,7 +31,7 @@ public class OneTwoXDirectRule extends DirectRule {
                     + ": This cell must be a bomb to be applicable with this rule.";
         }
 
-        if (MinesweeperUtilities.oneTwoX(parentBoard, cell)) {
+        if (MinesweeperUtilities.oneTwoBomb(parentBoard, cell)) {
             return null;
         } else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be a bomb";
