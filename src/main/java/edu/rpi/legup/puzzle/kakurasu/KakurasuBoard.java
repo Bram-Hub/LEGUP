@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 public class KakurasuBoard extends GridBoard {
     // TODO: Add the vertical and horizontal clues to the kakurasu board, and also add the row/column labels
+    // Clues initialized with the puzzle
+    private ArrayList<KakurasuClue> horizontalClues;
+    private ArrayList<KakurasuClue> verticalClues;
 
     public KakurasuBoard(int width, int height) {
         super(width, height);
