@@ -12,8 +12,8 @@ public class OneTwoBombDirectRule extends DirectRule {
         super(
                 "MINE-BASC-0003",
                 "OneTwoBomb",
-                "When clues n and n+k are directly next to each other, there are k bombs " +
-                        "in the part of the vision of n+k that doesn't overlap with the vision of n",
+                "When clues n and n+k are directly next to each other, and there are n bombs in " +
+                        "the overlapping visions, there are k bombs in the part of the vision of n+k that doesn't overlap with the vision of n",
                 "edu/rpi/legup/images/minesweeper/direct/OneTwoBomb.png");
     }
 
