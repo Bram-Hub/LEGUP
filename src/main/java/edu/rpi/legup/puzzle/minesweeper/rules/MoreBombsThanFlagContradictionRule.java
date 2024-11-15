@@ -16,7 +16,7 @@ public class MoreBombsThanFlagContradictionRule extends ContradictionRule {
                 "MINE-CONT-0001",
                 "More Bombs Than Flag",
                 "There can not be more Bombs around a flag than the specified number\n",
-                "edu/rpi/legup/images/minesweeper/contradictions/Bomb_Surplus.jpg");
+                "edu/rpi/legup/images/minesweeper/contradictions/TooManyBombs.png");
     }
 
     /**

@@ -18,7 +18,7 @@ public class BombOrFilledCaseRule extends CaseRule {
                 "MINE-CASE-0001",
                 "Bomb Or Filled",
                 "A cell can either be a bomb or filled.\n",
-                "edu/rpi/legup/images/minesweeper/cases/BombOrFilled.jpg");
+                "edu/rpi/legup/images/minesweeper/cases/BombOrFilled.png");
     }
 
     @Override
