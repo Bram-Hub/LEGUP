@@ -162,7 +162,7 @@ public class KakurasuImporter extends PuzzleImporter {
             for (int i = 0; i < eastClues.getLength(); i++) {
                 Element clue = (Element) eastClues.item(i);
                 int value = Integer.valueOf(clue.getAttribute("value"));
-                int index = KakurasuClue.colStringToColNum(clue.getAttribute("index"));
+                int index = Integer.valueOf(clue.getAttribute("index"));
 
                 if (index - 1 < 0 || index - 1 > kakurasuBoard.getHeight()) {
                     throw new InvalidFileFormatException(

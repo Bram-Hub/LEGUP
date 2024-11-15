@@ -17,14 +17,11 @@ public class KakurasuCell extends GridCell<KakurasuType> {
     }
 
     public int getValue() {
-        switch (data) {
-            case FILLED:
-                return 1;
-            case EMPTY:
-                return 2;
-            default:
-                return 0;
-        }
+        return switch (data) {
+            case FILLED -> 1;
+            case EMPTY -> 2;
+            default -> 0;
+        };
     }
 
     @Override

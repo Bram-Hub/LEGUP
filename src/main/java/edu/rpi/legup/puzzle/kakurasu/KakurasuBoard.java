@@ -47,8 +47,7 @@ public class KakurasuBoard extends GridBoard {
     @Override
     public PuzzleElement getPuzzleElement(PuzzleElement element) {
         return switch (element.getIndex()) {
-            case -2 -> element;
-            case -1 -> element;
+            case -2, -1 -> element;
             default -> super.getPuzzleElement(element);
         };
     }

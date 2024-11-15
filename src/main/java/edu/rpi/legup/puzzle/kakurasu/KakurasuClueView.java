@@ -31,22 +31,11 @@ public class KakurasuClueView extends ElementView {
         String value;
 
         KakurasuClue clue = getPuzzleElement();
-        switch (clue.getType()) {
-            case CLUE_NORTH:
-                value = String.valueOf(clue.getData() + 1);
-                break;
-            case CLUE_EAST:
-                value = String.valueOf(clue.getData());
-                break;
-            case CLUE_SOUTH:
-                value = String.valueOf(clue.getData());
-                break;
-            case CLUE_WEST:
-                value = KakurasuClue.colNumToString(clue.getData() + 1);
-                break;
-            default:
-                value = "";
-        }
+        value = switch (clue.getType()) {
+            case CLUE_NORTH, CLUE_WEST -> String.valueOf(clue.getData() + 1);
+            case CLUE_EAST, CLUE_SOUTH -> String.valueOf(clue.getData());
+            default -> "";
+        };
 
         int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
         int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();

@@ -31,44 +31,27 @@ public class KakurasuElementView extends GridElementView {
                     new Rectangle2D.Double(
                             location.x + 0.5f, location.y + 0.5f, size.width - 1, size.height - 1));
         } else {
-            if (type == KakurasuType.TREE) {
+            if (type == KakurasuType.FILLED) {
                 graphics2D.drawImage(
-                        KakurasuView.TREE,
+                        KakurasuView.FILLED,
                         location.x,
                         location.y,
                         size.width,
                         size.height,
                         null,
                         null);
-                graphics2D.setColor(Color.BLACK);
-                graphics2D.drawRect(location.x, location.y, size.width, size.height);
             } else {
-                if (type == KakurasuType.GRASS) {
-                    graphics2D.drawImage(
-                            KakurasuView.GRASS,
-                            location.x,
-                            location.y,
-                            size.width,
-                            size.height,
-                            null,
-                            null);
-                    graphics2D.setColor(Color.BLACK);
-                    graphics2D.drawRect(location.x, location.y, size.width, size.height);
-                } else {
-                    if (type == KakurasuType.TENT) {
-                        graphics2D.drawImage(
-                                KakurasuView.TENT,
-                                location.x,
-                                location.y,
-                                size.width,
-                                size.height,
-                                null,
-                                null);
-                        graphics2D.setColor(Color.BLACK);
-                        graphics2D.drawRect(location.x, location.y, size.width, size.height);
-                    }
-                }
+                graphics2D.drawImage(
+                        KakurasuView.EMPTY,
+                        location.x,
+                        location.y,
+                        size.width,
+                        size.height,
+                        null,
+                        null);
             }
+            graphics2D.setColor(Color.BLACK);
+            graphics2D.drawRect(location.x, location.y, size.width, size.height);
         }
     }
 }

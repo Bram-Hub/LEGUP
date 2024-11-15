@@ -45,7 +45,7 @@ public class KakurasuExporter extends PuzzleExporter {
         for (KakurasuClue clue : board.getRowClues()) {
             org.w3c.dom.Element clueElement = newDocument.createElement("clue");
             clueElement.setAttribute("value", String.valueOf(clue.getData()));
-            clueElement.setAttribute("index", KakurasuClue.colNumToString(clue.getClueIndex()));
+            clueElement.setAttribute("index", String.valueOf(clue.getClueIndex()));
             axisEast.appendChild(clueElement);
         }
         boardElement.appendChild(axisEast);
@@ -60,14 +60,6 @@ public class KakurasuExporter extends PuzzleExporter {
         }
         boardElement.appendChild(axisSouth);
 
-        if (!board.getLines().isEmpty()) {
-            org.w3c.dom.Element linesElement = newDocument.createElement("lines");
-            for (PuzzleElement data : board.getLines()) {
-                org.w3c.dom.Element lineElement = puzzle.getFactory().exportCell(newDocument, data);
-                linesElement.appendChild(lineElement);
-            }
-            boardElement.appendChild(linesElement);
-        }
         return boardElement;
     }
 }
