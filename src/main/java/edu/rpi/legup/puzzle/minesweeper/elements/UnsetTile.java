@@ -1,8 +1,8 @@
 package edu.rpi.legup.puzzle.minesweeper.elements;
 
-import edu.rpi.legup.model.elements.NonPlaceableElement;
+import edu.rpi.legup.model.elements.PlaceableElement;
 
-public class UnsetTile extends NonPlaceableElement {
+public class UnsetTile extends PlaceableElement {
 
     public UnsetTile() {
         super(

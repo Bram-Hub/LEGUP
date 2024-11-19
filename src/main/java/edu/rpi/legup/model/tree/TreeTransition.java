@@ -8,6 +8,11 @@ import edu.rpi.legup.model.rules.RuleType;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a transition between two nodes in a tree structure within a game. A transition is
+ * responsible for propagating changes through the tree and managing and verifying the associated
+ * rules and puzzle elements.
+ */
 public class TreeTransition extends TreeElement {
     private ArrayList<TreeNode> parents;
     private TreeNode childNode;
@@ -330,6 +335,24 @@ public class TreeTransition extends TreeElement {
      */
     public void setChildNode(TreeNode childNode) {
         this.childNode = childNode;
+    }
+
+    /**
+     * Removes the child to this tree transition
+     *
+     * @param child child to remove
+     */
+    public void removeChild(TreeNode child) {
+        parents.remove(child);
+    }
+
+    /**
+     * Add the child to this tree transition
+     *
+     * @param child child to add
+     */
+    public void addChild(TreeNode child) {
+        parents.add(child);
     }
 
     /**

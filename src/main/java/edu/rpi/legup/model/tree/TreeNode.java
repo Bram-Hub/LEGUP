@@ -4,6 +4,11 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.utility.DisjointSets;
 import java.util.*;
 
+/**
+ * Represents a node in a tree structure. Extends {@link TreeElement}. A {@code TreeNode} contains a
+ * board, references to its parent and children transitions, and indicates if it is the root node of
+ * the tree.
+ */
 public class TreeNode extends TreeElement {
     private TreeTransition parent;
     private List<TreeTransition> children;
@@ -56,9 +61,9 @@ public class TreeNode extends TreeElement {
     }
 
     /**
-     * Gets all of the ancestors of this node
+     * Gets a list of the ancestors of this node
      *
-     * @return list of all of the ancestors for this node
+     * @return list of all the ancestors for this node
      */
     public List<TreeNode> getAncestors() {
         List<TreeNode> ancestors = new ArrayList<>();
@@ -326,6 +331,10 @@ public class TreeNode extends TreeElement {
         this.isRoot = isRoot;
     }
 
+    /**
+     * Clears all children transitions from this tree node. After calling this method, the node will
+     * have no child transitions.
+     */
     public void clearChildren() {
         this.children.clear();
     }
