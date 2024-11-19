@@ -66,7 +66,7 @@ public class ClueCommand extends PuzzleCommand {
 
             for (KakurasuCell cell : tempList) {
                 cell = (KakurasuCell) board.getPuzzleElement(cell);
-                cell.setData(KakurasuType.GRASS);
+                cell.setData(KakurasuType.EMPTY);
                 board.addModifiedData(cell);
                 finalTran.propagateChange(cell);
 
@@ -141,7 +141,7 @@ public class ClueCommand extends PuzzleCommand {
         return null;
     }
 
-    /** Undoes an command */
+    /** Undoes a command */
     @Override
     public void undoCommand() {
         Puzzle puzzle = getInstance().getPuzzleModule();

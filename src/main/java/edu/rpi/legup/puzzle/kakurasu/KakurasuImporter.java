@@ -204,14 +204,6 @@ public class KakurasuImporter extends PuzzleImporter {
 
     @Override
     public void initializeBoard(String[] statements) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("Tree Tent cannot accept text input");
-    }
-
-    @Override
-    public List<String> getImporterElements() {
-        List<String> elements = new ArrayList<>();
-        elements.add("cell");
-        elements.add("line");
-        return elements;
+        throw new UnsupportedOperationException("Kakurasu cannot accept text input");
     }
 }

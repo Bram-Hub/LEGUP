@@ -19,35 +19,7 @@ import java.awt.event.MouseEvent;
 import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 
 public class KakurasuController extends ElementController {
-
-    private ElementView lastCellPressed;
-
-    public KakurasuController() {
-        super();
-        this.lastCellPressed = null;
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        if (e.getButton() != MouseEvent.BUTTON2) {
-            BoardView boardView = getInstance().getLegupUI().getBoardView();
-            if (boardView != null) {
-                lastCellPressed = boardView.getElement(e.getPoint());
-            }
-        }
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        // TODO: Figure out if mouseReleased is still needed, and what it needs to do
-        if (GameBoardFacade.getInstance().getLegupUI().getTreePanel() != null
-                && e.getButton() != MouseEvent.BUTTON2) {
-            lastCellPressed = null;
-        } else {
-            super.mouseReleased(e);
-        }
-    }
-
+    
     @Override
     public void changeCell(MouseEvent e, PuzzleElement element) {
         KakurasuCell cell = (KakurasuCell) element;

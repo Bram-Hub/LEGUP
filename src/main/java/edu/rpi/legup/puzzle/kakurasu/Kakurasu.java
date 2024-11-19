@@ -83,22 +83,4 @@ public class Kakurasu extends Puzzle {
      */
     @Override
     public void onBoardChange(Board board) {}
-
-    /**
-     * @return if it is valid Kakurasu puzzle must have same number of clues as the dimension size
-     */
-    @Override
-    public boolean checkValidity() {
-        // TODO: Fix this function
-        KakurasuBoard b = (KakurasuBoard) this.getBoardView().getBoard();
-        List<PuzzleElement> elements = b.getPuzzleElements();
-        int treeCount = 0;
-        for (PuzzleElement element : elements) {
-            KakurasuCell c = (KakurasuCell) element;
-            if (c.getType() == KakurasuType.TREE) {
-                treeCount++;
-            }
-        }
-        return treeCount != 0;
-    }
 }
