@@ -57,7 +57,6 @@ public class KakurasuBoard extends GridBoard {
         if (index < puzzleElements.size()) {
             puzzleElements.set(index, puzzleElement);
         }
-        // TODO: Throw warning if index is above puzzleElement.size()?
     }
 
     @Override

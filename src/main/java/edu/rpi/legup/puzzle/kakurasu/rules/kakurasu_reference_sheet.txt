@@ -1,0 +1,5 @@
+KAKU-BASC-0001 : FinishWithFilledDirectRule
+
+KAKU-CONT-0001 : A
+
+KAKU-CASE-0001 : A
