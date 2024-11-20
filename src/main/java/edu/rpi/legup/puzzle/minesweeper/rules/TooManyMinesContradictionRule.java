@@ -9,14 +9,14 @@ import edu.rpi.legup.puzzle.minesweeper.MinesweeperTileType;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperUtilities;
 import java.util.ArrayList;
 
-public class MoreBombsThanFlagContradictionRule extends ContradictionRule {
+public class TooManyMinesContradictionRule extends ContradictionRule {
 
-    public MoreBombsThanFlagContradictionRule() {
+    public TooManyMinesContradictionRule() {
         super(
                 "MINE-CONT-0001",
-                "More Bombs Than Flag",
-                "There can not be more Bombs around a flag than the specified number\n",
-                "edu/rpi/legup/images/minesweeper/contradictions/TooManyBombs.png");
+                "Too Many Mines",
+                "A number cell can not have more than it's number of mines around it\n",
+                "edu/rpi/legup/images/minesweeper/contradictions/TooManyMines.png");
     }
 
     /**
@@ -37,16 +37,16 @@ public class MoreBombsThanFlagContradictionRule extends ContradictionRule {
         if (cellNum <= 0 || cellNum >= 9) {
             return super.getNoContradictionMessage();
         }
-        int numBombs = 0;
+        int numMines = 0;
         ArrayList<MinesweeperCell> adjCells =
                 MinesweeperUtilities.getAdjacentCells(minesweeperBoard, cell);
         for (MinesweeperCell adjCell : adjCells) {
-            if(adjCell.getTileType() == MinesweeperTileType.BOMB) {
-                numBombs++;
+            if(adjCell.getTileType() == MinesweeperTileType.MINE) {
+                numMines++;
             }
         }
 
-        if (cellNum < numBombs) {
+        if (cellNum < numMines) {
             return null;
         }
 

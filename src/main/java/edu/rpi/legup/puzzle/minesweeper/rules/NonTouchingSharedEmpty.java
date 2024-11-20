@@ -7,14 +7,14 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.*;
 
-public class OneOneEmptyDirectRule extends DirectRule {
-    public OneOneEmptyDirectRule() {
+public class NonTouchingSharedEmpty extends DirectRule {
+    public NonTouchingSharedEmpty() {
         super(
                 "MINE-BASC-0003",
-                "OneOneEmpty",
-                "When clues n and n+k are directly next to each other, and there are n bombs in " +
-                        "the overlapping visions, there are k bombs in the part of the vision of n+k that doesn't overlap with the vision of n",
-                "edu/rpi/legup/images/minesweeper/direct/OneOneEmpty.png");
+                "Non Shared Empty",
+                "Adjacent cells with numbers have the same difference in mine in their unshared\n" +
+                        " regions as the difference in their numbers",
+                "edu/rpi/legup/images/minesweeper/direct/NonSharedEmpty.png");
     }
 
     @Override
@@ -28,13 +28,13 @@ public class OneOneEmptyDirectRule extends DirectRule {
                 && cell.getTileType() == MinesweeperTileType.EMPTY)) {
 
             return super.getInvalidUseOfRuleMessage()
-                    + ": This cell must be a bomb to be applicable with this rule.";
+                    + ": This cell must be a mine to be applicable with this rule.";
         }
 
-        if (MinesweeperUtilities.oneOneEmpty(parentBoard, cell)) {
+        if (MinesweeperUtilities.nonTouchingSharedIsEmpty(parentBoard, cell)) {
             return null;
         } else {
-            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be a bomb";
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be a mine";
         }
     }
 

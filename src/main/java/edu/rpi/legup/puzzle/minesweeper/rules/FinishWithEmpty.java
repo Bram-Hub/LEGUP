@@ -7,14 +7,13 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.*;
 
-public class OneTwoBombDirectRule extends DirectRule {
-    public OneTwoBombDirectRule() {
+public class FinishWithEmpty extends DirectRule {
+    public FinishWithEmpty() {
         super(
-                "MINE-BASC-0003",
-                "OneTwoBomb",
-                "When clues n and n+k are directly next to each other, and there are n bombs in " +
-                        "the overlapping visions, there are k bombs in the part of the vision of n+k that doesn't overlap with the vision of n",
-                "edu/rpi/legup/images/minesweeper/direct/OneTwoBomb.png");
+                "MINE-BASC-0002",
+                "Finish With Empty",
+                "The only way for the numbers around this cell to be satisfied is for this cell to not contain a mine",
+                "edu/rpi/legup/images/minesweeper/direct/FinishWithEmpty.png");
     }
 
     @Override
@@ -25,16 +24,16 @@ public class OneTwoBombDirectRule extends DirectRule {
         MinesweeperCell parentCell = (MinesweeperCell) parentBoard.getPuzzleElement(puzzleElement);
 
         if (!(parentCell.getTileType() == MinesweeperTileType.UNSET
-                && cell.getTileType() == MinesweeperTileType.BOMB)) {
+                && cell.getTileType() == MinesweeperTileType.EMPTY)) {
 
             return super.getInvalidUseOfRuleMessage()
-                    + ": This cell must be a bomb to be applicable with this rule.";
+                    + ": This cell must be empty to be applicable with this rule.";
         }
 
-        if (MinesweeperUtilities.oneTwoBomb(parentBoard, cell)) {
+        if (MinesweeperUtilities.isForcedEmpty(parentBoard, cell)) {
             return null;
         } else {
-            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be a bomb";
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty";
         }
     }
 
@@ -51,9 +50,9 @@ public class OneTwoBombDirectRule extends DirectRule {
         for (PuzzleElement element : minesweeperBoard.getPuzzleElements()) {
             MinesweeperCell cell = (MinesweeperCell) element;
             if (cell.getTileType() == MinesweeperTileType.UNSET
-                    && MinesweeperUtilities.isForcedBomb(
+                    && MinesweeperUtilities.isForcedMine(
                             (MinesweeperBoard) node.getBoard(), cell)) {
-                cell.setCellType(MinesweeperTileData.bomb());
+                cell.setCellType(MinesweeperTileData.mine());
                 minesweeperBoard.addModifiedData(cell);
             }
         }

@@ -25,7 +25,7 @@ public class MinesweeperElementView extends GridElementView {
     public void drawElement(@NotNull Graphics2D graphics2D) {
         final MinesweeperCell cell = (MinesweeperCell) puzzleElement;
         final MinesweeperTileType type = cell.getTileType();
-        if (type == MinesweeperTileType.FLAG) {
+        if (type == MinesweeperTileType.NUMBER) {
             graphics2D.setStroke(new BasicStroke(1));
             graphics2D.setColor(Color.WHITE);
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
@@ -92,11 +92,11 @@ public class MinesweeperElementView extends GridElementView {
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
         }
-        if (type == MinesweeperTileType.BOMB) {
+        if (type == MinesweeperTileType.MINE) {
             graphics2D.setColor(Color.LIGHT_GRAY);
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
             graphics2D.drawImage(
-                    MinesweeperView.BOMB_IMAGE,
+                    MinesweeperView.MINE_IMAGE,
                     location.x,
                     location.y,
                     size.width,

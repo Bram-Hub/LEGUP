@@ -46,15 +46,15 @@ public final class MinesweeperUtilities {
         return (int)
                 (switch (type) {
                             case UNSET -> stream.filter(MinesweeperTileData::isUnset);
-                            case BOMB -> stream.filter(MinesweeperTileData::isBomb);
+                            case MINE -> stream.filter(MinesweeperTileData::isMine);
                             case EMPTY -> stream.filter(MinesweeperTileData::isEmpty);
-                            case FLAG -> stream.filter(MinesweeperTileData::isFlag);
+                            case NUMBER -> stream.filter(MinesweeperTileData::isNumber);
                         })
                         .count();
     }
 
-    public static int countSurroundingBombs(MinesweeperBoard board, MinesweeperCell cell) {
-        return countSurroundingType(board, cell, MinesweeperTileType.BOMB);
+    public static int countSurroundingMines(MinesweeperBoard board, MinesweeperCell cell) {
+        return countSurroundingType(board, cell, MinesweeperTileType.MINE);
     }
 
     public static int countSurroundingUnset(MinesweeperBoard board, MinesweeperCell cell) {
@@ -65,19 +65,19 @@ public final class MinesweeperUtilities {
         return countSurroundingType(board, cell, MinesweeperTileType.EMPTY);
     }
 
-    public static int countSurroundingFlags(MinesweeperBoard board, MinesweeperCell cell) {
-        return countSurroundingType(board, cell, MinesweeperTileType.FLAG);
+    public static int countSurroundingNumbers(MinesweeperBoard board, MinesweeperCell cell) {
+        return countSurroundingType(board, cell, MinesweeperTileType.NUMBER);
     }
 
     /**
-     * @return how many bombs are left that need to be placed around {@code cell} which must be a
+     * @return how many mines are left that need to be placed around {@code cell} which must be a
      *     flag
      */
-    public int countNeededBombsFromFlag(MinesweeperBoard board, MinesweeperCell cell) {
-        if (!cell.getData().isFlag()) {
-            throw new IllegalArgumentException("Bombs are only needed surrounding flags");
+    public int countNeededminesFromNumber(MinesweeperBoard board, MinesweeperCell cell) {
+        if (!cell.getData().isNumber()) {
+            throw new IllegalArgumentException("mines are only needed surrounding numbers");
         }
-        return cell.getData().data() - countSurroundingBombs(board, cell);
+        return cell.getData().data() - countSurroundingMines(board, cell);
     }
 
     public static boolean hasEmptyAdjacent(MinesweeperBoard board, MinesweeperCell cell) {
@@ -152,54 +152,61 @@ public final class MinesweeperUtilities {
         recurseCombinations(result, curIndex + 1, maxBlack, numBlack, len, workingArray);
     }
 
-    public static boolean isForcedBomb(MinesweeperBoard board, MinesweeperCell cell) {
+    // checks if the current cell is forced to be a mine by checking if any of its adjacent cells
+    // are a number cell that can only be satisfied if the current cell is a mine
+    public static boolean isForcedMine(MinesweeperBoard board, MinesweeperCell cell) {
         MinesweeperBoard emptyCaseBoard = board.copy();
         MinesweeperCell emptyCell = (MinesweeperCell) emptyCaseBoard.getPuzzleElement(cell);
-        emptyCell.setCellType(MinesweeperTileData.bomb());
+        emptyCell.setCellType(MinesweeperTileData.mine());
         ArrayList<MinesweeperCell> adjCells = getAdjacentCells(emptyCaseBoard, emptyCell);
+        int numMines;
+        int numUnset;
+        int cellNum;
         for (MinesweeperCell adjCell : adjCells) {
-            if(adjCell.getTileNumber() <= 0) {
+            cellNum = adjCell.getTileNumber();
+            if(cellNum <= 0) {
                 continue;
             }
-            int cellNum = adjCell.getTileNumber();
-            int numBombs = 0;
-            int numUnset = 0;
+            numMines = 0;
+            numUnset = 0;
             ArrayList<MinesweeperCell> curAdjCells =
                     MinesweeperUtilities.getAdjacentCells(emptyCaseBoard, adjCell);
             for (MinesweeperCell curAdjCell : curAdjCells) {
-                if(curAdjCell.getTileType() == MinesweeperTileType.BOMB) {
-                    numBombs++;
+                if(curAdjCell.getTileType() == MinesweeperTileType.MINE) {
+                    numMines++;
                 }
                 if(curAdjCell.getTileType() == MinesweeperTileType.UNSET) {
                     numUnset++;
                 }
             }
-            if(cellNum == numUnset + numBombs) {
+            if(cellNum == numUnset + numMines) {
                 return true;
             }
         }
         return false;
     }
 
+    // checks if the current cell is forced to be empty by checking if any of its adjacent cells
+    // are a number cell that can only be satisfied if the current cell is empty
     public static boolean isForcedEmpty(MinesweeperBoard board, MinesweeperCell cell) {
         MinesweeperBoard emptyCaseBoard = board.copy();
         MinesweeperCell emptyCell = (MinesweeperCell) emptyCaseBoard.getPuzzleElement(cell);
         emptyCell.setCellType(MinesweeperTileData.empty());
         ArrayList<MinesweeperCell> adjCells = getAdjacentCells(emptyCaseBoard, emptyCell);
-        int bombCount;
+        int mineCount;
         int adjCellNum;
         int emptyCells = 0;
         for (MinesweeperCell adjCell : adjCells) {
-            bombCount = 0;
+            mineCount = 0;
             adjCellNum = adjCell.getTileNumber();
             if(adjCellNum >= 1) {
                 ArrayList<MinesweeperCell> adjAdjCells = getAdjacentCells(emptyCaseBoard, adjCell);
                 for(MinesweeperCell adjAdjCell : adjAdjCells) {
-                    if(adjAdjCell.getTileType() == MinesweeperTileType.BOMB) {
-                        bombCount++;
+                    if(adjAdjCell.getTileType() == MinesweeperTileType.MINE) {
+                        mineCount++;
                     }
                 }
-                if(bombCount == adjCellNum) {
+                if(mineCount == adjCellNum) {
                     return true;
                 }
             } else {
@@ -209,88 +216,92 @@ public final class MinesweeperUtilities {
         return emptyCells == adjCells.size();
     }
 
-    public static boolean oneTwoBomb(MinesweeperBoard board, MinesweeperCell cell) {
+    public static boolean nonTouchingSharedIsMine(MinesweeperBoard board, MinesweeperCell cell) {
         MinesweeperBoard emptyCaseBoard = board.copy();
         MinesweeperCell emptyCell = (MinesweeperCell) emptyCaseBoard.getPuzzleElement(cell);
         int x = emptyCell.getLocation().x;
         int y = emptyCell.getLocation().y;
         int height = emptyCaseBoard.getHeight();
         int width = emptyCaseBoard.getWidth();
-        int numSmall;
-        int numBig;
+        int numFar;
+        int numClose;
 
-        // 1 - 2 - X in horizontal direction
+        // Goes through all possible positions that horizontally adjacent number cells
+        // could be in that could force the current cell to be a mine. If one possibility
+        // actually has the number cells that force the current cell to be a mine, return true
         for(int i = -1; i <= 1; i += 2) {
             for(int j = -1; j <= 1; j ++) {
                 if(x + (2 * i) >= 0 && x + (2 * i) < width
                     && y + j >= 0 && y + j < height) {
-                    numBig = emptyCaseBoard.getCell(x + i, y + j).getTileNumber();
-                    numSmall = emptyCaseBoard.getCell(x + (2 * i), y + j).getTileNumber();
+                    numClose = emptyCaseBoard.getCell(x + i, y + j).getTileNumber();
+                    numFar = emptyCaseBoard.getCell(x + (2 * i), y + j).getTileNumber();
                     if(j != -1 && y + 1 < height
                         && emptyCaseBoard.getCell(x, y + 1).getTileNumber() <= -1) {
-                        numBig--;
+                        numClose--;
                     }
                     if(j != 1 && y - 1 >= 0 &&
                             emptyCaseBoard.getCell(x, y-1).getTileNumber() <= -1) {
-                        numBig--;
+                        numClose--;
                     }
                     if(j != 0 && y + (2 * j) < height
                         && y + (2 * j) >= 0 && emptyCaseBoard.getCell(x, y + (2 * j)).getTileNumber() <= -1) {
-                        numBig--;
+                        numClose--;
                     }
                     if(x + (3 * i) >= 0 && x + (3 * i) < width) {
                         if(emptyCaseBoard.getCell(x+(3*i), y+j).getTileNumber() == -1) {
-                            numSmall--;
+                            numFar--;
                         }
                         if(y + j + 1 < emptyCaseBoard.getHeight()
                             && emptyCaseBoard.getCell(x+(3*i), y+j+1).getTileNumber() == -1) {
-                            numSmall--;
+                            numFar--;
                         }
                         if(y + j - 1 >= 0 &&
                                 emptyCaseBoard.getCell(x+(3*i), y+j-1).getTileNumber() == -1) {
-                            numSmall--;
+                            numFar--;
                         }
                     }
-                    if(numBig >= 1 && numSmall+1 == numBig) {
+                    if(numClose >= 1 && numFar+1 == numClose) {
                         return true;
                     }
                 }
             }
         }
 
-        // 1 - 2 - X in vertical direction
+        // Goes through all possible positions that vertically adjacent number cells
+        // could be in that could force the current cell to be a mine. If one possibility
+        // actually has the number cells that force the current cell to be a mine, return true
         for(int i = -1; i <= 1; i += 2){
             for (int j = -1; j <= 1; j++) {
                 if (x + j >= 0 && x + j < width
                         && y + (2 * i) >= 0 && y + (2 * i) < height) {
-                    numBig = emptyCaseBoard.getCell(x + j, y + i).getTileNumber();
-                    numSmall = emptyCaseBoard.getCell(x + j, y + (2 * i)).getTileNumber();
+                    numClose = emptyCaseBoard.getCell(x + j, y + i).getTileNumber();
+                    numFar = emptyCaseBoard.getCell(x + j, y + (2 * i)).getTileNumber();
                     if (j != -1 && x + 1 < width &&
                             emptyCaseBoard.getCell(x + 1, y).getTileNumber() <= -1) {
-                        numBig--;
+                        numClose--;
                     }
                     if (j != 1 && x - 1 >= 0 &&
                             emptyCaseBoard.getCell(x - 1, y).getTileNumber() <= -1) {
-                        numBig--;
+                        numClose--;
                     }
                     if (j != 0 && x + (2 * j) < width &&
                             x + (2 * j) >= 0 &&
                             emptyCaseBoard.getCell(x + (2 * j), y).getTileNumber() <= -1) {
-                        numBig--;
+                        numClose--;
                     }
                     if (y + (3 * i) >= 0 && y + (3 * i) < height) {
                         if (emptyCaseBoard.getCell(x + j, y + (3 * i)).getTileNumber() == -1) {
-                            numSmall--;
+                            numFar--;
                         }
                         if (x + j + 1 < width &&
                                 emptyCaseBoard.getCell(x + j + 1, y + (3 * i)).getTileNumber() == -1) {
-                            numSmall--;
+                            numFar--;
                         }
                         if (x + j - 1 >= 0 && emptyCaseBoard.getCell(x + j - 1, y + (3 * i)).getTileNumber() == -1) {
-                            numSmall--;
+                            numFar--;
                         }
                     }
-                    if (numBig >= 1 && numSmall + 1 == numBig) {
+                    if (numClose >= 1 && numFar + 1 == numClose) {
                         return true;
                     }
                 }
@@ -299,7 +310,7 @@ public final class MinesweeperUtilities {
         return false;
     }
 
-    public static boolean oneOneEmpty(MinesweeperBoard board, MinesweeperCell cell) {
+    public static boolean nonTouchingSharedIsEmpty(MinesweeperBoard board, MinesweeperCell cell) {
         MinesweeperBoard emptyCaseBoard = board.copy();
         MinesweeperCell emptyCell = (MinesweeperCell) emptyCaseBoard.getPuzzleElement(cell);
         int x = emptyCell.getLocation().x;
@@ -309,7 +320,9 @@ public final class MinesweeperUtilities {
         int numClose;
         int numFar;
 
-        // 1 - 2 - E in horizontal direction
+        // Goes through all possible positions that horizontally adjacent number cells
+        // could be in that could force the current cell to be a empty. If one possibility
+        // actually has the number cells that force the current cell to be a empty, return true
         for(int i = -1; i <= 1; i += 2) {
             for(int j = -1; j <= 1; j ++) {
                 if(x + (2 * i) >= 0 && x + (2 * i) < width
@@ -348,7 +361,9 @@ public final class MinesweeperUtilities {
             }
         }
 
-        // 1 - 2 - E in vertical direction
+        // Goes through all possible positions that vertically adjacent number cells
+        // could be in that could force the current cell to be a empty. If one possibility
+        // actually has the number cells that force the current cell to be a empty, return true
         for(int i = -1; i <= 1; i += 2){
             for (int j = -1; j <= 1; j++) {
                 if (x + j >= 0 && x + j < width

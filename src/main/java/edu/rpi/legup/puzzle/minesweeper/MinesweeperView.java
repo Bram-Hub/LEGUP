@@ -14,14 +14,14 @@ import org.jetbrains.annotations.NotNull;
 public class MinesweeperView extends GridBoardView {
 
     private static final Logger LOGGER = LogManager.getLogger(MinesweeperView.class.getName());
-    public static final Image BOMB_IMAGE;
+    public static final Image MINE_IMAGE;
 
     public static final Image EMPTY_IMAGE;
 
     static {
-        Image tempBombImage = null;
+        Image tempMineImage = null;
         try {
-            tempBombImage =
+            tempMineImage =
                     ImageIO.read(
                             Objects.requireNonNull(
                                     ClassLoader.getSystemClassLoader()
@@ -30,7 +30,7 @@ public class MinesweeperView extends GridBoardView {
         } catch (IOException e) {
             LOGGER.error("Failed to open Minesweeper images");
         }
-        BOMB_IMAGE = tempBombImage;
+        MINE_IMAGE = tempMineImage;
     }
 
     static {

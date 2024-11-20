@@ -7,13 +7,14 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.*;
 
-public class MustNotContainBombDirectRule extends DirectRule {
-    public MustNotContainBombDirectRule() {
+public class NonTouchingSharedMine extends DirectRule {
+    public NonTouchingSharedMine() {
         super(
-                "MINE-BASC-0002",
-                "Must Not Contain Bomb",
-                "The only way for the flags around this cell to be satisfied is for this cell to not contain a bomb",
-                "edu/rpi/legup/images/minesweeper/direct/MustNotBeBomb.png");
+                "MINE-BASC-0003",
+                "Non Shared Mine",
+                "Adjacent cells with numbers have the same difference in mine in their unshared\n" +
+                        "regions as the difference in their numbers",
+                "edu/rpi/legup/images/minesweeper/direct/NonSharedMine.png");
     }
 
     @Override
@@ -24,16 +25,16 @@ public class MustNotContainBombDirectRule extends DirectRule {
         MinesweeperCell parentCell = (MinesweeperCell) parentBoard.getPuzzleElement(puzzleElement);
 
         if (!(parentCell.getTileType() == MinesweeperTileType.UNSET
-                && cell.getTileType() == MinesweeperTileType.EMPTY)) {
+                && cell.getTileType() == MinesweeperTileType.MINE)) {
 
             return super.getInvalidUseOfRuleMessage()
-                    + ": This cell must be empty to be applicable with this rule.";
+                    + ": This cell must be a mine to be applicable with this rule.";
         }
 
-        if (MinesweeperUtilities.isForcedEmpty(parentBoard, cell)) {
+        if (MinesweeperUtilities.nonTouchingSharedIsMine(parentBoard, cell)) {
             return null;
         } else {
-            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty";
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be a mine";
         }
     }
 
@@ -50,9 +51,9 @@ public class MustNotContainBombDirectRule extends DirectRule {
         for (PuzzleElement element : minesweeperBoard.getPuzzleElements()) {
             MinesweeperCell cell = (MinesweeperCell) element;
             if (cell.getTileType() == MinesweeperTileType.UNSET
-                    && MinesweeperUtilities.isForcedBomb(
+                    && MinesweeperUtilities.isForcedMine(
                             (MinesweeperBoard) node.getBoard(), cell)) {
-                cell.setCellType(MinesweeperTileData.bomb());
+                cell.setCellType(MinesweeperTileData.mine());
                 minesweeperBoard.addModifiedData(cell);
             }
         }
