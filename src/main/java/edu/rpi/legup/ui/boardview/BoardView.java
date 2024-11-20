@@ -11,6 +11,10 @@ import edu.rpi.legup.ui.ScrollView;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * An abstract class representing a view for a board in the puzzle game. It handles the visual
+ * representation and user interactions with the board elements.
+ */
 public abstract class BoardView extends ScrollView implements IBoardListener {
     protected TreeElement treeElement;
     protected Board board;
@@ -125,6 +129,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
         }
     }
 
+    /** Configures the view to handle case interactions */
     protected void setCasePickable() {
         CaseBoard caseBoard = (CaseBoard) board;
         Board baseBoard = caseBoard.getBaseBoard();
@@ -183,6 +188,11 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
         return elementViews;
     }
 
+    /**
+     * Gets the ElementController associated with this board view.
+     *
+     * @return the ElementController
+     */
     public ElementController getElementController() {
         return elementController;
     }
@@ -192,6 +202,11 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
         drawBoard(graphics2D);
     }
 
+    /**
+     * Draws the board and its elements.
+     *
+     * @param graphics2D the Graphics2D context used for drawing
+     */
     public void drawBoard(Graphics2D graphics2D) {
         for (ElementView element : elementViews) {
             element.draw(graphics2D);
@@ -208,5 +223,10 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
         repaint();
     }
 
+    /**
+     * Gets the selection popup menu for this board view.
+     *
+     * @return the DataSelectionView associated with this view
+     */
     public abstract DataSelectionView getSelectionPopupMenu();
 }

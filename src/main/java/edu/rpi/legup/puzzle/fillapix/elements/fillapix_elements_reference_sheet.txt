@@ -1,5 +1,4 @@
-FPIX-PLAC-0001 : BlackTile
-FPIX-PLAC-0002 : WhiteTile
-
-FPIX-UNPL-0001 : NumberTile
-FPIX-UNPL-0002 : UnknownTile
+FPIX-ELEM-0001 : BlackTile
+FPIX-ELEM-0002 : NumberTile
+FPIX-ELEM-0003 : UnknownTile
+FPIX-ELEM-0004 : WhiteTile
