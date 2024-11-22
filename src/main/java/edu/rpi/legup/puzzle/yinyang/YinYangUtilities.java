@@ -32,3 +32,25 @@ public class YinYangUtilities {
         }
         return true;
     }
+
+    /**
+     * Validates that all WHITE and BLACK groups are connected.
+     *
+     * @param board the YinYang board to validate
+     * @return true if all groups are connected, false otherwise
+     */
+    public static boolean validateConnectivity(YinYangBoard board) {
+        Set<YinYangCell> whiteCells = new HashSet<>();
+        Set<YinYangCell> blackCells = new HashSet<>();
+
+        for (PuzzleElement element : board.getPuzzleElements()) {
+            YinYangCell cell = (YinYangCell) element;
+            if (cell.getType() == YinYangType.WHITE) {
+                whiteCells.add(cell);
+            } else if (cell.getType() == YinYangType.BLACK) {
+                blackCells.add(cell);
+            }
+        }
+
+        return isConnected(whiteCells, board) && isConnected(blackCells, board);
+    }
