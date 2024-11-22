@@ -382,6 +382,22 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     }
 
     /**
+     * Accessor method for the puzzle UUID
+     * @return returns the puzzle UUID tag
+     */
+    public String getTag() {
+        return tag;
+    }
+
+    /**
+     * Modifier method to override the puzzle persistent UUID
+     * @param tag String to overwrite the current puzzle UUID
+     */
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    /**
      * Gets the list of contradiction rules
      *
      * @return list of contradiction rules

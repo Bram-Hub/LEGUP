@@ -27,7 +27,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
@@ -38,6 +37,7 @@ import org.w3c.dom.NodeList;
 public class HomePanel extends LegupPanel {
     private static final Logger LOGGER = LogManager.getLogger(HomePanel.class.getName());
     private static final ArrayList<String> _tagsToGrade = new ArrayList<>();
+    private static final ArrayList<String> _typesToGrade = new ArrayList<>();
     private LegupUI legupUI;
     private JFrame frame;
     private JButton[] buttons;
@@ -171,15 +171,13 @@ public class HomePanel extends LegupPanel {
         this.buttons[2].setFocusPainted(false);
         this.buttons[2].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[2].setVerticalTextPosition(AbstractButton.BOTTOM);
-
-        this.buttons[2].addActionListener(
-                e -> openBatchGraderMenu());
+        this.buttons[2].addActionListener(e -> openBatchGraderMenu());
     }
 
     /** Initializes screen for autograder options */
     public void openBatchGraderMenu() {
         JDialog batchGraderOptions = new JDialog(frame, "Batch Grader Options", true);
-        batchGraderOptions.setSize(450, 150);
+        batchGraderOptions.setSize(450, 200);
         batchGraderOptions.setLayout(new BorderLayout());
 
         // Create a panel for the directory selection part
@@ -197,13 +195,29 @@ public class HomePanel extends LegupPanel {
         JLabel puzzleIdLabel = new JLabel("Puzzle IDs:");
         JTextField puzzleIdField = new JTextField(10);
         puzzleIdField.setEnabled(false);
-        JCheckBox gradeAllCheckbox = new JCheckBox("Grade All");
-        gradeAllCheckbox.setSelected(true);
+        JCheckBox gradeAllIDsCheckbox = new JCheckBox("Grade All IDs");
+        gradeAllIDsCheckbox.setSelected(true);
 
         puzzleIdPanel.add(puzzleIdLabel);
         puzzleIdPanel.add(puzzleIdField);
-        puzzleIdPanel.add(gradeAllCheckbox);
-        batchGraderOptions.add(puzzleIdPanel, BorderLayout.CENTER);
+        puzzleIdPanel.add(gradeAllIDsCheckbox);
+
+        // Create a panel for the puzzle tags label, text field, and checkbox
+        JPanel puzzleTypePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JLabel puzzleTypeLabel = new JLabel("Puzzle Types:");
+        JTextField puzzleTypeField = new JTextField(10);
+        puzzleTypeField.setEnabled(false);
+        JCheckBox gradeAllTagsCheckbox = new JCheckBox("Grade All Types");
+        gradeAllTagsCheckbox.setSelected(true);
+
+        puzzleTypePanel.add(puzzleTypeLabel);
+        puzzleTypePanel.add(puzzleTypeField);
+        puzzleTypePanel.add(gradeAllTagsCheckbox);
+
+        JPanel batchGraderConstraints = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        batchGraderConstraints.add(puzzleIdPanel);
+        batchGraderConstraints.add(puzzleTypePanel);
+        batchGraderOptions.add(batchGraderConstraints, BorderLayout.CENTER);
 
         // Create a save button at the bottom
         JButton gradeButton = new JButton("Grade");
@@ -214,7 +228,8 @@ public class HomePanel extends LegupPanel {
         batchGraderOptions.add(gradePanel, BorderLayout.SOUTH);
 
         // Action listeners for the buttons
-        gradeAllCheckbox.addActionListener(e -> puzzleIdField.setEnabled(!gradeAllCheckbox.isSelected()));
+        gradeAllIDsCheckbox.addActionListener(e -> puzzleIdField.setEnabled(!gradeAllIDsCheckbox.isSelected()));
+        gradeAllTagsCheckbox.addActionListener(e -> puzzleTypeField.setEnabled(!gradeAllTagsCheckbox.isSelected()));
 
         browseButton.addActionListener(e -> {
             JFileChooser folderBrowser = new JFileChooser();
@@ -233,15 +248,25 @@ public class HomePanel extends LegupPanel {
 
         gradeButton.addActionListener(e -> {
             String directoryPath = directoryField.getText();
-            String puzzles = puzzleIdField.getText();
+            String puzzleTags = puzzleIdField.getText();
+            String puzzleTypes = puzzleTypeField.getText();
 
             _tagsToGrade.clear();
-            if (!puzzles.isEmpty()) {
+            if (!puzzleTags.isEmpty()) {
                 Pattern pattern = Pattern.compile("\"(.*?)\"");
-                Matcher matcher = pattern.matcher(puzzles);
+                Matcher matcher = pattern.matcher(puzzleTags);
 
                 while (matcher.find()) {
                     _tagsToGrade.add(matcher.group(1));
+                }
+            }
+            _typesToGrade.clear();
+            if (!puzzleTypes.isEmpty()) {
+                Pattern pattern = Pattern.compile("\"(.*?)\"");
+                Matcher matcher = pattern.matcher(puzzleTypes);
+
+                while (matcher.find()) {
+                    _typesToGrade.add(matcher.group(1));
                 }
             }
 
@@ -415,14 +440,20 @@ public class HomePanel extends LegupPanel {
                 Document doc;
                 if ( (doc = isxmlfile(fileEntry)) == null) {
                     LOGGER.debug("{} is not a '.xml' file", fName);
+                    writer.write(fName+",Not an xml file!\n");
                     continue;
                 }
 
                 NodeList puzzleNodes = doc.getElementsByTagName("puzzle");
                 Element puzzleElement = (Element) puzzleNodes.item(0);
                 String puzzleTag = puzzleElement.getAttribute("tag");
-                if (!_tagsToGrade.isEmpty() && !_tagsToGrade.contains(puzzleTag)) {
+                if (!_tagsToGrade.isEmpty() && _tagsToGrade.stream().noneMatch(puzzleTag::contains)) {
                     LOGGER.debug("'{}' is not graded with tag '{}'", puzzleElement.getAttribute("name"), puzzleTag);
+                    continue;
+                }
+                String puzzleType = puzzleElement.getAttribute("name");
+                if (!_typesToGrade.isEmpty() && _typesToGrade.stream().noneMatch(puzzleType::contains)) {
+                    LOGGER.debug("'{}' is not graded with type '{}'", puzzleElement.getAttribute("name"), puzzleType);
                     continue;
                 }
 

@@ -103,7 +103,7 @@ public abstract class PuzzleExporter {
             newDocument.appendChild(legupElement);
 
             org.w3c.dom.Element puzzleElement = newDocument.createElement("puzzle");
-            String idStr = puzzle.tag.isEmpty() ? fileName.substring(fileName.lastIndexOf("\\") + 1) : puzzle.tag;
+            String idStr = puzzle.getTag().isEmpty() ? fileName.substring(fileName.lastIndexOf("\\") + 1) : puzzle.getTag();
             puzzleElement.setAttribute("tag", idStr);
             puzzleElement.setAttribute("name", puzzle.getName());
             legupElement.appendChild(puzzleElement);
