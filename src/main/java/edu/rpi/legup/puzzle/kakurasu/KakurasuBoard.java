@@ -70,10 +70,8 @@ public class KakurasuBoard extends GridBoard {
     public KakurasuClue getClue(int x, int y) {
         if (x == getWidth() && 0 <= y && y < getHeight()) {
             return rowClues.get(y);
-        } else {
-            if (y == getHeight() && 0 <= x && x < getWidth()) {
-                return colClues.get(x);
-            }
+        } else if (y == getHeight() && 0 <= x && x < getWidth()) {
+            return colClues.get(x);
         }
         return null;
     }

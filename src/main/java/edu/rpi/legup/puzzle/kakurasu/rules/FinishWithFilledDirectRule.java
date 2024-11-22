@@ -7,9 +7,11 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.kakurasu.KakurasuBoard;
 import edu.rpi.legup.puzzle.kakurasu.KakurasuCell;
+import edu.rpi.legup.puzzle.kakurasu.KakurasuClue;
 import edu.rpi.legup.puzzle.kakurasu.KakurasuType;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FinishWithFilledDirectRule extends DirectRule {
@@ -59,10 +61,28 @@ public class FinishWithFilledDirectRule extends DirectRule {
     private boolean isForced(KakurasuBoard board, KakurasuCell cell) {
         Point loc = cell.getLocation();
         List<KakurasuCell> filledRow = board.getRowCol(loc.y, KakurasuType.FILLED, true);
+        List<KakurasuCell> unknownRow = board.getRowCol(loc.y, KakurasuType.UNKNOWN, true);
         List<KakurasuCell> filledCol = board.getRowCol(loc.x, KakurasuType.FILLED, false);
+        List<KakurasuCell> unknownCol = board.getRowCol(loc.x, KakurasuType.UNKNOWN, false);
 
-        // TODO: Actually make this helper function return the correct value
-        // The remaining value in this row or column must be equal to the achievable remaining value
+        // Check if the remaining locations available must be filled to fulfill the clue value
+        int rowSum = 0;
+        for(KakurasuCell kc : filledRow) {
+            rowSum += kc.getLocation().y;
+        }
+        for(KakurasuCell kc : unknownRow) {
+            rowSum += kc.getLocation().y;
+        }
+        if(rowSum != board.getClue(board.getWidth(), loc.y).getData()) return false;
+
+        int colSum = 0;
+        for(KakurasuCell kc : filledCol) {
+            colSum += kc.getLocation().x;
+        }
+        for(KakurasuCell kc : unknownCol) {
+            colSum += kc.getLocation().x;
+        }
+        if(colSum != board.getClue(loc.x, board.getHeight()).getData()) return false;
 
         return true;
     }
