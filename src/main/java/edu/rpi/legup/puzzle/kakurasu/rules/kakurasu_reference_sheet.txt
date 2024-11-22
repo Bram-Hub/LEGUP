@@ -1,5 +1,10 @@
 KAKU-BASC-0001 : FinishWithFilledDirectRule
+KAKU-BASC-0002 : FinishWithEmptyDirectRule
+KAKU-BASC-0003 : RequiredFilledDirectRule
 
-KAKU-CONT-0001 : A
+
+KAKU-CONT-0001 : ExceededSumContradictionRule
+KAKU-CONT-0002 : IncompleteSumContradictionRule
+
 
 KAKU-CASE-0001 : A
