@@ -1,8 +1,8 @@
 package edu.rpi.legup.puzzle.minesweeper.elements;
 
-import edu.rpi.legup.model.elements.NonPlaceableElement;
+import edu.rpi.legup.model.elements.PlaceableElement;
 
-public class MineTile extends NonPlaceableElement {
+public class MineTile extends PlaceableElement {
     public MineTile() {
         super(
                 "MINE-UNPL-0001",

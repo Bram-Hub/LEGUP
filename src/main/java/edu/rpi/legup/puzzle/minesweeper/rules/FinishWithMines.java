@@ -7,11 +7,11 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.*;
 
-public class FinishWithMine extends DirectRule {
-    public FinishWithMine() {
+public class FinishWithMines extends DirectRule {
+    public FinishWithMines() {
         super(
                 "MINE-BASC-0001",
-                "Finish With Mine",
+                "Finish With Mines",
                 "The only way for the numbers around this cell to be satisfied is for this cell to contain a mine",
                 "edu/rpi/legup/images/minesweeper/direct/FinishWithMine.png");
     }

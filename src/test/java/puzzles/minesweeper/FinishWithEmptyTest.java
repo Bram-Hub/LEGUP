@@ -30,7 +30,7 @@ public class FinishWithEmptyTest {
     @Test
     public void MustNotContainBombDirectRule_OneUnsetOneEmptyOneClueTest1()
             throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/minesweeper/utilities/3x3test8.txt", minesweeper);
+        TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test8.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -60,7 +60,7 @@ public class FinishWithEmptyTest {
     @Test
     public void MustNotContainBombDirectRule_FiveUnsetOneEmptyOneClueTest2()
             throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/minesweeper/utilities/3x3test9.txt", minesweeper);
+        TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test9.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -90,7 +90,7 @@ public class FinishWithEmptyTest {
     @Test
     public void MustNotContainBombDirectRule_NineUnsetOneEmptyZeroCluesTest3()
             throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/minesweeper/utilities/3x3test", minesweeper);
+        TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -120,7 +120,7 @@ public class FinishWithEmptyTest {
     @Test
     public void MustNotContainBombDirectRule_NineUnsetNineEmptyZeroCluesTest4()
             throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/minesweeper/utilities/3x3test", minesweeper);
+        TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -178,7 +178,7 @@ public class FinishWithEmptyTest {
     @Test
     public void MustNotContainBombDirectRule_OneUnsetOneEmptyThreeCluesTest5()
             throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/minesweeper/utilities/3x3test10.txt", minesweeper);
+        TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test10.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -208,7 +208,7 @@ public class FinishWithEmptyTest {
     @Test
     public void MustNotContainBombDirectRule_OneUnsetOneEmptyThreeCluesTest6()
             throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/minesweeper/utilities/3x3test11.txt", minesweeper);
+        TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test11.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -238,7 +238,7 @@ public class FinishWithEmptyTest {
     @Test
     public void MustNotContainBombDirectRule_FiveUnsetTwoEmptyTwoCluesTest7()
             throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/minesweeper/utilities/3x3test12.txt", minesweeper);
+        TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test12.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
