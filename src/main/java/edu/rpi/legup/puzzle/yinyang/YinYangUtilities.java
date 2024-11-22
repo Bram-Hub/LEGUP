@@ -54,3 +54,45 @@ public class YinYangUtilities {
 
         return isConnected(whiteCells, board) && isConnected(blackCells, board);
     }
+
+    /**
+     * Checks if a given set of cells forms a single connected component.
+     *
+     * @param cells the set of cells to check
+     * @param board the board to check connectivity on
+     * @return true if the set is connected, false otherwise
+     */
+    private static boolean isConnected(Set<YinYangCell> cells, YinYangBoard board) {
+        if (cells.isEmpty()) return true;
+
+        Set<YinYangCell> visited = new HashSet<>();
+        dfs(cells.iterator().next(), cells, visited, board);
+
+        return visited.size() == cells.size();
+    }
+
+    /**
+     * Depth-first search to explore connected cells.
+     */
+    private static void dfs(YinYangCell cell, Set<YinYangCell> cells, Set<YinYangCell> visited, YinYangBoard board) {
+        if (!cells.contains(cell) || visited.contains(cell)) return;
+
+        visited.add(cell);
+
+        int x = cell.getX();
+        int y = cell.getY();
+
+        YinYangCell[] neighbors = {
+                board.getCell(x - 1, y),
+                board.getCell(x + 1, y),
+                board.getCell(x, y - 1),
+                board.getCell(x, y + 1),
+        };
+
+        for (YinYangCell neighbor : neighbors) {
+            if (neighbor != null) {
+                dfs(neighbor, cells, visited, board);
+            }
+        }
+    }
+}
