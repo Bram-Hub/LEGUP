@@ -36,7 +36,7 @@ public class MineOrEmptyCaseRule extends CaseRule {
     }
 
     @Override
-    public List<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
 
         Board case1 = board.copy();
