@@ -17,7 +17,7 @@ public class MineOrEmptyCaseRule extends CaseRule {
         super(
                 "MINE-CASE-0001",
                 "Mine or Empty",
-                "A cell can either be a mine or filled.",
+                "An unset cell can either be a mine or filled.",
                 "edu/rpi/legup/images/minesweeper/cases/MineOrEmpty.png");
     }
 

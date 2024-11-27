@@ -321,8 +321,8 @@ public final class MinesweeperUtilities {
         int numFar;
 
         // Goes through all possible positions that horizontally adjacent number cells
-        // could be in that could force the current cell to be a empty. If one possibility
-        // actually has the number cells that force the current cell to be a empty, return true
+        // could be in that could force the current cell to be empty. If one possibility
+        // actually has the number cells that force the current cell to be empty, return true
         for(int i = -1; i <= 1; i += 2) {
             for(int j = -1; j <= 1; j ++) {
                 if(x + (2 * i) >= 0 && x + (2 * i) < width
@@ -362,8 +362,8 @@ public final class MinesweeperUtilities {
         }
 
         // Goes through all possible positions that vertically adjacent number cells
-        // could be in that could force the current cell to be a empty. If one possibility
-        // actually has the number cells that force the current cell to be a empty, return true
+        // could be in that could force the current cell to be empty. If one possibility
+        // actually has the number cells that force the current cell to beempty, return true
         for(int i = -1; i <= 1; i += 2){
             for (int j = -1; j <= 1; j++) {
                 if (x + j >= 0 && x + j < width

@@ -12,7 +12,7 @@ public class FinishWithEmptyDirectRule extends DirectRule {
         super(
                 "MINE-BASC-0002",
                 "Finish With Empty",
-                "The only way for the numbers around this cell to be satisfied is for this cell to not contain a mine",
+                "There exists a number around this cell that can only be satisfied if this cell is empty",
                 "edu/rpi/legup/images/minesweeper/direct/FinishWithEmpty.png");
     }
 
