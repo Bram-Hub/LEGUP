@@ -30,7 +30,7 @@ public class TestRunner {
         printTestResults(result6);
         Result result7 = JUnitCore.runClasses(FinishWithBulbsDirectRuleTest.class);
         printTestResults(result7);
-        Result result8 = JUnitCore.runClasses(FinishWithEmptyDirectRuleTest.class);
+        Result result8 = JUnitCore.runClasses(FinishWithEmptyDirectRuleDirectRuleTest.class);
         printTestResults(result8);
         Result result9 = JUnitCore.runClasses(LightOrEmptyCaseRuleTest.class);
         printTestResults(result9);

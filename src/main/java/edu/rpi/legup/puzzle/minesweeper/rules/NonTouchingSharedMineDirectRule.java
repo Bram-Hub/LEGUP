@@ -7,13 +7,14 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.*;
 
-public class FinishWithMines extends DirectRule {
-    public FinishWithMines() {
+public class NonTouchingSharedMineDirectRule extends DirectRule {
+    public NonTouchingSharedMineDirectRule() {
         super(
-                "MINE-BASC-0001",
-                "Finish With Mines",
-                "The only way for the numbers around this cell to be satisfied is for this cell to contain a mine",
-                "edu/rpi/legup/images/minesweeper/direct/FinishWithMine.png");
+                "MINE-BASC-0003",
+                "Non Shared Mine",
+                "Adjacent cells with numbers have the same difference in mine in their unshared\n" +
+                        "regions as the difference in their numbers",
+                "edu/rpi/legup/images/minesweeper/direct/NonSharedMine.png");
     }
 
     @Override
@@ -30,7 +31,7 @@ public class FinishWithMines extends DirectRule {
                     + ": This cell must be a mine to be applicable with this rule.";
         }
 
-        if (MinesweeperUtilities.isForcedMine(parentBoard, cell)) {
+        if (MinesweeperUtilities.nonTouchingSharedIsMine(parentBoard, cell)) {
             return null;
         } else {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be a mine";
@@ -53,7 +54,6 @@ public class FinishWithMines extends DirectRule {
                     && MinesweeperUtilities.isForcedMine(
                             (MinesweeperBoard) node.getBoard(), cell)) {
                 cell.setCellType(MinesweeperTileData.mine());
-                cell.setModifiable(false);
                 minesweeperBoard.addModifiedData(cell);
             }
         }

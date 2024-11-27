@@ -3,7 +3,7 @@ package puzzles.minesweeper;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.*;
-import edu.rpi.legup.puzzle.minesweeper.rules.FinishWithMines;
+import edu.rpi.legup.puzzle.minesweeper.rules.FinishWithMinesDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
@@ -15,7 +15,7 @@ import java.awt.*;
 
 public class FinishWithMinesDirectRuleTest {
 
-    public static final FinishWithMines RULE = new FinishWithMines();
+    public static final FinishWithMinesDirectRule RULE = new FinishWithMinesDirectRule();
     private static Minesweeper minesweeper;
 
     @BeforeClass
@@ -25,7 +25,7 @@ public class FinishWithMinesDirectRuleTest {
     }
 
     @Test
-    public void MustContainBombDirectRule_OneUnsetOneBombOneClueTest1()
+    public void FinishWithMinesDirectRule_OneUnsetOneBombOneClueTest1()
             throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test2.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
@@ -55,7 +55,7 @@ public class FinishWithMinesDirectRuleTest {
     }
 
     @Test
-    public void MustContainBombDirectRule_FourUnsetOneBombOneClueTest2()
+    public void FinishWithMinesDirectRule_FourUnsetOneBombOneClueTest2()
             throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test3.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
@@ -86,7 +86,7 @@ public class FinishWithMinesDirectRuleTest {
 
 
     @Test
-    public void MustContainBombDirectRule_FourUnsetFourBombsOneClueTest3()
+    public void FinishWithMinesDirectRule_FourUnsetFourBombsOneClueTest3()
             throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test3.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
@@ -126,7 +126,7 @@ public class FinishWithMinesDirectRuleTest {
     }
 
     @Test
-    public void MustContainBombDirectRule_EightUnsetEightBombsOneClueTest4()
+    public void FinishWithMinesDirectRule_EightUnsetEightBombsOneClueTest4()
             throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test4.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
@@ -180,7 +180,7 @@ public class FinishWithMinesDirectRuleTest {
     }
 
     @Test
-    public void MustContainBombDirectRule_OneUnsetOneBombFourCluesTest5()
+    public void FinishWithMinesDirectRule_OneUnsetOneBombFourCluesTest5()
             throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test5.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
@@ -210,7 +210,7 @@ public class FinishWithMinesDirectRuleTest {
     }
 
     @Test
-    public void MustContainBombDirectRule_TwoUnsetTwoBombsTwoCluesTest6()
+    public void FinishWithMinesDirectRule_TwoUnsetTwoBombsTwoCluesTest6()
             throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test6.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
@@ -243,7 +243,7 @@ public class FinishWithMinesDirectRuleTest {
     }
 
     @Test
-    public void MustContainBombDirectRule_ThreeUnsetOneBombTwoCluesTest7()
+    public void FinishWithMinesDirectRule_ThreeUnsetOneBombTwoCluesTest7()
             throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test7.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();

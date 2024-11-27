@@ -6,7 +6,7 @@ import edu.rpi.legup.puzzle.minesweeper.Minesweeper;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperBoard;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperCell;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperTileData;
-import edu.rpi.legup.puzzle.minesweeper.rules.NonTouchingSharedEmpty;
+import edu.rpi.legup.puzzle.minesweeper.rules.NonTouchingSharedEmptyDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
@@ -18,7 +18,7 @@ import java.awt.*;
 
 public class NonTouchingSharedEmptyDirectRuleTest {
 
-    public static final NonTouchingSharedEmpty RULE = new NonTouchingSharedEmpty();
+    public static final NonTouchingSharedEmptyDirectRule RULE = new NonTouchingSharedEmptyDirectRule();
     private static Minesweeper minesweeper;
 
     @BeforeClass

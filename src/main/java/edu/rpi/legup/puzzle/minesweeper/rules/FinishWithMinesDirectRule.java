@@ -7,13 +7,13 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.*;
 
-public class FinishWithEmpty extends DirectRule {
-    public FinishWithEmpty() {
+public class FinishWithMinesDirectRule extends DirectRule {
+    public FinishWithMinesDirectRule() {
         super(
-                "MINE-BASC-0002",
-                "Finish With Empty",
-                "The only way for the numbers around this cell to be satisfied is for this cell to not contain a mine",
-                "edu/rpi/legup/images/minesweeper/direct/FinishWithEmpty.png");
+                "MINE-BASC-0001",
+                "Finish With Mines",
+                "The only way for the numbers around this cell to be satisfied is for this cell to contain a mine",
+                "edu/rpi/legup/images/minesweeper/direct/FinishWithMine.png");
     }
 
     @Override
@@ -24,16 +24,16 @@ public class FinishWithEmpty extends DirectRule {
         MinesweeperCell parentCell = (MinesweeperCell) parentBoard.getPuzzleElement(puzzleElement);
 
         if (!(parentCell.getTileType() == MinesweeperTileType.UNSET
-                && cell.getTileType() == MinesweeperTileType.EMPTY)) {
+                && cell.getTileType() == MinesweeperTileType.MINE)) {
 
             return super.getInvalidUseOfRuleMessage()
-                    + ": This cell must be empty to be applicable with this rule.";
+                    + ": This cell must be a mine to be applicable with this rule.";
         }
 
-        if (MinesweeperUtilities.isForcedEmpty(parentBoard, cell)) {
+        if (MinesweeperUtilities.isForcedMine(parentBoard, cell)) {
             return null;
         } else {
-            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty";
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be a mine";
         }
     }
 
@@ -53,6 +53,7 @@ public class FinishWithEmpty extends DirectRule {
                     && MinesweeperUtilities.isForcedMine(
                             (MinesweeperBoard) node.getBoard(), cell)) {
                 cell.setCellType(MinesweeperTileData.mine());
+                cell.setModifiable(false);
                 minesweeperBoard.addModifiedData(cell);
             }
         }
