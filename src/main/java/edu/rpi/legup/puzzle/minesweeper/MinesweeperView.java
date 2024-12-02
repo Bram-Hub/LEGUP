@@ -26,7 +26,7 @@ public class MinesweeperView extends GridBoardView {
                             Objects.requireNonNull(
                                     ClassLoader.getSystemClassLoader()
                                             .getResource(
-                                                    "edu/rpi/legup/images/minesweeper/tiles/Bomb.png")));
+                                                    "edu/rpi/legup/images/minesweeper/tiles/Mine.png")));
         } catch (IOException e) {
             LOGGER.error("Failed to open Minesweeper images");
         }

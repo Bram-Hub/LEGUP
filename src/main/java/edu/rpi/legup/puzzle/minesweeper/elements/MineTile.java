@@ -8,6 +8,6 @@ public class MineTile extends PlaceableElement {
                 "MINE-UNPL-0001",
                 "Mine",
                 "A mine",
-                "edu/rpi/legup/images/minesweeper/tiles/mine.png");
+                "edu/rpi/legup/images/minesweeper/tiles/Mine.png");
     }
 }
