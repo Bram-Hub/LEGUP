@@ -13,7 +13,7 @@ public class FinishWithMinesDirectRule extends DirectRule {
                 "MINE-BASC-0001",
                 "Finish With Mines",
                 "There exists a number around this cell that can only be satisfied if this cell contains a mine",
-                "edu/rpi/legup/images/minesweeper/direct/FinishWithMine.png");
+                "edu/rpi/legup/images/minesweeper/direct/FinishWithMines.png");
     }
 
     @Override
