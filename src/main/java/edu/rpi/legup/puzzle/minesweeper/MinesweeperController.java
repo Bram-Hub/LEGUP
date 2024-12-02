@@ -37,6 +37,7 @@ public class MinesweeperController extends ElementController {
             default:
                 return MinesweeperTileData.empty();
         }
+
     }
 
     /**

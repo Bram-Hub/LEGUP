@@ -52,7 +52,6 @@ public final class MinesweeperUtilities {
                         })
                         .count();
     }
-
     public static int countSurroundingMines(MinesweeperBoard board, MinesweeperCell cell) {
         return countSurroundingType(board, cell, MinesweeperTileType.MINE);
     }

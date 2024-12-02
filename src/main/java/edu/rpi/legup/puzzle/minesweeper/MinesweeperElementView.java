@@ -63,7 +63,6 @@ public class MinesweeperElementView extends GridElementView {
 
             graphics2D.setFont(FONT);
             final FontMetrics metrics = graphics2D.getFontMetrics(FONT);
-
             final int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             final int yText =
                     location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();

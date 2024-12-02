@@ -79,7 +79,7 @@ public record MinesweeperTileData(MinesweeperTileType type, int data) {
     public boolean isUnset() {
         return this.data == UNSET_DATA;
     }
-
+  
     public boolean isMine() {
         return this.data == MINE_DATA;
     }
