@@ -40,14 +40,12 @@ public class Minesweeper extends Puzzle {
 
         for (ContradictionRule rule : contradictionRules) {
             if (rule.checkContradiction(minesweeperBoard) == null) {
-                System.out.println(rule.getRuleName());
                 return false;
             }
         }
         for (PuzzleElement<?> data : minesweeperBoard.getPuzzleElements()) {
             final MinesweeperCell cell = (MinesweeperCell) data;
             if (cell.getData().equals(MinesweeperTileData.unset())) {
-                System.out.println("loc is " + cell.getLocation().x + " " + cell.getLocation().y);
                 return false;
             }
         }
