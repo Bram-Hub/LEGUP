@@ -93,4 +93,3 @@ gradle/wrapper/gradle-wrapper.properties
 
 # Visual Studio Code configs
 .vscode/*
-src/test/java/legup/TestRunner.java

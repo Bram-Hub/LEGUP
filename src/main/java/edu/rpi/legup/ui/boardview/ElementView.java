@@ -10,8 +10,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 
 /**
- * ElementView represents a visual representation of a PuzzleElement.
- * It handles drawing, selection, hover states, and interaction with the PuzzleElement.
+ * ElementView represents a visual representation of a PuzzleElement. It handles drawing, selection,
+ * hover states, and interaction with the PuzzleElement.
  */
 public abstract class ElementView implements Shape {
     protected int index;
@@ -78,7 +78,8 @@ public abstract class ElementView implements Shape {
     }
 
     /**
-     * Draws the basic element representation (e.g., border, text) on the provided Graphics2D context.
+     * Draws the basic element representation (e.g., border, text) on the provided Graphics2D
+     * context.
      *
      * @param graphics2D the Graphics2D context to use for drawing
      */
@@ -331,7 +332,8 @@ public abstract class ElementView implements Shape {
      *
      * @param x the x-coordinate of the point to check
      * @param y the y-coordinate of the point to check
-     * @return {@code true} if the point is within the bounds of this ElementView; {@code false} otherwise
+     * @return {@code true} if the point is within the bounds of this ElementView; {@code false}
+     *     otherwise
      */
     @Override
     public boolean contains(double x, double y) {
@@ -345,7 +347,8 @@ public abstract class ElementView implements Shape {
      * Determines if the specified Point2D object is within the bounds of this ElementView
      *
      * @param point the Point2D object representing the point to check
-     * @return {@code true} if the point is within the bounds of this ElementView; {@code false} otherwise
+     * @return {@code true} if the point is within the bounds of this ElementView; {@code false}
+     *     otherwise
      */
     @Override
     public boolean contains(Point2D point) {
@@ -353,13 +356,15 @@ public abstract class ElementView implements Shape {
     }
 
     /**
-     * Determines if the specified rectangle defined by (x, y, width, height) intersects with the bounds of this ElementView.
+     * Determines if the specified rectangle defined by (x, y, width, height) intersects with the
+     * bounds of this ElementView.
      *
      * @param x The x-coordinate of the rectangle to check
      * @param y The y-coordinate of the rectangle to check
      * @param width The width of the rectangle to check
      * @param height The height of the rectangle to check
-     * @return {@code true} if the rectangle intersects with the bounds of this ElementView; {@code false} otherwise
+     * @return {@code true} if the rectangle intersects with the bounds of this ElementView; {@code
+     *     false} otherwise
      */
     @Override
     public boolean intersects(double x, double y, double width, double height) {
@@ -368,10 +373,12 @@ public abstract class ElementView implements Shape {
     }
 
     /**
-     * Determines if the specified Rectangle2D object intersects with the bounds of this ElementView.
+     * Determines if the specified Rectangle2D object intersects with the bounds of this
+     * ElementView.
      *
      * @param rectangle2D the Rectangle2D object representing the rectangle to check
-     * @return {@code true} if the rectangle intersects with the bounds of this ElementView; {@code false} otherwise
+     * @return {@code true} if the rectangle intersects with the bounds of this ElementView; {@code
+     *     false} otherwise
      */
     @Override
     public boolean intersects(Rectangle2D rectangle2D) {
@@ -383,13 +390,15 @@ public abstract class ElementView implements Shape {
     }
 
     /**
-     * Determines if the specified rectangle defined by (x, y, width, height) is entirely contained within the bounds of this ElementView
+     * Determines if the specified rectangle defined by (x, y, width, height) is entirely contained
+     * within the bounds of this ElementView
      *
      * @param x the x-coordinate of the rectangle to check
      * @param y the y-coordinate of the rectangle to check
      * @param width the width of the rectangle to check
      * @param height the height of the rectangle to check
-     * @return {@code true} if the rectangle is entirely contained within the bounds of this ElementView; {@code false} otherwise
+     * @return {@code true} if the rectangle is entirely contained within the bounds of this
+     *     ElementView; {@code false} otherwise
      */
     @Override
     public boolean contains(double x, double y, double width, double height) {
@@ -398,10 +407,12 @@ public abstract class ElementView implements Shape {
     }
 
     /**
-     * Determines if the specified Rectangle2D object is entirely contained within the bounds of this ElementView.
+     * Determines if the specified Rectangle2D object is entirely contained within the bounds of
+     * this ElementView.
      *
      * @param rectangle2D the Rectangle2D object representing the rectangle to check
-     * @return {@code true} if the rectangle is entirely contained within the bounds of this ElementView; {@code false} otherwise
+     * @return {@code true} if the rectangle is entirely contained within the bounds of this
+     *     ElementView; {@code false} otherwise
      */
     @Override
     public boolean contains(Rectangle2D rectangle2D) {
@@ -412,10 +423,9 @@ public abstract class ElementView implements Shape {
                 rectangle2D.getHeight());
     }
 
-
     /**
-     * Returns an iterator over the path geometry of this ElementView. The iterator provides access to the path's
-     * segments and their coordinates, which can be used for rendering or hit testing.
+     * Returns an iterator over the path geometry of this ElementView. The iterator provides access
+     * to the path's segments and their coordinates, which can be used for rendering or hit testing.
      *
      * @param at the AffineTransform to apply to the path geometry
      * @return a PathIterator that iterates over the path geometry of this ElementView
@@ -426,8 +436,9 @@ public abstract class ElementView implements Shape {
     }
 
     /**
-     * Returns an iterator over the path geometry of this ElementView with the specified flatness. The iterator provides
-     * access to the path's segments and their coordinates, which can be used for rendering or hit testing.
+     * Returns an iterator over the path geometry of this ElementView with the specified flatness.
+     * The iterator provides access to the path's segments and their coordinates, which can be used
+     * for rendering or hit testing.
      *
      * @param at the AffineTransform to apply to the path geometry
      * @param flatness the maximum distance that the line segments can deviate from the true path

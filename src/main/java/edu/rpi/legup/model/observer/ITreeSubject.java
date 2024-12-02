@@ -3,8 +3,8 @@ package edu.rpi.legup.model.observer;
 import java.util.function.Consumer;
 
 /**
- * ITreeSubject defines methods for managing and notifying listeners about changes to the tree model.
- * Implementations of this interface handle adding, removing, and notifying listeners.
+ * ITreeSubject defines methods for managing and notifying listeners about changes to the tree
+ * model. Implementations of this interface handle adding, removing, and notifying listeners.
  */
 public interface ITreeSubject {
     /**

@@ -11,8 +11,8 @@ import java.util.Objects;
 import javax.swing.*;
 
 /**
- * Provides the user interface components for creating a new puzzle in the Legup application.
- * This package includes classes for displaying dialog boxes to configure and initialize puzzles.
+ * Provides the user interface components for creating a new puzzle in the Legup application. This
+ * package includes classes for displaying dialog boxes to configure and initialize puzzles.
  */
 public class CreatePuzzleDialog extends JDialog {
     private HomePanel homePanel;
@@ -22,11 +22,12 @@ public class CreatePuzzleDialog extends JDialog {
     private ActionListener gameBoxListener =
             new ActionListener() {
                 /**
-                 * An ActionListener that handles changes in the drop-down menu for selecting puzzle types.
-                 * When a new item is selected in the drop-down menu, this listener updates the visibility of
-                 * the text input area and the row/column input fields based on the selected puzzle type.
-                 * If "ShortTruthTable" is selected, the text input area is shown and the row/column fields are hidden.
-                 * For other puzzle types, the row/column fields are shown and the text input area is hidden.
+                 * An ActionListener that handles changes in the drop-down menu for selecting puzzle
+                 * types. When a new item is selected in the drop-down menu, this listener updates
+                 * the visibility of the text input area and the row/column input fields based on
+                 * the selected puzzle type. If "ShortTruthTable" is selected, the text input area
+                 * is shown and the row/column fields are hidden. For other puzzle types, the
+                 * row/column fields are shown and the text input area is hidden.
                  */
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -76,9 +77,7 @@ public class CreatePuzzleDialog extends JDialog {
                         return;
                     }
                     if (!game.equals("ShortTruthTable")
-                            && (game.isEmpty()
-                                    || getRows().isEmpty()
-                                    || getColumns().isEmpty())) {
+                            && (game.isEmpty() || getRows().isEmpty() || getColumns().isEmpty())) {
                         System.out.println("Unfilled fields");
                         return;
                     }
@@ -200,8 +199,8 @@ public class CreatePuzzleDialog extends JDialog {
     }
 
     /**
-     * Initializes the puzzle options available for selection in the dialog.
-     * The options are retrieved from the game board facade and sorted alphabetically.
+     * Initializes the puzzle options available for selection in the dialog. The options are
+     * retrieved from the game board facade and sorted alphabetically.
      */
     public void initPuzzles() {
         this.games =
@@ -213,9 +212,9 @@ public class CreatePuzzleDialog extends JDialog {
         gameBox = new JComboBox(this.games);
     }
 
-
     /**
-     * Handles the action events for the dialog, including interactions with the Ok and Cancel buttons
+     * Handles the action events for the dialog, including interactions with the Ok and Cancel
+     * buttons
      *
      * @param e The action event to be processed
      */
@@ -235,7 +234,8 @@ public class CreatePuzzleDialog extends JDialog {
                 }
                 this.setVisible(false);
             } catch (IllegalArgumentException exception) {
-                // Do nothing. This is here to prevent the dialog from closing if the dimensions are invalid.
+                // Do nothing. This is here to prevent the dialog from closing if the dimensions are
+                // invalid.
             }
         } else {
             if (e.getSource() == cancel) {
@@ -278,5 +278,7 @@ public class CreatePuzzleDialog extends JDialog {
      *
      * @return an array of strings, each representing as a line of text
      */
-    public String[] getTextArea() { return textArea.getText().split("\n"); }
+    public String[] getTextArea() {
+        return textArea.getText().split("\n");
+    }
 }

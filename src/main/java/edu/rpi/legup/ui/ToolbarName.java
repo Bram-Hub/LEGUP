@@ -1,8 +1,8 @@
 package edu.rpi.legup.ui;
 
 /**
- * This enum defines constants for toolbar names used in the user interface.
- * Each represents a specific toolbar action.
+ * This enum defines constants for toolbar names used in the user interface. Each represents a
+ * specific toolbar action.
  */
 public enum ToolbarName {
     DIRECTIONS,

@@ -8,9 +8,9 @@ import edu.rpi.legup.ui.proofeditorui.treeview.*;
 import java.util.List;
 
 /**
- * The DeleteTreeElementCommand class represents a command to delete tree elements from a proof tree.
- * It extends PuzzleCommand and implements the functionality to remove selected tree elements and
- * handle undo operations.
+ * The DeleteTreeElementCommand class represents a command to delete tree elements from a proof
+ * tree. It extends PuzzleCommand and implements the functionality to remove selected tree elements
+ * and handle undo operations.
  */
 public class DeleteTreeElementCommand extends PuzzleCommand {
     private TreeViewSelection selection;
@@ -25,9 +25,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
         this.selection = selection.copy();
     }
 
-    /**
-     * Executes the delete command, removing the selected tree elements from the tree.
-     */
+    /** Executes the delete command, removing the selected tree elements from the tree. */
     @Override
     public void executeCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
@@ -41,11 +39,13 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
         TreeElementView firstSelectedView = selectedViews.get(0);
         TreeElementView newSelectedView;
         if (firstSelectedView.getType() == TreeElementType.NODE) {
-            //System.out.println("FIRST SELECTION NODE, total selection views: " + selectedViews.size());
+            // System.out.println("FIRST SELECTION NODE, total selection views: " +
+            // selectedViews.size());
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
             newSelectedView = nodeView.getParentView();
         } else {
-            //System.out.println("FIRST SELECTION TRANS, total selection views: " + selectedViews.size());
+            // System.out.println("FIRST SELECTION TRANS, total selection views: " +
+            // selectedViews.size());
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
             newSelectedView = transitionView.getParentViews().get(0);
         }
@@ -58,8 +58,10 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
         }
 
         final TreeViewSelection newSelection = new TreeViewSelection(newSelectedView);
-        puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(newSelectedView.getTreeElement()));
-        puzzle.notifyTreeListeners((ITreeListener listener) -> listener.onTreeSelectionChanged(newSelection));
+        puzzle.notifyBoardListeners(
+                listener -> listener.onTreeElementChanged(newSelectedView.getTreeElement()));
+        puzzle.notifyTreeListeners(
+                (ITreeListener listener) -> listener.onTreeSelectionChanged(newSelection));
     }
 
     /**
@@ -84,9 +86,7 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
         return null;
     }
 
-    /**
-     * Undoes the delete command, re-adding the previously deleted tree elements.
-     */
+    /** Undoes the delete command, re-adding the previously deleted tree elements. */
     @Override
     public void undoCommand() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();

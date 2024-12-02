@@ -1,4 +1,3 @@
-
 package edu.rpi.legup.puzzle.binary.elements;
 
 import edu.rpi.legup.model.elements.PlaceableElement;

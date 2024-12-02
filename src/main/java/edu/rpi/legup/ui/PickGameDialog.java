@@ -16,9 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 /**
- * A dialog for selecting a game.
- * This class extends {@link JDialog} and implements {@link ActionListener}
- * to handle user interactions for selecting a game type and puzzle file.
+ * A dialog for selecting a game. This class extends {@link JDialog} and implements {@link
+ * ActionListener} to handle user interactions for selecting a game type and puzzle file.
  */
 public class PickGameDialog extends JDialog implements ActionListener {
     JLabel gameLabel = new JLabel("Game:");
@@ -112,8 +111,8 @@ public class PickGameDialog extends JDialog implements ActionListener {
     }
 
     /**
-     * Initializes the available games and puzzles.
-     * Populates the {@link JComboBox} with game types and sets up the puzzle options.
+     * Initializes the available games and puzzles. Populates the {@link JComboBox} with game types
+     * and sets up the puzzle options.
      */
     public void initPuzzles() {
         Object[] o = GameBoardFacade.getInstance().getConfig().getPuzzleClassNames().toArray();
@@ -156,9 +155,8 @@ public class PickGameDialog extends JDialog implements ActionListener {
     }
 
     /**
-     * Handles action events for the dialog components.
-     * Responds to user interactions such as selecting a puzzle, choosing a puzzle file,
-     * and pressing the 'Ok' or 'Cancel' buttons.
+     * Handles action events for the dialog components. Responds to user interactions such as
+     * selecting a puzzle, choosing a puzzle file, and pressing the 'Ok' or 'Cancel' buttons.
      *
      * @param e the action event
      */

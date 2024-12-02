@@ -32,8 +32,9 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
- * {@code GameBoardFacade} is a class designed to manage the game board operations within the application.
- * It integrates various components such as UI elements, puzzle management, and history tracking
+ * {@code GameBoardFacade} is a class designed to manage the game board operations within the
+ * application. It integrates various components such as UI elements, puzzle management, and history
+ * tracking
  */
 public class GameBoardFacade implements IHistorySubject {
     private static final Logger LOGGER = LogManager.getLogger(GameBoardFacade.class.getName());
@@ -76,9 +77,7 @@ public class GameBoardFacade implements IHistorySubject {
         return instance;
     }
 
-    /**
-     * Initializes the UI components
-     */
+    /** Initializes the UI components */
     public void initializeUI() {
         EventQueue.invokeLater(
                 () -> {
@@ -101,18 +100,14 @@ public class GameBoardFacade implements IHistorySubject {
         this.history.clear();
     }
 
-    /**
-     * Clears the current puzzle
-     */
+    /** Clears the current puzzle */
     public void clearPuzzle() {
         this.puzzle = null;
         this.curFileName = null;
         this.history.clear();
     }
 
-    /**
-     * Sets up the configuration by initializing the Config object
-     */
+    /** Sets up the configuration by initializing the Config object */
     public static void setupConfig() {
         Config config = null;
         try {
@@ -203,7 +198,7 @@ public class GameBoardFacade implements IHistorySubject {
      * @param columns the number of columns on the board
      */
     public void loadPuzzle(String game, int rows, int columns) throws RuntimeException {
-        if (!game.equals("")) {
+        if (!game.isEmpty()) {
             String qualifiedClassName = config.getPuzzleClassForName(game);
             LOGGER.debug("Loading " + qualifiedClassName);
 
@@ -235,15 +230,14 @@ public class GameBoardFacade implements IHistorySubject {
             } catch (IllegalArgumentException exception) {
                 throw new IllegalArgumentException(exception.getMessage());
             } catch (ClassNotFoundException
-                     | NoSuchMethodException
-                     | InvocationTargetException
-                     | IllegalAccessException
-                     | InstantiationException e) {
+                    | NoSuchMethodException
+                    | InvocationTargetException
+                    | IllegalAccessException
+                    | InstantiationException e) {
                 LOGGER.error(e);
                 throw new RuntimeException("Puzzle creation error");
             }
         }
-
     }
 
     /**
@@ -297,7 +291,8 @@ public class GameBoardFacade implements IHistorySubject {
      * Loads a puzzle file from the specified file
      *
      * @param fileName file name of the board file
-     * @throws InvalidFileFormatException if the file format is invalid or if the file cannot be created
+     * @throws InvalidFileFormatException if the file format is invalid or if the file cannot be
+     *     created
      */
     public void loadPuzzle(String fileName) throws InvalidFileFormatException {
         try {
@@ -314,7 +309,8 @@ public class GameBoardFacade implements IHistorySubject {
      * Loads a puzzle into the editor from the specified file name
      *
      * @param fileName the name of the file to load
-     * @throws InvalidFileFormatException if the file format is invalid or if the file cannot be created
+     * @throws InvalidFileFormatException if the file format is invalid or if the file cannot be
+     *     created
      */
     public void loadPuzzleEditor(String fileName) throws InvalidFileFormatException {
         try {
@@ -331,7 +327,8 @@ public class GameBoardFacade implements IHistorySubject {
      * Loads a puzzle into the editor from the specified input stream
      *
      * @param inputStream the input stream to load the puzzle from
-     * @throws InvalidFileFormatException if the input stream cannot be processed or the file format is invalid
+     * @throws InvalidFileFormatException if the input stream cannot be processed or the file format
+     *     is invalid
      */
     public void loadPuzzleEditor(InputStream inputStream) throws InvalidFileFormatException {
         Document document;

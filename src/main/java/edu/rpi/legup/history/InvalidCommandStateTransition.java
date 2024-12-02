@@ -1,8 +1,8 @@
 package edu.rpi.legup.history;
 
 /**
- * The InvalidCommandStateTransition exception is thrown when an invalid state transition
- * is attempted on a PuzzleCommand
+ * The InvalidCommandStateTransition exception is thrown when an invalid state transition is
+ * attempted on a PuzzleCommand
  */
 public class InvalidCommandStateTransition extends RuntimeException {
 

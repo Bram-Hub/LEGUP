@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * The MergeCommand class represents a command to merge selected tree nodes into a single node
- * and create a transition to represent the merge
+ * The MergeCommand class represents a command to merge selected tree nodes into a single node and
+ * create a transition to represent the merge
  */
 public class MergeCommand extends PuzzleCommand {
     private TreeViewSelection selection;
@@ -28,9 +28,7 @@ public class MergeCommand extends PuzzleCommand {
         this.transition = null;
     }
 
-    /**
-     * Executes the merge command
-     */
+    /** Executes the merge command */
     @Override
     public void executeCommand() {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
@@ -77,9 +75,7 @@ public class MergeCommand extends PuzzleCommand {
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
     }
 
-    /**
-     * Undoes the merge command
-     */
+    /** Undoes the merge command */
     @Override
     public void undoCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();

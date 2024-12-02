@@ -27,13 +27,11 @@ public class FinishRoomCaseRuleTest {
         nurikabe = new Nurikabe();
     }
 
-    /**
-     * Tests the Finish Room case rule by ensuring it produces the correct number of children
-     */
-
+    /** Tests the Finish Room case rule by ensuring it produces the correct number of children */
     @Test
     public void FinishRoomCaseRule_FinishRoomCaseRuleBaseTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/nurikabe/rules/FinishRoomCaseRule/FinishRoomCaseRuleBase", nurikabe);
+        TestUtilities.importTestBoard(
+                "puzzles/nurikabe/rules/FinishRoomCaseRule/FinishRoomCaseRuleBase", nurikabe);
         TreeNode rootNode = nurikabe.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
