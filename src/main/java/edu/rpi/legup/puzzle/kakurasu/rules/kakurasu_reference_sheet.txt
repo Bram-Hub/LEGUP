@@ -5,6 +5,6 @@ KAKU-BASC-0003 : RequiredFilledDirectRule
 
 KAKU-CONT-0001 : ExceededSumContradictionRule
 KAKU-CONT-0002 : IncompleteSumContradictionRule
-
+KAKU-CONT-0003 : UnreachableSumContradictionRule
 
 KAKU-CASE-0001 : A
