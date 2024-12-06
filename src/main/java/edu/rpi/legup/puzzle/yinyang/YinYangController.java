@@ -1,59 +1,48 @@
 package edu.rpi.legup.puzzle.yinyang;
 
-import edu.rpi.legup.controller.BoardController;
+import edu.rpi.legup.controller.ElementController;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 
-public class YinYangController extends BoardController {
+import java.awt.event.MouseEvent;
 
-    @Override
-    public boolean validateBoard() {
-        YinYangBoard board = (YinYangBoard) getPuzzle().getCurrentBoard();
-
-        // Validate the puzzle rules
-        if (!YinYangUtilities.validateNo2x2Blocks(board)) {
-            System.out.println("Invalid board: 2x2 blocks detected!");
-            return false;
-        }
-
-        if (!YinYangUtilities.validateConnectivity(board)) {
-            System.out.println("Invalid board: disconnected groups detected!");
-            return false;
-        }
-
-        return true;
-    }
+public class YinYangController extends ElementController {
 
     @Override
-    public void toggleCellType(int x, int y) {
-        YinYangBoard board = (YinYangBoard) getPuzzle().getCurrentBoard();
-        YinYangCell cell = board.getCell(x, y);
+    public void changeCell(MouseEvent e, PuzzleElement data) {
+        // Ensure the data is cast to YinYangCell
+        if (!(data instanceof YinYangCell)) {
+            throw new IllegalArgumentException("Invalid cell type");
+        }
+        YinYangCell cell = (YinYangCell) data;
 
-        if (cell != null) {
-            // Cycle between UNKNOWN -> WHITE -> BLACK
+        if (e.getButton() == MouseEvent.BUTTON1) { // Left mouse button
+            if (e.isControlDown()) {
+                this.boardView
+                        .getSelectionPopupMenu()
+                        .show(
+                                boardView,
+                                this.boardView.getCanvas().getX() + e.getX(),
+                                this.boardView.getCanvas().getY() + e.getY());
+            } else {
+                // Cycle cell type: UNKNOWN -> WHITE -> BLACK
+                if (cell.getType() == YinYangType.UNKNOWN) {
+                    cell.setType(YinYangType.WHITE);
+                } else if (cell.getType() == YinYangType.WHITE) {
+                    cell.setType(YinYangType.BLACK);
+                } else {
+                    cell.setType(YinYangType.UNKNOWN);
+                }
+            }
+        } else if (e.getButton() == MouseEvent.BUTTON3) { // Right mouse button
+            // Reverse the cycle: UNKNOWN <- WHITE <- BLACK
             if (cell.getType() == YinYangType.UNKNOWN) {
-                cell.setType(YinYangType.WHITE);
-            } else if (cell.getType() == YinYangType.WHITE) {
                 cell.setType(YinYangType.BLACK);
+            } else if (cell.getType() == YinYangType.BLACK) {
+                cell.setType(YinYangType.WHITE);
             } else {
                 cell.setType(YinYangType.UNKNOWN);
             }
-            updateView();
         }
-    }
-
-    @Override
-    public void resetBoard() {
-        YinYangBoard board = (YinYangBoard) getPuzzle().getCurrentBoard();
-        for (PuzzleElement element : board.getPuzzleElements()) {
-            YinYangCell cell = (YinYangCell) element;
-            cell.setType(YinYangType.UNKNOWN);
-        }
-        updateView();
-    }
-
-    @Override
-    public boolean isPuzzleSolved() {
-        YinYangBoard board = (YinYangBoard) getPuzzle().getCurrentBoard();
-        return YinYangUtilities.validateNo2x2Blocks(board) &&
-                YinYangUtilities.validateConnectivity(board);
+        this.boardView.repaint(); // Refresh the view after changes
     }
 }
