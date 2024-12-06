@@ -16,7 +16,7 @@ public class RequiredEmptyDirectRule extends DirectRule {
     public RequiredEmptyDirectRule() {
         super(
                 "KAKU-BASC-0002",
-                "Finish with Empty",
+                "Required Empty",
                 "The only way to satisfy the clue in a row or column are these empty tiles.",
                 "edu/rpi/legup/images/kakurasu/temp.png");
     }
