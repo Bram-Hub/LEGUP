@@ -2,7 +2,8 @@ package edu.rpi.legup.puzzle.yinyang;
 
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.utility.DisjointSets;
-
+import java.util.HashMap;
+import java.util.Map;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -94,5 +95,9 @@ public class YinYangUtilities {
                 dfs(neighbor, cells, visited, board);
             }
         }
+    }
+    public static Map<YinYangCell, Set<YinYangCell>> getRegions(YinYangBoard board) {
+        // Placeholder for region calculation logic
+        return new HashMap<>();
     }
 }
