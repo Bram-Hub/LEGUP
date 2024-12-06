@@ -21,4 +21,39 @@ public class YinYangController extends BoardController {
 
         return true;
     }
+
+    @Override
+    public void toggleCellType(int x, int y) {
+        YinYangBoard board = (YinYangBoard) getPuzzle().getCurrentBoard();
+        YinYangCell cell = board.getCell(x, y);
+
+        if (cell != null) {
+            // Cycle between UNKNOWN -> WHITE -> BLACK
+            if (cell.getType() == YinYangType.UNKNOWN) {
+                cell.setType(YinYangType.WHITE);
+            } else if (cell.getType() == YinYangType.WHITE) {
+                cell.setType(YinYangType.BLACK);
+            } else {
+                cell.setType(YinYangType.UNKNOWN);
+            }
+            updateView();
+        }
+    }
+
+    @Override
+    public void resetBoard() {
+        YinYangBoard board = (YinYangBoard) getPuzzle().getCurrentBoard();
+        for (PuzzleElement element : board.getPuzzleElements()) {
+            YinYangCell cell = (YinYangCell) element;
+            cell.setType(YinYangType.UNKNOWN);
+        }
+        updateView();
+    }
+
+    @Override
+    public boolean isPuzzleSolved() {
+        YinYangBoard board = (YinYangBoard) getPuzzle().getCurrentBoard();
+        return YinYangUtilities.validateNo2x2Blocks(board) &&
+                YinYangUtilities.validateConnectivity(board);
+    }
 }
