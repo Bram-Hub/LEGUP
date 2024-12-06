@@ -10,6 +10,7 @@ import edu.rpi.legup.puzzle.kakurasu.KakurasuCell;
 import edu.rpi.legup.puzzle.kakurasu.KakurasuType;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RequiredFilledDirectRule extends DirectRule {
@@ -65,24 +66,48 @@ public class RequiredFilledDirectRule extends DirectRule {
         List<KakurasuCell> unknownCol = board.getRowCol(loc.x, KakurasuType.UNKNOWN, false);
 
         // Check if the remaining locations available must be filled to fulfill the clue value
-        int rowSum = 0;
+        int rowValueRemaining = board.getClue(board.getWidth(), loc.y).getData();
         for(KakurasuCell kc : filledRow) {
-            rowSum += kc.getLocation().x + 1;
+            rowValueRemaining -= kc.getLocation().x + 1;
         }
+        ArrayList<Integer> rowValues = new ArrayList<>();
+        // Add all the unknown row values to the Arraylist except for the one being checked by the function
         for(KakurasuCell kc : unknownRow) {
-            rowSum += kc.getLocation().x + 1;
+            if(kc.getLocation() != loc) rowValues.add(kc.getLocation().x + 1);
         }
-        if(rowSum == board.getClue(board.getWidth(), loc.y).getData()) return true;
+        // If the clue is not reachable without the current cell being filled, but is possible with it filled,
+        // then that means the current cell is a required fill on this board
+        if(!isReachable(rowValueRemaining, 0, rowValues) &&
+            isReachable(rowValueRemaining-(loc.x+1), 0, rowValues)) return true;
 
-        int colSum = 0;
+        int colValueRemaining = board.getClue(loc.x, board.getHeight()).getData();
         for(KakurasuCell kc : filledCol) {
-            colSum += kc.getLocation().y + 1;
+            colValueRemaining -= kc.getLocation().y + 1;
         }
+        ArrayList<Integer> colValues = new ArrayList<>();
+        // Add all the unknown col values to the Arraylist except for the one being checked by the function
         for(KakurasuCell kc : unknownCol) {
-            colSum += kc.getLocation().y + 1;
+            if(kc.getLocation() != loc) colValues.add(kc.getLocation().y + 1);
         }
         // Return true if the clue is fulfilled, false if it isn't
-        return (colSum == board.getClue(loc.x, board.getHeight()).getData());
+        return (!isReachable(colValueRemaining, 0, rowValues) &&
+                isReachable(colValueRemaining-(loc.y+1), 0, colValues));
+    }
+
+    /**
+     * Helper function that checks if the target clue is reachable given a list of KakurasuCells
+     * This function only works if the list of values are given in increasing index order (which it currently is)
+     *
+     * @param target The integer that we are trying to add up to, given the values
+     * @param currentIndex The index of the next value that we are considering
+     * @param values Values that we are given to try to sum up to the target
+     * @return If it's possible to sum the values in a way to get the target value
+     */
+    private boolean isReachable(int target, int currentIndex, ArrayList<Integer> values) {
+        if(target == 0) return true;
+        if(target < 0 || currentIndex >= values.size()) return false;
+        return (isReachable(target, currentIndex+1, values) ||
+                isReachable(target - values.get(currentIndex), currentIndex+1, values));
     }
 
     /**

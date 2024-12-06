@@ -57,7 +57,6 @@ public class RequiredEmptyDirectRule extends DirectRule {
      * @return if the cell is forced to be at its position on the board
      */
     private boolean isForced(KakurasuBoard board, KakurasuCell cell) {
-        // TODO: Fix this so it doesn't only work if all are empty
         Point loc = cell.getLocation();
         List<KakurasuCell> filledRow = board.getRowCol(loc.y, KakurasuType.FILLED, true);
         List<KakurasuCell> filledCol = board.getRowCol(loc.x, KakurasuType.FILLED, false);
@@ -67,14 +66,16 @@ public class RequiredEmptyDirectRule extends DirectRule {
         for(KakurasuCell kc : filledRow) {
             rowSum += kc.getLocation().x + 1;
         }
-        if(rowSum == board.getClue(board.getWidth(), loc.y).getData()) return true;
+        // If setting this cell to filled causes the clue to fail, this cell must be empty
+        if(rowSum + loc.x + 1 > board.getClue(board.getWidth(), loc.y).getData()) return true;
 
         int colSum = 0;
         for(KakurasuCell kc : filledCol) {
             colSum += kc.getLocation().y + 1;
         }
-        // Return true if the clue is fulfilled, false if it isn't
-        return (colSum == board.getClue(loc.x, board.getHeight()).getData());
+        // Return true if the clue is exceeded if this cell is filled,
+        // Return false if setting the cell to filled keeps the col total to under the clue value
+        return (colSum + loc.y + 1> board.getClue(loc.x, board.getHeight()).getData());
     }
 
     /**

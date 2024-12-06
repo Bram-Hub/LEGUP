@@ -64,7 +64,7 @@ public class UnreachableSumContradictionRule extends ContradictionRule {
                 rowValues.add(kc.getLocation().x + 1);
                 rowTotal += kc.getLocation().x + 1;
             }
-            // If the remaining unknown cells' values is less than the remaining value,
+            // If the remaining unknown cells' values is less than the remaining clue value,
             // this requires the usage of a different contradiction rule, not this one.
             if(rowTotal < rowValueRemaining) return super.getNoContradictionMessage();
             rowPossible = isReachable(rowValueRemaining, 0, rowValues);
@@ -75,7 +75,7 @@ public class UnreachableSumContradictionRule extends ContradictionRule {
                 colValues.add(kc.getLocation().y + 1);
                 colTotal += kc.getLocation().y + 1;
             }
-            // If the remaining unknown cells' values is less than the remaining value,
+            // If the remaining unknown cells' values is less than the remaining clue value,
             // this requires the usage of a different contradiction rule, not this one.
             if(colTotal < colValueRemaining) return super.getNoContradictionMessage();
             colPossible = isReachable(colValueRemaining, 0, colValues);
@@ -88,8 +88,15 @@ public class UnreachableSumContradictionRule extends ContradictionRule {
         }
     }
 
-    // Helper function that checks if the target clue is reachable given a list of KakurasuCells
-    // This function only works if the list of values are given in increasing index order (which it currently is)
+    /**
+     * Helper function that checks if the target clue is reachable given a list of KakurasuCells
+     * This function only works if the list of values are given in increasing index order (which it currently is)
+     *
+     * @param target The integer that we are trying to add up to, given the values
+     * @param currentIndex The index of the next value that we are considering
+     * @param values Values that we are given to try to sum up to the target
+     * @return If it's possible to sum the values in a way to get the target value
+     */
     private boolean isReachable(int target, int currentIndex, ArrayList<Integer> values) {
         if(target == 0) return true;
         if(target < 0 || currentIndex >= values.size()) return false;
