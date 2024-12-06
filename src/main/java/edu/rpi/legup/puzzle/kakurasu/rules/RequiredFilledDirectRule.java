@@ -12,12 +12,12 @@ import edu.rpi.legup.puzzle.kakurasu.KakurasuType;
 import java.awt.*;
 import java.util.List;
 
-public class FinishWithEmptyDirectRule extends DirectRule {
-    public FinishWithEmptyDirectRule() {
+public class RequiredFilledDirectRule extends DirectRule {
+    public RequiredFilledDirectRule() {
         super(
-                "KAKU-BASC-0002",
-                "Finish with Empty",
-                "The only way to satisfy the clue in a row or column are these empty tiles.",
+                "KAKU-BASC-0001",
+                "Required Filled",
+                "The only way to satisfy the clue in a row or column are these filled tiles.",
                 "edu/rpi/legup/images/kakurasu/temp.png");
     }
 
@@ -36,15 +36,15 @@ public class FinishWithEmptyDirectRule extends DirectRule {
         KakurasuCell initCell = (KakurasuCell) initialBoard.getPuzzleElement(puzzleElement);
         KakurasuBoard finalBoard = (KakurasuBoard) transition.getBoard();
         KakurasuCell finalCell = (KakurasuCell) finalBoard.getPuzzleElement(puzzleElement);
-        if (!(finalCell.getType() == KakurasuType.EMPTY
+        if (!(finalCell.getType() == KakurasuType.FILLED
                 && initCell.getType() == KakurasuType.UNKNOWN)) {
-            return super.getInvalidUseOfRuleMessage() + ": This cell must be empty to apply this rule.";
+            return super.getInvalidUseOfRuleMessage() + ": This cell must be filled to apply this rule.";
         }
 
         if (isForced(initialBoard, initCell)) {
             return null;
         } else {
-            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty.";
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be filled.";
         }
     }
 
@@ -57,19 +57,28 @@ public class FinishWithEmptyDirectRule extends DirectRule {
      * @return if the cell is forced to be at its position on the board
      */
     private boolean isForced(KakurasuBoard board, KakurasuCell cell) {
+        // TODO: Fix this so it doesn't only work if all are filled
         Point loc = cell.getLocation();
         List<KakurasuCell> filledRow = board.getRowCol(loc.y, KakurasuType.FILLED, true);
+        List<KakurasuCell> unknownRow = board.getRowCol(loc.y, KakurasuType.UNKNOWN, true);
         List<KakurasuCell> filledCol = board.getRowCol(loc.x, KakurasuType.FILLED, false);
+        List<KakurasuCell> unknownCol = board.getRowCol(loc.x, KakurasuType.UNKNOWN, false);
 
         // Check if the remaining locations available must be filled to fulfill the clue value
         int rowSum = 0;
         for(KakurasuCell kc : filledRow) {
             rowSum += kc.getLocation().x + 1;
         }
+        for(KakurasuCell kc : unknownRow) {
+            rowSum += kc.getLocation().x + 1;
+        }
         if(rowSum == board.getClue(board.getWidth(), loc.y).getData()) return true;
 
         int colSum = 0;
         for(KakurasuCell kc : filledCol) {
+            colSum += kc.getLocation().y + 1;
+        }
+        for(KakurasuCell kc : unknownCol) {
             colSum += kc.getLocation().y + 1;
         }
         // Return true if the clue is fulfilled, false if it isn't
@@ -89,7 +98,7 @@ public class FinishWithEmptyDirectRule extends DirectRule {
         for (PuzzleElement element : KakurasuBoard.getPuzzleElements()) {
             KakurasuCell cell = (KakurasuCell) element;
             if (cell.getType() == KakurasuType.UNKNOWN && isForced(KakurasuBoard, cell)) {
-                cell.setData(KakurasuType.EMPTY);
+                cell.setData(KakurasuType.FILLED);
                 KakurasuBoard.addModifiedData(cell);
             }
         }

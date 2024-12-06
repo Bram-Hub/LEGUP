@@ -8,6 +8,7 @@ import edu.rpi.legup.puzzle.kakurasu.KakurasuCell;
 import edu.rpi.legup.puzzle.kakurasu.KakurasuType;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UnreachableSumContradictionRule extends ContradictionRule {
@@ -33,8 +34,6 @@ public class UnreachableSumContradictionRule extends ContradictionRule {
         KakurasuBoard kakurasuBoard = (KakurasuBoard) board;
         KakurasuCell cell = (KakurasuCell) puzzleElement;
 
-        // TODO: Finish this rule
-
         Point loc = cell.getLocation();
         List<KakurasuCell> filledRow = kakurasuBoard.getRowCol(loc.y, KakurasuType.FILLED, true);
         List<KakurasuCell> unknownRow = kakurasuBoard.getRowCol(loc.y, KakurasuType.UNKNOWN, true);
@@ -50,10 +49,51 @@ public class UnreachableSumContradictionRule extends ContradictionRule {
             colValueRemaining -= kc.getLocation().y + 1;
         }
 
-        if (true) {
+        // If the value for either the row or col is already exceeded, this is the wrong rule to call.
+        if(rowValueRemaining < 0 || colValueRemaining < 0) return super.getNoContradictionMessage();
+
+        // If either value is already 0, then it is already possible to fulfill
+        // If it isn't 0, then it's possible for the remaining values to not be able to fulfill it
+        boolean rowPossible = (rowValueRemaining==0), colPossible = (colValueRemaining==0);
+
+        int rowTotal = 0, colTotal = 0;
+        // No need to sort the values as the KakurasuCells are given in increasing index order
+        if(!rowPossible) {
+            ArrayList<Integer> rowValues = new ArrayList<>();
+            for(KakurasuCell kc : unknownRow) {
+                rowValues.add(kc.getLocation().x + 1);
+                rowTotal += kc.getLocation().x + 1;
+            }
+            // If the remaining unknown cells' values is less than the remaining value,
+            // this requires the usage of a different contradiction rule, not this one.
+            if(rowTotal < rowValueRemaining) return super.getNoContradictionMessage();
+            rowPossible = isReachable(rowValueRemaining, 0, rowValues);
+        }
+        if(!colPossible) {
+            ArrayList<Integer> colValues = new ArrayList<>();
+            for(KakurasuCell kc : unknownCol) {
+                colValues.add(kc.getLocation().y + 1);
+                colTotal += kc.getLocation().y + 1;
+            }
+            // If the remaining unknown cells' values is less than the remaining value,
+            // this requires the usage of a different contradiction rule, not this one.
+            if(colTotal < colValueRemaining) return super.getNoContradictionMessage();
+            colPossible = isReachable(colValueRemaining, 0, colValues);
+        }
+
+        if (!rowPossible || !colPossible) {
             return null;
         } else {
             return super.getNoContradictionMessage();
         }
+    }
+
+    // Helper function that checks if the target clue is reachable given a list of KakurasuCells
+    // This function only works if the list of values are given in increasing index order (which it currently is)
+    private boolean isReachable(int target, int currentIndex, ArrayList<Integer> values) {
+        if(target == 0) return true;
+        if(target < 0 || currentIndex >= values.size()) return false;
+        return (isReachable(target, currentIndex+1, values) ||
+                isReachable(target - values.get(currentIndex), currentIndex+1, values));
     }
 }
