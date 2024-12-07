@@ -49,6 +49,7 @@ public class YinYangUtilities {
 
     /**
 <<<<<<< HEAD
+<<<<<<< HEAD
      * Extracts all cells of a specific type from the board.
      *
      * @param board The board to extract cells from
@@ -72,6 +73,10 @@ public class YinYangUtilities {
      * Checks if a given set of cells forms a single connected component.
 >>>>>>> parent of 1a8c8182 (Introducing Yin Yang Rules)
      *
+=======
+     * Checks if a given set of cells forms a single connected component.
+     *
+>>>>>>> parent of 1a8c8182 (Introducing Yin Yang Rules)
      * @param cells the set of cells to check
      * @param board the board to check connectivity on
      * @return true if the set is connected, false otherwise
@@ -88,11 +93,14 @@ public class YinYangUtilities {
     /**
      * Depth-first search to explore connected cells.
 <<<<<<< HEAD
+<<<<<<< HEAD
      *
      * @param cell The current cell
      * @param cells The set of target cells
      * @param visited The set of already visited cells
      * @param board The board to traverse
+=======
+>>>>>>> parent of 1a8c8182 (Introducing Yin Yang Rules)
 =======
 >>>>>>> parent of 1a8c8182 (Introducing Yin Yang Rules)
      */
@@ -118,6 +126,7 @@ public class YinYangUtilities {
         }
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     /**
      * Utility function to print the current board state for debugging.
@@ -135,9 +144,15 @@ public class YinYangUtilities {
     }
 }
 =======
+=======
+>>>>>>> parent of 1a8c8182 (Introducing Yin Yang Rules)
     public static Map<YinYangCell, Set<YinYangCell>> getRegions(YinYangBoard board) {
         // Placeholder for region calculation logic
         return new HashMap<>();
     }
+<<<<<<< HEAD
+}
+>>>>>>> parent of 1a8c8182 (Introducing Yin Yang Rules)
+=======
 }
 >>>>>>> parent of 1a8c8182 (Introducing Yin Yang Rules)
