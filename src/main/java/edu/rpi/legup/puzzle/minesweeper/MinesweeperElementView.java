@@ -35,7 +35,7 @@ public class MinesweeperElementView extends GridElementView {
             int intValue = ((MinesweeperCell) puzzleElement).getData().data();
 
             final String value = String.valueOf(intValue);
-            if(intValue== 1) {
+            if(intValue == 1) {
                 Color MSBLUE = new Color(7,3,251);
                 graphics2D.setColor(MSBLUE);
             } else if(intValue == 2) {

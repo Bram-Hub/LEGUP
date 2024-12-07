@@ -32,7 +32,7 @@ public class SatisfyNumberCaseRuleTest {
     /**
      * Tests the Satisfy Number case rule by ensuring that it results in all possibilities
      * for the number. This case tests a number 2 with three unset cells around it, so each
-     * case must a different arrangement of two bombs and one empty.
+     * case must replace the unset tiles with a different arrangement of two bombs and one empty.
      */
     @Test
     public void SatisfyNumberCaseRuleTest1()

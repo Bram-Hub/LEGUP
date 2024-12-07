@@ -27,8 +27,10 @@ public class FinishWithEmptyDirectRuleTest {
         minesweeper = new Minesweeper();
     }
 
+    // tests the finish with empty direct rule is many different cases
+
     @Test
-    public void FinishWithEmptyDirectRule_OneUnsetOneEmptyOneClueTest1()
+    public void FinishWithEmptyDirectRule_OneUnsetOneEmptyOneNumberTest1()
             throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test8.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
@@ -58,7 +60,7 @@ public class FinishWithEmptyDirectRuleTest {
     }
 
     @Test
-    public void FinishWithEmptyDirectRule_FiveUnsetOneEmptyOneClueTest2()
+    public void FinishWithEmptyDirectRule_FiveUnsetOneEmptyOneNumberTest2()
             throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test9.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
@@ -88,7 +90,7 @@ public class FinishWithEmptyDirectRuleTest {
     }
 
     @Test
-    public void FinishWithEmptyDirectRule_NineUnsetOneEmptyZeroCluesTest3()
+    public void FinishWithEmptyDirectRule_NineUnsetOneEmptyZeroNumbersTest3()
             throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
@@ -118,7 +120,7 @@ public class FinishWithEmptyDirectRuleTest {
     }
 
     @Test
-    public void FinishWithEmptyDirectRule_NineUnsetNineEmptyZeroCluesTest4()
+    public void FinishWithEmptyDirectRule_NineUnsetNineEmptyZeroNumbersTest4()
             throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
@@ -176,7 +178,7 @@ public class FinishWithEmptyDirectRuleTest {
     }
 
     @Test
-    public void FinishWithEmptyDirectRule_OneUnsetOneEmptyThreeCluesTest5()
+    public void FinishWithEmptyDirectRule_OneUnsetOneEmptyThreeNumbersTest5()
             throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test10.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
@@ -206,7 +208,7 @@ public class FinishWithEmptyDirectRuleTest {
     }
 
     @Test
-    public void FinishWithEmptyDirectRule_OneUnsetOneEmptyThreeCluesTest6()
+    public void FinishWithEmptyDirectRule_OneUnsetOneEmptyThreeNumbersTest6()
             throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test11.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
@@ -236,7 +238,7 @@ public class FinishWithEmptyDirectRuleTest {
     }
 
     @Test
-    public void FinishWithEmptyDirectRule_FiveUnsetTwoEmptyTwoCluesTest7()
+    public void FinishWithEmptyDirectRule_FiveUnsetTwoEmptyTwoNumbersTest7()
             throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test12.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();

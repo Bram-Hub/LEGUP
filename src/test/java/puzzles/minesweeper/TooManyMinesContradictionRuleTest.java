@@ -39,8 +39,9 @@ public class TooManyMinesContradictionRuleTest {
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 0)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(2, 0)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 1)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(2, 1)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 2)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 2)));
-        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(2, 1)));
+        Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(2, 2)));
     }
 }

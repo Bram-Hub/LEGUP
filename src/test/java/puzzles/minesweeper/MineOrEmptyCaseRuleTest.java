@@ -31,7 +31,7 @@ public class MineOrEmptyCaseRuleTest {
 
     /**
      * Tests the Mine or Empty case rule by ensuring that it results in two children, that contain
-     * a modified cell that is either black or white
+     * a modified cell that is either mine or empty
      */
     @Test
     public void MineOrEmptyCaseRuleTest1()

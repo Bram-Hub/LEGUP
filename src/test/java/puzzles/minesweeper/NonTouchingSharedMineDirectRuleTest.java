@@ -27,6 +27,8 @@ public class NonTouchingSharedMineDirectRuleTest {
         minesweeper = new Minesweeper();
     }
 
+    // Horizontal/vertical tests means the adjacent number cells are adjacent horizontally/vertically
+
     @Test
     public void NonTouchingSharedMineDirectRule_HorizontalTest1()
             throws InvalidFileFormatException {
