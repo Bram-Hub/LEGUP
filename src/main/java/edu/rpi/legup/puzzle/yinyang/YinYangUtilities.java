@@ -1,19 +1,15 @@
 package edu.rpi.legup.puzzle.yinyang;
 
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.utility.DisjointSets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class YinYangUtilities {
 
     /**
-     * Validates that there are no 2x2 blocks of the same type in the board.
+     * Validates that there are no 2x2 blocks of the same type.
      *
-     * @param board the YinYang board to validate
-     * @return true if no invalid 2x2 blocks exist, false otherwise
+     * @param board The YinYang board to validate
+     * @return true if no 2x2 blocks exist, false otherwise
      */
     public static boolean validateNo2x2Blocks(YinYangBoard board) {
         for (int x = 0; x < board.getWidth() - 1; x++) {
@@ -35,9 +31,9 @@ public class YinYangUtilities {
     }
 
     /**
-     * Validates that all WHITE and BLACK groups are connected.
+     * Validates that all black and white groups are connected.
      *
-     * @param board the YinYang board to validate
+     * @param board The YinYang board to validate
      * @return true if all groups are connected, false otherwise
      */
     public static boolean validateConnectivity(YinYangBoard board) {
@@ -57,10 +53,10 @@ public class YinYangUtilities {
     }
 
     /**
-     * Checks if a given set of cells forms a single connected component.
+     * Checks if a given set of cells forms a single connected group.
      *
-     * @param cells the set of cells to check
-     * @param board the board to check connectivity on
+     * @param cells The set of cells to check
+     * @param board The board to check connectivity on
      * @return true if the set is connected, false otherwise
      */
     private static boolean isConnected(Set<YinYangCell> cells, YinYangBoard board) {
@@ -72,9 +68,6 @@ public class YinYangUtilities {
         return visited.size() == cells.size();
     }
 
-    /**
-     * Depth-first search to explore connected cells.
-     */
     private static void dfs(YinYangCell cell, Set<YinYangCell> cells, Set<YinYangCell> visited, YinYangBoard board) {
         if (!cells.contains(cell) || visited.contains(cell)) return;
 
@@ -87,7 +80,7 @@ public class YinYangUtilities {
                 board.getCell(x - 1, y),
                 board.getCell(x + 1, y),
                 board.getCell(x, y - 1),
-                board.getCell(x, y + 1),
+                board.getCell(x, y + 1)
         };
 
         for (YinYangCell neighbor : neighbors) {
@@ -95,9 +88,5 @@ public class YinYangUtilities {
                 dfs(neighbor, cells, visited, board);
             }
         }
-    }
-    public static Map<YinYangCell, Set<YinYangCell>> getRegions(YinYangBoard board) {
-        // Placeholder for region calculation logic
-        return new HashMap<>();
     }
 }
