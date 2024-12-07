@@ -37,19 +37,28 @@ public class YinYangUtilities {
      * @return true if all groups are connected, false otherwise
      */
     public static boolean validateConnectivity(YinYangBoard board) {
-        Set<YinYangCell> whiteCells = new HashSet<>();
-        Set<YinYangCell> blackCells = new HashSet<>();
-
-        for (PuzzleElement element : board.getPuzzleElements()) {
-            YinYangCell cell = (YinYangCell) element;
-            if (cell.getType() == YinYangType.WHITE) {
-                whiteCells.add(cell);
-            } else if (cell.getType() == YinYangType.BLACK) {
-                blackCells.add(cell);
-            }
-        }
+        Set<YinYangCell> whiteCells = getCellsByType(board, YinYangType.WHITE);
+        Set<YinYangCell> blackCells = getCellsByType(board, YinYangType.BLACK);
 
         return isConnected(whiteCells, board) && isConnected(blackCells, board);
+    }
+
+    /**
+     * Extracts all cells of a specific type from the board.
+     *
+     * @param board The board to extract cells from
+     * @param type The type of cells to extract
+     * @return A set of cells of the specified type
+     */
+    private static Set<YinYangCell> getCellsByType(YinYangBoard board, YinYangType type) {
+        Set<YinYangCell> cells = new HashSet<>();
+        for (PuzzleElement element : board.getPuzzleElements()) {
+            YinYangCell cell = (YinYangCell) element;
+            if (cell.getType() == type) {
+                cells.add(cell);
+            }
+        }
+        return cells;
     }
 
     /**
@@ -68,6 +77,14 @@ public class YinYangUtilities {
         return visited.size() == cells.size();
     }
 
+    /**
+     * Depth-first search to explore connected cells.
+     *
+     * @param cell The current cell
+     * @param cells The set of target cells
+     * @param visited The set of already visited cells
+     * @param board The board to traverse
+     */
     private static void dfs(YinYangCell cell, Set<YinYangCell> cells, Set<YinYangCell> visited, YinYangBoard board) {
         if (!cells.contains(cell) || visited.contains(cell)) return;
 
@@ -87,6 +104,21 @@ public class YinYangUtilities {
             if (neighbor != null) {
                 dfs(neighbor, cells, visited, board);
             }
+        }
+    }
+
+    /**
+     * Utility function to print the current board state for debugging.
+     *
+     * @param board The board to print
+     */
+    public static void debugPrintBoard(YinYangBoard board) {
+        for (int y = 0; y < board.getHeight(); y++) {
+            for (int x = 0; x < board.getWidth(); x++) {
+                YinYangCell cell = board.getCell(x, y);
+                System.out.print(cell.getType().toString().charAt(0) + " ");
+            }
+            System.out.println();
         }
     }
 }
