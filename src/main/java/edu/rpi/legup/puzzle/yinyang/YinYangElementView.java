@@ -1,24 +1,49 @@
 package edu.rpi.legup.puzzle.yinyang;
 
-import edu.rpi.legup.model.gameboard.PuzzleElementView;
+import edu.rpi.legup.ui.boardview.GridElementView;
+
 import java.awt.*;
 
-public class YinYangElementView extends PuzzleElementView {
+public class YinYangElementView extends GridElementView {
+
+    private static final Color WHITE_COLOR = Color.WHITE;
+    private static final Color BLACK_COLOR = Color.BLACK;
+    private static final Color UNKNOWN_COLOR = Color.LIGHT_GRAY;
+
     public YinYangElementView(YinYangCell cell) {
         super(cell);
     }
 
     @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        YinYangCell cell = (YinYangCell) getElement();
+    public YinYangCell getPuzzleElement() {
+        return (YinYangCell) super.getPuzzleElement();
+    }
 
-        if (cell.getType() == YinYangType.WHITE) {
-            g.setColor(Color.WHITE);
-            g.fillOval(0, 0, getWidth(), getHeight());
-        } else if (cell.getType() == YinYangType.BLACK) {
-            g.setColor(Color.BLACK);
-            g.fillOval(0, 0, getWidth(), getHeight());
+    @Override
+    public void drawElement(Graphics2D graphics2D) {
+        YinYangCell cell = getPuzzleElement();
+        YinYangType type = cell.getType();
+
+        graphics2D.setStroke(new BasicStroke(1));
+
+        switch (type) {
+            case WHITE:
+                graphics2D.setColor(WHITE_COLOR);
+                graphics2D.fillOval(location.x, location.y, size.width, size.height);
+                break;
+
+            case BLACK:
+                graphics2D.setColor(BLACK_COLOR);
+                graphics2D.fillOval(location.x, location.y, size.width, size.height);
+                break;
+
+            case UNKNOWN:
+            default:
+                graphics2D.setColor(UNKNOWN_COLOR);
+                graphics2D.fillOval(location.x, location.y, size.width, size.height);
+                graphics2D.setColor(Color.BLACK);
+                graphics2D.drawOval(location.x, location.y, size.width, size.height);
+                break;
         }
     }
 }
