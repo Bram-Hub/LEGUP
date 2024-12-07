@@ -1,88 +1,55 @@
 package edu.rpi.legup.puzzle.yinyang;
 
-import edu.rpi.legup.model.gameboard.PuzzleElement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import edu.rpi.legup.model.gameboard.GridBoard;
 
-public class YinYangBoard {
-    private final int width;
-    private final int height;
-    private final List<PuzzleElement> elements; // Manages puzzle elements manually
+public class YinYangBoard extends GridBoard {
 
     public YinYangBoard(int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.elements = new ArrayList<>();
-        initializeBoard();
+        super(width, height);
     }
 
     /**
-     * Initializes the board with UNKNOWN cells.
-     */
-    private void initializeBoard() {
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                YinYangCell cell = new YinYangCell(YinYangType.UNKNOWN.toValue(), x, y);
-                this.elements.add(cell); // Add cells directly to the elements list
-            }
-        }
-    }
-
-    /**
-     * Gets the cell at the specified (x, y) location.
+     * Retrieves the cell at the specified (x, y) location as a YinYangCell.
      *
      * @param x the x-coordinate
      * @param y the y-coordinate
-     * @return the YinYangCell at (x, y) or null if out of bounds
+     * @return the YinYangCell at (x, y), or null if out of bounds
      */
+    @Override
     public YinYangCell getCell(int x, int y) {
-        if (x < 0 || x >= width || y < 0 || y >= height) {
-            return null; // Out of bounds
-        }
+        return (YinYangCell) super.getCell(x, y);
+    }
 
-        for (PuzzleElement element : elements) {
-            YinYangCell cell = (YinYangCell) element;
-            if (cell.getX() == x && cell.getY() == y) {
-                return cell;
+    /**
+     * Converts the board into a 2D array of YinYangType values.
+     *
+     * @return a 2D array of YinYangType values representing the board state
+     */
+    public YinYangType[][] getTypeArray() {
+        YinYangType[][] types = new YinYangType[dimension.height][dimension.width];
+        for (int y = 0; y < dimension.height; y++) {
+            for (int x = 0; x < dimension.width; x++) {
+                YinYangCell cell = getCell(x, y);
+                types[y][x] = (cell != null) ? cell.getType() : YinYangType.UNKNOWN;
             }
         }
-        return null;
+        return types;
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    /**
-     * Calculates the sizes of all connected WHITE and BLACK regions.
-     *
-     * @return a map of YinYangType to lists of region sizes
-     */
-    public Map<YinYangType, List<Integer>> calculateRegionSizes() {
-        Map<YinYangType, List<Integer>> regionSizes = new HashMap<>();
-        Map<YinYangCell, Set<YinYangCell>> regions = YinYangUtilities.getRegions(this);
-
-        for (Set<YinYangCell> region : regions.values()) {
-            YinYangType type = region.iterator().next().getType();
-            regionSizes.computeIfAbsent(type, k -> new ArrayList<>()).add(region.size());
+    @Override
+    public YinYangBoard copy() {
+        YinYangBoard copy = new YinYangBoard(dimension.width, dimension.height);
+        for (int y = 0; y < this.dimension.height; y++) {
+            for (int x = 0; x < this.dimension.width; x++) {
+                YinYangCell originalCell = getCell(x, y);
+                if (originalCell != null) {
+                    copy.setCell(x, y, originalCell.copy());
+                }
+            }
         }
-        return regionSizes;
-    }
-
-    /**
-     * Gets all puzzle elements.
-     *
-     * @return the list of puzzle elements
-     */
-    public List<PuzzleElement> getPuzzleElements() {
-        return elements;
+        for (var e : modifiedData) {
+            copy.getPuzzleElement(e).setModifiable(false);
+        }
+        return copy;
     }
 }
