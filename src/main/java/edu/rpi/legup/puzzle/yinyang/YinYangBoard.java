@@ -1,6 +1,8 @@
 package edu.rpi.legup.puzzle.yinyang;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
+import java.util.ArrayList;
+import java.util.List;
 
 public class YinYangBoard extends GridBoard {
 
@@ -36,6 +38,25 @@ public class YinYangBoard extends GridBoard {
         return types;
     }
 
+    /**
+     * Retrieves all cells of a specific type from the board.
+     *
+     * @param type The YinYangType to filter by
+     * @return a list of YinYangCell objects of the specified type
+     */
+    public List<YinYangCell> getCellsByType(YinYangType type) {
+        List<YinYangCell> cells = new ArrayList<>();
+        for (int y = 0; y < dimension.height; y++) {
+            for (int x = 0; x < dimension.width; x++) {
+                YinYangCell cell = getCell(x, y);
+                if (cell != null && cell.getType() == type) {
+                    cells.add(cell);
+                }
+            }
+        }
+        return cells;
+    }
+
     @Override
     public YinYangBoard copy() {
         YinYangBoard copy = new YinYangBoard(dimension.width, dimension.height);
@@ -51,5 +72,22 @@ public class YinYangBoard extends GridBoard {
             copy.getPuzzleElement(e).setModifiable(false);
         }
         return copy;
+    }
+
+    /**
+     * Prints the board state for debugging purposes.
+     */
+    public void debugPrint() {
+        for (int y = 0; y < dimension.height; y++) {
+            for (int x = 0; x < dimension.width; x++) {
+                YinYangCell cell = getCell(x, y);
+                if (cell != null) {
+                    System.out.print(cell.getType().toString().charAt(0) + " ");
+                } else {
+                    System.out.print(". ");
+                }
+            }
+            System.out.println();
+        }
     }
 }
