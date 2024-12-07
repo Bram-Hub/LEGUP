@@ -43,6 +43,8 @@ public class YinYangCellFactory extends ElementFactory {
 
             YinYangCell cell = new YinYangCell(type, x, y);
             cell.setIndex(y * width + x);
+            cell.setModifiable(true); // Ensure modifiable state is set for imported cells
+            cell.setGiven(type != YinYangType.UNKNOWN); // Mark non-unknown cells as given
             return cell;
 
         } catch (NumberFormatException e) {
@@ -73,5 +75,23 @@ public class YinYangCellFactory extends ElementFactory {
         cellElement.setAttribute("type", cell.getType().toString());
 
         return cellElement;
+    }
+
+    /**
+     * Validates the structure and properties of a cell before importing.
+     *
+     * @param x     The x-coordinate of the cell
+     * @param y     The y-coordinate of the cell
+     * @param type  The type of the cell
+     * @param board The board to which the cell belongs
+     * @throws InvalidFileFormatException if the cell is invalid
+     */
+    private void validateCell(int x, int y, YinYangType type, YinYangBoard board) throws InvalidFileFormatException {
+        if (x < 0 || x >= board.getWidth() || y < 0 || y >= board.getHeight()) {
+            throw new InvalidFileFormatException("YinYangCellFactory: Cell coordinates out of bounds");
+        }
+        if (type == null) {
+            throw new InvalidFileFormatException("YinYangCellFactory: Cell type is null");
+        }
     }
 }
