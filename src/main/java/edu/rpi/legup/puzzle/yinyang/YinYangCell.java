@@ -27,6 +27,24 @@ public class YinYangCell extends GridCell<YinYangType> {
     }
 
     /**
+     * Gets the X coordinate of the cell.
+     *
+     * @return the X coordinate
+     */
+    public int getX() {
+        return location.x;
+    }
+
+    /**
+     * Gets the Y coordinate of the cell.
+     *
+     * @return the Y coordinate
+     */
+    public int getY() {
+        return location.y;
+    }
+
+    /**
      * Performs a deep copy of the YinYangCell.
      *
      * @return a new copy of the YinYangCell
