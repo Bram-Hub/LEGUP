@@ -6,16 +6,7 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import java.awt.event.MouseEvent;
 
 public class YinYangController extends ElementController {
-    private YinYang puzzle;
 
-    public YinYangController() {
-        this.puzzle = puzzle;
-    }
-
-    public YinYang getPuzzle() {
-        return this.puzzle;
-    }
-    
     @Override
     public void changeCell(MouseEvent e, PuzzleElement data) {
         // Ensure the data is cast to YinYangCell
@@ -53,22 +44,5 @@ public class YinYangController extends ElementController {
             }
         }
         this.boardView.repaint(); // Refresh the view after changes
-    }
-
-    public boolean validateBoard() {
-        YinYangBoard board = (YinYangBoard) getPuzzle().getCurrentBoard();
-
-        // Validate the puzzle rules
-        if (!YinYangUtilities.validateNo2x2Blocks(board)) {
-            System.out.println("Invalid board: 2x2 blocks detected!");
-            return false;
-        }
-
-        if (!YinYangUtilities.validateConnectivity(board)) {
-            System.out.println("Invalid board: disconnected groups detected!");
-            return false;
-        }
-
-        return true;
     }
 }
