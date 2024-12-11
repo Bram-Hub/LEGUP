@@ -33,7 +33,7 @@ public class FinishWithBlackDirectRuleTest{
         // get board state
         FillapixBoard board = (FillapixBoard) transition.getBoard();
 
-        /*// change the board's cells considering the TouchingSides rule
+        // change the board's cells considering the TouchingSides rule
         //(3 black cells to the left of 6 and 3 white cells to the right of 3)
         FillapixCell cell1 = board.getCell(0, 0);
         cell1.setData(FillapixCellType.WHITE.value);
@@ -70,7 +70,8 @@ public class FinishWithBlackDirectRuleTest{
         FillapixCell cell9 = board.getCell(1, 1);
         cell9.setData(FillapixCellType.BLACK.value);
         board.addModifiedData(cell4);
-    */
+
+
         // confirm there is a logical following of the TouchingSides rule
         Assert.assertNull(RULE.checkRule(transition));
     }
