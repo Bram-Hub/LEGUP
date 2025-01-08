@@ -52,6 +52,7 @@ public final class MinesweeperUtilities {
                         })
                         .count();
     }
+
     public static int countSurroundingMines(MinesweeperBoard board, MinesweeperCell cell) {
         return countSurroundingType(board, cell, MinesweeperTileType.MINE);
     }
@@ -163,7 +164,7 @@ public final class MinesweeperUtilities {
         int cellNum;
         for (MinesweeperCell adjCell : adjCells) {
             cellNum = adjCell.getTileNumber();
-            if(cellNum <= 0) {
+            if (cellNum <= 0) {
                 continue;
             }
             numMines = 0;
@@ -171,14 +172,14 @@ public final class MinesweeperUtilities {
             ArrayList<MinesweeperCell> curAdjCells =
                     MinesweeperUtilities.getAdjacentCells(emptyCaseBoard, adjCell);
             for (MinesweeperCell curAdjCell : curAdjCells) {
-                if(curAdjCell.getTileType() == MinesweeperTileType.MINE) {
+                if (curAdjCell.getTileType() == MinesweeperTileType.MINE) {
                     numMines++;
                 }
-                if(curAdjCell.getTileType() == MinesweeperTileType.UNSET) {
+                if (curAdjCell.getTileType() == MinesweeperTileType.UNSET) {
                     numUnset++;
                 }
             }
-            if(cellNum == numUnset + numMines) {
+            if (cellNum == numUnset + numMines) {
                 return true;
             }
         }
@@ -198,14 +199,14 @@ public final class MinesweeperUtilities {
         for (MinesweeperCell adjCell : adjCells) {
             mineCount = 0;
             adjCellNum = adjCell.getTileNumber();
-            if(adjCellNum >= 1) {
+            if (adjCellNum >= 1) {
                 ArrayList<MinesweeperCell> adjAdjCells = getAdjacentCells(emptyCaseBoard, adjCell);
-                for(MinesweeperCell adjAdjCell : adjAdjCells) {
-                    if(adjAdjCell.getTileType() == MinesweeperTileType.MINE) {
+                for (MinesweeperCell adjAdjCell : adjAdjCells) {
+                    if (adjAdjCell.getTileType() == MinesweeperTileType.MINE) {
                         mineCount++;
                     }
                 }
-                if(mineCount == adjCellNum) {
+                if (mineCount == adjCellNum) {
                     return true;
                 }
             } else {
@@ -228,38 +229,43 @@ public final class MinesweeperUtilities {
         // Goes through all possible positions that horizontally adjacent number cells
         // could be in that could force the current cell to be a mine. If one possibility
         // actually has the number cells that force the current cell to be a mine, return true
-        for(int i = -1; i <= 1; i += 2) {
-            for(int j = -1; j <= 1; j ++) {
-                if(x + (2 * i) >= 0 && x + (2 * i) < width
-                    && y + j >= 0 && y + j < height) {
+        for (int i = -1; i <= 1; i += 2) {
+            for (int j = -1; j <= 1; j++) {
+                if (x + (2 * i) >= 0 && x + (2 * i) < width && y + j >= 0 && y + j < height) {
                     numClose = emptyCaseBoard.getCell(x + i, y + j).getTileNumber();
                     numFar = emptyCaseBoard.getCell(x + (2 * i), y + j).getTileNumber();
-                    if(j != -1 && y + 1 < height
-                        && emptyCaseBoard.getCell(x, y + 1).getTileNumber() <= -1) {
+                    if (j != -1
+                            && y + 1 < height
+                            && emptyCaseBoard.getCell(x, y + 1).getTileNumber() <= -1) {
                         numClose--;
                     }
-                    if(j != 1 && y - 1 >= 0 &&
-                            emptyCaseBoard.getCell(x, y-1).getTileNumber() <= -1) {
+                    if (j != 1
+                            && y - 1 >= 0
+                            && emptyCaseBoard.getCell(x, y - 1).getTileNumber() <= -1) {
                         numClose--;
                     }
-                    if(j != 0 && y + (2 * j) < height
-                        && y + (2 * j) >= 0 && emptyCaseBoard.getCell(x, y + (2 * j)).getTileNumber() <= -1) {
+                    if (j != 0
+                            && y + (2 * j) < height
+                            && y + (2 * j) >= 0
+                            && emptyCaseBoard.getCell(x, y + (2 * j)).getTileNumber() <= -1) {
                         numClose--;
                     }
-                    if(x + (3 * i) >= 0 && x + (3 * i) < width) {
-                        if(emptyCaseBoard.getCell(x+(3*i), y+j).getTileNumber() == -1) {
+                    if (x + (3 * i) >= 0 && x + (3 * i) < width) {
+                        if (emptyCaseBoard.getCell(x + (3 * i), y + j).getTileNumber() == -1) {
                             numFar--;
                         }
-                        if(y + j + 1 < emptyCaseBoard.getHeight()
-                            && emptyCaseBoard.getCell(x+(3*i), y+j+1).getTileNumber() == -1) {
+                        if (y + j + 1 < emptyCaseBoard.getHeight()
+                                && emptyCaseBoard.getCell(x + (3 * i), y + j + 1).getTileNumber()
+                                        == -1) {
                             numFar--;
                         }
-                        if(y + j - 1 >= 0 &&
-                                emptyCaseBoard.getCell(x+(3*i), y+j-1).getTileNumber() == -1) {
+                        if (y + j - 1 >= 0
+                                && emptyCaseBoard.getCell(x + (3 * i), y + j - 1).getTileNumber()
+                                        == -1) {
                             numFar--;
                         }
                     }
-                    if(numClose >= 1 && numFar+1 == numClose) {
+                    if (numClose >= 1 && numFar + 1 == numClose) {
                         return true;
                     }
                 }
@@ -269,34 +275,39 @@ public final class MinesweeperUtilities {
         // Goes through all possible positions that vertically adjacent number cells
         // could be in that could force the current cell to be a mine. If one possibility
         // actually has the number cells that force the current cell to be a mine, return true
-        for(int i = -1; i <= 1; i += 2){
+        for (int i = -1; i <= 1; i += 2) {
             for (int j = -1; j <= 1; j++) {
-                if (x + j >= 0 && x + j < width
-                        && y + (2 * i) >= 0 && y + (2 * i) < height) {
+                if (x + j >= 0 && x + j < width && y + (2 * i) >= 0 && y + (2 * i) < height) {
                     numClose = emptyCaseBoard.getCell(x + j, y + i).getTileNumber();
                     numFar = emptyCaseBoard.getCell(x + j, y + (2 * i)).getTileNumber();
-                    if (j != -1 && x + 1 < width &&
-                            emptyCaseBoard.getCell(x + 1, y).getTileNumber() <= -1) {
+                    if (j != -1
+                            && x + 1 < width
+                            && emptyCaseBoard.getCell(x + 1, y).getTileNumber() <= -1) {
                         numClose--;
                     }
-                    if (j != 1 && x - 1 >= 0 &&
-                            emptyCaseBoard.getCell(x - 1, y).getTileNumber() <= -1) {
+                    if (j != 1
+                            && x - 1 >= 0
+                            && emptyCaseBoard.getCell(x - 1, y).getTileNumber() <= -1) {
                         numClose--;
                     }
-                    if (j != 0 && x + (2 * j) < width &&
-                            x + (2 * j) >= 0 &&
-                            emptyCaseBoard.getCell(x + (2 * j), y).getTileNumber() <= -1) {
+                    if (j != 0
+                            && x + (2 * j) < width
+                            && x + (2 * j) >= 0
+                            && emptyCaseBoard.getCell(x + (2 * j), y).getTileNumber() <= -1) {
                         numClose--;
                     }
                     if (y + (3 * i) >= 0 && y + (3 * i) < height) {
                         if (emptyCaseBoard.getCell(x + j, y + (3 * i)).getTileNumber() == -1) {
                             numFar--;
                         }
-                        if (x + j + 1 < width &&
-                                emptyCaseBoard.getCell(x + j + 1, y + (3 * i)).getTileNumber() == -1) {
+                        if (x + j + 1 < width
+                                && emptyCaseBoard.getCell(x + j + 1, y + (3 * i)).getTileNumber()
+                                        == -1) {
                             numFar--;
                         }
-                        if (x + j - 1 >= 0 && emptyCaseBoard.getCell(x + j - 1, y + (3 * i)).getTileNumber() == -1) {
+                        if (x + j - 1 >= 0
+                                && emptyCaseBoard.getCell(x + j - 1, y + (3 * i)).getTileNumber()
+                                        == -1) {
                             numFar--;
                         }
                     }
@@ -322,38 +333,43 @@ public final class MinesweeperUtilities {
         // Goes through all possible positions that horizontally adjacent number cells
         // could be in that could force the current cell to be empty. If one possibility
         // actually has the number cells that force the current cell to be empty, return true
-        for(int i = -1; i <= 1; i += 2) {
-            for(int j = -1; j <= 1; j ++) {
-                if(x + (2 * i) >= 0 && x + (2 * i) < width
-                        && y + j >= 0 && y + j < height) {
+        for (int i = -1; i <= 1; i += 2) {
+            for (int j = -1; j <= 1; j++) {
+                if (x + (2 * i) >= 0 && x + (2 * i) < width && y + j >= 0 && y + j < height) {
                     numFar = emptyCaseBoard.getCell(x + i, y + j).getTileNumber();
                     numClose = emptyCaseBoard.getCell(x + (2 * i), y + j).getTileNumber();
-                    if(j != -1 && y + 1 < height
+                    if (j != -1
+                            && y + 1 < height
                             && emptyCaseBoard.getCell(x, y + 1).getTileNumber() == -1) {
                         numFar--;
                     }
-                    if(j != 1 && y - 1 >= 0 &&
-                            emptyCaseBoard.getCell(x, y-1).getTileNumber() == -1) {
+                    if (j != 1
+                            && y - 1 >= 0
+                            && emptyCaseBoard.getCell(x, y - 1).getTileNumber() == -1) {
                         numFar--;
                     }
-                    if(j != 0 && y + (2 * j) < height
-                            && y + (2 * j) >= 0 && emptyCaseBoard.getCell(x, y + (2 * j)).getTileNumber() == -1) {
+                    if (j != 0
+                            && y + (2 * j) < height
+                            && y + (2 * j) >= 0
+                            && emptyCaseBoard.getCell(x, y + (2 * j)).getTileNumber() == -1) {
                         numFar--;
                     }
-                    if(x + (3 * i) >= 0 && x + (3 * i) < width) {
-                        if(emptyCaseBoard.getCell(x+(3*i), y+j).getTileNumber() <= -1) {
+                    if (x + (3 * i) >= 0 && x + (3 * i) < width) {
+                        if (emptyCaseBoard.getCell(x + (3 * i), y + j).getTileNumber() <= -1) {
                             numClose--;
                         }
-                        if(y + j + 1 < emptyCaseBoard.getHeight()
-                                && emptyCaseBoard.getCell(x+(3*i), y+j+1).getTileNumber() <= -1) {
+                        if (y + j + 1 < emptyCaseBoard.getHeight()
+                                && emptyCaseBoard.getCell(x + (3 * i), y + j + 1).getTileNumber()
+                                        <= -1) {
                             numClose--;
                         }
-                        if(y + j - 1 >= 0 &&
-                                emptyCaseBoard.getCell(x+(3*i), y+j-1).getTileNumber() <= -1) {
+                        if (y + j - 1 >= 0
+                                && emptyCaseBoard.getCell(x + (3 * i), y + j - 1).getTileNumber()
+                                        <= -1) {
                             numClose--;
                         }
                     }
-                    if(numFar >= 1 && numClose == numFar) {
+                    if (numFar >= 1 && numClose == numFar) {
                         return true;
                     }
                 }
@@ -363,34 +379,39 @@ public final class MinesweeperUtilities {
         // Goes through all possible positions that vertically adjacent number cells
         // could be in that could force the current cell to be empty. If one possibility
         // actually has the number cells that force the current cell to beempty, return true
-        for(int i = -1; i <= 1; i += 2){
+        for (int i = -1; i <= 1; i += 2) {
             for (int j = -1; j <= 1; j++) {
-                if (x + j >= 0 && x + j < width
-                        && y + (2 * i) >= 0 && y + (2 * i) < height) {
+                if (x + j >= 0 && x + j < width && y + (2 * i) >= 0 && y + (2 * i) < height) {
                     numFar = emptyCaseBoard.getCell(x + j, y + i).getTileNumber();
                     numClose = emptyCaseBoard.getCell(x + j, y + (2 * i)).getTileNumber();
-                    if (j != -1 && x + 1 < width &&
-                            emptyCaseBoard.getCell(x + 1, y).getTileNumber() == -1) {
+                    if (j != -1
+                            && x + 1 < width
+                            && emptyCaseBoard.getCell(x + 1, y).getTileNumber() == -1) {
                         numFar--;
                     }
-                    if (j != 1 && x - 1 >= 0 &&
-                            emptyCaseBoard.getCell(x - 1, y).getTileNumber() == -1) {
+                    if (j != 1
+                            && x - 1 >= 0
+                            && emptyCaseBoard.getCell(x - 1, y).getTileNumber() == -1) {
                         numFar--;
                     }
-                    if (j != 0 && x + (2 * j) < width &&
-                            x + (2 * j) >= 0 &&
-                            emptyCaseBoard.getCell(x + (2 * j), y).getTileNumber() == -1) {
+                    if (j != 0
+                            && x + (2 * j) < width
+                            && x + (2 * j) >= 0
+                            && emptyCaseBoard.getCell(x + (2 * j), y).getTileNumber() == -1) {
                         numFar--;
                     }
                     if (y + (3 * i) >= 0 && y + (3 * i) < height) {
                         if (emptyCaseBoard.getCell(x + j, y + (3 * i)).getTileNumber() <= -1) {
                             numClose--;
                         }
-                        if (x + j + 1 < width &&
-                                emptyCaseBoard.getCell(x + j + 1, y + (3 * i)).getTileNumber() <= -1) {
+                        if (x + j + 1 < width
+                                && emptyCaseBoard.getCell(x + j + 1, y + (3 * i)).getTileNumber()
+                                        <= -1) {
                             numClose--;
                         }
-                        if (x + j - 1 >= 0 && emptyCaseBoard.getCell(x + j - 1, y + (3 * i)).getTileNumber() <= -1) {
+                        if (x + j - 1 >= 0
+                                && emptyCaseBoard.getCell(x + j - 1, y + (3 * i)).getTileNumber()
+                                        <= -1) {
                             numClose--;
                         }
                     }

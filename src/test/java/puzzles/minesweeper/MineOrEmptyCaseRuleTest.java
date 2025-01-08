@@ -9,14 +9,13 @@ import edu.rpi.legup.puzzle.minesweeper.MinesweeperCell;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperTileData;
 import edu.rpi.legup.puzzle.minesweeper.rules.MineOrEmptyCaseRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.*;
+import java.util.ArrayList;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.awt.*;
-import java.util.ArrayList;
 
 public class MineOrEmptyCaseRuleTest {
 
@@ -30,14 +29,12 @@ public class MineOrEmptyCaseRuleTest {
     }
 
     /**
-     * Tests the Mine or Empty case rule by ensuring that it results in two children, that contain
-     * a modified cell that is either mine or empty
+     * Tests the Mine or Empty case rule by ensuring that it results in two children, that contain a
+     * modified cell that is either mine or empty
      */
     @Test
-    public void MineOrEmptyCaseRuleTest1()
-            throws InvalidFileFormatException {
-        TestUtilities.importTestBoard(
-                "puzzles/minesweeper/rules/MineOrEmpty.txt", minesweeper);
+    public void MineOrEmptyCaseRuleTest1() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/minesweeper/rules/MineOrEmpty.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -55,8 +52,10 @@ public class MineOrEmptyCaseRuleTest {
         MinesweeperTileData board2Type = caseBoard2.getCell(0, 0).getData();
 
         Assert.assertTrue(
-                ((board1Type.equals(MinesweeperTileData.mine()) || board1Type.equals(MinesweeperTileData.empty())))
-                        && (board2Type.equals(MinesweeperTileData.mine()) || board2Type.equals(MinesweeperTileData.empty())));
+                ((board1Type.equals(MinesweeperTileData.mine())
+                                || board1Type.equals(MinesweeperTileData.empty())))
+                        && (board2Type.equals(MinesweeperTileData.mine())
+                                || board2Type.equals(MinesweeperTileData.empty())));
         Assert.assertFalse(board1Type.equals(board2Type));
 
         Assert.assertEquals(caseBoard.getHeight(), caseBoard2.getHeight(), board.getHeight());

@@ -41,7 +41,7 @@ public class TooManyMinesContradictionRule extends ContradictionRule {
         ArrayList<MinesweeperCell> adjCells =
                 MinesweeperUtilities.getAdjacentCells(minesweeperBoard, cell);
         for (MinesweeperCell adjCell : adjCells) {
-            if(adjCell.getTileType() == MinesweeperTileType.MINE) {
+            if (adjCell.getTileType() == MinesweeperTileType.MINE) {
                 numMines++;
             }
         }

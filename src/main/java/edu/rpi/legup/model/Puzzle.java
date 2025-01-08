@@ -383,6 +383,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
     /**
      * Accessor method for the puzzle UUID
+     *
      * @return returns the puzzle UUID tag
      */
     public String getTag() {
@@ -391,6 +392,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
     /**
      * Modifier method to override the puzzle persistent UUID
+     *
      * @param tag String to overwrite the current puzzle UUID
      */
     public void setTag(String tag) {

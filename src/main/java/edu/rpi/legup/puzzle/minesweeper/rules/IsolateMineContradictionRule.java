@@ -7,7 +7,6 @@ import edu.rpi.legup.puzzle.minesweeper.MinesweeperBoard;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperCell;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperTileType;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperUtilities;
-
 import java.util.ArrayList;
 
 public class IsolateMineContradictionRule extends ContradictionRule {
@@ -40,7 +39,7 @@ public class IsolateMineContradictionRule extends ContradictionRule {
         ArrayList<MinesweeperCell> adjCells =
                 MinesweeperUtilities.getAdjacentCells(minesweeperBoard, cell);
         for (MinesweeperCell adjCell : adjCells) {
-            if(adjCell.getTileType() == MinesweeperTileType.NUMBER) {
+            if (adjCell.getTileType() == MinesweeperTileType.NUMBER) {
                 return super.getNoContradictionMessage();
             }
         }

@@ -23,8 +23,7 @@ public class IsolateMineContradictionRuleTest {
     @Test
     // tests a 3x3 board with a mine in the center surrounded by empty cells
     public void IsolateMineTest1() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard(
-                "puzzles/minesweeper/rules/IsolateMine1.txt", minesweeper);
+        TestUtilities.importTestBoard("puzzles/minesweeper/rules/IsolateMine1.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -48,8 +47,7 @@ public class IsolateMineContradictionRuleTest {
     @Test
     // tests a 3x3 board with a mine in the center surrounded by unset cells
     public void IsolateMineTest2() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard(
-                "puzzles/minesweeper/rules/IsolateMine2.txt", minesweeper);
+        TestUtilities.importTestBoard("puzzles/minesweeper/rules/IsolateMine2.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -73,8 +71,7 @@ public class IsolateMineContradictionRuleTest {
     @Test
     // tests a 3x3 board full of mines only
     public void IsolateMineTest3() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard(
-                "puzzles/minesweeper/rules/IsolateMine3.txt", minesweeper);
+        TestUtilities.importTestBoard("puzzles/minesweeper/rules/IsolateMine3.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);

@@ -66,7 +66,7 @@ public class MinesweeperCellFactory extends ElementFactory {
             final MinesweeperCell cell =
                     new MinesweeperCell(MinesweeperTileData.fromData(value), new Point(x, y));
             cell.setIndex(y * height + x);
-            if(value != -2) {
+            if (value != -2) {
                 cell.setModifiable(false);
             }
             return cell;

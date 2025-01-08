@@ -72,7 +72,7 @@ public class MinesweeperImporter extends PuzzleImporter {
                                 puzzle.getFactory()
                                         .importCell(elementDataList.item(i), minesweeperBoard);
                 final Point loc = cell.getLocation();
-                if(cell.getTileNumber() > 0) {
+                if (cell.getTileNumber() > 0) {
                     cell.setModifiable(false);
                     cell.setGiven(true);
                 }

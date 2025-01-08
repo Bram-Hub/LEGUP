@@ -28,7 +28,6 @@ public class TooFewMinesContradictionRule extends ContradictionRule {
      * @return null if the transition contains a contradiction at the specified puzzleElement,
      *     otherwise error message
      */
-
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
         MinesweeperBoard minesweeperBoard = (MinesweeperBoard) board;
@@ -43,10 +42,10 @@ public class TooFewMinesContradictionRule extends ContradictionRule {
         ArrayList<MinesweeperCell> adjCells =
                 MinesweeperUtilities.getAdjacentCells(minesweeperBoard, cell);
         for (MinesweeperCell adjCell : adjCells) {
-            if(adjCell.getTileType() == MinesweeperTileType.MINE) {
+            if (adjCell.getTileType() == MinesweeperTileType.MINE) {
                 numMines++;
             }
-            if(adjCell.getTileType() == MinesweeperTileType.UNSET) {
+            if (adjCell.getTileType() == MinesweeperTileType.UNSET) {
                 numUnset++;
             }
         }

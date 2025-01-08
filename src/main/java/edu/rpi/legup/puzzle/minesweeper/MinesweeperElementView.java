@@ -35,29 +35,29 @@ public class MinesweeperElementView extends GridElementView {
             int intValue = ((MinesweeperCell) puzzleElement).getData().data();
 
             final String value = String.valueOf(intValue);
-            if(intValue == 1) {
-                Color MSBLUE = new Color(7,3,251);
+            if (intValue == 1) {
+                Color MSBLUE = new Color(7, 3, 251);
                 graphics2D.setColor(MSBLUE);
-            } else if(intValue == 2) {
-                Color MSGREEN = new Color(7,123,3);
+            } else if (intValue == 2) {
+                Color MSGREEN = new Color(7, 123, 3);
                 graphics2D.setColor(MSGREEN);
-            } else if(intValue == 3) {
-                Color MSRED = new Color(255,3,3);
+            } else if (intValue == 3) {
+                Color MSRED = new Color(255, 3, 3);
                 graphics2D.setColor(MSRED);
-            } else if(intValue == 4) {
-                Color MSDARKBLUE = new Color(0,0,125);
+            } else if (intValue == 4) {
+                Color MSDARKBLUE = new Color(0, 0, 125);
                 graphics2D.setColor(MSDARKBLUE);
-            } else if(intValue == 5) {
-                Color MSMAROON = new Color(135,3,3);
+            } else if (intValue == 5) {
+                Color MSMAROON = new Color(135, 3, 3);
                 graphics2D.setColor(MSMAROON);
-            } else if(intValue == 6) {
-                Color MSCYAN = new Color(7,131,131);
+            } else if (intValue == 6) {
+                Color MSCYAN = new Color(7, 131, 131);
                 graphics2D.setColor(MSCYAN);
-            } else if(intValue == 7) {
-                Color MSDARKGRAY = new Color(7,3,3);
+            } else if (intValue == 7) {
+                Color MSDARKGRAY = new Color(7, 3, 3);
                 graphics2D.setColor(MSDARKGRAY);
             } else {
-                Color MSLIGHTGRAY = new Color(135,131,131);
+                Color MSLIGHTGRAY = new Color(135, 131, 131);
                 graphics2D.setColor(MSLIGHTGRAY);
             }
 
