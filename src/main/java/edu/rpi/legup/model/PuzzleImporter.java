@@ -80,6 +80,10 @@ public abstract class PuzzleImporter {
 
             boolean initBoard = false;
             boolean initProof = false;
+
+            String tag = puzzleElement.getAttribute("tag");
+            this.puzzle.setTag(!tag.isEmpty() ? tag : "generic.import.untagged");
+
             NodeList childNodes = puzzleElement.getChildNodes();
             for (int i = 0; i < childNodes.getLength(); i++) {
                 Node n = childNodes.item(i);
