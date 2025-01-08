@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 public record MinesweeperTileData(MinesweeperTileType type, int data) {
 
     public static final int UNSET_DATA = -2;
-    public static final int BOMB_DATA = -1;
+    public static final int MINE_DATA = -1;
     public static final int EMPTY_DATA = 0;
 
     /**
@@ -19,10 +19,10 @@ public record MinesweeperTileData(MinesweeperTileType type, int data) {
             new MinesweeperTileData(MinesweeperTileType.UNSET, UNSET_DATA);
 
     /**
-     * Always has a type of {@link MinesweeperTileType#BOMB}, and a data value of {@value BOMB_DATA}
+     * Always has a type of {@link MinesweeperTileType#MINE}, and a data value of {@value MINE_DATA}
      */
-    private static final MinesweeperTileData BOMB =
-            new MinesweeperTileData(MinesweeperTileType.BOMB, BOMB_DATA);
+    private static final MinesweeperTileData MINE =
+            new MinesweeperTileData(MinesweeperTileType.MINE, MINE_DATA);
 
     /**
      * Always has a type of {@link MinesweeperTileType#EMPTY}, and a data value of {@value
@@ -32,34 +32,34 @@ public record MinesweeperTileData(MinesweeperTileType type, int data) {
             new MinesweeperTileData(MinesweeperTileType.EMPTY, EMPTY_DATA);
 
     /**
-     * @param count how many bombs are near the flag
+     * @param count how many mines are near the number
      * @return a new {@link MinesweeperTileData} with a {@link MinesweeperTileData#type} of {@link
-     *     MinesweeperTileType#FLAG} and a {@link MinesweeperTileData#data} of {@code count}
+     *     MinesweeperTileType#NUMBER} and a {@link MinesweeperTileData#data} of {@code count}
      */
     @Contract(pure = true)
-    public static @NotNull MinesweeperTileData flag(int count) {
-        return new MinesweeperTileData(MinesweeperTileType.FLAG, count);
+    public static @NotNull MinesweeperTileData number(int count) {
+        return new MinesweeperTileData(MinesweeperTileType.NUMBER, count);
     }
 
     /**
      * @param data Determines what type of {@link MinesweeperTileData} to return.
      * @return If {@code data} is one of {@link MinesweeperTileData#UNSET_DATA}, {@link
-     *     MinesweeperTileData#BOMB_DATA}, or {@link MinesweeperTileData#EMPTY_DATA}, it will return
+     *     MinesweeperTileData#MINE_DATA}, or {@link MinesweeperTileData#EMPTY_DATA}, it will return
      *     that data. If {@code data} is less than any of the values, or greater than 8, it will
      *     return {@link MinesweeperTileData#UNSET_DATA}. Otherwise, it returns {@link
-     *     MinesweeperTileData#flag(int)} and passes {@code data} as the parameter.
+     *     MinesweeperTileData#number(int)} and passes {@code data} as the parameter.
      */
     @Contract(pure = true)
     public static @NotNull MinesweeperTileData fromData(int data) {
         return switch (data) {
             case UNSET_DATA -> unset();
-            case BOMB_DATA -> bomb();
+            case MINE_DATA -> mine();
             case EMPTY_DATA -> empty();
             default -> {
-                if (data <= -2 || data > 8) {
+                if (data <= -2) {
                     yield unset();
                 }
-                yield flag(data);
+                yield number(data);
             }
         };
     }
@@ -68,8 +68,8 @@ public record MinesweeperTileData(MinesweeperTileType type, int data) {
         return UNSET;
     }
 
-    public static @NotNull MinesweeperTileData bomb() {
-        return BOMB;
+    public static @NotNull MinesweeperTileData mine() {
+        return MINE;
     }
 
     public static @NotNull MinesweeperTileData empty() {
@@ -79,16 +79,16 @@ public record MinesweeperTileData(MinesweeperTileType type, int data) {
     public boolean isUnset() {
         return this.data == UNSET_DATA;
     }
-
-    public boolean isBomb() {
-        return this.data == BOMB_DATA;
+  
+    public boolean isMine() {
+        return this.data == MINE_DATA;
     }
 
     public boolean isEmpty() {
         return this.data == EMPTY_DATA;
     }
 
-    public boolean isFlag() {
+    public boolean isNumber() {
         return this.data > 0 && this.data <= 8;
     }
 

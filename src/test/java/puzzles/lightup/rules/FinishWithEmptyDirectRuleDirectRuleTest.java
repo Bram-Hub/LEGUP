@@ -13,7 +13,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class FinishWithEmptyDirectRuleTest {
+public class FinishWithEmptyDirectRuleDirectRuleTest {
     private static final FinishWithEmptyDirectRule RULE = new FinishWithEmptyDirectRule();
     private static LightUp lightUp;
 

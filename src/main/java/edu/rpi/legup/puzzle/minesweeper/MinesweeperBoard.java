@@ -2,6 +2,11 @@ package edu.rpi.legup.puzzle.minesweeper;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 
+import edu.rpi.legup.model.gameboard.PuzzleElement;
+
+import java.util.Set;
+
+
 public class MinesweeperBoard extends GridBoard {
 
     public MinesweeperBoard(int width, int height) {
@@ -30,6 +35,9 @@ public class MinesweeperBoard extends GridBoard {
             for (int y = 0; y < this.dimension.height; y++) {
                 newMinesweeperBoard.setCell(x, y, getCell(x, y).copy());
             }
+        }
+        for (PuzzleElement e : modifiedData) {
+            newMinesweeperBoard.getPuzzleElement(e).setModifiable(false);
         }
         return newMinesweeperBoard;
     }

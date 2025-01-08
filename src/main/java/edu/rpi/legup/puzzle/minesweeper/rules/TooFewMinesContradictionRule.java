@@ -6,18 +6,28 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.puzzle.minesweeper.*;
 import java.util.ArrayList;
 
-public class LessBombsThanFlagContradictionRule extends ContradictionRule {
+public class TooFewMinesContradictionRule extends ContradictionRule {
     private final String NO_CONTRADICTION_MESSAGE =
             "Does not contain a contradiction at this index";
     private final String INVALID_USE_MESSAGE = "Contradiction must be a region";
 
-    public LessBombsThanFlagContradictionRule() {
+    public TooFewMinesContradictionRule() {
         super(
                 "MINE-CONT-0000",
-                "Less Bombs Than Flag",
-                "There can not be less then the number of Bombs around a flag then the specified number\n",
-                "edu/rpi/legup/images/nurikabe/contradictions/NoNumber.png");
+                "Too Few Mines",
+                "A number cell can not have less than it's number of mines around it\n",
+                "edu/rpi/legup/images/minesweeper/contradictions/TooFewMines.png");
     }
+
+    /**
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
+     *
+     * @param board board to check contradiction
+     * @param puzzleElement equivalent puzzleElement
+     * @return null if the transition contains a contradiction at the specified puzzleElement,
+     *     otherwise error message
+     */
 
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
@@ -28,20 +38,20 @@ public class LessBombsThanFlagContradictionRule extends ContradictionRule {
         if (cellNum <= 0 || cellNum >= 9) {
             return super.getNoContradictionMessage();
         }
-        int numEmpty = 0;
-        int numAdj = 0;
+        int numMines = 0;
+        int numUnset = 0;
         ArrayList<MinesweeperCell> adjCells =
                 MinesweeperUtilities.getAdjacentCells(minesweeperBoard, cell);
         for (MinesweeperCell adjCell : adjCells) {
-            numAdj++;
-            if (adjCell.getTileType() == MinesweeperTileType.EMPTY && adjCell != cell) {
-                numEmpty++;
+            if(adjCell.getTileType() == MinesweeperTileType.MINE) {
+                numMines++;
+            }
+            if(adjCell.getTileType() == MinesweeperTileType.UNSET) {
+                numUnset++;
             }
         }
-        System.out.println(numEmpty);
-        System.out.println(numAdj);
-        System.out.println(cellNum);
-        if (numEmpty > (numAdj - cellNum)) {
+
+        if (cellNum > numUnset + numMines) {
             return null;
         }
 

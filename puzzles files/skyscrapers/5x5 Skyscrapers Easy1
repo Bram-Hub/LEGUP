@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Legup version="2.0.0">
+<Legup version="3.0.0">
+    <saved/>
     <puzzle name="Skyscrapers">
         <board size="5">
-            <cells>
-
-            </cells>
+            <cells/>
             <axis side="east">
                 <clue index="3" value="2"/>
                 <clue index="1" value="3"/>
@@ -21,6 +20,21 @@
             </axis>
             <flags dupe="true" view="false"/>
         </board>
+        <proof>
+            <tree>
+                <node id="864747711" root="true">
+                    <transition child="633206242" id="1863671408" rule="Last Visible Number" rule_id="SKYS-BASC-0005">
+                        <cell value="5" x="4" y="4"/>
+                    </transition>
+                </node>
+                <node id="633206242">
+                    <transition child="399424725" id="953473809" rule="Number For Cell" rule_id="SKYS-CASE-0001">
+                        <cell value="1" x="3" y="4"/>
+                    </transition>
+                </node>
+                <node id="399424725"/>
+            </tree>
+        </proof>
     </puzzle>
+    <solved isSolved="false" lastSaved="2024-10-10 15:16:07"/>
 </Legup>
-

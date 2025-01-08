@@ -7,16 +7,17 @@ import edu.rpi.legup.puzzle.minesweeper.MinesweeperBoard;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperCell;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperTileType;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperUtilities;
+
 import java.util.ArrayList;
 
-public class MoreBombsThanFlagContradictionRule extends ContradictionRule {
+public class IsolateMineContradictionRule extends ContradictionRule {
 
-    public MoreBombsThanFlagContradictionRule() {
+    public IsolateMineContradictionRule() {
         super(
-                "MINE-CONT-0001",
-                "More Bombs Than Flag",
-                "There can not be more Bombs around a flag than the specified number\n",
-                "edu/rpi/legup/images/minesweeper/contradictions/Bomb_Surplus.jpg");
+                "MINE-CONT-0002",
+                "Isolate Mine",
+                "A mine cell must see a number cell",
+                "edu/rpi/legup/images/minesweeper/contradictions/IsolateMine.png");
     }
 
     /**
@@ -33,22 +34,16 @@ public class MoreBombsThanFlagContradictionRule extends ContradictionRule {
         MinesweeperBoard minesweeperBoard = (MinesweeperBoard) board;
         MinesweeperCell cell = (MinesweeperCell) minesweeperBoard.getPuzzleElement(puzzleElement);
 
-        int cellNum = cell.getTileNumber();
-        if (cellNum < 0 || cellNum >= 10) {
+        if (cell.getTileNumber() != -1) {
             return super.getNoContradictionMessage();
         }
-        int numBlack = 0;
         ArrayList<MinesweeperCell> adjCells =
                 MinesweeperUtilities.getAdjacentCells(minesweeperBoard, cell);
         for (MinesweeperCell adjCell : adjCells) {
-            if (adjCell.getTileType() == MinesweeperTileType.BOMB) {
-                numBlack++;
+            if(adjCell.getTileType() == MinesweeperTileType.NUMBER) {
+                return super.getNoContradictionMessage();
             }
         }
-        if (numBlack > cellNum) {
-            return null;
-        }
-
-        return super.getNoContradictionMessage();
+        return null;
     }
 }
