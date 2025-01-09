@@ -41,11 +41,12 @@ public abstract class PuzzleExporter {
         this.puzzle = puzzle;
     }
 
-    public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static final DateTimeFormatter DATE_FORMAT =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
-     * Takes the puzzle state and the current date/time to obfuscate
-     * the solved state with an onto function to prevent cheating
+     * Takes the puzzle state and the current date/time to obfuscate the solved state with an onto
+     * function to prevent cheating
      *
      * @param solved the solved state of the board, true if solved
      * @param date the current date and time, passed during export
@@ -58,8 +59,8 @@ public abstract class PuzzleExporter {
     }
 
     /**
-     * Deobfuscates the solved state of the board from hash value using
-     * the time provided in the puzzle xml-style export
+     * Deobfuscates the solved state of the board from hash value using the time provided in the
+     * puzzle xml-style export
      *
      * @param hash the hash value saved to the export
      * @param date the date/time value saved to the export
@@ -74,9 +75,9 @@ public abstract class PuzzleExporter {
             timestamp = -1;
         }
 
-        if ((true+":"+timestamp+";").hashCode() == hash) {
+        if ((true + ":" + timestamp + ";").hashCode() == hash) {
             return Boolean.TRUE;
-        } else if ((false+":"+timestamp+";").hashCode() == hash) {
+        } else if ((false + ":" + timestamp + ";").hashCode() == hash) {
             return Boolean.FALSE;
         }
         return null;
@@ -103,7 +104,10 @@ public abstract class PuzzleExporter {
             newDocument.appendChild(legupElement);
 
             org.w3c.dom.Element puzzleElement = newDocument.createElement("puzzle");
-            String idStr = puzzle.getTag().isEmpty() ? fileName.substring(fileName.lastIndexOf("\\") + 1) : puzzle.getTag();
+            String idStr =
+                    puzzle.getTag().isEmpty()
+                            ? fileName.substring(fileName.lastIndexOf("\\") + 1)
+                            : puzzle.getTag();
             puzzleElement.setAttribute("tag", idStr);
             puzzleElement.setAttribute("name", puzzle.getName());
             legupElement.appendChild(puzzleElement);
@@ -119,7 +123,7 @@ public abstract class PuzzleExporter {
             String time = dateTime.format(DATE_FORMAT);
             statusElement.setAttribute("lastSaved", time);
             int hashedState = obfHash(puzzle.isPuzzleComplete(), time);
-            statusElement.setAttribute("isSolved", hashedState+"");
+            statusElement.setAttribute("isSolved", hashedState + "");
             legupElement.appendChild(statusElement);
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
