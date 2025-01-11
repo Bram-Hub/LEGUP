@@ -26,11 +26,11 @@ public class MinesweeperCell extends GridCell<MinesweeperTileData> {
     /** Sets this cell's data to the value specified by {@link Element#getElementID()} */
     public void setType(@NotNull Element element, @NotNull MouseEvent event) {
         switch (element.getElementID()) {
-            case MinesweeperElementIdentifiers.BOMB -> {
-                this.data = MinesweeperTileData.bomb();
+            case MinesweeperElementIdentifiers.MINE -> {
+                this.data = MinesweeperTileData.mine();
                 break;
             }
-            case MinesweeperElementIdentifiers.FLAG -> {
+            case MinesweeperElementIdentifiers.NUMBER -> {
                 final int currentData = super.data.data();
                 switch (event.getButton()) {
                     case MouseEvent.BUTTON1 -> {
@@ -38,7 +38,7 @@ public class MinesweeperCell extends GridCell<MinesweeperTileData> {
                             this.data = MinesweeperTileData.empty();
                             return;
                         }
-                        this.data = MinesweeperTileData.flag(currentData + 1);
+                        this.data = MinesweeperTileData.number(currentData + 1);
                         return;
                     }
                     case MouseEvent.BUTTON2, MouseEvent.BUTTON3 -> {
@@ -46,7 +46,7 @@ public class MinesweeperCell extends GridCell<MinesweeperTileData> {
                             this.data = MinesweeperTileData.empty();
                             return;
                         }
-                        this.data = MinesweeperTileData.flag(currentData - 1);
+                        this.data = MinesweeperTileData.number(currentData - 1);
                         return;
                     }
                 }

@@ -15,7 +15,7 @@ public class NoCellForNumberRowContradictionRule extends ContradictionRule {
                 "SUDO-CONT-0002",
                 "No Cell for Number (Row)",
                 "Process of elimination yields no valid numbers for an empty cell in a row.",
-                "edu/rpi/legup/images/sudoku/NoCellForNumberRow.png");
+                "edu/rpi/legup/images/sudoku/rules/NoCellForNumberRow.png");
     }
 
     /**

@@ -1,13 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Legup version="2.0.0">
-    <puzzle name="ShortTruthTable">
+    <puzzle name="ShortTruthTable" tag="Heuveln_04.xml">
         <board>
             <data normal="true">
-                <statement representation="(J|M)>~(J^M)" row_index="0"/>
-                <statement representation="M-(M>J)" row_index="1"/>
-                <statement representation="M>J" row_index="2"/>
+                <statement representation="(J|M)&gt;~(J^M)" row_index="0"/>
+                <statement representation="M-(M&gt;J)" row_index="1"/>
+                <statement representation="M&gt;J" row_index="2"/>
             </data>
         </board>
     </puzzle>
-    <solved isSolved="false" lastSaved="--"/>
+    <solved isSolved="-2010495071" lastSaved="2024-11-08 17:14:34"/>
 </Legup>

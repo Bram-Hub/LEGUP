@@ -1,7 +1,11 @@
 package edu.rpi.legup.history;
 
+/**
+ * The ICommand interface defines the structure for command objects in a command pattern. It
+ * provides methods to execute, undo, redo commands, and to check if a command can be executed.
+ */
 public interface ICommand {
-    /** Executes a command */
+    /** Executes the command. The specific behavior depends on the implementation */
     void execute();
 
     /**
@@ -19,9 +23,9 @@ public interface ICommand {
      */
     String getError();
 
-    /** Undoes a command */
+    /** Undoes the command. Reverts the changes made by the execute method */
     void undo();
 
-    /** Redoes a command */
+    /** Redoes the command. Re-applies the changes made by the execute method after undoing */
     void redo();
 }
