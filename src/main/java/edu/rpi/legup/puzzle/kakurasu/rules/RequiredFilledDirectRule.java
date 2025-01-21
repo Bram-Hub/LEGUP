@@ -58,7 +58,6 @@ public class RequiredFilledDirectRule extends DirectRule {
      * @return if the cell is forced to be at its position on the board
      */
     private boolean isForced(KakurasuBoard board, KakurasuCell cell) {
-        // TODO: Fix this so it doesn't only work if all are filled
         Point loc = cell.getLocation();
         List<KakurasuCell> filledRow = board.getRowCol(loc.y, KakurasuType.FILLED, true);
         List<KakurasuCell> unknownRow = board.getRowCol(loc.y, KakurasuType.UNKNOWN, true);
@@ -78,7 +77,9 @@ public class RequiredFilledDirectRule extends DirectRule {
         // If the clue is not reachable without the current cell being filled, but is possible with it filled,
         // then that means the current cell is a required fill on this board
         if(!isReachable(rowValueRemaining, 0, rowValues) &&
-            isReachable(rowValueRemaining-(loc.x+1), 0, rowValues)) return true;
+            isReachable(rowValueRemaining-(loc.x+1), 0, rowValues)) {
+            return true;
+        }
 
         int colValueRemaining = board.getClue(loc.x, board.getHeight()).getData();
         for(KakurasuCell kc : filledCol) {
