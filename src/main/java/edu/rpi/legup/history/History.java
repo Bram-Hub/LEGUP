@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
  * history stack.
  */
 public class History {
+    // This object does not refer to edu.rpi.legup.utility's class Logger, but rather apache's interface Logger
     private static final Logger LOGGER = LogManager.getLogger(History.class.getName());
 
     private final Object lock = new Object();

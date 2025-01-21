@@ -21,7 +21,7 @@ public class TooFewBulbsContradictionRuleTest {
     }
 
     @Test
-    public void TooFewBulbsContradictionRule() throws InvalidFileFormatException {
+    public void FullTooFewTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/lightup/rules/TooFewBulbsContradictionRule/FullTooFewTest", lightUp);
         TreeNode rootNode = lightUp.getTree().getRootNode();

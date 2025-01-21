@@ -348,9 +348,7 @@ public abstract class RulePanel extends JPanel {
     }
 
     /**
-     * Sets the icon for this panel
-     *
-     * @return the ImageIcon associated with this panel
+     * Sets the ImageIcon associated with this panel
      */
     public void setIcon(ImageIcon icon) {
         this.icon = icon;
