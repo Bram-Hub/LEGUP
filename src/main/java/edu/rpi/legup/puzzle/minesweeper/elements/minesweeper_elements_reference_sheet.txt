@@ -1,0 +1,4 @@
+MINE-UNPL-0001 : MineTile
+MINE-PLAC-0001 : NumberTile
+MINE-PLAC-0002 : EmptyTile
+MINE-UNPL-0002 : UnsetTile

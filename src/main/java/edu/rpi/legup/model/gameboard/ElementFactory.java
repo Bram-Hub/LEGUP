@@ -5,6 +5,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+/**
+ * ElementFactory is an abstract class for importing and exporting {@link PuzzleElement} instances.
+ */
 public abstract class ElementFactory {
 
     /**

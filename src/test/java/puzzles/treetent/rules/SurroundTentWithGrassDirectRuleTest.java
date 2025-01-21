@@ -27,17 +27,16 @@ public class SurroundTentWithGrassDirectRuleTest {
         treetent = new TreeTent();
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests SurroundTentWithGrassDirectRule
-   * <p> TREE at (0, 0), (2, 0), (0, 1), (2, 1), (1, 2), and (2, 2); TENT at (1, 1)
-   * RGR
-   * RTR
-   * GRR
-   * <p> Makes (1, 0) and (0, 2) GRASS
-   * Checks that the rule detects unknown adjacent and diagonal tiles correctly
-   */
-  @Test
-  public void SurroundTentWithGrassBasicRuleTest() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests SurroundTentWithGrassDirectRule
+     *
+     * <p>TREE at (0, 0), (2, 0), (0, 1), (2, 1), (1, 2), and (2, 2); TENT at (1, 1) RGR RTR GRR
+     *
+     * <p>Makes (1, 0) and (0, 2) GRASS Checks that the rule detects unknown adjacent and diagonal
+     * tiles correctly
+     */
+    @Test
+    public void SurroundTentWithGrassBasicRuleTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/SurroundTentWithGrassDirectRule/SurroundTentWithGrass",
                 treetent);
@@ -69,17 +68,16 @@ public class SurroundTentWithGrassDirectRuleTest {
         }
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests SurroundTentWithGrassDirectRule
-   * <p> TENT at (1, 1)
-   * GGG
-   * GTG
-   * GGG
-   * <p> Makes all cells adjacent and diagonal to the tent GRASS
-   * Checks that the rule detects all adjacent and diagonal tiles correctly
-   */
-  @Test
-  public void SurroundTentWithGrassBasicRuleTest_BadBoard() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests SurroundTentWithGrassDirectRule
+     *
+     * <p>TENT at (1, 1) GGG GTG GGG
+     *
+     * <p>Makes all cells adjacent and diagonal to the tent GRASS Checks that the rule detects all
+     * adjacent and diagonal tiles correctly
+     */
+    @Test
+    public void SurroundTentWithGrassBasicRuleTest_BadBoard() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/SurroundTentWithGrassDirectRule/SurroundTentWithGrassBad",
                 treetent);
@@ -137,17 +135,15 @@ public class SurroundTentWithGrassDirectRuleTest {
         }
     }
 
-  /**
-   * 3x3 TreeTent puzzle Tests SurroundTentWithGrassDirectRule
-   * <p> TENT at (1, 1); TREE on all adjacent and diagonal tiles
-   * RRR
-   * RTR
-   * RRR
-   * <p> Null
-   * Checks that the rule correctly detects no missing tiles
-   */
-  @Test
-  public void SurroundTentWithGrassBasicRuleTest_FullBoard() throws InvalidFileFormatException {
+    /**
+     * 3x3 TreeTent puzzle Tests SurroundTentWithGrassDirectRule
+     *
+     * <p>TENT at (1, 1); TREE on all adjacent and diagonal tiles RRR RTR RRR
+     *
+     * <p>Null Checks that the rule correctly detects no missing tiles
+     */
+    @Test
+    public void SurroundTentWithGrassBasicRuleTest_FullBoard() throws InvalidFileFormatException {
         TestUtilities.importTestBoard(
                 "puzzles/treetent/rules/SurroundTentWithGrassDirectRule/SurroundTentWithGrassTrees",
                 treetent);

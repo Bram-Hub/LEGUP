@@ -1,4 +1,5 @@
 package edu.rpi.legup.puzzle.starbattle;
+
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 
@@ -30,6 +31,5 @@ public class StarBattle extends Puzzle {
     }
 
     @Override
-    public void onBoardChange(Board board) {
-    }
+    public void onBoardChange(Board board) {}
 }

@@ -13,20 +13,21 @@ import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
 public class BlackoutDirectRule extends DirectRule {
 
     public BlackoutDirectRule() {
-        super("STBL-BASC-0001",
+        super(
+                "STBL-BASC-0001",
                 "Blackout",
                 "If a row, column, or region has enough stars, its unknown spaces are black.",
                 "edu/rpi/legup/images/starbattle/rules/BlackOutDirectRule.png");
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
-     * @param transition    transition to check
+     * @param transition transition to check
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     *     puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
@@ -50,7 +51,8 @@ public class BlackoutDirectRule extends DirectRule {
     }
 
     /**
-     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
      *
      * @param node tree node used to create default transition board
      * @return default board or null if this rule cannot be applied to this tree node
@@ -60,5 +62,3 @@ public class BlackoutDirectRule extends DirectRule {
         return null;
     }
 }
-
-

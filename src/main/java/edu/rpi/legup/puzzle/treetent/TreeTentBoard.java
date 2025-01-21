@@ -3,8 +3,6 @@ package edu.rpi.legup.puzzle.treetent;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.model.tree.Tree;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;

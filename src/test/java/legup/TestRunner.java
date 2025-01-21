@@ -3,10 +3,11 @@ package legup;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
-import puzzles.battleship.rules.*;
+import puzzles.battleship.rules.AdjacentShipsContradictionRuleTest;
+import puzzles.battleship.rules.FinishWithShipsDirectRuleTests;
 import puzzles.lightup.rules.*;
+import puzzles.minesweeper.MinesweeperUtilitiesTest;
 import puzzles.nurikabe.rules.*;
-import puzzles.skyscrapers.rules.*;
 import puzzles.treetent.rules.*;
 
 /** This class runs all of the tests for the project without needing to run build scripts. */
@@ -29,7 +30,7 @@ public class TestRunner {
         printTestResults(result6);
         Result result7 = JUnitCore.runClasses(FinishWithBulbsDirectRuleTest.class);
         printTestResults(result7);
-        Result result8 = JUnitCore.runClasses(FinishWithEmptyDirectRuleTest.class);
+        Result result8 = JUnitCore.runClasses(FinishWithEmptyDirectRuleDirectRuleTest.class);
         printTestResults(result8);
         Result result9 = JUnitCore.runClasses(LightOrEmptyCaseRuleTest.class);
         printTestResults(result9);
@@ -93,6 +94,10 @@ public class TestRunner {
         printTestResults(result36);
         Result result37 = JUnitCore.runClasses(TentOrGrassCaseRuleTest.class);
         printTestResults(result37);
+
+        // Minesweeper
+        Result result38 = JUnitCore.runClasses(MinesweeperUtilitiesTest.class);
+        printTestResults(result38);
     }
 
     private static void printTestResults(Result result) {

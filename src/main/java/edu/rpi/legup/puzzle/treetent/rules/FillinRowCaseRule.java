@@ -1,11 +1,9 @@
 package edu.rpi.legup.puzzle.treetent.rules;
 
-import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
-import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentCell;
@@ -13,9 +11,7 @@ import edu.rpi.legup.puzzle.treetent.TreeTentClue;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 public class FillinRowCaseRule extends CaseRule {
 
@@ -65,7 +61,11 @@ public class FillinRowCaseRule extends CaseRule {
      */
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+        if (puzzleElement == null) {
+            return new ArrayList<Board>();
+        }
         ArrayList<Board> cases;
+
         List<TreeTentCell> group;
         int tentsLeft;
         TreeTentClue clue = ((TreeTentClue) puzzleElement);
@@ -95,7 +95,6 @@ public class FillinRowCaseRule extends CaseRule {
     }
 
     /**
-     *
      * @param iBoard the board to place tents onto
      * @param tiles the locations where tents can be placed
      * @param target the target number of tents to place
@@ -111,14 +110,21 @@ public class FillinRowCaseRule extends CaseRule {
             boolean isRow) {
         ArrayList<Board> generatedBoards = new ArrayList<>();
         genCombRecursive(
-                iBoard, tiles, target, 0, new ArrayList<TreeTentCell>(), 0, index, generatedBoards, isRow);
+                iBoard,
+                tiles,
+                target,
+                0,
+                new ArrayList<TreeTentCell>(),
+                0,
+                index,
+                generatedBoards,
+                isRow);
         return generatedBoards;
     }
 
     /**
-     *
-     * Recursive function to generate all ways of placing the target number of tents
-     * from the list of tiles to fill.
+     * Recursive function to generate all ways of placing the target number of tents from the list
+     * of tiles to fill.
      *
      * @param iBoard The board
      * @param tiles Unknown Tiles to fill
@@ -128,10 +134,8 @@ public class FillinRowCaseRule extends CaseRule {
      * @param selected the cells which have tents
      * @param index The index of the clue
      * @param isRow Used for checking if the board is good
-     *
-     * The generated boards are placed into generatedBoards (passed by reference)
+     *     <p>The generated boards are placed into generatedBoards (passed by reference)
      */
-
     private void genCombRecursive(
             TreeTentBoard iBoard,
             List<TreeTentCell> tiles,
@@ -168,14 +172,23 @@ public class FillinRowCaseRule extends CaseRule {
         //
         // Backtracking:
         // Remove the placed tent from the board and selected
-        for (int i = currentTile; i < tiles.size(); ++i){
+        for (int i = currentTile; i < tiles.size(); ++i) {
             TreeTentCell tile = tiles.get(i);
             selected.add(tile);
             PuzzleElement element = iBoard.getPuzzleElement(tile);
             element.setData(TreeTentType.TENT);
             iBoard.addModifiedData(element);
             if (goodBoard(iBoard, index, isRow)) {
-                genCombRecursive(iBoard, tiles, target, current + 1, selected, i + 1, index, generatedBoards, isRow);
+                genCombRecursive(
+                        iBoard,
+                        tiles,
+                        target,
+                        current + 1,
+                        selected,
+                        i + 1,
+                        index,
+                        generatedBoards,
+                        isRow);
             }
             element.setData(TreeTentType.UNKNOWN);
             iBoard.addModifiedData(element);
