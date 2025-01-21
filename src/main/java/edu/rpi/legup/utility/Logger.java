@@ -10,6 +10,11 @@ import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.apache.logging.log4j.core.layout.PatternLayout;
 
+/**
+ * {@code Logger} is a class that exists only to initialize the imported logger objects
+ * from apache, and to initialize the files that record the action history.
+ */
+
 public class Logger {
 
     private static final String LEGUP_HOME =

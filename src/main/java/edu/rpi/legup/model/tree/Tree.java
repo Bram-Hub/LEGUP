@@ -94,9 +94,13 @@ public class Tree {
      * @param element the tree element to remove
      */
     public void removeTreeElement(TreeElement element) {
+        // Currently this function does not delete children elements that extend from this node or transition.
+        // The children are indirectly removed from view (TreeView?) as they no longer have a connection to the base node.
+        // TODO: Recursively remove all children elements of this TreeElement
         if (element.getType() == TreeElementType.NODE) {
             TreeNode node = (TreeNode) element;
 
+            // Removes this node from its parent transition
             node.getParent().removeChild(node);
             node.getParent().setChildNode(null);
         } else {
@@ -106,6 +110,7 @@ public class Tree {
             TreeController treeController = new TreeController();
             TreeView treeView = new TreeView(treeController);
             treeView.removeTreeTransition(transition);
+            // Ensures that the other transition are still correct when this transition gets removed (redundant?)
             transition.getParents().get(0).getChildren().forEach(TreeTransition::reverify);
         }
     }

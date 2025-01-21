@@ -51,5 +51,9 @@
           qualifiedClassName="edu.rpi.legup.puzzle.minesweeper.Minesweeper"
           fileType=".xml"
           fileCreationDisabled="true"/>
+      <puzzle name="Kakurasu"
+                qualifiedClassName="edu.rpi.legup.puzzle.kakurasu.Kakurasu"
+                fileType=".xml"
+                fileCreationDisabled="true"/>
     </puzzles>
 </Legup>
