@@ -27,7 +27,11 @@ public class RegionsWithinColumnsDirectRule extends DirectRule {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         ColumnsWithinRegionsDirectRule correspondingRule = new ColumnsWithinRegionsDirectRule();
-        return correspondingRule.checkRuleRawAt(transition, puzzleElement);
+        String result = correspondingRule.checkRuleRawAt(transition, puzzleElement);
+        if (result != null && result.equals("The columns must fully fit within regions with the same number of stars missing!")) {
+            return "The regions must fully fit within columns with the same number of stars missing!";
+        }
+        return result;
     }
 
     /**

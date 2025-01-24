@@ -28,7 +28,11 @@ public class RegionsWithinRowsDirectRule extends DirectRule {
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
 
         RowsWithinRegionsDirectRule correspondingRule = new RowsWithinRegionsDirectRule();
-        return correspondingRule.checkRuleRawAt(transition, puzzleElement);
+        String result = correspondingRule.checkRuleRawAt(transition, puzzleElement);
+        if (result != null && result.equals("The rows must fully fit within regions with the same number of stars missing!")) {
+            return "The regions must fully fit within rows with the same number of stars missing!";
+        }
+        return result;
     }
 
     /**
