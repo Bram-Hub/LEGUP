@@ -95,7 +95,7 @@ public class MinesweeperCellFactory extends ElementFactory {
         MinesweeperCell cell = (MinesweeperCell) puzzleElement;
         Point loc = cell.getLocation();
 
-        cellElement.setAttribute(DATA_ATTRIBUTE, String.valueOf(cell.getData()));
+        cellElement.setAttribute(DATA_ATTRIBUTE, String.valueOf(cell.getTileNumber()));
         cellElement.setAttribute(X_ATTRIBUTE, String.valueOf(loc.x));
         cellElement.setAttribute(Y_ATTRIBUTE, String.valueOf(loc.y));
 
