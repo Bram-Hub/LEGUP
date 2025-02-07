@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Legup version="5.1.0">
-    <puzzle name="Thermometer">
+    <puzzle name="Thermometer" tag="therm_test.xml">
         <board height="4" width="4">
             <vials>
                 <vial headx="0" heady="0" tailx="2" taily="0"/>
@@ -24,4 +23,4 @@
             </colNumbers>
         </board>
     </puzzle>
-</Legup>
+<solved isSolved="-2010495071" lastSaved="2024-11-08 17:14:34"/></Legup>
