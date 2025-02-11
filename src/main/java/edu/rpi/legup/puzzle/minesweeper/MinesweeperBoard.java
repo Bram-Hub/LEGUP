@@ -1,11 +1,7 @@
 package edu.rpi.legup.puzzle.minesweeper;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
-
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
-import java.util.Set;
-
 
 public class MinesweeperBoard extends GridBoard {
 

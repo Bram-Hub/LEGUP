@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Legup version="3.0.0">
     <saved/>
-    <puzzle name="Binary">
+    <puzzle name="Binary" tag="8x8 Binary Very Hard 1">
         <board height="8" width="8">
             <cells>
                 <cell value="2" x="0" y="0"/>
@@ -71,5 +70,5 @@
             </cells>
         </board>
     </puzzle>
-    <solved isSolved="false" lastSaved="2024-07-26 14:39:40"/>
+    <solved isSolved="-2010495071" lastSaved="2024-11-08 17:14:34"/>
 </Legup>

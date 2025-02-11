@@ -5,13 +5,12 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.*;
 import edu.rpi.legup.puzzle.minesweeper.rules.FinishWithMinesDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.*;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.awt.*;
 
 public class FinishWithMinesDirectRuleTest {
 
@@ -48,8 +47,7 @@ public class FinishWithMinesDirectRuleTest {
                 Point point = new Point(k, i);
                 if (point.equals(cell1.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
@@ -78,14 +76,12 @@ public class FinishWithMinesDirectRuleTest {
                 Point point = new Point(k, i);
                 if (point.equals(cell1.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
         }
     }
-
 
     @Test
     public void FinishWithMinesDirectRule_FourUnsetFourBombsOneNumberTest3()
@@ -116,11 +112,12 @@ public class FinishWithMinesDirectRuleTest {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 Point point = new Point(k, i);
-                if (point.equals(cell1.getLocation()) || point.equals(cell2.getLocation())
-                || point.equals(cell3.getLocation()) || point.equals(cell4.getLocation())) {
+                if (point.equals(cell1.getLocation())
+                        || point.equals(cell2.getLocation())
+                        || point.equals(cell3.getLocation())
+                        || point.equals(cell4.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
@@ -168,13 +165,16 @@ public class FinishWithMinesDirectRuleTest {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 Point point = new Point(k, i);
-                if (point.equals(cell1.getLocation()) || point.equals(cell2.getLocation())
-                        || point.equals(cell3.getLocation()) || point.equals(cell4.getLocation())
-                        || point.equals(cell5.getLocation()) || point.equals(cell6.getLocation())
-                        || point.equals(cell7.getLocation()) || point.equals(cell8.getLocation())) {
+                if (point.equals(cell1.getLocation())
+                        || point.equals(cell2.getLocation())
+                        || point.equals(cell3.getLocation())
+                        || point.equals(cell4.getLocation())
+                        || point.equals(cell5.getLocation())
+                        || point.equals(cell6.getLocation())
+                        || point.equals(cell7.getLocation())
+                        || point.equals(cell8.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
@@ -203,8 +203,7 @@ public class FinishWithMinesDirectRuleTest {
                 Point point = new Point(k, i);
                 if (point.equals(cell1.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
@@ -236,8 +235,7 @@ public class FinishWithMinesDirectRuleTest {
                 Point point = new Point(k, i);
                 if (point.equals(cell1.getLocation()) || point.equals(cell2.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
@@ -266,8 +264,7 @@ public class FinishWithMinesDirectRuleTest {
                 Point point = new Point(k, i);
                 if (point.equals(cell1.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }

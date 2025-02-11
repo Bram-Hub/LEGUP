@@ -9,14 +9,13 @@ import edu.rpi.legup.puzzle.minesweeper.MinesweeperCell;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperTileData;
 import edu.rpi.legup.puzzle.minesweeper.rules.SatisfyNumberCaseRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.*;
+import java.util.ArrayList;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.awt.*;
-import java.util.ArrayList;
 
 public class SatisfyNumberCaseRuleTest {
 
@@ -30,15 +29,13 @@ public class SatisfyNumberCaseRuleTest {
     }
 
     /**
-     * Tests the Satisfy Number case rule by ensuring that it results in all possibilities
-     * for the number. This case tests a number 2 with three unset cells around it, so each
-     * case must replace the unset tiles with a different arrangement of two bombs and one empty.
+     * Tests the Satisfy Number case rule by ensuring that it results in all possibilities for the
+     * number. This case tests a number 2 with three unset cells around it, so each case must
+     * replace the unset tiles with a different arrangement of two bombs and one empty.
      */
     @Test
-    public void SatisfyNumberCaseRuleTest1()
-            throws InvalidFileFormatException {
-        TestUtilities.importTestBoard(
-                "puzzles/minesweeper/rules/SatisfyNumber.txt", minesweeper);
+    public void SatisfyNumberCaseRuleTest1() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/minesweeper/rules/SatisfyNumber.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
@@ -63,20 +60,38 @@ public class SatisfyNumberCaseRuleTest {
         MinesweeperTileData board3Tile2 = caseBoard3.getCell(2, 1).getData();
         MinesweeperTileData board3Tile3 = caseBoard3.getCell(1, 2).getData();
 
-        Assert.assertTrue((board1Tile1.equals(MinesweeperTileData.mine()) && board1Tile2.equals(MinesweeperTileData.mine())
-        && board1Tile3.equals(MinesweeperTileData.empty()))
-        || (board1Tile1.equals(MinesweeperTileData.mine()) && board1Tile2.equals(MinesweeperTileData.empty()) && board1Tile3.equals(MinesweeperTileData.mine()))
-        || ((board1Tile1.equals(MinesweeperTileData.empty()) && board1Tile2.equals(MinesweeperTileData.mine()) && board1Tile3.equals(MinesweeperTileData.mine()))));
+        Assert.assertTrue(
+                (board1Tile1.equals(MinesweeperTileData.mine())
+                                && board1Tile2.equals(MinesweeperTileData.mine())
+                                && board1Tile3.equals(MinesweeperTileData.empty()))
+                        || (board1Tile1.equals(MinesweeperTileData.mine())
+                                && board1Tile2.equals(MinesweeperTileData.empty())
+                                && board1Tile3.equals(MinesweeperTileData.mine()))
+                        || ((board1Tile1.equals(MinesweeperTileData.empty())
+                                && board1Tile2.equals(MinesweeperTileData.mine())
+                                && board1Tile3.equals(MinesweeperTileData.mine()))));
 
-        Assert.assertTrue((board2Tile1.equals(MinesweeperTileData.mine()) && board2Tile2.equals(MinesweeperTileData.mine())
-        && board2Tile3.equals(MinesweeperTileData.empty()))
-        || (board2Tile1.equals(MinesweeperTileData.mine()) && board2Tile2.equals(MinesweeperTileData.empty()) && board2Tile3.equals(MinesweeperTileData.mine()))
-        || ((board2Tile1.equals(MinesweeperTileData.empty()) && board2Tile2.equals(MinesweeperTileData.mine()) && board2Tile3.equals(MinesweeperTileData.mine()))));
+        Assert.assertTrue(
+                (board2Tile1.equals(MinesweeperTileData.mine())
+                                && board2Tile2.equals(MinesweeperTileData.mine())
+                                && board2Tile3.equals(MinesweeperTileData.empty()))
+                        || (board2Tile1.equals(MinesweeperTileData.mine())
+                                && board2Tile2.equals(MinesweeperTileData.empty())
+                                && board2Tile3.equals(MinesweeperTileData.mine()))
+                        || ((board2Tile1.equals(MinesweeperTileData.empty())
+                                && board2Tile2.equals(MinesweeperTileData.mine())
+                                && board2Tile3.equals(MinesweeperTileData.mine()))));
 
-        Assert.assertTrue((board3Tile1.equals(MinesweeperTileData.mine()) && board3Tile2.equals(MinesweeperTileData.mine())
-        && board3Tile3.equals(MinesweeperTileData.empty()))
-        || (board3Tile1.equals(MinesweeperTileData.mine()) && board3Tile2.equals(MinesweeperTileData.empty()) && board3Tile3.equals(MinesweeperTileData.mine()))
-        || ((board3Tile1.equals(MinesweeperTileData.empty()) && board3Tile2.equals(MinesweeperTileData.mine()) && board3Tile3.equals(MinesweeperTileData.mine()))));
+        Assert.assertTrue(
+                (board3Tile1.equals(MinesweeperTileData.mine())
+                                && board3Tile2.equals(MinesweeperTileData.mine())
+                                && board3Tile3.equals(MinesweeperTileData.empty()))
+                        || (board3Tile1.equals(MinesweeperTileData.mine())
+                                && board3Tile2.equals(MinesweeperTileData.empty())
+                                && board3Tile3.equals(MinesweeperTileData.mine()))
+                        || ((board3Tile1.equals(MinesweeperTileData.empty())
+                                && board3Tile2.equals(MinesweeperTileData.mine())
+                                && board3Tile3.equals(MinesweeperTileData.mine()))));
 
         Assert.assertFalse(board1Tile1.equals(board2Tile1) && board1Tile1.equals(board3Tile1));
         Assert.assertFalse(board1Tile2.equals(board2Tile2) && board1Tile2.equals(board3Tile2));

@@ -23,8 +23,7 @@ public class TooManyMinesContradictionRuleTest {
     @Test
     // tests a 3x3 board with a 3 in the center and 4 surrounding mines
     public void TooManyMinesTest1() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard(
-                "puzzles/minesweeper/rules/TooManyMines.txt", minesweeper);
+        TestUtilities.importTestBoard("puzzles/minesweeper/rules/TooManyMines.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);

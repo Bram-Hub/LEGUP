@@ -8,17 +8,17 @@ import edu.rpi.legup.puzzle.minesweeper.MinesweeperCell;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperTileData;
 import edu.rpi.legup.puzzle.minesweeper.rules.NonTouchingSharedEmptyDirectRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.*;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.awt.*;
-
 public class NonTouchingSharedEmptyDirectRuleTest {
 
-    public static final NonTouchingSharedEmptyDirectRule RULE = new NonTouchingSharedEmptyDirectRule();
+    public static final NonTouchingSharedEmptyDirectRule RULE =
+            new NonTouchingSharedEmptyDirectRule();
     private static Minesweeper minesweeper;
 
     @BeforeClass
@@ -27,7 +27,8 @@ public class NonTouchingSharedEmptyDirectRuleTest {
         minesweeper = new Minesweeper();
     }
 
-    // Horizontal/vertical tests means the adjacent number cells are adjacent horizontally/vertically
+    // Horizontal/vertical tests means the adjacent number cells are adjacent
+    // horizontally/vertically
 
     @Test
     public void NonTouchingSharedEmptyDirectRule_HorizontalTest1()
@@ -51,8 +52,7 @@ public class NonTouchingSharedEmptyDirectRuleTest {
                 Point point = new Point(k, i);
                 if (point.equals(cell1.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
@@ -85,11 +85,11 @@ public class NonTouchingSharedEmptyDirectRuleTest {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 Point point = new Point(k, i);
-                if (point.equals(cell1.getLocation()) || point.equals(cell2.getLocation())
+                if (point.equals(cell1.getLocation())
+                        || point.equals(cell2.getLocation())
                         || point.equals(cell3.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
@@ -97,8 +97,7 @@ public class NonTouchingSharedEmptyDirectRuleTest {
     }
 
     @Test
-    public void NonTouchingSharedEmptyDirectRule_VerticalTest1()
-            throws InvalidFileFormatException {
+    public void NonTouchingSharedEmptyDirectRule_VerticalTest1() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/4x4test5.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -121,8 +120,7 @@ public class NonTouchingSharedEmptyDirectRuleTest {
                 Point point = new Point(k, i);
                 if (point.equals(cell1.getLocation()) || point.equals(cell2.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
@@ -130,8 +128,7 @@ public class NonTouchingSharedEmptyDirectRuleTest {
     }
 
     @Test
-    public void NonTouchingSharedEmptyDirectRule_VerticalTest2()
-            throws InvalidFileFormatException {
+    public void NonTouchingSharedEmptyDirectRule_VerticalTest2() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/4x4test6.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -155,15 +152,14 @@ public class NonTouchingSharedEmptyDirectRuleTest {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 Point point = new Point(k, i);
-                if (point.equals(cell1.getLocation()) || point.equals(cell2.getLocation())
-                    || point.equals(cell3.getLocation())) {
+                if (point.equals(cell1.getLocation())
+                        || point.equals(cell2.getLocation())
+                        || point.equals(cell3.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
         }
     }
-
 }
