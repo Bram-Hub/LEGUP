@@ -25,7 +25,7 @@ public class MinesweeperCell extends GridCell<MinesweeperTileData> {
     @Contract(pure = false)
     /** Sets this cell's data to the value specified by {@link Element#getElementID()} */
     public void setType(@NotNull Element element, @NotNull MouseEvent event) {
-        System.out.println("here");
+        //System.out.println("here");
         switch (element.getElementName()) {
             case "Mine" -> {
                 this.setCellType(MinesweeperTileData.mine());
