@@ -68,9 +68,8 @@ public class Nurikabe extends Puzzle {
 
         Goal goal = board.getGoal();
         if (goal.getType() != GoalType.NONE) {
-            if (nurikabeBoard.getCell(goal.getLocation()).equals(goal.getCell())) {
-                return true;
-            }
+            NurikabeCell cell = (NurikabeCell) nurikabeBoard.getCell(goal.getLocation());
+            return cell.equals(goal.getCell());
 
         } else {
             for (PuzzleElement data : nurikabeBoard.getPuzzleElements()) {

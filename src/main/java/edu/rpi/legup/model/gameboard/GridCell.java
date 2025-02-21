@@ -66,7 +66,7 @@ public class GridCell<T> extends PuzzleElement<T> {
         return copy;
     }
 
-    public boolean isEqual(GridCell<T> other) {
+    public boolean equals(GridCell<T> other) {
         return location.equals(other.location) && data.equals(other.data);
     }
 }
