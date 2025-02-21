@@ -123,6 +123,6 @@ public class MinesweeperImporter extends PuzzleImporter {
     @Contract(value = "_ -> fail", pure = false)
     public void initializeBoard(@NotNull String[] statements)
             throws UnsupportedOperationException, IllegalArgumentException {
-        throw new UnsupportedOperationException("Minesweeper does not support text input.");
+        throw new UnsupportedOperationException("Minesweeper cannot accept text input.");
     }
 }
