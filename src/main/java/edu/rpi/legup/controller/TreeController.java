@@ -121,7 +121,32 @@ public class TreeController extends Controller {
      */
     @Override
     public void mouseDragged(MouseEvent e) {
-        super.mouseDragged(e);
+        //super.mouseDragged(e);
+
+        TreeView treeView = (TreeView) viewer;
+        Point point = treeView.getActualPoint(e.getPoint());
+        TreeElementView treeElementView = treeView.getTreeElementView(point);
+        Puzzle puzzle = getInstance().getPuzzleModule();
+        TreeViewSelection selection = treeView.getSelection();
+        if (puzzle != null) {
+            selection.setMousePoint(treeView.getActualPoint(e.getPoint()));
+            if (treeElementView != null && treeElementView != selection.getHover()) {
+                puzzle.notifyBoardListeners(
+                        listener ->
+                                listener.onTreeElementChanged(treeElementView.getTreeElement()));
+                selection.newSelection(treeElementView);
+                selection.newHover(treeElementView);
+                puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
+            } else {
+                if (treeElementView == null && selection.getHover() != null) {
+                    puzzle.notifyBoardListeners(
+                            listener ->
+                                    listener.onTreeElementChanged(
+                                            selection.getFirstSelection().getTreeElement()));
+                    selection.clearHover();
+                }
+            }
+        }
     }
 
     /**
@@ -139,17 +164,10 @@ public class TreeController extends Controller {
             TreeViewSelection selection = treeView.getSelection();
             selection.setMousePoint(treeView.getActualPoint(e.getPoint()));
             if (treeElementView != null && treeElementView != selection.getHover()) {
-                puzzle.notifyBoardListeners(
-                        listener ->
-                                listener.onTreeElementChanged(treeElementView.getTreeElement()));
                 selection.newHover(treeElementView);
                 puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(selection));
             } else {
                 if (treeElementView == null && selection.getHover() != null) {
-                    puzzle.notifyBoardListeners(
-                            listener ->
-                                    listener.onTreeElementChanged(
-                                            selection.getFirstSelection().getTreeElement()));
                     selection.clearHover();
                     puzzle.notifyTreeListeners(
                             listener -> listener.onTreeSelectionChanged(selection));
