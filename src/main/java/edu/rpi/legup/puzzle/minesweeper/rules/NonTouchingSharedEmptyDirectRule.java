@@ -12,8 +12,8 @@ public class NonTouchingSharedEmptyDirectRule extends DirectRule {
         super(
                 "MINE-BASC-0003",
                 "Non Shared Empty",
-                "Adjacent cells with numbers have the same difference in mine in their unshared\n" +
-                        " regions as the difference in their numbers",
+                "Adjacent cells with numbers have the same difference in mine in their unshared\n"
+                        + " regions as the difference in their numbers",
                 "edu/rpi/legup/images/minesweeper/direct/NonSharedEmpty.png");
     }
 
