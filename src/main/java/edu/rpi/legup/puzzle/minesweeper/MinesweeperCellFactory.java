@@ -1,5 +1,6 @@
 package edu.rpi.legup.puzzle.minesweeper;
 
+import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -77,6 +78,11 @@ public class MinesweeperCellFactory extends ElementFactory {
             throw new InvalidFileFormatException(
                     "Minesweeper Factory: could not find attribute(s)");
         }
+    }
+
+    @Override
+    public Goal importGoal(Node node, Board board) throws InvalidFileFormatException {
+        return null;
     }
 
     /**

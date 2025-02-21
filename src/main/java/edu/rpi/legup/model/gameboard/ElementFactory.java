@@ -1,5 +1,6 @@
 package edu.rpi.legup.model.gameboard;
 
+import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -22,6 +23,8 @@ public abstract class ElementFactory {
     public abstract PuzzleElement importCell(Node node, Board board)
             throws InvalidFileFormatException;
 
+    public abstract Goal importGoal(Node node, Board board)
+        throws InvalidFileFormatException;
     /**
      * Creates a xml document {@link PuzzleElement} from a cell for exporting.
      *

@@ -58,6 +58,10 @@ public class GridBoard extends Board {
         return (GridCell) puzzleElements.get(y * dimension.width + x);
     }
 
+    public GridCell getCell(Point point) {
+        return getCell(point.x, point.y);
+    }
+
     /**
      * Sets the {@link GridCell} at the location (x,y). This method does not set the cell if the
      * location specified is out of bounds.

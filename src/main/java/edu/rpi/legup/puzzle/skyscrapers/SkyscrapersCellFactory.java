@@ -1,5 +1,6 @@
 package edu.rpi.legup.puzzle.skyscrapers;
 
+import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -52,6 +53,11 @@ public class SkyscrapersCellFactory extends ElementFactory {
             throw new InvalidFileFormatException(
                     "Skyscrapers Factory: could not find attribute(s)");
         }
+    }
+
+    @Override
+    public Goal importGoal(Node node, Board board) throws InvalidFileFormatException {
+        return null;
     }
 
     /**

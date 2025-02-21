@@ -1,5 +1,7 @@
 package edu.rpi.legup.model.gameboard;
 
+import edu.rpi.legup.model.Goal;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -13,6 +15,7 @@ public abstract class Board {
 
     protected List<PuzzleElement> puzzleElements;
     protected Set<PuzzleElement> modifiedData;
+    protected Goal goal;
     protected boolean isModifiable;
 
     /** Board Constructor creates an empty board. */
@@ -141,6 +144,14 @@ public abstract class Board {
     public void removeModifiedData(PuzzleElement data) {
         modifiedData.remove(data);
         data.setModified(false);
+    }
+
+    public void setGoal(Goal goal) {
+        this.goal = goal;
+    }
+
+    public Goal getGoal() {
+        return goal;
     }
 
     /**

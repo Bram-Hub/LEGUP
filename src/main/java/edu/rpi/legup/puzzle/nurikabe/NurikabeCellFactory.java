@@ -1,13 +1,14 @@
 package edu.rpi.legup.puzzle.nurikabe;
 
+import edu.rpi.legup.model.Goal;
+import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
+
+import org.w3c.dom.*;
 
 public class NurikabeCellFactory extends ElementFactory {
     /**
@@ -53,6 +54,43 @@ public class NurikabeCellFactory extends ElementFactory {
         }
     }
 
+    @Override
+    public Goal importGoal(Node node, Board board) throws InvalidFileFormatException {
+        try {
+            if (!node.getNodeName().equalsIgnoreCase("goal")) {
+                throw new InvalidFileFormatException(
+                        "nurikabe Factory: unknown puzzleElement puzzleElement");
+            }
+
+            NamedNodeMap attributeList = node.getAttributes();
+            String goalTypeString = attributeList.getNamedItem("type").getNodeValue();
+            GoalType goalType = goalTypeString == null ? GoalType.NONE : GoalType.valueOf(goalTypeString.toUpperCase());
+
+            if (goalType != GoalType.NONE) {
+                NurikabeBoard nurikabeBoard = (NurikabeBoard) board;
+                int width = nurikabeBoard.getWidth();
+                int height = nurikabeBoard.getHeight();
+
+                int cellValue = Integer.parseInt(attributeList.getNamedItem("value").getNodeValue());
+                int x = Integer.parseInt(attributeList.getNamedItem("x").getNodeValue());
+                int y = Integer.parseInt(attributeList.getNamedItem("y").getNodeValue());
+                if (x >= width || y >= height) {
+                    throw new InvalidFileFormatException("nurikabe Factory: goal location out of bounds");
+                }
+
+                NurikabeCell dummyCell = new NurikabeCell(cellValue, new Point(x, y));
+                dummyCell.setModifiable(false);
+                return new Goal(dummyCell, goalType);
+            } else{
+                return new Goal(null, goalType);
+            }
+        } catch (NumberFormatException e) {
+            throw new InvalidFileFormatException(
+              "nurikabe Factory: unknown value where integer expected");
+        } catch (NullPointerException e) {
+            throw new InvalidFileFormatException("nurikabe Factory: could not find attribute(s)");
+        }
+    }
     /**
      * Creates a xml document puzzleElement from a cell for exporting
      *

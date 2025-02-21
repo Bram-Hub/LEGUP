@@ -1,5 +1,7 @@
 package edu.rpi.legup.puzzle.nurikabe;
 
+import edu.rpi.legup.model.Goal;
+import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -63,12 +65,22 @@ public class Nurikabe extends Puzzle {
                 return false;
             }
         }
-        for (PuzzleElement data : nurikabeBoard.getPuzzleElements()) {
-            NurikabeCell cell = (NurikabeCell) data;
-            if (cell.getType() == NurikabeType.UNKNOWN) {
-                return false;
+
+        Goal goal = board.getGoal();
+        if (goal.getType() != GoalType.NONE) {
+            if (nurikabeBoard.getCell(goal.getLocation()).equals(goal.getCell())) {
+                return true;
+            }
+
+        } else {
+            for (PuzzleElement data : nurikabeBoard.getPuzzleElements()) {
+                NurikabeCell cell = (NurikabeCell) data;
+                if (cell.getType() == NurikabeType.UNKNOWN) {
+                    return false;
+                }
             }
         }
+
         return true;
     }
 

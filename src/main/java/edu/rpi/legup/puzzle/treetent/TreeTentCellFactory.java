@@ -1,5 +1,6 @@
 package edu.rpi.legup.puzzle.treetent;
 
+import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -66,6 +67,11 @@ public class TreeTentCellFactory extends ElementFactory {
         } catch (NullPointerException e) {
             throw new InvalidFileFormatException("TreeTent Factory: could not find attribute(s)");
         }
+    }
+
+    @Override
+    public Goal importGoal(Node node, Board board) throws InvalidFileFormatException {
+        return null;
     }
 
     /**
