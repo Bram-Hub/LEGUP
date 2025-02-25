@@ -8,6 +8,6 @@ public class WhiteTile extends PlaceableElement {
                 "STBL-PLAC-0001",
                 "White Tile",
                 "The white tile",
-                "edu/rpi/legup/images/starbattle/empty/white.gif");
+                "edu/rpi/legup/images/starbattle/white.gif");
     }
 }

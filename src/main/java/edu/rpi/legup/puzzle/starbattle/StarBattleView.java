@@ -18,7 +18,7 @@ public class StarBattleView extends GridBoardView {
             STAR =
                     ImageIO.read(
                             ClassLoader.getSystemClassLoader()
-                                    .getResource("edu/rpi/legup/images/starbattle/empty/star.gif"));
+                                    .getResource("edu/rpi/legup/images/starbattle/star.gif"));
         } catch (IOException e) {
             // pass
         }
