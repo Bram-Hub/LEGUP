@@ -8,6 +8,6 @@ public class UnknownTile extends NonPlaceableElement {
                 "STBL-UNPL-0001",
                 "Unknown Tile",
                 "An empty tile",
-                "edu/rpi/legup/images/starbattle/empty/star.gif");
+                "edu/rpi/legup/images/starbattle/star.gif");
     }
 }
