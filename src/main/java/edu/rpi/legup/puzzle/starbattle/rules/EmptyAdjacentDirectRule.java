@@ -17,7 +17,7 @@ public class EmptyAdjacentDirectRule extends DirectRule {
                 "STBL-BASC-0010",
                 "Empty Adjacent",
                 "Tiles next to other tiles that need to contain a star to reach the puzzle number for their region/row/column need to be blacked out.",
-                "edu/rpi/legup/images/starbattle/empty/EmptyAdjacentDirectRule.png");
+                "edu/rpi/legup/images/starbattle/rules/EmptyAdjacentDirectRule.png");
     }
 
     /**
