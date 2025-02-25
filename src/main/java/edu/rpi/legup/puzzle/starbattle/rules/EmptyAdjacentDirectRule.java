@@ -6,8 +6,6 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
@@ -19,7 +17,7 @@ public class EmptyAdjacentDirectRule extends DirectRule {
                 "STBL-BASC-0010",
                 "Empty Adjacent",
                 "Tiles next to other tiles that need to contain a star to reach the puzzle number for their region/row/column need to be blacked out.",
-                "edu/rpi/legup/images/starbattle/rules/EmptyAdjacentDirectRule.png");
+                "edu/rpi/legup/images/starbattle/empty/EmptyAdjacentDirectRule.png");
     }
 
     /**
