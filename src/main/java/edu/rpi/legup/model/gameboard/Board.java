@@ -23,6 +23,7 @@ public abstract class Board {
         this.puzzleElements = new ArrayList<>();
         this.modifiedData = new HashSet<>();
         this.isModifiable = true;
+        this.goal = null;
     }
 
     /**

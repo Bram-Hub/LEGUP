@@ -1,5 +1,6 @@
 package edu.rpi.legup.puzzle.nurikabe;
 
+import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import org.w3c.dom.Document;
@@ -29,6 +30,13 @@ public class NurikabeExporter extends PuzzleExporter {
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("width", String.valueOf(board.getWidth()));
         boardElement.setAttribute("height", String.valueOf(board.getHeight()));
+
+        if (board.getGoal().getType() != GoalType.NONE){
+            org.w3c.dom.Element goalCellElement = puzzle.getFactory().exportCell(newDocument, board.getGoal().getCell());
+            goalCellElement.setAttribute("type", String.valueOf(board.getGoal().getType()));
+            newDocument.renameNode(goalCellElement, goalCellElement.getNamespaceURI(), "goal");
+            boardElement.appendChild(goalCellElement);
+        }
 
         org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
