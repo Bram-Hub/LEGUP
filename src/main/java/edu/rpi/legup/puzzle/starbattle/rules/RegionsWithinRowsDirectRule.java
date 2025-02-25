@@ -12,7 +12,7 @@ public class RegionsWithinRowsDirectRule extends DirectRule {
                 "STBL-BASC-0006",
                 "Regions Within Rows",
                 "If a number of regions is fully contained by a number of rows with an equal number of missing stars, spaces of other regions in those rows must be black.",
-                "edu/rpi/legup/images/starbattle/rules/RegionsWithinRowsDirectRule.png");
+                "edu/rpi/legup/images/starbattle/empty/RegionsWithinRowsDirectRule.png");
     }
 
     /**

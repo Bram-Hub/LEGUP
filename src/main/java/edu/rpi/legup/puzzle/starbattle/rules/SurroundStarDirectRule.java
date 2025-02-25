@@ -17,7 +17,7 @@ public class SurroundStarDirectRule extends DirectRule {
                 "STBL-BASC-0009",
                 "Surround Star",
                 "Any space adjacent to a star must be black.",
-                "edu/rpi/legup/images/starbattle/rules/SurroundStar.png");
+                "edu/rpi/legup/images/starbattle/empty/SurroundStar.png");
     }
 
     /**
