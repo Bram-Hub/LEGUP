@@ -19,7 +19,7 @@ public class TooManyStarsContradictionRule extends ContradictionRule {
                 "STBL-CONT-0001",
                 "Too Many Stars",
                 "There are too many stars in this region/row/column.",
-                "edu/rpi/legup/images/starbattle/contradictions/TooManyStarsContradictionRule.png");
+                "edu/rpi/legup/images/starbattle/empty/TooManyStarsContradictionRule.png");
     }
 
     /**
