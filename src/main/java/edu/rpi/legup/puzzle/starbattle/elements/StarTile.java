@@ -8,6 +8,6 @@ public class StarTile extends NonPlaceableElement {
                 "STBL-PLAC-0001",
                 "Star Tile",
                 "The star tile, the token of the game.",
-                "edu/rpi/legup/images/starbattle/star.gif");
+                "edu/rpi/legup/images/starbattle/empty/star.gif");
     }
 }
