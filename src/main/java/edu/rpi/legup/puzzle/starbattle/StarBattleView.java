@@ -1,9 +1,7 @@
 package edu.rpi.legup.puzzle.starbattle;
 
 import edu.rpi.legup.controller.BoardController;
-import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 import java.awt.*;
 import java.io.IOException;
@@ -20,7 +18,7 @@ public class StarBattleView extends GridBoardView {
             STAR =
                     ImageIO.read(
                             ClassLoader.getSystemClassLoader()
-                                    .getResource("edu/rpi/legup/images/starbattle/star.gif"));
+                                    .getResource("edu/rpi/legup/images/starbattle/empty/star.gif"));
         } catch (IOException e) {
             // pass
         }
