@@ -88,7 +88,7 @@ public class HomePanel extends LegupPanel {
         settings.addSeparator();
         settings.add(preferences);
 
-        JMenuItem contribute = new JMenuItem("Contribute to Legup");
+        JMenuItem contribute = new JMenuItem("Contribute to LEGUP");
         contribute.addActionListener(
                 l -> {
                     try {
