@@ -13,7 +13,10 @@ import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.net.URL;
@@ -106,25 +109,116 @@ public class SVGImage {
                     case "M" -> {
                         path.moveTo(scanner.nextFloat(), scanner.nextFloat());
                     }
+                    case "m" -> {
+                        Point2D current = path.getCurrentPoint();
+                        double x = scanner.nextFloat() + current.getX();
+                        double y = scanner.nextFloat() + current.getY();
+                        path.moveTo(x, y);
+                    }
                     case "Q" -> {
                         path.quadTo(scanner.nextFloat(), scanner.nextFloat(),
                             scanner.nextFloat(), scanner.nextFloat());
                     }
+                    case "q" -> {
+                        Point2D current = path.getCurrentPoint();
+                        double x1 = scanner.nextFloat() + current.getX();
+                        double y1 = scanner.nextFloat() + current.getY();
+                        double x2 = scanner.nextFloat() + current.getX();
+                        double y2 = scanner.nextFloat() + current.getY();
+                        path.quadTo(x1, y1, x2, y2);
+                    }
+                    case "C" -> {
+                        path.curveTo(scanner.nextFloat(), scanner.nextFloat(),
+                            scanner.nextFloat(), scanner.nextFloat(),
+                            scanner.nextFloat(), scanner.nextFloat());
+                    }
+                    case "c" -> {
+                        Point2D current = path.getCurrentPoint();
+                        double x1 = scanner.nextFloat() + current.getX();
+                        double y1 = scanner.nextFloat() + current.getY();
+                        double x2 = scanner.nextFloat() + current.getX();
+                        double y2 = scanner.nextFloat() + current.getY();
+                        double x3 = scanner.nextFloat() + current.getX();
+                        double y3 = scanner.nextFloat() + current.getY();
+                        path.curveTo(x1, y1, x2, y2, x3, y3);
+                    }
                     case "L" -> {
                         path.lineTo(scanner.nextFloat(), scanner.nextFloat());
+                    }
+                    case "l" -> {
+                        Point2D current = path.getCurrentPoint();
+                        double x = scanner.nextFloat() + current.getX();
+                        double y = scanner.nextFloat() + current.getY();
+                        path.lineTo(x, y);
                     }
                     case "V" -> {
                         path.lineTo(path.getCurrentPoint().getX(), scanner.nextFloat());
                     }
+                    case "v" -> {
+                        Point2D current = path.getCurrentPoint();
+                        path.lineTo(current.getX(), scanner.nextFloat() + current.getY());
+                    }
                     case "H" -> {
                         path.lineTo(scanner.nextFloat(), path.getCurrentPoint().getY());
                     }
-                    case "Z" -> {
+                    case "h" -> {
+                        Point2D current = path.getCurrentPoint();
+                        path.lineTo(scanner.nextFloat() + current.getX(), current.getY());
+                    }
+                    case "Z", "z" -> {
                         path.closePath();
+                    }
+                    case "S", "s", "T", "t" -> {
+                        System.err.println("Curve extension not supported");
+                    }
+                    case "A", "a" -> {
+                        System.err.println("Arcs not supported");
+                    }
+                    default -> {
+                        System.err.println("Operation not supported");
                     }
                 }
             }
             return path;
+        }),
+        new ElementProcessor("polyline", (Element node) -> {
+            Path2D path = new Path2D.Float();
+            Scanner scanner = new Scanner(node.getAttribute("points"));
+            path.moveTo(scanner.nextFloat(), scanner.nextFloat());
+            while(scanner.hasNext()) {
+                path.lineTo(scanner.nextFloat(), scanner.nextFloat());
+            }
+            return path;
+        }),
+        new ElementProcessor("polygon", (Element node) -> {
+            Path2D path = new Path2D.Float();
+            Scanner scanner = new Scanner(node.getAttribute("points"));
+            path.moveTo(scanner.nextFloat(), scanner.nextFloat());
+            while(scanner.hasNext()) {
+                path.lineTo(scanner.nextFloat(), scanner.nextFloat());
+            }
+            path.closePath();
+            return path;
+        }),
+        new ElementProcessor("circle", (Element node) -> {
+            float x = Float.parseFloat(node.getAttribute("cx"));
+            float y = Float.parseFloat(node.getAttribute("cy"));
+            float r = Float.parseFloat(node.getAttribute("r"));
+            return new Ellipse2D.Float(x - r, y - r, r * 2, r * 2);
+        }),
+        new ElementProcessor("ellipse", (Element node) -> {
+            float x = Float.parseFloat(node.getAttribute("cx"));
+            float y = Float.parseFloat(node.getAttribute("cy"));
+            float rx = Float.parseFloat(node.getAttribute("rx"));
+            float ry = Float.parseFloat(node.getAttribute("ry"));
+            return new Ellipse2D.Float(x - rx, y - ry, rx * 2, ry * 2);
+        }),
+        new ElementProcessor("line", (Element node) -> {
+            float x1 = Float.parseFloat(node.getAttribute("x1"));
+            float y1 = Float.parseFloat(node.getAttribute("y1"));
+            float x2 = Float.parseFloat(node.getAttribute("x2"));
+            float y2 = Float.parseFloat(node.getAttribute("y2"));
+            return new Line2D.Float(x1, y1, x2, y2);
         })
     );
     public SVGImage(URL url) {
@@ -148,7 +242,7 @@ public class SVGImage {
                 }
             }
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            System.out.println(e);
+            System.err.println(e);
         }
     }
     public Icon getIcon(int width, int height) {

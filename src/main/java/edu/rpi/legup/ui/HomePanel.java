@@ -156,10 +156,10 @@ public class HomePanel extends LegupPanel {
                 };
         URL button1IconLocation =
                 ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.png");
-        ImageIcon button1Icon = new ImageIcon(button1IconLocation);
+                        .getResource("edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.svg");
+        SVGImage button1Icon = new SVGImage(button1IconLocation);
         this.buttons[1].setFocusPainted(false);
-        this.buttons[1].setIcon(resizeButtonIcon(button1Icon, this.buttonSize, this.buttonSize));
+        this.buttons[1].setIcon(button1Icon.getIcon(this.buttonSize, this.buttonSize));
         this.buttons[1].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[1].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[1].addActionListener(l -> this.openPuzzleEditorDialog());
