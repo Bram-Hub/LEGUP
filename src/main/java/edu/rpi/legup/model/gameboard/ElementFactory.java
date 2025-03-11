@@ -23,6 +23,13 @@ public abstract class ElementFactory {
     public abstract PuzzleElement importCell(Node node, Board board)
             throws InvalidFileFormatException;
 
+    /**
+     *
+     * @param node node that represents the Goal object
+     * @param board board to add the goal to
+     * @return newly created Goal from the xml document Node
+     * @throws InvalidFileFormatException thrown if the xml node is malformed
+     */
     public abstract Goal importGoal(Node node, Board board)
         throws InvalidFileFormatException;
     /**

@@ -170,15 +170,6 @@ public abstract class PuzzleImporter {
         return elements;
     }
 
-    public void initializeGoal(Node node) throws InvalidFileFormatException {
-        Goal goal = new Goal();
-
-        if (node.getNodeName().equalsIgnoreCase("goal")) {
-            org.w3c.dom.Element goalElement = (org.w3c.dom.Element) node;
-        }
-
-        puzzle.getFactory().importGoal(node, puzzle.getCurrentBoard());
-    }
 
     /**
      * Creates the proof for building

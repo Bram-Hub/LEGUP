@@ -81,7 +81,16 @@ public class GridBoard extends Board {
         puzzleElements.set(y * dimension.width + x, cell);
     }
 
-    public void setCell(int x, int y, Element e, MouseEvent m) {
+  /**
+   * Sets the {@link GridCell} at the location (x,y). This method does not set the cell if the
+   * location specified is out of bounds.
+   *
+   * @param x x location of the cell
+   * @param y y location of the cell
+   * @param e Puzzle Element to set cell to
+   * @param m mouse click event, used to differentiate left/right click
+   */
+  public void setCell(int x, int y, Element e, MouseEvent m) {
         if (this instanceof TreeTentBoard
                 && ((y == dimension.height && 0 <= x && x < dimension.width)
                         || (x == dimension.width && 0 <= y && y < dimension.height))) {

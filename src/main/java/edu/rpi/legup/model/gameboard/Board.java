@@ -147,10 +147,20 @@ public abstract class Board {
         data.setModified(false);
     }
 
+    /**
+     * Sets the Goal of the board
+     *
+     * @param goal Goal to be set
+     */
     public void setGoal(Goal goal) {
         this.goal = goal;
     }
 
+    /**
+     * Gets the Goal of the board
+     *
+     * @return Goal object
+     */
     public Goal getGoal() {
         return goal;
     }

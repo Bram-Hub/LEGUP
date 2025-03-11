@@ -99,6 +99,7 @@ public abstract class PuzzleExporter {
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             Document newDocument = docBuilder.newDocument();
 
+            // hardcoded version number
             org.w3c.dom.Element legupElement = newDocument.createElement("Legup");
             legupElement.setAttribute("version", "6.1.0");
             newDocument.appendChild(legupElement);
