@@ -1,6 +1,6 @@
 package puzzles.starbattle.rules;
 
-import edu.rpi.legup.puzzle.starbattle.rules.BlackoutDirectRule;
+import edu.rpi.legup.puzzle.starbattle.rules.FinishWithEmptyDirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.starbattle.StarBattle;
@@ -16,7 +16,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class BlackoutDirectRuleTest {
-    private static final BlackoutDirectRule RULE = new BlackoutDirectRule();
+    private static final FinishWithEmptyDirectRule RULE = new FinishWithEmptyDirectRule();
     private static StarBattle starBattle;
 
     @BeforeClass

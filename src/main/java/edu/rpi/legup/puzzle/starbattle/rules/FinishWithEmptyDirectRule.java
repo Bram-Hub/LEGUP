@@ -10,14 +10,14 @@ import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
 
-public class BlackoutDirectRule extends DirectRule {
+public class FinishWithEmptyDirectRule extends DirectRule {
 
-    public BlackoutDirectRule() {
+    public FinishWithEmptyDirectRule() {
         super(
                 "STBL-BASC-0001",
-                "Blackout",
+                "Finish With Empty",
                 "If a row, column, or region has enough stars, its unknown spaces are black.",
-                "edu/rpi/legup/images/starbattle/rules/BlackOutDirectRule.png");
+                "edu/rpi/legup/images/starbattle/rules/FinishWithEmptyDirectRule.png");
     }
 
     /**

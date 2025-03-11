@@ -10,14 +10,14 @@ import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
 
-public class EmptyAdjacentDirectRule extends DirectRule {
+public class FinishSurroundWithEmptyDirectRule extends DirectRule {
 
-    public EmptyAdjacentDirectRule() {
+    public FinishSurroundWithEmptyDirectRule() {
         super(
                 "STBL-BASC-0010",
-                "Empty Adjacent",
+                "Finish Surround With Empty",
                 "Tiles next to other tiles that need to contain a star to reach the puzzle number for their region/row/column need to be blacked out.",
-                "edu/rpi/legup/images/starbattle/rules/EmptyAdjacentDirectRule.png");
+                "edu/rpi/legup/images/starbattle/rules/FinishSurroundWithEmptyDirectRule.png");
     }
 
     /**
