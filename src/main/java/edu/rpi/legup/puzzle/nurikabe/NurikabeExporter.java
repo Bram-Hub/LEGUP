@@ -2,6 +2,7 @@ package edu.rpi.legup.puzzle.nurikabe;
 
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleExporter;
+import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import org.w3c.dom.Document;
 
@@ -32,23 +33,32 @@ public class NurikabeExporter extends PuzzleExporter {
         boardElement.setAttribute("height", String.valueOf(board.getHeight()));
 
         if (board.getGoal().getType() != GoalType.NONE){
-            org.w3c.dom.Element goalCellElement = puzzle.getFactory().exportCell(newDocument, board.getGoal().getCell());
-            goalCellElement.setAttribute("type", String.valueOf(board.getGoal().getType()));
-            newDocument.renameNode(goalCellElement, goalCellElement.getNamespaceURI(), "goal");
-            boardElement.appendChild(goalCellElement);
+            org.w3c.dom.Element goalElement = newDocument.createElement("goal");
+            goalElement.setAttribute("type", String.valueOf(board.getGoal().getType()));
+
+            for (GridCell gridCell : board.getGoal().getCells()) {
+                NurikabeCell cell = (NurikabeCell) gridCell;
+                if (cell.getData() != -2) {
+                    org.w3c.dom.Element cellElement =
+                            puzzle.getFactory().exportCell(newDocument, gridCell);
+                    goalElement.appendChild(cellElement);
+                }
+            }
+
+            boardElement.appendChild(goalElement);
         }
 
-        org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
+        org.w3c.dom.Element boardCellsElement = newDocument.createElement("cells");
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             NurikabeCell cell = (NurikabeCell) puzzleElement;
             if (cell.getData() != -2) {
                 org.w3c.dom.Element cellElement =
                         puzzle.getFactory().exportCell(newDocument, puzzleElement);
-                cellsElement.appendChild(cellElement);
+                boardCellsElement.appendChild(cellElement);
             }
         }
 
-        boardElement.appendChild(cellsElement);
+        boardElement.appendChild(boardCellsElement);
         return boardElement;
     }
 }

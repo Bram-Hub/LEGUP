@@ -3,14 +3,17 @@ package edu.rpi.legup.model;
 import edu.rpi.legup.model.gameboard.GridCell;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
- * A <b>Goal</b> is an immutable object that stores the type of goal and a GridCell,
+ * A <b>Goal</b> is an object that stores the type of goal and a list of GridCells,
  * which holds the type of cell and the cell's location. Goal's should only be constructed
  * twice; once upon loading the puzzle, and once upon saving the puzzle.
+ * <p>
+ * If the GoalType is NONE, cellList must be null.
  */
 public class Goal {
-    private final GridCell<Integer> cell;
+    private ArrayList<GridCell> cellList;
     private final GoalType goalType;
 
     /**
@@ -18,8 +21,9 @@ public class Goal {
      * @param cell Holds location and type of cell
      * @param goalType type of goal
      */
-    public Goal(GridCell<Integer> cell, GoalType goalType) {
-        this.cell = cell;
+    public Goal(GridCell cell, GoalType goalType) {
+        this.cellList = new ArrayList<>();
+        cellList.add(cell);
         this.goalType = goalType;
     }
 
@@ -28,14 +32,11 @@ public class Goal {
      *
      * @return GridCell cell
      */
-    public GridCell<Integer> getCell() { return cell; }
+    public ArrayList<GridCell> getCells() { return cellList; }
 
-    /**
-     * Get the goal cell's location
-     *
-     * @return Point (x, y) of the cell's location
-     */
-    public Point getLocation() { return cell.getLocation(); }
+    public void addCell(GridCell cell) { cellList.add(cell); }
+
+    public void setCellList(ArrayList<GridCell> cellList) { this.cellList = cellList; }
 
     /**
      * Get the goal type

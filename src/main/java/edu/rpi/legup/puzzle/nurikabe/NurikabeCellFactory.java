@@ -67,20 +67,7 @@ public class NurikabeCellFactory extends ElementFactory {
             GoalType goalType = goalTypeString == null ? GoalType.NONE : GoalType.valueOf(goalTypeString.toUpperCase());
 
             if (goalType != GoalType.NONE) {
-                NurikabeBoard nurikabeBoard = (NurikabeBoard) board;
-                int width = nurikabeBoard.getWidth();
-                int height = nurikabeBoard.getHeight();
-
-                int cellValue = Integer.parseInt(attributeList.getNamedItem("value").getNodeValue());
-                int x = Integer.parseInt(attributeList.getNamedItem("x").getNodeValue());
-                int y = Integer.parseInt(attributeList.getNamedItem("y").getNodeValue());
-                if (x >= width || y >= height) {
-                    throw new InvalidFileFormatException("nurikabe Factory: goal location out of bounds");
-                }
-
-                NurikabeCell dummyCell = new NurikabeCell(cellValue, new Point(x, y));
-                dummyCell.setModifiable(false);
-                return new Goal(dummyCell, goalType);
+                return new Goal(null, goalType);
             } else{
                 return new Goal(null, goalType);
             }

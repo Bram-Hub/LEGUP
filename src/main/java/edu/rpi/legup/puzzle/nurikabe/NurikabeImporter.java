@@ -65,8 +65,6 @@ public class NurikabeImporter extends PuzzleImporter {
                 throw new InvalidFileFormatException(
                         "nurikabe Importer: no puzzleElement found for board");
             }
-            Element dataElement = (Element) boardElement.getElementsByTagName("cells").item(0);
-            NodeList elementDataList = dataElement.getElementsByTagName("cell");
 
             NurikabeBoard nurikabeBoard = null;
             if (!boardElement.getAttribute("size").isEmpty()) {
@@ -89,12 +87,24 @@ public class NurikabeImporter extends PuzzleImporter {
                 Element goalElement = (Element) boardElement.getElementsByTagName("goal").item(0);
                 Goal goal = puzzle.getFactory().importGoal(goalElement, nurikabeBoard);
 
+                NodeList cellList = goalElement.getElementsByTagName("cell");
+                for (int i = 0; i < cellList.getLength(); i++) {
+                    NurikabeCell cell =
+                            (NurikabeCell)
+                                    puzzle.getFactory()
+                                            .importCell(cellList.item(i), nurikabeBoard);
+                    goal.addCell(cell);
+                }
+
                 nurikabeBoard.setGoal(goal);
             } else {
                 Goal goal = new Goal(null, GoalType.NONE);
 
                 nurikabeBoard.setGoal(goal);
             }
+
+            Element dataElement = (Element) boardElement.getElementsByTagName("cells").item(0);
+            NodeList elementDataList = dataElement.getElementsByTagName("cell");
 
             int width = nurikabeBoard.getWidth();
             int height = nurikabeBoard.getHeight();

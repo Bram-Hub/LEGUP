@@ -3,6 +3,7 @@ package edu.rpi.legup.puzzle.nurikabe;
 import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 
@@ -66,16 +67,21 @@ public class Nurikabe extends Puzzle {
         }
 
         Goal goal = board.getGoal();
-        NurikabeCell cell;
         return switch (goal.getType()) {
-            case SETCELL -> {
-                cell = (NurikabeCell) nurikabeBoard.getCell(goal.getLocation());
-                yield cell.equals(goal.getCell());
+            case PROVE_CELL_MUST_BE -> {
+                for (GridCell goalCell : goal.getCells()){
+                    GridCell boardCell = nurikabeBoard.getCell(goalCell.getLocation());
+                    if (!boardCell.equals(goalCell)){
+                        yield false;
+                    }
+                }
+
+                yield true;
             }
-            case DETERMINECELL -> false;
+            case PROVE_CELL_MIGHT_NOT_BE -> false;
             default -> {
                 for (PuzzleElement data : nurikabeBoard.getPuzzleElements()) {
-                    cell = (NurikabeCell) data;
+                    NurikabeCell cell = (NurikabeCell) data;
                     if (cell.getType() == NurikabeType.UNKNOWN) {
                         yield false;
                     }
