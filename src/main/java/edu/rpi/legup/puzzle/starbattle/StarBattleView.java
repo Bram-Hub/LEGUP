@@ -96,15 +96,15 @@ public class StarBattleView extends GridBoardView {
                 one.getLocation().x * elementSize.width,
                 one.getLocation().y * elementSize.height
         );//dump this
-        //System.out.println("point is " + temp.x + "," + temp.y + "\n");
+        System.out.println("direction is" + direction + "\n");
         if(direction == 2){
-            temp.y += elementSize.height * 15/16; //multiply  so it doesn't go off screen
+            temp.y += elementSize.height /16; //multiply  so it doesn't go off screen
         }
         if(direction == 4){
             temp.x -= elementSize.width / 16;   //divide  so it doesn't go off screen
         }
         if(direction == 6){
-            temp.x += elementSize.width * 15/16; //multiply  so it doesn't go off screen
+            temp.x += elementSize.width /16; //multiply  so it doesn't go off screen
         }if(direction == 8){
             temp.y -= elementSize.height / 16;   //multiply  so it doesn't go off screen
         }
