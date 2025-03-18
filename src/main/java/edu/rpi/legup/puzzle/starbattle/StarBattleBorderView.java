@@ -39,22 +39,24 @@ public class StarBattleBorderView extends ElementView {
         graphics2D.setColor(Color.BLACK);
 
         StarBattleBorder border= getPuzzleElement();
-
         int xSize = size.width;
         int ySize = size.height;
+        Color borderColor = Color.RED;
+        int borderWidth = size.width / 15; //ySize = ySize / 15
         if(type == StarBattleCellType.HORIZ_BORDER){    //minimize ySize / height
-            graphics2D.setColor(Color.BLACK);
+            graphics2D.setColor(borderColor);
             //dump this
             //System.out.println("Horizontal -- Border, coords " + location.x + "," + location.y + "\n");
-            ySize = ySize / 8;
+            ySize = borderWidth;
             xSize = xSize + (ySize);
             graphics2D.fillRect(location.x - (ySize / 2), location.y, xSize, ySize);
         }
         else if(type == StarBattleCellType.VERT_BORDER){    //minimize xSize / width
-            graphics2D.setColor(Color.BLACK);
+            graphics2D.setColor(borderColor);
             //System.out.println("Vertical | Border, c0ords " + location.x + "," + location.y + "\n");
-            xSize = xSize / 8;
+            xSize = borderWidth;
             ySize = ySize + (xSize);
+            System.out.println("Border width = " + xSize + "\n");
             graphics2D.fillRect(location.x, location.y - (xSize / 2), xSize, ySize);
         }
         //This needs more work but it'll do for now (add  - (xSize / 2) to location.y and x that don't have it)
