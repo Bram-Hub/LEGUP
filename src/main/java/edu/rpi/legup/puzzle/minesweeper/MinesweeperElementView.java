@@ -82,8 +82,6 @@ public class MinesweeperElementView extends GridElementView {
                     null);
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
-            //graphics2D.setColor(Color.DARK_GRAY);
-            //graphics2D.fillRect(location.x, location.y, size.width, size.height);
             return;
         }
         if (type == MinesweeperTileType.EMPTY) {
