@@ -121,8 +121,6 @@ public class TreeController extends Controller {
      */
     @Override
     public void mouseDragged(MouseEvent e) {
-        //super.mouseDragged(e);
-
         TreeView treeView = (TreeView) viewer;
         Point point = treeView.getActualPoint(e.getPoint());
         TreeElementView treeElementView = treeView.getTreeElementView(point);
