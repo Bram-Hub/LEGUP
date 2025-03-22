@@ -59,7 +59,7 @@ public class StarBattleView extends GridBoardView {
                 }
                 else if(board.getCell(i, j-1).getGroupIndex() != board.getCell(i, j).getGroupIndex()){       //general case
                              //adds border when two adjacent cells aren't from the same region
-                    temp.setLocation(endCell(board.getCell(i,j), 8, elementSize));
+                    temp.setLocation(endCell(board.getCell(i,j), 5, elementSize));
                     horizontalBorders.add(temp);
                 }
                 //no else statement. If none of these ifs are met, then just don't add it to the list
@@ -82,7 +82,7 @@ public class StarBattleView extends GridBoardView {
                 }
                 else if(board.getCell(i-1, j).getGroupIndex() != board.getCell(i, j).getGroupIndex()){       //general case
                     //adds border when two adjacent cells aren't from the same region
-                    temp.setLocation(endCell(board.getCell(i,j), 4, elementSize));
+                    temp.setLocation(endCell(board.getCell(i,j), 5, elementSize));
                     verticalBorders.add(temp);
                 }
             }
@@ -97,18 +97,22 @@ public class StarBattleView extends GridBoardView {
                 one.getLocation().y * elementSize.height
         );//dump this
         System.out.println("direction is" + direction + "\n");
-        if(direction == 2){
-            temp.y += elementSize.height /16; //multiply  so it doesn't go off screen
+        if(direction == 2){ //top border
+            temp.y += elementSize.height * 15/16; //multiply  so it doesn't go off screen
         }
-        if(direction == 4){
-            temp.x -= elementSize.width / 16;   //divide  so it doesn't go off screen
+        if(direction == 4){ //left border
+            temp.x += elementSize.width / 16;   //divide  so it doesn't go off screen
         }
-        if(direction == 6){
-            temp.x += elementSize.width /16; //multiply  so it doesn't go off screen
-        }if(direction == 8){
-            temp.y -= elementSize.height / 16;   //multiply  so it doesn't go off screen
+        if(direction == 6){ //right border
+            temp.x += elementSize.width * 15/16; //multiply  so it doesn't go off screen
+        }if(direction == 8){ //bottom border
+            temp.y += elementSize.height / 16;   //multiply  so it doesn't go off screen
         }
+        //default of 5 shouldn't change
+        //these changes to the x or y coordinate are necessary to properly load them in and not cut them off
+        //on the edge of the board
         //System.out.println("point is now " + temp.x + "," + temp.y + "\n");
+
         return temp;
     }
     /*  shelved for redundancy
