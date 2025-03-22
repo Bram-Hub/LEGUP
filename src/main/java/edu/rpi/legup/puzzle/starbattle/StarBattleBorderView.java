@@ -42,14 +42,14 @@ public class StarBattleBorderView extends ElementView {
         StarBattleBorder border= getPuzzleElement();
         float xSize = size.width;
         float ySize = size.height;
-        Color borderColor = Color.RED;
+        Color borderColor = Color.BLACK;
         float borderWidth = 3.0f; //ySize = ySize / 15
         if(type == StarBattleCellType.HORIZ_BORDER){    //minimize ySize / height
             graphics2D.setColor(borderColor);
             //dump this
             //System.out.println("Horizontal -- Border, coords " + location.x + "," + location.y + "\n");
-            ySize = borderWidth;
-            xSize = xSize + (ySize);
+            //ySize = borderWidth;
+            //xSize = xSize;
             //graphics2D.fillRect(location.x - (ySize / 2), location.y, xSize, ySize);
             graphics2D.setStroke(new BasicStroke(3));
             /*
@@ -60,19 +60,27 @@ public class StarBattleBorderView extends ElementView {
              */
             graphics2D.draw(
                     new Line2D.Double(
-                            location.x, location.y, location.x, location.y + xSize));
+                            location.x, location.y, location.x + (xSize), location.y));
+            //The lines would be off center if not for the "+ 1"s
         }
         else if(type == StarBattleCellType.VERT_BORDER){    //minimize xSize / width
             graphics2D.setColor(borderColor);
             //System.out.println("Vertical | Border, c0ords " + location.x + "," + location.y + "\n");
-            xSize = borderWidth;
-            ySize = ySize + (xSize);
+            //xSize = borderWidth;
+            //ySize = ySize + (xSize);
             System.out.println("Border width = " + xSize + "\n");
             //graphics2D.fillRect(location.x, location.y - (xSize / 2), xSize, ySize);
             graphics2D.setStroke(new BasicStroke(3));
             graphics2D.draw(
                     new Line2D.Double(
+                            location.x, location.y, location.x, location.y + (ySize)));
+            /*
+
+            graphics2D.draw(
+                    new Line2D.Double(
                             location.x, location.y, location.x + ySize, location.y));
+
+             */
         }
         //This needs more work but it'll do for now (add  - (xSize / 2) to location.y and x that don't have it)
         //Also, look into changing width of borders, size of cell = 30 units
