@@ -115,18 +115,6 @@ public class StarBattleView extends GridBoardView {
 
         return temp;
     }
-    /*  shelved for redundancy
-    //finds average point location between two cells
-    public Point betweenCells(StarBattleCell one, StarBattleCell two, Dimension elementSize){
-        //dump this
-        System.out.println("point between is " + Math.max(one.getLocation().x,two.getLocation().x) + "," + Math.max(one.getLocation().y,two.getLocation().y) + "\n");
-        if(one.getLocation().x < two.getLocation().x){
-            return endCell(one, 6, elementSize);
-        }
-        else if(one.getLocation().y < two.getLocation().y){
-            return endCell(one, 6, elementSize);
-        }
-    }   */
 
     @Override
     public void drawBoard(Graphics2D graphics2D){
