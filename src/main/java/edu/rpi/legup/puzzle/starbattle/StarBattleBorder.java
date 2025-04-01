@@ -8,6 +8,7 @@ public class StarBattleBorder extends PuzzleElement<Integer> {
     public StarBattleBorder(StarBattleCellType border_type){
         super();    //just use the empty constructor since it doesn't hold a value
         type = border_type;
+        this.setModifiable(false);
     }
 
     public StarBattleCellType getType(){
@@ -17,7 +18,7 @@ public class StarBattleBorder extends PuzzleElement<Integer> {
     public StarBattleBorder copy(){
         StarBattleBorder copy = new StarBattleBorder(type);
         copy.setIndex(index);
-        copy.setModifiable(isModifiable);
+        this.setModifiable(false);
         return copy;
     }
 }
