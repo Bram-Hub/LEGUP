@@ -53,6 +53,6 @@ jobs:
         run: |
           git config --global user.name 'Bram van Heuveln'
           git config --global user.email 'bram28@users.noreply.github.com'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} # check this, the rest should work
           git add legup-update/bin/main/edu.rpi.legupupdate/VERSION
           git commit -m "Increment version number after PR to master"
