@@ -129,5 +129,7 @@ public class StarBattleView extends GridBoardView {
             //draw a vertical line
             border.draw(graphics2D);
         }
+        //testing how to draw things off the board
+        //StarBattleCell test = new StarBattleCell(0, new Point(-10,-10), -1, 30);
     }
 }
