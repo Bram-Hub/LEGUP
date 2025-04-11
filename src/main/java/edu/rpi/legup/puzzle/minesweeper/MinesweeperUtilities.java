@@ -226,6 +226,8 @@ public final class MinesweeperUtilities {
         int numFar;
         int numClose;
 
+
+
         // Goes through all possible positions that horizontally adjacent number cells
         // could be in that could force the current cell to be a mine. If one possibility
         // actually has the number cells that force the current cell to be a mine, return true

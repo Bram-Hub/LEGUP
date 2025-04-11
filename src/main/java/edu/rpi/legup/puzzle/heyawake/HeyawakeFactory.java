@@ -44,7 +44,7 @@ public class HeyawakeFactory extends ElementFactory {
             }
 
             HeyawakeCell cell = new HeyawakeCell(value, new Point(x, y), regionIndex);
-            cell.setIndex(y * height + x);
+            cell.setIndex(y * width + x);
             heyawakeBoard.getRegions();
             return cell;
         } catch (NumberFormatException e) {

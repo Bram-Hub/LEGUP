@@ -42,7 +42,7 @@ public class BinaryCellFactory extends ElementFactory {
             }
 
             BinaryCell cell = new BinaryCell(value, new Point(x, y));
-            cell.setIndex(y * height + x);
+            cell.setIndex(y * width + x);
             return cell;
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
