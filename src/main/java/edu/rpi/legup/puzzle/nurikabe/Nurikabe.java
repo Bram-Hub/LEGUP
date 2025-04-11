@@ -68,17 +68,31 @@ public class Nurikabe extends Puzzle {
 
         Goal goal = board.getGoal();
         return switch (goal.getType()) {
-            case PROVE_CELL_MUST_BE -> {
+            case PROVE_CELL_MUST_BE -> // Every goal cell is forced
+                    checkGoalCells(nurikabeBoard, goal);
+            case PROVE_CELL_MIGHT_NOT_BE -> {
+                // If the goal cell is guaranteed to be the same, then the board
+                // is technically true? Need to fact-check this, but I think this is right
+
+                // Board is complete and goal cell is different from listed
+                for (PuzzleElement data : nurikabeBoard.getPuzzleElements()) {
+                    NurikabeCell cell = (NurikabeCell) data;
+                    if (cell.getType() == NurikabeType.UNKNOWN) {
+                        yield false;
+                    }
+                }
+
                 for (GridCell goalCell : goal.getCells()){
                     GridCell boardCell = nurikabeBoard.getCell(goalCell.getLocation());
-                    if (!boardCell.equals(goalCell)){
+                    if (boardCell.equals(goalCell)){
                         yield false;
                     }
                 }
 
                 yield true;
             }
-            case PROVE_CELL_MIGHT_NOT_BE -> false;
+            case PROVE_SINGLE_CELL_VALUE -> { yield false; }
+            case PROVE_MULTIPLE_CELL_VALUE -> { yield false; }
             default -> {
                 for (PuzzleElement data : nurikabeBoard.getPuzzleElements()) {
                     NurikabeCell cell = (NurikabeCell) data;
@@ -89,6 +103,23 @@ public class Nurikabe extends Puzzle {
                 yield true;
             }
         };
+    }
+
+    /**
+     * Returns true if all the cells listed in the Goal are forced.
+     * @param goal Goal object containing cell locations and values.
+     * @return True if all the cells match the ones specified in Goal, False otherwise.
+     */
+    private boolean checkGoalCells(NurikabeBoard board, Goal goal) {
+        boolean isValid = false;
+        for (GridCell goalCell : goal.getCells()) {
+            GridCell boardCell = board.getCell(goalCell.getLocation());
+            if (boardCell.equals(goalCell)){
+                isValid = true;
+            }
+        }
+
+        return isValid;
     }
 
     /**

@@ -17,13 +17,26 @@ public class Goal {
     private final GoalType goalType;
 
     /**
-     * Constructs a Goal object
+     * Constructs a Goal object with an empty cell list
+     *
+     * @param goalType type of goal
+     */
+    public Goal(GoalType goalType) {
+        this.cellList = new ArrayList<>();
+        this.goalType = goalType;
+    }
+
+    /**
+     * Constructs a Goal object only requiring a given cell
+     *
      * @param cell Holds location and type of cell
      * @param goalType type of goal
      */
     public Goal(GridCell cell, GoalType goalType) {
         this.cellList = new ArrayList<>();
-        cellList.add(cell);
+        if (cell != null) {
+            cellList.add(cell);
+        }
         this.goalType = goalType;
     }
 

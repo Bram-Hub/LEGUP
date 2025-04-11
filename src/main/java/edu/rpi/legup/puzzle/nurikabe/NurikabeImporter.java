@@ -14,11 +14,17 @@ public class NurikabeImporter extends PuzzleImporter {
         super(nurikabe);
     }
 
+    /**
+     * @return True
+     */
     @Override
     public boolean acceptsRowsAndColumnsInput() {
         return true;
     }
 
+    /**
+     * @return False
+     */
     @Override
     public boolean acceptsTextInput() {
         return false;
@@ -98,7 +104,7 @@ public class NurikabeImporter extends PuzzleImporter {
 
                 nurikabeBoard.setGoal(goal);
             } else {
-                Goal goal = new Goal(null, GoalType.NONE);
+                Goal goal = new Goal(null, GoalType.DEFAULT);
 
                 nurikabeBoard.setGoal(goal);
             }

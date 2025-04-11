@@ -32,7 +32,7 @@ public class NurikabeExporter extends PuzzleExporter {
         boardElement.setAttribute("width", String.valueOf(board.getWidth()));
         boardElement.setAttribute("height", String.valueOf(board.getHeight()));
 
-        if (board.getGoal().getType() != GoalType.NONE){
+        if (board.getGoal() != null && board.getGoal().getType() != GoalType.DEFAULT){
             org.w3c.dom.Element goalElement = newDocument.createElement("goal");
             goalElement.setAttribute("type", String.valueOf(board.getGoal().getType()));
 
