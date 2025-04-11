@@ -115,6 +115,21 @@ public class StarBattleView extends GridBoardView {
 
         return temp;
     }
+    //Important function to be used in the future that will resize the board to allow
+    //extra rows and columns for the borders to be given extra space and add text the tops and
+    //bottoms of the board. I bet they could put all the text on one "tile" because even though
+    //it'll spill over into other ones, only one tiles needs to draw text, and we won't have to
+    //worry about each tile having a different portion of the message.
+    //Original function from SkyscrapersView.java
+    /*
+    @Override
+    protected Dimension getProperSize() {
+        Dimension boardViewSize = new Dimension();
+        boardViewSize.width = (gridSize.width + 2) * elementSize.width;
+        boardViewSize.height = (gridSize.height + 2) * elementSize.height;
+        return boardViewSize;
+    }
+     */
 
     @Override
     public void drawBoard(Graphics2D graphics2D){
