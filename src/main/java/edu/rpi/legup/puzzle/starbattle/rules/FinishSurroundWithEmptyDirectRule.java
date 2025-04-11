@@ -54,22 +54,33 @@ public class FinishSurroundWithEmptyDirectRule extends DirectRule {
         StarBattleCell south = board.getCell(x, y + 1);
         StarBattleCell southEast = board.getCell(x + 1, y + 1);
 
-        StarBattleCell[] adjacent = {northWest, north, northEast, west, east, southWest, south, southEast};
+        StarBattleCell[] adjacent = {
+            northWest, north, northEast, west, east, southWest, south, southEast
+        };
 
         StarBattleBoard modified = (StarBattleBoard) origBoard.copy();
         modified.getPuzzleElement(puzzleElement).setData(StarBattleCellType.STAR.value);
-        for(int i = 0; i < 8; i++){                 //sets each spot to a black square if not filled
+        for (int i = 0; i < 8; i++) { // sets each spot to a black square if not filled
             StarBattleCell temp = adjacent[i];
 
             if (temp != null && temp.getType() == StarBattleCellType.UNKNOWN) {
-                //temp.setData(StarBattleCellType.BLACK.value);
+                // temp.setData(StarBattleCellType.BLACK.value);
                 int X = temp.getLocation().x;
                 int Y = temp.getLocation().y;
-                modified.getCell(X,Y).setData(StarBattleCellType.BLACK.value);
-                System.out.println("covering square " + X + " " + Y + " type " + modified.getCell(X,Y).getType() + " i = " + i + "\n");
-                if(contraRule.checkContradictionAt(modified, temp) == null){
+                modified.getCell(X, Y).setData(StarBattleCellType.BLACK.value);
+                System.out.println(
+                        "covering square "
+                                + X
+                                + " "
+                                + Y
+                                + " type "
+                                + modified.getCell(X, Y).getType()
+                                + " i = "
+                                + i
+                                + "\n");
+                if (contraRule.checkContradictionAt(modified, temp) == null) {
                     System.out.println("Good job!");
-                    return null;        //used correctly if even one space causes a toofewstars issue
+                    return null; // used correctly if even one space causes a toofewstars issue
                 }
             }
         }

@@ -4,10 +4,10 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * {@code TreeViewSelection} manages the selection and hover state of tree element views in a tree view.
- * It maintains a list of selected views, tracks the currently hovered view, and manages the mouse position.
+ * {@code TreeViewSelection} manages the selection and hover state of tree element views in a tree
+ * view. It maintains a list of selected views, tracks the currently hovered view, and manages the
+ * mouse position.
  */
 public class TreeViewSelection {
     private ArrayList<TreeElementView> selectedViews;

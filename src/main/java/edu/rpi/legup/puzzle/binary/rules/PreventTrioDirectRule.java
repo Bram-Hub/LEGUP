@@ -35,7 +35,8 @@ public class PreventTrioDirectRule extends DirectRule {
         BinaryCell binaryCell = (BinaryCell) puzzleElement;
         BinaryBoard modified = origBoard.copy();
 
-        // Flip the cell and check to see if there will be a trio contradiction, if so the rule is applied correctly
+        // Flip the cell and check to see if there will be a trio contradiction, if so the rule is
+        // applied correctly
         modified.getPuzzleElement(puzzleElement).setData(Math.abs(binaryCell.getData() - 1));
         if (contraRule.checkContradictionAt(modified, binaryCell) == null) {
             return null;

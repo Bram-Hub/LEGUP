@@ -6,8 +6,8 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 
 /**
- * DataSelectionView is a popup menu used for selecting data elements.
- * It extends JPopupMenu and is styled with a gray background and a raised bevel border.
+ * DataSelectionView is a popup menu used for selecting data elements. It extends JPopupMenu and is
+ * styled with a gray background and a raised bevel border.
  */
 public class DataSelectionView extends JPopupMenu {
 

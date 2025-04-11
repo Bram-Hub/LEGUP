@@ -45,7 +45,16 @@ public class TooFewStarsContradictionRule extends ContradictionRule {
                 ++columnCount;
             }
         }
-        System.out.println("rowCount = " + rowCount + " columnCount = " + columnCount + " at " + column + "," + row + "\n");
+        System.out.println(
+                "rowCount = "
+                        + rowCount
+                        + " columnCount = "
+                        + columnCount
+                        + " at "
+                        + column
+                        + ","
+                        + row
+                        + "\n");
         if (rowCount < sbBoard.getPuzzleNumber() || columnCount < sbBoard.getPuzzleNumber()) {
             System.out.println("Returning Null\n");
             return null;

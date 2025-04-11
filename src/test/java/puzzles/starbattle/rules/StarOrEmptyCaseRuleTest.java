@@ -3,7 +3,6 @@ package puzzles.starbattle.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 import edu.rpi.legup.puzzle.starbattle.StarBattle;
 import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
@@ -30,15 +29,15 @@ public class StarOrEmptyCaseRuleTest {
     }
 
     @Test
-    public void StarOrEmptyCaseRuleTest_SimpleStarOrEmpty()
-        throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/starbattle/rules/StarOrEmptyCaseRule/SimpleStarOrEmpty", starBattle);
+    public void StarOrEmptyCaseRuleTest_SimpleStarOrEmpty() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/starbattle/rules/StarOrEmptyCaseRule/SimpleStarOrEmpty", starBattle);
         TreeNode rootNode = starBattle.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
         StarBattleBoard board = (StarBattleBoard) transition.getBoard();
-        StarBattleCell cell = board.getCell(0,0);
+        StarBattleCell cell = board.getCell(0, 0);
         ArrayList<Board> cases = RULE.getCases(board, cell);
 
         StarBattleBoard caseBoard1 = (StarBattleBoard) cases.get(0);
@@ -47,9 +46,10 @@ public class StarOrEmptyCaseRuleTest {
         StarBattleCellType board2Type = caseBoard2.getCell(0, 0).getType();
 
         Assert.assertTrue(
-                (board1Type.equals(StarBattleCellType.BLACK) || board1Type.equals(StarBattleCellType.STAR))
+                (board1Type.equals(StarBattleCellType.BLACK)
+                                || board1Type.equals(StarBattleCellType.STAR))
                         && (board2Type.equals(StarBattleCellType.BLACK)
-                        || board2Type.equals(StarBattleCellType.STAR)));
+                                || board2Type.equals(StarBattleCellType.STAR)));
         Assert.assertFalse(board1Type.equals(board2Type));
         Assert.assertEquals(caseBoard1.getHeight(), caseBoard2.getHeight(), board.getHeight());
         Assert.assertEquals(caseBoard1.getWidth(), caseBoard2.getWidth(), board.getWidth());
@@ -64,5 +64,4 @@ public class StarOrEmptyCaseRuleTest {
             }
         }
     }
-
 }

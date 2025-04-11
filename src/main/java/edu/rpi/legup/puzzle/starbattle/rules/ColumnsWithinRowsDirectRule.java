@@ -8,7 +8,6 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
-
 import java.util.*;
 
 public class ColumnsWithinRowsDirectRule extends DirectRule {
@@ -27,7 +26,7 @@ public class ColumnsWithinRowsDirectRule extends DirectRule {
         }
         List<List<Integer>> newSubsets = new LinkedList<List<Integer>>();
         if (current != skip) {
-            for (List<Integer> subset: subsets) {
+            for (List<Integer> subset : subsets) {
                 List<Integer> copy = new LinkedList<Integer>(subset);
                 copy.add(current);
                 newSubsets.add(copy);
@@ -66,16 +65,16 @@ public class ColumnsWithinRowsDirectRule extends DirectRule {
         }
 
         List<List<Integer>> subsets = new LinkedList<List<Integer>>();
-        generateSubsets(subsets,0, column, dim);
+        generateSubsets(subsets, 0, column, dim);
 
-        for (List<Integer> columnSubset: subsets) {
+        for (List<Integer> columnSubset : subsets) {
             Set<Integer> rows = new HashSet<Integer>();
             boolean containsRow = false;
             int columnStars = 0;
             int rowStars = 0;
-            for (int c: columnSubset) {
+            for (int c : columnSubset) {
                 columnStars += origBoard.columnStars(c);
-                for (StarBattleCell ce: origBoard.getCol(c)) {
+                for (StarBattleCell ce : origBoard.getCol(c)) {
                     if (ce.getType() == StarBattleCellType.UNKNOWN) {
                         if (rows.add(ce.getLocation().y)) {
                             rowStars += origBoard.rowStars(ce.getLocation().y);
@@ -86,8 +85,9 @@ public class ColumnsWithinRowsDirectRule extends DirectRule {
                     }
                 }
             }
-            if (containsRow && board.getPuzzleNumber() * columnSubset.size() - columnStars
-                    >= board.getPuzzleNumber() * rows.size() - rowStars) {
+            if (containsRow
+                    && board.getPuzzleNumber() * columnSubset.size() - columnStars
+                            >= board.getPuzzleNumber() * rows.size() - rowStars) {
                 return null;
             }
         }

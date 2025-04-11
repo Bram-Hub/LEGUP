@@ -8,7 +8,6 @@ public enum StarBattleCellType {
     HORIZ_BORDER(1),
     VERT_BORDER(2);
 
-
     public int value;
 
     StarBattleCellType(int value) {

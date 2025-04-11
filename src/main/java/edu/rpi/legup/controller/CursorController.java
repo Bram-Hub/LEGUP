@@ -7,8 +7,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * {@code CursorController} provides functionality for managing the cursor appearance during actions that take a certain amount of time.
- * It allows for the display of a busy cursor while an action is being processed and reverts to the default cursor afterward
+ * {@code CursorController} provides functionality for managing the cursor appearance during actions
+ * that take a certain amount of time. It allows for the display of a busy cursor while an action is
+ * being processed and reverts to the default cursor afterward
  */
 public class CursorController {
     public static final Cursor BUSY_CURSOR = new Cursor(Cursor.WAIT_CURSOR);

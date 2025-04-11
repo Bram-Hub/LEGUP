@@ -15,8 +15,8 @@ public class CompleteRowColumnDirectRule extends DirectRule {
         super(
                 "BINA-BASC-0003",
                 "Complete Row/Column",
-                "If a row/column of length n contains n/2 of a single value, the remaining " +
-                        "cells must contain the other value",
+                "If a row/column of length n contains n/2 of a single value, the remaining "
+                        + "cells must contain the other value",
                 "edu/rpi/legup/images/binary/rules/CompleteRowColumnDirectRule.png");
     }
 

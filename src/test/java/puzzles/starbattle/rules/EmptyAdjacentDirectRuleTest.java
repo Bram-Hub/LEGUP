@@ -17,7 +17,8 @@ import org.junit.Test;
 
 public class EmptyAdjacentDirectRuleTest {
 
-    private static final FinishSurroundWithEmptyDirectRule RULE = new FinishSurroundWithEmptyDirectRule();
+    private static final FinishSurroundWithEmptyDirectRule RULE =
+            new FinishSurroundWithEmptyDirectRule();
     private static StarBattle starbattle;
 
     @BeforeClass
@@ -28,23 +29,24 @@ public class EmptyAdjacentDirectRuleTest {
 
     @Test
     public void EmptyAdjacentDirectRule_OneLeft() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/starbattle/rules/EmptyAdjacentDirectRule/OneLeft", starbattle);
+        TestUtilities.importTestBoard(
+                "puzzles/starbattle/rules/EmptyAdjacentDirectRule/OneLeft", starbattle);
         TreeNode rootNode = starbattle.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
         StarBattleBoard board = (StarBattleBoard) transition.getBoard();
-        StarBattleCell cell1 = board.getCell(1,1);
+        StarBattleCell cell1 = board.getCell(1, 1);
         cell1.setData(StarBattleCellType.BLACK.value);
-        StarBattleCell cell2 = board.getCell(2,1);
+        StarBattleCell cell2 = board.getCell(2, 1);
         cell2.setData(StarBattleCellType.BLACK.value);
-        StarBattleCell cell3 = board.getCell(3,1);
+        StarBattleCell cell3 = board.getCell(3, 1);
         cell3.setData(StarBattleCellType.BLACK.value);
-        StarBattleCell cell4 = board.getCell(1,3);
+        StarBattleCell cell4 = board.getCell(1, 3);
         cell4.setData(StarBattleCellType.BLACK.value);
-        StarBattleCell cell5 = board.getCell(2,3);
+        StarBattleCell cell5 = board.getCell(2, 3);
         cell5.setData(StarBattleCellType.BLACK.value);
-        StarBattleCell cell6 = board.getCell(3,3);
+        StarBattleCell cell6 = board.getCell(3, 3);
         cell6.setData(StarBattleCellType.BLACK.value);
 
         board.addModifiedData(cell1);
@@ -58,13 +60,15 @@ public class EmptyAdjacentDirectRuleTest {
 
         for (int i = 0; i < board.getHeight(); ++i) {
             for (int j = 0; j < board.getWidth(); ++j) {
-                Point point = new Point(j,i);
-                if (point.equals(cell1.getLocation()) || point.equals(cell2.getLocation()) ||
-                        point.equals(cell3.getLocation()) || point.equals(cell4.getLocation()) ||
-                        point.equals(cell5.getLocation()) || point.equals(cell6.getLocation())) {
+                Point point = new Point(j, i);
+                if (point.equals(cell1.getLocation())
+                        || point.equals(cell2.getLocation())
+                        || point.equals(cell3.getLocation())
+                        || point.equals(cell4.getLocation())
+                        || point.equals(cell5.getLocation())
+                        || point.equals(cell6.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(j, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(j, i)));
                 }
             }
@@ -73,13 +77,14 @@ public class EmptyAdjacentDirectRuleTest {
 
     @Test
     public void EmptyAdjacentDirectRule_TwoLeft() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/starbattle/rules/EmptyAdjacentDirectRule/TwoLeft", starbattle);
+        TestUtilities.importTestBoard(
+                "puzzles/starbattle/rules/EmptyAdjacentDirectRule/TwoLeft", starbattle);
         TreeNode rootNode = starbattle.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
         StarBattleBoard board = (StarBattleBoard) transition.getBoard();
-        StarBattleCell cell1 = board.getCell(1,1);
+        StarBattleCell cell1 = board.getCell(1, 1);
         cell1.setData(StarBattleCellType.BLACK.value);
         /*
         StarBattleCell cell2 = board.getCell(2,1);
@@ -101,29 +106,29 @@ public class EmptyAdjacentDirectRuleTest {
         System.out.println("General Case is done\n");
         for (int i = 0; i < board.getHeight(); ++i) {
             for (int j = 0; j < board.getWidth(); ++j) {
-                Point point = new Point(j,i);
+                Point point = new Point(j, i);
                 if (point.equals(cell1.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(j, i)));
                 } /*
-                else {
-                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(j, i)));
-                } */
+                  else {
+                      Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(j, i)));
+                  } */
             }
         }
     }
 
     @Test
-    public void EmptyAdjacentDirectRule_ThreeLeft()
-            throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/starbattle/rules/EmptyAdjacentDirectRule/TwoLeft", starbattle);
+    public void EmptyAdjacentDirectRule_ThreeLeft() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/starbattle/rules/EmptyAdjacentDirectRule/TwoLeft", starbattle);
         TreeNode rootNode = starbattle.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
         StarBattleBoard board = (StarBattleBoard) transition.getBoard();
-        StarBattleCell cell1 = board.getCell(1,1);
+        StarBattleCell cell1 = board.getCell(1, 1);
         cell1.setData(StarBattleCellType.BLACK.value);
-        StarBattleCell cell2 = board.getCell(2,1);
+        StarBattleCell cell2 = board.getCell(2, 1);
         cell2.setData(StarBattleCellType.BLACK.value);
 
         board.addModifiedData(cell1);
@@ -133,11 +138,10 @@ public class EmptyAdjacentDirectRuleTest {
 
         for (int i = 0; i < board.getHeight(); ++i) {
             for (int j = 0; j < board.getWidth(); ++j) {
-                Point point = new Point(j,i);
+                Point point = new Point(j, i);
                 if (point.equals(cell1.getLocation()) || point.equals(cell2.getLocation())) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(j, i)));
-                }
-                else {
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(j, i)));
                 }
             }
@@ -146,19 +150,20 @@ public class EmptyAdjacentDirectRuleTest {
 
     @Test
     public void EmptyAdjacentDirectRule_ImproperUseFourLeft() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/starbattle/rules/EmptyAdjacentDirectRule/ImproperUseFourLeft", starbattle);
+        TestUtilities.importTestBoard(
+                "puzzles/starbattle/rules/EmptyAdjacentDirectRule/ImproperUseFourLeft", starbattle);
         TreeNode rootNode = starbattle.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
         StarBattleBoard board = (StarBattleBoard) transition.getBoard();
-        StarBattleCell cell1 = board.getCell(1,1);
+        StarBattleCell cell1 = board.getCell(1, 1);
         cell1.setData(StarBattleCellType.BLACK.value);
-        StarBattleCell cell2 = board.getCell(2,1);
+        StarBattleCell cell2 = board.getCell(2, 1);
         cell2.setData(StarBattleCellType.BLACK.value);
-        StarBattleCell cell3 = board.getCell(1,3);
+        StarBattleCell cell3 = board.getCell(1, 3);
         cell3.setData(StarBattleCellType.BLACK.value);
-        StarBattleCell cell4 = board.getCell(2,3);
+        StarBattleCell cell4 = board.getCell(2, 3);
         cell4.setData(StarBattleCellType.BLACK.value);
 
         board.addModifiedData(cell1);

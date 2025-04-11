@@ -36,17 +36,13 @@ public class ZoomWidget extends JLabel {
         addMouseListener(open);
     }
 
-    /**
-     * A {@code JPopupMenu} subclass that contains a vertical slider for adjusting zoom level.
-     */
+    /** A {@code JPopupMenu} subclass that contains a vertical slider for adjusting zoom level. */
     private class PopupSlider extends JPopupMenu implements ChangeListener {
         private static final long serialVersionUID = 8225019381200459814L;
 
         private JSlider slider;
 
-        /**
-         * Constructs a {@code PopupSlider} with a vertical slider
-         */
+        /** Constructs a {@code PopupSlider} with a vertical slider */
         public PopupSlider() {
             slider = new JSlider(SwingConstants.VERTICAL, 0, 400, 200);
             slider.setMajorTickSpacing(25);

@@ -4,8 +4,8 @@ import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 
 /**
- * ITreeListener defines methods for handling events related to changes in the tree.
- * Implementations of this interface are notified of additions, removals, and selection changes in the tree.
+ * ITreeListener defines methods for handling events related to changes in the tree. Implementations
+ * of this interface are notified of additions, removals, and selection changes in the tree.
  */
 public interface ITreeListener {
     /**

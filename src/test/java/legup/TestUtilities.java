@@ -6,7 +6,6 @@ import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.save.InvalidFileFormatException;
-
 import java.io.InputStream;
 
 public final class TestUtilities {
@@ -15,7 +14,8 @@ public final class TestUtilities {
         InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName);
 
         if (inputStream == null) {
-            throw new IllegalArgumentException("InputStream cannot be null. File not found: " + fileName);
+            throw new IllegalArgumentException(
+                    "InputStream cannot be null. File not found: " + fileName);
         }
 
         puzzle.importPuzzle(inputStream);

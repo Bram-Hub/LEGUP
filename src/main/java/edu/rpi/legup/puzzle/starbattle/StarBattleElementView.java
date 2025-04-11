@@ -18,7 +18,7 @@ public class StarBattleElementView extends GridElementView {
     public void drawElement(Graphics2D graphics2D) {
         StarBattleCell cell = (StarBattleCell) puzzleElement;
         StarBattleCellType type = cell.getType();
-        //System.out.println("point for cell is " + location.x + "," + location.y + "\n");
+        // System.out.println("point for cell is " + location.x + "," + location.y + "\n");
         if (type == StarBattleCellType.STAR) {
             graphics2D.setColor(Color.LIGHT_GRAY);
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
@@ -50,8 +50,9 @@ public class StarBattleElementView extends GridElementView {
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
         }
-        //else if (type == StarBattleCellType.BORDER){          //would likely define border as a cell type so as to
-                                                                //not have to rewrite this whole function
+        // else if (type == StarBattleCellType.BORDER){          //would likely define border as a
+        // cell type so as to
+        // not have to rewrite this whole function
         /*                                                      //maybe one type for vertical and another for horizontal
             graphics2D.setStrike(new BasicStrike(1));
             graphics2D.setColor(Color.BLACK);

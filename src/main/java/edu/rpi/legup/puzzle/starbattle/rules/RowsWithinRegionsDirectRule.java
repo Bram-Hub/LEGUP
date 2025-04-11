@@ -8,7 +8,6 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
-
 import java.util.*;
 
 public class RowsWithinRegionsDirectRule extends DirectRule {
@@ -26,7 +25,7 @@ public class RowsWithinRegionsDirectRule extends DirectRule {
         }
         List<List<Integer>> newSubsets = new LinkedList<List<Integer>>();
         if (current != skip) {
-            for (List<Integer> subset: subsets) {
+            for (List<Integer> subset : subsets) {
                 List<Integer> copy = new LinkedList<Integer>(subset);
                 copy.add(current);
                 newSubsets.add(copy);
@@ -65,16 +64,16 @@ public class RowsWithinRegionsDirectRule extends DirectRule {
         }
 
         List<List<Integer>> subsets = new LinkedList<List<Integer>>();
-        generateSubsets(subsets,0, row, dim);
+        generateSubsets(subsets, 0, row, dim);
 
-        for (List<Integer> rowSubset: subsets) {
+        for (List<Integer> rowSubset : subsets) {
             Set<Integer> regions = new HashSet<Integer>();
             boolean containsRegion = false;
             int rowStars = 0;
             int regionStars = 0;
-            for (int r: rowSubset) {
+            for (int r : rowSubset) {
                 rowStars += origBoard.rowStars(r);
-                for (StarBattleCell ce: origBoard.getRow(r)) {
+                for (StarBattleCell ce : origBoard.getRow(r)) {
                     if (ce.getType() == StarBattleCellType.UNKNOWN) {
                         if (regions.add(ce.getGroupIndex())) {
                             regionStars += origBoard.getRegion(ce.getGroupIndex()).numStars();
@@ -85,8 +84,9 @@ public class RowsWithinRegionsDirectRule extends DirectRule {
                     }
                 }
             }
-            if (containsRegion && board.getPuzzleNumber() * rowSubset.size() - rowStars
-                    >= board.getPuzzleNumber() * regions.size() - regionStars) {
+            if (containsRegion
+                    && board.getPuzzleNumber() * rowSubset.size() - rowStars
+                            >= board.getPuzzleNumber() * regions.size() - regionStars) {
                 return null;
             }
         }

@@ -3,10 +3,9 @@ package edu.rpi.legup.ui.proofeditorui.treeview;
 import java.awt.*;
 import javax.swing.*;
 
-
 /**
- * {@code TreeToolbarPanel} is a JPanel that provides a toolbar for managing tree elements in the tree view.
- * It includes buttons for adding, deleting, merging, and collapsing nodes.
+ * {@code TreeToolbarPanel} is a JPanel that provides a toolbar for managing tree elements in the
+ * tree view. It includes buttons for adding, deleting, merging, and collapsing nodes.
  */
 public class TreeToolbarPanel extends JPanel {
     private TreePanel treePanel;
