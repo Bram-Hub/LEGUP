@@ -1,5 +1,15 @@
 package edu.rpi.legup.puzzle.minesweeper;
 
+import edu.rpi.legup.model.rules.ContradictionRule;
+import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
+import edu.rpi.legup.puzzle.fillapix.FillapixCell;
+import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
+import edu.rpi.legup.puzzle.fillapix.FillapixUtilities;
+import edu.rpi.legup.puzzle.fillapix.rules.TooFewBlackCellsContradictionRule;
+import edu.rpi.legup.puzzle.fillapix.rules.TooManyBlackCellsContradictionRule;
+import edu.rpi.legup.puzzle.minesweeper.rules.TooFewMinesContradictionRule;
+import edu.rpi.legup.puzzle.minesweeper.rules.TooManyMinesContradictionRule;
+
 import java.awt.*;
 import java.util.*;
 import java.util.Objects;
@@ -213,11 +223,12 @@ public final class MinesweeperUtilities {
                 emptyCells++;
             }
         }
-        return emptyCells == adjCells.size();
+        return false;
+        //return emptyCells == adjCells.size();
     }
 
-    public static boolean nonTouchingSharedIsMine(MinesweeperBoard board, MinesweeperCell cell) {
-        MinesweeperBoard emptyCaseBoard = board.copy();
+    public static boolean nonTouchingSharedIsMine(MinesweeperBoard parentBoard2, MinesweeperCell cell) {
+        MinesweeperBoard emptyCaseBoard = parentBoard2.copy();
         MinesweeperCell emptyCell = (MinesweeperCell) emptyCaseBoard.getPuzzleElement(cell);
         int x = emptyCell.getLocation().x;
         int y = emptyCell.getLocation().y;
@@ -225,9 +236,6 @@ public final class MinesweeperUtilities {
         int width = emptyCaseBoard.getWidth();
         int numFar;
         int numClose;
-
-
-
         // Goes through all possible positions that horizontally adjacent number cells
         // could be in that could force the current cell to be a mine. If one possibility
         // actually has the number cells that force the current cell to be a mine, return true
@@ -420,6 +428,20 @@ public final class MinesweeperUtilities {
                     if (numFar >= 1 && numClose == numFar) {
                         return true;
                     }
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean checkBoardForContradiction(MinesweeperBoard board) {
+        ContradictionRule tooManyMines = new TooManyMinesContradictionRule();
+        ContradictionRule tooFewMines = new TooFewMinesContradictionRule();
+        for (int i = 0; i < board.getWidth(); i++) {
+            for (int j = 0; j < board.getHeight(); j++) {
+                if (tooManyMines.checkContradictionAt(board, board.getCell(i, j)) == null
+                        || tooFewMines.checkContradictionAt(board, board.getCell(i, j)) == null) {
+                    return true;
                 }
             }
         }
