@@ -55,12 +55,10 @@ public class NonTouchingSharedMineDirectRule extends DirectRule {
             ArrayList<MinesweeperCell> adjAdjCells =
                     MinesweeperUtilities.getAdjacentCells(parentBoard, adjCell);
             for (MinesweeperCell adjAdjCell : adjAdjCells) {
-                if (adjAdjCell.getLocation().x != adjCell.getLocation().x
-                        && adjAdjCell.getLocation().y != adjCell.getLocation().y
-                        && adjAdjCell.getTileNumber() >= 1
+                if (adjAdjCell.getTileNumber() >= 1
                         && adjAdjCell.getTileNumber() < 9
                         && adjAdjCell.getIndex() != parentCell.getIndex()) {
-                    // adjAdjCell is diagonally adjacent to adjCell && it has a
+                    // adjAdjCell is adjacent to adjCell && it has a
                     // number && it is not parentCell
                     found = true;
                 }
@@ -90,11 +88,7 @@ public class NonTouchingSharedMineDirectRule extends DirectRule {
             }
         }
 
-        if (MinesweeperUtilities.nonTouchingSharedIsMine(parentBoard2, cell)) {
-            return null;
-        } else {
-            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be a mine";
-        }
+        return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be a mine";
     }
 
     /**
