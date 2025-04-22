@@ -41,6 +41,10 @@ public class NonTouchingSharedMineDirectRule extends DirectRule {
                     + ": This cell must be a mine to be applicable with this rule.";
         }
 
+        if(MinesweeperUtilities.checkBoardForContradiction(board)) {
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be a mine";
+        }
+
         // get all adjCells that have a number
         ArrayList<MinesweeperCell> adjCells =
                 MinesweeperUtilities.getAdjacentCells(parentBoard, parentCell);

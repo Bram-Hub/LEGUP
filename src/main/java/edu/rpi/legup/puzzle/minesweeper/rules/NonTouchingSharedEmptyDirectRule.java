@@ -35,12 +35,14 @@ public class NonTouchingSharedEmptyDirectRule extends DirectRule {
             return super.getInvalidUseOfRuleMessage()
                     + ": This cell must be empty to be applicable with this rule.";
         }
-
+        if(MinesweeperUtilities.checkBoardForContradiction(board)) {
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty";
+        }
         // get all adjCells that have a number
         ArrayList<MinesweeperCell> adjCells =
                 MinesweeperUtilities.getAdjacentCells(parentBoard, parentCell);
         adjCells.removeIf(x -> x.getTileNumber() < 1 || x.getTileNumber() >= 9);
-        /* remove any number cell that does not have another number cell diagonally
+        /* remove any number cell that does not have another number cell
          * adjacent to it on the opposite side of the modified cell */
         Iterator<MinesweeperCell> itr = adjCells.iterator();
         while (itr.hasNext()) {
@@ -72,18 +74,20 @@ public class NonTouchingSharedEmptyDirectRule extends DirectRule {
         List<Board> caseBoards;
         for (MinesweeperCell adjCell : adjCells) {
             caseBoards = completeClue.getCases(parentBoard, adjCell);
+            //System.out.println(adjCell.getLocation().x + " " + adjCell.getLocation().y);
             boolean found = true;
             for (Board b : caseBoards) {
                 if (!MinesweeperUtilities.checkBoardForContradiction((MinesweeperBoard) b)) {
                     found = false;
                 }
             }
+
             if (found) {
                 return null;
             }
         }
 
-        return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be a mine";
+        return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty";
     }
 
     /**
