@@ -1,16 +1,22 @@
-name: Increment Version on Push
+name: Increment Version on PR to Master
 
 on:
-  push:
+  pull_request:
     branches:
-      - dev
+      - master
+    types:
+      - closed  # Runs only when PR is merged
 
 jobs:
   increment_version:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout dev branch
         uses: actions/checkout@v2
+        with:
+          ref: dev
+          fetch-depth: 0
 
       - name: Determine new version
         id: update_version
@@ -40,13 +46,13 @@ jobs:
           echo "New version: $new_version"
           echo "::set-output name=version::$new_version"
 
-      - name: Update version.txt with new version
+      - name: Update VERSION file
         run: echo "${{ steps.update_version.outputs.version }}" > legup-update/bin/main/edu.rpi.legupupdate/VERSION
 
-      - name: Commit and push changes
+      - name: Commit and push changes to dev
         run: |
-          git config --global user.email "pitbull51067@yahoo.com"
-          git config --global user.name "Pitbull51067"
-          git add -f legup-update/bin/main/edu.rpi.legupupdate/VERSION
-          git commit -m "Increment version number"
-          git push
+          git config --global user.name 'Bram van Heuveln'
+          git config --global user.email 'bram28@users.noreply.github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} # check this, the rest should work
+          git add legup-update/bin/main/edu.rpi.legupupdate/VERSION
+          git commit -m "Increment version number after PR to master"
