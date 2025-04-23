@@ -106,7 +106,6 @@ public class EditDataCommand extends PuzzleCommand {
     public String getErrorString() {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         if (selectedViews.size() != 1) {
-            flashTreeViewRed();
             return CommandError.ONE_SELECTED_VIEW.toString();
         }
         TreeElementView selectedView = selection.getFirstSelection();
@@ -115,38 +114,23 @@ public class EditDataCommand extends PuzzleCommand {
         if (selectedView.getType() == TreeElementType.NODE) {
             TreeNodeView nodeView = (TreeNodeView) selectedView;
             if (!nodeView.getChildrenViews().isEmpty()) {
-                flashTreeViewRed();
                 return CommandError.UNMODIFIABLE_BOARD.toString();
             } else if (!board.getPuzzleElement(selectedPuzzleElement).isModifiable()) {
-                flashTreeViewRed();
                 return CommandError.UNMODIFIABLE_DATA.toString();
             }
         } else {
             TreeTransitionView transitionView = (TreeTransitionView) selectedView;
             if (!transitionView.getTreeElement().getBoard().isModifiable()) {
-                flashTreeViewRed();
                 return CommandError.UNMODIFIABLE_BOARD.toString();
             } else {
                 if (!board.getPuzzleElement(selectedPuzzleElement).isModifiable()) {
-                    flashTreeViewRed();
                     return CommandError.UNMODIFIABLE_DATA.toString();
                 } else if (!board.getPuzzleElement(selectedPuzzleElement).isModifiableCaseRule()) {
-                    flashTreeViewRed();
                     return CommandError.UNMODIFIABLE_DATA_CASE_RULE.toString();
                 }
             }
         }
         return null;
-    }
-
-    /** Causes the TreeView background to flash red for a short duration when an error occurs. */
-    private void flashTreeViewRed() {
-        TreeView treeView = getInstance().getLegupUI().getTreePanel().getTreeView();
-        Color originalColor = treeView.getBackground();
-        treeView.setBackground(MaterialColors.RED_700);
-        Timer timer = new Timer(400, e -> treeView.setBackground(originalColor));
-        timer.setRepeats(false);
-        timer.start();
     }
 
     /** Undoes the edit data command, restoring the previous state of the puzzle element. */
