@@ -16,7 +16,7 @@ public class ScrollView extends JScrollPane {
 
     private static final double minScale = 0.25;
     private static final double maxScale = 4.0;
-    private static final double[] levels = {0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.75, 1.0, 1.25, 1.5, 2.0, 3.0, 4.0};
+    private static final double[] levels = {0.25, 1.0 / 3.0, 0.50, 2.0 / 3.0, 1.0, 2.0, 3.0, 4.0};
 
     private Dimension viewSize;
     private Dimension zoomSize;
@@ -134,39 +134,32 @@ public class ScrollView extends JScrollPane {
      * @param point position to zoom in on
      */
     public void zoom(int n, Point point) {
-        // if no Point is given, keep current center
         if (point == null) {
-            point =
-                    new Point(
-                            viewport.getWidth() / 2 + viewport.getX(),
-                            viewport.getHeight() / 2 + viewport.getY());
+            point = new Point(
+                    viewport.getWidth() / 2 + viewport.getX(),
+                    viewport.getHeight() / 2 + viewport.getY());
         }
-        // magnification level
-        double mag = (double) n * 1.05;
-        // zoom in
-        if (n < 0) {
-            mag = -mag;
-            // check zoom bounds
-            if (scale * mag > maxScale) {
-                mag = maxScale / scale;
-            }
-            // update
-            scale *= mag;
-            updateSize();
-            updatePosition(point, mag);
-            // zoom out
-        } else {
-            mag = 1 / mag;
-            // check zoom bounds
-            if (scale * mag < minScale) {
-                mag = minScale / scale;
-            }
-            // update
-            scale *= mag;
-            updatePosition(point, mag);
-            updateSize();
+
+        double zoomFactor = Math.pow(1.05, -n); // scroll up = zoom in, down = zoom out
+        double newScale = scale * zoomFactor;
+
+        // Clamp to min/max
+        if (newScale < minScale) {
+            newScale = minScale;
+        } else if (newScale > maxScale) {
+            newScale = maxScale;
         }
-        // update the scrollpane and subclass
+
+        // Skip if no effective change
+        if (Math.abs(newScale - scale) < 0.001) {
+            return;
+        }
+
+        double mag = newScale / scale;
+        scale = newScale;
+
+        updateSize();
+        updatePosition(point, mag);
         revalidate();
     }
 
