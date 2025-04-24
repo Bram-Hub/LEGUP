@@ -140,17 +140,13 @@ public class ScrollView extends JScrollPane {
                     viewport.getHeight() / 2 + viewport.getY());
         }
 
-        double zoomFactor = Math.pow(1.05, -n); // scroll up = zoom in, down = zoom out
+        double zoomFactor = Math.pow(1.02, -n); // smaller step = smoother
         double newScale = scale * zoomFactor;
 
         // Clamp to min/max
-        if (newScale < minScale) {
-            newScale = minScale;
-        } else if (newScale > maxScale) {
-            newScale = maxScale;
-        }
+        newScale = Math.max(minScale, Math.min(maxScale, newScale));
 
-        // Skip if no effective change
+        // If change is negligible, ignore
         if (Math.abs(newScale - scale) < 0.001) {
             return;
         }
