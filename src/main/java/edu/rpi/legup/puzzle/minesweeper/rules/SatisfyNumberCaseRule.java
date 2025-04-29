@@ -11,13 +11,13 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-public class SatisfyFlagCaseRule extends CaseRule {
-    public SatisfyFlagCaseRule() {
+public class SatisfyNumberCaseRule extends CaseRule {
+    public SatisfyNumberCaseRule() {
         super(
                 "MINE-CASE-0002",
-                "Satisfy Flag",
-                "Create a different path for each valid way to mark bombs and filled cells around a flag",
-                "edu/rpi/legup/images/minesweeper/cases/Satisfy_Flag.png");
+                "Satisfy Number",
+                "Create a different path for each valid way to mark mines and empty cells around a number cell",
+                "edu/rpi/legup/images/minesweeper/cases/SatisfyNumber.png");
     }
 
     @Override
@@ -49,14 +49,14 @@ public class SatisfyFlagCaseRule extends CaseRule {
         }
 
         // find number of black & unset squares
-        int cellNumBomb = 0;
+        int cellNummine = 0;
         int cellNumUnset = 0;
         ArrayList<MinesweeperCell> unsetCells = new ArrayList<MinesweeperCell>();
         ArrayList<MinesweeperCell> adjCells =
                 MinesweeperUtilities.getAdjacentCells(minesweeperBoard, cell);
         for (MinesweeperCell adjCell : adjCells) {
-            if (adjCell.getTileType() == MinesweeperTileType.BOMB) {
-                cellNumBomb++;
+            if (adjCell.getTileType() == MinesweeperTileType.MINE) {
+                cellNummine++;
             }
             if (adjCell.getTileType() == MinesweeperTileType.UNSET) {
                 cellNumUnset++;
@@ -64,21 +64,21 @@ public class SatisfyFlagCaseRule extends CaseRule {
             }
         }
         // no cases if no empty or if too many black already
-        if (cellNumBomb >= cellMaxBlack || cellNumUnset == 0) {
+        if (cellNummine >= cellMaxBlack || cellNumUnset == 0) {
             return cases;
         }
 
         // generate all cases as boolean expressions
         ArrayList<boolean[]> combinations;
         combinations =
-                MinesweeperUtilities.getCombinations(cellMaxBlack - cellNumBomb, cellNumUnset);
+                MinesweeperUtilities.getCombinations(cellMaxBlack - cellNummine, cellNumUnset);
 
         for (int i = 0; i < combinations.size(); i++) {
             Board case_ = board.copy();
             for (int j = 0; j < combinations.get(i).length; j++) {
                 cell = (MinesweeperCell) case_.getPuzzleElement(unsetCells.get(j));
                 if (combinations.get(i)[j]) {
-                    cell.setCellType(MinesweeperTileData.bomb());
+                    cell.setCellType(MinesweeperTileData.mine());
                 } else {
                     cell.setCellType(MinesweeperTileData.empty());
                 }
@@ -162,7 +162,7 @@ public class SatisfyFlagCaseRule extends CaseRule {
             int maxBlack = possibleCenter.getTileNumber();
             for (MinesweeperCell adjCell :
                     MinesweeperUtilities.getAdjacentCells(board, possibleCenter)) {
-                if (adjCell.getTileType() == MinesweeperTileType.BOMB) {
+                if (adjCell.getTileType() == MinesweeperTileType.MINE) {
                     numBlack++;
                 }
                 if (adjCell.getTileType() == MinesweeperTileType.UNSET) {
@@ -192,7 +192,7 @@ public class SatisfyFlagCaseRule extends CaseRule {
 
                 boolean[] translatedModCells = new boolean[transModCells.size()];
                 for (int i = 0; i < transModCells.size(); i++) {
-                    if (transModCells.get(i).getTileType() == MinesweeperTileType.BOMB) {
+                    if (transModCells.get(i).getTileType() == MinesweeperTileType.MINE) {
                         translatedModCells[i] = true;
                     } else {
                         translatedModCells[i] = false;

@@ -44,6 +44,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     private static final Logger LOGGER = LogManager.getLogger(Puzzle.class.getName());
 
     protected String name;
+    protected String tag = "";
     protected Board currentBoard;
     protected Tree tree;
     protected BoardView boardView;
@@ -135,8 +136,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             for (Class c : possRules) {
 
                 String classPackageName = c.getPackage().getName();
-                if (!classPackageName.startsWith("edu.rpi.legup.puzzle.")
-                        || !classPackageName.endsWith(".rules")) {
+                if (!classPackageName.contains(".rules")) {
                     continue;
                 }
                 System.out.println("possible rule: " + c.getName());
@@ -379,6 +379,24 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      */
     public void removeDirectRule(DirectRule rule) {
         directRules.remove(rule);
+    }
+
+    /**
+     * Accessor method for the puzzle UUID
+     *
+     * @return returns the puzzle UUID tag
+     */
+    public String getTag() {
+        return tag;
+    }
+
+    /**
+     * Modifier method to override the puzzle persistent UUID
+     *
+     * @param tag String to overwrite the current puzzle UUID
+     */
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     /**

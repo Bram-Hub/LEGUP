@@ -11,14 +11,14 @@ import edu.rpi.legup.puzzle.minesweeper.MinesweeperTileData;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BombOrFilledCaseRule extends CaseRule {
+public class MineOrEmptyCaseRule extends CaseRule {
 
-    public BombOrFilledCaseRule() {
+    public MineOrEmptyCaseRule() {
         super(
                 "MINE-CASE-0001",
-                "Bomb Or Filled",
-                "A cell can either be a bomb or filled.\n",
-                "edu/rpi/legup/images/minesweeper/cases/BombOrFilled.jpg");
+                "Mine or Empty",
+                "An unset cell can either be a mine or empty.",
+                "edu/rpi/legup/images/minesweeper/cases/MineOrEmpty.png");
     }
 
     @Override
@@ -36,17 +36,19 @@ public class BombOrFilledCaseRule extends CaseRule {
     }
 
     @Override
-    public List<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
 
         Board case1 = board.copy();
         MinesweeperCell cell1 = (MinesweeperCell) case1.getPuzzleElement(puzzleElement);
-        cell1.setData(MinesweeperTileData.bomb());
+        cell1.setModifiable(false);
+        cell1.setData(MinesweeperTileData.mine());
         case1.addModifiedData(cell1);
         cases.add(case1);
 
         Board case2 = board.copy();
         MinesweeperCell cell2 = (MinesweeperCell) case2.getPuzzleElement(puzzleElement);
+        cell2.setModifiable(false);
         cell2.setData(MinesweeperTileData.empty());
         case2.addModifiedData(cell2);
         cases.add(case2);
@@ -77,10 +79,10 @@ public class BombOrFilledCaseRule extends CaseRule {
                     + ": This case rule must modify the same cell for each case.";
         }
 
-        if (!((mod1.getData().isBomb() && mod2.getData().isEmpty())
-                || (mod2.getData().isBomb() && mod1.getData().isEmpty()))) {
+        if (!((mod1.getData().isMine() && mod2.getData().isEmpty())
+                || (mod2.getData().isMine() && mod1.getData().isEmpty()))) {
             return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must an empty cell and a bomb cell.";
+                    + ": This case rule must an empty cell and a mine cell.";
         }
 
         return null;

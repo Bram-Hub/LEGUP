@@ -7,13 +7,13 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.*;
 
-public class FinishWithBombsDirectRule extends DirectRule {
-    public FinishWithBombsDirectRule() {
+public class FinishWithEmptyDirectRule extends DirectRule {
+    public FinishWithEmptyDirectRule() {
         super(
-                "MINE-BASC-0001",
-                "Finish with Bombs",
-                "The remaining unknowns around a flag must be bombs to satisfy the number",
-                "edu/rpi/legup/images/minesweeper/direct/Fill_Bombs.jpg");
+                "MINE-BASC-0002",
+                "Finish With Empty",
+                "There exists a number around this cell that can only be satisfied if this cell is empty",
+                "edu/rpi/legup/images/minesweeper/direct/FinishWithEmpty.png");
     }
 
     @Override
@@ -24,15 +24,16 @@ public class FinishWithBombsDirectRule extends DirectRule {
         MinesweeperCell parentCell = (MinesweeperCell) parentBoard.getPuzzleElement(puzzleElement);
 
         if (!(parentCell.getTileType() == MinesweeperTileType.UNSET
-                && cell.getTileType() == MinesweeperTileType.BOMB)) {
+                && cell.getTileType() == MinesweeperTileType.EMPTY)) {
+
             return super.getInvalidUseOfRuleMessage()
-                    + ": This cell must be black to be applicable with this rule.";
+                    + ": This cell must be empty to be applicable with this rule.";
         }
 
-        if (MinesweeperUtilities.isForcedBomb(parentBoard, cell)) {
+        if (MinesweeperUtilities.isForcedEmpty(parentBoard, cell)) {
             return null;
         } else {
-            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be black";
+            return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty";
         }
     }
 
@@ -49,9 +50,9 @@ public class FinishWithBombsDirectRule extends DirectRule {
         for (PuzzleElement element : minesweeperBoard.getPuzzleElements()) {
             MinesweeperCell cell = (MinesweeperCell) element;
             if (cell.getTileType() == MinesweeperTileType.UNSET
-                    && MinesweeperUtilities.isForcedBomb(
+                    && MinesweeperUtilities.isForcedMine(
                             (MinesweeperBoard) node.getBoard(), cell)) {
-                cell.setCellType(MinesweeperTileData.bomb());
+                cell.setCellType(MinesweeperTileData.mine());
                 minesweeperBoard.addModifiedData(cell);
             }
         }

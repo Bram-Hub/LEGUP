@@ -5,12 +5,12 @@ public class MinesweeperElementIdentifiers {
     /** ID for unset Minesweeper elements */
     public static final String UNSET = "MINESWEEPER-UNSET";
 
-    /** ID for bomb Minesweeper elements */
-    public static final String BOMB = "MINESWEEPER-BOMB";
+    /** ID for mine Minesweeper elements */
+    public static final String MINE = "MINESWEEPER-MINE";
 
     /** ID for empty Minesweeper elements */
     public static final String EMPTY = "MINESWEEPER-EMPTY";
 
-    /** ID for flag Minesweeper elements */
-    public static final String FLAG = "MINESWEEPER-FLAG";
+    /** ID for number Minesweeper elements */
+    public static final String NUMBER = "MINESWEEPER-NUMBER";
 }
