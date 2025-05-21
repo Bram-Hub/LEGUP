@@ -8,9 +8,7 @@ import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperBoard;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperCell;
-//import edu.rpi.legup.puzzle.minesweeper.MinesweeperCellType;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperUtilities;
-//import edu.rpi.legup.puzzle.minesweeper.Minesweeper.rules.SatisfyClueCaseRule;
 import edu.rpi.legup.puzzle.minesweeper.*;
 
 import java.util.ArrayList;
