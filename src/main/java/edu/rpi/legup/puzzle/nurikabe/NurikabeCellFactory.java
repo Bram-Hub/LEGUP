@@ -43,7 +43,7 @@ public class NurikabeCellFactory extends ElementFactory {
             }
 
             NurikabeCell cell = new NurikabeCell(value, new Point(x, y));
-            cell.setIndex(y * height + x);
+            cell.setIndex(y * width + x);
             return cell;
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(

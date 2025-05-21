@@ -183,4 +183,32 @@ public class NonTouchingSharedMineDirectRuleTest {
             }
         }
     }
+
+    @Test
+    public void NonTouchingSharedMineDirectRule_HorizontalTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/minesweeper/rules/NonSharedMine1.txt", minesweeper);
+        TreeNode rootNode = minesweeper.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        MinesweeperBoard board = (MinesweeperBoard) transition.getBoard();
+
+        MinesweeperCell cell1 = board.getCell(0, 0);
+        cell1.setData(MinesweeperTileData.mine());
+
+        board.addModifiedData(cell1);
+
+        Assert.assertNull(RULE.checkRule(transition));
+
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Point point = new Point(k, i);
+                if (point.equals(cell1.getLocation())) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                } else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
+            }
+        }
+    }
 }

@@ -92,7 +92,7 @@ public class BattleshipImporter extends PuzzleImporter {
                     if (battleShipBoard.getCell(x, y) == null) {
                         BattleshipCell cell =
                                 new BattleshipCell(BattleshipType.UNKNOWN, new Point(x, y));
-                        cell.setIndex(y * height + x);
+                        cell.setIndex(y * width + x);
                         cell.setModifiable(true);
                         battleShipBoard.setCell(x, y, cell);
                     }

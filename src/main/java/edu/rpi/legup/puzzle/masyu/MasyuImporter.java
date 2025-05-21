@@ -89,7 +89,7 @@ public class MasyuImporter extends PuzzleImporter {
                 for (int x = 0; x < width; x++) {
                     if (masyuBoard.getCell(x, y) == null) {
                         MasyuCell cell = new MasyuCell(MasyuType.UNKNOWN, new Point(x, y));
-                        cell.setIndex(y * height + x);
+                        cell.setIndex(y * width + x);
                         cell.setModifiable(true);
                         masyuBoard.setCell(x, y, cell);
                     }

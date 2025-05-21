@@ -101,16 +101,11 @@ public class FinishWithEmptyDirectRuleTest {
 
         board.addModifiedData(cell1);
 
-        Assert.assertNull(RULE.checkRule(transition));
+        Assert.assertNotNull(RULE.checkRule(transition));
 
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
-                Point point = new Point(k, i);
-                if (point.equals(cell1.getLocation())) {
-                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                } else {
-                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
+                Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
             }
         }
     }
@@ -154,24 +149,11 @@ public class FinishWithEmptyDirectRuleTest {
         board.addModifiedData(cell8);
         board.addModifiedData(cell9);
 
-        Assert.assertNull(RULE.checkRule(transition));
+        Assert.assertNotNull(RULE.checkRule(transition));
 
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
-                Point point = new Point(k, i);
-                if (point.equals(cell1.getLocation())
-                        || point.equals(cell2.getLocation())
-                        || point.equals(cell3.getLocation())
-                        || point.equals(cell4.getLocation())
-                        || point.equals(cell5.getLocation())
-                        || point.equals(cell6.getLocation())
-                        || point.equals(cell7.getLocation())
-                        || point.equals(cell8.getLocation())
-                        || point.equals(cell9.getLocation())) {
-                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                } else {
-                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
+                Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
             }
         }
     }
