@@ -35,6 +35,10 @@
         <puzzle name="Sudoku" qualifiedClassName="edu.rpi.legup.puzzle.sudoku.Sudoku"
             fileType=".xml"
             fileCreationDisabled="false"/>
+        <puzzle name="StarBattle"
+            qualifiedClassName="edu.rpi.legup.puzzle.starbattle.StarBattle"
+            fileType=".xml"
+            fileCreationDisabled="true"/>
         <puzzle name="TreeTent"
             qualifiedClassName="edu.rpi.legup.puzzle.treetent.TreeTent"
             fileType=".xml"
