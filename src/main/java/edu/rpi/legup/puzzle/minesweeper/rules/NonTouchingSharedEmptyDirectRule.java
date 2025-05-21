@@ -7,7 +7,6 @@ import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.*;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +24,8 @@ public class NonTouchingSharedEmptyDirectRule extends DirectRule {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         MinesweeperBoard board = (MinesweeperBoard) transition.getBoard();
-        MinesweeperBoard parentBoard = (MinesweeperBoard) transition.getParents().get(0).getBoard().copy();
+        MinesweeperBoard parentBoard =
+                (MinesweeperBoard) transition.getParents().get(0).getBoard().copy();
         MinesweeperBoard parentBoard2 = parentBoard.copy();
         MinesweeperCell cell = (MinesweeperCell) board.getPuzzleElement(puzzleElement);
         MinesweeperCell parentCell = (MinesweeperCell) parentBoard.getPuzzleElement(puzzleElement);
@@ -35,7 +35,7 @@ public class NonTouchingSharedEmptyDirectRule extends DirectRule {
             return super.getInvalidUseOfRuleMessage()
                     + ": This cell must be empty to be applicable with this rule.";
         }
-        if(MinesweeperUtilities.checkBoardForContradiction(board)) {
+        if (MinesweeperUtilities.checkBoardForContradiction(board)) {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty";
         }
         // get all adjCells that have a number
@@ -52,7 +52,7 @@ public class NonTouchingSharedEmptyDirectRule extends DirectRule {
             ArrayList<MinesweeperCell> adjAdjCells =
                     MinesweeperUtilities.getAdjacentCells(parentBoard, adjCell);
             for (MinesweeperCell adjAdjCell : adjAdjCells) {
-                if(adjAdjCell.getTileNumber() >= 1
+                if (adjAdjCell.getTileNumber() >= 1
                         && adjAdjCell.getTileNumber() < 9
                         && adjAdjCell.getIndex() != parentCell.getIndex()) {
                     // adjAdjCell is adjacent to adjCell && it has a
@@ -74,7 +74,7 @@ public class NonTouchingSharedEmptyDirectRule extends DirectRule {
         List<Board> caseBoards;
         for (MinesweeperCell adjCell : adjCells) {
             caseBoards = completeClue.getCases(parentBoard, adjCell);
-            //System.out.println(adjCell.getLocation().x + " " + adjCell.getLocation().y);
+            // System.out.println(adjCell.getLocation().x + " " + adjCell.getLocation().y);
             boolean found = true;
             for (Board b : caseBoards) {
                 if (!MinesweeperUtilities.checkBoardForContradiction((MinesweeperBoard) b)) {

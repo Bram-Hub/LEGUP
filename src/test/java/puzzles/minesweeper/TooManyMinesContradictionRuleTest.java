@@ -44,7 +44,6 @@ public class TooManyMinesContradictionRuleTest {
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(2, 2)));
     }
 
-
     @Test
     // tests a 3x3 board with a 1 in the corner with 3 visible mines
     public void TooManyMinesTest2() throws InvalidFileFormatException {

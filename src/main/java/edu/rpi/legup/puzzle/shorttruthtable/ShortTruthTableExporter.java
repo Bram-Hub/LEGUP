@@ -28,8 +28,8 @@ public class ShortTruthTableExporter extends PuzzleExporter {
         String statement = "";
         for (int i = 0; i < statements.length; i++) {
 
-            for(int j = 0; j < statements[i].getLength(); j++) {
-                statement += board.getCell(j,2 * i).getSymbol();
+            for (int j = 0; j < statements[i].getLength(); j++) {
+                statement += board.getCell(j, 2 * i).getSymbol();
             }
 
             org.w3c.dom.Element statementElement = newDocument.createElement("statement");

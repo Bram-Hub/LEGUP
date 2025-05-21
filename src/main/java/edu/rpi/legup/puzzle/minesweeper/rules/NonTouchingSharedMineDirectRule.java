@@ -6,11 +6,10 @@ import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.puzzle.minesweeper.*;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperBoard;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperCell;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperUtilities;
-import edu.rpi.legup.puzzle.minesweeper.*;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,7 +27,8 @@ public class NonTouchingSharedMineDirectRule extends DirectRule {
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         MinesweeperBoard board = (MinesweeperBoard) transition.getBoard();
-        MinesweeperBoard parentBoard = (MinesweeperBoard) transition.getParents().get(0).getBoard().copy();
+        MinesweeperBoard parentBoard =
+                (MinesweeperBoard) transition.getParents().get(0).getBoard().copy();
         MinesweeperBoard parentBoard2 = parentBoard.copy();
         MinesweeperCell cell = (MinesweeperCell) board.getPuzzleElement(puzzleElement);
         MinesweeperCell parentCell = (MinesweeperCell) parentBoard.getPuzzleElement(puzzleElement);
@@ -39,7 +39,7 @@ public class NonTouchingSharedMineDirectRule extends DirectRule {
                     + ": This cell must be a mine to be applicable with this rule.";
         }
 
-        if(MinesweeperUtilities.checkBoardForContradiction(board)) {
+        if (MinesweeperUtilities.checkBoardForContradiction(board)) {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be a mine";
         }
 
