@@ -84,7 +84,7 @@ public class MinesweeperImporter extends PuzzleImporter {
                     if (minesweeperBoard.getCell(x, y) == null) {
                         final MinesweeperCell cell =
                                 new MinesweeperCell(MinesweeperTileData.unset(), new Point(x, y));
-                        cell.setIndex(y * height + x);
+                        cell.setIndex(y * width + x);
                         cell.setModifiable(true);
                         minesweeperBoard.setCell(x, y, cell);
                     }
@@ -123,6 +123,6 @@ public class MinesweeperImporter extends PuzzleImporter {
     @Contract(value = "_ -> fail", pure = false)
     public void initializeBoard(@NotNull String[] statements)
             throws UnsupportedOperationException, IllegalArgumentException {
-        throw new UnsupportedOperationException("Minesweeper does not support text input.");
+        throw new UnsupportedOperationException("Minesweeper cannot accept text input.");
     }
 }
