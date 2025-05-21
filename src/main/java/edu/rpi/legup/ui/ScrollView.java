@@ -134,39 +134,28 @@ public class ScrollView extends JScrollPane {
      * @param point position to zoom in on
      */
     public void zoom(int n, Point point) {
-        // if no Point is given, keep current center
         if (point == null) {
-            point =
-                    new Point(
-                            viewport.getWidth() / 2 + viewport.getX(),
-                            viewport.getHeight() / 2 + viewport.getY());
+            point = new Point(
+                    viewport.getWidth() / 2 + viewport.getX(),
+                    viewport.getHeight() / 2 + viewport.getY());
         }
-        // magnification level
-        double mag = (double) n * 1.05;
-        // zoom in
-        if (n < 0) {
-            mag = -mag;
-            // check zoom bounds
-            if (scale * mag > maxScale) {
-                mag = maxScale / scale;
-            }
-            // update
-            scale *= mag;
-            updateSize();
-            updatePosition(point, mag);
-            // zoom out
-        } else {
-            mag = 1 / mag;
-            // check zoom bounds
-            if (scale * mag < minScale) {
-                mag = minScale / scale;
-            }
-            // update
-            scale *= mag;
-            updatePosition(point, mag);
-            updateSize();
+
+        double zoomFactor = Math.pow(1.02, -n); // smaller step = smoother
+        double newScale = scale * zoomFactor;
+
+        // Clamp to min/max
+        newScale = Math.max(minScale, Math.min(maxScale, newScale));
+
+        // If change is negligible, ignore
+        if (Math.abs(newScale - scale) < 0.001) {
+            return;
         }
-        // update the scrollpane and subclass
+
+        double mag = newScale / scale;
+        scale = newScale;
+
+        updateSize();
+        updatePosition(point, mag);
         revalidate();
     }
 

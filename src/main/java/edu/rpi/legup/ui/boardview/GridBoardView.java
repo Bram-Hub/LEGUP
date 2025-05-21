@@ -4,6 +4,7 @@ import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.ElementController;
 import java.awt.Color;
 import java.awt.Dimension;
+import javax.swing.UIManager;
 
 /**
  * A view class for a grid-based board that displays elements in a grid layout. This class extends
@@ -39,7 +40,7 @@ public class GridBoardView extends BoardView {
      */
     private GridBoardView(BoardController boardController, ElementController elementController) {
         super(boardController, elementController);
-        setBackground(new Color(0xE0E0E0));
+        setBackground(UIManager.getColor("Panel.background"));
     }
 
     /**

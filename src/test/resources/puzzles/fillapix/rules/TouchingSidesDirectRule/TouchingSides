@@ -1,0 +1,10 @@
+<Legup>
+    <puzzle name="Fillapix">
+        <board width="4" height="4">
+            <cells>
+                <cell value="6" x="1" y="2"/>
+                <cell value="3" x="2" y="2"/>
+            </cells>
+        </board>
+    </puzzle>
+</Legup>
