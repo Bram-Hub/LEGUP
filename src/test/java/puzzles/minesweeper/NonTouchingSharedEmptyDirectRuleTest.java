@@ -164,7 +164,8 @@ public class NonTouchingSharedEmptyDirectRuleTest {
     }
 
     @Test
-    public void NonTouchingSharedEmptyDirectRule_HorizontalTest() throws InvalidFileFormatException {
+    public void NonTouchingSharedEmptyDirectRule_HorizontalTest()
+            throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/NonSharedEmpty1.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);

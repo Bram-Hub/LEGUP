@@ -1,15 +1,8 @@
 package edu.rpi.legup.puzzle.minesweeper;
 
 import edu.rpi.legup.model.rules.ContradictionRule;
-import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
-import edu.rpi.legup.puzzle.fillapix.FillapixCell;
-import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
-import edu.rpi.legup.puzzle.fillapix.FillapixUtilities;
-import edu.rpi.legup.puzzle.fillapix.rules.TooFewBlackCellsContradictionRule;
-import edu.rpi.legup.puzzle.fillapix.rules.TooManyBlackCellsContradictionRule;
 import edu.rpi.legup.puzzle.minesweeper.rules.TooFewMinesContradictionRule;
 import edu.rpi.legup.puzzle.minesweeper.rules.TooManyMinesContradictionRule;
-
 import java.awt.*;
 import java.util.*;
 import java.util.Objects;
@@ -224,7 +217,7 @@ public final class MinesweeperUtilities {
             }
         }
         return false;
-        //return emptyCells == adjCells.size(); return this iff IsolateMine is a rule
+        // return emptyCells == adjCells.size(); return this iff IsolateMine is a rule
     }
 
     public static boolean checkBoardForContradiction(MinesweeperBoard board) {
