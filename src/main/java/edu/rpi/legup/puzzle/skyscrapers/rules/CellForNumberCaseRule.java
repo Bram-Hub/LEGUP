@@ -43,7 +43,7 @@ public class CellForNumberCaseRule extends CaseRule {
             possibleValues[i] = i + 1;
         }
         Object selectedValue;
-        do {
+
             selectedValue =
                     JOptionPane.showInputDialog(
                             null,
@@ -53,7 +53,9 @@ public class CellForNumberCaseRule extends CaseRule {
                             null,
                             possibleValues,
                             possibleValues[0]);
-        } while (selectedValue == null);
+         if(selectedValue == null) {
+            return null;
+         }
         selectedNumber = (Integer) selectedValue;
 
         return caseBoard;

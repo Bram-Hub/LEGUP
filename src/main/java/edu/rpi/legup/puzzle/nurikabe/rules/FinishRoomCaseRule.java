@@ -220,9 +220,11 @@ public class FinishRoomCaseRule extends CaseRule {
                         nuriBoard, newCell, filledRoomSize, directions, origPoint)) {
                     if (newRoomSet.size()
                             == filledRoomSize) { // if adding white fills the room to exact size of
-                        // number block and doesn't connect with another room
-                        Board caseBoard = nuriBoard.copy();
-                        // check if case for board already exists
+                        NurikabeBoard caseBoard = (NurikabeBoard) nuriBoard.copy();
+                        NurikabeCell modifiedCopy=caseBoard.getCell(newCell.getLocation().x, newCell.getLocation().y);
+                        modifiedCopy.setData(NurikabeType.WHITE.toValue());
+                        modifiedCopy.setModifiable(false);
+                        caseBoard.addModifiedData(modifiedCopy);
                         boolean unique = true;
                         for (Board board : cases) {
                             if (caseBoard.equalsBoard(board)) {
@@ -231,9 +233,9 @@ public class FinishRoomCaseRule extends CaseRule {
                             }
                         }
                         if (unique) {
-                            caseBoard.addModifiedData(newCell);
                             cases.add(caseBoard);
                         }
+
                     } else if (newRoomSet.size() < filledRoomSize) {
                         generateCases(
                                 nuriBoard,
