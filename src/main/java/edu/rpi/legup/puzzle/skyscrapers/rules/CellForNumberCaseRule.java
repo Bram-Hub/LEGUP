@@ -54,7 +54,7 @@ public class CellForNumberCaseRule extends CaseRule {
                             possibleValues,
                             possibleValues[0]);
          if(selectedValue == null) {
-            return null;
+            throw(new IllegalArgumentException("Rule was cancelled."));
          }
         selectedNumber = (Integer) selectedValue;
 

@@ -62,12 +62,18 @@ public class RuleController implements ActionListener {
                     if (LegupPreferences.getInstance()
                             .getUserPref(LegupPreferences.AUTO_GENERATE_CASES)
                             .equalsIgnoreCase(Boolean.toString(true))) {
-                        CaseBoard caseBoard = caseRule.getCaseBoard(element.getBoard());
-                        if (caseBoard != null && caseBoard.getCount() > 0) {
-                            puzzle.notifyBoardListeners(
-                                    listener -> listener.onCaseBoardAdded(caseBoard));
-                        } else {
-                            updateErrorString = "This board cannot be applied with this case rule.";
+                        try {
+                            CaseBoard caseBoard = caseRule.getCaseBoard(element.getBoard());
+                            if (caseBoard != null && caseBoard.getCount() > 0) {
+                                puzzle.notifyBoardListeners(
+                                        listener -> listener.onCaseBoardAdded(caseBoard));
+                            }
+                            else {
+                                updateErrorString = "This board cannot be applied with this case rule.";
+                            }
+                        }
+                        catch (Exception e) {
+                            updateErrorString = e.getMessage();
                         }
                     } else {
                         updateErrorString =
