@@ -53,8 +53,8 @@ public class CellForNumberCaseRule extends CaseRule {
                             null,
                             possibleValues,
                             possibleValues[0]);
-         if(selectedValue == null) {
-            throw(new IllegalArgumentException("Rule was cancelled."));
+         if(selectedValue == null) { //checks if input box was closed
+            throw(new IllegalArgumentException("Rule was cancelled.")); //returns rule was cancelled error if input box is closed.
          }
         selectedNumber = (Integer) selectedValue;
 
