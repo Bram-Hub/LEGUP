@@ -62,9 +62,9 @@ public class FinishRoomCaseRule extends CaseRule {
             locations.add(
                     ((NurikabeCell) t1.getBoard().getModifiedData().iterator().next())
                             .getLocation()); // loop see if matches
-            if (t1.getBoard().getModifiedData().size() != 1) {
+            if (t1.getBoard().getModifiedData().size() <= 1) {
                 return super.getInvalidUseOfRuleMessage()
-                        + ": This case rule must have 1 modified cell for each case.";
+                        + ": This case rule must have at least 1 modified cell for each case.";
             }
             for (Point loc : locations) {
                 for (Point loc2 : locations) {
@@ -157,9 +157,17 @@ public class FinishRoomCaseRule extends CaseRule {
                 NurikabeUtilities.getNurikabeRegions(nuriBoard); // gathers regions
         Set<NurikabeCell> numberCellRegion = regions.getSet(numberCell); // set of white spaces
 
-        for (NurikabeCell d : numberCellRegion) { // loops through white spaces
+        for (NurikabeCell d : numberCellRegion) {
             generateCases(
-                    nuriBoard, d, filledRoomSize, directions, checkedPoints, cases, origPoint);
+                    nuriBoard,
+                    d,
+                    filledRoomSize,
+                    directions,
+                    checkedPoints,
+                    cases,
+                    origPoint,
+                    new ArrayList<>() // track modifications
+            );
         }
 
         legitCases = cases.size();
@@ -185,46 +193,51 @@ public class FinishRoomCaseRule extends CaseRule {
             Set<Point> directions,
             Set<Point> checkedPoints,
             ArrayList<Board> cases,
-            Point origPoint) {
+            Point origPoint,
+            List<Point> modifiedPoints // <== NEW PARAMETER
+    ) {
         for (Point direction : directions) {
-            Point newPoint =
-                    new Point(
-                            currentCell.getLocation().x + direction.x,
-                            currentCell.getLocation().y + direction.y);
+            Point newPoint = new Point(
+                    currentCell.getLocation().x + direction.x,
+                    currentCell.getLocation().y + direction.y);
 
-            if (newPoint.x < 0
-                    || newPoint.y < 0
+            if (newPoint.x < 0 || newPoint.y < 0
                     || newPoint.x >= nuriBoard.getWidth()
                     || newPoint.y >= nuriBoard.getHeight()) {
-                continue; // out of bounds
+                continue;
+            }
+
+            if (checkedPoints.contains(newPoint)) {
+                continue;
             }
 
             NurikabeCell newCell = nuriBoard.getCell(newPoint.x, newPoint.y);
-            if (checkedPoints.contains(newPoint)) {
-                continue; // already checked
-            }
-
             if (newCell.getType() == NurikabeType.UNKNOWN) {
-                newCell.setData(
-                        NurikabeType.WHITE.toValue()); // changes adjacent cell color to white
+                // Mark current cell as white
+                newCell.setData(NurikabeType.WHITE.toValue());
                 newCell.setModifiable(false);
                 checkedPoints.add(newPoint);
 
-                DisjointSets<NurikabeCell> regions =
-                        NurikabeUtilities.getNurikabeRegions(nuriBoard); // update regions variable
-                Set<NurikabeCell> newRoomSet =
-                        regions.getSet(
-                                newCell); // gets set of cells in room with new white cell added
+                // Track the modification
+                List<Point> newModList = new ArrayList<>(modifiedPoints);
+                newModList.add(newPoint);
 
-                if (!touchesDifferentRoom(
-                        nuriBoard, newCell, filledRoomSize, directions, origPoint)) {
-                    if (newRoomSet.size()
-                            == filledRoomSize) { // if adding white fills the room to exact size of
+                // Recompute regions
+                DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nuriBoard);
+                Set<NurikabeCell> newRoomSet = regions.getSet(newCell);
+
+                if (!touchesDifferentRoom(nuriBoard, newCell, filledRoomSize, directions, origPoint)) {
+                    if (newRoomSet.size() == filledRoomSize) {
+                        // Create a new board with all modified cells marked
                         NurikabeBoard caseBoard = (NurikabeBoard) nuriBoard.copy();
-                        NurikabeCell modifiedCopy=caseBoard.getCell(newCell.getLocation().x, newCell.getLocation().y);
-                        modifiedCopy.setData(NurikabeType.WHITE.toValue());
-                        modifiedCopy.setModifiable(false);
-                        caseBoard.addModifiedData(modifiedCopy);
+
+                        for (Point p : newModList) {
+                            NurikabeCell c = caseBoard.getCell(p.x, p.y);
+                            c.setData(NurikabeType.WHITE.toValue());
+                            c.setModifiable(false);
+                            caseBoard.addModifiedData(c);
+                        }
+
                         boolean unique = true;
                         for (Board board : cases) {
                             if (caseBoard.equalsBoard(board)) {
@@ -244,15 +257,19 @@ public class FinishRoomCaseRule extends CaseRule {
                                 directions,
                                 checkedPoints,
                                 cases,
-                                origPoint);
+                                origPoint,
+                                newModList); // pass along all modified points
                     }
                 }
+
+                // Reset the board
                 newCell.setData(NurikabeType.UNKNOWN.toValue());
                 newCell.setModifiable(true);
                 checkedPoints.remove(newPoint);
             }
         }
     }
+
 
     /**
      * Determines if a given cell touches a different room by checking adjacent cells in specified
