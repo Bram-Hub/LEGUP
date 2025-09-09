@@ -196,6 +196,8 @@ public class FinishRoomCaseRule extends CaseRule {
             Point origPoint,
             List<Point> modifiedPoints // <== NEW PARAMETER
     ) {
+
+        //Implement a DFS Algorithm to find all points with a dict to keep track of fully expanded cells that should not be ran through any more recursive calls
         for (Point direction : directions) {
             Point newPoint = new Point(
                     currentCell.getLocation().x + direction.x,
