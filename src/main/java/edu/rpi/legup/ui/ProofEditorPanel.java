@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.border.EmptyBorder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -76,6 +77,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     private JToolBar toolBar1;
     private JToolBar toolBar2;
+    private JLabel objective;
     private BoardView boardView;
     private JFileChooser folderBrowser;
 
@@ -873,6 +875,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *   <li>'Redo' button triggers the redo action in the puzzle's history.
      *   <li>'Check' button triggers the `checkProof` method.
      * </ul>
+     *
+     * The objective label is also initialized and placed at the end of the toolbar.
      */
     private void setupToolBar2() {
         toolBar2 = new JToolBar();
@@ -963,7 +967,19 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         getToolBar2Buttons()[3] = check;
         toolBar2.add(getToolBar2Buttons()[3]);
 
-        this.add(toolBar2, BorderLayout.NORTH);
+        // Make objective label and add to new panel
+        objective = new JLabel();
+        TitledBorder titleBorder = BorderFactory.createTitledBorder("Objective");
+        titleBorder.setTitleJustification(TitledBorder.LEFT);
+        EmptyBorder paddingBorder = new EmptyBorder(5, 5, 5, 5);
+        objective.setBorder(
+                BorderFactory.createCompoundBorder(titleBorder, paddingBorder));
+
+        JPanel fillPanel = new JPanel();
+        fillPanel.setLayout(new BorderLayout(25, 0));
+        fillPanel.add(toolBar2, BorderLayout.WEST);
+        fillPanel.add(objective, BorderLayout.CENTER);
+        this.add(fillPanel, BorderLayout.NORTH);
     }
 
     /**
@@ -1000,6 +1016,24 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      */
     public JButton[] getToolBar2Buttons() {
         return toolBar2Buttons;
+    }
+
+    /**
+     * Sets the objective label's text
+     *
+     * @param objectiveStr objective text
+     */
+    public void setObjective(String objectiveStr) {
+        objective.setText(objectiveStr);
+    }
+
+    /**
+     * Gets the current objective text
+     *
+     * @return objective text
+     */
+    public String getObjective() {
+        return objective.getText();
     }
 
     /**
