@@ -64,9 +64,9 @@ public class NurikabeCellFactory extends ElementFactory {
 
             NamedNodeMap attributeList = node.getAttributes();
             String goalTypeString = attributeList.getNamedItem("type").getNodeValue();
-            GoalType goalType = goalTypeString == null ? GoalType.NONE : GoalType.valueOf(goalTypeString.toUpperCase());
+            GoalType goalType = goalTypeString == null ? GoalType.DEFAULT : GoalType.valueOf(goalTypeString.toUpperCase());
 
-            if (goalType != GoalType.NONE) {
+            if (goalType != GoalType.DEFAULT) {
                 return new Goal(null, goalType);
             } else{
                 return new Goal(null, goalType);

@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * which holds the type of cell and the cell's location. Goal's should only be constructed
  * twice; once upon loading the puzzle, and once upon saving the puzzle.
  * <p>
- * If the GoalType is NONE, cellList must be null.
+ * If the GoalType is DEFAULT, cellList must be null.
  */
 public class Goal {
     private ArrayList<GridCell> cellList;

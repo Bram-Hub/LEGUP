@@ -66,7 +66,7 @@ public class Nurikabe extends Puzzle {
             }
         }
 
-        Goal goal = board.getGoal();
+        Goal goal = this.getGoal();
         return switch (goal.getType()) {
             case PROVE_CELL_MUST_BE -> // Every goal cell is forced
                     checkGoalCells(nurikabeBoard, goal);

@@ -101,12 +101,10 @@ public class NurikabeImporter extends PuzzleImporter {
                                             .importCell(cellList.item(i), nurikabeBoard);
                     goal.addCell(cell);
                 }
-
-                nurikabeBoard.setGoal(goal);
             } else {
                 Goal goal = new Goal(null, GoalType.DEFAULT);
 
-                nurikabeBoard.setGoal(goal);
+                puzzle.setGoal(goal);
             }
 
             Element dataElement = (Element) boardElement.getElementsByTagName("cells").item(0);

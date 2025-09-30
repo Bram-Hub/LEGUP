@@ -47,6 +47,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     protected String tag = "";
     protected Board currentBoard;
     protected Tree tree;
+    protected Goal goal;
     protected BoardView boardView;
     protected PuzzleImporter importer;
     protected PuzzleExporter exporter;
@@ -208,6 +209,25 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      */
     public boolean isValidTextInput(String[] statements) {
         return statements.length > 0;
+    }
+
+
+    /**
+     * Sets the Goal of the board
+     *
+     * @param goal Goal to be set
+     */
+    public void setGoal(Goal goal) {
+        this.goal = goal;
+    }
+
+    /**
+     * Gets the Goal of the board
+     *
+     * @return Goal object
+     */
+    public Goal getGoal() {
+        return goal;
     }
 
     /**

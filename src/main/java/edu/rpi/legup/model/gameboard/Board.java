@@ -148,24 +148,6 @@ public abstract class Board {
     }
 
     /**
-     * Sets the Goal of the board
-     *
-     * @param goal Goal to be set
-     */
-    public void setGoal(Goal goal) {
-        this.goal = goal;
-    }
-
-    /**
-     * Gets the Goal of the board
-     *
-     * @return Goal object
-     */
-    public Goal getGoal() {
-        return goal;
-    }
-
-    /**
      * Called when a {@link PuzzleElement} data on this has changed and passes in the equivalent
      * puzzle element with the new data.
      *

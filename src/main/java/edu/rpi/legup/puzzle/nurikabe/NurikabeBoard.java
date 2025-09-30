@@ -52,7 +52,6 @@ public class NurikabeBoard extends GridBoard {
             copy.getPuzzleElement(e).setModifiable(false);
         }
 
-        copy.setGoal(this.goal);
         return copy;
     }
 }
