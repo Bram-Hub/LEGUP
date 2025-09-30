@@ -50,7 +50,7 @@ public class StarBattleBorderView extends ElementView {
                     new Line2D.Double(location.x, location.y, location.x + (xSize), location.y));
         } else if (type == StarBattleCellType.VERT_BORDER) { // minimize xSize / width
             graphics2D.setColor(borderColor);
-            System.out.println("Border width = " + xSize + "\n");
+            // System.out.println("Border width = " + xSize + "\n");
             graphics2D.setStroke(new BasicStroke(3));
             graphics2D.draw(
                     new Line2D.Double(location.x, location.y, location.x, location.y + (ySize)));
