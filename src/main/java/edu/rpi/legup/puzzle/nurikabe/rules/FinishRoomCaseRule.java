@@ -235,9 +235,10 @@ public class FinishRoomCaseRule extends CaseRule {
                             cases.add(caseBoard);
                         }
                     } else if (newRoomSet.size() < filledRoomSize) {
+                        for (NurikabeCell cellInRoom : newRoomSet)
                         generateCases(
                                 nuriBoard,
-                                newCell,
+                                cellInRoom,
                                 filledRoomSize,
                                 directions,
                                 checkedPoints,
