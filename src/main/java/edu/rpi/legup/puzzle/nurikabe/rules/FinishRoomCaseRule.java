@@ -45,6 +45,8 @@ public class FinishRoomCaseRule extends CaseRule {
     public String checkRuleRaw(TreeTransition transition) {
         NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
+
+        // ✅ Basic size sanity checks
         if (childTransitions.size() > MAX_CASES) {
             return super.getInvalidUseOfRuleMessage()
                     + ": This case rule must have 9 or less children.";
@@ -53,31 +55,46 @@ public class FinishRoomCaseRule extends CaseRule {
             return super.getInvalidUseOfRuleMessage()
                     + ": This case rule must have 1 or more children.";
         }
-        if (childTransitions.size() != legitCases) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": Cases can not be removed from the branch.";
-        } // stops user from deleting 1 or more generated cases and still having path show as green
-        Set<Point> locations = new HashSet<>();
-        for (TreeTransition t1 : childTransitions) {
-            locations.add(
-                    ((NurikabeCell) t1.getBoard().getModifiedData().iterator().next())
-                            .getLocation()); // loop see if matches
-            if (t1.getBoard().getModifiedData().size() <= 1) {
-                return super.getInvalidUseOfRuleMessage()
-                        + ": This case rule must have at least 1 modified cell for each case.";
-            }
-            for (Point loc : locations) {
-                for (Point loc2 : locations) {
-                    if (!(loc.equals(loc2)) && (loc.x == loc2.x) && (loc.y == loc2.y)) {
-                        return super.getInvalidUseOfRuleMessage()
-                                + ": This case rule must alter a different cell for each case.";
-                    }
-                }
+
+        // ✅ Recompute expected cases from parent
+        Board parentBoard = transition.getParents().get(0).getBoard();
+        // find the puzzleElement used for this rule
+        PuzzleElement appliedElement = null;
+        for (PuzzleElement el : parentBoard.getPuzzleElements()) {
+            if (((NurikabeCell) el).getType()==NurikabeType.NUMBER) { // or however you identify the picked number cell
+                appliedElement = el;
+                break;
             }
         }
 
-        return null;
+        if (appliedElement != null) {
+            ArrayList<Board> expectedCases = getCases(parentBoard, appliedElement);
+            if (childTransitions.size() != expectedCases.size()) {
+                return super.getInvalidUseOfRuleMessage()
+                        + ": Number of children does not match recomputed cases.";
+            }
+        }
+
+        // ✅ Now validate each child transition
+        Set<Point> locations = new HashSet<>();
+        for (TreeTransition t1 : childTransitions) {
+            if (t1.getBoard().getModifiedData().isEmpty()) {
+                return super.getInvalidUseOfRuleMessage()
+                        + ": Each case must have at least 1 modified cell.";
+            }
+
+            Point loc = ((NurikabeCell) t1.getBoard().getModifiedData().iterator().next())
+                    .getLocation();
+            if (locations.contains(loc)) {
+                return super.getInvalidUseOfRuleMessage()
+                        + ": Each case must alter a different cell.";
+            }
+            locations.add(loc);
+        }
+
+        return null; // ✅ valid
     }
+
 
     @Override
     public CaseBoard getCaseBoard(Board board) {
