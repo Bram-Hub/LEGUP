@@ -553,9 +553,7 @@ public class HomePanel extends LegupPanel {
      * by Bram, and version information.
      */
     private void initText() {
-        // TODO: add version text after auto-changing version label is implemented. (text[2] =
-        // version)
-        this.text = new JLabel[2];
+        this.text = new JLabel[3];
 
         JLabel welcome = new JLabel("Welcome to LEGUP");
         welcome.setFont(new Font("Roboto", Font.BOLD, 23));
@@ -571,6 +569,7 @@ public class HomePanel extends LegupPanel {
 
         this.text[0] = welcome;
         this.text[1] = credits;
+        this.text[2] = version;
     }
 
     /** Renders the user interface components */
