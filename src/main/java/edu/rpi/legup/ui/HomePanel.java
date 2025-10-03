@@ -2,6 +2,7 @@ package edu.rpi.legup.ui;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
+import edu.rpi.legup.app.VersionInfo;
 import edu.rpi.legup.controller.CursorController;
 import edu.rpi.legup.model.PuzzleExporter;
 import java.awt.*;
@@ -564,7 +565,7 @@ public class HomePanel extends LegupPanel {
         credits.setFont(new Font("Roboto", Font.PLAIN, 12));
         credits.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel version = new JLabel("Version 5.1.0"); // This should be autochanged in the future
+        JLabel version = new JLabel("Version " + VersionInfo.getVersion());
         version.setFont(new Font("Roboto", Font.ITALIC, 10));
         version.setAlignmentX(Component.CENTER_ALIGNMENT);
 
