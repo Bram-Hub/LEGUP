@@ -1,5 +1,6 @@
 package edu.rpi.legup.model;
 
+import edu.rpi.legup.app.VersionInfo;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -52,7 +53,7 @@ public abstract class PuzzleExporter {
             Document newDocument = docBuilder.newDocument();
 
             org.w3c.dom.Element legupElement = newDocument.createElement("Legup");
-            legupElement.setAttribute("version", "3.0.0");
+            legupElement.setAttribute("version", VersionInfo.getVersion());
             newDocument.appendChild(legupElement);
 
             org.w3c.dom.Element timeSavedElement = newDocument.createElement("saved");
