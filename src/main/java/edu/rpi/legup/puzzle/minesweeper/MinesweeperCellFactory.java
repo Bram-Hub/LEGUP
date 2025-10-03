@@ -15,7 +15,7 @@ import org.w3c.dom.Node;
 public class MinesweeperCellFactory extends ElementFactory {
 
     /** The key of the data used in {@link NamedNodeMap} */
-    private static final String DATA_ATTRIBUTE = "data";
+    private static final String DATA_ATTRIBUTE = "value";
 
     /** The key of the x position used in {@link NamedNodeMap} */
     private static final String X_ATTRIBUTE = "x";
@@ -65,7 +65,10 @@ public class MinesweeperCellFactory extends ElementFactory {
             }
             final MinesweeperCell cell =
                     new MinesweeperCell(MinesweeperTileData.fromData(value), new Point(x, y));
-            cell.setIndex(y * height + x);
+            cell.setIndex(y * width + x);
+            if (value != -2) {
+                cell.setModifiable(false);
+            }
             return cell;
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
@@ -92,7 +95,7 @@ public class MinesweeperCellFactory extends ElementFactory {
         MinesweeperCell cell = (MinesweeperCell) puzzleElement;
         Point loc = cell.getLocation();
 
-        cellElement.setAttribute(DATA_ATTRIBUTE, String.valueOf(cell.getData()));
+        cellElement.setAttribute(DATA_ATTRIBUTE, String.valueOf(cell.getTileNumber()));
         cellElement.setAttribute(X_ATTRIBUTE, String.valueOf(loc.x));
         cellElement.setAttribute(Y_ATTRIBUTE, String.valueOf(loc.y));
 

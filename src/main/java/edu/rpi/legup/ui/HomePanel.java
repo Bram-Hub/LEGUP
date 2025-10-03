@@ -4,8 +4,7 @@ import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.app.VersionInfo;
 import edu.rpi.legup.controller.CursorController;
-import edu.rpi.legup.model.Puzzle;
-import edu.rpi.legup.save.InvalidFileFormatException;
+import edu.rpi.legup.model.PuzzleExporter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,18 +12,22 @@ import java.io.*;
 import java.io.FileWriter;
 import java.net.URI;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * The {@code HomePanel} class represents the home panel of the LEGUP application. This panel
@@ -33,6 +36,8 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class HomePanel extends LegupPanel {
     private static final Logger LOGGER = LogManager.getLogger(HomePanel.class.getName());
+    private static final ArrayList<String> _tagsToGrade = new ArrayList<>();
+    private static final ArrayList<String> _typesToGrade = new ArrayList<>();
     private LegupUI legupUI;
     private JFrame frame;
     private JButton[] buttons;
@@ -166,107 +171,130 @@ public class HomePanel extends LegupPanel {
         this.buttons[2].setFocusPainted(false);
         this.buttons[2].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[2].setVerticalTextPosition(AbstractButton.BOTTOM);
-
-        this.buttons[2].addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        try {
-                            use_xml_to_check();
-                        } catch (Exception ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        System.out.println("finished checking the folder");
-                    }
-                });
+        this.buttons[2].addActionListener(e -> openBatchGraderMenu());
     }
 
-    /**
-     * Opens a folder chooser dialog and grades puzzles in the selected folder. The results are
-     * written to a CSV file.
-     */
-    public void checkFolder() {
-        GameBoardFacade facade = GameBoardFacade.getInstance();
-        /*
-         * Select dir to grade; recursively grade sub-dirs using traverseDir()
-         * Selected dir must have sub-dirs for each student:
-         * GradeThis
-         *    |
-         *    | -> Student 1
-         *    |       |
-         *    |       | -> Proofs
-         */
+    /** Initializes screen for autograder options */
+    public void openBatchGraderMenu() {
+        JDialog batchGraderOptions = new JDialog(frame, "Batch Grader Options", true);
+        batchGraderOptions.setSize(450, 200);
+        batchGraderOptions.setLayout(new BorderLayout());
 
-        JFileChooser folderBrowser = new JFileChooser();
+        // Create a panel for the directory selection part
+        JPanel directoryPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JButton browseButton = new JButton("Select Directory");
+        JTextField directoryField = new JTextField(10);
+        directoryField.setEnabled(false);
 
-        folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
-        folderBrowser.setDialogTitle("Select Directory");
-        folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        folderBrowser.setAcceptAllFileFilterUsed(false);
-        folderBrowser.showOpenDialog(this);
-        folderBrowser.setVisible(true);
-        File folder = folderBrowser.getSelectedFile();
+        directoryPanel.add(browseButton);
+        directoryPanel.add(directoryField);
+        batchGraderOptions.add(directoryPanel, BorderLayout.NORTH);
 
-        File resultFile = new File(folder.getAbsolutePath() + File.separator + "result.csv");
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
-            writer.append("Name");
-            writer.append(",");
-            writer.append("File Name");
-            writer.append(",");
-            writer.append("Solved?");
-            writer.append("\n");
+        // Create a panel for the puzzle IDs label, text field, and checkbox
+        JPanel puzzleIdPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JLabel puzzleIdLabel = new JLabel("Puzzle IDs:");
+        JTextField puzzleIdField = new JTextField(10);
+        puzzleIdField.setEnabled(false);
+        JCheckBox gradeAllIDsCheckbox = new JCheckBox("Grade All IDs");
+        gradeAllIDsCheckbox.setSelected(true);
 
-            for (final File folderEntry : folder.listFiles(File::isDirectory)) {
-                writer.append(folderEntry.getName());
-                writer.append(",");
-                int count1 = 0;
-                for (final File fileEntry : folderEntry.listFiles()) {
-                    if (fileEntry.getName().charAt(0) == '.') {
-                        continue;
+        puzzleIdPanel.add(puzzleIdLabel);
+        puzzleIdPanel.add(puzzleIdField);
+        puzzleIdPanel.add(gradeAllIDsCheckbox);
+
+        // Create a panel for the puzzle tags label, text field, and checkbox
+        JPanel puzzleTypePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JLabel puzzleTypeLabel = new JLabel("Puzzle Types:");
+        JTextField puzzleTypeField = new JTextField(10);
+        puzzleTypeField.setEnabled(false);
+        JCheckBox gradeAllTagsCheckbox = new JCheckBox("Grade All Types");
+        gradeAllTagsCheckbox.setSelected(true);
+
+        puzzleTypePanel.add(puzzleTypeLabel);
+        puzzleTypePanel.add(puzzleTypeField);
+        puzzleTypePanel.add(gradeAllTagsCheckbox);
+
+        JPanel batchGraderConstraints = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        batchGraderConstraints.add(puzzleIdPanel);
+        batchGraderConstraints.add(puzzleTypePanel);
+        batchGraderOptions.add(batchGraderConstraints, BorderLayout.CENTER);
+
+        // Create a save button at the bottom
+        JButton gradeButton = new JButton("Grade");
+        JButton updateButton = new JButton("Update");
+        JPanel gradePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        gradePanel.add(gradeButton);
+        gradePanel.add(updateButton);
+        batchGraderOptions.add(gradePanel, BorderLayout.SOUTH);
+
+        // Action listeners for the buttons
+        gradeAllIDsCheckbox.addActionListener(
+                e -> puzzleIdField.setEnabled(!gradeAllIDsCheckbox.isSelected()));
+        gradeAllTagsCheckbox.addActionListener(
+                e -> puzzleTypeField.setEnabled(!gradeAllTagsCheckbox.isSelected()));
+
+        browseButton.addActionListener(
+                e -> {
+                    JFileChooser folderBrowser = new JFileChooser();
+                    folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+                    folderBrowser.setDialogTitle("Select Directory");
+                    folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                    folderBrowser.setAcceptAllFileFilterUsed(false);
+                    folderBrowser.setSelectedFile(null);
+                    folderBrowser.setVisible(true);
+
+                    int result = folderBrowser.showOpenDialog(frame);
+                    if (result == JFileChooser.APPROVE_OPTION) {
+                        directoryField.setText(folderBrowser.getSelectedFile().getAbsolutePath());
                     }
-                    count1++;
-                    if (count1 > 1) {
-                        writer.append(folderEntry.getName());
-                        writer.append(",");
-                    }
-                    writer.append(fileEntry.getName());
-                    writer.append(",");
-                    String fileName =
-                            folderEntry.getAbsolutePath() + File.separator + fileEntry.getName();
-                    System.out.println("This is path " + fileName);
-                    File puzzleFile = new File(fileName);
-                    if (puzzleFile != null && puzzleFile.exists()) {
-                        try {
-                            legupUI.displayPanel(1);
-                            legupUI.getProofEditor();
-                            GameBoardFacade.getInstance().loadPuzzle(fileName);
-                            String puzzleName =
-                                    GameBoardFacade.getInstance().getPuzzleModule().getName();
-                            legupUI.setTitle(puzzleName + " - " + puzzleFile.getName());
-                            facade = GameBoardFacade.getInstance();
-                            Puzzle puzzle = facade.getPuzzleModule();
-                            if (puzzle.isPuzzleComplete()) {
-                                writer.append("Solved");
-                                System.out.println(fileEntry.getName() + "  solved");
-                            } else {
-                                writer.append("Not Solved");
-                                System.out.println(fileEntry.getName() + "  not solved");
-                            }
-                            writer.append("\n");
-                        } catch (InvalidFileFormatException e) {
-                            LOGGER.error(e.getMessage());
+                });
+
+        gradeButton.addActionListener(
+                e -> {
+                    String directoryPath = directoryField.getText();
+                    String puzzleTags = puzzleIdField.getText();
+                    String puzzleTypes = puzzleTypeField.getText();
+
+                    _tagsToGrade.clear();
+                    if (!puzzleTags.isEmpty()) {
+                        Pattern pattern = Pattern.compile("\"(.*?)\"");
+                        Matcher matcher = pattern.matcher(puzzleTags);
+
+                        while (matcher.find()) {
+                            _tagsToGrade.add(matcher.group(1));
                         }
                     }
-                }
-                if (count1 == 0) {
-                    writer.append("No file");
-                    writer.append("\n");
-                }
-            }
-        } catch (IOException ex) {
-            LOGGER.error(ex.getMessage());
-            this.buttons[2].addActionListener((ActionEvent e) -> use_xml_to_check());
-        }
+                    _typesToGrade.clear();
+                    if (!puzzleTypes.isEmpty()) {
+                        Pattern pattern = Pattern.compile("\"(.*?)\"");
+                        Matcher matcher = pattern.matcher(puzzleTypes);
+
+                        while (matcher.find()) {
+                            _typesToGrade.add(matcher.group(1));
+                        }
+                    }
+
+                    try {
+                        File dir = new File(directoryPath);
+                        use_xml_to_check(dir);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    LOGGER.debug("Finished autograding");
+
+                    batchGraderOptions.dispose();
+                });
+
+        updateButton.addActionListener(
+                e -> {
+                    recursiveUpdater(new File(directoryField.getText()));
+                    JOptionPane.showMessageDialog(null, "Updating complete.");
+                    batchGraderOptions.dispose();
+                });
+
+        // Center the dialog on the screen
+        batchGraderOptions.setLocationRelativeTo(null);
+        batchGraderOptions.setVisible(true);
     }
 
     /**
@@ -277,27 +305,17 @@ public class HomePanel extends LegupPanel {
      * @effect Selects a directory, processes each XML file to check for "solved?" status, and
      *     writes results to "result.csv". Opens the CSV file upon completion.
      */
-    private void use_xml_to_check() {
+    private void use_xml_to_check(File folder) {
         /* Select a folder, go through each .xml file in the subfolders, look for "isSolved" flag */
-        JFileChooser folderBrowser = new JFileChooser();
-        folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
-        folderBrowser.setDialogTitle("Select Directory");
-        folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        folderBrowser.setAcceptAllFileFilterUsed(false);
-        folderBrowser.setSelectedFile(null);
-        folderBrowser.showOpenDialog(this);
-        folderBrowser.setVisible(true);
-        File folder = folderBrowser.getSelectedFile();
-
         File resultFile = new File(folder.getAbsolutePath() + File.separator + "result.csv");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
-            writer.append("Name,File Name,Puzzle Type,Solved?,Last Saved\n");
+            writer.append("Name,File Name,Puzzle Type,Puzzle Tag,Solved?,Last Saved\n");
             // Go through student folders, recurse for inner folders
             for (final File folderEntry :
                     Objects.requireNonNull(folder.listFiles(File::isDirectory))) {
                 String path = folderEntry.getName();
                 // use this helper function to write to the .csv file
-                recursive_parser(folderEntry, writer, path, path);
+                recursive_parser(folderEntry, writer, path);
             }
         } catch (IOException ex) {
             LOGGER.error(ex.getMessage());
@@ -311,33 +329,97 @@ public class HomePanel extends LegupPanel {
             }
         }
         JOptionPane.showMessageDialog(null, "Batch grading complete.");
+        _tagsToGrade.clear();
     }
 
     /**
      * @param file - the input file
-     * @return true if it is a .xml file, else return false
+     * @return Parsed document of file if possible, null otherwise
      */
-    public boolean isxmlfile(File file) {
-        boolean flag = true;
+    public Document isxmlfile(File file) {
+        Document doc = null;
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            builder.parse(file);
-            flag = true;
+            doc = builder.parse(file);
         } catch (Exception e) {
-            flag = false;
+            LOGGER.error("'{}' is not a valid XML file", file.getPath());
         }
-        return flag;
+        return doc;
+    }
+
+    /**
+     * reads the puzzle name and type, and outputs to .csv file
+     *
+     * @param doc - the parsed file currently being graded
+     * @param writer - write to .csv
+     * @throws IOException
+     */
+    private void parsePuzzle(Document doc, BufferedWriter writer) throws IOException {
+        NodeList puzzleNodes = doc.getElementsByTagName("puzzle");
+        if (puzzleNodes.getLength() <= 0) {
+            writer.write("not a LEGUP puzzle!");
+            return;
+        }
+
+        Element puzzleElement = (Element) puzzleNodes.item(0);
+        String puzzleType = puzzleElement.getAttribute("name");
+        writer.write(puzzleType.isEmpty() ? "not a LEGUP puzzle!" : puzzleType);
+        writer.write(",");
+
+        String puzzleTag = puzzleElement.getAttribute("tag");
+        writer.write(puzzleTag.isEmpty() ? "No tag given" : puzzleTag);
+    }
+
+    /**
+     * Reads the hashed solved state and export timestamp, unhashes information and prints out to
+     * csv
+     *
+     * @param doc - the parsed file currently being graded
+     * @param writer - write to .csv
+     * @throws IOException
+     */
+    private void parseSolvedState(Document doc, BufferedWriter writer) throws IOException {
+        NodeList solvedNodes = doc.getElementsByTagName("solved");
+        if (solvedNodes.getLength() <= 0) {
+            writer.write(",missing flag!");
+            return;
+        }
+
+        Element solvedElement = (Element) solvedNodes.item(0);
+        String isSolved = solvedElement.getAttribute("isSolved");
+        String lastSaved = solvedElement.getAttribute("lastSaved");
+
+        // unhash solved flag
+        writer.write(",");
+        try {
+            int solvedHash = Integer.parseInt(isSolved);
+            Boolean solvedState = PuzzleExporter.inverseHash(solvedHash, lastSaved);
+
+            if (solvedState == null) {
+                writer.write("Error");
+            } else if (solvedState) {
+                writer.write("Solved");
+            } else {
+                writer.write("Not Solved");
+            }
+        } catch (NumberFormatException e) {
+            writer.write("Error");
+            LOGGER.error("Solved state could not be unhashed:\n{}", e.getMessage());
+        }
+
+        // Append the lastSaved attribute
+        writer.write(",");
+        writer.write(!lastSaved.isEmpty() ? lastSaved : "Error");
     }
 
     /**
      * @param folder - the input folder
      * @param writer - write to .csv
      * @param path - the current path
-     * @param name - student's name (the first subfolders of the main folder)
      * @throws IOException
      */
-    private void recursive_parser(File folder, BufferedWriter writer, String path, String name)
+    private void recursive_parser(File folder, BufferedWriter writer, String path)
             throws IOException {
         // Empty folder
         if (Objects.requireNonNull(folder.listFiles()).length == 0) {
@@ -346,131 +428,123 @@ public class HomePanel extends LegupPanel {
         }
         // Go through every other file in the folder
         try {
-            SAXParserFactory spf = SAXParserFactory.newInstance();
-            SAXParser saxParser = spf.newSAXParser();
             for (final File fileEntry : Objects.requireNonNull(folder.listFiles())) {
                 if (fileEntry.getName().equals("result.csv")) {
                     continue;
                 }
                 // Recurse if it is a subfolder
                 if (fileEntry.isDirectory()) {
-                    recursive_parser(fileEntry, writer, path + "/" + fileEntry.getName(), name);
+                    recursive_parser(fileEntry, writer, path + "/" + fileEntry.getName());
                     continue;
                 }
                 // Set path name
                 String fName = fileEntry.getName();
-                String fPath = fileEntry.getAbsolutePath();
                 if (fileEntry.getName().charAt(0) == '.') {
                     continue;
                 }
+
+                Document doc;
+                if ((doc = isxmlfile(fileEntry)) == null) {
+                    LOGGER.debug("{} is not a '.xml' file", fName);
+                    writer.write(fName + ",Not an xml file!\n");
+                    continue;
+                }
+
+                NodeList puzzleNodes = doc.getElementsByTagName("puzzle");
+                Element puzzleElement = (Element) puzzleNodes.item(0);
+                String puzzleTag = puzzleElement.getAttribute("tag");
+                if (!_tagsToGrade.isEmpty()
+                        && _tagsToGrade.stream().noneMatch(puzzleTag::contains)) {
+                    LOGGER.debug(
+                            "'{}' is not graded with tag '{}'",
+                            puzzleElement.getAttribute("name"),
+                            puzzleTag);
+                    continue;
+                }
+                String puzzleType = puzzleElement.getAttribute("name");
+                if (!_typesToGrade.isEmpty()
+                        && _typesToGrade.stream().noneMatch(puzzleType::contains)) {
+                    LOGGER.debug(
+                            "'{}' is not graded with type '{}'",
+                            puzzleElement.getAttribute("name"),
+                            puzzleType);
+                    continue;
+                }
+
                 // write data
-                writer.write(name);
+                path = folder.getAbsolutePath();
+                writer.write(path.substring(path.lastIndexOf(File.separator) + 1));
                 writer.write(",");
                 writer.write(fName);
                 writer.write(",");
-                path = folder.getAbsolutePath() + File.separator + fileEntry.getName();
-                System.out.println(path);
-                if (isxmlfile(fileEntry)) {
-                    saxParser.parse(
-                            path,
-                            new DefaultHandler() {
-                                @Override
-                                public void startDocument() throws SAXException {}
 
-                                boolean solvedFlagExists = false;
-                                boolean puzzleTypeExists = false;
+                parsePuzzle(doc, writer);
+                parseSolvedState(doc, writer);
 
-                                @Override
-                                public void startElement(
-                                        String uri,
-                                        String localName,
-                                        String qName,
-                                        Attributes attributes)
-                                        throws SAXException {
-                                    // append file type to the writer
-                                    if (qName.equals("puzzle")
-                                            && attributes.getQName(0) == "name"
-                                            && !puzzleTypeExists) {
-                                        try {
-                                            writer.write(attributes.getValue(0));
-                                            writer.write(",");
-                                            puzzleTypeExists = true;
-                                        } catch (IOException e) {
-                                            throw new RuntimeException(e);
-                                        }
-                                    }
-                                    // append the "solved?" status of the proof to the writer
-                                    else if (qName.equals("solved") && !solvedFlagExists) {
-                                        String isSolved = attributes.getValue(0);
-                                        String lastSaved = attributes.getValue(1);
-                                        if (isSolved != null) {
-                                            if (isSolved.equals("true")) {
-                                                try {
-                                                    writer.write("Solved");
-                                                } catch (IOException e) {
-                                                    throw new RuntimeException(e);
-                                                }
-                                            } else if (isSolved.equals("false")) {
-                                                try {
-                                                    writer.write("Not Solved");
-                                                } catch (IOException e) {
-                                                    throw new RuntimeException(e);
-                                                }
-                                            } else {
-                                                try {
-                                                    writer.write("Error");
-                                                } catch (IOException e) {
-                                                    throw new RuntimeException(e);
-                                                }
-                                            }
-                                        }
-                                        // append when is this proof last saved
-                                        if (lastSaved != null) {
-                                            try {
-                                                writer.write(",");
-                                                writer.write(lastSaved);
-                                            } catch (IOException e) {
-                                                throw new RuntimeException(e);
-                                            }
-                                        }
-                                        solvedFlagExists = true;
-                                    }
-                                }
-
-                                @Override
-                                public void characters(char[] ch, int start, int length)
-                                        throws SAXException {}
-
-                                @Override
-                                public void endElement(String uri, String localName, String qName)
-                                        throws SAXException {}
-
-                                @Override
-                                public void endDocument() throws SAXException {
-                                    if (!puzzleTypeExists) {
-                                        try {
-                                            writer.write("not a LEGUP puzzle!");
-                                        } catch (IOException e) {
-                                            throw new RuntimeException(e);
-                                        }
-                                    } else if (!solvedFlagExists) {
-                                        try {
-                                            writer.write("missing flag!");
-                                        } catch (IOException e) {
-                                            throw new RuntimeException(e);
-                                        }
-                                    }
-                                }
-                            });
-                }
-                // If wrong file type, ungradeable
-                else {
-                    writer.write("not a \".xml\" file!");
-                }
                 writer.write("\n");
             }
-        } catch (ParserConfigurationException | SAXException | IOException e) {
+        } catch (IOException e) {
             LOGGER.error(e.getMessage());
+        }
+    }
+
+    /**
+     * Updates all old puzzle files to the new tagged variant and hashes all solved states
+     *
+     * @param folder Folder to update all files, and recurse for all subdirectories
+     */
+    private void recursiveUpdater(File folder) {
+        if (Objects.requireNonNull(folder.listFiles()).length == 0) {
+            LOGGER.debug("Empty directory");
+            return;
+        }
+        for (File fileEntry : Objects.requireNonNull(folder.listFiles())) {
+            if (fileEntry.isDirectory()) {
+                recursiveUpdater(fileEntry);
+                continue;
+            }
+
+            String fName = fileEntry.getName();
+            Document doc;
+            if ((doc = isxmlfile(fileEntry)) == null) {
+                LOGGER.debug("{} is not a '.xml' file", fileEntry.getName());
+                continue;
+            }
+
+            Element puzzleNodes = (Element) doc.getElementsByTagName("puzzle").item(0);
+            if (!puzzleNodes.hasAttribute("tag")) {
+                puzzleNodes.setAttribute("tag", fName);
+            }
+
+            Element solvedNodes = (Element) doc.getElementsByTagName("solved").item(0);
+            String time = LocalDateTime.now().format(PuzzleExporter.DATE_FORMAT);
+            String unsolved = PuzzleExporter.obfHash(false, time) + "";
+            if (solvedNodes != null) {
+                solvedNodes.getAttributeNode("isSolved").setValue(unsolved);
+                solvedNodes.getAttributeNode("lastSaved").setTextContent(time);
+            } else {
+                solvedNodes = doc.createElement("solved");
+                solvedNodes.setAttribute("isSolved", unsolved);
+                solvedNodes.setAttribute("lastSaved", time);
+                doc.getElementsByTagName("Legup").item(0).appendChild(solvedNodes);
+            }
+
+            try {
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer();
+                transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+                transformer.setOutputProperty(OutputKeys.INDENT, "no");
+                transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+
+                DOMSource source = new DOMSource(doc);
+                StreamResult result =
+                        new StreamResult(
+                                new File(folder.getAbsolutePath() + File.separator + fName));
+
+                transformer.transform(source, result);
+            } catch (TransformerException e) {
+                LOGGER.error("Unable to update file: {}:\n{}", fName, e.getMessage());
+            }
         }
     }
 
@@ -541,113 +615,6 @@ public class HomePanel extends LegupPanel {
         } catch (IllegalArgumentException e) {
             System.out.println("Failed to open editor with new puzzle");
             e.printStackTrace(System.out);
-        }
-    }
-
-    /**
-     * Opens a dialog to select a directory, recursively processes the directory to grade puzzles,
-     * and generates a CSV report of the grading results.
-     */
-    private void checkProofAll() {
-        /*
-         * Select dir to grade; recursively grade sub-dirs using traverseDir()
-         * Selected dir must have sub-dirs for each student:
-         * GradeThis
-         *    |
-         *    | -> Student 1
-         *    |       |
-         *    |       | -> Proofs
-         */
-
-        LegupPreferences preferences = LegupPreferences.getInstance();
-        File preferredDirectory =
-                new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
-        folderBrowser = new JFileChooser(preferredDirectory);
-
-        folderBrowser.showOpenDialog(this);
-        folderBrowser.setVisible(true);
-        folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
-        folderBrowser.setDialogTitle("Select Directory");
-        folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        folderBrowser.setAcceptAllFileFilterUsed(false);
-
-        File folder = folderBrowser.getSelectedFile();
-
-        // Write csv file (Path,File-Name,Puzzle-Type,Score,Solved?)
-        File resultFile = new File(folder.getAbsolutePath() + File.separator + "result.csv");
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
-            writer.append("Name,File Name,Puzzle Type,Score,Solved?\n");
-
-            // Go through student folders
-            for (final File folderEntry :
-                    Objects.requireNonNull(folder.listFiles(File::isDirectory))) {
-                // Write path
-                String path = folderEntry.getName();
-                traverseDir(folderEntry, writer, path);
-            }
-        } catch (IOException ex) {
-            LOGGER.error(ex.getMessage());
-        }
-        JOptionPane.showMessageDialog(null, "Batch grading complete.");
-    }
-
-    /**
-     * Recursively traverses directories to grade puzzles and writes results to a CSV file
-     *
-     * @param folder the folder to traverse
-     * @param writer the BufferedWriter to write results to the CSV file
-     * @param path the current path within the directory structure
-     * @throws IOException if an I/O error occurs while writing to the CSV file
-     */
-    private void traverseDir(File folder, BufferedWriter writer, String path) throws IOException {
-        // Recursively traverse directory
-        GameBoardFacade facade = GameBoardFacade.getInstance();
-        // Folder is empty
-        if (Objects.requireNonNull(folder.listFiles()).length == 0) {
-            writer.append(path).append(",Empty folder,Ungradeable\n");
-            return;
-        }
-        // Travese directory, recurse if sub-directory found
-        // If ungradeable, do not leave a score (0, 1)
-        for (final File f : Objects.requireNonNull(folder.listFiles())) {
-            // Recurse
-            if (f.isDirectory()) {
-                traverseDir(f, writer, path + "/" + f.getName());
-                continue;
-            }
-
-            // Set path name
-            writer.append(path).append(",");
-
-            // Load puzzle, run checker
-            // If wrong file type, ungradeable
-            String fName = f.getName();
-            String fPath = f.getAbsolutePath();
-            File puzzleFile = new File(fPath);
-            if (puzzleFile.exists()) {
-                // Try to load file. If invalid, note in csv
-                try {
-                    // Load puzzle, run checker
-                    GameBoardFacade.getInstance().loadPuzzle(fPath);
-                    String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
-                    frame.setTitle(puzzleName + " - " + puzzleFile.getName());
-                    facade = GameBoardFacade.getInstance();
-                    Puzzle puzzle = facade.getPuzzleModule();
-
-                    // Write data
-                    writer.append(fName).append(",");
-                    writer.append(puzzle.getName()).append(",");
-                    if (puzzle.isPuzzleComplete()) {
-                        writer.append("Solved\n");
-                    } else {
-                        writer.append("Unsolved\n");
-                    }
-                } catch (InvalidFileFormatException e) {
-                    writer.append(fName).append("InvalidFile,Ungradeable\n");
-                }
-            } else {
-                LOGGER.debug("Failed to run sim");
-            }
         }
     }
 

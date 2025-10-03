@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Legup version="3.0.0">
-    <puzzle name="Fillapix">
+    <puzzle name="Fillapix" tag="FillapixAdvanced20x20_1">
         <board height="20" width="20">
             <cells>
                 <cell value="4" x="0" y="0"/>
@@ -138,4 +137,4 @@
             </cells>
         </board>
     </puzzle>
-</Legup>
+<solved isSolved="-2010495071" lastSaved="2024-11-08 17:14:34"/></Legup>

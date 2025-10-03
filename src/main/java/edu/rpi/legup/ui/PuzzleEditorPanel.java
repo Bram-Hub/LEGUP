@@ -768,6 +768,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 if (exporter == null) {
                     throw new ExportFileException("Puzzle exporter null");
                 }
+                puzzle.setTag(path.substring(path.lastIndexOf(File.separator) + 1));
                 exporter.exportPuzzle(path);
             } catch (ExportFileException e) {
                 e.printStackTrace();
