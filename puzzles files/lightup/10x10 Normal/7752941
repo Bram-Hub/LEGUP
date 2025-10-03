@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Legup version="2.0.0">
-    <puzzle name="LightUp">
+    <puzzle name="LightUp" tag="7752941">
         <board height="10" width="10">
             <cells>
                 <cell value="2" x="4" y="0"/>
@@ -26,5 +25,5 @@
             </cells>
         </board>
     </puzzle>
-    <solved isSolved="false" lastSaved="--"/>
+    <solved isSolved="-2010495071" lastSaved="2024-11-08 17:14:34"/>
 </Legup>

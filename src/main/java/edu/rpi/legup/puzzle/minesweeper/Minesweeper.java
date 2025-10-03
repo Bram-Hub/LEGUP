@@ -45,7 +45,7 @@ public class Minesweeper extends Puzzle {
         }
         for (PuzzleElement<?> data : minesweeperBoard.getPuzzleElements()) {
             final MinesweeperCell cell = (MinesweeperCell) data;
-            if (cell.getData().equals(MinesweeperTileData.empty())) {
+            if (cell.getData().equals(MinesweeperTileData.unset())) {
                 return false;
             }
         }

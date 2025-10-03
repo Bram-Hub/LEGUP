@@ -114,7 +114,7 @@ public class BinaryImporter extends PuzzleImporter {
                     if (binaryBoard.getCell(x, y) == null) {
                         BinaryCell cell =
                                 new BinaryCell(BinaryType.UNKNOWN.toValue(), new Point(x, y));
-                        cell.setIndex(y * height + x);
+                        cell.setIndex(y * width + x);
                         cell.setModifiable(true);
                         binaryBoard.setCell(x, y, cell);
                     }
