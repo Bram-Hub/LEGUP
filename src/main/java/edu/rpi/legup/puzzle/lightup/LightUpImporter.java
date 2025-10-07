@@ -104,7 +104,7 @@ public class LightUpImporter extends PuzzleImporter {
                 for (int x = 0; x < width; x++) {
                     if (lightUpBoard.getCell(x, y) == null) {
                         LightUpCell cell = new LightUpCell(-2, new Point(x, y));
-                        cell.setIndex(y * height + x);
+                        cell.setIndex(y * width + x);
                         cell.setModifiable(true);
                         lightUpBoard.setCell(x, y, cell);
                     }

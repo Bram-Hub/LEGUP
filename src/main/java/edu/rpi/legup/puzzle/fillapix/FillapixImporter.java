@@ -103,7 +103,7 @@ public class FillapixImporter extends PuzzleImporter {
                     if (fillapixBoard.getCell(x, y) == null) {
                         FillapixCell cell =
                                 new FillapixCell(FillapixCell.DEFAULT_VALUE, new Point(x, y));
-                        cell.setIndex(y * height + x);
+                        cell.setIndex(y * width + x);
                         cell.setModifiable(true);
                         fillapixBoard.setCell(x, y, cell);
                     }

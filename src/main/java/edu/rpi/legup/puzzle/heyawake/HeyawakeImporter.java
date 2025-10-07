@@ -91,7 +91,7 @@ public class HeyawakeImporter extends PuzzleImporter {
                 for (int x = 0; x < width; x++) {
                     if (heyawakeBoard.getCell(x, y) == null) {
                         HeyawakeCell cell = new HeyawakeCell(0, new Point(x, y), -1);
-                        cell.setIndex(y * height + x);
+                        cell.setIndex(y * width + x);
                         cell.setModifiable(false);
                         heyawakeBoard.setCell(x, y, cell);
                     }
