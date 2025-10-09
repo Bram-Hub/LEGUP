@@ -278,15 +278,14 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * @return True if all the cells match the ones specified in Goal, False otherwise.
      */
     public boolean checkGoalCells(GridBoard board, Goal goal) {
-        boolean isValid = false;
+        boolean shouldMatch = (goal.getType() == GoalType.PROVE_CELL_MUST_BE);
         for (GridCell goalCell : goal.getCells()) {
             GridCell boardCell = board.getCell(goalCell.getLocation());
-            if (boardCell.equals(goalCell)){
-                isValid = true;
+            if (!(boardCell.equals(goalCell) == shouldMatch)){
+                return false;
             }
         }
-
-        return isValid;
+        return true;
     }
 
     /**

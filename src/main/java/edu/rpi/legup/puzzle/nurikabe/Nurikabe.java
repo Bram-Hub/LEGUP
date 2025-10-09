@@ -72,41 +72,37 @@ public class Nurikabe extends Puzzle {
             case PROVE_CELL_MUST_BE -> // Every goal cell is forced
                     checkGoalCells(nurikabeBoard, goal);
             case PROVE_CELL_MIGHT_NOT_BE -> {
-                // If the goal cell is guaranteed to be the same, then the board
-                // is technically true? Need to fact-check this, but I think this is right
-
                 // Board is complete and goal cell is different from listed
-                for (PuzzleElement data : nurikabeBoard.getPuzzleElements()) {
-                    NurikabeCell cell = (NurikabeCell) data;
-                    if (cell.getType() == NurikabeType.UNKNOWN) {
-                        yield false;
-                    }
+                if (!isBoardFilled(nurikabeBoard)) {
+                    yield false;
                 }
 
-                for (GridCell goalCell : goal.getCells()){
-                    GridCell boardCell = nurikabeBoard.getCell(goalCell.getLocation());
-                    if (boardCell.equals(goalCell)){
-                        yield false;
-                    }
-                }
-
-                yield true;
+                yield checkGoalCells(nurikabeBoard, goal);
             }
             case PROVE_SINGLE_CELL_VALUE -> { yield false; }
             case PROVE_MULTIPLE_CELL_VALUE -> { yield false; }
             default -> {
-                for (PuzzleElement data : nurikabeBoard.getPuzzleElements()) {
-                    NurikabeCell cell = (NurikabeCell) data;
-                    if (cell.getType() == NurikabeType.UNKNOWN) {
-                        yield false;
-                    }
-                }
-                yield true;
+                yield isBoardFilled(nurikabeBoard);
             }
         };
     }
 
-
+    /**
+     * Determines if the current board has no unknown cells
+     *
+     * @param nurikabeBoard nurikabeBoard to check for empty cells
+     * @return true if board has no empty cells, false otherwise
+     */
+    private boolean isBoardFilled(NurikabeBoard nurikabeBoard)
+    {
+        for (PuzzleElement data : nurikabeBoard.getPuzzleElements()) {
+            NurikabeCell cell = (NurikabeCell) data;
+            if (cell.getType() == NurikabeType.UNKNOWN) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * Callback for when the board puzzleElement changes

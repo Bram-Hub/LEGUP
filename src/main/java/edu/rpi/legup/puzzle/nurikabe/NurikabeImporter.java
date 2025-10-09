@@ -101,6 +101,7 @@ public class NurikabeImporter extends PuzzleImporter {
                                             .importCell(cellList.item(i), nurikabeBoard);
                     goal.addCell(cell);
                 }
+                puzzle.setGoal(goal);
             } else {
                 Goal goal = new Goal(null, GoalType.DEFAULT);
 
