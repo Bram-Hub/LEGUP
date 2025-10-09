@@ -4,6 +4,8 @@ import edu.rpi.legup.model.elements.*;
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
+import edu.rpi.legup.model.gameboard.GridBoard;
+import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.model.observer.IBoardListener;
 import edu.rpi.legup.model.observer.IBoardSubject;
 import edu.rpi.legup.model.observer.ITreeListener;
@@ -13,6 +15,7 @@ import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.model.tree.TreeElementType;
 import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.utility.LegupUtils;
@@ -267,6 +270,24 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * @return true if board is valid, false otherwise
      */
     public abstract boolean isBoardComplete(Board board);
+
+
+    /**
+     * Returns true if all the cells listed in the Goal are forced.
+     * @param goal Goal object containing cell locations and values.
+     * @return True if all the cells match the ones specified in Goal, False otherwise.
+     */
+    public boolean checkGoalCells(GridBoard board, Goal goal) {
+        boolean isValid = false;
+        for (GridCell goalCell : goal.getCells()) {
+            GridCell boardCell = board.getCell(goalCell.getLocation());
+            if (boardCell.equals(goalCell)){
+                isValid = true;
+            }
+        }
+
+        return isValid;
+    }
 
     /**
      * Callback for when the board puzzleElement changes

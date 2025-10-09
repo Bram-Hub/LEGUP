@@ -1,6 +1,7 @@
 package edu.rpi.legup.puzzle.nurikabe;
 
 import edu.rpi.legup.model.Goal;
+import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.GridCell;
@@ -105,22 +106,7 @@ public class Nurikabe extends Puzzle {
         };
     }
 
-    /**
-     * Returns true if all the cells listed in the Goal are forced.
-     * @param goal Goal object containing cell locations and values.
-     * @return True if all the cells match the ones specified in Goal, False otherwise.
-     */
-    private boolean checkGoalCells(NurikabeBoard board, Goal goal) {
-        boolean isValid = false;
-        for (GridCell goalCell : goal.getCells()) {
-            GridCell boardCell = board.getCell(goalCell.getLocation());
-            if (boardCell.equals(goalCell)){
-                isValid = true;
-            }
-        }
 
-        return isValid;
-    }
 
     /**
      * Callback for when the board puzzleElement changes
