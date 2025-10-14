@@ -70,14 +70,14 @@ public class Nurikabe extends Puzzle {
         Goal goal = this.getGoal();
         return switch (goal.getType()) {
             case PROVE_CELL_MUST_BE -> // Every goal cell is forced
-                    checkGoalCells(nurikabeBoard, goal);
+                    checkGoalCells(nurikabeBoard);
             case PROVE_CELL_MIGHT_NOT_BE -> {
                 // Board is complete and goal cell is different from listed
                 if (!isBoardFilled(nurikabeBoard)) {
                     yield false;
                 }
 
-                yield checkGoalCells(nurikabeBoard, goal);
+                yield checkGoalCells(nurikabeBoard);
             }
             case PROVE_SINGLE_CELL_VALUE -> { yield false; }
             case PROVE_MULTIPLE_CELL_VALUE -> { yield false; }

@@ -239,28 +239,29 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * @return true if the board was solved correctly, false otherwise
      */
     public boolean isPuzzleComplete() {
-        if (tree == null) {
+        if (tree == null || !tree.isValid()) {
             return false;
         }
 
-        boolean isComplete = tree.isValid();
-        if (isComplete) {
-            for (TreeElement leaf : tree.getLeafTreeElements()) {
-                if (leaf.getType() == TreeElementType.NODE) {
-                    TreeNode node = (TreeNode) leaf;
-                    if (!node.isRoot()) {
-                        isComplete &=
-                                node.getParent().isContradictoryBranch()
-                                        || isBoardComplete(node.getBoard());
-                    } else {
-                        isComplete &= isBoardComplete(node.getBoard());
-                    }
+        // Goal can require all complete branches or only one complete branch
+        boolean requireAll = !(this.goal.getType() == GoalType.PROVE_CELL_MIGHT_NOT_BE);
+        for (TreeElement leaf : tree.getLeafTreeElements()) {
+            if (leaf.getType() == TreeElementType.NODE) {
+                TreeNode node = (TreeNode) leaf;
+                boolean isComplete = true;
+                if (!node.isRoot()) {
+                    isComplete =
+                            node.getParent().isContradictoryBranch()
+                                    || isBoardComplete(node.getBoard());
                 } else {
-                    isComplete = false;
+                    isComplete = isBoardComplete(node.getBoard());
                 }
+                if (isComplete && !requireAll) {return true;}
+                else if (!isComplete && requireAll) {return false;}
             }
+            else if (requireAll) {return false;}
         }
-        return isComplete;
+        return requireAll;
     }
 
     /**
@@ -274,12 +275,12 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
     /**
      * Returns true if all the cells listed in the Goal are forced.
-     * @param goal Goal object containing cell locations and values.
+     * @param board GridBoard to check for matching goal cells
      * @return True if all the cells match the ones specified in Goal, False otherwise.
      */
-    public boolean checkGoalCells(GridBoard board, Goal goal) {
-        boolean shouldMatch = (goal.getType() == GoalType.PROVE_CELL_MUST_BE);
-        for (GridCell goalCell : goal.getCells()) {
+    public boolean checkGoalCells(GridBoard board) {
+        boolean shouldMatch = (this.goal.getType() == GoalType.PROVE_CELL_MUST_BE);
+        for (GridCell goalCell : this.goal.getCells()) {
             GridCell boardCell = board.getCell(goalCell.getLocation());
             if (!(boardCell.equals(goalCell) == shouldMatch)){
                 return false;
