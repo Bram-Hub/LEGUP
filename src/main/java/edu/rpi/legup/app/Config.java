@@ -18,7 +18,7 @@ import org.xml.sax.SAXException;
  * creation statuses
  */
 public class Config {
-    private static final Logger Logger = LogManager.getLogger(Config.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(Config.class.getName());
 
     private Map<String, String> puzzles;
     private Map<String, Boolean> fileCreationDisabledStatuses;
@@ -153,7 +153,7 @@ public class Config {
             }
 
             Element puzzleList = (Element) configNode.getElementsByTagName("puzzles").item(0);
-            Logger.debug(puzzleList);
+            LOGGER.debug(puzzleList);
             NodeList puzzleNodes = puzzleList.getElementsByTagName("puzzle");
 
             for (int i = 0; i < puzzleNodes.getLength(); i++) {
@@ -163,7 +163,7 @@ public class Config {
                 boolean status =
                         Boolean.parseBoolean(
                                 puzzle.getAttribute("fileCreationDisabled").toLowerCase());
-                Logger.debug("Class Name: " + className);
+                LOGGER.debug("Class Name: " + className);
                 this.puzzles.put(name, className);
                 this.fileCreationDisabledStatuses.put(name, Boolean.valueOf(status));
             }

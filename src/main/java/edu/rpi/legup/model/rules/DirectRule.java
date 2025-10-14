@@ -34,7 +34,7 @@ public abstract class DirectRule extends Rule {
      */
     public String checkRule(TreeTransition transition) {
         Board finalBoard = transition.getBoard();
-        // System.out.println(finalBoard.getModifiedData().size());
+        // LOGGER.debug(finalBoard.getModifiedData().size());
         if (transition.getParents().size() != 1
                 || transition.getParents().get(0).getChildren().size() != 1) {
             return "State must have only 1 parent and 1 child";

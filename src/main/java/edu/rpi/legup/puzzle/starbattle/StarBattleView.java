@@ -3,6 +3,10 @@ package edu.rpi.legup.puzzle.starbattle;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.GridBoardView;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -110,7 +114,7 @@ public class StarBattleView extends GridBoardView {
                 new Point(
                         one.getLocation().x * elementSize.width,
                         one.getLocation().y * elementSize.height); // dump this
-        System.out.println("direction is" + direction + "\n");
+        LOGGER.trace("direction is{}\n", direction);
         if (direction == 2) { // top border
             temp.y += elementSize.height * 15 / 16; // multiply  so it doesn't go off screen
         }
@@ -127,7 +131,7 @@ public class StarBattleView extends GridBoardView {
         // these changes to the x or y coordinate are necessary to properly load them in and not cut
         // them off
         // on the edge of the board
-        // System.out.println("point is now " + temp.x + "," + temp.y + "\n");
+        LOGGER.trace("point is now {},{}\n", temp.x, temp.y);
 
         return temp;
     }

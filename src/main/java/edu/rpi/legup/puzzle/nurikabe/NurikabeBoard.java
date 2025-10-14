@@ -2,8 +2,13 @@ package edu.rpi.legup.puzzle.nurikabe;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class NurikabeBoard extends GridBoard {
+    private static final Logger LOGGER = LogManager.getLogger(NurikabeBoard.class.getName());
+
     public NurikabeBoard(int width, int height) {
         super(width, height);
     }
@@ -41,7 +46,7 @@ public class NurikabeBoard extends GridBoard {
 
     @Override
     public NurikabeBoard copy() {
-        // System.out.println("NurikabeBoard copy()");
+        LOGGER.trace("NurikabeBoard copy()");
         NurikabeBoard copy = new NurikabeBoard(dimension.width, dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {

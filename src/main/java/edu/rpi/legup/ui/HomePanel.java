@@ -84,7 +84,7 @@ public class HomePanel extends LegupPanel {
         preferences.addActionListener(
                 a -> {
                     PreferencesDialog preferencesDialog = new PreferencesDialog(this.frame);
-                    System.out.println("Preferences clicked");
+                    LOGGER.debug("Preferences clicked");
                 });
         settings.addSeparator();
         settings.add(preferences);
@@ -612,7 +612,7 @@ public class HomePanel extends LegupPanel {
         try {
             this.openEditorWithNewPuzzle(game, r, c);
         } catch (IllegalArgumentException e) {
-            System.out.println("Failed to open editor with new puzzle");
+            LOGGER.error("Failed to open editor with new puzzle");
             e.printStackTrace(System.out);
         }
     }

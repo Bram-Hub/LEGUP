@@ -3,6 +3,10 @@ package edu.rpi.legup.ui.proofeditorui.rulesview;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.ui.WrapLayout;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -14,6 +18,8 @@ import javax.swing.*;
  * rule panel (e.g., DirectRulePanel, CaseRulePanel).
  */
 public abstract class RulePanel extends JPanel {
+    private static final Logger LOGGER = LogManager.getLogger(RulePanel.class.getName());
+
     protected ImageIcon icon;
     protected String name;
     protected String toolTip;
@@ -68,7 +74,7 @@ public abstract class RulePanel extends JPanel {
             if (rule.getRuleName().length() > 20) {
                 ruleButtons[i].setFont(new Font("Segoe UI", Font.PLAIN, 10));
             }
-            System.out.println(ruleButtons[i].getFont().getName());
+            LOGGER.debug(ruleButtons[i].getFont().getName());
 
             ruleButtons[i].setHorizontalTextPosition(JButton.CENTER);
             ruleButtons[i].setVerticalTextPosition(JButton.BOTTOM);

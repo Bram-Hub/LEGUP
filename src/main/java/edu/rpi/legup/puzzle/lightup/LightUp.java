@@ -5,9 +5,13 @@ import edu.rpi.legup.model.RegisterPuzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
+import edu.rpi.legup.model.rules.Rule;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @RegisterPuzzle
 public class LightUp extends Puzzle {
+    private static final Logger LOGGER = LogManager.getLogger(LightUp.class.getName());
 
     public LightUp() {
         super();
@@ -63,7 +67,7 @@ public class LightUp extends Puzzle {
 
         for (ContradictionRule rule : contradictionRules) {
             if (rule.checkContradiction(lightUpBoard) == null) {
-                System.out.println(rule.getRuleName());
+                LOGGER.trace(rule.getRuleName());
                 return false;
             }
         }
