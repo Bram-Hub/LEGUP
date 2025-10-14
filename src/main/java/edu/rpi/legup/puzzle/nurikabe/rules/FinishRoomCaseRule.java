@@ -17,8 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 public class FinishRoomCaseRule extends CaseRule {
-    private int legitCases =
-            0; // placeholder for amount of cases originally generated in case user tries to delete
+
     private Set<Integer> uniqueCases; // stores the unique case hashes
 
     // cases
@@ -45,56 +44,91 @@ public class FinishRoomCaseRule extends CaseRule {
     public String checkRuleRaw(TreeTransition transition) {
         NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
         List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-
-        // ✅ Basic size sanity checks
+        NurikabeBoard prevBoardState =
+                (NurikabeBoard) transition.getParents().get(0).getBoard();
+        /*
+            Cannot have more than 9 cases
+         */
         if (childTransitions.size() > MAX_CASES) {
             return super.getInvalidUseOfRuleMessage()
                     + ": This case rule must have 9 or less children.";
         }
+        /*
+            Cannot have less than 1 case
+         */
         if (childTransitions.size() < MIN_CASES) {
             return super.getInvalidUseOfRuleMessage()
                     + ": This case rule must have 1 or more children.";
         }
 
-        // ✅ Recompute expected cases from parent
-        Board parentBoard = transition.getParents().get(0).getBoard();
-        // find the puzzleElement used for this rule
-        PuzzleElement appliedElement = null;
-        for (PuzzleElement el : parentBoard.getPuzzleElements()) {
-            if (((NurikabeCell) el).getType()==NurikabeType.NUMBER) { // or however you identify the picked number cell
-                appliedElement = el;
-                break;
+        ArrayList<NurikabeCell> possibleOrigins = new ArrayList<>();
+        Set<NurikabeCell> numberCells = NurikabeUtilities.getNurikabeNumberedCells(prevBoardState);
+        for(PuzzleElement element : destBoardState.getModifiedData()) {
+            NurikabeCell cell = (NurikabeCell) element;
+            Point cellLoc = cell.getLocation();
+
+            // Check all four adjacent directions
+            int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+            for(int[] dir : directions) {
+                int adjX = cellLoc.x + dir[0];
+                int adjY = cellLoc.y + dir[1];
+
+                // Check bounds
+                if(adjX >= 0 && adjX < prevBoardState.getWidth() &&
+                        adjY >= 0 && adjY < prevBoardState.getHeight()) {
+                    NurikabeCell adjacentCell = prevBoardState.getCell(adjX, adjY);
+
+                    // If adjacent cell is a number cell and not already in possibleOrigins
+                    if(numberCells.contains(adjacentCell) && !possibleOrigins.contains(adjacentCell)) {
+                        possibleOrigins.add(adjacentCell);
+                    }
+                }
             }
         }
-
-        if (appliedElement != null) {
-            ArrayList<Board> expectedCases = getCases(parentBoard, appliedElement);
-            if (childTransitions.size() != expectedCases.size()) {
-                return super.getInvalidUseOfRuleMessage()
-                        + ": Number of children does not match recomputed cases.";
-            }
+        /*
+            There must be at least one possible origin cell
+         */
+        if (possibleOrigins.size() == 0) {
+            return super.getInvalidUseOfRuleMessage()
+                    + ": There must be at least one possible origin cell.";
+        }
+        /*
+            There must be only one possible origin cell
+         */
+        if (possibleOrigins.size() > 1) {
+            return super.getInvalidUseOfRuleMessage()
+                    + ": There must be only one possible origin cell.";
+        }
+        NurikabeCell selectedElement = possibleOrigins.get(0);
+        // Check if the number of child transitions matches expected cases for the selected element
+        ArrayList<Board> expectedCases = getCases(prevBoardState, selectedElement);
+        if (childTransitions.size() != expectedCases.size()) {
+            return super.getInvalidUseOfRuleMessage()
+                    + ": Invalid number of child transitions. Expected "
+                    + expectedCases.size() + " but found " + childTransitions.size() + ".";
         }
 
-        // ✅ Now validate each child transition
-        Set<Point> locations = new HashSet<>();
-        for (TreeTransition t1 : childTransitions) {
-            if (t1.getBoard().getModifiedData().isEmpty()) {
-                return super.getInvalidUseOfRuleMessage()
-                        + ": Each case must have at least 1 modified cell.";
-            }
+//        Set<Point> locations = new HashSet<>();
+//        for (TreeTransition t1 : childTransitions) {
+//            locations.add(
+//                    ((NurikabeCell) t1.getBoard().getModifiedData().iterator().next())
+//                            .getLocation()); // loop see if matches
+//            if (t1.getBoard().getModifiedData().size() <= 1) {
+//                return super.getInvalidUseOfRuleMessage()
+//                        + ": This case rule must have at least 1 modified cell for each case.";
+//            }
+//            for (Point loc : locations) {
+//                for (Point loc2 : locations) {
+//                    if (!(loc.equals(loc2)) && (loc.x == loc2.x) && (loc.y == loc2.y)) {
+//                        return super.getInvalidUseOfRuleMessage()
+//                                + ": This case rule must alter a different cell for each case.";
+//                    }
+//                }
+//            }
+//        }
 
-            Point loc = ((NurikabeCell) t1.getBoard().getModifiedData().iterator().next())
-                    .getLocation();
-            if (locations.contains(loc)) {
-                return super.getInvalidUseOfRuleMessage()
-                        + ": Each case must alter a different cell.";
-            }
-            locations.add(loc);
-        }
-
-        return null; // ✅ valid
+        return null;
     }
-
 
     @Override
     public CaseBoard getCaseBoard(Board board) {
@@ -187,7 +221,6 @@ public class FinishRoomCaseRule extends CaseRule {
             );
         }
 
-        legitCases = cases.size();
         return cases;
     }
 
@@ -269,15 +302,18 @@ public class FinishRoomCaseRule extends CaseRule {
                         }
 
                     } else if (newRoomSet.size() < filledRoomSize) {
-                        generateCases(
-                                nuriBoard,
-                                newCell,
-                                filledRoomSize,
-                                directions,
-                                checkedPoints,
-                                cases,
-                                origPoint,
-                                newModList); // pass along all modified points
+                        for (NurikabeCell cellInRoom : newRoomSet) {
+                            generateCases(
+                                    nuriBoard,
+                                    cellInRoom,
+                                    filledRoomSize,
+                                    directions,
+                                    checkedPoints,
+                                    cases,
+                                    origPoint,
+                                    newModList); // pass along all modified points
+
+                        }
                     }
                 }
 
