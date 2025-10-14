@@ -1,7 +1,11 @@
 package edu.rpi.legup.puzzle.nurikabe;
 
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
 import edu.rpi.legup.utility.DisjointSets;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.*;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,6 +13,7 @@ import java.util.LinkedList;
 import java.util.Set;
 
 public class NurikabeUtilities {
+    private static final Logger LOGGER = LogManager.getLogger(NurikabeUtilities.class.getName());
 
     /**
      * Gets all of the numbered cells in the Nurikabe board
@@ -208,7 +213,7 @@ public class NurikabeUtilities {
                 // Dequeue a vertex from queue and print it
                 // s is the source node in the graph
                 NurikabeCell s = queue.poll();
-                System.out.print(s + " ");
+                LOGGER.trace("{} ", s);
 
                 // Make a linked list of all adjacent squares
                 Set<NurikabeCell> adj = new HashSet<>();
@@ -278,7 +283,7 @@ public class NurikabeUtilities {
             // Dequeue a vertex from queue and print it
             // s is the source node in the graph
             NurikabeCell s = queue.poll();
-            System.out.print(s + " ");
+            LOGGER.trace("{} ", s);
 
             // Make a set of all adjacent squares
             Set<NurikabeCell> adj = new HashSet<>();

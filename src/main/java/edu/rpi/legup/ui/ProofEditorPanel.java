@@ -544,7 +544,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         fileBrowser.setAcceptAllFileFilterUsed(false);
 
         File puzzlePath = fileBrowser.getSelectedFile();
-        System.out.println(puzzlePath.getAbsolutePath());
+        LOGGER.trace(puzzlePath.getAbsolutePath());
 
         if (puzzlePath != null) {
             fileName = puzzlePath.getAbsolutePath();
@@ -556,7 +556,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             return null;
         }
 
-        System.out.println(preferences.getSavedPath());
+        LOGGER.trace(preferences.getSavedPath());
         return new Object[] {fileName, puzzleFile};
     }
 
@@ -1042,7 +1042,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      */
     private void directionsToolButton() {
         String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
-        // System.out.println(puzzleName);
+        // LOGGER.trace(puzzleName);
         try {
             if (puzzleName.equals("Fillapix")) {
                 java.awt.Desktop.getDesktop()

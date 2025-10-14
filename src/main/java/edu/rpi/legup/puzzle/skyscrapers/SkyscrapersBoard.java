@@ -3,12 +3,17 @@ package edu.rpi.legup.puzzle.skyscrapers;
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SkyscrapersBoard extends GridBoard {
+    private static final Logger LOGGER = LogManager.getLogger(SkyscrapersBoard.class.getName());
 
     private ArrayList<SkyscrapersClue> eastClues;
     // EAST clues
@@ -188,9 +193,9 @@ public class SkyscrapersBoard extends GridBoard {
         for (int i = 0; i < this.dimension.height; i++) {
             for (SkyscrapersCell cell : this.getRowCol(i, SkyscrapersType.ANY, true)) {
                 if (cell.getType() == SkyscrapersType.Number) {
-                    System.out.print(cell.getData() + " ");
+                    LOGGER.debug("{} ", cell.getData());
                 } else {
-                    System.out.print(0 + " ");
+                    LOGGER.debug(0 + " ");
                 }
             }
             System.out.println();

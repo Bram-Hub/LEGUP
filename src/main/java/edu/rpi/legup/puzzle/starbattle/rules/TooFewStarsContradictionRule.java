@@ -3,13 +3,18 @@ package edu.rpi.legup.puzzle.starbattle.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
+import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
 import edu.rpi.legup.puzzle.starbattle.StarBattleRegion;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.*;
 
 public class TooFewStarsContradictionRule extends ContradictionRule {
+    private static final Logger LOGGER = LogManager.getLogger(TooFewStarsContradictionRule.class.getName());
 
     public TooFewStarsContradictionRule() {
         super(
@@ -45,18 +50,9 @@ public class TooFewStarsContradictionRule extends ContradictionRule {
                 ++columnCount;
             }
         }
-        System.out.println(
-                "rowCount = "
-                        + rowCount
-                        + " columnCount = "
-                        + columnCount
-                        + " at "
-                        + column
-                        + ","
-                        + row
-                        + "\n");
+        LOGGER.trace("rowCount = {} columnCount = {} at {},{}\n", rowCount, columnCount, column, row);
         if (rowCount < sbBoard.getPuzzleNumber() || columnCount < sbBoard.getPuzzleNumber()) {
-            System.out.println("Returning Null\n");
+            LOGGER.trace("Returning Null\n");
             return null;
         }
         StarBattleRegion region = sbBoard.getRegion(cell);
