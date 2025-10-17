@@ -438,7 +438,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                         if (GameBoardFacade.getInstance().getPuzzleModule() != null) {
                             String filename = savePuzzle();
                             File puzzlename = new File(filename);
-                            LOGGER.debug(filename);
+                            if(LOGGER.isDebugEnabled()) {
+                                LOGGER.debug(filename);
+                            }
 
                             GameBoardFacade.getInstance().getLegupUI().displayPanel(1);
                             GameBoardFacade.getInstance()

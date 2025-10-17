@@ -65,7 +65,9 @@ public class Skyscrapers extends Puzzle {
 
         for (ContradictionRule rule : contradictionRules) {
             if (rule.checkContradiction(SkyscraperBoard) == null) {
-                LOGGER.trace(rule.getRuleName());
+                if (LOGGER.isTraceEnabled()) {
+                    LOGGER.trace(rule.getRuleName());
+                }
                 return false;
             }
         }

@@ -153,7 +153,9 @@ public class Config {
             }
 
             Element puzzleList = (Element) configNode.getElementsByTagName("puzzles").item(0);
-            LOGGER.debug(puzzleList);
+            if(LOGGER.isDebugEnabled()) {
+                LOGGER.debug(puzzleList);
+            }
             NodeList puzzleNodes = puzzleList.getElementsByTagName("puzzle");
 
             for (int i = 0; i < puzzleNodes.getLength(); i++) {
@@ -163,7 +165,9 @@ public class Config {
                 boolean status =
                         Boolean.parseBoolean(
                                 puzzle.getAttribute("fileCreationDisabled").toLowerCase());
-                LOGGER.debug("Class Name: " + className);
+                if(LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Class Name: {}", className);
+                }
                 this.puzzles.put(name, className);
                 this.fileCreationDisabledStatuses.put(name, Boolean.valueOf(status));
             }

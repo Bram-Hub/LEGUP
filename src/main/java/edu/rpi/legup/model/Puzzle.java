@@ -92,7 +92,9 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                         || !classPackageName.endsWith(".elements")) {
                     continue;
                 }
-                LOGGER.trace("possible element: {}", c.getName());
+                if (LOGGER.isTraceEnabled()) {
+                    LOGGER.trace("possible element: {}", c.getName());
+                }
 
                 // check that the element is not abstract
                 if (Modifier.isAbstract(c.getModifiers())) continue;

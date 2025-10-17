@@ -84,7 +84,9 @@ public class HomePanel extends LegupPanel {
         preferences.addActionListener(
                 a -> {
                     PreferencesDialog preferencesDialog = new PreferencesDialog(this.frame);
-                    LOGGER.debug("Preferences clicked");
+                    if(LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("Preferences clicked");
+                    }
                 });
         settings.addSeparator();
         settings.add(preferences);
@@ -280,7 +282,9 @@ public class HomePanel extends LegupPanel {
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
-                    LOGGER.debug("Finished autograding");
+                    if(LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("Finished autograding");
+                    }
 
                     batchGraderOptions.dispose();
                 });
@@ -445,7 +449,9 @@ public class HomePanel extends LegupPanel {
 
                 Document doc;
                 if ((doc = isxmlfile(fileEntry)) == null) {
-                    LOGGER.debug("{} is not a '.xml' file", fName);
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("{} is not a '.xml' file", fName);
+                    }
                     writer.write(fName + ",Not an xml file!\n");
                     continue;
                 }
@@ -455,19 +461,23 @@ public class HomePanel extends LegupPanel {
                 String puzzleTag = puzzleElement.getAttribute("tag");
                 if (!_tagsToGrade.isEmpty()
                         && _tagsToGrade.stream().noneMatch(puzzleTag::contains)) {
-                    LOGGER.debug(
-                            "'{}' is not graded with tag '{}'",
-                            puzzleElement.getAttribute("name"),
-                            puzzleTag);
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug(
+                                "'{}' is not graded with tag '{}'",
+                                puzzleElement.getAttribute("name"),
+                                puzzleTag);
+                    }
                     continue;
                 }
                 String puzzleType = puzzleElement.getAttribute("name");
                 if (!_typesToGrade.isEmpty()
                         && _typesToGrade.stream().noneMatch(puzzleType::contains)) {
-                    LOGGER.debug(
-                            "'{}' is not graded with type '{}'",
-                            puzzleElement.getAttribute("name"),
-                            puzzleType);
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug(
+                                "'{}' is not graded with type '{}'",
+                                puzzleElement.getAttribute("name"),
+                                puzzleType);
+                    }
                     continue;
                 }
 
@@ -495,7 +505,9 @@ public class HomePanel extends LegupPanel {
      */
     private void recursiveUpdater(File folder) {
         if (Objects.requireNonNull(folder.listFiles()).length == 0) {
-            LOGGER.debug("Empty directory");
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Empty directory");
+            }
             return;
         }
         for (File fileEntry : Objects.requireNonNull(folder.listFiles())) {
@@ -507,7 +519,9 @@ public class HomePanel extends LegupPanel {
             String fName = fileEntry.getName();
             Document doc;
             if ((doc = isxmlfile(fileEntry)) == null) {
-                LOGGER.debug("{} is not a '.xml' file", fileEntry.getName());
+                if(LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("{} is not a '.xml' file", fileEntry.getName());
+                }
                 continue;
             }
 

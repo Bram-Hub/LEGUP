@@ -347,7 +347,9 @@ public class SatisfyNumberCaseRule extends CaseRule {
             // add cells that can light adjacents from any direction
             Point location = cell.getLocation();
             for (int i = location.x; i < puzzleBoard.getWidth(); i++) {
-                LOGGER.trace(i);
+                if (LOGGER.isTraceEnabled()) {
+                    LOGGER.trace(i);
+                }
                 LightUpCell c = puzzleBoard.getCell(i, location.y);
                 if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                     break;

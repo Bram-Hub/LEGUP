@@ -200,7 +200,9 @@ public class GameBoardFacade implements IHistorySubject {
     public void loadPuzzle(String game, int rows, int columns) throws RuntimeException {
         if (!game.isEmpty()) {
             String qualifiedClassName = config.getPuzzleClassForName(game);
-            LOGGER.debug("Loading " + qualifiedClassName);
+            if(LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Loading " + qualifiedClassName);
+            }
 
             try {
                 Class<?> c = Class.forName(qualifiedClassName);
@@ -248,7 +250,9 @@ public class GameBoardFacade implements IHistorySubject {
      */
     public void loadPuzzle(String game, String[] statements) {
         String qualifiedClassName = config.getPuzzleClassForName(game);
-        LOGGER.debug("Loading " + qualifiedClassName);
+        if(LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Loading " + qualifiedClassName);
+        }
 
         try {
             Class<?> c = Class.forName(qualifiedClassName);
@@ -367,7 +371,9 @@ public class GameBoardFacade implements IHistorySubject {
                     throw new InvalidFileFormatException("Puzzle is not editable");
                 }
                 // If it is editable, start loading it
-                LOGGER.debug("Loading " + qualifiedClassName);
+                if(LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Loading " + qualifiedClassName);
+                }
 
                 Class<?> c = Class.forName(qualifiedClassName);
                 Constructor<?> cons = c.getConstructor();
@@ -424,7 +430,9 @@ public class GameBoardFacade implements IHistorySubject {
                     throw new InvalidFileFormatException(
                             "Puzzle creation error: cannot find puzzle with that name");
                 }
-                LOGGER.debug("Loading " + qualifiedClassName);
+                if(LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Loading " + qualifiedClassName);
+                }
 
                 Class<?> c = Class.forName(qualifiedClassName);
                 Constructor<?> cons = c.getConstructor();

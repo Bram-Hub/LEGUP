@@ -657,7 +657,9 @@ public class TreeView extends ScrollView implements ITreeListener {
             if (rootNodeView == null) {
                 rootNodeView = new TreeNodeView(tree.getRootNode());
 
-                LOGGER.debug("Creating new views for tree view.");
+                if(LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Creating new views for tree view.");
+                }
                 createViews(rootNodeView);
 
                 selection.newSelection(rootNodeView);
@@ -671,7 +673,9 @@ public class TreeView extends ScrollView implements ITreeListener {
             dimension.height = (int) rootNodeView.getSpan();
 
             redrawTree(graphics2D, rootNodeView);
-            LOGGER.debug("DrawTree: dimensions - " + dimension.width + "x" + dimension.height);
+            if(LOGGER.isDebugEnabled()) {
+                LOGGER.debug("DrawTree: dimensions - {}x{}", dimension.width, dimension.height);
+            }
         }
     }
 

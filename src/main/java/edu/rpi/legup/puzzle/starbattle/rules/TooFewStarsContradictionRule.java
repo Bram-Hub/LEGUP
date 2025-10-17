@@ -50,9 +50,13 @@ public class TooFewStarsContradictionRule extends ContradictionRule {
                 ++columnCount;
             }
         }
-        LOGGER.trace("rowCount = {} columnCount = {} at {},{}\n", rowCount, columnCount, column, row);
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace("rowCount = {} columnCount = {} at {},{}\n", rowCount, columnCount, column, row);
+        }
         if (rowCount < sbBoard.getPuzzleNumber() || columnCount < sbBoard.getPuzzleNumber()) {
-            LOGGER.trace("Returning Null\n");
+            if (LOGGER.isTraceEnabled()) {
+                LOGGER.trace("Returning Null\n");
+            }
             return null;
         }
         StarBattleRegion region = sbBoard.getRegion(cell);

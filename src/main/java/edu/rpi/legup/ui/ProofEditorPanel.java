@@ -544,7 +544,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         fileBrowser.setAcceptAllFileFilterUsed(false);
 
         File puzzlePath = fileBrowser.getSelectedFile();
-        LOGGER.trace(puzzlePath.getAbsolutePath());
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(puzzlePath.getAbsolutePath());
+        }
 
         if (puzzlePath != null) {
             fileName = puzzlePath.getAbsolutePath();
@@ -556,7 +558,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             return null;
         }
 
-        LOGGER.trace(preferences.getSavedPath());
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(preferences.getSavedPath());
+        }
         return new Object[] {fileName, puzzleFile};
     }
 
@@ -1042,7 +1046,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      */
     private void directionsToolButton() {
         String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
-        // LOGGER.trace(puzzleName);
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(puzzleName);
+        }
         try {
             if (puzzleName.equals("Fillapix")) {
                 java.awt.Desktop.getDesktop()
@@ -1237,7 +1243,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                     writer.append(fName).append(",Invalid,,Ungradeable\n");
                 }
             } else {
-                LOGGER.debug("Failed to run sim");
+                if(LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Failed to run sim");
+                }
             }
         }
     }
