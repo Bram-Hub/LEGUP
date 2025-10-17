@@ -20,8 +20,6 @@ public class FinishRoomCaseRule extends CaseRule {
 
     private Set<Integer> uniqueCases; // stores the unique case hashes
 
-    // cases
-
     public FinishRoomCaseRule() {
         super(
                 "NURI-CASE-0002",
@@ -130,6 +128,14 @@ public class FinishRoomCaseRule extends CaseRule {
         return null;
     }
 
+
+    /**
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * Board}'s current state to determine where this rule can be applied.
+     *
+     * @param board board to find locations where this case rule can be applied
+     * @return a case board
+     */
     @Override
     public CaseBoard getCaseBoard(Board board) {
         NurikabeBoard nurikabeBoard = (NurikabeBoard) board.copy();
@@ -217,7 +223,7 @@ public class FinishRoomCaseRule extends CaseRule {
                     checkedPoints,
                     cases,
                     origPoint,
-                    new ArrayList<>() // track modifications
+                    new ArrayList<>()
             );
         }
 
@@ -235,6 +241,7 @@ public class FinishRoomCaseRule extends CaseRule {
      * @param checkedPoints the set of points already evaluated to avoid redundancy
      * @param cases the list of valid board cases generated
      * @param origPoint the original point of the number cell initiating the room filling
+     * @param modifiedPoints the list of points modified in the current recursive path
      */
     private void generateCases(
             NurikabeBoard nuriBoard,
@@ -244,10 +251,9 @@ public class FinishRoomCaseRule extends CaseRule {
             Set<Point> checkedPoints,
             ArrayList<Board> cases,
             Point origPoint,
-            List<Point> modifiedPoints // <== NEW PARAMETER
+            List<Point> modifiedPoints
     ) {
 
-        //Implement a DFS Algorithm to find all points with a dict to keep track of fully expanded cells that should not be ran through any more recursive calls
         for (Point direction : directions) {
             Point newPoint = new Point(
                     currentCell.getLocation().x + direction.x,
@@ -311,8 +317,7 @@ public class FinishRoomCaseRule extends CaseRule {
                                     checkedPoints,
                                     cases,
                                     origPoint,
-                                    newModList); // pass along all modified points
-
+                                    newModList);
                         }
                     }
                 }
