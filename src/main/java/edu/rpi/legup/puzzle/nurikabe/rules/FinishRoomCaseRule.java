@@ -106,25 +106,6 @@ public class FinishRoomCaseRule extends CaseRule {
                     + expectedCases.size() + " but found " + childTransitions.size() + ".";
         }
 
-//        Set<Point> locations = new HashSet<>();
-//        for (TreeTransition t1 : childTransitions) {
-//            locations.add(
-//                    ((NurikabeCell) t1.getBoard().getModifiedData().iterator().next())
-//                            .getLocation()); // loop see if matches
-//            if (t1.getBoard().getModifiedData().size() <= 1) {
-//                return super.getInvalidUseOfRuleMessage()
-//                        + ": This case rule must have at least 1 modified cell for each case.";
-//            }
-//            for (Point loc : locations) {
-//                for (Point loc2 : locations) {
-//                    if (!(loc.equals(loc2)) && (loc.x == loc2.x) && (loc.y == loc2.y)) {
-//                        return super.getInvalidUseOfRuleMessage()
-//                                + ": This case rule must alter a different cell for each case.";
-//                    }
-//                }
-//            }
-//        }
-
         return null;
     }
 
