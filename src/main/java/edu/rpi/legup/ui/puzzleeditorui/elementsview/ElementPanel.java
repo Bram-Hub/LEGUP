@@ -31,12 +31,16 @@ public abstract class ElementPanel extends JPanel {
         clearButtons();
 
         elementButtons = new ElementButton[elements.size()];
-        LOGGER.debug("adding {} elements to panel", elements.size());
+        if(LOGGER.isDebugEnabled()) {
+            LOGGER.debug("adding {} elements to panel", elements.size());
+        }
         for (int i = 0; i < elements.size(); i++) {
             Element element = elements.get(i);
             elementButtons[i] = new ElementButton(element);
             elementFrame.getButtonGroup().add(elementButtons[i]);
-            LOGGER.debug("added button: {}, element {}\n", i, element.getElementName());
+            if(LOGGER.isDebugEnabled()) {
+                LOGGER.debug("added button: {}, element {}\n", i, element.getElementName());
+            }
 
             elementButtons[i].setToolTipText(
                     element.getElementName() + ": " + element.getDescription());

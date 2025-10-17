@@ -192,10 +192,12 @@ public class SkyscrapersBoard extends GridBoard {
     public void printBoard() {
         for (int i = 0; i < this.dimension.height; i++) {
             for (SkyscrapersCell cell : this.getRowCol(i, SkyscrapersType.ANY, true)) {
-                if (cell.getType() == SkyscrapersType.Number) {
-                    LOGGER.debug("{} ", cell.getData());
-                } else {
-                    LOGGER.debug(0 + " ");
+                if (LOGGER.isDebugEnabled()) {
+                    if (cell.getType() == SkyscrapersType.Number) {
+                        LOGGER.debug("{} ", cell.getData());
+                    } else {
+                        LOGGER.debug(0 + " ");
+                    }
                 }
             }
             System.out.println();

@@ -105,8 +105,10 @@ public abstract class Rule {
                     (int) (100 * ((double) this.image.getIconHeight() / this.image.getIconWidth()));
             if (height == 0) {
                 LOGGER.error("height is 0 error");
-                LOGGER.debug("height: {}", this.image.getIconHeight());
-                LOGGER.debug("width:  {}", this.image.getIconWidth());
+                if(LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("height: {}", this.image.getIconHeight());
+                    LOGGER.debug("width:  {}", this.image.getIconWidth());
+                }
                 return;
             }
             BufferedImage bimage = new BufferedImage(100, height, BufferedImage.TYPE_INT_RGB);

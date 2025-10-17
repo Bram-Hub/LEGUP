@@ -74,7 +74,9 @@ public abstract class RulePanel extends JPanel {
             if (rule.getRuleName().length() > 20) {
                 ruleButtons[i].setFont(new Font("Segoe UI", Font.PLAIN, 10));
             }
-            LOGGER.debug(ruleButtons[i].getFont().getName());
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug(ruleButtons[i].getFont().getName());
+            }
 
             ruleButtons[i].setHorizontalTextPosition(JButton.CENTER);
             ruleButtons[i].setVerticalTextPosition(JButton.BOTTOM);

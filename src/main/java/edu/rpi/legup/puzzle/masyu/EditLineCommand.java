@@ -88,11 +88,15 @@ public class EditLineCommand extends PuzzleCommand {
         boolean mod_contains = false;
         boolean contains = false;
         final MasyuBoard editBoard = board;
-        LOGGER.trace("Size: {}", board.getModifiedData().size());
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace("Size: {}", board.getModifiedData().size());
+        }
         for (PuzzleElement puzzleElement : board.getModifiedData()) {
             if (puzzleElement instanceof MasyuLine) {
                 if (((MasyuLine) newData).compare((MasyuLine) puzzleElement)) {
-                    LOGGER.trace("contains");
+                    if (LOGGER.isTraceEnabled()) {
+                        LOGGER.trace("contains");
+                    }
                     dup_line = puzzleElement;
                     mod_contains = true;
                 }
@@ -104,13 +108,17 @@ public class EditLineCommand extends PuzzleCommand {
             }
         }
         if (contains || mod_contains) {
-            LOGGER.trace("delete");
+            if (LOGGER.isTraceEnabled()) {
+                LOGGER.trace("delete");
+            }
             board.getModifiedData().remove(dup_line);
             board.getLines().remove(dup_line);
             //            puzzle.notifyBoardListeners((IBoardListener listener) ->
             // listener.onTreeElementChanged(editBoard));
         } else {
-            LOGGER.trace("adding");
+            if (LOGGER.isTraceEnabled()) {
+                LOGGER.trace("adding");
+            }
             board.getModifiedData().add(newData);
             board.getLines().add((MasyuLine) newData);
             //            puzzle.notifyBoardListeners((IBoardListener listener) ->
