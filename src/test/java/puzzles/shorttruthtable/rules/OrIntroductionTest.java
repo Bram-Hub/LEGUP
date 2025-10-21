@@ -29,8 +29,7 @@ public class OrIntroductionTest {
      *
      * <p>Asserts that if at least 1 of A or B is true, then this is a valid application of the rule
      * if and only if V is true.
-     *
-     * @param filePath The file path for test board setup.
+     *.
      * @throws InvalidFileFormatException
      */
     @Test
@@ -67,7 +66,6 @@ public class OrIntroductionTest {
      * <p>Asserts that setting V to false is a valid application of the rule if and only if both A
      * and B are false.
      *
-     * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
      */
     @Test
