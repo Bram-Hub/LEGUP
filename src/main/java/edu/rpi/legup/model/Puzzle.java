@@ -247,7 +247,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             return false;
         }
 
-        // The goal what state the leaves must be in.
+        // The goal determines what state the leaves must be in.
         return switch (this.goal.getType()) {
             // One leaf must complete the goal
             case PROVE_CELL_MIGHT_NOT_BE -> {
@@ -291,6 +291,11 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
     }
 
+    /**
+     * Returns the value of the cell at the goal location
+     * @param leaf TreeElement node associated with the board to check the cell of
+     * @return integer value of the cell's held data, null if non-node or contradictory branch
+     */
     private Integer getGoalCellValue(TreeElement leaf)
     {
         if (!(leaf.getType() == TreeElementType.NODE)) {
@@ -303,15 +308,21 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         GridBoard board = (GridBoard) node.getBoard();
         return (Integer) board.getCell(this.goal.getCells().get(0).getLocation()).getData();
     }
+
     /**
-     * Determines if the leaf element is a complete node
-     * @param leaf TreeElement to check for completeness
-     * @return true if the leaf is complete, false otherwise
+     * Determines if the leaf element is a valid node
+     * @param leaf TreeElement to check for validity
+     * @return true if the leaf is valid, false otherwise
      */
     private boolean isLeafValid(TreeElement leaf) {
         return isLeafComplete(leaf) || isLeafContradictory(leaf);
     }
 
+    /**
+     * Determines if the leaf element is a complete node
+     * @param leaf TreeElement to check for completeness
+     * @return true if the leaf is complete, false otherwise
+     */
     private boolean isLeafComplete(TreeElement leaf) {
         if (!(leaf.getType() == TreeElementType.NODE))
             return false;
@@ -319,6 +330,11 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         return isBoardComplete(node.getBoard());
     }
 
+    /**
+     * Determines if the leaf element is a node in a contradictory branch
+     * @param leaf TreeElement to check for contradiction
+     * @return true if the leaf is on a contradictory branch, false otherwise
+     */
     private boolean isLeafContradictory(TreeElement leaf) {
         if (!(leaf.getType() == TreeElementType.NODE))
             return false;

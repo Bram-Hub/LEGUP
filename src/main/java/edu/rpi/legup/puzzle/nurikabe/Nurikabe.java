@@ -69,15 +69,16 @@ public class Nurikabe extends Puzzle {
         }
 
         Goal goal = this.getGoal();
+        if (!isBoardFilled(nurikabeBoard)) {return false;}
         return switch (goal.getType()) {
             case PROVE_CELL_MUST_BE -> // Every goal cell is forced
                     checkGoalCells(nurikabeBoard);
-            case PROVE_CELL_MIGHT_NOT_BE -> // Goal cell is different from listed
-                    isBoardFilled(nurikabeBoard) && checkGoalCells(nurikabeBoard);
+            case PROVE_CELL_MIGHT_NOT_BE -> // Goal cells are different from listed
+                    checkGoalCells(nurikabeBoard);
             // The goal cells are not unknown
             case PROVE_SINGLE_CELL_VALUE -> goalCellsAreKnown(nurikabeBoard);
             case PROVE_MULTIPLE_CELL_VALUE -> goalCellsAreKnown(nurikabeBoard);
-            default -> isBoardFilled(nurikabeBoard);
+            default -> true;
         };
     }
 
@@ -98,6 +99,12 @@ public class Nurikabe extends Puzzle {
         return true;
     }
 
+    /**
+     * Determines if the board's goal cells are unknown
+     *
+     * @param board NurikabeBoard to check cells on
+     * @return true if all goal cell locations are filled, false otherwise
+     */
     private boolean goalCellsAreKnown(NurikabeBoard board) {
         for (GridCell goalCell : this.getGoal().getCells())
         {
@@ -106,6 +113,7 @@ public class Nurikabe extends Puzzle {
         }
         return true;
     }
+
     /**
      * Callback for when the board puzzleElement changes
      *
