@@ -142,7 +142,7 @@ public class ScrollView extends JScrollPane {
                             viewport.getHeight() / 2 + viewport.getY());
         }
         // magnification level
-        double mag = (double) n * 1.05;
+        double mag = (double) n * 1.08;
         // zoom in
         if (n < 0) {
             mag = -mag;
