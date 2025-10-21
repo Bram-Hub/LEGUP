@@ -27,8 +27,11 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
+import javax.print.attribute.standard.PrintQuality;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -74,6 +77,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         this.caseRules = new ArrayList<>();
 
         this.placeableElements = new ArrayList<>();
+        this.goal = new Goal(GoalType.DEFAULT);
 
         registerRules();
         registerPuzzleElements();
@@ -243,25 +247,83 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             return false;
         }
 
-        // Goal can require all complete branches or only one complete branch
-        boolean requireAll = !(this.goal.getType() == GoalType.PROVE_CELL_MIGHT_NOT_BE);
-        for (TreeElement leaf : tree.getLeafTreeElements()) {
-            if (leaf.getType() == TreeElementType.NODE) {
-                TreeNode node = (TreeNode) leaf;
-                boolean isComplete = true;
-                if (!node.isRoot()) {
-                    isComplete =
-                            node.getParent().isContradictoryBranch()
-                                    || isBoardComplete(node.getBoard());
-                } else {
-                    isComplete = isBoardComplete(node.getBoard());
+        // The goal what state the leaves must be in.
+        return switch (this.goal.getType()) {
+            // One leaf must complete the goal
+            case PROVE_CELL_MIGHT_NOT_BE -> {
+                for (TreeElement leaf : tree.getLeafTreeElements()) {
+                    if (isLeafComplete(leaf)) {yield true;}
                 }
-                if (isComplete && !requireAll) {return true;}
-                else if (!isComplete && requireAll) {return false;}
+                yield false;
             }
-            else if (requireAll) {return false;}
+            // Every leaf must be valid and share a value at the goal location
+            case PROVE_SINGLE_CELL_VALUE -> {
+                List<Integer> cellValues = new ArrayList<Integer>();
+                for (TreeElement leaf : tree.getLeafTreeElements()) {
+                    if (!(isLeafValid(leaf))) {yield false;}
+                    Integer value = getGoalCellValue(leaf);
+                    if (value != null) {cellValues.add(value);}
+                }
+                // All values should be the same
+                Set<Integer> possibleValues = new HashSet<Integer>(cellValues);
+                yield possibleValues.size() == 1;
+            }
+            // Complete leaves must have at least two different values at goal location
+            case PROVE_MULTIPLE_CELL_VALUE -> {
+                List<Integer> cellValues = new ArrayList<Integer>();
+                for (TreeElement leaf : tree.getLeafTreeElements()) {
+                    if (!(isLeafComplete(leaf))) {continue;}
+                    Integer value = getGoalCellValue(leaf);
+                    if (value != null) {cellValues.add(value);}
+                }
+                // Cell values should not all be the same
+                Set<Integer> possibleValues = new HashSet<Integer>(cellValues);
+                yield possibleValues.size() > 1;
+            }
+            // Every leaf must be valid
+            default -> {
+                for (TreeElement leaf : tree.getLeafTreeElements()) {
+                    if (!(isLeafValid(leaf))) {yield false;}
+                }
+                yield true;
+            }
+        };
+
+    }
+
+    private Integer getGoalCellValue(TreeElement leaf)
+    {
+        if (!(leaf.getType() == TreeElementType.NODE)) {
+            return null;
         }
-        return requireAll;
+        TreeNode node = (TreeNode) leaf;
+        if (!node.isRoot() && node.getParent().isContradictoryBranch()) {
+            return null;
+        }
+        GridBoard board = (GridBoard) node.getBoard();
+        return (Integer) board.getCell(this.goal.getCells().get(0).getLocation()).getData();
+    }
+    /**
+     * Determines if the leaf element is a complete node
+     * @param leaf TreeElement to check for completeness
+     * @return true if the leaf is complete, false otherwise
+     */
+    private boolean isLeafValid(TreeElement leaf) {
+        return isLeafComplete(leaf) || isLeafContradictory(leaf);
+    }
+
+    private boolean isLeafComplete(TreeElement leaf) {
+        if (!(leaf.getType() == TreeElementType.NODE))
+            return false;
+        TreeNode node = (TreeNode) leaf;
+        return isBoardComplete(node.getBoard());
+    }
+
+    private boolean isLeafContradictory(TreeElement leaf) {
+        if (!(leaf.getType() == TreeElementType.NODE))
+            return false;
+        TreeNode node = (TreeNode) leaf;
+        return !node.isRoot() && node.getParent().isContradictoryBranch();
     }
 
     /**
@@ -288,6 +350,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         }
         return true;
     }
+
 
     /**
      * Callback for when the board puzzleElement changes

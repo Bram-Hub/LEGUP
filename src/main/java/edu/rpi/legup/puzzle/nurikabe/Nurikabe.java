@@ -4,6 +4,7 @@ import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
@@ -71,19 +72,12 @@ public class Nurikabe extends Puzzle {
         return switch (goal.getType()) {
             case PROVE_CELL_MUST_BE -> // Every goal cell is forced
                     checkGoalCells(nurikabeBoard);
-            case PROVE_CELL_MIGHT_NOT_BE -> {
-                // Board is complete and goal cell is different from listed
-                if (!isBoardFilled(nurikabeBoard)) {
-                    yield false;
-                }
-
-                yield checkGoalCells(nurikabeBoard);
-            }
-            case PROVE_SINGLE_CELL_VALUE -> { yield false; }
-            case PROVE_MULTIPLE_CELL_VALUE -> { yield false; }
-            default -> {
-                yield isBoardFilled(nurikabeBoard);
-            }
+            case PROVE_CELL_MIGHT_NOT_BE -> // Goal cell is different from listed
+                    isBoardFilled(nurikabeBoard) && checkGoalCells(nurikabeBoard);
+            // The goal cells are not unknown
+            case PROVE_SINGLE_CELL_VALUE -> goalCellsAreKnown(nurikabeBoard);
+            case PROVE_MULTIPLE_CELL_VALUE -> goalCellsAreKnown(nurikabeBoard);
+            default -> isBoardFilled(nurikabeBoard);
         };
     }
 
@@ -104,6 +98,14 @@ public class Nurikabe extends Puzzle {
         return true;
     }
 
+    private boolean goalCellsAreKnown(NurikabeBoard board) {
+        for (GridCell goalCell : this.getGoal().getCells())
+        {
+            NurikabeCell boardCell = (NurikabeCell) board.getCell(goalCell.getLocation());
+            if (boardCell.getType() == NurikabeType.UNKNOWN) {return false;}
+        }
+        return true;
+    }
     /**
      * Callback for when the board puzzleElement changes
      *
