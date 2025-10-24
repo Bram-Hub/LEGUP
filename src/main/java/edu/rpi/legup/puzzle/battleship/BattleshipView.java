@@ -12,7 +12,7 @@ public class BattleshipView extends GridBoardView {
     /**
      * Creates a new BattleshipView
      *
-     * @param board
+     * @param board the BattleshipBoard to display
      */
     public BattleshipView(BattleshipBoard board) {
         super(new BoardController(), new BattleshipCellController(), board.getDimension());
