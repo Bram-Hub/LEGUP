@@ -1,2 +1,0 @@
-SKYS-ELEM-0001: NumberTile
-SKYS-ELEM-0002: UnknownTile
