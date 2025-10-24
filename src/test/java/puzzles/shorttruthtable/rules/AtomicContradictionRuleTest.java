@@ -31,7 +31,6 @@ public class AtomicContradictionRuleTest {
      * <p>Asserts that this is a valid application of the rule if and only if both A and B are not
      * unknown and different.
      *
-     * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
      */
     @Test
