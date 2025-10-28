@@ -256,29 +256,33 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                 }
                 yield false;
             }
-            // Every leaf must be valid and share a value at the goal location
+            // Every leaf must be valid and share a value at the goal locations
             case PROVE_SINGLE_CELL_VALUE -> {
-                List<Integer> cellValues = new ArrayList<Integer>();
-                for (TreeElement leaf : tree.getLeafTreeElements()) {
-                    if (!(isLeafValid(leaf))) {yield false;}
-                    Integer value = getGoalCellValue(leaf);
-                    if (value != null) {cellValues.add(value);}
+                for (GridCell goalCell : this.goal.getCells()) {
+                    Set<Integer> cellValues = new HashSet<Integer>();
+                    for (TreeElement leaf : tree.getLeafTreeElements()) {
+                        if (!(isLeafValid(leaf))) {yield false;}
+                        Integer value = getGoalCellValue(leaf, goalCell);
+                        if (value != null) {cellValues.add(value);}
+                    }
+                    // All values should be the same
+                    if (cellValues.size() != 1) {yield false;}
                 }
-                // All values should be the same
-                Set<Integer> possibleValues = new HashSet<Integer>(cellValues);
-                yield possibleValues.size() == 1;
+                yield true;
             }
             // Complete leaves must have at least two different values at goal location
             case PROVE_MULTIPLE_CELL_VALUE -> {
-                List<Integer> cellValues = new ArrayList<Integer>();
-                for (TreeElement leaf : tree.getLeafTreeElements()) {
-                    if (!(isLeafComplete(leaf))) {continue;}
-                    Integer value = getGoalCellValue(leaf);
-                    if (value != null) {cellValues.add(value);}
+                for (GridCell goalCell : this.goal.getCells()) {
+                    Set<Integer> cellValues = new HashSet<Integer>();
+                    for (TreeElement leaf : tree.getLeafTreeElements()) {
+                        if (!(isLeafComplete(leaf))) {continue;}
+                        Integer value = getGoalCellValue(leaf, goalCell);
+                        if (value != null) {cellValues.add(value);}
+                    }
+                    // Cell values should not all be the same
+                    if (!(cellValues.size() > 1)) {yield false;}
                 }
-                // Cell values should not all be the same
-                Set<Integer> possibleValues = new HashSet<Integer>(cellValues);
-                yield possibleValues.size() > 1;
+                yield true;
             }
             // Every leaf must be valid
             default -> {
@@ -296,7 +300,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * @param leaf TreeElement node associated with the board to check the cell of
      * @return integer value of the cell's held data, null if non-node or contradictory branch
      */
-    private Integer getGoalCellValue(TreeElement leaf)
+    private Integer getGoalCellValue(TreeElement leaf, GridCell goalCell)
     {
         if (!(leaf.getType() == TreeElementType.NODE)) {
             return null;
@@ -306,7 +310,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             return null;
         }
         GridBoard board = (GridBoard) node.getBoard();
-        return (Integer) board.getCell(this.goal.getCells().get(0).getLocation()).getData();
+        return (Integer) board.getCell(goalCell.getLocation()).getData();
     }
 
     /**
