@@ -11,10 +11,7 @@ import edu.rpi.legup.model.observer.IBoardSubject;
 import edu.rpi.legup.model.observer.ITreeListener;
 import edu.rpi.legup.model.observer.ITreeSubject;
 import edu.rpi.legup.model.rules.*;
-import edu.rpi.legup.model.tree.Tree;
-import edu.rpi.legup.model.tree.TreeElement;
-import edu.rpi.legup.model.tree.TreeElementType;
-import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
@@ -249,12 +246,32 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
         // The goal determines what state the leaves must be in.
         return switch (this.goal.getType()) {
-            // One leaf must complete the goal
             case PROVE_CELL_MIGHT_NOT_BE -> {
+                // One leaf completes the goal
                 for (TreeElement leaf : tree.getLeafTreeElements()) {
                     if (isLeafComplete(leaf)) {yield true;}
                 }
-                yield false;
+
+                // Contradiction case: Every non-contradictory branch has the right value
+                for (TreeElement leaf : tree.getLeafTreeElements()) {
+                    // If the leaf is a transition, check all parents
+                    if (!(leaf.getType() == TreeElementType.NODE)){
+                        TreeTransition treeLeaf = (TreeTransition) leaf;
+                        for (TreeNode node : treeLeaf.getParents()){
+                            if (node.isContradictoryBranch()) {continue;}
+                            GridBoard board = (GridBoard) node.getBoard();
+                            if (!(checkGoalCells(board))) {yield false;}
+                        }
+                    }
+                    // If the leaf is a node, check the node
+                    else{
+                        if (isLeafContradictory(leaf)) {continue;}
+                        TreeNode node = (TreeNode) leaf;
+                        GridBoard board = (GridBoard) node.getBoard();
+                        if (!(checkGoalCells(board))) {yield false;}
+                    }
+                }
+                yield true;
             }
             // Every leaf must be valid and share a value at the goal locations
             case PROVE_SINGLE_CELL_VALUE -> {
@@ -364,13 +381,12 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         boolean shouldMatch = (this.goal.getType() == GoalType.PROVE_CELL_MUST_BE);
         for (GridCell goalCell : this.goal.getCells()) {
             GridCell boardCell = board.getCell(goalCell.getLocation());
-            if (!(boardCell.equals(goalCell) == shouldMatch)){
+            if (!(boardCell.isKnown() && boardCell.equals(goalCell) == shouldMatch)){
                 return false;
             }
         }
         return true;
     }
-
 
     /**
      * Callback for when the board puzzleElement changes

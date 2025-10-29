@@ -89,4 +89,7 @@ public class NurikabeCell extends GridCell<Integer> {
         copy.setGiven(isGiven);
         return copy;
     }
+
+    @Override
+    public boolean isKnown() {return !(data == -2);}
 }

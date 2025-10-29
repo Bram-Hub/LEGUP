@@ -44,7 +44,21 @@ by contradiction that a goal condition holds. If we want to `prove that cell (1,
 show via contradiction that if (1,1) is white, the puzzle would be unsolvable. This type of puzzle solution
 should be valid.
 
-I have no idea how to make this happen.
+
+Proof by contradiction assuming a puzzle has at least one valid solution:
+
+PROVE_CELL_MUST_BE:
+If every non-contradictory branch has the cell as the goal value, the solution must have the cell as that value.
+
+PROVE_CELL_MIGHT_NOT_BE:
+If every non-contradictory branch had the cell as a different value from the goal value, the solution cannot have it.
+This also works if every branch is contradictory (the puzzle is unsolvable)
+
+PROVE_SINGLE_CELL_VALUE:
+If there is only one non-contradictory branch and the goal cell is known in that branch, it must be the one found value.
+
+PROVE_MULTIPLE_CELL_VALUE:
+Cannot prove by contradiction?
 
 ## Possible UI
 Puzzle Board:
