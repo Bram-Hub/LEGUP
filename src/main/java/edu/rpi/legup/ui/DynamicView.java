@@ -117,6 +117,8 @@ public class DynamicView extends JPanel {
             zoomer.add(resizeButton);
 
             JLabel zoomLabel = new JLabel("100%");
+            zoomLabel.setPreferredSize(new Dimension(40, 50));
+            zoomLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             zoomLabel.setFont(MaterialFonts.getRegularFont(16f));
 
             JSlider zoomSlider = new JSlider(25, 400, 100);
