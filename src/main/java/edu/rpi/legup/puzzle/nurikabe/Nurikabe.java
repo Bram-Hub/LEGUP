@@ -61,7 +61,7 @@ public class Nurikabe extends Puzzle {
     @Override
     public boolean isBoardComplete(Board board) {
         NurikabeBoard nurikabeBoard = (NurikabeBoard) board;
-
+        if (!isBoardFilled(nurikabeBoard)) {return false;}
         for (ContradictionRule rule : contradictionRules) {
             if (rule.checkContradiction(nurikabeBoard) == null) {
                 return false;
@@ -69,7 +69,7 @@ public class Nurikabe extends Puzzle {
         }
 
         Goal goal = this.getGoal();
-        if (!isBoardFilled(nurikabeBoard)) {return false;}
+
         return switch (goal.getType()) {
             case PROVE_CELL_MUST_BE -> // Every goal cell is forced
                     checkGoalCells(nurikabeBoard);
@@ -82,22 +82,7 @@ public class Nurikabe extends Puzzle {
         };
     }
 
-    /**
-     * Determines if the current board has no unknown cells
-     *
-     * @param nurikabeBoard nurikabeBoard to check for empty cells
-     * @return true if board has no empty cells, false otherwise
-     */
-    private boolean isBoardFilled(NurikabeBoard nurikabeBoard)
-    {
-        for (PuzzleElement data : nurikabeBoard.getPuzzleElements()) {
-            NurikabeCell cell = (NurikabeCell) data;
-            if (cell.getType() == NurikabeType.UNKNOWN) {
-                return false;
-            }
-        }
-        return true;
-    }
+
 
     /**
      * Determines if the board's goal cells are unknown
