@@ -255,7 +255,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                     }
                     else {nodesToCheck.add((TreeNode) leaf);}
                     for (TreeNode node : nodesToCheck){
-                        if (isLeafContradictory(node)) {continue;}
+                        if (isNodeContradictory(node)) {continue;}
                         GridBoard board = (GridBoard) node.getBoard();
                         if (!(checkGoalCells(board))) {yield false;}
                     }
@@ -265,7 +265,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             case PROVE_CELL_MIGHT_NOT_BE -> {
                 // One leaf completes the goal
                 for (TreeElement leaf : tree.getLeafTreeElements()) {
-                    if (isLeafComplete(leaf)) {yield true;}
+                    if (isNodeComplete(leaf)) {yield true;}
                 }
 
                 // Contradiction case: Every non-contradictory branch has different values
@@ -279,21 +279,30 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                     else {nodesToCheck.add((TreeNode) leaf);}
 
                     for (TreeNode node : nodesToCheck) {
-                        if (isLeafContradictory(node)) {continue;}
+                        if (isNodeContradictory(node)) {continue;}
                         GridBoard board = (GridBoard) node.getBoard();
                         if (!(checkGoalCells(board))) {yield false;}
                     }
                 }
                 yield true;
             }
-            // Every leaf must be valid and share a value at the goal locations
+            // Every non-contradictory leaf node shares a value at the goal locations
             case PROVE_SINGLE_CELL_VALUE -> {
                 for (GridCell goalCell : this.goal.getCells()) {
-                    Set<Integer> cellValues = new HashSet<Integer>();
+                    Set<Integer> cellValues = new HashSet<>();
                     for (TreeElement leaf : tree.getLeafTreeElements()) {
-                        if (!(isLeafValid(leaf))) {yield false;}
-                        Integer value = getGoalCellValue(leaf, goalCell);
-                        if (value != null) {cellValues.add(value);}
+                        List<TreeNode> nodesToCheck = new ArrayList<>();
+                        // If the leaf is a transition, check all parents
+                        if (!(leaf.getType() == TreeElementType.NODE)) {
+                            TreeTransition treeLeaf = (TreeTransition) leaf;
+                            nodesToCheck.addAll(treeLeaf.getParents());
+                        }
+                        else {nodesToCheck.add((TreeNode) leaf);}
+                        for (TreeNode node : nodesToCheck){
+                            if (isNodeContradictory(node)) {continue;}
+                            Integer value = getGoalCellValue(node, goalCell);
+                            if (value != null) {cellValues.add(value);}
+                        }
                     }
                     // All values should be the same
                     if (cellValues.size() != 1) {yield false;}
@@ -305,7 +314,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                 for (GridCell goalCell : this.goal.getCells()) {
                     Set<Integer> cellValues = new HashSet<Integer>();
                     for (TreeElement leaf : tree.getLeafTreeElements()) {
-                        if (!(isLeafComplete(leaf))) {continue;}
+                        if (!(isNodeComplete(leaf))) {continue;}
                         Integer value = getGoalCellValue(leaf, goalCell);
                         if (value != null) {cellValues.add(value);}
                     }
@@ -317,7 +326,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             // Every leaf must be valid
             default -> {
                 for (TreeElement leaf : tree.getLeafTreeElements()) {
-                    if (!(isLeafValid(leaf))) {yield false;}
+                    if (!(isNodeValid(leaf))) {yield false;}
                 }
                 yield true;
             }
@@ -332,15 +341,16 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      */
     private Integer getGoalCellValue(TreeElement leaf, GridCell goalCell)
     {
-        if (!(leaf.getType() == TreeElementType.NODE)) {
-            return null;
-        }
+        if (!(leaf.getType() == TreeElementType.NODE)) {return null;}
+
         TreeNode node = (TreeNode) leaf;
-        if (!node.isRoot() && node.getParent().isContradictoryBranch()) {
-            return null;
-        }
+        if (isNodeContradictory(node)) {return null;}
+
         GridBoard board = (GridBoard) node.getBoard();
-        return (Integer) board.getCell(goalCell.getLocation()).getData();
+        GridCell cell = board.getCell(goalCell.getLocation());
+        if (!cell.isKnown()) {return null;}
+
+        return (Integer) cell.getData();
     }
 
     /**
@@ -348,8 +358,8 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * @param leaf TreeElement to check for validity
      * @return true if the leaf is valid, false otherwise
      */
-    private boolean isLeafValid(TreeElement leaf) {
-        return isLeafComplete(leaf) || isLeafContradictory(leaf);
+    private boolean isNodeValid(TreeElement leaf) {
+        return isNodeComplete(leaf) || isNodeContradictory(leaf);
     }
 
     /**
@@ -357,7 +367,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * @param leaf TreeElement to check for completeness
      * @return true if the leaf is complete, false otherwise
      */
-    private boolean isLeafComplete(TreeElement leaf) {
+    private boolean isNodeComplete(TreeElement leaf) {
         if (!(leaf.getType() == TreeElementType.NODE))
             return false;
         TreeNode node = (TreeNode) leaf;
@@ -369,7 +379,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * @param leaf TreeElement to check for contradiction
      * @return true if the leaf is on a contradictory branch, false otherwise
      */
-    private boolean isLeafContradictory(TreeElement leaf) {
+    private boolean isNodeContradictory(TreeElement leaf) {
         if (!(leaf.getType() == TreeElementType.NODE))
             return false;
         TreeNode node = (TreeNode) leaf;
