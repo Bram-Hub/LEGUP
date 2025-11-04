@@ -11,6 +11,8 @@ import edu.rpi.legup.model.observer.ITreeSubject;
 import edu.rpi.legup.model.rules.*;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.utility.LegupUtils;
@@ -255,7 +257,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                     }
                     else {nodesToCheck.add((TreeNode) leaf);}
                     for (TreeNode node : nodesToCheck){
-                        if (isNodeContradictory(node)) {continue;}
+                        if (!node.isRoot() && node.getParent().isContradictoryBranch()) {continue;}
                         GridBoard board = (GridBoard) node.getBoard();
                         if (!(checkGoalCells(board))) {yield false;}
                     }
@@ -265,7 +267,8 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             case PROVE_CELL_MIGHT_NOT_BE -> {
                 // One leaf completes the goal
                 for (TreeElement leaf : tree.getLeafTreeElements()) {
-                    if (isNodeComplete(leaf)) {yield true;}
+                    if (leaf.getType() != TreeElementType.NODE) {continue;}
+                    if (isBoardComplete(leaf.getBoard()) && checkGoalCells(leaf.getBoard())) {yield true;}
                 }
 
                 // Contradiction case: Every non-contradictory branch has different values
@@ -279,15 +282,14 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                     else {nodesToCheck.add((TreeNode) leaf);}
 
                     for (TreeNode node : nodesToCheck) {
-                        if (isNodeContradictory(node)) {continue;}
-                        GridBoard board = (GridBoard) node.getBoard();
-                        if (!(checkGoalCells(board))) {yield false;}
+                        if (!node.isRoot() && node.getParent().isContradictoryBranch()) {continue;}
+                        if (!(checkGoalCells(node.getBoard()))) {yield false;}
                     }
                 }
                 yield true;
             }
-            // Every non-contradictory leaf node shares a value at the goal locations
             case PROVE_SINGLE_CELL_VALUE -> {
+                // Every non-contradictory leaf node shares a value at the goal locations
                 for (GridCell goalCell : this.goal.getCells()) {
                     Set<Integer> cellValues = new HashSet<>();
                     for (TreeElement leaf : tree.getLeafTreeElements()) {
@@ -299,7 +301,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                         }
                         else {nodesToCheck.add((TreeNode) leaf);}
                         for (TreeNode node : nodesToCheck){
-                            if (isNodeContradictory(node)) {continue;}
+                            if (!node.isRoot() && node.getParent().isContradictoryBranch()) {continue;}
                             Integer value = getGoalCellValue(node, goalCell);
                             if (value != null) {cellValues.add(value);}
                         }
@@ -309,12 +311,13 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                 }
                 yield true;
             }
-            // Complete leaves must have at least two different values at goal location
             case PROVE_MULTIPLE_CELL_VALUE -> {
+                // Complete leaves must have at least two different values at goal location
                 for (GridCell goalCell : this.goal.getCells()) {
-                    Set<Integer> cellValues = new HashSet<Integer>();
+                    Set<Integer> cellValues = new HashSet<>();
                     for (TreeElement leaf : tree.getLeafTreeElements()) {
-                        if (!(isNodeComplete(leaf))) {continue;}
+                        if (leaf.getType() != TreeElementType.NODE) {continue;}
+                        if (!isBoardComplete(leaf.getBoard())) {continue;}
                         Integer value = getGoalCellValue(leaf, goalCell);
                         if (value != null) {cellValues.add(value);}
                     }
@@ -326,7 +329,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             // Every leaf must be valid
             default -> {
                 for (TreeElement leaf : tree.getLeafTreeElements()) {
-                    if (!(isNodeValid(leaf))) {yield false;}
+                    if (leaf.getType() != TreeElementType.NODE) {yield false;}
+                    TreeNode node = (TreeNode) leaf;
+                    if ((node.isRoot() || !node.getParent().isContradictoryBranch())
+                    && !isBoardComplete(node.getBoard())) {yield false;}
                 }
                 yield true;
             }
@@ -334,8 +340,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
     }
 
+
     /**
      * Returns the value of the cell at the goal location
+     * 
      * @param leaf TreeElement node associated with the board to check the cell of
      * @return integer value of the cell's held data, null if non-node or contradictory branch
      */
@@ -344,8 +352,6 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         if (!(leaf.getType() == TreeElementType.NODE)) {return null;}
 
         TreeNode node = (TreeNode) leaf;
-        if (isNodeContradictory(node)) {return null;}
-
         GridBoard board = (GridBoard) node.getBoard();
         GridCell cell = board.getCell(goalCell.getLocation());
         if (!cell.isKnown()) {return null;}
@@ -354,37 +360,23 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     }
 
     /**
-     * Determines if the leaf element is a valid node
-     * @param leaf TreeElement to check for validity
-     * @return true if the leaf is valid, false otherwise
+     * Determines if the goal cells are matched by the board, and if they should be
+     *
+     * @param board GridBoard to check for matching goal cells
+     * @return true if all the cells match what the goal specifies, false otherwise
      */
-    private boolean isNodeValid(TreeElement leaf) {
-        return isNodeComplete(leaf) || isNodeContradictory(leaf);
+    public boolean checkGoalCells(Board board) {
+        GridBoard gridBoard = (GridBoard) board;
+        boolean shouldMatch = (this.goal.getType() == GoalType.PROVE_CELL_MUST_BE);
+        for (GridCell goalCell : this.goal.getCells()) {
+            GridCell boardCell = gridBoard.getCell(goalCell.getLocation());
+            if (!(boardCell.isKnown() && boardCell.equals(goalCell) == shouldMatch)){
+                return false;
+            }
+        }
+        return true;
     }
 
-    /**
-     * Determines if the leaf element is a complete node
-     * @param leaf TreeElement to check for completeness
-     * @return true if the leaf is complete, false otherwise
-     */
-    private boolean isNodeComplete(TreeElement leaf) {
-        if (!(leaf.getType() == TreeElementType.NODE))
-            return false;
-        TreeNode node = (TreeNode) leaf;
-        return isBoardComplete(node.getBoard());
-    }
-
-    /**
-     * Determines if the leaf element is a node in a contradictory branch
-     * @param leaf TreeElement to check for contradiction
-     * @return true if the leaf is on a contradictory branch, false otherwise
-     */
-    private boolean isNodeContradictory(TreeElement leaf) {
-        if (!(leaf.getType() == TreeElementType.NODE))
-            return false;
-        TreeNode node = (TreeNode) leaf;
-        return !node.isRoot() && node.getParent().isContradictoryBranch();
-    }
 
     /**
      * Determines if the current board is a valid state
@@ -395,38 +387,6 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     public abstract boolean isBoardComplete(Board board);
 
 
-    /**
-     * Returns true if all the cells listed in the Goal are forced.
-     * @param board GridBoard to check for matching goal cells
-     * @return True if all the cells match the ones specified in Goal, False otherwise.
-     */
-    public boolean checkGoalCells(GridBoard board) {
-        boolean shouldMatch = (this.goal.getType() == GoalType.PROVE_CELL_MUST_BE);
-        for (GridCell goalCell : this.goal.getCells()) {
-            GridCell boardCell = board.getCell(goalCell.getLocation());
-            if (!(boardCell.isKnown() && boardCell.equals(goalCell) == shouldMatch)){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Determines if the current board has no unknown cells
-     *
-     * @param board GridBoard to check for empty cells
-     * @return true if board has no empty cells, false otherwise
-     */
-    public boolean isBoardFilled(GridBoard board)
-    {
-        for (PuzzleElement data : board.getPuzzleElements()) {
-            GridCell cell = (GridCell) data;
-            if (cell.isKnown()) {
-                return false;
-            }
-        }
-        return true;
-    }
 
     /**
      * Callback for when the board puzzleElement changes
