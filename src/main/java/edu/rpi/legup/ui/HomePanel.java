@@ -310,7 +310,7 @@ public class HomePanel extends LegupPanel {
         /* Select a folder, go through each .xml file in the subfolders, look for "isSolved" flag */
         File resultFile = new File(folder.getAbsolutePath() + File.separator + "result.csv");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
-            writer.append("Name,File Name,Puzzle Type,Puzzle Tag,Solved?,#Hash#,Last Saved\n");
+            writer.append("Name,File Name,Puzzle Type,Puzzle Tag,Solved?,#Hash#,Depth of Proof Tree,Last Saved\n");
             // Go through student folders, recurse for inner folders
             for (final File folderEntry :
                     Objects.requireNonNull(folder.listFiles(File::isDirectory))) {
@@ -365,7 +365,7 @@ public class HomePanel extends LegupPanel {
             // Rewrite the CSV: preserve header, append a new column 'Hash Status'
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
                 writer.write(header);
-                writer.write(",Hash Status");
+                writer.write(",Unique?");
                 writer.newLine();
 
                 for (Map.Entry<String, List<String>> entry : grouped.entrySet()) {
@@ -454,6 +454,8 @@ public class HomePanel extends LegupPanel {
      */
     private void parseSolvedState(Document doc, BufferedWriter writer) throws IOException {
         NodeList solvedNodes = doc.getElementsByTagName("solved");
+        // Also get the depth of the proof tree
+        NodeList treeNodes = doc.getElementsByTagName("node");
         if (solvedNodes.getLength() <= 0) {
             writer.write(",missing flag!");
             return;
@@ -480,8 +482,8 @@ public class HomePanel extends LegupPanel {
             writer.write("Error");
             LOGGER.error("Solved state could not be unhashed:\n{}", e.getMessage());
         }
-        // Append the isSolved attribute aka the unique hash
-        writer.write(","+ "#" + isSolved + "#");
+        // Append the isSolved attribute aka the unique hash and the depth of the proof tree
+        writer.write(","+ "#" + isSolved + "#," + treeNodes.getLength());
         // Append the lastSaved attribute
         writer.write(",");
         writer.write(!lastSaved.isEmpty() ? lastSaved : "Error");
