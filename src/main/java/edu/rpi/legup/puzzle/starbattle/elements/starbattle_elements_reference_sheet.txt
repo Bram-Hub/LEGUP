@@ -1,4 +1,0 @@
-STBL-ELEM-0001 : BlackTile
-STBL-ELEM-0002 : StarTile
-STBL-ELEM-0003 : UnknownTile
-STBL-ELEM-0004 : WhiteTile

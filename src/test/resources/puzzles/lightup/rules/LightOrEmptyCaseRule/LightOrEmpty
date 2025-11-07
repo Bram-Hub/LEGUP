@@ -1,8 +1,0 @@
-<Legup>
-    <puzzle name="LightUp">
-        <board width="2" height="2">
-            <cells>
-            </cells>
-        </board>
-    </puzzle>
-</Legup>
