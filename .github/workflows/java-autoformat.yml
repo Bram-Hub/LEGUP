@@ -1,0 +1,93 @@
+name: Java Code Auto Format
+on: pull_request
+
+jobs:
+  format_dev:
+    if: |
+      github.event.pull_request.head.ref == 'dev' && 
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v1
+        with:
+          java-version: 21
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build -x test
+
+      - name: Run spotless
+        run: ./gradlew :spotlessApply
+
+      - name: Check for modified files
+        id: git-check
+        run: echo "modified=$(if [[ -n $(git status -s) ]]; then echo "true"; else echo "false"; fi)" >> $GITHUB_OUTPUT
+
+      - name: Create temporary branch and pull request
+        if: steps.git-check.outputs.modified == 'true'
+        run: |
+          git config --global user.name 'Bram van Heuveln'
+          git config --global user.email 'bram28@users.noreply.github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          branch_name="auto-format-code-$(date +%s)"
+          git checkout -b $branch_name
+          ./gradlew :spotlessApply
+          git add .
+          git commit -am "Automated Java code formatting changes"
+          git push --set-upstream origin $branch_name
+          gh pr create -B dev -H $branch_name --title 'Automated Java code formatting changes' --body 'This pull request contains automated code formatting changes.' --reviewer ${{ github.actor }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Must approve auto-format pull request
+        if: steps.git-check.outputs.modified == 'true'
+        run: |
+          echo "Please review and approve the appropriate auto-format-code pull request."
+          exit 1
+
+  format_pull_request_to_dev:
+    if: |
+      github.event.pull_request.base.ref == 'dev' && 
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v1
+        with:
+          java-version: 21
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build -x test
+
+      - name: Run spotless
+        run: ./gradlew :spotlessApply
+
+      - name: Check for modified files
+        id: git-check
+        run: echo "modified=$(if [[ -n $(git status -s) ]]; then echo "true"; else echo "false"; fi)" >> $GITHUB_OUTPUT
+
+      - name: Push changes
+        if: steps.git-check.outputs.modified == 'true'
+        run: |
+          git config --global user.name 'Bram van Heuveln'
+          git config --global user.email 'bram28@users.noreply.github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git add .
+          git commit -am "Automated Java code formatting changes"
+          git push

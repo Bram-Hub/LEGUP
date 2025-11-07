@@ -1,0 +1,18 @@
+<Legup version="2.0.0">
+    <puzzle name="LightUp" tag="393454">
+        <board height="7" width="7">
+            <cells>
+                <cell value="0" x="2" y="0"/>
+                <cell value="2" x="4" y="0"/>
+                <cell value="-1" x="0" y="2"/>
+                <cell value="-1" x="6" y="2"/>
+                <cell value="1" x="3" y="3"/>
+                <cell value="2" x="6" y="4"/>
+                <cell value="0" x="0" y="4"/>
+                <cell value="-1" x="2" y="6"/>
+                <cell value="-1" x="4" y="6"/>
+            </cells>
+        </board>
+    </puzzle>
+    <solved isSolved="-2010495071" lastSaved="2024-11-08 17:14:34"/>
+</Legup>

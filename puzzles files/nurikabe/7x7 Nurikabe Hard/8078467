@@ -1,0 +1,15 @@
+<Legup version="2.0.0">
+    <puzzle name="Nurikabe" tag="8078467">
+        <board height="7" width="7">
+            <cells>
+                <cell value="2" x="1" y="2"/>
+                <cell value="5" x="3" y="2"/>
+                <cell value="5" x="0" y="3"/>
+                <cell value="2" x="6" y="3"/>
+                <cell value="2" x="3" y="4"/>
+                <cell value="2" x="5" y="4"/>
+            </cells>
+        </board>
+    </puzzle>
+    <solved isSolved="-2010495071" lastSaved="2024-11-08 17:14:34"/>
+</Legup>
