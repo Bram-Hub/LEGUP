@@ -343,7 +343,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
     /**
      * Returns the value of the cell at the goal location
-     * 
+     *
      * @param leaf TreeElement node associated with the board to check the cell of
      * @return integer value of the cell's held data, null if non-node or contradictory branch
      */

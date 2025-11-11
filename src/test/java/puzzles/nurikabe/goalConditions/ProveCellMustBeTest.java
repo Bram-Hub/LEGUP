@@ -43,6 +43,19 @@ public class ProveCellMustBeTest {
         Assert.assertFalse(TestUtilities.verifyBoard(
                 "puzzles/nurikabe/goalConditions/ProveCellMustBe/IncorrectLine", nurikabe));
     }
-    
+
+
+    /** Tests puzzle completion with a multiple paths and contradictory paths*/
+    @Test
+    public void TestComplexPaths() throws InvalidFileFormatException {
+        Assert.assertTrue(TestUtilities.verifyBoard(
+                "puzzles/nurikabe/goalConditions/ProveCellMustBe/SimpleContradiction", nurikabe));
+
+        Assert.assertTrue(TestUtilities.verifyBoard(
+                "puzzles/nurikabe/goalConditions/ProveCellMustBe/SolutionsOrContradictions", nurikabe));
+
+        Assert.assertFalse(TestUtilities.verifyBoard(
+                "puzzles/nurikabe/goalConditions/ProveCellMustBe/SingleSolutionAndUnfinished", nurikabe));
+    }
 }
 
