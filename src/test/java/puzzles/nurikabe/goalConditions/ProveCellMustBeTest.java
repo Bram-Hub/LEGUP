@@ -41,7 +41,7 @@ public class ProveCellMustBeTest {
                 "puzzles/nurikabe/goalConditions/ProveCellMustBe/IncompleteLine", nurikabe));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "puzzles/nurikabe/goalConditions/ProveCellMustBe/IncorrectLine", nurikabe));
+                "puzzles/nurikabe/goalConditions/ProveCellMustBe/InvalidLine", nurikabe));
     }
 
 
@@ -52,7 +52,10 @@ public class ProveCellMustBeTest {
                 "puzzles/nurikabe/goalConditions/ProveCellMustBe/SimpleContradiction", nurikabe));
 
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "puzzles/nurikabe/goalConditions/ProveCellMustBe/SolutionsOrContradictions", nurikabe));
+                "puzzles/nurikabe/goalConditions/ProveCellMustBe/MergedSolutions", nurikabe));
+
+        Assert.assertFalse(TestUtilities.verifyBoard(
+                "puzzles/nurikabe/goalConditions/ProveCellMustBe/UnmergedSolutions", nurikabe));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
                 "puzzles/nurikabe/goalConditions/ProveCellMustBe/SingleSolutionAndUnfinished", nurikabe));

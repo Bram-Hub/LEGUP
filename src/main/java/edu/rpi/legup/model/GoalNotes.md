@@ -19,46 +19,26 @@ by any other puzzles.
 The `check proof` button should then reflect this goal condition when validating a proof. 
 Depending on the goal, the checker needs to look for different things depending on the goal. 
 
-Currently, __all branches__ must either contain a full board or be closed by a contradition rule 
-for the puzzle to be solved.
+For the default goal condition, __all branches__ must either contain a full board or be 
+closed by a contradiction rule for the puzzle to be solved.
 
 | Goal scope \ Task type | **Prove**                            | **Disprove**                         |
 |------------------------|--------------------------------------|--------------------------------------|
 | **Specific type**      | - Prove cell value is as indicated   | - Prove cell might not be indicated  |
 | **Unknown type**       | - Prove a cell must be a given value | - Prove a cell can be multiple types |
 
-To prove a cell is as indicated, __all branches__ need to be valid and the cell must be as indicated.
+To prove a cell is as indicated, there must be one valid branch where the cell is as indicated. If
+multiple branches have the indicated value, they __must__ be merged into one branch.
 
 To prove a cell might not be as indicated, only __one branch__ needs to be valid and the cell not as 
-indicated for the puzzle to valid.
+indicated for the puzzle to valid. Alternatively, __all__ branches where the cell is as indicated must
+be contradictory, and there must be one non-contradictory branch
 
-To prove a cell must be a given type, the same condition as proving a specific type holds.
+To prove a cell must be one given type, the same condition as proving a specific type holds.
 
 To prove a cell might be multiple types, only __two valid branches__ need to exist, where the cell is 
 a different type in each, for the puzzle to be valid.
 
-### Goal Rule
-
-We would also need a rule that corresponds to the goal. For example, we should be allowed to show
-by contradiction that a goal condition holds. If we want to `prove that cell (1, 1) is White`, we can
-show via contradiction that if (1,1) is white, the puzzle would be unsolvable. This type of puzzle solution
-should be valid.
-
-
-Proof by contradiction assuming a puzzle has at least one valid solution:
-
-PROVE_CELL_MUST_BE:
-If every non-contradictory branch has the cell as the goal value, the solution must have the cell as that value.
-
-PROVE_CELL_MIGHT_NOT_BE:
-If every non-contradictory branch had the cell as a different value from the goal value, the solution cannot have it.
-This also works if every branch is contradictory (the puzzle is unsolvable)
-
-PROVE_SINGLE_CELL_VALUE:
-If there is only one non-contradictory branch and the goal cell is known in that branch, it must be the one found value.
-
-PROVE_MULTIPLE_CELL_VALUE:
-Cannot prove by contradiction?
 
 ## Possible UI
 Puzzle Board:

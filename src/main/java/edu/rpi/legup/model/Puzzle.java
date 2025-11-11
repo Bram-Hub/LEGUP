@@ -247,22 +247,17 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         // The goal determines what state the leaves must be in.
         return switch (this.goal.getType()) {
             case PROVE_CELL_MUST_BE -> {
-                // Every valid branch has the right values
+                // The only valid branch has the right values
+                boolean completeBranch = false;
                 for (TreeElement leaf : tree.getLeafTreeElements()) {
-                    List<TreeNode> nodesToCheck = new ArrayList<>();
-                    // If the leaf is a transition, check all parents
-                    if (!(leaf.getType() == TreeElementType.NODE)){
-                        TreeTransition treeLeaf = (TreeTransition) leaf;
-                        nodesToCheck.addAll(treeLeaf.getParents());
-                    }
-                    else {nodesToCheck.add((TreeNode) leaf);}
-                    for (TreeNode node : nodesToCheck){
-                        if (!node.isRoot() && node.getParent().isContradictoryBranch()) {continue;}
-                        GridBoard board = (GridBoard) node.getBoard();
-                        if (!(checkGoalCells(board))) {yield false;}
-                    }
+                    if (leaf.getType() != TreeElementType.NODE) {yield false;}
+                    TreeNode node = (TreeNode) leaf;
+                    if (!node.isRoot() && node.getParent().isContradictoryBranch()) {continue;}
+                    GridBoard board = (GridBoard) node.getBoard();
+                    if (completeBranch || !checkGoalCells(board)) {yield false;}
+                    completeBranch = true;
                 }
-                yield true;
+                yield completeBranch;
             }
             case PROVE_CELL_MIGHT_NOT_BE -> {
                 // One leaf completes the goal
@@ -272,44 +267,32 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                 }
 
                 // Contradiction case: Every non-contradictory branch has different values
+                boolean completeBranch = false;
                 for (TreeElement leaf : tree.getLeafTreeElements()) {
-                    List<TreeNode> nodesToCheck = new ArrayList<>();
-                    // If the leaf is a transition, check all parents
-                    if (!(leaf.getType() == TreeElementType.NODE)) {
-                        TreeTransition treeLeaf = (TreeTransition) leaf;
-                        nodesToCheck.addAll(treeLeaf.getParents());
-                    }
-                    else {nodesToCheck.add((TreeNode) leaf);}
-
-                    for (TreeNode node : nodesToCheck) {
-                        if (!node.isRoot() && node.getParent().isContradictoryBranch()) {continue;}
-                        if (!(checkGoalCells(node.getBoard()))) {yield false;}
-                    }
+                    if (leaf.getType() != TreeElementType.NODE) {yield false;}
+                    TreeNode node = (TreeNode) leaf;
+                    if (!node.isRoot() && node.getParent().isContradictoryBranch()) {continue;}
+                    if (!(checkGoalCells(node.getBoard()))) {yield false;}
+                    completeBranch = true;
                 }
-                yield true;
+                yield completeBranch;
             }
             case PROVE_SINGLE_CELL_VALUE -> {
-                // Every non-contradictory leaf node shares a value at the goal locations
-                for (GridCell goalCell : this.goal.getCells()) {
-                    Set<Integer> cellValues = new HashSet<>();
-                    for (TreeElement leaf : tree.getLeafTreeElements()) {
-                        List<TreeNode> nodesToCheck = new ArrayList<>();
-                        // If the leaf is a transition, check all parents
-                        if (!(leaf.getType() == TreeElementType.NODE)) {
-                            TreeTransition treeLeaf = (TreeTransition) leaf;
-                            nodesToCheck.addAll(treeLeaf.getParents());
-                        }
-                        else {nodesToCheck.add((TreeNode) leaf);}
-                        for (TreeNode node : nodesToCheck){
-                            if (!node.isRoot() && node.getParent().isContradictoryBranch()) {continue;}
-                            Integer value = getGoalCellValue(node, goalCell);
-                            if (value != null) {cellValues.add(value);}
-                        }
+                // The only valid branch with all goal cells known
+                boolean completeBranch = false;
+                for (TreeElement leaf : tree.getLeafTreeElements()) {
+                    if (leaf.getType() != TreeElementType.NODE) {yield false;}
+                    TreeNode node = (TreeNode) leaf;
+                    if (!node.isRoot() && node.getParent().isContradictoryBranch()) {continue;}
+                    GridBoard board = (GridBoard) node.getBoard();
+
+                    for (GridCell goalCell : this.goal.getCells()) {
+                        if (!board.getCell(goalCell.getLocation()).isKnown()) {yield false;}
                     }
-                    // All values should be the same
-                    if (cellValues.size() != 1) {yield false;}
+                    if (completeBranch) {yield false;}
+                    completeBranch = true;
                 }
-                yield true;
+                yield completeBranch;
             }
             case PROVE_MULTIPLE_CELL_VALUE -> {
                 // Complete leaves must have at least two different values at goal location
