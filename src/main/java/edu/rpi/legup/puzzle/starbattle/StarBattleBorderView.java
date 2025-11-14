@@ -45,13 +45,12 @@ public class StarBattleBorderView extends ElementView {
         float borderWidth = 3.0f; // ySize = ySize / 15
         if (type == StarBattleCellType.HORIZ_BORDER) { // minimize ySize / height
             graphics2D.setColor(borderColor);
-            graphics2D.setStroke(new BasicStroke(3));
+            graphics2D.setStroke(new BasicStroke(borderWidth));
             graphics2D.draw(
                     new Line2D.Double(location.x, location.y, location.x + (xSize), location.y));
         } else if (type == StarBattleCellType.VERT_BORDER) { // minimize xSize / width
             graphics2D.setColor(borderColor);
-            // System.out.println("Border width = " + xSize + "\n");
-            graphics2D.setStroke(new BasicStroke(3));
+            graphics2D.setStroke(new BasicStroke(borderWidth));
             graphics2D.draw(
                     new Line2D.Double(location.x, location.y, location.x, location.y + (ySize)));
         }

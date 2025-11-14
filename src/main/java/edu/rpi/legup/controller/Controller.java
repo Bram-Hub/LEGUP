@@ -14,6 +14,7 @@ public abstract class Controller implements MouseMotionListener, MouseListener, 
     protected ScrollView viewer;
     private int x, y;
     private boolean pan;
+    private Timer scrollEaseTimer;
 
     /**
      * Controller Constructor creates a controller object to listen to ui events from a {@link
@@ -117,15 +118,32 @@ public abstract class Controller implements MouseMotionListener, MouseListener, 
      */
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        // System.out.println(e.getWheelRotation());
-        if (e.isControlDown()) {
-            if (e.getWheelRotation() != 0) {
-                viewer.zoom(e.getWheelRotation() * 2, e.getPoint());
+        //System.out.println(e.getPreciseWheelRotation());
+        double mag = e.getPreciseWheelRotation();
+        if (mag == 0)
+            return;
+        if (e.isControlDown())
+            mag *= 5;
+        if ((int) mag == mag) { // For notch-based scrolling mechanisms use timer to zoom smoothly
+            if (scrollEaseTimer != null && scrollEaseTimer.isRunning()) {
+                mag *= 3;
+                scrollEaseTimer.stop();
             }
-        } else {
-            if (e.getWheelRotation() != 0) {
-                viewer.zoom(e.getWheelRotation(), e.getPoint());
-            }
-        }
+            final double usableMag = mag;
+            final Point usablePoint = e.getPoint();
+            scrollEaseTimer = new Timer(5, new ActionListener() {
+                int counter = 5;
+                public void actionPerformed(ActionEvent e) {
+                    if (counter == 0)
+                        ((Timer) e.getSource()).stop();
+                    else {
+                        viewer.zoom(usableMag/5, usablePoint);
+                        counter--;
+                    }
+                }
+            });
+            scrollEaseTimer.start();
+        } else
+            viewer.zoom(mag, e.getPoint());
     }
 }
