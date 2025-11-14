@@ -31,7 +31,6 @@ public class AndContradictionRuleTest {
      * <p>Asserts that this is a valid application of the rule if and only if A or B are set to
      * false.
      *
-     * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
      */
     @Test
@@ -69,7 +68,6 @@ public class AndContradictionRuleTest {
      * <p>Asserts that this is a valid application of the rule if and only if A or B (or both) are
      * set to true.
      *
-     * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
      */
     @Test
@@ -106,7 +104,6 @@ public class AndContradictionRuleTest {
      *
      * <p>Asserts that this is not a valid application of this rule.
      *
-     * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
      */
     @Test
