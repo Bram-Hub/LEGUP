@@ -5,7 +5,6 @@ import edu.rpi.legup.model.RegisterPuzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
-import edu.rpi.legup.model.rules.Rule;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,8 +25,7 @@ public class LightUp extends Puzzle {
     /** Initializes the game board. Called by the invoker of the class */
     @Override
     public void initializeView() {
-        boardView = new LightUpView((LightUpBoard) currentBoard);
-        boardView.setBoard(currentBoard);
+        boardView = new LightUpView((LightUpBoard) originalBoard);
         addBoardListener(boardView);
     }
 

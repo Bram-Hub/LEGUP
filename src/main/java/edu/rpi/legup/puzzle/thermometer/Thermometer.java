@@ -19,8 +19,7 @@ public class Thermometer extends Puzzle {
     /** Initializes the game board. Called by the invoker of the class */
     @Override
     public void initializeView() {
-        boardView = new ThermometerView((ThermometerBoard) currentBoard);
-        boardView.setBoard(currentBoard);
+        boardView = new ThermometerView((ThermometerBoard) originalBoard);
         addBoardListener(boardView);
     }
 

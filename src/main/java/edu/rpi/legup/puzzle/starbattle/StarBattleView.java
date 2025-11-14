@@ -1,6 +1,7 @@
 package edu.rpi.legup.puzzle.starbattle;
 
 import edu.rpi.legup.controller.BoardController;
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
@@ -35,75 +36,7 @@ public class StarBattleView extends GridBoardView {
         this.horizontalBorders = new ArrayList<>();
         this.verticalBorders = new ArrayList<>();
 
-        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
-            StarBattleCell cell = (StarBattleCell) puzzleElement;
-            Point loc = cell.getLocation();
-            StarBattleElementView elementView = new StarBattleElementView(cell);
-            elementView.setIndex(cell.getIndex());
-            elementView.setSize(elementSize);
-            elementView.setLocation(
-                    new Point(loc.x * elementSize.width, loc.y * elementSize.height));
-            elementViews.add(elementView);
-        }
-
-        // Make borders by just making a list of border objects and saving their locations as they
-        // come
-        // then just draw all of them one at a time
-
-        // initialize horizontal borders, the ones that are between two cells along the y-axis, and
-        // look like -- not |
-        for (int i = 0; i < board.getWidth(); i++) {
-            for (int j = 0; j < board.getHeight() + 1; j++) { // +1 to account for sides of board
-                StarBattleBorderView temp =
-                        new StarBattleBorderView(
-                                new StarBattleBorder(StarBattleCellType.HORIZ_BORDER));
-                temp.setSize(elementSize);
-                if (j == 0) { // set borders at the ends of the board
-                    // set on top of cell
-                    temp.setLocation(endCell(board.getCell(i, 0), 8, elementSize));
-                    horizontalBorders.add(temp);
-                } else if (j == board.getHeight()) {
-                    temp.setLocation(
-                            endCell(board.getCell(i, board.getHeight() - 1), 2, elementSize));
-                    horizontalBorders.add(temp);
-                } else if (board.getCell(i, j - 1).getGroupIndex()
-                        != board.getCell(i, j).getGroupIndex()) { // general case
-                    // adds border when two adjacent cells aren't from the same region
-                    temp.setLocation(endCell(board.getCell(i, j), 5, elementSize));
-                    horizontalBorders.add(temp);
-                }
-                // no else statement. If none of these ifs are met, then just don't add it to the
-                // list
-            }
-        }
-        // initialize vertical borders, the ones that are between two cells along the x-axis, and
-        // look like | not --
-        // largely the same code as horizontal border adder but i and j are flipped and general case
-        // checks cells adjacent
-        // along i (x) instead of j (y)
-        for (int j = 0;
-                j < board.getHeight();
-                j++) { // initialize j (y) first since we're checking the opposite axis
-            for (int i = 0; i < board.getHeight() + 1; i++) { // +1 to account for sides of board
-                StarBattleBorderView temp =
-                        new StarBattleBorderView(
-                                new StarBattleBorder(StarBattleCellType.VERT_BORDER));
-                temp.setSize(elementSize);
-                if (i == 0) { // set borders at the ends of the board
-                    temp.setLocation(endCell(board.getCell(0, j), 4, elementSize));
-                    verticalBorders.add(temp);
-                } else if (i == board.getWidth()) {
-                    temp.setLocation(
-                            endCell(board.getCell(board.getWidth() - 1, j), 6, elementSize));
-                    verticalBorders.add(temp);
-                } else if (board.getCell(i - 1, j).getGroupIndex()
-                        != board.getCell(i, j).getGroupIndex()) { // general case
-                    // adds border when two adjacent cells aren't from the same region
-                    temp.setLocation(endCell(board.getCell(i, j), 5, elementSize));
-                    verticalBorders.add(temp);
-                }
-            }
-        }
+        generateElementViews(board);
     }
 
     // Direction means which side of the cell in question should have a border on it
@@ -155,6 +88,81 @@ public class StarBattleView extends GridBoardView {
         return boardViewSize;
     }
      */
+
+    @Override
+    protected void generateElementViews(Board board) {
+        elementViews.clear();
+        StarBattleBoard starBattleBoard = (StarBattleBoard) board;
+        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
+            StarBattleCell cell = (StarBattleCell) puzzleElement;
+            Point loc = cell.getLocation();
+            StarBattleElementView elementView = new StarBattleElementView(cell);
+            elementView.setIndex(cell.getIndex());
+            elementView.setSize(elementSize);
+            elementView.setLocation(
+                    new Point(loc.x * elementSize.width, loc.y * elementSize.height));
+            elementViews.add(elementView);
+        }
+
+        // Make borders by just making a list of border objects and saving their locations as they
+        // come
+        // then just draw all of them one at a time
+
+        // initialize horizontal borders, the ones that are between two cells along the y-axis, and
+        // look like -- not |
+        for (int i = 0; i < starBattleBoard.getWidth(); i++) {
+            for (int j = 0; j < starBattleBoard.getHeight() + 1; j++) { // +1 to account for sides of board
+                StarBattleBorderView temp =
+                        new StarBattleBorderView(
+                                new StarBattleBorder(StarBattleCellType.HORIZ_BORDER));
+                temp.setSize(elementSize);
+                if (j == 0) { // set borders at the ends of the board
+                    // set on top of cell
+                    temp.setLocation(endCell(starBattleBoard.getCell(i, 0), 8, elementSize));
+                    horizontalBorders.add(temp);
+                } else if (j == starBattleBoard.getHeight()) {
+                    temp.setLocation(
+                            endCell(starBattleBoard.getCell(i, starBattleBoard.getHeight() - 1), 2, elementSize));
+                    horizontalBorders.add(temp);
+                } else if (starBattleBoard.getCell(i, j - 1).getGroupIndex()
+                        != starBattleBoard.getCell(i, j).getGroupIndex()) { // general case
+                    // adds border when two adjacent cells aren't from the same region
+                    temp.setLocation(endCell(starBattleBoard.getCell(i, j), 5, elementSize));
+                    horizontalBorders.add(temp);
+                }
+                // no else statement. If none of these ifs are met, then just don't add it to the
+                // list
+            }
+        }
+        // initialize vertical borders, the ones that are between two cells along the x-axis, and
+        // look like | not --
+        // largely the same code as horizontal border adder but i and j are flipped and general case
+        // checks cells adjacent
+        // along i (x) instead of j (y)
+        for (int j = 0;
+             j < starBattleBoard.getHeight();
+             j++) { // initialize j (y) first since we're checking the opposite axis
+            for (int i = 0; i < starBattleBoard.getHeight() + 1; i++) { // +1 to account for sides of board
+                StarBattleBorderView temp =
+                        new StarBattleBorderView(
+                                new StarBattleBorder(StarBattleCellType.VERT_BORDER));
+                temp.setSize(elementSize);
+                if (i == 0) { // set borders at the ends of the board
+                    temp.setLocation(endCell(starBattleBoard.getCell(0, j), 4, elementSize));
+                    verticalBorders.add(temp);
+                } else if (i == starBattleBoard.getWidth()) {
+                    temp.setLocation(
+                            endCell(starBattleBoard.getCell(starBattleBoard.getWidth() - 1, j), 6, elementSize));
+                    verticalBorders.add(temp);
+                } else if (starBattleBoard.getCell(i - 1, j).getGroupIndex()
+                        != starBattleBoard.getCell(i, j).getGroupIndex()) { // general case
+                    // adds border when two adjacent cells aren't from the same region
+                    temp.setLocation(endCell(starBattleBoard.getCell(i, j), 5, elementSize));
+                    verticalBorders.add(temp);
+                }
+            }
+        }
+    }
 
     @Override
     public void drawBoard(Graphics2D graphics2D) {

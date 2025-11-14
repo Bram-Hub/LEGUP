@@ -316,7 +316,7 @@ class ShortTruthTableImporter extends PuzzleImporter {
             // set the given cell values
             setGivenCells(sttBoard, dataElement, cellData, statements);
 
-            puzzle.setCurrentBoard(sttBoard);
+            puzzle.setOriginalBoard(sttBoard);
 
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
@@ -355,6 +355,6 @@ class ShortTruthTableImporter extends PuzzleImporter {
 
         // Generate and set the board - don't set given cell values since none are given
         ShortTruthTableBoard sttBoard = generateBoard(allCells, statements, maxStatementLength);
-        puzzle.setCurrentBoard(sttBoard);
+        puzzle.setOriginalBoard(sttBoard);
     }
 }

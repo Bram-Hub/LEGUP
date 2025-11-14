@@ -19,7 +19,7 @@ public class Heyawake extends Puzzle {
     /** Initializes the view. Called by the invoker of the class */
     @Override
     public void initializeView() {
-        boardView = new HeyawakeView((HeyawakeBoard) currentBoard);
+        boardView = new HeyawakeView((HeyawakeBoard) originalBoard);
     }
 
     /**

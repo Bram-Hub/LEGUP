@@ -28,7 +28,7 @@ public class MinesweeperUtilitiesTest {
 
         TestUtilities.importTestBoard("puzzles/minesweeper/utilities/3x3test", minesweeper);
 
-        final MinesweeperBoard board = (MinesweeperBoard) minesweeper.getCurrentBoard();
+        final MinesweeperBoard board = (MinesweeperBoard) minesweeper.getOriginalBoard();
         MinesweeperCell cell = board.getCell(1, 1);
 
         final Stream<MinesweeperCell> cells = MinesweeperUtilities.getSurroundingCells(board, cell);
@@ -43,7 +43,7 @@ public class MinesweeperUtilitiesTest {
 
         TestUtilities.importTestBoard("puzzles/minesweeper/utilities/3x3test", minesweeper);
 
-        final MinesweeperBoard board = (MinesweeperBoard) minesweeper.getCurrentBoard();
+        final MinesweeperBoard board = (MinesweeperBoard) minesweeper.getOriginalBoard();
         MinesweeperCell cell = board.getCell(0, 0);
 
         final Stream<MinesweeperCell> cells = MinesweeperUtilities.getSurroundingCells(board, cell);
@@ -58,7 +58,7 @@ public class MinesweeperUtilitiesTest {
 
         TestUtilities.importTestBoard("puzzles/minesweeper/utilities/3x3test", minesweeper);
 
-        final MinesweeperBoard board = (MinesweeperBoard) minesweeper.getCurrentBoard();
+        final MinesweeperBoard board = (MinesweeperBoard) minesweeper.getOriginalBoard();
         MinesweeperCell cell = board.getCell(0, 1);
 
         final Stream<MinesweeperCell> cells = MinesweeperUtilities.getSurroundingCells(board, cell);

@@ -42,7 +42,7 @@ public class NurikabeImporter extends PuzzleImporter {
                 nurikabeBoard.setCell(x, y, cell);
             }
         }
-        puzzle.setCurrentBoard(nurikabeBoard);
+        puzzle.setOriginalBoard(nurikabeBoard);
     }
 
     /**
@@ -110,7 +110,7 @@ public class NurikabeImporter extends PuzzleImporter {
                     }
                 }
             }
-            puzzle.setCurrentBoard(nurikabeBoard);
+            puzzle.setOriginalBoard(nurikabeBoard);
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "nurikabe Importer: unknown value where integer expected");

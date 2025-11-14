@@ -34,7 +34,7 @@ public class StarBattleImporter extends PuzzleImporter {
     public void initializeBoard(int rows, int columns) {
         int puzzle_num = 1;
         StarBattleBoard StarBattleBoard = new StarBattleBoard(rows, puzzle_num);
-        puzzle.setCurrentBoard(StarBattleBoard);
+        puzzle.setOriginalBoard(StarBattleBoard);
     }
 
     /**
@@ -83,7 +83,7 @@ public class StarBattleImporter extends PuzzleImporter {
             StarBattleBoard.setRegion(i, region_i);
         }
 
-        puzzle.setCurrentBoard(StarBattleBoard);
+        puzzle.setOriginalBoard(StarBattleBoard);
     }
 
     /**

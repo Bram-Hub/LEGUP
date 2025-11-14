@@ -101,11 +101,11 @@ public class CaseBoard extends Board {
     }
 
     /**
-     * Performs a deep copy of this CaseBoard. CURRENTLY NOT IMPLEMENTED AND RETURNS NULL
+     * Performs a deep copy of this CaseBoard.
      *
      * @return a new copy of the CaseBoard
      */
     public CaseBoard copy() {
-        return null;
+        return new CaseBoard(baseBoard.copy(), caseRule);
     }
 }

@@ -19,7 +19,7 @@ public class Masyu extends Puzzle {
     /** Initializes the game board. Called by the invoker of the class */
     @Override
     public void initializeView() {
-        boardView = new MasyuView((MasyuBoard) currentBoard);
+        boardView = new MasyuView((MasyuBoard) originalBoard);
     }
 
     /**

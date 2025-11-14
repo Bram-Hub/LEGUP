@@ -25,7 +25,7 @@ public class BlackOrWhiteCaseRule extends CaseRule {
         FillapixBoard fillapixBoard = (FillapixBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(fillapixBoard, this);
         fillapixBoard.setModifiable(false);
-        for (PuzzleElement data : fillapixBoard.getPuzzleElements()) {
+        for (PuzzleElement<?> data : fillapixBoard.getPuzzleElements()) {
             FillapixCell cell = (FillapixCell) data;
             if (cell.getType() == FillapixCellType.UNKNOWN) {
                 caseBoard.addPickableElement(data);

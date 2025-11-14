@@ -13,7 +13,7 @@ import java.awt.Dimension;
  * A view class for a grid-based board that displays elements in a grid layout. This class extends
  * BoardView and is responsible for managing and rendering grid-based elements.
  */
-public class GridBoardView extends BoardView {
+public abstract class GridBoardView extends BoardView {
     protected static final Logger LOGGER = LogManager.getLogger(GridBoardView.class.getName());
 
     protected Dimension gridSize;

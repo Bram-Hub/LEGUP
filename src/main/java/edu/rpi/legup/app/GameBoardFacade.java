@@ -496,7 +496,7 @@ public class GameBoardFacade implements IHistorySubject {
      * @return the initial board state
      */
     public Board getBoard() {
-        return puzzle == null ? null : puzzle.getCurrentBoard();
+        return puzzle == null ? null : puzzle.getOriginalBoard();
     }
 
     /**
@@ -505,7 +505,7 @@ public class GameBoardFacade implements IHistorySubject {
      * @param board initial board
      */
     public void setBoard(Board board) {
-        puzzle.setCurrentBoard(board);
+        puzzle.setOriginalBoard(board);
     }
 
     /**
