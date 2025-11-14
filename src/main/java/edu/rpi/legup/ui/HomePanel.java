@@ -13,6 +13,8 @@ import java.net.URI;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -308,7 +310,7 @@ public class HomePanel extends LegupPanel {
         /* Select a folder, go through each .xml file in the subfolders, look for "isSolved" flag */
         File resultFile = new File(folder.getAbsolutePath() + File.separator + "result.csv");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
-            writer.append("Name,File Name,Puzzle Type,Puzzle Tag,Solved?,Last Saved\n");
+            writer.append("Name,File Name,Puzzle Type,Puzzle Tag,Solved?,#Hash#,Depth of Proof Tree,Last Saved\n");
             // Go through student folders, recurse for inner folders
             for (final File folderEntry :
                     Objects.requireNonNull(folder.listFiles(File::isDirectory))) {
@@ -319,14 +321,86 @@ public class HomePanel extends LegupPanel {
         } catch (IOException ex) {
             LOGGER.error(ex.getMessage());
         }
-        if (resultFile.exists()) {
-            try {
-                Desktop desktop = Desktop.getDesktop();
-                desktop.open(resultFile);
+        // (CSV will be opened after duplicate-processing so the file includes the Hash Status column)
+        //Check for duplicate hashes and mark them
+        // Read the generated CSV, group data lines by the hash token (between the first two '#'),
+        // and rewrite the CSV adding a "Hash Status" column marking each entry Unique/Duplicate/NoHash.
+        List<String> allLines = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(resultFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                allLines.add(line);
+            }
+        } catch (IOException ex) {
+            LOGGER.error(ex.getMessage());
+        }
+
+        if (allLines.isEmpty()) {
+            // Nothing to process
+        } else {
+            String header = allLines.get(0);
+            // Use LinkedHashMap to preserve insertion order
+            Map<String, List<String>> grouped = new java.util.LinkedHashMap<>();
+
+            for (int idx = 1; idx < allLines.size(); idx++) {
+                String line = allLines.get(idx);
+                if (line == null || line.trim().isEmpty()) {
+                    continue;
+                }
+
+                // Extract the hash between the first two '#' characters, if present
+                int firstHash = line.indexOf('#');
+                int secondHash = (firstHash >= 0) ? line.indexOf('#', firstHash + 1) : -1;
+                String key;
+                if (firstHash >= 0 && secondHash > firstHash) {
+                    key = line.substring(firstHash + 1, secondHash);
+                } else {
+                    // No hash found; group under an empty key
+                    key = "";
+                }
+
+                grouped.computeIfAbsent(key, k -> new ArrayList<>()).add(line);
+            }
+
+            // Rewrite the CSV: preserve header, append a new column 'Hash Status'
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
+                writer.write(header);
+                writer.write(",Unique?");
+                writer.newLine();
+
+                for (Map.Entry<String, List<String>> entry : grouped.entrySet()) {
+                    List<String> rows = entry.getValue();
+                    if (rows.size() > 1) {
+                        for (String row : rows) {
+                            writer.write(row);
+                            writer.write(",Duplicate");
+                            writer.newLine();
+                        }
+                    } else {
+                        String row = rows.get(0);
+                        writer.write(row);
+                        if (entry.getKey().isEmpty()) {
+                            writer.write(",NoHash");
+                        } else {
+                            writer.write(",Unique");
+                        }
+                        writer.newLine();
+                    }
+                }
             } catch (IOException ex) {
                 LOGGER.error(ex.getMessage());
             }
         }
+
+        // Open the updated CSV so the user sees the final file with Hash Status
+        if (resultFile.exists()) {
+            try {
+                Desktop.getDesktop().open(resultFile);
+            } catch (IOException ex) {
+                LOGGER.error(ex.getMessage());
+            }
+        }
+
         JOptionPane.showMessageDialog(null, "Batch grading complete.");
         _tagsToGrade.clear();
     }
@@ -380,6 +454,8 @@ public class HomePanel extends LegupPanel {
      */
     private void parseSolvedState(Document doc, BufferedWriter writer) throws IOException {
         NodeList solvedNodes = doc.getElementsByTagName("solved");
+        // Also get the depth of the proof tree
+        NodeList treeNodes = doc.getElementsByTagName("node");
         if (solvedNodes.getLength() <= 0) {
             writer.write(",missing flag!");
             return;
@@ -406,7 +482,8 @@ public class HomePanel extends LegupPanel {
             writer.write("Error");
             LOGGER.error("Solved state could not be unhashed:\n{}", e.getMessage());
         }
-
+        // Append the isSolved attribute aka the unique hash and the depth of the proof tree
+        writer.write(","+ "#" + isSolved + "#," + treeNodes.getLength());
         // Append the lastSaved attribute
         writer.write(",");
         writer.write(!lastSaved.isEmpty() ? lastSaved : "Error");
