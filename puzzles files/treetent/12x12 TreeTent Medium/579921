@@ -1,0 +1,65 @@
+<Legup version="2.0.0">
+    <puzzle name="TreeTent" tag="579921">
+        <board height="12" width="12">
+            <cells>
+                <cell value="1" x="4" y="0"/>
+                <cell value="1" x="1" y="1"/>
+                <cell value="1" x="2" y="1"/>
+                <cell value="1" x="6" y="1"/>
+                <cell value="1" x="9" y="1"/>
+                <cell value="1" x="11" y="1"/>
+                <cell value="1" x="2" y="2"/>
+                <cell value="1" x="10" y="2"/>
+                <cell value="1" x="0" y="4"/>
+                <cell value="1" x="9" y="4"/>
+                <cell value="1" x="10" y="4"/>
+                <cell value="1" x="1" y="5"/>
+                <cell value="1" x="4" y="5"/>
+                <cell value="1" x="6" y="5"/>
+                <cell value="1" x="7" y="6"/>
+                <cell value="1" x="1" y="7"/>
+                <cell value="1" x="2" y="7"/>
+                <cell value="1" x="5" y="7"/>
+                <cell value="1" x="7" y="7"/>
+                <cell value="1" x="8" y="7"/>
+                <cell value="1" x="10" y="8"/>
+                <cell value="1" x="1" y="9"/>
+                <cell value="1" x="2" y="9"/>
+                <cell value="1" x="2" y="10"/>
+                <cell value="1" x="6" y="10"/>
+                <cell value="1" x="10" y="10"/>
+                <cell value="1" x="7" y="11"/>
+                <cell value="1" x="9" y="11"/>
+            </cells>
+            <axis side="east">
+                <clue index="A" value="3"/>
+                <clue index="B" value="2"/>
+                <clue index="C" value="2"/>
+                <clue index="D" value="3"/>
+                <clue index="E" value="3"/>
+                <clue index="F" value="1"/>
+                <clue index="G" value="3"/>
+                <clue index="H" value="3"/>
+                <clue index="I" value="2"/>
+                <clue index="J" value="2"/>
+                <clue index="K" value="2"/>
+                <clue index="L" value="2"/>
+            </axis>
+            <axis side="south">
+                <clue index="1" value="3"/>
+                <clue index="2" value="2"/>
+                <clue index="3" value="2"/>
+                <clue index="4" value="3"/>
+                <clue index="5" value="3"/>
+                <clue index="6" value="1"/>
+                <clue index="7" value="3"/>
+                <clue index="8" value="3"/>
+                <clue index="9" value="2"/>
+                <clue index="10" value="2"/>
+                <clue index="11" value="2"/>
+                <clue index="12" value="2"/>
+            </axis>
+        </board>
+    </puzzle>
+    <solved isSolved="-2010495071" lastSaved="2024-11-08 17:14:34"/>
+</Legup>

@@ -1,0 +1,11 @@
+FPIX-BASC-0001 : FinishWithBlackDirectRule
+FPIX-BASC-0002 : FinishWithWhiteDirectRule
+FPIX-BASC-0003 : MirrorDirectRule
+FPIX-BASC-0004 : TouchingSidesDirectRule
+FPIX-BASC-0005 : TouchingCornersDirectRule
+
+FPIX-CONT-0001 : TooFewBlackCellsContradictionRule
+FPIX-CONT-0002 : TooManyBlackCellsContradictionRule
+
+FPIX-CASE-0001 : BlackOrWhiteCaseRule
+FPIX-CASE-0002 : CompleteClueCaseRule

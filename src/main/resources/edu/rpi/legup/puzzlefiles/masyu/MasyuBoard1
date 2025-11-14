@@ -1,0 +1,29 @@
+<edu.rpi.legup.Legup>
+    <edu.rpi.legup.puzzle name="Masyu">
+        <board width="8" height="8">
+            <cells>
+                <cell value="2" x="1" y="1"/>
+                <cell value="2" x="3" y="1"/>
+                <cell value="2" x="2" y="2"/>
+                <cell value="2" x="3" y="2"/>
+                <cell value="2" x="6" y="2"/>
+                <cell value="2" x="7" y="2"/>
+                <cell value="2" x="1" y="3"/>
+                <cell value="2" x="3" y="3"/>
+                <cell value="2" x="6" y="3"/>
+                <cell value="1" x="0" y="4"/>
+                <cell value="2" x="7" y="5"/>
+                <cell value="2" x="1" y="6"/>
+                <cell value="2" x="2" y="6"/>
+                <cell value="2" x="3" y="6"/>
+                <cell value="2" x="4" y="6"/>
+                <cell value="2" x="5" y="6"/>
+            </cells>
+            <lines>
+                <line x1="1" y1="2" x2="1" y2="2"/>
+                <line x1="1" y1="2" x2="1" y2="2"/>
+                <line x1="1" y1="2" x2="1" y2="2"/>
+            </lines>
+        </board>
+    </edu.rpi.legup.puzzle>
+</edu.rpi.legup.Legup>

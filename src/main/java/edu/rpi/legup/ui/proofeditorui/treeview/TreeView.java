@@ -1,0 +1,1035 @@
+package edu.rpi.legup.ui.proofeditorui.treeview;
+
+import static edu.rpi.legup.model.tree.TreeElementType.NODE;
+import static edu.rpi.legup.model.tree.TreeElementType.TRANSITION;
+import static edu.rpi.legup.ui.proofeditorui.treeview.TreeNodeView.DIAMETER;
+import static edu.rpi.legup.ui.proofeditorui.treeview.TreeNodeView.RADIUS;
+
+import edu.rpi.legup.app.GameBoardFacade;
+import edu.rpi.legup.controller.TreeController;
+import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.observer.ITreeListener;
+import edu.rpi.legup.model.rules.CaseRule;
+import edu.rpi.legup.model.rules.Rule;
+import edu.rpi.legup.model.tree.Tree;
+import edu.rpi.legup.model.tree.TreeElement;
+import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.ui.ScrollView;
+import edu.rpi.legup.utility.DisjointSets;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.*;
+import java.util.List;
+import javax.swing.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+/**
+ * The {@code TreeView} class provides a graphical representation of a {@code Tree} structure,
+ * allowing interaction and visualization of tree elements, transitions, and selections. It extends
+ * {@code ScrollView} and implements {@code ITreeListener} to respond to updates in the tree
+ * structure.
+ */
+public class TreeView extends ScrollView implements ITreeListener {
+    private static final Logger LOGGER = LogManager.getLogger(TreeView.class.getName());
+
+    private static final int TRANS_GAP = 5;
+
+    private static final int NODE_GAP_WIDTH = 70;
+    private static final int NODE_GAP_HEIGHT = 15;
+
+    private static final int BORDER_GAP_HEIGHT = 20;
+    private static final int BORDER_GAP_WIDTH = 20;
+
+    private static final int BORDER_SPACING = 100;
+
+    private TreeNodeView nodeHover;
+
+    private ArrayList<Rectangle> currentStateBoxes;
+    private Rectangle bounds = new Rectangle(0, 0, 0, 0);
+
+    private Tree tree;
+    private TreeNodeView rootNodeView;
+    private Map<TreeElement, TreeElementView> viewMap;
+    private Dimension dimension;
+
+    private TreeViewSelection selection;
+
+    /**
+     * Constructs a {@code TreeView} with the specified {@code TreeController}.
+     *
+     * @param treeController the {@code TreeController} used to manage tree operations
+     */
+    public TreeView(TreeController treeController) {
+        super(treeController);
+        currentStateBoxes = new ArrayList<>();
+        setSize(dimension = new Dimension(100, 200));
+        setPreferredSize(new Dimension(640, 160));
+
+        viewMap = new HashMap<>();
+
+        selection = new TreeViewSelection();
+    }
+
+    /**
+     * Gets the current tree view selection
+     *
+     * @return the {@code TreeViewSelection} object representing the current selection
+     */
+    public TreeViewSelection getSelection() {
+        return selection;
+    }
+
+    /**
+     * Gets the tree node puzzleElement that the mouse is hovering over
+     *
+     * @return tree node puzzleElement that the mouse is hovering over
+     */
+    public TreeNodeView getNodeHover() {
+        return nodeHover;
+    }
+
+    /**
+     * Sets the tree node puzzleElement that the mouse is hovering over
+     *
+     * @param nodeHover tree node puzzleElement the mouse is hovering over
+     */
+    public void setNodeHover(TreeNodeView nodeHover) {
+        this.nodeHover = nodeHover;
+    }
+
+    /**
+     * Gets the TreeElementView by the specified point or null if no view exists at the specified
+     * point
+     *
+     * @param point location to query for a view
+     * @return TreeElementView at the point specified, otherwise null
+     */
+    public TreeElementView getTreeElementView(Point point) {
+        return getTreeElementView(point, rootNodeView);
+    }
+
+    /**
+     * Recursively gets the TreeElementView by the specified point or null if no view exists at the
+     * specified point or the view specified is null
+     *
+     * @param point location to query for a view
+     * @param elementView view to determine if the point is contained within it
+     * @return TreeElementView at the point specified, otherwise null
+     */
+    private TreeElementView getTreeElementView(Point point, TreeElementView elementView) {
+        if (elementView == null) {
+            return null;
+        } else {
+            if (elementView.contains(point) && elementView.isVisible()) {
+                if (elementView.getType() == NODE
+                        && ((TreeNodeView) elementView).isContradictoryState()) {
+                    return null;
+                }
+                return elementView;
+            } else {
+                if (elementView.getType() == NODE) {
+                    TreeNodeView nodeView = (TreeNodeView) elementView;
+                    for (TreeTransitionView transitionView : nodeView.getChildrenViews()) {
+                        TreeElementView view = getTreeElementView(point, transitionView);
+                        if (view != null) {
+                            return view;
+                        }
+                    }
+                } else {
+                    TreeTransitionView transitionView = (TreeTransitionView) elementView;
+                    return getTreeElementView(point, transitionView.getChildView());
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Updates the tree view with the specified {@code Tree}
+     *
+     * @param tree the {@code Tree} to display in the view
+     */
+    public void updateTreeView(Tree tree) {
+        this.tree = tree;
+        if (selection.getSelectedViews().size() == 0) {
+            selection.newSelection(new TreeNodeView(tree.getRootNode()));
+        }
+        repaint();
+    }
+
+    /**
+     * Sets the tree associated with this TreeView
+     *
+     * @param tree tree
+     */
+    public void setTree(Tree tree) {
+        this.tree = tree;
+    }
+
+    /** Updates the size of the tree view based on the bounds of its tree */
+    public void updateTreeSize() {
+        if (GameBoardFacade.getInstance().getTree() == null) {
+            return;
+        }
+        setSize(bounds.getSize());
+    }
+
+    /** Resets the view if the tree bounds have been modified */
+    public void reset() {
+        if (bounds.x != 0 || bounds.y != 0) {
+            updateTreeSize();
+        }
+    }
+
+    /**
+     * Adjusts the zoom level to fit the entire tree within the viewport when the Resize Proof
+     * button is selected
+     */
+    public void zoomFit() {
+        final int MIN_HEIGHT = 200;
+        double fitWidth = (viewport.getWidth() - 7.0) / (getSize().width - 75);
+        double fitHeight = (viewport.getHeight()) / Math.max((getSize().height - 115), MIN_HEIGHT);
+        zoomTo(Math.min(fitWidth, fitHeight));
+        viewport.setViewPosition(new Point(0, viewport.getHeight() / 2));
+    }
+
+    /**
+     * Creates a customized viewport for the scroll pane
+     *
+     * @return viewport for the scroll pane
+     */
+    @Override
+    protected JViewport createViewport() {
+        return new JViewport() {
+            @Override
+            protected LayoutManager createLayoutManager() {
+                return new ViewportLayout() {
+                    @Override
+                    public void layoutContainer(Container parent) {
+                        Point point = viewport.getViewPosition();
+                        // determine the maximum x and y view positions
+                        int mx = getCanvas().getWidth() - viewport.getWidth();
+                        int my = getCanvas().getHeight() - viewport.getHeight();
+                        // obey edge boundaries
+                        if (point.x < 0) {
+                            point.x = 0;
+                        }
+                        if (point.x > mx) {
+                            point.x = mx;
+                        }
+                        if (point.y < 0) {
+                            point.y = 0;
+                        }
+                        if (point.y > my) {
+                            point.y = my;
+                        }
+                        // center margins
+                        if (mx < 0) {
+                            point.x = 0;
+                        }
+                        if (my < 0) {
+                            point.y = my / 2;
+                        }
+                        viewport.setViewPosition(point);
+                    }
+                };
+            }
+        };
+    }
+
+    /**
+     * Draws the tree view on the provided {@code Graphics2D} context
+     *
+     * @param graphics2D the {@code Graphics2D} context to draw on
+     */
+    public void draw(Graphics2D graphics2D) {
+        currentStateBoxes.clear();
+        Tree tree = GameBoardFacade.getInstance().getTree();
+        if (tree != null) {
+            // setSize(bounds.getDimension());
+            graphics2D.setRenderingHint(
+                    RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            graphics2D.setRenderingHint(
+                    RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+            drawTree(graphics2D);
+
+            dimension.width += BORDER_SPACING;
+            setSize(dimension);
+            //            graphics2D.drawRect(0,0, dimension.width, dimension.height);
+
+            if (selection.getHover() != null) {
+                drawMouseOver(graphics2D);
+            }
+        }
+    }
+
+    /**
+     * Resets the zoom level to its default state and positions the viewport from the top-left
+     * corner
+     */
+    public void zoomReset() {
+        zoomTo(1.0);
+        viewport.setViewPosition(new Point(0, 0));
+    }
+
+    /**
+     * Recursively redraws the tree starting from the specified node view
+     *
+     * @param graphics2D the {@code Graphics2D} context to draw on
+     * @param nodeView the {@code TreeNodeView} to start drawing from
+     */
+    private void redrawTree(Graphics2D graphics2D, TreeNodeView nodeView) {
+        if (nodeView != null) {
+            nodeView.draw(graphics2D);
+            for (TreeTransitionView transitionView : nodeView.getChildrenViews()) {
+                transitionView.draw(graphics2D);
+                redrawTree(graphics2D, transitionView.getChildView());
+            }
+        }
+    }
+
+    /**
+     * Removes the specified {@code TreeElementView} from the tree view
+     *
+     * @param view the {@code TreeElementView} to remove
+     */
+    public void removeTreeElement(TreeElementView view) {
+        if (view.getType() == NODE) {
+            TreeNodeView nodeView = (TreeNodeView) view;
+            nodeView.getParentView().setChildView(null);
+        } else {
+            TreeTransitionView transitionView = (TreeTransitionView) view;
+            transitionView
+                    .getParentViews()
+                    .forEach((TreeNodeView n) -> n.removeChildrenView(transitionView));
+        }
+    }
+
+    /**
+     * When the edu.rpi.legup.user hovers over the transition, draws the corresponding rules image
+     *
+     * @param g the graphics to use to draw
+     */
+    public void drawMouseOver(Graphics2D g) {
+        if (selection.getHover().getType() == TRANSITION
+                && ((TreeTransitionView) selection.getHover()).getTreeElement().isJustified()) {
+            TreeTransition transition = (TreeTransition) selection.getHover().treeElement;
+            int imgWidth = 100;
+            int imgHeight = 100;
+
+            BufferedImage image =
+                    new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_ARGB);
+            image.createGraphics()
+                    .drawImage(transition.getRule().getImageIcon().getImage(), 0, 0, null);
+            Point mousePoint = selection.getMousePoint();
+            g.drawImage(image, mousePoint.x, mousePoint.y - 50, imgWidth, imgHeight, null);
+        }
+    }
+
+    /** Resets the view by clearing the current tree, root node view, and selection */
+    public void resetView() {
+        this.tree = null;
+        this.rootNodeView = null;
+        this.selection.clearSelection();
+        this.selection.clearHover();
+    }
+
+    /**
+     * Called when a tree puzzleElement is added to the tree
+     *
+     * @param treeElement TreeElement that was added to the tree
+     */
+    @Override
+    public void onTreeElementAdded(TreeElement treeElement) {
+        if (treeElement.getType() == NODE) {
+            addTreeNode((TreeNode) treeElement);
+        } else {
+            addTreeTransition((TreeTransition) treeElement);
+        }
+        repaint();
+    }
+
+    /**
+     * Called when a tree puzzleElement is removed from the tree
+     *
+     * @param element TreeElement that was removed to the tree
+     */
+    @Override
+    public void onTreeElementRemoved(TreeElement element) {
+        if (element.getType() == NODE) {
+            TreeNode node = (TreeNode) element;
+            TreeNodeView nodeView = (TreeNodeView) viewMap.get(node);
+
+            nodeView.getParentView().setChildView(null);
+            removeTreeNode(node);
+        } else {
+            TreeTransition trans = (TreeTransition) element;
+            TreeTransitionView transView = (TreeTransitionView) viewMap.get(trans);
+
+            // unlock ancestor elements if case rule deleted
+            Rule rule = trans.getRule();
+            for (TreeNode node : trans.getParents()) {
+
+                // only if the last case of a case rule will be deleted
+                if (!(rule instanceof CaseRule && node.getChildren().isEmpty())) {
+                    continue;
+                }
+
+                CaseRule caseRule = (CaseRule) rule;
+                // set dependent elements to be modifiable by ancestors (if not dependent on others)
+                List<TreeNode> ancestors = node.getAncestors();
+                for (TreeNode ancestor : ancestors) {
+                    // for all ancestors but root
+                    if (ancestor.getParent() == null) {
+                        continue;
+                    }
+
+                    for (PuzzleElement pelement :
+                            caseRule.dependentElements(node.getBoard(), trans.getSelection())) {
+                        // decrement, unlock if 0 cases depended
+                        PuzzleElement oldElement =
+                                ancestor.getParent().getBoard().getPuzzleElement(pelement);
+                        oldElement.setCasesDepended(oldElement.getCasesDepended() - 1);
+                        if (oldElement.getCasesDepended() != 0) {
+                            continue;
+                        }
+
+                        // set modifiable if started modifiable
+                        boolean modifiable =
+                                tree.getRootNode()
+                                        .getBoard()
+                                        .getPuzzleElement(oldElement)
+                                        .isModifiable();
+
+                        // unmodifiable if already modified
+                        TreeNode modNode = ancestor.getParent().getParents().get(0);
+                        while (modNode.getParent() != null) {
+                            Board modBoard = modNode.getParent().getBoard();
+                            if (modBoard.getModifiedData()
+                                    .contains(modBoard.getPuzzleElement(oldElement))) {
+                                modifiable = false;
+                                break;
+                            }
+                            modNode = modNode.getParent().getParents().get(0);
+                        }
+                        oldElement.setModifiable(modifiable);
+                    }
+                }
+            }
+
+            transView.getParentViews().forEach(n -> n.removeChildrenView(transView));
+            removeTreeTransition(trans);
+        }
+        repaint();
+    }
+
+    /**
+     * Called when the tree selection was changed
+     *
+     * @param selection tree selection that was changed
+     */
+    @Override
+    public void onTreeSelectionChanged(TreeViewSelection selection) {
+        this.selection.getSelectedViews().forEach(v -> v.setSelected(false));
+        selection.getSelectedViews().forEach(v -> v.setSelected(true));
+        this.selection = selection;
+        repaint();
+    }
+
+    /** Called when the model has finished updating the tree. */
+    @Override
+    public void onUpdateTree() {
+        repaint();
+    }
+
+    /**
+     * Gets the TreeElementView by the corresponding TreeElement associated with it
+     *
+     * @param element TreeElement of the view
+     * @return TreeElementView of the TreeElement associated with it
+     */
+    public TreeElementView getElementView(TreeElement element) {
+        return viewMap.get(element);
+    }
+
+    /**
+     * Removes the specified {@link TreeNode} and its associated views
+     *
+     * @param node the {@link TreeNode} to be removed
+     */
+    public void removeTreeNode(TreeNode node) {
+        viewMap.remove(node);
+        if (node.getChildren() != null) {
+            node.getChildren().forEach(t -> removeTreeTransition(t));
+        }
+
+        List<TreeTransition> children = node.getChildren();
+
+        // if child is a case rule, unlock ancestor elements
+        if (!children.isEmpty()) {
+            Rule rule = children.get(0).getRule();
+            if (rule instanceof CaseRule) {
+                CaseRule caseRule = (CaseRule) rule;
+                // set dependent elements to be modifiable by ancestors (if not dependent on others)
+                List<TreeNode> ancestors = node.getAncestors();
+                for (TreeNode ancestor : ancestors) {
+                    // for all ancestors but root
+                    if (ancestor.getParent() == null) {
+                        continue;
+                    }
+                    for (PuzzleElement pelement :
+                            caseRule.dependentElements(
+                                    node.getBoard(), children.get(0).getSelection())) {
+                        // decrement, unlock if 0 cases depended
+                        PuzzleElement oldElement =
+                                ancestor.getParent().getBoard().getPuzzleElement(pelement);
+                        oldElement.setCasesDepended(oldElement.getCasesDepended() - 1);
+                        if (oldElement.getCasesDepended() == 0) {
+                            continue;
+                        }
+
+                        // set modifiable if started modifiable
+                        boolean modifiable = false;
+                        if (tree != null) {
+                            tree.getRootNode()
+                                    .getBoard()
+                                    .getPuzzleElement(oldElement)
+                                    .isModifiable();
+                        }
+
+                        // unmodifiable if already modified
+                        TreeNode modNode = ancestor.getParent().getParents().get(0);
+                        while (modNode.getParent() != null) {
+                            Board modBoard = modNode.getParent().getBoard();
+                            if (modBoard.getModifiedData()
+                                    .contains(modBoard.getPuzzleElement(oldElement))) {
+                                modifiable = false;
+                                break;
+                            }
+                            modNode = modNode.getParent().getParents().get(0);
+                        }
+                        oldElement.setModifiable(modifiable);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Removes the specified {@link TreeTransition} and its associated views
+     *
+     * @param trans the {@link TreeTransition} to be removed
+     */
+    public void removeTreeTransition(TreeTransition trans) {
+        viewMap.remove(trans);
+        if (trans.getChildNode() != null) {
+            removeTreeNode(trans.getChildNode());
+        }
+
+        // Update transition modifiability if removing a case rule
+        List<TreeNode> parents = trans.getParents();
+        for (TreeNode parent : parents) {
+            // if transition is a case rule, unlock ancestor elements up until latest case rule or
+            // root node
+            boolean nextAncestorIsCaseRule = false;
+            Rule rule = trans.getRule();
+            if (rule instanceof CaseRule) {
+                List<TreeNode> ancestors = parent.getAncestors();
+                for (int i = 0; i < ancestors.size(); i++) {
+                    if (ancestors.get(i).getParent() == null) {
+                        continue;
+                    }
+                    if (nextAncestorIsCaseRule) {
+                        break;
+                    }
+                    for (PuzzleElement element : parent.getBoard().getPuzzleElements()) {
+                        PuzzleElement curElement =
+                                ancestors.get(i).getParent().getBoard().getPuzzleElement(element);
+                        if (!curElement.isModifiableCaseRule()) {
+                            curElement.setModifiableCaseRule(true);
+                        }
+                    }
+                    if (ancestors.get(i).getParent().getRule() instanceof CaseRule) {
+                        nextAncestorIsCaseRule = true;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Adds the specified {@link TreeNode} and its associated views
+     *
+     * @param node the {@link TreeNode} to be added
+     */
+    private void addTreeNode(TreeNode node) {
+        TreeTransition parent = node.getParent();
+        TreeNodeView nodeView = new TreeNodeView(node);
+
+        TreeTransitionView parentView = (TreeTransitionView) viewMap.get(parent);
+        nodeView.setParentView(parentView);
+        parentView.setChildView(nodeView);
+
+        viewMap.put(node, nodeView);
+
+        if (!node.getChildren().isEmpty()) {
+
+            // if adding a case rule, lock dependent ancestor elements
+            Rule rule = node.getChildren().get(0).getRule();
+            if (rule instanceof CaseRule) {
+                CaseRule caseRule = (CaseRule) rule;
+
+                List<TreeNode> ancestors = node.getAncestors();
+                for (TreeNode ancestor : ancestors) {
+                    // for all ancestors but root
+                    if (ancestor.getParent() == null) {
+                        continue;
+                    }
+                    for (PuzzleElement element :
+                            caseRule.dependentElements(
+                                    node.getBoard(), node.getChildren().get(0).getSelection())) {
+                        // increment and lock
+                        PuzzleElement oldElement =
+                                ancestor.getParent().getBoard().getPuzzleElement(element);
+                        oldElement.setCasesDepended(oldElement.getCasesDepended() + 1);
+                        oldElement.setModifiable(false);
+                    }
+                }
+            }
+
+            node.getChildren().forEach(t -> addTreeTransition(t));
+        }
+    }
+
+    /**
+     * Adds the specified {@link TreeTransition} and its associated views
+     *
+     * @param trans The {@link TreeTransition} to be added
+     */
+    private void addTreeTransition(TreeTransition trans) {
+        List<TreeNode> parents = trans.getParents();
+        TreeTransitionView transView = new TreeTransitionView(trans);
+
+        for (TreeNode parent : parents) {
+            TreeNodeView parentNodeView = (TreeNodeView) viewMap.get(parent);
+            transView.addParentView(parentNodeView);
+            parentNodeView.addChildrenView(transView);
+
+            viewMap.put(trans, transView);
+
+            // if transition is a new case rule, lock dependent ancestor elements
+            Rule rule = trans.getRule();
+            if (rule instanceof CaseRule && parent.getChildren().size() == 1) {
+                List<TreeNode> ancestors = parent.getAncestors();
+                for (TreeNode ancestor : ancestors) {
+                    // for all ancestors but root
+                    if (ancestor.getParent() == null) {
+                        continue;
+                    }
+
+                    for (PuzzleElement element : parent.getBoard().getPuzzleElements()) {
+                        PuzzleElement curElement =
+                                ancestor.getParent().getBoard().getPuzzleElement(element);
+                        curElement.setModifiableCaseRule(false);
+                    }
+                }
+            }
+        }
+
+        if (trans.getChildNode() != null) {
+            addTreeNode(trans.getChildNode());
+        }
+    }
+
+    /**
+     * Draws the tree using the provided {@link Graphics2D} object
+     *
+     * @param graphics2D the {@link Graphics2D} object used for drawing the tree
+     */
+    public void drawTree(Graphics2D graphics2D) {
+        if (tree == null) {
+            LOGGER.error("Unable to draw tree.");
+        } else {
+            if (rootNodeView == null) {
+                rootNodeView = new TreeNodeView(tree.getRootNode());
+
+                LOGGER.debug("Creating new views for tree view.");
+                createViews(rootNodeView);
+
+                selection.newSelection(rootNodeView);
+            }
+
+            dimension = new Dimension(0, 0);
+            calcSpan(rootNodeView);
+            rootNodeView.setSpan(rootNodeView.getSpan() + DIAMETER + BORDER_SPACING);
+
+            calculateViewLocations(rootNodeView, 0);
+            dimension.height = (int) rootNodeView.getSpan();
+
+            redrawTree(graphics2D, rootNodeView);
+            LOGGER.debug("DrawTree: dimensions - " + dimension.width + "x" + dimension.height);
+        }
+    }
+
+    /**
+     * Creates views for the given {@link TreeNodeView} and its children
+     *
+     * @param nodeView the {@link TreeNodeView} for which to create views
+     */
+    public void createViews(TreeNodeView nodeView) {
+        if (nodeView != null) {
+            viewMap.put(nodeView.getTreeElement(), nodeView);
+
+            TreeNode node = nodeView.getTreeElement();
+            for (TreeTransition trans : node.getChildren()) {
+                TreeTransitionView transView = (TreeTransitionView) viewMap.get(trans);
+                if (transView != null) {
+                    nodeView.addChildrenView(transView);
+                    transView.addParentView(nodeView);
+                    break;
+                }
+                transView = new TreeTransitionView(trans);
+
+                viewMap.put(transView.getTreeElement(), transView);
+
+                transView.addParentView(nodeView);
+                nodeView.addChildrenView(transView);
+
+                TreeNode childNode = trans.getChildNode();
+                if (childNode != null) {
+                    TreeNodeView childNodeView = new TreeNodeView(childNode);
+                    viewMap.put(childNodeView.getTreeElement(), childNodeView);
+
+                    childNodeView.setParentView(transView);
+                    transView.setChildView(childNodeView);
+
+                    createViews(childNodeView);
+                }
+            }
+        }
+    }
+
+    /**
+     * Calculates the layout locations (x and y coordinates) of the nodes in the tree. This method
+     * recursively traverses the tree and updates the positions of nodes and transitions based on
+     * their depth and parent relationships.
+     *
+     * @param nodeView the node view to calculate the positions for
+     * @param depth the depth of the node in the tree, used to calculate its x-coordinate
+     */
+    public void calculateViewLocations(TreeNodeView nodeView, int depth) {
+        nodeView.setDepth(depth);
+        int xLoc = (NODE_GAP_WIDTH + DIAMETER) * depth + DIAMETER;
+        nodeView.setX(xLoc);
+        dimension.width = Math.max(dimension.width, xLoc);
+
+        TreeTransitionView parentTransView = nodeView.getParentView();
+        int yLoc =
+                parentTransView == null ? (int) nodeView.getSpan() / 2 : parentTransView.getEndY();
+        nodeView.setY(yLoc);
+
+        ArrayList<TreeTransitionView> children = nodeView.getChildrenViews();
+        switch (children.size()) {
+            case 0:
+                break;
+            case 1:
+                {
+                    TreeTransitionView childView = children.get(0);
+
+                    List<TreeNodeView> parentsViews = childView.getParentViews();
+                    if (parentsViews.size() == 1) {
+                        childView.setEndY(yLoc);
+
+                        childView.setDepth(depth);
+
+                        Point lineStartPoint = childView.getLineStartPoint(0);
+                        lineStartPoint.x = xLoc + RADIUS + TRANS_GAP / 2;
+                        lineStartPoint.y = yLoc;
+                        childView.setEndX(
+                                (NODE_GAP_WIDTH + DIAMETER) * (depth + 1) + RADIUS - TRANS_GAP / 2);
+
+                        dimension.width = Math.max(dimension.width, childView.getEndX());
+
+                        TreeNodeView childNodeView = childView.getChildView();
+                        if (childNodeView != null) {
+                            calculateViewLocations(childNodeView, depth + 1);
+                        }
+                    } else {
+                        if (parentsViews.size() > 1
+                                && parentsViews.get(parentsViews.size() - 1) == nodeView) {
+                            int yAvg = 0;
+                            for (int i = 0; i < parentsViews.size(); i++) {
+                                TreeNodeView parentNodeView = parentsViews.get(i);
+                                depth = Math.max(depth, parentNodeView.getDepth());
+                                yAvg += parentNodeView.getY();
+
+                                Point lineStartPoint = childView.getLineStartPoint(i);
+                                lineStartPoint.x = parentNodeView.getX() + RADIUS + TRANS_GAP / 2;
+                                lineStartPoint.y = parentNodeView.getY();
+                            }
+                            yAvg /= parentsViews.size();
+                            childView.setEndY(yAvg);
+
+                            childView.setDepth(depth);
+
+                            childView.setEndX(
+                                    (NODE_GAP_WIDTH + DIAMETER) * (depth + 1)
+                                            + RADIUS
+                                            - TRANS_GAP / 2);
+
+                            dimension.width = Math.max(dimension.width, childView.getEndX());
+
+                            TreeNodeView childNodeView = childView.getChildView();
+                            if (childNodeView != null) {
+                                calculateViewLocations(childNodeView, depth + 1);
+                            }
+                        }
+                    }
+                    break;
+                }
+            default:
+                {
+                    int span = 0;
+                    for (TreeTransitionView childView : children) {
+                        span += childView.getSpan();
+                    }
+
+                    span = (int) ((nodeView.getSpan() - span) / 2);
+                    for (int i = 0; i < children.size(); i++) {
+                        TreeTransitionView childView = children.get(i);
+
+                        childView.setDepth(depth);
+
+                        Point lineStartPoint = childView.getLineStartPoint(0);
+                        lineStartPoint.x = xLoc + RADIUS + TRANS_GAP / 2;
+                        lineStartPoint.y = yLoc;
+                        childView.setEndX(
+                                (NODE_GAP_WIDTH + DIAMETER) * (depth + 1) + RADIUS - TRANS_GAP / 2);
+                        childView.setEndY(
+                                yLoc
+                                        - (int) (nodeView.getSpan() / 2)
+                                        + span
+                                        + (int) (childView.getSpan() / 2));
+
+                        span += childView.getSpan();
+                        TreeNodeView childNodeView = childView.getChildView();
+                        if (childNodeView != null) {
+                            calculateViewLocations(childNodeView, depth + 1);
+                        }
+                    }
+                    break;
+                }
+        }
+    }
+
+    /**
+     * Calculates the span (height) required for the given view, including its children. This method
+     * recursively determines the span for nodes and transitions based on their children and the
+     * merging branches they belong to.
+     *
+     * @param view the view whose span is to be calculated
+     */
+    public void calcSpan(TreeElementView view) {
+        if (view.getType() == NODE) {
+            TreeNodeView nodeView = (TreeNodeView) view;
+            TreeNode node = nodeView.getTreeElement();
+            if (nodeView.getChildrenViews().size() == 0) {
+                nodeView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
+            } else {
+                if (nodeView.getChildrenViews().size() == 1) {
+                    TreeTransitionView childView = nodeView.getChildrenViews().get(0);
+                    calcSpan(childView);
+                    if (childView.getParentViews().size() > 1) {
+                        nodeView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
+                    } else {
+                        nodeView.setSpan(childView.getSpan());
+                    }
+                } else {
+                    DisjointSets<TreeTransition> branches = node.findMergingBranches();
+                    List<TreeTransition> children = node.getChildren();
+
+                    if (node == children.get(0).getParents().get(0)) {
+                        reorderBranches(node, branches);
+                        ArrayList<TreeTransitionView> newChildrenViews = new ArrayList<>();
+                        for (TreeTransition trans : node.getChildren()) {
+                            newChildrenViews.add((TreeTransitionView) viewMap.get(trans));
+                        }
+                        nodeView.setChildrenViews(newChildrenViews);
+                    }
+
+                    List<Set<TreeTransition>> mergingSets = branches.getAllSets();
+
+                    double span = 0.0;
+                    for (Set<TreeTransition> mergeSet : mergingSets) {
+                        if (mergeSet.size() > 1) {
+                            TreeTransition mergePoint = TreeNode.findMergingPoint(mergeSet);
+                            TreeTransitionView mergePointView =
+                                    (TreeTransitionView) viewMap.get(mergePoint);
+                            double subSpan = 0.0;
+                            for (TreeTransition branch : mergeSet) {
+                                TreeTransitionView branchView =
+                                        (TreeTransitionView) viewMap.get(branch);
+                                subCalcSpan(branchView, mergePointView);
+                                subSpan += branchView.getSpan();
+                            }
+                            calcSpan(mergePointView);
+                            span += Math.max(mergePointView.getSpan(), subSpan);
+                        } else {
+                            TreeTransition trans = mergeSet.iterator().next();
+                            TreeTransitionView transView = (TreeTransitionView) viewMap.get(trans);
+                            calcSpan(transView);
+                            span += transView.getSpan();
+                        }
+                    }
+                    nodeView.setSpan(span);
+                }
+            }
+        } else {
+            TreeTransitionView transView = (TreeTransitionView) view;
+            TreeNodeView nodeView = transView.getChildView();
+            if (nodeView == null) {
+                transView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
+            } else {
+                calcSpan(nodeView);
+                transView.setSpan(nodeView.getSpan());
+            }
+        }
+    }
+
+    /**
+     * Calculates the span of a subtree rooted at the specified view, stopping at the given stop
+     * view. The stop view is not included in the span calculation.
+     *
+     * @param view the root view of the subtree to calculate the span for
+     * @param stop the view at which to stop the span calculation. The stop view itself is not
+     *     included in the span calculation
+     */
+    private void subCalcSpan(TreeElementView view, TreeElementView stop) {
+        // safe-guard for infinite loop
+        if (view == stop) {
+            return;
+        }
+
+        if (view.getType() == NODE) {
+            TreeNodeView nodeView = (TreeNodeView) view;
+            TreeNode node = nodeView.getTreeElement();
+            if (nodeView.getChildrenViews().size() == 0) {
+                nodeView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
+            } else {
+                if (nodeView.getChildrenViews().size() == 1) {
+                    TreeTransitionView childView = nodeView.getChildrenViews().get(0);
+                    if (childView == stop) {
+                        nodeView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
+                    } else {
+                        subCalcSpan(childView, stop);
+                        if (childView.getParentViews().size() > 1) {
+                            nodeView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
+                        } else {
+                            nodeView.setSpan(childView.getSpan());
+                        }
+                    }
+                } else {
+                    DisjointSets<TreeTransition> branches = node.findMergingBranches();
+                    List<TreeTransition> children = node.getChildren();
+
+                    if (node == children.get(0).getParents().get(0)) {
+                        reorderBranches(node, branches);
+                    }
+
+                    List<Set<TreeTransition>> mergingSets = branches.getAllSets();
+
+                    double span = 0.0;
+                    for (Set<TreeTransition> mergeSet : mergingSets) {
+                        if (mergeSet.size() > 1) {
+                            TreeTransition mergePoint = TreeNode.findMergingPoint(mergeSet);
+                            TreeTransitionView mergePointView =
+                                    (TreeTransitionView) viewMap.get(mergePoint);
+                            double subSpan = 0.0;
+                            for (TreeTransition branch : mergeSet) {
+                                TreeTransitionView branchView =
+                                        (TreeTransitionView) viewMap.get(branch);
+                                subCalcSpan(branchView, mergePointView);
+                                subSpan += branchView.getSpan();
+                            }
+                            subCalcSpan(mergePointView, stop);
+                            span += Math.max(mergePointView.getSpan(), subSpan);
+                        } else {
+                            TreeTransition trans = mergeSet.iterator().next();
+                            TreeTransitionView transView = (TreeTransitionView) viewMap.get(trans);
+                            subCalcSpan(transView, stop);
+                            span += transView.getSpan();
+                        }
+                    }
+
+                    nodeView.setSpan(span);
+                }
+            }
+        } else {
+            TreeTransitionView transView = (TreeTransitionView) view;
+            TreeNodeView nodeView = transView.getChildView();
+            if (nodeView == null || nodeView == stop) {
+                transView.setSpan(DIAMETER + NODE_GAP_HEIGHT);
+            } else {
+                calcSpan(nodeView);
+                transView.setSpan(nodeView.getSpan());
+            }
+        }
+    }
+
+    /**
+     * Reorders the branches of a given node such that branches that merge are grouped together
+     * sequentially. Transitions are kept in their relative order based on their original positions
+     * in the list of child transitions of the specified node. This ensures that the visual
+     * representation of the branches and transitions maintains a logical and readable structure.
+     *
+     * @param node the root node whose branches are to be reordered
+     * @param branches a DisjointSets structure representing the merging relationships of the child
+     *     branches of the specified node. This determines which branches should be grouped together
+     */
+    private void reorderBranches(TreeNode node, DisjointSets<TreeTransition> branches) {
+        List<TreeTransition> children = node.getChildren();
+        List<Set<TreeTransition>> mergingSets = branches.getAllSets();
+
+        List<List<TreeTransition>> newOrder = new ArrayList<>();
+        for (Set<TreeTransition> set : mergingSets) {
+            List<TreeTransition> mergeBranch = new ArrayList<>();
+            newOrder.add(mergeBranch);
+            children.forEach(
+                    t -> {
+                        if (set.contains(t)) {
+                            mergeBranch.add(t);
+                        }
+                    });
+            mergeBranch.sort(
+                    (TreeTransition t1, TreeTransition t2) ->
+                            children.indexOf(t1) <= children.indexOf(t2) ? -1 : 1);
+        }
+
+        newOrder.sort(
+                (List<TreeTransition> b1, List<TreeTransition> b2) -> {
+                    int low1 = -1;
+                    int low2 = -1;
+                    for (TreeTransition t1 : b1) {
+                        int curIndex = children.indexOf(t1);
+                        if (low1 == -1 || curIndex < low1) {
+                            low1 = curIndex;
+                        }
+                    }
+                    for (TreeTransition t1 : b2) {
+                        int curIndex = children.indexOf(t1);
+                        if (low1 == -1 || curIndex < low1) {
+                            low1 = curIndex;
+                        }
+                    }
+                    return low1 < low2 ? -1 : 1;
+                });
+
+        List<TreeTransition> newChildren = new ArrayList<>();
+        newOrder.forEach(l -> newChildren.addAll(l));
+        node.setChildren(newChildren);
+    }
+}

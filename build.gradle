@@ -1,0 +1,140 @@
+plugins {
+    id 'java'
+    id 'edu.sc.seis.launch4j' version '2.5.3'
+    id 'kr.motd.sphinx' version '2.10.0'
+    id 'com.diffplug.spotless' version '6.25.0'
+}
+
+version '6.0.0'
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+spotless {
+    enforceCheck false
+
+    format 'misc', {
+        // define the files to apply `misc` to
+        target '*.gradle', '*.md', '.gitignore'
+
+        // define the steps to apply to those files
+        trimTrailingWhitespace()
+        indentWithSpaces() // or spaces. Takes an integer argument if you don't like 4
+        endWithNewline()
+    }
+
+    java {
+        // Use the default importOrder configuration
+        importOrder()
+
+        // Cleanthat will refactor your code, but it may break your style: apply it before your formatter
+        cleanthat()
+
+        googleJavaFormat('1.19.2').aosp()
+
+        formatAnnotations()
+    }
+}
+
+apply plugin: 'checkstyle'
+
+application {
+    mainClass.set('edu.rpi.legup.Legup')
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+dependencies {
+    implementation 'org.jetbrains:annotations:20.1.0'
+    implementation 'org.jetbrains:annotations:20.1.0'
+    implementation 'com.formdev:flatlaf:3.+'
+    implementation 'com.google.firebase:firebase-admin:6.3.0'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.1'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+
+//    implementation 'com.google.code.gson:gson:2.8.2'
+//    implementation 'commons-cli:commons-cli:1.4'
+//    implementation 'commons-io:commons-io:2.6'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'org.apache.logging.log4j:log4j-api:2.17.2'
+    implementation 'org.apache.logging.log4j:log4j-core:2.17.2'
+
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    testImplementation 'junit:junit:4.+'
+}
+
+task customFatJar(type: Jar) {
+    manifest {
+        attributes('Implementation-Title': 'Legup',
+                'Implementation-Version': archiveVersion,
+                'Main-Class': 'edu.rpi.legup.Legup',
+                'SplashScreen-Image': 'edu/rpi/legup/images/Legup/LegupSplash.png')
+    }
+    archiveFileName = 'Legup.jar'
+    archiveBaseName = 'Legup.jar'
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    with jar
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from {
+        configurations.compileClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    manifest {
+        attributes('Implementation-Title': 'Legup',
+                'Implementation-Version': archiveVersion,
+                'Main-Class': 'edu.rpi.legup.Legup',
+                'SplashScreen-Image': 'edu/rpi/legup/images/Legup/LegupSplash.png')
+    }
+    archiveFileName = 'Legup.jar'
+}
+
+repositories {
+    mavenCentral()
+}
+
+tasks.register("jpackage") {
+    group("jpackage")
+    doLast {
+        var operatingSystem = System.getProperty("os.name").toLowerCase()
+        if (operatingSystem.contains("windows")) {
+            exec {
+                commandLine 'cmd', '/c', 'jpackage', '--input', 'build/libs', '--main-jar', 'Legup.jar', '--win-dir-chooser', '--win-shortcut-prompt', '--win-shortcut', '--dest', 'build/installer', '-n', "LEGUP", '--app-version', "${project.version}", '--icon', "src/main/resources/edu/rpi/legup/images/Legup/logo.ico"
+            }
+        } else if (operatingSystem.contains("linux")) {
+            exec {
+                commandLine 'sh', '-c', "jpackage --input build/libs --main-jar Legup.jar --dest build/installer -n LEGUP --icon src/main/resources/edu/rpi/legup/images/Legup/logo.ico --app-version ${project.version}"
+            }
+        } else if (operatingSystem.contains("mac")) {
+            exec {
+                commandLine 'bash', '-c', "jpackage --input build/libs --main-jar Legup.jar --dest build/installer -n \"LEGUP\" --icon src/main/resources/edu/rpi/legup/images/Legup/logo.ico --app-version ${project.version}"
+            }
+        } else {
+            println("JPackage task is not set up for " + System.getProperty("os.name"))
+        }
+    }
+}
+
+tasks.register('copyInstaller', Sync) {
+    group("jpackage")
+    from ("build/installer/")
+    into("installer")
+    rename("LEGUP-${project.version}", "LEGUP-installer-${project.version}")
+}
+
+copyInstaller.dependsOn(jpackage)

@@ -1,0 +1,45 @@
+<Legup version="2.0.0">
+    <puzzle name="Nurikabe" tag="9975093">
+        <board height="15" width="15">
+            <cells>
+                <cell value="4" x="4" y="0"/>
+                <cell value="2" x="7" y="0"/>
+                <cell value="3" x="3" y="1"/>
+                <cell value="3" x="3" y="3"/>
+                <cell value="8" x="9" y="3"/>
+                <cell value="2" x="11" y="3"/>
+                <cell value="2" x="13" y="3"/>
+                <cell value="1" x="4" y="4"/>
+                <cell value="5" x="6" y="4"/>
+                <cell value="1" x="10" y="4"/>
+                <cell value="2" x="14" y="4"/>
+                <cell value="1" x="3" y="5"/>
+                <cell value="1" x="8" y="5"/>
+                <cell value="1" x="12" y="5"/>
+                <cell value="3" x="5" y="6"/>
+                <cell value="1" x="10" y="6"/>
+                <cell value="4" x="0" y="7"/>
+                <cell value="6" x="14" y="7"/>
+                <cell value="3" x="4" y="8"/>
+                <cell value="3" x="9" y="8"/>
+                <cell value="1" x="2" y="9"/>
+                <cell value="1" x="6" y="9"/>
+                <cell value="2" x="11" y="9"/>
+                <cell value="2" x="0" y="10"/>
+                <cell value="1" x="4" y="10"/>
+                <cell value="3" x="8" y="10"/>
+                <cell value="3" x="1" y="11"/>
+                <cell value="3" x="3" y="11"/>
+                <cell value="3" x="5" y="11"/>
+                <cell value="5" x="11" y="11"/>
+                <cell value="2" x="14" y="11"/>
+                <cell value="1" x="5" y="13"/>
+                <cell value="1" x="11" y="13"/>
+                <cell value="1" x="7" y="14"/>
+                <cell value="3" x="10" y="14"/>
+                <cell value="2" x="14" y="14"/>
+            </cells>
+        </board>
+    </puzzle>
+    <solved isSolved="-2010495071" lastSaved="2024-11-08 17:14:34"/>
+</Legup>

@@ -1,0 +1,26 @@
+<Legup version="5.1.0">
+    <puzzle name="Thermometer" tag="therm_test.xml">
+        <board height="4" width="4">
+            <vials>
+                <vial headx="0" heady="0" tailx="2" taily="0"/>
+                <vial headx="3" heady="0" tailx="3" taily="3"/>
+                <vial headx="0" heady="1" tailx="1" taily="1"/>
+                <vial headx="2" heady="1" tailx="2" taily="3"/>
+                <vial headx="0" heady="3" tailx="0" taily="2"/>
+                <vial headx="1" heady="2" tailx="1" taily="3"/>
+            </vials>
+            <rowNumbers>
+                <row value="2"/>
+                <row value="4"/>
+                <row value="2"/>
+                <row value="1"/>
+            </rowNumbers>
+            <colNumbers>
+                <col value="3"/>
+                <col value="2"/>
+                <col value="2"/>
+                <col value="2"/>
+            </colNumbers>
+        </board>
+    </puzzle>
+<solved isSolved="-2010495071" lastSaved="2024-11-08 17:14:34"/></Legup>
