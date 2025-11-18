@@ -244,55 +244,57 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             return false;
         }
 
+        // If the whole tree is a contradiction, any goal condition can be assumed true
+        if (tree.isContradictory()) {return true;}
+
         // The goal determines what state the leaves must be in.
         return switch (this.goal.getType()) {
             case PROVE_CELL_MUST_BE -> {
-                // The only valid branch has the right values
-                boolean completeBranch = false;
+                // All non-contradictory branches have the right values
                 for (TreeElement leaf : tree.getLeafTreeElements()) {
                     if (leaf.getType() != TreeElementType.NODE) {yield false;}
                     TreeNode node = (TreeNode) leaf;
                     if (!node.isRoot() && node.getParent().isContradictoryBranch()) {continue;}
-                    GridBoard board = (GridBoard) node.getBoard();
-                    if (completeBranch || !checkGoalCells(board)) {yield false;}
-                    completeBranch = true;
+                    if (!checkGoalCells(node.getBoard())) {yield false;}
                 }
-                yield completeBranch;
+                yield true;
             }
             case PROVE_CELL_MIGHT_NOT_BE -> {
-                // One leaf completes the goal
+                // One leaf is finished with a different value
                 for (TreeElement leaf : tree.getLeafTreeElements()) {
                     if (leaf.getType() != TreeElementType.NODE) {continue;}
                     if (isBoardComplete(leaf.getBoard()) && checkGoalCells(leaf.getBoard())) {yield true;}
                 }
 
                 // Contradiction case: Every non-contradictory branch has different values
-                boolean completeBranch = false;
                 for (TreeElement leaf : tree.getLeafTreeElements()) {
                     if (leaf.getType() != TreeElementType.NODE) {yield false;}
                     TreeNode node = (TreeNode) leaf;
                     if (!node.isRoot() && node.getParent().isContradictoryBranch()) {continue;}
                     if (!(checkGoalCells(node.getBoard()))) {yield false;}
-                    completeBranch = true;
                 }
-                yield completeBranch;
+                yield true;
             }
             case PROVE_SINGLE_CELL_VALUE -> {
-                // The only valid branch with all goal cells known
-                boolean completeBranch = false;
-                for (TreeElement leaf : tree.getLeafTreeElements()) {
-                    if (leaf.getType() != TreeElementType.NODE) {yield false;}
-                    TreeNode node = (TreeNode) leaf;
-                    if (!node.isRoot() && node.getParent().isContradictoryBranch()) {continue;}
-                    GridBoard board = (GridBoard) node.getBoard();
-
-                    for (GridCell goalCell : this.goal.getCells()) {
-                        if (!board.getCell(goalCell.getLocation()).isKnown()) {yield false;}
+                // Every non-contradictory leaf node shares a value at the goal locations
+                for (GridCell goalCell : this.goal.getCells()) {
+                    Set<Integer> cellValues = new HashSet<>();
+                    for (TreeElement leaf : tree.getLeafTreeElements()) {
+                        // If the leaf is a transition, check all parents
+                        if (!(leaf.getType() == TreeElementType.NODE)) {yield false;}
+                        TreeNode node = (TreeNode) leaf;
+                        if (!node.isRoot() && node.getParent().isContradictoryBranch()) {continue;}
+                        GridBoard board = (GridBoard) node.getBoard();
+                        GridCell targetCell = board.getCell(goalCell.getLocation());
+                        if (!targetCell.isKnown()) {yield false;}
+                        cellValues.add((Integer) targetCell.getData());
                     }
-                    if (completeBranch) {yield false;}
-                    completeBranch = true;
+                    // All values should be the same
+                    if (cellValues.size() != 1) {
+                        yield false;
+                    }
                 }
-                yield completeBranch;
+                yield true;
             }
             case PROVE_MULTIPLE_CELL_VALUE -> {
                 // Complete leaves must have at least two different values at goal location
@@ -300,9 +302,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                     Set<Integer> cellValues = new HashSet<>();
                     for (TreeElement leaf : tree.getLeafTreeElements()) {
                         if (leaf.getType() != TreeElementType.NODE) {continue;}
-                        if (!isBoardComplete(leaf.getBoard())) {continue;}
-                        Integer value = getGoalCellValue(leaf, goalCell);
-                        if (value != null) {cellValues.add(value);}
+                        TreeNode node = (TreeNode) leaf;
+                        GridBoard board = (GridBoard) node.getBoard();
+                        if (!isBoardComplete(node.getBoard())) {continue;}
+                        cellValues.add((Integer) board.getCell(goalCell.getLocation()).getData());
                     }
                     // Cell values should not all be the same
                     if (!(cellValues.size() > 1)) {yield false;}
@@ -321,25 +324,6 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             }
         };
 
-    }
-
-
-    /**
-     * Returns the value of the cell at the goal location
-     *
-     * @param leaf TreeElement node associated with the board to check the cell of
-     * @return integer value of the cell's held data, null if non-node or contradictory branch
-     */
-    private Integer getGoalCellValue(TreeElement leaf, GridCell goalCell)
-    {
-        if (!(leaf.getType() == TreeElementType.NODE)) {return null;}
-
-        TreeNode node = (TreeNode) leaf;
-        GridBoard board = (GridBoard) node.getBoard();
-        GridCell cell = board.getCell(goalCell.getLocation());
-        if (!cell.isKnown()) {return null;}
-
-        return (Integer) cell.getData();
     }
 
     /**

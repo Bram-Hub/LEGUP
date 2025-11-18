@@ -54,7 +54,7 @@ public class ProveCellMustBeTest {
         Assert.assertTrue(TestUtilities.verifyBoard(
                 "puzzles/nurikabe/goalConditions/ProveCellMustBe/MergedSolutions", nurikabe));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
+        Assert.assertTrue(TestUtilities.verifyBoard(
                 "puzzles/nurikabe/goalConditions/ProveCellMustBe/UnmergedSolutions", nurikabe));
 
         Assert.assertFalse(TestUtilities.verifyBoard(

@@ -27,12 +27,11 @@ closed by a contradiction rule for the puzzle to be solved.
 | **Specific type**      | - Prove cell value is as indicated   | - Prove cell might not be indicated  |
 | **Unknown type**       | - Prove a cell must be a given value | - Prove a cell can be multiple types |
 
-To prove a cell is as indicated, there must be one valid branch where the cell is as indicated. If
-multiple branches have the indicated value, they __must__ be merged into one branch.
+To prove a cell is as indicated, __all branches__ need to be valid and the cell must be as indicated.
 
 To prove a cell might not be as indicated, only __one branch__ needs to be valid and the cell not as 
 indicated for the puzzle to valid. Alternatively, __all__ branches where the cell is as indicated must
-be contradictory, and there must be one non-contradictory branch
+be contradictory
 
 To prove a cell must be one given type, the same condition as proving a specific type holds.
 
