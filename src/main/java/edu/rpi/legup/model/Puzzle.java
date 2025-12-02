@@ -337,7 +337,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         boolean shouldMatch = (this.goal.getType() == GoalType.PROVE_CELL_MUST_BE);
         for (GridCell goalCell : this.goal.getCells()) {
             GridCell boardCell = gridBoard.getCell(goalCell.getLocation());
-            if (!(boardCell.isKnown() && boardCell.equals(goalCell) == shouldMatch)){
+            if (!(boardCell.isKnown() && (boardCell.equals(goalCell) == shouldMatch))){
                 return false;
             }
         }

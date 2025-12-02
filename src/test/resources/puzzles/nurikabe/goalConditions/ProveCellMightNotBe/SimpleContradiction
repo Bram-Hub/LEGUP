@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="6.1.0">
+    <puzzle name="Nurikabe" tag="8264437">
+        <board height="10" width="10">
+            <goal type="PROVE_CELL_MIGHT_NOT_BE">
+                <cell value="-1" x="2" y="1"/>
+            </goal>
+            <cells>
+                <cell value="1" x="0" y="0"/>
+                <cell value="2" x="3" y="1"/>
+                <cell value="2" x="6" y="1"/>
+                <cell value="1" x="1" y="2"/>
+                <cell value="1" x="4" y="2"/>
+                <cell value="2" x="8" y="2"/>
+                <cell value="3" x="2" y="3"/>
+                <cell value="2" x="7" y="3"/>
+                <cell value="1" x="4" y="4"/>
+                <cell value="2" x="2" y="6"/>
+                <cell value="4" x="7" y="6"/>
+                <cell value="4" x="1" y="7"/>
+                <cell value="2" x="8" y="7"/>
+                <cell value="1" x="3" y="8"/>
+                <cell value="5" x="6" y="8"/>
+            </cells>
+        </board>
+        <proof>
+            <tree>
+                <node id="90647022" root="true">
+                    <transition child="1789690291" id="1777910554" rule="Black or White" rule_id="NURI-CASE-0001">
+                        <cell value="-1" x="2" y="1"/>
+                    </transition>
+                    <transition child="2087737412" id="1916461740" rule="Black or White" rule_id="NURI-CASE-0001">
+                        <cell value="0" x="2" y="1"/>
+                    </transition>
+                </node>
+                <node id="2087737412"/>
+                <node id="1789690291">
+                    <transition child="1768040468" id="364137924" rule="Surround Region" rule_id="NURI-BASC-0007">
+                        <cell value="-1" x="0" y="1"/>
+                        <cell value="-1" x="1" y="1"/>
+                        <cell value="-1" x="1" y="0"/>
+                    </transition>
+                </node>
+                <node id="1768040468">
+                    <transition child="493898826" id="1165487403" rule="Can't Reach Cell" rule_id="NURI-BASC-0008">
+                        <cell value="-1" x="2" y="0"/>
+                    </transition>
+                </node>
+                <node id="493898826">
+                    <transition child="1376455107" id="202222250" rule="Black Square" rule_id="NURI-CONT-0001"/>
+                </node>
+                <node id="1376455107"/>
+            </tree>
+        </proof>
+    </puzzle>
+    <solved isSolved="1382447712" lastSaved="2025-11-11 16:13:24"/>
+</Legup>

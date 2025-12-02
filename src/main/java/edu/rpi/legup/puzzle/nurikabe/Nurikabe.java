@@ -63,7 +63,7 @@ public class Nurikabe extends Puzzle {
         NurikabeBoard nurikabeBoard = (NurikabeBoard) board;
         for (PuzzleElement data : nurikabeBoard.getPuzzleElements()) {
             GridCell cell = (GridCell) data;
-            if (cell.isKnown()) {return false;}
+            if (!cell.isKnown()) {return false;}
         }
         for (ContradictionRule rule : contradictionRules) {
             if (rule.checkContradiction(nurikabeBoard) == null) {

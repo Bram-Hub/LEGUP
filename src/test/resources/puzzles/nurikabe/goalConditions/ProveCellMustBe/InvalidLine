@@ -15,14 +15,14 @@
         </board>
         <proof>
             <tree>
-                <node id="1825403646" root="true">
-                    <transition child="764782502" id="1958266607" rule="Surround Region" rule_id="NURI-BASC-0007">
-                        <cell value="-1" x="0" y="1"/>
+                <node id="949186263" root="true">
+                    <transition child="239153395" id="2015339687" rule="Surround Region" rule_id="NURI-BASC-0007">
+                        <cell value="0" x="0" y="1"/>
                     </transition>
                 </node>
-                <node id="764782502"/>
+                <node id="239153395"/>
             </tree>
         </proof>
     </puzzle>
-    <solved isSolved="634784078" lastSaved="2025-11-07 17:25:15"/>
+    <solved isSolved="-1149262758" lastSaved="2025-12-02 16:23:52"/>
 </Legup>
