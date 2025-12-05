@@ -544,8 +544,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         fileBrowser.setAcceptAllFileFilterUsed(false);
 
         File puzzlePath = fileBrowser.getSelectedFile();
-        if (LOGGER.isTraceEnabled()) {
-            LOGGER.trace(puzzlePath.getAbsolutePath());
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info(puzzlePath.getAbsolutePath());
         }
 
         if (puzzlePath != null) {

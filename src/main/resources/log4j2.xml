@@ -8,7 +8,6 @@
     <Loggers>
         <Root level="TRACE">
             <AppenderRef ref="console"/>
-            <AppenderRef ref="fileLogger"/>
         </Root>
     </Loggers>
 </Configuration>

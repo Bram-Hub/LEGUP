@@ -22,7 +22,7 @@ import javax.swing.event.ChangeEvent;
  */
 public class DynamicView extends JPanel {
 
-    private ScrollView scrollView;
+    private final ScrollView scrollView;
     private JPanel zoomWrapper;
     private JPanel zoomer;
     private JLabel status;

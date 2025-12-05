@@ -110,7 +110,8 @@ jar {
         attributes('Implementation-Title': 'Legup',
                 'Implementation-Version': archiveVersion,
                 'Main-Class': 'edu.rpi.legup.Legup',
-                'SplashScreen-Image': 'edu/rpi/legup/images/Legup/LegupSplash.png')
+                'SplashScreen-Image': 'edu/rpi/legup/images/Legup/LegupSplash.png',
+                'Multi-Release': 'true')
     }
     archiveFileName = 'Legup.jar'
 }

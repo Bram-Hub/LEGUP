@@ -165,8 +165,8 @@ public class Config {
                 boolean status =
                         Boolean.parseBoolean(
                                 puzzle.getAttribute("fileCreationDisabled").toLowerCase());
-                if(LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Class Name: {}", className);
+                if(LOGGER.isInfoEnabled()) {
+                    LOGGER.info("Class Name: {}", className);
                 }
                 this.puzzles.put(name, className);
                 this.fileCreationDisabledStatuses.put(name, Boolean.valueOf(status));
