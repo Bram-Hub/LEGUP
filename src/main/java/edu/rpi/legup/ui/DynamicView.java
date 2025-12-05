@@ -27,6 +27,8 @@ public class DynamicView extends JPanel {
     private JPanel zoomer;
     private JLabel status;
 
+    private static final float SLIDER_PRECISION = 0.1f;
+
     private static final Font ERROR_FONT = MaterialFonts.ITALIC;
     private static final Color ERROR_COLOR = MaterialColors.RED_700;
 
@@ -117,9 +119,11 @@ public class DynamicView extends JPanel {
             zoomer.add(resizeButton);
 
             JLabel zoomLabel = new JLabel("100%");
+            zoomLabel.setPreferredSize(new Dimension(40, 50));
+            zoomLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             zoomLabel.setFont(MaterialFonts.getRegularFont(16f));
 
-            JSlider zoomSlider = new JSlider(25, 400, 100);
+            JSlider zoomSlider = new JSlider((int)(25f/SLIDER_PRECISION), (int)(400f/SLIDER_PRECISION), (int)(100f/SLIDER_PRECISION));
 
             JButton plus =
                     new JButton(
@@ -133,7 +137,7 @@ public class DynamicView extends JPanel {
             plus.setFont(MaterialFonts.getRegularFont(10f));
             plus.setPreferredSize(new Dimension(20, 20));
             plus.addActionListener(
-                    (ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() + 25));
+                    (ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() + (int)(25f/SLIDER_PRECISION)));
 
             JButton minus =
                     new JButton(
@@ -147,7 +151,7 @@ public class DynamicView extends JPanel {
             minus.setPreferredSize(new Dimension(20, 20));
             minus.setFont(MaterialFonts.getRegularFont(10f));
             minus.addActionListener(
-                    (ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() - 25));
+                    (ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() - (int)(25f/SLIDER_PRECISION)));
             this.scrollView.setWheelScrollingEnabled(true);
 
             zoomSlider.setPreferredSize(new Dimension(160, 30));
@@ -156,26 +160,27 @@ public class DynamicView extends JPanel {
                     new ComponentAdapter() {
                         @Override
                         public void componentResized(ComponentEvent e) {
-                            zoomSlider.setValue(scrollView.getZoom());
-                            zoomLabel.setText(zoomSlider.getValue() + "%");
+                            zoomSlider.setValue((int)(scrollView.getZoom()/SLIDER_PRECISION));
+                            zoomLabel.setText((int)(zoomSlider.getValue()*SLIDER_PRECISION+0.5) + "%");
                         }
                     });
 
             zoomSlider.addChangeListener(
                     (ChangeEvent e) -> {
-                        scrollView.zoomTo(zoomSlider.getValue() / 100.0);
-                        zoomLabel.setText(zoomSlider.getValue() + "%");
+                        scrollView.zoomTo(zoomSlider.getValue()*SLIDER_PRECISION / 100.0);
+                        zoomLabel.setText((int)(zoomSlider.getValue()*SLIDER_PRECISION+0.5) + "%");
                     });
 
-            zoomSlider.setMajorTickSpacing(100);
-            zoomSlider.setMinorTickSpacing(25);
+            zoomSlider.setMajorTickSpacing((int)(100f/SLIDER_PRECISION));
+            zoomSlider.setMinorTickSpacing((int)(25f/SLIDER_PRECISION));
             zoomSlider.setPaintTicks(true);
 
-            Hashtable<Integer, JLabel> labelTable = new Hashtable<>();
-            labelTable.put(0, new JLabel("25%"));
-            labelTable.put(100, new JLabel("100%"));
-            labelTable.put(400, new JLabel("400%"));
-            zoomSlider.setLabelTable(labelTable);
+            //Hashtable<Integer, JLabel> labelTable = new Hashtable<>();
+            //labelTable.put((int)(25f/SLIDER_PRECISION), new JLabel("25%"));
+            //labelTable.put((int)(100f/SLIDER_PRECISION), new JLabel("100%"));
+            //labelTable.put((int)(400f/SLIDER_PRECISION), new JLabel("400%"));
+            //zoomSlider.setLabelTable(labelTable);
+            //zoomSlider.setPaintLabels(true);
 
             zoomer.setLayout(new FlowLayout());
 
