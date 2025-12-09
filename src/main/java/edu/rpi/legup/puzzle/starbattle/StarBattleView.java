@@ -154,6 +154,7 @@ public class StarBattleView extends GridBoardView {
         boardViewSize.height = (gridSize.height + 2) * elementSize.height;
         return boardViewSize;
     }
+     */
 
 
     @Override
