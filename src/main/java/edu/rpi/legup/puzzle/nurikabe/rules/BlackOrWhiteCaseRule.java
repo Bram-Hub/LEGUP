@@ -60,7 +60,13 @@ public class BlackOrWhiteCaseRule extends CaseRule {
 
         return null;
     }
-
+    /**
+     * Gets the case board that indicates where this case rule can be applied on the given {@link
+     * Board}. This method is the one that should be overridden in child classes.
+     *
+     * @param board board to find locations where this case rule can be applied
+     * @return a case board
+     */
     @Override
     public CaseBoard getCaseBoard(Board board) {
         NurikabeBoard nurikabeBoard = (NurikabeBoard) board.copy();

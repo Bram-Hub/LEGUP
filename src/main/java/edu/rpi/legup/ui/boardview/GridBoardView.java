@@ -45,7 +45,6 @@ public class GridBoardView extends BoardView {
      */
     private GridBoardView(BoardController boardController, ElementController elementController) {
         super(boardController, elementController);
-        setBackground(new Color(0xE0E0E0));
     }
 
     /**

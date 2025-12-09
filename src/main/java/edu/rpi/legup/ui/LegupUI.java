@@ -46,6 +46,7 @@ public class LegupUI extends JFrame implements WindowListener {
         setTitle("LEGUP");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         LegupPreferences prefs = LegupPreferences.getInstance();
+        ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
 
         try {
             if (Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {

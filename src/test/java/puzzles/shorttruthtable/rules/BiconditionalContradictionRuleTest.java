@@ -26,12 +26,11 @@ public class BiconditionalContradictionRuleTest {
     }
 
     /**
-     * Given a statement: A <-> B where <-> is true
+     * Given a statement: A biconditional B where the biconditional is true
      *
      * <p>Asserts that this is a valid application of the rule if and only if A and B are not
      * unknown and A does not equal B
      *
-     * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
      */
     @Test
@@ -65,12 +64,11 @@ public class BiconditionalContradictionRuleTest {
     }
 
     /**
-     * Given a statement: A <-> B where <-> is false
+     * Given a statement: A biconditional B where the biconditional is false
      *
      * <p>Asserts that this is a valid application of the rule if and only if A and B are not
      * unknown and A equals B
      *
-     * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
      */
     @Test
@@ -104,11 +102,10 @@ public class BiconditionalContradictionRuleTest {
     }
 
     /**
-     * Given a statement: A <-> B where <-> is unknown
+     * Given a statement: A biconditional B where the biconditional is unknown
      *
      * <p>Asserts that this is not a valid application of this rule.
      *
-     * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
      */
     @Test

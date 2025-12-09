@@ -41,8 +41,9 @@ public class StarBattleView extends GridBoardView {
             StarBattleElementView elementView = new StarBattleElementView(cell);
             elementView.setIndex(cell.getIndex());
             elementView.setSize(elementSize);
+            // Shifted view location for border overflow cells
             elementView.setLocation(
-                    new Point(loc.x * elementSize.width, loc.y * elementSize.height));
+                    new Point((loc.x + 1) * elementSize.width, (loc.y + 1) * elementSize.height));
             elementViews.add(elementView);
         }
 
@@ -58,18 +59,17 @@ public class StarBattleView extends GridBoardView {
                         new StarBattleBorderView(
                                 new StarBattleBorder(StarBattleCellType.HORIZ_BORDER));
                 temp.setSize(elementSize);
-                if (j == 0) { // set borders at the ends of the board
-                    // set on top of cell
-                    temp.setLocation(endCell(board.getCell(i, 0), 8, elementSize));
+                if (j == board.getHeight()) { // Set borders at the ends of the board, shifted for overflow
+                    Point cellLoc = board.getCell(i, j - 1).getLocation();
+                    temp.setLocation(new Point(
+                            (cellLoc.x + 1) * elementSize.width, (cellLoc.y + 2) * elementSize.height));
                     horizontalBorders.add(temp);
-                } else if (j == board.getHeight()) {
-                    temp.setLocation(
-                            endCell(board.getCell(i, board.getHeight() - 1), 2, elementSize));
-                    horizontalBorders.add(temp);
-                } else if (board.getCell(i, j - 1).getGroupIndex()
-                        != board.getCell(i, j).getGroupIndex()) { // general case
-                    // adds border when two adjacent cells aren't from the same region
-                    temp.setLocation(endCell(board.getCell(i, j), 5, elementSize));
+                } else if (j == 0 ||
+                        board.getCell(i, j - 1).getGroupIndex() != board.getCell(i, j).getGroupIndex()) {
+                    // General case: adds border when two adjacent cells aren't from the same region
+                    Point cellLoc = board.getCell(i, j).getLocation();
+                    temp.setLocation(new Point(
+                            (cellLoc.x + 1) * elementSize.width, (cellLoc.y + 1) * elementSize.height));
                     horizontalBorders.add(temp);
                 }
                 // no else statement. If none of these ifs are met, then just don't add it to the
@@ -89,18 +89,18 @@ public class StarBattleView extends GridBoardView {
                         new StarBattleBorderView(
                                 new StarBattleBorder(StarBattleCellType.VERT_BORDER));
                 temp.setSize(elementSize);
-                if (i == 0) { // set borders at the ends of the board
-                    temp.setLocation(endCell(board.getCell(0, j), 4, elementSize));
-                    verticalBorders.add(temp);
-                } else if (i == board.getWidth()) {
-                    temp.setLocation(
-                            endCell(board.getCell(board.getWidth() - 1, j), 6, elementSize));
-                    verticalBorders.add(temp);
-                } else if (board.getCell(i - 1, j).getGroupIndex()
-                        != board.getCell(i, j).getGroupIndex()) { // general case
-                    // adds border when two adjacent cells aren't from the same region
-                    temp.setLocation(endCell(board.getCell(i, j), 5, elementSize));
-                    verticalBorders.add(temp);
+                if (i == board.getWidth()) { // Set borders at the ends of the board, shifted for overflow
+                    Point cellLoc = board.getCell(i - 1, j).getLocation();
+                    temp.setLocation(new Point(
+                            (cellLoc.x + 2) * elementSize.width, (cellLoc.y + 1) * elementSize.height));
+                    horizontalBorders.add(temp);
+                } else if (i == 0 ||
+                        board.getCell(i - 1, j).getGroupIndex() != board.getCell(i, j).getGroupIndex()) {
+                    // General case: adds border when two adjacent cells aren't from the same region
+                    Point cellLoc = board.getCell(i, j).getLocation();
+                    temp.setLocation(new Point(
+                            (cellLoc.x + 1) * elementSize.width, (cellLoc.y + 1) * elementSize.height));
+                    horizontalBorders.add(temp);
                 }
             }
         }
@@ -154,7 +154,7 @@ public class StarBattleView extends GridBoardView {
         boardViewSize.height = (gridSize.height + 2) * elementSize.height;
         return boardViewSize;
     }
-     */
+
 
     @Override
     public void drawBoard(Graphics2D graphics2D) {

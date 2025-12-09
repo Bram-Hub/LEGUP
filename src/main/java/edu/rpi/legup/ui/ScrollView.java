@@ -122,8 +122,8 @@ public class ScrollView extends JScrollPane {
      */
     public void updatePosition(Point point, double magnification) {
         Point position = viewport.getViewPosition();
-        position.x = (int) ((double) (point.x + position.x) * magnification - point.x + 0.0);
-        position.y = (int) ((double) (point.y + position.y) * magnification - point.y + 0.0);
+        position.x = (int) ((double) (point.x + position.x) * magnification - point.x + 0.5);
+        position.y = (int) ((double) (point.y + position.y) * magnification - point.y + 0.5);
         viewport.setViewPosition(position);
     }
 
@@ -133,7 +133,7 @@ public class ScrollView extends JScrollPane {
      * @param n level of zoom - n less than 0 is zoom in, n greater than 0 is zoom out
      * @param point position to zoom in on
      */
-    public void zoom(int n, Point point) {
+    public void zoom(double n, Point point) {
         // if no Point is given, keep current center
         if (point == null) {
             point =
@@ -141,11 +141,11 @@ public class ScrollView extends JScrollPane {
                             viewport.getWidth() / 2 + viewport.getX(),
                             viewport.getHeight() / 2 + viewport.getY());
         }
-        // magnification level
-        double mag = (double) n * 1.05;
+
         // zoom in
         if (n < 0) {
-            mag = -mag;
+            // magnification level
+            double mag = 1.0 + Math.sqrt(-n) * 0.1;
             // check zoom bounds
             if (scale * mag > maxScale) {
                 mag = maxScale / scale;
@@ -156,7 +156,8 @@ public class ScrollView extends JScrollPane {
             updatePosition(point, mag);
             // zoom out
         } else {
-            mag = 1 / mag;
+            // magnification level
+            double mag = 1 / (1.0 + Math.sqrt(n) * 0.1);
             // check zoom bounds
             if (scale * mag < minScale) {
                 mag = minScale / scale;
@@ -252,8 +253,8 @@ public class ScrollView extends JScrollPane {
      *
      * @return zoom scale
      */
-    public int getZoom() {
-        return (int) (scale * 100.0);
+    public double getZoom() {
+        return scale * 100.0;
     }
 
     /**

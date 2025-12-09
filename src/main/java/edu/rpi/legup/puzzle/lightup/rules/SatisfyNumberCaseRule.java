@@ -30,6 +30,12 @@ public class SatisfyNumberCaseRule extends CaseRule {
                 "edu/rpi/legup/images/lightup/cases/SatisfyNumber.png");
     }
 
+    /**
+     * Gets a CaseBoard object that contains all locations where this case rule can be applied
+     *
+     * @param board board to find locations where this case rule can be applied
+     * @return a case board
+     */
     @Override
     public CaseBoard getCaseBoard(Board board) {
         LightUpBoard lightUpBoard = (LightUpBoard) board.copy();
