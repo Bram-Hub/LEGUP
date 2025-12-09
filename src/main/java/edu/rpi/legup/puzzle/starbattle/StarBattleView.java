@@ -3,6 +3,10 @@ package edu.rpi.legup.puzzle.starbattle;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.GridBoardView;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -102,7 +106,47 @@ public class StarBattleView extends GridBoardView {
         }
     }
 
-    // Makes border visual overflow tiles
+    // Direction means which side of the cell in question should have a border on it
+    // Numpad rules. 2 is down, 4 is left, 6 is right, 8 is up (based on visuals not coordinates,
+    // since y is from up to down)
+    public Point endCell(StarBattleCell one, int direction, Dimension elementSize) {
+        Point temp =
+                new Point(
+                        one.getLocation().x * elementSize.width,
+                        one.getLocation().y * elementSize.height); // dump this
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace("direction is{}\n", direction);
+        }
+        if (direction == 2) { // top border
+            temp.y += elementSize.height * 15 / 16; // multiply  so it doesn't go off screen
+        }
+        if (direction == 4) { // left border
+            temp.x += elementSize.width / 16; // divide  so it doesn't go off screen
+        }
+        if (direction == 6) { // right border
+            temp.x += elementSize.width * 15 / 16; // multiply  so it doesn't go off screen
+        }
+        if (direction == 8) { // bottom border
+            temp.y += elementSize.height / 16; // multiply  so it doesn't go off screen
+        }
+        // default of 5 shouldn't change
+        // these changes to the x or y coordinate are necessary to properly load them in and not cut
+        // them off
+        // on the edge of the board
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace("point is now {},{}\n", temp.x, temp.y);
+        }
+
+        return temp;
+    }
+
+    // Important function to be used in the future that will resize the board to allow
+    // extra rows and columns for the borders to be given extra space and add text the tops and
+    // bottoms of the board. I bet they could put all the text on one "tile" because even though
+    // it'll spill over into other ones, only one tiles needs to draw text, and we won't have to
+    // worry about each tile having a different portion of the message.
+    // Original function from SkyscrapersView.java
+    /*
     @Override
     protected Dimension getProperSize() {
         Dimension boardViewSize = new Dimension();
@@ -110,6 +154,7 @@ public class StarBattleView extends GridBoardView {
         boardViewSize.height = (gridSize.height + 2) * elementSize.height;
         return boardViewSize;
     }
+     */
 
 
     @Override

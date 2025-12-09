@@ -2,6 +2,10 @@ package edu.rpi.legup.ui.boardview;
 
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.ElementController;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -10,6 +14,8 @@ import java.awt.Dimension;
  * BoardView and is responsible for managing and rendering grid-based elements.
  */
 public class GridBoardView extends BoardView {
+    protected static final Logger LOGGER = LogManager.getLogger(GridBoardView.class.getName());
+
     protected Dimension gridSize;
     protected Dimension elementSize;
 

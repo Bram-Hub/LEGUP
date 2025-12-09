@@ -2,6 +2,7 @@ package edu.rpi.legup.ui;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
+import edu.rpi.legup.app.VersionInfo;
 import edu.rpi.legup.controller.CursorController;
 import edu.rpi.legup.model.PuzzleExporter;
 import java.awt.*;
@@ -85,7 +86,9 @@ public class HomePanel extends LegupPanel {
         preferences.addActionListener(
                 a -> {
                     PreferencesDialog preferencesDialog = new PreferencesDialog(this.frame);
-                    System.out.println("Preferences clicked");
+                    if(LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("Preferences clicked");
+                    }
                 });
         settings.addSeparator();
         settings.add(preferences);
@@ -281,7 +284,9 @@ public class HomePanel extends LegupPanel {
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
-                    LOGGER.debug("Finished autograding");
+                    if(LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("Finished autograding");
+                    }
 
                     batchGraderOptions.dispose();
                 });
@@ -521,7 +526,9 @@ public class HomePanel extends LegupPanel {
 
                 Document doc;
                 if ((doc = isxmlfile(fileEntry)) == null) {
-                    LOGGER.debug("{} is not a '.xml' file", fName);
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("{} is not a '.xml' file", fName);
+                    }
                     writer.write(fName + ",Not an xml file!\n");
                     continue;
                 }
@@ -531,19 +538,23 @@ public class HomePanel extends LegupPanel {
                 String puzzleTag = puzzleElement.getAttribute("tag");
                 if (!_tagsToGrade.isEmpty()
                         && _tagsToGrade.stream().noneMatch(puzzleTag::contains)) {
-                    LOGGER.debug(
-                            "'{}' is not graded with tag '{}'",
-                            puzzleElement.getAttribute("name"),
-                            puzzleTag);
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug(
+                                "'{}' is not graded with tag '{}'",
+                                puzzleElement.getAttribute("name"),
+                                puzzleTag);
+                    }
                     continue;
                 }
                 String puzzleType = puzzleElement.getAttribute("name");
                 if (!_typesToGrade.isEmpty()
                         && _typesToGrade.stream().noneMatch(puzzleType::contains)) {
-                    LOGGER.debug(
-                            "'{}' is not graded with type '{}'",
-                            puzzleElement.getAttribute("name"),
-                            puzzleType);
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug(
+                                "'{}' is not graded with type '{}'",
+                                puzzleElement.getAttribute("name"),
+                                puzzleType);
+                    }
                     continue;
                 }
 
@@ -571,7 +582,9 @@ public class HomePanel extends LegupPanel {
      */
     private void recursiveUpdater(File folder) {
         if (Objects.requireNonNull(folder.listFiles()).length == 0) {
-            LOGGER.debug("Empty directory");
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Empty directory");
+            }
             return;
         }
         for (File fileEntry : Objects.requireNonNull(folder.listFiles())) {
@@ -583,7 +596,9 @@ public class HomePanel extends LegupPanel {
             String fName = fileEntry.getName();
             Document doc;
             if ((doc = isxmlfile(fileEntry)) == null) {
-                LOGGER.debug("{} is not a '.xml' file", fileEntry.getName());
+                if(LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("{} is not a '.xml' file", fileEntry.getName());
+                }
                 continue;
             }
 
@@ -629,9 +644,7 @@ public class HomePanel extends LegupPanel {
      * by Bram, and version information.
      */
     private void initText() {
-        // TODO: add version text after auto-changing version label is implemented. (text[2] =
-        // version)
-        this.text = new JLabel[2];
+        this.text = new JLabel[3];
 
         JLabel welcome = new JLabel("Welcome to LEGUP");
         welcome.setFont(new Font("Roboto", Font.BOLD, 23));
@@ -641,12 +654,13 @@ public class HomePanel extends LegupPanel {
         credits.setFont(new Font("Roboto", Font.PLAIN, 12));
         credits.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel version = new JLabel("Version 5.1.0"); // This should be autochanged in the future
+        JLabel version = new JLabel("Version " + VersionInfo.getVersion());
         version.setFont(new Font("Roboto", Font.ITALIC, 10));
         version.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         this.text[0] = welcome;
         this.text[1] = credits;
+        this.text[2] = version;
     }
 
     /** Renders the user interface components */
@@ -689,7 +703,7 @@ public class HomePanel extends LegupPanel {
         try {
             this.openEditorWithNewPuzzle(game, r, c);
         } catch (IllegalArgumentException e) {
-            System.out.println("Failed to open editor with new puzzle");
+            LOGGER.error("Failed to open editor with new puzzle");
             e.printStackTrace(System.out);
         }
     }

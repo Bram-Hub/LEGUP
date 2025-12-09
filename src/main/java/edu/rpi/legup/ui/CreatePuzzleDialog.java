@@ -3,6 +3,10 @@ package edu.rpi.legup.ui;
 import edu.rpi.legup.app.Config;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.CursorController;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +19,8 @@ import javax.swing.*;
  * package includes classes for displaying dialog boxes to configure and initialize puzzles.
  */
 public class CreatePuzzleDialog extends JDialog {
+    private static final Logger LOGGER = LogManager.getLogger(CreatePuzzleDialog.class.getName());
+
     private HomePanel homePanel;
 
     private String[] games;
@@ -73,12 +79,12 @@ public class CreatePuzzleDialog extends JDialog {
 
                     // Check if all 3 TextFields are filled
                     if (game.equals("ShortTruthTable") && textArea.getText().isEmpty()) {
-                        System.out.println("Unfilled fields");
+                        LOGGER.warn("Unfilled fields");
                         return;
                     }
                     if (!game.equals("ShortTruthTable")
                             && (game.isEmpty() || getRows().isEmpty() || getColumns().isEmpty())) {
-                        System.out.println("Unfilled fields");
+                        LOGGER.warn("Unfilled fields");
                         return;
                     }
 
@@ -94,7 +100,7 @@ public class CreatePuzzleDialog extends JDialog {
                         }
                         setVisible(false);
                     } catch (IllegalArgumentException e) {
-                        System.out.println("Failed to open editor with new puzzle");
+                        LOGGER.error("Failed to open editor with new puzzle");
                         e.printStackTrace(System.out);
                     }
                 }

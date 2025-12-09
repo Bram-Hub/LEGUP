@@ -14,9 +14,14 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.event.MouseEvent;
 
 public class EditLineCommand extends PuzzleCommand {
+    private static final Logger LOGGER = LogManager.getLogger(EditLineCommand.class.getName());
+
     private TreeTransition transition;
     private PuzzleElement oldData;
     private PuzzleElement newData;
@@ -83,11 +88,15 @@ public class EditLineCommand extends PuzzleCommand {
         boolean mod_contains = false;
         boolean contains = false;
         final MasyuBoard editBoard = board;
-        System.out.println("Size: " + board.getModifiedData().size());
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace("Size: {}", board.getModifiedData().size());
+        }
         for (PuzzleElement puzzleElement : board.getModifiedData()) {
             if (puzzleElement instanceof MasyuLine) {
                 if (((MasyuLine) newData).compare((MasyuLine) puzzleElement)) {
-                    System.out.println("contains");
+                    if (LOGGER.isTraceEnabled()) {
+                        LOGGER.trace("contains");
+                    }
                     dup_line = puzzleElement;
                     mod_contains = true;
                 }
@@ -99,13 +108,17 @@ public class EditLineCommand extends PuzzleCommand {
             }
         }
         if (contains || mod_contains) {
-            System.out.println("delete");
+            if (LOGGER.isTraceEnabled()) {
+                LOGGER.trace("delete");
+            }
             board.getModifiedData().remove(dup_line);
             board.getLines().remove(dup_line);
             //            puzzle.notifyBoardListeners((IBoardListener listener) ->
             // listener.onTreeElementChanged(editBoard));
         } else {
-            System.out.println("adding");
+            if (LOGGER.isTraceEnabled()) {
+                LOGGER.trace("adding");
+            }
             board.getModifiedData().add(newData);
             board.getLines().add((MasyuLine) newData);
             //            puzzle.notifyBoardListeners((IBoardListener listener) ->

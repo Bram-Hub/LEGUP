@@ -9,11 +9,16 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
 import edu.rpi.legup.utility.ConnectedRegions;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.*;
 import java.util.Set;
 
 public class CornerBlackDirectRule extends DirectRule {
+    private static final Logger LOGGER = LogManager.getLogger(CornerBlackDirectRule.class.getName());
 
     public CornerBlackDirectRule() {
         super(
@@ -65,7 +70,6 @@ public class CornerBlackDirectRule extends DirectRule {
                                     == NurikabeType.UNKNOWN
                             && board.getCell(cellLocation.x, cornerLocation.y).getType()
                                     == NurikabeType.UNKNOWN) {
-                        // System.out.println("Went inside if statement");
                         NurikabeBoard modified = board.copy();
                         modified.getCell(cornerLocation.x, cellLocation.y)
                                 .setData(NurikabeType.BLACK.toValue());
@@ -83,7 +87,7 @@ public class CornerBlackDirectRule extends DirectRule {
                                             modified.getWidth(),
                                             modified.getHeight());
                             int regionNumber = 0;
-                            // System.out.println("Region set size: " + region.size());
+                            LOGGER.trace("Region set size: {}", region.size());
                             for (Point p : region) {
                                 NurikabeCell pCell = modified.getCell(p.x, p.y);
                                 if (pCell.getType() == NurikabeType.NUMBER) {

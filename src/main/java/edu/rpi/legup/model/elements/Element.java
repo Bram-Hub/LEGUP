@@ -1,5 +1,9 @@
 package edu.rpi.legup.model.elements;
 
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
@@ -10,6 +14,8 @@ import javax.swing.*;
  */
 @RegisterElement
 public abstract class Element {
+    private static final Logger LOGGER = LogManager.getLogger(Element.class.getName());
+
     protected String elementID;
     protected String elementName;
     protected String description;
@@ -51,9 +57,11 @@ public abstract class Element {
             int height =
                     (int) (100 * ((double) this.image.getIconHeight() / this.image.getIconWidth()));
             if (height == 0) {
-                System.out.println("height is 0 error");
-                System.out.println("height: " + this.image.getIconHeight());
-                System.out.println("width:  " + this.image.getIconWidth());
+                LOGGER.error("height is 0 error");
+                if(LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("height: {}", this.image.getIconHeight());
+                    LOGGER.debug("width:  {}", this.image.getIconWidth());
+                }
                 return;
             }
             BufferedImage bimage = new BufferedImage(100, height, BufferedImage.TYPE_INT_RGB);

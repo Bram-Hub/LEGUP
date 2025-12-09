@@ -2,6 +2,7 @@ package edu.rpi.legup.ui;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
+import edu.rpi.legup.app.VersionInfo;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.RuleController;
 import edu.rpi.legup.history.ICommand;
@@ -477,7 +478,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         about.add(aboutLegup);
         aboutLegup.addActionListener(
                 l -> {
-                    JOptionPane.showMessageDialog(null, "Version: 5.1.0");
+                    JOptionPane.showMessageDialog(null, "Version: " + VersionInfo.getVersion());
                 });
 
         about.add(helpLegup);
@@ -543,7 +544,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         fileBrowser.setAcceptAllFileFilterUsed(false);
 
         File puzzlePath = fileBrowser.getSelectedFile();
-        System.out.println(puzzlePath.getAbsolutePath());
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(puzzlePath.getAbsolutePath());
+        }
 
         if (puzzlePath != null) {
             fileName = puzzlePath.getAbsolutePath();
@@ -555,7 +558,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             return null;
         }
 
-        System.out.println(preferences.getSavedPath());
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(preferences.getSavedPath());
+        }
         return new Object[] {fileName, puzzleFile};
     }
 
@@ -1041,7 +1046,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      */
     private void directionsToolButton() {
         String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
-        // System.out.println(puzzleName);
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(puzzleName);
+        }
         try {
             if (puzzleName.equals("Fillapix")) {
                 java.awt.Desktop.getDesktop()
@@ -1236,7 +1243,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                     writer.append(fName).append(",Invalid,,Ungradeable\n");
                 }
             } else {
-                LOGGER.debug("Failed to run sim");
+                if(LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Failed to run sim");
+                }
             }
         }
     }

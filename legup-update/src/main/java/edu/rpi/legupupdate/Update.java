@@ -41,16 +41,7 @@ public class Update {
     public static final String VERSION;
 
     static {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(Update.class.getResourceAsStream("/edu/rpi/legup/VERSION")));
-        String version = "UNKNOWN";
-        try {
-            version = reader.readLine();
-            reader.close();
-        }
-        catch (IOException e) {
-            logger.severe("An error occurred while attempting to read the version\n" + e.getMessage());
-        }
-        VERSION = version;
+        VERSION = VersionInfo.getVersion();
     }
 
     public Update(Stream updateStream, File updateDownloadDir) {

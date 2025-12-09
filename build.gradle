@@ -5,7 +5,18 @@ plugins {
     id 'com.diffplug.spotless' version '6.25.0'
 }
 
-version '6.0.0'
+def versionFile = file('legup-update/bin/main/edu.rpi.legupupdate/VERSION')
+def appVersion = versionFile.exists() ? versionFile.text.trim() : 'VERSION_NOT_FOUND'
+version = appVersion
+
+processResources {
+    // Tell Gradle which files to process
+    inputs.property("version", project.version)
+    filesMatching(['version.properties', 'config.xml']) {
+        // Enable property expansion, using the 'version' property from the build script
+        expand(version: project.version)
+    }
+}
 
 apply plugin: 'java'
 apply plugin: 'application'

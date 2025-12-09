@@ -3,12 +3,17 @@ package edu.rpi.legup.puzzle.lightup.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
+import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.puzzle.lightup.LightUpBoard;
 import edu.rpi.legup.puzzle.lightup.LightUpCell;
 import edu.rpi.legup.puzzle.lightup.LightUpCellType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.*;
 
 public class CannotLightACellContradictionRule extends ContradictionRule {
+    private static final Logger LOGGER = LogManager.getLogger(CannotLightACellContradictionRule.class.getName());
 
     public CannotLightACellContradictionRule() {
         super(
@@ -80,7 +85,9 @@ public class CannotLightACellContradictionRule extends ContradictionRule {
                 }
             }
         }
-        System.out.printf("%d, %d, %d, %d\n", location.x, location.y, hor_count, ver_count);
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace("x:{}, y:{}, horizontal:{}, vertical:{}\n", location.x, location.y, hor_count, ver_count);
+        }
         if (hor_count == 0 && ver_count == 0) {
             return null;
         }

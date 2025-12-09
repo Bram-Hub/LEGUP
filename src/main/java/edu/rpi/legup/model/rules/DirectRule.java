@@ -6,12 +6,15 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * DirectRule is an abstract class representing a direct rule for transitions in a puzzle. It
  * provides methods for checking whether transitions and specific puzzle elements follow the rule.
  */
 public abstract class DirectRule extends Rule {
+    private static final Logger LOGGER = LogManager.getLogger(DirectRule.class.getName());
     /**
      * DirectRule Constructor creates a new basic rule.
      *
@@ -34,7 +37,9 @@ public abstract class DirectRule extends Rule {
      */
     public String checkRule(TreeTransition transition) {
         Board finalBoard = transition.getBoard();
-        // System.out.println(finalBoard.getModifiedData().size());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(finalBoard.getModifiedData().size());
+        }
         if (transition.getParents().size() != 1
                 || transition.getParents().get(0).getChildren().size() != 1) {
             return "State must have only 1 parent and 1 child";
