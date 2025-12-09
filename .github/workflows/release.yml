@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
+
 
 permissions:
   contents: write
@@ -83,7 +85,7 @@ jobs:
         with:
           tag_name: v${{ steps.get_version.outputs.VERSION }}
           name: Release v${{ steps.get_version.outputs.VERSION }}
-          draft: false
+          draft: true
           prerelease: false
           files: |
             *.zip
