@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="6.1.0">
+    <puzzle name="Nurikabe" tag="7209030">
+        <board height="5" width="5">
+            <goal type="PROVE_CELL_MUST_BE">
+                <cell value="-1" x="2" y="1"/>
+                <cell value="-1" x="2" y="2"/>
+            </goal>
+            <cells>
+                <cell value="4" x="2" y="0"/>
+                <cell value="1" x="4" y="1"/>
+                <cell value="2" x="1" y="2"/>
+                <cell value="2" x="3" y="2"/>
+            </cells>
+        </board>
+        <proof>
+            <tree>
+                <node id="1848537383" root="true">
+                    <transition child="1496395736" id="530784837" rule="Black or White" rule_id="NURI-CASE-0001">
+                        <cell value="-1" x="2" y="1"/>
+                    </transition>
+                    <transition child="898994796" id="789193671" rule="Black or White" rule_id="NURI-CASE-0001">
+                        <cell value="0" x="2" y="1"/>
+                    </transition>
+                </node>
+                <node id="898994796">
+                    <transition child="1331223938" id="845939750" rule="Black or White" rule_id="NURI-CASE-0001">
+                        <cell value="0" x="2" y="2"/>
+                    </transition>
+                    <transition child="1613978892" id="1317183311" rule="Black or White" rule_id="NURI-CASE-0001">
+                        <cell value="-1" x="2" y="2"/>
+                    </transition>
+                </node>
+                <node id="1613978892">
+                    <transition child="948500823" id="1295878614" rule="Surround Region" rule_id="NURI-BASC-0007">
+                        <cell value="-1" x="4" y="0"/>
+                        <cell value="-1" x="3" y="1"/>
+                    </transition>
+                </node>
+                <node id="948500823">
+                    <transition child="1876041290" id="840021952" rule="Black Bottle Neck" rule_id="NURI-BASC-0002">
+                        <cell value="-1" x="3" y="0"/>
+                    </transition>
+                </node>
+                <node id="1876041290">
+                    <transition child="1437268890" id="1274111005" rule="Isolated Black" rule_id="NURI-CONT-0003"/>
+                </node>
+                <node id="1437268890"/>
+                <node id="1331223938">
+                    <transition child="212957502" id="109516924" rule="Too Many Spaces" rule_id="NURI-CONT-0007"/>
+                </node>
+                <node id="212957502"/>
+                <node id="1496395736">
+                    <transition child="1299107392" id="2130559847" rule="Black or White" rule_id="NURI-CASE-0001">
+                        <cell value="0" x="3" y="0"/>
+                    </transition>
+                    <transition child="303499444" id="577225275" rule="Black or White" rule_id="NURI-CASE-0001">
+                        <cell value="-1" x="3" y="0"/>
+                    </transition>
+                </node>
+                <node id="303499444">
+                    <transition child="1875192435" id="1156611010" rule="Black Between Regions" rule_id="NURI-BASC-0001">
+                        <cell value="-1" x="2" y="2"/>
+                    </transition>
+                </node>
+                <node id="1875192435"/>
+                <node id="1299107392">
+                    <transition child="344915661" id="559077164" rule="Black Between Regions" rule_id="NURI-BASC-0001">
+                        <cell value="-1" x="2" y="2"/>
+                    </transition>
+                </node>
+                <node id="344915661"/>
+            </tree>
+        </proof>
+    </puzzle>
+    <solved isSolved="1384237993" lastSaved="2025-11-11 16:43:52"/>
+</Legup>

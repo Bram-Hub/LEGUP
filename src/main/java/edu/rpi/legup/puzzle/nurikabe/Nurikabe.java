@@ -1,8 +1,10 @@
 package edu.rpi.legup.puzzle.nurikabe;
 
 import edu.rpi.legup.model.Goal;
+import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
@@ -59,68 +61,20 @@ public class Nurikabe extends Puzzle {
     @Override
     public boolean isBoardComplete(Board board) {
         NurikabeBoard nurikabeBoard = (NurikabeBoard) board;
-
+        for (PuzzleElement data : nurikabeBoard.getPuzzleElements()) {
+            GridCell cell = (GridCell) data;
+            if (!cell.isKnown()) {return false;}
+        }
         for (ContradictionRule rule : contradictionRules) {
             if (rule.checkContradiction(nurikabeBoard) == null) {
                 return false;
             }
         }
-
-        Goal goal = this.getGoal();
-        return switch (goal.getType()) {
-            case PROVE_CELL_MUST_BE -> // Every goal cell is forced
-                    checkGoalCells(nurikabeBoard, goal);
-            case PROVE_CELL_MIGHT_NOT_BE -> {
-                // If the goal cell is guaranteed to be the same, then the board
-                // is technically true? Need to fact-check this, but I think this is right
-
-                // Board is complete and goal cell is different from listed
-                for (PuzzleElement data : nurikabeBoard.getPuzzleElements()) {
-                    NurikabeCell cell = (NurikabeCell) data;
-                    if (cell.getType() == NurikabeType.UNKNOWN) {
-                        yield false;
-                    }
-                }
-
-                for (GridCell goalCell : goal.getCells()){
-                    GridCell boardCell = nurikabeBoard.getCell(goalCell.getLocation());
-                    if (boardCell.equals(goalCell)){
-                        yield false;
-                    }
-                }
-
-                yield true;
-            }
-            case PROVE_SINGLE_CELL_VALUE -> { yield false; }
-            case PROVE_MULTIPLE_CELL_VALUE -> { yield false; }
-            default -> {
-                for (PuzzleElement data : nurikabeBoard.getPuzzleElements()) {
-                    NurikabeCell cell = (NurikabeCell) data;
-                    if (cell.getType() == NurikabeType.UNKNOWN) {
-                        yield false;
-                    }
-                }
-                yield true;
-            }
-        };
+        return true;
     }
 
-    /**
-     * Returns true if all the cells listed in the Goal are forced.
-     * @param goal Goal object containing cell locations and values.
-     * @return True if all the cells match the ones specified in Goal, False otherwise.
-     */
-    private boolean checkGoalCells(NurikabeBoard board, Goal goal) {
-        boolean isValid = false;
-        for (GridCell goalCell : goal.getCells()) {
-            GridCell boardCell = board.getCell(goalCell.getLocation());
-            if (boardCell.equals(goalCell)){
-                isValid = true;
-            }
-        }
 
-        return isValid;
-    }
+
 
     /**
      * Callback for when the board puzzleElement changes

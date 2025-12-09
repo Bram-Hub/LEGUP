@@ -76,4 +76,13 @@ public class GridCell<T> extends PuzzleElement<T> {
     public boolean equals(GridCell<T> other) {
         return location.equals(other.location) && data.equals(other.data);
     }
+
+    /**
+     * Determines if the cell is unknown. Should be overridden.
+     *
+     * @return true if cell is unknown, false otherwise.
+     */
+    public boolean isKnown() {return !(data == null);}
+
+
 }

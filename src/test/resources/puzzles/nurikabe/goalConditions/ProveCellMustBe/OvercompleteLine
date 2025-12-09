@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="6.1.0">
+    <puzzle name="Nurikabe" tag="118040">
+        <board height="5" width="5">
+            <goal type="PROVE_CELL_MUST_BE">
+                <cell value="-1" x="0" y="1"/>
+            </goal>
+            <cells>
+                <cell value="4" x="4" y="0"/>
+                <cell value="1" x="0" y="2"/>
+                <cell value="1" x="2" y="2"/>
+                <cell value="1" x="4" y="2"/>
+                <cell value="4" x="0" y="4"/>
+            </cells>
+        </board>
+        <proof>
+            <tree>
+                <node id="1825403646" root="true">
+                    <transition child="701271713" id="1229611496" rule="Surround Region" rule_id="NURI-BASC-0007">
+                        <cell value="-1" x="4" y="1"/>
+                        <cell value="-1" x="0" y="3"/>
+                        <cell value="-1" x="2" y="3"/>
+                        <cell value="-1" x="3" y="2"/>
+                        <cell value="-1" x="0" y="1"/>
+                        <cell value="-1" x="2" y="1"/>
+                        <cell value="-1" x="4" y="3"/>
+                        <cell value="-1" x="1" y="2"/>
+                    </transition>
+                </node>
+                <node id="701271713">
+                    <transition child="537730592" id="443775869" rule="Black Bottle Neck" rule_id="NURI-BASC-0002">
+                        <cell value="-1" x="1" y="3"/>
+                        <cell value="-1" x="3" y="1"/>
+                    </transition>
+                </node>
+                <node id="537730592">
+                    <transition child="659604061" id="329908175" rule="White Bottle Neck" rule_id="NURI-BASC-0009">
+                        <cell value="0" x="1" y="0"/>
+                        <cell value="0" x="1" y="4"/>
+                        <cell value="0" x="2" y="0"/>
+                        <cell value="0" x="3" y="4"/>
+                        <cell value="0" x="2" y="4"/>
+                        <cell value="0" x="3" y="0"/>
+                    </transition>
+                </node>
+                <node id="659604061">
+                    <transition child="334234174" id="1363220560" rule="Surround Region" rule_id="NURI-BASC-0007">
+                        <cell value="-1" x="3" y="3"/>
+                        <cell value="-1" x="4" y="4"/>
+                        <cell value="-1" x="1" y="1"/>
+                        <cell value="-1" x="0" y="0"/>
+                    </transition>
+                </node>
+                <node id="334234174"/>
+            </tree>
+        </proof>
+    </puzzle>
+    <solved isSolved="634757170" lastSaved="2025-11-07 17:24:05"/>
+</Legup>

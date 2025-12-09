@@ -19,8 +19,8 @@ by any other puzzles.
 The `check proof` button should then reflect this goal condition when validating a proof. 
 Depending on the goal, the checker needs to look for different things depending on the goal. 
 
-Currently, __all branches__ must either contain a full board or be closed by a contradition rule 
-for the puzzle to be solved.
+For the default goal condition, __all branches__ must either contain a full board or be 
+closed by a contradiction rule for the puzzle to be solved.
 
 | Goal scope \ Task type | **Prove**                            | **Disprove**                         |
 |------------------------|--------------------------------------|--------------------------------------|
@@ -30,21 +30,14 @@ for the puzzle to be solved.
 To prove a cell is as indicated, __all branches__ need to be valid and the cell must be as indicated.
 
 To prove a cell might not be as indicated, only __one branch__ needs to be valid and the cell not as 
-indicated for the puzzle to valid.
+indicated for the puzzle to valid. Alternatively, __all__ branches where the cell is as indicated must
+be contradictory
 
-To prove a cell must be a given type, the same condition as proving a specific type holds.
+To prove a cell must be one given type, the same condition as proving a specific type holds.
 
 To prove a cell might be multiple types, only __two valid branches__ need to exist, where the cell is 
 a different type in each, for the puzzle to be valid.
 
-### Goal Rule
-
-We would also need a rule that corresponds to the goal. For example, we should be allowed to show
-by contradiction that a goal condition holds. If we want to `prove that cell (1, 1) is White`, we can
-show via contradiction that if (1,1) is white, the puzzle would be unsolvable. This type of puzzle solution
-should be valid.
-
-I have no idea how to make this happen.
 
 ## Possible UI
 Puzzle Board:

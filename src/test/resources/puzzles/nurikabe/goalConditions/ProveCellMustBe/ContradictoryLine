@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="6.1.0">
+    <puzzle name="Nurikabe" tag="118040">
+        <board height="5" width="5">
+            <goal type="PROVE_CELL_MUST_BE">
+                <cell value="2" x="1" y="2"/>
+                <cell value="-1" x="0" y="0"/>
+            </goal>
+            <cells>
+                <cell value="3" x="1" y="2"/>
+                <cell value="4" x="2" y="2"/>
+            </cells>
+        </board>
+        <proof>
+            <tree>
+                <node id="937065430" root="true">
+                    <transition child="969278767" id="361361138" rule="Multiple Numbers" rule_id="NURI-CONT-0004"/>
+                </node>
+                <node id="969278767"/>
+            </tree>
+        </proof>
+    </puzzle>
+    <solved isSolved="881173917" lastSaved="2025-12-02 16:27:29"/>
+</Legup>

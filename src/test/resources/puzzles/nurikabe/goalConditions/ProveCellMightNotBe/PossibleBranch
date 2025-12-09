@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="6.1.0">
+    <puzzle name="Nurikabe" tag="4390561">
+        <board height="7" width="7">
+            <goal type="PROVE_CELL_MIGHT_NOT_BE">
+                <cell value="-1" x="1" y="4"/>
+                <cell value="0" x="0" y="0"/>
+            </goal>
+            <cells>
+                <cell value="1" x="3" y="1"/>
+                <cell value="2" x="1" y="2"/>
+                <cell value="2" x="5" y="2"/>
+                <cell value="1" x="3" y="3"/>
+                <cell value="2" x="1" y="4"/>
+                <cell value="1" x="5" y="4"/>
+                <cell value="2" x="3" y="5"/>
+                <cell value="1" x="6" y="6"/>
+            </cells>
+        </board>
+        <proof>
+            <tree>
+                <node id="309434324" root="true">
+                    <transition child="375796274" id="1754350372" rule="Black or White" rule_id="NURI-CASE-0001">
+                        <cell value="-1" x="0" y="0"/>
+                    </transition>
+                    <transition child="1401489211" id="138839465" rule="Black or White" rule_id="NURI-CASE-0001">
+                        <cell value="0" x="0" y="0"/>
+                    </transition>
+                </node>
+                <node id="1401489211"/>
+                <node id="375796274"/>
+            </tree>
+        </proof>
+    </puzzle>
+    <solved isSolved="-1145565698" lastSaved="2025-12-02 17:31:05"/>
+</Legup>

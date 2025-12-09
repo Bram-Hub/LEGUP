@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="6.1.0">
+    <puzzle name="Nurikabe" tag="8264437">
+        <board height="10" width="10">
+            <goal type="PROVE_CELL_MUST_BE">
+                <cell value="0" x="2" y="1"/>
+            </goal>
+            <cells>
+                <cell value="1" x="0" y="0"/>
+                <cell value="2" x="3" y="1"/>
+                <cell value="2" x="6" y="1"/>
+                <cell value="1" x="1" y="2"/>
+                <cell value="1" x="4" y="2"/>
+                <cell value="2" x="8" y="2"/>
+                <cell value="3" x="2" y="3"/>
+                <cell value="2" x="7" y="3"/>
+                <cell value="1" x="4" y="4"/>
+                <cell value="2" x="2" y="6"/>
+                <cell value="4" x="7" y="6"/>
+                <cell value="4" x="1" y="7"/>
+                <cell value="2" x="8" y="7"/>
+                <cell value="1" x="3" y="8"/>
+                <cell value="5" x="6" y="8"/>
+            </cells>
+        </board>
+        <proof>
+            <tree>
+                <node id="880965674" root="true">
+                    <transition child="1908787436" id="978628192" rule="Black or White" rule_id="NURI-CASE-0001">
+                        <cell value="0" x="2" y="1"/>
+                    </transition>
+                    <transition child="654076394" id="1860616924" rule="Black or White" rule_id="NURI-CASE-0001">
+                        <cell value="-1" x="2" y="1"/>
+                    </transition>
+                </node>
+                <node id="654076394"/>
+                <node id="1908787436">
+                    <transition child="1445047766" id="1093733560" rule="Surround Region" rule_id="NURI-BASC-0007">
+                        <cell value="-1" x="3" y="9"/>
+                        <cell value="-1" x="3" y="0"/>
+                        <cell value="-1" x="1" y="0"/>
+                        <cell value="-1" x="1" y="1"/>
+                        <cell value="-1" x="4" y="1"/>
+                        <cell value="-1" x="2" y="0"/>
+                        <cell value="-1" x="2" y="8"/>
+                        <cell value="-1" x="3" y="2"/>
+                        <cell value="-1" x="4" y="3"/>
+                        <cell value="-1" x="5" y="2"/>
+                        <cell value="-1" x="2" y="2"/>
+                        <cell value="-1" x="1" y="3"/>
+                        <cell value="-1" x="4" y="8"/>
+                        <cell value="-1" x="3" y="7"/>
+                        <cell value="-1" x="4" y="5"/>
+                        <cell value="-1" x="0" y="2"/>
+                        <cell value="-1" x="5" y="4"/>
+                        <cell value="-1" x="3" y="4"/>
+                        <cell value="-1" x="0" y="1"/>
+                    </transition>
+                </node>
+                <node id="1445047766">
+                    <transition child="968599433" id="836262588" rule="Black Between Regions" rule_id="NURI-BASC-0001">
+                        <cell value="-1" x="2" y="7"/>
+                        <cell value="-1" x="1" y="6"/>
+                        <cell value="-1" x="7" y="7"/>
+                        <cell value="-1" x="7" y="2"/>
+                        <cell value="-1" x="8" y="6"/>
+                        <cell value="-1" x="8" y="3"/>
+                    </transition>
+                </node>
+                <node id="968599433">
+                    <transition child="2093824621" id="1768984185" rule="Black Bottle Neck" rule_id="NURI-BASC-0002">
+                        <cell value="-1" x="3" y="3"/>
+                    </transition>
+                </node>
+                <node id="2093824621">
+                    <transition child="588259248" id="1984432793" rule="White Bottle Neck" rule_id="NURI-BASC-0009">
+                        <cell value="0" x="2" y="4"/>
+                    </transition>
+                </node>
+                <node id="588259248"/>
+            </tree>
+        </proof>
+    </puzzle>
+    <solved isSolved="-1146612103" lastSaved="2025-12-02 17:07:09"/>
+</Legup>

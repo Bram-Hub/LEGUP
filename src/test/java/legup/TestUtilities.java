@@ -25,4 +25,17 @@ public final class TestUtilities {
         TreeTransition transition = new TreeTransition(rootNode, board);
         rootNode.getChildren().add(transition);
     }
+
+    public static boolean verifyBoard(String fileName, Puzzle puzzle)
+            throws  InvalidFileFormatException {
+        InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName);
+
+        if (inputStream == null) {
+            throw new IllegalArgumentException(
+                    "InputStream cannot be null. File not found: " + fileName);
+        }
+
+        puzzle.importPuzzle(inputStream);
+        return puzzle.isPuzzleComplete();
+    }
 }

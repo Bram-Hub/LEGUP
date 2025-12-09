@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="6.1.0">
+    <puzzle name="Nurikabe" tag="118040">
+        <board height="5" width="5">
+            <goal type="PROVE_CELL_MIGHT_NOT_BE">
+                <cell value="-1" x="0" y="1"/>
+            </goal>
+            <cells>
+                <cell value="4" x="4" y="0"/>
+                <cell value="1" x="0" y="2"/>
+                <cell value="1" x="2" y="2"/>
+                <cell value="1" x="4" y="2"/>
+                <cell value="4" x="0" y="4"/>
+            </cells>
+        </board>
+        <proof>
+            <tree>
+                <node id="1825403646" root="true">
+                    <transition child="820143972" id="1565051719" rule="Surround Region" rule_id="NURI-BASC-0007">
+                        <cell value="-1" x="1" y="2"/>
+                        <cell value="-1" x="0" y="3"/>
+                    </transition>
+                </node>
+                <node id="820143972"/>
+            </tree>
+        </proof>
+    </puzzle>
+    <solved isSolved="-1395614870" lastSaved="2025-11-07 17:24:46"/>
+</Legup>

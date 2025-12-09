@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="6.1.0">
+    <puzzle name="Nurikabe" tag="7209030">
+        <board height="5" width="5">
+            <goal type="PROVE_CELL_MUST_BE">
+                <cell value="-1" x="2" y="1"/>
+                <cell value="-1" x="2" y="2"/>
+            </goal>
+            <cells>
+                <cell value="4" x="2" y="0"/>
+                <cell value="1" x="4" y="1"/>
+                <cell value="2" x="1" y="2"/>
+                <cell value="2" x="3" y="2"/>
+            </cells>
+        </board>
+        <proof>
+            <tree>
+                <node id="1257005028" root="true">
+                    <transition child="801496813" id="2004174990" rule="Black or White" rule_id="NURI-CASE-0001">
+                        <cell value="-1" x="2" y="1"/>
+                    </transition>
+                    <transition child="164212212" id="127100024" rule="Black or White" rule_id="NURI-CASE-0001">
+                        <cell value="0" x="2" y="1"/>
+                    </transition>
+                </node>
+                <node id="164212212">
+                    <transition child="1619844675" id="1974779045" rule="Black or White" rule_id="NURI-CASE-0001">
+                        <cell value="0" x="2" y="2"/>
+                    </transition>
+                    <transition child="2106721685" id="235440578" rule="Black or White" rule_id="NURI-CASE-0001">
+                        <cell value="-1" x="2" y="2"/>
+                    </transition>
+                </node>
+                <node id="2106721685">
+                    <transition child="963682782" id="1407484341" rule="Surround Region" rule_id="NURI-BASC-0007">
+                        <cell value="-1" x="3" y="1"/>
+                        <cell value="-1" x="4" y="0"/>
+                    </transition>
+                </node>
+                <node id="963682782">
+                    <transition child="1057496693" id="1330155285" rule="Black Bottle Neck" rule_id="NURI-BASC-0002">
+                        <cell value="-1" x="3" y="0"/>
+                    </transition>
+                </node>
+                <node id="1057496693">
+                    <transition child="1201007235" id="533287885" rule="Isolated Black" rule_id="NURI-CONT-0003"/>
+                </node>
+                <node id="1201007235"/>
+                <node id="1619844675">
+                    <transition child="1343561217" id="1439010671" rule="Too Many Spaces" rule_id="NURI-CONT-0007"/>
+                </node>
+                <node id="1343561217"/>
+                <node id="801496813">
+                    <transition child="392278183" id="584795467" rule="Black or White" rule_id="NURI-CASE-0001">
+                        <cell value="0" x="3" y="0"/>
+                    </transition>
+                    <transition child="310662582" id="694175266" rule="Black or White" rule_id="NURI-CASE-0001">
+                        <cell value="-1" x="3" y="0"/>
+                    </transition>
+                </node>
+                <node id="310662582">
+                    <transition child="322421693" id="2086809592" rule="Black Between Regions" rule_id="NURI-BASC-0001">
+                        <cell value="-1" x="2" y="2"/>
+                    </transition>
+                </node>
+                <node id="322421693">
+                    <transition child="112160975" id="211547645" rule="Merge Rule" rule_id="MERGE">
+                        <cell value="-1" x="2" y="2"/>
+                    </transition>
+                </node>
+                <node id="112160975"/>
+                <node id="392278183">
+                    <transition child="1071308496" id="94726636" rule="Black Between Regions" rule_id="NURI-BASC-0001">
+                        <cell value="-1" x="2" y="2"/>
+                    </transition>
+                </node>
+                <node id="1071308496">
+                    <transition child="112160975" id="211547645" rule="Merge Rule" rule_id="MERGE">
+                        <cell value="-1" x="2" y="2"/>
+                    </transition>
+                </node>
+            </tree>
+        </proof>
+    </puzzle>
+    <solved isSolved="-856455271" lastSaved="2025-11-11 18:01:31"/>
+</Legup>
