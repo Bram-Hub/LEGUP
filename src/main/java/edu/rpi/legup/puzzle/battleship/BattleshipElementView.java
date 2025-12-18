@@ -3,6 +3,9 @@ package edu.rpi.legup.puzzle.battleship;
 import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
 
+/**
+ * The view for a Battleship cell
+ */
 public class BattleshipElementView extends GridElementView {
     private static final Stroke OUTLINE_STROKE = new BasicStroke(1);
     private static final Color OUTLINE_COLOR = new Color(0x212121);
