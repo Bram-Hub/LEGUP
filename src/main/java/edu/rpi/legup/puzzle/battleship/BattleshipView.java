@@ -4,9 +4,8 @@ import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 import java.awt.*;
-/**
- * The view for the Battleship puzzle
- */
+
+/** The view for the Battleship puzzle */
 public class BattleshipView extends GridBoardView {
 
     /**

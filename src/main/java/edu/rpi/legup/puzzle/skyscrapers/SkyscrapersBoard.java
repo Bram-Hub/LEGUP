@@ -3,14 +3,12 @@ package edu.rpi.legup.puzzle.skyscrapers;
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SkyscrapersBoard extends GridBoard {
     private static final Logger LOGGER = LogManager.getLogger(SkyscrapersBoard.class.getName());

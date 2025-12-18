@@ -8,10 +8,9 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.observer.IBoardListener;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.ui.ScrollView;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import javax.swing.*;
 
 /**
  * An abstract class representing a view for a board in the puzzle game. It handles the visual

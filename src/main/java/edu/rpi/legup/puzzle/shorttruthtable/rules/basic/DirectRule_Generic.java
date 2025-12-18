@@ -56,7 +56,8 @@ public abstract class DirectRule_Generic extends DirectRule {
         ShortTruthTableBoard modifiedBoard = parentBoard.copy();
 
         // Check that elimination rule is not using the whole statement, which is always improper
-        if (this.ELIMINATION_RULE && parentCell.getStatementReference().getParentStatement() == null){
+        if (this.ELIMINATION_RULE
+                && parentCell.getStatementReference().getParentStatement() == null) {
             return super.getInvalidUseOfRuleMessage();
         }
 

@@ -16,9 +16,8 @@ public enum BattleshipType {
     CLUE_WEST;
 
     public int value;
-    /**
-     * Constructor for BattleshipType enum
-     */
+
+    /** Constructor for BattleshipType enum */
     BattleshipType() {
         this.value = this.ordinal();
     }

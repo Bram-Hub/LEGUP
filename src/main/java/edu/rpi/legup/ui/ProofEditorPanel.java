@@ -1243,7 +1243,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                     writer.append(fName).append(",Invalid,,Ungradeable\n");
                 }
             } else {
-                if(LOGGER.isDebugEnabled()) {
+                if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("Failed to run sim");
                 }
             }

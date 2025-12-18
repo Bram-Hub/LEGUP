@@ -97,21 +97,25 @@ public class NotEliminationTest {
     /**
      * Given one statement: ¬A
      *
-     * Asserts that setting both ¬ and A to any values would not be a valid
-     * application of this rule
+     * <p>Asserts that setting both ¬ and A to any values would not be a valid application of this
+     * rule
      *
      * @throws InvalidFileFormatException
      */
     @Test
     public void CannotSetBothAtOnceTest() throws InvalidFileFormatException {
 
-    TestUtilities.importTestBoard("puzzles/shorttruthtable/rules/NotEliminationDirectRule/BlankNot", stt);
+        TestUtilities.importTestBoard(
+                "puzzles/shorttruthtable/rules/NotEliminationDirectRule/BlankNot", stt);
         TreeNode rootNode = stt.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
         transition.setRule(RULE);
 
-        ShortTruthTableCellType[] cellTypes = {ShortTruthTableCellType.TRUE,
-    ShortTruthTableCellType.FALSE, ShortTruthTableCellType.UNKNOWN};
+        ShortTruthTableCellType[] cellTypes = {
+            ShortTruthTableCellType.TRUE,
+            ShortTruthTableCellType.FALSE,
+            ShortTruthTableCellType.UNKNOWN
+        };
 
         for (ShortTruthTableCellType cellType1 : cellTypes) {
             for (ShortTruthTableCellType cellType2 : cellTypes) {

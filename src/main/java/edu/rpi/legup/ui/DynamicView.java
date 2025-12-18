@@ -10,7 +10,6 @@ import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.util.Hashtable;
 import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -123,7 +122,11 @@ public class DynamicView extends JPanel {
             zoomLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             zoomLabel.setFont(MaterialFonts.getRegularFont(16f));
 
-            JSlider zoomSlider = new JSlider((int)(25f/SLIDER_PRECISION), (int)(400f/SLIDER_PRECISION), (int)(100f/SLIDER_PRECISION));
+            JSlider zoomSlider =
+                    new JSlider(
+                            (int) (25f / SLIDER_PRECISION),
+                            (int) (400f / SLIDER_PRECISION),
+                            (int) (100f / SLIDER_PRECISION));
 
             JButton plus =
                     new JButton(
@@ -137,7 +140,9 @@ public class DynamicView extends JPanel {
             plus.setFont(MaterialFonts.getRegularFont(10f));
             plus.setPreferredSize(new Dimension(20, 20));
             plus.addActionListener(
-                    (ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() + (int)(25f/SLIDER_PRECISION)));
+                    (ActionEvent e) ->
+                            zoomSlider.setValue(
+                                    zoomSlider.getValue() + (int) (25f / SLIDER_PRECISION)));
 
             JButton minus =
                     new JButton(
@@ -151,7 +156,9 @@ public class DynamicView extends JPanel {
             minus.setPreferredSize(new Dimension(20, 20));
             minus.setFont(MaterialFonts.getRegularFont(10f));
             minus.addActionListener(
-                    (ActionEvent e) -> zoomSlider.setValue(zoomSlider.getValue() - (int)(25f/SLIDER_PRECISION)));
+                    (ActionEvent e) ->
+                            zoomSlider.setValue(
+                                    zoomSlider.getValue() - (int) (25f / SLIDER_PRECISION)));
             this.scrollView.setWheelScrollingEnabled(true);
 
             zoomSlider.setPreferredSize(new Dimension(160, 30));
@@ -160,27 +167,29 @@ public class DynamicView extends JPanel {
                     new ComponentAdapter() {
                         @Override
                         public void componentResized(ComponentEvent e) {
-                            zoomSlider.setValue((int)(scrollView.getZoom()/SLIDER_PRECISION));
-                            zoomLabel.setText((int)(zoomSlider.getValue()*SLIDER_PRECISION+0.5) + "%");
+                            zoomSlider.setValue((int) (scrollView.getZoom() / SLIDER_PRECISION));
+                            zoomLabel.setText(
+                                    (int) (zoomSlider.getValue() * SLIDER_PRECISION + 0.5) + "%");
                         }
                     });
 
             zoomSlider.addChangeListener(
                     (ChangeEvent e) -> {
-                        scrollView.zoomTo(zoomSlider.getValue()*SLIDER_PRECISION / 100.0);
-                        zoomLabel.setText((int)(zoomSlider.getValue()*SLIDER_PRECISION+0.5) + "%");
+                        scrollView.zoomTo(zoomSlider.getValue() * SLIDER_PRECISION / 100.0);
+                        zoomLabel.setText(
+                                (int) (zoomSlider.getValue() * SLIDER_PRECISION + 0.5) + "%");
                     });
 
-            zoomSlider.setMajorTickSpacing((int)(100f/SLIDER_PRECISION));
-            zoomSlider.setMinorTickSpacing((int)(25f/SLIDER_PRECISION));
+            zoomSlider.setMajorTickSpacing((int) (100f / SLIDER_PRECISION));
+            zoomSlider.setMinorTickSpacing((int) (25f / SLIDER_PRECISION));
             zoomSlider.setPaintTicks(true);
 
-            //Hashtable<Integer, JLabel> labelTable = new Hashtable<>();
-            //labelTable.put((int)(25f/SLIDER_PRECISION), new JLabel("25%"));
-            //labelTable.put((int)(100f/SLIDER_PRECISION), new JLabel("100%"));
-            //labelTable.put((int)(400f/SLIDER_PRECISION), new JLabel("400%"));
-            //zoomSlider.setLabelTable(labelTable);
-            //zoomSlider.setPaintLabels(true);
+            // Hashtable<Integer, JLabel> labelTable = new Hashtable<>();
+            // labelTable.put((int)(25f/SLIDER_PRECISION), new JLabel("25%"));
+            // labelTable.put((int)(100f/SLIDER_PRECISION), new JLabel("100%"));
+            // labelTable.put((int)(400f/SLIDER_PRECISION), new JLabel("400%"));
+            // zoomSlider.setLabelTable(labelTable);
+            // zoomSlider.setPaintLabels(true);
 
             zoomer.setLayout(new FlowLayout());
 
