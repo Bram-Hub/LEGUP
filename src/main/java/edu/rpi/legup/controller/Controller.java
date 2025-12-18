@@ -118,7 +118,7 @@ public abstract class Controller implements MouseMotionListener, MouseListener, 
      */
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        //System.out.println(e.getPreciseWheelRotation());
+        // System.out.println(e.getPreciseWheelRotation());
         double mag = e.getPreciseWheelRotation();
         if (mag == 0) {
             return;
@@ -133,18 +133,21 @@ public abstract class Controller implements MouseMotionListener, MouseListener, 
             }
             final double usableMag = mag;
             final Point usablePoint = e.getPoint();
-            scrollEaseTimer = new Timer(5, new ActionListener() {
-                int counter = 5;
-                public void actionPerformed(ActionEvent e) {
-                    if (counter == 0) {
-                        ((Timer) e.getSource()).stop();
-                    }
-                    else {
-                        viewer.zoom(usableMag/5, usablePoint);
-                        counter--;
-                    }
-                }
-            });
+            scrollEaseTimer =
+                    new Timer(
+                            5,
+                            new ActionListener() {
+                                int counter = 5;
+
+                                public void actionPerformed(ActionEvent e) {
+                                    if (counter == 0) {
+                                        ((Timer) e.getSource()).stop();
+                                    } else {
+                                        viewer.zoom(usableMag / 5, usablePoint);
+                                        counter--;
+                                    }
+                                }
+                            });
             scrollEaseTimer.start();
         } else {
             viewer.zoom(mag, e.getPoint());

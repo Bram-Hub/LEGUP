@@ -9,16 +9,15 @@ import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
-import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
 import edu.rpi.legup.utility.ConnectedRegions;
+import java.awt.*;
+import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
-import java.util.Set;
-
 public class CornerBlackDirectRule extends DirectRule {
-    private static final Logger LOGGER = LogManager.getLogger(CornerBlackDirectRule.class.getName());
+    private static final Logger LOGGER =
+            LogManager.getLogger(CornerBlackDirectRule.class.getName());
 
     public CornerBlackDirectRule() {
         super(

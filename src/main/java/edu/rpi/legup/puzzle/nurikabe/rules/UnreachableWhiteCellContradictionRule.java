@@ -47,9 +47,10 @@ public class UnreachableWhiteCellContradictionRule extends ContradictionRule {
         // Get regions
         HashMap<NurikabeCell, Integer> whiteRegionMap =
                 NurikabeUtilities.getWhiteRegionMap(nurikabeBoard);
-//        if (whiteRegionMap.containsKey(cell)) {
-//            return super.getNoContradictionMessage() + ": " + this.NO_CONTRADICTION_MESSAGE;
-//        }
+        //        if (whiteRegionMap.containsKey(cell)) {
+        //            return super.getNoContradictionMessage() + ": " +
+        // this.NO_CONTRADICTION_MESSAGE;
+        //        }
 
         // BFS to a region
 

@@ -86,7 +86,7 @@ public class HomePanel extends LegupPanel {
         preferences.addActionListener(
                 a -> {
                     PreferencesDialog preferencesDialog = new PreferencesDialog(this.frame);
-                    if(LOGGER.isDebugEnabled()) {
+                    if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("Preferences clicked");
                     }
                 });
@@ -284,7 +284,7 @@ public class HomePanel extends LegupPanel {
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
-                    if(LOGGER.isDebugEnabled()) {
+                    if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("Finished autograding");
                     }
 
@@ -315,7 +315,8 @@ public class HomePanel extends LegupPanel {
         /* Select a folder, go through each .xml file in the subfolders, look for "isSolved" flag */
         File resultFile = new File(folder.getAbsolutePath() + File.separator + "result.csv");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
-            writer.append("Name,File Name,Puzzle Type,Puzzle Tag,Solved?,#Hash#,Depth of Proof Tree,Last Saved\n");
+            writer.append(
+                    "Name,File Name,Puzzle Type,Puzzle Tag,Solved?,#Hash#,Depth of Proof Tree,Last Saved\n");
             // Go through student folders, recurse for inner folders
             for (final File folderEntry :
                     Objects.requireNonNull(folder.listFiles(File::isDirectory))) {
@@ -326,10 +327,12 @@ public class HomePanel extends LegupPanel {
         } catch (IOException ex) {
             LOGGER.error(ex.getMessage());
         }
-        // (CSV will be opened after duplicate-processing so the file includes the Hash Status column)
-        //Check for duplicate hashes and mark them
+        // (CSV will be opened after duplicate-processing so the file includes the Hash Status
+        // column)
+        // Check for duplicate hashes and mark them
         // Read the generated CSV, group data lines by the hash token (between the first two '#'),
-        // and rewrite the CSV adding a "Hash Status" column marking each entry Unique/Duplicate/NoHash.
+        // and rewrite the CSV adding a "Hash Status" column marking each entry
+        // Unique/Duplicate/NoHash.
         List<String> allLines = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(resultFile))) {
             String line;
@@ -488,7 +491,7 @@ public class HomePanel extends LegupPanel {
             LOGGER.error("Solved state could not be unhashed:\n{}", e.getMessage());
         }
         // Append the isSolved attribute aka the unique hash and the depth of the proof tree
-        writer.write(","+ "#" + isSolved + "#," + treeNodes.getLength());
+        writer.write("," + "#" + isSolved + "#," + treeNodes.getLength());
         // Append the lastSaved attribute
         writer.write(",");
         writer.write(!lastSaved.isEmpty() ? lastSaved : "Error");
@@ -596,7 +599,7 @@ public class HomePanel extends LegupPanel {
             String fName = fileEntry.getName();
             Document doc;
             if ((doc = isxmlfile(fileEntry)) == null) {
-                if(LOGGER.isDebugEnabled()) {
+                if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("{} is not a '.xml' file", fileEntry.getName());
                 }
                 continue;

@@ -62,16 +62,17 @@ public class RuleController implements ActionListener {
                     if (LegupPreferences.getInstance()
                             .getUserPref(LegupPreferences.AUTO_GENERATE_CASES)
                             .equalsIgnoreCase(Boolean.toString(true))) {
-                        try {//added try catch for scenarios where rules are cancelled by user ie. Skyscraper cellForNumber
+                        try { // added try catch for scenarios where rules are cancelled by user ie.
+                            // Skyscraper cellForNumber
                             CaseBoard caseBoard = caseRule.getCaseBoard(element.getBoard());
                             if (caseBoard != null && caseBoard.getCount() > 0) {
                                 puzzle.notifyBoardListeners(
                                         listener -> listener.onCaseBoardAdded(caseBoard));
+                            } else {
+                                updateErrorString =
+                                        "This board cannot be applied with this case rule.";
                             }
-                            else {
-                                updateErrorString = "This board cannot be applied with this case rule.";
-                            }
-                        }//catch rule was cancelled exception
+                        } // catch rule was cancelled exception
                         catch (Exception e) {
                             updateErrorString = e.getMessage();
                         }
