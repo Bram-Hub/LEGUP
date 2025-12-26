@@ -43,17 +43,21 @@ public class CellForNumberCaseRule extends CaseRule {
             possibleValues[i] = i + 1;
         }
         Object selectedValue;
-        do {
-            selectedValue =
-                    JOptionPane.showInputDialog(
-                            null,
-                            "Pick the number to be added",
-                            "Cell For Number",
-                            JOptionPane.INFORMATION_MESSAGE,
-                            null,
-                            possibleValues,
-                            possibleValues[0]);
-        } while (selectedValue == null);
+
+        selectedValue =
+                JOptionPane.showInputDialog(
+                        null,
+                        "Pick the number to be added",
+                        "Cell For Number",
+                        JOptionPane.INFORMATION_MESSAGE,
+                        null,
+                        possibleValues,
+                        possibleValues[0]);
+        if (selectedValue == null) { // checks if input box was closed
+            throw (new IllegalArgumentException(
+                    "Rule was cancelled.")); // returns rule was cancelled error if input box is
+            // closed.
+        }
         selectedNumber = (Integer) selectedValue;
 
         return caseBoard;

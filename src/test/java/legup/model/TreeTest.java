@@ -8,13 +8,13 @@ import org.junit.Test;
 
 public class TreeTest {
     public static Tree tree;
+
     @BeforeClass
     public static void setUp() {
         Board board = new GridBoard(5, 5);
         tree = new Tree(board);
     }
-    @Test
-    public void testTree() {
 
-    }
+    @Test
+    public void testTree() {}
 }

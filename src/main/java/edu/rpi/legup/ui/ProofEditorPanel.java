@@ -544,8 +544,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         fileBrowser.setAcceptAllFileFilterUsed(false);
 
         File puzzlePath = fileBrowser.getSelectedFile();
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info(puzzlePath.getAbsolutePath());
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(puzzlePath.getAbsolutePath());
         }
 
         if (puzzlePath != null) {
@@ -1243,7 +1243,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                     writer.append(fName).append(",Invalid,,Ungradeable\n");
                 }
             } else {
-                if(LOGGER.isDebugEnabled()) {
+                if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("Failed to run sim");
                 }
             }

@@ -69,9 +69,8 @@ public class StarBattleImporter extends PuzzleImporter {
                 int y = Integer.parseInt(cellElement.getAttribute("y"));
                 int value = Integer.parseInt(cellElement.getAttribute("value"));
 
-                Point cellPoint = new Point(x, y);
-
                 // Create the StarBattleCell with the cell type and value
+                Point cellPoint = new Point(x, y);
                 StarBattleCell cell = new StarBattleCell(value, cellPoint, i, size);
                 cell.setIndex(y * size + x); // Calculate the index based on size
                 cell.setModifiable(true);

@@ -4,10 +4,6 @@ import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.GridBoardView;
-import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -111,7 +107,9 @@ public class StarBattleView extends GridBoardView {
         // initialize horizontal borders, the ones that are between two cells along the y-axis, and
         // look like -- not |
         for (int i = 0; i < starBattleBoard.getWidth(); i++) {
-            for (int j = 0; j < starBattleBoard.getHeight() + 1; j++) { // +1 to account for sides of board
+            for (int j = 0;
+                    j < starBattleBoard.getHeight() + 1;
+                    j++) { // +1 to account for sides of board
                 StarBattleBorderView temp =
                         new StarBattleBorderView(
                                 new StarBattleBorder(StarBattleCellType.HORIZ_BORDER));
@@ -122,7 +120,10 @@ public class StarBattleView extends GridBoardView {
                     horizontalBorders.add(temp);
                 } else if (j == starBattleBoard.getHeight()) {
                     temp.setLocation(
-                            endCell(starBattleBoard.getCell(i, starBattleBoard.getHeight() - 1), 2, elementSize));
+                            endCell(
+                                    starBattleBoard.getCell(i, starBattleBoard.getHeight() - 1),
+                                    2,
+                                    elementSize));
                     horizontalBorders.add(temp);
                 } else if (starBattleBoard.getCell(i, j - 1).getGroupIndex()
                         != starBattleBoard.getCell(i, j).getGroupIndex()) { // general case
@@ -140,9 +141,11 @@ public class StarBattleView extends GridBoardView {
         // checks cells adjacent
         // along i (x) instead of j (y)
         for (int j = 0;
-             j < starBattleBoard.getHeight();
-             j++) { // initialize j (y) first since we're checking the opposite axis
-            for (int i = 0; i < starBattleBoard.getHeight() + 1; i++) { // +1 to account for sides of board
+                j < starBattleBoard.getHeight();
+                j++) { // initialize j (y) first since we're checking the opposite axis
+            for (int i = 0;
+                    i < starBattleBoard.getHeight() + 1;
+                    i++) { // +1 to account for sides of board
                 StarBattleBorderView temp =
                         new StarBattleBorderView(
                                 new StarBattleBorder(StarBattleCellType.VERT_BORDER));
@@ -152,7 +155,10 @@ public class StarBattleView extends GridBoardView {
                     verticalBorders.add(temp);
                 } else if (i == starBattleBoard.getWidth()) {
                     temp.setLocation(
-                            endCell(starBattleBoard.getCell(starBattleBoard.getWidth() - 1, j), 6, elementSize));
+                            endCell(
+                                    starBattleBoard.getCell(starBattleBoard.getWidth() - 1, j),
+                                    6,
+                                    elementSize));
                     verticalBorders.add(temp);
                 } else if (starBattleBoard.getCell(i - 1, j).getGroupIndex()
                         != starBattleBoard.getCell(i, j).getGroupIndex()) { // general case

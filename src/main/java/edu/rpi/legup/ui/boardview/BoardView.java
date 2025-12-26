@@ -1,5 +1,7 @@
 package edu.rpi.legup.ui.boardview;
 
+import static edu.rpi.legup.app.GameBoardFacade.getInstance;
+
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.model.gameboard.Board;
@@ -8,21 +10,18 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.observer.IBoardListener;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.ui.ScrollView;
-
-import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.ArrayList;
-
-import static edu.rpi.legup.app.GameBoardFacade.getInstance;
+import javax.annotation.Nullable;
+import javax.swing.*;
 
 /**
  * An abstract class representing a view for a board in the puzzle game. It handles the visual
  * representation and user interactions with the board elements.
- * <p>
- * There is a single instance of a BoardView that is held within the Puzzle class. Based
- * on which puzzle is loaded, the respective puzzle's board view class is used to define
- * the board view. For example, the NurikabeView class is used for BoardView when a
- * Nurikabe puzzle is loaded.
+ *
+ * <p>There is a single instance of a BoardView that is held within the Puzzle class. Based on which
+ * puzzle is loaded, the respective puzzle's board view class is used to define the board view. For
+ * example, the NurikabeView class is used for BoardView when a Nurikabe puzzle is loaded.
  */
 public abstract class BoardView extends ScrollView implements IBoardListener {
     protected TreeElement treeElement;
@@ -74,7 +73,6 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      * @param board Board to generate views from
      */
     protected abstract void generateElementViews(Board board);
-
 
     /**
      * Sets the ElementView list

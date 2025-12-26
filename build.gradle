@@ -110,8 +110,7 @@ jar {
         attributes('Implementation-Title': 'Legup',
                 'Implementation-Version': archiveVersion,
                 'Main-Class': 'edu.rpi.legup.Legup',
-                'SplashScreen-Image': 'edu/rpi/legup/images/Legup/LegupSplash.png',
-                'Multi-Release': 'true')
+                'SplashScreen-Image': 'edu/rpi/legup/images/Legup/LegupSplash.png')
     }
     archiveFileName = 'Legup.jar'
 }
@@ -122,9 +121,6 @@ repositories {
 
 tasks.register("jpackage") {
     group("jpackage")
-
-    dependsOn "jar"
-
     doLast {
         var operatingSystem = System.getProperty("os.name").toLowerCase()
         if (operatingSystem.contains("windows")) {
@@ -133,7 +129,7 @@ tasks.register("jpackage") {
             }
         } else if (operatingSystem.contains("linux")) {
             exec {
-                commandLine 'sh', '-c', "jpackage --input build/libs --main-jar Legup.jar --dest build/installer -n LEGUP --icon src/main/resources/edu/rpi/legup/images/Legup/logo.ico --app-version ${project.version}"
+                commandLine 'sh', '-c', "jpackage --input build/libs --main-jar Legup.jar --dest build/installer -n LEGUP --icon src/main/resources/edu/rpi/legup/images/Legup/LegupSplash.png --app-version ${project.version}"
             }
         } else if (operatingSystem.contains("mac")) {
             exec {

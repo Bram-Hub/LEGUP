@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.heyawake;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 import java.awt.*;
 import java.awt.geom.Area;
@@ -44,18 +43,18 @@ public class HeyawakeView extends GridBoardView {
         }
     }
 
-//    @Override
-//    public void drawBoard(Graphics2D graphics2D) {
-//        HeyawakeBoard heyawakeBoard = (HeyawakeBoard) board;
-//
-//        for (ElementView elementView : elementViews) {
-//            elementView.draw(graphics2D);
-//        }
-//
-//        graphics2D.setColor(Color.BLACK);
-//        graphics2D.setStroke(new BasicStroke(3));
-//        for (Area s : regionsBoundaries.values()) {
-//            graphics2D.draw(s);
-//        }
-//    }
+    //    @Override
+    //    public void drawBoard(Graphics2D graphics2D) {
+    //        HeyawakeBoard heyawakeBoard = (HeyawakeBoard) board;
+    //
+    //        for (ElementView elementView : elementViews) {
+    //            elementView.draw(graphics2D);
+    //        }
+    //
+    //        graphics2D.setColor(Color.BLACK);
+    //        graphics2D.setStroke(new BasicStroke(3));
+    //        for (Area s : regionsBoundaries.values()) {
+    //            graphics2D.draw(s);
+    //        }
+    //    }
 }

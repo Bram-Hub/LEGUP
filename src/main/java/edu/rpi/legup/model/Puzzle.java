@@ -39,7 +39,6 @@ import org.xml.sax.SAXException;
  * Abstract class representing a puzzle. The Puzzle class manages the core components of a puzzle
  * game, including the board, rules, and elements. It also handles importing and exporting puzzle
  * configurations and notifies listeners about changes.
- * <p>currentBoard is the board as it is first loaded the respective puzzle importer</p>
  */
 public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     private static final Logger LOGGER = LogManager.getLogger(Puzzle.class.getName());
@@ -93,8 +92,8 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                         || !classPackageName.endsWith(".elements")) {
                     continue;
                 }
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("possible element: {}", c.getName());
+                if (LOGGER.isTraceEnabled()) {
+                    LOGGER.trace("possible element: {}", c.getName());
                 }
 
                 // check that the element is not abstract
@@ -142,7 +141,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                 if (!classPackageName.contains(".rules")) {
                     continue;
                 }
-                LOGGER.debug("possible rule: {}", c.getName());
+                LOGGER.info("possible rule: {}", c.getName());
 
                 // check that the rule is not abstract
                 if (Modifier.isAbstract(c.getModifiers())) continue;
