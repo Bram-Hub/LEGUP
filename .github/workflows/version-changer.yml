@@ -65,7 +65,7 @@ jobs:
           git add .
           git commit -am "Automated Version Increment"
           git push --set-upstream origin $branch_name
-          gh pr create -B dev -H $branch_name --title 'Automated Version Increment' --body 'Increment Version Number.' --reviewer ${{ github.actor }}
+          gh pr create -B master -H $branch_name --title 'Automated Version Increment' --body 'Increment Version Number.' --reviewer ${{ github.actor }}
 
       - name: Must approve increment-version pull request
         run: |
