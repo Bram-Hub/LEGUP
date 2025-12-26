@@ -5,7 +5,7 @@ plugins {
     id 'com.diffplug.spotless' version '6.25.0'
 }
 
-def versionFile = file('legup-update/bin/main/edu.rpi.legupupdate/VERSION')
+def versionFile = file('legup-update/src/main/resources/edu.rpi.legupupdate/VERSION')
 def appVersion = versionFile.exists() ? versionFile.text.trim() : 'VERSION_NOT_FOUND'
 version = appVersion
 
@@ -137,7 +137,7 @@ tasks.register("jpackage") {
             }
         } else if (operatingSystem.contains("mac")) {
             exec {
-                commandLine 'bash', '-c', "jpackage --input build/libs --main-jar Legup.jar --dest build/installer -n \"LEGUP\" --icon src/main/resources/edu/rpi/legup/images/Legup/logo.ico --app-version ${project.version}"
+                commandLine 'bash', '-c', "jpackage --input build/libs --main-jar Legup.jar --dest build/installer -n \"LEGUP\" --icon src/main/resources/edu/rpi/legup/images/Legup/LegupSplash.icns --app-version ${project.version}"
             }
         } else {
             println("JPackage task is not set up for " + System.getProperty("os.name"))
