@@ -5,7 +5,7 @@ plugins {
     id 'com.diffplug.spotless' version '6.25.0'
 }
 
-def versionFile = file('legup-update/bin/main/edu.rpi.legupupdate/VERSION')
+def versionFile = file('legup-update/src/main/resources/VERSION')
 def appVersion = versionFile.exists() ? versionFile.text.trim() : 'VERSION_NOT_FOUND'
 version = appVersion
 
