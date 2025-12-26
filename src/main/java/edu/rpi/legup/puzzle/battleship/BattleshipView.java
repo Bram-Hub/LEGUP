@@ -1,6 +1,7 @@
 package edu.rpi.legup.puzzle.battleship;
 
 import edu.rpi.legup.controller.BoardController;
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 import java.awt.*;
@@ -16,7 +17,13 @@ public class BattleshipView extends GridBoardView {
     public BattleshipView(BattleshipBoard board) {
         super(new BoardController(), new BattleshipCellController(), board.getDimension());
 
-        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
+        generateElementViews(board);
+    }
+
+    @Override
+    protected void generateElementViews(Board board) {
+        elementViews.clear();
+        for (PuzzleElement<?> puzzleElement : board.getPuzzleElements()) {
             BattleshipCell cell = (BattleshipCell) puzzleElement;
             Point loc = cell.getLocation();
             BattleshipElementView elementView = new BattleshipElementView(cell);
@@ -26,10 +33,5 @@ public class BattleshipView extends GridBoardView {
                     new Point(loc.x * elementSize.width, loc.y * elementSize.height));
             elementViews.add(elementView);
         }
-    }
-
-    @Override
-    public void drawBoard(Graphics2D graphics2D) {
-        super.drawBoard(graphics2D);
     }
 }

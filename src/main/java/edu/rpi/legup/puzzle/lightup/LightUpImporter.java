@@ -43,7 +43,7 @@ public class LightUpImporter extends PuzzleImporter {
                 }
             }
         }
-        puzzle.setCurrentBoard(lightUpBoard);
+        puzzle.setOriginalBoard(lightUpBoard);
     }
 
     /**
@@ -110,7 +110,7 @@ public class LightUpImporter extends PuzzleImporter {
                     }
                 }
             }
-            puzzle.setCurrentBoard(lightUpBoard);
+            puzzle.setOriginalBoard(lightUpBoard);
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "lightup Importer: unknown value where integer expected");

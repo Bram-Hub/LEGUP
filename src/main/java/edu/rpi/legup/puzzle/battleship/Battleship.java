@@ -20,7 +20,7 @@ public class Battleship extends Puzzle {
     /** Initializes the game board. Called by the invoker of the class */
     @Override
     public void initializeView() {
-        boardView = new BattleshipView((BattleshipBoard) currentBoard);
+        boardView = new BattleshipView((BattleshipBoard) originalBoard);
         addBoardListener(boardView);
     }
 

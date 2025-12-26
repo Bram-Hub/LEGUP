@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.annotation.Nullable;
+
 public class SkyscrapersView extends GridBoardView {
     private static final Logger LOGGER = LogManager.getLogger(SkyscrapersView.class.getName());
 
@@ -27,47 +29,7 @@ public class SkyscrapersView extends GridBoardView {
         this.southClues = new ArrayList<>();
         this.westClues = new ArrayList<>();
 
-        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
-            SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
-            Point loc = cell.getLocation();
-            SkyscrapersElementView elementView = new SkyscrapersElementView(cell);
-            elementView.setIndex(cell.getIndex());
-            elementView.setSize(elementSize);
-            elementView.setLocation(
-                    new Point((loc.x + 1) * elementSize.width, (loc.y + 1) * elementSize.height));
-            elementViews.add(elementView);
-        }
-
-        for (int i = 0; i < gridSize.height; i++) {
-            SkyscrapersClueView row = new SkyscrapersClueView(board.getWestClues().get(i));
-            row.setLocation(new Point(0, (i + 1) * elementSize.height));
-            row.setSize(elementSize);
-
-            SkyscrapersClueView clue = new SkyscrapersClueView(board.getEastClues().get(i));
-            clue.setLocation(
-                    new Point(
-                            (gridSize.height + 1) * elementSize.height,
-                            (i + 1) * elementSize.height));
-            clue.setSize(elementSize);
-
-            westClues.add(row);
-            eastClues.add(clue);
-        }
-
-        for (int i = 0; i < gridSize.width; i++) {
-            SkyscrapersClueView col = new SkyscrapersClueView(board.getNorthClues().get(i));
-            col.setLocation(new Point((i + 1) * elementSize.width, 0));
-            col.setSize(elementSize);
-
-            SkyscrapersClueView clue = new SkyscrapersClueView(board.getSouthClues().get(i));
-            clue.setLocation(
-                    new Point(
-                            (i + 1) * elementSize.width, (gridSize.width + 1) * elementSize.width));
-            clue.setSize(elementSize);
-
-            northClues.add(col);
-            southClues.add(clue);
-        }
+        generateElementViews(board);
     }
 
     /**
@@ -78,7 +40,7 @@ public class SkyscrapersView extends GridBoardView {
      * @return ElementView at the specified location
      */
     @Override
-    public ElementView getElement(Point point) {
+    public @Nullable ElementView getElement(Point point) {
         Point scaledPoint =
                 new Point(
                         (int) Math.round(point.x / getScale()),
@@ -127,59 +89,50 @@ public class SkyscrapersView extends GridBoardView {
         return boardViewSize;
     }
 
-    /**
-     * Sets the board associated with this view
-     *
-     * @param board board
-     */
     @Override
-    public void setBoard(Board board) {
-        if (this.board != board) {
-            this.board = board;
-
-            if (board instanceof CaseBoard) {
-                setCasePickable();
-            } else {
-                for (ElementView elementView : elementViews) {
-                    elementView.setPuzzleElement(
-                            board.getPuzzleElement(elementView.getPuzzleElement()));
-                    elementView.setShowCasePicker(false);
-                }
-                for (SkyscrapersClueView clueView : northClues) {
-                    clueView.setPuzzleElement(board.getPuzzleElement(clueView.getPuzzleElement()));
-                    clueView.setShowCasePicker(false);
-                }
-                for (SkyscrapersClueView clueView : westClues) {
-                    clueView.setPuzzleElement(board.getPuzzleElement(clueView.getPuzzleElement()));
-                    clueView.setShowCasePicker(false);
-                }
-            }
+    protected void generateElementViews(Board board) {
+        elementViews.clear();
+        SkyscrapersBoard skyscrapersBoard = (SkyscrapersBoard) board;
+        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
+            SkyscrapersCell cell = (SkyscrapersCell) puzzleElement;
+            Point loc = cell.getLocation();
+            SkyscrapersElementView elementView = new SkyscrapersElementView(cell);
+            elementView.setIndex(cell.getIndex());
+            elementView.setSize(elementSize);
+            elementView.setLocation(
+                    new Point((loc.x + 1) * elementSize.width, (loc.y + 1) * elementSize.height));
+            elementViews.add(elementView);
         }
-    }
 
-    @Override
-    protected void setCasePickable() {
-        CaseBoard caseBoard = (CaseBoard) board;
-        Board baseBoard = caseBoard.getBaseBoard();
+        for (int i = 0; i < gridSize.height; i++) {
+            SkyscrapersClueView row = new SkyscrapersClueView(skyscrapersBoard.getWestClues().get(i));
+            row.setLocation(new Point(0, (i + 1) * elementSize.height));
+            row.setSize(elementSize);
 
-        for (ElementView elementView : elementViews) {
-            PuzzleElement puzzleElement =
-                    baseBoard.getPuzzleElement(elementView.getPuzzleElement());
-            elementView.setPuzzleElement(puzzleElement);
-            elementView.setShowCasePicker(true);
-            elementView.setCaseRulePickable(caseBoard.isPickable(puzzleElement, null));
+            SkyscrapersClueView clue = new SkyscrapersClueView(skyscrapersBoard.getEastClues().get(i));
+            clue.setLocation(
+                    new Point(
+                            (gridSize.height + 1) * elementSize.height,
+                            (i + 1) * elementSize.height));
+            clue.setSize(elementSize);
+
+            westClues.add(row);
+            eastClues.add(clue);
         }
-        for (SkyscrapersClueView clueView : northClues) {
-            PuzzleElement puzzleElement = baseBoard.getPuzzleElement(clueView.getPuzzleElement());
-            clueView.setPuzzleElement(puzzleElement);
-            clueView.setShowCasePicker(true);
-            clueView.setCaseRulePickable(caseBoard.isPickable(puzzleElement, null));
-        }
-        for (SkyscrapersClueView clueView : westClues) {
-            PuzzleElement puzzleElement = baseBoard.getPuzzleElement(clueView.getPuzzleElement());
-            clueView.setPuzzleElement(puzzleElement);
-            clueView.setShowCasePicker(true);
-            clueView.setCaseRulePickable(caseBoard.isPickable(puzzleElement, null));
+
+        for (int i = 0; i < gridSize.width; i++) {
+            SkyscrapersClueView col = new SkyscrapersClueView(skyscrapersBoard.getNorthClues().get(i));
+            col.setLocation(new Point((i + 1) * elementSize.width, 0));
+            col.setSize(elementSize);
+
+            SkyscrapersClueView clue = new SkyscrapersClueView(skyscrapersBoard.getSouthClues().get(i));
+            clue.setLocation(
+                    new Point(
+                            (i + 1) * elementSize.width, (gridSize.width + 1) * elementSize.width));
+            clue.setSize(elementSize);
+
+            northClues.add(col);
+            southClues.add(clue);
         }
     }
 

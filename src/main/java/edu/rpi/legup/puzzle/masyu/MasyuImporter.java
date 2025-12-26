@@ -95,7 +95,7 @@ public class MasyuImporter extends PuzzleImporter {
                     }
                 }
             }
-            puzzle.setCurrentBoard(masyuBoard);
+            puzzle.setOriginalBoard(masyuBoard);
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "Masyu Importer: unknown value where integer expected");

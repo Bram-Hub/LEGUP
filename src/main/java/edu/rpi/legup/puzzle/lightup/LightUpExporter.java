@@ -16,7 +16,7 @@ public class LightUpExporter extends PuzzleExporter {
         if (puzzle.getTree() != null) {
             board = (LightUpBoard) puzzle.getTree().getRootNode().getBoard();
         } else {
-            board = (LightUpBoard) puzzle.getBoardView().getBoard();
+            board = (LightUpBoard) puzzle.getOriginalBoard();
         }
 
         org.w3c.dom.Element boardElement = newDocument.createElement("board");

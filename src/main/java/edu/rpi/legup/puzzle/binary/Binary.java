@@ -20,8 +20,7 @@ public class Binary extends Puzzle {
     /** Initializes the game board. Called by the invoker of the class */
     @Override
     public void initializeView() {
-        boardView = new BinaryView((BinaryBoard) currentBoard);
-        boardView.setBoard(currentBoard);
+        boardView = new BinaryView((BinaryBoard) originalBoard);
         addBoardListener(boardView);
     }
 

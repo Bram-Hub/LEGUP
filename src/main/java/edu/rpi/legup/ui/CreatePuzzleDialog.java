@@ -3,6 +3,10 @@ package edu.rpi.legup.ui;
 import edu.rpi.legup.app.Config;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.CursorController;
+import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

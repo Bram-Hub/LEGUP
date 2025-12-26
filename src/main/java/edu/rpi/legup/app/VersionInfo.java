@@ -10,7 +10,6 @@ public final class VersionInfo {
 
     /**
      * Reads the version from the version.properties file.
-     *
      * @return The version string, or "UNKNOWN" if it cannot be found.
      */
     private static String loadVersion() {
@@ -30,7 +29,6 @@ public final class VersionInfo {
 
     /**
      * Gets the application version string.
-     *
      * @return The version string (e.g., "1.2.3").
      */
     public static String getVersion() {

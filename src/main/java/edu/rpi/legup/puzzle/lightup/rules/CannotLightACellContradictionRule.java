@@ -85,12 +85,7 @@ public class CannotLightACellContradictionRule extends ContradictionRule {
             }
         }
         if (LOGGER.isTraceEnabled()) {
-            LOGGER.trace(
-                    "x:{}, y:{}, horizontal:{}, vertical:{}\n",
-                    location.x,
-                    location.y,
-                    hor_count,
-                    ver_count);
+            LOGGER.trace("x:{}, y:{}, horizontal:{}, vertical:{}\n", location.x, location.y, hor_count, ver_count);
         }
         if (hor_count == 0 && ver_count == 0) {
             return null;

@@ -28,8 +28,7 @@ public class Sudoku extends Puzzle {
     /** Initializes the game board */
     @Override
     public void initializeView() {
-        boardView = new SudokuView((SudokuBoard) currentBoard);
-        boardView.setBoard(currentBoard);
+        boardView = new SudokuView((SudokuBoard) originalBoard);
         addBoardListener(boardView);
     }
 
