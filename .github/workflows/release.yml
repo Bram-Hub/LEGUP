@@ -4,10 +4,10 @@
 name: Release Installer
 
 on:
-  push:
-    branches:
-      - master
-#      - release-autobuild
+  workflow_run:
+    workflows: ["Increment Version on PR to Master"]
+    types:
+      - completed
   workflow_dispatch:
 
 

@@ -12,10 +12,10 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout dev branch
+      - name: Checkout master branch
         uses: actions/checkout@v2
         with:
-          ref: dev
+          ref: master
           fetch-depth: 0
 
       - name: Determine new version
@@ -56,3 +56,4 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} 
           git add legup-update/src/main/resources/edu.rpi.legupupdate/VERSION
           git commit -m "Increment version number after PR to master"
+          git push origin master
