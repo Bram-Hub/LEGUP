@@ -97,7 +97,7 @@ public class HeyawakeImporter extends PuzzleImporter {
                     }
                 }
             }
-            puzzle.setCurrentBoard(heyawakeBoard);
+            puzzle.setOriginalBoard(heyawakeBoard);
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "Heyawake Importer: unknown value where integer expected");

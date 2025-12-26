@@ -1101,8 +1101,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         dynamicBoardView = new DynamicView(boardView, DynamicViewType.BOARD);
         this.topHalfPanel.setRightComponent(dynamicBoardView);
         this.topHalfPanel.setVisible(true);
-        String boardType = boardView.getBoard().getClass().getSimpleName();
-        boardType = boardType.substring(0, boardType.indexOf("Board"));
+        String boardType = boardView.getClass().getSimpleName();
+        boardType = boardType.substring(0, boardType.indexOf("View"));
         TitledBorder titleBoard = BorderFactory.createTitledBorder(boardType + " Board");
         titleBoard.setTitleJustification(TitledBorder.CENTER);
         dynamicBoardView.setBorder(titleBoard);

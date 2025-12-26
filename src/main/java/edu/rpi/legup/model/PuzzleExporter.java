@@ -123,6 +123,8 @@ public abstract class PuzzleExporter {
             LocalDateTime dateTime = LocalDateTime.now(ZoneId.of("America/New_York"));
             String time = dateTime.format(DATE_FORMAT);
             statusElement.setAttribute("lastSaved", time);
+            // hash is based on the time. Theoretically, if two students complete
+            // the puzzle at the exact same time, then they will have the same hash.
             int hashedState = obfHash(puzzle.isPuzzleComplete(), time);
             statusElement.setAttribute("isSolved", hashedState + "");
             legupElement.appendChild(statusElement);

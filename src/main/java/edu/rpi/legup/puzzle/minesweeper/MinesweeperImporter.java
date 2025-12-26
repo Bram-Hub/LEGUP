@@ -41,7 +41,7 @@ public class MinesweeperImporter extends PuzzleImporter {
                 minesweeperBoard.setCell(x, y, cell);
             }
         }
-        puzzle.setCurrentBoard(minesweeperBoard);
+        puzzle.setOriginalBoard(minesweeperBoard);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class MinesweeperImporter extends PuzzleImporter {
                     }
                 }
             }
-            puzzle.setCurrentBoard(minesweeperBoard);
+            puzzle.setOriginalBoard(minesweeperBoard);
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "Minesweeper Importer: unknown value where integer expected");

@@ -22,7 +22,7 @@ public class BattleshipExporter extends PuzzleExporter {
         if (puzzle.getTree() != null) {
             board = (BattleshipBoard) puzzle.getTree().getRootNode().getBoard();
         } else {
-            board = (BattleshipBoard) puzzle.getBoardView().getBoard();
+            board = (BattleshipBoard) puzzle.getOriginalBoard();
         }
 
         org.w3c.dom.Element boardElement = newDocument.createElement("board");

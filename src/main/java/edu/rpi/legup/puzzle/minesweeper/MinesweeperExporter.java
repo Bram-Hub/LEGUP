@@ -21,7 +21,7 @@ public class MinesweeperExporter extends PuzzleExporter {
         if (puzzle.getTree() != null) {
             board = (MinesweeperBoard) puzzle.getTree().getRootNode().getBoard();
         } else {
-            board = (MinesweeperBoard) puzzle.getBoardView().getBoard();
+            board = (MinesweeperBoard) puzzle.getOriginalBoard();
         }
 
         final org.w3c.dom.Element boardElement = newDocument.createElement("board");

@@ -2,15 +2,17 @@ package edu.rpi.legup.ui.boardview;
 
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.ElementController;
-import java.awt.Dimension;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.awt.Color;
+import java.awt.Dimension;
 
 /**
  * A view class for a grid-based board that displays elements in a grid layout. This class extends
  * BoardView and is responsible for managing and rendering grid-based elements.
  */
-public class GridBoardView extends BoardView {
+public abstract class GridBoardView extends BoardView {
     protected static final Logger LOGGER = LogManager.getLogger(GridBoardView.class.getName());
 
     protected Dimension gridSize;
@@ -42,6 +44,7 @@ public class GridBoardView extends BoardView {
      */
     private GridBoardView(BoardController boardController, ElementController elementController) {
         super(boardController, elementController);
+        setBackground(new Color(0xE0E0E0));
     }
 
     /**

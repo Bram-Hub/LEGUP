@@ -1,6 +1,7 @@
 package edu.rpi.legup.puzzle.sudoku;
 
 import edu.rpi.legup.controller.BoardController;
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.ui.boardview.DataSelectionView;
 import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
@@ -17,25 +18,7 @@ public class SudokuView extends GridBoardView {
     public SudokuView(SudokuBoard board) {
         super(new BoardController(), new SudokuCellController(), board.getDimension());
 
-        int minorSize = (int) Math.sqrt(gridSize.width);
-        for (int i = 0; i < gridSize.height; i++) {
-            for (int k = 0; k < gridSize.width; k++) {
-                Point location =
-                        new Point(
-                                k * elementSize.width + (k / minorSize) * 4 + 5, //
-                                i * elementSize.height + (i / minorSize) * 4 + 5);
-                //                Point location =
-                //                        new Point(
-                //                                k * elementSize.width,
-                //                                i * elementSize.height);
-                SudokuElementView element = new SudokuElementView(board.getCell(k, i));
-                element.setIndex(i * gridSize.width + k);
-                element.setIndex(i * gridSize.width);
-                element.setSize(elementSize);
-                element.setLocation(location);
-                elementViews.add(element);
-            }
-        }
+        generateElementViews(board);
     }
 
     /**
@@ -47,6 +30,32 @@ public class SudokuView extends GridBoardView {
     @Override
     public SudokuElementView getElement(int index) {
         return (SudokuElementView) super.getElement(index);
+    }
+
+    @Override
+    protected void generateElementViews(Board board) {
+        elementViews.clear();
+
+        SudokuBoard sudokuBoard = (SudokuBoard) board;
+        int minorSize = (int) Math.sqrt(gridSize.width);
+        for (int i = 0; i < gridSize.height; i++) {
+            for (int k = 0; k < gridSize.width; k++) {
+                Point location =
+                        new Point(
+                                k * elementSize.width + (k / minorSize) * 4 + 5, //
+                                i * elementSize.height + (i / minorSize) * 4 + 5);
+                //                Point location =
+                //                        new Point(
+                //                                k * elementSize.width,
+                //                                i * elementSize.height);
+                SudokuElementView element = new SudokuElementView(sudokuBoard.getCell(k, i));
+                element.setIndex(i * gridSize.width + k);
+                element.setIndex(i * gridSize.width);
+                element.setSize(elementSize);
+                element.setLocation(location);
+                elementViews.add(element);
+            }
+        }
     }
 
     public void drawGrid(Graphics2D graphics2D) {
@@ -71,79 +80,32 @@ public class SudokuView extends GridBoardView {
         }
     }
 
-    @Override
-    public void drawBoard(Graphics2D graphics2D) {
-        drawGrid(graphics2D);
-
-        if (board instanceof PossibleNumberCaseBoard) {
-            drawCaseBoard(graphics2D);
-            return;
-        }
-        graphics2D.setColor(STROKE_COLOR);
-        graphics2D.setStroke(MINOR_STOKE);
-        ElementView hover = null;
-        for (int i = 0; i < gridSize.height; i++) {
-            for (int k = 0; k < gridSize.width; k++) {
-                ElementView element = elementViews.get(i * gridSize.height + k);
-                if (!element.isHover()) {
-                    element.draw(graphics2D);
-                } else {
-                    hover = element;
-                }
-            }
-        }
-
-        if (hover != null) {
-            hover.draw(graphics2D);
-        }
-    }
-
-    public void drawCaseBoard(Graphics2D graphics2D) {
-        drawGrid(graphics2D);
-
-        PossibleNumberCaseBoard caseBoard = (PossibleNumberCaseBoard) board;
-        SudokuBoard sudokuBoard = (SudokuBoard) caseBoard.getBaseBoard();
-
-        graphics2D.setColor(STROKE_COLOR);
-        graphics2D.setStroke(MINOR_STOKE);
-        ElementView hover = null;
-        for (int i = 0; i < gridSize.height; i++) {
-            for (int k = 0; k < gridSize.width; k++) {
-                ElementView element = elementViews.get(i * gridSize.height + k);
-                if (!element.isHover()) {
-                    element.draw(graphics2D);
-                } else {
-                    hover = element;
-                }
-            }
-        }
-
-        graphics2D.setColor(new Color(0x1A, 0x23, 0x7E, 200));
-        for (int r : caseBoard.getPickableRegions()) {
-            Set<SudokuCell> region = sudokuBoard.getRegion(r);
-            int x = Integer.MAX_VALUE,
-                    y = Integer.MAX_VALUE,
-                    w = Integer.MIN_VALUE,
-                    h = Integer.MIN_VALUE;
-            for (SudokuCell c : region) {
-                x = Math.min(x, c.getLocation().x);
-                y = Math.min(y, c.getLocation().y);
-                w = Math.max(w, c.getLocation().x);
-                h = Math.max(h, c.getLocation().y);
-            }
-
-            SudokuElementView firstElement = getElement(y * gridSize.width + x);
-            SudokuElementView lastElement = getElement(h * gridSize.width + w);
-            x = firstElement.getLocation().x;
-            y = firstElement.getLocation().y;
-            w = (lastElement.getLocation().x + elementSize.width) - x;
-            h = (lastElement.getLocation().y + elementSize.height) - y;
-            graphics2D.fillRect(x + 4, y + 4, w - 8, h - 8);
-        }
-
-        //        if(hover != null)
-        //            hover.draw(graphics2D);
-    }
+//    @Override
+//    public void drawBoard(Graphics2D graphics2D) {
+//        drawGrid(graphics2D);
+//
+//        if (board instanceof PossibleNumberCaseBoard) {
+//            drawCaseBoard(graphics2D);
+//            return;
+//        }
+//        graphics2D.setColor(STROKE_COLOR);
+//        graphics2D.setStroke(MINOR_STOKE);
+//        ElementView hover = null;
+//        for (int i = 0; i < gridSize.height; i++) {
+//            for (int k = 0; k < gridSize.width; k++) {
+//                ElementView element = elementViews.get(i * gridSize.height + k);
+//                if (!element.isHover()) {
+//                    element.draw(graphics2D);
+//                } else {
+//                    hover = element;
+//                }
+//            }
+//        }
+//
+//        if (hover != null) {
+//            hover.draw(graphics2D);
+//        }
+//    }
 
     protected Dimension getProperSize() {
         Dimension boardViewSize = new Dimension();

@@ -22,8 +22,7 @@ public class Minesweeper extends Puzzle {
     @Override
     @Contract(pure = false)
     public void initializeView() {
-        this.boardView = new MinesweeperView((MinesweeperBoard) this.currentBoard);
-        this.boardView.setBoard(this.currentBoard);
+        this.boardView = new MinesweeperView((MinesweeperBoard) this.originalBoard);
         addBoardListener(boardView);
     }
 

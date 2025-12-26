@@ -15,7 +15,6 @@ import org.apache.logging.log4j.Logger;
  */
 public abstract class DirectRule extends Rule {
     private static final Logger LOGGER = LogManager.getLogger(DirectRule.class.getName());
-
     /**
      * DirectRule Constructor creates a new basic rule.
      *
