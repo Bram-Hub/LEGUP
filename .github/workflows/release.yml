@@ -7,7 +7,7 @@ on:
   push:
     branches:
       - master
-      - release-autobuild
+#      - release-autobuild
   workflow_dispatch:
 
 
@@ -37,7 +37,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y binutils fakeroot
 
       - name: Build Installer
-        run: ./gradlew jpackage
+        run: ./gradlew build jpackage
 
       # CHANGED: Read version from file
       - name: Get Version

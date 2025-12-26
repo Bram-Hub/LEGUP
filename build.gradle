@@ -122,6 +122,9 @@ repositories {
 
 tasks.register("jpackage") {
     group("jpackage")
+
+    dependsOn "jar"
+
     doLast {
         var operatingSystem = System.getProperty("os.name").toLowerCase()
         if (operatingSystem.contains("windows")) {
