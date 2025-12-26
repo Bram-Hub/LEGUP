@@ -47,8 +47,8 @@ public class EditDataCommand extends PuzzleCommand {
 
     /**
      * Executes the edit data command, modifying the puzzle element and propagating changes
-     * <p>
-     * The command edits the elementView for the selection stored within this class.
+     *
+     * <p>The command edits the elementView for the selection stored within this class.
      */
     @SuppressWarnings("unchecked")
     @Override

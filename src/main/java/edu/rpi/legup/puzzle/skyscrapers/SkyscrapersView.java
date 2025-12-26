@@ -2,16 +2,14 @@ package edu.rpi.legup.puzzle.skyscrapers;
 
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 import java.awt.*;
 import java.util.ArrayList;
+import javax.annotation.Nullable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import javax.annotation.Nullable;
 
 public class SkyscrapersView extends GridBoardView {
     private static final Logger LOGGER = LogManager.getLogger(SkyscrapersView.class.getName());
@@ -105,11 +103,13 @@ public class SkyscrapersView extends GridBoardView {
         }
 
         for (int i = 0; i < gridSize.height; i++) {
-            SkyscrapersClueView row = new SkyscrapersClueView(skyscrapersBoard.getWestClues().get(i));
+            SkyscrapersClueView row =
+                    new SkyscrapersClueView(skyscrapersBoard.getWestClues().get(i));
             row.setLocation(new Point(0, (i + 1) * elementSize.height));
             row.setSize(elementSize);
 
-            SkyscrapersClueView clue = new SkyscrapersClueView(skyscrapersBoard.getEastClues().get(i));
+            SkyscrapersClueView clue =
+                    new SkyscrapersClueView(skyscrapersBoard.getEastClues().get(i));
             clue.setLocation(
                     new Point(
                             (gridSize.height + 1) * elementSize.height,
@@ -121,11 +121,13 @@ public class SkyscrapersView extends GridBoardView {
         }
 
         for (int i = 0; i < gridSize.width; i++) {
-            SkyscrapersClueView col = new SkyscrapersClueView(skyscrapersBoard.getNorthClues().get(i));
+            SkyscrapersClueView col =
+                    new SkyscrapersClueView(skyscrapersBoard.getNorthClues().get(i));
             col.setLocation(new Point((i + 1) * elementSize.width, 0));
             col.setSize(elementSize);
 
-            SkyscrapersClueView clue = new SkyscrapersClueView(skyscrapersBoard.getSouthClues().get(i));
+            SkyscrapersClueView clue =
+                    new SkyscrapersClueView(skyscrapersBoard.getSouthClues().get(i));
             clue.setLocation(
                     new Point(
                             (i + 1) * elementSize.width, (gridSize.width + 1) * elementSize.width));

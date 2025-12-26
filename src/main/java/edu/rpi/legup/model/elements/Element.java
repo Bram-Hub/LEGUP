@@ -1,12 +1,10 @@
 package edu.rpi.legup.model.elements;
 
-import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The Element class serves as an abstract base class for various elements used in the system. It
@@ -58,7 +56,7 @@ public abstract class Element {
                     (int) (100 * ((double) this.image.getIconHeight() / this.image.getIconWidth()));
             if (height == 0) {
                 LOGGER.error("height is 0 error");
-                if(LOGGER.isDebugEnabled()) {
+                if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("height: {}", this.image.getIconHeight());
                     LOGGER.debug("width:  {}", this.image.getIconWidth());
                 }
