@@ -21,7 +21,7 @@ jobs:
       - name: Determine new version
         id: update_version
         run: |
-          current_version=$(<legup-update/src/main/resources/VERSION)
+          current_version=$(<legup-update/src/main/resources/edu.rpi.legupupdate/VERSION)
           IFS='.' read -r -a version_parts <<< "$current_version"
           first_part="${version_parts[0]}"
           second_part="${version_parts[1]}"
@@ -47,12 +47,12 @@ jobs:
           echo "::set-output name=version::$new_version"
 
       - name: Update VERSION file
-        run: echo "${{ steps.update_version.outputs.version }}" > legup-update/src/main/resources/VERSION
+        run: echo "${{ steps.update_version.outputs.version }}" > legup-update/src/main/resources/edu.rpi.legupupdate/VERSION
 
       - name: Commit and push changes to dev
         run: |
           git config --global user.name 'Bram van Heuveln'
           git config --global user.email 'bram28@users.noreply.github.com'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} # check this, the rest should work
-          git add legup-update/src/main/resources/VERSION
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} 
+          git add legup-update/src/main/resources/edu.rpi.legupupdate/VERSION
           git commit -m "Increment version number after PR to master"

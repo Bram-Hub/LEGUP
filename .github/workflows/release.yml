@@ -42,7 +42,7 @@ jobs:
       - name: Get Version
         id: get_version
         shell: bash
-        run: echo "VERSION=$(cat legup-update/src/main/resources/VERSION | xargs)" >> $GITHUB_OUTPUT
+        run: echo "VERSION=$(cat legup-update/src/main/resources/edu.rpi.legupupdate/VERSION | xargs)" >> $GITHUB_OUTPUT
 
       - name: Zip Installer (Windows)
         if: runner.os == 'Windows'
@@ -70,7 +70,7 @@ jobs:
       - name: Get Version
         id: get_version
         shell: bash
-        run: echo "VERSION=$(cat legup-update/src/main/resources/VERSION | xargs)" >> $GITHUB_OUTPUT
+        run: echo "VERSION=$(cat legup-update/src/main/resources/edu.rpi.legupupdate/VERSION | xargs)" >> $GITHUB_OUTPUT
 
       - name: Download All Artifacts
         uses: actions/download-artifact@v4
