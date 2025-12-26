@@ -16,7 +16,7 @@ public class SkyscrapersExporter extends PuzzleExporter {
         if (puzzle.getTree() != null) {
             board = (SkyscrapersBoard) puzzle.getTree().getRootNode().getBoard();
         } else {
-            board = (SkyscrapersBoard) puzzle.getBoardView().getBoard();
+            board = (SkyscrapersBoard) puzzle.getOriginalBoard();
         }
 
         org.w3c.dom.Element boardElement = newDocument.createElement("board");

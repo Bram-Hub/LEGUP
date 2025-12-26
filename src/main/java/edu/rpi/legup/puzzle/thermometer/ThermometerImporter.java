@@ -112,7 +112,7 @@ public class ThermometerImporter extends PuzzleImporter {
                 }
             }
 
-            puzzle.setCurrentBoard(thermometerBoard);
+            puzzle.setOriginalBoard(thermometerBoard);
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "thermometer Importer: unknown value where integer expected");

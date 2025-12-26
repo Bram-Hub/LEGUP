@@ -4,8 +4,11 @@ import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Skyscrapers extends Puzzle {
+    private static final Logger LOGGER = LogManager.getLogger(Skyscrapers.class.getName());
 
     public Skyscrapers() {
         super();
@@ -21,8 +24,7 @@ public class Skyscrapers extends Puzzle {
     /** Initializes the game board. Called by the invoker of the class */
     @Override
     public void initializeView() {
-        boardView = new SkyscrapersView((SkyscrapersBoard) currentBoard);
-        boardView.setBoard(currentBoard);
+        boardView = new SkyscrapersView((SkyscrapersBoard) originalBoard);
         addBoardListener(boardView);
     }
 
@@ -61,7 +63,9 @@ public class Skyscrapers extends Puzzle {
 
         for (ContradictionRule rule : contradictionRules) {
             if (rule.checkContradiction(SkyscraperBoard) == null) {
-                System.out.println(rule.getRuleName());
+                if (LOGGER.isTraceEnabled()) {
+                    LOGGER.trace(rule.getRuleName());
+                }
                 return false;
             }
         }

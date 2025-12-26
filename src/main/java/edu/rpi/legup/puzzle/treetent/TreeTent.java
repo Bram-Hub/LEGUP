@@ -22,9 +22,8 @@ public class TreeTent extends Puzzle {
     /** Initializes the game board. Called by the invoker of the class */
     @Override
     public void initializeView() {
-        TreeTentBoard board = (TreeTentBoard) currentBoard;
-        boardView = new TreeTentView((TreeTentBoard) currentBoard);
-        boardView.setBoard(board);
+        TreeTentBoard board = (TreeTentBoard) originalBoard;
+        boardView = new TreeTentView((TreeTentBoard) originalBoard);
     }
 
     /**
@@ -88,7 +87,7 @@ public class TreeTent extends Puzzle {
      */
     @Override
     public boolean checkValidity() {
-        TreeTentBoard b = (TreeTentBoard) this.getBoardView().getBoard();
+        TreeTentBoard b = (TreeTentBoard) this.getOriginalBoard();
         List<PuzzleElement> elements = b.getPuzzleElements();
         int treeCount = 0;
         for (PuzzleElement element : elements) {

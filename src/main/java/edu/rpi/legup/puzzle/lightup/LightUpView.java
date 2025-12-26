@@ -1,9 +1,8 @@
 package edu.rpi.legup.puzzle.lightup;
 
 import edu.rpi.legup.controller.BoardController;
-import edu.rpi.legup.model.gameboard.CaseBoard;
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.ui.boardview.DataSelectionView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 import edu.rpi.legup.ui.boardview.SelectionItemView;
@@ -32,7 +31,13 @@ public class LightUpView extends GridBoardView {
     public LightUpView(LightUpBoard board) {
         super(new BoardController(), new LightUpCellController(), board.getDimension());
 
-        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
+        generateElementViews(board);
+    }
+
+    @Override
+    protected void generateElementViews(Board board) {
+        elementViews.clear();
+        for (PuzzleElement<?> puzzleElement : board.getPuzzleElements()) {
             LightUpCell cell = (LightUpCell) puzzleElement;
             Point loc = cell.getLocation();
             LightUpElementView elementView = new LightUpElementView(cell);
@@ -44,21 +49,21 @@ public class LightUpView extends GridBoardView {
         }
     }
 
-    /**
-     * Called when the tree element has changed.
-     *
-     * @param treeElement tree element
-     */
-    @Override
-    public void onTreeElementChanged(TreeElement treeElement) {
-        super.onTreeElementChanged(treeElement);
-        LightUpBoard lightUpBoard =
-                board instanceof CaseBoard
-                        ? (LightUpBoard) ((CaseBoard) board).getBaseBoard()
-                        : (LightUpBoard) board;
-        lightUpBoard.fillWithLight();
-        repaint();
-    }
+    //    /**
+    //     * Called when the tree element has changed.
+    //     *
+    //     * @param treeElement tree element
+    //     */
+    //    @Override
+    //    public void onTreeElementChanged(TreeElement treeElement) {
+    //        super.onTreeElementChanged(treeElement);
+    //        LightUpBoard lightUpBoard =
+    //                board instanceof CaseBoard
+    //                        ? (LightUpBoard) ((CaseBoard) board).getBaseBoard()
+    //                        : (LightUpBoard) board;
+    //        lightUpBoard.fillWithLight();
+    //        repaint();
+    //    }
 
     /** Returns a DataSelectionView popup menu */
     public DataSelectionView getSelectionPopupMenu() {

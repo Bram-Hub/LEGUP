@@ -7,8 +7,11 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SkyscrapersBoard extends GridBoard {
+    private static final Logger LOGGER = LogManager.getLogger(SkyscrapersBoard.class.getName());
 
     private ArrayList<SkyscrapersClue> eastClues;
     // EAST clues
@@ -187,10 +190,12 @@ public class SkyscrapersBoard extends GridBoard {
     public void printBoard() {
         for (int i = 0; i < this.dimension.height; i++) {
             for (SkyscrapersCell cell : this.getRowCol(i, SkyscrapersType.ANY, true)) {
-                if (cell.getType() == SkyscrapersType.Number) {
-                    System.out.print(cell.getData() + " ");
-                } else {
-                    System.out.print(0 + " ");
+                if (LOGGER.isDebugEnabled()) {
+                    if (cell.getType() == SkyscrapersType.Number) {
+                        LOGGER.debug("{} ", cell.getData());
+                    } else {
+                        LOGGER.debug(0 + " ");
+                    }
                 }
             }
             System.out.println();

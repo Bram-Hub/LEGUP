@@ -64,7 +64,7 @@ public class SkyscrapersImporter extends PuzzleImporter {
                     .set(/*index - 1*/ i, new SkyscrapersClue(0, i, SkyscrapersType.CLUE_SOUTH));
         }
 
-        puzzle.setCurrentBoard(skyscrapersBoard);
+        puzzle.setOriginalBoard(skyscrapersBoard);
     }
 
     /**
@@ -210,7 +210,7 @@ public class SkyscrapersImporter extends PuzzleImporter {
                 }
             }
 
-            puzzle.setCurrentBoard(skyscrapersBoard);
+            puzzle.setOriginalBoard(skyscrapersBoard);
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "Skyscraper Importer: unknown value where integer expected");

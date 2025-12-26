@@ -43,7 +43,7 @@ public class FillapixImporter extends PuzzleImporter {
                 fillapixBoard.setCell(x, y, cell);
             }
         }
-        puzzle.setCurrentBoard(fillapixBoard);
+        puzzle.setOriginalBoard(fillapixBoard);
     }
 
     /**
@@ -109,7 +109,7 @@ public class FillapixImporter extends PuzzleImporter {
                     }
                 }
             }
-            puzzle.setCurrentBoard(fillapixBoard);
+            puzzle.setOriginalBoard(fillapixBoard);
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "Fillapix Importer: unknown value where integer expected");

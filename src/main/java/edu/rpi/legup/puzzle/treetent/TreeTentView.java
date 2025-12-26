@@ -1,7 +1,7 @@
 package edu.rpi.legup.puzzle.treetent;
 
 import edu.rpi.legup.controller.BoardController;
-import edu.rpi.legup.model.gameboard.CaseBoard;
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.ui.boardview.ElementView;
@@ -9,6 +9,7 @@ import edu.rpi.legup.ui.boardview.GridBoardView;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,12 +38,12 @@ public class TreeTentView extends GridBoardView {
         }
     }
 
-    private ArrayList<TreeTentLineView> lineViews;
+    private final ArrayList<TreeTentLineView> lineViews;
 
-    private ArrayList<TreeTentClueView> northClues;
-    private ArrayList<TreeTentClueView> eastClues;
-    private ArrayList<TreeTentClueView> southClues;
-    private ArrayList<TreeTentClueView> westClues;
+    private final ArrayList<TreeTentClueView> northClues;
+    private final ArrayList<TreeTentClueView> eastClues;
+    private final ArrayList<TreeTentClueView> southClues;
+    private final ArrayList<TreeTentClueView> westClues;
 
     public TreeTentView(TreeTentBoard board) {
         super(new BoardController(), new TreeTentController(), board.getDimension());
@@ -54,56 +55,7 @@ public class TreeTentView extends GridBoardView {
         this.southClues = new ArrayList<>();
         this.westClues = new ArrayList<>();
 
-        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
-            TreeTentCell cell = (TreeTentCell) puzzleElement;
-            Point loc = cell.getLocation();
-            TreeTentElementView elementView = new TreeTentElementView(cell);
-            elementView.setIndex(cell.getIndex());
-            elementView.setSize(elementSize);
-            elementView.setLocation(
-                    new Point((loc.x + 1) * elementSize.width, (loc.y + 1) * elementSize.height));
-            elementViews.add(elementView);
-        }
-
-        for (TreeTentLine line : board.getLines()) {
-            TreeTentLineView lineView = new TreeTentLineView(line);
-            lineView.setSize(elementSize);
-            lineViews.add(lineView);
-        }
-
-        for (int i = 0; i < gridSize.height; i++) {
-            TreeTentClueView row =
-                    new TreeTentClueView(new TreeTentClue(i, i, TreeTentType.CLUE_WEST));
-            row.setLocation(new Point(0, (i + 1) * elementSize.height));
-            row.setSize(elementSize);
-
-            TreeTentClueView clue = new TreeTentClueView(board.getRowClues().get(i));
-            clue.setLocation(
-                    new Point(
-                            (gridSize.width + 1) * elementSize.width,
-                            (i + 1) * elementSize.height));
-            clue.setSize(elementSize);
-
-            westClues.add(row);
-            eastClues.add(clue);
-        }
-
-        for (int i = 0; i < gridSize.width; i++) {
-            TreeTentClueView col =
-                    new TreeTentClueView(new TreeTentClue(i, i, TreeTentType.CLUE_NORTH));
-            col.setLocation(new Point((i + 1) * elementSize.width, 0));
-            col.setSize(elementSize);
-
-            TreeTentClueView clue = new TreeTentClueView(board.getColClues().get(i));
-            clue.setLocation(
-                    new Point(
-                            (i + 1) * elementSize.width,
-                            (gridSize.height + 1) * elementSize.height));
-            clue.setSize(elementSize);
-
-            northClues.add(col);
-            southClues.add(clue);
-        }
+        generateElementViews(board);
     }
 
     /**
@@ -114,7 +66,7 @@ public class TreeTentView extends GridBoardView {
      * @return ElementView at the specified location
      */
     @Override
-    public ElementView getElement(Point point) {
+    public @Nullable ElementView getElement(Point point) {
         Point scaledPoint =
                 new Point(
                         (int) Math.round(point.x / getScale()),
@@ -175,6 +127,61 @@ public class TreeTentView extends GridBoardView {
         return boardViewSize;
     }
 
+    @Override
+    protected void generateElementViews(Board board) {
+        TreeTentBoard treeTentBoard = (TreeTentBoard) board;
+        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
+            TreeTentCell cell = (TreeTentCell) puzzleElement;
+            Point loc = cell.getLocation();
+            TreeTentElementView elementView = new TreeTentElementView(cell);
+            elementView.setIndex(cell.getIndex());
+            elementView.setSize(elementSize);
+            elementView.setLocation(
+                    new Point((loc.x + 1) * elementSize.width, (loc.y + 1) * elementSize.height));
+            elementViews.add(elementView);
+        }
+
+        for (TreeTentLine line : treeTentBoard.getLines()) {
+            TreeTentLineView lineView = new TreeTentLineView(line);
+            lineView.setSize(elementSize);
+            lineViews.add(lineView);
+        }
+
+        for (int i = 0; i < gridSize.height; i++) {
+            TreeTentClueView row =
+                    new TreeTentClueView(new TreeTentClue(i, i, TreeTentType.CLUE_WEST));
+            row.setLocation(new Point(0, (i + 1) * elementSize.height));
+            row.setSize(elementSize);
+
+            TreeTentClueView clue = new TreeTentClueView(treeTentBoard.getRowClues().get(i));
+            clue.setLocation(
+                    new Point(
+                            (gridSize.width + 1) * elementSize.width,
+                            (i + 1) * elementSize.height));
+            clue.setSize(elementSize);
+
+            westClues.add(row);
+            eastClues.add(clue);
+        }
+
+        for (int i = 0; i < gridSize.width; i++) {
+            TreeTentClueView col =
+                    new TreeTentClueView(new TreeTentClue(i, i, TreeTentType.CLUE_NORTH));
+            col.setLocation(new Point((i + 1) * elementSize.width, 0));
+            col.setSize(elementSize);
+
+            TreeTentClueView clue = new TreeTentClueView(treeTentBoard.getColClues().get(i));
+            clue.setLocation(
+                    new Point(
+                            (i + 1) * elementSize.width,
+                            (gridSize.height + 1) * elementSize.height));
+            clue.setSize(elementSize);
+
+            northClues.add(col);
+            southClues.add(clue);
+        }
+    }
+
     /**
      * Called when the tree element has changed.
      *
@@ -183,19 +190,19 @@ public class TreeTentView extends GridBoardView {
     @Override
     public void onTreeElementChanged(TreeElement treeElement) {
         super.onTreeElementChanged(treeElement);
-        TreeTentBoard treeTentBoard;
-        if (board instanceof CaseBoard) {
-            treeTentBoard = (TreeTentBoard) ((CaseBoard) board).getBaseBoard();
-        } else {
-            treeTentBoard = (TreeTentBoard) board;
-        }
-
-        lineViews.clear();
-        for (TreeTentLine line : treeTentBoard.getLines()) {
-            TreeTentLineView lineView = new TreeTentLineView(line);
-            lineView.setSize(elementSize);
-            lineViews.add(lineView);
-        }
+        //        TreeTentBoard treeTentBoard;
+        //        if (board instanceof CaseBoard) {
+        //            treeTentBoard = (TreeTentBoard) ((CaseBoard) board).getBaseBoard();
+        //        } else {
+        //            treeTentBoard = (TreeTentBoard) board;
+        //        }
+        //
+        //        lineViews.clear();
+        //        for (TreeTentLine line : treeTentBoard.getLines()) {
+        //            TreeTentLineView lineView = new TreeTentLineView(line);
+        //            lineView.setSize(elementSize);
+        //            lineViews.add(lineView);
+        //        }
     }
 
     @Override

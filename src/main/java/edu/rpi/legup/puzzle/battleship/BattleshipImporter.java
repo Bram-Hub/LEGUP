@@ -176,7 +176,7 @@ public class BattleshipImporter extends PuzzleImporter {
                                 new BattleshipClue(value, index, BattleshipType.CLUE_SOUTH));
             }
 
-            puzzle.setCurrentBoard(battleShipBoard);
+            puzzle.setOriginalBoard(battleShipBoard);
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "BattleShip Importer: " + "unknown value where integer expected");

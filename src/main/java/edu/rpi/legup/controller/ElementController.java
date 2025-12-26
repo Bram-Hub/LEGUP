@@ -7,16 +7,13 @@ import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.history.AutoCaseRuleCommand;
 import edu.rpi.legup.history.EditDataCommand;
 import edu.rpi.legup.history.ICommand;
-import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
-import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.model.tree.TreeElementType;
 import edu.rpi.legup.model.tree.TreeTransition;
-import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.ui.DynamicView;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.boardview.ElementSelection;
@@ -44,6 +41,11 @@ public class ElementController
         this.selectedElement = null;
     }
 
+    /**
+     * Sets the selected element
+     *
+     * @param selectedElement the selected element
+     */
     public void setSelectedElement(Element selectedElement) {
         this.selectedElement = selectedElement;
     }
@@ -81,23 +83,18 @@ public class ElementController
     @Override
     public void mouseReleased(MouseEvent e) {
         TreePanel treePanel = GameBoardFacade.getInstance().getLegupUI().getTreePanel();
-        TreeView treeView = null;
-        if (treePanel != null) {
-            treeView = treePanel.getTreeView();
-        }
+        TreeView treeView = (treePanel != null) ? treePanel.getTreeView() : null;
 
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         if (boardView == null) {
             boardView = getInstance().getLegupUI().getEditorBoardView();
         }
 
-        Board board = boardView.getBoard();
+        Board board = treeView.getSelection().getFirstSelection().getTreeElement().getBoard();
         ElementView elementView = boardView.getElement(e.getPoint());
-        TreeViewSelection selection = null;
-        if (treeView != null) {
-            selection = treeView.getSelection();
-        }
-        // funny
+        TreeViewSelection selection = (treeView != null) ? treeView.getSelection() : null;
+
+        // If clicked on a board element:
         if (elementView != null) {
             if (board instanceof CaseBoard) {
                 CaseBoard caseBoard = (CaseBoard) board;
@@ -132,18 +129,6 @@ public class ElementController
                 }
             }
         }
-        //        if (selectedElement != null) {
-        GridBoard b = (GridBoard) this.boardView.getBoard();
-        Point point = e.getPoint();
-        Point scaledPoint =
-                new Point(
-                        (int) Math.floor(point.x / (30 * this.boardView.getScale())),
-                        (int) Math.floor(point.y / (30 * this.boardView.getScale())));
-        if (this.boardView.getBoard() instanceof TreeTentBoard) {
-            scaledPoint.setLocation(scaledPoint.getX() - 1, scaledPoint.getY() - 1);
-        }
-
-        b.setCell(scaledPoint.x, scaledPoint.y, this.selectedElement, e);
         boardView.repaint();
     }
 
@@ -157,6 +142,7 @@ public class ElementController
         boardView.setFocusable(true);
         boardView.requestFocusInWindow();
         TreeElement treeElement = boardView.getTreeElement();
+        Board board = treeElement == null ? null : treeElement.getBoard();
         DynamicView dynamicView = getInstance().getLegupUI().getDynamicBoardView();
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         if (boardView == null) {
@@ -165,7 +151,6 @@ public class ElementController
         if (dynamicView == null) {
             dynamicView = getInstance().getLegupUI().getEditorDynamicBoardView();
         }
-        Board board = boardView.getBoard();
         ElementView elementView = boardView.getElement(e.getPoint());
         ElementSelection selection = boardView.getSelection();
         String error = null;
@@ -234,8 +219,8 @@ public class ElementController
         if (boardView == null) {
             boardView = getInstance().getLegupUI().getEditorBoardView();
         }
-        Board board = boardView.getBoard();
         TreeElement treeElement = boardView.getTreeElement();
+        Board board = treeElement == null ? null : treeElement.getBoard();
         DynamicView dynamicView = getInstance().getLegupUI().getDynamicBoardView();
         if (dynamicView == null) {
             dynamicView = getInstance().getLegupUI().getEditorDynamicBoardView();
@@ -330,18 +315,5 @@ public class ElementController
      * @param e the event to be processed
      */
     @Override
-    public void keyReleased(KeyEvent e) {
-        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
-        BoardView boardView = getInstance().getLegupUI().getBoardView();
-        if (boardView == null) {
-            boardView = getInstance().getLegupUI().getEditorBoardView();
-        }
-        Board board = boardView.getBoard();
-        if (board instanceof CaseBoard) {
-            CaseBoard caseBoard = (CaseBoard) board;
-            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                puzzle.notifyBoardListeners(listener -> listener.onCaseBoardAdded(caseBoard));
-            }
-        }
-    }
+    public void keyReleased(KeyEvent e) {}
 }

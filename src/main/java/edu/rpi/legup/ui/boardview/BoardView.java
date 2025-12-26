@@ -1,5 +1,7 @@
 package edu.rpi.legup.ui.boardview;
 
+import static edu.rpi.legup.app.GameBoardFacade.getInstance;
+
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.model.gameboard.Board;
@@ -10,14 +12,19 @@ import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.ui.ScrollView;
 import java.awt.*;
 import java.util.ArrayList;
+import javax.annotation.Nullable;
+import javax.swing.*;
 
 /**
  * An abstract class representing a view for a board in the puzzle game. It handles the visual
  * representation and user interactions with the board elements.
+ *
+ * <p>There is a single instance of a BoardView that is held within the Puzzle class. Based on which
+ * puzzle is loaded, the respective puzzle's board view class is used to define the board view. For
+ * example, the NurikabeView class is used for BoardView when a Nurikabe puzzle is loaded.
  */
 public abstract class BoardView extends ScrollView implements IBoardListener {
     protected TreeElement treeElement;
-    protected Board board;
     protected ArrayList<ElementView> elementViews;
     protected ElementController elementController;
     protected ElementSelection selection;
@@ -32,7 +39,6 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
     public BoardView(BoardController boardController, ElementController elementController) {
         super(boardController);
         this.treeElement = null;
-        this.board = null;
         this.elementViews = new ArrayList<>();
         this.elementController = elementController;
         this.selection = new ElementSelection();
@@ -62,6 +68,13 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
     public abstract ElementView getElement(int index);
 
     /**
+     * Generates the elementViews for a given puzzle.
+     *
+     * @param board Board to generate views from
+     */
+    protected abstract void generateElementViews(Board board);
+
+    /**
      * Sets the ElementView list
      *
      * @param elements ElementView list
@@ -77,7 +90,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      * @param point location on the viewport
      * @return ElementView at the specified location
      */
-    public ElementView getElement(Point point) {
+    public @Nullable ElementView getElement(Point point) {
         Point scaledPoint =
                 new Point(
                         (int) Math.round(point.x / getScale()),
@@ -99,39 +112,9 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
         return selection;
     }
 
-    /**
-     * Gets the board associated with this view
-     *
-     * @return board
-     */
-    public Board getBoard() {
-        return board;
-    }
-
-    /**
-     * Sets the board associated with this view
-     *
-     * @param board board
-     */
-    public void setBoard(Board board) {
-        if (this.board != board) {
-            this.board = board;
-
-            if (board instanceof CaseBoard) {
-                setCasePickable();
-            } else {
-                for (ElementView elementView : elementViews) {
-                    elementView.setPuzzleElement(
-                            board.getPuzzleElement(elementView.getPuzzleElement()));
-                    elementView.setShowCasePicker(false);
-                }
-            }
-        }
-    }
-
     /** Configures the view to handle case interactions */
     protected void setCasePickable() {
-        CaseBoard caseBoard = (CaseBoard) board;
+        CaseBoard caseBoard = (CaseBoard) getInstance().getBoard();
         Board baseBoard = caseBoard.getBaseBoard();
 
         for (ElementView elementView : elementViews) {
@@ -151,18 +134,16 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
     @Override
     public void onTreeElementChanged(TreeElement treeElement) {
         this.treeElement = treeElement;
-        setBoard(treeElement.getBoard());
         repaint();
     }
 
     /**
-     * Called when the a case board has been added to the view.
+     * Called when a case board has been added to the view.
      *
      * @param caseBoard case board to be added
      */
     @Override
     public void onCaseBoardAdded(CaseBoard caseBoard) {
-        setBoard(caseBoard);
         repaint();
     }
 

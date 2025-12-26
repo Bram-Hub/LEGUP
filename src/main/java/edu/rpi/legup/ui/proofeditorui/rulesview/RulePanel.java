@@ -8,12 +8,16 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Abstract base class for panels displaying rules. Each subclass will represent a specific type of
  * rule panel (e.g., DirectRulePanel, CaseRulePanel).
  */
 public abstract class RulePanel extends JPanel {
+    private static final Logger LOGGER = LogManager.getLogger(RulePanel.class.getName());
+
     protected ImageIcon icon;
     protected String name;
     protected String toolTip;
@@ -68,7 +72,9 @@ public abstract class RulePanel extends JPanel {
             if (rule.getRuleName().length() > 20) {
                 ruleButtons[i].setFont(new Font("Segoe UI", Font.PLAIN, 10));
             }
-            System.out.println(ruleButtons[i].getFont().getName());
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug(ruleButtons[i].getFont().getName());
+            }
 
             ruleButtons[i].setHorizontalTextPosition(JButton.CENTER);
             ruleButtons[i].setVerticalTextPosition(JButton.BOTTOM);
@@ -350,7 +356,7 @@ public abstract class RulePanel extends JPanel {
     /**
      * Sets the icon for this panel
      *
-     * @return the ImageIcon associated with this panel
+     * @param icon The ImageIcon to set for this panel
      */
     public void setIcon(ImageIcon icon) {
         this.icon = icon;
