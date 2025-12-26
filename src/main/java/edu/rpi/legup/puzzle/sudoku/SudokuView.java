@@ -3,11 +3,9 @@ package edu.rpi.legup.puzzle.sudoku;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.ui.boardview.DataSelectionView;
-import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 import edu.rpi.legup.ui.boardview.SelectionItemView;
 import java.awt.*;
-import java.util.Set;
 import javax.swing.*;
 
 public class SudokuView extends GridBoardView {
@@ -80,32 +78,32 @@ public class SudokuView extends GridBoardView {
         }
     }
 
-//    @Override
-//    public void drawBoard(Graphics2D graphics2D) {
-//        drawGrid(graphics2D);
-//
-//        if (board instanceof PossibleNumberCaseBoard) {
-//            drawCaseBoard(graphics2D);
-//            return;
-//        }
-//        graphics2D.setColor(STROKE_COLOR);
-//        graphics2D.setStroke(MINOR_STOKE);
-//        ElementView hover = null;
-//        for (int i = 0; i < gridSize.height; i++) {
-//            for (int k = 0; k < gridSize.width; k++) {
-//                ElementView element = elementViews.get(i * gridSize.height + k);
-//                if (!element.isHover()) {
-//                    element.draw(graphics2D);
-//                } else {
-//                    hover = element;
-//                }
-//            }
-//        }
-//
-//        if (hover != null) {
-//            hover.draw(graphics2D);
-//        }
-//    }
+    //    @Override
+    //    public void drawBoard(Graphics2D graphics2D) {
+    //        drawGrid(graphics2D);
+    //
+    //        if (board instanceof PossibleNumberCaseBoard) {
+    //            drawCaseBoard(graphics2D);
+    //            return;
+    //        }
+    //        graphics2D.setColor(STROKE_COLOR);
+    //        graphics2D.setStroke(MINOR_STOKE);
+    //        ElementView hover = null;
+    //        for (int i = 0; i < gridSize.height; i++) {
+    //            for (int k = 0; k < gridSize.width; k++) {
+    //                ElementView element = elementViews.get(i * gridSize.height + k);
+    //                if (!element.isHover()) {
+    //                    element.draw(graphics2D);
+    //                } else {
+    //                    hover = element;
+    //                }
+    //            }
+    //        }
+    //
+    //        if (hover != null) {
+    //            hover.draw(graphics2D);
+    //        }
+    //    }
 
     protected Dimension getProperSize() {
         Dimension boardViewSize = new Dimension();

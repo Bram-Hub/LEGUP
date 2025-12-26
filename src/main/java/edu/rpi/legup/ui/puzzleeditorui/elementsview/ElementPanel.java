@@ -2,13 +2,11 @@ package edu.rpi.legup.ui.puzzleeditorui.elementsview;
 
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.ui.WrapLayout;
-import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class ElementPanel extends JPanel {
     private static final Logger LOGGER = LogManager.getLogger(ElementPanel.class.getName());
@@ -31,14 +29,14 @@ public abstract class ElementPanel extends JPanel {
         clearButtons();
 
         elementButtons = new ElementButton[elements.size()];
-        if(LOGGER.isDebugEnabled()) {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("adding {} elements to panel", elements.size());
         }
         for (int i = 0; i < elements.size(); i++) {
             Element element = elements.get(i);
             elementButtons[i] = new ElementButton(element);
             elementFrame.getButtonGroup().add(elementButtons[i]);
-            if(LOGGER.isDebugEnabled()) {
+            if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("added button: {}, element {}\n", i, element.getElementName());
             }
 
