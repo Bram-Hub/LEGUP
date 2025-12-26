@@ -2,6 +2,11 @@ name: Increment Version
 
 on:
   workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'major, minor, or patch'
+        required: true
+        default: 'patch'
 
 jobs:
   increment_version:
