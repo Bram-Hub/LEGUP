@@ -1,14 +1,13 @@
 package edu.rpi.legup.puzzle.starbattle;
 
 import edu.rpi.legup.ui.boardview.GridElementView;
-import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import java.awt.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
-
 public class StarBattleElementView extends GridElementView {
-    private static final Logger LOGGER = LogManager.getLogger(StarBattleElementView.class.getName());
+    private static final Logger LOGGER =
+            LogManager.getLogger(StarBattleElementView.class.getName());
 
     public StarBattleElementView(StarBattleCell cell) {
         super(cell);

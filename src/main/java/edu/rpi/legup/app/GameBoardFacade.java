@@ -200,7 +200,7 @@ public class GameBoardFacade implements IHistorySubject {
     public void loadPuzzle(String game, int rows, int columns) throws RuntimeException {
         if (!game.isEmpty()) {
             String qualifiedClassName = config.getPuzzleClassForName(game);
-            if(LOGGER.isDebugEnabled()) {
+            if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Loading " + qualifiedClassName);
             }
 
@@ -250,7 +250,7 @@ public class GameBoardFacade implements IHistorySubject {
      */
     public void loadPuzzle(String game, String[] statements) {
         String qualifiedClassName = config.getPuzzleClassForName(game);
-        if(LOGGER.isDebugEnabled()) {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Loading " + qualifiedClassName);
         }
 
@@ -371,7 +371,7 @@ public class GameBoardFacade implements IHistorySubject {
                     throw new InvalidFileFormatException("Puzzle is not editable");
                 }
                 // If it is editable, start loading it
-                if(LOGGER.isDebugEnabled()) {
+                if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("Loading " + qualifiedClassName);
                 }
 
@@ -430,7 +430,7 @@ public class GameBoardFacade implements IHistorySubject {
                     throw new InvalidFileFormatException(
                             "Puzzle creation error: cannot find puzzle with that name");
                 }
-                if(LOGGER.isDebugEnabled()) {
+                if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("Loading " + qualifiedClassName);
                 }
 
