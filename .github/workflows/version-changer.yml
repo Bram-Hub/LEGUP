@@ -1,19 +1,14 @@
-name: Increment Version on PR to Master
+name: Increment Version
 
 on:
-  pull_request:
-    branches:
-      - master
-    types:
-      - closed  # Runs only when PR is merged
+  workflow_dispatch:
 
 jobs:
   increment_version:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout master branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: master
           fetch-depth: 0
@@ -27,33 +22,47 @@ jobs:
           second_part="${version_parts[1]}"
           last_part="${version_parts[2]}"
           
-          if [[ $last_part -eq 9 ]]; then
-            new_last_part=0
-            if [[ $second_part -eq 9 ]]; then
-              new_second_part=0
+          case "$VERSION_TYPE" in
+            "major")
               new_first_part=$((first_part + 1))
-            else
-              new_second_part=$((second_part + 1))
+              new_second_part=0
+              new_last_part=0
+              ;;
+            "minor")
               new_first_part=$first_part
-            fi
-          else
-            new_last_part=$((last_part + 1))
-            new_second_part=$second_part
-            new_first_part=$first_part
-          fi
+              new_second_part=$((second_part + 1))
+              new_last_part=0
+              ;;
+            *)
+              # Default to patch if something goes wrong or "patch" is selected
+              new_first_part=$first_part
+              new_second_part=$second_part
+              new_last_part=$((last_part + 1))
+              ;;
+          esac
           
           new_version="$new_first_part.$new_second_part.$new_last_part"
           echo "New version: $new_version"
-          echo "::set-output name=version::$new_version"
+          echo "version=$new_version" >> $GITHUB_OUTPUT
 
       - name: Update VERSION file
         run: echo "${{ steps.update_version.outputs.version }}" > legup-update/src/main/resources/edu.rpi.legupupdate/VERSION
 
-      - name: Commit and push changes to dev
+      - name: Create temporary branch and pull request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name 'Bram van Heuveln'
           git config --global user.email 'bram28@users.noreply.github.com'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} 
-          git add legup-update/src/main/resources/edu.rpi.legupupdate/VERSION
-          git commit -m "Increment version number after PR to master"
-          git push origin master
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          branch_name="increment-version-number-$(date +%s)"
+          git checkout -b $branch_name
+          git add .
+          git commit -am "Automated Version Increment"
+          git push --set-upstream origin $branch_name
+          gh pr create -B dev -H $branch_name --title 'Automated Version Increment' --body 'Increment Version Number.' --reviewer ${{ github.actor }}
+
+      - name: Must approve increment-version pull request
+        run: |
+          echo "Please review and approve the appropriate increment-version-number pull request."
+          exit 1
