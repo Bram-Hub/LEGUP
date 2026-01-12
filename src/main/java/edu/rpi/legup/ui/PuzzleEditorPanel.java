@@ -38,7 +38,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     private static final Logger LOGGER = LogManager.getLogger(PuzzleEditorPanel.class.getName());
     private JMenu[] menus;
-    private JMenuItem helpLegup, aboutLegup;
+    private JMenuItem legupWiki, aboutLegup;
     private JMenuBar menuBar;
     private JToolBar toolBar1;
     private JToolBar toolBar2;
@@ -241,14 +241,14 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         // HELP
         menus[2] = new JMenu("Help");
-        helpLegup = new JMenuItem("Help Legup");
-        aboutLegup = new JMenuItem("About Legup");
-        menus[2].add(helpLegup);
+        legupWiki = new JMenuItem("LEGUP Wiki");
+        aboutLegup = new JMenuItem("About LEGUP");
+        menus[2].add(legupWiki);
         menus[2].add(aboutLegup);
-        helpLegup.addActionListener(
+        legupWiki.addActionListener(
                 l -> {
                     try {
-                        java.awt.Desktop.getDesktop()
+                        Desktop.getDesktop()
                                 .browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki"));
                     } catch (IOException e) {
                         LOGGER.error("Can't open web page");

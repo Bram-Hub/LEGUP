@@ -5,6 +5,7 @@ import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.app.VersionInfo;
 import edu.rpi.legup.controller.CursorController;
 import edu.rpi.legup.model.PuzzleExporter;
+import edu.rpi.legup.utility.SVGImage;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -91,7 +92,7 @@ public class HomePanel extends LegupPanel {
         settings.addSeparator();
         settings.add(preferences);
 
-        JMenuItem contribute = new JMenuItem("Contribute to Legup");
+        JMenuItem contribute = new JMenuItem("Contribute to LEGUP");
         contribute.addActionListener(
                 l -> {
                     try {
@@ -141,10 +142,10 @@ public class HomePanel extends LegupPanel {
 
         URL button0IconLocation =
                 ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/homepanel/proof_file.png");
-        ImageIcon button0Icon = new ImageIcon(button0IconLocation);
+                        .getResource("edu/rpi/legup/images/Legup/homepanel/proof_file.svg");
+        SVGImage button0Icon = new SVGImage(button0IconLocation);
         this.buttons[0].setFocusPainted(false);
-        this.buttons[0].setIcon(resizeButtonIcon(button0Icon, this.buttonSize, this.buttonSize));
+        this.buttons[0].setIcon(button0Icon.getIcon(this.buttonSize, this.buttonSize));
         this.buttons[0].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[0].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[0].addActionListener(CursorController.createListener(this, openProofListener));
@@ -158,10 +159,10 @@ public class HomePanel extends LegupPanel {
                 };
         URL button1IconLocation =
                 ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.png");
-        ImageIcon button1Icon = new ImageIcon(button1IconLocation);
+                        .getResource("edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.svg");
+        SVGImage button1Icon = new SVGImage(button1IconLocation);
         this.buttons[1].setFocusPainted(false);
-        this.buttons[1].setIcon(resizeButtonIcon(button1Icon, this.buttonSize, this.buttonSize));
+        this.buttons[1].setIcon(button1Icon.getIcon(this.buttonSize, this.buttonSize));
         this.buttons[1].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[1].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[1].addActionListener(l -> this.openPuzzleEditorDialog());

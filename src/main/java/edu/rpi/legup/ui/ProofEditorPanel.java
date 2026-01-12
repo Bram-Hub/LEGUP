@@ -73,7 +73,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private JMenuItem add, delete, merge, collapse;
     private JCheckBoxMenuItem allowDefault, caseRuleGen, imdFeedback;
     private JMenu about, help;
-    private JMenuItem helpLegup, aboutLegup;
+    private JMenuItem legupWiki, aboutLegup;
 
     private JToolBar toolBar1;
     private JToolBar toolBar2;
@@ -286,8 +286,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         proof.add(imdFeedback);
 
         about = new JMenu("About");
-        helpLegup = new JMenuItem("Help Legup");
-        aboutLegup = new JMenuItem("About Legup");
+        legupWiki = new JMenuItem("LEGUP Wiki");
+        aboutLegup = new JMenuItem("About LEGUP");
 
         mBar.add(file);
         file.add(newPuzzle);
@@ -481,11 +481,11 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                     JOptionPane.showMessageDialog(null, "Version: " + VersionInfo.getVersion());
                 });
 
-        about.add(helpLegup);
-        helpLegup.addActionListener(
+        about.add(legupWiki);
+        legupWiki.addActionListener(
                 l -> {
                     try {
-                        java.awt.Desktop.getDesktop()
+                        Desktop.getDesktop()
                                 .browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki"));
                     } catch (IOException e) {
                         LOGGER.error("Can't open web page");
@@ -727,7 +727,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 url = "https://github.com/Bram-Hub/Legup/wiki/LEGUP-Tutorial";
         }
         try {
-            java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+            Desktop.getDesktop().browse(java.net.URI.create(url));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1051,27 +1051,27 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
         try {
             if (puzzleName.equals("Fillapix")) {
-                java.awt.Desktop.getDesktop()
+                Desktop.getDesktop()
                         .browse(
                                 URI.create(
                                         "https://github.com/Bram-Hub/LEGUP/wiki/Fill-a-pix-rules"));
             } else if (puzzleName.equals("LightUp")) {
-                java.awt.Desktop.getDesktop()
+                Desktop.getDesktop()
                         .browse(
                                 URI.create(
                                         "https://github.com/Bram-Hub/LEGUP/wiki/Light-up-rules"));
             } else if (puzzleName.equals("TreeTent")) {
-                java.awt.Desktop.getDesktop()
+                Desktop.getDesktop()
                         .browse(
                                 URI.create(
                                         "https://github.com/Bram-Hub/LEGUP/wiki/Tree-tent-rules"));
             } else if (puzzleName.equals("ShortTruthTables")) {
-                java.awt.Desktop.getDesktop()
+                Desktop.getDesktop()
                         .browse(
                                 URI.create(
                                         "https://github.com/Bram-Hub/LEGUP/wiki/Short-truth-table-rules"));
             } else {
-                java.awt.Desktop.getDesktop()
+                Desktop.getDesktop()
                         .browse(
                                 URI.create(
                                         "https://github.com/Bram-Hub/LEGUP/wiki/"
