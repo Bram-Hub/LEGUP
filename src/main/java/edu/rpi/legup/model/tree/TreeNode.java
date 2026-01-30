@@ -15,6 +15,19 @@ public class TreeNode extends TreeElement {
     private boolean isRoot;
 
     /**
+     * This group of member variables and functions is here so that the nodes on the tree will have different
+     * colors depending on what flavor or rule they are supposed to represent, or some other mark on them.
+     *
+     * This is intended as a minor UI improvement.
+     *
+     * This is a work in progress, the implementation of this functionality is NOT complete.
+     * */
+    private boolean isBasicRule;
+    private boolean isCaseRule;
+    private boolean isContrRule;
+    public void markAsCaseRule(){this.isCaseRule=true;}
+
+    /**
      * TreeNode Constructor creates a tree node whenever a rule has been made
      *
      * @param board board associated with this tree node
