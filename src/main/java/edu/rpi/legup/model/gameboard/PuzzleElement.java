@@ -17,6 +17,7 @@ public abstract class PuzzleElement<T> {
     protected boolean isModified;
     protected boolean isModifiableCaseRule;
     protected boolean isGiven;
+    protected boolean isGoal;
     protected boolean isValid;
     protected int casesDepended;
 
@@ -28,6 +29,7 @@ public abstract class PuzzleElement<T> {
         this.isModifiableCaseRule = true;
         this.isModified = false;
         this.isGiven = false;
+        this.isGoal = false;
         this.isValid = true;
         this.casesDepended = 0;
     }
@@ -152,6 +154,24 @@ public abstract class PuzzleElement<T> {
      */
     public void setGiven(boolean given) {
         isGiven = given;
+    }
+
+    /**
+     * Gets whether this puzzle element is a goal condition
+     *
+     * @return true if the puzzle element is a goal condition, false otherwise
+     */
+    public boolean isGoal() {
+        return isGoal;
+    }
+
+    /**
+     * Sets whether this puzzle element is a goal condition
+     *
+     * @param goal true if the puzzle element is a goal condition, false otherwise
+     */
+    public void setGoal(boolean goal) {
+        isGoal = goal;
     }
 
     /**

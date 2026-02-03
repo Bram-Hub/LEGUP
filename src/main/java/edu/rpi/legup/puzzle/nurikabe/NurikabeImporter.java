@@ -138,6 +138,26 @@ public class NurikabeImporter extends PuzzleImporter {
                 }
             }
             puzzle.setCurrentBoard(nurikabeBoard);
+            
+            if (boardElement.getElementsByTagName("goal").getLength() != 0) {
+                Element goalElement = (Element) boardElement.getElementsByTagName("goal").item(0);
+                Goal goal = puzzle.getFactory().importGoal(goalElement, nurikabeBoard);
+
+                NodeList cellList = goalElement.getElementsByTagName("cell");
+                for (int i = 0; i < cellList.getLength(); i++) {
+                    NurikabeCell cell =
+                            (NurikabeCell)
+                                    puzzle.getFactory()
+                                            .importCell(cellList.item(i), nurikabeBoard);
+                    goal.addCell(cell);
+                    nurikabeBoard.getCell(cell.getLocation()).setGoal(true);
+                }
+                puzzle.setGoal(goal);
+            } else {
+                Goal goal = new Goal(null, GoalType.DEFAULT);
+
+                puzzle.setGoal(goal);
+            }
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "nurikabe Importer: unknown value where integer expected");

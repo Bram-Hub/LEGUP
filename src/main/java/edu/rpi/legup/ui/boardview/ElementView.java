@@ -22,6 +22,7 @@ public abstract class ElementView implements Shape {
     private Color modifiedColor;
     private Color caseColor;
     private Color invalidColor;
+    private Color goalColor;
     private boolean showCasePicker;
     private boolean isCaseRulePickable;
     private boolean isHover;
@@ -34,10 +35,11 @@ public abstract class ElementView implements Shape {
      */
     public ElementView(PuzzleElement puzzleElement) {
         this.puzzleElement = puzzleElement;
-        this.hoverColor = new Color(0x79, 0x86, 0xCB, 255);
-        this.modifiedColor = new Color(0x64, 0xDD, 0x17, 255);
+        this.hoverColor = new Color(0x79, 0x86, 0xCB, 200);
+        this.modifiedColor = new Color(0x64, 0xDD, 0x17, 200);
         this.caseColor = new Color(0x1A, 0x23, 0x7E, 200);
-        this.invalidColor = new Color(0xf4, 0x43, 0x36, 200);
+        this.invalidColor = new Color(0xF4, 0x43, 0x36, 200);
+        this.goalColor = new Color(0xAC, 0x94, 0x10, 200);
         this.isHover = false;
         this.isSelected = false;
         this.isCaseRulePickable = false;
@@ -65,6 +67,9 @@ public abstract class ElementView implements Shape {
         drawElement(graphics2D);
         if (puzzleElement.isGiven()) {
             drawGiven(graphics2D);
+        }
+        if (puzzleElement.isGoal()) {
+            drawGoal(graphics2D);
         }
         if (puzzleElement.isModified()) {
             drawModified(graphics2D);
@@ -104,6 +109,19 @@ public abstract class ElementView implements Shape {
      * @param graphics2D the Graphics2D context to use for drawing
      */
     public void drawGiven(Graphics2D graphics2D) {}
+
+    /**
+     * Draws a goal effect on the ElementView.
+     *
+     * @param graphics2D the Graphics2D context to use for drawing
+     */
+    public void drawGoal(Graphics2D graphics2D) {
+        graphics2D.setColor(goalColor);
+        graphics2D.setStroke(new BasicStroke(2));
+        graphics2D.draw(
+                new Rectangle2D.Double(
+                        location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
+    }
 
     /**
      * Draws a hover effect on the ElementView.
