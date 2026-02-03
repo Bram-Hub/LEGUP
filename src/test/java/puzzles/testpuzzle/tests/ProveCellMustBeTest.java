@@ -1,10 +1,9 @@
-package legup.testpuzzle.tests;
+package puzzles.testpuzzle.tests;
 
-import edu.rpi.legup.puzzle.nurikabe.Nurikabe;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
-import legup.testpuzzle.TestPuzzle;
+import puzzles.testpuzzle.TestPuzzle;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,7 +21,7 @@ public class ProveCellMustBeTest {
     @Test
     public void TestRootNode() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "puzzles/nurikabe/goalConditions/ProveCellMustBe/TestPuzzleCheck", puzzle));
+                "goalConditions/ProveCellMustBe/TestPuzzleCheck", puzzle));
     }
 
 }

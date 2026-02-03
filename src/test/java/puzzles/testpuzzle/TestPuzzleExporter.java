@@ -1,4 +1,4 @@
-package legup.testpuzzle;
+package puzzles.testpuzzle;
 
 import edu.rpi.legup.model.PuzzleExporter;
 import org.w3c.dom.Document;

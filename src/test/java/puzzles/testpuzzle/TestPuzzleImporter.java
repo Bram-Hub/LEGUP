@@ -1,4 +1,4 @@
-package legup.testpuzzle;
+package puzzles.testpuzzle;
 
 import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;

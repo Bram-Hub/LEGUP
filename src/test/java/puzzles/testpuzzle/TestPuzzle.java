@@ -1,4 +1,4 @@
-package legup.testpuzzle;
+package puzzles.testpuzzle;
 
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.ElementController;

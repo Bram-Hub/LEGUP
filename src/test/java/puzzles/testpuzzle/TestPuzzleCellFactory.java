@@ -1,4 +1,4 @@
-package legup.testpuzzle;
+package puzzles.testpuzzle;
 
 import edu.rpi.legup.model.gameboard.*;
 import edu.rpi.legup.save.InvalidFileFormatException;

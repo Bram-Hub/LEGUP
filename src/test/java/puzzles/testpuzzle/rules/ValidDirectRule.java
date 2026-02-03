@@ -1,4 +1,4 @@
-package legup.testpuzzle.rules;
+package puzzles.testpuzzle.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
