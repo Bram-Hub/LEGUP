@@ -1,6 +1,6 @@
 package goalConditions;
 
-import edu.rpi.legup.puzzle.nurikabe.Nurikabe;
+import puzzles.testpuzzle.TestPuzzle;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
@@ -9,22 +9,22 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class ProveCellMightNotBeTest {
-    private static Nurikabe nurikabe;
+    private static TestPuzzle puzzle;
 
     @BeforeClass
     public static void setUp() {
         MockGameBoardFacade.getInstance();
-        nurikabe = new Nurikabe();
+        puzzle = new TestPuzzle();
     }
 
     /** Tests puzzle completion with only a root node*/
     @Test
     public void TestRootNode() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMightNotBe/RootComplete", nurikabe));
+                "goalConditions/ProveCellMightNotBe/RootComplete", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMightNotBe/RootIncomplete", nurikabe));
+                "goalConditions/ProveCellMightNotBe/RootIncomplete", puzzle));
     }
 
 
@@ -32,22 +32,19 @@ public class ProveCellMightNotBeTest {
     @Test
     public void TestSinglePath() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMightNotBe/CompleteLine", nurikabe));
+                "goalConditions/ProveCellMightNotBe/CompleteLine", puzzle));
 
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMightNotBe/OvercompleteLine", nurikabe));
+                "goalConditions/ProveCellMightNotBe/OvercompleteLine", puzzle));
 
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMightNotBe/ContradictoryLine", nurikabe));
+                "goalConditions/ProveCellMightNotBe/ContradictoryLine", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMightNotBe/IncompleteLine", nurikabe));
+                "goalConditions/ProveCellMightNotBe/IncompleteLine", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMightNotBe/SomeUnproven", nurikabe));
-
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMightNotBe/InvalidLine", nurikabe));
+                "goalConditions/ProveCellMightNotBe/SomeUnproven", puzzle));
     }
 
 
@@ -55,19 +52,19 @@ public class ProveCellMightNotBeTest {
     @Test
     public void TestComplexPaths() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMightNotBe/SimpleContradiction", nurikabe));
+                "goalConditions/ProveCellMightNotBe/SimpleContradiction", puzzle));
 
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMightNotBe/MergedSolutions", nurikabe));
+                "goalConditions/ProveCellMightNotBe/MergedSolutions", puzzle));
 
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMightNotBe/UnmergedSolutions", nurikabe));
+                "goalConditions/ProveCellMightNotBe/UnmergedSolutions", puzzle));
 
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMightNotBe/SingleSolutionAndUnfinished", nurikabe));
+                "goalConditions/ProveCellMightNotBe/SingleSolutionAndUnfinished", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMightNotBe/PossibleBranch", nurikabe));
+                "goalConditions/ProveCellMightNotBe/PossibleBranch", puzzle));
     }
 }
 

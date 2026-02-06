@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Legup version="6.1.0">
-    <puzzle name="Nurikabe" tag="4400487">
+    <puzzle name="TestPuzzle" tag="4400487">
         <board height="20" width="20">
             <goal type="PROVE_CELL_MIGHT_NOT_BE">
                 <cell value="0" x="8" y="15"/>
@@ -83,7 +83,7 @@
         <proof>
             <tree>
                 <node id="1047988823" root="true">
-                    <transition child="1602454238" id="1400555646" rule="Surround Region" rule_id="NURI-BASC-0007">
+                    <transition child="1602454238" id="1400555646" rule="Surround Region" rule_id="TEST-BASC-0001">
                         <cell value="-1" x="8" y="15"/>
                         <cell value="-1" x="9" y="16"/>
                         <cell value="-1" x="9" y="14"/>

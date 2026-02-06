@@ -6,9 +6,9 @@ import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 
-public class ValidDirectRule extends DirectRule {
-    public ValidDirectRule() {
-        super("TEST-BASC-0001", "Valid Direct", "Always true", "edu/rpi/legup/images/nurikabe/rules/BetweenRegions.png");
+public class InvalidDirectRule extends DirectRule {
+    public InvalidDirectRule() {
+        super("TEST-BASC-0002", "Invalid Direct", "Always false", "edu/rpi/legup/images/nurikabe/rules/BetweenRegions.png");
     }
 
     @Override
@@ -18,6 +18,6 @@ public class ValidDirectRule extends DirectRule {
 
     @Override
     protected String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        return null;
+        return "False";
     }
 }

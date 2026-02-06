@@ -4,16 +4,16 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 
-public class ValidContradictionRule extends ContradictionRule {
-    public ValidContradictionRule() {
-        super("TEST-CONT-0001",
-            "Contradiction",
-            "Always null",
+public class InvalidContradictionRule extends ContradictionRule {
+    public InvalidContradictionRule() {
+        super("TEST-CONT-0002",
+            "No Contradiction",
+            "Always empty string",
             "edu/rpi/legup/images/nurikabe/contradictions/BlackSquare.png");
     }
 
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
-        return null;
+        return "";
     }
 }

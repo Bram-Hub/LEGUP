@@ -8,11 +8,11 @@ import edu.rpi.legup.model.tree.TreeTransition;
 
 import java.util.List;
 
-public class ValidCaseRule extends CaseRule {
-    public ValidCaseRule() {
-        super("TEST-CASE-0001",
-            "Valid Case",
-            "Returns null",
+public class InvalidCaseRule extends CaseRule {
+    public InvalidCaseRule() {
+        super("TEST-CASE-0002",
+            "Invalid Case",
+            "Returns empty string",
             "edu/rpi/legup/images/nurikabe/cases/FinishRoom.png");
     }
 
@@ -28,11 +28,11 @@ public class ValidCaseRule extends CaseRule {
 
     @Override
     public String checkRuleRaw(TreeTransition transition) {
-        return null;
+        return "";
     }
 
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
-        return null;
+        return "";
     }
 }

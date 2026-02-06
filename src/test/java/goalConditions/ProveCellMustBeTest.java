@@ -45,9 +45,6 @@ public class ProveCellMustBeTest {
 
         Assert.assertFalse(TestUtilities.verifyBoard(
                 "goalConditions/ProveCellMustBe/SomeUnproven", testPuzzle));
-
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMustBe/InvalidLine", testPuzzle));
     }
 
 

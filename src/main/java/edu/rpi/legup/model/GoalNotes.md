@@ -53,6 +53,12 @@ for the other goal conditions can be written, but it is probably best to find a 
 tests to use the Puzzle class instead of Nurikabe first.
 
 
+## New conditions
+A distinction should be made within the current default condition: 
+    Show all possible solutions
+    Show any possible solution
+
+
 ## Possible UI
 Puzzle Board:
 - Goal should be highlighted (in brown?) at all times

@@ -17,7 +17,7 @@
         <proof>
             <tree>
                 <node id="1825403646" root="true">
-                    <transition child="1823831185" id="1459160434" rule="Surround Region" rule_id="TEST-BASC-0001">
+                    <transition child="1823831185" id="1459160434" rule="Valid Direct" rule_id="TEST-BASC-0001">
                         <cell value="-1" x="0" y="1"/>
                     </transition>
                 </node>
