@@ -17,6 +17,20 @@ public class ProveCellMightNotBeTest {
         puzzle = new TestPuzzle();
     }
 
+    /** Tests invalid rules */
+    @Test
+    public void TestInvalidRules() throws InvalidFileFormatException {
+        Assert.assertFalse(TestUtilities.verifyBoard(
+                "goalConditions/ProveCellMightNotBe/InvalidLine", puzzle));
+
+        Assert.assertFalse(TestUtilities.verifyBoard(
+                "goalConditions/ProveCellMightNotBe/InvalidContradiction", puzzle));
+
+        Assert.assertFalse(TestUtilities.verifyBoard(
+                "goalConditions/ProveCellMightNotBe/InvalidCases", puzzle));
+    }
+
+
     /** Tests puzzle completion with only a root node*/
     @Test
     public void TestRootNode() throws InvalidFileFormatException {
