@@ -62,22 +62,9 @@ public class ElementFrame extends JPanel {
 
         JLabel helpText =
                 new JLabel(
-                        "<html>Select this tab, choose a goal type, then click cells on the board to toggle goal-condition markers.</html>");
+                        "<html>Select this tab, then click cells on the board to toggle goal condition markers.</html>");
         helpText.setVerticalAlignment(SwingConstants.TOP);
-
-        JPanel topPanel = new JPanel(new BorderLayout(0, 8));
-        topPanel.add(helpText, BorderLayout.NORTH);
-
-        goalTypeComboBox = new JComboBox<>(GoalType.values());
-        goalTypeComboBox.addActionListener(
-                e -> controller.setGoalType((GoalType) goalTypeComboBox.getSelectedItem()));
-
-        JPanel selectorPanel = new JPanel(new BorderLayout(6, 0));
-        selectorPanel.add(new JLabel("Goal Type:"), BorderLayout.WEST);
-        selectorPanel.add(goalTypeComboBox, BorderLayout.CENTER);
-        topPanel.add(selectorPanel, BorderLayout.SOUTH);
-
-        goalPanel.add(topPanel, BorderLayout.NORTH);
+        goalPanel.add(helpText, BorderLayout.NORTH);
 
         return goalPanel;
     }
