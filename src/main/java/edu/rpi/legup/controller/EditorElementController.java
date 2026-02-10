@@ -15,14 +15,21 @@ import javax.swing.*;
  * buttons
  */
 public class EditorElementController implements ActionListener {
+    public enum SelectionMode {
+        PLACEABLE,
+        GOAL_CONDITIONS
+    }
+
     protected Object lastSource;
     protected ElementController elementController;
     protected ElementButton prevButton;
+    private SelectionMode selectionMode;
 
     public EditorElementController() {
         super();
         elementController = null;
         prevButton = null;
+        selectionMode = SelectionMode.PLACEABLE;
     }
 
     /**
@@ -32,6 +39,18 @@ public class EditorElementController implements ActionListener {
      */
     public void setElementController(ElementController elementController) {
         this.elementController = elementController;
+        setSelectionMode(selectionMode);
+    }
+
+    public void setSelectionMode(SelectionMode selectionMode) {
+        this.selectionMode = selectionMode;
+        if (elementController != null) {
+            elementController.setGoalPlacementMode(selectionMode == SelectionMode.GOAL_CONDITIONS);
+        }
+    }
+
+    public SelectionMode getSelectionMode() {
+        return selectionMode;
     }
 
     /**
@@ -41,6 +60,7 @@ public class EditorElementController implements ActionListener {
      */
     public void buttonPressed(Element element) {
         // TODO: implement what happens when element is pressed
+        setSelectionMode(SelectionMode.PLACEABLE);
 
         if (elementController != null) {
             elementController.setSelectedElement(element);

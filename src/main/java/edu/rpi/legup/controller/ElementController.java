@@ -34,6 +34,7 @@ public class ElementController
         implements MouseListener, MouseMotionListener, ActionListener, KeyListener {
     protected BoardView boardView;
     private Element selectedElement;
+    private boolean goalPlacementMode;
 
     /**
      * ElementController Constructor controller to handle ui events associated interacting with a
@@ -42,10 +43,18 @@ public class ElementController
     public ElementController() {
         this.boardView = null;
         this.selectedElement = null;
+        this.goalPlacementMode = false;
     }
 
     public void setSelectedElement(Element selectedElement) {
         this.selectedElement = selectedElement;
+    }
+
+    public void setGoalPlacementMode(boolean goalPlacementMode) {
+        this.goalPlacementMode = goalPlacementMode;
+        if (goalPlacementMode) {
+            this.selectedElement = null;
+        }
     }
 
     /**
@@ -143,7 +152,14 @@ public class ElementController
             scaledPoint.setLocation(scaledPoint.getX() - 1, scaledPoint.getY() - 1);
         }
 
-        b.setCell(scaledPoint.x, scaledPoint.y, this.selectedElement, e);
+        if (goalPlacementMode) {
+            PuzzleElement selectedCell = b.getCell(scaledPoint.x, scaledPoint.y);
+            if (selectedCell != null) {
+                selectedCell.setGoal(!selectedCell.isGoal());
+            }
+        } else {
+            b.setCell(scaledPoint.x, scaledPoint.y, this.selectedElement, e);
+        }
         boardView.repaint();
     }
 
