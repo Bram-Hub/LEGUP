@@ -59,6 +59,7 @@ public class SudokuCell extends GridCell<Integer> {
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
+        copy.setGoal(isGoal);
         return copy;
     }
 
@@ -89,4 +90,7 @@ public class SudokuCell extends GridCell<Integer> {
             this.data = 0;
         }
     }
+
+    @Override
+    public boolean isKnown() {return !(data == 0);}
 }

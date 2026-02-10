@@ -53,11 +53,6 @@ public class MasyuCellFactory extends ElementFactory {
         }
     }
 
-    @Override
-    public Goal importGoal(Node node, Board board) throws InvalidFileFormatException {
-        return null;
-    }
-
     /**
      * Creates a xml document puzzleElement from a cell for exporting
      *

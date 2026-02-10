@@ -437,6 +437,7 @@ public class GameBoardFacade implements IHistorySubject {
                 }
                 importer.initializePuzzle(node);
                 puzzle.initializeView();
+                puzzleSolver.setGoalText(puzzle.getGoal().getGoalText());
                 puzzle.getBoardView().onTreeElementChanged(puzzle.getTree().getRootNode());
                 setPuzzle(puzzle);
             } catch (ClassNotFoundException

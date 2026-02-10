@@ -80,10 +80,6 @@ public class MinesweeperCellFactory extends ElementFactory {
         }
     }
 
-    @Override
-    public Goal importGoal(Node node, Board board) throws InvalidFileFormatException {
-        return null;
-    }
 
     /**
      * @param document Document used to create the element

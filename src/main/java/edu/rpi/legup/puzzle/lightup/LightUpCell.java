@@ -78,6 +78,7 @@ public class LightUpCell extends GridCell<Integer> {
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
+        copy.setGoal(isGoal);
         return copy;
     }
 

@@ -52,10 +52,6 @@ public class StarBattleCellFactory extends ElementFactory {
         }
     }
 
-    @Override
-    public Goal importGoal(Node node, Board board) throws InvalidFileFormatException {
-        return null;
-    }
 
     public org.w3c.dom.Element exportCell(Document document, PuzzleElement puzzleElement) {
         org.w3c.dom.Element cellElement = document.createElement("cell");

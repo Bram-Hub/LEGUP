@@ -19,6 +19,11 @@ public class MasyuCell extends GridCell<MasyuType> {
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
+        copy.setGoal(isGoal);
         return copy;
     }
+
+    @Override
+    public boolean isKnown() {return !(data == MasyuType.UNKNOWN);}
+
 }

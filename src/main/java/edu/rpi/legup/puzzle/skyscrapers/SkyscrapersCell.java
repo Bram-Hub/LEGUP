@@ -4,6 +4,8 @@ import static edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType.convertToSkyType;
 
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
+import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -61,6 +63,10 @@ public class SkyscrapersCell extends GridCell<Integer> {
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
+        copy.setGoal(isGoal);
         return copy;
     }
+
+    @Override
+    public boolean isKnown() {return !(data == 0);}
 }

@@ -1,6 +1,9 @@
 package edu.rpi.legup.puzzle.binary;
 
+import edu.rpi.legup.model.Goal;
+import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleImporter;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
 import org.w3c.dom.Element;
@@ -120,7 +123,27 @@ public class BinaryImporter extends PuzzleImporter {
                     }
                 }
             }
+
             puzzle.setCurrentBoard(binaryBoard);
+
+            if (boardElement.getElementsByTagName("goal").getLength() != 0) {
+                Element goalElement = (Element) boardElement.getElementsByTagName("goal").item(0);
+                Goal goal = puzzle.getFactory().importGoal(goalElement, binaryBoard);
+
+                NodeList cellList = goalElement.getElementsByTagName("cell");
+                for (int i = 0; i < cellList.getLength(); i++) {
+                    BinaryCell cell =
+                            (BinaryCell)
+                                    puzzle.getFactory()
+                                            .importCell(cellList.item(i), binaryBoard);
+                    goal.addCell(cell);
+                }
+                puzzle.setGoal(goal);
+            } else {
+                Goal goal = new Goal(null, GoalType.DEFAULT);
+
+                puzzle.setGoal(goal);
+            }
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "binary Importer: unknown value where integer expected");

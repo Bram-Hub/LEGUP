@@ -2,6 +2,8 @@ package edu.rpi.legup.puzzle.shorttruthtable;
 
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
+import edu.rpi.legup.puzzle.battleship.BattleshipType;
+
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 
@@ -119,6 +121,7 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType> {
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
+        copy.setGoal(isGoal);
         return copy;
     }
 
@@ -214,4 +217,7 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType> {
             }
         }
     }
+
+    @Override
+    public boolean isKnown() {return !(data == ShortTruthTableCellType.UNKNOWN);}
 }

@@ -1,6 +1,9 @@
 package edu.rpi.legup.puzzle.minesweeper;
 
+import edu.rpi.legup.model.Goal;
+import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleImporter;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
 import org.jetbrains.annotations.Contract;
@@ -91,6 +94,24 @@ public class MinesweeperImporter extends PuzzleImporter {
                 }
             }
             puzzle.setCurrentBoard(minesweeperBoard);
+            if (boardElement.getElementsByTagName("goal").getLength() != 0) {
+                Element goalElement = (Element) boardElement.getElementsByTagName("goal").item(0);
+                Goal goal = puzzle.getFactory().importGoal(goalElement, minesweeperBoard);
+
+                NodeList cellList = goalElement.getElementsByTagName("cell");
+                for (int i = 0; i < cellList.getLength(); i++) {
+                    MinesweeperCell cell =
+                            (MinesweeperCell)
+                                    puzzle.getFactory()
+                                            .importCell(cellList.item(i), minesweeperBoard);
+                    goal.addCell(cell);
+                }
+                puzzle.setGoal(goal);
+            } else {
+                Goal goal = new Goal(null, GoalType.DEFAULT);
+
+                puzzle.setGoal(goal);
+            }
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "Minesweeper Importer: unknown value where integer expected");

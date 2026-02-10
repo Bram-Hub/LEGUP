@@ -50,6 +50,7 @@ public class ThermometerCell extends GridCell<Integer> {
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
+        copy.setGoal(isGoal);
         return copy;
     }
 
@@ -64,4 +65,7 @@ public class ThermometerCell extends GridCell<Integer> {
                 + " FILL = "
                 + getFill();
     }
+
+    @Override
+    public boolean isKnown() {return !(data == 0);}
 }

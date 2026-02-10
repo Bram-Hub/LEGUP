@@ -3,7 +3,10 @@ package edu.rpi.legup.puzzle.thermometer;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
+import edu.rpi.legup.model.Goal;
+import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleImporter;
+import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -113,6 +116,24 @@ public class ThermometerImporter extends PuzzleImporter {
             }
 
             puzzle.setCurrentBoard(thermometerBoard);
+            if (boardElement.getElementsByTagName("goal").getLength() != 0) {
+                Element goalElement = (Element) boardElement.getElementsByTagName("goal").item(0);
+                Goal goal = puzzle.getFactory().importGoal(goalElement, thermometerBoard);
+
+                NodeList cellList = goalElement.getElementsByTagName("cell");
+                for (int i = 0; i < cellList.getLength(); i++) {
+                    ThermometerCell cell =
+                            (ThermometerCell)
+                                    puzzle.getFactory()
+                                            .importCell(cellList.item(i), thermometerBoard);
+                    goal.addCell(cell);
+                }
+                puzzle.setGoal(goal);
+            } else {
+                Goal goal = new Goal(null, GoalType.DEFAULT);
+
+                puzzle.setGoal(goal);
+            }
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "thermometer Importer: unknown value where integer expected");

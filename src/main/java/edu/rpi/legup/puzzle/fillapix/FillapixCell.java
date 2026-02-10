@@ -86,6 +86,7 @@ public class FillapixCell extends GridCell<Integer> implements Comparable<Fillap
         FillapixCell cell = new FillapixCell(data, (Point) location.clone());
         cell.setIndex(index);
         cell.setModifiable(isModifiable);
+        cell.setGoal(isGoal);
         return cell;
     }
 
