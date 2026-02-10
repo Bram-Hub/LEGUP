@@ -95,7 +95,7 @@ public class LightOrEmptyCaseRule extends CaseRule {
                 || (mod2.getType() == LightUpCellType.EMPTY
                         && mod1.getType() == LightUpCellType.BULB))) {
             return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must an empty cell and a bulb cell";
+                    + ": This case rule must have an empty cell and a bulb cell";
         }
 
         return null;
