@@ -1,6 +1,7 @@
 package edu.rpi.legup.controller;
 
 import edu.rpi.legup.history.*;
+import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.rules.*;
 import edu.rpi.legup.ui.puzzleeditorui.elementsview.ElementButton;
@@ -51,6 +52,12 @@ public class EditorElementController implements ActionListener {
 
     public SelectionMode getSelectionMode() {
         return selectionMode;
+    }
+
+    public void setGoalType(GoalType goalType) {
+        if (elementController != null) {
+            elementController.setGoalType(goalType);
+        }
     }
 
     /**

@@ -7,6 +7,8 @@ import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.history.AutoCaseRuleCommand;
 import edu.rpi.legup.history.EditDataCommand;
 import edu.rpi.legup.history.ICommand;
+import edu.rpi.legup.model.Goal;
+import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.Board;
@@ -54,6 +56,13 @@ public class ElementController
         this.goalPlacementMode = goalPlacementMode;
         if (goalPlacementMode) {
             this.selectedElement = null;
+        }
+    }
+
+    public void setGoalType(GoalType goalType) {
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+        if (puzzle != null) {
+            puzzle.setGoal(new Goal(goalType));
         }
     }
 

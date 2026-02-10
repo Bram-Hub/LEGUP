@@ -1,6 +1,7 @@
 package edu.rpi.legup.ui.puzzleeditorui.elementsview;
 
 import edu.rpi.legup.controller.EditorElementController;
+import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.Puzzle;
 import java.awt.*;
 import javax.swing.*;
@@ -11,6 +12,7 @@ public class ElementFrame extends JPanel {
 
     private PlaceableElementPanel placeableElementPanel;
     private JTabbedPane tabbedPane;
+    private JComboBox<GoalType> goalTypeComboBox;
     private ButtonGroup buttonGroup;
 
     private EditorElementController controller;
@@ -74,6 +76,7 @@ public class ElementFrame extends JPanel {
     public void setElements(Puzzle puzzle) {
         if (puzzle != null) {
             placeableElementPanel.setElements(puzzle.getPlaceableElements());
+            goalTypeComboBox.setSelectedItem(puzzle.getGoal().getType());
         }
     }
 
