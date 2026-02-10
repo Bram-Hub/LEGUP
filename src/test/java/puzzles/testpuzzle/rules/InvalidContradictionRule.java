@@ -14,6 +14,6 @@ public class InvalidContradictionRule extends ContradictionRule {
 
     @Override
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
-        return "";
+        return "No contradiction";
     }
 }

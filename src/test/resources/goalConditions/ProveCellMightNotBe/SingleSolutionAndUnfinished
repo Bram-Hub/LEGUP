@@ -1,94 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Legup version="6.1.0">
     <puzzle name="TestPuzzle" tag="4390561">
-        <board height="7" width="7">
+        <board height="3" width="3">
             <goal type="PROVE_CELL_MIGHT_NOT_BE">
-                <cell value="0" x="6" y="3"/>
-                <cell value="0" x="2" y="3"/>
+                <cell value="4" x="2" y="2"/>
+                <cell value="2" x="0" y="0"/>
             </goal>
             <cells>
-                <cell value="1" x="3" y="1"/>
-                <cell value="2" x="1" y="2"/>
-                <cell value="2" x="5" y="2"/>
-                <cell value="1" x="3" y="3"/>
-                <cell value="2" x="1" y="4"/>
-                <cell value="1" x="5" y="4"/>
-                <cell value="2" x="3" y="5"/>
-                <cell value="1" x="6" y="6"/>
+                <cell value="3" x="0" y="1"/>
+                <cell value="3" x="0" y="2"/>
+                <cell value="3" x="1" y="0"/>
+                <cell value="3" x="1" y="1"/>
+                <cell value="3" x="1" y="2"/>
+                <cell value="3" x="2" y="0"/>
+                <cell value="3" x="2" y="1"/>
             </cells>
         </board>
         <proof>
             <tree>
                 <node id="1073270980" root="true">
-                    <transition child="1050622002" id="1784204034" rule="Surround Region" rule_id="TEST-BASC-0001">
-                        <cell value="-1" x="3" y="4"/>
-                        <cell value="-1" x="5" y="3"/>
-                        <cell value="-1" x="4" y="3"/>
-                        <cell value="-1" x="4" y="1"/>
-                        <cell value="-1" x="4" y="4"/>
-                        <cell value="-1" x="5" y="5"/>
-                        <cell value="-1" x="6" y="5"/>
-                        <cell value="-1" x="3" y="0"/>
-                        <cell value="-1" x="2" y="3"/>
-                        <cell value="-1" x="2" y="1"/>
-                        <cell value="-1" x="5" y="6"/>
-                        <cell value="-1" x="3" y="2"/>
-                        <cell value="-1" x="6" y="4"/>
+                    <transition child="1050622002" id="1784204034" rule="Valid Case" rule_id="TEST-CASE-0001">
+                        <cell value="3" x="2" y="2"/>
+                        <cell value="3" x="0" y="0"/>
+                    </transition>
+                    <transition child="9" id="24" rule="Valid Case" rule_id="TEST-CASE-0001">
+                        <cell value="4" x="2" y="2"/>
                     </transition>
                 </node>
-                <node id="1050622002">
-                    <transition child="1897272464" id="1162130713" rule="Can't Reach Cell" rule_id="TEST-BASC-0001">
-                        <cell value="-1" x="4" y="6"/>
-                        <cell value="-1" x="0" y="6"/>
-                        <cell value="-1" x="0" y="0"/>
-                        <cell value="-1" x="0" y="1"/>
-                        <cell value="-1" x="0" y="5"/>
-                        <cell value="-1" x="6" y="1"/>
-                        <cell value="-1" x="1" y="0"/>
-                        <cell value="-1" x="5" y="0"/>
-                        <cell value="-1" x="6" y="0"/>
-                        <cell value="-1" x="1" y="6"/>
-                    </transition>
-                </node>
-                <node id="1897272464">
-                    <transition child="1059734988" id="743843446" rule="Prevent Black Square" rule_id="TEST-BASC-0001">
-                        <cell value="0" x="1" y="1"/>
-                        <cell value="0" x="1" y="5"/>
-                        <cell value="0" x="5" y="1"/>
-                        <cell value="0" x="4" y="5"/>
-                    </transition>
-                </node>
-                <node id="1059734988">
-                    <transition child="1259669652" id="584233417" rule="Surround Region" rule_id="TEST-BASC-0001">
-                        <cell value="-1" x="2" y="4"/>
-                        <cell value="-1" x="0" y="2"/>
-                        <cell value="-1" x="4" y="2"/>
-                        <cell value="-1" x="3" y="6"/>
-                        <cell value="-1" x="1" y="3"/>
-                        <cell value="-1" x="2" y="5"/>
-                        <cell value="-1" x="0" y="4"/>
-                        <cell value="-1" x="2" y="2"/>
-                        <cell value="-1" x="6" y="2"/>
-                    </transition>
-                </node>
-                <node id="1259669652">
-                    <transition child="1882045191" id="70723909" rule="Black or White" rule_id="TEST-CASE-0001">
-                        <cell value="0" x="0" y="3"/>
-                    </transition>
-                    <transition child="2084637585" id="1660540976" rule="Black or White" rule_id="TEST-CASE-0001">
-                        <cell value="-1" x="0" y="3"/>
-                    </transition>
-                </node>
-                <node id="2084637585">
-                    <transition child="553536803" id="862528985" rule="Fill In Black" rule_id="TEST-BASC-0001">
-                        <cell value="-1" x="4" y="0"/>
-                        <cell value="-1" x="2" y="0"/>
-                        <cell value="-1" x="2" y="6"/>
-                        <cell value="-1" x="6" y="3"/>
-                    </transition>
-                </node>
-                <node id="553536803"/>
-                <node id="1882045191"/>
+                <node id="1050622002"/>
+                <node id="9"/>
             </tree>
         </proof>
     </puzzle>

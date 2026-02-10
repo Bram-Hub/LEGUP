@@ -3,8 +3,8 @@
     <puzzle name="TestPuzzle" tag="7209030">
         <board height="5" width="5">
             <goal type="PROVE_CELL_MIGHT_NOT_BE">
-                <cell value="0" x="2" y="1"/>
-                <cell value="0" x="2" y="2"/>
+                <cell value="10" x="2" y="1"/>
+                <cell value="10" x="2" y="2"/>
             </goal>
             <cells>
                 <cell value="4" x="2" y="0"/>
@@ -20,12 +20,12 @@
                         <cell value="-1" x="2" y="1"/>
                     </transition>
                     <transition child="898994796" id="789193671" rule="Black or White" rule_id="TEST-CASE-0001">
-                        <cell value="0" x="2" y="1"/>
+                        <cell value="10" x="2" y="1"/>
                     </transition>
                 </node>
                 <node id="898994796">
                     <transition child="1331223938" id="845939750" rule="Black or White" rule_id="TEST-CASE-0001">
-                        <cell value="0" x="2" y="2"/>
+                        <cell value="10" x="2" y="2"/>
                     </transition>
                     <transition child="1613978892" id="1317183311" rule="Black or White" rule_id="TEST-CASE-0001">
                         <cell value="-1" x="2" y="2"/>
@@ -52,7 +52,7 @@
                 <node id="212957502"/>
                 <node id="1496395736">
                     <transition child="1299107392" id="2130559847" rule="Black or White" rule_id="TEST-CASE-0001">
-                        <cell value="0" x="3" y="0"/>
+                        <cell value="10" x="3" y="0"/>
                     </transition>
                     <transition child="303499444" id="577225275" rule="Black or White" rule_id="TEST-CASE-0001">
                         <cell value="-1" x="3" y="0"/>

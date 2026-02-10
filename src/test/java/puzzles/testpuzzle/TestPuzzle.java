@@ -43,11 +43,6 @@ public class TestPuzzle extends Puzzle {
                 return false;
             }
         }
-        for (ContradictionRule rule : contradictionRules) {
-            if (rule.checkContradiction(gridBoard) == null) {
-                return false;
-            }
-        }
         return true;
     }
 
