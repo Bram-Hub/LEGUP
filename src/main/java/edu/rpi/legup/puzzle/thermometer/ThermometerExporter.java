@@ -19,6 +19,8 @@ public class ThermometerExporter extends PuzzleExporter {
         boardElement.setAttribute("width", String.valueOf(board.getWidth() - 1));
         boardElement.setAttribute("height", String.valueOf(board.getHeight() - 1));
 
+        appendGoalElement(newDocument, boardElement, board);
+
         // Creating the XML section for the vials and appending to the board
         org.w3c.dom.Element vialsElement = newDocument.createElement("vials");
         ArrayList<ThermometerVial> vials = board.getVials();

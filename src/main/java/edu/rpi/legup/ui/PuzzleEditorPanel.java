@@ -10,6 +10,8 @@ import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
+import edu.rpi.legup.model.gameboard.GridBoard;
+import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
@@ -677,6 +679,14 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      */
     public void setPuzzleView(Puzzle puzzle) {
         this.boardView = puzzle.getBoardView();
+        if (boardView.getBoard() instanceof GridBoard gridBoard && puzzle.getGoal() != null) {
+            for (GridCell goalCell : puzzle.getGoal().getCells()) {
+                GridCell boardCell = gridBoard.getCell(goalCell.getLocation());
+                if (boardCell != null) {
+                    boardCell.setGoal(true);
+                }
+            }
+        }
         editorElementController.setElementController(boardView.getElementController());
         dynamicBoardView = new DynamicView(boardView, DynamicViewType.BOARD);
         if (this.splitPanel != null) {

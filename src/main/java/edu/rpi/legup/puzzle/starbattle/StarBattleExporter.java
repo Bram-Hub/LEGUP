@@ -14,6 +14,9 @@ public class StarBattleExporter extends PuzzleExporter {
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("size", String.valueOf(board.getSize()));
         boardElement.setAttribute("puzzle_num", String.valueOf(board.getPuzzleNumber()));
+
+        appendGoalElement(newDocument, boardElement, board);
+
         for (StarBattleRegion sb_region : board.regions) {
             org.w3c.dom.Element regionsElement = newDocument.createElement("region");
             org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
