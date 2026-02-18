@@ -55,7 +55,7 @@ public class SVGImage {
         Drawable process(Element node) {
             Color strokeColor = null;
             if(node.hasAttribute("stroke")) {
-                strokeColor = colors.get(node.getAttribute("stroke").toLowerCase());
+                strokeColor = SVGNamedColors.getColor(node.getAttribute("stroke"));
             }
             Float strokeWidth = null;
             if(node.hasAttribute("stroke-width")) {
@@ -67,7 +67,7 @@ public class SVGImage {
             }
             Color fill = null;
             if(node.hasAttribute("fill")) {
-                fill = colors.get(node.getAttribute("fill").toLowerCase());
+                fill = SVGNamedColors.getColor(node.getAttribute("fill"));
             }
             Area area = new Area(processor.process(node));
             return new Drawable(Optional.ofNullable(fill), Optional.ofNullable(stroke), area);
@@ -165,14 +165,14 @@ public class SVGImage {
                         Point2D current = path.getCurrentPoint();
                         path.lineTo(scanner.nextFloat() + current.getX(), current.getY());
                     }
-                    case "Z", "z" -> {
-                        path.closePath();
-                    }
                     case "S", "s", "T", "t" -> {
                         System.err.println("Curve extension not supported");
                     }
                     case "A", "a" -> {
                         System.err.println("Arcs not supported");
+                    }
+                    case "Z", "z" -> {
+                        path.closePath();
                     }
                     default -> {
                         System.err.println("Operation not supported");
