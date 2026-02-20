@@ -48,16 +48,22 @@ For examples of the code look at Nurikabe.
 
 ## Tests
 
-Tests currently exist for the Nurikabe implementation of PROVE_CELL_MUST_BE and PROVE_CELL_MIGHT_NOT_BE. Tests
-for the other goal conditions can be written, but it is probably best to find a way to generalize the existing
-tests to use the Puzzle class instead of Nurikabe first.
+Tests use the TestPuzzle class to create mock proof trees using rules that are always valid or always invalid.
+Currently, tests exist for the prove_cell_must_be and prove_cell_might_not_be conditions.
 
 
 ## New conditions
+
+Prove one cell is/multiple cells are (not) forced to be / able to be a given/generic value
+
+
+
+
 A distinction should be made within the current default condition: 
     Show all possible solutions
     Show any possible solution
-
+    Show that there are multiple solutions
+    Show that a cell can have a certain value
 
 ## Possible UI
 Puzzle Board:
