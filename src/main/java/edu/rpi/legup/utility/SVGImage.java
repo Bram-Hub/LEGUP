@@ -266,7 +266,7 @@ public class SVGImage {
                         path.append(AffineTransform.getRotateInstance(rotation, cx, cy)
                                 .createTransformedShape(new Arc2D.Double(cx - radiusX,
                                         cy - radiusY, radiusX * 2, radiusY * 2,
-                                        start, sweep, Arc2D.OPEN)), false);
+                                        start, sweep, Arc2D.OPEN)), true);
                     }
                     case "Z", "z" -> {
                         path.closePath();
