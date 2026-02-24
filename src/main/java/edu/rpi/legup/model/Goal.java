@@ -97,19 +97,19 @@ public class Goal {
         if (goalType == GoalType.DEFAULT) return "Find all solutions to the puzzle or prove none exist.";
 
         return switch(goalType) {
-            case GoalType.PROVE_CELL_MUST_BE -> getValueSeparatedGoalText(" must be ");
-            case GoalType.PROVE_CELL_MIGHT_NOT_BE -> getValueSeparatedGoalText(" might not be ");
+            case GoalType.PROVE_CELL_MUST_BE -> getValueSeparatedGoalText(" forced to be ");
+            case GoalType.PROVE_CELL_MIGHT_NOT_BE -> getValueSeparatedGoalText(" not forced to be ");
             case GoalType.PROVE_SINGLE_CELL_VALUE -> {
                 String text = "Prove " + (cellList.size() > 1 ? "cells " : "cell ");
                 text += concatCellLocs(cellList);
-                text += (cellList.size() > 1 ? " individually have" : " has");
-                yield text + " only one possible value.";
+                text += (cellList.size() > 1 ? " are each" : " is");
+                yield text + " forced to have exactly one possible value.";
             }
             case GoalType.PROVE_MULTIPLE_CELL_VALUE -> {
                 String text = "Prove " + (cellList.size() > 1 ? "cells " : "cell ");
                 text += concatCellLocs(cellList);
-                text += (cellList.size() > 1 ? " individually have" : " has");
-                yield text + " multiple possible values.";
+                text += (cellList.size() > 1 ? " are each" : " is");
+                yield text + " not forced to have exactly one possible value.";
             }
             default -> "Unrecognized goal condition.";
         };
