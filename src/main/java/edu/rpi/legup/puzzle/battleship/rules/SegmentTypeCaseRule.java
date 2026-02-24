@@ -5,7 +5,8 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
-import java.util.List;
+
+import java.util.ArrayList;
 
 public class SegmentTypeCaseRule extends CaseRule {
     public SegmentTypeCaseRule() {
@@ -64,7 +65,7 @@ public class SegmentTypeCaseRule extends CaseRule {
      * @return a list of elements the specified could be
      */
     @Override
-    public List<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
         return null;
     }
 }

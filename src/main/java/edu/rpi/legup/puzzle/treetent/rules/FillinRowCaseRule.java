@@ -9,7 +9,7 @@ import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentClue;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
-import java.awt.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
