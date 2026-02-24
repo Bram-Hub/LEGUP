@@ -7,9 +7,8 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
 
 /**
  * CaseRule is an abstract class representing a rule that can be applied with multiple cases in a
@@ -55,7 +54,7 @@ public abstract class CaseRule extends Rule {
      * @param puzzleElement equivalent puzzleElement
      * @return a list of elements the specified could be
      */
-    public abstract List<Board> getCases(Board board, PuzzleElement puzzleElement);
+    public abstract ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement);
 
     /**
      * Checks whether the {@link TreeTransition} logically follows from the parent node using this
@@ -99,7 +98,72 @@ public abstract class CaseRule extends Rule {
      * @return null if the child node logically follow from the parent node, otherwise error message
      */
     @Override
-    public abstract String checkRuleRaw(TreeTransition transition);
+    public String checkRuleRaw(TreeTransition transition){
+        // The default functionality of checkRuleRaw should work as follows:
+        //  Generate all possible iterations of boards using getCases
+        //  Attempt to match the set of boards with the children found in the tre
+        //  Return true if one such match exists, false otherwise
+
+        TreeNode parent = transition.getParents().getFirst();
+        Board board = parent.getBoard();
+        List<TreeTransition> childTransitions = parent.getChildren();
+        List<Board> childBoards = new ArrayList<>();
+        childTransitions.forEach(t -> childBoards.add(t.getBoard()));
+
+        CaseBoard possibleCasesBoard = getCaseBoard(parent.getBoard());
+
+        // Locate a cell where a case rule can be applied
+        Set<PuzzleElement<?>> applicableLocations = new HashSet<>();
+        for (PuzzleElement<?> element : possibleCasesBoard.getBaseBoard().getPuzzleElements()) {
+            if (possibleCasesBoard.isPickable(element, null)) {
+                applicableLocations.add(element);
+            }
+        }
+
+        // For each cell where a case rule can be applied, generate the cases
+        for (PuzzleElement<?> element : applicableLocations) {
+            ArrayList<Board> boards = getCases(board, element);
+            if (boards.size() != childBoards.size()) {
+                continue;
+            }
+
+            // For each board in the case, map the current boards to
+            // respective cases.
+            Map<Integer, Integer> indexMap = new HashMap<>();
+            int n = boards.size();
+            for (int i = 0; i < n; i++) {
+                Board caseBoard = boards.get(i);
+
+                // Attempt to match some board i with the caseBoard j
+                for (int j = 0; j < n; j++) {
+                    Board childBoard = childBoards.get(j);
+
+                    // If they match, and another child is already matching,
+                    // the case rule was applied incorrectly. Otherwise,
+                    // move to the next caseBoard/childBoard pairing
+                    if (caseBoard.equalsBoard(childBoard)) {
+                        if (indexMap.containsKey(j)) {
+                            break;
+                        }
+                        indexMap.put(j, i);
+                        break;
+                    }
+                }
+
+                // If we couldn't find a match for board i, then this doesn't work
+                if (indexMap.size() <= i) {
+                    break;
+                }
+            }
+
+            // If we have found a mapping that maps the n boards to each other,
+            // this is a valid application of the case rule
+            if (indexMap.size() == n) {
+                return null;
+            }
+        }
+        return INVALID_USE_MESSAGE;
+    }
 
     /**
      * Checks whether the child node logically follows from the parent node at the specific
