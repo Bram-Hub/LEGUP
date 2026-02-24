@@ -12,6 +12,7 @@ import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.GridBoard;
+import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.model.tree.TreeElementType;
@@ -156,39 +157,6 @@ public class ElementController
     public void mouseEntered(MouseEvent e) {
         boardView.setFocusable(true);
         boardView.requestFocusInWindow();
-        TreeElement treeElement = boardView.getTreeElement();
-        DynamicView dynamicView = getInstance().getLegupUI().getDynamicBoardView();
-        BoardView boardView = getInstance().getLegupUI().getBoardView();
-        if (boardView == null) {
-            boardView = getInstance().getLegupUI().getEditorBoardView();
-        }
-        if (dynamicView == null) {
-            dynamicView = getInstance().getLegupUI().getEditorDynamicBoardView();
-        }
-        Board board = boardView.getBoard();
-        ElementView elementView = boardView.getElement(e.getPoint());
-        ElementSelection selection = boardView.getSelection();
-        String error = null;
-        if (elementView != null) {
-            selection.newHover(elementView);
-            if (LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.SHOW_MISTAKES)) {
-                PuzzleElement element = elementView.getPuzzleElement();
-                if (treeElement != null
-                        && treeElement.getType() == TreeElementType.TRANSITION
-                        && board.getModifiedData().contains(element)) {
-                    TreeTransition transition = (TreeTransition) treeElement;
-                    if (transition.isJustified() && !transition.isCorrect()) {
-                        error = transition.getRule().checkRuleAt(transition, element);
-                    }
-                }
-                if (error != null) {
-                    dynamicView.updateError(error);
-                } else {
-                    dynamicView.resetStatus();
-                }
-            }
-            boardView.repaint();
-        }
     }
 
     /**
@@ -207,8 +175,7 @@ public class ElementController
         if (dynamicView == null) {
             dynamicView = getInstance().getLegupUI().getEditorDynamicBoardView();
         }
-        ElementView element = boardView.getElement(e.getPoint());
-        if (element != null) {
+        if (boardView.getSelection().getHover() != null) {
             boardView.getSelection().clearHover();
             dynamicView.resetStatus();
             boardView.repaint();
@@ -221,7 +188,9 @@ public class ElementController
      * @param e the event to be processed
      */
     @Override
-    public void mouseDragged(MouseEvent e) {}
+    public void mouseDragged(MouseEvent e) {
+        updateHover(e.getPoint());
+    }
 
     /**
      * Invoked when the mouse moved
@@ -230,21 +199,38 @@ public class ElementController
      */
     @Override
     public void mouseMoved(MouseEvent e) {
+        updateHover(e.getPoint());
+    }
+    
+    /**
+     * Updates which element the hover is being applied to.
+     *
+     * @param point Location of the cursor.
+     */
+    private void updateHover(Point point) {
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         if (boardView == null) {
             boardView = getInstance().getLegupUI().getEditorBoardView();
         }
-        Board board = boardView.getBoard();
-        TreeElement treeElement = boardView.getTreeElement();
         DynamicView dynamicView = getInstance().getLegupUI().getDynamicBoardView();
         if (dynamicView == null) {
             dynamicView = getInstance().getLegupUI().getEditorDynamicBoardView();
         }
-        ElementView elementView = boardView.getElement(e.getPoint());
+        Board board = boardView.getBoard();
+        TreeElement treeElement = boardView.getTreeElement();
+        ElementView elementView = boardView.getElement(point);
         ElementSelection selection = boardView.getSelection();
         String error = null;
+
         if (elementView != null && elementView != selection.getHover()) {
             selection.newHover(elementView);
+
+            PuzzleElement cell = elementView.getPuzzleElement();
+            if (cell instanceof GridCell && cell.isGoal()) {
+                boardView.getCanvas().setToolTipText(GameBoardFacade.getInstance().getPuzzleModule()
+                        .getGoal().getHoverText((GridCell) cell));
+            } else { boardView.getCanvas().setToolTipText(null); }
+
             if (LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.SHOW_MISTAKES)) {
                 PuzzleElement element = elementView.getPuzzleElement();
                 if (treeElement != null

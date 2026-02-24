@@ -42,4 +42,9 @@ public class BattleshipCell extends GridCell<BattleshipType> {
 
     @Override
     public boolean isKnown() {return !(data == BattleshipType.UNKNOWN);}
+
+    @Override
+    public String describeState(boolean isPlural) {
+        return getType().toString().toLowerCase();
+    }
 }
