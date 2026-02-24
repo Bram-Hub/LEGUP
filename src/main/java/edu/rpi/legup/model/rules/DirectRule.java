@@ -54,7 +54,7 @@ public abstract class DirectRule extends Rule {
 
     /**
      * Checks whether the {@link TreeTransition} logically follows from the parent node using this
-     * rule. This method is the one that should overridden in child classes.
+     * rule. This method is the one that should be overridden in child classes.
      *
      * @param transition transition to check
      * @return null if the child node logically follow from the parent node, otherwise error message
@@ -63,7 +63,7 @@ public abstract class DirectRule extends Rule {
         Board finalBoard = transition.getBoard();
         String checkStr = null;
 
-        // Go directly to specific direct rule's judgement if no cell's are edited
+        // Go directly to specific direct rule's judgement if no cells are edited
         if (finalBoard.getModifiedData().size() == 0) {
             checkStr = checkRuleRawAt(transition, null);
         }
