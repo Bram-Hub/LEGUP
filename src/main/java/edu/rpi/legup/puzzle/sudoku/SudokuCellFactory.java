@@ -53,7 +53,7 @@ public class SudokuCellFactory extends ElementFactory {
     }
 
     /**
-     * Creates a xml document puzzleElement from a cell for exporting
+     * Creates an xml document puzzleElement from a cell for exporting
      *
      * @param document xml document
      * @param puzzleElement PuzzleElement cell
