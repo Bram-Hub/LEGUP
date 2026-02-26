@@ -110,7 +110,9 @@ public class StarBattleView extends GridBoardView {
                 new Point(
                         one.getLocation().x * elementSize.width,
                         one.getLocation().y * elementSize.height); // dump this
-        System.out.println("direction is" + direction + "\n");
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace("direction is{}\n", direction);
+        }
         if (direction == 2) { // top border
             temp.y += elementSize.height * 15 / 16; // multiply  so it doesn't go off screen
         }
@@ -127,7 +129,9 @@ public class StarBattleView extends GridBoardView {
         // these changes to the x or y coordinate are necessary to properly load them in and not cut
         // them off
         // on the edge of the board
-        // System.out.println("point is now " + temp.x + "," + temp.y + "\n");
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace("point is now {},{}\n", temp.x, temp.y);
+        }
 
         return temp;
     }

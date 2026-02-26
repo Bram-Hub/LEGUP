@@ -29,6 +29,7 @@ public class OrIntroductionTest {
      *
      * <p>Asserts that if at least 1 of A or B is true, then this is a valid application of the rule
      * if and only if V is true.
+     *
      * @throws InvalidFileFormatException
      */
     @Test

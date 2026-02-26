@@ -1,4 +1,4 @@
-<Legup version="3.0">
+<Legup version="${version}">
     <puzzles>
         <puzzle name="Battleship"
             qualifiedClassName="edu.rpi.legup.puzzle.battleship.Battleship"

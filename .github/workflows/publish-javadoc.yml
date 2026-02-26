@@ -2,10 +2,8 @@
 
 name: Publish Javadoc
 
-on:
-  push:
-    branches:
-      - dev
+on: workflow_dispatch
+
 permissions:
   contents: write
 

@@ -92,7 +92,9 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                         || !classPackageName.endsWith(".elements")) {
                     continue;
                 }
-                System.out.println("possible element: " + c.getName());
+                if (LOGGER.isTraceEnabled()) {
+                    LOGGER.trace("possible element: {}", c.getName());
+                }
 
                 // check that the element is not abstract
                 if (Modifier.isAbstract(c.getModifiers())) continue;
@@ -112,7 +114,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                                     break;
                             }
                         } catch (InvocationTargetException e) {
-                            System.out.println("    Failed ");
+                            LOGGER.error("    Failed ");
                             e.getTargetException().printStackTrace();
                         }
                     }
@@ -139,7 +141,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                 if (!classPackageName.contains(".rules")) {
                     continue;
                 }
-                System.out.println("possible rule: " + c.getName());
+                LOGGER.info("possible rule: {}", c.getName());
 
                 // check that the rule is not abstract
                 if (Modifier.isAbstract(c.getModifiers())) continue;
@@ -167,14 +169,14 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                                     break;
                             }
                         } catch (InvocationTargetException e) {
-                            System.out.println("    Failed ");
+                            LOGGER.error("    Failed ");
                             e.getTargetException().printStackTrace();
                         }
                     }
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Unable to find rules for " + this.getClass().getSimpleName(), e);
+            LOGGER.error("Unable to find rules for {}", this.getClass().getSimpleName(), e);
         }
     }
 

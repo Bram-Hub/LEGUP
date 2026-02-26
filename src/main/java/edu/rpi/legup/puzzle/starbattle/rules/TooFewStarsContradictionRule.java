@@ -8,8 +8,12 @@ import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
 import edu.rpi.legup.puzzle.starbattle.StarBattleRegion;
 import java.awt.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class TooFewStarsContradictionRule extends ContradictionRule {
+    private static final Logger LOGGER =
+            LogManager.getLogger(TooFewStarsContradictionRule.class.getName());
 
     public TooFewStarsContradictionRule() {
         super(
@@ -45,18 +49,18 @@ public class TooFewStarsContradictionRule extends ContradictionRule {
                 ++columnCount;
             }
         }
-        System.out.println(
-                "rowCount = "
-                        + rowCount
-                        + " columnCount = "
-                        + columnCount
-                        + " at "
-                        + column
-                        + ","
-                        + row
-                        + "\n");
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(
+                    "rowCount = {} columnCount = {} at {},{}\n",
+                    rowCount,
+                    columnCount,
+                    column,
+                    row);
+        }
         if (rowCount < sbBoard.getPuzzleNumber() || columnCount < sbBoard.getPuzzleNumber()) {
-            System.out.println("Returning Null\n");
+            if (LOGGER.isTraceEnabled()) {
+                LOGGER.trace("Returning Null\n");
+            }
             return null;
         }
         StarBattleRegion region = sbBoard.getRegion(cell);

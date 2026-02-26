@@ -4,6 +4,7 @@ import static java.lang.System.exit;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
+import edu.rpi.legup.app.VersionInfo;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.EditorElementController;
 import edu.rpi.legup.history.ICommand;
@@ -256,7 +257,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         menus[2].add(aboutLegup);
         aboutLegup.addActionListener(
                 l -> {
-                    JOptionPane.showMessageDialog(null, "Version: 5.1.0");
+                    JOptionPane.showMessageDialog(null, "Version: " + VersionInfo.getVersion());
                 });
         // add menus to menubar
         for (JMenu menu : menus) {
@@ -437,7 +438,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                         if (GameBoardFacade.getInstance().getPuzzleModule() != null) {
                             String filename = savePuzzle();
                             File puzzlename = new File(filename);
-                            System.out.println(filename);
+                            if (LOGGER.isDebugEnabled()) {
+                                LOGGER.debug(filename);
+                            }
 
                             GameBoardFacade.getInstance().getLegupUI().displayPanel(1);
                             GameBoardFacade.getInstance()

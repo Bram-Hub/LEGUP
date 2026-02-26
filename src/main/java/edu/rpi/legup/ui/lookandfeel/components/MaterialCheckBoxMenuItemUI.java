@@ -11,9 +11,9 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicCheckBoxMenuItemUI;
 
 /**
- * A Material Design UI for {@link JCheckBoxMenuItem}.
- * It customizes the painting of the checkbox menu item to align with Material Design aesthetics,
- * including using specific icons for selected and unselected states and enabling anti-aliasing for smoother rendering.
+ * A Material Design UI for {@link JCheckBoxMenuItem}. It customizes the painting of the checkbox
+ * menu item to align with Material Design aesthetics, including using specific icons for selected
+ * and unselected states and enabling anti-aliasing for smoother rendering.
  */
 public class MaterialCheckBoxMenuItemUI extends BasicCheckBoxMenuItemUI {
     /**

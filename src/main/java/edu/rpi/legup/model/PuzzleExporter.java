@@ -1,5 +1,6 @@
 package edu.rpi.legup.model;
 
+import edu.rpi.legup.app.VersionInfo;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -100,7 +101,7 @@ public abstract class PuzzleExporter {
             Document newDocument = docBuilder.newDocument();
 
             org.w3c.dom.Element legupElement = newDocument.createElement("Legup");
-            legupElement.setAttribute("version", "3.0.0");
+            legupElement.setAttribute("version", VersionInfo.getVersion());
             newDocument.appendChild(legupElement);
 
             org.w3c.dom.Element puzzleElement = newDocument.createElement("puzzle");
@@ -122,6 +123,8 @@ public abstract class PuzzleExporter {
             LocalDateTime dateTime = LocalDateTime.now(ZoneId.of("America/New_York"));
             String time = dateTime.format(DATE_FORMAT);
             statusElement.setAttribute("lastSaved", time);
+            // hash is based on the time. Theoretically, if two students complete
+            // the puzzle at the exact same time, then they will have the same hash.
             int hashedState = obfHash(puzzle.isPuzzleComplete(), time);
             statusElement.setAttribute("isSolved", hashedState + "");
             legupElement.appendChild(statusElement);

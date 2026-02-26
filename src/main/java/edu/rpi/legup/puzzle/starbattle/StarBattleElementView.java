@@ -2,8 +2,12 @@ package edu.rpi.legup.puzzle.starbattle;
 
 import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class StarBattleElementView extends GridElementView {
+    private static final Logger LOGGER =
+            LogManager.getLogger(StarBattleElementView.class.getName());
 
     public StarBattleElementView(StarBattleCell cell) {
         super(cell);
@@ -18,7 +22,9 @@ public class StarBattleElementView extends GridElementView {
     public void drawElement(Graphics2D graphics2D) {
         StarBattleCell cell = (StarBattleCell) puzzleElement;
         StarBattleCellType type = cell.getType();
-        // System.out.println("point for cell is " + location.x + "," + location.y + "\n");
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace("point for cell is {},{}\n", location.x, location.y);
+        }
         if (type == StarBattleCellType.STAR) {
             graphics2D.setColor(Color.LIGHT_GRAY);
             graphics2D.fillRect(location.x, location.y, size.width, size.height);

@@ -7,8 +7,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class NurikabeUtilities {
+    private static final Logger LOGGER = LogManager.getLogger(NurikabeUtilities.class.getName());
 
     /**
      * Gets all of the numbered cells in the Nurikabe board
@@ -208,7 +211,9 @@ public class NurikabeUtilities {
                 // Dequeue a vertex from queue and print it
                 // s is the source node in the graph
                 NurikabeCell s = queue.poll();
-                System.out.print(s + " ");
+                if (LOGGER.isTraceEnabled()) {
+                    LOGGER.trace("{} ", s);
+                }
 
                 // Make a linked list of all adjacent squares
                 Set<NurikabeCell> adj = new HashSet<>();
@@ -278,7 +283,9 @@ public class NurikabeUtilities {
             // Dequeue a vertex from queue and print it
             // s is the source node in the graph
             NurikabeCell s = queue.poll();
-            System.out.print(s + " ");
+            if (LOGGER.isTraceEnabled()) {
+                LOGGER.trace("{} ", s);
+            }
 
             // Make a set of all adjacent squares
             Set<NurikabeCell> adj = new HashSet<>();

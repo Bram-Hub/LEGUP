@@ -20,7 +20,7 @@ public class ZoomWidget extends JLabel {
     private MouseAdapter open =
             new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
-                    palette.slider.setValue(parent.getZoom());
+                    palette.slider.setValue((int) parent.getZoom());
                     palette.show(e.getComponent(), 0, 0);
                 }
             };
