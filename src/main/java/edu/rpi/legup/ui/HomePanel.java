@@ -5,14 +5,12 @@ import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.app.VersionInfo;
 import edu.rpi.legup.controller.CursorController;
 import edu.rpi.legup.model.PuzzleExporter;
-import edu.rpi.legup.utility.SVGImage;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.io.FileWriter;
 import java.net.URI;
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -29,6 +27,7 @@ import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import com.kitfox.svg.app.beans.SVGIcon;
 
 /**
  * The {@code HomePanel} class represents the home panel of the LEGUP application. This panel
@@ -140,12 +139,13 @@ public class HomePanel extends LegupPanel {
                     }
                 };
 
-        URL button0IconLocation =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/homepanel/proof_file.svg");
-        SVGImage button0Icon = new SVGImage(button0IconLocation);
+        SVGIcon button0Icon = new SVGIcon();
+        button0Icon.setAntiAlias(true);
+        button0Icon.setPreferredSize(new Dimension(this.buttonSize, this.buttonSize));
+        button0Icon.setSvgResourcePath("/edu/rpi/legup/images/Legup/homepanel/proof_file.svg");
+
         this.buttons[0].setFocusPainted(false);
-        this.buttons[0].setIcon(button0Icon.getIcon(this.buttonSize, this.buttonSize));
+        this.buttons[0].setIcon(button0Icon);
         this.buttons[0].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[0].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[0].addActionListener(CursorController.createListener(this, openProofListener));
@@ -157,12 +157,14 @@ public class HomePanel extends LegupPanel {
                         setMaximumSize(getSize());
                     }
                 };
-        URL button1IconLocation =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.svg");
-        SVGImage button1Icon = new SVGImage(button1IconLocation);
+
+        SVGIcon button1Icon = new SVGIcon();
+        button1Icon.setAntiAlias(true);
+        button1Icon.setPreferredSize(new Dimension(this.buttonSize, this.buttonSize));
+        button1Icon.setSvgResourcePath("/edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.svg");
+
         this.buttons[1].setFocusPainted(false);
-        this.buttons[1].setIcon(button1Icon.getIcon(this.buttonSize, this.buttonSize));
+        this.buttons[1].setIcon(button1Icon);
         this.buttons[1].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[1].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[1].addActionListener(l -> this.openPuzzleEditorDialog());

@@ -36,6 +36,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import com.kitfox.svg.app.beans.SVGIcon;
 
 /**
  * {@code ProofEditorPanel} is a panel that serves as the main user interface component for the
@@ -885,20 +886,17 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         toolBar2.setRollover(true);
         setToolBar2Buttons(new JButton[4]);
 
-        URL directions_url =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/Directions.png");
+        SVGIcon directionsIcon = new SVGIcon();
+        directionsIcon.setAntiAlias(true);
+        directionsIcon.setPreferredSize(
+                new Dimension(this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE));
+        //directionsIcon.setSvgResourcePath("edu/rpi/legup/images/Legup/Directions.svg");
+        try {
+            directionsIcon.setSvgURI(new java.net.URI(getClass().getClassLoader()
+                    .getResource("edu/rpi/legup/images/Legup/Directions.svg").toString()));
+        } catch(java.net.URISyntaxException e) {}
 
-        ImageIcon DirectionsImageIcon = new ImageIcon(directions_url);
-        Image DirectionsImage = DirectionsImageIcon.getImage();
-        DirectionsImageIcon =
-                new ImageIcon(
-                        DirectionsImage.getScaledInstance(
-                                this.TOOLBAR_ICON_SCALE,
-                                this.TOOLBAR_ICON_SCALE,
-                                Image.SCALE_SMOOTH));
-
-        JButton directions = new JButton("Directions", DirectionsImageIcon);
+        JButton directions = new JButton("Directions", directionsIcon);
         directions.setFocusPainted(false);
         directions.addActionListener((ActionEvent) -> directionsToolButton());
 
