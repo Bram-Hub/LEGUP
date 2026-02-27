@@ -1,4 +1,4 @@
-package edu.rpi.legup.utility;
+package edu.rpi.legup.utility.svg;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -46,7 +46,7 @@ public class SVGImage {
         Drawable process(Element node) {
             Color strokeColor = null;
             if (node.hasAttribute("stroke")) {
-                strokeColor = SVGNamedColors.getColor(node.getAttribute("stroke"));
+                strokeColor = SVGPaint.getNamedColor(node.getAttribute("stroke"));
             }
             float strokeWidth = 1;
             if (node.hasAttribute("stroke-width")) {
@@ -58,7 +58,7 @@ public class SVGImage {
             }
             Color fill = null;
             if (node.hasAttribute("fill")) {
-                fill = SVGNamedColors.getColor(node.getAttribute("fill"));
+                fill = SVGPaint.getNamedColor(node.getAttribute("fill"));
             }
             Area area = new Area(processor.process(node));
             return new Drawable(Optional.ofNullable(fill), Optional.ofNullable(stroke), area);
@@ -81,14 +81,12 @@ public class SVGImage {
     // attribute data. The implementations for each tag's processor are defined within.
     static Map<String, ElementProcessor> processors = Map.ofEntries(
         new ElementProcessor("rect", (Element node) -> {
-            float radiusX = 0;
-            if (node.hasAttribute("rx")) {
-                radiusX = Float.parseFloat(node.getAttribute("rx"));
-            }
-            float radiusY = 0;
-            if (node.hasAttribute("ry")) {
-                radiusX = Float.parseFloat(node.getAttribute("ry"));
-            }
+            float radiusX = 0, radiusY = 0;
+            boolean hasRx = node.hasAttribute("rx"), hasRy = node.hasAttribute("ry");
+            if (hasRx) { radiusX = 2 * Float.parseFloat(node.getAttribute("rx")); }
+            if (hasRy) { radiusY = 2 * Float.parseFloat(node.getAttribute("ry")); }
+            if (hasRx && !hasRy) { radiusY = radiusX; }
+            if (hasRy && !hasRx) { radiusX = radiusY; }
             float x = Float.parseFloat(node.getAttribute("x"));
             float y = Float.parseFloat(node.getAttribute("y"));
             float width = Float.parseFloat(node.getAttribute("width"));
@@ -358,6 +356,54 @@ public class SVGImage {
         }
     }
 
+
+
+    /**
+     * Returns true if element represents a drawable shape, false otherwise.
+     *
+     * @param element Tag name of element.
+     */
+    boolean isDrawable(String element) {
+        return element.equals("rect") || element.equals("path") || element.equals("polyline")
+                || element.equals("polygon") || element.equals("circle") || element.equals("ellipse")
+                || element.equals("line") || element.equals("text");
+    }
+
+    /**
+     * Draw the image at the specified location.
+     *
+     * @param graphics Graphics context.
+     * @param x X coordinate of the image's top left corner.
+     * @param y Y coordinate of the image's top left corner.
+     * @param width Desired width.
+     * @param height Desired height.
+     */
+    public void paint(Graphics2D graphics, int x, int y, int width, int height) {
+        Graphics2D g = (Graphics2D) graphics.create();
+        try {
+            g.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
+            g.translate(x - this.x, y - this.y);
+            g.scale(width / this.width, height / this.height);
+            for (Drawable item : items) {
+                if (item == null) {
+                    continue;
+                }
+                item.fill.ifPresent((Color fill) -> {
+                    g.setColor(fill);
+                    g.fill(item.shape());
+                });
+                item.stroke.ifPresent((ColoredStroke stroke) -> {
+                    g.setColor(stroke.color());
+                    g.setStroke(stroke.stroke());
+                    g.draw(item.shape());
+                });
+            }
+        }
+        finally {
+            g.dispose();
+        }
+    }
+
     /**
      * Get a dynamically-rendered {@code Icon} of a desired width and height displaying
      * the SVG image.
@@ -369,31 +415,8 @@ public class SVGImage {
     public Icon getIcon(int width, int height) {
         return new Icon() {
             @Override
-            public void paintIcon(Component c, Graphics graphics, int x, int y) {
-                Graphics2D g = (Graphics2D) graphics;
-                g.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
-                for (Drawable item : items) {
-                    if (item == null) {
-                        continue;
-                    }
-                    Area shape = (Area) item.shape().clone();
-                    float scaleX = width / SVGImage.this.width;
-                    float scaleY = height / SVGImage.this.height;
-                    AffineTransform transform = AffineTransform.getScaleInstance(scaleX, scaleY);
-                    float shiftX = x - SVGImage.this.x;
-                    float shiftY = y - SVGImage.this.y;
-                    transform.translate(shiftX, shiftY);
-                    shape.transform(transform);
-                    item.fill.ifPresent((Color fill) -> {
-                        g.setColor(fill);
-                        g.fill(shape);
-                    });
-                    item.stroke.ifPresent((ColoredStroke stroke) -> {
-                        g.setColor(stroke.color());
-                        g.setStroke(stroke.stroke());
-                        g.draw(shape);
-                    });
-                }
+            public void paintIcon(Component c, Graphics g, int x, int y) {
+                paint((Graphics2D) g, x, y, width, height);
             }
             @Override
             public int getIconWidth() {
