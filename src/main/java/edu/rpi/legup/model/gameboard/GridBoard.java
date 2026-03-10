@@ -5,6 +5,8 @@ import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentClue;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * GridBoard represents a grid-based board where each cell can be manipulated based on its
@@ -45,6 +47,7 @@ public class GridBoard extends Board {
      * @param y y location of the cell
      * @return grid cell at location (x, y)
      */
+    @Nullable
     public GridCell getCell(int x, int y) {
         if (y * dimension.width + x >= puzzleElements.size()
                 || x >= dimension.width
@@ -66,7 +69,7 @@ public class GridBoard extends Board {
      * @param y y location of the cell
      * @param cell grid cell to set at location (x,y)
      */
-    public void setCell(int x, int y, GridCell cell) {
+    public void setCell(int x, int y, @NotNull GridCell cell) {
         if (y * dimension.width + x >= puzzleElements.size()
                 || x >= dimension.width
                 || y >= dimension.height
@@ -77,7 +80,7 @@ public class GridBoard extends Board {
         puzzleElements.set(y * dimension.width + x, cell);
     }
 
-    public void setCell(int x, int y, Element e, MouseEvent m) {
+    public void setCell(int x, int y, @Nullable Element e, @NotNull MouseEvent m) {
         if (this instanceof TreeTentBoard
                 && ((y == dimension.height && 0 <= x && x < dimension.width)
                         || (x == dimension.width && 0 <= y && y < dimension.height))) {
@@ -153,6 +156,7 @@ public class GridBoard extends Board {
      *
      * @return the dimension of the grid board
      */
+    @NotNull
     public Dimension getDimension() {
         return dimension;
     }
@@ -162,6 +166,7 @@ public class GridBoard extends Board {
      *
      * @return a new copy of the board that is independent of this one
      */
+    @NotNull
     public GridBoard copy() {
         GridBoard newGridBoard = new GridBoard(this.dimension.width, this.dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {

@@ -4,6 +4,7 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * ElementFactory is an abstract class for importing and exporting {@link PuzzleElement} instances.
@@ -19,7 +20,7 @@ public abstract class ElementFactory {
      * @throws InvalidFileFormatException thrown if the xml node is invalid for the specific puzzle
      *     element
      */
-    public abstract PuzzleElement importCell(Node node, Board board)
+    public abstract @NotNull PuzzleElement importCell(@NotNull Node node, @NotNull Board board)
             throws InvalidFileFormatException;
 
     /**
@@ -29,5 +30,6 @@ public abstract class ElementFactory {
      * @param puzzleElement PuzzleElement cell
      * @return xml PuzzleElement
      */
-    public abstract Element exportCell(Document document, PuzzleElement puzzleElement);
+    public abstract @NotNull Element exportCell(
+            @NotNull Document document, @NotNull PuzzleElement puzzleElement);
 }
