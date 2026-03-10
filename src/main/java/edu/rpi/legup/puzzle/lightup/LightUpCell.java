@@ -4,17 +4,19 @@ import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class LightUpCell extends GridCell<Integer> {
     private boolean isLite;
 
-    public LightUpCell(int valueInt, Point location) {
+    public LightUpCell(int valueInt, @NotNull Point location) {
         super(valueInt, location);
         this.isLite = false;
     }
 
     @Override
-    public void setType(Element e, MouseEvent m) {
+    public void setType(@NotNull Element e, @NotNull MouseEvent m) {
         switch (e.getElementID()) {
             case "LTUP-ELEM-0002":
                 this.data = -4;
@@ -46,7 +48,7 @@ public class LightUpCell extends GridCell<Integer> {
         }
     }
 
-    public LightUpCellType getType() {
+    public @Nullable LightUpCellType getType() {
         switch (data) {
             case -4:
                 return LightUpCellType.BULB;
@@ -73,7 +75,7 @@ public class LightUpCell extends GridCell<Integer> {
     }
 
     @Override
-    public LightUpCell copy() {
+    public @NotNull LightUpCell copy() {
         LightUpCell copy = new LightUpCell(data, (Point) location.clone());
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
