@@ -234,6 +234,14 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         return goal;
     }
 
+    // Helper functions that I'm going to define:
+    // Return the set of all complete leaves
+    // Return the set of all open leaves
+    // Check that the cells from the goal cell locations all match between boards
+    // Check that the cells from the goal cell locations all match between a board and the goal
+    //
+    // Combinations of these are all that will be necessary
+    // TODO: that
     /**
      * Determines if the edu.rpi.legup.puzzle was solves correctly
      *
@@ -245,6 +253,9 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         }
 
         // If the whole tree is a contradiction, any goal condition can be assumed true
+        // I'm going to remove this.
+        // Validate ahead of time that all leaves are nodes and cast them to a new set
+        // TODO: that
         if (tree.isContradictory()) {return true;}
 
         // The goal determines what state the leaves must be in.
