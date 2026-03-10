@@ -51,6 +51,7 @@ public class ProveCellMustBeTest {
         Assert.assertTrue(TestUtilities.verifyBoard(
                 "goalConditions/ProveCellMustBe/OvercompleteLine", puzzle));
 
+        // True because we're assuming there's a solution, False if we don't
         Assert.assertTrue(TestUtilities.verifyBoard(
                 "goalConditions/ProveCellMustBe/ContradictoryLine", puzzle));
 
