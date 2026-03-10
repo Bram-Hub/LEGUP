@@ -89,69 +89,6 @@ public class LinkTreeCaseRule extends CaseRule {
     }
 
     /**
-     * Checks whether the transition logically follows from the parent node using this rule
-     *
-     * @param transition transition to check
-     * @return null if the child node logically follow from the parent node, otherwise error message
-     */
-    @Override
-    public String checkRuleRaw(TreeTransition transition) {
-        Set<PuzzleElement> modCells = transition.getBoard().getModifiedData();
-        if (modCells.size() != 1) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must have 1 modified cell for each case";
-        }
-        PuzzleElement mod = modCells.iterator().next();
-        TreeTentLine line = mod instanceof TreeTentLine ? (TreeTentLine) mod : null;
-        if (line == null) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule only involves tree and tent connection lines";
-        }
-        TreeTentCell tree = null;
-        if (line.getC1().getType() == TreeTentType.TREE) {
-            tree = line.getC1();
-        }
-        if (line.getC2().getType() == TreeTentType.TREE) {
-            tree = line.getC2();
-        }
-        if (tree == null) {
-            return super.getInvalidUseOfRuleMessage() + "This case rule must have a tent cell";
-        }
-
-        TreeTentBoard parentBoard = (TreeTentBoard) transition.getParents().get(0).getBoard();
-        ArrayList<Board> cases = getCases(parentBoard, tree);
-        List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-        if (childTransitions.size() != cases.size()) {
-            return super.getInvalidUseOfRuleMessage();
-        }
-        for (Board caseBoard : cases) {
-            TreeTentBoard cBoard = (TreeTentBoard) caseBoard;
-            TreeTentLine cLine = (TreeTentLine) cBoard.getModifiedData().iterator().next();
-            boolean hasLine = false;
-            for (TreeTransition tran : childTransitions) {
-                TreeTentBoard tBoard = (TreeTentBoard) tran.getBoard();
-                if (tBoard.getModifiedData().size() != 1) {
-                    return super.getInvalidUseOfRuleMessage();
-                }
-                PuzzleElement tElement = tBoard.getModifiedData().iterator().next();
-                if (!(tElement instanceof TreeTentLine)) {
-                    return super.getInvalidUseOfRuleMessage()
-                            + ": This case rule only involves tree and tent connection lines";
-                }
-                if (cLine.compare((TreeTentLine) tElement)) {
-                    hasLine = true;
-                    break;
-                }
-            }
-            if (!hasLine) {
-                return super.getInvalidUseOfRuleMessage();
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Checks whether the child node logically follows from the parent node at the specific
      * puzzleElement index using this rule
      *

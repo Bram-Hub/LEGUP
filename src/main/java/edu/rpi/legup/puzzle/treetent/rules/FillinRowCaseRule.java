@@ -218,17 +218,6 @@ public class FillinRowCaseRule extends CaseRule {
     }
 
     /**
-     * Checks whether the transition logically follows from the parent node using this rule
-     *
-     * @param transition transition to check
-     * @return null if the child node logically follow from the parent node, otherwise error message
-     */
-    @Override
-    public String checkRuleRaw(TreeTransition transition) {
-        return null;
-    }
-
-    /**
      * Checks whether the child node logically follows from the parent node at the specific
      * puzzleElement index using this rule
      *
