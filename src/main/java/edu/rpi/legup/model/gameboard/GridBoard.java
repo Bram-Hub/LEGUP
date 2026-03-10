@@ -51,8 +51,6 @@ public class GridBoard extends Board {
                 || y >= dimension.height
                 || x < 0
                 || y < 0) {
-            System.err.printf(
-                    "not in bounds, bounds are %dx%d\n", dimension.width, dimension.height);
             return null;
         }
         return (GridCell) puzzleElements.get(y * dimension.width + x);

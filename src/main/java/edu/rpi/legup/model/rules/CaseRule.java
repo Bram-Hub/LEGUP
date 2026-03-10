@@ -58,7 +58,7 @@ public abstract class CaseRule extends Rule {
 
     /**
      * Checks whether the {@link TreeTransition} logically follows from the parent node using this
-     * rule.
+     * rule. In the case rule implementation, sibling transitions will also be updated.
      *
      * @param transition transition to check
      * @return null if the child node logically follow from the parent node, otherwise error message
@@ -70,7 +70,7 @@ public abstract class CaseRule extends Rule {
             return "Must not have multiple parent nodes";
         }
 
-        for (TreeTransition childTrans : parentNodes.get(0).getChildren()) {
+        for (TreeTransition childTrans : parentNodes.getFirst().getChildren()) {
             if (childTrans.getRule() == null
                     || !childTrans.getRule().getClass().equals(this.getClass())) {
                 return "All children nodes must be justified with the same case rule.";
@@ -80,7 +80,7 @@ public abstract class CaseRule extends Rule {
 
         // Mark transition and new data as valid or not
         boolean isCorrect = (check == null);
-        for (TreeTransition childTrans : parentNodes.get(0).getChildren()) {
+        for (TreeTransition childTrans : parentNodes.getFirst().getChildren()) {
             childTrans.setCorrect(isCorrect);
             for (PuzzleElement element : childTrans.getBoard().getModifiedData()) {
                 element.setValid(isCorrect);
@@ -92,7 +92,8 @@ public abstract class CaseRule extends Rule {
 
     /**
      * Checks whether the {@link TreeTransition} logically follows from the parent node using this
-     * rule. This method is the one that should overridden in child classes.
+     * rule. This method should be overridden in child classes iff there is a systematic way to check
+     * the validity of a case rule, such as in an atomic case.
      *
      * @param transition transition to check
      * @return null if the child node logically follow from the parent node, otherwise error message
@@ -103,8 +104,15 @@ public abstract class CaseRule extends Rule {
         //  Generate all possible iterations of boards using getCases
         //  Attempt to match the set of boards with the children found in the tre
         //  Return true if one such match exists, false otherwise
-
         TreeNode parent = transition.getParents().getFirst();
+
+        // If there are no modified cells, then return true if this is the only
+        // child. If it has siblings, then it should not be true
+        if (transition.getBoard().getModifiedData().isEmpty()) {
+            return parent.getChildren().size() == 1 ? null : INVALID_USE_MESSAGE;
+        }
+
+
         Board board = parent.getBoard();
         List<TreeTransition> childTransitions = parent.getChildren();
         List<Board> childBoards = new ArrayList<>();
