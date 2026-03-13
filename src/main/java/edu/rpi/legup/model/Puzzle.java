@@ -377,13 +377,16 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                 {
                     if (!goalCellsAreKnown(node) || !cellsMatchWithGoal(node)) {yield false;}
                 }
+                // There must be a proven solution
                 yield (assumeThereIsASolution || !getCompleteLeaves().isEmpty());
             }
             case PROVE_CELL_MIGHT_NOT_BE -> {
+                // One solution differs from the given
                 for (TreeNode node : getCompleteLeaves())
                 {
                     if (!cellsMatchWithGoal(node)) {yield true;}
                 }
+                // All open branches differ from the given
                 for (TreeNode node : getOpenLeaves())
                 {
                     if (!goalCellsAreKnown(node) || cellsMatchWithGoal(node)) {yield false;}
@@ -391,44 +394,27 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                 yield true;
             }
             case PROVE_SINGLE_CELL_VALUE -> {
+                // All open branches match goal cell values
                 for (TreeNode node : getOpenLeaves())
                 {
                     if (!goalCellsAreKnown(node)) {yield false;}
                 }
                 if (!cellsMatchBetweenBoards(getOpenLeaves())) {yield false;}
+
+                // There must be a proven solution
                 yield (assumeThereIsASolution || !getCompleteLeaves().isEmpty());
             }
             case PROVE_MULTIPLE_CELL_VALUE -> {
-                for (TreeNode node : getCompleteLeaves())
-                {
-                    if (!goalCellsAreKnown(node)) {yield false;}
-                }
+                // The following line yielding true vs false determines if 0 solutions counts
+                if (getOpenLeaves().isEmpty()) {yield true;}
+
+                // At least two solutions have a different set of goal cell values
                 yield !cellsMatchBetweenBoards(getCompleteLeaves());
-                // Complete leaves must have at least two different values at goal location
-//                for (GridCell goalCell : this.goal.getCells()) {
-//                    Set<Integer> cellValues = new HashSet<>();
-//                    for (TreeElement leaf : tree.getLeafTreeElements()) {
-//                        if (leaf.getType() != TreeElementType.NODE) {continue;}
-//                        TreeNode node = (TreeNode) leaf;
-//                        GridBoard board = (GridBoard) node.getBoard();
-//                        if (!isBoardComplete(node.getBoard())) {continue;}
-//                        cellValues.add((Integer) board.getCell(goalCell.getLocation()).getData());
-//                    }
-//                    // Cell values should not all be the same
-//                    if (!(cellValues.size() > 1)) {yield false;}
-//                }
-//                yield true;
             }
-            // Every leaf must be valid
-            default -> {
-                for (TreeElement leaf : tree.getLeafTreeElements()) {
-                    if (leaf.getType() != TreeElementType.NODE) {yield false;}
-                    TreeNode node = (TreeNode) leaf;
-                    if ((node.isRoot() || !node.getParent().isContradictoryBranch())
-                    && !isBoardComplete(node.getBoard())) {yield false;}
-                }
-                yield true;
-            }
+            default ->
+                // Every leaf is either closed or complete
+                getCompleteLeaves().equals(getOpenLeaves());
+
         };
 
     }
