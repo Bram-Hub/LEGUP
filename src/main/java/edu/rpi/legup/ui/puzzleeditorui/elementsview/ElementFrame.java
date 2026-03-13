@@ -3,6 +3,8 @@ package edu.rpi.legup.ui.puzzleeditorui.elementsview;
 import edu.rpi.legup.controller.EditorElementController;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.Puzzle;
+import edu.rpi.legup.model.elements.PlaceableElement;
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -13,6 +15,8 @@ public class ElementFrame extends JPanel {
     private PlaceableElementPanel placeableElementPanel;
     private JTabbedPane tabbedPane;
     private JComboBox<GoalType> goalTypeComboBox;
+    private JComboBox<PlaceableElement> goalDataTypecomboBox;
+    private JScrollPane elements;
     private ButtonGroup buttonGroup;
 
     private EditorElementController controller;
@@ -62,9 +66,37 @@ public class ElementFrame extends JPanel {
 
         JLabel helpText =
                 new JLabel(
-                        "<html>Select this tab, then click cells on the board to toggle goal condition markers.</html>");
+                        "<html>Choose a goal type, then click cells on the board to toggle goal-condition markers.</html>");
         helpText.setVerticalAlignment(SwingConstants.TOP);
-        goalPanel.add(helpText, BorderLayout.NORTH);
+
+        JPanel topPanel = new JPanel(new BorderLayout(0, 8));
+        topPanel.add(helpText, BorderLayout.NORTH);
+
+        goalTypeComboBox = new JComboBox<>(GoalType.values());
+        goalTypeComboBox.addActionListener(
+                e -> controller.setGoalType((GoalType) goalTypeComboBox.getSelectedItem()));
+
+        JPanel selectorPanel = new JPanel(new BorderLayout(6, 0));
+        selectorPanel.add(new JLabel("Goal Type:"), BorderLayout.WEST);
+        selectorPanel.add(goalTypeComboBox, BorderLayout.CENTER);
+        topPanel.add(selectorPanel, BorderLayout.NORTH);
+
+        goalDataTypecomboBox = new JComboBox<PlaceableElement>();
+        goalDataTypecomboBox.addActionListener(
+                e -> {
+                    Object selected = goalDataTypecomboBox.getSelectedItem();
+                    if (selected instanceof PlaceableElement) {
+                        controller.setGoalDataType((PlaceableElement) selected);
+                    }
+                });
+
+        JPanel selectorPanel2 = new JPanel(new BorderLayout(6, 0));
+        selectorPanel2.add(new JLabel("Goal Data:"), BorderLayout.WEST);
+        selectorPanel2.add(goalDataTypecomboBox, BorderLayout.CENTER);
+        topPanel.add(selectorPanel2, BorderLayout.SOUTH);
+
+
+        goalPanel.add(topPanel, BorderLayout.NORTH);
 
         return goalPanel;
     }
@@ -77,6 +109,12 @@ public class ElementFrame extends JPanel {
         if (puzzle != null) {
             placeableElementPanel.setElements(puzzle.getPlaceableElements());
             goalTypeComboBox.setSelectedItem(puzzle.getGoal().getType());
+
+            // Populate goal data type combo box with placeable elements
+            goalDataTypecomboBox.removeAllItems();
+            for (PlaceableElement element : puzzle.getPlaceableElements()) {
+                goalDataTypecomboBox.addItem(element);
+            }
         }
     }
 

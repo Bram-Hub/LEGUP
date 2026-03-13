@@ -3,6 +3,8 @@ package edu.rpi.legup.controller;
 import edu.rpi.legup.history.*;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.elements.Element;
+import edu.rpi.legup.model.elements.ElementType;
+import edu.rpi.legup.model.elements.PlaceableElement;
 import edu.rpi.legup.model.rules.*;
 import edu.rpi.legup.ui.puzzleeditorui.elementsview.ElementButton;
 import java.awt.*;
@@ -25,12 +27,14 @@ public class EditorElementController implements ActionListener {
     protected ElementController elementController;
     protected ElementButton prevButton;
     private SelectionMode selectionMode;
+    private Object goalValueData;
 
     public EditorElementController() {
         super();
         elementController = null;
         prevButton = null;
         selectionMode = SelectionMode.PLACEABLE;
+        goalValueData = null;
     }
 
     /**
@@ -60,6 +64,16 @@ public class EditorElementController implements ActionListener {
         }
     }
 
+    public void setGoalDataType(PlaceableElement elementType) {
+        if (elementController != null) {
+            elementController.setGoalValue(elementType);
+            // Pass the element itself as the goal value data
+            if (elementType != null) {
+                goalValueData = elementType;
+                elementController.setGoalValueData(goalValueData);
+            }
+        }
+    }
     /**
      * Handles the event when a button associated with an Element is pressed
      *

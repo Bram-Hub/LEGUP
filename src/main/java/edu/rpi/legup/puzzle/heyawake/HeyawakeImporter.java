@@ -112,6 +112,12 @@ public class HeyawakeImporter extends PuzzleImporter {
                             (HeyawakeCell)
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), heyawakeBoard);
+                    // Store the goal value as goalData and mark the board cell as goal
+                    HeyawakeCell boardCell = (HeyawakeCell) heyawakeBoard.getCell(cell.getLocation());
+                    if (boardCell != null) {
+                        boardCell.setGoalData(cell.getData());
+                        boardCell.setGoal(true);
+                    }
                     goal.addCell(cell);
                 }
                 puzzle.setGoal(goal);

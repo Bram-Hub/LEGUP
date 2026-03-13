@@ -96,6 +96,12 @@ public class FillapixImporter extends PuzzleImporter {
                             (FillapixCell)
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), fillapixBoard);
+                    // Store the goal value as goalData and mark the board cell as goal
+                    FillapixCell boardCell = (FillapixCell) fillapixBoard.getCell(cell.getLocation());
+                    if (boardCell != null) {
+                        boardCell.setGoalData(cell.getData());
+                        boardCell.setGoal(true);
+                    }
                     goal.addCell(cell);
                 }
                 puzzle.setGoal(goal);

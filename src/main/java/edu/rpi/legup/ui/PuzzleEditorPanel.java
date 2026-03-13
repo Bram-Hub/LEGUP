@@ -29,6 +29,8 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 /**
  * Represents the panel used for puzzle editor in the LEGUP. This panel includes a variety of UI
@@ -65,6 +67,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private boolean existingPuzzle;
     private String fileName;
     private File puzzleFile;
+    private JLabel goalLabel;
+    private JPanel boardSidePanel;
 
     /**
      * Constructs a {@code PuzzleEditorPanel} with the specified file dialog, frame, and Legup UI
@@ -100,9 +104,21 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         titleBoard.setTitleJustification(TitledBorder.CENTER);
         dynamicBoardView.setBorder(titleBoard);
 
+        goalLabel = new JLabel();
+        CompoundBorder goalBorder = new CompoundBorder(
+                BorderFactory.createTitledBorder("Goal Condition"),
+                new EmptyBorder(0, 10, 3, 10));
+        ((TitledBorder) goalBorder.getOutsideBorder()).setTitleJustification(TitledBorder.CENTER);
+        goalLabel.setPreferredSize(new Dimension(0, 50));
+        goalLabel.setBorder(goalBorder);
+
+        boardSidePanel = new JPanel(new BorderLayout());
+        boardSidePanel.add(goalLabel, BorderLayout.NORTH);
+        boardSidePanel.add(dynamicBoardView);
+
         JPanel boardPanel = new JPanel(new BorderLayout());
         splitPanel =
-                new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, elementFrame, dynamicBoardView);
+                new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, elementFrame, boardSidePanel);
         splitPanel.setPreferredSize(new Dimension(600, 400));
 
         boardPanel.add(splitPanel);
@@ -455,7 +471,17 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         getToolBar2Buttons()[2] = saveandsolve;
         toolBar2.add(getToolBar2Buttons()[2]);
 
-        this.add(toolBar2, BorderLayout.NORTH);
+        goalLabel = new JLabel();
+        CompoundBorder goalBorder = new CompoundBorder(
+                BorderFactory.createTitledBorder("Goal Condition"),
+                new EmptyBorder(0, 10, 3, 10));
+        ((TitledBorder) goalBorder.getOutsideBorder()).setTitleJustification(TitledBorder.CENTER);
+        goalLabel.setPreferredSize(new Dimension(0, 50));
+        goalLabel.setBorder(goalBorder);
+
+        JSplitPane topPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, toolBar2, goalLabel);
+
+        this.add(topPanel, BorderLayout.NORTH);
     }
 
     /**
@@ -703,8 +729,22 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         if (this.elementFrame != null) {
             elementFrame.setElements(puzzle);
         }
+        updateGoalLabel(puzzle);
         toolBar1.setVisible(false);
         setupToolBar2();
+    }
+
+    /**
+     * Updates the goal label to display the current goal condition text
+     *
+     * @param puzzle the puzzle to display the goal for
+     */
+    private void updateGoalLabel(Puzzle puzzle) {
+        if (puzzle != null && puzzle.getGoal() != null) {
+            goalLabel.setText(puzzle.getGoal().getGoalText());
+        } else {
+            goalLabel.setText("No goal condition set");
+        }
     }
 
     /** Saves a puzzle */

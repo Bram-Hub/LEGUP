@@ -174,7 +174,12 @@ public abstract class PuzzleExporter {
 
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             if (puzzleElement instanceof GridCell gridCell && gridCell.isGoal()) {
-                Element cellElement = puzzle.getFactory().exportCell(newDocument, gridCell);
+                // Create a temporary cell with goal data for exporting
+                GridCell exportCell = (GridCell) gridCell.copy();
+                if (gridCell.getGoalData() != null) {
+                    exportCell.setData(gridCell.getGoalData());
+                }
+                Element cellElement = puzzle.getFactory().exportCell(newDocument, exportCell);
                 goalElement.appendChild(cellElement);
                 hasGoalCells = true;
             }

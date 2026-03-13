@@ -11,6 +11,8 @@ import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.elements.Element;
+import edu.rpi.legup.model.elements.ElementType;
+import edu.rpi.legup.model.elements.PlaceableElement;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.GridBoard;
@@ -37,6 +39,9 @@ public class ElementController
     protected BoardView boardView;
     private Element selectedElement;
     private boolean goalPlacementMode;
+    private GoalType currentGoalType;
+    private PlaceableElement currentGoalValue;
+    private Object goalValueData;
 
     /**
      * ElementController Constructor controller to handle ui events associated interacting with a
@@ -46,6 +51,9 @@ public class ElementController
         this.boardView = null;
         this.selectedElement = null;
         this.goalPlacementMode = false;
+        this.currentGoalType = GoalType.DEFAULT;
+        this.currentGoalValue = null;
+        this.goalValueData = null;
     }
 
     public void setSelectedElement(Element selectedElement) {
@@ -60,11 +68,29 @@ public class ElementController
     }
 
     public void setGoalType(GoalType goalType) {
+        this.currentGoalType = goalType;
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle != null) {
             puzzle.setGoal(new Goal(goalType));
         }
     }
+
+    public void setGoalValue(PlaceableElement selectedElement) {
+        this.currentGoalValue = selectedElement;
+    }
+
+    public void setGoalValueData(Object valueData) {
+        this.goalValueData = valueData;
+    }
+
+    public GoalType getCurrentGoalType() {
+        return this.currentGoalType;
+    }
+
+    public PlaceableElement getCurrentGoalValue() {
+        return this.currentGoalValue;
+    }
+
 
     /**
      * Sets the {@link BoardView}
@@ -165,6 +191,22 @@ public class ElementController
             PuzzleElement selectedCell = b.getCell(scaledPoint.x, scaledPoint.y);
             if (selectedCell != null) {
                 selectedCell.setGoal(!selectedCell.isGoal());
+                // Set the goal data if a goal value is selected
+                if (selectedCell.isGoal() && goalValueData != null) {
+                    // If goalValueData is a PlaceableElement, convert it to the correct data type
+                    if (goalValueData instanceof PlaceableElement) {
+                        PlaceableElement element = (PlaceableElement) goalValueData;
+                        // Create a temporary cell copy to determine what data value this element represents
+                        PuzzleElement tempCell = selectedCell.copy();
+                        tempCell.setType(element, null);
+                        // Set the goal data
+                        selectedCell.setGoalData(tempCell.getData());
+                    } else {
+                        selectedCell.setGoalData(goalValueData);
+                    }
+                } else if (!selectedCell.isGoal()) {
+                    selectedCell.setGoalData(null);
+                }
             }
         } else {
             b.setCell(scaledPoint.x, scaledPoint.y, this.selectedElement, e);
