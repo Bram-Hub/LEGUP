@@ -175,7 +175,6 @@ public class FinishRoomCaseRule extends CaseRule {
             if (newCell.getType() == NurikabeType.UNKNOWN) {
                 // Mark current cell as white
                 newCell.setData(NurikabeType.WHITE.toValue());
-                newCell.setModifiable(false);
                 checkedPoints.add(newPoint);
 
                 // Track the modification
@@ -196,7 +195,6 @@ public class FinishRoomCaseRule extends CaseRule {
                         for (Point p : newModList) {
                             NurikabeCell c = caseBoard.getCell(p.x, p.y);
                             c.setData(NurikabeType.WHITE.toValue());
-                            c.setModifiable(false);
                             caseBoard.addModifiedData(c);
                         }
 
@@ -228,7 +226,6 @@ public class FinishRoomCaseRule extends CaseRule {
 
                 // Reset the board
                 newCell.setData(NurikabeType.UNKNOWN.toValue());
-                newCell.setModifiable(true);
                 checkedPoints.remove(newPoint);
             }
         }
