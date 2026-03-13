@@ -92,15 +92,15 @@ public abstract class CaseRule extends Rule {
 
     /**
      * Checks whether the {@link TreeTransition} logically follows from the parent node using this
-     * rule. This method should be overridden in child classes iff there is a systematic way to check
-     * the validity of a case rule, such as in an atomic case.
+     * rule. This method does not need to be overridden by child case rules.
      *
      * @param transition transition to check
      * @return null if the child node logically follow from the parent node, otherwise error message
      */
     @Override
     public String checkRuleRaw(TreeTransition transition){
-        // The default functionality of checkRuleRaw should work as follows:
+        // The default functionality of checkRuleRaw for case rules
+        // should work as follows:
         //  Generate all possible iterations of boards using getCases
         //  Attempt to match the set of boards with the children found in the tre
         //  Return true if one such match exists, false otherwise

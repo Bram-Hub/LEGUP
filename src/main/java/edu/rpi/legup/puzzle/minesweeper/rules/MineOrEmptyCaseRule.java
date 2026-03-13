@@ -56,39 +56,6 @@ public class MineOrEmptyCaseRule extends CaseRule {
     }
 
     @Override
-    public String checkRuleRaw(TreeTransition transition) {
-        List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-        if (childTransitions.size() != 2) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must have 2 children.";
-        }
-
-        TreeTransition case1 = childTransitions.get(0);
-        TreeTransition case2 = childTransitions.get(1);
-        if (case1.getBoard().getModifiedData().size() != 1
-                || case2.getBoard().getModifiedData().size() != 1) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must have 1 modified cell for each case.";
-        }
-
-        MinesweeperCell mod1 =
-                (MinesweeperCell) case1.getBoard().getModifiedData().iterator().next();
-        MinesweeperCell mod2 =
-                (MinesweeperCell) case2.getBoard().getModifiedData().iterator().next();
-        if (!mod1.getLocation().equals(mod2.getLocation())) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must modify the same cell for each case.";
-        }
-
-        if (!((mod1.getData().isMine() && mod2.getData().isEmpty())
-                || (mod2.getData().isMine() && mod1.getData().isEmpty()))) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must an empty cell and a mine cell.";
-        }
-
-        return null;
-    }
-
-    @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         return null;
     }

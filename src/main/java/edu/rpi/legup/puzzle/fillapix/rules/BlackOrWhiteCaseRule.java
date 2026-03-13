@@ -57,38 +57,6 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     }
 
     @Override
-    public String checkRuleRaw(TreeTransition transition) {
-        List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-        if (childTransitions.size() != 2) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must have 2 children.";
-        }
-
-        TreeTransition case1 = childTransitions.get(0);
-        TreeTransition case2 = childTransitions.get(1);
-        if (case1.getBoard().getModifiedData().size() != 1
-                || case2.getBoard().getModifiedData().size() != 1) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must have 1 modified cell for each case.";
-        }
-
-        FillapixCell mod1 = (FillapixCell) case1.getBoard().getModifiedData().iterator().next();
-        FillapixCell mod2 = (FillapixCell) case2.getBoard().getModifiedData().iterator().next();
-        if (!mod1.getLocation().equals(mod2.getLocation())) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must modify the same cell for each case.";
-        }
-
-        if (!((mod1.getType() == FillapixCellType.BLACK && mod2.getType() == FillapixCellType.WHITE)
-                || (mod2.getType() == FillapixCellType.BLACK
-                        && mod1.getType() == FillapixCellType.WHITE))) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must an empty cell and a lit cell.";
-        }
-
-        return null;
-    }
-
-    @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
         return null;
     }
