@@ -42,7 +42,8 @@ public abstract class DirectRule extends Rule {
             LOGGER.debug(finalBoard.getModifiedData().size());
         }
         if (transition.getParents().size() != 1
-                || transition.getParents().get(0).getChildren().size() != 1) {
+                || transition.getParents().getFirst().getChildren().size() != 1) {
+            transition.getParents().getFirst().getChildren().forEach(t -> t.setCorrect(false));
             return "State must have only 1 parent and 1 child";
         } else if (finalBoard.getModifiedData().isEmpty()) {
             // null transition
@@ -64,7 +65,7 @@ public abstract class DirectRule extends Rule {
         String checkStr = null;
 
         // Go directly to specific direct rule's judgement if no cell's are edited
-        if (finalBoard.getModifiedData().size() == 0) {
+        if (finalBoard.getModifiedData().isEmpty()) {
             checkStr = checkRuleRawAt(transition, null);
         }
         for (PuzzleElement puzzleElement : finalBoard.getModifiedData()) {
@@ -93,7 +94,7 @@ public abstract class DirectRule extends Rule {
             checkStr = "PuzzleElement must be modified";
         } else {
             if (transition.getParents().size() != 1
-                    || transition.getParents().get(0).getChildren().size() != 1) {
+                    || transition.getParents().getFirst().getChildren().size() != 1) {
                 checkStr = "State must have only 1 parent and 1 child";
             } else {
                 checkStr = checkRuleRawAt(transition, puzzleElement);
