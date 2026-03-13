@@ -83,15 +83,19 @@ public class GridCell<T> extends PuzzleElement<T> {
      *
      * @return true if cell is unknown, false otherwise.
      */
-    public boolean isKnown() {return data != null;}
+    public boolean isKnown() {
+        if (data instanceof Integer) {return (Integer) data != 0;}
+        return data != null;
+    }
 
     /**
      * Get text description of cell's state.
      * Used for generating goal condition text.
      *
+     * @param isPlural Flag informing if the description will be used in a plural context.
      * @return String describing cell state.
      */
-    public String describeState() {
+    public String describeState(boolean isPlural) {
         return "data = " + getData();
     }
 }

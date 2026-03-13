@@ -68,4 +68,9 @@ public class ThermometerCell extends GridCell<Integer> {
 
     @Override
     public boolean isKnown() {return !(data == 0);}
+
+    @Override
+    public String describeState(boolean isPlural) {
+        return getFill().toString().toLowerCase();
+    }
 }

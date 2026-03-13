@@ -220,4 +220,9 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType> {
 
     @Override
     public boolean isKnown() {return !(data == ShortTruthTableCellType.UNKNOWN);}
+
+    @Override
+    public String describeState(boolean isPlural) {
+        return getType().toString().toLowerCase();
+    }
 }

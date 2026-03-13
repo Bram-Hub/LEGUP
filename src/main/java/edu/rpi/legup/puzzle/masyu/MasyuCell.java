@@ -26,4 +26,8 @@ public class MasyuCell extends GridCell<MasyuType> {
     @Override
     public boolean isKnown() {return !(data == MasyuType.UNKNOWN);}
 
+    @Override
+    public String describeState(boolean isPlural) {
+        return getType().toString().toLowerCase();
+    }
 }

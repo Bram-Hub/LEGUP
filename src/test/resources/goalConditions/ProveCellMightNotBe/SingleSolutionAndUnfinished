@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="6.1.0">
+    <puzzle name="TestPuzzle" tag="4390561">
+        <board height="3" width="3">
+            <goal type="PROVE_CELL_MIGHT_NOT_BE">
+                <cell value="4" x="2" y="2"/>
+                <cell value="2" x="0" y="0"/>
+            </goal>
+            <cells>
+                <cell value="3" x="0" y="1"/>
+                <cell value="3" x="0" y="2"/>
+                <cell value="3" x="1" y="0"/>
+                <cell value="3" x="1" y="1"/>
+                <cell value="3" x="1" y="2"/>
+                <cell value="3" x="2" y="0"/>
+                <cell value="3" x="2" y="1"/>
+            </cells>
+        </board>
+        <proof>
+            <tree>
+                <node id="1073270980" root="true">
+                    <transition child="1050622002" id="1784204034" rule="Valid Case" rule_id="TEST-CASE-0001">
+                        <cell value="3" x="2" y="2"/>
+                        <cell value="3" x="0" y="0"/>
+                    </transition>
+                    <transition child="9" id="24" rule="Valid Case" rule_id="TEST-CASE-0001">
+                        <cell value="4" x="2" y="2"/>
+                    </transition>
+                </node>
+                <node id="1050622002"/>
+                <node id="9"/>
+            </tree>
+        </proof>
+    </puzzle>
+    <solved isSolved="-1146495109" lastSaved="2025-12-02 17:13:21"/>
+</Legup>
