@@ -74,7 +74,7 @@ dependencies {
     implementation 'org.apache.logging.log4j:log4j-api:2.17.2'
     implementation 'org.apache.logging.log4j:log4j-core:2.17.2'
 
-    implementation 'io.github.blackears:svg-salamander:1.1.5.5'
+    implementation 'org.apache.xmlgraphics:batik-all:1.18'
 
     testImplementation group: 'junit', name: 'junit', version: '4.12'
     testImplementation 'junit:junit:4.+'

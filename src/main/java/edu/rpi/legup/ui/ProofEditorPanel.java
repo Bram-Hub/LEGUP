@@ -19,6 +19,7 @@ import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
+import edu.rpi.legup.ui.svg.SVGIcon;
 import edu.rpi.legup.user.Submission;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -36,7 +37,6 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import com.kitfox.svg.app.beans.SVGIcon;
 
 /**
  * {@code ProofEditorPanel} is a panel that serves as the main user interface component for the
@@ -886,15 +886,10 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         toolBar2.setRollover(true);
         setToolBar2Buttons(new JButton[4]);
 
-        SVGIcon directionsIcon = new SVGIcon();
-        directionsIcon.setAntiAlias(true);
-        directionsIcon.setPreferredSize(
-                new Dimension(this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE));
-        //directionsIcon.setSvgResourcePath("edu/rpi/legup/images/Legup/Directions.svg");
-        try {
-            directionsIcon.setSvgURI(new java.net.URI(getClass().getClassLoader()
-                    .getResource("edu/rpi/legup/images/Legup/Directions.svg").toString()));
-        } catch(java.net.URISyntaxException e) {}
+        SVGIcon directionsIcon = new SVGIcon(
+                ClassLoader.getSystemResource(
+                        "edu/rpi/legup/images/Legup/Directions.svg"),
+                this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE, false);
 
         JButton directions = new JButton("Directions", directionsIcon);
         directions.setFocusPainted(false);

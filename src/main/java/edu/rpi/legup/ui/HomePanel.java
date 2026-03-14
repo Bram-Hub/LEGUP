@@ -5,6 +5,7 @@ import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.app.VersionInfo;
 import edu.rpi.legup.controller.CursorController;
 import edu.rpi.legup.model.PuzzleExporter;
+import edu.rpi.legup.ui.svg.SVGIcon;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,7 +28,6 @@ import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import com.kitfox.svg.app.beans.SVGIcon;
 
 /**
  * The {@code HomePanel} class represents the home panel of the LEGUP application. This panel
@@ -139,10 +139,10 @@ public class HomePanel extends LegupPanel {
                     }
                 };
 
-        SVGIcon button0Icon = new SVGIcon();
-        button0Icon.setAntiAlias(true);
-        button0Icon.setPreferredSize(new Dimension(this.buttonSize, this.buttonSize));
-        button0Icon.setSvgResourcePath("/edu/rpi/legup/images/Legup/homepanel/proof_file.svg");
+        SVGIcon button0Icon = new SVGIcon(
+                ClassLoader.getSystemResource(
+                "edu/rpi/legup/images/Legup/homepanel/proof_file.svg"),
+                this.buttonSize, this.buttonSize, false);
 
         this.buttons[0].setFocusPainted(false);
         this.buttons[0].setIcon(button0Icon);
@@ -158,10 +158,10 @@ public class HomePanel extends LegupPanel {
                     }
                 };
 
-        SVGIcon button1Icon = new SVGIcon();
-        button1Icon.setAntiAlias(true);
-        button1Icon.setPreferredSize(new Dimension(this.buttonSize, this.buttonSize));
-        button1Icon.setSvgResourcePath("/edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.svg");
+        SVGIcon button1Icon = new SVGIcon(
+                ClassLoader.getSystemResource(
+                        "edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.svg"),
+                this.buttonSize, this.buttonSize, false);
 
         this.buttons[1].setFocusPainted(false);
         this.buttons[1].setIcon(button1Icon);
