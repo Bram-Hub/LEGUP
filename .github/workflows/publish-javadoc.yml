@@ -27,3 +27,4 @@ jobs:
           java-distribution: temurin
           target-folder: docs
           project: gradle
+          gradle-command: ./gradlew javadoc
