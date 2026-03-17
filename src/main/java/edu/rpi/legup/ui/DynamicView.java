@@ -5,7 +5,8 @@ import static java.awt.BorderLayout.*;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
+//import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
+import edu.rpi.legup.ui.color.ColorPreferences.UIColor;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 import java.awt.*;
 import java.awt.event.*;
@@ -29,10 +30,10 @@ public class DynamicView extends JPanel {
     private static final float SLIDER_PRECISION = 0.1f;
 
     private static final Font ERROR_FONT = MaterialFonts.ITALIC;
-    private static final Color ERROR_COLOR = MaterialColors.RED_700;
+//    private static final Color ERROR_COLOR = MaterialColors.RED_700;
 
     private static final Font INFO_FONT = MaterialFonts.REGULAR;
-    private static final Color INFO_COLOR = MaterialColors.GRAY_900;
+//    private static final Color INFO_COLOR = MaterialColors.GRAY_900;
 
     /**
      * Constructs a new DynamicView with the specified ScrollView and view type
@@ -243,7 +244,7 @@ public class DynamicView extends JPanel {
      */
     public void updateInfo(String message) {
         status.setFont(INFO_FONT);
-        status.setForeground(INFO_COLOR);
+        status.setForeground(UIColor.INFO.getOrThrow());
         status.setText(message);
     }
 
@@ -254,7 +255,7 @@ public class DynamicView extends JPanel {
      */
     public void updateError(String message) {
         status.setFont(ERROR_FONT);
-        status.setForeground(ERROR_COLOR);
+        status.setForeground(UIColor.ERROR.getOrThrow());
         status.setText(message);
     }
 

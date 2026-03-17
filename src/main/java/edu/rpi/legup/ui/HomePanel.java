@@ -238,7 +238,7 @@ public class HomePanel extends LegupPanel {
         browseButton.addActionListener(
                 e -> {
                     JFileChooser folderBrowser = new JFileChooser();
-                    folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+                    folderBrowser.setCurrentDirectory(new File(LegupPreferences.workDirectory()));
                     folderBrowser.setDialogTitle("Select Directory");
                     folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                     folderBrowser.setAcceptAllFileFilterUsed(false);

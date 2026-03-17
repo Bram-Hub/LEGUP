@@ -171,7 +171,7 @@ public class ElementController
         String error = null;
         if (elementView != null) {
             selection.newHover(elementView);
-            if (LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.SHOW_MISTAKES)) {
+            if (LegupPreferences.LegupPreference.SHOW_MISTAKES.asBoolean()) {
                 PuzzleElement element = elementView.getPuzzleElement();
                 if (treeElement != null
                         && treeElement.getType() == TreeElementType.TRANSITION
@@ -245,7 +245,7 @@ public class ElementController
         String error = null;
         if (elementView != null && elementView != selection.getHover()) {
             selection.newHover(elementView);
-            if (LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.SHOW_MISTAKES)) {
+            if (LegupPreferences.LegupPreference.SHOW_MISTAKES.asBoolean()) {
                 PuzzleElement element = elementView.getPuzzleElement();
                 if (treeElement != null
                         && treeElement.getType() == TreeElementType.TRANSITION
