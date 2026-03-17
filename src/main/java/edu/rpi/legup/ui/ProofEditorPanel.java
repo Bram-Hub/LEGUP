@@ -53,7 +53,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private JFrame frame;
     private RuleFrame ruleFrame;
     private DynamicView dynamicBoardView;
-    private JLabel goalLabel;
+    private JTextArea goalText;
     private JPanel boardSidePanel;
     private JSplitPane topHalfPanel, mainPanel;
     private TitledBorder boardBorder;
@@ -809,16 +809,22 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         titleBoard.setTitleJustification(TitledBorder.CENTER);
         dynamicBoardView.setBorder(titleBoard);
 
-        goalLabel = new JLabel();
+        goalText = new JTextArea();
+        goalText.setRows(2);
+        goalText.setEditable(false);
+        goalText.setOpaque(false);
+        goalText.setFocusable(false);
+        goalText.setLineWrap(true);
+        goalText.setWrapStyleWord(true);
+        JScrollPane goalPane = new JScrollPane(goalText);
         CompoundBorder goalBorder = new CompoundBorder(
                 BorderFactory.createTitledBorder("Goal Condition"),
-                new EmptyBorder(0, 10, 3, 10));
+                new EmptyBorder(0, 5, 5, 5));
         ((TitledBorder) goalBorder.getOutsideBorder()).setTitleJustification(TitledBorder.CENTER);
-        goalLabel.setPreferredSize(new Dimension(0, 50));
-        goalLabel.setBorder(goalBorder);
+        goalPane.setBorder(goalBorder);
 
         boardSidePanel = new JPanel(new BorderLayout());
-        boardSidePanel.add(goalLabel, BorderLayout.NORTH);
+        boardSidePanel.add(goalPane, BorderLayout.NORTH);
         boardSidePanel.add(dynamicBoardView);
 
         JPanel boardPanel = new JPanel(new BorderLayout());
@@ -1285,11 +1291,11 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     public String getGoalText() {
-        return goalLabel.getText();
+        return goalText.getText();
     }
 
     public void setGoalText(String text) {
-        goalLabel.setText(text);
+        goalText.setText(text);
     }
 
     /**

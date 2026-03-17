@@ -39,7 +39,7 @@ public abstract class ElementView implements Shape {
         this.modifiedColor = new Color(0x64, 0xDD, 0x17, 200);
         this.caseColor = new Color(0x1A, 0x23, 0x7E, 200);
         this.invalidColor = new Color(0xF4, 0x43, 0x36, 200);
-        this.goalColor = new Color(0xAC, 0x94, 0x10, 200);
+        this.goalColor = new Color(0xFC, 0xBA, 0x03, 200);
         this.isHover = false;
         this.isSelected = false;
         this.isCaseRulePickable = false;

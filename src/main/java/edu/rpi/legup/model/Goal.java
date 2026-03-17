@@ -61,6 +61,33 @@ public class Goal {
     public GoalType getType() { return goalType; }
 
     /**
+     * Creates tool tip text for a cell being hovered over.
+     *
+     * @param cell Cell to create text for.
+     * @return String tool tip text.
+     */
+    public String getHoverText(GridCell cell) {
+        GridCell goalCell = null;
+        for (int i = 0; i < cellList.size() && goalCell == null; ++i) {
+            if (cellList.get(i).getLocation().equals(cell.getLocation())) {
+                goalCell = cellList.get(i);
+            }
+        }
+
+        if (goalCell == null) { throw new IllegalArgumentException("Cell is not a goal condition."); }
+        String text = "Prove cell ";
+        return switch(goalType) {
+            case GoalType.PROVE_CELL_MUST_BE -> text + "is forced to be "
+                    + goalCell.describeState(false) + ".";
+            case GoalType.PROVE_CELL_MIGHT_NOT_BE -> text + "is not forced to be "
+                    + goalCell.describeState(false) + ".";
+            case GoalType.PROVE_SINGLE_CELL_VALUE -> text + "is forced to have only one possible value.";
+            case GoalType.PROVE_MULTIPLE_CELL_VALUE -> text + "is forced to have multiple possible values.";
+            default -> null;
+        };
+    }
+
+    /**
      * Get the text description of the goal condition.
      *
      * @return String text.
@@ -123,7 +150,7 @@ public class Goal {
         TreeMap<String, ArrayList<GridCell>> cellsByState = new TreeMap<>();
 
         for (GridCell cell : cellList) {
-            String state = cell.describeState();
+            String state = cell.describeState(false);
             if (!cellsByState.containsKey(state)) {
                 cellsByState.put(state, new ArrayList<>());
             }
@@ -135,11 +162,16 @@ public class Goal {
     /**
      * Get String describing how the goal condition relates goal cells to their values.
      *
-     * @param singleCondition Relationship between single cell and its value.
-     * @param pluralCondition Relationship between multiple cells and their shared value.
+     * @param singleCondition Relationship between one cell and its value.
+     * @param pluralCondition Relationship between multiple cells and their values. If null,
+     *                        singleCondition will be used instead.
      * @return String Description text.
      */
     private String getValueSeparatedGoalText(String singleCondition, String pluralCondition) {
+
+        if (pluralCondition == null) {
+            pluralCondition = singleCondition;
+        }
 
         TreeMap<String, ArrayList<GridCell>> cellsByState;
         try {
@@ -155,7 +187,8 @@ public class Goal {
             delimiter = true;
             text += (state.getValue().size() > 1 ? "cells " : "cell ");
             text += concatCellLocs(state.getValue());
-            text += (state.getValue().size() > 1 ? pluralCondition : singleCondition) + state.getKey();
+            text += (state.getValue().size() > 1 ? pluralCondition : singleCondition);
+            text += state.getValue().getFirst().describeState(state.getValue().size() > 1);
         }
         return text + ".";
     }
