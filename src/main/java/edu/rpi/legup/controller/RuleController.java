@@ -67,14 +67,14 @@ public class RuleController implements ActionListener {
                             updateErrorString =
                                     "Cases cannot be generated from a node with children.";
                         } else {
-                            try { // added try catch for scenarios where rules are cancelled by user ie.
+                            try { // added try catch for scenarios where rules are cancelled by user
+                                // ie.
                                 // Skyscraper cellForNumber
                                 CaseBoard caseBoard = caseRule.getCaseBoard(element.getBoard());
                                 if (caseBoard != null && caseBoard.getCount() > 0) {
                                     puzzle.notifyBoardListeners(
                                             listener -> listener.onCaseBoardAdded(caseBoard));
-                                }
-                                else {
+                                } else {
                                     updateErrorString =
                                             "This board cannot be applied with this case rule.";
                                 }

@@ -16,6 +16,7 @@ public final class MinesweeperUtilities {
 
     /**
      * Gets all the surrounding cells that touch the current cell.
+     *
      * @param board gets the board to read the data from.
      * @param cell that is currently selected for operations
      * @return a stream of surrounding cells
@@ -50,12 +51,12 @@ public final class MinesweeperUtilities {
 
     /**
      * Calculates the amount of cells surrounding the given cell of the given type.
-     * @param board  gets the board to read the data from.
+     *
+     * @param board gets the board to read the data from.
      * @param cell the cell that is being calculated about
      * @param type the type to look for in the surrounding
      * @return the count of the type imputed that surround the current cells
      */
-
     public static int countSurroundingType(
             MinesweeperBoard board, MinesweeperCell cell, MinesweeperTileType type) {
         final Stream<MinesweeperTileData> stream =
@@ -72,6 +73,7 @@ public final class MinesweeperUtilities {
 
     /**
      * Calculates the amount of cells surrounding the given cell that have a mine
+     *
      * @param board gets the board to read the data from.
      * @param cell the cell that is being calculated about
      * @return the count of the mines that surround the current cells
@@ -81,7 +83,8 @@ public final class MinesweeperUtilities {
     }
 
     /**
-     *  Calculates the amount of cells surrounding the given cell that are unset
+     * Calculates the amount of cells surrounding the given cell that are unset
+     *
      * @param board gets the board to read the data from.
      * @param cell the cell that is being calculated about
      * @return the count of the unset cells that surround the current cells
@@ -92,6 +95,7 @@ public final class MinesweeperUtilities {
 
     /**
      * Calculates the amount of cells surrounding the given cell that are empty
+     *
      * @param board gets the board to read the data from.
      * @param cell the cell that is being calculated about
      * @return the count of the empty cells that surround the current cells
@@ -102,11 +106,11 @@ public final class MinesweeperUtilities {
 
     /**
      * Calculates the amount of cells surrounding the given cell that are have a number on them
+     *
      * @param board gets the board to read the data from.
      * @param cell the cell that is being calculated about
      * @return the count of the cells with numbers that surround the current cells
      */
-
     public static int countSurroundingNumbers(MinesweeperBoard board, MinesweeperCell cell) {
         return countSurroundingType(board, cell, MinesweeperTileType.NUMBER);
     }
@@ -122,10 +126,10 @@ public final class MinesweeperUtilities {
         return cell.getData().data() - countSurroundingMines(board, cell);
     }
 
-
-    //function might work better just as an if statement connected to countSurroundingEmpty
+    // function might work better just as an if statement connected to countSurroundingEmpty
     /**
      * Calculate if there is an empty adjacent cell and returns true if is
+     *
      * @param board board gets the board to read the data from.
      * @param cell the cell that is being calculated about
      * @return if there is an adjacent empty space then return true
@@ -142,6 +146,7 @@ public final class MinesweeperUtilities {
 
     /**
      * gets all the Adjacent Cells of the given cell and puts them into an arraylist.
+     *
      * @param board board gets the board to read the data from
      * @param cell the cell that is being calculated about
      * @return An Arraylist that contains all the Adjacent Cells
@@ -249,14 +254,13 @@ public final class MinesweeperUtilities {
     }
 
     /**
-     * checks if the current cell is forced to be empty by checking if any of its adjacent cells
-     *  are a number cell that can only be satisfied if the current cell is empty
+     * checks if the current cell is forced to be empty by checking if any of its adjacent cells are
+     * a number cell that can only be satisfied if the current cell is empty
      *
      * @param board board gets the board to read the data from
      * @param cell the cell that is being calculated about
      * @return true id it is forced to be a free
      */
-
     public static boolean isForcedEmpty(MinesweeperBoard board, MinesweeperCell cell) {
         MinesweeperBoard emptyCaseBoard = board.copy();
         MinesweeperCell emptyCell = (MinesweeperCell) emptyCaseBoard.getPuzzleElement(cell);
@@ -287,12 +291,11 @@ public final class MinesweeperUtilities {
     }
 
     /**
-     *  does the check of the board for contradictions
+     * does the check of the board for contradictions
      *
      * @param board to check contradiction
      * @return true if a contradiction occurred
      */
-
     public static boolean checkBoardForContradiction(MinesweeperBoard board) {
         ContradictionRule tooManyMines = new TooManyMinesContradictionRule();
         ContradictionRule tooFewMines = new TooFewMinesContradictionRule();

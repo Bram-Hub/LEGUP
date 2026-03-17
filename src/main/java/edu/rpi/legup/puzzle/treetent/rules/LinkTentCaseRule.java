@@ -11,7 +11,6 @@ import edu.rpi.legup.puzzle.treetent.TreeTentLine;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class LinkTentCaseRule extends CaseRule {
 

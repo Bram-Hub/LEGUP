@@ -9,7 +9,6 @@ import edu.rpi.legup.puzzle.starbattle.StarBattleBoard;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
 import java.util.ArrayList;
-import java.util.List;
 
 public class StarOrEmptyCaseRule extends CaseRule {
 

@@ -99,6 +99,7 @@ public class MinesweeperImporter extends PuzzleImporter {
 
     /**
      * Gets the Minesweeper board and returns it.
+     *
      * @param boardElement is the board that is being returned
      * @return the board with a guarantee that it is not null
      * @throws InvalidFileFormatException If the file format is wrong

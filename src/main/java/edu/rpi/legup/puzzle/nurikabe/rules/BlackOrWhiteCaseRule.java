@@ -9,7 +9,6 @@ import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 import java.util.ArrayList;
-import java.util.List;
 
 public class BlackOrWhiteCaseRule extends CaseRule {
 

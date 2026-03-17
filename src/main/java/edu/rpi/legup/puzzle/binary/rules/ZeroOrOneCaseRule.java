@@ -9,7 +9,6 @@ import edu.rpi.legup.puzzle.binary.BinaryBoard;
 import edu.rpi.legup.puzzle.binary.BinaryCell;
 import edu.rpi.legup.puzzle.binary.BinaryType;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ZeroOrOneCaseRule extends CaseRule {
 

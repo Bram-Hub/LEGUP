@@ -7,7 +7,6 @@ import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.thermometer.*;
 import java.util.ArrayList;
-import java.util.List;
 
 // TODO: Rule is untested
 public class MercuryOrBlockedCaseRule extends CaseRule {

@@ -9,7 +9,6 @@ import edu.rpi.legup.puzzle.lightup.LightUpBoard;
 import edu.rpi.legup.puzzle.lightup.LightUpCell;
 import edu.rpi.legup.puzzle.lightup.LightUpCellType;
 import java.util.ArrayList;
-import java.util.List;
 
 public class LightOrEmptyCaseRule extends CaseRule {
 

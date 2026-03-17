@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.shorttruthtable.rules.caserule;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
-import java.util.List;
 
 public abstract class CaseRule_Generic extends CaseRule {
 

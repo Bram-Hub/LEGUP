@@ -5,12 +5,11 @@ import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
-
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.*;
 
 /**
  * The ValidateContradictionRuleCommand class represents a command for validating and applying a
@@ -158,8 +157,6 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
                 return CommandError.EMPTY.toString();
             }
         }
-
-
 
         for (TreeElementView view : selectedViews) {
             if (view.getType() == TreeElementType.TRANSITION) {

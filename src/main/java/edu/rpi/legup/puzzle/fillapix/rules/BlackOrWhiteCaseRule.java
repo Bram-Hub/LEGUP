@@ -9,7 +9,6 @@ import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
 import edu.rpi.legup.puzzle.fillapix.FillapixCell;
 import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
 import java.util.ArrayList;
-import java.util.List;
 
 public class BlackOrWhiteCaseRule extends CaseRule {
     public BlackOrWhiteCaseRule() {

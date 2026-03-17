@@ -9,7 +9,6 @@ import edu.rpi.legup.puzzle.minesweeper.MinesweeperBoard;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperCell;
 import edu.rpi.legup.puzzle.minesweeper.MinesweeperTileData;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MineOrEmptyCaseRule extends CaseRule {
 

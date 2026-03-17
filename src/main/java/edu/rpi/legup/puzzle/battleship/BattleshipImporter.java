@@ -6,9 +6,8 @@ import java.awt.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-/**
- * Imports a Battleship puzzle from an XML file
- */
+
+/** Imports a Battleship puzzle from an XML file */
 public class BattleshipImporter extends PuzzleImporter {
     public BattleshipImporter(Battleship battleShip) {
         super(battleShip);

@@ -3,9 +3,8 @@ package edu.rpi.legup.puzzle.battleship;
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import org.w3c.dom.Document;
-/**
- * Exports a Battleship puzzle to an XML file
- */
+
+/** Exports a Battleship puzzle to an XML file */
 public class BattleshipExporter extends PuzzleExporter {
     /**
      * Creates a new BattleshipExporter

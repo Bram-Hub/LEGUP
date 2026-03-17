@@ -65,52 +65,48 @@ public record MinesweeperTileData(MinesweeperTileType type, int data) {
     }
 
     /**
-     *
      * @return the unset status
      */
     public static @NotNull MinesweeperTileData unset() {
         return UNSET;
     }
+
     /**
-     *
      * @return the mine status
      */
-
     public static @NotNull MinesweeperTileData mine() {
         return MINE;
     }
+
     /**
-     *
      * @return the empty status
      */
-
     public static @NotNull MinesweeperTileData empty() {
         return EMPTY;
     }
 
     /**
-     *
      * @return true if the tile is unset
      */
     public boolean isUnset() {
         return this.data == UNSET_DATA;
     }
+
     /**
-     *
-     * @return  true if the tile is a mine
+     * @return true if the tile is a mine
      */
     public boolean isMine() {
         return this.data == MINE_DATA;
     }
+
     /**
-     *
      * @return true if the tile is empty
      */
     public boolean isEmpty() {
         return this.data == EMPTY_DATA;
     }
+
     /**
-     *
      * @return true if the tile has a number in it
      */
     public boolean isNumber() {

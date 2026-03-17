@@ -12,7 +12,6 @@ import edu.rpi.legup.puzzle.treetent.TreeTentType;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class LinkTreeCaseRule extends CaseRule {
 

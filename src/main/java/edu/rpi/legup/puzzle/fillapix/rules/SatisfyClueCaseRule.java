@@ -4,18 +4,12 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
-import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.fillapix.FillapixBoard;
 import edu.rpi.legup.puzzle.fillapix.FillapixCell;
 import edu.rpi.legup.puzzle.fillapix.FillapixCellType;
 import edu.rpi.legup.puzzle.fillapix.FillapixUtilities;
-import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class SatisfyClueCaseRule extends CaseRule {
     public SatisfyClueCaseRule() {

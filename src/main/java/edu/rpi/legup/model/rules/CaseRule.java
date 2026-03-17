@@ -7,7 +7,6 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-
 import java.util.*;
 
 /**
@@ -98,7 +97,7 @@ public abstract class CaseRule extends Rule {
      * @return null if the child node logically follow from the parent node, otherwise error message
      */
     @Override
-    public String checkRuleRaw(TreeTransition transition){
+    public String checkRuleRaw(TreeTransition transition) {
         // The default functionality of checkRuleRaw for case rules
         // should work as follows:
         //  Generate all possible iterations of boards using getCases
@@ -111,7 +110,6 @@ public abstract class CaseRule extends Rule {
         if (transition.getBoard().getModifiedData().isEmpty()) {
             return parent.getChildren().size() == 1 ? null : INVALID_USE_MESSAGE;
         }
-
 
         Board board = parent.getBoard();
         List<TreeTransition> childTransitions = parent.getChildren();
@@ -189,8 +187,8 @@ public abstract class CaseRule extends Rule {
 
     /**
      * Checks whether the child node logically follows from the parent node at the specific
-     * puzzleElement index using this rule. This method is the one that should be overridden in child
-     * classes.
+     * puzzleElement index using this rule. This method is the one that should be overridden in
+     * child classes.
      *
      * @param transition transition to check
      * @param puzzleElement equivalent puzzleElement
