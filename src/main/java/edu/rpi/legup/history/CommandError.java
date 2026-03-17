@@ -21,9 +21,10 @@ public enum CommandError {
     NO_CHILDREN("The selection contains a tree node that has children."),
     SELECTION_CONTAINS_NODE("The selection contains a tree node."),
     SELECTION_CONTAINS_TRANSITION("The selection contains a tree transition."),
+    EMPTY(""),
     DEFAULT_APPLICATION("[Apply Default Rule Application]");
 
-    private String value;
+    private final String value;
 
     /**
      * Constructs a CommandError with the specified error message
