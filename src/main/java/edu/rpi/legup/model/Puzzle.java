@@ -363,7 +363,6 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      */
     public boolean isPuzzleComplete() {
         if (tree == null || !tree.isValid() || !tree.isClosed()) {
-            System.out.println("Invalid Tree");
             return false;
         }
 
@@ -410,6 +409,28 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
 
                 // At least two solutions have a different set of goal cell values
                 yield !cellsMatchBetweenBoards(getCompleteLeaves());
+            }
+            case PROVE_ANY_SOLUTION ->
+                // There is one proven solution
+                !getCompleteLeaves().isEmpty();
+            case PROVE_NO_SOLUTION ->
+                // Every branch closes
+                getOpenLeaves().isEmpty();
+            case PROVE_VALUES_ARE_POSSIBLE -> {
+                // There is a solution with this set of values
+                for (TreeNode node : getCompleteLeaves())
+                {
+                    if (cellsMatchWithGoal(node)) {yield true;}
+                }
+                yield false;
+            }
+            case PROVE_VALUES_ARE_IMPOSSIBLE -> {
+                // Every open branch matches these values
+                for (TreeNode node : getOpenLeaves())
+                {
+                    if (!(goalCellsAreKnown(node) && cellsMatchWithGoal(node))) {yield false;}
+                }
+                yield true;
             }
             default ->
                 // Every leaf is either closed or complete

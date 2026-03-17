@@ -2,19 +2,27 @@
 <Legup version="6.1.0">
     <puzzle name="TestPuzzle" tag="118040">
         <board height="2" width="2">
-            <goal type="PROVE_SINGLE_CELL_VALUE">
+            <goal type="PROVE_ANY_SOLUTION">
                 <cell value="-1" x="0" y="0"/>
             </goal>
             <cells>
                 <cell value="2" x="1" y="0"/>
+                <cell value="2" x="1" y="1"/>
+                <cell value="2" x="0" y="1"/>
             </cells>
         </board>
         <proof>
             <tree>
                 <node id="1" root="true">
-                    <transition child="2" id="1" rule="Valid Contradiction" rule_id="TEST-CONT-0001"/>
+                    <transition child="2" id="1" rule="Invalid Cases" rule_id="TEST-CASE-0002">
+                        <cell value="2" x="0" y="0"/>
+                    </transition>
+                    <transition child="3" id="2" rule="Invalid Cases" rule_id="TEST-CASE-0002">
+                        <cell value="3" x="0" y="0"/>
+                    </transition>
                 </node>
                 <node id="2"/>
+                <node id="3"/>
             </tree>
         </proof>
     </puzzle>
