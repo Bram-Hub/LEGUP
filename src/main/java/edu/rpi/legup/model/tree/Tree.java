@@ -241,4 +241,12 @@ public class Tree {
     public void setRootNode(TreeNode rootNode) {
         this.rootNode = rootNode;
     }
+
+    public boolean isClosed() {
+        for (TreeElement leaf : getLeafTreeElements())
+        {
+            if (leaf.getType() != TreeElementType.NODE) {return false;}
+        }
+        return true;
+    }
 }

@@ -8,7 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import puzzles.testpuzzle.TestPuzzle;
 
-public class ProveSingleCellValueTest {
+public class FindAllSolutionsTest {
     private static TestPuzzle puzzle;
 
     @BeforeClass
@@ -21,13 +21,13 @@ public class ProveSingleCellValueTest {
     @Test
     public void TestInvalidRules() throws InvalidFileFormatException {
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/InvalidLine", puzzle));
+                "goalConditions/FindAllSolutions/InvalidLine", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/InvalidContradiction", puzzle));
+                "goalConditions/FindAllSolutions/InvalidContradiction", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/InvalidCases", puzzle));
+                "goalConditions/FindAllSolutions/InvalidCases", puzzle));
     }
 
     
@@ -35,10 +35,10 @@ public class ProveSingleCellValueTest {
     @Test
     public void TestRootNode() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/RootComplete", puzzle));
+                "goalConditions/FindAllSolutions/RootComplete", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/RootIncomplete", puzzle));
+                "goalConditions/FindAllSolutions/RootIncomplete", puzzle));
     }
 
 
@@ -46,16 +46,13 @@ public class ProveSingleCellValueTest {
     @Test
     public void TestSinglePath() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/CompleteLine", puzzle));
+                "goalConditions/FindAllSolutions/CompleteLine", puzzle));
 
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/OvercompleteLine", puzzle));
-
-        Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/ContradictoryLine", puzzle));
+                "goalConditions/FindAllSolutions/ContradictoryLine", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/IncompleteLine", puzzle));
+                "goalConditions/FindAllSolutions/IncompleteLine", puzzle));
     }
 
 
@@ -63,19 +60,19 @@ public class ProveSingleCellValueTest {
     @Test
     public void TestComplexPaths() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/SimpleContradiction", puzzle));
+                "goalConditions/FindAllSolutions/ClosedAndFinished", puzzle));
 
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/MergedSolutions", puzzle));
+                "goalConditions/FindAllSolutions/MergedSolutions", puzzle));
 
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/UnmergedSolutions", puzzle));
+                "goalConditions/FindAllSolutions/UnmergedSolutions", puzzle));
+
+        Assert.assertTrue(TestUtilities.verifyBoard(
+                "goalConditions/FindAllSolutions/MultipleSolutions", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/MultipleValues", puzzle));
-
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/SingleSolutionAndUnfinished", puzzle));
+                "goalConditions/FindAllSolutions/SingleSolutionAndUnfinished", puzzle));
     }
 }
 

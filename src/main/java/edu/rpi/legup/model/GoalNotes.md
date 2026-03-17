@@ -55,15 +55,16 @@ Currently, tests exist for the prove_cell_must_be and prove_cell_might_not_be co
 ## New conditions
 
 Prove one cell is/multiple cells are (not) forced to be / able to be a given/generic value
-
+One cell vs multiple cells doesn't require separate code
+Forced to vs able to => All branches vs one branch.
+Given vs Generic => Check against a given value vs check against each other
+Negation is simple enough
 
 
 
 A distinction should be made within the current default condition: 
     Show all possible solutions
     Show any possible solution
-    Show that there are multiple solutions
-    Show that a cell can have a certain value
 
 ## Possible UI
 Puzzle Board:
