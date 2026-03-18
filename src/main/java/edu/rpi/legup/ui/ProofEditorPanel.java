@@ -535,7 +535,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         LegupPreferences preferences = LegupPreferences.getInstance();
         String preferredDirectory = LegupPreferences.LegupPreference.WORK_DIRECTORY.stringValue();
-        if (preferences.getSavedPath() != "") {
+        if (!preferences.getSavedPath().isEmpty()) {
             preferredDirectory = preferences.getSavedPath();
         }
 

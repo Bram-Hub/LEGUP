@@ -520,25 +520,34 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
         LegupPreferences preferences = LegupPreferences.getInstance();
         String preferredDirectory = LegupPreferences.LegupPreference.WORK_DIRECTORY.stringValue();
+        String fileName = null;
+        File puzzleFile = null;
 
-//        fileChooser.setMode(JFileChooser.LOAD);
         fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
-//        fileChooser.setTitle("Select Puzzle");
         fileChooser.setDialogTitle("Select Puzzle");
-//        fileChooser.setDirectory(preferredDirectory);
         fileChooser.setCurrentDirectory(Path.of(preferredDirectory).toFile());
         fileChooser.showOpenDialog(this);
         fileChooser.setVisible(true);
-        String fileName = null;
-        File puzzleFile = null;
-        if (fileChooser.getCurrentDirectory() != null && fileChooser.getSelectedFile() != null) {
-            fileName = fileChooser.getCurrentDirectory() + File.separator + fileChooser.getSelectedFile();
-            puzzleFile = new File(fileName);
-        } else {
+
+        File puzzlePath = fileChooser.getSelectedFile();
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(puzzlePath.getAbsolutePath());
+        }
+
+        if (puzzlePath != null) {
+            fileName = puzzlePath.getAbsolutePath();
+            String lastDirectoryPath = fileName.substring(0, fileName.lastIndexOf(File.separator));
+            preferences.setSavedPath(lastDirectoryPath);
+            puzzleFile = puzzlePath;
+        }
+        else {
             // The attempt to prompt a puzzle ended gracefully (cancel)
             return null;
         }
 
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(preferences.getSavedPath());
+        }
         return new Object[] {fileName, puzzleFile};
     }
 
