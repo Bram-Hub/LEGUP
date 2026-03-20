@@ -374,7 +374,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                 // All non-contradictory branches have the right values
                 for (TreeNode node : getOpenLeaves())
                 {
-                    if (!goalCellsAreKnown(node) || !cellsMatchWithGoal(node)) {yield false;}
+                    if (!cellsMatchWithGoal(node)) {yield false;}
                 }
                 // There must be a proven solution
                 yield (assumeThereIsASolution || !getCompleteLeaves().isEmpty());
@@ -422,13 +422,23 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                 {
                     if (cellsMatchWithGoal(node)) {yield true;}
                 }
+
+                // If there is a solution, it must have this set of values
+                if (assumeThereIsASolution && !getOpenLeaves().isEmpty())
+                {
+                    for (TreeNode node : getOpenLeaves())
+                    {
+                        if (!cellsMatchWithGoal(node)) {yield false;}
+                    }
+                    yield true;
+                }
                 yield false;
             }
             case PROVE_VALUES_ARE_IMPOSSIBLE -> {
-                // Every open branch matches these values
+                // No open branch matches these values
                 for (TreeNode node : getOpenLeaves())
                 {
-                    if (!(goalCellsAreKnown(node) && cellsMatchWithGoal(node))) {yield false;}
+                    if (!goalCellsAreKnown(node) || cellsMatchWithGoal(node)) {yield false;}
                 }
                 yield true;
             }

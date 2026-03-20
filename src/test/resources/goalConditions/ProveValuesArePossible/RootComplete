@@ -2,7 +2,9 @@
 <Legup version="6.1.0">
     <puzzle name="TestPuzzle" tag="118040">
         <board height="2" width="2">
-            <goal type="PROVE_ANY_SOLUTION"/>
+            <goal type="PROVE_VALUES_ARE_POSSIBLE">
+                <cell value="2" x="0" y="0"/>
+            </goal>
             <cells>
                 <cell value="2" x="0" y="0"/>
                 <cell value="2" x="0" y="1"/>
