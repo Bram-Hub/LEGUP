@@ -8,10 +8,13 @@ import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.EditorElementController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
+import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.GridCell;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
@@ -453,6 +456,21 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (GameBoardFacade.getInstance().getPuzzleModule() != null) {
+                            Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+                            Board board = GameBoardFacade.getInstance().getBoard();
+                            if (puzzle.getGoal() == null || puzzle.getGoal().getType() == GoalType.DEFAULT) {
+                                return;
+                            }
+
+                            for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
+                                if (puzzleElement instanceof GridCell gridCell && gridCell.isGoal()) {
+                                    GridCell tmp = new GridCell(gridCell.getData(), gridCell.getLocation());
+                                    gridCell.setData(gridCell.getGoalData());
+                                    gridCell.setGoalData(tmp.getData());
+                                }
+                            }
+
+
                             String filename = savePuzzle();
                             File puzzlename = new File(filename);
                             System.out.println(filename);
@@ -471,17 +489,17 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         getToolBar2Buttons()[2] = saveandsolve;
         toolBar2.add(getToolBar2Buttons()[2]);
 
-        goalLabel = new JLabel();
-        CompoundBorder goalBorder = new CompoundBorder(
-                BorderFactory.createTitledBorder("Goal Condition"),
-                new EmptyBorder(0, 10, 3, 10));
-        ((TitledBorder) goalBorder.getOutsideBorder()).setTitleJustification(TitledBorder.CENTER);
-        goalLabel.setPreferredSize(new Dimension(0, 50));
-        goalLabel.setBorder(goalBorder);
+//        goalLabel = new JLabel();
+//        CompoundBorder goalBorder = new CompoundBorder(
+//                BorderFactory.createTitledBorder("Goal Condition"),
+//                new EmptyBorder(0, 10, 3, 10));
+//        ((TitledBorder) goalBorder.getOutsideBorder()).setTitleJustification(TitledBorder.CENTER);
+//        goalLabel.setPreferredSize(new Dimension(0, 50));
+//        goalLabel.setBorder(goalBorder);
 
-        JSplitPane topPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, toolBar2, goalLabel);
+        //JSplitPane topPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, toolBar2, goalLabel);
 
-        this.add(topPanel, BorderLayout.NORTH);
+        this.add(toolBar2, BorderLayout.NORTH);
     }
 
     /**
@@ -606,6 +624,17 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 existingPuzzle = true;
                 this.fileName = fileName;
                 this.puzzleFile = puzzleFile;
+
+                Board board = GameBoardFacade.getInstance().getBoard();
+                for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
+                    if (puzzleElement instanceof GridCell gridCell && gridCell.isGoal()) {
+                        GridCell tmp = new GridCell(gridCell.getData(), gridCell.getLocation());
+                        gridCell.setData(gridCell.getGoalData());
+                        gridCell.setGoalData(tmp.getData());
+                    }
+                }
+
+
             } catch (InvalidFileFormatException e) {
                 legupUI.displayPanel(0);
                 LOGGER.error(e.getMessage());

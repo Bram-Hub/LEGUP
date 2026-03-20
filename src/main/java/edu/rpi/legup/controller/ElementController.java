@@ -199,14 +199,18 @@ public class ElementController
                         PlaceableElement element = (PlaceableElement) goalValueData;
                         // Create a temporary cell copy to determine what data value this element represents
                         PuzzleElement tempCell = selectedCell.copy();
+                        selectedCell.setGoalData(tempCell.getData());
                         tempCell.setType(element, null);
                         // Set the goal data
-                        selectedCell.setGoalData(tempCell.getData());
+
+                        selectedCell.setData(tempCell.getData());
                     } else {
                         selectedCell.setGoalData(goalValueData);
                     }
                 } else if (!selectedCell.isGoal()) {
+                    selectedCell.setData(selectedCell.getGoalData());
                     selectedCell.setGoalData(null);
+
                 }
             }
         } else {

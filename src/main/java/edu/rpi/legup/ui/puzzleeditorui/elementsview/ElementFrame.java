@@ -81,7 +81,7 @@ public class ElementFrame extends JPanel {
         selectorPanel.add(goalTypeComboBox, BorderLayout.CENTER);
         topPanel.add(selectorPanel, BorderLayout.NORTH);
 
-        goalDataTypecomboBox = new JComboBox<PlaceableElement>();
+        goalDataTypecomboBox = new JComboBox<>();
         goalDataTypecomboBox.addActionListener(
                 e -> {
                     Object selected = goalDataTypecomboBox.getSelectedItem();
