@@ -8,7 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import puzzles.testpuzzle.TestPuzzle;
 
-public class ProveSingleCellValueTest {
+public class ProveMultipleCellValueTest {
     private static TestPuzzle puzzle;
 
     @BeforeClass
@@ -21,24 +21,21 @@ public class ProveSingleCellValueTest {
     @Test
     public void TestInvalidRules() throws InvalidFileFormatException {
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/InvalidLine", puzzle));
+                "goalConditions/ProveMultipleCellValue/InvalidLine", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/InvalidContradiction", puzzle));
+                "goalConditions/ProveMultipleCellValue/InvalidContradiction", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/InvalidCases", puzzle));
+                "goalConditions/ProveMultipleCellValue/InvalidCases", puzzle));
     }
 
     
     /** Tests puzzle completion with only a root node*/
     @Test
     public void TestRootNode() throws InvalidFileFormatException {
-        Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/RootComplete", puzzle));
-
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/RootIncomplete", puzzle));
+                "goalConditions/ProveMultipleCellValue/RootIncomplete", puzzle));
     }
 
 
@@ -46,16 +43,11 @@ public class ProveSingleCellValueTest {
     @Test
     public void TestSinglePath() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/CompleteLine", puzzle));
-
-        Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/OvercompleteLine", puzzle));
-
-        Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/ContradictoryLine", puzzle));
+                "goalConditions/ProveMultipleCellValue/ContradictoryLine", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/IncompleteLine", puzzle));
+                "goalConditions/ProveMultipleCellValue/IncompleteLine", puzzle));
+
     }
 
 
@@ -63,19 +55,28 @@ public class ProveSingleCellValueTest {
     @Test
     public void TestComplexPaths() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/SimpleContradiction", puzzle));
+                "goalConditions/ProveMultipleCellValue/CompleteDiffering", puzzle));
 
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/MergedSolutions", puzzle));
+                "goalConditions/ProveMultipleCellValue/ThreeLines", puzzle));
 
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/UnmergedSolutions", puzzle));
+                "goalConditions/ProveMultipleCellValue/ThreeLinesTwoMatch", puzzle));
+
+        Assert.assertTrue(TestUtilities.verifyBoard(
+                "goalConditions/ProveMultipleCellValue/OneUnmatchedCellOfMany", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/MultipleValues", puzzle));
+                "goalConditions/ProveMultipleCellValue/CompleteUndiffering", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/SingleSolutionAndUnfinished", puzzle));
+                "goalConditions/ProveMultipleCellValue/IncompleteDiffering", puzzle));
+
+        Assert.assertFalse(TestUtilities.verifyBoard(
+                "goalConditions/ProveMultipleCellValue/IncompleteUndiffering", puzzle));
+
+        Assert.assertFalse(TestUtilities.verifyBoard(
+                "goalConditions/ProveMultipleCellValue/SingleSolutionAndUnfinished", puzzle));
     }
 }
 

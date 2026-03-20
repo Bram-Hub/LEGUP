@@ -11,7 +11,7 @@
                 <cell value="2" x="1" y="2"/>
                 <cell value="2" x="5" y="2"/>
                 <cell value="1" x="3" y="3"/>
-                <cell value="2" x="1" y="4"/>
+                <cell value="-1" x="1" y="4"/>
                 <cell value="1" x="5" y="4"/>
                 <cell value="2" x="3" y="5"/>
                 <cell value="1" x="6" y="6"/>

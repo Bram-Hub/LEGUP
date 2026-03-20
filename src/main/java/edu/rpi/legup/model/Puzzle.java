@@ -10,9 +10,6 @@ import edu.rpi.legup.model.observer.ITreeListener;
 import edu.rpi.legup.model.observer.ITreeSubject;
 import edu.rpi.legup.model.rules.*;
 import edu.rpi.legup.model.tree.*;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeBoard;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeType;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.utility.LegupUtils;
@@ -32,10 +29,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -234,115 +228,123 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         return goal;
     }
 
+
     /**
-     * Determines if the edu.rpi.legup.puzzle was solves correctly
+     * Returns the set of all leaf nodes in the tree.
+     * Requires tree.isClosed()
      *
-     * @return true if the board was solved correctly, false otherwise
+     * @return Set of leaf nodes this.tree
      */
-    public boolean isPuzzleComplete() {
-        if (tree == null || !tree.isValid()) {
-            return false;
+    private Set<TreeNode> getLeaves()
+    {
+        Set<TreeNode> leaves = new HashSet<>();
+        for (TreeElement leaf : tree.getLeafTreeElements())
+        {
+            TreeNode n = (TreeNode) leaf;
+            leaves.add(n);
         }
-
-        // If the whole tree is a contradiction, any goal condition can be assumed true
-        if (tree.isContradictory()) {return true;}
-
-        // The goal determines what state the leaves must be in.
-        return switch (this.goal.getType()) {
-            case PROVE_CELL_MUST_BE -> {
-                // All non-contradictory branches have the right values
-                for (TreeElement leaf : tree.getLeafTreeElements()) {
-                    if (leaf.getType() != TreeElementType.NODE) {yield false;}
-                    TreeNode node = (TreeNode) leaf;
-                    if (!node.isRoot() && node.getParent().isContradictoryBranch()) {continue;}
-                    if (!checkGoalCells(node.getBoard())) {yield false;}
-                }
-                yield true;
-            }
-            case PROVE_CELL_MIGHT_NOT_BE -> {
-                // One leaf is finished with a different value
-                for (TreeElement leaf : tree.getLeafTreeElements()) {
-                    if (leaf.getType() != TreeElementType.NODE) {continue;}
-                    if (isBoardComplete(leaf.getBoard()) && checkGoalCells(leaf.getBoard())) {yield true;}
-                }
-
-                // Contradiction case: Every non-contradictory branch has different values
-                for (TreeElement leaf : tree.getLeafTreeElements()) {
-                    if (leaf.getType() != TreeElementType.NODE) {yield false;}
-                    TreeNode node = (TreeNode) leaf;
-                    if (!node.isRoot() && node.getParent().isContradictoryBranch()) {continue;}
-                    if (!(checkGoalCells(node.getBoard()))) {yield false;}
-                }
-                yield true;
-            }
-            case PROVE_SINGLE_CELL_VALUE -> {
-                // Every non-contradictory leaf node shares a value at the goal locations
-                for (GridCell goalCell : this.goal.getCells()) {
-                    Set<Integer> cellValues = new HashSet<>();
-                    for (TreeElement leaf : tree.getLeafTreeElements()) {
-                        if (leaf.getType() != TreeElementType.NODE) {yield false;}
-                        TreeNode node = (TreeNode) leaf;
-                        if (!node.isRoot() && node.getParent().isContradictoryBranch()) {continue;}
-                        GridBoard board = (GridBoard) node.getBoard();
-                        GridCell targetCell = board.getCell(goalCell.getLocation());
-                        if (!targetCell.isKnown()) {yield false;}
-                        cellValues.add((Integer) targetCell.getData());
-                    }
-                    // All values should be the same
-                    if (cellValues.size() != 1) {
-                        yield false;
-                    }
-                }
-                yield true;
-            }
-            case PROVE_MULTIPLE_CELL_VALUE -> {
-                // Complete leaves must have at least two different values at goal location
-                for (GridCell goalCell : this.goal.getCells()) {
-                    Set<Integer> cellValues = new HashSet<>();
-                    for (TreeElement leaf : tree.getLeafTreeElements()) {
-                        if (leaf.getType() != TreeElementType.NODE) {continue;}
-                        TreeNode node = (TreeNode) leaf;
-                        GridBoard board = (GridBoard) node.getBoard();
-                        if (!isBoardComplete(node.getBoard())) {continue;}
-                        cellValues.add((Integer) board.getCell(goalCell.getLocation()).getData());
-                    }
-                    // Cell values should not all be the same
-                    if (!(cellValues.size() > 1)) {yield false;}
-                }
-                yield true;
-            }
-            // Every leaf must be valid
-            default -> {
-                for (TreeElement leaf : tree.getLeafTreeElements()) {
-                    if (leaf.getType() != TreeElementType.NODE) {yield false;}
-                    TreeNode node = (TreeNode) leaf;
-                    if ((node.isRoot() || !node.getParent().isContradictoryBranch())
-                    && !isBoardComplete(node.getBoard())) {yield false;}
-                }
-                yield true;
-            }
-        };
-
+        return leaves;
     }
 
     /**
-     * Determines if the goal cells are matched by the board, and if they should be
+     * Returns the set of leaf nodes with complete boards in the tree.
+     * Requires tree.isClosed()
      *
-     * @param board GridBoard to check for matching goal cells
-     * @return true if all the cells match what the goal specifies, false otherwise
+     * @return Set of complete leaf nodes this.tree
      */
-    public boolean checkGoalCells(Board board) {
-        GridBoard gridBoard = (GridBoard) board;
-        boolean shouldMatch = (this.goal.getType() == GoalType.PROVE_CELL_MUST_BE);
+    private Set<TreeNode> getCompleteLeaves()
+    {
+        Set<TreeNode> completeLeaves = new HashSet<>();
+        for (TreeElement leaf : tree.getLeafTreeElements())
+        {
+            TreeNode n = (TreeNode) leaf;
+            if (isBoardComplete(n.getBoard()))
+            {
+                completeLeaves.add(n);
+            }
+        }
+        return completeLeaves;
+    }
+
+    /**
+     * Returns the set of leaf nodes that don't lead to contradictions in the tree.
+     * Requires tree.isClosed()
+     *
+     * @return Set of complete leaf nodes this.tree
+     */
+    private Set<TreeNode> getOpenLeaves()
+    {
+        Set<TreeNode> openLeaves = new HashSet<>();
+        for (TreeElement leaf : tree.getLeafTreeElements())
+        {
+            TreeNode n = (TreeNode) leaf;
+            if (!n.isContradictoryBranch())
+            {
+                openLeaves.add(n);
+            }
+        }
+        return openLeaves;
+    }
+
+    /**
+     *  Determines if the board of the given node has all goal cell locations as known values
+     *
+     * @param node node to check the board of
+     * @return true if all goal cell locations on the board are known, false otherwise
+     */
+    private boolean goalCellsAreKnown(TreeNode node)
+    {
+        GridBoard gridBoard = (GridBoard) node.getBoard();
         for (GridCell goalCell : this.goal.getCells()) {
             GridCell boardCell = gridBoard.getCell(goalCell.getLocation());
-            if (!(boardCell.isKnown() && (boardCell.equals(goalCell) == shouldMatch))){
+            if (!boardCell.isKnown()){
                 return false;
             }
         }
         return true;
     }
 
+    /**
+     * Determines if the goal cells are matched by the board, and if they should be
+     *
+     * @param node TreeNode containing GridBoard to check for matching goal cells
+     * @return true if all the cells match what the goal specifies, false otherwise
+     */
+    private boolean cellsMatchWithGoal(TreeNode node) {
+        GridBoard gridBoard = (GridBoard) node.getBoard();
+        for (GridCell goalCell : this.goal.getCells()) {
+            GridCell boardCell = gridBoard.getCell(goalCell.getLocation());
+            if (!boardCell.equals(goalCell)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Determines if the goal cells are matched between boards
+     *
+     * @param nodes Set of TreeNodes containing GridBoards to check for matching goal cells
+     * @return true if all the cells match what the goal specifies, false otherwise
+     */
+    private boolean cellsMatchBetweenBoards(Set<TreeNode> nodes) {
+        if (nodes.isEmpty()) {return true;}
+        Iterator<TreeNode> itr = nodes.iterator();
+        GridBoard board1 = (GridBoard) itr.next().getBoard();
+        while (itr.hasNext())
+        {
+            GridBoard board2 = (GridBoard) itr.next().getBoard();
+            for (GridCell goalCell : this.goal.getCells()) {
+                GridCell cell1 = board1.getCell(goalCell.getLocation());
+                GridCell cell2 = board2.getCell(goalCell.getLocation());
+                if (!cell1.equals(cell2)){
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 
     /**
      * Determines if the current board is a valid state
@@ -351,6 +353,71 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * @return true if board is valid, false otherwise
      */
     public abstract boolean isBoardComplete(Board board);
+
+
+
+    /**
+     * Determines if the edu.rpi.legup.puzzle was solves correctly
+     *
+     * @return true if the board was solved correctly, false otherwise
+     */
+    public boolean isPuzzleComplete() {
+        if (tree == null || !tree.isValid() || !tree.isClosed()) {
+            System.out.println("Invalid Tree");
+            return false;
+        }
+
+        boolean assumeThereIsASolution = true;
+
+        // The goal determines what state the leaves must be in.
+        return switch (this.goal.getType()) {
+            case PROVE_CELL_MUST_BE -> {
+                // All non-contradictory branches have the right values
+                for (TreeNode node : getOpenLeaves())
+                {
+                    if (!goalCellsAreKnown(node) || !cellsMatchWithGoal(node)) {yield false;}
+                }
+                // There must be a proven solution
+                yield (assumeThereIsASolution || !getCompleteLeaves().isEmpty());
+            }
+            case PROVE_CELL_MIGHT_NOT_BE -> {
+                // One solution differs from the given
+                for (TreeNode node : getCompleteLeaves())
+                {
+                    if (!cellsMatchWithGoal(node)) {yield true;}
+                }
+                // All open branches differ from the given
+                for (TreeNode node : getOpenLeaves())
+                {
+                    if (!goalCellsAreKnown(node) || cellsMatchWithGoal(node)) {yield false;}
+                }
+                yield true;
+            }
+            case PROVE_SINGLE_CELL_VALUE -> {
+                // All open branches match goal cell values
+                for (TreeNode node : getOpenLeaves())
+                {
+                    if (!goalCellsAreKnown(node)) {yield false;}
+                }
+                if (!cellsMatchBetweenBoards(getOpenLeaves())) {yield false;}
+
+                // There must be a proven solution
+                yield (assumeThereIsASolution || !getCompleteLeaves().isEmpty());
+            }
+            case PROVE_MULTIPLE_CELL_VALUE -> {
+                // The following line yielding true vs false determines if 0 solutions counts
+                if (getOpenLeaves().isEmpty()) {yield true;}
+
+                // At least two solutions have a different set of goal cell values
+                yield !cellsMatchBetweenBoards(getCompleteLeaves());
+            }
+            default ->
+                // Every leaf is either closed or complete
+                getCompleteLeaves().equals(getOpenLeaves());
+
+        };
+
+    }
 
 
 

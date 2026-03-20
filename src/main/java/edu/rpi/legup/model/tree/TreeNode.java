@@ -1,6 +1,7 @@
 package edu.rpi.legup.model.tree;
 
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.rules.RuleType;
 import edu.rpi.legup.utility.DisjointSets;
 import java.util.*;
 
@@ -35,6 +36,9 @@ public class TreeNode extends TreeElement {
      */
     @Override
     public boolean isContradictoryBranch() {
+        if (!this.isRoot() && parent.isJustified() && parent.isCorrect() && parent.getRule().getRuleType() == RuleType.CONTRADICTION) {
+            return true;
+        }
         boolean leadsToContra = true;
         for (TreeTransition child : children) {
             leadsToContra &= child.isContradictoryBranch();

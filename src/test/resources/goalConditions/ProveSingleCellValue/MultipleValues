@@ -16,21 +16,11 @@
                         <cell value="-1" x="0" y="0"/>
                     </transition>
                     <transition child="3" id="2" rule="Valid Cases" rule_id="TEST-CASE-0001">
-                        <cell value="-1" x="0" y="0"/>
-                        <cell value="5" x="1" y="1"/>
+                        <cell value="5" x="0" y="0"/>
                     </transition>
                 </node>
-                <node id="2">
-                    <transition child="4" id="3" rule="Merge Rule" rule_id="MERGE">
-                        <cell value="-1" x="0" y="0"/>
-                    </transition>
-                </node>
-                <node id="3">
-                    <transition child="4" id="4" rule="Merge Rule" rule_id="MERGE">
-                        <cell value="-1" x="0" y="0"/>
-                    </transition>
-                </node>
-                <node id="4"/>
+                <node id="2"/>
+                <node id="3"/>
             </tree>
         </proof>
     </puzzle>
