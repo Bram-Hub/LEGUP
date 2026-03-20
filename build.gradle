@@ -5,6 +5,10 @@ plugins {
     id 'com.diffplug.spotless' version '6.25.0'
 }
 
+if (!project.hasProperty("ci")) {
+    id 'edu.sc.seis.launch4j' version '2.5.3'
+}
+
 def versionFile = file('legup-update/src/main/resources/edu.rpi.legupupdate/VERSION')
 def appVersion = versionFile.exists() ? versionFile.text.trim() : 'VERSION_NOT_FOUND'
 version = appVersion
