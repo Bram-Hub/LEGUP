@@ -191,4 +191,44 @@ public class NonTouchingSharedEmptyDirectRuleTest {
             }
         }
     }
+
+    @Test
+    public void NonTouchingSharedEmptyDirectRule_DiagonalTest()
+        throws InvalidFileFormatException {
+
+        TestUtilities.importTestBoard("puzzles/minesweeper/rules/NotTouchingSharedEmptyDirectRuleTest", minesweeper);
+        TreeNode rootNode = minesweeper.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        MinesweeperBoard board = (MinesweeperBoard) transition.getBoard();
+
+        MinesweeperCell cell1 = board.getCell(1,1);
+        MinesweeperCell cell2 = board.getCell(3,2);
+        MinesweeperCell cell3 = board.getCell(5,5);
+
+        cell1.setData(MinesweeperTileData.empty());
+        cell2.setData(MinesweeperTileData.empty());
+        cell3.setData(MinesweeperTileData.empty());
+
+        board.addModifiedData(cell1);
+        board.addModifiedData(cell2);
+        board.addModifiedData(cell3);
+
+        Assert.assertNull(RULE.checkRule(transition));
+
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Point point = new Point(k, i);
+                if (point.equals(cell1.getLocation())
+                    || point.equals(cell2.getLocation())
+                    || point.equals(cell3.getLocation())) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                } else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
+            }
+        }
+
+    }
 }
