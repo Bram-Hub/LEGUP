@@ -43,6 +43,7 @@ public abstract class ElementFactory {
             String goalTypeString = attributeList.getNamedItem("type").getNodeValue();
             GoalType goalType = goalTypeString == null ? GoalType.DEFAULT : GoalType.valueOf(goalTypeString.toUpperCase());
 
+            //this is where boolean assumesolution could be
             return new Goal(null, goalType);
 
         } catch (NumberFormatException e) {

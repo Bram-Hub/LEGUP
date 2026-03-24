@@ -83,6 +83,10 @@ public class Goal {
                     + goalCell.describeState(false) + ".";
             case GoalType.PROVE_SINGLE_CELL_VALUE -> text + "is forced to have only one possible value.";
             case GoalType.PROVE_MULTIPLE_CELL_VALUE -> text + "is forced to have multiple possible values.";
+            case GoalType.PROVE_VALUES_ARE_POSSIBLE -> text + "can be "
+                    + goalCell.describeState(false) + ".";
+            case GoalType.PROVE_VALUES_ARE_IMPOSSIBLE -> text + "cannot be "
+                    + goalCell.describeState(false) + ".";
             default -> null;
         };
     }
@@ -98,9 +102,9 @@ public class Goal {
 
         return switch(goalType) {
             case GoalType.PROVE_CELL_MUST_BE -> getValueSeparatedGoalText(
-                    " is forced to be ", " are forced to be ");
+                    " is forced to be ", " are forced to be ") + ".";
             case GoalType.PROVE_CELL_MIGHT_NOT_BE -> getValueSeparatedGoalText(
-                    " is not forced to be ", " are not forced to be ");
+                    " is not forced to be ", " are not forced to be ") + ".";
             case GoalType.PROVE_SINGLE_CELL_VALUE -> {
                 String text = "Prove " + (cellList.size() > 1 ? "cells " : "cell ");
                 text += concatCellLocs(cellList);
@@ -113,6 +117,13 @@ public class Goal {
                 text += (cellList.size() > 1 ? " are each" : " is");
                 yield text + " not forced to have exactly one possible value.";
             }
+            case GoalType.PROVE_ANY_SOLUTION -> "Find any solution to the puzzle.";
+            case GoalType.PROVE_NO_SOLUTION -> "Prove that there are no solutions to the puzzle.";
+            case GoalType.PROVE_VALUES_ARE_POSSIBLE -> getValueSeparatedGoalText(
+                    " can be ", " can be ") + " at the same time.";
+            case GoalType.PROVE_VALUES_ARE_IMPOSSIBLE -> getValueSeparatedGoalText(
+                    " cannot be ", " cannot be ") + " at the same time";
+
             default -> "Unrecognized goal condition.";
         };
     }
@@ -190,6 +201,6 @@ public class Goal {
             text += (state.getValue().size() > 1 ? pluralCondition : singleCondition);
             text += state.getValue().getFirst().describeState(state.getValue().size() > 1);
         }
-        return text + ".";
+        return text;
     }
 }
