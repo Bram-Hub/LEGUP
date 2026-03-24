@@ -73,6 +73,14 @@ public class ElementController
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle != null) {
             puzzle.setGoal(new Goal(goalType));
+            // If the editor panel exists, update its displayed goal text
+            if (GameBoardFacade.getInstance().getLegupUI() != null
+                    && GameBoardFacade.getInstance().getLegupUI().getPuzzleEditor() != null) {
+                GameBoardFacade.getInstance()
+                        .getLegupUI()
+                        .getPuzzleEditor()
+                        .setGoalText(puzzle.getGoal().getGoalText());
+            }
         }
     }
 
@@ -212,6 +220,45 @@ public class ElementController
                     selectedCell.setGoalData(null);
 
                 }
+
+                // Keep the Puzzle.goal cell list in sync with the cell's goal flag so
+                // Goal.getHoverText(...) can find the goal cell when hovering.
+                Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+                if (puzzle != null && selectedCell instanceof GridCell) {
+                    GridCell<?> gridCell = (GridCell<?>) selectedCell;
+                    Goal goal = puzzle.getGoal();
+                    // If cell was just marked as a goal, add to goal list if not already present
+                    if (selectedCell.isGoal()) {
+                        boolean exists = false;
+                        for (GridCell c : goal.getCells()) {
+                            if (c.getLocation().equals(gridCell.getLocation())) {
+                                exists = true;
+                                break;
+                            }
+                        }
+                        if (!exists) {
+                            // Add a copy so Goal stores an independent snapshot of the goal cell
+                            goal.addCell(gridCell.copy());
+                        }
+                    } else {
+                        // If cell was unmarked as a goal, remove any matching location from the goal list
+                        var itr = goal.getCells().iterator();
+                        while (itr.hasNext()) {
+                            GridCell c = itr.next();
+                            if (c.getLocation().equals(gridCell.getLocation())) {
+                                itr.remove();
+                            }
+                        }
+                    }
+                    // Update the editor's goal text so the UI reflects the new goal condition
+                    if (GameBoardFacade.getInstance().getLegupUI() != null
+                            && GameBoardFacade.getInstance().getLegupUI().getPuzzleEditor() != null) {
+                        GameBoardFacade.getInstance()
+                                .getLegupUI()
+                                .getPuzzleEditor()
+                                .setGoalText(goal.getGoalText());
+                    }
+                }
             }
         } else {
             b.setCell(scaledPoint.x, scaledPoint.y, this.selectedElement, e);
@@ -298,8 +345,21 @@ public class ElementController
 
             PuzzleElement cell = elementView.getPuzzleElement();
             if (cell instanceof GridCell && cell.isGoal()) {
-                boardView.getCanvas().setToolTipText(GameBoardFacade.getInstance().getPuzzleModule()
-                        .getGoal().getHoverText((GridCell) cell));
+                // Safely attempt to get hover text from the puzzle goal. Goal.getHoverText throws
+                // IllegalArgumentException if the cell isn't present in the Goal's cell list, so
+                // guard against that and any null puzzles.
+                Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+                if (puzzle != null) {
+                    try {
+                        String hoverText = puzzle.getGoal().getHoverText((GridCell) cell);
+                        boardView.getCanvas().setToolTipText(hoverText);
+                    } catch (IllegalArgumentException | NullPointerException ex) {
+                        // If goal data not found or something else is null, clear tooltip instead
+                        boardView.getCanvas().setToolTipText(null);
+                    }
+                } else {
+                    boardView.getCanvas().setToolTipText(null);
+                }
             } else { boardView.getCanvas().setToolTipText(null); }
 
             if (LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.SHOW_MISTAKES)) {

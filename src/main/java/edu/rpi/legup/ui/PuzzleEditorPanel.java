@@ -8,6 +8,7 @@ import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.EditorElementController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
+import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
@@ -34,6 +35,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import edu.rpi.legup.model.observer.IBoardListener;
+import edu.rpi.legup.model.gameboard.CaseBoard;
+import edu.rpi.legup.model.tree.TreeElement;
 
 /**
  * Represents the panel used for puzzle editor in the LEGUP. This panel includes a variety of UI
@@ -70,8 +74,14 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private boolean existingPuzzle;
     private String fileName;
     private File puzzleFile;
-    private JLabel goalLabel;
+    private JTextArea goalText;
     private JPanel boardSidePanel;
+    // Add a reusable scroll pane for the goal text so it is created once and reused
+    private JScrollPane goalPane;
+    // Listener to update goal text when the board changes
+    private IBoardListener boardListener;
+    // Track which puzzle the listener is attached to so we can remove it when switching
+    private Puzzle currentPuzzle;
 
     /**
      * Constructs a {@code PuzzleEditorPanel} with the specified file dialog, frame, and Legup UI
@@ -107,16 +117,35 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         titleBoard.setTitleJustification(TitledBorder.CENTER);
         dynamicBoardView.setBorder(titleBoard);
 
-        goalLabel = new JLabel();
+        // Use a multi-line, wrapped, non-editable JTextArea so
+        // longer goal descriptions wrap and look consistent with the solver UI.
+        goalText = new JTextArea();
+        goalText.setRows(2);
+        goalText.setEditable(false);
+        // Make opaque so it renders reliably inside the scroll pane
+        goalText.setOpaque(true);
+        // Show a default message so the box is visible before a puzzle is loaded
+        goalText.setText("Find all solutions to the puzzle or prove none exist.");
+        // Use the panel background so it blends with the UI and remains readable
+        goalText.setBackground(UIManager.getColor("Panel.background"));
+        goalText.setFocusable(false);
+        goalText.setLineWrap(true);
+        goalText.setWrapStyleWord(true);
+        // Create and store the scroll pane on the field so it can be reused
+        goalPane = new JScrollPane(goalText);
+        // Give the pane a small preferred height so it doesn't collapse in the layout
+        goalPane.setPreferredSize(new Dimension(0, 50));
+        // Also set a minimum size and reasonable max height to prevent layout collapsing
+        goalPane.setMinimumSize(new Dimension(0, 40));
+        goalPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 120));
         CompoundBorder goalBorder = new CompoundBorder(
                 BorderFactory.createTitledBorder("Goal Condition"),
                 new EmptyBorder(0, 10, 3, 10));
         ((TitledBorder) goalBorder.getOutsideBorder()).setTitleJustification(TitledBorder.CENTER);
-        goalLabel.setPreferredSize(new Dimension(0, 50));
-        goalLabel.setBorder(goalBorder);
+        goalPane.setBorder(goalBorder);
 
         boardSidePanel = new JPanel(new BorderLayout());
-        boardSidePanel.add(goalLabel, BorderLayout.NORTH);
+        boardSidePanel.add(goalPane, BorderLayout.NORTH);
         boardSidePanel.add(dynamicBoardView);
 
         JPanel boardPanel = new JPanel(new BorderLayout());
@@ -624,16 +653,20 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 existingPuzzle = true;
                 this.fileName = fileName;
                 this.puzzleFile = puzzleFile;
+                Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+                Goal goal = puzzle.getGoal();
+
 
                 Board board = GameBoardFacade.getInstance().getBoard();
                 for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
                     if (puzzleElement instanceof GridCell gridCell && gridCell.isGoal()) {
                         GridCell tmp = new GridCell(gridCell.getData(), gridCell.getLocation());
                         gridCell.setData(gridCell.getGoalData());
+                        goal.addCell(gridCell.copy());
                         gridCell.setGoalData(tmp.getData());
                     }
                 }
-
+                updateGoalLabel(puzzle);
 
             } catch (InvalidFileFormatException e) {
                 legupUI.displayPanel(0);
@@ -744,8 +777,61 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
         editorElementController.setElementController(boardView.getElementController());
         dynamicBoardView = new DynamicView(boardView, DynamicViewType.BOARD);
+
+        // Ensure we attach a listener to refresh the goal text whenever the board changes
+        if (boardListener == null) {
+            boardListener = new IBoardListener() {
+                @Override
+                public void onTreeElementChanged(TreeElement treeElement) {
+                    SwingUtilities.invokeLater(() -> updateGoalLabel(currentPuzzle));
+                }
+
+                @Override
+                public void onCaseBoardAdded(CaseBoard caseBoard) {
+                    // not relevant for goal text updates
+                }
+
+                @Override
+                public void onBoardDataChanged(PuzzleElement puzzleElement) {
+                    SwingUtilities.invokeLater(() -> updateGoalLabel(currentPuzzle));
+                }
+            };
+        }
+
+        // Detach listener from previous puzzle (if any) and attach to the new puzzle
+        if (currentPuzzle != null && boardListener != null) {
+            currentPuzzle.removeBoardListener(boardListener);
+        }
+        currentPuzzle = puzzle;
+        if (currentPuzzle != null && boardListener != null) {
+            currentPuzzle.addBoardListener(boardListener);
+        }
+
+        // Rebuild the right-hand side panel so the goal info box (goalText) remains visible
         if (this.splitPanel != null) {
-            this.splitPanel.setRightComponent(dynamicBoardView);
+            // Ensure boardSidePanel exists (created in setupContent). Reuse it and refresh contents.
+            if (boardSidePanel == null) {
+                boardSidePanel = new JPanel(new BorderLayout());
+            }
+            boardSidePanel.removeAll();
+
+            // Reuse the existing goalPane if available; if not, create it and configure once.
+            if (goalPane == null) {
+                goalPane = new JScrollPane(goalText);
+                goalPane.setPreferredSize(new Dimension(0, 50));
+                goalPane.setMinimumSize(new Dimension(0, 40));
+                goalPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 120));
+                CompoundBorder goalBorder = new CompoundBorder(
+                        BorderFactory.createTitledBorder("Goal Condition"),
+                        new EmptyBorder(0, 10, 3, 10));
+                ((TitledBorder) goalBorder.getOutsideBorder()).setTitleJustification(TitledBorder.CENTER);
+                goalPane.setBorder(goalBorder);
+            }
+
+            boardSidePanel.add(goalPane, BorderLayout.NORTH);
+            boardSidePanel.add(dynamicBoardView, BorderLayout.CENTER);
+
+            this.splitPanel.setRightComponent(boardSidePanel);
             this.splitPanel.setVisible(true);
         }
 
@@ -770,10 +856,20 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      */
     private void updateGoalLabel(Puzzle puzzle) {
         if (puzzle != null && puzzle.getGoal() != null) {
-            goalLabel.setText(puzzle.getGoal().getGoalText());
+            setGoalText(puzzle.getGoal().getGoalText());
         } else {
-            goalLabel.setText("No goal condition set");
+            setGoalText("No goal condition set");
         }
+    }
+
+    /** Public accessor to set the goal text displayed in the editor. */
+    public void setGoalText(String text) {
+        if (goalText != null) goalText.setText(text);
+    }
+
+    /** Public accessor to retrieve the goal text shown in the editor. */
+    public String getGoalText() {
+        return goalText == null ? "" : goalText.getText();
     }
 
     /** Saves a puzzle */
