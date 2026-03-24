@@ -21,6 +21,10 @@ public class ColorPreferences {
 
     private static final Map<UIColor, Color> COLOR_MAP = new EnumMap<>(UIColor.class);
 
+    /**
+     * Enum of all LAF fields to provide colors for and providing methods to retrieve
+     * the current preferred value of these fields.
+     */
     public enum UIColor {
 
         CORRECT(Color.GREEN),
@@ -145,20 +149,29 @@ public class ColorPreferences {
          * This method should only be used when this color <b>needs</b> to exist
          */
         public Color getOrThrow() throws IllegalStateException {
-            return this.get().orElseThrow(() -> new IllegalStateException(this + " is a required color!"));
+            return this.get().orElseThrow(() ->
+                    new IllegalStateException(this + " is a required color!"));
         }
 
         public Optional<String> getAsHex() {
             return this.get()
-                    .map(color -> String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()));
+                    .map(color -> String.format("#%02x%02x%02x",
+                            color.getRed(), color.getGreen(), color.getBlue()));
         }
     }
 
+    /**
+     * Adds any currently set values that were not provided in the newly read file to said file.
+     *
+     * @param path {@code Path} to the file that was just read from.
+     * @param usedColors Set of LAF fields with a currently set color.
+     */
     private static void checkNewColors(Path path, Set<UIColor> usedColors) {
         if (usedColors.size() == UIColor.values().length) {
             return;
         }
-        final InputStream input = ClassLoader.getSystemClassLoader().getResourceAsStream(path.getFileName().toString());
+        final InputStream input = ClassLoader.getSystemClassLoader()
+                .getResourceAsStream(path.getFileName().toString());
         final BufferedReader reader = new BufferedReader(new InputStreamReader(input));
         final Map<UIColor, Color> newColors = loadColors(reader.lines().toList());
         final Map<UIColor, Color> addColors = newColors.entrySet().stream()
@@ -167,7 +180,8 @@ public class ColorPreferences {
         try {
             for (final var entry : addColors.entrySet()) {
                 final Color color = entry.getValue();
-                final String hex = String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
+                final String hex = String.format("#%02x%02x%02x",
+                        color.getRed(), color.getGreen(), color.getBlue());
                 Files.writeString(
                         path,
                         entry.getKey().configKey() + ": " + hex + "\n",
@@ -181,18 +195,29 @@ public class ColorPreferences {
         }
     }
 
+    /**
+     * Parses {@code String} lines into a {@code Map} of color definitions.
+     */
     private static @Unmodifiable Map<UIColor, Color> loadColors(List<String> lines) {
         return lines.stream()
                 .filter(l -> !l.startsWith("//")) // Use // for comments
                 .map(l -> l.split(":"))
                 .filter(a -> a.length == 2)
-                .collect(Collectors.toUnmodifiableMap(e -> UIColor.valueOf(e[0].replace("-", "_").toUpperCase()), e -> colorFromString(e[1].strip())));
+                .collect(Collectors.toUnmodifiableMap(
+                        e -> UIColor.valueOf(e[0].replace("-", "_")
+                                .toUpperCase()), e -> colorFromString(e[1].strip())));
     }
 
+    /**
+     * Loads a color scheme defined by the file with the given name.
+     * If not found, the file will be created and populated with the current color scheme.
+     * If some fields are not defined, they will be populated with the current color scheme.
+     */
     public static void loadColorScheme(String fileName) {
         final Path path = Path.of(fileName);
         final File file = path.toFile();
-        final InputStream input = ClassLoader.getSystemClassLoader().getResourceAsStream(path.getFileName().toString());
+        final InputStream input = ClassLoader.getSystemClassLoader()
+                .getResourceAsStream(path.getFileName().toString());
         BufferedReader reader;
         boolean copyResourceToFile = false;
         if (!file.exists()) {
@@ -233,6 +258,10 @@ public class ColorPreferences {
         checkNewColors(path, COLOR_MAP.keySet());
     }
 
+    /**
+     * Parses a {@code Color} from a {@code String} in the format of a
+     * {@code Color} or {@code MaterialColors} constant, or from hex.
+     */
     public static Color colorFromString(String color) {
         try {
             return (Color) Color.class.getField(color).get(null);

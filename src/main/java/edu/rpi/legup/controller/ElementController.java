@@ -156,39 +156,6 @@ public class ElementController
     public void mouseEntered(MouseEvent e) {
         boardView.setFocusable(true);
         boardView.requestFocusInWindow();
-        TreeElement treeElement = boardView.getTreeElement();
-        DynamicView dynamicView = getInstance().getLegupUI().getDynamicBoardView();
-        BoardView boardView = getInstance().getLegupUI().getBoardView();
-        if (boardView == null) {
-            boardView = getInstance().getLegupUI().getEditorBoardView();
-        }
-        if (dynamicView == null) {
-            dynamicView = getInstance().getLegupUI().getEditorDynamicBoardView();
-        }
-        Board board = boardView.getBoard();
-        ElementView elementView = boardView.getElement(e.getPoint());
-        ElementSelection selection = boardView.getSelection();
-        String error = null;
-        if (elementView != null) {
-            selection.newHover(elementView);
-            if (LegupPreferences.LegupPreference.SHOW_MISTAKES.asBoolean()) {
-                PuzzleElement element = elementView.getPuzzleElement();
-                if (treeElement != null
-                        && treeElement.getType() == TreeElementType.TRANSITION
-                        && board.getModifiedData().contains(element)) {
-                    TreeTransition transition = (TreeTransition) treeElement;
-                    if (transition.isJustified() && !transition.isCorrect()) {
-                        error = transition.getRule().checkRuleAt(transition, element);
-                    }
-                }
-                if (error != null) {
-                    dynamicView.updateError(error);
-                } else {
-                    dynamicView.resetStatus();
-                }
-            }
-            boardView.repaint();
-        }
     }
 
     /**
@@ -245,7 +212,7 @@ public class ElementController
         String error = null;
         if (elementView != null && elementView != selection.getHover()) {
             selection.newHover(elementView);
-            if (LegupPreferences.LegupPreference.SHOW_MISTAKES.asBoolean()) {
+            if (LegupPreferences.showMistakes()) {
                 PuzzleElement element = elementView.getPuzzleElement();
                 if (treeElement != null
                         && treeElement.getType() == TreeElementType.TRANSITION

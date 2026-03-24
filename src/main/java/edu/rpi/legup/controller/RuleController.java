@@ -66,7 +66,7 @@ public class RuleController implements ActionListener {
                     }
                 }
                 else {
-                    if (LegupPreferences.LegupPreference.AUTO_GENERATE_CASES.asBoolean()) {
+                    if (LegupPreferences.autoGenerateCases()) {
                         try { // added try catch for scenarios where rules are cancelled by user ie.
                             // Skyscraper cellForNumber
                             CaseBoard caseBoard = caseRule.getCaseBoard(element.getBoard());
@@ -113,10 +113,8 @@ public class RuleController implements ActionListener {
                 }
             }
             else {
-                boolean def =
-                        LegupPreferences.allowDefaultRules();
                 ICommand validate =
-                        def
+                        LegupPreferences.allowDefaultRules()
                                 ? new ApplyDefaultDirectRuleCommand(selection, (DirectRule) rule)
                                 : new ValidateDirectRuleCommand(selection, (DirectRule) rule);
                 if (validate.canExecute()) {

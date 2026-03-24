@@ -5,7 +5,6 @@ import static java.awt.BorderLayout.*;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
-//import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
 import edu.rpi.legup.ui.color.ColorPreferences.UIColor;
 import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 import java.awt.*;
@@ -30,10 +29,7 @@ public class DynamicView extends JPanel {
     private static final float SLIDER_PRECISION = 0.1f;
 
     private static final Font ERROR_FONT = MaterialFonts.ITALIC;
-//    private static final Color ERROR_COLOR = MaterialColors.RED_700;
-
     private static final Font INFO_FONT = MaterialFonts.REGULAR;
-//    private static final Color INFO_COLOR = MaterialColors.GRAY_900;
 
     /**
      * Constructs a new DynamicView with the specified ScrollView and view type

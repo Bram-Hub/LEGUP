@@ -249,7 +249,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         allowDefault =
                 new JCheckBoxMenuItem(
                         "Allow Default Rule Applications",
-                        LegupPreferences.LegupPreference.ALLOW_DEFAULT_RULES.asBoolean());
+                        LegupPreferences.allowDefaultRules());
         allowDefault.addChangeListener(
                 e -> {
                     LegupPreferences.getInstance()
@@ -262,7 +262,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         caseRuleGen =
                 new JCheckBoxMenuItem(
                         "Automatically generate cases for CaseRule",
-                        LegupPreferences.LegupPreference.AUTO_GENERATE_CASES.asBoolean());
+                        LegupPreferences.autoGenerateCases());
         caseRuleGen.addChangeListener(
                 e -> {
                     LegupPreferences.getInstance()
@@ -275,7 +275,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         imdFeedback =
                 new JCheckBoxMenuItem(
                         "Provide immediate feedback",
-                        LegupPreferences.LegupPreference.IMMEDIATE_FEEDBACK.asBoolean());
+                        LegupPreferences.immediateFeedback());
         imdFeedback.addChangeListener(
                 e -> {
                     LegupPreferences.getInstance()
@@ -534,7 +534,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
 
         LegupPreferences preferences = LegupPreferences.getInstance();
-        String preferredDirectory = LegupPreferences.LegupPreference.WORK_DIRECTORY.stringValue();
+        String preferredDirectory = LegupPreferences.workDirectory();
         if (!preferences.getSavedPath().isEmpty()) {
             preferredDirectory = preferences.getSavedPath();
         }
@@ -674,19 +674,13 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
 
         fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
-//        fileChooser.setMode(JFileChooser.SAVE);
-//        fileChooser.setTitle("Save As");
         fileChooser.setDialogTitle("Save as");
         String curFileName = GameBoardFacade.getInstance().getCurFileName();
         if (curFileName == null) {
-            fileChooser.setCurrentDirectory(
-//            fileChooser.setDirectory(
-                    Path.of(LegupPreferences.LegupPreference.WORK_DIRECTORY.stringValue()).toFile());
+            fileChooser.setCurrentDirectory(new File(LegupPreferences.workDirectory()));
         }
         else {
-            File curFile = new File(curFileName);
-//            fileChooser.setDirectory(curFile.getParent());
-            fileChooser.setCurrentDirectory(curFile.getParentFile());
+            fileChooser.setCurrentDirectory(new File(curFileName).getParentFile());
         }
         fileChooser.setVisible(true);
 
@@ -1167,14 +1161,12 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
          *    |       | -> Proofs
          */
 
-        LegupPreferences preferences = LegupPreferences.getInstance();
-        File preferredDirectory =
-                new File(LegupPreferences.LegupPreference.WORK_DIRECTORY.stringValue());
+        File preferredDirectory = new File(LegupPreferences.workDirectory());
         folderBrowser = new JFileChooser(preferredDirectory);
 
         folderBrowser.showOpenDialog(this);
         folderBrowser.setVisible(true);
-        folderBrowser.setCurrentDirectory(new File(LegupPreferences.LegupPreference.WORK_DIRECTORY.stringValue()));
+        folderBrowser.setCurrentDirectory(new File(LegupPreferences.workDirectory()));
         folderBrowser.setDialogTitle("Select Directory");
         folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         folderBrowser.setAcceptAllFileFilterUsed(false);

@@ -7,13 +7,20 @@ import edu.rpi.legup.ui.color.ColorPreferences.UIColor;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Provides a convenient method to apply a custom color scheme to the FlatLaf.
+ */
 public class LegupCustomColorScheme {
 
-    
     private static void addDefaultColor(Map<String, String> defaults, String key, UIColor color) {
         color.getAsHex().ifPresent(hex -> defaults.put(key, hex));
     }
 
+    /**
+     * Update Look And Feel extra colors with definitions from the provided color scheme file.
+     *
+     * @param colorThemeFileName Name of file providing color definitions.
+     */
     public static void setupCustomColorScheme(String colorThemeFileName) {
         ColorPreferences.loadColorScheme(colorThemeFileName);
 

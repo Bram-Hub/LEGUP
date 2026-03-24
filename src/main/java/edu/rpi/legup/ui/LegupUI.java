@@ -30,7 +30,6 @@ import java.util.Objects;
 public class LegupUI extends JFrame implements WindowListener {
     private static final Logger LOGGER = LogManager.getLogger(LegupUI.class.getName());
 
-    //    protected FileDialog fileDialog;
     protected JFileChooser fileChooser;
     protected JPanel window;
     protected LegupPanel[] panels;
@@ -53,7 +52,7 @@ public class LegupUI extends JFrame implements WindowListener {
 
     public static void updateColorTheme() {
         try {
-            final String colorFileName = LegupPreferences.LegupPreference.COLOR_THEME_FILE.stringValue();
+            final String colorFileName = LegupPreferences.colorThemeFile();
             final boolean isTxt = colorFileName.endsWith(".txt");
             boolean useCustomColorTheme = LegupPreferences.useCustomColorTheme();
             if (!isTxt && useCustomColorTheme) {
@@ -86,14 +85,12 @@ public class LegupUI extends JFrame implements WindowListener {
     public LegupUI() {
         setTitle("LEGUP");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        LegupPreferences prefs = LegupPreferences.getInstance();
         ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
 
         updateColorTheme();
 
-//        fileDialog = new FileDialog(this);
         fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File(LegupPreferences.LegupPreference.WORK_DIRECTORY.defaultStringValue()));
+        fileChooser.setCurrentDirectory(new File(LegupPreferences.workDirectory()));
 
         initPanels();
         displayPanel(0);
@@ -103,11 +100,10 @@ public class LegupUI extends JFrame implements WindowListener {
                         Objects.requireNonNull(
                                 ClassLoader.getSystemClassLoader()
                                         .getResource(
-                                                "edu/rpi/legup/images/Legup/Direct"
-                                                        + " Rules.gif")))
+                                                "edu/rpi/legup/images/Legup/Direct Rules.gif")))
                         .getImage());
 
-        if (LegupPreferences.LegupPreference.START_FULL_SCREEN.asBoolean()) {
+        if (LegupPreferences.startFullScreen()) {
             setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
         }
 

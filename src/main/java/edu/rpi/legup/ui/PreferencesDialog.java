@@ -317,13 +317,9 @@ public class PreferencesDialog extends JDialog {
         colorBlind = addDefaultCheckBox(
                 "Deuteranomaly(red/green colorblindness)",
                 LegupPreferences.colorBlind(),
-                "",
+                "This turns colorblind mode on and off",
                 contentPane
         );
-        colorBlind =
-                new JCheckBox(
-                        "Deuteranomaly(red/green colorblindness)",
-                        LegupPreferences.colorBlind());
         darkMode = addDefaultCheckBox(
                 "Dark Mode",
                 LegupPreferences.darkMode(),
@@ -336,9 +332,6 @@ public class PreferencesDialog extends JDialog {
                 "This turns custom color theme on and off",
                 contentPane
         );
-        customColorTheme.addActionListener(event -> {
-            colorThemeFile.setEnabled(customColorTheme.isSelected());
-        });
         colorThemeFile = addFileChooser(
                 contentPane,
                 "Color Theme File",
@@ -348,6 +341,15 @@ public class PreferencesDialog extends JDialog {
                 "Choose color theme file",
                 JFileChooser.FILES_ONLY
         );
+
+        // Colorblind / dark mode / file chooser exclusion due to custom color theme
+        customColorTheme.addActionListener(event -> {
+            colorBlind.setEnabled(!customColorTheme.isSelected());
+            darkMode.setEnabled(!customColorTheme.isSelected());
+            colorThemeFile.setEnabled(customColorTheme.isSelected());
+        });
+        colorBlind.setEnabled(!customColorTheme.isSelected());
+        darkMode.setEnabled(!customColorTheme.isSelected());
         colorThemeFile.setEnabled(customColorTheme.isSelected());
 
         scrollPane.setViewportView(contentPane);
@@ -498,21 +500,15 @@ public class PreferencesDialog extends JDialog {
     public void applyPreferences() {
         LegupPreferences prefs = LegupPreferences.getInstance();
         prefs.setUserPref(LegupPreferences.LegupPreference.WORK_DIRECTORY, workDirectory.file.getText());
-        prefs.setUserPref(
-                LegupPreferences.LegupPreference.START_FULL_SCREEN, fullScreen.isSelected());
+        prefs.setUserPref(LegupPreferences.LegupPreference.START_FULL_SCREEN, fullScreen.isSelected());
         prefs.setUserPref(LegupPreferences.LegupPreference.AUTO_UPDATE, autoUpdate.isSelected());
         prefs.setUserPref(LegupPreferences.LegupPreference.DARK_MODE, darkMode.isSelected());
         prefs.setUserPref(LegupPreferences.LegupPreference.USE_CUSTOM_COLOR_THEME, customColorTheme.isSelected());
-        prefs.setUserPref(
-                LegupPreferences.LegupPreference.SHOW_MISTAKES, showMistakes.isSelected());
-        prefs.setUserPref(
-                LegupPreferences.LegupPreference.SHOW_ANNOTATIONS, showAnnotations.isSelected());
-        prefs.setUserPref(
-                LegupPreferences.LegupPreference.ALLOW_DEFAULT_RULES, allowDefault.isSelected());
-        prefs.setUserPref(
-                LegupPreferences.LegupPreference.AUTO_GENERATE_CASES, generateCases.isSelected());
-        prefs.setUserPref(
-                LegupPreferences.LegupPreference.IMMEDIATE_FEEDBACK, immFeedback.isSelected());
+        prefs.setUserPref(LegupPreferences.LegupPreference.SHOW_MISTAKES, showMistakes.isSelected());
+        prefs.setUserPref(LegupPreferences.LegupPreference.SHOW_ANNOTATIONS, showAnnotations.isSelected());
+        prefs.setUserPref(LegupPreferences.LegupPreference.ALLOW_DEFAULT_RULES, allowDefault.isSelected());
+        prefs.setUserPref(LegupPreferences.LegupPreference.AUTO_GENERATE_CASES, generateCases.isSelected());
+        prefs.setUserPref(LegupPreferences.LegupPreference.IMMEDIATE_FEEDBACK, immFeedback.isSelected());
         prefs.setUserPref(LegupPreferences.LegupPreference.COLOR_BLIND, colorBlind.isSelected());
         prefs.setUserPref(LegupPreferences.LegupPreference.COLOR_THEME_FILE, colorThemeFile.file.getText());
 
@@ -522,7 +518,6 @@ public class PreferencesDialog extends JDialog {
             rulesFrame.getContradictionPanel().updateRules();
         }
 
-        // toggle dark mode based on updated NIGHT_MODE variable
         updateColorTheme(prefs);
     }
 }

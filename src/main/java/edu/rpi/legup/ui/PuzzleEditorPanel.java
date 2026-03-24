@@ -515,13 +515,10 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             }
         }
         if (fileChooser == null) {
-//            fileChooser = new JFileChooser(this.frame);
             fileChooser = new JFileChooser();
         }
         LegupPreferences preferences = LegupPreferences.getInstance();
-        String preferredDirectory = LegupPreferences.LegupPreference.WORK_DIRECTORY.stringValue();
-        String fileName = null;
-        File puzzleFile = null;
+        String preferredDirectory = LegupPreferences.workDirectory();
 
         fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
         fileChooser.setDialogTitle("Select Puzzle");
@@ -529,16 +526,13 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         fileChooser.showOpenDialog(this);
         fileChooser.setVisible(true);
 
-        File puzzlePath = fileChooser.getSelectedFile();
+        File puzzleFile = fileChooser.getSelectedFile();
         if (LOGGER.isTraceEnabled()) {
-            LOGGER.trace(puzzlePath.getAbsolutePath());
+            LOGGER.trace(puzzleFile.getAbsolutePath());
         }
 
-        if (puzzlePath != null) {
-            fileName = puzzlePath.getAbsolutePath();
-            String lastDirectoryPath = fileName.substring(0, fileName.lastIndexOf(File.separator));
-            preferences.setSavedPath(lastDirectoryPath);
-            puzzleFile = puzzlePath;
+        if (puzzleFile != null) {
+            preferences.setSavedPath(puzzleFile.getParentFile().getAbsolutePath());
         }
         else {
             // The attempt to prompt a puzzle ended gracefully (cancel)
@@ -548,7 +542,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         if (LOGGER.isTraceEnabled()) {
             LOGGER.trace(preferences.getSavedPath());
         }
-        return new Object[] {fileName, puzzleFile};
+        return new Object[] {puzzleFile.getAbsolutePath(), puzzleFile};
     }
 
     /**
@@ -753,25 +747,18 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
 
         if (fileChooser == null) {
-//            fileChooser = new JFileChooser(this.frame);
             fileChooser = new JFileChooser();
             fileChooser.showOpenDialog(this);
             fileChooser.setVisible(true);
         }
 
-//        fileChooser.setMode(JFileChooser.SAVE);
         fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
-//        fileChooser.setTitle("Save Proof");
         fileChooser.setDialogTitle("Save Proof");
         String curFileName = GameBoardFacade.getInstance().getCurFileName();
         if (curFileName == null) {
-//            fileChooser.setDirectory(
-            fileChooser.setCurrentDirectory(
-                    Path.of(LegupPreferences.LegupPreference.WORK_DIRECTORY.stringValue()).toFile());
+            fileChooser.setCurrentDirectory(new File(LegupPreferences.workDirectory()));
         } else {
-            File curFile = new File(curFileName);
-//            fileChooser.setDirectory(curFile.getParent());
-            fileChooser.setCurrentDirectory(curFile.getParentFile());
+            fileChooser.setCurrentDirectory(new File(curFileName).getParentFile());
         }
         fileChooser.showOpenDialog(this);
         fileChooser.setVisible(true);
