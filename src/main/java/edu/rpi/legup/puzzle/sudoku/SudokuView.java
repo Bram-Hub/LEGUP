@@ -14,6 +14,7 @@ public class SudokuView extends GridBoardView {
     private static final Stroke MINOR_STOKE = new BasicStroke(1);
     private static final Stroke MAJOR_STOKE = new BasicStroke(4);
 
+
     public SudokuView(SudokuBoard board) {
         super(new BoardController(), new SudokuCellController(), board.getDimension());
 
@@ -145,6 +146,11 @@ public class SudokuView extends GridBoardView {
         //            hover.draw(graphics2D);
     }
 
+    /**
+     * calculates and returns the dimensions of the board.
+     *
+     * @return the dimensions of the board
+     */
     protected Dimension getProperSize() {
         Dimension boardViewSize = new Dimension();
         boardViewSize.width = gridSize.width * (elementSize.width + 1) + 9;
