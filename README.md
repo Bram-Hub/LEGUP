@@ -40,7 +40,7 @@ LEGUP also provides a single interface that is capable of supporting many differ
 If you are an educator interested in using LEGUP, go to the [releases page](https://github.com/Bram-Hub/Legup/releases) to download the latest release of LEGUP. You can have your students download LEGUP from the same page. Some sample puzzle files can be found in the [puzzle files folder](https://github.com/Bram-Hub/Legup/tree/master/puzzles%20files).
 
 ## For Students
-If you are a student interested in learning the basics of logic, LEGUP is a great way for you to get started. If your instructor is using LEGUP in the classroom and you are looking for extra practice, you can reference the sample puzzle files can be found in the [puzzle files folder](https://github.com/Bram-Hub/Legup/tree/master/puzzles%20files) to get more practice.
+If you are a student interested in learning the basics of logic, LEGUP is a great way for you to get started. If your instructor is using LEGUP in the classroom and you are looking for extra practice, you can reference the sample puzzle files can be found in the [puzzle files folder](https://github.com/Bram-Hub/Legup/tree/master/puzzles%20files) to get more practice. Go here [Proof Editor](https://github.com/Bram-Hub/LEGUP/wiki/Proof-Editor-Tutorial) or here [Puzzle Editor](https://github.com/Bram-Hub/Legup/wiki/Puzzle-Editor-Tutorial) for the tutorials for each respective aspect.
 
 Additionally, if you are interested in computer science and programming, please consider contributing to LEGUP! Not only would it a great way to practice logical reasoning, but it is also a great way to dip your toes into open source software and contributing to open source projects.
 

@@ -8,11 +8,22 @@ import java.awt.event.MouseEvent;
 public class LightUpCell extends GridCell<Integer> {
     private boolean isLite;
 
+    /**
+     * LightUpCell Constructor - creates a LightUpCell from the specified value and location
+     *
+     * @param valueInt value of the LightUpCell
+     * @param location position of the LightUpCell
+     */
     public LightUpCell(int valueInt, Point location) {
         super(valueInt, location);
         this.isLite = false;
     }
 
+    /**
+     * Sets the type of this LightUpCell
+     *
+     * @param e element to set the type of this binary cell to
+     */
     @Override
     public void setType(Element e, MouseEvent m) {
         switch (e.getElementID()) {
@@ -46,6 +57,11 @@ public class LightUpCell extends GridCell<Integer> {
         }
     }
 
+    /**
+     * Gets the type of this LightUpCell
+     *
+     * @return type of LightUpCell
+     */
     public LightUpCellType getType() {
         switch (data) {
             case -4:
@@ -64,14 +80,29 @@ public class LightUpCell extends GridCell<Integer> {
         return null;
     }
 
+    /**
+     * Gets whether this LightUpCell is illuminated
+     *
+     * @return true if the cell is lit, false otherwise
+     */
     public boolean isLite() {
         return isLite;
     }
 
+    /**
+     * Sets whether this LightUpCell is illuminated
+     *
+     * @param isLite true if the cell should be lit, false otherwise
+     */
     public void setLite(boolean isLite) {
         this.isLite = isLite;
     }
 
+    /**
+     * Performs a deep copy on the LightUpCell
+     *
+     * @return a new copy of the LightUpCell that is independent of this one
+     */
     @Override
     public LightUpCell copy() {
         LightUpCell copy = new LightUpCell(data, (Point) location.clone());

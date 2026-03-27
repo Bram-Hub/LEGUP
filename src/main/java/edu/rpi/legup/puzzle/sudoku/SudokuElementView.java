@@ -27,12 +27,20 @@ public class SudokuElementView extends GridElementView {
         return (SudokuCell) super.getPuzzleElement();
     }
 
+    /**
+     * draw given elements with background given color
+     * @param graphics2D the Graphics2D context to use for drawing
+     */
     @Override
     public void drawGiven(Graphics2D graphics2D) {
         graphics2D.setColor(GIVEN_COLOR);
         graphics2D.fillRect(location.x, location.y, size.width, size.height);
     }
 
+    /**
+     * draw the contents of the element
+     * @param graphics2D the Graphics2D context to use for drawing
+     */
     @Override
     public void drawElement(Graphics2D graphics2D) {
         graphics2D.setStroke(new BasicStroke(1));
