@@ -50,8 +50,9 @@ public class NonTouchingSharedDirectRule extends DirectRule {
          * touching, but sharing cells */
         Iterator<FillapixCell> itr = adjCells.iterator();
         while (itr.hasNext()) {
+            FillapixCell adjCell = itr.next();
             ArrayList<FillapixCell> sharingCells =
-                    FillapixUtilities.getCellsAtDistance(parentBoard, parentCell, 1);
+                    FillapixUtilities.getCellsAtDistance(parentBoard, adjCell, 1);
             boolean found = false;
             for (FillapixCell sharingCell : sharingCells) {
                 if (sharingCell.getNumber() >= 0 && sharingCell.getNumber() < 10) {
