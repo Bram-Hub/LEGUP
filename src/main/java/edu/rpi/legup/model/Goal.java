@@ -17,17 +17,31 @@ import java.util.TreeMap;
 public class Goal {
     private ArrayList<GridCell> cellList;
     private final GoalType goalType;
+    private final boolean assumeSolution;
 
     /**
-     * Constructs a Goal object with an empty cell list
+     * Constructs a Goal object with an empty cell list with no assumed solution
      *
      * @param goalType type of goal
      */
     public Goal(GoalType goalType) {
         this.cellList = new ArrayList<>();
         this.goalType = goalType;
+        this.assumeSolution = false;
     }
 
+    /**
+     * Constructs a Goal object with an empty cell list
+     *
+     * @param goalType type of goal
+     * @param assume whether to assume there is a solution to the puzzle
+     */
+    public Goal(GoalType goalType, boolean assume)
+    {
+        this.cellList = new ArrayList<>();
+        this.goalType = goalType;
+        this.assumeSolution = assume;
+    }
     /**
      * Constructs a Goal object only requiring a given cell
      *
@@ -40,6 +54,7 @@ public class Goal {
             cellList.add(cell);
         }
         this.goalType = goalType;
+        this.assumeSolution = false;
     }
 
     /**
@@ -59,6 +74,13 @@ public class Goal {
      * @return GoalType.
      */
     public GoalType getType() { return goalType; }
+
+    /**
+     * Get the value of assumeSolution
+     *
+     * @return assumeSolution
+     */
+    public boolean assumeSolution() {return assumeSolution;}
 
     /**
      * Creates tool tip text for a cell being hovered over.

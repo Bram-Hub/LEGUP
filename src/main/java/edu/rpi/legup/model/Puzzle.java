@@ -371,7 +371,6 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             return false;
         }
 
-        boolean assumeThereIsASolution = true;
 
         // The goal determines what state the leaves must be in.
         return switch (this.goal.getType()) {
@@ -382,7 +381,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                     if (countGoalMatches(node, true) != goal.getCells().size()) {yield false;}
                 }
                 // There must be a proven solution
-                yield (assumeThereIsASolution || !getCompleteLeaves().isEmpty());
+                yield (goal.assumeSolution() || !getCompleteLeaves().isEmpty());
             }
             case PROVE_CELL_MIGHT_NOT_BE -> {
                 // One solution differs from the given
@@ -406,7 +405,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                 if (!cellsMatchBetweenBoards(getOpenLeaves())) {yield false;}
 
                 // There must be a proven solution
-                yield (assumeThereIsASolution || !getCompleteLeaves().isEmpty());
+                yield (goal.assumeSolution() || !getCompleteLeaves().isEmpty());
             }
             case PROVE_MULTIPLE_CELL_VALUE -> {
                 // The following line yielding true vs false determines if 0 solutions counts
@@ -429,7 +428,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                 }
 
                 // If there is a solution, it must have this set of values
-                if (assumeThereIsASolution && !getOpenLeaves().isEmpty())
+                if (goal.assumeSolution() && !getOpenLeaves().isEmpty())
                 {
                     for (TreeNode node : getOpenLeaves())
                     {

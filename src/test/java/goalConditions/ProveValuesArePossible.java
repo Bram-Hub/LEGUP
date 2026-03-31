@@ -36,14 +36,16 @@ public class ProveValuesArePossible{
     @Test
     public void TestRootNode() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveValuesArePossible/RootComplete", puzzle));
+                "goalConditions/ProveValuesArePossible/RootCompleteNoAssumption", puzzle));
 
-        // True when we assume there is a solution, false otherwise
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveValuesArePossible/RootIfSolutionAssumed", puzzle));
+                "goalConditions/ProveValuesArePossible/RootCompleteWithAssumption", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveValuesArePossible/RootIncomplete", puzzle));
+                "goalConditions/ProveValuesArePossible/RootIncompleteNoAssumption", puzzle));
+
+        Assert.assertFalse(TestUtilities.verifyBoard(
+                "goalConditions/ProveValuesArePossible/RootIncompleteWithAssumption", puzzle));
     }
 
 
@@ -51,10 +53,18 @@ public class ProveValuesArePossible{
     @Test
     public void TestSinglePath() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveValuesArePossible/CompleteLine", puzzle));
+                "goalConditions/ProveValuesArePossible/CompleteLineWithAssumption", puzzle));
 
-        // True when we assume there is a solution, false otherwise
         Assert.assertTrue(TestUtilities.verifyBoard(
+                "goalConditions/ProveValuesArePossible/SolvedLine", puzzle));
+
+        Assert.assertTrue(TestUtilities.verifyBoard(
+                "goalConditions/ProveValuesArePossible/IncompleteLineWithMatchAndAssumption", puzzle));
+
+        Assert.assertFalse(TestUtilities.verifyBoard(
+                "goalConditions/ProveValuesArePossible/CompleteLineNoAssumption", puzzle));
+
+        Assert.assertFalse(TestUtilities.verifyBoard(
                 "goalConditions/ProveValuesArePossible/IncompleteLineWithMatch", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(

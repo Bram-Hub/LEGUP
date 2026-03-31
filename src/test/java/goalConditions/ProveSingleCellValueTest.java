@@ -35,10 +35,16 @@ public class ProveSingleCellValueTest {
     @Test
     public void TestRootNode() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/RootComplete", puzzle));
+                "goalConditions/ProveSingleCellValue/RootCompleteWithAssumption", puzzle));
+
+        Assert.assertTrue(TestUtilities.verifyBoard(
+                "goalConditions/ProveSingleCellValue/RootCompleteNoAssumption", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/RootIncomplete", puzzle));
+                "goalConditions/ProveSingleCellValue/RootIncompleteWithAssumption", puzzle));
+
+        Assert.assertFalse(TestUtilities.verifyBoard(
+                "goalConditions/ProveSingleCellValue/RootIncompleteNoAssumption", puzzle));
     }
 
 
@@ -46,16 +52,22 @@ public class ProveSingleCellValueTest {
     @Test
     public void TestSinglePath() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/CompleteLine", puzzle));
+                "goalConditions/ProveSingleCellValue/CompleteLineWithAssumption", puzzle));
+
+        Assert.assertTrue(TestUtilities.verifyBoard(
+                "goalConditions/ProveSingleCellValue/SolvedLine", puzzle));
 
         Assert.assertTrue(TestUtilities.verifyBoard(
                 "goalConditions/ProveSingleCellValue/OvercompleteLine", puzzle));
 
-        Assert.assertTrue(TestUtilities.verifyBoard(
+        Assert.assertFalse(TestUtilities.verifyBoard(
                 "goalConditions/ProveSingleCellValue/ContradictoryLine", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
                 "goalConditions/ProveSingleCellValue/IncompleteLine", puzzle));
+
+        Assert.assertFalse(TestUtilities.verifyBoard(
+                "goalConditions/ProveSingleCellValue/CompleteLineNoAssumption", puzzle));
     }
 
 

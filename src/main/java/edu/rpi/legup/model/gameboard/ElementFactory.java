@@ -43,8 +43,22 @@ public abstract class ElementFactory {
             String goalTypeString = attributeList.getNamedItem("type").getNodeValue();
             GoalType goalType = goalTypeString == null ? GoalType.DEFAULT : GoalType.valueOf(goalTypeString.toUpperCase());
 
-            //this is where boolean assumesolution could be
-            return new Goal(null, goalType);
+            try
+            {
+                String assumeSolution = attributeList.getNamedItem("assumeSolution").getNodeValue();
+                if (!(assumeSolution.equalsIgnoreCase("true")
+                        || assumeSolution.equalsIgnoreCase("false")))
+                {
+                    throw new InvalidFileFormatException(
+                            "Field 'assumeSolution' must be null, true, or false.");
+                }
+                boolean assume = (assumeSolution.equalsIgnoreCase("true"));
+                return new Goal(goalType, assume);
+            }
+            catch(NullPointerException e)
+            {
+                return new Goal(goalType, false);
+            }
 
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
