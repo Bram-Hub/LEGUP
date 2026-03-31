@@ -3,8 +3,6 @@ package edu.rpi.legup.ui;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.Rule;
-import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialBorders;
-import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
 import org.intellij.lang.annotations.MagicConstant;
 
@@ -315,7 +313,7 @@ public class PreferencesDialog extends JDialog {
         addRowLabel(contentPane, "Color Preferences");
 
         colorBlind = addDefaultCheckBox(
-                "Deuteranomaly(red/green colorblindness)",
+                "Deuteranomaly (Red/Green Colorblindness)",
                 LegupPreferences.colorBlind(),
                 "This turns colorblind mode on and off",
                 contentPane
@@ -414,7 +412,6 @@ public class PreferencesDialog extends JDialog {
 
         JLabel ruleAcc = new JLabel();
         ruleAcc.setHorizontalAlignment(JLabel.CENTER);
-        ruleAcc.setBorder(MaterialBorders.LIGHT_LINE_BORDER);
         ruleAcc.setPreferredSize(new Dimension(60, 20));
         ruleAcc.addMouseListener(
                 new MouseAdapter() {
@@ -470,7 +467,7 @@ public class PreferencesDialog extends JDialog {
         JPanel labelRow = new JPanel();
         labelRow.setLayout(new BorderLayout());
         JLabel label = new JLabel(text);
-        label.setFont(MaterialFonts.BOLD);
+        label.setFont(UIManager.getFont("Legup.font").deriveFont(Font.BOLD));
         label.setHorizontalAlignment(JLabel.LEFT);
         labelRow.add(label, BorderLayout.WEST);
 

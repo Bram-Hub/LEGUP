@@ -1,12 +1,11 @@
 package edu.rpi.legup.ui;
 
-import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.FlatPropertiesLaf;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.ui.boardview.BoardView;
-import edu.rpi.legup.ui.lookandfeel.LegupCustomColorScheme;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,8 +17,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.io.IOException;
 import java.security.InvalidParameterException;
-import java.util.Collections;
 import java.util.Objects;
 
 /**
@@ -50,32 +49,80 @@ public class LegupUI extends JFrame implements WindowListener {
         return os;
     }
 
-    public static void updateColorTheme() {
+    /**
+     * Registers the necessary LAF and font files.
+     */
+    private static void registerAssets() {
+
+        FlatLaf.registerCustomDefaultsSource("edu/rpi/legup/themes");
+
         try {
-            final String colorFileName = LegupPreferences.colorThemeFile();
-            final boolean isTxt = colorFileName.endsWith(".txt");
-            boolean useCustomColorTheme = LegupPreferences.useCustomColorTheme();
-            if (!isTxt && useCustomColorTheme) {
-                System.err.printf("Invalid color theme file '%s', using default theme.\n", colorFileName);
-                useCustomColorTheme = false;
-            }
-            if (isTxt && useCustomColorTheme) {
-                LegupCustomColorScheme.setupCustomColorScheme(colorFileName);
-            } else {
-                FlatLaf.setGlobalExtraDefaults(Collections.emptyMap());
-            }
-
-            if (LegupPreferences.darkMode()) {
-                UIManager.setLookAndFeel(new FlatDarkLaf());
-            }
-            else {
-                UIManager.setLookAndFeel(new FlatLightLaf());
-            }
-
-            com.formdev.flatlaf.FlatLaf.updateUI();
+            GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(
+                    Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(
+                            LegupUI.class.getClassLoader().getResourceAsStream(
+                                    "edu/rpi/legup/fonts/Roboto/Roboto-Regular.ttf"))));
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
-        catch (UnsupportedLookAndFeelException exception) {
-            throw new RuntimeException("Not supported ui look and feel", exception);
+    }
+
+    public static void updateColorTheme() {
+
+        boolean useCustomTheme = LegupPreferences.useCustomColorTheme();
+        if (useCustomTheme) {
+
+            // Create a LAF from a user-provided .properties file
+            try {
+                FlatLaf.setup(new FlatPropertiesLaf("Custom Theme",
+                        new File(LegupPreferences.colorThemeFile())));
+            } catch (IOException exception) {
+                System.err.printf("Invalid color theme file '%s', using default theme.\n",
+                        LegupPreferences.colorThemeFile());
+                useCustomTheme = false;
+            }
+        }
+        if (!useCustomTheme) {
+
+            // Create a LAF from default files
+            try {
+                if (!LegupPreferences.darkMode()) {
+                    if (!LegupPreferences.colorBlind()) {
+                        FlatLaf.setup(new FlatPropertiesLaf("Light Theme",
+                                Objects.requireNonNull(LegupUI.class.getClassLoader().getResourceAsStream(
+                                        "edu/rpi/legup/themes/light-theme.properties"))));
+                    }
+                    else {
+                        FlatLaf.setup(new FlatPropertiesLaf("Deuteranomaly Light Theme",
+                                Objects.requireNonNull(LegupUI.class.getClassLoader().getResourceAsStream(
+                                        "edu/rpi/legup/themes/light-color-blind-theme.properties"))));
+                    }
+                }
+                else {
+                    if (!LegupPreferences.colorBlind()) {
+                        FlatLaf.setup(new FlatPropertiesLaf("Dark Theme",
+                                Objects.requireNonNull(LegupUI.class.getClassLoader().getResourceAsStream(
+                                        "edu/rpi/legup/themes/dark-theme.properties"))));
+                    }
+                    else {
+                        FlatLaf.setup(new FlatPropertiesLaf("Deuteranomaly Dark Theme",
+                                Objects.requireNonNull(LegupUI.class.getClassLoader().getResourceAsStream(
+                                        "edu/rpi/legup/themes/dark-color-blind-theme.properties"))));
+                    }
+
+                }
+
+                // Update UI with new LAF
+                FlatLaf.updateUI();
+
+            } catch (IOException | NullPointerException exception) {
+                System.err.println("Provided color theme properties not found");
+                System.err.println("\tDark mode: " + LegupPreferences.darkMode());
+                System.err.println("\tColor blind: " + LegupPreferences.colorBlind());
+                exception.printStackTrace();
+
+                // Try to fall back on FlatLightLaf which will hopefully have the additional keys
+                FlatLightLaf.setup();
+            }
         }
     }
 
@@ -87,7 +134,12 @@ public class LegupUI extends JFrame implements WindowListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
 
+        // Set the application's LAF in accordance with user preferences
+        registerAssets();
         updateColorTheme();
+        if (UIManager.getLookAndFeel() == null) {
+            FlatLightLaf.setup();
+        }
 
         fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(LegupPreferences.workDirectory()));

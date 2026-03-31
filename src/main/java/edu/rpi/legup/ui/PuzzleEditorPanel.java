@@ -518,11 +518,10 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             fileChooser = new JFileChooser();
         }
         LegupPreferences preferences = LegupPreferences.getInstance();
-        String preferredDirectory = LegupPreferences.workDirectory();
 
         fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
         fileChooser.setDialogTitle("Select Puzzle");
-        fileChooser.setCurrentDirectory(Path.of(preferredDirectory).toFile());
+        fileChooser.setCurrentDirectory(new File(LegupPreferences.workDirectory()));
         fileChooser.showOpenDialog(this);
         fileChooser.setVisible(true);
 

@@ -1,7 +1,5 @@
 package edu.rpi.legup.app;
 
-import edu.rpi.legup.ui.color.ColorPreferences;
-
 import java.io.File;
 import java.util.EnumMap;
 import java.util.Map;
@@ -35,7 +33,7 @@ public class LegupPreferences {
         ALLOW_DEFAULT_RULES("allow-default-rules", false, Boolean::parseBoolean),
         AUTO_GENERATE_CASES("auto-generate-cases", true, Boolean::parseBoolean),
         IMMEDIATE_FEEDBACK("immediate-feedback", true, Boolean::parseBoolean),
-        COLOR_THEME_FILE("color-theme-file", System.getProperty("user.dir") + File.separator + ColorPreferences.LIGHT_COLOR_THEME_FILE_NAME, o -> o),
+        COLOR_THEME_FILE("color-theme-file", System.getProperty("user.dir"), o -> o),
         COLOR_BLIND("color-blind", false, Boolean::parseBoolean);
 
         private final String id;

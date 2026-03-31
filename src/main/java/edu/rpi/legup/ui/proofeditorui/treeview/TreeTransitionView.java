@@ -2,13 +2,13 @@ package edu.rpi.legup.ui.proofeditorui.treeview;
 
 import static java.lang.Math.*;
 
-import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.tree.TreeElementType;
 import edu.rpi.legup.model.tree.TreeTransition;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.UIManager;
 
 /**
  * {@code TreeTransitionView} is a visual representation of a tree transition in the tree view. It
@@ -19,23 +19,6 @@ public class TreeTransitionView extends TreeElementView {
     static final int RADIUS = 25;
     static final int DIAMETER = 2 * RADIUS;
     static final int GAP = 5;
-
-    private static final Stroke MAIN_STROKE = new BasicStroke(3);
-    private static final Stroke SELECTION_STROKE = new BasicStroke(2);
-
-    private static final Color OUTLINE_COLOR = Color.BLACK;
-    private static final Color CORRECT_COLOR = Color.GREEN;
-    private static final Color INCORRECT_COLOR = Color.RED;
-    private static final Color DEFAULT_COLOR = Color.GRAY;
-    private static final Color X_COLOR = Color.RED;
-
-    private static final Color CORRECT_COLOR_COLORBLIND = new Color(0, 0, 255);
-    private static final Color INCORRECT_COLOR_COLORBLIND = new Color(255, 0, 0);
-
-    private static final Color OUTLINE_SELECTION_COLOR = new Color(0x1976D2);
-
-    private static final Color HOVER_COLOR = new Color(0x90CAF9);
-    private static final Color OUTLINE_HOVER_COLOR = new Color(0xBDBDBD);
 
     private TreeNodeView childView;
     private ArrayList<TreeNodeView> parentViews;
@@ -80,8 +63,8 @@ public class TreeTransitionView extends TreeElementView {
     public void draw(Graphics2D graphics2D) {
         arrowhead = createTransitionTriangle(RADIUS);
 
-        graphics2D.setColor(OUTLINE_COLOR);
-        graphics2D.setStroke(MAIN_STROKE);
+        graphics2D.setColor(UIManager.getColor("Tree.outline"));
+        graphics2D.setStroke(new BasicStroke(UIManager.getInt("Tree.outlineWidth")));
 
         for (Point lineStartPoint : lineStartPoints) {
             CubicCurve2D c = new CubicCurve2D.Double();
@@ -102,74 +85,49 @@ public class TreeTransitionView extends TreeElementView {
             graphics2D.draw(c);
         }
 
-        LegupPreferences prefs = LegupPreferences.getInstance();
-        boolean colorBlind = LegupPreferences.colorBlind();
-
         if (isSelected) {
-            Color c = DEFAULT_COLOR;
             if (getTreeElement().isJustified()) {
-                if (getTreeElement().isCorrect()) {
-                    if (colorBlind) {
-                        c = CORRECT_COLOR_COLORBLIND;
-                    } else {
-                        c = CORRECT_COLOR;
-                    }
-                } else {
-                    if (colorBlind) {
-                        c = INCORRECT_COLOR_COLORBLIND;
-                    } else {
-                        c = INCORRECT_COLOR;
-                    }
-                }
+                graphics2D.setColor(UIManager.getColor(
+                        getTreeElement().isCorrect() ? "Puzzle.valid" : "Puzzle.invalid"));
+            } else {
+                graphics2D.setColor(UIManager.getColor("Tree.arrowDefault"));
             }
-            graphics2D.setColor(c);
 
             graphics2D.fillPolygon(arrowhead);
 
-            graphics2D.setColor(OUTLINE_COLOR);
+            graphics2D.setColor(UIManager.getColor("Tree.outline"));
             graphics2D.drawPolygon(arrowhead);
 
             Polygon selection_triangle = createTransitionTriangle(RADIUS + 10);
             selection_triangle.translate(7, 0);
 
-            graphics2D.setStroke(SELECTION_STROKE);
-            graphics2D.setColor(OUTLINE_SELECTION_COLOR);
+            graphics2D.setStroke(new BasicStroke(UIManager.getInt("Tree.selectedWidth")));
+            graphics2D.setColor(UIManager.getColor("Tree.selectedOutline"));
             graphics2D.drawPolygon(selection_triangle);
         } else {
             if (isHover) {
-                graphics2D.setColor(HOVER_COLOR);
+                graphics2D.setColor(UIManager.getColor("Tree.hover"));
                 graphics2D.fillPolygon(arrowhead);
 
-                graphics2D.setColor(OUTLINE_COLOR);
+                graphics2D.setColor(UIManager.getColor("Tree.outline"));
                 graphics2D.drawPolygon(arrowhead);
 
                 Polygon selection_triangle = createTransitionTriangle(RADIUS + 10);
                 selection_triangle.translate(7, 0);
 
-                graphics2D.setStroke(SELECTION_STROKE);
-                graphics2D.setColor(OUTLINE_HOVER_COLOR);
+                graphics2D.setStroke(new BasicStroke(UIManager.getInt("Tree.selectedWidth")));
+                graphics2D.setColor(UIManager.getColor("Tree.hoverOutline"));
                 graphics2D.drawPolygon(selection_triangle);
             } else {
-                Color c = DEFAULT_COLOR;
                 if (getTreeElement().isJustified()) {
-                    if (getTreeElement().isCorrect()) {
-                        if (colorBlind) {
-                            c = CORRECT_COLOR_COLORBLIND;
-                        } else {
-                            c = CORRECT_COLOR;
-                        }
-                    } else {
-                        if (colorBlind) {
-                            c = INCORRECT_COLOR_COLORBLIND;
-                        } else {
-                            c = INCORRECT_COLOR;
-                        }
-                    }
+                    graphics2D.setColor(UIManager.getColor(
+                            getTreeElement().isCorrect() ? "Puzzle.valid" : "Puzzle.invalid"));
+                } else {
+                    graphics2D.setColor(UIManager.getColor("Tree.arrowDefault"));
                 }
-                graphics2D.setColor(c);
                 graphics2D.fillPolygon(arrowhead);
 
-                graphics2D.setColor(OUTLINE_COLOR);
+                graphics2D.setColor(UIManager.getColor("Tree.outline"));
                 graphics2D.drawPolygon(arrowhead);
             }
         }
