@@ -409,7 +409,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             }
             case PROVE_MULTIPLE_CELL_VALUE -> {
                 // The following line yielding true vs false determines if 0 solutions counts
-                if (getOpenLeaves().isEmpty()) {yield true;}
+                if (getOpenLeaves().isEmpty()) {yield false;}
 
                 // At least two solutions have a different set of goal cell values
                 yield !cellsMatchBetweenBoards(getCompleteLeaves());

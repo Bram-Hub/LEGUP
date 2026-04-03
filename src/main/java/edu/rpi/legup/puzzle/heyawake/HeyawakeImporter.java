@@ -113,6 +113,7 @@ public class HeyawakeImporter extends PuzzleImporter {
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), heyawakeBoard);
                     goal.addCell(cell);
+                    heyawakeBoard.getCell(cell.getLocation()).setGoal(true);
                 }
                 puzzle.setGoal(goal);
             } else {

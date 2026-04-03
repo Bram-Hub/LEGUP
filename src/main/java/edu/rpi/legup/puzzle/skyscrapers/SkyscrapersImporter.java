@@ -225,6 +225,7 @@ public class SkyscrapersImporter extends PuzzleImporter {
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), skyscrapersBoard);
                     goal.addCell(cell);
+                    skyscrapersBoard.getCell(cell.getLocation()).setGoal(true);
                 }
                 puzzle.setGoal(goal);
             } else {
