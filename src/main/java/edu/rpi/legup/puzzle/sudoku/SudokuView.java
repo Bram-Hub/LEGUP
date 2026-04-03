@@ -10,9 +10,6 @@ import java.util.Set;
 import javax.swing.*;
 
 public class SudokuView extends GridBoardView {
-    private static final Color STROKE_COLOR = new Color(0, 0, 0);
-    private static final Stroke MINOR_STOKE = new BasicStroke(1);
-    private static final Stroke MAJOR_STOKE = new BasicStroke(4);
 
     public SudokuView(SudokuBoard board) {
         super(new BoardController(), new SudokuCellController(), board.getDimension());
@@ -51,16 +48,14 @@ public class SudokuView extends GridBoardView {
 
     public void drawGrid(Graphics2D graphics2D) {
         int minorSize = (int) Math.sqrt(gridSize.width);
-        graphics2D.setColor(STROKE_COLOR);
-        graphics2D.setStroke(MAJOR_STOKE);
+        graphics2D.setColor(UIManager.getColor("Sudoku.borderColor"));
+        graphics2D.setStroke(new BasicStroke(UIManager.getInt("Sudoku.majorBorderWidth")));
         graphics2D.drawRect(
                 3,
                 3,
                 gridSize.width * (elementSize.width + 1) + 3,
                 gridSize.height * (elementSize.height + 1) + 3);
 
-        graphics2D.setColor(STROKE_COLOR);
-        graphics2D.setStroke(MAJOR_STOKE);
         for (int i = 1; i < minorSize; i++) {
             int x = i * minorSize * elementSize.width + i * ((minorSize + 1)) + 3;
             graphics2D.drawLine(x, 3, x, gridSize.height * (elementSize.height + 1) + 6);
@@ -79,8 +74,8 @@ public class SudokuView extends GridBoardView {
             drawCaseBoard(graphics2D);
             return;
         }
-        graphics2D.setColor(STROKE_COLOR);
-        graphics2D.setStroke(MINOR_STOKE);
+        graphics2D.setColor(UIManager.getColor("Sudoku.borderColor"));
+        graphics2D.setStroke(new BasicStroke(UIManager.getInt("Sudoku.minorBorderWidth")));
         ElementView hover = null;
         for (int i = 0; i < gridSize.height; i++) {
             for (int k = 0; k < gridSize.width; k++) {
@@ -104,8 +99,8 @@ public class SudokuView extends GridBoardView {
         PossibleNumberCaseBoard caseBoard = (PossibleNumberCaseBoard) board;
         SudokuBoard sudokuBoard = (SudokuBoard) caseBoard.getBaseBoard();
 
-        graphics2D.setColor(STROKE_COLOR);
-        graphics2D.setStroke(MINOR_STOKE);
+        graphics2D.setColor(UIManager.getColor("Sudoku.borderColor"));
+        graphics2D.setStroke(new BasicStroke(UIManager.getInt("Sudoku.minorBorderWidth")));
         ElementView hover = null;
         for (int i = 0; i < gridSize.height; i++) {
             for (int k = 0; k < gridSize.width; k++) {

@@ -2,11 +2,9 @@ package edu.rpi.legup.puzzle.skyscrapers;
 
 import edu.rpi.legup.ui.boardview.ElementView;
 import java.awt.*;
+import javax.swing.UIManager;
 
 public class SkyscrapersClueView extends ElementView {
-
-    private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
-    private static final Color FONT_COLOR = Color.BLACK;
 
     public SkyscrapersClueView(SkyscrapersClue clue) {
         super(clue);
@@ -35,9 +33,9 @@ public class SkyscrapersClueView extends ElementView {
 
     @Override
     public void drawElement(Graphics2D graphics2D) {
-        graphics2D.setColor(FONT_COLOR);
-        graphics2D.setFont(FONT);
-        FontMetrics metrics = graphics2D.getFontMetrics(FONT);
+        graphics2D.setColor(UIManager.getColor("Skyscrapers.clue"));
+        graphics2D.setFont(UIManager.getFont("Skyscrapers.font"));
+        FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
         String value;
 
         SkyscrapersClue clue = getPuzzleElement();

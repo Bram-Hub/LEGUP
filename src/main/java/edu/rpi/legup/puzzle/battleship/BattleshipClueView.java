@@ -2,11 +2,9 @@ package edu.rpi.legup.puzzle.battleship;
 
 import edu.rpi.legup.ui.boardview.ElementView;
 import java.awt.*;
+import javax.swing.UIManager;
 
 public class BattleshipClueView extends ElementView {
-
-    private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
-    private static final Color FONT_COLOR = Color.BLACK;
 
     public BattleshipClueView(BattleshipClue clue) {
         super(clue);
@@ -29,9 +27,9 @@ public class BattleshipClueView extends ElementView {
      * @param graphics2D the frame the clue is to be drawn on
      */
     public void draw(Graphics2D graphics2D) {
-        graphics2D.setColor(FONT_COLOR);
-        graphics2D.setFont(FONT);
-        FontMetrics metrics = graphics2D.getFontMetrics(FONT);
+        graphics2D.setColor(UIManager.getColor("Battleship.clue"));
+        graphics2D.setFont(UIManager.getFont("Battleship.clueFont"));
+        FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
         String value;
 
         BattleshipClue clue = getPuzzleElement();

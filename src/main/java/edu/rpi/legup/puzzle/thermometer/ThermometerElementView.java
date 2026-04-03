@@ -4,12 +4,9 @@ import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.UIManager;
 
 public class ThermometerElementView extends GridElementView {
-
-    // mixture of stuff stolen from tree tent and dev guide
-    private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
-    private static final Color FONT_COLOR = Color.BLACK;
 
     public ThermometerElementView(ThermometerCell cell) {
         super(cell);
@@ -39,7 +36,8 @@ public class ThermometerElementView extends GridElementView {
                 null,
                 null);
 
-        graphics2D.setColor(Color.BLACK);
+        graphics2D.setStroke(new BasicStroke(UIManager.getInt("Thermometer.borderWidth")));
+        graphics2D.setColor(UIManager.getColor("Thermometer.borderColor"));
         graphics2D.drawRect(location.x, location.y, size.width, size.height);
     }
 

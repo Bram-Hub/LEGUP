@@ -2,11 +2,9 @@ package edu.rpi.legup.puzzle.nurikabe;
 
 import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
+import javax.swing.UIManager;
 
 public class NurikabeElementView extends GridElementView {
-
-    private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
-    private static final Color FONT_COLOR = Color.BLACK;
 
     public NurikabeElementView(NurikabeCell cell) {
         super(cell);
@@ -27,43 +25,29 @@ public class NurikabeElementView extends GridElementView {
         NurikabeCell cell = (NurikabeCell) puzzleElement;
         NurikabeType type = cell.getType();
         if (type == NurikabeType.NUMBER) {
-            graphics2D.setStroke(new BasicStroke(1));
-            graphics2D.setColor(Color.WHITE);
+            graphics2D.setColor(UIManager.getColor("Nurikabe.white"));
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
 
-            graphics2D.setColor(Color.BLACK);
-            graphics2D.drawRect(location.x, location.y, size.width, size.height);
-
-            graphics2D.setColor(FONT_COLOR);
-            graphics2D.setFont(FONT);
-            FontMetrics metrics = graphics2D.getFontMetrics(FONT);
+            graphics2D.setColor(UIManager.getColor("Nurikabe.text"));
+            graphics2D.setFont(UIManager.getFont("Nurikabe.font"));
+            FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
             String value = String.valueOf(puzzleElement.getData());
             int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             int yText =
                     location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
             graphics2D.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
-        } else {
-            if (type == NurikabeType.BLACK) {
-                graphics2D.setStroke(new BasicStroke(1));
-                graphics2D.setColor(Color.BLACK);
-                graphics2D.fillRect(location.x, location.y, size.width, size.height);
-            } else {
-                if (type == NurikabeType.WHITE) {
-                    graphics2D.setStroke(new BasicStroke(1));
-                    graphics2D.setColor(Color.WHITE);
-                    graphics2D.fillRect(location.x, location.y, size.width, size.height);
-                    graphics2D.setColor(Color.BLACK);
-                    graphics2D.drawRect(location.x, location.y, size.width, size.height);
-                } else {
-                    if (type == NurikabeType.UNKNOWN) {
-                        graphics2D.setStroke(new BasicStroke(1));
-                        graphics2D.setColor(Color.LIGHT_GRAY);
-                        graphics2D.fillRect(location.x, location.y, size.width, size.height);
-                        graphics2D.setColor(Color.BLACK);
-                        graphics2D.drawRect(location.x, location.y, size.width, size.height);
-                    }
-                }
-            }
+        } else if (type == NurikabeType.BLACK) {
+            graphics2D.setColor(UIManager.getColor("Nurikabe.black"));
+            graphics2D.fillRect(location.x, location.y, size.width, size.height);
+        } else if (type == NurikabeType.WHITE) {
+            graphics2D.setColor(UIManager.getColor("Nurikabe.white"));
+            graphics2D.fillRect(location.x, location.y, size.width, size.height);
+        } else if (type == NurikabeType.UNKNOWN) {
+            graphics2D.setColor(UIManager.getColor("Nurikabe.unknown"));
+            graphics2D.fillRect(location.x, location.y, size.width, size.height);
         }
+        graphics2D.setStroke(new BasicStroke(UIManager.getInt("Nurikabe.borderWidth")));
+        graphics2D.setColor(UIManager.getColor("Nurikabe.borderColor"));
+        graphics2D.drawRect(location.x, location.y, size.width, size.height);
     }
 }

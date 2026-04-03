@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.geom.Area;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.UIManager;
 
 public class HeyawakeView extends GridBoardView {
 
@@ -46,7 +47,7 @@ public class HeyawakeView extends GridBoardView {
         }
 
         graphics2D.setColor(Color.BLACK);
-        graphics2D.setStroke(new BasicStroke(3));
+        graphics2D.setStroke(new BasicStroke(UIManager.getInt("Heyawake.regionBorderWidth")));
         for (Area s : regionsBoundaries.values()) {
             graphics2D.draw(s);
         }

@@ -3,9 +3,9 @@ package edu.rpi.legup.puzzle.starbattle;
 import edu.rpi.legup.ui.boardview.ElementView;
 import java.awt.*;
 import java.awt.geom.Line2D;
+import javax.swing.UIManager;
 
 public class StarBattleBorderView extends ElementView {
-    private static final Color Border_COLOR = Color.BLACK;
     private StarBattleCellType type;
 
     public StarBattleBorderView(StarBattleBorder border) {
@@ -36,21 +36,16 @@ public class StarBattleBorderView extends ElementView {
 
     @Override
     public void drawElement(Graphics2D graphics2D) {
-        graphics2D.setColor(Color.BLACK);
-
-        StarBattleBorder border = getPuzzleElement();
         float xSize = size.width;
         float ySize = size.height;
-        Color borderColor = Color.BLACK;
-        float borderWidth = 3.0f; // ySize = ySize / 15
         if (type == StarBattleCellType.HORIZ_BORDER) { // minimize ySize / height
-            graphics2D.setColor(borderColor);
-            graphics2D.setStroke(new BasicStroke(borderWidth));
+            graphics2D.setColor(UIManager.getColor("StarBattle.borderColor"));
+            graphics2D.setStroke(new BasicStroke(UIManager.getInt("StarBattle.borderWidth")));
             graphics2D.draw(
                     new Line2D.Double(location.x, location.y, location.x + (xSize), location.y));
         } else if (type == StarBattleCellType.VERT_BORDER) { // minimize xSize / width
-            graphics2D.setColor(borderColor);
-            graphics2D.setStroke(new BasicStroke(borderWidth));
+            graphics2D.setColor(UIManager.getColor("StarBattle.borderColor"));
+            graphics2D.setStroke(new BasicStroke(UIManager.getInt("StarBattle.borderWidth")));
             graphics2D.draw(
                     new Line2D.Double(location.x, location.y, location.x, location.y + (ySize)));
         }

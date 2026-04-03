@@ -2,11 +2,9 @@ package edu.rpi.legup.puzzle.masyu;
 
 import edu.rpi.legup.ui.boardview.ElementView;
 import java.awt.*;
+import javax.swing.UIManager;
 
 public class MasyuLineView extends ElementView {
-    private final Color LINE_COLOR = Color.GREEN;
-
-    private final Stroke LINE_STROKE = new BasicStroke(3);
 
     public MasyuLineView(MasyuLine line) {
         super(line);
@@ -23,8 +21,8 @@ public class MasyuLineView extends ElementView {
         int x2 = p2.x * size.width + size.width / 2;
         int y2 = p2.y * size.height + size.height / 2;
 
-        graphics2D.setColor(line.isModified() ? Color.GREEN : Color.BLACK);
-        graphics2D.setStroke(LINE_STROKE);
+        graphics2D.setColor(UIManager.getColor(line.isModified() ? "Puzzle.valid" : "Masyu.line"));
+        graphics2D.setStroke(new BasicStroke(UIManager.getInt("Masyu.lineWidth")));
         graphics2D.drawLine(x1, y1, x2, y2);
     }
 }
