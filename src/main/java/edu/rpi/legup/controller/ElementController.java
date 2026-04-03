@@ -199,22 +199,28 @@ public class ElementController
         if (goalPlacementMode) {
             PuzzleElement selectedCell = b.getCell(scaledPoint.x, scaledPoint.y);
             if (selectedCell != null) {
-                selectedCell.setGoal(!selectedCell.isGoal());
+                PlaceableElement element = (PlaceableElement) goalValueData;
+                if(!element.toString().equals("Number Tile")){
+                    selectedCell.setGoal(!selectedCell.isGoal());
+                }
+                else if (element.toString().equals("Number Tile") && !selectedCell.isGoal()){
+                    selectedCell.setGoal(!selectedCell.isGoal());
+                    PuzzleElement tempCell = selectedCell.copy();
+                    selectedCell.setGoalData(tempCell.getData());
+                }
+
                 // Set the goal data if a goal value is selected
                 if (selectedCell.isGoal() && goalValueData != null) {
-                    // If goalValueData is a PlaceableElement, convert it to the correct data type
-                    if (goalValueData instanceof PlaceableElement) {
-                        PlaceableElement element = (PlaceableElement) goalValueData;
                         // Create a temporary cell copy to determine what data value this element represents
                         PuzzleElement tempCell = selectedCell.copy();
-                        selectedCell.setGoalData(tempCell.getData());
-                        tempCell.setType(element, null);
-                        // Set the goal data
-
+                        if(element.toString().equals("Number Tile")) {
+                            tempCell.setType(element,e);
+                        }
+                        else{
+                            selectedCell.setGoalData(tempCell.getData());
+                            tempCell.setType(element, null);
+                        }
                         selectedCell.setData(tempCell.getData());
-                    } else {
-                        selectedCell.setGoalData(goalValueData);
-                    }
                 } else if (!selectedCell.isGoal()) {
                     selectedCell.setData(selectedCell.getGoalData());
                     selectedCell.setGoalData(null);
