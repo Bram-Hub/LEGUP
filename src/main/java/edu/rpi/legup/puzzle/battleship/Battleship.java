@@ -17,13 +17,23 @@ public class Battleship extends Puzzle {
         this.factory = new BattleshipCellFactory();
     }
 
-    /** Initializes the game board. Called by the invoker of the class */
+    /**
+     * Initializes the view for the Battleship puzzle board.
+     * Creates a new {@link BattleshipView} using the current board state
+     * and registers it as a board listener to receive updates.
+     */
     @Override
     public void initializeView() {
         boardView = new BattleshipView((BattleshipBoard) currentBoard);
         addBoardListener(boardView);
     }
 
+    /**
+     * Generates a new Battleship puzzle board with the specified difficulty level.
+     *
+     * @param difficulty the difficulty level of the puzzle to generate
+     * @return a newly generated {@link Board}, or null if puzzle generation is not yet implemented
+     */
     @Override
     public Board generatePuzzle(int difficulty) {
         return null;
@@ -67,9 +77,10 @@ public class Battleship extends Puzzle {
     }
 
     /**
-     * Callback for when the board puzzleElement changes
+     * Callback invoked whenever a {@link Board} element changes during puzzle solving.
+     * Used to react to board state updates in real time.
      *
-     * @param board the board that has changed
+     * @param board the board whose state has changed
      */
     @Override
     public void onBoardChange(Board board) {}

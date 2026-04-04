@@ -44,6 +44,11 @@ public class ElementController
         this.selectedElement = null;
     }
 
+    /**
+     * Sets the current selectedElement to the given selectedElement input
+     *
+     * @param selectedElement the {@link Element} to set as the currently selected element
+     */
     public void setSelectedElement(Element selectedElement) {
         this.selectedElement = selectedElement;
     }
@@ -265,6 +270,14 @@ public class ElementController
         }
     }
 
+    /**
+     * Callback invoked when a cell is changed by a mouse event.
+     * Intended to be overridden by subclasses to handle puzzle-specific
+     * cell modification logic.
+     *
+     * @param e the mouse event that triggered the cell change
+     * @param data the {@link PuzzleElement} representing the cell being changed
+     */
     public void changeCell(MouseEvent e, PuzzleElement data) {}
 
     /**

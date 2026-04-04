@@ -320,6 +320,16 @@ public abstract class PuzzleImporter {
         }
     }
 
+    /**
+     * Validates the structure of the proof tree to ensure it is well-formed.
+     * Checks that the tree is non-null, fully connected (no disjoint nodes or
+     * transitions), and acyclic (no circular references between transitions).
+     *
+     * @param nodes a map of node IDs to their corresponding {@link TreeNode} objects
+     * @param transitions a map of transition IDs to their corresponding {@link TreeTransition} objects
+     * @throws InvalidFileFormatException if the tree is null, contains disjoint nodes or
+     *     transitions, or a cycle is detected
+     */
     protected void validateTreeStructure(
             HashMap<String, TreeNode> nodes, HashMap<String, TreeTransition> transitions)
             throws InvalidFileFormatException {
