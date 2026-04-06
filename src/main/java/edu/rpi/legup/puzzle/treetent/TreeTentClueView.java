@@ -22,9 +22,10 @@ public class TreeTentClueView extends ElementView {
 
     @Override
     public void drawElement(Graphics2D graphics2D) {
-        graphics2D.setColor(UIManager.getColor("TreeTent.text"));
-        graphics2D.setFont(UIManager.getFont("TreeTent.font"));
-        FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("TreeTent.text"));
+        g.setFont(UIManager.getFont("TreeTent.font"));
+        FontMetrics metrics = g.getFontMetrics(g.getFont());
         String value;
 
         TreeTentClue clue = getPuzzleElement();
@@ -47,6 +48,10 @@ public class TreeTentClueView extends ElementView {
 
         int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
         int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-        graphics2D.drawString(value, xText, yText);
+        g.drawString(value, xText, yText);
+        g.dispose();
     }
+
+    @Override
+    public void drawBorder(Graphics2D graphics2D) {}
 }

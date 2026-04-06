@@ -40,16 +40,17 @@ public class HeyawakeView extends GridBoardView {
 
     @Override
     public void drawBoard(Graphics2D graphics2D) {
-        HeyawakeBoard heyawakeBoard = (HeyawakeBoard) board;
 
         for (ElementView elementView : elementViews) {
             elementView.draw(graphics2D);
         }
 
-        graphics2D.setColor(Color.BLACK);
-        graphics2D.setStroke(new BasicStroke(UIManager.getInt("Heyawake.regionBorderWidth")));
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("Heyawake.borderColor"));
+        g.setStroke(new BasicStroke(UIManager.getInt("Heyawake.regionBorderWidth")));
         for (Area s : regionsBoundaries.values()) {
-            graphics2D.draw(s);
+            g.draw(s);
         }
+        g.dispose();
     }
 }

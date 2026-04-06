@@ -112,7 +112,7 @@ public class DynamicView extends JPanel {
             JLabel zoomLabel = new JLabel("100%");
             zoomLabel.setPreferredSize(new Dimension(40, 50));
             zoomLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-            zoomLabel.setFont(UIManager.getFont("Legup.font").deriveFont(16f));
+            zoomLabel.setFont(UIManager.getFont("Legup.zoomLabelFont"));
 
             JSlider zoomSlider =
                     new JSlider(

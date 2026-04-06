@@ -467,7 +467,7 @@ public class PreferencesDialog extends JDialog {
         JPanel labelRow = new JPanel();
         labelRow.setLayout(new BorderLayout());
         JLabel label = new JLabel(text);
-        label.setFont(UIManager.getFont("Legup.font").deriveFont(Font.BOLD));
+        label.setFont(UIManager.getFont("Legup.prefsHeadingFont"));
         label.setHorizontalAlignment(JLabel.LEFT);
         labelRow.add(label, BorderLayout.WEST);
 

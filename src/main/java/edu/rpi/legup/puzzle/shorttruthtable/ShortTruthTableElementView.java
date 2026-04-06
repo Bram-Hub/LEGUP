@@ -21,32 +21,52 @@ public class ShortTruthTableElementView extends GridElementView {
     }
 
     @Override
+    public void draw(Graphics2D graphics2D) {
+        if (((ShortTruthTableCell) puzzleElement).getData() != ShortTruthTableCellType.NOT_IN_PLAY) {
+            drawElement(graphics2D);
+            if (puzzleElement.isGiven()) {
+                drawGiven(graphics2D);
+            }
+            if (puzzleElement.isModified()) {
+                drawModified(graphics2D);
+            }
+            if (isShowCasePicker() && isCaseRulePickable()) {
+                drawCase(graphics2D);
+            }
+            if (isHover()) {
+                drawHover(graphics2D);
+            }
+        }
+    }
+
+    @Override
     public void drawElement(Graphics2D graphics2D) {
-
-        // get information about the cell
+        Graphics2D g = (Graphics2D) graphics2D.create();
         ShortTruthTableCell cell = (ShortTruthTableCell) puzzleElement;
-        ShortTruthTableCellType type = cell.getData();
 
-        // do not draw the cell if it is not in play
-        if (type == ShortTruthTableCellType.NOT_IN_PLAY) return;
+        // Stop drawing if cell is not in play (functions like getImage call drawElement directly)
+        if (cell.getData() == ShortTruthTableCellType.NOT_IN_PLAY) {
+            return;
+        }
 
-        // fill in background color of the cell
-        graphics2D.setStroke(new BasicStroke(1));
-        graphics2D.setColor(UIManager.getColor(switch (type) {
-            case TRUE -> "ShortTruthTable.true";
-            case FALSE -> "ShortTruthTable.false";
-            default -> "ShortTruthTable.unknown";
-        }));
-        graphics2D.fillRect(location.x, location.y, size.width, size.height);
+        // Fill in background color of the cell
+        g.setColor(UIManager.getColor(
+                switch (cell.getData()) {
+                    case TRUE -> "ShortTruthTable.true";
+                    case FALSE -> "ShortTruthTable.false";
+                    default -> "ShortTruthTable.unknown";
+                }));
+        g.fillRect(location.x, location.y, size.width, size.height);
 
         // Draw the symbol on the cell
-        graphics2D.setColor(UIManager.getColor("ShortTruthTable.text"));
-        graphics2D.setFont(UIManager.getFont("ShortTruthTable.font"));
-        FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
+        g.setColor(UIManager.getColor("ShortTruthTable.text"));
+        g.setFont(UIManager.getFont("ShortTruthTable.font"));
+        FontMetrics metrics = g.getFontMetrics(g.getFont());
         String value = String.valueOf(cell.getSymbol());
         int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
         int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-        graphics2D.drawString(
-                ShortTruthTableOperation.getLogicSymbol(cell.getSymbol()), xText, yText);
+        g.drawString(ShortTruthTableOperation.getLogicSymbol(cell.getSymbol()), xText, yText);
+
+        g.dispose();
     }
 }

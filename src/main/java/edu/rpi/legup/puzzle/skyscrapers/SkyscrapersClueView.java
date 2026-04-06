@@ -23,19 +23,20 @@ public class SkyscrapersClueView extends ElementView {
     @Override
     public void draw(Graphics2D graphics2D) {
         drawElement(graphics2D);
-        if (this.isHover()) {
+        if (isHover()) {
             drawHover(graphics2D);
         }
-        if (this.isShowCasePicker() && this.isCaseRulePickable()) {
+        if (isShowCasePicker() && isCaseRulePickable()) {
             drawCase(graphics2D);
         }
     }
 
     @Override
     public void drawElement(Graphics2D graphics2D) {
-        graphics2D.setColor(UIManager.getColor("Skyscrapers.clue"));
-        graphics2D.setFont(UIManager.getFont("Skyscrapers.font"));
-        FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("Skyscrapers.clue"));
+        g.setFont(UIManager.getFont("Skyscrapers.font"));
+        FontMetrics metrics = g.getFontMetrics(g.getFont());
         String value;
 
         SkyscrapersClue clue = getPuzzleElement();
@@ -68,6 +69,7 @@ public class SkyscrapersClueView extends ElementView {
             clue.setData(1);
         }
 
-        graphics2D.drawString(value, xText, yText);
+        g.drawString(value, xText, yText);
+        g.dispose();
     }
 }

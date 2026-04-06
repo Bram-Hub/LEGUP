@@ -47,10 +47,11 @@ public class SudokuView extends GridBoardView {
     }
 
     public void drawGrid(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
         int minorSize = (int) Math.sqrt(gridSize.width);
-        graphics2D.setColor(UIManager.getColor("Sudoku.borderColor"));
-        graphics2D.setStroke(new BasicStroke(UIManager.getInt("Sudoku.majorBorderWidth")));
-        graphics2D.drawRect(
+        g.setColor(UIManager.getColor("Sudoku.borderColor"));
+        g.setStroke(new BasicStroke(UIManager.getInt("Sudoku.majorBorderWidth")));
+        g.drawRect(
                 3,
                 3,
                 gridSize.width * (elementSize.width + 1) + 3,
@@ -58,30 +59,33 @@ public class SudokuView extends GridBoardView {
 
         for (int i = 1; i < minorSize; i++) {
             int x = i * minorSize * elementSize.width + i * ((minorSize + 1)) + 3;
-            graphics2D.drawLine(x, 3, x, gridSize.height * (elementSize.height + 1) + 6);
+            g.drawLine(x, 3, x, gridSize.height * (elementSize.height + 1) + 6);
         }
         for (int i = 1; i < minorSize; i++) {
             int y = i * minorSize * elementSize.height + i * ((minorSize + 1)) + 3;
-            graphics2D.drawLine(3, y, gridSize.width * (elementSize.width + 1) + 6, y);
+            g.drawLine(3, y, gridSize.width * (elementSize.width + 1) + 6, y);
         }
+        g.dispose();
     }
 
     @Override
     public void drawBoard(Graphics2D graphics2D) {
-        drawGrid(graphics2D);
 
         if (board instanceof PossibleNumberCaseBoard) {
             drawCaseBoard(graphics2D);
             return;
         }
-        graphics2D.setColor(UIManager.getColor("Sudoku.borderColor"));
-        graphics2D.setStroke(new BasicStroke(UIManager.getInt("Sudoku.minorBorderWidth")));
+        drawGrid(graphics2D);
+
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("Sudoku.borderColor"));
+        g.setStroke(new BasicStroke(UIManager.getInt("Sudoku.minorBorderWidth")));
         ElementView hover = null;
         for (int i = 0; i < gridSize.height; i++) {
             for (int k = 0; k < gridSize.width; k++) {
                 ElementView element = elementViews.get(i * gridSize.height + k);
                 if (!element.isHover()) {
-                    element.draw(graphics2D);
+                    element.draw(g);
                 } else {
                     hover = element;
                 }
@@ -89,8 +93,9 @@ public class SudokuView extends GridBoardView {
         }
 
         if (hover != null) {
-            hover.draw(graphics2D);
+            hover.draw(g);
         }
+        g.dispose();
     }
 
     public void drawCaseBoard(Graphics2D graphics2D) {
@@ -99,21 +104,22 @@ public class SudokuView extends GridBoardView {
         PossibleNumberCaseBoard caseBoard = (PossibleNumberCaseBoard) board;
         SudokuBoard sudokuBoard = (SudokuBoard) caseBoard.getBaseBoard();
 
-        graphics2D.setColor(UIManager.getColor("Sudoku.borderColor"));
-        graphics2D.setStroke(new BasicStroke(UIManager.getInt("Sudoku.minorBorderWidth")));
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("Sudoku.borderColor"));
+        g.setStroke(new BasicStroke(UIManager.getInt("Sudoku.minorBorderWidth")));
         ElementView hover = null;
         for (int i = 0; i < gridSize.height; i++) {
             for (int k = 0; k < gridSize.width; k++) {
                 ElementView element = elementViews.get(i * gridSize.height + k);
                 if (!element.isHover()) {
-                    element.draw(graphics2D);
+                    element.draw(g);
                 } else {
                     hover = element;
                 }
             }
         }
 
-        graphics2D.setColor(new Color(0x1A, 0x23, 0x7E, 200));
+        g.setColor(UIManager.getColor("Sudoku.case"));
         for (int r : caseBoard.getPickableRegions()) {
             Set<SudokuCell> region = sudokuBoard.getRegion(r);
             int x = Integer.MAX_VALUE,
@@ -133,11 +139,12 @@ public class SudokuView extends GridBoardView {
             y = firstElement.getLocation().y;
             w = (lastElement.getLocation().x + elementSize.width) - x;
             h = (lastElement.getLocation().y + elementSize.height) - y;
-            graphics2D.fillRect(x + 4, y + 4, w - 8, h - 8);
+            g.fillRect(x + 4, y + 4, w - 8, h - 8);
         }
 
         //        if(hover != null)
-        //            hover.draw(graphics2D);
+        //            hover.draw(g);
+        g.dispose();
     }
 
     protected Dimension getProperSize() {

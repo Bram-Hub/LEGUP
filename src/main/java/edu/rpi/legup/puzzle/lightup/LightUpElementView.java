@@ -2,6 +2,7 @@ package edu.rpi.legup.puzzle.lightup;
 
 import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import javax.swing.UIManager;
 
 public class LightUpElementView extends GridElementView {
@@ -22,43 +23,46 @@ public class LightUpElementView extends GridElementView {
 
     @Override
     public void drawElement(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
         LightUpCell cell = (LightUpCell) puzzleElement;
         LightUpCellType type = cell.getType();
         switch (type) {
             case NUMBER -> {
-                graphics2D.setColor(UIManager.getColor("LightUp.white"));
-                graphics2D.setFont(UIManager.getFont("LightUp.font"));
-                FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
+                g.setColor(UIManager.getColor("LightUp.black"));
+                g.fillRect(location.x, location.y, size.width, size.height);
+                g.setColor(UIManager.getColor("LightUp.white"));
+                g.setFont(UIManager.getFont("LightUp.font"));
+                FontMetrics metrics = g.getFontMetrics(g.getFont());
                 String value = String.valueOf(puzzleElement.getData());
                 int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
                 int yText =
                         location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-                graphics2D.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
+                g.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
             }
             case BLACK -> {
-                graphics2D.setColor(UIManager.getColor("LightUp.black"));
-                graphics2D.fillRect(location.x, location.y, size.width, size.height);
+                g.setColor(UIManager.getColor("LightUp.black"));
+                g.fillRect(location.x, location.y, size.width, size.height);
             }
             case EMPTY -> {
-                graphics2D.setColor(UIManager.getColor(
+                g.setColor(UIManager.getColor(
                         cell.isLite() ? "LightUp.light" : "LightUp.white"));
-                graphics2D.fillRect(location.x, location.y, size.width, size.height);
-                graphics2D.setColor(UIManager.getColor("LightUp.black"));
-                graphics2D.fillRect(
+                g.fillRect(location.x, location.y, size.width, size.height);
+                g.setColor(UIManager.getColor("LightUp.black"));
+                g.fillRect(
                         location.x + size.width * 7 / 16,
                         location.y + size.height * 7 / 16,
                         size.width / 8,
                         size.height / 8);
             }
             case UNKNOWN -> {
-                graphics2D.setColor(UIManager.getColor(
+                g.setColor(UIManager.getColor(
                         cell.isLite() ? "LightUp.light" : "LightUp.unknown"));
-                graphics2D.fillRect(location.x, location.y, size.width, size.height);
+                g.fillRect(location.x, location.y, size.width, size.height);
             }
             case BULB -> {
-                graphics2D.setColor(UIManager.getColor("LightUp.unknown"));
-                graphics2D.fillRect(location.x, location.y, size.width, size.height);
-                graphics2D.drawImage(
+                g.setColor(UIManager.getColor("LightUp.unknown"));
+                g.fillRect(location.x, location.y, size.width, size.height);
+                g.drawImage(
                         LightUpView.lightImage,
                         location.x,
                         location.y,
@@ -68,8 +72,15 @@ public class LightUpElementView extends GridElementView {
                         null);
             }
         }
-        graphics2D.setStroke(new BasicStroke(UIManager.getInt("LightUp.borderWidth")));
-        graphics2D.setColor(UIManager.getColor("LightUp.borderColor"));
-        graphics2D.drawRect(location.x, location.y, size.width, size.height);
+        g.dispose();
+    }
+
+    @Override
+    public void drawBorder(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("LightUp.borderColor"));
+        g.setStroke(new BasicStroke(UIManager.getInt("LightUp.borderWidth")));
+        g.drawRect(location.x, location.y, size.width, size.height);
+        g.dispose();
     }
 }

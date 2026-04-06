@@ -17,15 +17,14 @@ public class TreeTentElementView extends GridElementView {
      */
     @Override
     public void drawElement(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
         TreeTentCell cell = (TreeTentCell) puzzleElement;
         TreeTentType type = cell.getType();
-        graphics2D.setStroke(new BasicStroke(UIManager.getInt("TreeTent.knownBorderWidth")));
         if (type == TreeTentType.UNKNOWN) {
-            graphics2D.setStroke(new BasicStroke(UIManager.getInt("TreeTent.unknownBorderWidth")));
-            graphics2D.setColor(UIManager.getColor("TreeTent.unknown"));
-            graphics2D.fill(new Rectangle2D.Double(location.x, location.y, size.width, size.height));
+            g.setColor(UIManager.getColor("TreeTent.unknown"));
+            g.fill(new Rectangle2D.Double(location.x, location.y, size.width, size.height));
         } else if (type == TreeTentType.TREE) {
-            graphics2D.drawImage(
+            g.drawImage(
                     TreeTentView.TREE,
                     location.x,
                     location.y,
@@ -34,7 +33,7 @@ public class TreeTentElementView extends GridElementView {
                     null,
                     null);
         } else if (type == TreeTentType.GRASS) {
-            graphics2D.drawImage(
+            g.drawImage(
                     TreeTentView.GRASS,
                     location.x,
                     location.y,
@@ -43,7 +42,7 @@ public class TreeTentElementView extends GridElementView {
                     null,
                     null);
         } else if (type == TreeTentType.TENT) {
-            graphics2D.drawImage(
+            g.drawImage(
                     TreeTentView.TENT,
                     location.x,
                     location.y,
@@ -52,7 +51,17 @@ public class TreeTentElementView extends GridElementView {
                     null,
                     null);
         }
-        graphics2D.setColor(UIManager.getColor("TreeTent.borderColor"));
-        graphics2D.drawRect(location.x, location.y, size.width, size.height);
+        g.dispose();
+    }
+
+    @Override
+    public void drawBorder(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("TreeTent.borderColor"));
+        g.setStroke(new BasicStroke(UIManager.getInt(
+                ((TreeTentCell) puzzleElement).getType() == TreeTentType.UNKNOWN ?
+                "TreeTent.unknownBorderWidth" : "TreeTent.knownBorderWidth")));
+        g.drawRect(location.x, location.y, size.width, size.height);
+        g.dispose();
     }
 }

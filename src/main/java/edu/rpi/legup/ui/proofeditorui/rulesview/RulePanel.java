@@ -66,11 +66,10 @@ public abstract class RulePanel extends JPanel {
             ruleButtons[i].setPreferredSize(
                     new Dimension(150, 150)); // adjust the size of each RuleButton
 
-            if (rule.getRuleName().length() > 18) {
-                ruleButtons[i].setFont(new Font("Segoe UI", Font.PLAIN, 11));
-            }
-            if (rule.getRuleName().length() > 20) {
-                ruleButtons[i].setFont(new Font("Segoe UI", Font.PLAIN, 10));
+            if (rule.getRuleName().length() <= 18) {
+                ruleButtons[i].setFont(UIManager.getFont("Rules.font"));
+            } else {
+                ruleButtons[i].setFont(UIManager.getFont("Rules.smallFont"));
             }
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug(ruleButtons[i].getFont().getName());

@@ -2,6 +2,7 @@ package edu.rpi.legup.puzzle.fillapix;
 
 import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import javax.swing.UIManager;
 
 public class FillapixElementView extends GridElementView {
@@ -27,29 +28,37 @@ public class FillapixElementView extends GridElementView {
      */
     @Override
     public void drawElement(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
         FillapixCell cell = (FillapixCell) puzzleElement;
         FillapixCellType type = cell.getType();
-        graphics2D.setColor(UIManager.getColor(
+        g.setColor(UIManager.getColor(
                 switch (type) {
                     case BLACK -> "Fillapix.black";
                     case WHITE -> "Fillapix.white";
                     case UNKNOWN -> "Fillapix.unknown";
                 }
         ));
-        graphics2D.fillRect(location.x, location.y, size.width, size.height);
+        g.fillRect(location.x, location.y, size.width, size.height);
         if (cell.getNumber() >= 0 && cell.getNumber() < 10) {
-            graphics2D.setColor(UIManager.getColor(
-                    type == FillapixCellType.WHITE ? "Fillapix.black" : "Fillapix.white"));
-            graphics2D.setFont(UIManager.getFont("Fillapix.font"));
-            FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
+            g.setColor(UIManager.getColor(
+                    type == FillapixCellType.BLACK ? "Fillapix.white" : "Fillapix.black"));
+            g.setFont(UIManager.getFont("Fillapix.font"));
+            FontMetrics metrics = g.getFontMetrics(g.getFont());
             String value = String.valueOf(cell.getNumber());
             int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             int yText =
                     location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-            graphics2D.drawString(value, xText, yText);
+            g.drawString(value, xText, yText);
         }
-        graphics2D.setStroke(new BasicStroke(UIManager.getInt("Fillapix.borderWidth")));
-        graphics2D.setColor(UIManager.getColor("Fillapix.borderColor"));
-        graphics2D.drawRect(location.x, location.y, size.width, size.height);
+        g.dispose();
+    }
+
+    @Override
+    public void drawBorder(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("Fillapix.borderColor"));
+        g.setStroke(new BasicStroke(UIManager.getInt("Fillapix.borderWidth")));
+        g.drawRect(location.x, location.y, size.width, size.height);
+        g.dispose();
     }
 }

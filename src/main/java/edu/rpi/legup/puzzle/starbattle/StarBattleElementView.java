@@ -21,13 +21,14 @@ public class StarBattleElementView extends GridElementView {
 
     @Override
     public void drawElement(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
         StarBattleCell cell = (StarBattleCell) puzzleElement;
         StarBattleCellType type = cell.getType();
         if (LOGGER.isTraceEnabled()) {
             LOGGER.trace("point for cell is {},{}\n", location.x, location.y);
         }
         if (type == StarBattleCellType.STAR) {
-            graphics2D.drawImage(
+            g.drawImage(
                     StarBattleView.STAR,
                     location.x,
                     location.y,
@@ -36,20 +37,27 @@ public class StarBattleElementView extends GridElementView {
                     UIManager.getColor("StarBattle.background"),
                     null);
         } else if (type == StarBattleCellType.BLACK) {
-            graphics2D.setColor(UIManager.getColor("StarBattle.background"));
-            graphics2D.fillRect(location.x, location.y, size.width, size.height);
-            graphics2D.setColor(UIManager.getColor("StarBattle.foreground"));
-            graphics2D.fillRect(
+            g.setColor(UIManager.getColor("StarBattle.background"));
+            g.fillRect(location.x, location.y, size.width, size.height);
+            g.setColor(UIManager.getColor("StarBattle.foreground"));
+            g.fillRect(
                     location.x + size.width * 7 / 16,
                     location.y + size.height * 7 / 16,
                     size.width / 8,
                     size.height / 8);
         } else if (type == StarBattleCellType.UNKNOWN) {
-            graphics2D.setColor(UIManager.getColor("StarBattle.unknown"));
-            graphics2D.fillRect(location.x, location.y, size.width, size.height);
+            g.setColor(UIManager.getColor("StarBattle.unknown"));
+            g.fillRect(location.x, location.y, size.width, size.height);
         }
-        graphics2D.setStroke(new BasicStroke(UIManager.getInt("StarBattle.borderWidth")));
-        graphics2D.setColor(UIManager.getColor("StarBattle.borderColor"));
-        graphics2D.drawRect(location.x, location.y, size.width, size.height);
+        g.dispose();
+    }
+
+    @Override
+    public void drawBorder(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("StarBattle.borderColor"));
+        g.setStroke(new BasicStroke(UIManager.getInt("StarBattle.cellBorderWidth")));
+        g.drawRect(location.x, location.y, size.width, size.height);
+        g.dispose();
     }
 }

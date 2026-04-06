@@ -19,21 +19,29 @@ public class MasyuElementView extends GridElementView {
         MasyuCell cell = (MasyuCell) puzzleElement;
         MasyuType type = cell.getType();
 
-        graphics2D.setColor(UIManager.getColor("Masyu.background"));
-        graphics2D.fillRect(location.x, location.y, size.width, size.height);
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("Masyu.background"));
+        g.fillRect(location.x, location.y, size.width, size.height);
 
         if (type == MasyuType.BLACK) {
-            graphics2D.setColor(UIManager.getColor("Masyu.black"));
-            graphics2D.fillOval(location.x + 5, location.y + 5, 20, 20);
+            g.setColor(UIManager.getColor("Masyu.black"));
+            g.fillOval(location.x + 5, location.y + 5, 20, 20);
         } else if (type == MasyuType.WHITE) {
-            graphics2D.setStroke(new BasicStroke(2));
-            graphics2D.setColor(UIManager.getColor("Masyu.white"));
-            graphics2D.fillOval(location.x + 5, location.y + 5, 20, 20);
-            graphics2D.setColor(UIManager.getColor("Masyu.black"));
-            graphics2D.drawOval(location.x + 6, location.y + 6, 18, 18);
+            g.setStroke(new BasicStroke(2));
+            g.setColor(UIManager.getColor("Masyu.white"));
+            g.fillOval(location.x + 5, location.y + 5, 20, 20);
+            g.setColor(UIManager.getColor("Masyu.black"));
+            g.drawOval(location.x + 6, location.y + 6, 18, 18);
         }
-        graphics2D.setStroke(new BasicStroke(UIManager.getInt("Masyu.borderWidth")));
-        graphics2D.setColor(UIManager.getColor("Masyu.borderColor"));
-        graphics2D.drawRect(location.x, location.y, size.width, size.height);
+        g.dispose();
+    }
+
+    @Override
+    public void drawBorder(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("Masyu.borderColor"));
+        g.setStroke(new BasicStroke(UIManager.getInt("Masyu.borderWidth")));
+        g.drawRect(location.x, location.y, size.width, size.height);
+        g.dispose();
     }
 }

@@ -61,10 +61,11 @@ public class TreeTransitionView extends TreeElementView {
      * @param graphics2D graphics2D used for drawing
      */
     public void draw(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
         arrowhead = createTransitionTriangle(RADIUS);
 
-        graphics2D.setColor(UIManager.getColor("Tree.outline"));
-        graphics2D.setStroke(new BasicStroke(UIManager.getInt("Tree.outlineWidth")));
+        g.setColor(UIManager.getColor("Tree.outline"));
+        g.setStroke(new BasicStroke(UIManager.getInt("Tree.outlineWidth")));
 
         for (Point lineStartPoint : lineStartPoints) {
             CubicCurve2D c = new CubicCurve2D.Double();
@@ -82,55 +83,56 @@ public class TreeTransitionView extends TreeElementView {
                     ctrly2,
                     lineEndPoint.x,
                     lineEndPoint.y);
-            graphics2D.draw(c);
+            g.draw(c);
         }
 
         if (isSelected) {
             if (getTreeElement().isJustified()) {
-                graphics2D.setColor(UIManager.getColor(
-                        getTreeElement().isCorrect() ? "Puzzle.valid" : "Puzzle.invalid"));
+                g.setColor(UIManager.getColor(
+                        getTreeElement().isCorrect() ? "Tree.valid" : "Tree.invalid"));
             } else {
-                graphics2D.setColor(UIManager.getColor("Tree.arrowDefault"));
+                g.setColor(UIManager.getColor("Tree.arrowDefault"));
             }
 
-            graphics2D.fillPolygon(arrowhead);
+            g.fillPolygon(arrowhead);
 
-            graphics2D.setColor(UIManager.getColor("Tree.outline"));
-            graphics2D.drawPolygon(arrowhead);
+            g.setColor(UIManager.getColor("Tree.outline"));
+            g.drawPolygon(arrowhead);
 
             Polygon selection_triangle = createTransitionTriangle(RADIUS + 10);
             selection_triangle.translate(7, 0);
 
-            graphics2D.setStroke(new BasicStroke(UIManager.getInt("Tree.selectedWidth")));
-            graphics2D.setColor(UIManager.getColor("Tree.selectedOutline"));
-            graphics2D.drawPolygon(selection_triangle);
+            g.setStroke(new BasicStroke(UIManager.getInt("Tree.selectedWidth")));
+            g.setColor(UIManager.getColor("Tree.selectedOutline"));
+            g.drawPolygon(selection_triangle);
         } else {
             if (isHover) {
-                graphics2D.setColor(UIManager.getColor("Tree.hover"));
-                graphics2D.fillPolygon(arrowhead);
+                g.setColor(UIManager.getColor("Tree.hover"));
+                g.fillPolygon(arrowhead);
 
-                graphics2D.setColor(UIManager.getColor("Tree.outline"));
-                graphics2D.drawPolygon(arrowhead);
+                g.setColor(UIManager.getColor("Tree.outline"));
+                g.drawPolygon(arrowhead);
 
                 Polygon selection_triangle = createTransitionTriangle(RADIUS + 10);
                 selection_triangle.translate(7, 0);
 
-                graphics2D.setStroke(new BasicStroke(UIManager.getInt("Tree.selectedWidth")));
-                graphics2D.setColor(UIManager.getColor("Tree.hoverOutline"));
-                graphics2D.drawPolygon(selection_triangle);
+                g.setStroke(new BasicStroke(UIManager.getInt("Tree.selectedWidth")));
+                g.setColor(UIManager.getColor("Tree.hoverOutline"));
+                g.drawPolygon(selection_triangle);
             } else {
                 if (getTreeElement().isJustified()) {
-                    graphics2D.setColor(UIManager.getColor(
-                            getTreeElement().isCorrect() ? "Puzzle.valid" : "Puzzle.invalid"));
+                    g.setColor(UIManager.getColor(
+                            getTreeElement().isCorrect() ? "Tree.valid" : "Tree.invalid"));
                 } else {
-                    graphics2D.setColor(UIManager.getColor("Tree.arrowDefault"));
+                    g.setColor(UIManager.getColor("Tree.arrowDefault"));
                 }
-                graphics2D.fillPolygon(arrowhead);
+                g.fillPolygon(arrowhead);
 
-                graphics2D.setColor(UIManager.getColor("Tree.outline"));
-                graphics2D.drawPolygon(arrowhead);
+                g.setColor(UIManager.getColor("Tree.outline"));
+                g.drawPolygon(arrowhead);
             }
         }
+        g.dispose();
     }
 
     /** Constructs the arrowhead shape from the start and end points */

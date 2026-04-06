@@ -27,8 +27,10 @@ public class BinaryElementView extends GridElementView {
      */
     @Override
     public void drawGiven(Graphics2D graphics2D) {
-        graphics2D.setColor(UIManager.getColor("Binary.given"));
-        graphics2D.fillRect(location.x, location.y, size.width, size.height);
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("Binary.given"));
+        g.fillRect(location.x, location.y, size.width, size.height);
+        g.dispose();
     }
 
     /**
@@ -38,18 +40,24 @@ public class BinaryElementView extends GridElementView {
      */
     @Override
     public void drawElement(Graphics2D graphics2D) {
-        graphics2D.setColor(UIManager.getColor("Binary.background"));
-        graphics2D.fillRect(location.x, location.y, size.width, size.height);
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("Binary.background"));
+        g.fillRect(location.x, location.y, size.width, size.height);
+        if (((BinaryCell) puzzleElement).getType() != BinaryType.UNKNOWN) {
+            drawCenteredText(g);
+        }
+        g.dispose();
+    }
 
-        if (((BinaryCell) puzzleElement).getType() == BinaryType.UNKNOWN) {
-            graphics2D.setStroke(new BasicStroke(UIManager.getInt("Binary.borderWidthUnknown")));
-        }
-        else {
-            graphics2D.setStroke(new BasicStroke(UIManager.getInt("Binary.borderWidthKnown")));
-            drawCenteredText(graphics2D);
-        }
-        graphics2D.setColor(UIManager.getColor("Binary.borderColor"));
-        graphics2D.drawRect(location.x, location.y, size.width, size.height);
+    @Override
+    public void drawBorder(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setStroke(new BasicStroke(UIManager.getInt(
+                ((BinaryCell) puzzleElement).getType() == BinaryType.UNKNOWN ?
+                        "Binary.unknownBorderWidth" : "Binary.knownBorderWidth")));
+        g.setColor(UIManager.getColor("Binary.borderColor"));
+        g.drawRect(location.x, location.y, size.width, size.height);
+        g.dispose();
     }
 
     /**
@@ -58,12 +66,14 @@ public class BinaryElementView extends GridElementView {
      * @param graphics2D The graphics object to draw on
      */
     private void drawCenteredText(Graphics2D graphics2D) {
-        graphics2D.setColor(UIManager.getColor("Binary.text"));
-        graphics2D.setFont(UIManager.getFont("Binary.font"));
-        FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("Binary.text"));
+        g.setFont(UIManager.getFont("Binary.font"));
+        FontMetrics metrics = g.getFontMetrics(g.getFont());
         String value = String.valueOf(puzzleElement.getData());
         int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
         int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-        graphics2D.drawString(value, xText, yText);
+        g.drawString(value, xText, yText);
+        g.dispose();
     }
 }

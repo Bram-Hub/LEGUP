@@ -21,26 +21,27 @@ public class MinesweeperElementView extends GridElementView {
     @SuppressWarnings("Duplicates")
     @Contract(pure = true)
     public void drawElement(@NotNull Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
         final MinesweeperCell cell = (MinesweeperCell) puzzleElement;
         final MinesweeperTileType type = cell.getTileType();
         if (type == MinesweeperTileType.NUMBER) {
-            graphics2D.setColor(UIManager.getColor("Minesweeper.background"));
-            graphics2D.fillRect(location.x, location.y, size.width, size.height);
+            g.setColor(UIManager.getColor("Minesweeper.background"));
+            g.fillRect(location.x, location.y, size.width, size.height);
 
             int intValue = ((MinesweeperCell) puzzleElement).getData().data();
-            graphics2D.setColor(UIManager.getColor("Minesweeper.color" + intValue));
+            g.setColor(UIManager.getColor("Minesweeper.color" + intValue));
 
-            graphics2D.setFont(UIManager.getFont("Minesweeper.font"));
-            final FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
+            g.setFont(UIManager.getFont("Minesweeper.font"));
+            final FontMetrics metrics = g.getFontMetrics(g.getFont());
             final String value = String.valueOf(intValue);
             final int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             final int yText =
                     location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
 
-            graphics2D.drawString(value, xText, yText);
+            g.drawString(value, xText, yText);
         }
         if (type == MinesweeperTileType.UNSET) {
-            graphics2D.drawImage(
+            g.drawImage(
                     MinesweeperView.UNSET_IMAGE,
                     location.x,
                     location.y,
@@ -50,7 +51,7 @@ public class MinesweeperElementView extends GridElementView {
                     null);
         }
         if (type == MinesweeperTileType.EMPTY) {
-            graphics2D.drawImage(
+            g.drawImage(
                     MinesweeperView.EMPTY_IMAGE,
                     location.x,
                     location.y,
@@ -60,7 +61,7 @@ public class MinesweeperElementView extends GridElementView {
                     null);
         }
         if (type == MinesweeperTileType.MINE) {
-            graphics2D.drawImage(
+            g.drawImage(
                     MinesweeperView.MINE_IMAGE,
                     location.x,
                     location.y,
@@ -69,8 +70,15 @@ public class MinesweeperElementView extends GridElementView {
                     UIManager.getColor("Minesweeper.background"),
                     null);
         }
-        graphics2D.setStroke(new BasicStroke(UIManager.getInt("Minesweeper.borderWidth")));
-        graphics2D.setColor(UIManager.getColor("Minesweeper.borderColor"));
-        graphics2D.drawRect(location.x, location.y, size.width, size.height);
+        g.dispose();
+    }
+
+    @Override
+    public void drawBorder(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("Minesweeper.borderColor"));
+        g.setStroke(new BasicStroke(UIManager.getInt("Minesweeper.borderWidth")));
+        g.drawRect(location.x, location.y, size.width, size.height);
+        g.dispose();
     }
 }
