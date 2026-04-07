@@ -239,6 +239,10 @@ public class ElementController
                         for (GridCell c : goal.getCells()) {
                             if (c.getLocation().equals(gridCell.getLocation())) {
                                 exists = true;
+                                if(element.toString().equals("Number Tile")) {
+                                    goal.getCells().remove(c);
+                                    goal.addCell(gridCell.copy());
+                                }
                                 break;
                             }
                         }
@@ -246,6 +250,8 @@ public class ElementController
                             // Add a copy so Goal stores an independent snapshot of the goal cell
                             goal.addCell(gridCell.copy());
                         }
+
+
                     } else {
                         // If cell was unmarked as a goal, remove any matching location from the goal list
                         var itr = goal.getCells().iterator();
