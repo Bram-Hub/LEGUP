@@ -14,6 +14,7 @@ public class TreeNode extends TreeElement {
     private List<TreeTransition> children;
     private boolean isRoot;
 
+
     /**
      * TreeNode Constructor creates a tree node whenever a rule has been made
      *
