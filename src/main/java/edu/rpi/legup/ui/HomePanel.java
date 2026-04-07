@@ -18,6 +18,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.*;
@@ -241,7 +242,7 @@ public class HomePanel extends LegupPanel {
         browseButton.addActionListener(
                 e -> {
                     JFileChooser folderBrowser = new JFileChooser();
-                    folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+                    folderBrowser.setCurrentDirectory(new File(LegupPreferences.workDirectory()));
                     folderBrowser.setDialogTitle("Select Directory");
                     folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                     folderBrowser.setAcceptAllFileFilterUsed(false);
@@ -573,15 +574,15 @@ public class HomePanel extends LegupPanel {
         this.text = new JLabel[3];
 
         JLabel welcome = new JLabel("Welcome to LEGUP");
-        welcome.setFont(new Font("Roboto", Font.BOLD, 23));
+        welcome.setFont(UIManager.getFont("Legup.titleFont"));
         welcome.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel credits = new JLabel("A project by Dr. Bram van Heuveln");
-        credits.setFont(new Font("Roboto", Font.PLAIN, 12));
         credits.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel version = new JLabel("Version " + VersionInfo.getVersion());
-        version.setFont(new Font("Roboto", Font.ITALIC, 10));
+        version.setBorder(new EmptyBorder(0,0,0,5)); // Prevent italic text cutoff
+        version.setFont(UIManager.getFont("Legup.versionFont"));
         version.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         this.text[0] = welcome;

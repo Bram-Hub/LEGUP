@@ -10,12 +10,12 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.ui.DynamicView;
 import edu.rpi.legup.ui.DynamicViewType;
-import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 import java.awt.*;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.UIManager;
 
 /**
  * {@code TreePanel} is a JPanel that manages and displays a tree view with associated toolbar and
@@ -105,8 +105,8 @@ public class TreePanel extends JPanel {
      * @param statusString the status string to display
      */
     public void updateStatus(String statusString) {
-        status.setForeground(Color.BLACK);
-        status.setFont(MaterialFonts.REGULAR);
+        status.setForeground(UIManager.getColor("Legup.infoColor"));
+        status.setFont(UIManager.getFont("Legup.infoFont"));
         status.setText(statusString);
     }
 
@@ -116,8 +116,8 @@ public class TreePanel extends JPanel {
      * @param error the error message to display
      */
     public void updateError(String error) {
-        status.setForeground(Color.RED);
-        status.setFont(MaterialFonts.ITALIC);
+        status.setForeground(UIManager.getColor("Legup.errorColor"));
+        status.setFont(UIManager.getFont("Legup.errorFont"));
         status.setText(error);
     }
 

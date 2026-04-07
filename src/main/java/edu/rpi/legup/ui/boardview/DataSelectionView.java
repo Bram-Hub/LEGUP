@@ -1,7 +1,7 @@
 package edu.rpi.legup.ui.boardview;
 
 import edu.rpi.legup.controller.ElementController;
-import java.awt.*;
+
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 
@@ -17,7 +17,7 @@ public class DataSelectionView extends JPopupMenu {
      * @param controller The ElementController to handle UI events.
      */
     public DataSelectionView(ElementController controller) {
-        setBackground(Color.GRAY);
+        setBackground(UIManager.getColor("DataSelection.background"));
         setBorder(new BevelBorder(BevelBorder.RAISED));
     }
 }

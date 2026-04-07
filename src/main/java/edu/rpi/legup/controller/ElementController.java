@@ -223,7 +223,7 @@ public class ElementController
 
         if (elementView != null && elementView != selection.getHover()) {
             selection.newHover(elementView);
-            if (LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.SHOW_MISTAKES)) {
+            if (LegupPreferences.showMistakes()) {
                 PuzzleElement element = elementView.getPuzzleElement();
                 if (treeElement != null
                         && treeElement.getType() == TreeElementType.TRANSITION

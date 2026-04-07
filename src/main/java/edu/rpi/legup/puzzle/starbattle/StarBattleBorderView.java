@@ -3,9 +3,9 @@ package edu.rpi.legup.puzzle.starbattle;
 import edu.rpi.legup.ui.boardview.ElementView;
 import java.awt.*;
 import java.awt.geom.Line2D;
+import javax.swing.UIManager;
 
 public class StarBattleBorderView extends ElementView {
-    private static final Color Border_COLOR = Color.BLACK;
     private StarBattleCellType type;
 
     public StarBattleBorderView(StarBattleBorder border) {
@@ -26,9 +26,9 @@ public class StarBattleBorderView extends ElementView {
     @Override
     public void draw(Graphics2D graphics2D) {
         drawElement(graphics2D);
-        if (this.isShowCasePicker() && this.isCaseRulePickable()) {
+        if (isShowCasePicker() && isCaseRulePickable()) {
             drawCase(graphics2D);
-            if (this.isHover()) {
+            if (isHover()) {
                 drawHover(graphics2D);
             }
         }
@@ -36,24 +36,19 @@ public class StarBattleBorderView extends ElementView {
 
     @Override
     public void drawElement(Graphics2D graphics2D) {
-        graphics2D.setColor(Color.BLACK);
-
-        StarBattleBorder border = getPuzzleElement();
+        Graphics2D g = (Graphics2D) graphics2D.create();
         float xSize = size.width;
         float ySize = size.height;
-        Color borderColor = Color.BLACK;
-        float borderWidth = 3.0f; // ySize = ySize / 15
+
+        g.setColor(UIManager.getColor("StarBattle.borderColor"));
+        g.setStroke(new BasicStroke(UIManager.getInt("StarBattle.regionBorderWidth"),
+                BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER));
         if (type == StarBattleCellType.HORIZ_BORDER) { // minimize ySize / height
-            graphics2D.setColor(borderColor);
-            graphics2D.setStroke(new BasicStroke(borderWidth));
-            graphics2D.draw(
-                    new Line2D.Double(location.x, location.y, location.x + (xSize), location.y));
+            g.draw(new Line2D.Double(location.x, location.y, location.x + xSize, location.y));
         } else if (type == StarBattleCellType.VERT_BORDER) { // minimize xSize / width
-            graphics2D.setColor(borderColor);
-            graphics2D.setStroke(new BasicStroke(borderWidth));
-            graphics2D.draw(
-                    new Line2D.Double(location.x, location.y, location.x, location.y + (ySize)));
+            g.draw(new Line2D.Double(location.x, location.y, location.x, location.y + ySize));
         }
+        g.dispose();
         // This needs more work but it'll do for now (add  - (xSize / 2) to location.y and x that
         // don't have it)
         // Also, look into changing width of borders, size of cell = 30 units
