@@ -14,6 +14,8 @@ import org.apache.logging.log4j.Logger;
 /**
  * Abstract base class for panels displaying rules. Each subclass will represent a specific type of
  * rule panel (e.g., DirectRulePanel, CaseRulePanel).
+ *
+ * Subclasses: CaseRulePanel, DirectRulePanel, ContradictionRulePanel
  */
 public abstract class RulePanel extends JPanel {
     private static final Logger LOGGER = LogManager.getLogger(RulePanel.class.getName());
