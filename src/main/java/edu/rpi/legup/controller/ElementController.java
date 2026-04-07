@@ -199,17 +199,19 @@ public class ElementController
         if (goalPlacementMode) {
             PuzzleElement selectedCell = b.getCell(scaledPoint.x, scaledPoint.y);
             if (selectedCell != null) {
+                // Get the type of the goal value to determine how to set the cell's data and goal data
                 PlaceableElement element = (PlaceableElement) goalValueData;
+                // If the element being placed isn't a number tile, simply toggle the cell's goal status
                 if(!element.toString().equals("Number Tile")){
                     selectedCell.setGoal(!selectedCell.isGoal());
                 }
+                // If the element is a number tile and not already a goal cell, toggle the cell's goal status
+                // and set the goal data to the data value of the cell before placement
                 else if (element.toString().equals("Number Tile") && !selectedCell.isGoal()){
                     selectedCell.setGoal(!selectedCell.isGoal());
                     PuzzleElement tempCell = selectedCell.copy();
                     selectedCell.setGoalData(tempCell.getData());
                 }
-
-                // Set the goal data if a goal value is selected
                 if (selectedCell.isGoal() && goalValueData != null) {
                         // Create a temporary cell copy to determine what data value this element represents
                         PuzzleElement tempCell = selectedCell.copy();
@@ -220,8 +222,11 @@ public class ElementController
                             selectedCell.setGoalData(tempCell.getData());
                             tempCell.setType(element, null);
                         }
+                        // Set the cell's data to the goal value's data so the cell reflects the goal condition in the editor
                         selectedCell.setData(tempCell.getData());
-                } else if (!selectedCell.isGoal()) {
+                }
+                // If the cell was already a goal and is being toggled off, clear the goal data and reset the cell's data to the non-goal state
+                else if (!selectedCell.isGoal()) {
                     selectedCell.setData(selectedCell.getGoalData());
                     selectedCell.setGoalData(null);
 
@@ -239,6 +244,7 @@ public class ElementController
                         for (GridCell c : goal.getCells()) {
                             if (c.getLocation().equals(gridCell.getLocation())) {
                                 exists = true;
+                                // If cell is a number tile, update the goal cell in the goal list to have the correct data for hover text
                                 if(element.toString().equals("Number Tile")) {
                                     goal.getCells().remove(c);
                                     goal.addCell(gridCell.copy());
