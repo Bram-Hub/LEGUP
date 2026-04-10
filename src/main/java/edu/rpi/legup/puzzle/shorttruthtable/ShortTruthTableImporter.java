@@ -331,6 +331,7 @@ class ShortTruthTableImporter extends PuzzleImporter {
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), sttBoard);
                     goal.addCell(cell);
+                    sttBoard.getCell(cell.getLocation()).setGoal(true);
                 }
                 puzzle.setGoal(goal);
             } else {

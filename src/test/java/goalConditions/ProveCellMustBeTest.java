@@ -35,10 +35,16 @@ public class ProveCellMustBeTest {
     @Test
     public void TestRootNode() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMustBe/RootComplete", puzzle));
+                "goalConditions/ProveCellMustBe/RootCompleteWithAssumption", puzzle));
+
+        Assert.assertTrue(TestUtilities.verifyBoard(
+                "goalConditions/ProveCellMustBe/RootCompleteNoAssumption", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMustBe/RootIncomplete", puzzle));
+                "goalConditions/ProveCellMustBe/RootIncompleteWithAssumption", puzzle));
+
+        Assert.assertFalse(TestUtilities.verifyBoard(
+                "goalConditions/ProveCellMustBe/RootIncompleteNoAssumption", puzzle));
     }
 
 
@@ -46,20 +52,23 @@ public class ProveCellMustBeTest {
     @Test
     public void TestSinglePath() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMustBe/CompleteLine", puzzle));
+                "goalConditions/ProveCellMustBe/CompleteLineWithAssumption", puzzle));
 
         Assert.assertTrue(TestUtilities.verifyBoard(
                 "goalConditions/ProveCellMustBe/OvercompleteLine", puzzle));
 
-        // True because we're assuming there's a solution, False if we don't
         Assert.assertTrue(TestUtilities.verifyBoard(
+                "goalConditions/ProveCellMustBe/SolvedLine", puzzle));
+
+        Assert.assertFalse(TestUtilities.verifyBoard(
                 "goalConditions/ProveCellMustBe/ContradictoryLine", puzzle));
+
+        Assert.assertFalse(TestUtilities.verifyBoard(
+                "goalConditions/ProveCellMustBe/CompleteLineNoAssumption", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
                 "goalConditions/ProveCellMustBe/IncompleteLine", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMustBe/SomeUnproven", puzzle));
     }
 
 

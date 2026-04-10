@@ -86,24 +86,6 @@ public class LightUpImporter extends PuzzleImporter {
                 throw new InvalidFileFormatException("lightup Importer: invalid board dimensions");
             }
 
-            if (boardElement.getElementsByTagName("goal").getLength() != 0) {
-                Element goalElement = (Element) boardElement.getElementsByTagName("goal").item(0);
-                Goal goal = puzzle.getFactory().importGoal(goalElement, lightUpBoard);
-
-                NodeList cellList = goalElement.getElementsByTagName("cell");
-                for (int i = 0; i < cellList.getLength(); i++) {
-                    LightUpCell cell =
-                            (LightUpCell)
-                                    puzzle.getFactory()
-                                            .importCell(cellList.item(i), lightUpBoard);
-
-                    goal.addCell(cell);
-                }
-                puzzle.setGoal(goal);
-            } else {
-                Goal goal = new Goal(null, GoalType.DEFAULT);
-                puzzle.setGoal(goal);
-            }
 
             int width = lightUpBoard.getWidth();
             int height = lightUpBoard.getHeight();
@@ -132,6 +114,27 @@ public class LightUpImporter extends PuzzleImporter {
                 }
             }
             puzzle.setCurrentBoard(lightUpBoard);
+
+            if (boardElement.getElementsByTagName("goal").getLength() != 0) {
+                Element goalElement = (Element) boardElement.getElementsByTagName("goal").item(0);
+                Goal goal = puzzle.getFactory().importGoal(goalElement, lightUpBoard);
+
+                NodeList cellList = goalElement.getElementsByTagName("cell");
+                for (int i = 0; i < cellList.getLength(); i++) {
+                    LightUpCell cell =
+                            (LightUpCell)
+                                    puzzle.getFactory()
+                                            .importCell(cellList.item(i), lightUpBoard);
+
+                    goal.addCell(cell);
+                    lightUpBoard.getCell(cell.getLocation()).setGoal(true);
+                }
+                puzzle.setGoal(goal);
+            } else {
+                Goal goal = new Goal(null, GoalType.DEFAULT);
+                puzzle.setGoal(goal);
+            }
+
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "lightup Importer: unknown value where integer expected");

@@ -97,6 +97,7 @@ public class FillapixImporter extends PuzzleImporter {
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), fillapixBoard);
                     goal.addCell(cell);
+                    fillapixBoard.getCell(cell.getLocation()).setGoal(true);
                 }
                 puzzle.setGoal(goal);
             } else {

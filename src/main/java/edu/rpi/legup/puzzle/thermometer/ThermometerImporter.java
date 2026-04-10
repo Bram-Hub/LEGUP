@@ -127,6 +127,7 @@ public class ThermometerImporter extends PuzzleImporter {
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), thermometerBoard);
                     goal.addCell(cell);
+                    thermometerBoard.getCell(cell.getLocation()).setGoal(true);
                 }
                 puzzle.setGoal(goal);
             } else {

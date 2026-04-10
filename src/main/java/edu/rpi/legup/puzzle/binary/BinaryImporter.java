@@ -137,6 +137,7 @@ public class BinaryImporter extends PuzzleImporter {
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), binaryBoard);
                     goal.addCell(cell);
+                    binaryBoard.getCell(cell.getLocation()).setGoal(true);
                 }
                 puzzle.setGoal(goal);
             } else {

@@ -98,6 +98,7 @@ public class StarBattleImporter extends PuzzleImporter {
                                 puzzle.getFactory()
                                         .importCell(cellList.item(i), StarBattleBoard);
                 goal.addCell(cell);
+                StarBattleBoard.getCell(cell.getLocation()).setGoal(true);
             }
             puzzle.setGoal(goal);
         } else {

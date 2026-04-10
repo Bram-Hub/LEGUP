@@ -222,6 +222,8 @@ public class TreeTentImporter extends PuzzleImporter {
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), treeTentBoard);
                     goal.addCell(cell);
+                    treeTentBoard.getCell(cell.getLocation()).setGoal(true);
+
                 }
                 puzzle.setGoal(goal);
             } else {

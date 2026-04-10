@@ -191,6 +191,7 @@ public class BattleshipImporter extends PuzzleImporter {
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), battleShipBoard);
                     goal.addCell(cell);
+                    battleShipBoard.getCell(cell.getLocation()).setGoal(true);
                 }
                 puzzle.setGoal(goal);
             } else {

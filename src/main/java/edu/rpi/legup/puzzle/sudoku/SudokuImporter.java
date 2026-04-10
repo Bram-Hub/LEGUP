@@ -126,6 +126,7 @@ public class SudokuImporter extends PuzzleImporter {
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), sudokuBoard);
                     goal.addCell(cell);
+                    sudokuBoard.getCell(cell.getLocation()).setGoal(true);
                 }
                 puzzle.setGoal(goal);
             } else {
