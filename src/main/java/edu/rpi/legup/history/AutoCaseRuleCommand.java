@@ -120,13 +120,13 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
             return "The selected data element is not pickable with this case rule.";
         }
 
-        if (caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size()
-                == 0) {
+        int numberOfCaseRules =
+                caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size();
+        if (numberOfCaseRules == 0) {
             return "The selection must produce at least one case";
         }
 
-        int numberOfCaseRules =
-                caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size();
+
         System.out.println("Number of cases:" + numberOfCaseRules);
         if (numberOfCaseRules > caseRule.MAX_CASES) {
             return "The selection can produce a max of " + caseRule.MAX_CASES + " cases";
