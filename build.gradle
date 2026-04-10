@@ -62,6 +62,8 @@ dependencies {
     implementation 'org.jetbrains:annotations:20.1.0'
     implementation 'org.jetbrains:annotations:20.1.0'
     implementation 'com.formdev:flatlaf:3.+'
+    implementation 'com.formdev:flatlaf-extras:3.+'
+    //implementation 'com.formdev:flatlaf-svg-installer:3.5'
     implementation 'com.google.firebase:firebase-admin:6.3.0'
     implementation 'org.apache.httpcomponents:httpclient:4.5.1'
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
@@ -73,8 +75,6 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'org.apache.logging.log4j:log4j-api:2.17.2'
     implementation 'org.apache.logging.log4j:log4j-core:2.17.2'
-
-    implementation 'org.apache.xmlgraphics:batik-all:1.18'
 
     testImplementation group: 'junit', name: 'junit', version: '4.12'
     testImplementation 'junit:junit:4.+'

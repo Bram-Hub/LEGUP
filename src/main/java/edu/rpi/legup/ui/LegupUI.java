@@ -1,5 +1,6 @@
 package edu.rpi.legup.ui;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon.ColorFilter;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.FlatPropertiesLaf;
@@ -20,6 +21,8 @@ import java.io.File;
 import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.util.Objects;
+import java.util.HashMap;
+import java.util.stream.Collectors;
 
 /**
  * The main user interface class for the LEGUP application. This class extends {@link JFrame} and
@@ -108,12 +111,7 @@ public class LegupUI extends JFrame implements WindowListener {
                                 Objects.requireNonNull(LegupUI.class.getClassLoader().getResourceAsStream(
                                         "edu/rpi/legup/themes/dark-color-blind-theme.properties"))));
                     }
-
                 }
-
-                // Update UI with new LAF
-                FlatLaf.updateUI();
-
             } catch (IOException | NullPointerException exception) {
                 System.err.println("Provided color theme properties not found");
                 System.err.println("\tDark mode: " + LegupPreferences.darkMode());
@@ -123,7 +121,49 @@ public class LegupUI extends JFrame implements WindowListener {
                 // Try to fall back on FlatLightLaf which will hopefully have the additional keys
                 FlatLightLaf.setup();
             }
+
+            // Update UI with new LAF
+            updateIconColors();
+            FlatLaf.updateUI();
         }
+    }
+
+    /**
+     * Update the global color filter applied to all {@code FlatSVGIcon}s to convert
+     * puzzle-related colors to the values defined in the LAF. If a puzzle is currently
+     * set, values for that puzzle type will be retrieved, otherwise only universally-used
+     * values will be set.
+     */
+    public static void updateIconColors() {
+
+        ColorFilter globalFilter = ColorFilter.getInstance();
+        UIDefaults defs = UIManager.getDefaults();
+        String puzzleName = null;
+
+        if (GameBoardFacade.getInstance().getPuzzleModule() != null) {
+            puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
+        }
+
+        // Make maps to apply universal colors before puzzle-specific colors
+        HashMap<Color, Color> baseMap = new HashMap<>();
+        HashMap<Color, Color> puzzleMap = new HashMap<>();
+
+        for (String key : defs.keySet().stream().map(Object::toString).collect(Collectors.toSet())) {
+            if (key.startsWith("Expected.")) {
+
+                int offset = ("Expected.").length();
+                Color color = defs.getColor(key);
+
+                if (key.startsWith("Puzzle.", offset)) {
+                    baseMap.put(color, defs.getColor(key.substring(offset)));
+                } else if (key.startsWith(puzzleName + ".", offset)) {
+                    puzzleMap.put(color, defs.getColor(key.substring(offset)));
+                }
+            }
+        }
+
+        globalFilter.addAll(baseMap);
+        globalFilter.addAll(puzzleMap);
     }
 
     /**

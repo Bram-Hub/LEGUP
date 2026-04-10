@@ -1,5 +1,6 @@
 package edu.rpi.legup.ui.proofeditorui.rulesview;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.ui.WrapLayout;
@@ -67,9 +68,9 @@ public abstract class RulePanel extends JPanel {
                     new Dimension(150, 150)); // adjust the size of each RuleButton
 
             if (rule.getRuleName().length() <= 18) {
-                ruleButtons[i].setFont(UIManager.getFont("Rules.font"));
+                ruleButtons[i].putClientProperty(FlatClientProperties.STYLE_CLASS, "rule");
             } else {
-                ruleButtons[i].setFont(UIManager.getFont("Rules.smallFont"));
+                ruleButtons[i].putClientProperty(FlatClientProperties.STYLE_CLASS, "smallRule");
             }
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug(ruleButtons[i].getFont().getName());

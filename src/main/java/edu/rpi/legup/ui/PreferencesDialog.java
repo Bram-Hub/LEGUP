@@ -1,5 +1,6 @@
 package edu.rpi.legup.ui;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.Rule;
@@ -467,7 +468,7 @@ public class PreferencesDialog extends JDialog {
         JPanel labelRow = new JPanel();
         labelRow.setLayout(new BorderLayout());
         JLabel label = new JLabel(text);
-        label.setFont(UIManager.getFont("Legup.prefsHeadingFont"));
+        label.putClientProperty(FlatClientProperties.STYLE_CLASS, "prefsHeading");
         label.setHorizontalAlignment(JLabel.LEFT);
         labelRow.add(label, BorderLayout.WEST);
 

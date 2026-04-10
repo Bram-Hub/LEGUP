@@ -1,11 +1,12 @@
 package edu.rpi.legup.ui;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.formdev.flatlaf.FlatClientProperties;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.app.VersionInfo;
 import edu.rpi.legup.controller.CursorController;
 import edu.rpi.legup.model.PuzzleExporter;
-import edu.rpi.legup.ui.svg.SVGIcon;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -140,10 +141,9 @@ public class HomePanel extends LegupPanel {
                     }
                 };
 
-        SVGIcon button0Icon = new SVGIcon(
-                ClassLoader.getSystemResource(
-                "edu/rpi/legup/images/Legup/homepanel/proof_file.svg"),
-                this.buttonSize, this.buttonSize, false);
+        FlatSVGIcon button0Icon = new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/homepanel/proof_file.svg",
+                this.buttonSize, this.buttonSize);
 
         this.buttons[0].setFocusPainted(false);
         this.buttons[0].setIcon(button0Icon);
@@ -159,10 +159,9 @@ public class HomePanel extends LegupPanel {
                     }
                 };
 
-        SVGIcon button1Icon = new SVGIcon(
-                ClassLoader.getSystemResource(
-                        "edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.svg"),
-                this.buttonSize, this.buttonSize, false);
+        FlatSVGIcon button1Icon = new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.svg",
+                this.buttonSize, this.buttonSize);
 
         this.buttons[1].setFocusPainted(false);
         this.buttons[1].setIcon(button1Icon);
@@ -573,16 +572,15 @@ public class HomePanel extends LegupPanel {
     private void initText() {
         this.text = new JLabel[3];
 
-        JLabel welcome = new JLabel("Welcome to LEGUP");
-        welcome.setFont(UIManager.getFont("Legup.titleFont"));
+        JLabel welcome = new JLabel("Welcome to LEGUP ");
+        welcome.putClientProperty(FlatClientProperties.STYLE_CLASS, "welcome");
         welcome.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel credits = new JLabel("A project by Dr. Bram van Heuveln");
         credits.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel version = new JLabel("Version " + VersionInfo.getVersion());
-        version.setBorder(new EmptyBorder(0,0,0,5)); // Prevent italic text cutoff
-        version.setFont(UIManager.getFont("Legup.versionFont"));
+        JLabel version = new JLabel("Version " + VersionInfo.getVersion() + " ");
+        version.putClientProperty(FlatClientProperties.STYLE_CLASS, "version");
         version.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         this.text[0] = welcome;

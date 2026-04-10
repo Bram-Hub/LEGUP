@@ -2,6 +2,7 @@ package edu.rpi.legup.ui;
 
 import static java.awt.BorderLayout.*;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
@@ -110,9 +111,9 @@ public class DynamicView extends JPanel {
             zoomer.add(resizeButton);
 
             JLabel zoomLabel = new JLabel("100%");
+            zoomLabel.putClientProperty(FlatClientProperties.STYLE_CLASS, "zoomer");
             zoomLabel.setPreferredSize(new Dimension(40, 50));
             zoomLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-            zoomLabel.setFont(UIManager.getFont("Legup.zoomLabelFont"));
 
             JSlider zoomSlider =
                     new JSlider(
@@ -232,8 +233,7 @@ public class DynamicView extends JPanel {
      * @param message the informational message to display
      */
     public void updateInfo(String message) {
-        status.setFont(UIManager.getFont("Legup.infoFont"));
-        status.setForeground(UIManager.getColor("Legup.infoColor"));
+        status.putClientProperty(FlatClientProperties.STYLE_CLASS, "info");
         status.setText(message);
     }
 
@@ -243,13 +243,13 @@ public class DynamicView extends JPanel {
      * @param message the error message to display
      */
     public void updateError(String message) {
-        status.setFont(UIManager.getFont("Legup.errorFont"));
-        status.setForeground(UIManager.getColor("Legup.errorColor"));
+        status.putClientProperty(FlatClientProperties.STYLE_CLASS, "error");
         status.setText(message);
     }
 
     /** Clears the status label */
     public void resetStatus() {
+        status.putClientProperty(FlatClientProperties.STYLE_CLASS, null);
         status.setText("");
     }
 

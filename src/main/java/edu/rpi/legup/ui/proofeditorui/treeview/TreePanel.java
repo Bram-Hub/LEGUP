@@ -1,5 +1,6 @@
 package edu.rpi.legup.ui.proofeditorui.treeview;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.TreeController;
 import edu.rpi.legup.history.AddTreeElementCommand;
@@ -96,7 +97,8 @@ public class TreePanel extends JPanel {
         if (updateStatusTimer > 0) {
             return;
         }
-        this.status.setText("");
+        status.putClientProperty(FlatClientProperties.STYLE_CLASS, null);
+        status.setText("");
     }
 
     /**
@@ -105,8 +107,7 @@ public class TreePanel extends JPanel {
      * @param statusString the status string to display
      */
     public void updateStatus(String statusString) {
-        status.setForeground(UIManager.getColor("Legup.infoColor"));
-        status.setFont(UIManager.getFont("Legup.infoFont"));
+        status.putClientProperty(FlatClientProperties.STYLE_CLASS, "info");
         status.setText(statusString);
     }
 
@@ -116,8 +117,7 @@ public class TreePanel extends JPanel {
      * @param error the error message to display
      */
     public void updateError(String error) {
-        status.setForeground(UIManager.getColor("Legup.errorColor"));
-        status.setFont(UIManager.getFont("Legup.errorFont"));
+        status.putClientProperty(FlatClientProperties.STYLE_CLASS, "error");
         status.setText(error);
     }
 

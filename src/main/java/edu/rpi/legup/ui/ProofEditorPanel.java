@@ -1,5 +1,6 @@
 package edu.rpi.legup.ui;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.app.VersionInfo;
@@ -19,7 +20,6 @@ import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
-import edu.rpi.legup.ui.svg.SVGIcon;
 import edu.rpi.legup.user.Submission;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -891,10 +891,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         toolBar2.setRollover(true);
         setToolBar2Buttons(new JButton[4]);
 
-        SVGIcon directionsIcon = new SVGIcon(
-                ClassLoader.getSystemResource(
-                        "edu/rpi/legup/images/Legup/Directions.svg"),
-                this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE, false);
+        FlatSVGIcon directionsIcon = new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/Directions.svg",
+                this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE);
 
         JButton directions = new JButton("Directions", directionsIcon);
         directions.setFocusPainted(false);

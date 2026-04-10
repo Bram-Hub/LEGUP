@@ -1,5 +1,6 @@
 package edu.rpi.legup.ui.boardview;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import edu.rpi.legup.controller.ElementController;
 
 import javax.swing.*;
@@ -17,7 +18,7 @@ public class DataSelectionView extends JPopupMenu {
      * @param controller The ElementController to handle UI events.
      */
     public DataSelectionView(ElementController controller) {
-        setBackground(UIManager.getColor("DataSelection.background"));
+        putClientProperty(FlatClientProperties.STYLE_CLASS, "dataSelection");
         setBorder(new BevelBorder(BevelBorder.RAISED));
     }
 }
