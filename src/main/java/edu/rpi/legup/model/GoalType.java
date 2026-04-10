@@ -6,11 +6,7 @@ public enum GoalType {
     PROVE_SINGLE_CELL_VALUE, PROVE_MULTIPLE_CELL_VALUE,
     PROVE_ANY_SOLUTION, PROVE_NO_SOLUTION,
     PROVE_VALUES_ARE_POSSIBLE, PROVE_VALUES_ARE_IMPOSSIBLE;
-    // Prove cell value as indicated, prove cell value not necessarily as indicated
-    // Figure out cell value must be value, figure out cell can be different values
-    // In the future, multiple cell goals?
-    // Solve the puzzle aka find one solution
-    // Default: find all solutions
+    // See main/java/edu.rpi.legup/model/GoalNotes.md for a table of what these all mean
 
     public int toValue() { return this.ordinal(); }
 }

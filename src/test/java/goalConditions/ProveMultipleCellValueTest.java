@@ -42,7 +42,7 @@ public class ProveMultipleCellValueTest {
     /** Tests puzzle completion with a single path down the tree*/
     @Test
     public void TestSinglePath() throws InvalidFileFormatException {
-        Assert.assertTrue(TestUtilities.verifyBoard(
+        Assert.assertFalse(TestUtilities.verifyBoard(
                 "goalConditions/ProveMultipleCellValue/ContradictoryLine", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
