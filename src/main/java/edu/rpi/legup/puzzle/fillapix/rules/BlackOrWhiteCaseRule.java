@@ -36,6 +36,7 @@ public class BlackOrWhiteCaseRule extends CaseRule {
 
     @Override
     public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+        System.out.println("Call to getCases(Board,PuzzleElement) in BlackOrWhiteCaseRule.java.");
         ArrayList<Board> cases = new ArrayList<>();
         if (puzzleElement == null) {
             return cases;
