@@ -97,7 +97,12 @@ public class DynamicView extends JPanel {
      * @return A JPanel containing the zoomer
      */
     private JPanel setUpZoomerHelper(final String label, ActionListener listener) {
-        zoomWrapper = new JPanel();
+        zoomWrapper = new JPanel(){
+            @Override
+            public boolean isOptimizedDrawingEnabled() {
+                return false;   // Stop zoomer elements from drawing over status message
+            }
+        };
         try {
             zoomer = new JPanel();
 
@@ -191,9 +196,15 @@ public class DynamicView extends JPanel {
 
             status = new JLabel();
 
-            zoomWrapper.setLayout(new BorderLayout());
-            zoomWrapper.add(status, WEST);
-            zoomWrapper.add(zoomer, EAST);
+            zoomer.setAlignmentX(0.5f);
+            zoomer.setAlignmentY(0.5f);
+            status.setAlignmentX(0.5f);
+            status.setAlignmentY(0.5f);
+
+            zoomWrapper.setLayout(new OverlayLayout(zoomWrapper));
+            zoomWrapper.isOptimizedDrawingEnabled();
+            zoomWrapper.add(status);
+            zoomWrapper.add(zoomer);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -234,7 +245,7 @@ public class DynamicView extends JPanel {
      */
     public void updateInfo(String message) {
         status.putClientProperty(FlatClientProperties.STYLE_CLASS, "info");
-        status.setText(message);
+        status.setText("<html>" + message + "</html>");
     }
 
     /**
@@ -244,7 +255,7 @@ public class DynamicView extends JPanel {
      */
     public void updateError(String message) {
         status.putClientProperty(FlatClientProperties.STYLE_CLASS, "error");
-        status.setText(message);
+        status.setText("<html>" + message + "</html>");
     }
 
     /** Clears the status label */
