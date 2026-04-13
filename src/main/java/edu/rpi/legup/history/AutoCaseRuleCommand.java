@@ -28,6 +28,9 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
 
     private List<TreeTransition> caseTrans;
 
+    private List<Board> cases;
+    int numberOfCaseRules;
+
     /**
      * AutoCaseRuleCommand Constructor creates a command for validating a case rule
      *
@@ -49,6 +52,10 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
         this.caseBoard = caseBoard;
         this.mouseEvent = mouseEvent;
         this.caseTrans = new ArrayList<>();
+        this.cases =
+                caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
+        this.numberOfCaseRules =
+                cases.size();
     }
 
     /**
@@ -65,8 +72,6 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
         TreeNode node = (TreeNode) selection.getFirstSelection().getTreeElement();
 
         if (caseTrans.isEmpty()) {
-            List<Board> cases =
-                    caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
             for (Board board : cases) {
                 final TreeTransition transition = (TreeTransition) tree.addTreeElement(node);
                 // board.setModifiable(false);
@@ -120,8 +125,6 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
             return "The selected data element is not pickable with this case rule.";
         }
 
-        int numberOfCaseRules =
-                caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size();
         if (numberOfCaseRules == 0) {
             return "The selection must produce at least one case";
         }
