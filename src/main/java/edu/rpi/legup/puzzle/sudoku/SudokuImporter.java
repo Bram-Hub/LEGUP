@@ -125,6 +125,12 @@ public class SudokuImporter extends PuzzleImporter {
                             (SudokuCell)
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), sudokuBoard);
+                    // Store the goal value as goalData and mark the board cell as goal
+                    SudokuCell boardCell = (SudokuCell) sudokuBoard.getCell(cell.getLocation());
+                    if (boardCell != null) {
+                        boardCell.setGoalData(cell.getData());
+                        boardCell.setGoal(true);
+                    }
                     goal.addCell(cell);
                     sudokuBoard.getCell(cell.getLocation()).setGoal(true);
                 }

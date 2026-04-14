@@ -86,25 +86,6 @@ public class FillapixImporter extends PuzzleImporter {
                 throw new InvalidFileFormatException("Fillapix Importer: invalid board dimensions");
             }
 
-            if (boardElement.getElementsByTagName("goal").getLength() != 0) {
-                Element goalElement = (Element) boardElement.getElementsByTagName("goal").item(0);
-                Goal goal = puzzle.getFactory().importGoal(goalElement, fillapixBoard);
-
-                NodeList cellList = goalElement.getElementsByTagName("cell");
-                for (int i = 0; i < cellList.getLength(); i++) {
-                    FillapixCell cell =
-                            (FillapixCell)
-                                    puzzle.getFactory()
-                                            .importCell(cellList.item(i), fillapixBoard);
-                    goal.addCell(cell);
-                    fillapixBoard.getCell(cell.getLocation()).setGoal(true);
-                }
-                puzzle.setGoal(goal);
-            } else {
-                Goal goal = new Goal(null, GoalType.DEFAULT);
-                puzzle.setGoal(goal);
-            }
-
             int width = fillapixBoard.getWidth();
             int height = fillapixBoard.getHeight();
 
@@ -131,6 +112,29 @@ public class FillapixImporter extends PuzzleImporter {
                 }
             }
             puzzle.setCurrentBoard(fillapixBoard);
+            if (boardElement.getElementsByTagName("goal").getLength() != 0) {
+                Element goalElement = (Element) boardElement.getElementsByTagName("goal").item(0);
+                Goal goal = puzzle.getFactory().importGoal(goalElement, fillapixBoard);
+
+                NodeList cellList = goalElement.getElementsByTagName("cell");
+                for (int i = 0; i < cellList.getLength(); i++) {
+                    FillapixCell cell =
+                            (FillapixCell)
+                                    puzzle.getFactory()
+                                            .importCell(cellList.item(i), fillapixBoard);
+                    // Store the goal value as goalData and mark the board cell as goal
+                    FillapixCell boardCell = (FillapixCell) fillapixBoard.getCell(cell.getLocation());
+                    if (boardCell != null) {
+                        boardCell.setGoalData(cell.getData());
+                        boardCell.setGoal(true);
+                    }
+                    goal.addCell(cell);
+                }
+                puzzle.setGoal(goal);
+            } else {
+                Goal goal = new Goal(null, GoalType.DEFAULT);
+                puzzle.setGoal(goal);
+            }
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "Fillapix Importer: unknown value where integer expected");

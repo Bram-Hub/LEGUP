@@ -126,6 +126,12 @@ public class ThermometerImporter extends PuzzleImporter {
                             (ThermometerCell)
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), thermometerBoard);
+                    // Store the goal value as goalData and mark the board cell as goal
+                    ThermometerCell boardCell = (ThermometerCell) thermometerBoard.getCell(cell.getLocation());
+                    if (boardCell != null) {
+                        boardCell.setGoalData(cell.getData());
+                        boardCell.setGoal(true);
+                    }
                     goal.addCell(cell);
                     thermometerBoard.getCell(cell.getLocation()).setGoal(true);
                 }

@@ -114,7 +114,6 @@ public class LightUpImporter extends PuzzleImporter {
                 }
             }
             puzzle.setCurrentBoard(lightUpBoard);
-
             if (boardElement.getElementsByTagName("goal").getLength() != 0) {
                 Element goalElement = (Element) boardElement.getElementsByTagName("goal").item(0);
                 Goal goal = puzzle.getFactory().importGoal(goalElement, lightUpBoard);
@@ -125,16 +124,19 @@ public class LightUpImporter extends PuzzleImporter {
                             (LightUpCell)
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), lightUpBoard);
-
+                    // Store the goal value as goalData and mark the board cell as goal
+                    LightUpCell boardCell = (LightUpCell) lightUpBoard.getCell(cell.getLocation());
+                    if (boardCell != null) {
+                        boardCell.setGoalData(cell.getData());
+                        boardCell.setGoal(true);
+                    }
                     goal.addCell(cell);
-                    lightUpBoard.getCell(cell.getLocation()).setGoal(true);
                 }
                 puzzle.setGoal(goal);
             } else {
                 Goal goal = new Goal(null, GoalType.DEFAULT);
                 puzzle.setGoal(goal);
             }
-
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "lightup Importer: unknown value where integer expected");

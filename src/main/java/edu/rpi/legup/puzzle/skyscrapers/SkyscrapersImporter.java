@@ -224,6 +224,12 @@ public class SkyscrapersImporter extends PuzzleImporter {
                             (SkyscrapersCell)
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), skyscrapersBoard);
+                    // Store the goal value as goalData and mark the board cell as goal
+                    SkyscrapersCell boardCell = (SkyscrapersCell) skyscrapersBoard.getCell(cell.getLocation());
+                    if (boardCell != null) {
+                        boardCell.setGoalData(cell.getData());
+                        boardCell.setGoal(true);
+                    }
                     goal.addCell(cell);
                     skyscrapersBoard.getCell(cell.getLocation()).setGoal(true);
                 }

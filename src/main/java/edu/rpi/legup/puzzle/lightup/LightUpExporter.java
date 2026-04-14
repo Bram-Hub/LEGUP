@@ -23,6 +23,8 @@ public class LightUpExporter extends PuzzleExporter {
         boardElement.setAttribute("width", String.valueOf(board.getWidth()));
         boardElement.setAttribute("height", String.valueOf(board.getHeight()));
 
+        appendGoalElement(newDocument, boardElement, board);
+
         org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             LightUpCell cell = (LightUpCell) puzzleElement;

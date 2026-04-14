@@ -21,6 +21,8 @@ public class ShortTruthTableExporter extends PuzzleExporter {
 
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
 
+        appendGoalElement(newDocument, boardElement, board);
+
         org.w3c.dom.Element dataElement = newDocument.createElement("data");
 
         ShortTruthTableStatement[] statements = board.getStatements();

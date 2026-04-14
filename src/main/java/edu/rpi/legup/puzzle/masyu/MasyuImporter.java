@@ -109,6 +109,12 @@ public class MasyuImporter extends PuzzleImporter {
                             (MasyuCell)
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), masyuBoard);
+                    // Store the goal value as goalData and mark the board cell as goal
+                    MasyuCell boardCell = (MasyuCell) masyuBoard.getCell(cell.getLocation());
+                    if (boardCell != null) {
+                        boardCell.setGoalData(cell.getData());
+                        boardCell.setGoal(true);
+                    }
                     goal.addCell(cell);
                     masyuBoard.getCell(cell.getLocation()).setGoal(true);
                 }
