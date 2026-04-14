@@ -185,7 +185,7 @@ public abstract class PuzzleExporter {
             }
         }
 
-        if (!hasGoalCells && puzzle.getGoal() != null) {
+        if (!hasGoalCells && puzzle.getGoal().assumeSolution() && puzzle.getGoal() != null) {
             for (GridCell goalCell : puzzle.getGoal().getCells()) {
                 Element cellElement = puzzle.getFactory().exportCell(newDocument, goalCell);
                 goalElement.appendChild(cellElement);
@@ -193,7 +193,7 @@ public abstract class PuzzleExporter {
             }
         }
 
-        if (hasGoalCells) {
+        if (hasGoalCells || !puzzle.getGoal().assumeSolution()) {
             boardElement.appendChild(goalElement);
         }
     }
