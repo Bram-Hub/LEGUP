@@ -39,7 +39,7 @@ public class FinishRoomCaseRule extends CaseRule {
      * @return a case board
      */
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         NurikabeBoard nurikabeBoard = (NurikabeBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(nurikabeBoard, this);
         DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nurikabeBoard);
@@ -82,7 +82,7 @@ public class FinishRoomCaseRule extends CaseRule {
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>(); // makes array list of cases
         if (puzzleElement == null) {
             return cases;
@@ -99,15 +99,10 @@ public class FinishRoomCaseRule extends CaseRule {
         Point origPoint = new Point(numberCell.getLocation().x, numberCell.getLocation().y);
         int filledRoomSize = numberCell.getData(); // size of room we want afterward
 
-        Point left = new Point(-1, 0);
-        Point right = new Point(1, 0);
-        Point bot = new Point(0, -1);
-        Point top = new Point(0, 1);
-        Set<Point> directions = new HashSet<>();
-        directions.add(left);
-        directions.add(right);
-        directions.add(top);
-        directions.add(bot);
+        Point[] directions = {new Point(-1, 0),
+                new Point(1, 0),
+                new Point(0, -1),
+                new Point(0, 1)};
 
         Set<Point> checkedPoints =
                 new HashSet<>(); // add all into checked points and continue at start of loop if
@@ -148,11 +143,15 @@ public class FinishRoomCaseRule extends CaseRule {
             NurikabeBoard nuriBoard,
             NurikabeCell currentCell,
             int filledRoomSize,
-            Set<Point> directions,
+            Point[] directions,
             Set<Point> checkedPoints,
             ArrayList<Board> cases,
             Point origPoint,
             List<Point> modifiedPoints) {
+        // Early cutoff
+        if (cases.size() > this.MAX_CASES) {
+            return;
+        }
 
         for (Point direction : directions) {
             Point newPoint =
@@ -246,7 +245,7 @@ public class FinishRoomCaseRule extends CaseRule {
             NurikabeBoard board,
             NurikabeCell cell,
             int origRoomSize,
-            Set<Point> directions,
+            Point[] directions,
             Point origPoint) {
         for (Point direction : directions) {
             Point adjacentPoint =

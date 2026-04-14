@@ -23,13 +23,13 @@ public class LinkTentCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         TreeTentBoard treeTentBoard = (TreeTentBoard) board.copy();
         treeTentBoard.setModifiable(false);
         CaseBoard caseBoard = new CaseBoard(treeTentBoard, this);
         for (PuzzleElement element : treeTentBoard.getPuzzleElements()) {
             if (((TreeTentCell) element).getType() == TreeTentType.TENT
-                    && !getCases(board, element).isEmpty()) {
+                    && !getCasesFrom(board, element).isEmpty()) {
                 Boolean canAdd = true;
                 List<TreeTentLine> lines = treeTentBoard.getLines();
                 for (TreeTentLine l : lines) {
@@ -57,7 +57,7 @@ public class LinkTentCaseRule extends CaseRule {
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<Board>();
         if (puzzleElement == null) {
             return cases;

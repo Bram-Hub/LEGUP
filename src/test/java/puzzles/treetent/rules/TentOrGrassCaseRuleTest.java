@@ -9,7 +9,7 @@ import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 import edu.rpi.legup.puzzle.treetent.rules.TentOrGrassCaseRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
-import java.awt.*;
+
 import java.util.ArrayList;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
@@ -45,7 +45,7 @@ public class TentOrGrassCaseRuleTest {
 
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
         TreeTentCell testing_cell = board.getCell(0, 0);
-        ArrayList<Board> cases = RULE.getCases(board, testing_cell);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, testing_cell);
 
         // assert correct number of cases created
         Assert.assertEquals(2, cases.size());

@@ -73,7 +73,7 @@ public class NonTouchingSharedEmptyDirectRule extends DirectRule {
         CaseRule completeClue = new SatisfyNumberCaseRule();
         List<Board> caseBoards;
         for (MinesweeperCell adjCell : adjCells) {
-            caseBoards = completeClue.getCases(parentBoard, adjCell);
+            caseBoards = completeClue.getCasesFrom(parentBoard, adjCell);
             // System.out.println(adjCell.getLocation().x + " " + adjCell.getLocation().y);
             boolean found = true;
             for (Board b : caseBoards) {

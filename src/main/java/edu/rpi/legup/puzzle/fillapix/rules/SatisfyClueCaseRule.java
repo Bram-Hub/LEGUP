@@ -21,7 +21,7 @@ public class SatisfyClueCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         FillapixBoard fillapixBoard = (FillapixBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(fillapixBoard, this);
         fillapixBoard.setModifiable(false);
@@ -37,7 +37,7 @@ public class SatisfyClueCaseRule extends CaseRule {
     }
 
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<Board>();
         if (puzzleElement == null) {
             return cases;

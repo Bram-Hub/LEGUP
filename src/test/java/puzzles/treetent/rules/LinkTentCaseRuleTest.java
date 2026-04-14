@@ -41,7 +41,7 @@ public class LinkTentCaseRuleTest {
 
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
         TreeTentCell test_location = board.getCell(1, 1);
-        ArrayList<Board> cases = RULE.getCases(board, test_location);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, test_location);
 
         // assert that one cases was found
         Assert.assertEquals(1, cases.size());
@@ -90,7 +90,7 @@ public class LinkTentCaseRuleTest {
 
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
         TreeTentCell test_location = board.getCell(1, 1);
-        ArrayList<Board> cases = RULE.getCases(board, test_location);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, test_location);
 
         // assert that four cases were found
         Assert.assertEquals(4, cases.size());
@@ -153,7 +153,7 @@ public class LinkTentCaseRuleTest {
 
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
         TreeTentCell test_location = board.getCell(1, 1);
-        ArrayList<Board> cases = RULE.getCases(board, test_location);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, test_location);
 
         // assert that no cases were found
         Assert.assertEquals(0, cases.size());
@@ -176,7 +176,7 @@ public class LinkTentCaseRuleTest {
 
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
         TreeTentCell test_location = board.getCell(1, 1);
-        ArrayList<Board> cases = RULE.getCases(board, test_location);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, test_location);
 
         // assert that no cases were found
         Assert.assertEquals(0, cases.size());

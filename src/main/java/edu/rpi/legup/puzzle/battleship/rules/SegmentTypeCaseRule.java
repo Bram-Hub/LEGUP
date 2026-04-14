@@ -39,7 +39,7 @@ public class SegmentTypeCaseRule extends CaseRule {
      * @return a case board
      */
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         return null;
     }
 
@@ -52,7 +52,7 @@ public class SegmentTypeCaseRule extends CaseRule {
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         return null;
     }
 }

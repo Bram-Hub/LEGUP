@@ -42,7 +42,7 @@ public class SatisfyNumberCaseRuleTest {
 
         MinesweeperBoard board = (MinesweeperBoard) transition.getBoard();
         MinesweeperCell cell = board.getCell(1, 1);
-        ArrayList<Board> cases = RULE.getCases(board, cell);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, cell);
 
         Assert.assertEquals(3, cases.size());
 

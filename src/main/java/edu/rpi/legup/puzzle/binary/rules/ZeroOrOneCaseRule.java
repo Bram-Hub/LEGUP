@@ -28,7 +28,7 @@ public class ZeroOrOneCaseRule extends CaseRule {
      * @return A CaseBoard containing pickable elements where the case rule can be applied
      */
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         BinaryBoard binaryBoard = (BinaryBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(binaryBoard, this);
         binaryBoard.setModifiable(false);
@@ -48,7 +48,7 @@ public class ZeroOrOneCaseRule extends CaseRule {
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
         if (puzzleElement == null) {
             return cases;

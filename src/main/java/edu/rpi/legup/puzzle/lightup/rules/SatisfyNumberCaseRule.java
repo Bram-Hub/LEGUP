@@ -29,7 +29,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         LightUpBoard lightUpBoard = (LightUpBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(lightUpBoard, this);
         lightUpBoard.setModifiable(false);
@@ -49,7 +49,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
         if (puzzleElement == null) {
             return cases;

@@ -21,7 +21,7 @@ public class TentOrGrassCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         TreeTentBoard treeTentBoard = (TreeTentBoard) board.copy();
         treeTentBoard.setModifiable(false);
         CaseBoard caseBoard = new CaseBoard(treeTentBoard, this);
@@ -42,7 +42,7 @@ public class TentOrGrassCaseRule extends CaseRule {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
         Board case1 = board.copy();
         PuzzleElement data1 = case1.getPuzzleElement(puzzleElement);

@@ -22,7 +22,7 @@ public class CellForNumberCaseRule extends CaseRule {
     private Integer selectedNumber;
 
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         SkyscrapersBoard currentBoard = (SkyscrapersBoard) board.copy();
         currentBoard.setModifiable(false);
         CaseBoard caseBoard = new CaseBoard(currentBoard, this);
@@ -101,7 +101,7 @@ public class CellForNumberCaseRule extends CaseRule {
     }
 
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         return getCasesFor(board, puzzleElement, selectedNumber);
     }
 

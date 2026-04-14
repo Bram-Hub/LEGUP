@@ -20,7 +20,7 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         FillapixBoard fillapixBoard = (FillapixBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(fillapixBoard, this);
         fillapixBoard.setModifiable(false);
@@ -34,7 +34,7 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     }
 
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
         if (puzzleElement == null) {
             return cases;

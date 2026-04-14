@@ -29,7 +29,7 @@ public class FillinRowCaseRule extends CaseRule {
      * @return the case board object
      */
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         TreeTentBoard treeTentBoard = (TreeTentBoard) board.copy();
         treeTentBoard.setModifiable(false);
         CaseBoard caseBoard = new CaseBoard(treeTentBoard, this);
@@ -59,7 +59,7 @@ public class FillinRowCaseRule extends CaseRule {
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         if (puzzleElement == null) {
             return new ArrayList<Board>();
         }

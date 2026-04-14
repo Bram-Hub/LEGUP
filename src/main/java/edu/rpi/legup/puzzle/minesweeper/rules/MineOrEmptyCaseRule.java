@@ -21,7 +21,7 @@ public class MineOrEmptyCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         MinesweeperBoard minesweeperBoard = (MinesweeperBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(minesweeperBoard, this);
         minesweeperBoard.setModifiable(false);
@@ -35,7 +35,7 @@ public class MineOrEmptyCaseRule extends CaseRule {
     }
 
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
 
         Board case1 = board.copy();

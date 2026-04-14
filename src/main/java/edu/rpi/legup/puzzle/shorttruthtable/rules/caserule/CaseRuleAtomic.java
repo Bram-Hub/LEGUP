@@ -21,7 +21,7 @@ public class CaseRuleAtomic extends CaseRule_Generic {
 
     // Adds all elements that can be selected for this case rule
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         ShortTruthTableBoard sttBoard = (ShortTruthTableBoard) board.copy();
         sttBoard.setModifiable(false);
         CaseBoard caseBoard = new CaseBoard(sttBoard, this);
@@ -42,7 +42,7 @@ public class CaseRuleAtomic extends CaseRule_Generic {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
         if (puzzleElement == null) {
             return cases;

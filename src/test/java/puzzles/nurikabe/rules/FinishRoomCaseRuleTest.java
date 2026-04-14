@@ -38,7 +38,7 @@ public class FinishRoomCaseRuleTest {
 
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
         NurikabeCell cell = board.getCell(6, 4);
-        ArrayList<Board> cases = RULE.getCases(board, cell);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, cell);
         Assert.assertEquals(2, cases.size());
 
         NurikabeBoard caseBoard = (NurikabeBoard) cases.get(0);
@@ -76,7 +76,7 @@ public class FinishRoomCaseRuleTest {
         }
 
         NurikabeCell cell2 = board.getCell(4, 2);
-        ArrayList<Board> cases2 = RULE.getCases(board, cell2);
+        ArrayList<Board> cases2 = RULE.getCasesFrom(board, cell2);
 
         Assert.assertEquals(9, cases2.size());
     }

@@ -40,7 +40,7 @@ public class SatisfyNumberCaseRuleTest {
         LightUpBoard b = (LightUpBoard) transition.getBoard();
         LightUpCell numbered_cell = b.getCell(1, 0); // the tile cell
         ArrayList<Board> cases =
-                RULE.getCases(
+                RULE.getCasesFrom(
                         b, numbered_cell); // C MUST BE THE NUMBERED TILE, NOT ANY RANDOM EMPTY ONE
 
         // assert correct number of cases
@@ -87,7 +87,7 @@ public class SatisfyNumberCaseRuleTest {
         LightUpBoard b = (LightUpBoard) transition.getBoard();
         LightUpCell numbered_cell = b.getCell(1, 1); // the tile cell
         ArrayList<Board> cases =
-                RULE.getCases(
+                RULE.getCasesFrom(
                         b, numbered_cell); // C MUST BE THE NUMBERED TILE, NOT ANY RANDOM EMPTY ONE
 
         // assert correct number of cases

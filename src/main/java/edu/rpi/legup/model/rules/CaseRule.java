@@ -43,17 +43,18 @@ public abstract class CaseRule extends Rule {
      * @param board board to find locations where this case rule can be applied
      * @return a case board
      */
-    public abstract CaseBoard getCaseBoard(Board board);
+    public abstract CaseBoard getApplicableLocationsBoard(Board board);
 
     /**
      * Gets the possible cases for this {@link Board} at a specific {@link PuzzleElement} based on
      * this case rule.
      *
      * @param board the current board state
-     * @param puzzleElement equivalent puzzleElement
-     * @return a list of elements the specified could be
+     * @param puzzleElement the puzzleElement to justify the case rule
+     * @return a list of possible Boards, containing the modified cells which follow
+     *  if the case rule is applied at puzzleElement.
      */
-    public abstract ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement);
+    public abstract ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement);
 
     /**
      * Checks whether the {@link TreeTransition} logically follows from the parent node using this
@@ -116,7 +117,7 @@ public abstract class CaseRule extends Rule {
         List<Board> childBoards = new ArrayList<>();
         childTransitions.forEach(t -> childBoards.add(t.getBoard()));
 
-        CaseBoard possibleCasesBoard = getCaseBoard(parent.getBoard());
+        CaseBoard possibleCasesBoard = getApplicableLocationsBoard(parent.getBoard());
 
         // Locate a cell where a case rule can be applied
         Set<PuzzleElement<?>> applicableLocations = new HashSet<>();
@@ -128,7 +129,7 @@ public abstract class CaseRule extends Rule {
 
         // For each cell where a case rule can be applied, generate the cases
         for (PuzzleElement<?> element : applicableLocations) {
-            ArrayList<Board> boards = getCases(board, element);
+            ArrayList<Board> boards = getCasesFrom(board, element);
             if (boards.size() != childBoards.size()) {
                 continue;
             }
@@ -210,7 +211,7 @@ public abstract class CaseRule extends Rule {
     public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement) {
         List<PuzzleElement> elements = new ArrayList<>();
 
-        List<Board> cases = getCases(board, puzzleElement);
+        List<Board> cases = getCasesFrom(board, puzzleElement);
         for (Board caseBoard : cases) {
             Set<PuzzleElement> data = caseBoard.getModifiedData();
             for (PuzzleElement element : data) {
