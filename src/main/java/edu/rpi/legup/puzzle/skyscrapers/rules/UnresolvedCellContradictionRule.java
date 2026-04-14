@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.skyscrapers.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
-
 import java.util.ArrayList;
 
 public class UnresolvedCellContradictionRule extends ContradictionRule {

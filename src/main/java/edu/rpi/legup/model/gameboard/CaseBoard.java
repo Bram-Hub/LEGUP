@@ -6,9 +6,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Represents a game board with a small set of pickable elements, primarily used for
- * choosing the origin point of a case rule. Extends the abstract
- * `Board` class and adds functionality for handling pickable elements and case rules.
+ * Represents a game board with a small set of pickable elements, primarily used for choosing the
+ * origin point of a case rule. Extends the abstract `Board` class and adds functionality for
+ * handling pickable elements and case rules.
  */
 public class CaseBoard extends Board {
     protected Board baseBoard;

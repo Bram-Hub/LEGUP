@@ -51,8 +51,8 @@ public abstract class CaseRule extends Rule {
      *
      * @param board the current board state
      * @param puzzleElement the puzzleElement to justify the case rule
-     * @return a list of possible Boards, containing the modified cells which follow
-     *  if the case rule is applied at puzzleElement.
+     * @return a list of possible Boards, containing the modified cells which follow if the case
+     *     rule is applied at puzzleElement.
      */
     public abstract ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement);
 

@@ -99,10 +99,7 @@ public class FinishRoomCaseRule extends CaseRule {
         Point origPoint = new Point(numberCell.getLocation().x, numberCell.getLocation().y);
         int filledRoomSize = numberCell.getData(); // size of room we want afterward
 
-        Point[] directions = {new Point(-1, 0),
-                new Point(1, 0),
-                new Point(0, -1),
-                new Point(0, 1)};
+        Point[] directions = {new Point(-1, 0), new Point(1, 0), new Point(0, -1), new Point(0, 1)};
 
         Set<Point> checkedPoints =
                 new HashSet<>(); // add all into checked points and continue at start of loop if

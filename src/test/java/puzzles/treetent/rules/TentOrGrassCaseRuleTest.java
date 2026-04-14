@@ -9,7 +9,6 @@ import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 import edu.rpi.legup.puzzle.treetent.rules.TentOrGrassCaseRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
-
 import java.util.ArrayList;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;

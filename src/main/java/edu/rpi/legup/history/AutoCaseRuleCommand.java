@@ -125,7 +125,8 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
         }
 
         int numberOfCaseRules =
-                caseRule.getCasesFrom(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size();
+                caseRule.getCasesFrom(caseBoard.getBaseBoard(), elementView.getPuzzleElement())
+                        .size();
         System.out.println("Number of cases:" + numberOfCaseRules);
         if (numberOfCaseRules > caseRule.MAX_CASES) {
             return "The selection can produce a max of " + caseRule.MAX_CASES + " cases";
