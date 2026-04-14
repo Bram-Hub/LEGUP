@@ -17,17 +17,31 @@ import java.util.TreeMap;
 public class Goal {
     private ArrayList<GridCell> cellList;
     private final GoalType goalType;
+    private final boolean assumeSolution;
 
     /**
-     * Constructs a Goal object with an empty cell list
+     * Constructs a Goal object with an empty cell list with no assumed solution
      *
      * @param goalType type of goal
      */
     public Goal(GoalType goalType) {
         this.cellList = new ArrayList<>();
         this.goalType = goalType;
+        this.assumeSolution = false;
     }
 
+    /**
+     * Constructs a Goal object with an empty cell list
+     *
+     * @param goalType type of goal
+     * @param assume whether to assume there is a solution to the puzzle
+     */
+    public Goal(GoalType goalType, boolean assume)
+    {
+        this.cellList = new ArrayList<>();
+        this.goalType = goalType;
+        this.assumeSolution = assume;
+    }
     /**
      * Constructs a Goal object only requiring a given cell
      *
@@ -40,6 +54,7 @@ public class Goal {
             cellList.add(cell);
         }
         this.goalType = goalType;
+        this.assumeSolution = false;
     }
 
     /**
@@ -59,6 +74,13 @@ public class Goal {
      * @return GoalType.
      */
     public GoalType getType() { return goalType; }
+
+    /**
+     * Get the value of assumeSolution
+     *
+     * @return assumeSolution
+     */
+    public boolean assumeSolution() {return assumeSolution;}
 
     /**
      * Creates tool tip text for a cell being hovered over.
@@ -83,6 +105,10 @@ public class Goal {
                     + goalCell.describeState(false) + ".";
             case GoalType.PROVE_SINGLE_CELL_VALUE -> text + "is forced to have only one possible value.";
             case GoalType.PROVE_MULTIPLE_CELL_VALUE -> text + "is forced to have multiple possible values.";
+            case GoalType.PROVE_VALUES_ARE_POSSIBLE -> text + "can be "
+                    + goalCell.describeState(false) + ".";
+            case GoalType.PROVE_VALUES_ARE_IMPOSSIBLE -> text + "cannot be "
+                    + goalCell.describeState(false) + ".";
             default -> null;
         };
     }
@@ -96,23 +122,32 @@ public class Goal {
 
         if (goalType == GoalType.DEFAULT) return "Find all solutions to the puzzle or prove none exist.";
 
+        String text = "Prove ";
+        if(assumeSolution) {text += "that if there is a solution, then ";}
         return switch(goalType) {
-            case GoalType.PROVE_CELL_MUST_BE -> getValueSeparatedGoalText(
-                    " is forced to be ", " are forced to be ");
-            case GoalType.PROVE_CELL_MIGHT_NOT_BE -> getValueSeparatedGoalText(
-                    " is not forced to be ", " are not forced to be ");
+            case GoalType.PROVE_CELL_MUST_BE -> text + getValueSeparatedGoalText(
+                    " is forced to be ", " are forced to be ") + ".";
+            case GoalType.PROVE_CELL_MIGHT_NOT_BE -> text + getValueSeparatedGoalText(
+                    " is not forced to be ", " are not forced to be ") + ".";
             case GoalType.PROVE_SINGLE_CELL_VALUE -> {
-                String text = "Prove " + (cellList.size() > 1 ? "cells " : "cell ");
+                text += (cellList.size() > 1 ? "cells " : "cell ");
                 text += concatCellLocs(cellList);
                 text += (cellList.size() > 1 ? " are each" : " is");
                 yield text + " forced to have exactly one possible value.";
             }
             case GoalType.PROVE_MULTIPLE_CELL_VALUE -> {
-                String text = "Prove " + (cellList.size() > 1 ? "cells " : "cell ");
+                text += (cellList.size() > 1 ? "cells " : "cell ");
                 text += concatCellLocs(cellList);
                 text += (cellList.size() > 1 ? " are each" : " is");
                 yield text + " not forced to have exactly one possible value.";
             }
+            case GoalType.PROVE_ANY_SOLUTION -> "Find any solution to the puzzle.";
+            case GoalType.PROVE_NO_SOLUTION -> "Prove that there are no solutions to the puzzle.";
+            case GoalType.PROVE_VALUES_ARE_POSSIBLE -> text + getValueSeparatedGoalText(
+                    " can be ", " can be ") + " at the same time.";
+            case GoalType.PROVE_VALUES_ARE_IMPOSSIBLE -> text + getValueSeparatedGoalText(
+                    " cannot be ", " cannot be ") + " at the same time";
+
             default -> "Unrecognized goal condition.";
         };
     }
@@ -180,7 +215,7 @@ public class Goal {
             return "No condition.";
         }
 
-        String text = "Prove ";
+        String text = "";
         boolean delimiter = false;
         for (Map.Entry<String, ArrayList<GridCell>> state : cellsByState.entrySet()) {
             if (delimiter) { text += " and "; }
@@ -190,6 +225,6 @@ public class Goal {
             text += (state.getValue().size() > 1 ? pluralCondition : singleCondition);
             text += state.getValue().getFirst().describeState(state.getValue().size() > 1);
         }
-        return text + ".";
+        return text;
     }
 }

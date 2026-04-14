@@ -116,6 +116,7 @@ public class MasyuImporter extends PuzzleImporter {
                         boardCell.setGoal(true);
                     }
                     goal.addCell(cell);
+                    masyuBoard.getCell(cell.getLocation()).setGoal(true);
                 }
                 puzzle.setGoal(goal);
             } else {
