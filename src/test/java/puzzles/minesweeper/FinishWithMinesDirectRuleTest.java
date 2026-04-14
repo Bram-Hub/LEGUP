@@ -231,6 +231,19 @@ public class FinishWithMinesDirectRuleTest {
         }
     }
 
+    /*
+    * Check that FinishWithMinesDirectRule behaves as expected in the 'overlapping bubbles' scenario.
+    *
+    * This is what 3x3test5.txt looks like:
+    *    e  1  e
+    *    1  _| 1
+    *    e  1  e
+    *
+    * This test explicitly changes the middle cell from UNSET to mine. Now, this should be a valid use of
+    * the rule in relation to each of the '1' cells adjacent to it, and it should be a complete use of the
+    * rule for each of those as well. It satisfies the number of mines for all the ones. The important
+    * thing is that the rule behaves as it should, allowing itself to work in multiple bubbles at one.
+    * */
     @Test
     public void FinishWithMinesDirectRule_OneUnsetOneBombFourNumbersTest5()
             throws InvalidFileFormatException {
@@ -260,6 +273,18 @@ public class FinishWithMinesDirectRuleTest {
         }
     }
 
+    /*
+    * Check that FinishWithMinesDirectRule behaves as expected in the 'overlapping bubbles' scenario.
+    *
+    * This is what 3x3test6.txt looks like:
+    *    e  2  e
+    *    _| e  _|
+    *    e  2  e
+    *
+    * This test explicitly changes the center cells in the furthest left and right columns from UNSET to
+    * MINE. The rule should accept both of these as valid uses and no other cells. This continues the bubble
+    * overlap and satisfy-mine-count-for-multiple-number-cells logic.
+    * */
     @Test
     public void FinishWithMinesDirectRule_TwoUnsetTwoBombsTwoNumbersTest6()
             throws InvalidFileFormatException {
@@ -292,6 +317,18 @@ public class FinishWithMinesDirectRuleTest {
         }
     }
 
+    /*
+    * Check that FinishWithMinesDirectRule behaves as expected in diminished bubble overlap scenario.
+    *
+    * This is what 3x3test7.txt looks like:
+    *    3  e  e
+    *    e  _| _|
+    *    e  _| 3
+    *
+    * This test explicitly changes the middle cell from UNSET to MINE. This is an incomplete use of the rule.
+    * However, it is accepted in relation to both or either of the number cells, as it is the only cell which
+    * they share.
+    * */
     @Test
     public void FinishWithMinesDirectRule_ThreeUnsetOneBombTwoNumbersTest7()
             throws InvalidFileFormatException {
