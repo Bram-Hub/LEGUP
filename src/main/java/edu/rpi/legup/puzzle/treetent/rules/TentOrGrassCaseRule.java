@@ -15,7 +15,9 @@ import java.util.List;
 public class TentOrGrassCaseRule extends CaseRule {
 
     public TentOrGrassCaseRule() {
-        super("TREE-CASE-0004", "Tent or Grass",
+        super(
+                "TREE-CASE-0004",
+                "Tent or Grass",
                 "Each blank cell is either a tent or grass.",
                 "edu/rpi/legup/images/treetent/caseTentOrGrass.png");
     }
@@ -74,33 +76,36 @@ public class TentOrGrassCaseRule extends CaseRule {
 
         TreeTransition case1 = childTransitions.get(0);
         TreeTransition case2 = childTransitions.get(1);
-        if (case1.getBoard().getModifiedData().size() != 1 ||
-                case2.getBoard().getModifiedData().size() != 1) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must have 1 modified cell for each case.";
+        if (case1.getBoard().getModifiedData().size() != 1
+                || case2.getBoard().getModifiedData().size() != 1) {
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must have 1 modified cell for each case.";
         }
 
         TreeTentCell mod1 = (TreeTentCell) case1.getBoard().getModifiedData().iterator().next();
         TreeTentCell mod2 = (TreeTentCell) case2.getBoard().getModifiedData().iterator().next();
         if (!mod1.getLocation().equals(mod2.getLocation())) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must modify the same cell for each case.";
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must modify the same cell for each case.";
         }
 
-        if (!((mod1.getType() == TreeTentType.TENT && mod2.getType() == TreeTentType.GRASS) ||
-                (mod2.getType() == TreeTentType.TENT && mod1.getType() == TreeTentType.GRASS))) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must have a tent and a grass cell.";
+        if (!((mod1.getType() == TreeTentType.TENT && mod2.getType() == TreeTentType.GRASS)
+                || (mod2.getType() == TreeTentType.TENT && mod1.getType() == TreeTentType.GRASS))) {
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This case rule must have a tent and a grass cell.";
         }
 
         return null;
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
      * @param transition    transition to check
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     * puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {

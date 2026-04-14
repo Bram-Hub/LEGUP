@@ -44,8 +44,7 @@ public class BattleshipBoard extends GridBoard {
     /**
      * Gets the east {@link BattleshipClue}
      *
-     * @return List of <code>BattleShipClue</code> objects on the east
-     * side of the board
+     * @return List of <code>BattleShipClue</code> objects on the east side of the board
      */
     public List<BattleshipClue> getEast() {
         return east;
@@ -90,8 +89,7 @@ public class BattleshipBoard extends GridBoard {
      * Get a list of all orthogonally adjacent cells.
      *
      * @param cell The cell to get adjacent cells from.
-     * @return List of adjacent cells in clockwise order:
-     * <code>{ up, right, down, left }</code>
+     * @return List of adjacent cells in clockwise order: <code>{ up, right, down, left }</code>
      */
     public List<BattleshipCell> getAdjOrthogonals(BattleshipCell cell) {
         List<BattleshipCell> adj = new ArrayList<>();
@@ -111,8 +109,8 @@ public class BattleshipBoard extends GridBoard {
      * Get a list of all diagonally adjacent cells.
      *
      * @param cell The cell to get diagonally adjacent cells from.
-     * @return List of diagonally adjacent cells in clockwise order:
-     * <code>{ upRight, downRight, downLeft, upLeft }</code>
+     * @return List of diagonally adjacent cells in clockwise order: <code>
+     * { upRight, downRight, downLeft, upLeft }</code>
      */
     public List<BattleshipCell> getAdjDiagonals(BattleshipCell cell) {
         List<BattleshipCell> dia = new ArrayList<>();

@@ -7,13 +7,16 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 public class BadLoopingContradictionRule extends ContradictionRule {
 
     public BadLoopingContradictionRule() {
-        super("MASY-CONT-0001", "Bad Looping",
+        super(
+                "MASY-CONT-0001",
+                "Bad Looping",
                 "",
                 "edu/rpi/legup/images/masyu/ContradictionBadLooping.png");
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
      *
      * @param board         board to check contradiction
      * @param puzzleElement equivalent puzzleElement

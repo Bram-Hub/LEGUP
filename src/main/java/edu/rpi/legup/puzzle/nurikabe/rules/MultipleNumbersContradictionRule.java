@@ -13,18 +13,21 @@ import java.util.Set;
 
 public class MultipleNumbersContradictionRule extends ContradictionRule {
 
-    private final String NO_CONTRADICTION_MESSAGE = "Does not contain a contradiction at this index";
+    private final String NO_CONTRADICTION_MESSAGE =
+            "Does not contain a contradiction at this index";
     private final String INVALID_USE_MESSAGE = "Contradiction must be a numbered cell";
 
     public MultipleNumbersContradictionRule() {
-        super("NURI-CONT-0004",
+        super(
+                "NURI-CONT-0004",
                 "Multiple Numbers",
                 "All white regions cannot have more than one number.",
                 "edu/rpi/legup/images/nurikabe/contradictions/MultipleNumbers.png");
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
      *
      * @param board         board to check contradiction
      * @param puzzleElement equivalent puzzleElement

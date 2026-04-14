@@ -7,5 +7,4 @@ public class DirectRuleConditionalIntroduction extends DirectRule_GenericIntrodu
     public DirectRuleConditionalIntroduction() {
         super("STTT-BASC-0009", "Conditional", new ContradictionRuleConditional());
     }
-
 }

@@ -7,5 +7,4 @@ public class DirectRuleConditionalElimination extends DirectRule_GenericEliminat
     public DirectRuleConditionalElimination() {
         super("STTT-BASC-0004", "Conditional", new ContradictionRuleConditional());
     }
-
 }

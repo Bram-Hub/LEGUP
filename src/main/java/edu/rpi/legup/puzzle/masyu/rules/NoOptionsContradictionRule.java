@@ -7,13 +7,16 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 public class NoOptionsContradictionRule extends ContradictionRule {
 
     public NoOptionsContradictionRule() {
-        super("MASY-CONT-0003", "No Options",
+        super(
+                "MASY-CONT-0003",
+                "No Options",
                 "",
                 "edu/rpi/legup/images/masyu/ContradictionNoOptions.png");
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
      *
      * @param board         board to check contradiction
      * @param puzzleElement equivalent puzzleElement

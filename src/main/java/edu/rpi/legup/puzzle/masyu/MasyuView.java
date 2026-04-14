@@ -20,7 +20,8 @@ public class MasyuView extends GridBoardView {
             MasyuElementView elementView = new MasyuElementView(cell);
             elementView.setIndex(cell.getIndex());
             elementView.setSize(elementSize);
-            elementView.setLocation(new Point(loc.x * elementSize.width, loc.y * elementSize.height));
+            elementView.setLocation(
+                    new Point(loc.x * elementSize.width, loc.y * elementSize.height));
             elementViews.add(elementView);
         }
         lineViews = new ArrayList<>();
@@ -33,7 +34,8 @@ public class MasyuView extends GridBoardView {
 
     @Override
     public void drawBoard(Graphics2D graphics2D) {
-        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics2D.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         super.drawBoard(graphics2D);
         lineViews.forEach(masyuLineView -> masyuLineView.draw(graphics2D));
     }

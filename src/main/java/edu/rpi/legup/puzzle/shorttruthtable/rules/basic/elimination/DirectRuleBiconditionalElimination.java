@@ -7,5 +7,4 @@ public class DirectRuleBiconditionalElimination extends DirectRule_GenericElimin
     public DirectRuleBiconditionalElimination() {
         super("STTT-BASC-0003", "Biconditional", new ContradictionRuleBiconditional());
     }
-
 }

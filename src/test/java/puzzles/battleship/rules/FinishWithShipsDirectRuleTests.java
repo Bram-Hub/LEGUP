@@ -1,18 +1,16 @@
 package puzzles.battleship.rules;
 
-import org.junit.*;
-
-import legup.MockGameBoardFacade;
-import legup.TestUtilities;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.battleship.*;
 import edu.rpi.legup.puzzle.battleship.rules.*;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import legup.MockGameBoardFacade;
+import legup.TestUtilities;
+import org.junit.*;
 
 public class FinishWithShipsDirectRuleTests {
-    private static final FinishWithShipsDirectRule RULE
-            = new FinishWithShipsDirectRule();
+    private static final FinishWithShipsDirectRule RULE = new FinishWithShipsDirectRule();
 
     private static Battleship battleship;
 
@@ -22,10 +20,10 @@ public class FinishWithShipsDirectRuleTests {
         battleship = new Battleship();
     }
 
-    //@Test
+    // @Test
     public void HorizontalValidTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/battleship/rules" +
-                        "/FinishWithShipsBasicRuleTests/HorizontalValidBoard",
+        TestUtilities.importTestBoard(
+                "puzzles/battleship/rules" + "/FinishWithShipsBasicRuleTests/HorizontalValidBoard",
                 battleship);
         TreeNode rootNode = battleship.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -34,10 +32,10 @@ public class FinishWithShipsDirectRuleTests {
         Assert.assertNull(RULE.checkRule(transition));
     }
 
-    //@Test
+    // @Test
     public void VerticaValidTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/battleship/rules" +
-                        "/FinishWithShipsBasicRuleTests/VerticalValidBoard",
+        TestUtilities.importTestBoard(
+                "puzzles/battleship/rules" + "/FinishWithShipsBasicRuleTests/VerticalValidBoard",
                 battleship);
         TreeNode rootNode = battleship.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -46,10 +44,11 @@ public class FinishWithShipsDirectRuleTests {
         Assert.assertNull(RULE.checkRule(transition));
     }
 
-    //@Test
+    // @Test
     public void HorizontalInvalidTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/battleship/rules" +
-                        "/FinishWithShipsBasicRuleTests/HorizontalInvalidBoard",
+        TestUtilities.importTestBoard(
+                "puzzles/battleship/rules"
+                        + "/FinishWithShipsBasicRuleTests/HorizontalInvalidBoard",
                 battleship);
         TreeNode rootNode = battleship.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -58,10 +57,10 @@ public class FinishWithShipsDirectRuleTests {
         Assert.assertNotNull(RULE.checkRule(transition));
     }
 
-    //@Test
+    // @Test
     public void VerticalInvalidTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/battleship/rules" +
-                        "/FinishWithShipsBasicRuleTests/VerticalInvalidBoard",
+        TestUtilities.importTestBoard(
+                "puzzles/battleship/rules" + "/FinishWithShipsBasicRuleTests/VerticalInvalidBoard",
                 battleship);
         TreeNode rootNode = battleship.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);

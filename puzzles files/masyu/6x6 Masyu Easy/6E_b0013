@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Legup version="2.0.0">
-    <puzzle name="Masyu">
+    <puzzle name="Masyu" tag="6E_b0013">
         <board height="6" width="6">
             <cells>
                 <cell value="0" x="0" y="0"/>
@@ -42,5 +41,5 @@
             </cells>
         </board>
     </puzzle>
-    <solved isSolved="false" lastSaved="--"/>
+    <solved isSolved="-2010495071" lastSaved="2024-11-08 17:14:34"/>
 </Legup>

@@ -3,16 +3,13 @@ package edu.rpi.legup.controller;
 import java.awt.*;
 import java.awt.event.*;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class BoardController extends Controller {
     protected Point lastLeftMousePoint;
     protected Point lastRightMousePoint;
 
     /**
-     * BoardController Constructor creates a controller object to listen
-     * to ui events from a ScrollView
+     * BoardController Constructor creates a controller object to listen to ui events from a
+     * ScrollView
      */
     public BoardController() {
         super();
@@ -27,12 +24,10 @@ public class BoardController extends Controller {
      */
     @Override
     public void mouseClicked(MouseEvent e) {
-
     }
 
     /**
-     * Mouse Pressed event - sets the cursor to the move cursor and stores
-     * info for possible panning
+     * Mouse Pressed event - sets the cursor to the move cursor and stores info for possible panning
      *
      * @param e MouseEvent object
      */
@@ -42,8 +37,7 @@ public class BoardController extends Controller {
     }
 
     /**
-     * Mouse Released event - sets the cursor back to the default cursor and reset
-     * info for panning
+     * Mouse Released event - sets the cursor back to the default cursor and reset info for panning
      *
      * @param e MouseEvent object
      */
@@ -59,7 +53,6 @@ public class BoardController extends Controller {
      */
     @Override
     public void mouseEntered(MouseEvent e) {
-
     }
 
     /**
@@ -69,7 +62,6 @@ public class BoardController extends Controller {
      */
     @Override
     public void mouseExited(MouseEvent e) {
-
     }
 
     /**
@@ -89,7 +81,6 @@ public class BoardController extends Controller {
      */
     @Override
     public void mouseMoved(MouseEvent e) {
-
     }
 
     /**

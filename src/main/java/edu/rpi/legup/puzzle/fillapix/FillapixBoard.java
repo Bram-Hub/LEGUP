@@ -7,7 +7,7 @@ import java.awt.*;
 import java.util.logging.Logger;
 
 public class FillapixBoard extends GridBoard {
-    private final static Logger LOGGER = Logger.getLogger(FillapixBoard.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(FillapixBoard.class.getName());
 
     public FillapixBoard(int width, int height) {
         super(width, height);

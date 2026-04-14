@@ -1,10 +1,13 @@
 package edu.rpi.legup.model.gameboard;
 
+import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import edu.rpi.legup.save.InvalidFileFormatException;
 
+/**
+ * ElementFactory is an abstract class for importing and exporting {@link PuzzleElement} instances.
+ */
 public abstract class ElementFactory {
 
     /**
@@ -13,9 +16,11 @@ public abstract class ElementFactory {
      * @param node  node that represents the puzzleElement
      * @param board board to add the newly created cell
      * @return newly created cell from the xml document Node
-     * @throws InvalidFileFormatException thrown if the xml node is invalid for the specific puzzle element
+     * @throws InvalidFileFormatException thrown if the xml node is invalid for the specific puzzle
+     *                                    element
      */
-    public abstract PuzzleElement importCell(Node node, Board board) throws InvalidFileFormatException;
+    public abstract PuzzleElement importCell(Node node, Board board)
+            throws InvalidFileFormatException;
 
     /**
      * Creates a xml document {@link PuzzleElement} from a cell for exporting.

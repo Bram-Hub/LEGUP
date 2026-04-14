@@ -7,5 +7,4 @@ public class DirectRuleNotIntroduction extends DirectRule_GenericIntroduction {
     public DirectRuleNotIntroduction() {
         super("STTT-BASC-0010", "Not", new ContradictionRuleNot());
     }
-
 }

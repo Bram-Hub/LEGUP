@@ -5,15 +5,12 @@ import edu.rpi.legup.ui.LegupUI;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class ToolbarController implements ActionListener {
     private LegupUI legupUI;
 
     /**
-     * ToolbarController Constructor - creates a new {@link ToolbarController} to listen
-     * for button pressed from the tool mBar
+     * ToolbarController Constructor - creates a new {@link ToolbarController} to listen for button
+     * pressed from the tool mBar
      *
      * @param legupUI legupUI
      */
@@ -28,6 +25,5 @@ public class ToolbarController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-
     }
 }

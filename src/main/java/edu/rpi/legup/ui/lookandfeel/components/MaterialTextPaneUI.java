@@ -7,7 +7,6 @@ import javax.swing.plaf.basic.BasicTextPaneUI;
 /**
  * @author https://github.com/vincenzopalazzo
  */
-
 public class MaterialTextPaneUI extends BasicTextPaneUI {
 
     public static ComponentUI createUI(JComponent c) {

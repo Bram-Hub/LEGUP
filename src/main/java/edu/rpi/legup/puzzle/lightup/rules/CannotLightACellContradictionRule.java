@@ -12,13 +12,16 @@ import java.awt.*;
 public class CannotLightACellContradictionRule extends ContradictionRule {
 
     public CannotLightACellContradictionRule() {
-        super("LTUP-CONT-0002", "Cannot Light A Cell",
+        super(
+                "LTUP-CONT-0002",
+                "Cannot Light A Cell",
                 "All cells must be able to be lit.",
                 "edu/rpi/legup/images/lightup/contradictions/CannotLightACell.png");
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
      *
      * @param board         board to check contradiction
      * @param puzzleElement equivalent puzzleElement
@@ -42,8 +45,7 @@ public class CannotLightACellContradictionRule extends ContradictionRule {
             LightUpCell c = lightUpBoard.getCell(i, location.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            }
-            else {
+            } else {
                 if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
                     hor_count += 1;
                 }
@@ -53,8 +55,7 @@ public class CannotLightACellContradictionRule extends ContradictionRule {
             LightUpCell c = lightUpBoard.getCell(i, location.y);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            }
-            else {
+            } else {
                 if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
                     hor_count += 1;
                 }
@@ -64,8 +65,7 @@ public class CannotLightACellContradictionRule extends ContradictionRule {
             LightUpCell c = lightUpBoard.getCell(location.x, i);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            }
-            else {
+            } else {
                 if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
                     ver_count += 1;
                 }
@@ -75,8 +75,7 @@ public class CannotLightACellContradictionRule extends ContradictionRule {
             LightUpCell c = lightUpBoard.getCell(location.x, i);
             if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                 break;
-            }
-            else {
+            } else {
                 if (c.getType() == LightUpCellType.UNKNOWN && !c.isLite()) {
                     ver_count += 1;
                 }

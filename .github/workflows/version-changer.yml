@@ -1,0 +1,58 @@
+name: Increment Version on PR to Master
+
+on:
+  pull_request:
+    branches:
+      - master
+    types:
+      - closed  # Runs only when PR is merged
+
+jobs:
+  increment_version:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout dev branch
+        uses: actions/checkout@v2
+        with:
+          ref: dev
+          fetch-depth: 0
+
+      - name: Determine new version
+        id: update_version
+        run: |
+          current_version=$(<legup-update/bin/main/edu.rpi.legupupdate/VERSION)
+          IFS='.' read -r -a version_parts <<< "$current_version"
+          first_part="${version_parts[0]}"
+          second_part="${version_parts[1]}"
+          last_part="${version_parts[2]}"
+          
+          if [[ $last_part -eq 9 ]]; then
+            new_last_part=0
+            if [[ $second_part -eq 9 ]]; then
+              new_second_part=0
+              new_first_part=$((first_part + 1))
+            else
+              new_second_part=$((second_part + 1))
+              new_first_part=$first_part
+            fi
+          else
+            new_last_part=$((last_part + 1))
+            new_second_part=$second_part
+            new_first_part=$first_part
+          fi
+          
+          new_version="$new_first_part.$new_second_part.$new_last_part"
+          echo "New version: $new_version"
+          echo "::set-output name=version::$new_version"
+
+      - name: Update VERSION file
+        run: echo "${{ steps.update_version.outputs.version }}" > legup-update/bin/main/edu.rpi.legupupdate/VERSION
+
+      - name: Commit and push changes to dev
+        run: |
+          git config --global user.name 'Bram van Heuveln'
+          git config --global user.email 'bram28@users.noreply.github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} # check this, the rest should work
+          git add legup-update/bin/main/edu.rpi.legupupdate/VERSION
+          git commit -m "Increment version number after PR to master"

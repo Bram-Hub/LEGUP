@@ -7,14 +7,16 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 public class RoomTooEmptyContradictionRule extends ContradictionRule {
 
     public RoomTooEmptyContradictionRule() {
-        super("HEYA-CONT-0002",
+        super(
+                "HEYA-CONT-0002",
                 "Room too Empty",
                 "",
                 "edu/rpi/legup/images/heyawake/contradictions/RoomTooEmpty.png");
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
      *
      * @param board         board to check contradiction
      * @param puzzleElement equivalent puzzleElement

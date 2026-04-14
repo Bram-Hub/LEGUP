@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Legup version="2.0.0">
-    <puzzle name="Nurikabe">
+    <puzzle name="Nurikabe" tag="1726232">
         <board height="5" width="5">
             <cells>
                 <cell value="6" x="4" y="2"/>
@@ -9,5 +8,5 @@
             </cells>
         </board>
     </puzzle>
-    <solved isSolved="false" lastSaved="--"/>
+    <solved isSolved="-2010495071" lastSaved="2024-11-08 17:14:34"/>
 </Legup>

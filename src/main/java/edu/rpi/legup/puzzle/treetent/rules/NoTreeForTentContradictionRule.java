@@ -8,19 +8,22 @@ import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentLine;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 
 public class NoTreeForTentContradictionRule extends ContradictionRule {
 
     public NoTreeForTentContradictionRule() {
-        super("TREE-CONT-0002", "No Tree For Tent",
+        super(
+                "TREE-CONT-0002",
+                "No Tree For Tent",
                 "Each tent must link to a tree.",
                 "edu/rpi/legup/images/treetent/contra_NoTreeForTent.png");
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
      *
      * @param board         board to check contradiction
      * @param puzzleElement equivalent puzzleElement
@@ -40,10 +43,12 @@ public class NoTreeForTentContradictionRule extends ContradictionRule {
             Iterator<TreeTentCell> i = adjTrees.iterator();
             while (i.hasNext()) {
                 TreeTentCell t = i.next();
-                if (t.getLocation().equals(l.getC1().getLocation()) && !(cell.getLocation().equals(l.getC2().getLocation()))) {
+                if (t.getLocation().equals(l.getC1().getLocation())
+                        && !(cell.getLocation().equals(l.getC2().getLocation()))) {
                     i.remove();
                 }
-                if (t.getLocation().equals(l.getC2().getLocation()) && !(cell.getLocation().equals(l.getC2().getLocation()))) {
+                if (t.getLocation().equals(l.getC2().getLocation())
+                        && !(cell.getLocation().equals(l.getC2().getLocation()))) {
                     i.remove();
                 }
             }
@@ -51,8 +56,7 @@ public class NoTreeForTentContradictionRule extends ContradictionRule {
         int adjTree = adjTrees.size();
         if (adjTree == 0) {
             return null;
-        }
-        else {
+        } else {
             return super.getNoContradictionMessage();
         }
     }

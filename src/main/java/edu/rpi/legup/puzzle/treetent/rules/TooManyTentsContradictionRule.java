@@ -12,13 +12,16 @@ import java.awt.*;
 public class TooManyTentsContradictionRule extends ContradictionRule {
 
     public TooManyTentsContradictionRule() {
-        super("TREE-CONT-0004", "Too Many Tents",
+        super(
+                "TREE-CONT-0004",
+                "Too Many Tents",
                 "Rows and columns cannot have more tents than their clue.",
                 "edu/rpi/legup/images/treetent/too_many_tents.png");
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
      *
      * @param board         board to check contradiction
      * @param puzzleElement equivalent puzzleElement
@@ -34,11 +37,10 @@ public class TooManyTentsContradictionRule extends ContradictionRule {
         int rowTents = treeTentBoard.getRowCol(loc.y, TreeTentType.TENT, true).size();
         int colTents = treeTentBoard.getRowCol(loc.x, TreeTentType.TENT, false).size();
 
-        if (rowTents > treeTentBoard.getRowClues().get(loc.y).getData() ||
-                colTents > treeTentBoard.getColClues().get(loc.x).getData()) {
+        if (rowTents > treeTentBoard.getRowClues().get(loc.y).getData()
+                || colTents > treeTentBoard.getColClues().get(loc.x).getData()) {
             return null;
-        }
-        else {
+        } else {
             return super.getNoContradictionMessage();
         }
     }

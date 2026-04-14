@@ -1,9 +1,9 @@
 package edu.rpi.legup.ui.lookandfeel.components;
 
+import java.awt.Component;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import java.awt.Component;
 
 public class MaterialTableCellEditor extends DefaultCellEditor {
 
@@ -19,8 +19,12 @@ public class MaterialTableCellEditor extends DefaultCellEditor {
     }
 
     @Override
-    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int rowIndex, int vColIndex) {
-        JTextField textField = (JTextField) super.getTableCellEditorComponent(table, value, isSelected, rowIndex, vColIndex);
+    public Component getTableCellEditorComponent(
+            JTable table, Object value, boolean isSelected, int rowIndex, int vColIndex) {
+        JTextField textField =
+                (JTextField)
+                        super.getTableCellEditorComponent(
+                                table, value, isSelected, rowIndex, vColIndex);
         textField.setText(value.toString());
 
         return textField;

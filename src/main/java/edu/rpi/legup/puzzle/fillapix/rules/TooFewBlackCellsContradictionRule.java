@@ -13,14 +13,16 @@ import java.util.ArrayList;
 public class TooFewBlackCellsContradictionRule extends ContradictionRule {
 
     public TooFewBlackCellsContradictionRule() {
-        super("FPIX-CONT-0001",
+        super(
+                "FPIX-CONT-0001",
                 "Too Few Black Cells",
                 "There may not be fewer black cells than the number.",
                 "edu/rpi/legup/images/fillapix/contradictions/TooFewBlackCells.png");
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
      *
      * @param board         board to check contradiction
      * @param puzzleElement equivalent puzzleElement

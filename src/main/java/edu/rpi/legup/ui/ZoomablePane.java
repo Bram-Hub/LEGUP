@@ -1,10 +1,14 @@
 package edu.rpi.legup.ui;
 
-import javax.swing.*;
+import java.awt.AWTEvent;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.AWTEvent;
+import javax.swing.*;
 
+/**
+ * The {@code ZoomablePane} class is used to display components in a zoomable and scalable manner.
+ * It uses {@code ScrollView} to handle scaling and drawing of the content.
+ */
 public class ZoomablePane extends JLayeredPane {
     private ScrollView viewer;
 

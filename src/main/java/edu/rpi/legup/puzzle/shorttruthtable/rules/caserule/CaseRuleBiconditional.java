@@ -1,12 +1,14 @@
 package edu.rpi.legup.puzzle.shorttruthtable.rules.caserule;
 
-import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableOperation;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
+import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableOperation;
 
 public class CaseRuleBiconditional extends CaseRule_GenericStatement {
 
     public CaseRuleBiconditional() {
-        super("STTT-CASE-0003", ShortTruthTableOperation.BICONDITIONAL,
+        super(
+                "STTT-CASE-0003",
+                ShortTruthTableOperation.BICONDITIONAL,
                 "Biconditional",
                 trueCases,
                 falseCases);
@@ -20,5 +22,4 @@ public class CaseRuleBiconditional extends CaseRule_GenericStatement {
             {T, F},
             {F, T}
     };
-
 }

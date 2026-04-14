@@ -1,6 +1,5 @@
 package puzzles.skyscrapers.rules;
 
-
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.skyscrapers.Skyscrapers;
@@ -15,7 +14,8 @@ import org.junit.Test;
 
 public class UnresolvedNumberContradictionTest {
 
-    private static final UnresolvedNumberContradictionRule RULE = new UnresolvedNumberContradictionRule();
+    private static final UnresolvedNumberContradictionRule RULE =
+            new UnresolvedNumberContradictionRule();
     private static Skyscrapers skyscrapers;
 
     @BeforeClass
@@ -24,9 +24,10 @@ public class UnresolvedNumberContradictionTest {
         skyscrapers = new Skyscrapers();
     }
 
-    //empty
+    // empty
     @Test
-    public void UnresolvedNumberContradictionRule_EmptyBoardTest() throws InvalidFileFormatException {
+    public void UnresolvedNumberContradictionRule_EmptyBoardTest()
+            throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/empty", skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
@@ -41,9 +42,10 @@ public class UnresolvedNumberContradictionTest {
         }
     }
 
-    //correct board, no cont
+    // correct board, no cont
     @Test
-    public void UnresolvedNumberContradictionRule_SolvedBoardTest() throws InvalidFileFormatException {
+    public void UnresolvedNumberContradictionRule_SolvedBoardTest()
+            throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/Solved", skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
@@ -58,10 +60,13 @@ public class UnresolvedNumberContradictionTest {
         }
     }
 
-    //invalid board, no cont
+    // invalid board, no cont
     @Test
-    public void UnresolvedNumberContradictionRule_OtherContradictionTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/VisibilityContradictionRules/ImpliedAllContradiction", skyscrapers);
+    public void UnresolvedNumberContradictionRule_OtherContradictionTest()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/skyscrapers/rules/VisibilityContradictionRules/ImpliedAllContradiction",
+                skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -75,10 +80,13 @@ public class UnresolvedNumberContradictionTest {
         }
     }
 
-    //3 in a row, 1 in col creates contradiction
+    // 3 in a row, 1 in col creates contradiction
     @Test
-    public void UnresolvedNumberContradictionRule_RowContradictionTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/UnresolvedContradictionRules/3-1RowContradiction", skyscrapers);
+    public void UnresolvedNumberContradictionRule_RowContradictionTest()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/skyscrapers/rules/UnresolvedContradictionRules/3-1RowContradiction",
+                skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -90,17 +98,19 @@ public class UnresolvedNumberContradictionTest {
         for (int i = 0; i < board.getHeight(); i++) {
             if (i == 3) {
                 Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
-            }
-            else {
+            } else {
                 Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
             }
         }
     }
 
-    //3 in a col, 1 in row creates contradiction
+    // 3 in a col, 1 in row creates contradiction
     @Test
-    public void UnresolvedNumberContradictionRule_ColContradictionTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/UnresolvedContradictionRules/3-1ColContradiction", skyscrapers);
+    public void UnresolvedNumberContradictionRule_ColContradictionTest()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/skyscrapers/rules/UnresolvedContradictionRules/3-1ColContradiction",
+                skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -112,17 +122,19 @@ public class UnresolvedNumberContradictionTest {
         for (int i = 0; i < board.getHeight(); i++) {
             if (i == 1) {
                 Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
-            }
-            else {
+            } else {
                 Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
             }
         }
     }
 
-    //2 in a row/col, 2 in other row/cols creates number contradiction
+    // 2 in a row/col, 2 in other row/cols creates number contradiction
     @Test
-    public void UnresolvedNumberContradictionRule_TwoContradictionTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/UnresolvedContradictionRules/2-2NumberContradiction", skyscrapers);
+    public void UnresolvedNumberContradictionRule_TwoContradictionTest()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/skyscrapers/rules/UnresolvedContradictionRules/2-2NumberContradiction",
+                skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -134,17 +146,19 @@ public class UnresolvedNumberContradictionTest {
         for (int i = 0; i < board.getHeight(); i++) {
             if (i == 1 || i == 3) {
                 Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
-            }
-            else {
+            } else {
                 Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
             }
         }
     }
 
-    //1 in a row/col, 3 in other row/cols creates number contradiction
+    // 1 in a row/col, 3 in other row/cols creates number contradiction
     @Test
-    public void UnresolvedNumberContradictionRule_ThreeContradictionTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/UnresolvedContradictionRules/1-3NumberContradiction", skyscrapers);
+    public void UnresolvedNumberContradictionRule_ThreeContradictionTest()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/skyscrapers/rules/UnresolvedContradictionRules/1-3NumberContradiction",
+                skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -156,8 +170,7 @@ public class UnresolvedNumberContradictionTest {
         for (int i = 0; i < board.getHeight(); i++) {
             if (i == 1 || i == 2) {
                 Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
-            }
-            else {
+            } else {
                 Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(i, i)));
             }
         }

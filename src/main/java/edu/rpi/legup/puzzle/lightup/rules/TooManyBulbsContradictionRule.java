@@ -12,13 +12,16 @@ import java.awt.*;
 public class TooManyBulbsContradictionRule extends ContradictionRule {
 
     public TooManyBulbsContradictionRule() {
-        super("LTUP-CONT-0004", "Too Many Bulbs",
+        super(
+                "LTUP-CONT-0004",
+                "Too Many Bulbs",
                 "There cannot be more bulbs around a block than its number states.",
                 "edu/rpi/legup/images/lightup/contradictions/TooManyBulbs.png");
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
      *
      * @param board         board to check contradiction
      * @param puzzleElement equivalent puzzleElement

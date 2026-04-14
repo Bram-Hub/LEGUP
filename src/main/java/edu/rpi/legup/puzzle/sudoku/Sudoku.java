@@ -33,6 +33,8 @@ public class Sudoku extends Puzzle {
     @Override
     public void initializeView() {
         boardView = new SudokuView((SudokuBoard) currentBoard);
+        boardView.setBoard(currentBoard);
+        addBoardListener(boardView);
     }
 
     /**
@@ -50,8 +52,8 @@ public class Sudoku extends Puzzle {
     /**
      * Determines if the given dimensions are valid for Sudoku
      *
-     * @param rows      the number of rows
-     * @param columns   the number of columns
+     * @param rows the number of rows
+     * @param columns the number of columns
      * @return true if the given dimensions are valid for Sudoku, false otherwise
      */
     public boolean isValidDimensions(int rows, int columns) {
@@ -66,7 +68,8 @@ public class Sudoku extends Puzzle {
         }
 
         // For Sudoku, the number of rows and columns must be a perfect square
-        // Note: we don't need to check the columns since by this point, we have verified that the number of rows
+        // Note: we don't need to check the columns since by this point, we have verified that the
+        // number of rows
         // equals the number of columns
         double sqrtRows = Math.sqrt(rows);
         if (sqrtRows - Math.floor(sqrtRows) != 0) {
@@ -108,6 +111,5 @@ public class Sudoku extends Puzzle {
      */
     @Override
     public void onBoardChange(Board board) {
-
     }
 }

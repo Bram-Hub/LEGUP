@@ -7,5 +7,4 @@ public class DirectRuleAndElimination extends DirectRule_GenericElimination {
     public DirectRuleAndElimination() {
         super("STTT-BASC-0002", "And", new ContradictionRuleAnd());
     }
-
 }

@@ -9,6 +9,11 @@ import edu.rpi.legup.model.rules.RuleType;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a transition between two nodes in a tree structure within a game. A transition is
+ * responsible for propagating changes through the tree and managing and verifying the associated
+ * rules and puzzle elements.
+ */
 public class TreeTransition extends TreeElement {
     private ArrayList<TreeNode> parents;
     private TreeNode childNode;
@@ -71,8 +76,7 @@ public class TreeTransition extends TreeElement {
                     board.removeModifiedData(element);
                     board.notifyChange(element);
                     changed = true;
-                }
-                else {
+                } else {
                     if (!lcaElement.equalsData(element)) {
                         mergedData.setData(element.getData());
                         board.addModifiedData(mergedData);
@@ -89,8 +93,7 @@ public class TreeTransition extends TreeElement {
                     }
                 }
             }
-        }
-        else {
+        } else {
             // Overwrite previous modifications to this element
             board.removeModifiedData(board.getPuzzleElement(element));
 
@@ -98,7 +101,8 @@ public class TreeTransition extends TreeElement {
             board.notifyChange(element);
 
             // mark first transition as modified
-            if (!board.getPuzzleElement(element).equalsData(parents.get(0).getBoard().getPuzzleElement(element))) {
+            if (!board.getPuzzleElement(element)
+                    .equalsData(parents.get(0).getBoard().getPuzzleElement(element))) {
                 board.addModifiedData(element);
             }
 
@@ -116,8 +120,7 @@ public class TreeTransition extends TreeElement {
                 // Set as modifiable if reverted to starting value (and started modifiable)
                 if (headBoard.getPuzzleElement(element).equalsData(element)) {
                     copy.setModifiable(headBoard.getPuzzleElement(element).isModifiable());
-                }
-                else{
+                } else {
                     copy.setModifiable(false);
                 }
 
@@ -159,8 +162,7 @@ public class TreeTransition extends TreeElement {
                     board.removeModifiedData(element);
                     board.notifyDeletion(element);
                     changed = true;
-                }
-                else {
+                } else {
                     if (!lcaElement.equalsData(element)) {
                         mergedData.setData(element.getData());
                         board.addModifiedData(mergedData);
@@ -175,8 +177,7 @@ public class TreeTransition extends TreeElement {
                     }
                 }
             }
-        }
-        else {
+        } else {
             if (childNode != null) {
                 board.notifyAddition(element);
                 childNode.getBoard().notifyAddition(element.copy());
@@ -214,8 +215,7 @@ public class TreeTransition extends TreeElement {
                     board.removeModifiedData(element);
                     board.notifyDeletion(element);
                     changed = true;
-                }
-                else {
+                } else {
                     if (!lcaElement.equalsData(element)) {
                         mergedData.setData(element.getData());
                         board.addModifiedData(mergedData);
@@ -230,8 +230,7 @@ public class TreeTransition extends TreeElement {
                     }
                 }
             }
-        }
-        else {
+        } else {
             if (childNode != null) {
                 board.notifyDeletion(element);
                 childNode.getBoard().notifyDeletion(element.copy());
@@ -244,8 +243,8 @@ public class TreeTransition extends TreeElement {
     }
 
     /**
-     * Determines if this tree node leads to a contradiction. Every path from this tree node
-     * must lead to a contradiction including all of its children
+     * Determines if this tree node leads to a contradiction. Every path from this tree node must
+     * lead to a contradiction including all of its children
      *
      * @return true if this tree node leads to a contradiction, false otherwise
      */
@@ -253,12 +252,10 @@ public class TreeTransition extends TreeElement {
     public boolean isContradictoryBranch() {
         if (isJustified() && isCorrect() && rule.getRuleType() == RuleType.CONTRADICTION) {
             return true;
-        }
-        else {
+        } else {
             if (childNode == null) {
                 return false;
-            }
-            else {
+            } else {
                 return childNode.isContradictoryBranch() && isJustified() && isCorrect();
             }
         }
@@ -269,8 +266,8 @@ public class TreeTransition extends TreeElement {
      * whether this tree puzzleElement and all descendants of this tree puzzleElement is justified
      * and justified correctly
      *
-     * @return true if this tree puzzleElement and all descendants of this tree puzzleElement is valid,
-     * false otherwise
+     * @return true if this tree puzzleElement and all descendants of this tree puzzleElement is
+     * valid, false otherwise
      */
     @Override
     public boolean isValidBranch() {
@@ -339,6 +336,24 @@ public class TreeTransition extends TreeElement {
      */
     public void setChildNode(TreeNode childNode) {
         this.childNode = childNode;
+    }
+
+    /**
+     * Removes the child to this tree transition
+     *
+     * @param child child to remove
+     */
+    public void removeChild(TreeNode child) {
+        parents.remove(child);
+    }
+
+    /**
+     * Add the child to this tree transition
+     *
+     * @param child child to add
+     */
+    public void addChild(TreeNode child) {
+        parents.add(child);
     }
 
     /**

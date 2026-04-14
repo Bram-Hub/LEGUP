@@ -27,8 +27,8 @@ public class AndIntroductionDirectRuleTest {
     /**
      * Given a statement: A ^ B
      *
-     * Asserts that if at least 1 of A or B is false, then this is a valid application
-     * of the rule if and only if ^ is false.
+     * <p>Asserts that if at least 1 of A or B is false, then this is a valid application of the
+     * rule if and only if ^ is false.
      *
      * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
@@ -64,8 +64,8 @@ public class AndIntroductionDirectRuleTest {
     /**
      * Given a statement: A ^ B
      *
-     * Asserts that setting ^ to true is a valid application of the rule if
-     * and only if both A and B are true.
+     * <p>Asserts that setting ^ to true is a valid application of the rule if and only if both A
+     * and B are true.
      *
      * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
@@ -95,10 +95,10 @@ public class AndIntroductionDirectRuleTest {
         and.setData(ShortTruthTableCellType.TRUE);
         board.addModifiedData(and);
 
-        if (a.getType() == ShortTruthTableCellType.TRUE && b.getType() == ShortTruthTableCellType.TRUE) {
+        if (a.getType() == ShortTruthTableCellType.TRUE
+                && b.getType() == ShortTruthTableCellType.TRUE) {
             Assert.assertNull(RULE.checkRule(transition));
-        }
-        else {
+        } else {
             Assert.assertNotNull(RULE.checkRule(transition));
         }
     }

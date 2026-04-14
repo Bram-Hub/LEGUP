@@ -24,8 +24,7 @@ public class MasyuElementView extends GridElementView {
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
-        }
-        else {
+        } else {
             if (type == MasyuType.BLACK) {
                 graphics2D.setStroke(new BasicStroke(1));
                 graphics2D.setColor(Color.LIGHT_GRAY);
@@ -34,8 +33,7 @@ public class MasyuElementView extends GridElementView {
                 graphics2D.fillOval(location.x + 5, location.y + 5, 20, 20);
                 graphics2D.setColor(Color.BLACK);
                 graphics2D.drawRect(location.x, location.y, size.width, size.height);
-            }
-            else {
+            } else {
                 if (type == MasyuType.WHITE) {
                     graphics2D.setStroke(new BasicStroke(2));
                     graphics2D.setColor(Color.LIGHT_GRAY);

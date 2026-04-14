@@ -1,0 +1,46 @@
+<Legup version="3.0.0">
+    <saved/>
+    <puzzle name="Binary" tag="6x6 Binary Very Hard 3">
+        <board height="6" width="6">
+            <cells>
+                <cell value="2" x="0" y="0"/>
+                <cell value="2" x="1" y="0"/>
+                <cell value="2" x="2" y="0"/>
+                <cell value="0" x="3" y="0"/>
+                <cell value="2" x="4" y="0"/>
+                <cell value="0" x="5" y="0"/>
+                <cell value="2" x="0" y="1"/>
+                <cell value="2" x="1" y="1"/>
+                <cell value="1" x="2" y="1"/>
+                <cell value="2" x="3" y="1"/>
+                <cell value="2" x="4" y="1"/>
+                <cell value="2" x="5" y="1"/>
+                <cell value="2" x="0" y="2"/>
+                <cell value="0" x="1" y="2"/>
+                <cell value="2" x="2" y="2"/>
+                <cell value="1" x="3" y="2"/>
+                <cell value="2" x="4" y="2"/>
+                <cell value="0" x="5" y="2"/>
+                <cell value="1" x="0" y="3"/>
+                <cell value="2" x="1" y="3"/>
+                <cell value="2" x="2" y="3"/>
+                <cell value="2" x="3" y="3"/>
+                <cell value="2" x="4" y="3"/>
+                <cell value="2" x="5" y="3"/>
+                <cell value="2" x="0" y="4"/>
+                <cell value="2" x="1" y="4"/>
+                <cell value="2" x="2" y="4"/>
+                <cell value="0" x="3" y="4"/>
+                <cell value="0" x="4" y="4"/>
+                <cell value="2" x="5" y="4"/>
+                <cell value="2" x="0" y="5"/>
+                <cell value="2" x="1" y="5"/>
+                <cell value="2" x="2" y="5"/>
+                <cell value="2" x="3" y="5"/>
+                <cell value="2" x="4" y="5"/>
+                <cell value="2" x="5" y="5"/>
+            </cells>
+        </board>
+    </puzzle>
+    <solved isSolved="-2010495071" lastSaved="2024-11-08 17:14:34"/>
+</Legup>

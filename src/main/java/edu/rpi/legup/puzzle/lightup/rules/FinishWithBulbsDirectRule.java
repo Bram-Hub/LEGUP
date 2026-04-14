@@ -14,19 +14,21 @@ import java.util.Set;
 public class FinishWithBulbsDirectRule extends DirectRule {
 
     public FinishWithBulbsDirectRule() {
-        super("LTUP-BASC-0004", "Finish with Bulbs",
+        super(
+                "LTUP-BASC-0004",
+                "Finish with Bulbs",
                 "The remaining unknowns around a block must be bulbs to satisfy the number.",
                 "edu/rpi/legup/images/lightup/rules/FinishWithBulbs.png");
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
      * @param transition    transition to check
      * @param puzzleElement index of the puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     * puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
@@ -34,14 +36,16 @@ public class FinishWithBulbsDirectRule extends DirectRule {
         LightUpCell initCell = (LightUpCell) initialBoard.getPuzzleElement(puzzleElement);
         LightUpBoard finalBoard = (LightUpBoard) transition.getBoard();
         LightUpCell finalCell = (LightUpCell) finalBoard.getPuzzleElement(puzzleElement);
-        if (!(initCell.getType() == LightUpCellType.UNKNOWN && finalCell.getType() == LightUpCellType.BULB)) {
+        if (!(initCell.getType() == LightUpCellType.UNKNOWN
+                && finalCell.getType() == LightUpCellType.BULB)) {
             return super.getInvalidUseOfRuleMessage() + ": Modified cells must be bulbs";
         }
 
         Set<LightUpCell> adjCells = finalBoard.getAdj(finalCell);
         adjCells.removeIf(cell -> cell.getType() != LightUpCellType.NUMBER);
         if (adjCells.isEmpty()) {
-            return super.getInvalidUseOfRuleMessage() + ": This cell is not adjacent to a numbered cell";
+            return super.getInvalidUseOfRuleMessage()
+                    + ": This cell is not adjacent to a numbered cell";
         }
 
         LightUpBoard emptyCase = initialBoard.copy();
@@ -81,7 +85,8 @@ public class FinishWithBulbsDirectRule extends DirectRule {
     }
 
     /**
-     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
      *
      * @param node tree node used to create default transition board
      * @return default board or null if this rule cannot be applied to this tree node
@@ -99,8 +104,7 @@ public class FinishWithBulbsDirectRule extends DirectRule {
         }
         if (lightUpBoard.getModifiedData().isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return lightUpBoard;
         }
     }

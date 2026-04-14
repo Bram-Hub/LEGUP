@@ -4,11 +4,12 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.save.InvalidFileFormatException;
+
+import java.awt.*;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-
-import java.awt.*;
 
 public class BattleshipCellFactory extends ElementFactory {
     /**
@@ -20,7 +21,8 @@ public class BattleshipCellFactory extends ElementFactory {
      * @throws InvalidFileFormatException if file is invalid
      */
     @Override
-    public PuzzleElement<BattleshipType> importCell(Node node, Board board) throws InvalidFileFormatException {
+    public PuzzleElement<BattleshipType> importCell(Node node, Board board)
+            throws InvalidFileFormatException {
         try {
             BattleshipBoard battleShipBoard = (BattleshipBoard) board;
             int width = battleShipBoard.getWidth();
@@ -32,24 +34,25 @@ public class BattleshipCellFactory extends ElementFactory {
                 int x = Integer.parseInt(attributeList.getNamedItem("x").getNodeValue());
                 int y = Integer.parseInt(attributeList.getNamedItem("y").getNodeValue());
                 if (x >= width || y >= height) {
-                    throw new InvalidFileFormatException("BattleShip Factory: cell location out of bounds");
+                    throw new InvalidFileFormatException(
+                            "BattleShip Factory: cell location out of bounds");
                 }
                 if (value < 0 || value > 3) {
                     throw new InvalidFileFormatException("BattleShip Factory: cell unknown value");
                 }
 
-                BattleshipCell cell = new BattleshipCell(BattleshipType.getType(value), new Point(x, y));
-                cell.setIndex(y * height + x);
+                BattleshipCell cell =
+                        new BattleshipCell(BattleshipType.getType(value), new Point(x, y));
+                cell.setIndex(y * width + x);
                 return cell;
+            } else {
+                throw new InvalidFileFormatException(
+                        "BattleShip Factory: unknown puzzleElement puzzleElement");
             }
-            else {
-                throw new InvalidFileFormatException("BattleShip Factory: unknown puzzleElement puzzleElement");
-            }
-        }
-        catch (NumberFormatException e) {
-            throw new InvalidFileFormatException("BattleShip Factory: unknown value where integer expected");
-        }
-        catch (NullPointerException e) {
+        } catch (NumberFormatException e) {
+            throw new InvalidFileFormatException(
+                    "BattleShip Factory: unknown value where integer expected");
+        } catch (NullPointerException e) {
             throw new InvalidFileFormatException("BattleShip Factory: could not find attribute(s)");
         }
     }

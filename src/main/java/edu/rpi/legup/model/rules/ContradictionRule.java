@@ -1,14 +1,20 @@
 package edu.rpi.legup.model.rules;
 
+import static edu.rpi.legup.model.rules.RuleType.CONTRADICTION;
+
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeTransition;
 
-import static edu.rpi.legup.model.rules.RuleType.CONTRADICTION;
-
+/**
+ * ContradictionRule is an abstract class representing a rule that identifies contradictions in a
+ * puzzle. It provides methods to check for contradictions both globally and at specific puzzle
+ * elements.
+ */
 public abstract class ContradictionRule extends Rule {
 
-    private final String NO_CONTRADICTION_MESSAGE = "No instance of the contradiction " + this.ruleName + " here";
+    private final String NO_CONTRADICTION_MESSAGE =
+            "No instance of the contradiction " + this.ruleName + " here";
 
     /**
      * ContradictionRule Constructor creates a new contradiction rule
@@ -35,13 +41,13 @@ public abstract class ContradictionRule extends Rule {
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
      * @param transition    transition to check
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     * puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleAt(TreeTransition transition, PuzzleElement puzzleElement) {
@@ -49,8 +55,8 @@ public abstract class ContradictionRule extends Rule {
     }
 
     /**
-     * Checks whether the transition logically follows from the parent node using this rule.
-     * This method is the one that should overridden in child classes
+     * Checks whether the transition logically follows from the parent node using this rule. This
+     * method is the one that should overridden in child classes
      *
      * @param transition transition to check
      * @return null if the child node logically follow from the parent node, otherwise error message
@@ -61,14 +67,14 @@ public abstract class ContradictionRule extends Rule {
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
-     * This method is the one that should overridden in child classes
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule This method is the one that should overridden in child
+     * classes
      *
      * @param transition    transition to check
      * @param puzzleElement equivalent puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     * puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
@@ -96,7 +102,8 @@ public abstract class ContradictionRule extends Rule {
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
      *
      * @param board         board to check contradiction
      * @param puzzleElement equivalent puzzleElement
@@ -104,5 +111,4 @@ public abstract class ContradictionRule extends Rule {
      * otherwise error message
      */
     public abstract String checkContradictionAt(Board board, PuzzleElement puzzleElement);
-
 }

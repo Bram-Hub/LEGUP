@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup>
+    <puzzle name="Sudoku">
+        <board size="9">
+            <cells>
+                <cell value="7" x="0" y="0"/>
+            </cells>
+        </board>
+    </puzzle>
+    <solved isSolved="false" lastSaved="--"/>
+</Legup>

@@ -11,8 +11,7 @@ public class MockGameBoardFacade extends GameBoardFacade {
         Config config = null;
         try {
             config = new Config();
-        }
-        catch (InvalidConfigException e) {
+        } catch (InvalidConfigException e) {
             System.exit(1);
         }
         setConfig(config);
@@ -23,7 +22,7 @@ public class MockGameBoardFacade extends GameBoardFacade {
      *
      * @return single instance of GameBoardFacade
      */
-    public synchronized static GameBoardFacade getInstance() {
+    public static synchronized GameBoardFacade getInstance() {
         if (instance == null) {
             instance = new MockGameBoardFacade();
         }
@@ -32,7 +31,6 @@ public class MockGameBoardFacade extends GameBoardFacade {
 
     @Override
     public void initializeUI() {
-
     }
 
     @Override
@@ -42,6 +40,5 @@ public class MockGameBoardFacade extends GameBoardFacade {
 
     @Override
     public void setWindowTitle(String puzzleName, String fileName) {
-
     }
 }

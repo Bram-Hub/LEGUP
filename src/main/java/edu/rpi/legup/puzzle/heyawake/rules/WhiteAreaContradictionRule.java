@@ -7,14 +7,16 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 public class WhiteAreaContradictionRule extends ContradictionRule {
 
     public WhiteAreaContradictionRule() {
-        super("HEYA-CONT-0004",
+        super(
+                "HEYA-CONT-0004",
                 "White Area",
                 "",
                 "edu/rpi/legup/images/heyawake/contradictions/WhiteArea.png");
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
      *
      * @param board         board to check contradiction
      * @param puzzleElement equivalent puzzleElement

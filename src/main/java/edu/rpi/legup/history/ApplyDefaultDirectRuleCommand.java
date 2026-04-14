@@ -11,6 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The ApplyDefaultDirectRuleCommand class represents a command to apply a default direct rule to
+ * selected tree nodes in the proof tree. It extends the PuzzleCommand class to handle rule
+ * application and undo operation.
+ */
 public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
 
     private TreeViewSelection selection;
@@ -18,7 +23,8 @@ public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
     private Map<TreeNode, TreeTransition> addMap;
 
     /**
-     * ApplyDefaultDirectRuleCommand Constructor creates a command for applying the default of a basic rule
+     * ApplyDefaultDirectRuleCommand Constructor creates a command for applying the default of a
+     * basic rule
      *
      * @param selection selection of tree element views
      * @param rule      basic rule for the command
@@ -39,24 +45,30 @@ public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
     public String getErrorString() {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         if (selectedViews.isEmpty()) {
-            return CommandError.DEFAULT_APPLICATION + " - " + CommandError.NO_SELECTED_VIEWS.toString();
-        }
-        else {
+            return CommandError.DEFAULT_APPLICATION
+                    + " - "
+                    + CommandError.NO_SELECTED_VIEWS.toString();
+        } else {
             for (TreeElementView view : selectedViews) {
                 TreeElement element = view.getTreeElement();
                 if (element.getType() == TreeElementType.NODE) {
                     TreeNode node = (TreeNode) element;
                     if (!node.getChildren().isEmpty()) {
-                        return CommandError.DEFAULT_APPLICATION + " - " + CommandError.NO_CHILDREN.toString();
-                    }
-                    else {
+
+                        return CommandError.DEFAULT_APPLICATION
+                                + " - "
+                                + CommandError.NO_CHILDREN.toString();
+                    } else {
                         if (rule.getDefaultBoard(node) == null) {
-                            return CommandError.DEFAULT_APPLICATION + " - " + "This selection contains a tree element that this rule cannot be applied to.";
+                            return CommandError.DEFAULT_APPLICATION
+                                    + " - This selection contains a tree element that this rule"
+                                    + " cannot be applied to.";
                         }
                     }
-                }
-                else {
-                    return CommandError.DEFAULT_APPLICATION + " - " + CommandError.SELECTION_CONTAINS_TRANSITION.toString();
+                } else {
+                    return CommandError.DEFAULT_APPLICATION
+                            + " - "
+                            + CommandError.SELECTION_CONTAINS_TRANSITION.toString();
                 }
             }
         }
@@ -64,7 +76,8 @@ public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
     }
 
     /**
-     * Executes an command
+     * Executes the command to apply the default rule to the selected tree nodes. Updates the puzzle
+     * and tree view accordingly.
      */
     @Override
     public void executeCommand() {
@@ -82,8 +95,7 @@ public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
                 transition = (TreeTransition) tree.addTreeElement(node);
                 childNode = (TreeNode) tree.addTreeElement(transition);
                 addMap.put(node, transition);
-            }
-            else {
+            } else {
                 tree.addTreeElement(node, transition);
                 childNode = transition.getChildNode();
             }
@@ -107,7 +119,8 @@ public class ApplyDefaultDirectRuleCommand extends PuzzleCommand {
     }
 
     /**
-     * Undoes an command
+     * Undoes the command by removing the applied default rule from the tree nodes. Updates the
+     * puzzle and tree view accordingly.
      */
     @Override
     public void undoCommand() {

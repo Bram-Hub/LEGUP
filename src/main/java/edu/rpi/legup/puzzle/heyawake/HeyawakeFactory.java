@@ -4,11 +4,12 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.save.InvalidFileFormatException;
+
+import java.awt.*;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-
-import java.awt.*;
 
 public class HeyawakeFactory extends ElementFactory {
     /**
@@ -23,7 +24,8 @@ public class HeyawakeFactory extends ElementFactory {
     public HeyawakeCell importCell(Node node, Board board) throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("cell")) {
-                throw new InvalidFileFormatException("Heyawake Factory: unknown puzzleElement puzzleElement");
+                throw new InvalidFileFormatException(
+                        "Heyawake Factory: unknown puzzleElement puzzleElement");
             }
 
             HeyawakeBoard heyawakeBoard = (HeyawakeBoard) board;
@@ -36,21 +38,21 @@ public class HeyawakeFactory extends ElementFactory {
             int y = Integer.valueOf(attributeList.getNamedItem("y").getNodeValue());
             int regionIndex = Integer.valueOf(attributeList.getNamedItem("region").getNodeValue());
             if (x >= width || y >= height) {
-                throw new InvalidFileFormatException("Heyawake Factory: cell location out of bounds");
+                throw new InvalidFileFormatException(
+                        "Heyawake Factory: cell location out of bounds");
             }
             if (value < -4 || value > 4) {
                 throw new InvalidFileFormatException("Heyawake Factory: cell unknown value");
             }
 
             HeyawakeCell cell = new HeyawakeCell(value, new Point(x, y), regionIndex);
-            cell.setIndex(y * height + x);
+            cell.setIndex(y * width + x);
             heyawakeBoard.getRegions();
             return cell;
-        }
-        catch (NumberFormatException e) {
-            throw new InvalidFileFormatException("Heyawake Factory: unknown value where integer expected");
-        }
-        catch (NullPointerException e) {
+        } catch (NumberFormatException e) {
+            throw new InvalidFileFormatException(
+                    "Heyawake Factory: unknown value where integer expected");
+        } catch (NullPointerException e) {
             throw new InvalidFileFormatException("Heyawake Factory: could not find attribute(s)");
         }
     }

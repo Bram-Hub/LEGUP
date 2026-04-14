@@ -2,11 +2,12 @@ package edu.rpi.legup.puzzle.heyawake;
 
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
+
+import java.awt.*;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import java.awt.*;
 
 public class HeyawakeImporter extends PuzzleImporter {
 
@@ -33,7 +34,6 @@ public class HeyawakeImporter extends PuzzleImporter {
      */
     @Override
     public void initializeBoard(int rows, int columns) {
-
     }
 
     /**
@@ -46,11 +46,13 @@ public class HeyawakeImporter extends PuzzleImporter {
     public void initializeBoard(Node node) throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("board")) {
-                throw new InvalidFileFormatException("Heyawake Importer: cannot find board puzzleElement");
+                throw new InvalidFileFormatException(
+                        "Heyawake Importer: cannot find board puzzleElement");
             }
             Element boardElement = (Element) node;
             if (boardElement.getElementsByTagName("cells").getLength() == 0) {
-                throw new InvalidFileFormatException("Heyawake Importer: no puzzleElement found for board");
+                throw new InvalidFileFormatException(
+                        "Heyawake Importer: no puzzleElement found for board");
             }
             Element dataElement = (Element) boardElement.getElementsByTagName("cells").item(0);
             NodeList elementDataList = dataElement.getElementsByTagName("cell");
@@ -59,9 +61,9 @@ public class HeyawakeImporter extends PuzzleImporter {
             if (!boardElement.getAttribute("size").isEmpty()) {
                 int size = Integer.valueOf(boardElement.getAttribute("size"));
                 heyawakeBoard = new HeyawakeBoard(size);
-            }
-            else {
-                if (!boardElement.getAttribute("width").isEmpty() && !boardElement.getAttribute("height").isEmpty()) {
+            } else {
+                if (!boardElement.getAttribute("width").isEmpty()
+                        && !boardElement.getAttribute("height").isEmpty()) {
                     int width = Integer.valueOf(boardElement.getAttribute("width"));
                     int height = Integer.valueOf(boardElement.getAttribute("height"));
                     heyawakeBoard = new HeyawakeBoard(width, height);
@@ -76,7 +78,10 @@ public class HeyawakeImporter extends PuzzleImporter {
             int height = heyawakeBoard.getHeight();
 
             for (int i = 0; i < elementDataList.getLength(); i++) {
-                HeyawakeCell cell = (HeyawakeCell) puzzle.getFactory().importCell(elementDataList.item(i), heyawakeBoard);
+                HeyawakeCell cell =
+                        (HeyawakeCell)
+                                puzzle.getFactory()
+                                        .importCell(elementDataList.item(i), heyawakeBoard);
                 Point loc = cell.getLocation();
                 if (cell.getData() != -2) {
                     cell.setModifiable(false);
@@ -89,16 +94,16 @@ public class HeyawakeImporter extends PuzzleImporter {
                 for (int x = 0; x < width; x++) {
                     if (heyawakeBoard.getCell(x, y) == null) {
                         HeyawakeCell cell = new HeyawakeCell(0, new Point(x, y), -1);
-                        cell.setIndex(y * height + x);
+                        cell.setIndex(y * width + x);
                         cell.setModifiable(false);
                         heyawakeBoard.setCell(x, y, cell);
                     }
                 }
             }
             puzzle.setCurrentBoard(heyawakeBoard);
-        }
-        catch (NumberFormatException e) {
-            throw new InvalidFileFormatException("Heyawake Importer: unknown value where integer expected");
+        } catch (NumberFormatException e) {
+            throw new InvalidFileFormatException(
+                    "Heyawake Importer: unknown value where integer expected");
         }
     }
 

@@ -46,8 +46,7 @@ public class Update {
         try {
             version = reader.readLine();
             reader.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             logger.severe("An error occurred while attempting to read the version\n" + e.getMessage());
         }
         VERSION = version;
@@ -85,13 +84,11 @@ public class Update {
                 if (NetUtil.versionCompare(VERSION, updateVersion) < 0) {
                     logger.info("Update available");
                     return true;
-                }
-                else {
+                } else {
                     logger.info("No update available");
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             logger.severe("Failed to check for update\n" + e.getMessage());
         }
         return false;
@@ -202,8 +199,7 @@ public class Update {
             }
             logger.info("Download complete");
             return true;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             logger.severe("Failed to update Legup\n" + e.getMessage());
             return false;
         }
@@ -219,8 +215,7 @@ public class Update {
                     if (!entryDestination.exists() && !entryDestination.mkdirs()) {
                         throw new IOException("Failed to unzip file: " + file.getCanonicalPath());
                     }
-                }
-                else {
+                } else {
                     if (!entryDestination.getParentFile().exists() && !entryDestination.getParentFile().mkdirs()) {
                         throw new IOException("Failed to unzip file: " + file.getCanonicalPath());
                     }

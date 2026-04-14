@@ -1,21 +1,21 @@
 package puzzles.skyscrapers.rules;
 
-
+import edu.rpi.legup.model.tree.TreeNode;
+import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.skyscrapers.Skyscrapers;
 import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersBoard;
 import edu.rpi.legup.puzzle.skyscrapers.rules.DuplicateNumberContradictionRule;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import legup.MockGameBoardFacade;
 import legup.TestUtilities;
-import edu.rpi.legup.model.tree.TreeNode;
-import edu.rpi.legup.model.tree.TreeTransition;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class DuplicateNumberContradictionTest {
 
-    private static final DuplicateNumberContradictionRule RULE = new DuplicateNumberContradictionRule();
+    private static final DuplicateNumberContradictionRule RULE =
+            new DuplicateNumberContradictionRule();
     private static Skyscrapers skyscrapers;
 
     @BeforeClass
@@ -24,9 +24,10 @@ public class DuplicateNumberContradictionTest {
         skyscrapers = new Skyscrapers();
     }
 
-    //empty
+    // empty
     @Test
-    public void DuplicateNumberContradictionRule_EmptyBoardTest() throws InvalidFileFormatException {
+    public void DuplicateNumberContradictionRule_EmptyBoardTest()
+            throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/empty", skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
@@ -43,9 +44,10 @@ public class DuplicateNumberContradictionTest {
         }
     }
 
-    //correct board, no cont
+    // correct board, no cont
     @Test
-    public void DuplicateNumberContradictionRule_SolvedBoardTest() throws InvalidFileFormatException {
+    public void DuplicateNumberContradictionRule_SolvedBoardTest()
+            throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/skyscrapers/rules/common/Solved", skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
@@ -62,10 +64,13 @@ public class DuplicateNumberContradictionTest {
         }
     }
 
-    //invalid board, no cont
+    // invalid board, no cont
     @Test
-    public void DuplicateNumberContradictionRule_OtherContradictionTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/VisibilityContradictionRules/FullRowContradiction", skyscrapers);
+    public void DuplicateNumberContradictionRule_OtherContradictionTest()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/skyscrapers/rules/VisibilityContradictionRules/FullRowContradiction",
+                skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -81,10 +86,13 @@ public class DuplicateNumberContradictionTest {
         }
     }
 
-    //on row
+    // on row
     @Test
-    public void DuplicateNumberContradictionRule_RowContradictionTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/DuplicateNumberContradictionRule/RowContradiction", skyscrapers);
+    public void DuplicateNumberContradictionRule_RowContradictionTest()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/skyscrapers/rules/DuplicateNumberContradictionRule/RowContradiction",
+                skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -95,20 +103,22 @@ public class DuplicateNumberContradictionTest {
         SkyscrapersBoard board = (SkyscrapersBoard) transition.getBoard();
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
-                if((k==0 || k==1) && i==0){
+                if ((k == 0 || k == 1) && i == 0) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else{
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
         }
     }
 
-    //on col
+    // on col
     @Test
-    public void DuplicateNumberContradictionRule_ColContradictionTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/DuplicateNumberContradictionRule/ColContradiction", skyscrapers);
+    public void DuplicateNumberContradictionRule_ColContradictionTest()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/skyscrapers/rules/DuplicateNumberContradictionRule/ColContradiction",
+                skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);
@@ -119,20 +129,22 @@ public class DuplicateNumberContradictionTest {
         SkyscrapersBoard board = (SkyscrapersBoard) transition.getBoard();
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
-                if(k==0 && (i==0 || i==1)){
+                if (k == 0 && (i == 0 || i == 1)) {
                     Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
-                }
-                else{
+                } else {
                     Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
                 }
             }
         }
     }
 
-    //multitudes
+    // multitudes
     @Test
-    public void DuplicateNumberContradictionRule_AllContradictionTest() throws InvalidFileFormatException {
-        TestUtilities.importTestBoard("puzzles/skyscrapers/rules/DuplicateNumberContradictionRule/AllContradiction", skyscrapers);
+    public void DuplicateNumberContradictionRule_AllContradictionTest()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/skyscrapers/rules/DuplicateNumberContradictionRule/AllContradiction",
+                skyscrapers);
 
         TreeNode rootNode = skyscrapers.getTree().getRootNode();
         TreeTransition transition = rootNode.getChildren().get(0);

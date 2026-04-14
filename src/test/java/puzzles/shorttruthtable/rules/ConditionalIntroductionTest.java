@@ -15,7 +15,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class ConditionalIntroductionTest {
-    private static final DirectRuleConditionalIntroduction RULE = new DirectRuleConditionalIntroduction();
+    private static final DirectRuleConditionalIntroduction RULE =
+            new DirectRuleConditionalIntroduction();
     private static ShortTruthTable stt;
 
     @BeforeClass
@@ -27,8 +28,8 @@ public class ConditionalIntroductionTest {
     /**
      * Given a statement: A -> B
      *
-     * Asserts that if setting -> to false is a valid application of this rule if and
-     * only if A is true and B is false.
+     * <p>Asserts that if setting -> to false is a valid application of this rule if and only if A
+     * is true and B is false.
      *
      * @throws InvalidFileFormatException
      */
@@ -58,10 +59,10 @@ public class ConditionalIntroductionTest {
 
         ShortTruthTableCell a = board.getCell(0, 0);
         ShortTruthTableCell b = board.getCell(2, 0);
-        if (a.getType() == ShortTruthTableCellType.TRUE && b.getType() == ShortTruthTableCellType.FALSE) {
+        if (a.getType() == ShortTruthTableCellType.TRUE
+                && b.getType() == ShortTruthTableCellType.FALSE) {
             Assert.assertNull(RULE.checkRule(transition));
-        }
-        else {
+        } else {
             Assert.assertNotNull(RULE.checkRule(transition));
         }
     }
@@ -69,8 +70,8 @@ public class ConditionalIntroductionTest {
     /**
      * Given a statement: A -> B
      *
-     * Asserts that if setting -> to true is a valid application of this rule if and
-     * only if A is false or B is true.
+     * <p>Asserts that if setting -> to true is a valid application of this rule if and only if A is
+     * false or B is true.
      *
      * @throws InvalidFileFormatException
      */
@@ -100,10 +101,10 @@ public class ConditionalIntroductionTest {
 
         ShortTruthTableCell a = board.getCell(0, 0);
         ShortTruthTableCell b = board.getCell(2, 0);
-        if (a.getType() == ShortTruthTableCellType.FALSE || b.getType() == ShortTruthTableCellType.TRUE) {
+        if (a.getType() == ShortTruthTableCellType.FALSE
+                || b.getType() == ShortTruthTableCellType.TRUE) {
             Assert.assertNull(RULE.checkRule(transition));
-        }
-        else {
+        } else {
             Assert.assertNotNull(RULE.checkRule(transition));
         }
     }

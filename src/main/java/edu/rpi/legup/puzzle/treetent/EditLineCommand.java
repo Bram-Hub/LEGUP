@@ -1,5 +1,7 @@
 package edu.rpi.legup.puzzle.treetent;
 
+import static edu.rpi.legup.app.GameBoardFacade.getInstance;
+
 import edu.rpi.legup.history.CommandError;
 import edu.rpi.legup.history.PuzzleCommand;
 import edu.rpi.legup.model.Puzzle;
@@ -12,15 +14,14 @@ import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
 import java.awt.*;
 import java.util.List;
 
-import static edu.rpi.legup.app.GameBoardFacade.getInstance;
-
 public class EditLineCommand extends PuzzleCommand {
     private TreeTentElementView start;
     private TreeTentElementView end;
 
     private TreeViewSelection selection;
 
-    public EditLineCommand(TreeViewSelection selection, TreeTentElementView start, ElementView endDrag) {
+    public EditLineCommand(
+            TreeViewSelection selection, TreeTentElementView start, ElementView endDrag) {
         this.selection = selection;
         this.start = start;
         this.end = getViewInDirection(endDrag);
@@ -49,8 +50,7 @@ public class EditLineCommand extends PuzzleCommand {
             puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(transition));
 
             board = (TreeTentBoard) transition.getBoard();
-        }
-        else {
+        } else {
             transition = (TreeTransition) treeElement;
         }
 
@@ -73,8 +73,7 @@ public class EditLineCommand extends PuzzleCommand {
             board.getLines().add(line);
             notifyLine = line;
             transition.propagateAddition(notifyLine);
-        }
-        else {
+        } else {
             board.removeModifiedData(dupLine);
             board.getLines().remove(dupLine);
             notifyLine = dupLine;
@@ -85,7 +84,8 @@ public class EditLineCommand extends PuzzleCommand {
 
         puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(transition));
 
-        final TreeViewSelection newSelection = new TreeViewSelection(treeView.getElementView(transition));
+        final TreeViewSelection newSelection =
+                new TreeViewSelection(treeView.getElementView(transition));
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
     }
 
@@ -114,13 +114,15 @@ public class EditLineCommand extends PuzzleCommand {
             if (!node.getChildren().isEmpty()) {
                 return CommandError.UNMODIFIABLE_BOARD.toString();
             }
-        }
-        else {
+        } else {
             if (!board.isModifiable()) {
                 return CommandError.UNMODIFIABLE_BOARD.toString();
             }
         }
-        TreeTentLine line = new TreeTentLine((TreeTentCell) start.getPuzzleElement(), (TreeTentCell) end.getPuzzleElement());
+        TreeTentLine line =
+                new TreeTentLine(
+                        (TreeTentCell) start.getPuzzleElement(),
+                        (TreeTentCell) end.getPuzzleElement());
         for (TreeTentLine l : board.getLines()) {
             if (line.compare(l) && !l.isModifiable()) {
                 return CommandError.UNMODIFIABLE_DATA.toString();
@@ -129,8 +131,9 @@ public class EditLineCommand extends PuzzleCommand {
 
         TreeTentCell startCell = (TreeTentCell) start.getPuzzleElement();
         TreeTentCell endCell = (TreeTentCell) end.getPuzzleElement();
-        if (!((startCell.getType() == TreeTentType.TENT && endCell.getType() == TreeTentType.TREE) ||
-                (endCell.getType() == TreeTentType.TENT && startCell.getType() == TreeTentType.TREE))) {
+        if (!((startCell.getType() == TreeTentType.TENT && endCell.getType() == TreeTentType.TREE)
+                || (endCell.getType() == TreeTentType.TENT
+                && startCell.getType() == TreeTentType.TREE))) {
             return "The line must connect a tree to a tent.";
         }
 
@@ -159,8 +162,7 @@ public class EditLineCommand extends PuzzleCommand {
             puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(transition));
 
             board = (TreeTentBoard) transition.getBoard();
-        }
-        else {
+        } else {
             transition = (TreeTransition) treeElement;
         }
 
@@ -182,8 +184,7 @@ public class EditLineCommand extends PuzzleCommand {
             board.addModifiedData(line);
             board.getLines().add(line);
             notifyLine = line;
-        }
-        else {
+        } else {
             board.removeModifiedData(dupLine);
             board.getLines().remove(dupLine);
             notifyLine = dupLine;
@@ -206,24 +207,21 @@ public class EditLineCommand extends PuzzleCommand {
         Point endLoc = endDrag.getLocation();
         double radians = Math.atan2(startLoc.y - endLoc.y, endLoc.x - startLoc.x);
         if (radians >= Math.PI / 4 && radians < 3 * Math.PI / 4) {
-            //up
+            // up
             xIndex = startLoc.x / size.width;
             yIndex = (startLoc.y / size.height) - 1;
-        }
-        else {
+        } else {
             if (radians >= -Math.PI / 4 && radians < Math.PI / 4) {
-                //right
+                // right
                 xIndex = (startLoc.x / size.width) + 1;
                 yIndex = startLoc.y / size.height;
-            }
-            else {
+            } else {
                 if (radians >= -3 * Math.PI / 4 && radians < -Math.PI / 4) {
-                    //down
+                    // down
                     xIndex = startLoc.x / size.width;
                     yIndex = (startLoc.y / size.height) + 1;
-                }
-                else {
-                    //left
+                } else {
+                    // left
                     xIndex = (startLoc.x / size.width) - 1;
                     yIndex = startLoc.y / size.height;
                 }

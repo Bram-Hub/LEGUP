@@ -13,14 +13,16 @@ import java.util.ArrayList;
 public class TooManyBlackCellsContradictionRule extends ContradictionRule {
 
     public TooManyBlackCellsContradictionRule() {
-        super("FPIX-CONT-0002",
+        super(
+                "FPIX-CONT-0002",
                 "Too Many Black Cells",
                 "There may not be more black cells than the number",
                 "edu/rpi/legup/images/fillapix/contradictions/TooManyBlackCells.png");
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
      *
      * @param board         board to check contradiction
      * @param puzzleElement equivalent puzzleElement
@@ -45,8 +47,8 @@ public class TooManyBlackCellsContradictionRule extends ContradictionRule {
         }
         if (numBlack > cellNum) {
             return null;
-        } 
-        
+        }
+
         return super.getNoContradictionMessage();
     }
 }

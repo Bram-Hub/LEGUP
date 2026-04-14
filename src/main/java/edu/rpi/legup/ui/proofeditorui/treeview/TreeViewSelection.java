@@ -1,9 +1,14 @@
 package edu.rpi.legup.ui.proofeditorui.treeview;
 
 import java.awt.*;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * {@code TreeViewSelection} manages the selection and hover state of tree element views in a tree
+ * view. It maintains a list of selected views, tracks the currently hovered view, and manages the
+ * mouse position.
+ */
 public class TreeViewSelection {
     private ArrayList<TreeElementView> selectedViews;
     private TreeElementView hover;
@@ -38,7 +43,6 @@ public class TreeViewSelection {
         this.selectedViews.addAll(views);
     }
 
-
     /**
      * Gets the list of selected tree puzzleElement views
      *
@@ -66,8 +70,7 @@ public class TreeViewSelection {
         if (selectedViews.contains(treeElementView)) {
             selectedViews.remove(treeElementView);
             treeElementView.setSelected(false);
-        }
-        else {
+        } else {
             selectedViews.add(treeElementView);
             treeElementView.setSelected(true);
         }
@@ -109,7 +112,8 @@ public class TreeViewSelection {
     /**
      * Gets tree puzzleElement view that the mouse is hovering over or null is no such view exists
      *
-     * @return tree puzzleElement view that the mouse is hovering over or null is no such view exists
+     * @return tree puzzleElement view that the mouse is hovering over or null is no such view
+     * exists
      */
     public TreeElementView getHover() {
         return hover;

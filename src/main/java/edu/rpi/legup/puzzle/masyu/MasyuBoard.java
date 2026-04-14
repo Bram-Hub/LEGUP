@@ -36,8 +36,7 @@ public class MasyuBoard extends GridBoard {
     public void notifyChange(PuzzleElement puzzleElement) {
         if (puzzleElement instanceof MasyuLine) {
             lines.add((MasyuLine) puzzleElement);
-        }
-        else {
+        } else {
             super.notifyChange(puzzleElement);
         }
     }

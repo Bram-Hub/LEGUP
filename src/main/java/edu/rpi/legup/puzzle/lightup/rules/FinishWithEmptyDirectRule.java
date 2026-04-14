@@ -14,19 +14,21 @@ import java.awt.*;
 public class FinishWithEmptyDirectRule extends DirectRule {
 
     public FinishWithEmptyDirectRule() {
-        super("LTUP-BASC-0005", "Finish with Empty",
+        super(
+                "LTUP-BASC-0005",
+                "Finish with Empty",
                 "The remaining unknowns around a block must be empty if the number is satisfied.",
                 "edu/rpi/legup/images/lightup/rules/FinishWithEmpty.png");
     }
 
     /**
-     * Checks whether the child node logically follows from the parent node
-     * at the specific puzzleElement index using this rule
+     * Checks whether the child node logically follows from the parent node at the specific
+     * puzzleElement index using this rule
      *
      * @param transition    transition to check
      * @param puzzleElement index of the puzzleElement
-     * @return null if the child node logically follow from the parent node at the specified puzzleElement,
-     * otherwise error message
+     * @return null if the child node logically follow from the parent node at the specified
+     * puzzleElement, otherwise error message
      */
     @Override
     public String checkRuleRawAt(TreeTransition transition, PuzzleElement puzzleElement) {
@@ -48,13 +50,14 @@ public class FinishWithEmptyDirectRule extends DirectRule {
      *
      * @param board    specified board
      * @param location location of cell to check
-     * @return boolean value based on whether a certain cell has an adjacent cell that has the required amount of adjacent bulbs
+     * @return boolean value based on whether a certain cell has an adjacent cell that has the
+     * required amount of adjacent bulbs
      */
     private boolean isForced(LightUpBoard board, Point location) {
-        return isForcedEmpty(board, new Point(location.x + 1, location.y)) ||
-                isForcedEmpty(board, new Point(location.x, location.y + 1)) ||
-                isForcedEmpty(board, new Point(location.x - 1, location.y)) ||
-                isForcedEmpty(board, new Point(location.x, location.y - 1));
+        return isForcedEmpty(board, new Point(location.x + 1, location.y))
+                || isForcedEmpty(board, new Point(location.x, location.y + 1))
+                || isForcedEmpty(board, new Point(location.x - 1, location.y))
+                || isForcedEmpty(board, new Point(location.x, location.y - 1));
     }
 
     /**
@@ -62,7 +65,8 @@ public class FinishWithEmptyDirectRule extends DirectRule {
      *
      * @param board specified board
      * @param loc   location of cell to check
-     * @return boolean value based on whether a certain cell has the required amount of adjacent bulbs
+     * @return boolean value based on whether a certain cell has the required amount of adjacent
+     * bulbs
      */
     private boolean isForcedEmpty(LightUpBoard board, Point loc) {
         LightUpCell cell = board.getCell(loc.x, loc.y);
@@ -92,7 +96,8 @@ public class FinishWithEmptyDirectRule extends DirectRule {
     }
 
     /**
-     * Creates a transition {@link Board} that has this rule applied to it using the {@link TreeNode}.
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link
+     * TreeNode}.
      *
      * @param node tree node used to create default transition board
      * @return default board or null if this rule cannot be applied to this tree node
@@ -103,15 +108,15 @@ public class FinishWithEmptyDirectRule extends DirectRule {
         LightUpBoard lightUpBoard = (LightUpBoard) node.getBoard().copy();
         for (PuzzleElement element : lightUpBoard.getPuzzleElements()) {
             LightUpCell cell = (LightUpCell) element;
-            if (cell.getType() == LightUpCellType.UNKNOWN && isForced(initialBoard, cell.getLocation())) {
+            if (cell.getType() == LightUpCellType.UNKNOWN
+                    && isForced(initialBoard, cell.getLocation())) {
                 cell.setData(LightUpCellType.EMPTY.value);
                 lightUpBoard.addModifiedData(cell);
             }
         }
         if (lightUpBoard.getModifiedData().isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return lightUpBoard;
         }
     }

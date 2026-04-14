@@ -7,13 +7,12 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 public class BlackContradictionRule extends ContradictionRule {
 
     public BlackContradictionRule() {
-        super("MASY-CONT-0002", "Black",
-                "",
-                "edu/rpi/legup/images/masyu/ContradictionBlack.png");
+        super("MASY-CONT-0002", "Black", "", "edu/rpi/legup/images/masyu/ContradictionBlack.png");
     }
 
     /**
-     * Checks whether the transition has a contradiction at the specific puzzleElement index using this rule
+     * Checks whether the transition has a contradiction at the specific puzzleElement index using
+     * this rule
      *
      * @param board         board to check contradiction
      * @param puzzleElement equivalent puzzleElement

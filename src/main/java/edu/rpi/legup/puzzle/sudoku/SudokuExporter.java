@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.sudoku;
 
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.puzzle.skyscrapers.SkyscrapersBoard;
 import org.w3c.dom.Document;
 
 public class SudokuExporter extends PuzzleExporter {
@@ -16,8 +15,7 @@ public class SudokuExporter extends PuzzleExporter {
         SudokuBoard board;
         if (puzzle.getTree() != null) {
             board = (SudokuBoard) puzzle.getTree().getRootNode().getBoard();
-        }
-        else {
+        } else {
             board = (SudokuBoard) puzzle.getBoardView().getBoard();
         }
 
@@ -28,7 +26,8 @@ public class SudokuExporter extends PuzzleExporter {
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             SudokuCell cell = (SudokuCell) puzzleElement;
             if (cell.getData() != 0) {
-                org.w3c.dom.Element cellElement = puzzle.getFactory().exportCell(newDocument, puzzleElement);
+                org.w3c.dom.Element cellElement =
+                        puzzle.getFactory().exportCell(newDocument, puzzleElement);
                 cellsElement.appendChild(cellElement);
             }
         }

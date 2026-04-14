@@ -16,7 +16,8 @@ public class FillapixView extends GridBoardView {
             FillapixElementView elementView = new FillapixElementView(cell);
             elementView.setIndex(cell.getIndex());
             elementView.setSize(elementSize);
-            elementView.setLocation(new Point(loc.x * elementSize.width, loc.y * elementSize.height));
+            elementView.setLocation(
+                    new Point(loc.x * elementSize.width, loc.y * elementSize.height));
             elementViews.add(elementView);
         }
     }

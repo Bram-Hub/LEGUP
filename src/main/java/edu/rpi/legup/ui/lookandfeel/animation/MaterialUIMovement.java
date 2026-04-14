@@ -1,7 +1,7 @@
 package edu.rpi.legup.ui.lookandfeel.animation;
 
-import javax.swing.JComponent;
 import java.awt.Color;
+import javax.swing.JComponent;
 
 public class MaterialUIMovement {
 

@@ -9,7 +9,7 @@ public class SkyscrapersClue extends PuzzleElement<Integer> {
     public SkyscrapersClue(int value, int clueIndex, SkyscrapersType type) {
         super(value);
         this.index = -2;
-        this.clueIndex = clueIndex;//index in list
+        this.clueIndex = clueIndex; // index in list
         this.type = type;
         this.setModifiable(false);
     }

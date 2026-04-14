@@ -4,11 +4,12 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.save.InvalidFileFormatException;
+
+import java.awt.*;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-
-import java.awt.*;
 
 public class SudokuCellFactory extends ElementFactory {
     /**
@@ -23,7 +24,8 @@ public class SudokuCellFactory extends ElementFactory {
     public SudokuCell importCell(Node node, Board board) throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("cell")) {
-                throw new InvalidFileFormatException("Sudoku Factory: unknown puzzleElement puzzleElement");
+                throw new InvalidFileFormatException(
+                        "Sudoku Factory: unknown puzzleElement puzzleElement");
             }
 
             SudokuBoard sudokuBoard = (SudokuBoard) board;
@@ -44,11 +46,10 @@ public class SudokuCellFactory extends ElementFactory {
             SudokuCell cell = new SudokuCell(value, new Point(x, y), groupIndex, size);
             cell.setIndex(y * size + x);
             return cell;
-        }
-        catch (NumberFormatException e) {
-            throw new InvalidFileFormatException("Sudoku Factory: unknown value where integer expected");
-        }
-        catch (NullPointerException e) {
+        } catch (NumberFormatException e) {
+            throw new InvalidFileFormatException(
+                    "Sudoku Factory: unknown value where integer expected");
+        } catch (NullPointerException e) {
             throw new InvalidFileFormatException("Sudoku Factory: could not find attribute(s)");
         }
     }

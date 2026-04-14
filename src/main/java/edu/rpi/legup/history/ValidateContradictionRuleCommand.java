@@ -11,6 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The ValidateContradictionRuleCommand class represents a command for validating and applying a
+ * ContradictionRule within a tree structure. It extends the PuzzleCommand class and implements the
+ * ICommand interface.
+ */
 public class ValidateContradictionRuleCommand extends PuzzleCommand {
     private TreeViewSelection selection;
 
@@ -19,7 +24,8 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
     private Map<TreeElement, TreeTransition> addTran;
 
     /**
-     * ValidateContradictionRuleCommand Constructor creates a puzzle command for verifying a contradiction rule
+     * ValidateContradictionRuleCommand Constructor creates a puzzle command for verifying a
+     * contradiction rule
      *
      * @param selection currently selected tree puzzleElement views
      * @param rule      contradiction rule to be set to all the tree elements
@@ -32,7 +38,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
     }
 
     /**
-     * Executes a command
+     * Executes the command to validate and apply the ContradictionRule.
      */
     @Override
     public void executeCommand() {
@@ -48,8 +54,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
             if (treeElement.getType() == TreeElementType.TRANSITION) {
                 TreeTransition transition = (TreeTransition) treeElement;
                 treeNode = transition.getParents().get(0);
-            }
-            else {
+            } else {
                 treeNode = (TreeNode) treeElement;
             }
 
@@ -58,7 +63,11 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
                 saveElements.put(treeNode, save);
             }
 
-            treeNode.getChildren().forEach(n -> puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(n)));
+            treeNode.getChildren()
+                    .forEach(
+                            n ->
+                                    puzzle.notifyTreeListeners(
+                                            listener -> listener.onTreeElementRemoved(n)));
 
             treeNode.getChildren().clear();
 
@@ -68,8 +77,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
                 transition.setRule(newRule);
                 transition.getBoard().setModifiable(false);
                 tree.addTreeElement(transition);
-            }
-            else {
+            } else {
                 transition.getBoard().setModifiable(false);
                 tree.addTreeElement(treeNode, transition);
             }
@@ -84,20 +92,23 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
         final TreeElement finalTreeElement;
         if (firstSelectedView.getType() == TreeElementType.NODE) {
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
-            finalTreeElement = nodeView.getChildrenViews().get(0).getTreeElement();
-        }
-        else {
+            if (!nodeView.getChildrenViews().isEmpty()) {
+                finalTreeElement = nodeView.getChildrenViews().get(0).getTreeElement();
+            } else {
+                finalTreeElement = null;
+            }
+        } else {
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
             if (transitionView.getChildView() != null) {
                 finalTreeElement = transitionView.getChildView().getTreeElement();
-            }
-            else {
+            } else {
                 finalTreeElement = null;
             }
         }
 
         if (finalTreeElement != null) {
-            puzzle.notifyBoardListeners(listener -> listener.onTreeElementChanged(finalTreeElement));
+            puzzle.notifyBoardListeners(
+                    listener -> listener.onTreeElementChanged(finalTreeElement));
         }
         puzzle.notifyTreeListeners(listener -> listener.onTreeSelectionChanged(newSelection));
     }
@@ -127,7 +138,7 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
     }
 
     /**
-     * Undoes a command
+     * Undoes the validation command, restoring the previous state.
      */
     @Override
     public void undoCommand() {
@@ -140,18 +151,25 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
             if (element.getType() == TreeElementType.TRANSITION) {
                 TreeTransition transition = (TreeTransition) element;
                 node = transition.getParents().get(0);
-            }
-            else {
+            } else {
                 node = (TreeNode) element;
             }
-            node.getChildren().forEach(n -> puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(n)));
+            node.getChildren()
+                    .forEach(
+                            n ->
+                                    puzzle.notifyTreeListeners(
+                                            listener -> listener.onTreeElementRemoved(n)));
             node.getChildren().clear();
 
             ArrayList<TreeTransition> save = saveElements.get(node);
 
             if (save != null) {
                 node.getChildren().addAll(save);
-                node.getChildren().forEach(n -> puzzle.notifyTreeListeners(listener -> listener.onTreeElementAdded(n)));
+                node.getChildren()
+                        .forEach(
+                                n ->
+                                        puzzle.notifyTreeListeners(
+                                                listener -> listener.onTreeElementAdded(n)));
             }
         }
 

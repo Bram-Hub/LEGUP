@@ -3,6 +3,7 @@ package edu.rpi.legup.puzzle.treetent;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.rules.ContradictionRule;
 
 import java.util.List;
 
@@ -44,8 +45,8 @@ public class TreeTent extends Puzzle {
     /**
      * Determines if the given dimensions are valid for Tree Tent
      *
-     * @param rows      the number of rows
-     * @param columns   the number of columns
+     * @param rows the number of rows
+     * @param columns the number of columns
      * @return true if the given dimensions are valid for Tree Tent, false otherwise
      */
     public boolean isValidDimensions(int rows, int columns) {
@@ -61,7 +62,20 @@ public class TreeTent extends Puzzle {
      */
     @Override
     public boolean isBoardComplete(Board board) {
-        return false;
+        TreeTentBoard treeTentBoard = (TreeTentBoard) board;
+
+        for (ContradictionRule rule : contradictionRules) {
+            if (rule.checkContradiction(treeTentBoard) == null) {
+                return false;
+            }
+        }
+        for (PuzzleElement data : treeTentBoard.getPuzzleElements()) {
+            TreeTentCell cell = (TreeTentCell) data;
+            if (cell.getType() == TreeTentType.UNKNOWN) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -71,12 +85,10 @@ public class TreeTent extends Puzzle {
      */
     @Override
     public void onBoardChange(Board board) {
-
     }
 
     /**
-     * @return if it is valid
-     * TreeTent puzzle must have same number of clues as the dimension size
+     * @return if it is valid TreeTent puzzle must have same number of clues as the dimension size
      */
     @Override
     public boolean checkValidity() {

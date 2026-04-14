@@ -1,0 +1,20 @@
+Case Rules:
+Add Star: STBL-CASE-0001
+Star or Empty: STBL-CASE-0002
+
+Basic Rules:
+Blackout: STBL-BASC-0001
+Columns Within Regions: STBL-BASC-0002
+Columns Within Rows: STBL-BASC-0003
+Finish With Stars: STBL-BASC-0004
+Regions Within Columns: STBL-BASC-0005
+Regions Within Rows: STBL-BASC-0006
+Rows Within Columns: STBL-BASC-0007
+Rows Within Regions: STBL-BASC-0008
+Surround Star: STBL-BASC-0009
+Empty Adjacent: STBL-BASC-0010
+
+Contradiction Rules:
+Too Many Stars: STBL-CONT-0001
+Too Few Stars: STBL-CONT-0002
+Clashing Orbit: STBL-CONT-0003

@@ -1,0 +1,4 @@
+TREE-ELEM-0001 : GrassTile
+TREE-ELEM-0002 : TentTile
+TREE-ELEM-0003 : TreeTile
+TREE-ELEM-0004 : UnknownTile

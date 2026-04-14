@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * The MergeCommand class represents a command to merge selected tree nodes into a single node and
+ * create a transition to represent the merge
+ */
 public class MergeCommand extends PuzzleCommand {
     private TreeViewSelection selection;
     private TreeTransition transition;
@@ -26,7 +30,7 @@ public class MergeCommand extends PuzzleCommand {
     }
 
     /**
-     * Executes an command
+     * Executes the merge command
      */
     @Override
     public void executeCommand() {
@@ -55,8 +59,7 @@ public class MergeCommand extends PuzzleCommand {
             transition.setRule(new MergeRule());
             transition.setChildNode(mergedNode);
             mergedNode.setParent(transition);
-        }
-        else {
+        } else {
             mergedNode = transition.getChildNode();
         }
 
@@ -76,14 +79,15 @@ public class MergeCommand extends PuzzleCommand {
     }
 
     /**
-     * Undoes an command
+     * Undoes the merge command
      */
     @Override
     public void undoCommand() {
         Tree tree = GameBoardFacade.getInstance().getTree();
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
 
-        TreeTransition transition = ((TreeNode) selection.getFirstSelection().getTreeElement()).getChildren().get(0);
+        TreeTransition transition =
+                ((TreeNode) selection.getFirstSelection().getTreeElement()).getChildren().get(0);
         tree.removeTreeElement(transition);
 
         puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(transition));
@@ -112,8 +116,7 @@ public class MergeCommand extends PuzzleCommand {
                     return CommandError.NO_CHILDREN.toString();
                 }
                 nodeList.add(nodeView.getTreeElement());
-            }
-            else {
+            } else {
                 return CommandError.SELECTION_CONTAINS_TRANSITION.toString();
             }
         }
@@ -130,12 +133,12 @@ public class MergeCommand extends PuzzleCommand {
         }
         Set<TreeElement> leafNodes = tree.getLeafTreeElements(lca);
         if (leafNodes.size() != mergingNodes.size()) {
-//            return "Unable to merge tree elements.";
+            //            return "Unable to merge tree elements.";
         }
 
         for (TreeNode node : mergingNodes) {
             if (!leafNodes.contains(node)) {
-//                return "Unable to merge tree elements.";
+                //                return "Unable to merge tree elements.";
             }
         }
 
