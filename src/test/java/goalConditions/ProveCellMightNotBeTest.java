@@ -54,11 +54,11 @@ public class ProveCellMightNotBeTest {
         Assert.assertTrue(TestUtilities.verifyBoard(
                 "goalConditions/ProveCellMightNotBe/ContradictoryLine", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMightNotBe/IncompleteLine", puzzle));
+        Assert.assertTrue(TestUtilities.verifyBoard(
+                "goalConditions/ProveCellMightNotBe/SomeUnproven", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMightNotBe/SomeUnproven", puzzle));
+                "goalConditions/ProveCellMightNotBe/IncompleteLine", puzzle));
     }
 
 

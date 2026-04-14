@@ -305,20 +305,25 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     }
 
     /**
-     * Determines if the goal cells are matched by the board, and if they should be
+     * Returns number of cells at goal locations that are proven to match/not match goal value
      *
      * @param node TreeNode containing GridBoard to check for matching goal cells
-     * @return true if all the cells match what the goal specifies, false otherwise
+     * @param matching true to get cells proven to match, false to get cells proven not to
+     * @return number of proven matches/mismatches
      */
-    private boolean cellsMatchWithGoal(TreeNode node) {
+    private int countGoalMatches(TreeNode node, boolean matching) {
+        int count = 0;
         GridBoard gridBoard = (GridBoard) node.getBoard();
         for (GridCell goalCell : this.goal.getCells()) {
             GridCell boardCell = gridBoard.getCell(goalCell.getLocation());
-            if (!boardCell.equals(goalCell)){
-                return false;
+            if (matching && boardCell.equals(goalCell)){
+                count++;
+            }
+            else if (!matching && boardCell.isKnown() && !boardCell.equals(goalCell)){
+                count++;
             }
         }
-        return true;
+        return count;
     }
 
     /**
@@ -363,11 +368,9 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      */
     public boolean isPuzzleComplete() {
         if (tree == null || !tree.isValid() || !tree.isClosed()) {
-            System.out.println("Invalid Tree");
             return false;
         }
 
-        boolean assumeThereIsASolution = true;
 
         // The goal determines what state the leaves must be in.
         return switch (this.goal.getType()) {
@@ -375,21 +378,21 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                 // All non-contradictory branches have the right values
                 for (TreeNode node : getOpenLeaves())
                 {
-                    if (!goalCellsAreKnown(node) || !cellsMatchWithGoal(node)) {yield false;}
+                    if (countGoalMatches(node, true) != goal.getCells().size()) {yield false;}
                 }
                 // There must be a proven solution
-                yield (assumeThereIsASolution || !getCompleteLeaves().isEmpty());
+                yield (goal.assumeSolution() || !getCompleteLeaves().isEmpty());
             }
             case PROVE_CELL_MIGHT_NOT_BE -> {
                 // One solution differs from the given
                 for (TreeNode node : getCompleteLeaves())
                 {
-                    if (!cellsMatchWithGoal(node)) {yield true;}
+                    if (countGoalMatches(node, false) > 0) {yield true;}
                 }
                 // All open branches differ from the given
                 for (TreeNode node : getOpenLeaves())
                 {
-                    if (!goalCellsAreKnown(node) || cellsMatchWithGoal(node)) {yield false;}
+                    if (countGoalMatches(node, false) == 0) {yield false;}
                 }
                 yield true;
             }
@@ -402,14 +405,46 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                 if (!cellsMatchBetweenBoards(getOpenLeaves())) {yield false;}
 
                 // There must be a proven solution
-                yield (assumeThereIsASolution || !getCompleteLeaves().isEmpty());
+                yield (goal.assumeSolution() || !getCompleteLeaves().isEmpty());
             }
             case PROVE_MULTIPLE_CELL_VALUE -> {
                 // The following line yielding true vs false determines if 0 solutions counts
-                if (getOpenLeaves().isEmpty()) {yield true;}
+                if (getOpenLeaves().isEmpty()) {yield false;}
 
                 // At least two solutions have a different set of goal cell values
                 yield !cellsMatchBetweenBoards(getCompleteLeaves());
+            }
+            case PROVE_ANY_SOLUTION ->
+                // There is one proven solution
+                !getCompleteLeaves().isEmpty();
+            case PROVE_NO_SOLUTION ->
+                // Every branch closes
+                getOpenLeaves().isEmpty();
+            case PROVE_VALUES_ARE_POSSIBLE -> {
+                // There is a solution with this set of values
+                for (TreeNode node : getCompleteLeaves())
+                {
+                    if (countGoalMatches(node, true) == goal.getCells().size()) {yield true;}
+                }
+
+                // If there is a solution, it must have this set of values
+                if (goal.assumeSolution() && !getOpenLeaves().isEmpty())
+                {
+                    for (TreeNode node : getOpenLeaves())
+                    {
+                        if (countGoalMatches(node, true) != goal.getCells().size()) {yield false;}
+                    }
+                    yield true;
+                }
+                yield false;
+            }
+            case PROVE_VALUES_ARE_IMPOSSIBLE -> {
+                // No open branch matches these values
+                for (TreeNode node : getOpenLeaves())
+                {
+                    if (countGoalMatches(node, false) == 0) {yield false;}
+                }
+                yield true;
             }
             default ->
                 // Every leaf is either closed or complete

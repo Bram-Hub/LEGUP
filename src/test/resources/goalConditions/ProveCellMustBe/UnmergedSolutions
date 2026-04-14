@@ -2,7 +2,7 @@
 <Legup version="6.1.0">
     <puzzle name="TestPuzzle" tag="7209030">
         <board height="5" width="5">
-            <goal type="PROVE_CELL_MUST_BE">
+            <goal type="PROVE_CELL_MUST_BE" assumeSolution="true">
                 <cell value="-1" x="2" y="1"/>
                 <cell value="-1" x="2" y="2"/>
             </goal>

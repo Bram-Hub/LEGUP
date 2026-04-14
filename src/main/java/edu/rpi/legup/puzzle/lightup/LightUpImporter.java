@@ -87,7 +87,6 @@ public class LightUpImporter extends PuzzleImporter {
             }
 
 
-
             int width = lightUpBoard.getWidth();
             int height = lightUpBoard.getHeight();
 
