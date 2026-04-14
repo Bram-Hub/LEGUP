@@ -25,6 +25,18 @@ public class FinishWithMinesDirectRuleTest {
 
     // tests the finish with mines direct rule is many different cases
 
+    /*
+     * Checks that FinishWithMinesDirectRule behaves as expected in simple scenario.
+     *
+     * This is What 3x3test2.txt looks like:
+     *       e  _| e
+     *       e  1  e
+     *       e  e  e
+     *
+     * The center cell in the top row is initially UNSET. This test explicitly changes it to MINE.
+     *
+     * The point is that the rule works in the simplest possible scenario.
+     * */
     @Test
     public void FinishWithMinesDirectRule_OneUnsetOneBombOneNumberTest1()
             throws InvalidFileFormatException {
@@ -54,6 +66,19 @@ public class FinishWithMinesDirectRuleTest {
         }
     }
 
+    /*
+    * Check that FinisWithMinesDirectRUle behaves as expected in scenario where it is used one of many
+    * viable cells.
+    *
+    * This is what 3x3test3.txt looks like:
+    *        e  _| _|
+    *        _| 4  e
+    *        _| e  e
+    *
+    * This test explicitly changes the center cell in the left-hoof column from UNSET to MINE. That cell
+    * should be accepted by the rule, although this rule could be used, and validate, with the three other
+    * UNSET cells, the rule must only be used on a cell the user has interacted with.
+    * */
     @Test
     public void FinishWithMinesDirectRule_FourUnsetOneBombOneNumberTest2()
             throws InvalidFileFormatException {
@@ -83,6 +108,19 @@ public class FinishWithMinesDirectRuleTest {
         }
     }
 
+    /*
+     * Check that FinisWithMinesDirectRUle behaves as expected in scenario where it is used with multiple cells.
+     *
+     * This is what 3x3test3.txt looks like:
+     *        e  _| _|
+     *        _| 4  e
+     *        _| e  e
+     *
+     * This test explicitly changes the center cell in the left-hoof column from UNSET to MINE. As well as the
+     * bottom left one, the top right one, and the center one in the top row. Those changes should represent a
+     * complete use of this rule, the '4' cell no has four mines in its bubble. Because of that, all those cells
+     * should be accepted by the rule.
+     * */
     @Test
     public void FinishWithMinesDirectRule_FourUnsetFourBombsOneNumberTest3()
             throws InvalidFileFormatException {
@@ -124,6 +162,18 @@ public class FinishWithMinesDirectRuleTest {
         }
     }
 
+    /*
+    * Check that FinishWithMinesDirectRule behaves as expected in 'full bubble' scenario.
+    *
+    * This is what 3x3test4.txt looks like:
+    *    _| _| _|
+    *    _| 8  _|
+    *    _| _| _|
+    *
+    * This test explicitly changes all the UNSET cells (the entire bubble of the '8' cell) to MINEs.
+    * That is a complete use of this rule. The '8' cell is satisfied by that number of mines, and all
+    * those changed cells should be valid uses of this rule.
+    * */
     @Test
     public void FinishWithMinesDirectRule_EightUnsetEightBombsOneNumberTest4()
             throws InvalidFileFormatException {
