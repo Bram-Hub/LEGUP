@@ -36,7 +36,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 
@@ -850,7 +849,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         URL open_url =
                 ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/Open.png");
+                        .getResource("edu/rpi/legup/images/Legup/toolbar/Open.png");
 
         // Scale the image icons down to make the buttons smaller
         ImageIcon OpenImageIcon = new ImageIcon(open_url);
@@ -892,7 +891,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         setToolBar2Buttons(new JButton[4]);
 
         FlatSVGIcon directionsIcon = new FlatSVGIcon(
-                "edu/rpi/legup/images/Legup/Directions.svg",
+                "edu/rpi/legup/images/Legup/toolbar/Directions.svg",
                 this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE);
 
         JButton directions = new JButton("Directions", directionsIcon);
@@ -902,40 +901,18 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         getToolBar2Buttons()[0] = directions;
         toolBar2.add(getToolBar2Buttons()[0]);
 
-        URL undo_url =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/Undo.png");
-
-        ImageIcon UndoImageIcon = new ImageIcon(undo_url);
-        Image UndoImage = UndoImageIcon.getImage();
-        UndoImageIcon =
-                new ImageIcon(
-                        UndoImage.getScaledInstance(
-                                this.TOOLBAR_ICON_SCALE,
-                                this.TOOLBAR_ICON_SCALE,
-                                Image.SCALE_SMOOTH));
-
-        JButton undo = new JButton("Undo", UndoImageIcon);
+        JButton undo = new JButton("Undo", new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/toolbar/Undo.svg",
+                TOOLBAR_ICON_SCALE, TOOLBAR_ICON_SCALE));
         undo.setFocusPainted(false);
         undo.addActionListener((ActionEvent) -> GameBoardFacade.getInstance().getHistory().undo());
 
         getToolBar2Buttons()[1] = undo;
         toolBar2.add(getToolBar2Buttons()[1]);
 
-        URL redo_url =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/Redo.png");
-
-        ImageIcon RedoImageIcon = new ImageIcon(redo_url);
-        Image RedoImage = RedoImageIcon.getImage();
-        RedoImageIcon =
-                new ImageIcon(
-                        RedoImage.getScaledInstance(
-                                this.TOOLBAR_ICON_SCALE,
-                                this.TOOLBAR_ICON_SCALE,
-                                Image.SCALE_SMOOTH));
-
-        JButton redo = new JButton("Redo", RedoImageIcon);
+        JButton redo = new JButton("Redo", new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/toolbar/Redo.svg",
+                TOOLBAR_ICON_SCALE, TOOLBAR_ICON_SCALE));
         redo.setFocusPainted(false);
         redo.addActionListener(
                 (ActionEvent) -> {
@@ -945,20 +922,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         getToolBar2Buttons()[2] = redo;
         toolBar2.add(getToolBar2Buttons()[2]);
 
-        URL check_url =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/Check.png");
-
-        ImageIcon CheckImageIcon = new ImageIcon(check_url);
-        Image CheckImage = CheckImageIcon.getImage();
-        CheckImageIcon =
-                new ImageIcon(
-                        CheckImage.getScaledInstance(
-                                this.TOOLBAR_ICON_SCALE,
-                                this.TOOLBAR_ICON_SCALE,
-                                Image.SCALE_SMOOTH));
-
-        JButton check = new JButton("Check", CheckImageIcon);
+        JButton check = new JButton("Check", new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/toolbar/Check.svg",
+                TOOLBAR_ICON_SCALE, TOOLBAR_ICON_SCALE));
         check.setFocusPainted(false);
         check.addActionListener((ActionEvent) -> checkProof());
 

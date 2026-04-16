@@ -1,7 +1,5 @@
 package edu.rpi.legup.ui;
 
-import static java.lang.System.exit;
-
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.app.VersionInfo;
@@ -23,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.Objects;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -300,7 +297,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         URL open_url =
                 ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/Open.png");
+                        .getResource("edu/rpi/legup/images/Legup/toolbar/Open.png");
         ImageIcon OpenImageIcon = new ImageIcon(open_url);
         Image OpenImage = OpenImageIcon.getImage();
         OpenImageIcon =
@@ -323,7 +320,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         URL create_url =
                 ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/Open Puzzle.png");
+                        .getResource("edu/rpi/legup/images/Legup/toolbar/New.png");
         ImageIcon CreateImageIcon = new ImageIcon(create_url);
         Image CreateImage = CreateImageIcon.getImage();
         CreateImageIcon =
@@ -364,7 +361,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         URL reset =
                 ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/Reset.png");
+                        .getResource("edu/rpi/legup/images/Legup/toolbar/Reset.png");
         ImageIcon ResetImageIcon = new ImageIcon(reset);
         Image ResetImage = ResetImageIcon.getImage();
         ResetImageIcon =
@@ -400,7 +397,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         URL save_as =
                 ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/Save.png");
+                        .getResource("edu/rpi/legup/images/Legup/toolbar/Save.png");
         ImageIcon SaveAsImageIcon = new ImageIcon(save_as);
         Image SaveAsImage = SaveAsImageIcon.getImage();
         SaveAsImageIcon =
@@ -419,7 +416,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         URL save_and_solve =
                 ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/Check.png");
+                        .getResource("edu/rpi/legup/images/Legup/toolbar/Check.png");
         ImageIcon SaveSolveImageIcon = new ImageIcon(save_and_solve);
         Image SaveSolveImage = SaveSolveImageIcon.getImage();
         SaveSolveImageIcon =
