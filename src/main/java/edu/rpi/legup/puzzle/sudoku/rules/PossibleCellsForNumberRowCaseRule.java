@@ -24,7 +24,7 @@ public class PossibleCellsForNumberRowCaseRule extends CaseRule {
         super(
                 "SUDO-CASE-0003",
                 "Possible Cells for Number - Row",
-                "An empty cell has a limited set of possible numbers that can fill it.",
+                "A certain number can be placed in a limited number of cells in a given row.",
                 "edu/rpi/legup/images/sudoku/rules/possible_cells_number_row.png");
     }
 

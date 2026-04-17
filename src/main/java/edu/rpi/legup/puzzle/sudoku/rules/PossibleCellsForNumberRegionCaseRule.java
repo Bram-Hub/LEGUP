@@ -21,7 +21,7 @@ public class PossibleCellsForNumberRegionCaseRule extends CaseRule {
         super(
                 "SUDO-CASE-0002",
                 "Possible Cells for Number - Region",
-                "An empty cell has a limited set of possible numbers that can fill it.",
+                "A certain number can be placed in a limited number of cells in a given region.",
                 "edu/rpi/legup/images/sudoku/rules/possible_cells_number_region.png");
     }
 
