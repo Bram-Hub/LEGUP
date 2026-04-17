@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="96" height="96" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <path id="back" d="M 6 20 A 4 4 0 0 1 10 16 H 30 C 36 16 38 24 44 24 H 72 A 8 8 0 0 1 80 32 V 76 A 8 8 0 0 1 72 84 H 14 A 8 8 0 0 1 6 76 Z"/>
+        <path id="front" d="M 14 84 A 8 8 0 0 1 6.36 73.61 L 16.36 41.6 A 8 8 0 0 1 24 36 H 82 A 8 8 0 0 1 89.64 46.37 L 79.64 78.39 A 8 8 0 0 1 72 84 Z"/>
+        <clipPath id="back-clip">
+            <use href="#back"/>
+        </clipPath>
+        <clipPath id="front-clip">
+            <use href="#front"/>
+        </clipPath>
+        <linearGradient id="shade-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0002"/>
+            <stop offset="1" stop-color="#0004"/>
+        </linearGradient>
+        <radialGradient id="shadow-grad">
+            <stop offset="0.2" stop-color="#0003"/>
+            <stop offset="1" stop-color="#0000"/>
+        </radialGradient>
+    </defs>
+    <ellipse fill="url(#shadow-grad)" rx="40" ry="10" cx="48" cy="86"/>
+    <use href="#back" fill="orange"/>
+    <use href="#back" fill="url(#shade-grad)"/>
+    <use href="#back" fill="none" stroke="#FFF6" stroke-width="12" clip-path="url(#back-clip)"/>
+    <use href="#back" fill="none" stroke="orange" stroke-width="4"/>
+    <use href="#back" fill="none" stroke="#0006" stroke-width="4"/>
+    <use href="#front" fill="gold"/>
+    <use href="#front" fill="url(#shade-grad)"/>
+    <use href="#front" fill="none" stroke="#FFF6" stroke-width="12" clip-path="url(#front-clip)"/>
+    <use href="#front" fill="none" stroke="gold" stroke-width="4"/>
+    <use href="#front" fill="none" stroke="#0006" stroke-width="4"/>
+</svg>

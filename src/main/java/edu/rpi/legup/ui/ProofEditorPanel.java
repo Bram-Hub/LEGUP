@@ -35,7 +35,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
@@ -847,21 +846,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         toolBar1.setRollover(true);
         setToolBar2Buttons(new JButton[1]);
 
-        URL open_url =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/toolbar/Open.png");
-
-        // Scale the image icons down to make the buttons smaller
-        ImageIcon OpenImageIcon = new ImageIcon(open_url);
-        Image OpenImage = OpenImageIcon.getImage();
-        OpenImageIcon =
-                new ImageIcon(
-                        OpenImage.getScaledInstance(
-                                this.TOOLBAR_ICON_SCALE,
-                                this.TOOLBAR_ICON_SCALE,
-                                Image.SCALE_SMOOTH));
-
-        JButton open = new JButton("Open", OpenImageIcon);
+        JButton open = new JButton("Open", new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/toolbar/Open.svg",
+                this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE));
         open.setFocusPainted(false);
 
         open.addActionListener((ActionEvent) -> loadPuzzle());
@@ -890,11 +877,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         toolBar2.setRollover(true);
         setToolBar2Buttons(new JButton[4]);
 
-        FlatSVGIcon directionsIcon = new FlatSVGIcon(
+        JButton directions = new JButton("Directions", new FlatSVGIcon(
                 "edu/rpi/legup/images/Legup/toolbar/Directions.svg",
-                this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE);
-
-        JButton directions = new JButton("Directions", directionsIcon);
+                this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE));
         directions.setFocusPainted(false);
         directions.addActionListener((ActionEvent) -> directionsToolButton());
 

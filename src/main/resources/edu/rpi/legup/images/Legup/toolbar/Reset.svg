@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="96" height="96" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <path id="top-arrow" d="M 84 43.2 A 24 20.4 0 0 0 60 22.8 V 10.8 L 34.8 31.2 L 60 51.6 V 39.6 A 14.4 9.6 0 0 1 74.4 49.2 C 74.4 56.4 84 56.4 84 43.2 Z"/>
+        <path id="bottom-arrow" d="M 12 52.8 A 24 20.4 0 0 0 36 73.2 V 85.2 L 61.2 64.8 L 36 44.4 V 56.4 A 14.4 9.6 0 0 1 21.6 46.8 C 21.6 39.6 12 39.6 12 52.8 Z"/>
+        <clipPath id="top-arrow-clip">
+            <use href="#top-arrow"/>
+        </clipPath>
+        <clipPath id="bottom-arrow-clip">
+            <use href="#bottom-arrow"/>
+        </clipPath>
+        <linearGradient id="shade-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0000"/>
+            <stop offset="1" stop-color="#0005"/>
+        </linearGradient>
+        <radialGradient id="shadow-grad">
+            <stop offset="0.2" stop-color="#0003"/>
+            <stop offset="1" stop-color="#0000"/>
+        </radialGradient>
+    </defs>
+    <ellipse fill="url(#shadow-grad)" rx="40" ry="10" cx="48" cy="86"/>
+    <use href="#bottom-arrow" fill="none" stroke="black" stroke-width="2"/>
+    <use href="#top-arrow" fill="#F44336"/>
+    <use href="#top-arrow" fill="url(#shade-grad)"/>
+    <use href="#top-arrow" fill="none" stroke="#FFF8" stroke-width="7.5" clip-path="url(#top-arrow-clip)"/>
+    <use href="#top-arrow" fill="none" stroke="#F44336" stroke-width="2.5"/>
+    <use href="#top-arrow" fill="none" stroke="#0006" stroke-width="2.5"/>
+    <use href="#bottom-arrow" fill="#F44336"/>
+    <use href="#bottom-arrow" fill="url(#shade-grad)"/>
+    <use href="#bottom-arrow" fill="none" stroke="#FFF8" stroke-width="7.5" clip-path="url(#bottom-arrow-clip)"/>
+    <use href="#bottom-arrow" fill="none" stroke="#F44336" stroke-width="2.5"/>
+    <use href="#bottom-arrow" fill="none" stroke="#0006" stroke-width="2.5"/>
+</svg>

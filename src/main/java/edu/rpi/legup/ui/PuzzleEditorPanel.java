@@ -1,5 +1,6 @@
 package edu.rpi.legup.ui;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.app.VersionInfo;
@@ -295,19 +296,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private void setupToolBar1() {
         setToolBar1Buttons(new JButton[2]);
 
-        URL open_url =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/toolbar/Open.png");
-        ImageIcon OpenImageIcon = new ImageIcon(open_url);
-        Image OpenImage = OpenImageIcon.getImage();
-        OpenImageIcon =
-                new ImageIcon(
-                        OpenImage.getScaledInstance(
-                                this.TOOLBAR_ICON_SCALE,
-                                this.TOOLBAR_ICON_SCALE,
-                                Image.SCALE_SMOOTH));
-
-        JButton open = new JButton("Open", OpenImageIcon);
+        JButton open = new JButton("Open", new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/toolbar/Open.svg",
+                this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE));
         open.setFocusPainted(false);
         open.addActionListener((ActionEvent) -> loadPuzzle());
 
@@ -318,19 +309,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         toolBar1.setRollover(true);
         toolBar1.add(getToolBar1Buttons()[0]);
 
-        URL create_url =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/toolbar/New.png");
-        ImageIcon CreateImageIcon = new ImageIcon(create_url);
-        Image CreateImage = CreateImageIcon.getImage();
-        CreateImageIcon =
-                new ImageIcon(
-                        CreateImage.getScaledInstance(
-                                this.TOOLBAR_ICON_SCALE,
-                                this.TOOLBAR_ICON_SCALE,
-                                Image.SCALE_SMOOTH));
-
-        JButton create = new JButton("Create", CreateImageIcon);
+        JButton create = new JButton("Create", new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/toolbar/New.svg",
+                this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE));
         create.setFocusPainted(false);
         create.addActionListener(
                 (ActionEvent) -> {
@@ -359,19 +340,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         toolBar2.setRollover(true);
         setToolBar2Buttons(new JButton[3]);
 
-        URL reset =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/toolbar/Reset.png");
-        ImageIcon ResetImageIcon = new ImageIcon(reset);
-        Image ResetImage = ResetImageIcon.getImage();
-        ResetImageIcon =
-                new ImageIcon(
-                        ResetImage.getScaledInstance(
-                                this.TOOLBAR_ICON_SCALE,
-                                this.TOOLBAR_ICON_SCALE,
-                                Image.SCALE_SMOOTH));
-
-        JButton resetButton = new JButton("Reset", ResetImageIcon);
+        JButton resetButton = new JButton("Reset", new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/toolbar/Reset.svg",
+                this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE));
         resetButton.setFocusPainted(false);
 
         resetButton.addActionListener(
@@ -395,38 +366,18 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         getToolBar2Buttons()[0] = resetButton;
         toolBar2.add(getToolBar2Buttons()[0]);
 
-        URL save_as =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/toolbar/Save.png");
-        ImageIcon SaveAsImageIcon = new ImageIcon(save_as);
-        Image SaveAsImage = SaveAsImageIcon.getImage();
-        SaveAsImageIcon =
-                new ImageIcon(
-                        SaveAsImage.getScaledInstance(
-                                this.TOOLBAR_ICON_SCALE,
-                                this.TOOLBAR_ICON_SCALE,
-                                Image.SCALE_SMOOTH));
-
-        JButton saveas = new JButton("Save As", SaveAsImageIcon);
+        JButton saveas = new JButton("Save As", new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/toolbar/Save.svg",
+                this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE));
         saveas.setFocusPainted(false);
         saveas.addActionListener((ActionEvent) -> savePuzzle());
 
         getToolBar2Buttons()[1] = saveas;
         toolBar2.add(getToolBar2Buttons()[1]);
 
-        URL save_and_solve =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/toolbar/Check.png");
-        ImageIcon SaveSolveImageIcon = new ImageIcon(save_and_solve);
-        Image SaveSolveImage = SaveSolveImageIcon.getImage();
-        SaveSolveImageIcon =
-                new ImageIcon(
-                        SaveSolveImage.getScaledInstance(
-                                this.TOOLBAR_ICON_SCALE,
-                                this.TOOLBAR_ICON_SCALE,
-                                Image.SCALE_SMOOTH));
-
-        JButton saveandsolve = new JButton("Save & Solve", SaveSolveImageIcon);
+        JButton saveandsolve = new JButton("Save & Solve", new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/toolbar/Check.svg",
+                TOOLBAR_ICON_SCALE, TOOLBAR_ICON_SCALE));
         saveandsolve.setFocusPainted(false);
         saveandsolve.addActionListener(
                 new ActionListener() {
