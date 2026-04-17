@@ -6,7 +6,7 @@ plugins {
 }
 
 if (!project.hasProperty("ci")) {
-    id 'edu.sc.seis.launch4j' version '2.5.3'
+    apply plugin: 'edu.sc.seis.launch4j'
 }
 
 def versionFile = file('legup-update/src/main/resources/edu.rpi.legupupdate/VERSION')
