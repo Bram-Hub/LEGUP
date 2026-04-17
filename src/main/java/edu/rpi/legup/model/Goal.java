@@ -17,7 +17,7 @@ import java.util.TreeMap;
 public class Goal {
     private ArrayList<GridCell> cellList;
     private final GoalType goalType;
-    private final boolean assumeSolution;
+    private boolean assumeSolution;
 
     /**
      * Constructs a Goal object with an empty cell list with no assumed solution
@@ -81,6 +81,13 @@ public class Goal {
      * @return assumeSolution
      */
     public boolean assumeSolution() {return assumeSolution;}
+
+    /**
+     * Set the value of assumeSolution
+     *
+     * @param assume whether to assume there is a solution to the puzzle
+     */
+    public void setAssumeSolution(boolean assume) {assumeSolution = assume;}
 
     /**
      * Creates tool tip text for a cell being hovered over.

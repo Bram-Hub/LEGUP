@@ -43,6 +43,7 @@ public class ElementController
     private GoalType currentGoalType;
     private PlaceableElement currentGoalValue;
     private Object goalValueData;
+    private boolean assumeSolution;
 
     /**
      * ElementController Constructor controller to handle ui events associated interacting with a
@@ -55,6 +56,7 @@ public class ElementController
         this.currentGoalType = GoalType.DEFAULT;
         this.currentGoalValue = null;
         this.goalValueData = null;
+        this.assumeSolution = false;
     }
 
     public void setSelectedElement(Element selectedElement) {
@@ -100,6 +102,11 @@ public class ElementController
         return this.currentGoalValue;
     }
 
+    public void setAssumeSolution(boolean assume) {
+        this.assumeSolution = assume;
+        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+        puzzle.getGoal().setAssumeSolution(assume);
+    }
 
     /**
      * Sets the {@link BoardView}
