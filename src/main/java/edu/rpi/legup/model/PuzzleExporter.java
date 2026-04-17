@@ -170,6 +170,8 @@ public abstract class PuzzleExporter {
 
         Element goalElement = newDocument.createElement("goal");
         goalElement.setAttribute("type", String.valueOf(goalType));
+        goalElement.setAttribute("assumeSolution", String.valueOf(puzzle.getGoal().assumeSolution()));
+
         boolean hasGoalCells = false;
 
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
