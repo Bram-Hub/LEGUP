@@ -359,7 +359,7 @@ public class FinishWithMinesDirectRuleTest {
     }
 
     @Test
-    public void FinishWithMinesDirectRule_ThreeUnsetOneBombTwoNumbersTest8()
+    public void FinishWithMinesDirectRule_ThreeUnsetThreeBombTwoNumbersTest8()
             throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test7.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
