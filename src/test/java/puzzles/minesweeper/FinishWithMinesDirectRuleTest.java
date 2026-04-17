@@ -357,4 +357,44 @@ public class FinishWithMinesDirectRuleTest {
             }
         }
     }
+
+    @Test
+    public void FinishWithMinesDirectRule_ThreeUnsetOneBombTwoNumbersTest8()
+            throws InvalidFileFormatException {
+        TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test7.txt", minesweeper);
+        TreeNode rootNode = minesweeper.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().get(0);
+        transition.setRule(RULE);
+
+        MinesweeperBoard board = (MinesweeperBoard) transition.getBoard();
+
+        MinesweeperCell cell1 = board.getCell(1, 1);
+        cell1.setData(MinesweeperTileData.mine());
+        board.addModifiedData(cell1);
+
+        MinesweeperCell cell2 = board.getCell(1, 2);
+        cell2.setData(MinesweeperTileData.mine());
+        board.addModifiedData(cell2);
+
+        MinesweeperCell cell3 = board.getCell(2, 1);
+        cell3.setData(MinesweeperTileData.mine());
+        board.addModifiedData(cell3);
+
+        Assert.assertNull(RULE.checkRule(transition));
+
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int k = 0; k < board.getWidth(); k++) {
+                Point point = new Point(k, i);
+                if (point.equals(cell1.getLocation())) {
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                } else if (point.equals(cell2.getLocation())){
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                } else if (point.equals(cell3.getLocation())){
+                    Assert.assertNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }else {
+                    Assert.assertNotNull(RULE.checkRuleAt(transition, board.getCell(k, i)));
+                }
+            }
+        }
+    }
 }
