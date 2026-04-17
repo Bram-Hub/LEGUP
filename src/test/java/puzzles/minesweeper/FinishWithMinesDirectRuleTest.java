@@ -358,6 +358,17 @@ public class FinishWithMinesDirectRuleTest {
         }
     }
 
+    /*
+     * Check that FinishWithMinesDirectRule continues to behave as expected in diminished bubble overlap scenario.
+     *
+     * This is what 3x3test7.txt looks like:
+     *    3  e  e
+     *    e  _| _|
+     *    e  _| 3
+     *
+     * This test explicitly changes each UNSET sell to a MINE. This is a complete use of the rule. It allows for some
+     * of the cells to belong to one number's 'domain', and one of them to be shared.
+     * */
     @Test
     public void FinishWithMinesDirectRule_ThreeUnsetThreeBombTwoNumbersTest8()
             throws InvalidFileFormatException {
