@@ -161,9 +161,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         JMenuItem exit = new JMenuItem("Exit");
         exit.addActionListener((ActionEvent) -> exitEditor());
         if (os.equals("mac")) {
-            exit.setAccelerator(
-                    KeyStroke.getKeyStroke(
-                            'Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+            exit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         } else {
             exit.setAccelerator(KeyStroke.getKeyStroke('Q', InputEvent.CTRL_DOWN_MASK));
         }

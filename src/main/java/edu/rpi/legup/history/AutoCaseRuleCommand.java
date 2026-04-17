@@ -63,6 +63,7 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
         final TreeViewSelection newSelection = new TreeViewSelection();
 
         TreeNode node = (TreeNode) selection.getFirstSelection().getTreeElement();
+
         if (caseTrans.isEmpty()) {
             List<Board> cases =
                     caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
