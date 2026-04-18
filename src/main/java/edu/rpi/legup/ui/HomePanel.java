@@ -572,14 +572,14 @@ public class HomePanel extends LegupPanel {
     private void initText() {
         this.text = new JLabel[3];
 
-        JLabel welcome = new JLabel("Welcome to LEGUP ");
+        JLabel welcome = new JLabel("Welcome to LEGUP");
         welcome.putClientProperty(FlatClientProperties.STYLE_CLASS, "welcome");
         welcome.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel credits = new JLabel("A project by Dr. Bram van Heuveln");
         credits.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel version = new JLabel("Version " + VersionInfo.getVersion() + " ");
+        JLabel version = new JLabel("Version " + VersionInfo.getVersion());
         version.putClientProperty(FlatClientProperties.STYLE_CLASS, "version");
         version.setAlignmentX(Component.CENTER_ALIGNMENT);
 

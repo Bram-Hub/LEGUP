@@ -36,6 +36,8 @@
     <use href="#circle" fill="none" stroke="#FFF6" stroke-width="9" clip-path="url(#circle-clip)"/>
     <use href="#circle" fill="none" stroke="#64DD17" stroke-width="3"/>
     <use href="#circle" fill="none" stroke="#0006" stroke-width="3"/>
-    <line stroke="black" stroke-width="4" stroke-linecap="round" x1="62" y1="70" x2="78" y2="70"/>
-    <line stroke="black" stroke-width="4" stroke-linecap="round" x1="70" y1="62" x2="70" y2="78"/>
+    <line stroke="#64DD17" stroke-width="4" stroke-linecap="round" x1="62" y1="70" x2="78" y2="70"/>
+    <line stroke="#000A" stroke-width="4" stroke-linecap="round" x1="62" y1="70" x2="78" y2="70"/>
+    <line stroke="#64DD17" stroke-width="4" stroke-linecap="round" x1="70" y1="62" x2="70" y2="78"/>
+    <line stroke="#000A" stroke-width="4" stroke-linecap="round" x1="70" y1="62" x2="70" y2="78"/>
 </svg>
