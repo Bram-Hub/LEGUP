@@ -20,8 +20,17 @@ public class TooManyMinesContradictionRuleTest {
         minesweeper = new Minesweeper();
     }
 
+    /*
+    * Checks that TooManyMinesContradictionRule behaves as expected in basic scenario.
+    *
+    * This is what TooManyMines1.txt looks like:
+    *    e  #  e
+    *    #  3  #
+    *    e  #  e
+    *
+    * This test verifies that the contradiction is recognized for the number cell, but not for the others.
+    * */
     @Test
-    // tests a 3x3 board with a 3 in the center and 4 surrounding mines
     public void TooManyMinesTest1() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/TooManyMines1.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
@@ -30,10 +39,10 @@ public class TooManyMinesContradictionRuleTest {
 
         MinesweeperBoard board = (MinesweeperBoard) transition.getBoard();
 
-        // confirm it is impossible to satisfy up the center square
+        // confirm it is impossible to satisfy up the middle cell
         Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(1, 1)));
 
-        // every square except the center
+        // every cell except the middle
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 0)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 0)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(2, 0)));
@@ -44,8 +53,17 @@ public class TooManyMinesContradictionRuleTest {
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(2, 2)));
     }
 
+    /*
+    * Checks that TooManyMinesContradictionRule behaves as expected in basic scenario.
+    *
+    * This is what TooManyMines2.txt looks like:
+    *    1  #  e
+    *    #  #  e
+    *    e  e  e
+    *
+    * This test verifies that the contradiction is recognized for the number cell, but not for the others
+    * */
     @Test
-    // tests a 3x3 board with a 1 in the corner with 3 visible mines
     public void TooManyMinesTest2() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/TooManyMines2.txt", minesweeper);
         TreeNode rootNode = minesweeper.getTree().getRootNode();
@@ -54,10 +72,10 @@ public class TooManyMinesContradictionRuleTest {
 
         MinesweeperBoard board = (MinesweeperBoard) transition.getBoard();
 
-        // confirm it is impossible to satisfy up the center square
+        // confirm it is impossible to satisfy up the top right corner cell
         Assert.assertNull(RULE.checkContradictionAt(board, board.getCell(0, 0)));
 
-        // every square except the center
+        // every cell except the top right corner
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(1, 0)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(2, 0)));
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(0, 1)));
