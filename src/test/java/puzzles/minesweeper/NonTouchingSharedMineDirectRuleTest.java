@@ -30,6 +30,20 @@ public class NonTouchingSharedMineDirectRuleTest {
     // Horizontal/vertical tests means the adjacent number cells are adjacent
     // horizontally/vertically
 
+    /*
+    * Checks that NonTouchingSharedMineDirectRule behaves as expected.
+    *
+    * This is what 3x3test13.txt looks like:
+    *   _| _| e
+    *   1  2  _|
+    *   _| _| e
+    *
+    * This test explicitly changes the center cell in the right column from UNSET to MINE. It checks that
+    * those adjacent number cells have the same difference in the number of mines in their non-shared
+    * bubble regions as the difference in their values. In this case, it is supposed to accept the
+    * non-shared bubble region belonging to the '1' cell has zero mines even though it technically doesn't
+    * exist since it is off of the board.
+    * */
     @Test
     public void NonTouchingSharedMineDirectRule_HorizontalTest1()
             throws InvalidFileFormatException {
@@ -59,6 +73,19 @@ public class NonTouchingSharedMineDirectRuleTest {
         }
     }
 
+    /*
+     * Checks that NonTouchingSharedMineDirectRule behaves as expected in larger board scenario.
+     *
+     * This is what 4x4test1.txt looks like:
+     *  e  _| _| e
+     *  e  1  2  _|
+     *  e  _| _| e
+     *  _| _| _| _|
+     *
+     * This test explicitly changes the center cell in the right column from UNSET to MINE. It checks that
+     * those adjacent number cells have the same difference in the number of mines in their non-shared
+     * bubble regions as the difference in their values.
+     * */
     @Test
     public void NonTouchingSharedMineDirectRule_HorizontalTest2()
             throws InvalidFileFormatException {
@@ -88,6 +115,20 @@ public class NonTouchingSharedMineDirectRuleTest {
         }
     }
 
+    /*
+     * Checks that NonTouchingSharedMineDirectRule behaves as expected in larger board scenario.
+     *
+     * This is what 4x4test2.txt looks like:
+     *  _| _| _| e
+     *  e  4  2  _|
+     *  _| _| _| e
+     *  _| _| _| _|
+     *
+     * This test explicitly changes the top right corner cell and the cell third from the top in the left
+     * column from UNSET to MINE. It verifies that the rule operates correctly to be accepted when the
+     * difference in the number of mines across two non-shared bubble regions is the same as the difference
+     * in the values of the number cells.
+     * */
     @Test
     public void NonTouchingSharedMineDirectRule_HorizontalTest3()
             throws InvalidFileFormatException {
@@ -120,6 +161,20 @@ public class NonTouchingSharedMineDirectRuleTest {
         }
     }
 
+    /*
+     * Checks that NonTouchingSharedMineDirectRule behaves as expected.
+     *
+     * This is what 3x3test13.txt looks like:
+     *   e  _| e
+     *   _| 2  _|
+     *   _| 1  _|
+     *
+     * This test explicitly changes the center cell in the top row from UNSET to MINE. It checks that
+     * those adjacent number cells have the same difference in the number of mines in their non-shared
+     * bubble regions as the difference in their values. In this case, it is supposed to accept the
+     * non-shared bubble region belonging to the '1' cell has zero mines even though it technically doesn't
+     * exist since it is off of the board.
+     * */
     @Test
     public void NonTouchingSharedMineDirectRule_VerticalTest1() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/3x3test14.txt", minesweeper);
@@ -148,6 +203,20 @@ public class NonTouchingSharedMineDirectRuleTest {
         }
     }
 
+    /*
+     * Checks that NonTouchingSharedMineDirectRule behaves as expected in larger board scenario.
+     *
+     * This is what 4x4test2.txt looks like:
+     *   _| e  e  e
+     *   _| _| 1  _|
+     *   _| _| 4  _|
+     *   _| _| _| _|
+     *
+     * This test explicitly changes the bottom cell in the second column from the left, the bottom cell in
+     * the third column from the left, and the bottom left most cell from UNSET to MINE. It verifies that
+     * the rule operates correctly to be accepted when the difference in the number of mines across two
+     * non-shared bubble regions is the same as the difference in the values of the number cells.
+     * */
     @Test
     public void NonTouchingSharedMineDirectRule_VerticalTest2() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/4x4test3.txt", minesweeper);
@@ -184,6 +253,19 @@ public class NonTouchingSharedMineDirectRuleTest {
         }
     }
 
+    /*
+     * Checks that NonTouchingSharedMineDirectRule behaves as expected in larger board scenario.
+     *
+     * This is what NonSharedMine1.txt looks like:
+     *  _| e  e  _|
+     *  e  2  _| e
+     *  e  _| 1  e
+     *  _| e  e  e
+     *
+     * This test explicitly changes the top right corner cell UNSET to MINE. It verifies that the rule
+     * operates correctly to be accepted when the difference in the number of mines across two non-shared
+     * bubble regions is the same as the difference in the values of the number cells.
+     * */
     @Test
     public void NonTouchingSharedMineDirectRule_HorizontalTest() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/NonSharedMine1.txt", minesweeper);
