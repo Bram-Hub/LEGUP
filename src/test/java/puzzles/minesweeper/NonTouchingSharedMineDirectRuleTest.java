@@ -30,14 +30,15 @@ public class NonTouchingSharedMineDirectRuleTest {
     // Horizontal/vertical tests means the adjacent number cells are adjacent
     // horizontally/vertically
 
-    /*
+    /**
     * Checks that NonTouchingSharedMineDirectRule behaves as expected.
-    *
+    *<br><br>
     * This is what 3x3test13.txt looks like:
+    * <pre>
     *   _| _| e
     *   1  2  _|
-    *   _| _| e
-    *
+    *   _| _| e</pre>
+    *<br>
     * This test explicitly changes the center cell in the right column from UNSET to MINE. It checks that
     * those adjacent number cells have the same difference in the number of mines in their non-shared
     * bubble regions as the difference in their values. In this case, it is supposed to accept the
@@ -73,15 +74,16 @@ public class NonTouchingSharedMineDirectRuleTest {
         }
     }
 
-    /*
+    /**
      * Checks that NonTouchingSharedMineDirectRule behaves as expected in larger board scenario.
-     *
+     *<br><br>
      * This is what 4x4test1.txt looks like:
+     * <pre>
      *  e  _| _| e
      *  e  1  2  _|
      *  e  _| _| e
-     *  _| _| _| _|
-     *
+     *  _| _| _| _|</pre>
+     *<br>
      * This test explicitly changes the center cell in the right column from UNSET to MINE. It checks that
      * those adjacent number cells have the same difference in the number of mines in their non-shared
      * bubble regions as the difference in their values.
@@ -115,15 +117,16 @@ public class NonTouchingSharedMineDirectRuleTest {
         }
     }
 
-    /*
+    /**
      * Checks that NonTouchingSharedMineDirectRule behaves as expected in larger board scenario.
-     *
+     *<br><br>
      * This is what 4x4test2.txt looks like:
+     * <pre>
      *  _| _| _| e
      *  e  4  2  _|
      *  _| _| _| e
-     *  _| _| _| _|
-     *
+     *  _| _| _| _|</pre>
+     *<br>
      * This test explicitly changes the top right corner cell and the cell third from the top in the left
      * column from UNSET to MINE. It verifies that the rule operates correctly to be accepted when the
      * difference in the number of mines across two non-shared bubble regions is the same as the difference
@@ -161,14 +164,15 @@ public class NonTouchingSharedMineDirectRuleTest {
         }
     }
 
-    /*
+    /**
      * Checks that NonTouchingSharedMineDirectRule behaves as expected.
-     *
+     *<br><br>
      * This is what 3x3test13.txt looks like:
+     * <pre>
      *   e  _| e
      *   _| 2  _|
-     *   _| 1  _|
-     *
+     *   _| 1  _|</pre>
+     *<br>
      * This test explicitly changes the center cell in the top row from UNSET to MINE. It checks that
      * those adjacent number cells have the same difference in the number of mines in their non-shared
      * bubble regions as the difference in their values. In this case, it is supposed to accept the
@@ -203,15 +207,16 @@ public class NonTouchingSharedMineDirectRuleTest {
         }
     }
 
-    /*
+    /**
      * Checks that NonTouchingSharedMineDirectRule behaves as expected in larger board scenario.
-     *
+     *<br><br>
      * This is what 4x4test2.txt looks like:
+     * <pre>
      *   _| e  e  e
      *   _| _| 1  _|
      *   _| _| 4  _|
-     *   _| _| _| _|
-     *
+     *   _| _| _| _|</pre>
+     *<br>
      * This test explicitly changes the bottom cell in the second column from the left, the bottom cell in
      * the third column from the left, and the bottom left most cell from UNSET to MINE. It verifies that
      * the rule operates correctly to be accepted when the difference in the number of mines across two
@@ -253,15 +258,16 @@ public class NonTouchingSharedMineDirectRuleTest {
         }
     }
 
-    /*
+    /**
      * Checks that NonTouchingSharedMineDirectRule behaves as expected in larger board scenario.
-     *
+     *<br><br>
      * This is what NonSharedMine1.txt looks like:
+     * <pre>
      *  _| e  e  _|
      *  e  2  _| e
      *  e  _| 1  e
-     *  _| e  e  e
-     *
+     *  _| e  e  e</pre>
+     *<br>
      * This test explicitly changes the top right corner cell UNSET to MINE. It verifies that the rule
      * operates correctly to be accepted when the difference in the number of mines across two non-shared
      * bubble regions is the same as the difference in the values of the number cells.

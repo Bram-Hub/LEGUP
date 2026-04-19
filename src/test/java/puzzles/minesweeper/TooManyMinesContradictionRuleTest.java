@@ -20,14 +20,15 @@ public class TooManyMinesContradictionRuleTest {
         minesweeper = new Minesweeper();
     }
 
-    /*
+    /**
     * Checks that TooManyMinesContradictionRule behaves as expected in basic scenario.
-    *
+    *<br><br>
     * This is what TooManyMines1.txt looks like:
+    * <pre>
     *    e  #  e
     *    #  3  #
-    *    e  #  e
-    *
+    *    e  #  e</pre>
+    *<br>
     * This test verifies that the contradiction is recognized for the number cell, but not for the others.
     * */
     @Test
@@ -53,14 +54,15 @@ public class TooManyMinesContradictionRuleTest {
         Assert.assertNotNull(RULE.checkContradictionAt(board, board.getCell(2, 2)));
     }
 
-    /*
+    /**
     * Checks that TooManyMinesContradictionRule behaves as expected in basic scenario.
-    *
+    *<br><br>
     * This is what TooManyMines2.txt looks like:
+    * <pre>
     *    1  #  e
     *    #  #  e
-    *    e  e  e
-    *
+    *    e  e  e</pre>
+    *<br>
     * This test verifies that the contradiction is recognized for the number cell, but not for the others
     * */
     @Test
