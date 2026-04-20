@@ -15,6 +15,11 @@ public class LightUpCell extends GridCell<Integer> {
         this.isLite = false;
     }
 
+    /**
+     * Sets the type of this LightUpCell
+     *
+     * @param e element to set the type of this binary cell to
+     */
     @Override
     public void setType(@NotNull Element e, @NotNull MouseEvent m) {
         switch (e.getElementID()) {
@@ -66,14 +71,29 @@ public class LightUpCell extends GridCell<Integer> {
         return null;
     }
 
+    /**
+     * Gets whether this LightUpCell is illuminated
+     *
+     * @return true if the cell is lit, false otherwise
+     */
     public boolean isLite() {
         return isLite;
     }
 
+    /**
+     * Sets whether this LightUpCell is illuminated
+     *
+     * @param isLite true if the cell should be lit, false otherwise
+     */
     public void setLite(boolean isLite) {
         this.isLite = isLite;
     }
 
+    /**
+     * Performs a deep copy on the LightUpCell
+     *
+     * @return a new copy of the LightUpCell that is independent of this one
+     */
     @Override
     public @NotNull LightUpCell copy() {
         LightUpCell copy = new LightUpCell(data, (Point) location.clone());
