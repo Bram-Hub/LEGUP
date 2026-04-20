@@ -9,10 +9,22 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class LightUpBoard extends GridBoard {
+
+    /**
+     * LightUpBoard Constructor - creates a LightUpBoard of the specified width and height
+     *
+     * @param width width of the board
+     * @param height height of the board
+     */
     public LightUpBoard(int width, int height) {
         super(width, height);
     }
 
+    /**
+     * LightUpBoard Constructor - creates a square LightUpBoard of the specified size
+     *
+     * @param size width and height of the board
+     */
     public LightUpBoard(int size) {
         super(size, size);
     }
@@ -152,17 +164,34 @@ public class LightUpBoard extends GridBoard {
         return num;
     }
 
+    /**
+     * Gets the LightUpCell at a specific location
+     *
+     * @param x x location of the cell
+     * @param y y location of the cell
+     * @return cell at location x, y
+     */
     @Override
     public @Nullable LightUpCell getCell(int x, int y) {
         return (LightUpCell) super.getCell(x, y);
     }
 
+    /**
+     * Notifies the board of a change to a puzzle element and updates lighting
+     *
+     * @param puzzleElement the puzzle element that has changed
+     */
     @Override
     public void notifyChange(@NotNull PuzzleElement puzzleElement) {
         super.notifyChange(puzzleElement);
         fillWithLight();
     }
 
+    /**
+     * Performs a deep copy of the LightUpBoard
+     *
+     * @return a new copy of the LightUpBoard that is independent of this one
+     */
     @Override
     public @NotNull LightUpBoard copy() {
         LightUpBoard copy = new LightUpBoard(dimension.width, dimension.height);

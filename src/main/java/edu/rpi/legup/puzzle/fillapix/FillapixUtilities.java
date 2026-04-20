@@ -7,7 +7,13 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class FillapixUtilities {
-
+    /**
+     *  Sees that if a cell is forced to be Black by the rules.
+     *
+     * @param board gets the board to read from
+     * @param cell the cell that is being checked against
+     * @return <code>true</code> if there is too many white cell which would force it to be black by comparing against adjacent cells.
+     */
     public static boolean isForcedBlack(FillapixBoard board, FillapixCell cell) {
         TooFewBlackCellsContradictionRule tooManyBlackCells =
                 new TooFewBlackCellsContradictionRule();
@@ -22,7 +28,13 @@ public class FillapixUtilities {
         }
         return false;
     }
-
+    /**
+     * Sees that if a cell is forced to be white by the rules.
+     *
+     * @param board gets the board to read from
+     * @param cell the cell that is being checked against
+     * @return <code>true</code> if there is too many black cell which would force it to be white by comparing against adjacent cells.
+     */
     public static boolean isForcedWhite(FillapixBoard board, FillapixCell cell) {
         TooManyBlackCellsContradictionRule tooManyBlackCells =
                 new TooManyBlackCellsContradictionRule();
@@ -37,7 +49,14 @@ public class FillapixUtilities {
         }
         return false;
     }
-
+    /**
+     * Checks to see if an individual cell is complete.
+     *
+     * @param board is the board that is being read from
+     * @param cell is the cell that is having the adjacent cells grabbed and checking completeness on
+     * @return <code>true</code> if the number of black cells surrounding the current cell is equal to the
+     *             number the cell contains otherwise return <code>false</code>.
+     */
     public static boolean isComplete(FillapixBoard board, FillapixCell cell) {
         int cellNum = cell.getNumber();
         int cellTouchBlack = 0;
@@ -49,7 +68,13 @@ public class FillapixUtilities {
         }
         return cellNum == cellTouchBlack;
     }
-
+    /**
+     *Sees if any of the adjacent cells are empty.
+     *
+     * @param board is the board that is being read from
+     * @param cell is the cell that is having the adjacent cells checked
+     * @return <code>true</code> if any adjacent cells are empty
+     */
     public static boolean hasEmptyAdjacent(FillapixBoard board, FillapixCell cell) {
         ArrayList<FillapixCell> adjCells = getAdjacentCells(board, cell);
         for (FillapixCell adjCell : adjCells) {
@@ -59,8 +84,12 @@ public class FillapixUtilities {
         }
         return false;
     }
-
-    /** Gets all cells adjacent to a specific cell. The cell itself will be included. */
+    /** Gets all cells adjacent to <code>cell</code>. The <code>cell</code> itself will be included.
+     *
+     * @param board is the board that is being read from
+     * @param cell is the cell that is having the adjacent cells grabbed
+     * @return all the adjacent cells and the current cell in an array list
+     * */
     public static ArrayList<FillapixCell> getAdjacentCells(FillapixBoard board, FillapixCell cell) {
         ArrayList<FillapixCell> adjCells = new ArrayList<FillapixCell>();
         Point cellLoc = cell.getLocation();
@@ -83,8 +112,8 @@ public class FillapixUtilities {
     }
 
     /**
-     * Gets all cells that are contained in the square defined as having 'distance' cells between
-     * the center and the outer wall. For example, distance = 1:
+     * Gets all cells that are contained in the square defined as having '<code>distance</code>' cells between
+     * the center and the outer wall. For example, <code>distance</code> = 1:
      *
      * <p>|X|X|X|X|X|
      *
@@ -97,6 +126,12 @@ public class FillapixUtilities {
      * <p>|X|X|X|X|X|
      *
      * <p>O is 'cell', and all 'X' will be returned in the ArrayList
+     *
+     *
+     * @param cell is the center of the box that is made
+     * @param board the board for getting the elements of the box
+     * @param distance the distance around center that the box is formed
+     * @return ArrayList that contains all the square
      */
     public static ArrayList<FillapixCell> getCellsAtDistance(
             FillapixBoard board, FillapixCell cell, int distance) {
@@ -224,7 +259,13 @@ public class FillapixUtilities {
         workingArray[curIndex] = false;
         recurseCombinations(result, curIndex + 1, maxBlack, numBlack, len, workingArray);
     }
-
+    /**
+     *  Checks the whole board for contradictions that might occur by checking each cell
+     *  against the <code>TooManyBlackCellsContradictionRule</code> and <code>TooManyBlackCellsContradictionRule</code>
+     *
+     * @param board that is being checked.
+     * @return <code>True</code> if there is a contradiction and <code>False</code> otherwise
+     */
     public static boolean checkBoardForContradiction(FillapixBoard board) {
         ContradictionRule tooManyBlack = new TooManyBlackCellsContradictionRule();
         ContradictionRule tooManyWhite = new TooFewBlackCellsContradictionRule();

@@ -31,7 +31,7 @@ public class Fillapix extends Puzzle {
         return null;
     }
 
-    @Override
+
     /**
      * Determines if the given dimensions are valid for Fillapix
      *
@@ -39,6 +39,7 @@ public class Fillapix extends Puzzle {
      * @param columns the number of columns
      * @return true if the given dimensions are valid for Fillapix, false otherwise
      */
+    @Override
     public boolean isValidDimensions(int rows, int columns) {
         return super.isValidDimensions(rows, columns);
     }

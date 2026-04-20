@@ -63,9 +63,9 @@ public class SudokuCell extends GridCell<Integer> {
     }
 
     /**
-     * Sets the type of this NurikabeCell
+     * Sets the type of this SudokuCell
      *
-     * @param e element to set the type of this nurikabe cell to
+     * @param e element to set the type of this SudokuCell to
      */
     @Override
     public void setType(Element e, MouseEvent m) {
