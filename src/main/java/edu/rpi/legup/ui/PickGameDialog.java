@@ -14,6 +14,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A dialog for selecting a game. This class extends {@link JDialog} and implements {@link
@@ -50,7 +52,7 @@ public class PickGameDialog extends JDialog implements ActionListener {
      * @param pickBothAtOnce if true they can pick a game type and a specific edu.rpi.legup.puzzle,
      *     if false they can only pick a game type
      */
-    public PickGameDialog(JFrame parent, boolean pickBothAtOnce) {
+    public PickGameDialog(@NotNull JFrame parent, boolean pickBothAtOnce) {
         super(parent, true);
 
         pickBoth = pickBothAtOnce;
@@ -141,6 +143,7 @@ public class PickGameDialog extends JDialog implements ActionListener {
      *
      * @return the puzzle file path as a String
      */
+    @NotNull
     public String getPuzzle() {
         return puzzleBox.getText();
     }
@@ -148,8 +151,9 @@ public class PickGameDialog extends JDialog implements ActionListener {
     /**
      * Returns the selected puzzle
      *
-     * @return the selected puzzle as a String
+     * @return the selected puzzle as a String, or null if none is selected
      */
+    @Nullable
     public String getGame() {
         return (String) gameBox.getSelectedItem();
     }
@@ -160,7 +164,7 @@ public class PickGameDialog extends JDialog implements ActionListener {
      *
      * @param e the action event
      */
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(@NotNull ActionEvent e) {
         if (e.getSource() == gameBox) {
             int index = gameBox.getSelectedIndex();
         } else {

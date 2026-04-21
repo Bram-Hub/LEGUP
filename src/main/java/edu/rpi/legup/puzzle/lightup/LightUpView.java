@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 public class LightUpView extends GridBoardView {
     private static final Logger LOGGER = LogManager.getLogger(LightUpView.class.getName());
@@ -29,7 +30,7 @@ public class LightUpView extends GridBoardView {
         }
     }
 
-    public LightUpView(LightUpBoard board) {
+    public LightUpView(@NotNull LightUpBoard board) {
         super(new BoardController(), new LightUpCellController(), board.getDimension());
 
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
@@ -50,7 +51,7 @@ public class LightUpView extends GridBoardView {
      * @param treeElement tree element
      */
     @Override
-    public void onTreeElementChanged(TreeElement treeElement) {
+    public void onTreeElementChanged(@NotNull TreeElement treeElement) {
         super.onTreeElementChanged(treeElement);
         LightUpBoard lightUpBoard =
                 board instanceof CaseBoard
@@ -60,7 +61,12 @@ public class LightUpView extends GridBoardView {
         repaint();
     }
 
-    /** Returns a DataSelectionView popup menu */
+    /**
+     * Returns a DataSelectionView popup menu
+     *
+     * @return a fully constructed DataSelectionView popup menu
+     */
+    @NotNull
     public DataSelectionView getSelectionPopupMenu() {
         DataSelectionView selectionView = new DataSelectionView(elementController);
         GridLayout layout = new GridLayout(3, 1);

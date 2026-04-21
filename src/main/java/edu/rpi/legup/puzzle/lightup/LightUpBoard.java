@@ -5,6 +5,8 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class LightUpBoard extends GridBoard {
 
@@ -86,7 +88,7 @@ public class LightUpBoard extends GridBoard {
      * @param cell LightUpCell
      * @return Set of adjacent LightUpCells
      */
-    public Set<LightUpCell> getAdj(LightUpCell cell) {
+    public @NotNull Set<LightUpCell> getAdj(@NotNull LightUpCell cell) {
         Set<LightUpCell> adjCells = new HashSet<>();
         cell = (LightUpCell) getPuzzleElement(cell);
 
@@ -117,7 +119,7 @@ public class LightUpBoard extends GridBoard {
      * @param type specified type
      * @return the number of adjacent cells
      */
-    public int getNumAdj(LightUpCell cell, LightUpCellType type) {
+    public int getNumAdj(@NotNull LightUpCell cell, @NotNull LightUpCellType type) {
         int num = 0;
         Set<LightUpCell> adjCells = getAdj(cell);
         for (LightUpCell c : adjCells) {
@@ -134,7 +136,7 @@ public class LightUpBoard extends GridBoard {
      * @param cell LightUpCell
      * @return number of adjacent cells
      */
-    public int getNumAdjLite(LightUpCell cell) {
+    public int getNumAdjLite(@NotNull LightUpCell cell) {
         int num = 0;
         Set<LightUpCell> adjCells = getAdj(cell);
         for (LightUpCell c : adjCells) {
@@ -151,7 +153,7 @@ public class LightUpBoard extends GridBoard {
      * @param cell specified cell
      * @return number of adjacent cells that are placeable
      */
-    public int getNumPlaceable(LightUpCell cell) {
+    public int getNumPlaceable(@NotNull LightUpCell cell) {
         int num = 0;
         Set<LightUpCell> adjCells = getAdj(cell);
         for (LightUpCell c : adjCells) {
@@ -170,7 +172,7 @@ public class LightUpBoard extends GridBoard {
      * @return cell at location x, y
      */
     @Override
-    public LightUpCell getCell(int x, int y) {
+    public @Nullable LightUpCell getCell(int x, int y) {
         return (LightUpCell) super.getCell(x, y);
     }
 
@@ -180,7 +182,7 @@ public class LightUpBoard extends GridBoard {
      * @param puzzleElement the puzzle element that has changed
      */
     @Override
-    public void notifyChange(PuzzleElement puzzleElement) {
+    public void notifyChange(@NotNull PuzzleElement puzzleElement) {
         super.notifyChange(puzzleElement);
         fillWithLight();
     }
@@ -191,7 +193,7 @@ public class LightUpBoard extends GridBoard {
      * @return a new copy of the LightUpBoard that is independent of this one
      */
     @Override
-    public LightUpBoard copy() {
+    public @NotNull LightUpBoard copy() {
         LightUpBoard copy = new LightUpBoard(dimension.width, dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {
