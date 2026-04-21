@@ -5,6 +5,15 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import java.awt.event.MouseEvent;
 
 public class StarBattleController extends ElementController {
+
+    /**
+     * Handles changes to a StarBattleCell based on mouse interaction.
+     * Left-click cycles forward through states or opens the selection menu when control is held.
+     * Right-click cycles backward through states.
+     *
+     * @param e the MouseEvent triggering the change
+     * @param data the PuzzleElement being modified
+     */
     @Override
     public void changeCell(MouseEvent e, PuzzleElement data) {
         StarBattleCell cell = (StarBattleCell) data;

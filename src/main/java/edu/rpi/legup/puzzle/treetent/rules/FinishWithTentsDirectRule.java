@@ -14,6 +14,9 @@ import java.util.List;
 
 public class FinishWithTentsDirectRule extends DirectRule {
 
+    /**
+     * Constructs the FinishWithTentsDirectRule with its ID, name, description, and associated image.
+     */
     public FinishWithTentsDirectRule() {
         super(
                 "TREE-BASC-0003",
@@ -53,6 +56,13 @@ public class FinishWithTentsDirectRule extends DirectRule {
         }
     }
 
+    /**
+     * Determines whether a cell is forced to be a tent based on row and column constraints.
+     *
+     * @param board the TreeTentBoard being evaluated
+     * @param cell the cell being checked
+     * @return true if the cell must be a tent, false otherwise
+     */
     private boolean isForced(TreeTentBoard board, TreeTentCell cell) {
         Point loc = cell.getLocation();
         List<TreeTentCell> tentsRow = board.getRowCol(loc.y, TreeTentType.TENT, true);

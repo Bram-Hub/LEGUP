@@ -16,7 +16,13 @@ public class ThermometerBoard extends GridBoard {
 
     private ThermometerCell dummyCell;
 
-    // constructors for the boards and variables
+    /**
+     * Constructs a ThermometerBoard with the specified width and height.
+     * Initializes row and column number cells, a dummy cell, and the list of thermometer vials.
+     *
+     * @param width the width of the board
+     * @param height the height of the board
+     */
     public ThermometerBoard(int width, int height) {
         super(width, height);
 
@@ -34,6 +40,7 @@ public class ThermometerBoard extends GridBoard {
             colNumbers.add(cell);
             this.setCell(i, height - 1, cell);
         }
+
         rowNumbers = new ArrayList<>();
         for (int i = 0; i < height - 1; i++) {
             ThermometerCell cell =
@@ -61,16 +68,31 @@ public class ThermometerBoard extends GridBoard {
         thermometerVials = new ArrayList<>();
     }
 
-    // setters and accessors for our array of vials
+    /**
+     * Adds a thermometer vial to the board.
+     *
+     * @param v the ThermometerVial to add
+     */
     public void addVial(ThermometerVial v) {
         thermometerVials.add(v);
     }
 
+    /**
+     * Retrieves all thermometer vials on the board.
+     *
+     * @return a list of ThermometerVial objects
+     */
     public ArrayList<ThermometerVial> getVials() {
         return thermometerVials;
     }
 
-    // our setters for row/col numbers with simple input verification
+    /**
+     * Sets the required number for a given row.
+     *
+     * @param row the row index
+     * @param num the required number
+     * @return true if the value was set successfully, false otherwise
+     */
     public boolean setRowNumber(int row, int num) {
         // first check is to verify we are updating an element in range
         // second check is to verify the new number can be achieved by the puzzle
@@ -81,6 +103,13 @@ public class ThermometerBoard extends GridBoard {
         return false;
     }
 
+    /**
+     * Sets the required number for a given column.
+     *
+     * @param col the column index
+     * @param num the required number
+     * @return true if the value was set successfully, false otherwise
+     */
     public boolean setColNumber(int col, int num) {
         // first check is to verify we are updating an element in range
         // second check is to verify the new number can be achieved by the puzzle
@@ -91,31 +120,54 @@ public class ThermometerBoard extends GridBoard {
         return false;
     }
 
-    // basic accessors for row/col numbers
+    /**
+     * Gets the required number for a given row.
+     *
+     * @param row the row index
+     * @return the required number, or -1 if out of bounds
+     */
     public int getRowNumber(int row) {
         if (row < 0 || row >= rowNumbers.size()) return -1;
         return rowNumbers.get(row).getRotation();
     }
 
+    /**
+     * Gets the required number for a given column.
+     *
+     * @param col the column index
+     * @return the required number, or -1 if out of bounds
+     */
     public int getColNumber(int col) {
         if (col < 0 || col >= rowNumbers.size()) return -1;
         return colNumbers.get(col).getRotation();
     }
 
-    // Accessors for saving row/column
+    /**
+     * Retrieves all row number cells.
+     *
+     * @return a list of ThermometerCell objects representing row numbers
+     */
     public ArrayList<ThermometerCell> getRowNumbers() {
         return rowNumbers;
     }
 
+    /**
+     * Retrieves all column number cells.
+     *
+     * @return a list of ThermometerCell objects representing column numbers
+     */
     public ArrayList<ThermometerCell> getColNumbers() {
         return colNumbers;
     }
 
-    // we all suck at programming so instead of using provided array list
-    // we use our own array lists to keep track of the vials
-    // marginally useful because it means we are guaranteed to get a
-    // thermometer cell when calling get cell, but using some type casting
-    // this override function could very likely be refactored out
+    /**
+     * Retrieves the ThermometerCell at the specified coordinates.
+     * Searches through vials, row numbers, column numbers, and the dummy cell.
+     *
+     * @param x the x-coordinate
+     * @param y the y-coordinate
+     * @return the ThermometerCell at the given location, or null if none exists
+     */
     @Override
     public ThermometerCell getCell(int x, int y) {
         for (ThermometerVial vial : this.thermometerVials) {
