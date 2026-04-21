@@ -9,17 +9,18 @@ import javax.swing.JSlider;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The {@code ZoomWidget} displays a zoom icon that, when clicked, shows a popup slider to adjust
  * the zoom level of the associated {@code ScrollView}.
  */
 public class ZoomWidget extends JLabel {
-    private ScrollView parent;
+    private @NotNull ScrollView parent;
     private PopupSlider palette = new PopupSlider();
     private MouseAdapter open =
             new MouseAdapter() {
-                public void mouseClicked(MouseEvent e) {
+                public void mouseClicked(@NotNull MouseEvent e) {
                     palette.slider.setValue((int) parent.getZoom());
                     palette.show(e.getComponent(), 0, 0);
                 }
@@ -30,7 +31,7 @@ public class ZoomWidget extends JLabel {
      *
      * @param parent dynamicView to which to the ZoomWidget is applied to
      */
-    public ZoomWidget(ScrollView parent) {
+    public ZoomWidget(@NotNull ScrollView parent) {
         super(new ImageIcon("zoom.png"));
         this.parent = parent;
         addMouseListener(open);
@@ -57,7 +58,7 @@ public class ZoomWidget extends JLabel {
          *
          * @param e the {@code ChangeEvent} indicating that the slider's state has changed
          */
-        public void stateChanged(ChangeEvent e) {
+        public void stateChanged(@NotNull ChangeEvent e) {
             if (slider.getValueIsAdjusting()) {
                 parent.zoomTo((double) slider.getValue() / 100.0);
             }
