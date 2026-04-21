@@ -117,6 +117,12 @@ public class LightUpImporter extends PuzzleImporter {
         }
     }
 
+    /**
+     * Creates the board from an array of statements
+     *
+     * @param statements array of string statements representing the board
+     * @throws UnsupportedOperationException since Light Up does not accept text input
+     */
     @Override
     public void initializeBoard(String[] statements) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Light Up cannot accept text input");

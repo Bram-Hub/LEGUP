@@ -145,6 +145,20 @@ public class SatisfyNumberCaseRule extends CaseRule {
             LightUpBoard curBoard,
             int index) {
         if (num <= curBoard.getModifiedData().size()) {
+            // Mark remaining open spots (that didn't get bulbs) as empty
+            for (LightUpCell openSpot : openSpots) {
+                Point loc = openSpot.getLocation();
+                LightUpCell cell = curBoard.getCell(loc.x, loc.y);
+
+                // If this cell wasn't already marked with a bulb, mark it as empty
+                if (!curBoard.getModifiedData().contains(cell)) {
+                    LightUpCell emptyCell = cell.copy();
+                    emptyCell.setData(LightUpCellType.EMPTY.value);
+                    curBoard.setCell(loc.x, loc.y, emptyCell);
+                    curBoard.addModifiedData(emptyCell);
+                }
+            }
+
             cases.add(curBoard);
             return;
         }
@@ -161,13 +175,13 @@ public class SatisfyNumberCaseRule extends CaseRule {
                     LightUpCell modCell = (LightUpCell) mod.copy();
                     Point modLoc = modCell.getLocation();
 
-                    modCell.setData(-4);
+                    modCell.setData(LightUpCellType.BULB.value);
 
                     newCase.setCell(modLoc.x, modLoc.y, modCell);
                     newCase.addModifiedData(modCell);
                 }
 
-                newCell.setData(-4);
+                newCell.setData(LightUpCellType.BULB.value);
 
                 newCase.setCell(loc.x, loc.y, newCell);
                 newCase.addModifiedData(newCell);

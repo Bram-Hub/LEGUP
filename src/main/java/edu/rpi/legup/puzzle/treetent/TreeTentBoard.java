@@ -14,6 +14,12 @@ public class TreeTentBoard extends GridBoard {
     private ArrayList<TreeTentClue> rowClues;
     private ArrayList<TreeTentClue> colClues;
 
+    /**
+     * Constructs a TreeTentBoard with the specified width and height
+     *
+     * @param width the number of columns in the board
+     * @param height the number of rows in the board
+     */
     public TreeTentBoard(int width, int height) {
         super(width, height);
 
@@ -30,27 +36,61 @@ public class TreeTentBoard extends GridBoard {
         }
     }
 
+    /**
+     * Constructs a square TreeTentBoard with the specified size
+     *
+     * @param size the number of rows and columns in the board
+     */
     public TreeTentBoard(int size) {
         this(size, size);
     }
 
+    /**
+     * Returns the list of lines on the board
+     *
+     * @return the list of {@link TreeTentLine} objects on the board
+     */
     public ArrayList<TreeTentLine> getLines() {
         return lines;
     }
 
+    /**
+     * Returns the list of row clues for the board
+     *
+     * @return the list of {@link TreeTentClue} objects representing row clues
+     */
     public ArrayList<TreeTentClue> getRowClues() {
         return rowClues;
     }
 
+    /**
+     * Returns the list of column clues for the board
+     *
+     * @return the list of {@link TreeTentClue} objects representing column clues
+     */
     public ArrayList<TreeTentClue> getColClues() {
         return colClues;
     }
 
+    /**
+     * Returns the {@link TreeTentCell} at the specified coordinates
+     *
+     * @param x the x coordinate of the cell
+     * @param y the y coordinate of the cell
+     * @return the TreeTentCell at the given coordinates
+     */
     @Override
     public TreeTentCell getCell(int x, int y) {
         return (TreeTentCell) super.getCell(x, y);
     }
 
+    /**
+     * Returns the puzzle element corresponding to the given element. For elements with index -2
+     * or -1, the element itself is returned directly.
+     *
+     * @param element the puzzle element to look up
+     * @return the corresponding puzzle element
+     */
     @Override
     public PuzzleElement getPuzzleElement(PuzzleElement element) {
         return switch (element.getIndex()) {
@@ -60,6 +100,14 @@ public class TreeTentBoard extends GridBoard {
         };
     }
 
+    /**
+     * Sets the puzzle element at the specified index. If the index is -1, the element is added
+     * to the lines list. Otherwise, the element is set at the given index in the puzzle elements
+     * list.
+     *
+     * @param index the index at which to set the puzzle element
+     * @param puzzleElement the puzzle element to set
+     */
     @Override
     public void setPuzzleElement(int index, PuzzleElement puzzleElement) {
         if (index == -1) {
@@ -69,6 +117,12 @@ public class TreeTentBoard extends GridBoard {
         }
     }
 
+    /**
+     * Notifies the board that a puzzle element has changed. If the element's index is -1, it is
+     * added to the lines list. Otherwise, the element is updated at the given index.
+     *
+     * @param puzzleElement the puzzle element that has changed
+     */
     @Override
     public void notifyChange(PuzzleElement puzzleElement) {
         int index = puzzleElement.getIndex();
@@ -79,6 +133,14 @@ public class TreeTentBoard extends GridBoard {
         }
     }
 
+    /**
+     * Returns the clue at the specified coordinates. Row clues are stored at x equal to the board
+     * width, and column clues are stored at y equal to the board height.
+     *
+     * @param x the x coordinate of the clue
+     * @param y the y coordinate of the clue
+     * @return the {@link TreeTentClue} at the specified coordinates, or null if none exists
+     */
     public TreeTentClue getClue(int x, int y) {
         if (x == getWidth() && 0 <= y && y < getHeight()) {
             return rowClues.get(y);

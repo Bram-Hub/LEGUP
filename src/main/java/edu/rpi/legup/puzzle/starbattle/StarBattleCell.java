@@ -23,10 +23,21 @@ public class StarBattleCell extends GridCell<Integer> {
         this.max = size;
     }
 
+    /**
+     * Gets the group index representing the region this cell belongs to.
+     *
+     * @return the group index
+     */
     public int getGroupIndex() {
         return groupIndex;
     }
 
+    /**
+     * Sets the type of this cell based on the provided Element and mouse interaction.
+     *
+     * @param e the Element used to determine the new type
+     * @param m the MouseEvent triggering the change
+     */
     @Override
     public void setType(Element e, MouseEvent m) {
         switch (e.getElementID()) {
@@ -61,6 +72,11 @@ public class StarBattleCell extends GridCell<Integer> {
         }
     }
 
+    /**
+     * Gets the StarBattleCellType corresponding to this cell's data value.
+     *
+     * @return the StarBattleCellType, or null if undefined
+     */
     public StarBattleCellType getType() {
         switch (data) {
             case -3:
@@ -77,6 +93,11 @@ public class StarBattleCell extends GridCell<Integer> {
         return null;
     }
 
+    /**
+     * Creates a deep copy of this StarBattleCell.
+     *
+     * @return a new StarBattleCell with the same properties
+     */
     public StarBattleCell copy() {
         StarBattleCell copy = new StarBattleCell(data, (Point) location.clone(), groupIndex, max);
         copy.setIndex(index);
