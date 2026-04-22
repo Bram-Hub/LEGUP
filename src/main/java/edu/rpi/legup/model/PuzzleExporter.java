@@ -6,6 +6,7 @@ import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.save.ExportFileException;
+import edu.rpi.legup.app.VersionInfo;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
