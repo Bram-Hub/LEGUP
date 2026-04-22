@@ -8,6 +8,14 @@ public class ThermometerController extends ElementController {
 
     // method for updating thermometer cells since number cells have unknown for
     // their fill type we don't need to worry about end user modifying them with this
+    /**
+     * Updates the state of a ThermometerCell based on user mouse interaction.
+     * Left click cycles forward through fill states, right click cycles backward,
+     * middle click outputs debug information, and Ctrl + left click opens the selection menu.
+     *
+     * @param e the MouseEvent representing the user's interaction
+     * @param data the PuzzleElement to be modified, expected to be a ThermometerCell
+     */
     @Override
     public void changeCell(MouseEvent e, PuzzleElement data) {
         ThermometerCell cell = (ThermometerCell) data;

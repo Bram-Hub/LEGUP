@@ -9,7 +9,9 @@ import java.awt.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
+/**
+ * Imports a Battleship puzzle from an XML file
+ */
 public class BattleshipImporter extends PuzzleImporter {
     public BattleshipImporter(Battleship battleShip) {
         super(battleShip);
@@ -95,7 +97,7 @@ public class BattleshipImporter extends PuzzleImporter {
                     if (battleShipBoard.getCell(x, y) == null) {
                         BattleshipCell cell =
                                 new BattleshipCell(BattleshipType.UNKNOWN, new Point(x, y));
-                        cell.setIndex(y * height + x);
+                        cell.setIndex(y * width + x);
                         cell.setModifiable(true);
                         battleShipBoard.setCell(x, y, cell);
                     }

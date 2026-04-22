@@ -15,18 +15,27 @@ import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
+/**
+ * Test class for the Biconditional Case Rule.
+ */
 public class BiconditionalCaseRuleTest {
 
     private static final CaseRuleBiconditional RULE = new CaseRuleBiconditional();
     private static ShortTruthTable stt;
-
+    /**
+     * Sets up the test class.
+     */
     @BeforeClass
     public static void setUp() {
         MockGameBoardFacade.getInstance();
         stt = new ShortTruthTable();
     }
-
+    /**
+     * Given a statement A <-> B where <-> is true, tests this case rule by ensuring that two branches
+     * are created: one where A and B are both true, and one where A and B are both false.
+     *
+     * @throws InvalidFileFormatException
+     */
     private void trueBiconditionalTest(
             String fileName, int biconditionalX, int biconditionalY, int aX, int aY, int bX, int bY)
             throws InvalidFileFormatException {
@@ -93,6 +102,8 @@ public class BiconditionalCaseRuleTest {
     /**
      * Given a statement A -> B where ^ is true, tests this case rule by ensuring that two branches
      * are created: one where A is false and one where B is true.
+     *
+     * @throws InvalidFileFormatException
      */
     @Test
     public void SimpleStatement1TrueTest() throws InvalidFileFormatException {
@@ -102,6 +113,8 @@ public class BiconditionalCaseRuleTest {
     /**
      * Given a statement ~(A|B) -> (C^D) where the -> is true, tests this case rule by ensuring that
      * two branches are created: one where ~ is false and one where ^ is true.
+     *
+     * @throws InvalidFileFormatException
      */
     @Test
     public void ComplexStatement1TrueTest() throws InvalidFileFormatException {
@@ -174,6 +187,8 @@ public class BiconditionalCaseRuleTest {
     /**
      * Given a statement A -> B where -> is false, tests this case rule by ensuring that one branch
      * is created where A is true and B is false.
+     *
+     * @throws InvalidFileFormatException
      */
     @Test
     public void SimpleStatement1FalseTest() throws InvalidFileFormatException {
@@ -183,6 +198,8 @@ public class BiconditionalCaseRuleTest {
     /**
      * Given a statement ~(A|B) -> (C^D) where -> is true, tests this case rule by ensuring that one
      * branch is created where ~ is true and ^ is false.
+     *
+     * @throws InvalidFileFormatException
      */
     @Test
     public void ComplexStatement1FalseTest() throws InvalidFileFormatException {

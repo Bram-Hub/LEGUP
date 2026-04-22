@@ -6,7 +6,7 @@ public class EmptyTile extends PlaceableElement {
 
     public EmptyTile() {
         super(
-                "MINE-PLAC-0002",
+                "MINE-PLAC-0000",
                 "Empty",
                 "An empty tile",
                 "edu/rpi/legup/images/minesweeper/tiles/Empty.png");

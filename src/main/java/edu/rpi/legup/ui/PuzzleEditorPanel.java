@@ -4,6 +4,7 @@ import static java.lang.System.exit;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
+import edu.rpi.legup.app.VersionInfo;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.EditorElementController;
 import edu.rpi.legup.history.ICommand;
@@ -33,6 +34,8 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import edu.rpi.legup.model.observer.IBoardListener;
@@ -91,7 +94,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      * @param frame the main application frame
      * @param legupUI the Legup UI instance
      */
-    public PuzzleEditorPanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
+    public PuzzleEditorPanel(@NotNull FileDialog fileDialog, @NotNull JFrame frame, @NotNull LegupUI legupUI) {
         this.fileDialog = fileDialog;
         this.frame = frame;
         this.legupUI = legupUI;
@@ -210,9 +213,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         JMenuItem exit = new JMenuItem("Exit");
         exit.addActionListener((ActionEvent) -> exitEditor());
         if (os.equals("mac")) {
-            exit.setAccelerator(
-                    KeyStroke.getKeyStroke(
-                            'Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+            exit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         } else {
             exit.setAccelerator(KeyStroke.getKeyStroke('Q', InputEvent.CTRL_DOWN_MASK));
         }
@@ -306,7 +307,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         menus[2].add(aboutLegup);
         aboutLegup.addActionListener(
                 l -> {
-                    JOptionPane.showMessageDialog(null, "Version: 5.1.0");
+                    JOptionPane.showMessageDialog(null, "Version: " + VersionInfo.getVersion());
                 });
         // add menus to menubar
         for (JMenu menu : menus) {
@@ -532,7 +533,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
                         String filename = savePuzzle();
                         File puzzlename = new File(filename);
-                        System.out.println(filename);
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.debug(filename);
+                        }
 
                         GameBoardFacade.getInstance().getLegupUI().displayPanel(1);
                         GameBoardFacade.getInstance()
@@ -546,6 +549,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 });
         getToolBar2Buttons()[2] = saveandsolve;
         toolBar2.add(getToolBar2Buttons()[2]);
+
         this.add(toolBar2, BorderLayout.NORTH);
     }
 
@@ -557,7 +561,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      * @param columns the number of columns in the puzzle
      * @throws IllegalArgumentException if the provided arguments are invalid
      */
-    public void loadPuzzleFromHome(String game, int rows, int columns)
+    public void loadPuzzleFromHome(@NotNull String game, int rows, int columns)
             throws IllegalArgumentException {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         try {
@@ -577,7 +581,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      * @param statements an array of statements to initialize the puzzle
      * @throws IllegalArgumentException if the provided arguments are invalid
      */
-    public void loadPuzzleFromHome(String game, String[] statements) {
+    public void loadPuzzleFromHome(@NotNull String game, @NotNull String[] statements) {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         try {
             facade.loadPuzzle(game, statements);
@@ -597,6 +601,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      * @return an array containing the selected file name and file object, or null if the operation
      *     was canceled
      */
+    @Nullable
     public Object[] promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
@@ -661,7 +666,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      * @param fileName the name of the puzzle file
      * @param puzzleFile the file object representing the puzzle file
      */
-    public void loadPuzzle(String fileName, File puzzleFile) {
+    public void loadPuzzle(@NotNull String fileName, @Nullable File puzzleFile) {
         if (puzzleFile != null && puzzleFile.exists()) {
             try {
                 legupUI.displayPanel(2);
@@ -707,14 +712,14 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      * @param instr the instruction message to display in the confirmation dialog
      * @return true if the user selected "No" or canceled; false if the user selected "Yes"
      */
-    public boolean noQuit(String instr) {
+    public boolean noQuit(@NotNull String instr) {
         int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_OPTION);
         return n != JOptionPane.YES_OPTION;
     }
 
     /** {@inheritDoc} */
     @Override
-    public void onPushChange(ICommand command) {}
+    public void onPushChange(@NotNull ICommand command) {}
 
     /** {@inheritDoc} */
     @Override
@@ -733,6 +738,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the board view
      */
+    @Nullable
     public BoardView getBoardView() {
         return boardView;
     }
@@ -742,6 +748,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the array of toolbar1 buttons
      */
+    @Nullable
     public JButton[] getToolBar1Buttons() {
         return toolBar1Buttons;
     }
@@ -751,7 +758,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @param toolBar1Buttons the array of toolbar1 buttons
      */
-    public void setToolBar1Buttons(JButton[] toolBar1Buttons) {
+    public void setToolBar1Buttons(@NotNull JButton[] toolBar1Buttons) {
         this.toolBar1Buttons = toolBar1Buttons;
     }
 
@@ -760,6 +767,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the array of toolbar2 buttons
      */
+    @Nullable
     public JButton[] getToolBar2Buttons() {
         return toolBar2Buttons;
     }
@@ -769,7 +777,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @param toolBar2Buttons the array of toolbar2 buttons
      */
-    public void setToolBar2Buttons(JButton[] toolBar2Buttons) {
+    public void setToolBar2Buttons(@NotNull JButton[] toolBar2Buttons) {
         this.toolBar2Buttons = toolBar2Buttons;
     }
 
@@ -784,7 +792,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @param puzzle the puzzle object to display
      */
-    public void setPuzzleView(Puzzle puzzle) {
+    public void setPuzzleView(@NotNull Puzzle puzzle) {
         this.boardView = puzzle.getBoardView();
         if (boardView.getBoard() instanceof GridBoard gridBoard && puzzle.getGoal() != null) {
             for (GridCell goalCell : puzzle.getGoal().getCells()) {
@@ -918,6 +926,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      * @return the path where the puzzle was saved, or an empty string if the save operation was
      *     canceled
      */
+    @NotNull
     private String savePuzzle() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
@@ -963,7 +972,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 }
                 puzzle.setTag(path.substring(path.lastIndexOf(File.separator) + 1));
                 exporter.exportPuzzle(path);
-
             } catch (ExportFileException e) {
                 e.printStackTrace();
             }
@@ -976,6 +984,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the dynamic board view
      */
+    @Nullable
     public DynamicView getDynamicBoardView() {
         return dynamicBoardView;
     }

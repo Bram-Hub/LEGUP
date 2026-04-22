@@ -31,8 +31,8 @@ public class MinesweeperExporter extends PuzzleExporter {
         appendGoalElement(newDocument, boardElement, board);
 
         final org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
-        for (PuzzleElement<?> puzzleElement : board.getPuzzleElements()) {
-            final MinesweeperCell cell = (MinesweeperCell) puzzleElement;
+        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
+            MinesweeperCell cell = (MinesweeperCell) puzzleElement;
             if (!MinesweeperTileData.unset().equals(cell.getData())) {
                 final org.w3c.dom.Element cellElement =
                         puzzle.getFactory().exportCell(newDocument, puzzleElement);

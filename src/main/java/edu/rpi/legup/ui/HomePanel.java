@@ -2,6 +2,7 @@ package edu.rpi.legup.ui;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
+import edu.rpi.legup.app.VersionInfo;
 import edu.rpi.legup.controller.CursorController;
 import edu.rpi.legup.model.PuzzleExporter;
 import java.awt.*;
@@ -24,6 +25,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -50,7 +53,7 @@ public class HomePanel extends LegupPanel {
     private ActionListener openProofListener =
             new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
+                public void actionPerformed(@NotNull ActionEvent e) {
                     legupUI.getProofEditor().loadPuzzle("", null);
                 }
             };
@@ -61,7 +64,7 @@ public class HomePanel extends LegupPanel {
      * @param frame the main application frame
      * @param legupUI the LEGUP user interface
      */
-    public HomePanel(JFrame frame, LegupUI legupUI) {
+    public HomePanel(@NotNull JFrame frame, @NotNull LegupUI legupUI) {
         this.legupUI = legupUI;
         this.frame = frame;
         setLayout(new GridLayout(1, 2));
@@ -75,6 +78,7 @@ public class HomePanel extends LegupPanel {
      *
      * @return the menu bar
      */
+    @NotNull
     public JMenuBar getMenuBar() {
         this.menuBar = new JMenuBar();
         JMenu settings = new JMenu("Settings");
@@ -83,7 +87,9 @@ public class HomePanel extends LegupPanel {
         preferences.addActionListener(
                 a -> {
                     PreferencesDialog preferencesDialog = new PreferencesDialog(this.frame);
-                    System.out.println("Preferences clicked");
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("Preferences clicked");
+                    }
                 });
         settings.addSeparator();
         settings.add(preferences);
@@ -118,7 +124,8 @@ public class HomePanel extends LegupPanel {
      * @param height the target height
      * @return the resized icon
      */
-    private static ImageIcon resizeButtonIcon(ImageIcon icon, int width, int height) {
+    @NotNull
+    private static ImageIcon resizeButtonIcon(@NotNull ImageIcon icon, int width, int height) {
         Image image = icon.getImage();
         Image resizedImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImage);
@@ -279,7 +286,9 @@ public class HomePanel extends LegupPanel {
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
-                    LOGGER.debug("Finished autograding");
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("Finished autograding");
+                    }
 
                     batchGraderOptions.dispose();
                 });
@@ -301,10 +310,11 @@ public class HomePanel extends LegupPanel {
      * status. The method allows the user to select a directory, and evaluates each XML file for a
      * "solved?" status. Results are saved in a "result.csv" file.
      *
+     * @param folder the directory to process
      * @effect Selects a directory, processes each XML file to check for "solved?" status, and
      *     writes results to "result.csv". Opens the CSV file upon completion.
      */
-    private void use_xml_to_check(File folder) {
+    private void use_xml_to_check(@NotNull File folder) {
         /* Select a folder, go through each .xml file in the subfolders, look for "isSolved" flag */
         File resultFile = new File(folder.getAbsolutePath() + File.separator + "result.csv");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile))) {
@@ -332,10 +342,13 @@ public class HomePanel extends LegupPanel {
     }
 
     /**
-     * @param file - the input file
-     * @return Parsed document of file if possible, null otherwise
+     * Attempts to parse the given file as an XML document.
+     *
+     * @param file the input file
+     * @return parsed Document of file if possible, null otherwise
      */
-    public Document isxmlfile(File file) {
+    @Nullable
+    public Document isxmlfile(@NotNull File file) {
         Document doc = null;
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -348,13 +361,14 @@ public class HomePanel extends LegupPanel {
     }
 
     /**
-     * reads the puzzle name and type, and outputs to .csv file
+     * Reads the puzzle name and type, and outputs to .csv file
      *
-     * @param doc - the parsed file currently being graded
-     * @param writer - write to .csv
-     * @throws IOException
+     * @param doc the parsed file currently being graded
+     * @param writer write to .csv
+     * @throws IOException if an I/O error occurs
      */
-    private void parsePuzzle(Document doc, BufferedWriter writer) throws IOException {
+    private void parsePuzzle(@NotNull Document doc, @NotNull BufferedWriter writer)
+            throws IOException {
         NodeList puzzleNodes = doc.getElementsByTagName("puzzle");
         if (puzzleNodes.getLength() <= 0) {
             writer.write("not a LEGUP puzzle!");
@@ -374,11 +388,12 @@ public class HomePanel extends LegupPanel {
      * Reads the hashed solved state and export timestamp, unhashes information and prints out to
      * csv
      *
-     * @param doc - the parsed file currently being graded
-     * @param writer - write to .csv
-     * @throws IOException
+     * @param doc the parsed file currently being graded
+     * @param writer write to .csv
+     * @throws IOException if an I/O error occurs
      */
-    private void parseSolvedState(Document doc, BufferedWriter writer) throws IOException {
+    private void parseSolvedState(@NotNull Document doc, @NotNull BufferedWriter writer)
+            throws IOException {
         NodeList solvedNodes = doc.getElementsByTagName("solved");
         if (solvedNodes.getLength() <= 0) {
             writer.write(",missing flag!");
@@ -413,12 +428,15 @@ public class HomePanel extends LegupPanel {
     }
 
     /**
-     * @param folder - the input folder
-     * @param writer - write to .csv
-     * @param path - the current path
-     * @throws IOException
+     * Recursively parses a folder and writes puzzle grading results to a CSV file.
+     *
+     * @param folder the input folder
+     * @param writer write to .csv
+     * @param path the current path
+     * @throws IOException if an I/O error occurs
      */
-    private void recursive_parser(File folder, BufferedWriter writer, String path)
+    private void recursive_parser(
+            @NotNull File folder, @NotNull BufferedWriter writer, @NotNull String path)
             throws IOException {
         // Empty folder
         if (Objects.requireNonNull(folder.listFiles()).length == 0) {
@@ -444,7 +462,9 @@ public class HomePanel extends LegupPanel {
 
                 Document doc;
                 if ((doc = isxmlfile(fileEntry)) == null) {
-                    LOGGER.debug("{} is not a '.xml' file", fName);
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("{} is not a '.xml' file", fName);
+                    }
                     writer.write(fName + ",Not an xml file!\n");
                     continue;
                 }
@@ -454,19 +474,23 @@ public class HomePanel extends LegupPanel {
                 String puzzleTag = puzzleElement.getAttribute("tag");
                 if (!_tagsToGrade.isEmpty()
                         && _tagsToGrade.stream().noneMatch(puzzleTag::contains)) {
-                    LOGGER.debug(
-                            "'{}' is not graded with tag '{}'",
-                            puzzleElement.getAttribute("name"),
-                            puzzleTag);
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug(
+                                "'{}' is not graded with tag '{}'",
+                                puzzleElement.getAttribute("name"),
+                                puzzleTag);
+                    }
                     continue;
                 }
                 String puzzleType = puzzleElement.getAttribute("name");
                 if (!_typesToGrade.isEmpty()
                         && _typesToGrade.stream().noneMatch(puzzleType::contains)) {
-                    LOGGER.debug(
-                            "'{}' is not graded with type '{}'",
-                            puzzleElement.getAttribute("name"),
-                            puzzleType);
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug(
+                                "'{}' is not graded with type '{}'",
+                                puzzleElement.getAttribute("name"),
+                                puzzleType);
+                    }
                     continue;
                 }
 
@@ -492,9 +516,11 @@ public class HomePanel extends LegupPanel {
      *
      * @param folder Folder to update all files, and recurse for all subdirectories
      */
-    private void recursiveUpdater(File folder) {
+    private void recursiveUpdater(@NotNull File folder) {
         if (Objects.requireNonNull(folder.listFiles()).length == 0) {
-            LOGGER.debug("Empty directory");
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Empty directory");
+            }
             return;
         }
         for (File fileEntry : Objects.requireNonNull(folder.listFiles())) {
@@ -506,7 +532,9 @@ public class HomePanel extends LegupPanel {
             String fName = fileEntry.getName();
             Document doc;
             if ((doc = isxmlfile(fileEntry)) == null) {
-                LOGGER.debug("{} is not a '.xml' file", fileEntry.getName());
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("{} is not a '.xml' file", fileEntry.getName());
+                }
                 continue;
             }
 
@@ -552,9 +580,7 @@ public class HomePanel extends LegupPanel {
      * by Bram, and version information.
      */
     private void initText() {
-        // TODO: add version text after auto-changing version label is implemented. (text[2] =
-        // version)
-        this.text = new JLabel[2];
+        this.text = new JLabel[3];
 
         JLabel welcome = new JLabel("Welcome to LEGUP");
         welcome.setFont(new Font("Roboto", Font.BOLD, 23));
@@ -564,12 +590,13 @@ public class HomePanel extends LegupPanel {
         credits.setFont(new Font("Roboto", Font.PLAIN, 12));
         credits.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel version = new JLabel("Version 5.1.0"); // This should be autochanged in the future
+        JLabel version = new JLabel("Version " + VersionInfo.getVersion());
         version.setFont(new Font("Roboto", Font.ITALIC, 10));
         version.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         this.text[0] = welcome;
         this.text[1] = credits;
+        this.text[2] = version;
     }
 
     /** Renders the user interface components */
@@ -612,7 +639,7 @@ public class HomePanel extends LegupPanel {
         try {
             this.openEditorWithNewPuzzle(game, r, c);
         } catch (IllegalArgumentException e) {
-            System.out.println("Failed to open editor with new puzzle");
+            LOGGER.error("Failed to open editor with new puzzle");
             e.printStackTrace(System.out);
         }
     }
@@ -625,7 +652,7 @@ public class HomePanel extends LegupPanel {
      * @param columns the number of columns in the puzzle
      * @throws IllegalArgumentException if the dimensions are invalid
      */
-    public void openEditorWithNewPuzzle(String game, int rows, int columns)
+    public void openEditorWithNewPuzzle(@NotNull String game, int rows, int columns)
             throws IllegalArgumentException {
         if (game.isEmpty()) {
             this.legupUI.displayPanel(2);
@@ -661,7 +688,7 @@ public class HomePanel extends LegupPanel {
      * @param game a String containing the name of the game
      * @param statements an array of statements
      */
-    public void openEditorWithNewPuzzle(String game, String[] statements) {
+    public void openEditorWithNewPuzzle(@NotNull String game, @NotNull String[] statements) {
         // Validate the text input
         GameBoardFacade facade = GameBoardFacade.getInstance();
         boolean isValidTextInput = facade.validateTextInput(game, statements);

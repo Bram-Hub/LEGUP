@@ -8,6 +8,6 @@ public class NumberTile extends PlaceableElement {
                 "MINE-PLAC-0001",
                 "Number",
                 "A number",
-                "edu/rpi/legup/images/minesweeper/tiles/Unset.png");
+                "edu/rpi/legup/images/minesweeper/tiles/NumberTile.png");
     }
 }

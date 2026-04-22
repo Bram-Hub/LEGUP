@@ -10,6 +10,7 @@ import java.awt.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.jetbrains.annotations.NotNull;
 
 public class LightUpCellFactory extends ElementFactory {
     /**
@@ -21,7 +22,8 @@ public class LightUpCellFactory extends ElementFactory {
      * @throws InvalidFileFormatException if file is invalid
      */
     @Override
-    public LightUpCell importCell(Node node, Board board) throws InvalidFileFormatException {
+    public @NotNull LightUpCell importCell(@NotNull Node node, @NotNull Board board)
+            throws InvalidFileFormatException {
         try {
             if (!node.getNodeName().equalsIgnoreCase("cell")) {
                 throw new InvalidFileFormatException(
@@ -45,7 +47,7 @@ public class LightUpCellFactory extends ElementFactory {
             }
 
             LightUpCell cell = new LightUpCell(value, new Point(x, y));
-            cell.setIndex(y * height + x);
+            cell.setIndex(y * width + x);
             return cell;
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
@@ -62,7 +64,8 @@ public class LightUpCellFactory extends ElementFactory {
      * @param puzzleElement PuzzleElement cell
      * @return xml PuzzleElement
      */
-    public org.w3c.dom.Element exportCell(Document document, PuzzleElement puzzleElement) {
+    public @NotNull org.w3c.dom.Element exportCell(
+            @NotNull Document document, @NotNull PuzzleElement puzzleElement) {
         org.w3c.dom.Element cellElement = document.createElement("cell");
 
         LightUpCell cell = (LightUpCell) puzzleElement;

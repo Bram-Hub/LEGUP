@@ -16,6 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A dialog for managing user preferences in the LEGUP application. This dialog allows users to
@@ -60,7 +62,8 @@ public class PreferencesDialog extends JDialog {
      * @param rules the RuleFrame associated with the proof editor
      * @return a new instance of PreferencesDialog
      */
-    public static PreferencesDialog CreateDialogForProofEditor(Frame frame, RuleFrame rules) {
+    @NotNull
+    public static PreferencesDialog CreateDialogForProofEditor(@NotNull Frame frame, @NotNull RuleFrame rules) {
         PreferencesDialog p = new PreferencesDialog(frame);
         p.rulesFrame = rules;
         return p;
@@ -71,7 +74,7 @@ public class PreferencesDialog extends JDialog {
      *
      * @param frame the parent frame
      */
-    public PreferencesDialog(Frame frame) {
+    public PreferencesDialog(@NotNull Frame frame) {
         super(frame);
 
         setTitle("Preferences");
@@ -125,7 +128,7 @@ public class PreferencesDialog extends JDialog {
      *
      * @param prefs the LegupPreferences instance holding user preferences
      */
-    private void toggleDarkMode(LegupPreferences prefs) {
+    private void toggleDarkMode(@NotNull LegupPreferences prefs) {
         try {
             if (Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
                 UIManager.setLookAndFeel(new FlatDarkLaf());
@@ -143,6 +146,7 @@ public class PreferencesDialog extends JDialog {
      *
      * @return a JScrollPane containing the general preferences panel
      */
+    @NotNull
     private JScrollPane createGeneralTab() {
         LegupPreferences prefs = LegupPreferences.getInstance();
         JScrollPane scrollPane = new JScrollPane();
@@ -322,7 +326,14 @@ public class PreferencesDialog extends JDialog {
         return scrollPane;
     }
 
-    private JScrollPane createPuzzleTab(Puzzle puzzle) {
+    /**
+     * Creates the puzzle preferences tab for the given puzzle
+     *
+     * @param puzzle the puzzle whose rules will be displayed
+     * @return a JScrollPane containing the puzzle preferences panel
+     */
+    @NotNull
+    private JScrollPane createPuzzleTab(@NotNull Puzzle puzzle) {
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
@@ -371,7 +382,8 @@ public class PreferencesDialog extends JDialog {
      * @param rule the rule object to be displayed
      * @return a JPanel representing the row for the rule
      */
-    private JPanel createRuleRow(Rule rule) {
+    @NotNull
+    private JPanel createRuleRow(@NotNull Rule rule) {
         JPanel ruleRow = new JPanel();
         ruleRow.setLayout(new BorderLayout());
 
@@ -385,7 +397,7 @@ public class PreferencesDialog extends JDialog {
         ruleAcc.addMouseListener(
                 new MouseAdapter() {
                     @Override
-                    public void mouseEntered(MouseEvent e) {
+                    public void mouseEntered(@NotNull MouseEvent e) {
                         ruleAcc.requestFocusInWindow();
                     }
                 });
@@ -393,7 +405,7 @@ public class PreferencesDialog extends JDialog {
         ruleAcc.addKeyListener(
                 new KeyAdapter() {
                     @Override
-                    public void keyPressed(KeyEvent e) {
+                    public void keyPressed(@NotNull KeyEvent e) {
                         int keyCode = e.getKeyCode();
                         String combo = "";
                         if (e.isControlDown()) {
@@ -430,7 +442,8 @@ public class PreferencesDialog extends JDialog {
      * @param text the text to be displayed on the label
      * @return a JPanel containing the left-aligned label
      */
-    private JPanel createLeftLabel(String text) {
+    @NotNull
+    private JPanel createLeftLabel(@NotNull String text) {
         JPanel labelRow = new JPanel();
         labelRow.setLayout(new BorderLayout());
         JLabel label = new JLabel(text);
@@ -449,6 +462,7 @@ public class PreferencesDialog extends JDialog {
      *
      * @return a JSeparator with a fixed height
      */
+    @NotNull
     private JSeparator createLineSeparator() {
         JSeparator separator = new JSeparator();
         separator.setMaximumSize(new Dimension(Integer.MAX_VALUE, 5));

@@ -1,16 +1,13 @@
 name: Feature request
 description: Suggest an idea for this project
 title: "[FEATURE] <description>"
-  <<<<<<< HEAD
 labels: [ new feature ]
-  =======
 labels: [ enhancement, new feature ]
-  >>>>>>> b28ba6c38166142ecd457ffee2797fffc89a51b4
 body:
   - type: textarea
     id: description
     attributes:
-      label: "Is your feature request related to a problem? Please describe."
+      label:  "Is your feature request related to a problem? Please describe."
       description: "A clear and concise description of what the problem is."
       placeholder: "Ex. I'm always frustrated when [...]"
     validations:
@@ -20,6 +17,7 @@ body:
     attributes:
       label: "Describe the solution you'd like"
       description: "A clear and concise description of what you want to happen."
+      placeholder: "A possible solution is "
     validations:
       required: true
   - type: textarea
@@ -34,5 +32,6 @@ body:
     attributes:
       label: "Additional Context"
       description: "Add any other context or screenshots about the feature request here."
+      placeholder: "additional context for this feature is"
     validations:
       required: false

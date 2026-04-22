@@ -7,14 +7,30 @@ import java.awt.event.MouseEvent;
 
 public class TreeTentCell extends GridCell<TreeTentType> {
 
+    /**
+     * Constructs a TreeTentCell with the specified type and location.
+     *
+     * @param value the TreeTentType value of the cell
+     * @param location the position of the cell on the board
+     */
     public TreeTentCell(TreeTentType value, Point location) {
         super(value, location);
     }
 
+    /**
+     * Gets the type of this TreeTentCell.
+     *
+     * @return the TreeTentType of this cell
+     */
     public TreeTentType getType() {
         return data;
     }
 
+    /**
+     * Gets the integer value corresponding to the TreeTentType of this cell.
+     *
+     * @return 1 for TREE, 2 for GRASS, 3 for TENT, or 0 for UNKNOWN
+     */
     public int getValue() {
         switch (data) {
             case TREE:
@@ -28,6 +44,12 @@ public class TreeTentCell extends GridCell<TreeTentType> {
         }
     }
 
+    /**
+     * Sets the type of this TreeTentCell based on the provided element.
+     *
+     * @param e the element representing the new type
+     * @param m the mouse event triggering the change
+     */
     @Override
     public void setType(Element e, MouseEvent m) {
         switch (e.getElementName()) {
@@ -45,6 +67,11 @@ public class TreeTentCell extends GridCell<TreeTentType> {
         }
     }
 
+    /**
+     * Creates a deep copy of this TreeTentCell.
+     *
+     * @return a new TreeTentCell with the same data and properties
+     */
     @Override
     public TreeTentCell copy() {
         TreeTentCell copy = new TreeTentCell(data, (Point) location.clone());

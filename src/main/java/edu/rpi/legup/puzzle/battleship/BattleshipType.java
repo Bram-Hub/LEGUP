@@ -17,6 +17,7 @@ public enum BattleshipType {
 
     public int value;
 
+    /** Constructor for BattleshipType enum */
     BattleshipType() {
         this.value = this.ordinal();
     }

@@ -44,6 +44,12 @@ public class TreeTentView extends GridBoardView {
     private ArrayList<TreeTentClueView> southClues;
     private ArrayList<TreeTentClueView> westClues;
 
+    /**
+     * Constructs a TreeTentView for the given TreeTentBoard. Initializes all cell views,
+     * line views, and clue views for rendering.
+     *
+     * @param board the TreeTentBoard to visualize
+     */
     public TreeTentView(TreeTentBoard board) {
         super(new BoardController(), new TreeTentController(), board.getDimension());
 
@@ -147,26 +153,56 @@ public class TreeTentView extends GridBoardView {
         return null;
     }
 
+    /**
+     * Gets the list of line views representing connections between cells.
+     *
+     * @return list of TreeTentLineView objects
+     */
     public ArrayList<TreeTentLineView> getLineViews() {
         return lineViews;
     }
 
+    /**
+     * Gets the list of north-facing clue views.
+     *
+     * @return list of north clue views
+     */
     public ArrayList<TreeTentClueView> getNorthClues() {
         return northClues;
     }
 
+    /**
+     * Gets the list of east-facing clue views.
+     *
+     * @return list of east clue views
+     */
     public ArrayList<TreeTentClueView> getEastClues() {
         return eastClues;
     }
 
+    /**
+     * Gets the list of south-facing clue views.
+     *
+     * @return list of south clue views
+     */
     public ArrayList<TreeTentClueView> getSouthClues() {
         return southClues;
     }
 
+    /**
+     * Gets the list of west-facing clue views.
+     *
+     * @return list of west clue views
+     */
     public ArrayList<TreeTentClueView> getWestClues() {
         return westClues;
     }
 
+    /**
+     * Computes the proper size of the board including padding for clue rows/columns.
+     *
+     * @return the calculated dimension for rendering the board
+     */
     @Override
     protected Dimension getProperSize() {
         Dimension boardViewSize = new Dimension();
@@ -198,6 +234,11 @@ public class TreeTentView extends GridBoardView {
         }
     }
 
+    /**
+     * Draws the board, including cells, lines, and clue views.
+     *
+     * @param graphics2D the Graphics2D context used for rendering
+     */
     @Override
     public void drawBoard(Graphics2D graphics2D) {
         super.drawBoard(graphics2D);

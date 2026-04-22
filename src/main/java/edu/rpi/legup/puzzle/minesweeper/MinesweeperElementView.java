@@ -25,16 +25,16 @@ public class MinesweeperElementView extends GridElementView {
     public void drawElement(@NotNull Graphics2D graphics2D) {
         final MinesweeperCell cell = (MinesweeperCell) puzzleElement;
         final MinesweeperTileType type = cell.getTileType();
+        //does the number drawing
         if (type == MinesweeperTileType.NUMBER) {
             graphics2D.setStroke(new BasicStroke(1));
-            graphics2D.setColor(Color.WHITE);
+            graphics2D.setColor(new Color(203, 203, 203));
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
 
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
             int intValue = ((MinesweeperCell) puzzleElement).getData().data();
 
-            final String value = String.valueOf(intValue);
             if (intValue == 1) {
                 Color MSBLUE = new Color(7, 3, 251);
                 graphics2D.setColor(MSBLUE);
@@ -62,24 +62,36 @@ public class MinesweeperElementView extends GridElementView {
             }
 
             graphics2D.setFont(FONT);
+            final String value = String.valueOf(intValue);
             final FontMetrics metrics = graphics2D.getFontMetrics(FONT);
             final int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
             final int yText =
                     location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
+
             graphics2D.drawString(value, xText, yText);
             return;
         }
+        //does the drawing for the unset tile
         if (type == MinesweeperTileType.UNSET) {
             graphics2D.setStroke(new BasicStroke(1));
+            graphics2D.drawImage(
+                    MinesweeperView.UNSET_IMAGE,
+                    location.x,
+                    location.y,
+                    size.width,
+                    size.height,
+                    Color.GRAY,
+                    null);
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
-            graphics2D.setColor(Color.DARK_GRAY);
-            graphics2D.fillRect(location.x, location.y, size.width, size.height);
             return;
         }
+        //does the drawing for an empty tile
         if (type == MinesweeperTileType.EMPTY) {
-            graphics2D.setColor(Color.LIGHT_GRAY);
+            graphics2D.setStroke(new BasicStroke(1));
+            graphics2D.setColor(new Color(203, 203, 203));
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
+
             graphics2D.drawImage(
                     MinesweeperView.EMPTY_IMAGE,
                     location.x,
@@ -91,7 +103,9 @@ public class MinesweeperElementView extends GridElementView {
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(location.x, location.y, size.width, size.height);
         }
+        //does the mine drawing
         if (type == MinesweeperTileType.MINE) {
+            graphics2D.setStroke(new BasicStroke(1));
             graphics2D.setColor(Color.LIGHT_GRAY);
             graphics2D.fillRect(location.x, location.y, size.width, size.height);
             graphics2D.drawImage(

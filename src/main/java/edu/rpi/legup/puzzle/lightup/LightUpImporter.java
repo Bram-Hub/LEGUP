@@ -107,7 +107,7 @@ public class LightUpImporter extends PuzzleImporter {
                 for (int x = 0; x < width; x++) {
                     if (lightUpBoard.getCell(x, y) == null) {
                         LightUpCell cell = new LightUpCell(-2, new Point(x, y));
-                        cell.setIndex(y * height + x);
+                        cell.setIndex(y * width + x);
                         cell.setModifiable(true);
                         lightUpBoard.setCell(x, y, cell);
                     }
@@ -143,6 +143,12 @@ public class LightUpImporter extends PuzzleImporter {
         }
     }
 
+    /**
+     * Creates the board from an array of statements
+     *
+     * @param statements array of string statements representing the board
+     * @throws UnsupportedOperationException since Light Up does not accept text input
+     */
     @Override
     public void initializeBoard(String[] statements) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Light Up cannot accept text input");

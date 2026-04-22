@@ -30,7 +30,6 @@ public class AndIntroductionDirectRuleTest {
      * <p>Asserts that if at least 1 of A or B is false, then this is a valid application of the
      * rule if and only if ^ is false.
      *
-     * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
      */
     @Test
@@ -67,7 +66,6 @@ public class AndIntroductionDirectRuleTest {
      * <p>Asserts that setting ^ to true is a valid application of the rule if and only if both A
      * and B are true.
      *
-     * @param filePath The file path for test board setup.
      * @throws InvalidFileFormatException
      */
     @Test

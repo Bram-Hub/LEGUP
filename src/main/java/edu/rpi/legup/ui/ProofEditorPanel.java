@@ -2,6 +2,7 @@ package edu.rpi.legup.ui;
 
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
+import edu.rpi.legup.app.VersionInfo;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.RuleController;
 import edu.rpi.legup.history.ICommand;
@@ -37,6 +38,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * {@code ProofEditorPanel} is a panel that serves as the main user interface component for the
@@ -94,22 +97,22 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     public static final int INTERN_RO = 64;
     public static final int AUTO_JUST = 128;
     private static final String[] PROFILES = {
-        "No Assistance",
-        "Rigorous Proof",
-        "Casual Proof",
-        "Assisted Proof",
-        "Guided Proof",
-        "Training-Wheels Proof",
-        "No Restrictions"
+            "No Assistance",
+            "Rigorous Proof",
+            "Casual Proof",
+            "Assisted Proof",
+            "Guided Proof",
+            "Training-Wheels Proof",
+            "No Restrictions"
     };
     private static final int[] PROF_FLAGS = {
-        0,
-        ALLOW_JUST | REQ_STEP_JUST,
-        ALLOW_JUST,
-        ALLOW_HINTS | ALLOW_JUST | AUTO_JUST,
-        ALLOW_HINTS | ALLOW_JUST | REQ_STEP_JUST,
-        ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_JUST | IMD_FEEDBACK | INTERN_RO,
-        ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_FULLAI | ALLOW_JUST
+            0,
+            ALLOW_JUST | REQ_STEP_JUST,
+            ALLOW_JUST,
+            ALLOW_HINTS | ALLOW_JUST | AUTO_JUST,
+            ALLOW_HINTS | ALLOW_JUST | REQ_STEP_JUST,
+            ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_JUST | IMD_FEEDBACK | INTERN_RO,
+            ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_FULLAI | ALLOW_JUST
     };
     private JMenu proofMode = new JMenu("Proof Mode");
     private JCheckBoxMenuItem[] proofModeItems = new JCheckBoxMenuItem[PROF_FLAGS.length];
@@ -129,7 +132,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * @param frame the {@code JFrame} that contains this panel
      * @param legupUI the {@code LegupUI} instance managing the user interface
      */
-    public ProofEditorPanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
+    public ProofEditorPanel(@NotNull FileDialog fileDialog, @NotNull JFrame frame, @NotNull LegupUI legupUI) {
         this.fileDialog = fileDialog;
         this.frame = frame;
         this.legupUI = legupUI;
@@ -170,6 +173,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the {@code JMenuBar} instance containing the menus and menu items for this panel
      */
+    @NotNull
     public JMenuBar getMenuBar() {
         if (mBar != null) return mBar;
         mBar = new JMenuBar();
@@ -481,7 +485,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         about.add(aboutLegup);
         aboutLegup.addActionListener(
                 l -> {
-                    JOptionPane.showMessageDialog(null, "Version: 5.1.0");
+                    JOptionPane.showMessageDialog(null, "Version: " + VersionInfo.getVersion());
                 });
 
         about.add(helpLegup);
@@ -520,6 +524,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * @return an array containing the file name and the selected file, or {@code null} if the
      *     operation was canceled
      */
+    @Nullable
     public Object[] promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
@@ -547,7 +552,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         fileBrowser.setAcceptAllFileFilterUsed(false);
 
         File puzzlePath = fileBrowser.getSelectedFile();
-        System.out.println(puzzlePath.getAbsolutePath());
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(puzzlePath.getAbsolutePath());
+        }
 
         if (puzzlePath != null) {
             fileName = puzzlePath.getAbsolutePath();
@@ -559,7 +566,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             return null;
         }
 
-        System.out.println(preferences.getSavedPath());
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(preferences.getSavedPath());
+        }
         return new Object[] {fileName, puzzleFile};
     }
 
@@ -589,7 +598,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * @param fileName the name of the file to load
      * @param puzzleFile the file object representing the puzzle file
      */
-    public void loadPuzzle(String fileName, File puzzleFile) {
+    public void loadPuzzle(@NotNull String fileName, @Nullable File puzzleFile) {
         if (puzzleFile == null && fileName.isEmpty()) {
             legupUI.displayPanel(1);
         }
@@ -783,7 +792,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * @param instr the message to display in the confirmation dialog
      * @return {@code true} if the user chooses not to quit, {@code false} otherwise
      */
-    public boolean noquit(String instr) {
+    public boolean noquit(@NotNull String instr) {
         int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_OPTION);
         return n != JOptionPane.YES_OPTION;
     }
@@ -993,7 +1002,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @param toolBar1Buttons toolbar buttons
      */
-    public void setToolBar1Buttons(JButton[] toolBar1Buttons) {
+    public void setToolBar1Buttons(@NotNull JButton[] toolBar1Buttons) {
         this.toolBar1Buttons = toolBar1Buttons;
     }
 
@@ -1002,7 +1011,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @param toolBar2Buttons toolbar buttons
      */
-    public void setToolBar2Buttons(JButton[] toolBar2Buttons) {
+    public void setToolBar2Buttons(@NotNull JButton[] toolBar2Buttons) {
         this.toolBar2Buttons = toolBar2Buttons;
     }
 
@@ -1011,6 +1020,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return toolbar1 buttons
      */
+    @Nullable
     public JButton[] getToolBar1Buttons() {
         return toolBar1Buttons;
     }
@@ -1020,6 +1030,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return toolbar2 buttons
      */
+    @Nullable
     public JButton[] getToolBar2Buttons() {
         return toolBar2Buttons;
     }
@@ -1063,7 +1074,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      */
     private void directionsToolButton() {
         String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
-        // System.out.println(puzzleName);
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(puzzleName);
+        }
         try {
             if (puzzleName.equals("Fillapix")) {
                 java.awt.Desktop.getDesktop()
@@ -1110,7 +1123,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @param puzzle the puzzle to be displayed
      */
-    public void setPuzzleView(Puzzle puzzle) {
+    public void setPuzzleView(@NotNull Puzzle puzzle) {
         this.boardView = puzzle.getBoardView();
 
         boardSidePanel.remove(dynamicBoardView);
@@ -1209,7 +1222,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * @param path the current path in the directory traversal
      * @throws IOException if an error occurs while writing to the CSV file
      */
-    private void traverseDir(File folder, BufferedWriter writer, String path) throws IOException {
+    private void traverseDir(@NotNull File folder, @NotNull BufferedWriter writer, @NotNull String path)
+            throws IOException {
         // Recursively traverse directory
         GameBoardFacade facade = GameBoardFacade.getInstance();
 
@@ -1258,7 +1272,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                     writer.append(fName).append(",Invalid,,Ungradeable\n");
                 }
             } else {
-                LOGGER.debug("Failed to run sim");
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Failed to run sim");
+                }
             }
         }
     }
@@ -1268,6 +1284,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the current {@link BoardView}
      */
+    @Nullable
     public BoardView getBoardView() {
         return boardView;
     }
@@ -1277,6 +1294,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the current {@link DynamicView}
      */
+    @Nullable
     public DynamicView getDynamicBoardView() {
         return dynamicBoardView;
     }
@@ -1286,6 +1304,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the current {@link TreePanel}
      */
+    @Nullable
     public TreePanel getTreePanel() {
         return treePanel;
     }
@@ -1304,7 +1323,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * @param command action to push onto the stack
      */
     @Override
-    public void onPushChange(ICommand command) {
+    public void onPushChange(@NotNull ICommand command) {
         LOGGER.info("Pushing " + command.getClass().getSimpleName() + " to stack.");
         undo.setEnabled(true);
         redo.setEnabled(false);
@@ -1391,7 +1410,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
     }
 
-    public void showStatus(String status, boolean error, int timer) {
+    public void showStatus(@NotNull String status, boolean error, int timer) {
         // TODO: implement
     }
 

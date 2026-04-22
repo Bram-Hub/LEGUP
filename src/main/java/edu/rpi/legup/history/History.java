@@ -87,7 +87,9 @@ public class History {
     public void clear() {
         history.clear();
         curIndex = -1;
-        LOGGER.debug("History Cleared");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("History Cleared");
+        }
         GameBoardFacade.getInstance().notifyHistoryListeners(IHistoryListener::onClearHistory);
     }
 

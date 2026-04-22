@@ -101,9 +101,8 @@ public abstract class PuzzleExporter {
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             Document newDocument = docBuilder.newDocument();
 
-            // hardcoded version number
             org.w3c.dom.Element legupElement = newDocument.createElement("Legup");
-            legupElement.setAttribute("version", "6.1.0");
+            legupElement.setAttribute("version", VersionInfo.getVersion());
             newDocument.appendChild(legupElement);
 
             org.w3c.dom.Element puzzleElement = newDocument.createElement("puzzle");
@@ -125,6 +124,8 @@ public abstract class PuzzleExporter {
             LocalDateTime dateTime = LocalDateTime.now(ZoneId.of("America/New_York"));
             String time = dateTime.format(DATE_FORMAT);
             statusElement.setAttribute("lastSaved", time);
+            // hash is based on the time. Theoretically, if two students complete
+            // the puzzle at the exact same time, then they will have the same hash.
             int hashedState = obfHash(puzzle.isPuzzleComplete(), time);
             statusElement.setAttribute("isSolved", hashedState + "");
             legupElement.appendChild(statusElement);
@@ -140,6 +141,9 @@ public abstract class PuzzleExporter {
             transformer.transform(source, result);
         } catch (ParserConfigurationException | TransformerException e) {
             throw new ExportFileException("Puzzle Exporter: parser configuration exception");
+        } catch (Exception e) {
+            throw e;
+            // throw new ExportFileException(e.getMessage());
         }
     }
 

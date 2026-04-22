@@ -5,9 +5,14 @@ import edu.rpi.legup.model.RegisterPuzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @RegisterPuzzle
 public class LightUp extends Puzzle {
+    private static final Logger LOGGER = LogManager.getLogger(LightUp.class.getName());
 
     public LightUp() {
         super();
@@ -34,7 +39,7 @@ public class LightUp extends Puzzle {
      * @return board of the random edu.rpi.legup.puzzle
      */
     @Override
-    public Board generatePuzzle(int difficulty) {
+    public @Nullable Board generatePuzzle(int difficulty) {
         return null;
     }
 
@@ -57,20 +62,22 @@ public class LightUp extends Puzzle {
      * @return true if board is valid, false otherwise
      */
     @Override
-    public boolean isBoardComplete(Board board) {
+    public boolean isBoardComplete(@NotNull Board board) {
         LightUpBoard lightUpBoard = (LightUpBoard) board;
         lightUpBoard.fillWithLight();
 
         for (ContradictionRule rule : contradictionRules) {
             if (rule.checkContradiction(lightUpBoard) == null) {
-                System.out.println(rule.getRuleName());
+                if (LOGGER.isTraceEnabled()) {
+                    LOGGER.trace(rule.getRuleName());
+                }
                 return false;
             }
         }
         for (PuzzleElement data : lightUpBoard.getPuzzleElements()) {
             LightUpCell cell = (LightUpCell) data;
             if ((cell.getType() == LightUpCellType.UNKNOWN
-                            || cell.getType() == LightUpCellType.EMPTY)
+                    || cell.getType() == LightUpCellType.EMPTY)
                     && !cell.isLite()) {
                 return false;
             }
@@ -84,5 +91,5 @@ public class LightUp extends Puzzle {
      * @param board the board that has changed
      */
     @Override
-    public void onBoardChange(Board board) {}
+    public void onBoardChange(@NotNull Board board) {}
 }

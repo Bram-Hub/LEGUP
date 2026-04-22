@@ -9,7 +9,6 @@ import edu.rpi.legup.model.observer.ITreeListener;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.boardview.ElementView;
-import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;

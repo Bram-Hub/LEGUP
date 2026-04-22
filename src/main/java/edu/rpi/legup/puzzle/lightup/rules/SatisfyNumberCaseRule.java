@@ -14,8 +14,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SatisfyNumberCaseRule extends CaseRule {
+    private static final Logger LOGGER =
+            LogManager.getLogger(SatisfyNumberCaseRule.class.getName());
 
     public SatisfyNumberCaseRule() {
         super(
@@ -141,6 +145,20 @@ public class SatisfyNumberCaseRule extends CaseRule {
             LightUpBoard curBoard,
             int index) {
         if (num <= curBoard.getModifiedData().size()) {
+            // Mark remaining open spots (that didn't get bulbs) as empty
+            for (LightUpCell openSpot : openSpots) {
+                Point loc = openSpot.getLocation();
+                LightUpCell cell = curBoard.getCell(loc.x, loc.y);
+
+                // If this cell wasn't already marked with a bulb, mark it as empty
+                if (!curBoard.getModifiedData().contains(cell)) {
+                    LightUpCell emptyCell = cell.copy();
+                    emptyCell.setData(LightUpCellType.EMPTY.value);
+                    curBoard.setCell(loc.x, loc.y, emptyCell);
+                    curBoard.addModifiedData(emptyCell);
+                }
+            }
+
             cases.add(curBoard);
             return;
         }
@@ -157,13 +175,13 @@ public class SatisfyNumberCaseRule extends CaseRule {
                     LightUpCell modCell = (LightUpCell) mod.copy();
                     Point modLoc = modCell.getLocation();
 
-                    modCell.setData(-4);
+                    modCell.setData(LightUpCellType.BULB.value);
 
                     newCase.setCell(modLoc.x, modLoc.y, modCell);
                     newCase.addModifiedData(modCell);
                 }
 
-                newCell.setData(-4);
+                newCell.setData(LightUpCellType.BULB.value);
 
                 newCase.setCell(loc.x, loc.y, newCell);
                 newCase.addModifiedData(newCell);
@@ -342,7 +360,9 @@ public class SatisfyNumberCaseRule extends CaseRule {
             // add cells that can light adjacents from any direction
             Point location = cell.getLocation();
             for (int i = location.x; i < puzzleBoard.getWidth(); i++) {
-                System.out.println(i);
+                if (LOGGER.isTraceEnabled()) {
+                    LOGGER.trace(i);
+                }
                 LightUpCell c = puzzleBoard.getCell(i, location.y);
                 if (c.getType() == LightUpCellType.BLACK || c.getType() == LightUpCellType.NUMBER) {
                     break;

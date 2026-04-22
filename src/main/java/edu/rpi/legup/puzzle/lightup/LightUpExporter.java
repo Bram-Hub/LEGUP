@@ -3,10 +3,11 @@ package edu.rpi.legup.puzzle.lightup;
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import org.w3c.dom.Document;
+import org.jetbrains.annotations.NotNull;
 
 public class LightUpExporter extends PuzzleExporter {
 
-    public LightUpExporter(LightUp lightUp) {
+    public LightUpExporter(@NotNull LightUp lightUp) {
         super(lightUp);
     }
 

@@ -8,8 +8,12 @@ import edu.rpi.legup.puzzle.starbattle.StarBattleCell;
 import edu.rpi.legup.puzzle.starbattle.StarBattleCellType;
 import edu.rpi.legup.puzzle.starbattle.StarBattleRegion;
 import java.awt.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class TooFewStarsContradictionRule extends ContradictionRule {
+    private static final Logger LOGGER =
+            LogManager.getLogger(TooFewStarsContradictionRule.class.getName());
 
     public TooFewStarsContradictionRule() {
         super(
@@ -38,14 +42,25 @@ public class TooFewStarsContradictionRule extends ContradictionRule {
         int rowCount = 0;
         int columnCount = 0;
         for (int i = 0; i < sbBoard.getSize(); ++i) {
-            if (sbBoard.getCell(row, i).getType() != StarBattleCellType.BLACK) {
+            if (sbBoard.getCell(i, row).getType() != StarBattleCellType.BLACK) {
                 ++rowCount;
             }
-            if (sbBoard.getCell(i, column).getType() != StarBattleCellType.BLACK) {
+            if (sbBoard.getCell(column, i).getType() != StarBattleCellType.BLACK) {
                 ++columnCount;
             }
         }
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(
+                    "rowCount = {} columnCount = {} at {},{}\n",
+                    rowCount,
+                    columnCount,
+                    column,
+                    row);
+        }
         if (rowCount < sbBoard.getPuzzleNumber() || columnCount < sbBoard.getPuzzleNumber()) {
+            if (LOGGER.isTraceEnabled()) {
+                LOGGER.trace("Returning Null\n");
+            }
             return null;
         }
         StarBattleRegion region = sbBoard.getRegion(cell);
