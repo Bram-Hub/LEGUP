@@ -6,7 +6,6 @@ import static java.lang.Math.min;
 import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleImporter;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -45,8 +44,7 @@ public class ThermometerImporter extends PuzzleImporter {
     }
 
     /**
-     * Initializes a board using row and column counts.
-     * Not implemented for Thermometer puzzles.
+     * Initializes a board using row and column counts. Not implemented for Thermometer puzzles.
      *
      * @param rows number of rows
      * @param columns number of columns
@@ -155,7 +153,8 @@ public class ThermometerImporter extends PuzzleImporter {
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), thermometerBoard);
                     // Store the goal value as goalData and mark the board cell as goal
-                    ThermometerCell boardCell = (ThermometerCell) thermometerBoard.getCell(cell.getLocation());
+                    ThermometerCell boardCell =
+                            (ThermometerCell) thermometerBoard.getCell(cell.getLocation());
                     if (boardCell != null) {
                         boardCell.setGoalData(cell.getData());
                         boardCell.setGoal(true);
@@ -176,8 +175,7 @@ public class ThermometerImporter extends PuzzleImporter {
     }
 
     /**
-     * Initializes a board from text input.
-     * Not supported for Thermometer puzzles.
+     * Initializes a board from text input. Not supported for Thermometer puzzles.
      *
      * @param statements input statements
      * @throws UnsupportedOperationException always thrown since not supported

@@ -21,16 +21,19 @@ public class TooFewMinesContradictionRuleTest {
     }
 
     /**
-    * Checks that TooFewMinesContradictionRule behaves as expected in basic scenario.
-    *<br><br>
-    * This is what TooFewMines1.txt looks like:
-    * <pre>
-    *    e  e  e
-    *    #  3  #
-    *    e  e  e</pre>
-    *<br>
-    * This test verifies that the contradiction is recognized for that number cell, but not for the others.
-    * */
+     * Checks that TooFewMinesContradictionRule behaves as expected in basic scenario. <br>
+     * <br>
+     * This is what TooFewMines1.txt looks like:
+     *
+     * <pre>
+     *    e  e  e
+     *    #  3  #
+     *    e  e  e</pre>
+     *
+     * <br>
+     * This test verifies that the contradiction is recognized for that number cell, but not for the
+     * others.
+     */
     @Test
     public void TooFewMinesTest1() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/TooFewMines1.txt", minesweeper);
@@ -55,19 +58,22 @@ public class TooFewMinesContradictionRuleTest {
     }
 
     /**
-    * Checks that TooFewMinesContradictionRule behaves as expected in basic zero-mine scenario.
-    *<br><br>
-    * This is what TooFewMines2.txt looks like:
-    * <pre>
-    *    e  _| e
-    *    e  3  e
-    *    e  _| e</pre>
-    *<br>
-    * This test verifies that the contradiction is recognized for that number cell, but not for the others.
-    * It is supposed to function even though there may or may not be mines under those two UNSET cells. Because
-    * there's two of them and if they were both mines it would not validate for the FinishWithMinesDirectRule
-    * in relation to the '3' cell.
-    * */
+     * Checks that TooFewMinesContradictionRule behaves as expected in basic zero-mine scenario.
+     * <br>
+     * <br>
+     * This is what TooFewMines2.txt looks like:
+     *
+     * <pre>
+     *    e  _| e
+     *    e  3  e
+     *    e  _| e</pre>
+     *
+     * <br>
+     * This test verifies that the contradiction is recognized for that number cell, but not for the
+     * others. It is supposed to function even though there may or may not be mines under those two
+     * UNSET cells. Because there's two of them and if they were both mines it would not validate
+     * for the FinishWithMinesDirectRule in relation to the '3' cell.
+     */
     @Test
     public void TooFewMinesTest2() throws InvalidFileFormatException {
         TestUtilities.importTestBoard("puzzles/minesweeper/rules/TooFewMines2.txt", minesweeper);

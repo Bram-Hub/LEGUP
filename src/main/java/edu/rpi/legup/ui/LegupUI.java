@@ -32,8 +32,7 @@ public class LegupUI extends JFrame implements WindowListener {
      *
      * @return operating system, either "mac" or "win"
      */
-    @NotNull
-    public static String getOS() {
+    @NotNull public static String getOS() {
         String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("mac")) {
             os = "mac";
@@ -67,11 +66,11 @@ public class LegupUI extends JFrame implements WindowListener {
 
         setIconImage(
                 new ImageIcon(
-                        Objects.requireNonNull(
-                                ClassLoader.getSystemClassLoader()
-                                        .getResource(
-                                                "edu/rpi/legup/images/Legup/Direct"
-                                                        + " Rules.gif")))
+                                Objects.requireNonNull(
+                                        ClassLoader.getSystemClassLoader()
+                                                .getResource(
+                                                        "edu/rpi/legup/images/Legup/Direct"
+                                                                + " Rules.gif")))
                         .getImage());
 
         if (LegupPreferences.getInstance()
@@ -135,8 +134,7 @@ public class LegupUI extends JFrame implements WindowListener {
      *
      * @return the ProofEditorPanel
      */
-    @NotNull
-    public ProofEditorPanel getProofEditor() {
+    @NotNull public ProofEditorPanel getProofEditor() {
         return (ProofEditorPanel) panels[1];
     }
 
@@ -145,8 +143,7 @@ public class LegupUI extends JFrame implements WindowListener {
      *
      * @return the PuzzleEditorPanel
      */
-    @NotNull
-    public PuzzleEditorPanel getPuzzleEditor() {
+    @NotNull public PuzzleEditorPanel getPuzzleEditor() {
         return (PuzzleEditorPanel) panels[2];
     }
 
@@ -210,8 +207,7 @@ public class LegupUI extends JFrame implements WindowListener {
      *
      * @return the BoardView
      */
-    @NotNull
-    public BoardView getBoardView() {
+    @NotNull public BoardView getBoardView() {
         return getProofEditor().getBoardView();
     }
 
@@ -220,8 +216,7 @@ public class LegupUI extends JFrame implements WindowListener {
      *
      * @return the BoardView
      */
-    @NotNull
-    public BoardView getEditorBoardView() {
+    @NotNull public BoardView getEditorBoardView() {
         return getPuzzleEditor().getBoardView();
     }
 
@@ -230,8 +225,7 @@ public class LegupUI extends JFrame implements WindowListener {
      *
      * @return the DynamicView
      */
-    @NotNull
-    public DynamicView getDynamicBoardView() {
+    @NotNull public DynamicView getDynamicBoardView() {
         return getProofEditor().getDynamicBoardView();
     }
 
@@ -240,8 +234,7 @@ public class LegupUI extends JFrame implements WindowListener {
      *
      * @return the DynamicView
      */
-    @NotNull
-    public DynamicView getEditorDynamicBoardView() {
+    @NotNull public DynamicView getEditorDynamicBoardView() {
         return getPuzzleEditor().getDynamicBoardView();
     }
 
@@ -250,8 +243,7 @@ public class LegupUI extends JFrame implements WindowListener {
      *
      * @return the TreePanel
      */
-    @NotNull
-    public TreePanel getTreePanel() {
+    @NotNull public TreePanel getTreePanel() {
         return getProofEditor().getTreePanel();
     }
 }

@@ -14,16 +14,18 @@ import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.observer.IBoardListener;
+import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.puzzleeditorui.elementsview.ElementFrame;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.io.File;
 import java.io.IOException;
@@ -31,16 +33,13 @@ import java.net.URI;
 import java.net.URL;
 import java.util.Objects;
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import edu.rpi.legup.model.observer.IBoardListener;
-import edu.rpi.legup.model.gameboard.CaseBoard;
-import edu.rpi.legup.model.tree.TreeElement;
 
 /**
  * Represents the panel used for puzzle editor in the LEGUP. This panel includes a variety of UI
@@ -94,7 +93,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      * @param frame the main application frame
      * @param legupUI the Legup UI instance
      */
-    public PuzzleEditorPanel(@NotNull FileDialog fileDialog, @NotNull JFrame frame, @NotNull LegupUI legupUI) {
+    public PuzzleEditorPanel(
+            @NotNull FileDialog fileDialog, @NotNull JFrame frame, @NotNull LegupUI legupUI) {
         this.fileDialog = fileDialog;
         this.frame = frame;
         this.legupUI = legupUI;
@@ -141,9 +141,10 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         // Also set a minimum size and reasonable max height to prevent layout collapsing
         goalPane.setMinimumSize(new Dimension(0, 40));
         goalPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 120));
-        CompoundBorder goalBorder = new CompoundBorder(
-                BorderFactory.createTitledBorder("Goal Condition"),
-                new EmptyBorder(0, 10, 3, 10));
+        CompoundBorder goalBorder =
+                new CompoundBorder(
+                        BorderFactory.createTitledBorder("Goal Condition"),
+                        new EmptyBorder(0, 10, 3, 10));
         ((TitledBorder) goalBorder.getOutsideBorder()).setTitleJustification(TitledBorder.CENTER);
         goalPane.setBorder(goalBorder);
 
@@ -213,7 +214,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         JMenuItem exit = new JMenuItem("Exit");
         exit.addActionListener((ActionEvent) -> exitEditor());
         if (os.equals("mac")) {
-            exit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            exit.setAccelerator(
+                    KeyStroke.getKeyStroke(
+                            'Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         } else {
             exit.setAccelerator(KeyStroke.getKeyStroke('Q', InputEvent.CTRL_DOWN_MASK));
         }
@@ -462,38 +465,44 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         JButton saveas = new JButton("Save As", SaveAsImageIcon);
         saveas.setFocusPainted(false);
-        saveas.addActionListener((ActionEvent) -> {
-            if (GameBoardFacade.getInstance().getPuzzleModule() != null) {
-                Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
-                Board board = GameBoardFacade.getInstance().getBoard();
-                // If the puzzle has the default goal, we can skip the data swap and just open the solver
-                if (puzzle.getGoal() == null || puzzle.getGoal().getType() == GoalType.DEFAULT) {
-                    return;
-                }
-                // Swap goal data with cell data so cells become unknown cells and goal data becomes the cell's goal condition
-                for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
-                    if (puzzleElement instanceof GridCell gridCell && gridCell.isGoal()) {
-                        GridCell tmp = new GridCell(gridCell.getData(), gridCell.getLocation());
-                        gridCell.setData(gridCell.getGoalData());
-                        gridCell.setGoalData(tmp.getData());
+        saveas.addActionListener(
+                (ActionEvent) -> {
+                    if (GameBoardFacade.getInstance().getPuzzleModule() != null) {
+                        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+                        Board board = GameBoardFacade.getInstance().getBoard();
+                        // If the puzzle has the default goal, we can skip the data swap and just
+                        // open the solver
+                        if (puzzle.getGoal() == null
+                                || puzzle.getGoal().getType() == GoalType.DEFAULT) {
+                            return;
+                        }
+                        // Swap goal data with cell data so cells become unknown cells and goal data
+                        // becomes the cell's goal condition
+                        for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
+                            if (puzzleElement instanceof GridCell gridCell && gridCell.isGoal()) {
+                                GridCell tmp =
+                                        new GridCell(gridCell.getData(), gridCell.getLocation());
+                                gridCell.setData(gridCell.getGoalData());
+                                gridCell.setGoalData(tmp.getData());
+                            }
+                        }
                     }
-                }
-            }
-            savePuzzle();
+                    savePuzzle();
 
-            Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
-            Goal goal = puzzle.getGoal();
-            Board board = GameBoardFacade.getInstance().getBoard();
-            for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
-                // Swap goal data with cell data so cells become their goal conditions and goal data becomes unknown
-                if (puzzleElement instanceof GridCell gridCell && gridCell.isGoal()) {
-                    GridCell tmp = new GridCell(gridCell.getData(), gridCell.getLocation());
-                    gridCell.setData(gridCell.getGoalData());
-                    goal.addCell(gridCell.copy());
-                    gridCell.setGoalData(tmp.getData());
-                }
-            }
-        });
+                    Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
+                    Goal goal = puzzle.getGoal();
+                    Board board = GameBoardFacade.getInstance().getBoard();
+                    for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
+                        // Swap goal data with cell data so cells become their goal conditions and
+                        // goal data becomes unknown
+                        if (puzzleElement instanceof GridCell gridCell && gridCell.isGoal()) {
+                            GridCell tmp = new GridCell(gridCell.getData(), gridCell.getLocation());
+                            gridCell.setData(gridCell.getGoalData());
+                            goal.addCell(gridCell.copy());
+                            gridCell.setGoalData(tmp.getData());
+                        }
+                    }
+                });
 
         getToolBar2Buttons()[1] = saveas;
         toolBar2.add(getToolBar2Buttons()[1]);
@@ -517,19 +526,22 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                     if (GameBoardFacade.getInstance().getPuzzleModule() != null) {
                         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
                         Board board = GameBoardFacade.getInstance().getBoard();
-                        // If the puzzle has the default goal, we can skip the data swap and just open the solver
-                        if (puzzle.getGoal() == null || puzzle.getGoal().getType() == GoalType.DEFAULT) {
+                        // If the puzzle has the default goal, we can skip the data swap and just
+                        // open the solver
+                        if (puzzle.getGoal() == null
+                                || puzzle.getGoal().getType() == GoalType.DEFAULT) {
                             return;
                         }
-                        // Swap goal data with cell data so cells become unknown cells and goal data becomes the cell's goal condition
+                        // Swap goal data with cell data so cells become unknown cells and goal data
+                        // becomes the cell's goal condition
                         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
                             if (puzzleElement instanceof GridCell gridCell && gridCell.isGoal()) {
-                                GridCell tmp = new GridCell(gridCell.getData(), gridCell.getLocation());
+                                GridCell tmp =
+                                        new GridCell(gridCell.getData(), gridCell.getLocation());
                                 gridCell.setData(gridCell.getGoalData());
                                 gridCell.setGoalData(tmp.getData());
                             }
                         }
-
 
                         String filename = savePuzzle();
                         File puzzlename = new File(filename);
@@ -601,8 +613,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      * @return an array containing the selected file name and file object, or null if the operation
      *     was canceled
      */
-    @Nullable
-    public Object[] promptPuzzle() {
+    @Nullable public Object[] promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
             if (noQuit("Open an existing puzzle?")) {
@@ -679,10 +690,10 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
                 Goal goal = puzzle.getGoal();
 
-
                 Board board = GameBoardFacade.getInstance().getBoard();
                 for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
-                    // Swap goal data with cell data so cells become their goal conditions and goal data becomes unknown
+                    // Swap goal data with cell data so cells become their goal conditions and goal
+                    // data becomes unknown
                     if (puzzleElement instanceof GridCell gridCell && gridCell.isGoal()) {
                         GridCell tmp = new GridCell(gridCell.getData(), gridCell.getLocation());
                         gridCell.setData(gridCell.getGoalData());
@@ -738,8 +749,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the board view
      */
-    @Nullable
-    public BoardView getBoardView() {
+    @Nullable public BoardView getBoardView() {
         return boardView;
     }
 
@@ -748,8 +758,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the array of toolbar1 buttons
      */
-    @Nullable
-    public JButton[] getToolBar1Buttons() {
+    @Nullable public JButton[] getToolBar1Buttons() {
         return toolBar1Buttons;
     }
 
@@ -767,8 +776,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the array of toolbar2 buttons
      */
-    @Nullable
-    public JButton[] getToolBar2Buttons() {
+    @Nullable public JButton[] getToolBar2Buttons() {
         return toolBar2Buttons;
     }
 
@@ -807,22 +815,23 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         // Ensure we attach a listener to refresh the goal text whenever the board changes
         if (boardListener == null) {
-            boardListener = new IBoardListener() {
-                @Override
-                public void onTreeElementChanged(TreeElement treeElement) {
-                    SwingUtilities.invokeLater(() -> updateGoalLabel(currentPuzzle));
-                }
+            boardListener =
+                    new IBoardListener() {
+                        @Override
+                        public void onTreeElementChanged(TreeElement treeElement) {
+                            SwingUtilities.invokeLater(() -> updateGoalLabel(currentPuzzle));
+                        }
 
-                @Override
-                public void onCaseBoardAdded(CaseBoard caseBoard) {
-                    // not relevant for goal text updates
-                }
+                        @Override
+                        public void onCaseBoardAdded(CaseBoard caseBoard) {
+                            // not relevant for goal text updates
+                        }
 
-                @Override
-                public void onBoardDataChanged(PuzzleElement puzzleElement) {
-                    SwingUtilities.invokeLater(() -> updateGoalLabel(currentPuzzle));
-                }
-            };
+                        @Override
+                        public void onBoardDataChanged(PuzzleElement puzzleElement) {
+                            SwingUtilities.invokeLater(() -> updateGoalLabel(currentPuzzle));
+                        }
+                    };
         }
 
         // Detach listener from previous puzzle (if any) and attach to the new puzzle
@@ -836,7 +845,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         // Rebuild the right-hand side panel so the goal info box (goalText) remains visible
         if (this.splitPanel != null) {
-            // Ensure boardSidePanel exists (created in setupContent). Reuse it and refresh contents.
+            // Ensure boardSidePanel exists (created in setupContent). Reuse it and refresh
+            // contents.
             if (boardSidePanel == null) {
                 boardSidePanel = new JPanel(new BorderLayout());
             }
@@ -848,10 +858,12 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 goalPane.setPreferredSize(new Dimension(0, 50));
                 goalPane.setMinimumSize(new Dimension(0, 40));
                 goalPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 120));
-                CompoundBorder goalBorder = new CompoundBorder(
-                        BorderFactory.createTitledBorder("Goal Condition"),
-                        new EmptyBorder(0, 10, 3, 10));
-                ((TitledBorder) goalBorder.getOutsideBorder()).setTitleJustification(TitledBorder.CENTER);
+                CompoundBorder goalBorder =
+                        new CompoundBorder(
+                                BorderFactory.createTitledBorder("Goal Condition"),
+                                new EmptyBorder(0, 10, 3, 10));
+                ((TitledBorder) goalBorder.getOutsideBorder())
+                        .setTitleJustification(TitledBorder.CENTER);
                 goalPane.setBorder(goalBorder);
             }
 
@@ -926,8 +938,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      * @return the path where the puzzle was saved, or an empty string if the save operation was
      *     canceled
      */
-    @NotNull
-    private String savePuzzle() {
+    @NotNull private String savePuzzle() {
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
         if (puzzle == null) {
             return "";
@@ -984,8 +995,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the dynamic board view
      */
-    @Nullable
-    public DynamicView getDynamicBoardView() {
+    @Nullable public DynamicView getDynamicBoardView() {
         return dynamicBoardView;
     }
 }

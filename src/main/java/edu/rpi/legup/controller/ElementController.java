@@ -11,7 +11,6 @@ import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.elements.Element;
-import edu.rpi.legup.model.elements.ElementType;
 import edu.rpi.legup.model.elements.PlaceableElement;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
@@ -206,37 +205,41 @@ public class ElementController
         if (goalPlacementMode) {
             PuzzleElement selectedCell = b.getCell(scaledPoint.x, scaledPoint.y);
             if (selectedCell != null) {
-                // Get the type of the goal value to determine how to set the cell's data and goal data
+                // Get the type of the goal value to determine how to set the cell's data and goal
+                // data
                 PlaceableElement element = (PlaceableElement) goalValueData;
-                // If the element being placed isn't a number tile, simply toggle the cell's goal status
-                if(!element.toString().equals("Number Tile")){
+                // If the element being placed isn't a number tile, simply toggle the cell's goal
+                // status
+                if (!element.toString().equals("Number Tile")) {
                     selectedCell.setGoal(!selectedCell.isGoal());
                 }
-                // If the element is a number tile and not already a goal cell, toggle the cell's goal status
+                // If the element is a number tile and not already a goal cell, toggle the cell's
+                // goal status
                 // and set the goal data to the data value of the cell before placement
-                else if (element.toString().equals("Number Tile") && !selectedCell.isGoal()){
+                else if (element.toString().equals("Number Tile") && !selectedCell.isGoal()) {
                     selectedCell.setGoal(!selectedCell.isGoal());
                     PuzzleElement tempCell = selectedCell.copy();
                     selectedCell.setGoalData(tempCell.getData());
                 }
                 if (selectedCell.isGoal() && goalValueData != null) {
-                        // Create a temporary cell copy to determine what data value this element represents
-                        PuzzleElement tempCell = selectedCell.copy();
-                        if(element.toString().equals("Number Tile")) {
-                            tempCell.setType(element,e);
-                        }
-                        else{
-                            selectedCell.setGoalData(tempCell.getData());
-                            tempCell.setType(element, null);
-                        }
-                        // Set the cell's data to the goal value's data so the cell reflects the goal condition in the editor
-                        selectedCell.setData(tempCell.getData());
+                    // Create a temporary cell copy to determine what data value this element
+                    // represents
+                    PuzzleElement tempCell = selectedCell.copy();
+                    if (element.toString().equals("Number Tile")) {
+                        tempCell.setType(element, e);
+                    } else {
+                        selectedCell.setGoalData(tempCell.getData());
+                        tempCell.setType(element, null);
+                    }
+                    // Set the cell's data to the goal value's data so the cell reflects the goal
+                    // condition in the editor
+                    selectedCell.setData(tempCell.getData());
                 }
-                // If the cell was already a goal and is being toggled off, clear the goal data and reset the cell's data to the non-goal state
+                // If the cell was already a goal and is being toggled off, clear the goal data and
+                // reset the cell's data to the non-goal state
                 else if (!selectedCell.isGoal()) {
                     selectedCell.setData(selectedCell.getGoalData());
                     selectedCell.setGoalData(null);
-
                 }
 
                 // Keep the Puzzle.goal cell list in sync with the cell's goal flag so
@@ -251,8 +254,9 @@ public class ElementController
                         for (GridCell c : goal.getCells()) {
                             if (c.getLocation().equals(gridCell.getLocation())) {
                                 exists = true;
-                                // If cell is a number tile, update the goal cell in the goal list to have the correct data for hover text
-                                if(element.toString().equals("Number Tile")) {
+                                // If cell is a number tile, update the goal cell in the goal list
+                                // to have the correct data for hover text
+                                if (element.toString().equals("Number Tile")) {
                                     goal.getCells().remove(c);
                                     goal.addCell(gridCell.copy());
                                 }
@@ -264,9 +268,9 @@ public class ElementController
                             goal.addCell(gridCell.copy());
                         }
 
-
                     } else {
-                        // If cell was unmarked as a goal, remove any matching location from the goal list
+                        // If cell was unmarked as a goal, remove any matching location from the
+                        // goal list
                         var itr = goal.getCells().iterator();
                         while (itr.hasNext()) {
                             GridCell c = itr.next();
@@ -277,7 +281,8 @@ public class ElementController
                     }
                     // Update the editor's goal text so the UI reflects the new goal condition
                     if (GameBoardFacade.getInstance().getLegupUI() != null
-                            && GameBoardFacade.getInstance().getLegupUI().getPuzzleEditor() != null) {
+                            && GameBoardFacade.getInstance().getLegupUI().getPuzzleEditor()
+                                    != null) {
                         GameBoardFacade.getInstance()
                                 .getLegupUI()
                                 .getPuzzleEditor()
@@ -344,7 +349,7 @@ public class ElementController
     public void mouseMoved(MouseEvent e) {
         updateHover(e.getPoint());
     }
-    
+
     /**
      * Updates which element the hover is being applied to.
      *
@@ -385,7 +390,9 @@ public class ElementController
                 } else {
                     boardView.getCanvas().setToolTipText(null);
                 }
-            } else { boardView.getCanvas().setToolTipText(null); }
+            } else {
+                boardView.getCanvas().setToolTipText(null);
+            }
 
             if (LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.SHOW_MISTAKES)) {
                 PuzzleElement element = elementView.getPuzzleElement();

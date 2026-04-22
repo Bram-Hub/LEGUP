@@ -2,8 +2,8 @@ package edu.rpi.legup.puzzle.lightup;
 
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import org.w3c.dom.Document;
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Document;
 
 public class LightUpExporter extends PuzzleExporter {
 

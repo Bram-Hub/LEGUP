@@ -1,6 +1,5 @@
 package edu.rpi.legup.puzzle.minesweeper;
 
-import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -79,7 +78,6 @@ public class MinesweeperCellFactory extends ElementFactory {
                     "Minesweeper Factory: could not find attribute(s)");
         }
     }
-
 
     /**
      * @param document Document used to create the element

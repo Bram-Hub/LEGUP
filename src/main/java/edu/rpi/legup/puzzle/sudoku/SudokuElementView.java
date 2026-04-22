@@ -29,6 +29,7 @@ public class SudokuElementView extends GridElementView {
 
     /**
      * draw given elements with background given color
+     *
      * @param graphics2D the Graphics2D context to use for drawing
      */
     @Override
@@ -39,6 +40,7 @@ public class SudokuElementView extends GridElementView {
 
     /**
      * draw the contents of the element
+     *
      * @param graphics2D the Graphics2D context to use for drawing
      */
     @Override

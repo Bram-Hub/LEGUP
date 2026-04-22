@@ -15,24 +15,23 @@ import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-/**
- * Test class for the Biconditional Case Rule.
- */
+
+/** Test class for the Biconditional Case Rule. */
 public class BiconditionalCaseRuleTest {
 
     private static final CaseRuleBiconditional RULE = new CaseRuleBiconditional();
     private static ShortTruthTable stt;
-    /**
-     * Sets up the test class.
-     */
+
+    /** Sets up the test class. */
     @BeforeClass
     public static void setUp() {
         MockGameBoardFacade.getInstance();
         stt = new ShortTruthTable();
     }
+
     /**
-     * Given a statement A <-> B where <-> is true, tests this case rule by ensuring that two branches
-     * are created: one where A and B are both true, and one where A and B are both false.
+     * Given a statement A <-> B where <-> is true, tests this case rule by ensuring that two
+     * branches are created: one where A and B are both true, and one where A and B are both false.
      *
      * @throws InvalidFileFormatException
      */

@@ -13,15 +13,6 @@ import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.utility.LegupUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +22,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.function.Consumer;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 /**
  * Abstract class representing a puzzle. The Puzzle class manages the core components of a puzzle
@@ -211,7 +210,6 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         return statements.length > 0;
     }
 
-
     /**
      * Sets the Goal of the board
      *
@@ -230,18 +228,14 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         return goal;
     }
 
-
     /**
-     * Returns the set of all leaf nodes in the tree.
-     * Requires tree.isClosed()
+     * Returns the set of all leaf nodes in the tree. Requires tree.isClosed()
      *
      * @return Set of leaf nodes this.tree
      */
-    private Set<TreeNode> getLeaves()
-    {
+    private Set<TreeNode> getLeaves() {
         Set<TreeNode> leaves = new HashSet<>();
-        for (TreeElement leaf : tree.getLeafTreeElements())
-        {
+        for (TreeElement leaf : tree.getLeafTreeElements()) {
             TreeNode n = (TreeNode) leaf;
             leaves.add(n);
         }
@@ -249,19 +243,15 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     }
 
     /**
-     * Returns the set of leaf nodes with complete boards in the tree.
-     * Requires tree.isClosed()
+     * Returns the set of leaf nodes with complete boards in the tree. Requires tree.isClosed()
      *
      * @return Set of complete leaf nodes this.tree
      */
-    private Set<TreeNode> getCompleteLeaves()
-    {
+    private Set<TreeNode> getCompleteLeaves() {
         Set<TreeNode> completeLeaves = new HashSet<>();
-        for (TreeElement leaf : tree.getLeafTreeElements())
-        {
+        for (TreeElement leaf : tree.getLeafTreeElements()) {
             TreeNode n = (TreeNode) leaf;
-            if (isBoardComplete(n.getBoard()))
-            {
+            if (isBoardComplete(n.getBoard())) {
                 completeLeaves.add(n);
             }
         }
@@ -269,19 +259,16 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     }
 
     /**
-     * Returns the set of leaf nodes that don't lead to contradictions in the tree.
-     * Requires tree.isClosed()
+     * Returns the set of leaf nodes that don't lead to contradictions in the tree. Requires
+     * tree.isClosed()
      *
      * @return Set of complete leaf nodes this.tree
      */
-    private Set<TreeNode> getOpenLeaves()
-    {
+    private Set<TreeNode> getOpenLeaves() {
         Set<TreeNode> openLeaves = new HashSet<>();
-        for (TreeElement leaf : tree.getLeafTreeElements())
-        {
+        for (TreeElement leaf : tree.getLeafTreeElements()) {
             TreeNode n = (TreeNode) leaf;
-            if (!n.isContradictoryBranch())
-            {
+            if (!n.isContradictoryBranch()) {
                 openLeaves.add(n);
             }
         }
@@ -289,17 +276,16 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
     }
 
     /**
-     *  Determines if the board of the given node has all goal cell locations as known values
+     * Determines if the board of the given node has all goal cell locations as known values
      *
      * @param node node to check the board of
      * @return true if all goal cell locations on the board are known, false otherwise
      */
-    private boolean goalCellsAreKnown(TreeNode node)
-    {
+    private boolean goalCellsAreKnown(TreeNode node) {
         GridBoard gridBoard = (GridBoard) node.getBoard();
         for (GridCell goalCell : this.goal.getCells()) {
             GridCell boardCell = gridBoard.getCell(goalCell.getLocation());
-            if (!boardCell.isKnown()){
+            if (!boardCell.isKnown()) {
                 return false;
             }
         }
@@ -318,10 +304,9 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
         GridBoard gridBoard = (GridBoard) node.getBoard();
         for (GridCell goalCell : this.goal.getCells()) {
             GridCell boardCell = gridBoard.getCell(goalCell.getLocation());
-            if (matching && boardCell.equals(goalCell)){
+            if (matching && boardCell.equals(goalCell)) {
                 count++;
-            }
-            else if (!matching && boardCell.isKnown() && !boardCell.equals(goalCell)){
+            } else if (!matching && boardCell.isKnown() && !boardCell.equals(goalCell)) {
                 count++;
             }
         }
@@ -335,16 +320,17 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      * @return true if all the cells match what the goal specifies, false otherwise
      */
     private boolean cellsMatchBetweenBoards(Set<TreeNode> nodes) {
-        if (nodes.isEmpty()) {return true;}
+        if (nodes.isEmpty()) {
+            return true;
+        }
         Iterator<TreeNode> itr = nodes.iterator();
         GridBoard board1 = (GridBoard) itr.next().getBoard();
-        while (itr.hasNext())
-        {
+        while (itr.hasNext()) {
             GridBoard board2 = (GridBoard) itr.next().getBoard();
             for (GridCell goalCell : this.goal.getCells()) {
                 GridCell cell1 = board1.getCell(goalCell.getLocation());
                 GridCell cell2 = board2.getCell(goalCell.getLocation());
-                if (!cell1.equals(cell2)){
+                if (!cell1.equals(cell2)) {
                     return false;
                 }
             }
@@ -361,8 +347,6 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
      */
     public abstract boolean isBoardComplete(Board board);
 
-
-
     /**
      * Determines if the edu.rpi.legup.puzzle was solves correctly
      *
@@ -373,68 +357,76 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             return false;
         }
 
-
         // The goal determines what state the leaves must be in.
         return switch (this.goal.getType()) {
             case PROVE_CELL_MUST_BE -> {
                 // All non-contradictory branches have the right values
-                for (TreeNode node : getOpenLeaves())
-                {
-                    if (countGoalMatches(node, true) != goal.getCells().size()) {yield false;}
+                for (TreeNode node : getOpenLeaves()) {
+                    if (countGoalMatches(node, true) != goal.getCells().size()) {
+                        yield false;
+                    }
                 }
                 // There must be a proven solution
                 yield (goal.assumeSolution() || !getCompleteLeaves().isEmpty());
             }
             case PROVE_CELL_MIGHT_NOT_BE -> {
                 // One solution differs from the given
-                for (TreeNode node : getCompleteLeaves())
-                {
-                    if (countGoalMatches(node, false) > 0) {yield true;}
+                for (TreeNode node : getCompleteLeaves()) {
+                    if (countGoalMatches(node, false) > 0) {
+                        yield true;
+                    }
                 }
                 // All open branches differ from the given
-                for (TreeNode node : getOpenLeaves())
-                {
-                    if (countGoalMatches(node, false) == 0) {yield false;}
+                for (TreeNode node : getOpenLeaves()) {
+                    if (countGoalMatches(node, false) == 0) {
+                        yield false;
+                    }
                 }
                 yield true;
             }
             case PROVE_SINGLE_CELL_VALUE -> {
                 // All open branches match goal cell values
-                for (TreeNode node : getOpenLeaves())
-                {
-                    if (!goalCellsAreKnown(node)) {yield false;}
+                for (TreeNode node : getOpenLeaves()) {
+                    if (!goalCellsAreKnown(node)) {
+                        yield false;
+                    }
                 }
-                if (!cellsMatchBetweenBoards(getOpenLeaves())) {yield false;}
+                if (!cellsMatchBetweenBoards(getOpenLeaves())) {
+                    yield false;
+                }
 
                 // There must be a proven solution
                 yield (goal.assumeSolution() || !getCompleteLeaves().isEmpty());
             }
             case PROVE_MULTIPLE_CELL_VALUE -> {
                 // The following line yielding true vs false determines if 0 solutions counts
-                if (getOpenLeaves().isEmpty()) {yield false;}
+                if (getOpenLeaves().isEmpty()) {
+                    yield false;
+                }
 
                 // At least two solutions have a different set of goal cell values
                 yield !cellsMatchBetweenBoards(getCompleteLeaves());
             }
             case PROVE_ANY_SOLUTION ->
-                // There is one proven solution
-                !getCompleteLeaves().isEmpty();
+                    // There is one proven solution
+                    !getCompleteLeaves().isEmpty();
             case PROVE_NO_SOLUTION ->
-                // Every branch closes
-                getOpenLeaves().isEmpty();
+                    // Every branch closes
+                    getOpenLeaves().isEmpty();
             case PROVE_VALUES_ARE_POSSIBLE -> {
                 // There is a solution with this set of values
-                for (TreeNode node : getCompleteLeaves())
-                {
-                    if (countGoalMatches(node, true) == goal.getCells().size()) {yield true;}
+                for (TreeNode node : getCompleteLeaves()) {
+                    if (countGoalMatches(node, true) == goal.getCells().size()) {
+                        yield true;
+                    }
                 }
 
                 // If there is a solution, it must have this set of values
-                if (goal.assumeSolution() && !getOpenLeaves().isEmpty())
-                {
-                    for (TreeNode node : getOpenLeaves())
-                    {
-                        if (countGoalMatches(node, true) != goal.getCells().size()) {yield false;}
+                if (goal.assumeSolution() && !getOpenLeaves().isEmpty()) {
+                    for (TreeNode node : getOpenLeaves()) {
+                        if (countGoalMatches(node, true) != goal.getCells().size()) {
+                            yield false;
+                        }
                     }
                     yield true;
                 }
@@ -442,21 +434,18 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             }
             case PROVE_VALUES_ARE_IMPOSSIBLE -> {
                 // No open branch matches these values
-                for (TreeNode node : getOpenLeaves())
-                {
-                    if (countGoalMatches(node, false) == 0) {yield false;}
+                for (TreeNode node : getOpenLeaves()) {
+                    if (countGoalMatches(node, false) == 0) {
+                        yield false;
+                    }
                 }
                 yield true;
             }
             default ->
-                // Every leaf is either closed or complete
-                getCompleteLeaves().equals(getOpenLeaves());
-
+                    // Every leaf is either closed or complete
+                    getCompleteLeaves().equals(getOpenLeaves());
         };
-
     }
-
-
 
     /**
      * Callback for when the board puzzleElement changes

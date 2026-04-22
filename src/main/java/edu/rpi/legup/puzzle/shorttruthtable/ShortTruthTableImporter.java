@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.shorttruthtable;
 import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleImporter;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
 import java.util.ArrayList;
@@ -328,10 +327,10 @@ class ShortTruthTableImporter extends PuzzleImporter {
                 for (int i = 0; i < cellList.getLength(); i++) {
                     ShortTruthTableCell cell =
                             (ShortTruthTableCell)
-                                    puzzle.getFactory()
-                                            .importCell(cellList.item(i), sttBoard);
+                                    puzzle.getFactory().importCell(cellList.item(i), sttBoard);
                     // Store the goal value as goalData and mark the board cell as goal
-                    ShortTruthTableCell boardCell = (ShortTruthTableCell) sttBoard.getCell(cell.getLocation());
+                    ShortTruthTableCell boardCell =
+                            (ShortTruthTableCell) sttBoard.getCell(cell.getLocation());
                     if (boardCell != null) {
                         boardCell.setGoalData(cell.getData());
                         boardCell.setGoal(true);

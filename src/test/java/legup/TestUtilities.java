@@ -27,7 +27,7 @@ public final class TestUtilities {
     }
 
     public static boolean verifyBoard(String fileName, Puzzle puzzle)
-            throws  InvalidFileFormatException {
+            throws InvalidFileFormatException {
         InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName);
 
         if (inputStream == null) {

@@ -45,8 +45,8 @@ public class TreeTentView extends GridBoardView {
     private ArrayList<TreeTentClueView> westClues;
 
     /**
-     * Constructs a TreeTentView for the given TreeTentBoard. Initializes all cell views,
-     * line views, and clue views for rendering.
+     * Constructs a TreeTentView for the given TreeTentBoard. Initializes all cell views, line
+     * views, and clue views for rendering.
      *
      * @param board the TreeTentBoard to visualize
      */

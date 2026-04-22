@@ -58,8 +58,7 @@ public class DynamicView extends JPanel {
      *     board view or the zoomer for the proof tree view)
      * @return A JPanel containing the zoomer, or null if the type is unrecognized
      */
-    @Nullable
-    private JPanel setUpZoomer(@NotNull DynamicViewType type) {
+    @Nullable private JPanel setUpZoomer(@NotNull DynamicViewType type) {
         if (type == DynamicViewType.BOARD) {
             return setUpBoardZoomer();
         } else {
@@ -77,8 +76,7 @@ public class DynamicView extends JPanel {
      *
      * @return A JPanel containing the zoomer
      */
-    @NotNull
-    private JPanel setUpBoardZoomer() {
+    @NotNull private JPanel setUpBoardZoomer() {
         final String label = "Resize Board";
         ActionListener listener = (ActionListener) -> this.fitBoardViewToScreen();
         return this.setUpZoomerHelper(label, listener);
@@ -89,8 +87,7 @@ public class DynamicView extends JPanel {
      *
      * @return A JPanel containing the zoomer
      */
-    @NotNull
-    private JPanel setUpProofTreeZoomer() {
+    @NotNull private JPanel setUpProofTreeZoomer() {
         final String label = "Resize Proof";
         ActionListener listener =
                 (ActionListener) ->
@@ -108,8 +105,8 @@ public class DynamicView extends JPanel {
      * @param listener A listener that determines what the resize button will do
      * @return A JPanel containing the zoomer
      */
-    @NotNull
-    private JPanel setUpZoomerHelper(@NotNull final String label, @NotNull ActionListener listener) {
+    @NotNull private JPanel setUpZoomerHelper(
+            @NotNull final String label, @NotNull ActionListener listener) {
         zoomWrapper = new JPanel();
         try {
             zoomer = new JPanel();
@@ -213,8 +210,7 @@ public class DynamicView extends JPanel {
      *
      * @return the ScrollView component
      */
-    @NotNull
-    public ScrollView getScrollView() {
+    @NotNull public ScrollView getScrollView() {
         return this.scrollView;
     }
 
@@ -223,8 +219,7 @@ public class DynamicView extends JPanel {
      *
      * @return the zoom wrapper with zooming controls
      */
-    @Nullable
-    public JPanel getZoomWrapper() {
+    @Nullable public JPanel getZoomWrapper() {
         return this.zoomWrapper;
     }
 
@@ -233,8 +228,7 @@ public class DynamicView extends JPanel {
      *
      * @return the zoomer with the zoomer component
      */
-    @Nullable
-    public JPanel getZoomer() {
+    @Nullable public JPanel getZoomer() {
         return this.zoomer;
     }
 

@@ -83,7 +83,9 @@ public class TreeTentCell extends GridCell<TreeTentType> {
     }
 
     @Override
-    public boolean isKnown() {return !(data == TreeTentType.UNKNOWN);}
+    public boolean isKnown() {
+        return !(data == TreeTentType.UNKNOWN);
+    }
 
     @Override
     public String describeState(boolean isPlural) {

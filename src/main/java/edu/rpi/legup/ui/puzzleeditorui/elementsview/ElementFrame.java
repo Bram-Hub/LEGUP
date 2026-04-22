@@ -4,7 +4,6 @@ import edu.rpi.legup.controller.EditorElementController;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.elements.PlaceableElement;
-
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -42,7 +41,8 @@ public class ElementFrame extends JPanel {
                         controller.setSelectionMode(
                                 EditorElementController.SelectionMode.GOAL_CONDITIONS);
                     } else {
-                        controller.setSelectionMode(EditorElementController.SelectionMode.PLACEABLE);
+                        controller.setSelectionMode(
+                                EditorElementController.SelectionMode.PLACEABLE);
                     }
                 });
 

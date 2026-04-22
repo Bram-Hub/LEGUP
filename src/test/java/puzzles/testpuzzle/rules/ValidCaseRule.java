@@ -5,15 +5,15 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
-
 import java.util.List;
 
 public class ValidCaseRule extends CaseRule {
     public ValidCaseRule() {
-        super("TEST-CASE-0001",
-            "Valid Case",
-            "Returns null",
-            "edu/rpi/legup/images/nurikabe/cases/FinishRoom.png");
+        super(
+                "TEST-CASE-0001",
+                "Valid Case",
+                "Returns null",
+                "edu/rpi/legup/images/nurikabe/cases/FinishRoom.png");
     }
 
     @Override

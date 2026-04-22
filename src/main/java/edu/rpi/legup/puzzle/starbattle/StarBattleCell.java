@@ -108,7 +108,9 @@ public class StarBattleCell extends GridCell<Integer> {
     }
 
     @Override
-    public boolean isKnown() {return !(data == -3);}
+    public boolean isKnown() {
+        return !(data == -3);
+    }
 
     @Override
     public String describeState(boolean isPlural) {

@@ -5,15 +5,15 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
-
 import java.util.List;
 
 public class InvalidCaseRule extends CaseRule {
     public InvalidCaseRule() {
-        super("TEST-CASE-0002",
-            "Invalid Case",
-            "Returns empty string",
-            "edu/rpi/legup/images/nurikabe/cases/FinishRoom.png");
+        super(
+                "TEST-CASE-0002",
+                "Invalid Case",
+                "Returns empty string",
+                "edu/rpi/legup/images/nurikabe/cases/FinishRoom.png");
     }
 
     @Override

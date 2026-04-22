@@ -20,62 +20,68 @@ public class ProveAnySolutionTest {
     /** Tests invalid rules */
     @Test
     public void TestInvalidRules() throws InvalidFileFormatException {
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveAnySolution/InvalidLine", puzzle));
+        Assert.assertFalse(
+                TestUtilities.verifyBoard("goalConditions/ProveAnySolution/InvalidLine", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveAnySolution/InvalidContradiction", puzzle));
+        Assert.assertFalse(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveAnySolution/InvalidContradiction", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveAnySolution/InvalidCases", puzzle));
+        Assert.assertFalse(
+                TestUtilities.verifyBoard("goalConditions/ProveAnySolution/InvalidCases", puzzle));
     }
 
-    
-    /** Tests puzzle completion with only a root node*/
+    /** Tests puzzle completion with only a root node */
     @Test
     public void TestRootNode() throws InvalidFileFormatException {
-        Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveAnySolution/RootComplete", puzzle));
+        Assert.assertTrue(
+                TestUtilities.verifyBoard("goalConditions/ProveAnySolution/RootComplete", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveAnySolution/RootIncomplete", puzzle));
+        Assert.assertFalse(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveAnySolution/RootIncomplete", puzzle));
     }
 
-
-    /** Tests puzzle completion with a single path down the tree*/
+    /** Tests puzzle completion with a single path down the tree */
     @Test
     public void TestSinglePath() throws InvalidFileFormatException {
-        Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveAnySolution/CompleteLine", puzzle));
+        Assert.assertTrue(
+                TestUtilities.verifyBoard("goalConditions/ProveAnySolution/CompleteLine", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveAnySolution/ContradictoryLine", puzzle));
+        Assert.assertFalse(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveAnySolution/ContradictoryLine", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveAnySolution/IncompleteLine", puzzle));
+        Assert.assertFalse(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveAnySolution/IncompleteLine", puzzle));
     }
-
 
     /** Tests puzzle completion with a multiple paths and contradictory paths */
     @Test
     public void TestComplexPaths() throws InvalidFileFormatException {
-        Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveAnySolution/ClosedAndFinished", puzzle));
+        Assert.assertTrue(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveAnySolution/ClosedAndFinished", puzzle));
 
-        Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveAnySolution/MergedSolutions", puzzle));
+        Assert.assertTrue(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveAnySolution/MergedSolutions", puzzle));
 
-        Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveAnySolution/UnmergedSolutions", puzzle));
+        Assert.assertTrue(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveAnySolution/UnmergedSolutions", puzzle));
 
-        Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveAnySolution/MultipleSolutions", puzzle));
+        Assert.assertTrue(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveAnySolution/MultipleSolutions", puzzle));
 
-        Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveAnySolution/SingleSolutionAndUnfinished", puzzle));
+        Assert.assertTrue(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveAnySolution/SingleSolutionAndUnfinished", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveAnySolution/SimpleContradiction", puzzle));
+        Assert.assertFalse(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveAnySolution/SimpleContradiction", puzzle));
     }
 }
-

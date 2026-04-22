@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.treetent;
 import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleImporter;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
 import java.util.ArrayList;
@@ -235,17 +234,16 @@ public class TreeTentImporter extends PuzzleImporter {
                 for (int i = 0; i < cellList.getLength(); i++) {
                     TreeTentCell cell =
                             (TreeTentCell)
-                                    puzzle.getFactory()
-                                            .importCell(cellList.item(i), treeTentBoard);
+                                    puzzle.getFactory().importCell(cellList.item(i), treeTentBoard);
                     // Store the goal value as goalData and mark the board cell as goal
-                    TreeTentCell boardCell = (TreeTentCell) treeTentBoard.getCell(cell.getLocation());
+                    TreeTentCell boardCell =
+                            (TreeTentCell) treeTentBoard.getCell(cell.getLocation());
                     if (boardCell != null) {
                         boardCell.setGoalData(cell.getData());
                         boardCell.setGoal(true);
                     }
                     goal.addCell(cell);
                     treeTentBoard.getCell(cell.getLocation()).setGoal(true);
-
                 }
                 puzzle.setGoal(goal);
             } else {

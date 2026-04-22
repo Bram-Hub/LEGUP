@@ -16,9 +16,7 @@ import java.util.Set;
 
 public class LinkTreeCaseRule extends CaseRule {
 
-    /**
-     * Constructs the LinkTreeCaseRule with its ID, name, description, and associated image.
-     */
+    /** Constructs the LinkTreeCaseRule with its ID, name, description, and associated image. */
     public LinkTreeCaseRule() {
         super(
                 "TREE-CASE-0003",
@@ -47,8 +45,8 @@ public class LinkTreeCaseRule extends CaseRule {
                 for (TreeTentLine l : lines) {
                     if (l.getC1().getLocation().equals(((TreeTentCell) element).getLocation())
                             || l.getC2()
-                            .getLocation()
-                            .equals(((TreeTentCell) element).getLocation())) {
+                                    .getLocation()
+                                    .equals(((TreeTentCell) element).getLocation())) {
                         canAdd = false;
                         break;
                     }

@@ -23,8 +23,8 @@ public class FillapixCell extends GridCell<Integer> implements Comparable<Fillap
         int temp = number == -1 ? 10 : number;
         data = (data / 100) * 100 + temp;
     }
+
     /**
-     *
      * @return the type of <code>FillapixCell</code>
      */
     public FillapixCellType getType() {
@@ -37,20 +37,21 @@ public class FillapixCell extends GridCell<Integer> implements Comparable<Fillap
                 return FillapixCellType.WHITE;
         }
     }
+
     /**
-     *
      * Sets the type of <code>FillapixCell</code>
      *
-     * @param type that is changes into an <code>int</code>  representation  and
-     *             assigns into data values so that it can be used later
+     * @param type that is changes into an <code>int</code> representation and assigns into data
+     *     values so that it can be used later
      */
     public void setCellType(FillapixCellType type) {
         data = type.value * 100 + (data % 100);
     }
+
     /**
+     * Sets the type of <code>FillapixCell</code> by changing the type if the <code>Element</code>
+     * is clicked.
      *
-     * Sets the type of <code>FillapixCell</code> by changing the type if the
-     * <code>Element</code> is clicked.
      * @param e the element that is being interacted with by the mouse
      * @param m keeps track of what the mouse is doing.
      */
@@ -89,7 +90,9 @@ public class FillapixCell extends GridCell<Integer> implements Comparable<Fillap
     }
 
     @Override
-    public boolean isKnown() {return data != 0;}
+    public boolean isKnown() {
+        return data != 0;
+    }
 
     @Override
     public String describeState(boolean isPlural) {

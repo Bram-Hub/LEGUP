@@ -20,63 +20,73 @@ public class ProveMultipleCellValueTest {
     /** Tests invalid rules */
     @Test
     public void TestInvalidRules() throws InvalidFileFormatException {
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveMultipleCellValue/InvalidLine", puzzle));
+        Assert.assertFalse(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveMultipleCellValue/InvalidLine", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveMultipleCellValue/InvalidContradiction", puzzle));
+        Assert.assertFalse(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveMultipleCellValue/InvalidContradiction", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveMultipleCellValue/InvalidCases", puzzle));
+        Assert.assertFalse(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveMultipleCellValue/InvalidCases", puzzle));
     }
 
-    
-    /** Tests puzzle completion with only a root node*/
+    /** Tests puzzle completion with only a root node */
     @Test
     public void TestRootNode() throws InvalidFileFormatException {
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveMultipleCellValue/RootIncomplete", puzzle));
+        Assert.assertFalse(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveMultipleCellValue/RootIncomplete", puzzle));
     }
 
-
-    /** Tests puzzle completion with a single path down the tree*/
+    /** Tests puzzle completion with a single path down the tree */
     @Test
     public void TestSinglePath() throws InvalidFileFormatException {
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveMultipleCellValue/ContradictoryLine", puzzle));
+        Assert.assertFalse(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveMultipleCellValue/ContradictoryLine", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveMultipleCellValue/IncompleteLine", puzzle));
-
+        Assert.assertFalse(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveMultipleCellValue/IncompleteLine", puzzle));
     }
-
 
     /** Tests puzzle completion with a multiple paths and contradictory paths */
     @Test
     public void TestComplexPaths() throws InvalidFileFormatException {
-        Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveMultipleCellValue/CompleteDiffering", puzzle));
+        Assert.assertTrue(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveMultipleCellValue/CompleteDiffering", puzzle));
 
-        Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveMultipleCellValue/ThreeLines", puzzle));
+        Assert.assertTrue(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveMultipleCellValue/ThreeLines", puzzle));
 
-        Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveMultipleCellValue/ThreeLinesTwoMatch", puzzle));
+        Assert.assertTrue(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveMultipleCellValue/ThreeLinesTwoMatch", puzzle));
 
-        Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveMultipleCellValue/OneUnmatchedCellOfMany", puzzle));
+        Assert.assertTrue(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveMultipleCellValue/OneUnmatchedCellOfMany", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveMultipleCellValue/CompleteUndiffering", puzzle));
+        Assert.assertFalse(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveMultipleCellValue/CompleteUndiffering", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveMultipleCellValue/IncompleteDiffering", puzzle));
+        Assert.assertFalse(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveMultipleCellValue/IncompleteDiffering", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveMultipleCellValue/IncompleteUndiffering", puzzle));
+        Assert.assertFalse(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveMultipleCellValue/IncompleteUndiffering", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveMultipleCellValue/SingleSolutionAndUnfinished", puzzle));
+        Assert.assertFalse(
+                TestUtilities.verifyBoard(
+                        "goalConditions/ProveMultipleCellValue/SingleSolutionAndUnfinished",
+                        puzzle));
     }
 }
-

@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.starbattle;
 import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleImporter;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.Point;
 import org.w3c.dom.Element;
@@ -94,10 +93,10 @@ public class StarBattleImporter extends PuzzleImporter {
             for (int i = 0; i < cellList.getLength(); i++) {
                 StarBattleCell cell =
                         (StarBattleCell)
-                                puzzle.getFactory()
-                                        .importCell(cellList.item(i), StarBattleBoard);
+                                puzzle.getFactory().importCell(cellList.item(i), StarBattleBoard);
                 // Store the goal value as goalData and mark the board cell as goal
-                StarBattleCell boardCell = (StarBattleCell) StarBattleBoard.getCell(cell.getLocation());
+                StarBattleCell boardCell =
+                        (StarBattleCell) StarBattleBoard.getCell(cell.getLocation());
                 if (boardCell != null) {
                     boardCell.setGoalData(cell.getData());
                     boardCell.setGoal(true);

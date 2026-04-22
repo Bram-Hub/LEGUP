@@ -71,8 +71,8 @@ public class GridCell<T> extends PuzzleElement<T> {
      * Compares the location and data at <i>this</i> cell and <i>other</i> cell
      *
      * @param other cell to compare to
-     * @return true if both <i>this</i> and <i>other</i> have the same location and
-     * data, false otherwise
+     * @return true if both <i>this</i> and <i>other</i> have the same location and data, false
+     *     otherwise
      */
     public boolean equals(GridCell<T> other) {
         return location.equals(other.location) && data.equals(other.data);
@@ -84,13 +84,14 @@ public class GridCell<T> extends PuzzleElement<T> {
      * @return true if cell is unknown, false otherwise.
      */
     public boolean isKnown() {
-        if (data instanceof Integer) {return (Integer) data != 0;}
+        if (data instanceof Integer) {
+            return (Integer) data != 0;
+        }
         return data != null;
     }
 
     /**
-     * Get text description of cell's state.
-     * Used for generating goal condition text.
+     * Get text description of cell's state. Used for generating goal condition text.
      *
      * @param isPlural Flag informing if the description will be used in a plural context.
      * @return String describing cell state.

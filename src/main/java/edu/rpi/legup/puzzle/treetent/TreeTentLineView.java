@@ -18,9 +18,8 @@ public class TreeTentLineView extends ElementView {
     }
 
     /**
-     * Draws the line connecting two TreeTentCells on the board.
-     * The line is drawn between the centers of the two cells and changes color
-     * depending on whether the line has been modified.
+     * Draws the line connecting two TreeTentCells on the board. The line is drawn between the
+     * centers of the two cells and changes color depending on whether the line has been modified.
      *
      * @param graphics2D the Graphics2D context used for rendering
      */

@@ -15,7 +15,7 @@ public class StarBattleView extends GridBoardView {
 
     /** Horizontal borders between cells (visual separators across rows). */
     private ArrayList<StarBattleBorderView>
-            horizontalBorders;  // board.size * board.size+1     left-right up-down
+            horizontalBorders; // board.size * board.size+1     left-right up-down
 
     /** Vertical borders between cells (visual separators across columns). */
     private ArrayList<StarBattleBorderView>
@@ -121,11 +121,12 @@ public class StarBattleView extends GridBoardView {
      * Computes the screen location for drawing a border relative to a given cell.
      *
      * <p>The direction follows numpad conventions:
+     *
      * <ul>
-     *     <li>2 = bottom</li>
-     *     <li>4 = left</li>
-     *     <li>6 = right</li>
-     *     <li>8 = top</li>
+     *   <li>2 = bottom
+     *   <li>4 = left
+     *   <li>6 = right
+     *   <li>8 = top
      * </ul>
      *
      * @param one the reference cell

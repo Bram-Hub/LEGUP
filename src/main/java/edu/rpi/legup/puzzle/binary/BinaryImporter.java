@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.binary;
 import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleImporter;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
 import org.w3c.dom.Element;
@@ -134,8 +133,7 @@ public class BinaryImporter extends PuzzleImporter {
                 for (int i = 0; i < cellList.getLength(); i++) {
                     BinaryCell cell =
                             (BinaryCell)
-                                    puzzle.getFactory()
-                                            .importCell(cellList.item(i), binaryBoard);
+                                    puzzle.getFactory().importCell(cellList.item(i), binaryBoard);
                     // Store the goal value as goalData and mark the board cell as goal
                     BinaryCell boardCell = (BinaryCell) binaryBoard.getCell(cell.getLocation());
                     if (boardCell != null) {

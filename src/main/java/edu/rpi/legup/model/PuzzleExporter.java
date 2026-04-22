@@ -1,12 +1,12 @@
 package edu.rpi.legup.model;
 
-import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.app.VersionInfo;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.GridCell;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.save.ExportFileException;
-import edu.rpi.legup.app.VersionInfo;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -164,8 +164,7 @@ public abstract class PuzzleExporter {
      * @param boardElement board XML element
      * @param board grid board to read goal-marked cells from
      */
-    protected void appendGoalElement(
-            Document newDocument, Element boardElement, GridBoard board) {
+    protected void appendGoalElement(Document newDocument, Element boardElement, GridBoard board) {
         GoalType goalType =
                 puzzle.getGoal() == null ? GoalType.DEFAULT : puzzle.getGoal().getType();
 
@@ -175,7 +174,8 @@ public abstract class PuzzleExporter {
 
         Element goalElement = newDocument.createElement("goal");
         goalElement.setAttribute("type", String.valueOf(goalType));
-        goalElement.setAttribute("assumeSolution", String.valueOf(puzzle.getGoal().assumeSolution()));
+        goalElement.setAttribute(
+                "assumeSolution", String.valueOf(puzzle.getGoal().assumeSolution()));
 
         boolean hasGoalCells = false;
 

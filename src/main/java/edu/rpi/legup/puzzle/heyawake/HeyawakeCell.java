@@ -1,8 +1,6 @@
 package edu.rpi.legup.puzzle.heyawake;
 
 import edu.rpi.legup.model.gameboard.GridCell;
-import edu.rpi.legup.puzzle.battleship.BattleshipType;
-
 import java.awt.*;
 
 public class HeyawakeCell extends GridCell<Integer> {
@@ -28,6 +26,6 @@ public class HeyawakeCell extends GridCell<Integer> {
         return copy;
     }
 
-//    @Override
-//    public boolean isKnown() {return !(data == );}
+    //    @Override
+    //    public boolean isKnown() {return !(data == );}
 }

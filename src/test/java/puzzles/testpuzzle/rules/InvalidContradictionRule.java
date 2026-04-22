@@ -6,10 +6,11 @@ import edu.rpi.legup.model.rules.ContradictionRule;
 
 public class InvalidContradictionRule extends ContradictionRule {
     public InvalidContradictionRule() {
-        super("TEST-CONT-0002",
-            "No Contradiction",
-            "Always empty string",
-            "edu/rpi/legup/images/nurikabe/contradictions/BlackSquare.png");
+        super(
+                "TEST-CONT-0002",
+                "No Contradiction",
+                "Always empty string",
+                "edu/rpi/legup/images/nurikabe/contradictions/BlackSquare.png");
     }
 
     @Override

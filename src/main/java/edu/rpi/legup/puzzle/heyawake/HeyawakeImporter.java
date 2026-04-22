@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.heyawake;
 import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleImporter;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
 import org.w3c.dom.Element;
@@ -110,10 +109,10 @@ public class HeyawakeImporter extends PuzzleImporter {
                 for (int i = 0; i < cellList.getLength(); i++) {
                     HeyawakeCell cell =
                             (HeyawakeCell)
-                                    puzzle.getFactory()
-                                            .importCell(cellList.item(i), heyawakeBoard);
+                                    puzzle.getFactory().importCell(cellList.item(i), heyawakeBoard);
                     // Store the goal value as goalData and mark the board cell as goal
-                    HeyawakeCell boardCell = (HeyawakeCell) heyawakeBoard.getCell(cell.getLocation());
+                    HeyawakeCell boardCell =
+                            (HeyawakeCell) heyawakeBoard.getCell(cell.getLocation());
                     if (boardCell != null) {
                         boardCell.setGoalData(cell.getData());
                         boardCell.setGoal(true);

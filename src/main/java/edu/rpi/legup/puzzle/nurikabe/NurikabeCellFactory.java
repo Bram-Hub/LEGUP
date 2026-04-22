@@ -1,13 +1,10 @@
 package edu.rpi.legup.puzzle.nurikabe;
 
-import edu.rpi.legup.model.Goal;
-import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
-
 import org.w3c.dom.*;
 
 public class NurikabeCellFactory extends ElementFactory {
@@ -53,7 +50,6 @@ public class NurikabeCellFactory extends ElementFactory {
             throw new InvalidFileFormatException("nurikabe Factory: could not find attribute(s)");
         }
     }
-
 
     /**
      * Creates a xml document puzzleElement from a cell for exporting

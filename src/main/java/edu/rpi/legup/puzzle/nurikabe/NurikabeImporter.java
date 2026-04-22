@@ -129,10 +129,10 @@ public class NurikabeImporter extends PuzzleImporter {
                 for (int i = 0; i < cellList.getLength(); i++) {
                     NurikabeCell cell =
                             (NurikabeCell)
-                                    puzzle.getFactory()
-                                            .importCell(cellList.item(i), nurikabeBoard);
+                                    puzzle.getFactory().importCell(cellList.item(i), nurikabeBoard);
                     // Store the goal value as goalData and mark the board cell as goal
-                    NurikabeCell boardCell = (NurikabeCell) nurikabeBoard.getCell(cell.getLocation());
+                    NurikabeCell boardCell =
+                            (NurikabeCell) nurikabeBoard.getCell(cell.getLocation());
                     if (boardCell != null) {
                         boardCell.setGoalData(cell.getData());
                         boardCell.setGoal(true);

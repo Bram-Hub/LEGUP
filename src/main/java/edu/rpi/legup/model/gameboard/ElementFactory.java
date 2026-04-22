@@ -3,11 +3,11 @@ package edu.rpi.legup.model.gameboard;
 import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * ElementFactory is an abstract class for importing and exporting {@link PuzzleElement} instances.
@@ -27,7 +27,6 @@ public abstract class ElementFactory {
             throws InvalidFileFormatException;
 
     /**
-     *
      * @param node node that represents the Goal object
      * @param board board to add the goal to
      * @return newly created Goal from the xml document Node
@@ -42,32 +41,31 @@ public abstract class ElementFactory {
 
             NamedNodeMap attributeList = node.getAttributes();
             String goalTypeString = attributeList.getNamedItem("type").getNodeValue();
-            GoalType goalType = goalTypeString == null ? GoalType.DEFAULT : GoalType.valueOf(goalTypeString.toUpperCase());
+            GoalType goalType =
+                    goalTypeString == null
+                            ? GoalType.DEFAULT
+                            : GoalType.valueOf(goalTypeString.toUpperCase());
 
-            try
-            {
+            try {
                 String assumeSolution = attributeList.getNamedItem("assumeSolution").getNodeValue();
                 if (!(assumeSolution.equalsIgnoreCase("true")
-                        || assumeSolution.equalsIgnoreCase("false")))
-                {
+                        || assumeSolution.equalsIgnoreCase("false"))) {
                     throw new InvalidFileFormatException(
                             "Field 'assumeSolution' must be null, true, or false.");
                 }
                 boolean assume = (assumeSolution.equalsIgnoreCase("true"));
                 return new Goal(goalType, assume);
-            }
-            catch(NullPointerException e)
-            {
+            } catch (NullPointerException e) {
                 return new Goal(goalType, false);
             }
 
         } catch (NumberFormatException e) {
-            throw new InvalidFileFormatException(
-                    "Factory: unknown value where integer expected");
+            throw new InvalidFileFormatException("Factory: unknown value where integer expected");
         } catch (NullPointerException e) {
             throw new InvalidFileFormatException("Factory: could not find attribute(s)");
         }
     }
+
     /**
      * Creates a xml document {@link PuzzleElement} from a cell for exporting.
      *

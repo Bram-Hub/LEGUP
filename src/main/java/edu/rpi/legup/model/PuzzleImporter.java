@@ -10,7 +10,6 @@ import java.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -166,13 +165,11 @@ public abstract class PuzzleImporter {
      * @return A list of elements that will change when solving the puzzle * e.g. {"cell"}, {"cell",
      *     "line"}
      */
-    @NotNull
-    public List<String> getImporterElements() {
+    @NotNull public List<String> getImporterElements() {
         List<String> elements = new ArrayList<>();
         elements.add("cell");
         return elements;
     }
-
 
     /**
      * Creates the proof for building
@@ -476,8 +473,7 @@ public abstract class PuzzleImporter {
      *
      * @return puzzle
      */
-    @NotNull
-    public Puzzle getPuzzle() {
+    @NotNull public Puzzle getPuzzle() {
         return puzzle;
     }
 }

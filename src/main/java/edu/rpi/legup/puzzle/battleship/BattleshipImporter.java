@@ -3,15 +3,13 @@ package edu.rpi.legup.puzzle.battleship;
 import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleImporter;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-/**
- * Imports a Battleship puzzle from an XML file
- */
+
+/** Imports a Battleship puzzle from an XML file */
 public class BattleshipImporter extends PuzzleImporter {
     public BattleshipImporter(Battleship battleShip) {
         super(battleShip);
@@ -193,7 +191,8 @@ public class BattleshipImporter extends PuzzleImporter {
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), battleShipBoard);
                     // Store the goal value as goalData and mark the board cell as goal
-                    BattleshipCell boardCell = (BattleshipCell) battleShipBoard.getCell(cell.getLocation());
+                    BattleshipCell boardCell =
+                            (BattleshipCell) battleShipBoard.getCell(cell.getLocation());
                     if (boardCell != null) {
                         boardCell.setGoalData(cell.getData());
                         boardCell.setGoal(true);

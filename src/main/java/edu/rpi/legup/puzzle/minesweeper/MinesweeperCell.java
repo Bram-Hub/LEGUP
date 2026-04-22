@@ -4,8 +4,6 @@ import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-
-import edu.rpi.legup.puzzle.masyu.MasyuType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -75,7 +73,9 @@ public class MinesweeperCell extends GridCell<MinesweeperTileData> {
     }
 
     @Override
-    public boolean isKnown() {return !(data == MinesweeperTileData.unset());}
+    public boolean isKnown() {
+        return !(data == MinesweeperTileData.unset());
+    }
 
     @Override
     public String describeState(boolean isPlural) {

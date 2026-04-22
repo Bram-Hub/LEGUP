@@ -52,10 +52,8 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
         this.caseBoard = caseBoard;
         this.mouseEvent = mouseEvent;
         this.caseTrans = new ArrayList<>();
-        this.cases =
-                caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
-        this.numberOfCaseRules =
-                cases.size();
+        this.cases = caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
+        this.numberOfCaseRules = cases.size();
     }
 
     /**
@@ -128,7 +126,6 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
         if (numberOfCaseRules == 0) {
             return "The selection must produce at least one case";
         }
-
 
         System.out.println("Number of cases:" + numberOfCaseRules);
         if (numberOfCaseRules > caseRule.MAX_CASES) {

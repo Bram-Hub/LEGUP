@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.minesweeper;
 import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleImporter;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
 import org.jetbrains.annotations.Contract;
@@ -105,7 +104,8 @@ public class MinesweeperImporter extends PuzzleImporter {
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), minesweeperBoard);
                     // Store the goal value as goalData and mark the board cell as goal
-                    MinesweeperCell boardCell = (MinesweeperCell) minesweeperBoard.getCell(cell.getLocation());
+                    MinesweeperCell boardCell =
+                            (MinesweeperCell) minesweeperBoard.getCell(cell.getLocation());
                     if (boardCell != null) {
                         boardCell.setGoalData(cell.getData());
                         boardCell.setGoal(true);
@@ -127,6 +127,7 @@ public class MinesweeperImporter extends PuzzleImporter {
 
     /**
      * Gets the Minesweeper board and returns it.
+     *
      * @param boardElement is the board that is being returned
      * @return the board with a guarantee that it is not null
      * @throws InvalidFileFormatException If the file format is wrong

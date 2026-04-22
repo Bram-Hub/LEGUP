@@ -6,8 +6,8 @@ import edu.rpi.legup.model.gameboard.Board;
 public class StarBattle extends Puzzle {
 
     /**
-     * Constructs a StarBattle puzzle and initializes its components such as importer,
-     * exporter, and cell factory.
+     * Constructs a StarBattle puzzle and initializes its components such as importer, exporter, and
+     * cell factory.
      */
     public StarBattle() {
         super();
@@ -19,9 +19,7 @@ public class StarBattle extends Puzzle {
         this.factory = new StarBattleCellFactory();
     }
 
-    /**
-     * Initializes the view for the current board and registers it as a listener.
-     */
+    /** Initializes the view for the current board and registers it as a listener. */
     @Override
     public void initializeView() {
         boardView = new StarBattleView((StarBattleBoard) currentBoard);

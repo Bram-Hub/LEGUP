@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.masyu;
 import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleImporter;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
 import org.w3c.dom.Element;
@@ -107,8 +106,7 @@ public class MasyuImporter extends PuzzleImporter {
                 for (int i = 0; i < cellList.getLength(); i++) {
                     MasyuCell cell =
                             (MasyuCell)
-                                    puzzle.getFactory()
-                                            .importCell(cellList.item(i), masyuBoard);
+                                    puzzle.getFactory().importCell(cellList.item(i), masyuBoard);
                     // Store the goal value as goalData and mark the board cell as goal
                     MasyuCell boardCell = (MasyuCell) masyuBoard.getCell(cell.getLocation());
                     if (boardCell != null) {

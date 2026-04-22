@@ -1,6 +1,5 @@
 package edu.rpi.legup.puzzle.fillapix;
 
-import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -53,8 +52,6 @@ public class FillapixCellFactory extends ElementFactory {
             throw new InvalidFileFormatException("Fillapix Factory: could not find attribute(s)");
         }
     }
-
-
 
     /**
      * Creates an xml document puzzleElement from a cell for exporting

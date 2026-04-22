@@ -3,7 +3,6 @@ package edu.rpi.legup.controller;
 import edu.rpi.legup.history.*;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.elements.Element;
-import edu.rpi.legup.model.elements.ElementType;
 import edu.rpi.legup.model.elements.PlaceableElement;
 import edu.rpi.legup.model.rules.*;
 import edu.rpi.legup.ui.puzzleeditorui.elementsview.ElementButton;
@@ -83,6 +82,7 @@ public class EditorElementController implements ActionListener {
             elementController.setAssumeSolution(assume);
         }
     }
+
     /**
      * Handles the event when a button associated with an Element is pressed
      *

@@ -16,8 +16,8 @@ public class ThermometerExporter extends PuzzleExporter {
     }
 
     /**
-     * Creates the XML representation of the ThermometerBoard.
-     * Includes board dimensions, vial definitions, row constraints, and column constraints.
+     * Creates the XML representation of the ThermometerBoard. Includes board dimensions, vial
+     * definitions, row constraints, and column constraints.
      *
      * @param newDocument the XML Document used to create elements
      * @return the root XML element representing the board

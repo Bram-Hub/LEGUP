@@ -7,7 +7,6 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.model.rules.ContradictionRule;
 import edu.rpi.legup.ui.boardview.GridBoardView;
 
 public class TestPuzzle extends Puzzle {
@@ -24,7 +23,11 @@ public class TestPuzzle extends Puzzle {
 
     @Override
     public void initializeView() {
-        boardView = new GridBoardView(new BoardController(), new ElementController(), ((GridBoard) currentBoard).getDimension());
+        boardView =
+                new GridBoardView(
+                        new BoardController(),
+                        new ElementController(),
+                        ((GridBoard) currentBoard).getDimension());
         boardView.setBoard(currentBoard);
         addBoardListener(boardView);
     }
@@ -47,7 +50,5 @@ public class TestPuzzle extends Puzzle {
     }
 
     @Override
-    public void onBoardChange(Board board) {
-
-    }
+    public void onBoardChange(Board board) {}
 }

@@ -85,8 +85,8 @@ public class TreeTentBoard extends GridBoard {
     }
 
     /**
-     * Returns the puzzle element corresponding to the given element. For elements with index -2
-     * or -1, the element itself is returned directly.
+     * Returns the puzzle element corresponding to the given element. For elements with index -2 or
+     * -1, the element itself is returned directly.
      *
      * @param element the puzzle element to look up
      * @return the corresponding puzzle element
@@ -101,9 +101,8 @@ public class TreeTentBoard extends GridBoard {
     }
 
     /**
-     * Sets the puzzle element at the specified index. If the index is -1, the element is added
-     * to the lines list. Otherwise, the element is set at the given index in the puzzle elements
-     * list.
+     * Sets the puzzle element at the specified index. If the index is -1, the element is added to
+     * the lines list. Otherwise, the element is set at the given index in the puzzle elements list.
      *
      * @param index the index at which to set the puzzle element
      * @param puzzleElement the puzzle element to set
