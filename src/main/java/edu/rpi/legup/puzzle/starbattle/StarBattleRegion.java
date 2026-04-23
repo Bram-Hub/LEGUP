@@ -4,9 +4,7 @@ import edu.rpi.legup.model.gameboard.GridRegion;
 
 public class StarBattleRegion extends GridRegion<StarBattleCell> {
 
-    /**
-     * Constructs an empty StarBattleRegion.
-     */
+    /** Constructs an empty StarBattleRegion. */
     public StarBattleRegion() {
         super();
     }

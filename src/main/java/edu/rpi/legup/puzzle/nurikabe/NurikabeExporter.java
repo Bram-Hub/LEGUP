@@ -30,17 +30,19 @@ public class NurikabeExporter extends PuzzleExporter {
         boardElement.setAttribute("width", String.valueOf(board.getWidth()));
         boardElement.setAttribute("height", String.valueOf(board.getHeight()));
 
-        org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
+        appendGoalElement(newDocument, boardElement, board);
+
+        org.w3c.dom.Element boardCellsElement = newDocument.createElement("cells");
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             NurikabeCell cell = (NurikabeCell) puzzleElement;
             if (cell.getData() != -2) {
                 org.w3c.dom.Element cellElement =
                         puzzle.getFactory().exportCell(newDocument, puzzleElement);
-                cellsElement.appendChild(cellElement);
+                boardCellsElement.appendChild(cellElement);
             }
         }
 
-        boardElement.appendChild(cellsElement);
+        boardElement.appendChild(boardCellsElement);
         return boardElement;
     }
 }

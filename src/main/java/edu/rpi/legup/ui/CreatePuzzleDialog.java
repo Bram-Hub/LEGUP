@@ -256,8 +256,7 @@ public class CreatePuzzleDialog extends JDialog {
      *
      * @return the class name of the selected game
      */
-    @NotNull
-    public String getGame() {
+    @NotNull public String getGame() {
         return Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
     }
 
@@ -266,8 +265,7 @@ public class CreatePuzzleDialog extends JDialog {
      *
      * @return the number of rows as a string
      */
-    @NotNull
-    public String getRows() {
+    @NotNull public String getRows() {
         return rows.getText();
     }
 
@@ -276,8 +274,7 @@ public class CreatePuzzleDialog extends JDialog {
      *
      * @return the number of columns as a string
      */
-    @NotNull
-    public String getColumns() {
+    @NotNull public String getColumns() {
         return columns.getText();
     }
 
@@ -286,8 +283,7 @@ public class CreatePuzzleDialog extends JDialog {
      *
      * @return an array of strings, each representing a line of text
      */
-    @NotNull
-    public String[] getTextArea() {
+    @NotNull public String[] getTextArea() {
         return textArea.getText().split("\n");
     }
 }

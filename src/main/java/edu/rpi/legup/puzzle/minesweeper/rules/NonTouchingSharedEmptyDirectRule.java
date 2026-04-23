@@ -7,10 +7,10 @@ import edu.rpi.legup.model.rules.DirectRule;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.minesweeper.*;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.awt.Point;
 
 public class NonTouchingSharedEmptyDirectRule extends DirectRule {
     public NonTouchingSharedEmptyDirectRule() {
@@ -40,7 +40,7 @@ public class NonTouchingSharedEmptyDirectRule extends DirectRule {
             return super.getInvalidUseOfRuleMessage() + ": This cell is not forced to be empty";
         }
 
-        //get location of cell/parentCell to compare with AdjCells later
+        // get location of cell/parentCell to compare with AdjCells later
         Point parentCellLoc = parentCell.getLocation();
 
         // get all adjCells that have a number
@@ -53,154 +53,185 @@ public class NonTouchingSharedEmptyDirectRule extends DirectRule {
         while (itr.hasNext()) {
             MinesweeperCell adjCell = itr.next();
 
-            //get location of this AdjCell to compare with cell/parentCell
+            // get location of this AdjCell to compare with cell/parentCell
             Point adjCellLoc = adjCell.getLocation();
 
-            //check if this AdjCell has another 'number cell' on the opposite side of the parentCell
-            if (adjCellLoc.x == parentCellLoc.x){//in the same column
-                if(parentCellLoc.y >= 1 && adjCellLoc.y > parentCellLoc.y){//adjCell is below parentCell
-                    //get cell above parentCell
-                    MinesweeperCell oppositeSideCell = parentBoard.getCell(parentCellLoc.x, parentCellLoc.y-1).copy();
+            // check if this AdjCell has another 'number cell' on the opposite side of the
+            // parentCell
+            if (adjCellLoc.x == parentCellLoc.x) { // in the same column
+                if (parentCellLoc.y >= 1
+                        && adjCellLoc.y > parentCellLoc.y) { // adjCell is below parentCell
+                    // get cell above parentCell
+                    MinesweeperCell oppositeSideCell =
+                            parentBoard.getCell(parentCellLoc.x, parentCellLoc.y - 1).copy();
 
-                    //check oppositeSideCell, rook
-                    if(oppositeSideCell.getTileNumber()>=1 && oppositeSideCell.getTileNumber()<9){
-                        continue;// do not remove from adj cell list
+                    // check oppositeSideCell, rook
+                    if (oppositeSideCell.getTileNumber() >= 1
+                            && oppositeSideCell.getTileNumber() < 9) {
+                        continue; // do not remove from adj cell list
                     }
 
-                    //knight check right
-                    if(parentCellLoc.x < parentBoard.getWidth()){
-                        oppositeSideCell.setLocation(new Point(parentCellLoc.x+1, parentCellLoc.y-1));
-                        if(oppositeSideCell.getTileNumber()>=1 && oppositeSideCell.getTileNumber()<9){
-                            continue;// do not remove from adj cell list
+                    // knight check right
+                    if (parentCellLoc.x < parentBoard.getWidth()) {
+                        oppositeSideCell.setLocation(
+                                new Point(parentCellLoc.x + 1, parentCellLoc.y - 1));
+                        if (oppositeSideCell.getTileNumber() >= 1
+                                && oppositeSideCell.getTileNumber() < 9) {
+                            continue; // do not remove from adj cell list
                         }
                     }
 
-                    //knight check left
-                    if(parentCellLoc.x >= 1){
-                        oppositeSideCell.setLocation(new Point(parentCellLoc.x-1, parentCellLoc.y-1));
-                        if(oppositeSideCell.getTileNumber()>=1 && oppositeSideCell.getTileNumber()<9){
-                            continue;// do not remove from adj cell list
+                    // knight check left
+                    if (parentCellLoc.x >= 1) {
+                        oppositeSideCell.setLocation(
+                                new Point(parentCellLoc.x - 1, parentCellLoc.y - 1));
+                        if (oppositeSideCell.getTileNumber() >= 1
+                                && oppositeSideCell.getTileNumber() < 9) {
+                            continue; // do not remove from adj cell list
                         }
                     }
 
+                } else if (parentCellLoc.y < parentBoard.getHeight() - 1
+                        && adjCellLoc.y < parentCellLoc.y) { // adjCell is above parentCell
+                    // get cell below parentCell
+                    MinesweeperCell oppositeSideCell =
+                            parentBoard.getCell(parentCellLoc.x, parentCellLoc.y + 1).copy();
 
-                } else if(parentCellLoc.y < parentBoard.getHeight()-1 && adjCellLoc.y < parentCellLoc.y){//adjCell is above parentCell
-                    //get cell below parentCell
-                    MinesweeperCell oppositeSideCell = parentBoard.getCell(parentCellLoc.x, parentCellLoc.y+1).copy();
-
-                    //check oppositeSideCell, rook
-                    if(oppositeSideCell.getTileNumber()>=1 && oppositeSideCell.getTileNumber()<9){
-                        continue;// do not remove from adj cell list
+                    // check oppositeSideCell, rook
+                    if (oppositeSideCell.getTileNumber() >= 1
+                            && oppositeSideCell.getTileNumber() < 9) {
+                        continue; // do not remove from adj cell list
                     }
 
-                    //knight check right
-                    if(parentCellLoc.x < parentBoard.getWidth()){
-                        oppositeSideCell.setLocation(new Point(parentCellLoc.x+1, parentCellLoc.y+1));
-                        if(oppositeSideCell.getTileNumber()>=1 && oppositeSideCell.getTileNumber()<9){
-                            continue;// do not remove from adj cell list
+                    // knight check right
+                    if (parentCellLoc.x < parentBoard.getWidth()) {
+                        oppositeSideCell.setLocation(
+                                new Point(parentCellLoc.x + 1, parentCellLoc.y + 1));
+                        if (oppositeSideCell.getTileNumber() >= 1
+                                && oppositeSideCell.getTileNumber() < 9) {
+                            continue; // do not remove from adj cell list
                         }
                     }
 
-                    //knight check left
-                    if(parentCellLoc.x >=1){
-                        oppositeSideCell.setLocation(new Point(parentCellLoc.x-1, parentCellLoc.y+1));
-                        if(oppositeSideCell.getTileNumber()>=1 && oppositeSideCell.getTileNumber()<9){
-                            continue;// do not remove from adj cell list
+                    // knight check left
+                    if (parentCellLoc.x >= 1) {
+                        oppositeSideCell.setLocation(
+                                new Point(parentCellLoc.x - 1, parentCellLoc.y + 1));
+                        if (oppositeSideCell.getTileNumber() >= 1
+                                && oppositeSideCell.getTileNumber() < 9) {
+                            continue; // do not remove from adj cell list
+                        }
+                    }
+                }
+            } else if (adjCellLoc.y == parentCellLoc.y) { // in the same row
+                if (parentCellLoc.x >= 1
+                        && adjCellLoc.x > parentCellLoc.x) { // adjCell is right of parentCell
+                    // get cell left of parentCell
+                    MinesweeperCell oppositeSideCell =
+                            parentBoard.getCell(parentCellLoc.x - 1, parentCellLoc.y).copy();
+
+                    // check oppositeSideCell, rook
+                    if (oppositeSideCell.getTileNumber() >= 1
+                            && oppositeSideCell.getTileNumber() < 9) {
+                        continue; // do not remove from adj cell list
+                    }
+
+                    // knight check up
+                    if (parentCellLoc.y >= 1) {
+                        oppositeSideCell.setLocation(
+                                new Point(parentCellLoc.x - 1, parentCellLoc.y - 1));
+                        if (oppositeSideCell.getTileNumber() >= 1
+                                && oppositeSideCell.getTileNumber() < 9) {
+                            continue; // do not remove from adj cell list
+                        }
+                    }
+
+                    // knight check down
+                    if (parentCellLoc.y < parentBoard.getHeight()) {
+                        oppositeSideCell.setLocation(
+                                new Point(parentCellLoc.x - 1, parentCellLoc.y + 1));
+                        if (oppositeSideCell.getTileNumber() >= 1
+                                && oppositeSideCell.getTileNumber() < 9) {
+                            continue; // do not remove from adj cell list
+                        }
+                    }
+
+                } else if (parentCellLoc.x < parentBoard.getWidth() - 1
+                        && adjCellLoc.x < parentCellLoc.x) { // adjCell is left of parentCell
+                    // get cell right of parentCell
+                    MinesweeperCell oppositeSideCell =
+                            parentBoard.getCell(parentCellLoc.x + 1, parentCellLoc.y).copy();
+
+                    // check oppositeSideCell, rook
+                    if (oppositeSideCell.getTileNumber() >= 1
+                            && oppositeSideCell.getTileNumber() < 9) {
+                        continue; // do not remove from adj cell list
+                    }
+
+                    // knight check up
+                    if (parentCellLoc.y >= 1) {
+                        oppositeSideCell.setLocation(
+                                new Point(parentCellLoc.x + 1, parentCellLoc.y - 1));
+                        if (oppositeSideCell.getTileNumber() >= 1
+                                && oppositeSideCell.getTileNumber() < 9) {
+                            continue; // do not remove from adj cell list
+                        }
+                    }
+
+                    // knight check down
+                    if (parentCellLoc.y < parentBoard.getHeight()) {
+                        oppositeSideCell.setLocation(
+                                new Point(parentCellLoc.x + 1, parentCellLoc.y + 1));
+                        if (oppositeSideCell.getTileNumber() >= 1
+                                && oppositeSideCell.getTileNumber() < 9) {
+                            continue; // do not remove from adj cell list
+                        }
+                    }
+                }
+            } else { // opposite side check, bishop
+                if (adjCellLoc.x > parentCellLoc.x) {
+                    if (adjCellLoc.y > parentCellLoc.y) { // adjCell is SE of parentCell
+                        if (parentCellLoc.x >= 1 && parentCellLoc.y >= 1) {
+                            MinesweeperCell oppositeSideCell =
+                                    parentBoard.getCell(parentCellLoc.x - 1, parentCellLoc.y - 1);
+                            if (oppositeSideCell.getTileNumber() >= 1
+                                    && oppositeSideCell.getTileNumber() < 9) {
+                                continue; // do not remove from adj cell list
+                            }
+                        }
+                    } else { // adjCell is NE of parentCell
+                        if (parentCellLoc.x >= 1 && parentCellLoc.y < parentBoard.getHeight() - 1) {
+                            MinesweeperCell oppositeSideCell =
+                                    parentBoard.getCell(parentCellLoc.x - 1, parentCellLoc.y + 1);
+                            if (oppositeSideCell.getTileNumber() >= 1
+                                    && oppositeSideCell.getTileNumber() < 9) {
+                                continue; // do not remove from adj cell list
+                            }
+                        }
+                    }
+                } else {
+                    if (adjCellLoc.y > parentCellLoc.y) { // adjCell is SW of parentCell
+                        if (parentCellLoc.x < parentBoard.getWidth() - 1 && parentCellLoc.y >= 1) {
+                            MinesweeperCell oppositeSideCell =
+                                    parentBoard.getCell(parentCellLoc.x + 1, parentCellLoc.y - 1);
+                            if (oppositeSideCell.getTileNumber() >= 1
+                                    && oppositeSideCell.getTileNumber() < 9) {
+                                continue; // do not remove from adj cell list
+                            }
+                        }
+                    } else { // adjCell is NW of parentCell
+                        if (parentCellLoc.x < parentBoard.getWidth() - 1
+                                && parentCellLoc.y < parentBoard.getHeight() - 1) {
+                            MinesweeperCell oppositeSideCell =
+                                    parentBoard.getCell(parentCellLoc.x + 1, parentCellLoc.y + 1);
+                            if (oppositeSideCell.getTileNumber() >= 1
+                                    && oppositeSideCell.getTileNumber() < 9) {
+                                continue; // do not remove from adj cell list
+                            }
                         }
                     }
                 }
             }
-            else if (adjCellLoc.y == parentCellLoc.y){//in the same row
-                if(parentCellLoc.x >= 1 && adjCellLoc.x > parentCellLoc.x){//adjCell is right of parentCell
-                    //get cell left of parentCell
-                    MinesweeperCell oppositeSideCell = parentBoard.getCell(parentCellLoc.x-1, parentCellLoc.y).copy();
-
-                    //check oppositeSideCell, rook
-                    if(oppositeSideCell.getTileNumber()>=1 && oppositeSideCell.getTileNumber()<9){
-                        continue;// do not remove from adj cell list
-                    }
-
-                    //knight check up
-                    if(parentCellLoc.y >= 1){
-                        oppositeSideCell.setLocation(new Point(parentCellLoc.x-1, parentCellLoc.y-1));
-                        if(oppositeSideCell.getTileNumber()>=1 && oppositeSideCell.getTileNumber()<9){
-                            continue;// do not remove from adj cell list
-                        }
-                    }
-
-                    //knight check down
-                    if(parentCellLoc.y < parentBoard.getHeight()){
-                        oppositeSideCell.setLocation(new Point(parentCellLoc.x-1, parentCellLoc.y+1));
-                        if(oppositeSideCell.getTileNumber()>=1 && oppositeSideCell.getTileNumber()<9){
-                            continue;// do not remove from adj cell list
-                        }
-                    }
-
-                } else if(parentCellLoc.x < parentBoard.getWidth()-1 && adjCellLoc.x < parentCellLoc.x){//adjCell is left of parentCell
-                    //get cell right of parentCell
-                    MinesweeperCell oppositeSideCell = parentBoard.getCell(parentCellLoc.x+1, parentCellLoc.y).copy();
-
-                    //check oppositeSideCell, rook
-                    if(oppositeSideCell.getTileNumber()>=1 && oppositeSideCell.getTileNumber()<9){
-                        continue;// do not remove from adj cell list
-                    }
-
-                    //knight check up
-                    if(parentCellLoc.y >= 1){
-                        oppositeSideCell.setLocation(new Point(parentCellLoc.x+1, parentCellLoc.y-1));
-                        if(oppositeSideCell.getTileNumber()>=1 && oppositeSideCell.getTileNumber()<9){
-                            continue;// do not remove from adj cell list
-                        }
-                    }
-
-                    //knight check down
-                    if(parentCellLoc.y < parentBoard.getHeight()){
-                        oppositeSideCell.setLocation(new Point(parentCellLoc.x+1, parentCellLoc.y+1));
-                        if(oppositeSideCell.getTileNumber()>=1 && oppositeSideCell.getTileNumber()<9){
-                            continue;// do not remove from adj cell list
-                        }
-                    }
-
-                }
-            }
-            else {//opposite side check, bishop
-               if(adjCellLoc.x > parentCellLoc.x){
-                   if(adjCellLoc.y > parentCellLoc.y){// adjCell is SE of parentCell
-                       if(parentCellLoc.x >= 1 && parentCellLoc.y >= 1){
-                           MinesweeperCell oppositeSideCell = parentBoard.getCell(parentCellLoc.x-1, parentCellLoc.y-1);
-                           if(oppositeSideCell.getTileNumber()>=1 && oppositeSideCell.getTileNumber()<9){
-                               continue;// do not remove from adj cell list
-                           }
-                       }
-                   } else {// adjCell is NE of parentCell
-                       if(parentCellLoc.x>= 1 && parentCellLoc.y < parentBoard.getHeight() - 1){
-                           MinesweeperCell oppositeSideCell = parentBoard.getCell(parentCellLoc.x-1, parentCellLoc.y+1);
-                           if(oppositeSideCell.getTileNumber()>=1 && oppositeSideCell.getTileNumber()<9){
-                               continue;// do not remove from adj cell list
-                           }
-                       }
-                   }
-               } else {
-                   if(adjCellLoc.y > parentCellLoc.y){// adjCell is SW of parentCell
-                       if(parentCellLoc.x < parentBoard.getWidth() -1 && parentCellLoc.y >= 1){
-                           MinesweeperCell oppositeSideCell = parentBoard.getCell(parentCellLoc.x+1, parentCellLoc.y-1);
-                           if(oppositeSideCell.getTileNumber()>=1 && oppositeSideCell.getTileNumber()<9){
-                               continue;// do not remove from adj cell list
-                           }
-                       }
-                   } else {// adjCell is NW of parentCell
-                       if(parentCellLoc.x < parentBoard.getWidth() -1 && parentCellLoc.y < parentBoard.getHeight() -1){
-                           MinesweeperCell oppositeSideCell = parentBoard.getCell(parentCellLoc.x+1, parentCellLoc.y+1);
-                           if(oppositeSideCell.getTileNumber()>=1 && oppositeSideCell.getTileNumber()<9){
-                               continue;// do not remove from adj cell list
-                           }
-                       }
-                   }
-               }
-
-            }
-
-
 
             boolean found = false;
             ArrayList<MinesweeperCell> adjAdjCells =

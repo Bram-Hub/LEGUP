@@ -31,7 +31,9 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      * @param boardController controller that handles the ui events
      * @param elementController controller that handles the ui events
      */
-    public BoardView(@NotNull BoardController boardController, @NotNull ElementController elementController) {
+    public BoardView(
+            @NotNull BoardController boardController,
+            @NotNull ElementController elementController) {
         super(boardController);
         this.treeElement = null;
         this.board = null;
@@ -53,8 +55,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      *
      * @return dimension of the board view
      */
-    @NotNull
-    protected abstract Dimension getProperSize();
+    @NotNull protected abstract Dimension getProperSize();
 
     /**
      * Gets the ElementView from the puzzleElement index or null if out of bounds
@@ -62,8 +63,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      * @param index index of the ElementView
      * @return ElementView at the specified index
      */
-    @Nullable
-    public abstract ElementView getElement(int index);
+    @Nullable public abstract ElementView getElement(int index);
 
     /**
      * Sets the ElementView list
@@ -81,8 +81,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      * @param point location on the viewport
      * @return ElementView at the specified location, or null if none exists
      */
-    @Nullable
-    public ElementView getElement(@NotNull Point point) {
+    @Nullable public ElementView getElement(@NotNull Point point) {
         Point scaledPoint =
                 new Point(
                         (int) Math.round(point.x / getScale()),
@@ -100,8 +99,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      *
      * @return the ElementSelection
      */
-    @NotNull
-    public ElementSelection getSelection() {
+    @NotNull public ElementSelection getSelection() {
         return selection;
     }
 
@@ -110,8 +108,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      *
      * @return board
      */
-    @Nullable
-    public Board getBoard() {
+    @Nullable public Board getBoard() {
         return board;
     }
 
@@ -178,8 +175,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      *
      * @return the current TreeElement, or null if none is set
      */
-    @Nullable
-    public TreeElement getTreeElement() {
+    @Nullable public TreeElement getTreeElement() {
         return this.treeElement;
     }
 
@@ -197,8 +193,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      *
      * @return list of ElementViews
      */
-    @NotNull
-    public ArrayList<ElementView> getElementViews() {
+    @NotNull public ArrayList<ElementView> getElementViews() {
         return elementViews;
     }
 
@@ -207,8 +202,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      *
      * @return the ElementController
      */
-    @NotNull
-    public ElementController getElementController() {
+    @NotNull public ElementController getElementController() {
         return elementController;
     }
 
@@ -243,6 +237,5 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      *
      * @return the DataSelectionView associated with this view
      */
-    @NotNull
-    public abstract DataSelectionView getSelectionPopupMenu();
+    @NotNull public abstract DataSelectionView getSelectionPopupMenu();
 }

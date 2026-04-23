@@ -5,10 +5,10 @@ import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
+import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.jetbrains.annotations.NotNull;
 
 public class LightUpCellFactory extends ElementFactory {
     /**

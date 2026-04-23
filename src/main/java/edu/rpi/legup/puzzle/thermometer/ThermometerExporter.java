@@ -16,8 +16,8 @@ public class ThermometerExporter extends PuzzleExporter {
     }
 
     /**
-     * Creates the XML representation of the ThermometerBoard.
-     * Includes board dimensions, vial definitions, row constraints, and column constraints.
+     * Creates the XML representation of the ThermometerBoard. Includes board dimensions, vial
+     * definitions, row constraints, and column constraints.
      *
      * @param newDocument the XML Document used to create elements
      * @return the root XML element representing the board
@@ -30,6 +30,8 @@ public class ThermometerExporter extends PuzzleExporter {
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("width", String.valueOf(board.getWidth() - 1));
         boardElement.setAttribute("height", String.valueOf(board.getHeight() - 1));
+
+        appendGoalElement(newDocument, boardElement, board);
 
         // Creating the XML section for the vials and appending to the board
         org.w3c.dom.Element vialsElement = newDocument.createElement("vials");

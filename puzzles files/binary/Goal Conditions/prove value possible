@@ -1,0 +1,13 @@
+<Legup version="2.0.0">
+    <puzzle name="Binary" tag="6x6 Binary Easy 1">
+        <board height="2" width="2">
+            <goal type="PROVE_VALUES_ARE_POSSIBLE">
+                <cell value="1" x="0" y="0"/>
+                <cell value="1" x="1" y="1"/>
+            </goal>
+            <cells>
+            </cells>
+        </board>
+    </puzzle>
+    <solved isSolved="-2010495071" lastSaved="2024-11-08 17:14:34"/>
+</Legup>

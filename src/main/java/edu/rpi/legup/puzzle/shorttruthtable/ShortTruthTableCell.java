@@ -119,6 +119,7 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType> {
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
+        copy.setGoal(isGoal);
         return copy;
     }
 
@@ -213,5 +214,15 @@ public class ShortTruthTableCell extends GridCell<ShortTruthTableCellType> {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean isKnown() {
+        return !(data == ShortTruthTableCellType.UNKNOWN);
+    }
+
+    @Override
+    public String describeState(boolean isPlural) {
+        return getType().toString().toLowerCase();
     }
 }

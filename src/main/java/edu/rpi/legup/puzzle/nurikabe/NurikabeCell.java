@@ -87,6 +87,17 @@ public class NurikabeCell extends GridCell<Integer> {
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
+        copy.setGoal(isGoal);
         return copy;
+    }
+
+    @Override
+    public boolean isKnown() {
+        return data != -2;
+    }
+
+    @Override
+    public String describeState(boolean isPlural) {
+        return getType().toString().toLowerCase();
     }
 }

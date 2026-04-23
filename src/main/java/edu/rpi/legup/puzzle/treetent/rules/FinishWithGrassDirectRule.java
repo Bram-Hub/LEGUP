@@ -15,7 +15,8 @@ import java.util.List;
 public class FinishWithGrassDirectRule extends DirectRule {
 
     /**
-     * Constructs the FinishWithGrassDirectRule with its ID, name, description, and associated image.
+     * Constructs the FinishWithGrassDirectRule with its ID, name, description, and associated
+     * image.
      */
     public FinishWithGrassDirectRule() {
         super(

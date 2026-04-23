@@ -77,7 +77,7 @@ public class LightUp extends Puzzle {
         for (PuzzleElement data : lightUpBoard.getPuzzleElements()) {
             LightUpCell cell = (LightUpCell) data;
             if ((cell.getType() == LightUpCellType.UNKNOWN
-                    || cell.getType() == LightUpCellType.EMPTY)
+                            || cell.getType() == LightUpCellType.EMPTY)
                     && !cell.isLite()) {
                 return false;
             }

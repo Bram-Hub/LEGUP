@@ -15,7 +15,8 @@ import java.util.List;
 public class FinishWithTentsDirectRule extends DirectRule {
 
     /**
-     * Constructs the FinishWithTentsDirectRule with its ID, name, description, and associated image.
+     * Constructs the FinishWithTentsDirectRule with its ID, name, description, and associated
+     * image.
      */
     public FinishWithTentsDirectRule() {
         super(

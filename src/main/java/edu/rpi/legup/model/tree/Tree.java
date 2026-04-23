@@ -209,6 +209,24 @@ public class Tree {
     }
 
     /**
+     * Determines if the tree contains all contradictory branches (puzzle has no solution)
+     *
+     * @return true if the whole tree is contradictory, false otherwise
+     */
+    public boolean isContradictory() {
+        for (TreeElement leaf : getLeafTreeElements()) {
+            if (leaf.getType() != TreeElementType.NODE) {
+                return false;
+            }
+            TreeNode node = (TreeNode) leaf;
+            if (node.isRoot() || !node.getParent().isContradictoryBranch()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Gets the root node of this tree
      *
      * @return the root node of the tree
@@ -224,5 +242,14 @@ public class Tree {
      */
     public void setRootNode(TreeNode rootNode) {
         this.rootNode = rootNode;
+    }
+
+    public boolean isClosed() {
+        for (TreeElement leaf : getLeafTreeElements()) {
+            if (leaf.getType() != TreeElementType.NODE) {
+                return false;
+            }
+        }
+        return true;
     }
 }

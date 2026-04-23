@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * A dialog for managing user preferences in the LEGUP application. This dialog allows users to
@@ -62,8 +61,8 @@ public class PreferencesDialog extends JDialog {
      * @param rules the RuleFrame associated with the proof editor
      * @return a new instance of PreferencesDialog
      */
-    @NotNull
-    public static PreferencesDialog CreateDialogForProofEditor(@NotNull Frame frame, @NotNull RuleFrame rules) {
+    @NotNull public static PreferencesDialog CreateDialogForProofEditor(
+            @NotNull Frame frame, @NotNull RuleFrame rules) {
         PreferencesDialog p = new PreferencesDialog(frame);
         p.rulesFrame = rules;
         return p;
@@ -146,8 +145,7 @@ public class PreferencesDialog extends JDialog {
      *
      * @return a JScrollPane containing the general preferences panel
      */
-    @NotNull
-    private JScrollPane createGeneralTab() {
+    @NotNull private JScrollPane createGeneralTab() {
         LegupPreferences prefs = LegupPreferences.getInstance();
         JScrollPane scrollPane = new JScrollPane();
         JPanel contentPane = new JPanel();
@@ -332,8 +330,7 @@ public class PreferencesDialog extends JDialog {
      * @param puzzle the puzzle whose rules will be displayed
      * @return a JScrollPane containing the puzzle preferences panel
      */
-    @NotNull
-    private JScrollPane createPuzzleTab(@NotNull Puzzle puzzle) {
+    @NotNull private JScrollPane createPuzzleTab(@NotNull Puzzle puzzle) {
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
@@ -382,8 +379,7 @@ public class PreferencesDialog extends JDialog {
      * @param rule the rule object to be displayed
      * @return a JPanel representing the row for the rule
      */
-    @NotNull
-    private JPanel createRuleRow(@NotNull Rule rule) {
+    @NotNull private JPanel createRuleRow(@NotNull Rule rule) {
         JPanel ruleRow = new JPanel();
         ruleRow.setLayout(new BorderLayout());
 
@@ -442,8 +438,7 @@ public class PreferencesDialog extends JDialog {
      * @param text the text to be displayed on the label
      * @return a JPanel containing the left-aligned label
      */
-    @NotNull
-    private JPanel createLeftLabel(@NotNull String text) {
+    @NotNull private JPanel createLeftLabel(@NotNull String text) {
         JPanel labelRow = new JPanel();
         labelRow.setLayout(new BorderLayout());
         JLabel label = new JLabel(text);
@@ -462,8 +457,7 @@ public class PreferencesDialog extends JDialog {
      *
      * @return a JSeparator with a fixed height
      */
-    @NotNull
-    private JSeparator createLineSeparator() {
+    @NotNull private JSeparator createLineSeparator() {
         JSeparator separator = new JSeparator();
         separator.setMaximumSize(new Dimension(Integer.MAX_VALUE, 5));
         return separator;

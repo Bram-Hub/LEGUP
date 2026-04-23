@@ -59,6 +59,7 @@ public class SudokuCell extends GridCell<Integer> {
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
+        copy.setGoal(isGoal);
         return copy;
     }
 
@@ -88,5 +89,26 @@ public class SudokuCell extends GridCell<Integer> {
         } else if (e.getElementName().equals("Unknown Tile")) {
             this.data = 0;
         }
+    }
+
+    @Override
+    public boolean isKnown() {
+        return !(data == 0);
+    }
+
+    @Override
+    public String describeState(boolean isPlural) {
+        return switch (data) {
+            case 1 -> "one";
+            case 2 -> "two";
+            case 3 -> "three";
+            case 4 -> "four";
+            case 5 -> "five";
+            case 6 -> "six";
+            case 7 -> "seven";
+            case 8 -> "eight";
+            case 9 -> "nine";
+            default -> data.toString();
+        };
     }
 }

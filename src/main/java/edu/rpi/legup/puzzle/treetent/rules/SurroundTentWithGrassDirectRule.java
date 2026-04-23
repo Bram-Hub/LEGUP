@@ -14,7 +14,8 @@ import java.util.List;
 public class SurroundTentWithGrassDirectRule extends DirectRule {
 
     /**
-     * Constructs the SurroundTentWithGrassDirectRule with its ID, name, description, and associated image.
+     * Constructs the SurroundTentWithGrassDirectRule with its ID, name, description, and associated
+     * image.
      */
     public SurroundTentWithGrassDirectRule() {
         super(

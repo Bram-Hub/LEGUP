@@ -1,6 +1,7 @@
 package edu.rpi.legup.model.tree;
 
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.rules.RuleType;
 import edu.rpi.legup.utility.DisjointSets;
 import java.util.*;
 
@@ -13,7 +14,6 @@ public class TreeNode extends TreeElement {
     private TreeTransition parent;
     private List<TreeTransition> children;
     private boolean isRoot;
-
 
     /**
      * TreeNode Constructor creates a tree node whenever a rule has been made
@@ -36,6 +36,12 @@ public class TreeNode extends TreeElement {
      */
     @Override
     public boolean isContradictoryBranch() {
+        if (!this.isRoot()
+                && parent.isJustified()
+                && parent.isCorrect()
+                && parent.getRule().getRuleType() == RuleType.CONTRADICTION) {
+            return true;
+        }
         boolean leadsToContra = true;
         for (TreeTransition child : children) {
             leadsToContra &= child.isContradictoryBranch();

@@ -66,8 +66,7 @@ public class LightUpView extends GridBoardView {
      *
      * @return a fully constructed DataSelectionView popup menu
      */
-    @NotNull
-    public DataSelectionView getSelectionPopupMenu() {
+    @NotNull public DataSelectionView getSelectionPopupMenu() {
         DataSelectionView selectionView = new DataSelectionView(elementController);
         GridLayout layout = new GridLayout(3, 1);
         selectionView.setLayout(layout);

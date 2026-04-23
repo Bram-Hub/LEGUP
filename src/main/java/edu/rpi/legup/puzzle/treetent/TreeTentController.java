@@ -48,8 +48,8 @@ public class TreeTentController extends ElementController {
     }
 
     /**
-     * Handles mouse release events. Executes commands depending on whether the user performed
-     * a click or drag interaction, and whether the board is a CaseBoard.
+     * Handles mouse release events. Executes commands depending on whether the user performed a
+     * click or drag interaction, and whether the board is a CaseBoard.
      *
      * @param e the MouseEvent triggered by the user
      */
@@ -127,8 +127,8 @@ public class TreeTentController extends ElementController {
     }
 
     /**
-     * Changes the state of a TreeTentCell based on mouse input. Left and right clicks cycle
-     * through possible cell states in different orders.
+     * Changes the state of a TreeTentCell based on mouse input. Left and right clicks cycle through
+     * possible cell states in different orders.
      *
      * @param e the MouseEvent triggering the change
      * @param element the PuzzleElement to be modified

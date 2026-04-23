@@ -117,8 +117,8 @@ public abstract class CaseRule extends Rule {
 
     /**
      * Checks whether the child node logically follows from the parent node at the specific
-     * puzzleElement index using this rule. This method is the one that should be overridden in child
-     * classes.
+     * puzzleElement index using this rule. This method is the one that should be overridden in
+     * child classes.
      *
      * @param transition transition to check
      * @param puzzleElement equivalent puzzleElement

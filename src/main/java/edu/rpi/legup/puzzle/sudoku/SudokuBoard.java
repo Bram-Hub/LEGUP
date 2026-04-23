@@ -132,7 +132,6 @@ public class SudokuBoard extends GridBoard {
      * @param cell for the finding the values of
      * @return a hash set that contains possible values for the given cell
      */
-
     public Set<Integer> getPossibleValues(SudokuCell cell) {
         Point loc = cell.getLocation();
         cell = getCell(loc.x, loc.y);

@@ -81,8 +81,8 @@ public class TentForTreeDirectRule extends DirectRule {
      * @param tree the tree cell under consideration
      * @param tent the tent cell under consideration
      * @param line the proposed connecting line between the tree and tent
-     * @return 1 if the connection is forced, 0 if not forced, -1 if the tree already has a link,
-     *     -2 if the tent already has a link
+     * @return 1 if the connection is forced, 0 if not forced, -1 if the tree already has a link, -2
+     *     if the tent already has a link
      */
     private Integer isForced(
             TreeTentBoard board, TreeTentCell tree, TreeTentCell tent, TreeTentLine line) {

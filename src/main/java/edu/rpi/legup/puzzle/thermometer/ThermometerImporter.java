@@ -3,6 +3,8 @@ package edu.rpi.legup.puzzle.thermometer;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
+import edu.rpi.legup.model.Goal;
+import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Element;
@@ -42,8 +44,7 @@ public class ThermometerImporter extends PuzzleImporter {
     }
 
     /**
-     * Initializes a board using row and column counts.
-     * Not implemented for Thermometer puzzles.
+     * Initializes a board using row and column counts. Not implemented for Thermometer puzzles.
      *
      * @param rows number of rows
      * @param columns number of columns
@@ -141,6 +142,32 @@ public class ThermometerImporter extends PuzzleImporter {
             }
 
             puzzle.setCurrentBoard(thermometerBoard);
+            if (boardElement.getElementsByTagName("goal").getLength() != 0) {
+                Element goalElement = (Element) boardElement.getElementsByTagName("goal").item(0);
+                Goal goal = puzzle.getFactory().importGoal(goalElement, thermometerBoard);
+
+                NodeList cellList = goalElement.getElementsByTagName("cell");
+                for (int i = 0; i < cellList.getLength(); i++) {
+                    ThermometerCell cell =
+                            (ThermometerCell)
+                                    puzzle.getFactory()
+                                            .importCell(cellList.item(i), thermometerBoard);
+                    // Store the goal value as goalData and mark the board cell as goal
+                    ThermometerCell boardCell =
+                            (ThermometerCell) thermometerBoard.getCell(cell.getLocation());
+                    if (boardCell != null) {
+                        boardCell.setGoalData(cell.getData());
+                        boardCell.setGoal(true);
+                    }
+                    goal.addCell(cell);
+                    thermometerBoard.getCell(cell.getLocation()).setGoal(true);
+                }
+                puzzle.setGoal(goal);
+            } else {
+                Goal goal = new Goal(null, GoalType.DEFAULT);
+
+                puzzle.setGoal(goal);
+            }
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "thermometer Importer: unknown value where integer expected");
@@ -148,8 +175,7 @@ public class ThermometerImporter extends PuzzleImporter {
     }
 
     /**
-     * Initializes a board from text input.
-     * Not supported for Thermometer puzzles.
+     * Initializes a board from text input. Not supported for Thermometer puzzles.
      *
      * @param statements input statements
      * @throws UnsupportedOperationException always thrown since not supported

@@ -17,8 +17,8 @@ public class ThermometerBoard extends GridBoard {
     private ThermometerCell dummyCell;
 
     /**
-     * Constructs a ThermometerBoard with the specified width and height.
-     * Initializes row and column number cells, a dummy cell, and the list of thermometer vials.
+     * Constructs a ThermometerBoard with the specified width and height. Initializes row and column
+     * number cells, a dummy cell, and the list of thermometer vials.
      *
      * @param width the width of the board
      * @param height the height of the board
@@ -161,8 +161,8 @@ public class ThermometerBoard extends GridBoard {
     }
 
     /**
-     * Retrieves the ThermometerCell at the specified coordinates.
-     * Searches through vials, row numbers, column numbers, and the dummy cell.
+     * Retrieves the ThermometerCell at the specified coordinates. Searches through vials, row
+     * numbers, column numbers, and the dummy cell.
      *
      * @param x the x-coordinate
      * @param y the y-coordinate

@@ -143,8 +143,7 @@ public class PickGameDialog extends JDialog implements ActionListener {
      *
      * @return the puzzle file path as a String
      */
-    @NotNull
-    public String getPuzzle() {
+    @NotNull public String getPuzzle() {
         return puzzleBox.getText();
     }
 
@@ -153,8 +152,7 @@ public class PickGameDialog extends JDialog implements ActionListener {
      *
      * @return the selected puzzle as a String, or null if none is selected
      */
-    @Nullable
-    public String getGame() {
+    @Nullable public String getGame() {
         return (String) gameBox.getSelectedItem();
     }
 

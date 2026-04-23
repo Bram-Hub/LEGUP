@@ -33,6 +33,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -54,6 +56,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private JFrame frame;
     private RuleFrame ruleFrame;
     private DynamicView dynamicBoardView;
+    private JTextArea goalText;
+    private JPanel boardSidePanel;
     private JSplitPane topHalfPanel, mainPanel;
     private TitledBorder boardBorder;
     private JButton[] toolBar1Buttons;
@@ -93,22 +97,22 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     public static final int INTERN_RO = 64;
     public static final int AUTO_JUST = 128;
     private static final String[] PROFILES = {
-            "No Assistance",
-            "Rigorous Proof",
-            "Casual Proof",
-            "Assisted Proof",
-            "Guided Proof",
-            "Training-Wheels Proof",
-            "No Restrictions"
+        "No Assistance",
+        "Rigorous Proof",
+        "Casual Proof",
+        "Assisted Proof",
+        "Guided Proof",
+        "Training-Wheels Proof",
+        "No Restrictions"
     };
     private static final int[] PROF_FLAGS = {
-            0,
-            ALLOW_JUST | REQ_STEP_JUST,
-            ALLOW_JUST,
-            ALLOW_HINTS | ALLOW_JUST | AUTO_JUST,
-            ALLOW_HINTS | ALLOW_JUST | REQ_STEP_JUST,
-            ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_JUST | IMD_FEEDBACK | INTERN_RO,
-            ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_FULLAI | ALLOW_JUST
+        0,
+        ALLOW_JUST | REQ_STEP_JUST,
+        ALLOW_JUST,
+        ALLOW_HINTS | ALLOW_JUST | AUTO_JUST,
+        ALLOW_HINTS | ALLOW_JUST | REQ_STEP_JUST,
+        ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_JUST | IMD_FEEDBACK | INTERN_RO,
+        ALLOW_HINTS | ALLOW_DEFAPP | ALLOW_FULLAI | ALLOW_JUST
     };
     private JMenu proofMode = new JMenu("Proof Mode");
     private JCheckBoxMenuItem[] proofModeItems = new JCheckBoxMenuItem[PROF_FLAGS.length];
@@ -128,7 +132,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * @param frame the {@code JFrame} that contains this panel
      * @param legupUI the {@code LegupUI} instance managing the user interface
      */
-    public ProofEditorPanel(@NotNull FileDialog fileDialog, @NotNull JFrame frame, @NotNull LegupUI legupUI) {
+    public ProofEditorPanel(
+            @NotNull FileDialog fileDialog, @NotNull JFrame frame, @NotNull LegupUI legupUI) {
         this.fileDialog = fileDialog;
         this.frame = frame;
         this.legupUI = legupUI;
@@ -169,8 +174,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the {@code JMenuBar} instance containing the menus and menu items for this panel
      */
-    @NotNull
-    public JMenuBar getMenuBar() {
+    @NotNull public JMenuBar getMenuBar() {
         if (mBar != null) return mBar;
         mBar = new JMenuBar();
 
@@ -520,8 +524,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * @return an array containing the file name and the selected file, or {@code null} if the
      *     operation was canceled
      */
-    @Nullable
-    public Object[] promptPuzzle() {
+    @Nullable public Object[] promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
             if (noquit("Opening a new puzzle?")) {
@@ -814,9 +817,27 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         titleBoard.setTitleJustification(TitledBorder.CENTER);
         dynamicBoardView.setBorder(titleBoard);
 
+        goalText = new JTextArea();
+        goalText.setRows(2);
+        goalText.setEditable(false);
+        goalText.setOpaque(false);
+        goalText.setFocusable(false);
+        goalText.setLineWrap(true);
+        goalText.setWrapStyleWord(true);
+        JScrollPane goalPane = new JScrollPane(goalText);
+        CompoundBorder goalBorder =
+                new CompoundBorder(
+                        BorderFactory.createTitledBorder("Goal Condition"),
+                        new EmptyBorder(0, 5, 5, 5));
+        ((TitledBorder) goalBorder.getOutsideBorder()).setTitleJustification(TitledBorder.CENTER);
+        goalPane.setBorder(goalBorder);
+
+        boardSidePanel = new JPanel(new BorderLayout());
+        boardSidePanel.add(goalPane, BorderLayout.NORTH);
+        boardSidePanel.add(dynamicBoardView);
+
         JPanel boardPanel = new JPanel(new BorderLayout());
-        topHalfPanel =
-                new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, ruleFrame, dynamicBoardView);
+        topHalfPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, ruleFrame, boardSidePanel);
         mainPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, topHalfPanel, treePanel);
         topHalfPanel.setPreferredSize(new Dimension(600, 400));
         mainPanel.setPreferredSize(new Dimension(600, 600));
@@ -998,8 +1019,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return toolbar1 buttons
      */
-    @Nullable
-    public JButton[] getToolBar1Buttons() {
+    @Nullable public JButton[] getToolBar1Buttons() {
         return toolBar1Buttons;
     }
 
@@ -1008,8 +1028,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return toolbar2 buttons
      */
-    @Nullable
-    public JButton[] getToolBar2Buttons() {
+    @Nullable public JButton[] getToolBar2Buttons() {
         return toolBar2Buttons;
     }
 
@@ -1104,9 +1123,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     public void setPuzzleView(@NotNull Puzzle puzzle) {
         this.boardView = puzzle.getBoardView();
 
+        boardSidePanel.remove(dynamicBoardView);
         dynamicBoardView = new DynamicView(boardView, DynamicViewType.BOARD);
-        this.topHalfPanel.setRightComponent(dynamicBoardView);
-        this.topHalfPanel.setVisible(true);
+        boardSidePanel.add(dynamicBoardView);
         String boardType = boardView.getBoard().getClass().getSimpleName();
         boardType = boardType.substring(0, boardType.indexOf("Board"));
         TitledBorder titleBoard = BorderFactory.createTitledBorder(boardType + " Board");
@@ -1200,7 +1219,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * @param path the current path in the directory traversal
      * @throws IOException if an error occurs while writing to the CSV file
      */
-    private void traverseDir(@NotNull File folder, @NotNull BufferedWriter writer, @NotNull String path)
+    private void traverseDir(
+            @NotNull File folder, @NotNull BufferedWriter writer, @NotNull String path)
             throws IOException {
         // Recursively traverse directory
         GameBoardFacade facade = GameBoardFacade.getInstance();
@@ -1262,8 +1282,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the current {@link BoardView}
      */
-    @Nullable
-    public BoardView getBoardView() {
+    @Nullable public BoardView getBoardView() {
         return boardView;
     }
 
@@ -1272,8 +1291,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the current {@link DynamicView}
      */
-    @Nullable
-    public DynamicView getDynamicBoardView() {
+    @Nullable public DynamicView getDynamicBoardView() {
         return dynamicBoardView;
     }
 
@@ -1282,9 +1300,16 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the current {@link TreePanel}
      */
-    @Nullable
-    public TreePanel getTreePanel() {
+    @Nullable public TreePanel getTreePanel() {
         return treePanel;
+    }
+
+    public String getGoalText() {
+        return goalText.getText();
+    }
+
+    public void setGoalText(String text) {
+        goalText.setText(text);
     }
 
     /**

@@ -78,8 +78,7 @@ public class HomePanel extends LegupPanel {
      *
      * @return the menu bar
      */
-    @NotNull
-    public JMenuBar getMenuBar() {
+    @NotNull public JMenuBar getMenuBar() {
         this.menuBar = new JMenuBar();
         JMenu settings = new JMenu("Settings");
         menuBar.add(settings);
@@ -124,8 +123,7 @@ public class HomePanel extends LegupPanel {
      * @param height the target height
      * @return the resized icon
      */
-    @NotNull
-    private static ImageIcon resizeButtonIcon(@NotNull ImageIcon icon, int width, int height) {
+    @NotNull private static ImageIcon resizeButtonIcon(@NotNull ImageIcon icon, int width, int height) {
         Image image = icon.getImage();
         Image resizedImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImage);
@@ -347,8 +345,7 @@ public class HomePanel extends LegupPanel {
      * @param file the input file
      * @return parsed Document of file if possible, null otherwise
      */
-    @Nullable
-    public Document isxmlfile(@NotNull File file) {
+    @Nullable public Document isxmlfile(@NotNull File file) {
         Document doc = null;
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

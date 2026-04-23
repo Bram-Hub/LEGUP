@@ -31,7 +31,6 @@ public class Fillapix extends Puzzle {
         return null;
     }
 
-
     /**
      * Determines if the given dimensions are valid for Fillapix
      *

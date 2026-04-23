@@ -13,17 +13,14 @@ import legup.TestUtilities;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-/**
- * Test class for the Biconditional Contradiction Rule.
- */
+
+/** Test class for the Biconditional Contradiction Rule. */
 public class BiconditionalContradictionRuleTest {
 
     private static final ContradictionRuleBiconditional RULE = new ContradictionRuleBiconditional();
     private static ShortTruthTable stt;
 
-    /**
-     * Sets up the test class.
-     */
+    /** Sets up the test class. */
     @BeforeClass
     public static void setUp() {
         MockGameBoardFacade.getInstance();
