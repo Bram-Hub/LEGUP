@@ -33,9 +33,13 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * {@code ProofEditorPanel} is a panel that serves as the main user interface component for the
@@ -52,6 +56,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private JFrame frame;
     private RuleFrame ruleFrame;
     private DynamicView dynamicBoardView;
+    private JTextArea goalText;
+    private JPanel boardSidePanel;
     private JSplitPane topHalfPanel, mainPanel;
     private TitledBorder boardBorder;
     private JButton[] toolBar1Buttons;
@@ -126,7 +132,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * @param frame the {@code JFrame} that contains this panel
      * @param legupUI the {@code LegupUI} instance managing the user interface
      */
-    public ProofEditorPanel(FileDialog fileDialog, JFrame frame, LegupUI legupUI) {
+    public ProofEditorPanel(
+            @NotNull FileDialog fileDialog, @NotNull JFrame frame, @NotNull LegupUI legupUI) {
         this.fileDialog = fileDialog;
         this.frame = frame;
         this.legupUI = legupUI;
@@ -167,7 +174,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the {@code JMenuBar} instance containing the menus and menu items for this panel
      */
-    public JMenuBar getMenuBar() {
+    @NotNull public JMenuBar getMenuBar() {
         if (mBar != null) return mBar;
         mBar = new JMenuBar();
 
@@ -517,7 +524,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * @return an array containing the file name and the selected file, or {@code null} if the
      *     operation was canceled
      */
-    public Object[] promptPuzzle() {
+    @Nullable public Object[] promptPuzzle() {
         GameBoardFacade facade = GameBoardFacade.getInstance();
         if (facade.getBoard() != null) {
             if (noquit("Opening a new puzzle?")) {
@@ -590,7 +597,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * @param fileName the name of the file to load
      * @param puzzleFile the file object representing the puzzle file
      */
-    public void loadPuzzle(String fileName, File puzzleFile) {
+    public void loadPuzzle(@NotNull String fileName, @Nullable File puzzleFile) {
         if (puzzleFile == null && fileName.isEmpty()) {
             legupUI.displayPanel(1);
         }
@@ -784,7 +791,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * @param instr the message to display in the confirmation dialog
      * @return {@code true} if the user chooses not to quit, {@code false} otherwise
      */
-    public boolean noquit(String instr) {
+    public boolean noquit(@NotNull String instr) {
         int n = JOptionPane.showConfirmDialog(null, instr, "Confirm", JOptionPane.YES_NO_OPTION);
         return n != JOptionPane.YES_OPTION;
     }
@@ -810,9 +817,27 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         titleBoard.setTitleJustification(TitledBorder.CENTER);
         dynamicBoardView.setBorder(titleBoard);
 
+        goalText = new JTextArea();
+        goalText.setRows(2);
+        goalText.setEditable(false);
+        goalText.setOpaque(false);
+        goalText.setFocusable(false);
+        goalText.setLineWrap(true);
+        goalText.setWrapStyleWord(true);
+        JScrollPane goalPane = new JScrollPane(goalText);
+        CompoundBorder goalBorder =
+                new CompoundBorder(
+                        BorderFactory.createTitledBorder("Goal Condition"),
+                        new EmptyBorder(0, 5, 5, 5));
+        ((TitledBorder) goalBorder.getOutsideBorder()).setTitleJustification(TitledBorder.CENTER);
+        goalPane.setBorder(goalBorder);
+
+        boardSidePanel = new JPanel(new BorderLayout());
+        boardSidePanel.add(goalPane, BorderLayout.NORTH);
+        boardSidePanel.add(dynamicBoardView);
+
         JPanel boardPanel = new JPanel(new BorderLayout());
-        topHalfPanel =
-                new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, ruleFrame, dynamicBoardView);
+        topHalfPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, ruleFrame, boardSidePanel);
         mainPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, topHalfPanel, treePanel);
         topHalfPanel.setPreferredSize(new Dimension(600, 400));
         mainPanel.setPreferredSize(new Dimension(600, 600));
@@ -976,7 +1001,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @param toolBar1Buttons toolbar buttons
      */
-    public void setToolBar1Buttons(JButton[] toolBar1Buttons) {
+    public void setToolBar1Buttons(@NotNull JButton[] toolBar1Buttons) {
         this.toolBar1Buttons = toolBar1Buttons;
     }
 
@@ -985,7 +1010,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @param toolBar2Buttons toolbar buttons
      */
-    public void setToolBar2Buttons(JButton[] toolBar2Buttons) {
+    public void setToolBar2Buttons(@NotNull JButton[] toolBar2Buttons) {
         this.toolBar2Buttons = toolBar2Buttons;
     }
 
@@ -994,7 +1019,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return toolbar1 buttons
      */
-    public JButton[] getToolBar1Buttons() {
+    @Nullable public JButton[] getToolBar1Buttons() {
         return toolBar1Buttons;
     }
 
@@ -1003,7 +1028,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return toolbar2 buttons
      */
-    public JButton[] getToolBar2Buttons() {
+    @Nullable public JButton[] getToolBar2Buttons() {
         return toolBar2Buttons;
     }
 
@@ -1095,12 +1120,12 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @param puzzle the puzzle to be displayed
      */
-    public void setPuzzleView(Puzzle puzzle) {
+    public void setPuzzleView(@NotNull Puzzle puzzle) {
         this.boardView = puzzle.getBoardView();
 
+        boardSidePanel.remove(dynamicBoardView);
         dynamicBoardView = new DynamicView(boardView, DynamicViewType.BOARD);
-        this.topHalfPanel.setRightComponent(dynamicBoardView);
-        this.topHalfPanel.setVisible(true);
+        boardSidePanel.add(dynamicBoardView);
         String boardType = boardView.getBoard().getClass().getSimpleName();
         boardType = boardType.substring(0, boardType.indexOf("Board"));
         TitledBorder titleBoard = BorderFactory.createTitledBorder(boardType + " Board");
@@ -1194,7 +1219,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * @param path the current path in the directory traversal
      * @throws IOException if an error occurs while writing to the CSV file
      */
-    private void traverseDir(File folder, BufferedWriter writer, String path) throws IOException {
+    private void traverseDir(
+            @NotNull File folder, @NotNull BufferedWriter writer, @NotNull String path)
+            throws IOException {
         // Recursively traverse directory
         GameBoardFacade facade = GameBoardFacade.getInstance();
 
@@ -1255,7 +1282,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the current {@link BoardView}
      */
-    public BoardView getBoardView() {
+    @Nullable public BoardView getBoardView() {
         return boardView;
     }
 
@@ -1264,7 +1291,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the current {@link DynamicView}
      */
-    public DynamicView getDynamicBoardView() {
+    @Nullable public DynamicView getDynamicBoardView() {
         return dynamicBoardView;
     }
 
@@ -1273,8 +1300,16 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the current {@link TreePanel}
      */
-    public TreePanel getTreePanel() {
+    @Nullable public TreePanel getTreePanel() {
         return treePanel;
+    }
+
+    public String getGoalText() {
+        return goalText.getText();
+    }
+
+    public void setGoalText(String text) {
+        goalText.setText(text);
     }
 
     /**
@@ -1283,7 +1318,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * @param command action to push onto the stack
      */
     @Override
-    public void onPushChange(ICommand command) {
+    public void onPushChange(@NotNull ICommand command) {
         LOGGER.info("Pushing " + command.getClass().getSimpleName() + " to stack.");
         undo.setEnabled(true);
         redo.setEnabled(false);
@@ -1370,7 +1405,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         }
     }
 
-    public void showStatus(String status, boolean error, int timer) {
+    public void showStatus(@NotNull String status, boolean error, int timer) {
         // TODO: implement
     }
 

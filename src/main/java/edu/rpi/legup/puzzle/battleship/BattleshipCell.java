@@ -34,6 +34,17 @@ public class BattleshipCell extends GridCell<BattleshipType> {
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
+        copy.setGoal(isGoal);
         return copy;
+    }
+
+    @Override
+    public boolean isKnown() {
+        return !(data == BattleshipType.UNKNOWN);
+    }
+
+    @Override
+    public String describeState(boolean isPlural) {
+        return getType().toString().toLowerCase();
     }
 }

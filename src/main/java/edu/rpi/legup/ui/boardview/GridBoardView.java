@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A view class for a grid-based board that displays elements in a grid layout. This class extends
@@ -52,7 +54,7 @@ public class GridBoardView extends BoardView {
      * @param index index of the ElementView
      * @return GridElementView at the specified index
      */
-    public GridElementView getElement(int index) {
+    public @Nullable GridElementView getElement(int index) {
         if (index < elementViews.size()) {
             return (GridElementView) elementViews.get(index);
         }
@@ -67,7 +69,7 @@ public class GridBoardView extends BoardView {
      * @param yIndex the y-coordinate (row) of the element view to retrieve
      * @return the GridElementView at the specified coordinates, or null if out of bounds
      */
-    public GridElementView getElement(int xIndex, int yIndex) {
+    public @Nullable GridElementView getElement(int xIndex, int yIndex) {
         if (xIndex < gridSize.width && yIndex < gridSize.height) {
             return (GridElementView) elementViews.get(yIndex * gridSize.width + xIndex);
         }
@@ -89,7 +91,7 @@ public class GridBoardView extends BoardView {
      *
      * @return the dimension of the grid view
      */
-    protected Dimension getProperSize() {
+    protected @NotNull Dimension getProperSize() {
         Dimension boardViewSize = new Dimension();
         boardViewSize.width = gridSize.width * elementSize.width;
         boardViewSize.height = gridSize.height * elementSize.height;
@@ -102,7 +104,7 @@ public class GridBoardView extends BoardView {
      *
      * @return null
      */
-    public DataSelectionView getSelectionPopupMenu() {
+    public @Nullable DataSelectionView getSelectionPopupMenu() {
         return null;
     }
 
@@ -111,7 +113,7 @@ public class GridBoardView extends BoardView {
      *
      * @return the dimension of each element in the grid
      */
-    public Dimension getElementSize() {
+    public @NotNull Dimension getElementSize() {
         return this.elementSize;
     }
 }

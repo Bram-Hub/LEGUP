@@ -48,6 +48,7 @@ public class BinaryCell extends GridCell<Integer> {
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
+        copy.setGoal(isGoal);
         return copy;
     }
 
@@ -77,5 +78,15 @@ public class BinaryCell extends GridCell<Integer> {
         } else { // unknown tile
             this.data = 2;
         }
+    }
+
+    @Override
+    public boolean isKnown() {
+        return !(data == 2);
+    }
+
+    @Override
+    public String describeState(boolean isPlural) {
+        return getType().toString().toLowerCase();
     }
 }

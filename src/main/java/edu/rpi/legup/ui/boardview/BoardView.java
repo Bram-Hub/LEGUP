@@ -10,6 +10,8 @@ import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.ui.ScrollView;
 import java.awt.*;
 import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * An abstract class representing a view for a board in the puzzle game. It handles the visual
@@ -29,7 +31,9 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      * @param boardController controller that handles the ui events
      * @param elementController controller that handles the ui events
      */
-    public BoardView(BoardController boardController, ElementController elementController) {
+    public BoardView(
+            @NotNull BoardController boardController,
+            @NotNull ElementController elementController) {
         super(boardController);
         this.treeElement = null;
         this.board = null;
@@ -51,7 +55,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      *
      * @return dimension of the board view
      */
-    protected abstract Dimension getProperSize();
+    @NotNull protected abstract Dimension getProperSize();
 
     /**
      * Gets the ElementView from the puzzleElement index or null if out of bounds
@@ -59,25 +63,25 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      * @param index index of the ElementView
      * @return ElementView at the specified index
      */
-    public abstract ElementView getElement(int index);
+    @Nullable public abstract ElementView getElement(int index);
 
     /**
      * Sets the ElementView list
      *
      * @param elements ElementView list
      */
-    public void setElementViews(ArrayList<ElementView> elements) {
+    public void setElementViews(@NotNull ArrayList<ElementView> elements) {
         elementViews = elements;
     }
 
     /**
-     * Gets the ElementView from the location specified or null if one does not exists at that
+     * Gets the ElementView from the location specified or null if one does not exist at that
      * location
      *
      * @param point location on the viewport
-     * @return ElementView at the specified location
+     * @return ElementView at the specified location, or null if none exists
      */
-    public ElementView getElement(Point point) {
+    @Nullable public ElementView getElement(@NotNull Point point) {
         Point scaledPoint =
                 new Point(
                         (int) Math.round(point.x / getScale()),
@@ -95,7 +99,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      *
      * @return the ElementSelection
      */
-    public ElementSelection getSelection() {
+    @NotNull public ElementSelection getSelection() {
         return selection;
     }
 
@@ -104,7 +108,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      *
      * @return board
      */
-    public Board getBoard() {
+    @Nullable public Board getBoard() {
         return board;
     }
 
@@ -113,7 +117,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      *
      * @param board board
      */
-    public void setBoard(Board board) {
+    public void setBoard(@NotNull Board board) {
         if (this.board != board) {
             this.board = board;
 
@@ -149,7 +153,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      * @param treeElement tree element
      */
     @Override
-    public void onTreeElementChanged(TreeElement treeElement) {
+    public void onTreeElementChanged(@NotNull TreeElement treeElement) {
         this.treeElement = treeElement;
         setBoard(treeElement.getBoard());
         repaint();
@@ -161,12 +165,17 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      * @param caseBoard case board to be added
      */
     @Override
-    public void onCaseBoardAdded(CaseBoard caseBoard) {
+    public void onCaseBoardAdded(@NotNull CaseBoard caseBoard) {
         setBoard(caseBoard);
         repaint();
     }
 
-    public TreeElement getTreeElement() {
+    /**
+     * Gets the current tree element
+     *
+     * @return the current TreeElement, or null if none is set
+     */
+    @Nullable public TreeElement getTreeElement() {
         return this.treeElement;
     }
 
@@ -180,11 +189,11 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
     }
 
     /**
-     * Gets the PuzzleElements associated with the BoardView
+     * Gets the ElementViews associated with the BoardView
      *
-     * @return list of PuzzleElements
+     * @return list of ElementViews
      */
-    public ArrayList<ElementView> getElementViews() {
+    @NotNull public ArrayList<ElementView> getElementViews() {
         return elementViews;
     }
 
@@ -193,12 +202,12 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      *
      * @return the ElementController
      */
-    public ElementController getElementController() {
+    @NotNull public ElementController getElementController() {
         return elementController;
     }
 
     @Override
-    public void draw(Graphics2D graphics2D) {
+    public void draw(@NotNull Graphics2D graphics2D) {
         drawBoard(graphics2D);
     }
 
@@ -207,7 +216,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      *
      * @param graphics2D the Graphics2D context used for drawing
      */
-    public void drawBoard(Graphics2D graphics2D) {
+    public void drawBoard(@NotNull Graphics2D graphics2D) {
         for (ElementView element : elementViews) {
             element.draw(graphics2D);
         }
@@ -219,7 +228,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      * @param puzzleElement puzzleElement of the puzzleElement that changed
      */
     @Override
-    public void onBoardDataChanged(PuzzleElement puzzleElement) {
+    public void onBoardDataChanged(@NotNull PuzzleElement puzzleElement) {
         repaint();
     }
 
@@ -228,5 +237,5 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      *
      * @return the DataSelectionView associated with this view
      */
-    public abstract DataSelectionView getSelectionPopupMenu();
+    @NotNull public abstract DataSelectionView getSelectionPopupMenu();
 }

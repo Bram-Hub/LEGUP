@@ -9,6 +9,7 @@ import edu.rpi.legup.save.InvalidFileFormatException;
 import java.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -29,7 +30,7 @@ public abstract class PuzzleImporter {
      *
      * @param puzzle puzzle that is imported
      */
-    public PuzzleImporter(Puzzle puzzle) {
+    public PuzzleImporter(@NotNull Puzzle puzzle) {
         this.puzzle = puzzle;
     }
 
@@ -60,7 +61,7 @@ public abstract class PuzzleImporter {
      * @throws IllegalArgumentException if the statements are not suitable for initializing the
      *     puzzle
      */
-    public void initializePuzzle(String[] statements)
+    public void initializePuzzle(@NotNull String[] statements)
             throws InputMismatchException, IllegalArgumentException {
         // Note: Error checking for the statements will be left up to the puzzles that support
         // text input. For example, some puzzles may be okay with "blank" statements (Strings with
@@ -74,7 +75,7 @@ public abstract class PuzzleImporter {
      * @param node the XML document node representing the puzzle
      * @throws InvalidFileFormatException if the file format is invalid
      */
-    public void initializePuzzle(Node node) throws InvalidFileFormatException {
+    public void initializePuzzle(@NotNull Node node) throws InvalidFileFormatException {
         if (node.getNodeName().equalsIgnoreCase("puzzle")) {
             org.w3c.dom.Element puzzleElement = (org.w3c.dom.Element) node;
 
@@ -143,7 +144,7 @@ public abstract class PuzzleImporter {
      * @param node the XML document node representing the board
      * @throws InvalidFileFormatException if the file format is invalid
      */
-    public abstract void initializeBoard(Node node) throws InvalidFileFormatException;
+    public abstract void initializeBoard(@NotNull Node node) throws InvalidFileFormatException;
 
     /**
      * Initializes the board using an array of statements.
@@ -153,7 +154,7 @@ public abstract class PuzzleImporter {
      * @throws IllegalArgumentException if the statements are not suitable for initializing the
      *     board
      */
-    public abstract void initializeBoard(String[] statements)
+    public abstract void initializeBoard(@NotNull String[] statements)
             throws UnsupportedOperationException, IllegalArgumentException;
 
     /**
@@ -164,7 +165,7 @@ public abstract class PuzzleImporter {
      * @return A list of elements that will change when solving the puzzle * e.g. {"cell"}, {"cell",
      *     "line"}
      */
-    public List<String> getImporterElements() {
+    @NotNull public List<String> getImporterElements() {
         List<String> elements = new ArrayList<>();
         elements.add("cell");
         return elements;
@@ -176,7 +177,7 @@ public abstract class PuzzleImporter {
      * @param node xml document node
      * @throws InvalidFileFormatException if file is invalid
      */
-    public void initializeProof(Node node) throws InvalidFileFormatException {
+    public void initializeProof(@NotNull Node node) throws InvalidFileFormatException {
         if (node.getNodeName().equalsIgnoreCase("proof")) {
             org.w3c.dom.Element proofElement = (org.w3c.dom.Element) node;
             NodeList treeList = proofElement.getElementsByTagName("tree");
@@ -211,7 +212,7 @@ public abstract class PuzzleImporter {
      * @param node xml document node
      * @throws InvalidFileFormatException if file is invalid
      */
-    protected void setCells(Node node) throws InvalidFileFormatException {
+    protected void setCells(@NotNull Node node) throws InvalidFileFormatException {
         NodeList dataList = ((org.w3c.dom.Element) node).getElementsByTagName("cell");
         Board board = puzzle.getCurrentBoard();
         for (int i = 0; i < dataList.getLength(); i++) {
@@ -227,7 +228,7 @@ public abstract class PuzzleImporter {
      * @param node xml document node
      * @throws InvalidFileFormatException if file is invalid
      */
-    protected void createTree(Node node) throws InvalidFileFormatException {
+    protected void createTree(@NotNull Node node) throws InvalidFileFormatException {
         Element treeElement = (org.w3c.dom.Element) node;
 
         Tree tree = new Tree();
@@ -320,8 +321,16 @@ public abstract class PuzzleImporter {
         }
     }
 
+    /**
+     * Validates the structure of the proof tree, checking for disjoint or cyclic elements.
+     *
+     * @param nodes the map of node IDs to TreeNode objects
+     * @param transitions the map of transition IDs to TreeTransition objects
+     * @throws InvalidFileFormatException if the tree structure is invalid
+     */
     protected void validateTreeStructure(
-            HashMap<String, TreeNode> nodes, HashMap<String, TreeTransition> transitions)
+            @NotNull HashMap<String, TreeNode> nodes,
+            @NotNull HashMap<String, TreeTransition> transitions)
             throws InvalidFileFormatException {
         Tree tree = puzzle.getTree();
 
@@ -402,7 +411,8 @@ public abstract class PuzzleImporter {
      * @throws InvalidFileFormatException if the XML node format is incorrect or unknown nodes are
      *     encountered
      */
-    protected void makeTransitionChanges(TreeTransition transition, Node transElement)
+    protected void makeTransitionChanges(
+            @NotNull TreeTransition transition, @NotNull Node transElement)
             throws InvalidFileFormatException {
         if (transition.getRule() instanceof MergeRule) {
             List<TreeNode> mergingNodes = transition.getParents();
@@ -432,6 +442,7 @@ public abstract class PuzzleImporter {
                     Board board = transition.getBoard();
                     PuzzleElement cell = puzzle.getFactory().importCell(node, board);
 
+                    cell.setGoal(board.getPuzzleElement(cell).isGoal());
                     board.setPuzzleElement(cell.getIndex(), cell);
                     board.addModifiedData(cell);
                     transition.propagateChange(cell);
@@ -462,7 +473,7 @@ public abstract class PuzzleImporter {
      *
      * @return puzzle
      */
-    public Puzzle getPuzzle() {
+    @NotNull public Puzzle getPuzzle() {
         return puzzle;
     }
 }

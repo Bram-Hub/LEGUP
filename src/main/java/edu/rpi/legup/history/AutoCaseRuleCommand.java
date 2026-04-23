@@ -28,6 +28,9 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
 
     private List<TreeTransition> caseTrans;
 
+    private List<Board> cases;
+    int numberOfCaseRules;
+
     /**
      * AutoCaseRuleCommand Constructor creates a command for validating a case rule
      *
@@ -49,6 +52,8 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
         this.caseBoard = caseBoard;
         this.mouseEvent = mouseEvent;
         this.caseTrans = new ArrayList<>();
+        this.cases = caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
+        this.numberOfCaseRules = cases.size();
     }
 
     /**

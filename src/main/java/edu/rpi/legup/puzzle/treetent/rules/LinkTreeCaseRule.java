@@ -15,6 +15,7 @@ import java.util.List;
 
 public class LinkTreeCaseRule extends CaseRule {
 
+    /** Constructs the LinkTreeCaseRule with its ID, name, description, and associated image. */
     public LinkTreeCaseRule() {
         super(
                 "TREE-CASE-0003",
@@ -23,6 +24,12 @@ public class LinkTreeCaseRule extends CaseRule {
                 "edu/rpi/legup/images/treetent/caseLinkTree.png");
     }
 
+    /**
+     * Creates a CaseBoard representing all valid case selections for this rule.
+     *
+     * @param board the current board state
+     * @return a CaseBoard containing all pickable elements for case generation
+     */
     @Override
     public CaseBoard getApplicableLocationsBoard(Board board) {
         TreeTentBoard treeTentBoard = (TreeTentBoard) board.copy();

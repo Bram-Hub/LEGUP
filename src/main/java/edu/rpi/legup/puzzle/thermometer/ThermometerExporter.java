@@ -6,10 +6,22 @@ import org.w3c.dom.Document;
 
 public class ThermometerExporter extends PuzzleExporter {
 
+    /**
+     * Constructs a ThermometerExporter for the given Thermometer puzzle.
+     *
+     * @param thermometer the Thermometer puzzle to export
+     */
     public ThermometerExporter(Thermometer thermometer) {
         super(thermometer);
     }
 
+    /**
+     * Creates the XML representation of the ThermometerBoard. Includes board dimensions, vial
+     * definitions, row constraints, and column constraints.
+     *
+     * @param newDocument the XML Document used to create elements
+     * @return the root XML element representing the board
+     */
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
         ThermometerBoard board = (ThermometerBoard) puzzle.getTree().getRootNode().getBoard();
@@ -18,6 +30,8 @@ public class ThermometerExporter extends PuzzleExporter {
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("width", String.valueOf(board.getWidth() - 1));
         boardElement.setAttribute("height", String.valueOf(board.getHeight() - 1));
+
+        appendGoalElement(newDocument, boardElement, board);
 
         // Creating the XML section for the vials and appending to the board
         org.w3c.dom.Element vialsElement = newDocument.createElement("vials");

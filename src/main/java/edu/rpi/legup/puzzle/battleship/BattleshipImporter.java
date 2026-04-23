@@ -1,5 +1,7 @@
 package edu.rpi.legup.puzzle.battleship;
 
+import edu.rpi.legup.model.Goal;
+import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
@@ -178,6 +180,32 @@ public class BattleshipImporter extends PuzzleImporter {
             }
 
             puzzle.setCurrentBoard(battleShipBoard);
+            if (boardElement.getElementsByTagName("goal").getLength() != 0) {
+                Element goalElement = (Element) boardElement.getElementsByTagName("goal").item(0);
+                Goal goal = puzzle.getFactory().importGoal(goalElement, battleShipBoard);
+
+                NodeList cellList = goalElement.getElementsByTagName("cell");
+                for (int i = 0; i < cellList.getLength(); i++) {
+                    BattleshipCell cell =
+                            (BattleshipCell)
+                                    puzzle.getFactory()
+                                            .importCell(cellList.item(i), battleShipBoard);
+                    // Store the goal value as goalData and mark the board cell as goal
+                    BattleshipCell boardCell =
+                            (BattleshipCell) battleShipBoard.getCell(cell.getLocation());
+                    if (boardCell != null) {
+                        boardCell.setGoalData(cell.getData());
+                        boardCell.setGoal(true);
+                    }
+                    goal.addCell(cell);
+                    battleShipBoard.getCell(cell.getLocation()).setGoal(true);
+                }
+                puzzle.setGoal(goal);
+            } else {
+                Goal goal = new Goal(null, GoalType.DEFAULT);
+
+                puzzle.setGoal(goal);
+            }
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "BattleShip Importer: " + "unknown value where integer expected");

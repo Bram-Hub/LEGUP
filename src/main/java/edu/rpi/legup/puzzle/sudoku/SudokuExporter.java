@@ -22,6 +22,8 @@ public class SudokuExporter extends PuzzleExporter {
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("size", String.valueOf(board.getSize()));
 
+        appendGoalElement(newDocument, boardElement, board);
+
         org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {
             SudokuCell cell = (SudokuCell) puzzleElement;

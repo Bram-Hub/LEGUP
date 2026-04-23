@@ -89,6 +89,16 @@ public class FillapixCell extends GridCell<Integer> implements Comparable<Fillap
         }
     }
 
+    @Override
+    public boolean isKnown() {
+        return data != 0;
+    }
+
+    @Override
+    public String describeState(boolean isPlural) {
+        return getType().toString().toLowerCase();
+    }
+
     /**
      * Performs a deep copy on the <code>FillapixCell</code>
      *
@@ -99,6 +109,7 @@ public class FillapixCell extends GridCell<Integer> implements Comparable<Fillap
         FillapixCell cell = new FillapixCell(data, (Point) location.clone());
         cell.setIndex(index);
         cell.setModifiable(isModifiable);
+        cell.setGoal(isGoal);
         return cell;
     }
 

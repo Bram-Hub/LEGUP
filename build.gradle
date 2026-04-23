@@ -1,8 +1,12 @@
 plugins {
     id 'java'
-    id 'edu.sc.seis.launch4j' version '2.5.3'
+    id 'edu.sc.seis.launch4j' version '2.5.3' apply false
     id 'kr.motd.sphinx' version '2.10.0'
     id 'com.diffplug.spotless' version '6.25.0'
+}
+
+if (!project.hasProperty("ci")) {
+    apply plugin: 'edu.sc.seis.launch4j'
 }
 
 def versionFile = file('legup-update/src/main/resources/edu.rpi.legupupdate/VERSION')

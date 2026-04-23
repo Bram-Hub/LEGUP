@@ -1,7 +1,9 @@
 package edu.rpi.legup.controller;
 
 import edu.rpi.legup.history.*;
+import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.elements.Element;
+import edu.rpi.legup.model.elements.PlaceableElement;
 import edu.rpi.legup.model.rules.*;
 import edu.rpi.legup.ui.puzzleeditorui.elementsview.ElementButton;
 import java.awt.*;
@@ -15,14 +17,25 @@ import javax.swing.*;
  * buttons
  */
 public class EditorElementController implements ActionListener {
+    public enum SelectionMode {
+        PLACEABLE,
+        GOAL_CONDITIONS
+    }
+
     protected Object lastSource;
     protected ElementController elementController;
     protected ElementButton prevButton;
+    private SelectionMode selectionMode;
+    private Object goalValueData;
+    private boolean assumeSolution;
 
     public EditorElementController() {
         super();
         elementController = null;
         prevButton = null;
+        selectionMode = SelectionMode.PLACEABLE;
+        goalValueData = null;
+        assumeSolution = false;
     }
 
     /**
@@ -32,6 +45,42 @@ public class EditorElementController implements ActionListener {
      */
     public void setElementController(ElementController elementController) {
         this.elementController = elementController;
+        setSelectionMode(selectionMode);
+    }
+
+    public void setSelectionMode(SelectionMode selectionMode) {
+        this.selectionMode = selectionMode;
+        if (elementController != null) {
+            elementController.setGoalPlacementMode(selectionMode == SelectionMode.GOAL_CONDITIONS);
+        }
+    }
+
+    public SelectionMode getSelectionMode() {
+        return selectionMode;
+    }
+
+    public void setGoalType(GoalType goalType) {
+        if (elementController != null) {
+            elementController.setGoalType(goalType);
+        }
+    }
+
+    public void setGoalDataType(PlaceableElement elementType) {
+        if (elementController != null) {
+            elementController.setGoalValue(elementType);
+            // Pass the element itself as the goal value data
+            if (elementType != null) {
+                goalValueData = elementType;
+                elementController.setGoalValueData(goalValueData);
+            }
+        }
+    }
+
+    public void setAssumeSolution(boolean assume) {
+        if (elementController != null) {
+            assumeSolution = assume;
+            elementController.setAssumeSolution(assume);
+        }
     }
 
     /**
@@ -41,6 +90,7 @@ public class EditorElementController implements ActionListener {
      */
     public void buttonPressed(Element element) {
         // TODO: implement what happens when element is pressed
+        setSelectionMode(SelectionMode.PLACEABLE);
 
         if (elementController != null) {
             elementController.setSelectedElement(element);

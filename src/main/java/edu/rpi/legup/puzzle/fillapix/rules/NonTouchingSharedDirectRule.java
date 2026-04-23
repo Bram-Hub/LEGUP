@@ -19,9 +19,9 @@ public class NonTouchingSharedDirectRule extends DirectRule {
         super(
                 "FPIX-BASC-0005",
                 "NonTouching Shared",
-                "Clues with shared cells have the same difference in black cells in their unshared"
-                        + " regions as the difference in their numbers",
-                "edu/rpi/legup/images/fillapix/rules/TouchingSides.png");
+                "Two clues are touching corners, are sharing neighboring cells, have the same difference in black cells in their"
+                        + " unshared regions as the difference in their numbers",
+                "edu/rpi/legup/images/fillapix/rules/NontouchingShared.png");
     }
 
     @Override

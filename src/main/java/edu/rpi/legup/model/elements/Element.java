@@ -131,4 +131,9 @@ public abstract class Element {
     public String getInvalidUseOfRuleMessage() {
         return this.INVALID_USE_MESSAGE;
     }
+
+    @Override
+    public String toString() {
+        return elementName;
+    }
 }
