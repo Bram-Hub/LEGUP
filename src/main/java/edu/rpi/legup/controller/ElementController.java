@@ -399,7 +399,7 @@ public class ElementController
                 boardView.getCanvas().setToolTipText(null);
             }
 
-            if (LegupPreferences.getInstance().getUserPrefAsBool(LegupPreferences.SHOW_MISTAKES)) {
+            if (LegupPreferences.showMistakes()) {
                 PuzzleElement element = elementView.getPuzzleElement();
                 if (treeElement != null
                         && treeElement.getType() == TreeElementType.TRANSITION

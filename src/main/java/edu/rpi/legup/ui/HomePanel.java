@@ -1,5 +1,7 @@
 package edu.rpi.legup.ui;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.formdev.flatlaf.FlatClientProperties;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.app.VersionInfo;
@@ -11,13 +13,13 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.io.FileWriter;
 import java.net.URI;
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.*;
@@ -93,7 +95,7 @@ public class HomePanel extends LegupPanel {
         settings.addSeparator();
         settings.add(preferences);
 
-        JMenuItem contribute = new JMenuItem("Contribute to Legup");
+        JMenuItem contribute = new JMenuItem("Contribute to LEGUP");
         contribute.addActionListener(
                 l -> {
                     try {
@@ -141,12 +143,12 @@ public class HomePanel extends LegupPanel {
                     }
                 };
 
-        URL button0IconLocation =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/homepanel/proof_file.png");
-        ImageIcon button0Icon = new ImageIcon(button0IconLocation);
+        FlatSVGIcon button0Icon = new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/homepanel/proof_file.svg",
+                this.buttonSize, this.buttonSize);
+
         this.buttons[0].setFocusPainted(false);
-        this.buttons[0].setIcon(resizeButtonIcon(button0Icon, this.buttonSize, this.buttonSize));
+        this.buttons[0].setIcon(button0Icon);
         this.buttons[0].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[0].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[0].addActionListener(CursorController.createListener(this, openProofListener));
@@ -158,12 +160,13 @@ public class HomePanel extends LegupPanel {
                         setMaximumSize(getSize());
                     }
                 };
-        URL button1IconLocation =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.png");
-        ImageIcon button1Icon = new ImageIcon(button1IconLocation);
+
+        FlatSVGIcon button1Icon = new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.svg",
+                this.buttonSize, this.buttonSize);
+
         this.buttons[1].setFocusPainted(false);
-        this.buttons[1].setIcon(resizeButtonIcon(button1Icon, this.buttonSize, this.buttonSize));
+        this.buttons[1].setIcon(button1Icon);
         this.buttons[1].setHorizontalTextPosition(AbstractButton.CENTER);
         this.buttons[1].setVerticalTextPosition(AbstractButton.BOTTOM);
         this.buttons[1].addActionListener(l -> this.openPuzzleEditorDialog());
@@ -240,7 +243,7 @@ public class HomePanel extends LegupPanel {
         browseButton.addActionListener(
                 e -> {
                     JFileChooser folderBrowser = new JFileChooser();
-                    folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
+                    folderBrowser.setCurrentDirectory(new File(LegupPreferences.workDirectory()));
                     folderBrowser.setDialogTitle("Select Directory");
                     folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                     folderBrowser.setAcceptAllFileFilterUsed(false);
@@ -580,15 +583,14 @@ public class HomePanel extends LegupPanel {
         this.text = new JLabel[3];
 
         JLabel welcome = new JLabel("Welcome to LEGUP");
-        welcome.setFont(new Font("Roboto", Font.BOLD, 23));
+        welcome.putClientProperty(FlatClientProperties.STYLE_CLASS, "welcome");
         welcome.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel credits = new JLabel("A project by Dr. Bram van Heuveln");
-        credits.setFont(new Font("Roboto", Font.PLAIN, 12));
         credits.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel version = new JLabel("Version " + VersionInfo.getVersion());
-        version.setFont(new Font("Roboto", Font.ITALIC, 10));
+        version.putClientProperty(FlatClientProperties.STYLE_CLASS, "version");
         version.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         this.text[0] = welcome;

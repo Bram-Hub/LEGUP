@@ -1,7 +1,6 @@
 package edu.rpi.legup.ui;
 
-import static java.lang.System.exit;
-
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.app.VersionInfo;
@@ -9,16 +8,16 @@ import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.EditorElementController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
-import edu.rpi.legup.model.Goal;
-import edu.rpi.legup.model.GoalType;
-import edu.rpi.legup.model.Puzzle;
-import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.model.Goal;
+import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.observer.IBoardListener;
+import edu.rpi.legup.model.Puzzle;
+import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
@@ -50,11 +49,10 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     private static final Logger LOGGER = LogManager.getLogger(PuzzleEditorPanel.class.getName());
     private JMenu[] menus;
-    private JMenuItem helpLegup, aboutLegup;
+    private JMenuItem legupWiki, aboutLegup;
     private JMenuBar menuBar;
     private JToolBar toolBar1;
     private JToolBar toolBar2;
-    private JFileChooser folderBrowser;
     private JFrame frame;
     private JButton[] buttons;
     JSplitPane splitPanel;
@@ -65,7 +63,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private BoardView boardView;
     private TitledBorder boardBorder;
     // private JSplitPane splitPanel, topHalfPanel;
-    private FileDialog fileDialog;
+    private JFileChooser fileChooser;
     private JMenuItem undo, redo, fitBoardToScreen;
     private ElementFrame elementFrame;
     private JPanel treePanel;
@@ -89,13 +87,13 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      * Constructs a {@code PuzzleEditorPanel} with the specified file dialog, frame, and Legup UI
      * instance
      *
-     * @param fileDialog the file dialog used for file operations
+     * @param fileChooser the file chooser used for file operations
      * @param frame the main application frame
      * @param legupUI the Legup UI instance
      */
-    public PuzzleEditorPanel(
-            @NotNull FileDialog fileDialog, @NotNull JFrame frame, @NotNull LegupUI legupUI) {
-        this.fileDialog = fileDialog;
+    public PuzzleEditorPanel(@NotNull JFileChooser fileChooser, @NotNull JFrame frame,
+                             @NotNull LegupUI legupUI) {
+        this.fileChooser = fileChooser;
         this.frame = frame;
         this.legupUI = legupUI;
         setLayout(new BorderLayout());
@@ -294,14 +292,14 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         // HELP
         menus[2] = new JMenu("Help");
-        helpLegup = new JMenuItem("Help Legup");
-        aboutLegup = new JMenuItem("About Legup");
-        menus[2].add(helpLegup);
+        legupWiki = new JMenuItem("LEGUP Wiki");
+        aboutLegup = new JMenuItem("About LEGUP");
+        menus[2].add(legupWiki);
         menus[2].add(aboutLegup);
-        helpLegup.addActionListener(
+        legupWiki.addActionListener(
                 l -> {
                     try {
-                        java.awt.Desktop.getDesktop()
+                        Desktop.getDesktop()
                                 .browse(URI.create("https://github.com/Bram-Hub/LEGUP/wiki"));
                     } catch (IOException e) {
                         LOGGER.error("Can't open web page");
@@ -351,19 +349,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private void setupToolBar1() {
         setToolBar1Buttons(new JButton[2]);
 
-        URL open_url =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/Open.png");
-        ImageIcon OpenImageIcon = new ImageIcon(open_url);
-        Image OpenImage = OpenImageIcon.getImage();
-        OpenImageIcon =
-                new ImageIcon(
-                        OpenImage.getScaledInstance(
-                                this.TOOLBAR_ICON_SCALE,
-                                this.TOOLBAR_ICON_SCALE,
-                                Image.SCALE_SMOOTH));
-
-        JButton open = new JButton("Open", OpenImageIcon);
+        JButton open = new JButton("Open", new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/toolbar/Open.svg",
+                this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE));
         open.setFocusPainted(false);
         open.addActionListener((ActionEvent) -> loadPuzzle());
 
@@ -374,19 +362,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         toolBar1.setRollover(true);
         toolBar1.add(getToolBar1Buttons()[0]);
 
-        URL create_url =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/Open Puzzle.png");
-        ImageIcon CreateImageIcon = new ImageIcon(create_url);
-        Image CreateImage = CreateImageIcon.getImage();
-        CreateImageIcon =
-                new ImageIcon(
-                        CreateImage.getScaledInstance(
-                                this.TOOLBAR_ICON_SCALE,
-                                this.TOOLBAR_ICON_SCALE,
-                                Image.SCALE_SMOOTH));
-
-        JButton create = new JButton("Create", CreateImageIcon);
+        JButton create = new JButton("Create", new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/toolbar/New.svg",
+                this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE));
         create.setFocusPainted(false);
         create.addActionListener(
                 (ActionEvent) -> {
@@ -415,19 +393,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         toolBar2.setRollover(true);
         setToolBar2Buttons(new JButton[3]);
 
-        URL reset =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/Reset.png");
-        ImageIcon ResetImageIcon = new ImageIcon(reset);
-        Image ResetImage = ResetImageIcon.getImage();
-        ResetImageIcon =
-                new ImageIcon(
-                        ResetImage.getScaledInstance(
-                                this.TOOLBAR_ICON_SCALE,
-                                this.TOOLBAR_ICON_SCALE,
-                                Image.SCALE_SMOOTH));
-
-        JButton resetButton = new JButton("Reset", ResetImageIcon);
+        JButton resetButton = new JButton("Reset", new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/toolbar/Reset.svg",
+                this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE));
         resetButton.setFocusPainted(false);
 
         resetButton.addActionListener(
@@ -451,19 +419,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         getToolBar2Buttons()[0] = resetButton;
         toolBar2.add(getToolBar2Buttons()[0]);
 
-        URL save_as =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/Save.png");
-        ImageIcon SaveAsImageIcon = new ImageIcon(save_as);
-        Image SaveAsImage = SaveAsImageIcon.getImage();
-        SaveAsImageIcon =
-                new ImageIcon(
-                        SaveAsImage.getScaledInstance(
-                                this.TOOLBAR_ICON_SCALE,
-                                this.TOOLBAR_ICON_SCALE,
-                                Image.SCALE_SMOOTH));
-
-        JButton saveas = new JButton("Save As", SaveAsImageIcon);
+        JButton saveas = new JButton("Save As", new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/toolbar/Save.svg",
+                this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE));
         saveas.setFocusPainted(false);
         saveas.addActionListener(
                 (ActionEvent) -> {
@@ -507,19 +465,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         getToolBar2Buttons()[1] = saveas;
         toolBar2.add(getToolBar2Buttons()[1]);
 
-        URL save_and_solve =
-                ClassLoader.getSystemClassLoader()
-                        .getResource("edu/rpi/legup/images/Legup/Check.png");
-        ImageIcon SaveSolveImageIcon = new ImageIcon(save_and_solve);
-        Image SaveSolveImage = SaveSolveImageIcon.getImage();
-        SaveSolveImageIcon =
-                new ImageIcon(
-                        SaveSolveImage.getScaledInstance(
-                                this.TOOLBAR_ICON_SCALE,
-                                this.TOOLBAR_ICON_SCALE,
-                                Image.SCALE_SMOOTH));
-
-        JButton saveandsolve = new JButton("Save & Solve", SaveSolveImageIcon);
+        JButton saveandsolve = new JButton("Save & Solve", new FlatSVGIcon(
+                "edu/rpi/legup/images/Legup/toolbar/Check.svg",
+                TOOLBAR_ICON_SCALE, TOOLBAR_ICON_SCALE));
         saveandsolve.setFocusPainted(false);
         saveandsolve.addActionListener(
                 e -> {
@@ -620,38 +568,34 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                 return new Object[0];
             }
         }
-
+        if (fileChooser == null) {
+            fileChooser = new JFileChooser();
+        }
         LegupPreferences preferences = LegupPreferences.getInstance();
-        String preferredDirectory = preferences.getUserPref(LegupPreferences.WORK_DIRECTORY);
-        if (preferences.getSavedPath() != "") {
-            preferredDirectory = preferences.getSavedPath();
+
+        fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
+        fileChooser.setDialogTitle("Select Puzzle");
+        fileChooser.setCurrentDirectory(new File(LegupPreferences.workDirectory()));
+        fileChooser.showOpenDialog(this);
+        fileChooser.setVisible(true);
+
+        File puzzleFile = fileChooser.getSelectedFile();
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(puzzleFile.getAbsolutePath());
         }
 
-        File preferredDirectoryFile = new File(preferredDirectory);
-        JFileChooser fileBrowser = new JFileChooser(preferredDirectoryFile);
-        String fileName = null;
-        File puzzleFile = null;
-
-        fileBrowser.showOpenDialog(this);
-        fileBrowser.setVisible(true);
-        fileBrowser.setCurrentDirectory(new File(preferredDirectory));
-        fileBrowser.setDialogTitle("Select Proof File");
-        fileBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileBrowser.setAcceptAllFileFilterUsed(false);
-
-        File puzzlePath = fileBrowser.getSelectedFile();
-
-        if (puzzlePath != null) {
-            fileName = puzzlePath.getAbsolutePath();
-            String lastDirectoryPath = fileName.substring(0, fileName.lastIndexOf(File.separator));
-            preferences.setSavedPath(lastDirectoryPath);
-            puzzleFile = puzzlePath;
-        } else {
+        if (puzzleFile != null) {
+            preferences.setSavedPath(puzzleFile.getParentFile().getAbsolutePath());
+        }
+        else {
             // The attempt to prompt a puzzle ended gracefully (cancel)
             return null;
         }
 
-        return new Object[] {fileName, puzzleFile};
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(preferences.getSavedPath());
+        }
+        return new Object[] {puzzleFile.getAbsolutePath(), puzzleFile};
     }
 
     /**
@@ -789,7 +733,9 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         this.toolBar2Buttons = toolBar2Buttons;
     }
 
-    /** Repaints the current board view */
+    /**
+     * Repaints the current board view
+     */
     private void repaintAll() {
         boardView.repaint();
     }
@@ -958,36 +904,42 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             }
         }
 
-        LegupPreferences preferences = LegupPreferences.getInstance();
-        File preferredDirectory =
-                new File(preferences.getUserPref(LegupPreferences.WORK_DIRECTORY));
-        if (preferences.getSavedPath() != "") {
-            preferredDirectory = new File(preferences.getSavedPath());
+        if (fileChooser == null) {
+            fileChooser = new JFileChooser();
+            fileChooser.showOpenDialog(this);
+            fileChooser.setVisible(true);
         }
-        folderBrowser = new JFileChooser(preferredDirectory);
 
-        folderBrowser.showSaveDialog(this);
-        folderBrowser.setVisible(true);
-        folderBrowser.setCurrentDirectory(new File(LegupPreferences.WORK_DIRECTORY));
-        folderBrowser.setDialogTitle("Select Directory");
-        folderBrowser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        folderBrowser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
+        fileChooser.setDialogTitle("Save Proof");
+        String curFileName = GameBoardFacade.getInstance().getCurFileName();
+        if (curFileName == null) {
+            fileChooser.setCurrentDirectory(new File(LegupPreferences.workDirectory()));
+        } else {
+            fileChooser.setCurrentDirectory(new File(curFileName).getParentFile());
+        }
+        fileChooser.showOpenDialog(this);
+        fileChooser.setVisible(true);
 
-        String path = folderBrowser.getSelectedFile().getAbsolutePath();
-        preferences.setSavedPath(path);
-        if (path != null) {
+        String fileName = null;
+        if (fileChooser.getCurrentDirectory() != null && fileChooser.getSelectedFile() != null) {
+            fileName = fileChooser.getSelectedFile().getAbsolutePath();
+        }
+
+        if (fileName != null) {
             try {
                 PuzzleExporter exporter = puzzle.getExporter();
                 if (exporter == null) {
                     throw new ExportFileException("Puzzle exporter null");
                 }
-                puzzle.setTag(path.substring(path.lastIndexOf(File.separator) + 1));
-                exporter.exportPuzzle(path);
+                puzzle.setTag(fileName.substring(fileName.lastIndexOf(File.separator) + 1));
+                exporter.exportPuzzle(fileName);
             } catch (ExportFileException e) {
                 e.printStackTrace();
             }
         }
-        return path;
+
+        return fileName;
     }
 
     /**

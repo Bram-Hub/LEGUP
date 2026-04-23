@@ -3,13 +3,11 @@ package edu.rpi.legup.puzzle.thermometer;
 import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Objects;
 import javax.imageio.ImageIO;
+import javax.swing.UIManager;
 
 public class ThermometerElementView extends GridElementView {
-
-    // mixture of stuff stolen from tree tent and dev guide
-    private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
-    private static final Color FONT_COLOR = Color.BLACK;
 
     public ThermometerElementView(ThermometerCell cell) {
         super(cell);
@@ -24,23 +22,24 @@ public class ThermometerElementView extends GridElementView {
     // basically copy/pasted from tree tent drawing tent images
     @Override
     public void drawElement(Graphics2D graphics2D) {
-
         ThermometerCell cell = (ThermometerCell) puzzleElement;
-        ThermometerType type = cell.getType();
-        ThermometerFill fill = cell.getFill();
-        int rotation = cell.getRotation();
-
         graphics2D.drawImage(
-                imageSrc(type, fill, rotation),
+                imageSrc(cell.getType(), cell.getFill(), cell.getRotation()),
                 location.x,
                 location.y,
                 size.width,
                 size.height,
                 null,
                 null);
+    }
 
-        graphics2D.setColor(Color.BLACK);
-        graphics2D.drawRect(location.x, location.y, size.width, size.height);
+    @Override
+    public void drawBorder(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("Thermometer.borderColor"));
+        g.setStroke(new BasicStroke(UIManager.getInt("Thermometer.borderWidth")));
+        g.drawRect(location.x, location.y, size.width, size.height);
+        g.dispose();
     }
 
     // modified code from tree trent to display images

@@ -2,11 +2,10 @@ package edu.rpi.legup.ui;
 
 import static java.awt.BorderLayout.*;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialColors;
-import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -29,12 +28,6 @@ public class DynamicView extends JPanel {
     private JLabel status;
 
     private static final float SLIDER_PRECISION = 0.1f;
-
-    private static final Font ERROR_FONT = MaterialFonts.ITALIC;
-    private static final Color ERROR_COLOR = MaterialColors.RED_700;
-
-    private static final Font INFO_FONT = MaterialFonts.REGULAR;
-    private static final Color INFO_COLOR = MaterialColors.GRAY_900;
 
     /**
      * Constructs a new DynamicView with the specified ScrollView and view type
@@ -107,7 +100,12 @@ public class DynamicView extends JPanel {
      */
     @NotNull private JPanel setUpZoomerHelper(
             @NotNull final String label, @NotNull ActionListener listener) {
-        zoomWrapper = new JPanel();
+        zoomWrapper = new JPanel(){
+            @Override
+            public boolean isOptimizedDrawingEnabled() {
+                return false;   // Stop zoomer elements from drawing over status message
+            }
+        };
         try {
             zoomer = new JPanel();
 
@@ -121,9 +119,9 @@ public class DynamicView extends JPanel {
             zoomer.add(resizeButton);
 
             JLabel zoomLabel = new JLabel("100%");
+            zoomLabel.putClientProperty(FlatClientProperties.STYLE_CLASS, "zoomer");
             zoomLabel.setPreferredSize(new Dimension(40, 50));
             zoomLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-            zoomLabel.setFont(MaterialFonts.getRegularFont(16f));
 
             JSlider zoomSlider =
                     new JSlider(
@@ -140,7 +138,6 @@ public class DynamicView extends JPanel {
                                                             .getResource(
                                                                     "edu/rpi/legup/imgs/add.png")))));
             plus.setFocusPainted(false);
-            plus.setFont(MaterialFonts.getRegularFont(10f));
             plus.setPreferredSize(new Dimension(20, 20));
             plus.addActionListener(
                     (ActionEvent e) ->
@@ -157,7 +154,6 @@ public class DynamicView extends JPanel {
                                                                     "edu/rpi/legup/imgs/remove.png")))));
             minus.setFocusPainted(false);
             minus.setPreferredSize(new Dimension(20, 20));
-            minus.setFont(MaterialFonts.getRegularFont(10f));
             minus.addActionListener(
                     (ActionEvent e) ->
                             zoomSlider.setValue(
@@ -196,9 +192,15 @@ public class DynamicView extends JPanel {
 
             status = new JLabel();
 
-            zoomWrapper.setLayout(new BorderLayout());
-            zoomWrapper.add(status, WEST);
-            zoomWrapper.add(zoomer, EAST);
+            zoomer.setAlignmentX(0.5f);
+            zoomer.setAlignmentY(0.5f);
+            status.setAlignmentX(0.5f);
+            status.setAlignmentY(0.5f);
+
+            zoomWrapper.setLayout(new OverlayLayout(zoomWrapper));
+            zoomWrapper.isOptimizedDrawingEnabled();
+            zoomWrapper.add(status);
+            zoomWrapper.add(zoomer);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -238,9 +240,8 @@ public class DynamicView extends JPanel {
      * @param message the informational message to display
      */
     public void updateInfo(@NotNull String message) {
-        status.setFont(INFO_FONT);
-        status.setForeground(INFO_COLOR);
-        status.setText(message);
+        status.putClientProperty(FlatClientProperties.STYLE_CLASS, "info");
+        status.setText("<html>" + message + "</html>");
     }
 
     /**
@@ -249,13 +250,13 @@ public class DynamicView extends JPanel {
      * @param message the error message to display
      */
     public void updateError(@NotNull String message) {
-        status.setFont(ERROR_FONT);
-        status.setForeground(ERROR_COLOR);
-        status.setText(message);
+        status.putClientProperty(FlatClientProperties.STYLE_CLASS, "error");
+        status.setText("<html>" + message + "</html>");
     }
 
     /** Clears the status label */
     public void resetStatus() {
+        status.putClientProperty(FlatClientProperties.STYLE_CLASS, null);
         status.setText("");
     }
 
