@@ -5,6 +5,8 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ValidCaseRule extends CaseRule {
@@ -17,12 +19,12 @@ public class ValidCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         return null;
     }
 
     @Override
-    public List<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         return null;
     }
 
