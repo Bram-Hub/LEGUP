@@ -24,6 +24,7 @@ public class MinesweeperElementView extends GridElementView {
         Graphics2D g = (Graphics2D) graphics2D.create();
         final MinesweeperCell cell = (MinesweeperCell) puzzleElement;
         final MinesweeperTileType type = cell.getTileType();
+        // does the number drawing
         if (type == MinesweeperTileType.NUMBER) {
             g.setColor(UIManager.getColor("Minesweeper.background"));
             g.fillRect(location.x, location.y, size.width, size.height);
@@ -40,6 +41,7 @@ public class MinesweeperElementView extends GridElementView {
 
             g.drawString(value, xText, yText);
         }
+        // does the drawing for the unset tile
         if (type == MinesweeperTileType.UNSET) {
             g.drawImage(
                     MinesweeperView.UNSET_IMAGE,
@@ -50,6 +52,7 @@ public class MinesweeperElementView extends GridElementView {
                     UIManager.getColor("Minesweeper.background"),
                     null);
         }
+        // does the drawing for an empty tile
         if (type == MinesweeperTileType.EMPTY) {
             g.drawImage(
                     MinesweeperView.EMPTY_IMAGE,
@@ -60,6 +63,7 @@ public class MinesweeperElementView extends GridElementView {
                     UIManager.getColor("Minesweeper.background"),
                     null);
         }
+        // does the mine drawing
         if (type == MinesweeperTileType.MINE) {
             g.drawImage(
                     MinesweeperView.MINE_IMAGE,

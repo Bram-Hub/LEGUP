@@ -49,7 +49,7 @@ public class LastSingularNumberDirectRule extends DirectRule {
         initialBoard.setDupeFlag(true);
         initialBoard.setViewFlag(false);
         NumberForCellCaseRule caseRule = new NumberForCellCaseRule();
-        ArrayList<Board> candidates = caseRule.getCases(initialBoard, puzzleElement);
+        ArrayList<Board> candidates = caseRule.getCasesFrom(initialBoard, puzzleElement);
         initialBoard.setDupeFlag(dupeTemp);
         initialBoard.setViewFlag(viewTemp);
 

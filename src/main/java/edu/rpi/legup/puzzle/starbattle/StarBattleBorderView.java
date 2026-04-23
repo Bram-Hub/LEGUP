@@ -8,6 +8,11 @@ import javax.swing.UIManager;
 public class StarBattleBorderView extends ElementView {
     private StarBattleCellType type;
 
+    /**
+     * Constructs a StarBattleBorderView for the given border element.
+     *
+     * @param border the StarBattleBorder associated with this view
+     */
     public StarBattleBorderView(StarBattleBorder border) {
         super(border);
         type = border.getType();
@@ -23,6 +28,11 @@ public class StarBattleBorderView extends ElementView {
         return (StarBattleBorder) super.getPuzzleElement();
     }
 
+    /**
+     * Draws the border view, including case and hover overlays if applicable.
+     *
+     * @param graphics2D the Graphics2D context used for rendering
+     */
     @Override
     public void draw(Graphics2D graphics2D) {
         drawElement(graphics2D);
@@ -34,6 +44,11 @@ public class StarBattleBorderView extends ElementView {
         }
     }
 
+    /**
+     * Draws the visual representation of the border based on its type.
+     *
+     * @param graphics2D the Graphics2D context used for rendering
+     */
     @Override
     public void drawElement(Graphics2D graphics2D) {
         Graphics2D g = (Graphics2D) graphics2D.create();

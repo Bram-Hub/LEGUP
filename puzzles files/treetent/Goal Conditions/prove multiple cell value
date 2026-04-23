@@ -1,0 +1,24 @@
+<Legup version="3.0.0">
+    <puzzle name="TreeTent" tag="1646651">
+        <board height="2" width="3">
+            <goal type="PROVE_MULTIPLE_CELL_VALUE">
+                <cell value="0" x="0" y="0"/>
+                <cell value="0" x="2" y="0"/>
+            </goal>
+            <cells>
+                <cell value="1" x="1" y="0"/>
+                <cell value="1" x="1" y="1"/>
+            </cells>
+            <axis side="east">
+                <clue index="A" value="1"/>
+                <clue index="B" value="1"/>
+            </axis>
+            <axis side="south">
+                <clue index="1" value="1"/>
+                <clue index="2" value="0"/>
+                <clue index="3" value="1"/>
+            </axis>
+        </board>
+    </puzzle>
+    <solved isSolved="-2010495071" lastSaved="2024-11-08 17:14:34"/>
+</Legup>

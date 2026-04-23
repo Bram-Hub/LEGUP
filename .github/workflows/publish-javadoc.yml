@@ -2,17 +2,19 @@
 
 name: Publish Javadoc
 
-on:
-  push:
-    branches:
-      - dev
+on: workflow_dispatch
+
 permissions:
   contents: write
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Publish JavaDoc
         uses: MathieuSoysal/Javadoc-publisher.yml@v2.4.0
         with:
@@ -22,3 +24,4 @@ jobs:
           java-distribution: temurin
           target-folder: docs
           project: gradle
+          custom-command: ./gradlew javadoc -Pci

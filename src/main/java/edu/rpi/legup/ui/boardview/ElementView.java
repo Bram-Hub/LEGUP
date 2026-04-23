@@ -59,6 +59,9 @@ public abstract class ElementView implements Shape {
         if (puzzleElement.isGiven()) {
             drawGiven(graphics2D);
         }
+        if (puzzleElement.isGoal()) {
+            drawGoal(graphics2D);
+        }
         if (puzzleElement.isModified()) {
             drawModified(graphics2D);
         }
@@ -95,6 +98,22 @@ public abstract class ElementView implements Shape {
      * @param graphics2D the Graphics2D context to use for drawing
      */
     public void drawGiven(Graphics2D graphics2D) {}
+
+    /**
+     * Draws a goal effect on the ElementView.
+     *
+     * @param graphics2D the Graphics2D context to use for drawing
+     */
+    public void drawGoal(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        float width = UIManager.getInt("Puzzle.highlightWidth");
+        g.setStroke(new BasicStroke(width));
+        g.setColor(UIManager.getColor("Puzzle.goal"));
+        g.draw(new Rectangle2D.Double(
+                location.x + width/2, location.y + width/2,
+                size.width - width, size.height - width));
+        g.dispose();
+    }
 
     /**
      * Draws a hover effect on the ElementView.

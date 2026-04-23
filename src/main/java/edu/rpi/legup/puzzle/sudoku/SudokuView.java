@@ -147,6 +147,11 @@ public class SudokuView extends GridBoardView {
         g.dispose();
     }
 
+    /**
+     * calculates and returns the dimensions of the board.
+     *
+     * @return the dimensions of the board
+     */
     protected Dimension getProperSize() {
         Dimension boardViewSize = new Dimension();
         boardViewSize.width = gridSize.width * (elementSize.width + 1) + 9;

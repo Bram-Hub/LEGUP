@@ -1,0 +1,11 @@
+<Legup version="2.0.0">
+    <puzzle name="LightUp" tag="69495">
+        <board height="3" width="3">
+            <goal type="PROVE_ANY_SOLUTION"/>
+            <cells>
+                <cell value="0" x="1" y="1"/>
+            </cells>
+        </board>
+    </puzzle>
+    <solved isSolved="-2010495071" lastSaved="2024-11-08 17:14:34"/>
+</Legup>

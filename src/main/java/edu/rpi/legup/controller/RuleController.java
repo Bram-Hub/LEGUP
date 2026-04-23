@@ -10,6 +10,7 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.rules.*;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.model.tree.TreeElementType;
+import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleButton;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RulePanel;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeElementView;
@@ -67,20 +68,29 @@ public class RuleController implements ActionListener {
                 }
                 else {
                     if (LegupPreferences.autoGenerateCases()) {
-                        try { // added try catch for scenarios where rules are cancelled by user ie.
-                            // Skyscraper cellForNumber
-                            CaseBoard caseBoard = caseRule.getCaseBoard(element.getBoard());
-                            if (caseBoard != null && caseBoard.getCount() > 0) {
-                                puzzle.notifyBoardListeners(
-                                        listener -> listener.onCaseBoardAdded(caseBoard));
+                        TreeNode treeNode = (TreeNode) element;
+                        if (!treeNode.getChildren().isEmpty()) {
+                            updateErrorString =
+                                    "Cases cannot be generated from a node with children.";
+                        }
+                        else {
+                            try { // added try catch for scenarios where rules are cancelled by user
+                                // ie.
+                                // Skyscraper cellForNumber
+                                CaseBoard caseBoard =
+                                        caseRule.getApplicableLocationsBoard(element.getBoard());
+                                if (caseBoard != null && caseBoard.getCount() > 0) {
+                                    puzzle.notifyBoardListeners(
+                                            listener -> listener.onCaseBoardAdded(caseBoard));
+                                }
+                                else {
+                                    updateErrorString =
+                                            "This board cannot be applied with this case rule.";
+                                }
+                            } // catch rule was cancelled exception
+                            catch (Exception e) {
+                                updateErrorString = e.getMessage();
                             }
-                            else {
-                                updateErrorString =
-                                        "This board cannot be applied with this case rule.";
-                            }
-                        } // catch rule was cancelled exception
-                        catch (Exception e) {
-                            updateErrorString = e.getMessage();
                         }
                     }
                     else {

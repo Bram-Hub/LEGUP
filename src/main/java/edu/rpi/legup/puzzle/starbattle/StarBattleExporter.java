@@ -4,16 +4,31 @@ import edu.rpi.legup.model.PuzzleExporter;
 import org.w3c.dom.Document;
 
 public class StarBattleExporter extends PuzzleExporter {
+
+    /**
+     * Constructs a StarBattleExporter for the given StarBattle puzzle.
+     *
+     * @param starbattle the StarBattle puzzle instance
+     */
     public StarBattleExporter(StarBattle starbattle) {
         super(starbattle);
     }
 
+    /**
+     * Creates the XML representation of the StarBattle board.
+     *
+     * @param newDocument the XML document used to create elements
+     * @return an XML Element representing the board
+     */
     @Override
     protected org.w3c.dom.Element createBoardElement(Document newDocument) {
         StarBattleBoard board = (StarBattleBoard) puzzle.getTree().getRootNode().getBoard();
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("size", String.valueOf(board.getSize()));
         boardElement.setAttribute("puzzle_num", String.valueOf(board.getPuzzleNumber()));
+
+        appendGoalElement(newDocument, boardElement, board);
+
         for (StarBattleRegion sb_region : board.regions) {
             org.w3c.dom.Element regionsElement = newDocument.createElement("region");
             org.w3c.dom.Element cellsElement = newDocument.createElement("cells");

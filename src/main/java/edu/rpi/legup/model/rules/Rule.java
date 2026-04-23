@@ -55,7 +55,7 @@ public abstract class Rule {
 
     /**
      * Checks whether the transition logically follows from the parent node using this rule. This
-     * method is the one that should overridden in child classes
+     * method is the one that should be overridden in child classes
      *
      * @param transition transition to check
      * @return null if the child node logically follow from the parent node, otherwise error message
@@ -75,7 +75,7 @@ public abstract class Rule {
 
     /**
      * Checks whether the child node logically follows from the parent node at the specific
-     * puzzleElement index using this rule This method is the one that should overridden in child
+     * puzzleElement index using this rule This method is the one that should be overridden in child
      * classes
      *
      * @param transition transition to check

@@ -4,6 +4,7 @@ import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
 import javax.swing.UIManager;
 
+/** The view for a Battleship cell */
 public class BattleshipElementView extends GridElementView {
 
     public BattleshipElementView(BattleshipCell cell) {

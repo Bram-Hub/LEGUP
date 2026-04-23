@@ -31,7 +31,14 @@ public class SatisfyNumberCaseRuleTest {
     /**
      * Tests the Satisfy Number case rule by ensuring that it results in all possibilities for the
      * number. This case tests a number 2 with three unset cells around it, so each case must
-     * replace the unset tiles with a different arrangement of two bombs and one empty.
+     * replace the unset tiles with a different arrangement of two bombs and one empty. <br>
+     * <br>
+     * This is what SatisfyNumber.txt looks like:
+     *
+     * <pre>
+     *      e  e  e
+     *      _| 2  _|
+     *      e  _| e</pre>
      */
     @Test
     public void SatisfyNumberCaseRuleTest1() throws InvalidFileFormatException {
@@ -42,7 +49,7 @@ public class SatisfyNumberCaseRuleTest {
 
         MinesweeperBoard board = (MinesweeperBoard) transition.getBoard();
         MinesweeperCell cell = board.getCell(1, 1);
-        ArrayList<Board> cases = RULE.getCases(board, cell);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, cell);
 
         Assert.assertEquals(3, cases.size());
 

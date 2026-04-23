@@ -10,15 +10,30 @@ public class StarBattleElementView extends GridElementView {
     private static final Logger LOGGER =
             LogManager.getLogger(StarBattleElementView.class.getName());
 
+    /**
+     * Constructs a StarBattleElementView for the given StarBattleCell.
+     *
+     * @param cell the StarBattleCell associated with this view
+     */
     public StarBattleElementView(StarBattleCell cell) {
         super(cell);
     }
 
+    /**
+     * Gets the PuzzleElement associated with this view.
+     *
+     * @return the StarBattleCell associated with this view
+     */
     @Override
     public StarBattleCell getPuzzleElement() {
         return (StarBattleCell) super.getPuzzleElement();
     }
 
+    /**
+     * Draws the visual representation of the StarBattleCell based on its type.
+     *
+     * @param graphics2D the Graphics2D context used for rendering
+     */
     @Override
     public void drawElement(Graphics2D graphics2D) {
         Graphics2D g = (Graphics2D) graphics2D.create();

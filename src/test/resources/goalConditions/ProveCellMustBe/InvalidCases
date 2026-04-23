@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="6.1.0">
+    <puzzle name="TestPuzzle" tag="118040">
+        <board height="5" width="5">
+            <goal type="PROVE_CELL_MUST_BE">
+                <cell value="-1" x="0" y="1"/>
+                <cell value="4" x="0" y="4"/>
+            </goal>
+            <cells>
+                <cell value="4" x="4" y="0"/>
+                <cell value="1" x="0" y="2"/>
+                <cell value="1" x="2" y="2"/>
+                <cell value="1" x="4" y="2"/>
+                <cell value="4" x="0" y="4"/>
+            </cells>
+        </board>
+        <proof>
+            <tree>
+                <node id="1825403646" root="true">
+                    <transition child="1823831185" id="1459160434" rule="Invalid Case" rule_id="TEST-CASE-0002">
+                        <cell value="-1" x="0" y="1"/>
+                    </transition>
+                    <transition child="43" id="12" rule="Invalid Case" rule_id="TEST-CASE-0002">
+                        <cell value="-1" x="0" y="1"/>
+                        <cell value="3" x="1" y="1"/>
+                    </transition>
+                </node>
+                <node id="43"/>
+                <node id="1823831185"/>
+            </tree>
+        </proof>
+    </puzzle>
+    <solved isSolved="634759092" lastSaved="2025-11-07 17:24:25"/>
+</Legup>

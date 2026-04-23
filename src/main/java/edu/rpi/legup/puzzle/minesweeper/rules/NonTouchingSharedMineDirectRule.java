@@ -78,7 +78,7 @@ public class NonTouchingSharedMineDirectRule extends DirectRule {
         CaseRule completeClue = new SatisfyNumberCaseRule();
         List<Board> caseBoards;
         for (MinesweeperCell adjCell : adjCells) {
-            caseBoards = completeClue.getCases(parentBoard, adjCell);
+            caseBoards = completeClue.getCasesFrom(parentBoard, adjCell);
             boolean found = true;
             for (Board b : caseBoards) {
                 if (!MinesweeperUtilities.checkBoardForContradiction((MinesweeperBoard) b)) {

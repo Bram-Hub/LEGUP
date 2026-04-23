@@ -13,10 +13,12 @@ import java.awt.event.MouseEvent;
 public abstract class PuzzleElement<T> {
     protected int index;
     protected T data;
+    protected T goalData;
     protected boolean isModifiable;
     protected boolean isModified;
     protected boolean isModifiableCaseRule;
     protected boolean isGiven;
+    protected boolean isGoal;
     protected boolean isValid;
     protected int casesDepended;
 
@@ -24,10 +26,12 @@ public abstract class PuzzleElement<T> {
     public PuzzleElement() {
         this.index = -1;
         this.data = null;
+        this.goalData = null;
         this.isModifiable = true;
         this.isModifiableCaseRule = true;
         this.isModified = false;
         this.isGiven = false;
+        this.isGoal = false;
         this.isValid = true;
         this.casesDepended = 0;
     }
@@ -52,12 +56,30 @@ public abstract class PuzzleElement<T> {
     }
 
     /**
+     * Gets the data value that represents the goal condition for this puzzle element.
+     *
+     * @return data value that represents the goal condition for this puzzle element
+     */
+    public T getGoalData() {
+        return goalData;
+    }
+
+    /**
      * Sets the data value that represents this puzzle element.
      *
      * @param data data value that represents this puzzle element
      */
     public void setData(T data) {
         this.data = data;
+    }
+
+    /**
+     * Sets the data value that represents the goal condition for this puzzle element.
+     *
+     * @param goalData data value that represents the goal condition for this puzzle element
+     */
+    public void setGoalData(T goalData) {
+        this.goalData = goalData;
     }
 
     public void setType(Element e, MouseEvent m) {
@@ -152,6 +174,24 @@ public abstract class PuzzleElement<T> {
      */
     public void setGiven(boolean given) {
         isGiven = given;
+    }
+
+    /**
+     * Gets whether this puzzle element is a goal condition
+     *
+     * @return true if the puzzle element is a goal condition, false otherwise
+     */
+    public boolean isGoal() {
+        return isGoal;
+    }
+
+    /**
+     * Sets whether this puzzle element is a goal condition
+     *
+     * @param goal true if the puzzle element is a goal condition, false otherwise
+     */
+    public void setGoal(boolean goal) {
+        isGoal = goal;
     }
 
     /**

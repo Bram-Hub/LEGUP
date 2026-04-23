@@ -14,6 +14,9 @@ import java.util.List;
 
 public class TentForTreeDirectRule extends DirectRule {
 
+    /**
+     * Constructs the TentForTreeDirectRule with its ID, name, description, and associated image.
+     */
     public TentForTreeDirectRule() {
         super(
                 "TREE-BASC-0006",
@@ -71,6 +74,16 @@ public class TentForTreeDirectRule extends DirectRule {
         }
     }
 
+    /**
+     * Determines whether a tree-tent connection is forced based on the current board state.
+     *
+     * @param board the TreeTentBoard being evaluated
+     * @param tree the tree cell under consideration
+     * @param tent the tent cell under consideration
+     * @param line the proposed connecting line between the tree and tent
+     * @return 1 if the connection is forced, 0 if not forced, -1 if the tree already has a link, -2
+     *     if the tent already has a link
+     */
     private Integer isForced(
             TreeTentBoard board, TreeTentCell tree, TreeTentCell tent, TreeTentLine line) {
         List<TreeTentCell> adjTents = board.getAdjacent(tree, TreeTentType.TENT);

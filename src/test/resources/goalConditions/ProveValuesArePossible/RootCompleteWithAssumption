@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Legup version="6.1.0">
+    <puzzle name="TestPuzzle" tag="118040">
+        <board height="2" width="2">
+            <goal type="PROVE_VALUES_ARE_POSSIBLE" assumeSolution="true">
+                <cell value="2" x="0" y="0"/>
+            </goal>
+            <cells>
+                <cell value="2" x="0" y="0"/>
+            </cells>
+        </board>
+    </puzzle>
+    <solved isSolved="634759092" lastSaved="2025-11-07 17:24:25"/>
+</Legup>

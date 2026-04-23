@@ -9,9 +9,15 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 public class StarBattleView extends GridBoardView {
+
+    /** Image used to render star cells. */
     static Image STAR;
+
+    /** Horizontal borders between cells (visual separators across rows). */
     private ArrayList<StarBattleBorderView>
             horizontalBorders; // board.size * board.size+1     left-right up-down
+
+    /** Vertical borders between cells (visual separators across columns). */
     private ArrayList<StarBattleBorderView>
             verticalBorders; // board.size+1 * board.size     left-right up-down
 
@@ -26,6 +32,12 @@ public class StarBattleView extends GridBoardView {
         }
     }
 
+    /**
+     * Constructs a StarBattleView for the given board. Initializes element views and dynamically
+     * builds border views based on region boundaries.
+     *
+     * @param board the StarBattleBoard to visualize
+     */
     public StarBattleView(StarBattleBoard board) {
         super(new BoardController(), new StarBattleController(), board.getDimension());
         this.horizontalBorders = new ArrayList<>();
@@ -105,6 +117,23 @@ public class StarBattleView extends GridBoardView {
     // Direction means which side of the cell in question should have a border on it
     // Numpad rules. 2 is down, 4 is left, 6 is right, 8 is up (based on visuals not coordinates,
     // since y is from up to down)
+    /**
+     * Computes the screen location for drawing a border relative to a given cell.
+     *
+     * <p>The direction follows numpad conventions:
+     *
+     * <ul>
+     *   <li>2 = bottom
+     *   <li>4 = left
+     *   <li>6 = right
+     *   <li>8 = top
+     * </ul>
+     *
+     * @param one the reference cell
+     * @param direction the direction to offset from the cell
+     * @param elementSize the size of each grid element
+     * @return the computed Point for the border location
+     */
     public Point endCell(StarBattleCell one, int direction, Dimension elementSize) {
         Point temp =
                 new Point(

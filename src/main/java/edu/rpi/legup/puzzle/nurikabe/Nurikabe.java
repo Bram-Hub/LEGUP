@@ -2,6 +2,7 @@ package edu.rpi.legup.puzzle.nurikabe;
 
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 
@@ -57,15 +58,14 @@ public class Nurikabe extends Puzzle {
     @Override
     public boolean isBoardComplete(Board board) {
         NurikabeBoard nurikabeBoard = (NurikabeBoard) board;
-
-        for (ContradictionRule rule : contradictionRules) {
-            if (rule.checkContradiction(nurikabeBoard) == null) {
+        for (PuzzleElement data : nurikabeBoard.getPuzzleElements()) {
+            GridCell cell = (GridCell) data;
+            if (!cell.isKnown()) {
                 return false;
             }
         }
-        for (PuzzleElement data : nurikabeBoard.getPuzzleElements()) {
-            NurikabeCell cell = (NurikabeCell) data;
-            if (cell.getType() == NurikabeType.UNKNOWN) {
+        for (ContradictionRule rule : contradictionRules) {
+            if (rule.checkContradiction(nurikabeBoard) == null) {
                 return false;
             }
         }

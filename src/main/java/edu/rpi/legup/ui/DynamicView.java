@@ -13,6 +13,8 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A JPanel that provides a dynamic view with zooming capabilities for different types of content.
@@ -33,7 +35,7 @@ public class DynamicView extends JPanel {
      * @param scrollView the ScrollView that provides the content to be displayed and zoomed
      * @param type the type of dynamic view to set up (e.g., BOARD or PROOF_TREE)
      */
-    public DynamicView(ScrollView scrollView, DynamicViewType type) {
+    public DynamicView(@NotNull ScrollView scrollView, @NotNull DynamicViewType type) {
         this.scrollView = scrollView;
 
         setLayout(new BorderLayout());
@@ -47,9 +49,9 @@ public class DynamicView extends JPanel {
      *
      * @param type The DynamicView that we are setting up the zoomer for (so the zoomer for the
      *     board view or the zoomer for the proof tree view)
-     * @return A JPanel containing the zoomer
+     * @return A JPanel containing the zoomer, or null if the type is unrecognized
      */
-    private JPanel setUpZoomer(DynamicViewType type) {
+    @Nullable private JPanel setUpZoomer(@NotNull DynamicViewType type) {
         if (type == DynamicViewType.BOARD) {
             return setUpBoardZoomer();
         } else {
@@ -67,7 +69,7 @@ public class DynamicView extends JPanel {
      *
      * @return A JPanel containing the zoomer
      */
-    private JPanel setUpBoardZoomer() {
+    @NotNull private JPanel setUpBoardZoomer() {
         final String label = "Resize Board";
         ActionListener listener = (ActionListener) -> this.fitBoardViewToScreen();
         return this.setUpZoomerHelper(label, listener);
@@ -78,7 +80,7 @@ public class DynamicView extends JPanel {
      *
      * @return A JPanel containing the zoomer
      */
-    private JPanel setUpProofTreeZoomer() {
+    @NotNull private JPanel setUpProofTreeZoomer() {
         final String label = "Resize Proof";
         ActionListener listener =
                 (ActionListener) ->
@@ -96,7 +98,8 @@ public class DynamicView extends JPanel {
      * @param listener A listener that determines what the resize button will do
      * @return A JPanel containing the zoomer
      */
-    private JPanel setUpZoomerHelper(final String label, ActionListener listener) {
+    @NotNull private JPanel setUpZoomerHelper(
+            @NotNull final String label, @NotNull ActionListener listener) {
         zoomWrapper = new JPanel(){
             @Override
             public boolean isOptimizedDrawingEnabled() {
@@ -162,7 +165,7 @@ public class DynamicView extends JPanel {
             scrollView.addComponentListener(
                     new ComponentAdapter() {
                         @Override
-                        public void componentResized(ComponentEvent e) {
+                        public void componentResized(@NotNull ComponentEvent e) {
                             zoomSlider.setValue((int) (scrollView.getZoom() / SLIDER_PRECISION));
                             zoomLabel.setText(
                                     (int) (zoomSlider.getValue() * SLIDER_PRECISION + 0.5) + "%");
@@ -179,13 +182,6 @@ public class DynamicView extends JPanel {
             zoomSlider.setMajorTickSpacing((int) (100f / SLIDER_PRECISION));
             zoomSlider.setMinorTickSpacing((int) (25f / SLIDER_PRECISION));
             zoomSlider.setPaintTicks(true);
-
-            // Hashtable<Integer, JLabel> labelTable = new Hashtable<>();
-            // labelTable.put((int)(25f/SLIDER_PRECISION), new JLabel("25%"));
-            // labelTable.put((int)(100f/SLIDER_PRECISION), new JLabel("100%"));
-            // labelTable.put((int)(400f/SLIDER_PRECISION), new JLabel("400%"));
-            // zoomSlider.setLabelTable(labelTable);
-            // zoomSlider.setPaintLabels(true);
 
             zoomer.setLayout(new FlowLayout());
 
@@ -216,7 +212,7 @@ public class DynamicView extends JPanel {
      *
      * @return the ScrollView component
      */
-    public ScrollView getScrollView() {
+    @NotNull public ScrollView getScrollView() {
         return this.scrollView;
     }
 
@@ -225,7 +221,7 @@ public class DynamicView extends JPanel {
      *
      * @return the zoom wrapper with zooming controls
      */
-    public JPanel getZoomWrapper() {
+    @Nullable public JPanel getZoomWrapper() {
         return this.zoomWrapper;
     }
 
@@ -234,7 +230,7 @@ public class DynamicView extends JPanel {
      *
      * @return the zoomer with the zoomer component
      */
-    public JPanel getZoomer() {
+    @Nullable public JPanel getZoomer() {
         return this.zoomer;
     }
 
@@ -243,7 +239,7 @@ public class DynamicView extends JPanel {
      *
      * @param message the informational message to display
      */
-    public void updateInfo(String message) {
+    public void updateInfo(@NotNull String message) {
         status.putClientProperty(FlatClientProperties.STYLE_CLASS, "info");
         status.setText("<html>" + message + "</html>");
     }
@@ -253,7 +249,7 @@ public class DynamicView extends JPanel {
      *
      * @param message the error message to display
      */
-    public void updateError(String message) {
+    public void updateError(@NotNull String message) {
         status.putClientProperty(FlatClientProperties.STYLE_CLASS, "error");
         status.setText("<html>" + message + "</html>");
     }

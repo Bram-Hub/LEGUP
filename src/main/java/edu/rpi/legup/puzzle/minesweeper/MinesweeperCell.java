@@ -68,6 +68,20 @@ public class MinesweeperCell extends GridCell<MinesweeperTileData> {
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
+        copy.setGoal(isGoal);
         return copy;
+    }
+
+    @Override
+    public boolean isKnown() {
+        return !(data == MinesweeperTileData.unset());
+    }
+
+    @Override
+    public String describeState(boolean isPlural) {
+        if (data.type() == MinesweeperTileType.MINE) {
+            return isPlural ? "mines" : "a mine";
+        }
+        return isPlural ? "not mines" : "not a mine";
     }
 }
