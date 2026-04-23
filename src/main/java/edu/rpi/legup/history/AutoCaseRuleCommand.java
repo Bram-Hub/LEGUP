@@ -52,7 +52,8 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
         this.caseBoard = caseBoard;
         this.mouseEvent = mouseEvent;
         this.caseTrans = new ArrayList<>();
-        this.cases = caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
+        this.cases =
+                caseRule.getCasesFrom(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
         this.numberOfCaseRules = cases.size();
     }
 
@@ -70,6 +71,8 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
         TreeNode node = (TreeNode) selection.getFirstSelection().getTreeElement();
 
         if (caseTrans.isEmpty()) {
+            List<Board> cases =
+                    caseRule.getCasesFrom(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
             for (Board board : cases) {
                 final TreeTransition transition = (TreeTransition) tree.addTreeElement(node);
                 // board.setModifiable(false);
@@ -123,10 +126,14 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
             return "The selected data element is not pickable with this case rule.";
         }
 
-        if (numberOfCaseRules == 0) {
+        if (caseRule.getCasesFrom(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size()
+                == 0) {
             return "The selection must produce at least one case";
         }
 
+        int numberOfCaseRules =
+                caseRule.getCasesFrom(caseBoard.getBaseBoard(), elementView.getPuzzleElement())
+                        .size();
         System.out.println("Number of cases:" + numberOfCaseRules);
         if (numberOfCaseRules > caseRule.MAX_CASES) {
             return "The selection can produce a max of " + caseRule.MAX_CASES + " cases";

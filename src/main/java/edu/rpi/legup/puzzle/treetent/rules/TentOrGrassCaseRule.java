@@ -9,7 +9,6 @@ import edu.rpi.legup.puzzle.treetent.TreeTentBoard;
 import edu.rpi.legup.puzzle.treetent.TreeTentCell;
 import edu.rpi.legup.puzzle.treetent.TreeTentType;
 import java.util.ArrayList;
-import java.util.List;
 
 public class TentOrGrassCaseRule extends CaseRule {
 
@@ -22,7 +21,7 @@ public class TentOrGrassCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         TreeTentBoard treeTentBoard = (TreeTentBoard) board.copy();
         treeTentBoard.setModifiable(false);
         CaseBoard caseBoard = new CaseBoard(treeTentBoard, this);
@@ -43,7 +42,7 @@ public class TentOrGrassCaseRule extends CaseRule {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
         Board case1 = board.copy();
         PuzzleElement data1 = case1.getPuzzleElement(puzzleElement);
@@ -58,43 +57,6 @@ public class TentOrGrassCaseRule extends CaseRule {
         cases.add(case2);
 
         return cases;
-    }
-
-    /**
-     * Checks whether the transition logically follows from the parent node using this rule
-     *
-     * @param transition transition to check
-     * @return null if the child node logically follow from the parent node, otherwise error message
-     */
-    @Override
-    public String checkRuleRaw(TreeTransition transition) {
-        List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-        if (childTransitions.size() != 2) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must have 2 children.";
-        }
-
-        TreeTransition case1 = childTransitions.get(0);
-        TreeTransition case2 = childTransitions.get(1);
-        if (case1.getBoard().getModifiedData().size() != 1
-                || case2.getBoard().getModifiedData().size() != 1) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must have 1 modified cell for each case.";
-        }
-
-        TreeTentCell mod1 = (TreeTentCell) case1.getBoard().getModifiedData().iterator().next();
-        TreeTentCell mod2 = (TreeTentCell) case2.getBoard().getModifiedData().iterator().next();
-        if (!mod1.getLocation().equals(mod2.getLocation())) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must modify the same cell for each case.";
-        }
-
-        if (!((mod1.getType() == TreeTentType.TENT && mod2.getType() == TreeTentType.GRASS)
-                || (mod2.getType() == TreeTentType.TENT && mod1.getType() == TreeTentType.GRASS))) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must have a tent and a grass cell.";
-        }
-
-        return null;
     }
 
     /**

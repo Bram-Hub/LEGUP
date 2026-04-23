@@ -4,7 +4,6 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
-import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.lightup.LightUpBoard;
 import edu.rpi.legup.puzzle.lightup.LightUpCell;
@@ -30,7 +29,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         LightUpBoard lightUpBoard = (LightUpBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(lightUpBoard, this);
         lightUpBoard.setModifiable(false);
@@ -50,7 +49,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
         if (puzzleElement == null) {
             return cases;
@@ -189,92 +188,6 @@ public class SatisfyNumberCaseRule extends CaseRule {
                 generateCases(board, num, openSpots, cases, newCase, i);
             }
         }
-    }
-
-    /**
-     * Checks whether the transition logically follows from the parent node using this rule
-     *
-     * @param transition transition to check
-     * @return null if the child node logically follow from the parent node, otherwise error message
-     */
-    @Override
-    public String checkRuleRaw(TreeTransition transition) {
-        TreeNode parent = transition.getParents().get(0);
-        List<TreeTransition> childTransitions = parent.getChildren();
-
-        List<LightUpCell> spots = getPossibleSpots(transition);
-        if (spots == null) {
-            return super.getInvalidUseOfRuleMessage();
-        }
-
-        for (LightUpCell c : spots) {
-            ArrayList<Board> cases = getCases(parent.getBoard(), c);
-
-            // Note: we will allow case rules to have only one option
-
-            // Some error checking to make sure that weird stuff doesn't happen
-            // if this case rule is incorrectly used to justify changes on the
-            // puzzle board
-            if (cases.size() == childTransitions.size() && cases.size() == 1) {
-                TreeTransition childTransition = childTransitions.get(0);
-
-                // If there is only 1 case, then this case rule should function no
-                // differently than the Finish With Bulbs Direct Rule
-                FinishWithBulbsDirectRule finishWithBulbs = new FinishWithBulbsDirectRule();
-                childTransition.setRule(finishWithBulbs);
-                boolean isCorrect = childTransition.isCorrect();
-
-                // Changes the transition back to this case rule
-                childTransition.setRule(this);
-
-                if (isCorrect) {
-                    return null;
-                }
-                return super.getInvalidUseOfRuleMessage();
-            } else if (cases.size() == childTransitions.size() && cases.size() > 1) {
-                boolean foundSpot = true;
-                for (TreeTransition childTrans : childTransitions) {
-                    LightUpBoard actCase = (LightUpBoard) childTrans.getBoard();
-                    boolean foundBoard = false;
-                    for (Board b : cases) {
-                        LightUpBoard posCase = (LightUpBoard) b;
-                        boolean foundAllCells = false;
-                        if (posCase.getModifiedData().size() == actCase.getModifiedData().size()) {
-                            foundAllCells = true;
-                            for (PuzzleElement actEle : actCase.getModifiedData()) {
-                                LightUpCell actCell = (LightUpCell) actEle;
-                                boolean foundCell = false;
-                                for (PuzzleElement posEle : posCase.getModifiedData()) {
-                                    LightUpCell posCell = (LightUpCell) posEle;
-                                    if (actCell.getType() == posCell.getType()
-                                            && actCell.getLocation()
-                                                    .equals(posCell.getLocation())) {
-                                        foundCell = true;
-                                        break;
-                                    }
-                                }
-                                if (!foundCell) {
-                                    foundAllCells = false;
-                                    break;
-                                }
-                            }
-                        }
-                        if (foundAllCells) {
-                            foundBoard = true;
-                            break;
-                        }
-                    }
-                    if (!foundBoard) {
-                        foundSpot = false;
-                        break;
-                    }
-                }
-                if (foundSpot) {
-                    return null;
-                }
-            }
-        }
-        return super.getInvalidUseOfRuleMessage();
     }
 
     /**

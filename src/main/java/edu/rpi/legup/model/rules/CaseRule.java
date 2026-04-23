@@ -7,9 +7,7 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * CaseRule is an abstract class representing a rule that can be applied with multiple cases in a
@@ -45,21 +43,22 @@ public abstract class CaseRule extends Rule {
      * @param board board to find locations where this case rule can be applied
      * @return a case board
      */
-    public abstract CaseBoard getCaseBoard(Board board);
+    public abstract CaseBoard getApplicableLocationsBoard(Board board);
 
     /**
      * Gets the possible cases for this {@link Board} at a specific {@link PuzzleElement} based on
      * this case rule.
      *
      * @param board the current board state
-     * @param puzzleElement equivalent puzzleElement
-     * @return a list of elements the specified could be
+     * @param puzzleElement the puzzleElement to justify the case rule
+     * @return a list of possible Boards, containing the modified cells which follow if the case
+     *     rule is applied at puzzleElement.
      */
-    public abstract List<Board> getCases(Board board, PuzzleElement puzzleElement);
+    public abstract ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement);
 
     /**
      * Checks whether the {@link TreeTransition} logically follows from the parent node using this
-     * rule.
+     * rule. In the case rule implementation, sibling transitions will also be updated.
      *
      * @param transition transition to check
      * @return null if the child node logically follow from the parent node, otherwise error message
@@ -71,7 +70,7 @@ public abstract class CaseRule extends Rule {
             return "Must not have multiple parent nodes";
         }
 
-        for (TreeTransition childTrans : parentNodes.get(0).getChildren()) {
+        for (TreeTransition childTrans : parentNodes.getFirst().getChildren()) {
             if (childTrans.getRule() == null
                     || !childTrans.getRule().getClass().equals(this.getClass())) {
                 return "All children nodes must be justified with the same case rule.";
@@ -81,7 +80,7 @@ public abstract class CaseRule extends Rule {
 
         // Mark transition and new data as valid or not
         boolean isCorrect = (check == null);
-        for (TreeTransition childTrans : parentNodes.get(0).getChildren()) {
+        for (TreeTransition childTrans : parentNodes.getFirst().getChildren()) {
             childTrans.setCorrect(isCorrect);
             for (PuzzleElement element : childTrans.getBoard().getModifiedData()) {
                 element.setValid(isCorrect);
@@ -93,13 +92,85 @@ public abstract class CaseRule extends Rule {
 
     /**
      * Checks whether the {@link TreeTransition} logically follows from the parent node using this
-     * rule. This method is the one that should be overridden in child classes.
+     * rule. This method does not need to be overridden by child case rules.
      *
      * @param transition transition to check
      * @return null if the child node logically follow from the parent node, otherwise error message
      */
     @Override
-    public abstract String checkRuleRaw(TreeTransition transition);
+    public String checkRuleRaw(TreeTransition transition) {
+        // The default functionality of checkRuleRaw for case rules
+        // should work as follows:
+        //  Generate all possible iterations of boards using getCases
+        //  Attempt to match the set of boards with the children found in the tre
+        //  Return true if one such match exists, false otherwise
+        TreeNode parent = transition.getParents().getFirst();
+
+        // If there are no modified cells, then return true if this is the only
+        // child. If it has siblings, then it should not be true
+        if (transition.getBoard().getModifiedData().isEmpty()) {
+            return parent.getChildren().size() == 1 ? null : INVALID_USE_MESSAGE;
+        }
+
+        Board board = parent.getBoard();
+        List<TreeTransition> childTransitions = parent.getChildren();
+        List<Board> childBoards = new ArrayList<>();
+        childTransitions.forEach(t -> childBoards.add(t.getBoard()));
+
+        CaseBoard possibleCasesBoard = getApplicableLocationsBoard(parent.getBoard());
+
+        // Locate a cell where a case rule can be applied
+        Set<PuzzleElement<?>> applicableLocations = new HashSet<>();
+        for (PuzzleElement<?> element : possibleCasesBoard.getBaseBoard().getPuzzleElements()) {
+            if (possibleCasesBoard.isPickable(element, null)) {
+                applicableLocations.add(element);
+            }
+        }
+
+        // For each cell where a case rule can be applied, generate the cases
+        for (PuzzleElement<?> element : applicableLocations) {
+            ArrayList<Board> boards = getCasesFrom(board, element);
+            if (boards.size() != childBoards.size()) {
+                continue;
+            }
+
+            // For each board in the case, map the current boards to
+            // respective cases.
+            Map<Integer, Integer> indexMap = new HashMap<>();
+            int n = boards.size();
+            for (int i = 0; i < n; i++) {
+                Board caseBoard = boards.get(i);
+
+                // Attempt to match some board i with the caseBoard j
+                for (int j = 0; j < n; j++) {
+                    Board childBoard = childBoards.get(j);
+
+                    // If they match, and another child is already matching,
+                    // the case rule was applied incorrectly. Otherwise,
+                    // move to the next caseBoard/childBoard pairing
+                    if (caseBoard.equalsBoard(childBoard)) {
+                        if (indexMap.containsKey(j)) {
+                            break;
+                        }
+                        indexMap.put(j, i);
+                        break;
+                    }
+                }
+
+                // If we couldn't find a match for board i, then this doesn't work
+                if (indexMap.size() <= i) {
+                    break;
+                }
+            }
+
+            // If we have found a mapping that maps the n boards to each other,
+            // this is a valid application of the case rule
+            if (indexMap.size() == n) {
+                return null;
+            }
+        }
+        return INVALID_USE_MESSAGE;
+    }
 
     /**
      * Checks whether the child node logically follows from the parent node at the specific
@@ -140,7 +211,7 @@ public abstract class CaseRule extends Rule {
     public List<PuzzleElement> dependentElements(Board board, PuzzleElement puzzleElement) {
         List<PuzzleElement> elements = new ArrayList<>();
 
-        List<Board> cases = getCases(board, puzzleElement);
+        List<Board> cases = getCasesFrom(board, puzzleElement);
         for (Board caseBoard : cases) {
             Set<PuzzleElement> data = caseBoard.getModifiedData();
             for (PuzzleElement element : data) {

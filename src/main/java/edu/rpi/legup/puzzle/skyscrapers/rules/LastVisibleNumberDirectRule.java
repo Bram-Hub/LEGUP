@@ -50,7 +50,7 @@ public class LastVisibleNumberDirectRule extends DirectRule {
         initialBoard.setDupeFlag(false);
         initialBoard.setViewFlag(true);
         NumberForCellCaseRule caseRule = new NumberForCellCaseRule();
-        ArrayList<Board> candidates = caseRule.getCases(initialBoard, puzzleElement);
+        ArrayList<Board> candidates = caseRule.getCasesFrom(initialBoard, puzzleElement);
         initialBoard.setDupeFlag(dupeTemp);
         initialBoard.setViewFlag(viewTemp);
 

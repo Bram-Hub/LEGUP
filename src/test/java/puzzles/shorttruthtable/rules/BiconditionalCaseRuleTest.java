@@ -46,7 +46,7 @@ public class BiconditionalCaseRuleTest {
 
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
         ShortTruthTableCell cell = board.getCell(biconditionalX, biconditionalY);
-        ArrayList<Board> cases = RULE.getCases(board, cell);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, cell);
 
         // Make sure that the rule checks out
         Assert.assertNull(RULE.checkRule(transition));
@@ -131,7 +131,7 @@ public class BiconditionalCaseRuleTest {
 
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
         ShortTruthTableCell cell = board.getCell(biconditionalX, biconditionalY);
-        ArrayList<Board> cases = RULE.getCases(board, cell);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, cell);
 
         // Make sure that the rule checks out
         Assert.assertNull(RULE.checkRule(transition));
