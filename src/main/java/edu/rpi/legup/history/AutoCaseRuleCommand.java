@@ -52,7 +52,8 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
         this.caseBoard = caseBoard;
         this.mouseEvent = mouseEvent;
         this.caseTrans = new ArrayList<>();
-        this.cases = caseRule.getCasesFrom(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
+        this.cases =
+                caseRule.getCasesFrom(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
         this.numberOfCaseRules = cases.size();
     }
 
