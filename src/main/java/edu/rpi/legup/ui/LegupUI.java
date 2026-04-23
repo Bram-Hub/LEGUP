@@ -155,7 +155,7 @@ public class LegupUI extends JFrame implements WindowListener {
                 int offset = ("Expected.").length();
                 Color color = defs.getColor(key);
 
-                if (key.startsWith("Puzzle.", offset)) {
+                if (key.startsWith("SvgIcon.", offset)) {
                     baseMap.put(color, defs.getColor(key.substring(offset)));
                 } else if (key.startsWith(puzzleName + ".", offset)) {
                     puzzleMap.put(color, defs.getColor(key.substring(offset)));

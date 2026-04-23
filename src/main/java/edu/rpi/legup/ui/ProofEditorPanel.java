@@ -391,9 +391,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         file.add(preferences);
         preferences.addActionListener(
                 a -> {
-                    PreferencesDialog preferencesDialog =
-                            PreferencesDialog.CreateDialogForProofEditor(
-                                    this.frame, this.ruleFrame);
+                    PreferencesDialog.CreateDialogForProofEditor(this.frame, this.ruleFrame);
                 });
         file.addSeparator();
 
@@ -829,6 +827,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         goalText.setLineWrap(true);
         goalText.setWrapStyleWord(true);
         JScrollPane goalPane = new JScrollPane(goalText);
+        goalPane.setPreferredSize(new Dimension(0, 50));
+        goalPane.setMinimumSize(new Dimension(0, 40));
+        goalPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 120));
         CompoundBorder goalBorder =
                 new CompoundBorder(
                         BorderFactory.createTitledBorder("Goal Condition"),
@@ -1168,9 +1169,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * @param path the current path in the directory traversal
      * @throws IOException if an error occurs while writing to the CSV file
      */
-    private void traverseDir(
-            @NotNull File folder, @NotNull BufferedWriter writer, @NotNull String path)
-            throws IOException {
+    private void traverseDir(@NotNull File folder, @NotNull BufferedWriter writer,
+                             @NotNull String path) throws IOException {
         // Recursively traverse directory
         GameBoardFacade facade = GameBoardFacade.getInstance();
 
