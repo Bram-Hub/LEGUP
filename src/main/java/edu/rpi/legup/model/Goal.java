@@ -142,8 +142,9 @@ public class Goal {
      */
     public String getGoalText() {
 
-        if (goalType == GoalType.DEFAULT)
+        if (goalType == GoalType.DEFAULT) {
             return "Find all solutions to the puzzle or prove none exist.";
+        }
 
         String text = "Prove ";
         if (assumeSolution) {
