@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.thermometer;
 import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
 import java.io.IOException;
-import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.UIManager;
 

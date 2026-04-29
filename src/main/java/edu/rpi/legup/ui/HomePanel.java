@@ -1,7 +1,7 @@
 package edu.rpi.legup.ui;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.app.VersionInfo;
@@ -19,7 +19,6 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.*;
@@ -143,9 +142,11 @@ public class HomePanel extends LegupPanel {
                     }
                 };
 
-        FlatSVGIcon button0Icon = new FlatSVGIcon(
-                "edu/rpi/legup/images/Legup/homepanel/proof_file.svg",
-                this.buttonSize, this.buttonSize);
+        FlatSVGIcon button0Icon =
+                new FlatSVGIcon(
+                        "edu/rpi/legup/images/Legup/homepanel/proof_file.svg",
+                        this.buttonSize,
+                        this.buttonSize);
 
         this.buttons[0].setFocusPainted(false);
         this.buttons[0].setIcon(button0Icon);
@@ -161,9 +162,11 @@ public class HomePanel extends LegupPanel {
                     }
                 };
 
-        FlatSVGIcon button1Icon = new FlatSVGIcon(
-                "edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.svg",
-                this.buttonSize, this.buttonSize);
+        FlatSVGIcon button1Icon =
+                new FlatSVGIcon(
+                        "edu/rpi/legup/images/Legup/homepanel/new_puzzle_file.svg",
+                        this.buttonSize,
+                        this.buttonSize);
 
         this.buttons[1].setFocusPainted(false);
         this.buttons[1].setIcon(button1Icon);

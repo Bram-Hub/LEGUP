@@ -310,10 +310,8 @@ public class ScrollView extends JScrollPane {
      */
     protected void draw(Graphics2D graphics2D) {
         Graphics2D g = (Graphics2D) graphics2D.create();
-        g.setRenderingHint(
-                RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setRenderingHint(
-                RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
         canvas.paint(g);
         g.dispose();
     }

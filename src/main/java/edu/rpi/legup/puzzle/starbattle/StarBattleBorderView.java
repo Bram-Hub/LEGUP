@@ -56,8 +56,11 @@ public class StarBattleBorderView extends ElementView {
         float ySize = size.height;
 
         g.setColor(UIManager.getColor("StarBattle.borderColor"));
-        g.setStroke(new BasicStroke(UIManager.getInt("StarBattle.regionBorderWidth"),
-                BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER));
+        g.setStroke(
+                new BasicStroke(
+                        UIManager.getInt("StarBattle.regionBorderWidth"),
+                        BasicStroke.CAP_SQUARE,
+                        BasicStroke.JOIN_MITER));
         if (type == StarBattleCellType.HORIZ_BORDER) { // minimize ySize / height
             g.draw(new Line2D.Double(location.x, location.y, location.x + xSize, location.y));
         } else if (type == StarBattleCellType.VERT_BORDER) { // minimize xSize / width

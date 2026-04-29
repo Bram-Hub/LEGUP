@@ -1,18 +1,13 @@
 package edu.rpi.legup.ui;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon.ColorFilter;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.FlatPropertiesLaf;
+import com.formdev.flatlaf.extras.FlatSVGIcon.ColorFilter;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -21,9 +16,13 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.security.InvalidParameterException;
-import java.util.Objects;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import javax.swing.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The main user interface class for the LEGUP application. This class extends {@link JFrame} and
@@ -46,25 +45,27 @@ public class LegupUI extends JFrame implements WindowListener {
         String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("mac")) {
             os = "mac";
-        }
-        else {
+        } else {
             os = "win";
         }
         return os;
     }
 
-    /**
-     * Registers the necessary LAF and font files.
-     */
+    /** Registers the necessary LAF and font files. */
     private static void registerAssets() {
 
         FlatLaf.registerCustomDefaultsSource("edu/rpi/legup/themes");
 
         try {
-            GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(
-                    Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(
-                            LegupUI.class.getClassLoader().getResourceAsStream(
-                                    "edu/rpi/legup/fonts/Roboto/Roboto-Regular.ttf"))));
+            GraphicsEnvironment.getLocalGraphicsEnvironment()
+                    .registerFont(
+                            Font.createFont(
+                                    Font.TRUETYPE_FONT,
+                                    Objects.requireNonNull(
+                                            LegupUI.class
+                                                    .getClassLoader()
+                                                    .getResourceAsStream(
+                                                            "edu/rpi/legup/fonts/Roboto/Roboto-Regular.ttf"))));
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -77,10 +78,12 @@ public class LegupUI extends JFrame implements WindowListener {
 
             // Create a LAF from a user-provided .properties file
             try {
-                FlatLaf.setup(new FlatPropertiesLaf("Custom Theme",
-                        new File(LegupPreferences.colorThemeFile())));
+                FlatLaf.setup(
+                        new FlatPropertiesLaf(
+                                "Custom Theme", new File(LegupPreferences.colorThemeFile())));
             } catch (IOException exception) {
-                System.err.printf("Invalid color theme file '%s', using default theme.\n",
+                System.err.printf(
+                        "Invalid color theme file '%s', using default theme.\n",
                         LegupPreferences.colorThemeFile());
                 useCustomTheme = false;
             }
@@ -91,26 +94,43 @@ public class LegupUI extends JFrame implements WindowListener {
             try {
                 if (!LegupPreferences.darkMode()) {
                     if (!LegupPreferences.colorBlind()) {
-                        FlatLaf.setup(new FlatPropertiesLaf("Light Theme",
-                                Objects.requireNonNull(LegupUI.class.getClassLoader().getResourceAsStream(
-                                        "edu/rpi/legup/themes/light-theme.properties"))));
+                        FlatLaf.setup(
+                                new FlatPropertiesLaf(
+                                        "Light Theme",
+                                        Objects.requireNonNull(
+                                                LegupUI.class
+                                                        .getClassLoader()
+                                                        .getResourceAsStream(
+                                                                "edu/rpi/legup/themes/light-theme.properties"))));
+                    } else {
+                        FlatLaf.setup(
+                                new FlatPropertiesLaf(
+                                        "Deuteranomaly Light Theme",
+                                        Objects.requireNonNull(
+                                                LegupUI.class
+                                                        .getClassLoader()
+                                                        .getResourceAsStream(
+                                                                "edu/rpi/legup/themes/light-color-blind-theme.properties"))));
                     }
-                    else {
-                        FlatLaf.setup(new FlatPropertiesLaf("Deuteranomaly Light Theme",
-                                Objects.requireNonNull(LegupUI.class.getClassLoader().getResourceAsStream(
-                                        "edu/rpi/legup/themes/light-color-blind-theme.properties"))));
-                    }
-                }
-                else {
+                } else {
                     if (!LegupPreferences.colorBlind()) {
-                        FlatLaf.setup(new FlatPropertiesLaf("Dark Theme",
-                                Objects.requireNonNull(LegupUI.class.getClassLoader().getResourceAsStream(
-                                        "edu/rpi/legup/themes/dark-theme.properties"))));
-                    }
-                    else {
-                        FlatLaf.setup(new FlatPropertiesLaf("Deuteranomaly Dark Theme",
-                                Objects.requireNonNull(LegupUI.class.getClassLoader().getResourceAsStream(
-                                        "edu/rpi/legup/themes/dark-color-blind-theme.properties"))));
+                        FlatLaf.setup(
+                                new FlatPropertiesLaf(
+                                        "Dark Theme",
+                                        Objects.requireNonNull(
+                                                LegupUI.class
+                                                        .getClassLoader()
+                                                        .getResourceAsStream(
+                                                                "edu/rpi/legup/themes/dark-theme.properties"))));
+                    } else {
+                        FlatLaf.setup(
+                                new FlatPropertiesLaf(
+                                        "Deuteranomaly Dark Theme",
+                                        Objects.requireNonNull(
+                                                LegupUI.class
+                                                        .getClassLoader()
+                                                        .getResourceAsStream(
+                                                                "edu/rpi/legup/themes/dark-color-blind-theme.properties"))));
                     }
                 }
             } catch (IOException | NullPointerException exception) {
@@ -130,10 +150,9 @@ public class LegupUI extends JFrame implements WindowListener {
     }
 
     /**
-     * Update the global color filter applied to all {@code FlatSVGIcon}s to convert
-     * puzzle-related colors to the values defined in the LAF. If a puzzle is currently
-     * set, values for that puzzle type will be retrieved, otherwise only universally-used
-     * values will be set.
+     * Update the global color filter applied to all {@code FlatSVGIcon}s to convert puzzle-related
+     * colors to the values defined in the LAF. If a puzzle is currently set, values for that puzzle
+     * type will be retrieved, otherwise only universally-used values will be set.
      */
     public static void updateIconColors() {
 
@@ -149,7 +168,8 @@ public class LegupUI extends JFrame implements WindowListener {
         HashMap<Color, Color> baseMap = new HashMap<>();
         HashMap<Color, Color> puzzleMap = new HashMap<>();
 
-        for (String key : defs.keySet().stream().map(Object::toString).collect(Collectors.toSet())) {
+        for (String key :
+                defs.keySet().stream().map(Object::toString).collect(Collectors.toSet())) {
             if (key.startsWith("Expected.")) {
 
                 int offset = ("Expected.").length();
@@ -167,9 +187,7 @@ public class LegupUI extends JFrame implements WindowListener {
         globalFilter.addAll(puzzleMap);
     }
 
-    /**
-     * LegupUI Constructor - creates a new LegupUI to set up the menu and toolbar
-     */
+    /** LegupUI Constructor - creates a new LegupUI to set up the menu and toolbar */
     public LegupUI() {
         setTitle("LEGUP");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -190,10 +208,10 @@ public class LegupUI extends JFrame implements WindowListener {
 
         setIconImage(
                 new ImageIcon(
-                        Objects.requireNonNull(
-                                ClassLoader.getSystemClassLoader()
-                                        .getResource(
-                                                "edu/rpi/legup/images/Legup/Direct Rules.gif")))
+                                Objects.requireNonNull(
+                                        ClassLoader.getSystemClassLoader()
+                                                .getResource(
+                                                        "edu/rpi/legup/images/Legup/Direct Rules.gif")))
                         .getImage());
 
         if (LegupPreferences.startFullScreen()) {
@@ -303,12 +321,10 @@ public class LegupUI extends JFrame implements WindowListener {
         if (GameBoardFacade.getInstance().getHistory().getIndex() > -1) {
             if (exit("Exiting LEGUP?")) {
                 this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-            }
-            else {
+            } else {
                 this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             }
-        }
-        else {
+        } else {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         }
     }

@@ -16,7 +16,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
-import javax.swing.UIManager;
 
 /**
  * {@code TreePanel} is a JPanel that manages and displays a tree view with associated toolbar and

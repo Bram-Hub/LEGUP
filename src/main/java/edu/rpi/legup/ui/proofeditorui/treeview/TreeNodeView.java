@@ -100,8 +100,9 @@ public class TreeNodeView extends TreeElementView {
                             DIAMETER + 8,
                             DIAMETER + 8);
                 } else {
-                    g.setColor(UIManager.getColor(
-                            isContraBranch ? "Tree.contradiction" : "Tree.default"));
+                    g.setColor(
+                            UIManager.getColor(
+                                    isContraBranch ? "Tree.contradiction" : "Tree.default"));
                     g.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
 
                     g.setColor(UIManager.getColor("Tree.outline"));

@@ -52,9 +52,12 @@ public class BinaryElementView extends GridElementView {
     @Override
     public void drawBorder(Graphics2D graphics2D) {
         Graphics2D g = (Graphics2D) graphics2D.create();
-        g.setStroke(new BasicStroke(UIManager.getInt(
-                ((BinaryCell) puzzleElement).getType() == BinaryType.UNKNOWN ?
-                        "Binary.unknownBorderWidth" : "Binary.knownBorderWidth")));
+        g.setStroke(
+                new BasicStroke(
+                        UIManager.getInt(
+                                ((BinaryCell) puzzleElement).getType() == BinaryType.UNKNOWN
+                                        ? "Binary.unknownBorderWidth"
+                                        : "Binary.knownBorderWidth")));
         g.setColor(UIManager.getColor("Binary.borderColor"));
         g.drawRect(location.x, location.y, size.width, size.height);
         g.dispose();

@@ -251,8 +251,7 @@ public class TreeView extends ScrollView implements ITreeListener {
         if (tree != null) {
             Graphics2D g = (Graphics2D) graphics2D.create();
             // setSize(bounds.getDimension());
-            g.setRenderingHint(
-                    RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g.setRenderingHint(
                     RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 

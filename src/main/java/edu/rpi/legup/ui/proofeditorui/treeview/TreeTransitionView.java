@@ -88,8 +88,9 @@ public class TreeTransitionView extends TreeElementView {
 
         if (isSelected) {
             if (getTreeElement().isJustified()) {
-                g.setColor(UIManager.getColor(
-                        getTreeElement().isCorrect() ? "Tree.valid" : "Tree.invalid"));
+                g.setColor(
+                        UIManager.getColor(
+                                getTreeElement().isCorrect() ? "Tree.valid" : "Tree.invalid"));
             } else {
                 g.setColor(UIManager.getColor("Tree.arrowDefault"));
             }
@@ -121,8 +122,9 @@ public class TreeTransitionView extends TreeElementView {
                 g.drawPolygon(selection_triangle);
             } else {
                 if (getTreeElement().isJustified()) {
-                    g.setColor(UIManager.getColor(
-                            getTreeElement().isCorrect() ? "Tree.valid" : "Tree.invalid"));
+                    g.setColor(
+                            UIManager.getColor(
+                                    getTreeElement().isCorrect() ? "Tree.valid" : "Tree.invalid"));
                 } else {
                     g.setColor(UIManager.getColor("Tree.arrowDefault"));
                 }

@@ -1,6 +1,5 @@
 package edu.rpi.legup.app;
 
-import java.io.File;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -20,7 +19,8 @@ public class LegupPreferences {
     private static final Preferences preferences =
             Preferences.userNodeForPackage(LegupPreferences.class);
 
-    private static final Map<LegupPreference, Object> preferencesMap = new EnumMap<>(LegupPreference.class);
+    private static final Map<LegupPreference, Object> preferencesMap =
+            new EnumMap<>(LegupPreference.class);
 
     public enum LegupPreference {
         WORK_DIRECTORY("work-directory", System.getProperty("user.dir"), o -> o),
@@ -38,13 +38,11 @@ public class LegupPreferences {
 
         private final String id;
         private final Object defaultValue;
-        /**
-         * Converts the object to a string so that it can be saved in preferences
-         */
+
+        /** Converts the object to a string so that it can be saved in preferences */
         private final Function<Object, String> stringMapper;
-        /**
-         * Converts a string value to an object so it's more convenient to use in code
-         */
+
+        /** Converts a string value to an object so it's more convenient to use in code */
         private final Function<String, Object> stringToValueMapper;
 
         @SuppressWarnings("unchecked")
@@ -52,15 +50,15 @@ public class LegupPreferences {
                 String id,
                 T defaultValue,
                 Function<T, String> stringMapper,
-                Function<String, T> stringToValueMapper
-        ) {
+                Function<String, T> stringToValueMapper) {
             this.id = id;
             this.defaultValue = defaultValue;
             this.stringMapper = (Function<Object, String>) stringMapper;
             this.stringToValueMapper = (Function<String, Object>) stringToValueMapper;
         }
 
-        <T> LegupPreference(String id, T defaultValue, Function<String, Object> stringToValueMapper) {
+        <T> LegupPreference(
+                String id, T defaultValue, Function<String, Object> stringToValueMapper) {
             this(id, defaultValue, String::valueOf, stringToValueMapper);
         }
 
@@ -83,6 +81,7 @@ public class LegupPreferences {
 
         /**
          * Convenience method to return the value of this preference cast to {@code clazz}
+         *
          * @param clazz
          * @return
          * @param <T>
@@ -250,5 +249,4 @@ public class LegupPreferences {
     public static String colorThemeFile() {
         return LegupPreference.COLOR_THEME_FILE.stringValue();
     }
-
 }

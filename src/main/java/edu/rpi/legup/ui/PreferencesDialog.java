@@ -5,11 +5,6 @@ import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
-import org.intellij.lang.annotations.MagicConstant;
-import org.jetbrains.annotations.NotNull;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -20,6 +15,10 @@ import java.io.IOException;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import org.intellij.lang.annotations.MagicConstant;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A dialog for managing user preferences in the LEGUP application. This dialog allows users to
@@ -132,38 +131,44 @@ public class PreferencesDialog extends JDialog {
     }
 
     private JCheckBox addDefaultCheckBox(
-            String title,
-            boolean checked,
-            String description,
-            JPanel contentPane
-    ) {
+            String title, boolean checked, String description, JPanel contentPane) {
         return addCheckBox(
                 title,
                 checked,
                 description,
                 BorderLayout.WEST,
-                row -> row.setMaximumSize(new Dimension(Integer.MAX_VALUE, row.getPreferredSize().height)),
+                row ->
+                        row.setMaximumSize(
+                                new Dimension(Integer.MAX_VALUE, row.getPreferredSize().height)),
                 contentPane,
-                Box.createRigidArea(new Dimension(0, 10))
-
-        );
+                Box.createRigidArea(new Dimension(0, 10)));
     }
 
     private JCheckBox addCheckBox(
             String label,
             boolean checked,
             String hoverText,
-            @MagicConstant(stringValues = {
-                    BorderLayout.NORTH, BorderLayout.SOUTH, BorderLayout.EAST, BorderLayout.WEST,
-                    BorderLayout.CENTER, BorderLayout.BEFORE_FIRST_LINE, BorderLayout.AFTER_LAST_LINE,
-                    BorderLayout.BEFORE_LINE_BEGINS, BorderLayout.AFTER_LINE_ENDS, BorderLayout.PAGE_START,
-                    BorderLayout.PAGE_END, BorderLayout.LINE_START, BorderLayout.LINE_END
-            }) String borderLayout,
+            @MagicConstant(
+                            stringValues = {
+                                BorderLayout.NORTH,
+                                BorderLayout.SOUTH,
+                                BorderLayout.EAST,
+                                BorderLayout.WEST,
+                                BorderLayout.CENTER,
+                                BorderLayout.BEFORE_FIRST_LINE,
+                                BorderLayout.AFTER_LAST_LINE,
+                                BorderLayout.BEFORE_LINE_BEGINS,
+                                BorderLayout.AFTER_LINE_ENDS,
+                                BorderLayout.PAGE_START,
+                                BorderLayout.PAGE_END,
+                                BorderLayout.LINE_START,
+                                BorderLayout.LINE_END
+                            })
+                    String borderLayout,
             Consumer<JPanel> rowConsumer,
             JPanel contentPane,
             Component area) {
-        final JCheckBox box =
-                new JCheckBox(label, checked);
+        final JCheckBox box = new JCheckBox(label, checked);
         box.setToolTipText(hoverText);
         JPanel row = new JPanel();
         row.setLayout(new BorderLayout());
@@ -203,12 +208,13 @@ public class PreferencesDialog extends JDialog {
             String currentFile,
             ImageIcon imageIcon,
             String chooserLabel,
-            @MagicConstant(intValues = {
-                    JFileChooser.FILES_ONLY,
-                    JFileChooser.DIRECTORIES_ONLY,
-                    JFileChooser.FILES_AND_DIRECTORIES,
-            }) int fileSelectionMode
-    ) {
+            @MagicConstant(
+                            intValues = {
+                                JFileChooser.FILES_ONLY,
+                                JFileChooser.DIRECTORIES_ONLY,
+                                JFileChooser.FILES_AND_DIRECTORIES,
+                            })
+                    int fileSelectionMode) {
         final JPanel row = new JPanel();
         row.setLayout(new BorderLayout());
         final JLabel fileLabel = new JLabel(label);
@@ -250,109 +256,110 @@ public class PreferencesDialog extends JDialog {
 
         addRowLabel(contentPane, "General Preferences");
 
-        workDirectory = addFileChooser(
-                contentPane,
-                "Work Directory",
-                "This is where the open and save dialogs will open to.",
-                LegupPreferences.workDirectory(),
-                new ImageIcon(folderIcon),
-                "Choose work directory",
-                JFileChooser.DIRECTORIES_ONLY
-        );
+        workDirectory =
+                addFileChooser(
+                        contentPane,
+                        "Work Directory",
+                        "This is where the open and save dialogs will open to.",
+                        LegupPreferences.workDirectory(),
+                        new ImageIcon(folderIcon),
+                        "Choose work directory",
+                        JFileChooser.DIRECTORIES_ONLY);
 
-        fullScreen = addDefaultCheckBox(
-                "Full Screen",
-                LegupPreferences.startFullScreen(),
-                "If checked this starts LEGUP in full screen.",
-                contentPane
-        );
-        autoUpdate = addDefaultCheckBox(
-                "Automatically Check for Updates",
-                LegupPreferences.autoUpdate(),
-                "If checked this automatically checks for updates on startup of Legup",
-                contentPane
-        );
+        fullScreen =
+                addDefaultCheckBox(
+                        "Full Screen",
+                        LegupPreferences.startFullScreen(),
+                        "If checked this starts LEGUP in full screen.",
+                        contentPane);
+        autoUpdate =
+                addDefaultCheckBox(
+                        "Automatically Check for Updates",
+                        LegupPreferences.autoUpdate(),
+                        "If checked this automatically checks for updates on startup of Legup",
+                        contentPane);
         addRowLabel(contentPane, "Board View Preferences");
 
-        showMistakes = addDefaultCheckBox(
-                "Show Mistakes",
-                LegupPreferences.showMistakes(),
-                "If checked this show incorrectly applied rule applications in red on the board",
-                contentPane
-        );
-        showAnnotations = addDefaultCheckBox(
-                "Show Annotations",
-                LegupPreferences.showAnnotations(),
-                "If checked this show incorrectly applied rule applications in red on the board",
-                contentPane
-        );
+        showMistakes =
+                addDefaultCheckBox(
+                        "Show Mistakes",
+                        LegupPreferences.showMistakes(),
+                        "If checked this show incorrectly applied rule applications in red on the board",
+                        contentPane);
+        showAnnotations =
+                addDefaultCheckBox(
+                        "Show Annotations",
+                        LegupPreferences.showAnnotations(),
+                        "If checked this show incorrectly applied rule applications in red on the board",
+                        contentPane);
 
         addRowLabel(contentPane, "Tree View Preferences");
 
-        allowDefault = addDefaultCheckBox(
-                "Allow Default Rule Applications",
-                LegupPreferences.allowDefaultRules(),
-                "If checked this automatically applies a rule where it can on the board",
-                contentPane
-        );
-        generateCases = addDefaultCheckBox(
-                "Automatically Generate Cases",
-                LegupPreferences.autoGenerateCases(),
-                "If checked this automatically generates all cases for a case rule",
-                contentPane
-        );
-        immFeedback = addDefaultCheckBox(
-                "Provide Immediate Feedback",
-                LegupPreferences.immediateFeedback(),
-                "If checked this will update the colors of the tree view elements immediately",
-                contentPane
-        );
+        allowDefault =
+                addDefaultCheckBox(
+                        "Allow Default Rule Applications",
+                        LegupPreferences.allowDefaultRules(),
+                        "If checked this automatically applies a rule where it can on the board",
+                        contentPane);
+        generateCases =
+                addDefaultCheckBox(
+                        "Automatically Generate Cases",
+                        LegupPreferences.autoGenerateCases(),
+                        "If checked this automatically generates all cases for a case rule",
+                        contentPane);
+        immFeedback =
+                addDefaultCheckBox(
+                        "Provide Immediate Feedback",
+                        LegupPreferences.immediateFeedback(),
+                        "If checked this will update the colors of the tree view elements immediately",
+                        contentPane);
 
         addRowLabel(contentPane, "Instructor Preferences");
 
-        immFeedback = addDefaultCheckBox(
-                "Instructor Mode",
-                LegupPreferences.immediateFeedback(),
-                "Currently unimplemented, this does nothing right now",
-                contentPane
-        );
+        immFeedback =
+                addDefaultCheckBox(
+                        "Instructor Mode",
+                        LegupPreferences.immediateFeedback(),
+                        "Currently unimplemented, this does nothing right now",
+                        contentPane);
 
         addRowLabel(contentPane, "Color Preferences");
 
-        colorBlind = addDefaultCheckBox(
-                "Deuteranomaly (Red/Green Colorblindness)",
-                LegupPreferences.colorBlind(),
-                "This turns colorblind mode on and off",
-                contentPane
-        );
-        darkMode = addDefaultCheckBox(
-                "Dark Mode",
-                LegupPreferences.darkMode(),
-                "This turns dark mode on and off",
-                contentPane
-        );
-        customColorTheme = addDefaultCheckBox(
-                "Custom Color Theme",
-                LegupPreferences.useCustomColorTheme(),
-                "This turns custom color theme on and off",
-                contentPane
-        );
-        colorThemeFile = addFileChooser(
-                contentPane,
-                "Color Theme File",
-                "This is the color theme LEGUP will use.",
-                LegupPreferences.colorThemeFile(),
-                new ImageIcon(folderIcon),
-                "Choose color theme file",
-                JFileChooser.FILES_ONLY
-        );
+        colorBlind =
+                addDefaultCheckBox(
+                        "Deuteranomaly (Red/Green Colorblindness)",
+                        LegupPreferences.colorBlind(),
+                        "This turns colorblind mode on and off",
+                        contentPane);
+        darkMode =
+                addDefaultCheckBox(
+                        "Dark Mode",
+                        LegupPreferences.darkMode(),
+                        "This turns dark mode on and off",
+                        contentPane);
+        customColorTheme =
+                addDefaultCheckBox(
+                        "Custom Color Theme",
+                        LegupPreferences.useCustomColorTheme(),
+                        "This turns custom color theme on and off",
+                        contentPane);
+        colorThemeFile =
+                addFileChooser(
+                        contentPane,
+                        "Color Theme File",
+                        "This is the color theme LEGUP will use.",
+                        LegupPreferences.colorThemeFile(),
+                        new ImageIcon(folderIcon),
+                        "Choose color theme file",
+                        JFileChooser.FILES_ONLY);
 
         // Colorblind / dark mode / file chooser exclusion due to custom color theme
-        customColorTheme.addActionListener(event -> {
-            colorBlind.setEnabled(!customColorTheme.isSelected());
-            darkMode.setEnabled(!customColorTheme.isSelected());
-            colorThemeFile.setEnabled(customColorTheme.isSelected());
-        });
+        customColorTheme.addActionListener(
+                event -> {
+                    colorBlind.setEnabled(!customColorTheme.isSelected());
+                    darkMode.setEnabled(!customColorTheme.isSelected());
+                    colorThemeFile.setEnabled(customColorTheme.isSelected());
+                });
         colorBlind.setEnabled(!customColorTheme.isSelected());
         darkMode.setEnabled(!customColorTheme.isSelected());
         colorThemeFile.setEnabled(customColorTheme.isSelected());
@@ -442,12 +449,10 @@ public class PreferencesDialog extends JDialog {
                         String combo = "";
                         if (e.isControlDown()) {
                             combo += "Ctrl + ";
-                        }
-                        else {
+                        } else {
                             if (e.isShiftDown()) {
                                 combo += "Shift + ";
-                            }
-                            else {
+                            } else {
                                 if (e.isAltDown()) {
                                     combo += "Alt + ";
                                 }
@@ -509,18 +514,28 @@ public class PreferencesDialog extends JDialog {
      */
     public void applyPreferences() {
         LegupPreferences prefs = LegupPreferences.getInstance();
-        prefs.setUserPref(LegupPreferences.LegupPreference.WORK_DIRECTORY, workDirectory.file.getText());
-        prefs.setUserPref(LegupPreferences.LegupPreference.START_FULL_SCREEN, fullScreen.isSelected());
+        prefs.setUserPref(
+                LegupPreferences.LegupPreference.WORK_DIRECTORY, workDirectory.file.getText());
+        prefs.setUserPref(
+                LegupPreferences.LegupPreference.START_FULL_SCREEN, fullScreen.isSelected());
         prefs.setUserPref(LegupPreferences.LegupPreference.AUTO_UPDATE, autoUpdate.isSelected());
         prefs.setUserPref(LegupPreferences.LegupPreference.DARK_MODE, darkMode.isSelected());
-        prefs.setUserPref(LegupPreferences.LegupPreference.USE_CUSTOM_COLOR_THEME, customColorTheme.isSelected());
-        prefs.setUserPref(LegupPreferences.LegupPreference.SHOW_MISTAKES, showMistakes.isSelected());
-        prefs.setUserPref(LegupPreferences.LegupPreference.SHOW_ANNOTATIONS, showAnnotations.isSelected());
-        prefs.setUserPref(LegupPreferences.LegupPreference.ALLOW_DEFAULT_RULES, allowDefault.isSelected());
-        prefs.setUserPref(LegupPreferences.LegupPreference.AUTO_GENERATE_CASES, generateCases.isSelected());
-        prefs.setUserPref(LegupPreferences.LegupPreference.IMMEDIATE_FEEDBACK, immFeedback.isSelected());
+        prefs.setUserPref(
+                LegupPreferences.LegupPreference.USE_CUSTOM_COLOR_THEME,
+                customColorTheme.isSelected());
+        prefs.setUserPref(
+                LegupPreferences.LegupPreference.SHOW_MISTAKES, showMistakes.isSelected());
+        prefs.setUserPref(
+                LegupPreferences.LegupPreference.SHOW_ANNOTATIONS, showAnnotations.isSelected());
+        prefs.setUserPref(
+                LegupPreferences.LegupPreference.ALLOW_DEFAULT_RULES, allowDefault.isSelected());
+        prefs.setUserPref(
+                LegupPreferences.LegupPreference.AUTO_GENERATE_CASES, generateCases.isSelected());
+        prefs.setUserPref(
+                LegupPreferences.LegupPreference.IMMEDIATE_FEEDBACK, immFeedback.isSelected());
         prefs.setUserPref(LegupPreferences.LegupPreference.COLOR_BLIND, colorBlind.isSelected());
-        prefs.setUserPref(LegupPreferences.LegupPreference.COLOR_THEME_FILE, colorThemeFile.file.getText());
+        prefs.setUserPref(
+                LegupPreferences.LegupPreference.COLOR_THEME_FILE, colorThemeFile.file.getText());
 
         if (rulesFrame != null) {
             rulesFrame.getCasePanel().updateRules();
