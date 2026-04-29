@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.lightup;
 
 import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import javax.swing.UIManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +36,9 @@ public class LightUpElementView extends GridElementView {
                 String value = String.valueOf(puzzleElement.getData());
                 int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
                 int yText =
-                        location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
+                        location.y
+                                + ((size.height - metrics.getHeight()) / 2)
+                                + metrics.getAscent();
                 g.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
             }
             case BLACK -> {
@@ -45,8 +46,7 @@ public class LightUpElementView extends GridElementView {
                 g.fillRect(location.x, location.y, size.width, size.height);
             }
             case EMPTY -> {
-                g.setColor(UIManager.getColor(
-                        cell.isLite() ? "LightUp.light" : "LightUp.white"));
+                g.setColor(UIManager.getColor(cell.isLite() ? "LightUp.light" : "LightUp.white"));
                 g.fillRect(location.x, location.y, size.width, size.height);
                 g.setColor(UIManager.getColor("LightUp.black"));
                 g.fillRect(
@@ -56,8 +56,7 @@ public class LightUpElementView extends GridElementView {
                         size.height / 8);
             }
             case UNKNOWN -> {
-                g.setColor(UIManager.getColor(
-                        cell.isLite() ? "LightUp.light" : "LightUp.unknown"));
+                g.setColor(UIManager.getColor(cell.isLite() ? "LightUp.light" : "LightUp.unknown"));
                 g.fillRect(location.x, location.y, size.width, size.height);
             }
             case BULB -> {

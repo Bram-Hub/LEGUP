@@ -100,12 +100,13 @@ public class DynamicView extends JPanel {
      */
     @NotNull private JPanel setUpZoomerHelper(
             @NotNull final String label, @NotNull ActionListener listener) {
-        zoomWrapper = new JPanel(){
-            @Override
-            public boolean isOptimizedDrawingEnabled() {
-                return false;   // Stop zoomer elements from drawing over status message
-            }
-        };
+        zoomWrapper =
+                new JPanel() {
+                    @Override
+                    public boolean isOptimizedDrawingEnabled() {
+                        return false; // Stop zoomer elements from drawing over status message
+                    }
+                };
         try {
             zoomer = new JPanel();
 

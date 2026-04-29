@@ -22,7 +22,8 @@ public class ShortTruthTableElementView extends GridElementView {
 
     @Override
     public void draw(Graphics2D graphics2D) {
-        if (((ShortTruthTableCell) puzzleElement).getData() != ShortTruthTableCellType.NOT_IN_PLAY) {
+        if (((ShortTruthTableCell) puzzleElement).getData()
+                != ShortTruthTableCellType.NOT_IN_PLAY) {
             drawElement(graphics2D);
             if (puzzleElement.isGiven()) {
                 drawGiven(graphics2D);
@@ -50,12 +51,13 @@ public class ShortTruthTableElementView extends GridElementView {
         }
 
         // Fill in background color of the cell
-        g.setColor(UIManager.getColor(
-                switch (cell.getData()) {
-                    case TRUE -> "ShortTruthTable.true";
-                    case FALSE -> "ShortTruthTable.false";
-                    default -> "ShortTruthTable.unknown";
-                }));
+        g.setColor(
+                UIManager.getColor(
+                        switch (cell.getData()) {
+                            case TRUE -> "ShortTruthTable.true";
+                            case FALSE -> "ShortTruthTable.false";
+                            default -> "ShortTruthTable.unknown";
+                        }));
         g.fillRect(location.x, location.y, size.width, size.height);
 
         // Draw the symbol on the cell

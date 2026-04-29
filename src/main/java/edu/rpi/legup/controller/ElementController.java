@@ -420,9 +420,8 @@ public class ElementController
     }
 
     /**
-     * Callback invoked when a cell is changed by a mouse event.
-     * Intended to be overridden by subclasses to handle puzzle-specific
-     * cell modification logic.
+     * Callback invoked when a cell is changed by a mouse event. Intended to be overridden by
+     * subclasses to handle puzzle-specific cell modification logic.
      *
      * @param e the mouse event that triggered the cell change
      * @param data the {@link PuzzleElement} representing the cell being changed

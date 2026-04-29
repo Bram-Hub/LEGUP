@@ -54,7 +54,8 @@ public class SudokuElementView extends GridElementView {
             FontMetrics metrics = g.getFontMetrics(g.getFont());
             String value = String.valueOf(val);
             int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
-            int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
+            int yText =
+                    location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
             g.drawString(value, xText, yText);
         } else {
             boolean annotate = LegupPreferences.showAnnotations();

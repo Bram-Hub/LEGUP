@@ -8,16 +8,16 @@ import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.EditorElementController;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.IHistoryListener;
+import edu.rpi.legup.model.Goal;
+import edu.rpi.legup.model.GoalType;
+import edu.rpi.legup.model.Puzzle;
+import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import edu.rpi.legup.model.Goal;
-import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.observer.IBoardListener;
-import edu.rpi.legup.model.Puzzle;
-import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.save.ExportFileException;
 import edu.rpi.legup.save.InvalidFileFormatException;
@@ -29,7 +29,6 @@ import java.awt.event.InputEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
 import java.util.Objects;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -91,8 +90,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
      * @param frame the main application frame
      * @param legupUI the Legup UI instance
      */
-    public PuzzleEditorPanel(@NotNull JFileChooser fileChooser, @NotNull JFrame frame,
-                             @NotNull LegupUI legupUI) {
+    public PuzzleEditorPanel(
+            @NotNull JFileChooser fileChooser, @NotNull JFrame frame, @NotNull LegupUI legupUI) {
         this.fileChooser = fileChooser;
         this.frame = frame;
         this.legupUI = legupUI;
@@ -349,9 +348,13 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     private void setupToolBar1() {
         setToolBar1Buttons(new JButton[2]);
 
-        JButton open = new JButton("Open", new FlatSVGIcon(
-                "edu/rpi/legup/images/Legup/toolbar/Open.svg",
-                this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE));
+        JButton open =
+                new JButton(
+                        "Open",
+                        new FlatSVGIcon(
+                                "edu/rpi/legup/images/Legup/toolbar/Open.svg",
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE));
         open.setFocusPainted(false);
         open.addActionListener((ActionEvent) -> loadPuzzle());
 
@@ -362,9 +365,13 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         toolBar1.setRollover(true);
         toolBar1.add(getToolBar1Buttons()[0]);
 
-        JButton create = new JButton("Create", new FlatSVGIcon(
-                "edu/rpi/legup/images/Legup/toolbar/New.svg",
-                this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE));
+        JButton create =
+                new JButton(
+                        "Create",
+                        new FlatSVGIcon(
+                                "edu/rpi/legup/images/Legup/toolbar/New.svg",
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE));
         create.setFocusPainted(false);
         create.addActionListener(
                 (ActionEvent) -> {
@@ -393,9 +400,13 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         toolBar2.setRollover(true);
         setToolBar2Buttons(new JButton[3]);
 
-        JButton resetButton = new JButton("Reset", new FlatSVGIcon(
-                "edu/rpi/legup/images/Legup/toolbar/Reset.svg",
-                this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE));
+        JButton resetButton =
+                new JButton(
+                        "Reset",
+                        new FlatSVGIcon(
+                                "edu/rpi/legup/images/Legup/toolbar/Reset.svg",
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE));
         resetButton.setFocusPainted(false);
 
         resetButton.addActionListener(
@@ -419,9 +430,13 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         getToolBar2Buttons()[0] = resetButton;
         toolBar2.add(getToolBar2Buttons()[0]);
 
-        JButton saveas = new JButton("Save As", new FlatSVGIcon(
-                "edu/rpi/legup/images/Legup/toolbar/Save.svg",
-                this.TOOLBAR_ICON_SCALE, this.TOOLBAR_ICON_SCALE));
+        JButton saveas =
+                new JButton(
+                        "Save As",
+                        new FlatSVGIcon(
+                                "edu/rpi/legup/images/Legup/toolbar/Save.svg",
+                                this.TOOLBAR_ICON_SCALE,
+                                this.TOOLBAR_ICON_SCALE));
         saveas.setFocusPainted(false);
         saveas.addActionListener(
                 (ActionEvent) -> {
@@ -465,9 +480,13 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         getToolBar2Buttons()[1] = saveas;
         toolBar2.add(getToolBar2Buttons()[1]);
 
-        JButton saveandsolve = new JButton("Save & Solve", new FlatSVGIcon(
-                "edu/rpi/legup/images/Legup/toolbar/Check.svg",
-                TOOLBAR_ICON_SCALE, TOOLBAR_ICON_SCALE));
+        JButton saveandsolve =
+                new JButton(
+                        "Save & Solve",
+                        new FlatSVGIcon(
+                                "edu/rpi/legup/images/Legup/toolbar/Check.svg",
+                                TOOLBAR_ICON_SCALE,
+                                TOOLBAR_ICON_SCALE));
         saveandsolve.setFocusPainted(false);
         saveandsolve.addActionListener(
                 e -> {
@@ -586,8 +605,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         if (puzzleFile != null) {
             preferences.setSavedPath(puzzleFile.getParentFile().getAbsolutePath());
-        }
-        else {
+        } else {
             // The attempt to prompt a puzzle ended gracefully (cancel)
             return null;
         }
@@ -733,9 +751,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         this.toolBar2Buttons = toolBar2Buttons;
     }
 
-    /**
-     * Repaints the current board view
-     */
+    /** Repaints the current board view */
     private void repaintAll() {
         boardView.repaint();
     }

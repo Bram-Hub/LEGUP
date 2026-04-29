@@ -1,7 +1,6 @@
 package edu.rpi.legup.ui.boardview;
 
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
@@ -109,9 +108,12 @@ public abstract class ElementView implements Shape {
         float width = UIManager.getInt("Puzzle.highlightWidth");
         g.setStroke(new BasicStroke(width));
         g.setColor(UIManager.getColor("Puzzle.goal"));
-        g.draw(new Rectangle2D.Double(
-                location.x + width/2, location.y + width/2,
-                size.width - width, size.height - width));
+        g.draw(
+                new Rectangle2D.Double(
+                        location.x + width / 2,
+                        location.y + width / 2,
+                        size.width - width,
+                        size.height - width));
         g.dispose();
     }
 
@@ -125,9 +127,12 @@ public abstract class ElementView implements Shape {
         float width = UIManager.getInt("Puzzle.highlightWidth");
         g.setStroke(new BasicStroke(width));
         g.setColor(UIManager.getColor("Puzzle.hover"));
-        g.draw(new Rectangle2D.Double(
-                        location.x + width/2, location.y + width/2,
-                        size.width - width, size.height - width));
+        g.draw(
+                new Rectangle2D.Double(
+                        location.x + width / 2,
+                        location.y + width / 2,
+                        size.width - width,
+                        size.height - width));
         g.dispose();
     }
 
@@ -140,11 +145,13 @@ public abstract class ElementView implements Shape {
         Graphics2D g = (Graphics2D) graphics2D.create();
         float width = UIManager.getInt("Puzzle.highlightWidth");
         g.setStroke(new BasicStroke(width));
-        g.setColor(UIManager.getColor(
-                puzzleElement.isValid() ? "Puzzle.valid" : "Puzzle.invalid"));
-        g.draw(new Rectangle2D.Double(
-                        location.x + width/2, location.y + width/2,
-                        size.width - width, size.height - width));
+        g.setColor(UIManager.getColor(puzzleElement.isValid() ? "Puzzle.valid" : "Puzzle.invalid"));
+        g.draw(
+                new Rectangle2D.Double(
+                        location.x + width / 2,
+                        location.y + width / 2,
+                        size.width - width,
+                        size.height - width));
         g.dispose();
     }
 
@@ -158,9 +165,12 @@ public abstract class ElementView implements Shape {
         float width = UIManager.getInt("Puzzle.highlightWidth");
         g.setStroke(new BasicStroke(width));
         g.setColor(UIManager.getColor("Puzzle.case"));
-        g.draw(new Rectangle2D.Double(
-                        location.x + width/2, location.y + width/2,
-                        size.width - width, size.height - width));
+        g.draw(
+                new Rectangle2D.Double(
+                        location.x + width / 2,
+                        location.y + width / 2,
+                        size.width - width,
+                        size.height - width));
         g.dispose();
     }
 

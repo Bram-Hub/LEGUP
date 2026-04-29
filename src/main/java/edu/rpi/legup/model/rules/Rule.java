@@ -91,8 +91,7 @@ public abstract class Rule {
         if (imageName != null) {
             String name = imageName;
             LegupPreferences prefs = LegupPreferences.getInstance();
-            if (name.contains("shorttruthtable")
-                    && LegupPreferences.colorBlind()) {
+            if (name.contains("shorttruthtable") && LegupPreferences.colorBlind()) {
                 name = name.replace("ruleimages", "ruleimages_cb");
             }
             this.image = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(name));

@@ -25,13 +25,7 @@ public class TreeTentElementView extends GridElementView {
             g.fill(new Rectangle2D.Double(location.x, location.y, size.width, size.height));
         } else if (type == TreeTentType.TREE) {
             g.drawImage(
-                    TreeTentView.TREE,
-                    location.x,
-                    location.y,
-                    size.width,
-                    size.height,
-                    null,
-                    null);
+                    TreeTentView.TREE, location.x, location.y, size.width, size.height, null, null);
         } else if (type == TreeTentType.GRASS) {
             g.drawImage(
                     TreeTentView.GRASS,
@@ -43,13 +37,7 @@ public class TreeTentElementView extends GridElementView {
                     null);
         } else if (type == TreeTentType.TENT) {
             g.drawImage(
-                    TreeTentView.TENT,
-                    location.x,
-                    location.y,
-                    size.width,
-                    size.height,
-                    null,
-                    null);
+                    TreeTentView.TENT, location.x, location.y, size.width, size.height, null, null);
         }
         g.dispose();
     }
@@ -58,9 +46,12 @@ public class TreeTentElementView extends GridElementView {
     public void drawBorder(Graphics2D graphics2D) {
         Graphics2D g = (Graphics2D) graphics2D.create();
         g.setColor(UIManager.getColor("TreeTent.borderColor"));
-        g.setStroke(new BasicStroke(UIManager.getInt(
-                ((TreeTentCell) puzzleElement).getType() == TreeTentType.UNKNOWN ?
-                "TreeTent.unknownBorderWidth" : "TreeTent.knownBorderWidth")));
+        g.setStroke(
+                new BasicStroke(
+                        UIManager.getInt(
+                                ((TreeTentCell) puzzleElement).getType() == TreeTentType.UNKNOWN
+                                        ? "TreeTent.unknownBorderWidth"
+                                        : "TreeTent.knownBorderWidth")));
         g.drawRect(location.x, location.y, size.width, size.height);
         g.dispose();
     }

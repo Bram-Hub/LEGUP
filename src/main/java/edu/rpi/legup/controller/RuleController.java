@@ -17,7 +17,6 @@ import edu.rpi.legup.ui.proofeditorui.treeview.TreeElementView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -61,19 +60,16 @@ public class RuleController implements ActionListener {
                     if (caseRuleCommand.canExecute()) {
                         caseRuleCommand.execute();
                         getInstance().getHistory().pushChange(caseRuleCommand);
-                    }
-                    else {
+                    } else {
                         updateErrorString = caseRuleCommand.getError();
                     }
-                }
-                else {
+                } else {
                     if (LegupPreferences.autoGenerateCases()) {
                         TreeNode treeNode = (TreeNode) element;
                         if (!treeNode.getChildren().isEmpty()) {
                             updateErrorString =
                                     "Cases cannot be generated from a node with children.";
-                        }
-                        else {
+                        } else {
                             try { // added try catch for scenarios where rules are cancelled by user
                                 // ie.
                                 // Skyscraper cellForNumber
@@ -82,8 +78,7 @@ public class RuleController implements ActionListener {
                                 if (caseBoard != null && caseBoard.getCount() > 0) {
                                     puzzle.notifyBoardListeners(
                                             listener -> listener.onCaseBoardAdded(caseBoard));
-                                }
-                                else {
+                                } else {
                                     updateErrorString =
                                             "This board cannot be applied with this case rule.";
                                 }
@@ -92,37 +87,31 @@ public class RuleController implements ActionListener {
                                 updateErrorString = e.getMessage();
                             }
                         }
-                    }
-                    else {
+                    } else {
                         updateErrorString =
                                 "Auto generated case rules are turned off in preferences.";
                     }
                 }
-            }
-            else {
+            } else {
                 ICommand caseRuleCommand = new ValidateCaseRuleCommand(selection, caseRule);
                 if (caseRuleCommand.canExecute()) {
                     caseRuleCommand.execute();
                     getInstance().getHistory().pushChange(caseRuleCommand);
-                }
-                else {
+                } else {
                     updateErrorString = caseRuleCommand.getError();
                 }
             }
-        }
-        else {
+        } else {
             if (rule.getRuleType() == RuleType.CONTRADICTION) {
                 ICommand validate =
                         new ValidateContradictionRuleCommand(selection, (ContradictionRule) rule);
                 if (validate.canExecute()) {
                     getInstance().getHistory().pushChange(validate);
                     validate.execute();
-                }
-                else {
+                } else {
                     updateErrorString = validate.getError();
                 }
-            }
-            else {
+            } else {
                 ICommand validate =
                         LegupPreferences.allowDefaultRules()
                                 ? new ApplyDefaultDirectRuleCommand(selection, (DirectRule) rule)
@@ -130,8 +119,7 @@ public class RuleController implements ActionListener {
                 if (validate.canExecute()) {
                     getInstance().getHistory().pushChange(validate);
                     validate.execute();
-                }
-                else {
+                } else {
                     updateErrorString = validate.getError();
                 }
             }

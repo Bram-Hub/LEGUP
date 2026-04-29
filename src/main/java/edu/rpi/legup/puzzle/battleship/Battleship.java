@@ -18,9 +18,8 @@ public class Battleship extends Puzzle {
     }
 
     /**
-     * Initializes the view for the Battleship puzzle board.
-     * Creates a new {@link BattleshipView} using the current board state
-     * and registers it as a board listener to receive updates.
+     * Initializes the view for the Battleship puzzle board. Creates a new {@link BattleshipView}
+     * using the current board state and registers it as a board listener to receive updates.
      */
     @Override
     public void initializeView() {
@@ -77,8 +76,8 @@ public class Battleship extends Puzzle {
     }
 
     /**
-     * Callback invoked whenever a {@link Board} element changes during puzzle solving.
-     * Used to react to board state updates in real time.
+     * Callback invoked whenever a {@link Board} element changes during puzzle solving. Used to
+     * react to board state updates in real time.
      *
      * @param board the board whose state has changed
      */

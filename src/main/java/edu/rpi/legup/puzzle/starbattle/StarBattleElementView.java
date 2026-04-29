@@ -2,9 +2,9 @@ package edu.rpi.legup.puzzle.starbattle;
 
 import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
+import javax.swing.UIManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import javax.swing.UIManager;
 
 public class StarBattleElementView extends GridElementView {
     private static final Logger LOGGER =

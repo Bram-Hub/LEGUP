@@ -2,7 +2,6 @@ package edu.rpi.legup.ui.boardview;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import edu.rpi.legup.controller.ElementController;
-
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 
