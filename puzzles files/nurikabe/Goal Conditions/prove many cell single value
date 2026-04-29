@@ -1,0 +1,19 @@
+<Legup version="2.0.0">
+    <puzzle name="Nurikabe" tag="118040">
+        <board height="5" width="5">
+            <goal type="PROVE_SINGLE_CELL_VALUE">
+                <cell value="-2" x="2" y="0"/>
+                <cell value="-2" x="3" y="1"/>
+                <cell value="-2" x="4" y="4"/>
+            </goal>
+            <cells>
+                <cell value="4" x="4" y="0"/>
+                <cell value="1" x="0" y="2"/>
+                <cell value="1" x="2" y="2"/>
+                <cell value="1" x="4" y="2"/>
+                <cell value="4" x="0" y="4"/>
+            </cells>
+        </board>
+    </puzzle>
+    <solved isSolved="-2010495071" lastSaved="2024-11-08 17:14:34"/>
+</Legup>

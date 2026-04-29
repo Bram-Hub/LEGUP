@@ -7,6 +7,8 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @RegisterPuzzle
 public class LightUp extends Puzzle {
@@ -37,7 +39,7 @@ public class LightUp extends Puzzle {
      * @return board of the random edu.rpi.legup.puzzle
      */
     @Override
-    public Board generatePuzzle(int difficulty) {
+    public @Nullable Board generatePuzzle(int difficulty) {
         return null;
     }
 
@@ -60,7 +62,7 @@ public class LightUp extends Puzzle {
      * @return true if board is valid, false otherwise
      */
     @Override
-    public boolean isBoardComplete(Board board) {
+    public boolean isBoardComplete(@NotNull Board board) {
         LightUpBoard lightUpBoard = (LightUpBoard) board;
         lightUpBoard.fillWithLight();
 
@@ -89,5 +91,5 @@ public class LightUp extends Puzzle {
      * @param board the board that has changed
      */
     @Override
-    public void onBoardChange(Board board) {}
+    public void onBoardChange(@NotNull Board board) {}
 }

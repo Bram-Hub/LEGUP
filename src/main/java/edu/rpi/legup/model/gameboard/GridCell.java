@@ -63,6 +63,40 @@ public class GridCell<T> extends PuzzleElement<T> {
         copy.setModifiable(isModifiable);
         copy.setModified(isModified);
         copy.setGiven(isGiven);
+        copy.setGoal(isGoal);
         return copy;
+    }
+
+    /**
+     * Compares the location and data at <i>this</i> cell and <i>other</i> cell
+     *
+     * @param other cell to compare to
+     * @return true if both <i>this</i> and <i>other</i> have the same location and data, false
+     *     otherwise
+     */
+    public boolean equals(GridCell<T> other) {
+        return location.equals(other.location) && data.equals(other.data);
+    }
+
+    /**
+     * Determines if the cell is unknown. Should be overridden.
+     *
+     * @return true if cell is unknown, false otherwise.
+     */
+    public boolean isKnown() {
+        if (data instanceof Integer) {
+            return (Integer) data != 0;
+        }
+        return data != null;
+    }
+
+    /**
+     * Get text description of cell's state. Used for generating goal condition text.
+     *
+     * @param isPlural Flag informing if the description will be used in a plural context.
+     * @return String describing cell state.
+     */
+    public String describeState(boolean isPlural) {
+        return "data = " + getData();
     }
 }

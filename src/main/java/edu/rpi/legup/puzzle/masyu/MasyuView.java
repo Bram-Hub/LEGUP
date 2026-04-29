@@ -33,10 +33,11 @@ public class MasyuView extends GridBoardView {
 
     @Override
     public void drawBoard(Graphics2D graphics2D) {
-        graphics2D.setRenderingHint(
-                RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        super.drawBoard(graphics2D);
-        lineViews.forEach(masyuLineView -> masyuLineView.draw(graphics2D));
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        super.drawBoard(g);
+        lineViews.forEach(masyuLineView -> masyuLineView.draw(g));
+        g.dispose();
     }
 
     /**

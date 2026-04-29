@@ -1,8 +1,12 @@
 plugins {
     id 'java'
-    id 'edu.sc.seis.launch4j' version '2.5.3'
+    id 'edu.sc.seis.launch4j' version '2.5.3' apply false
     id 'kr.motd.sphinx' version '2.10.0'
     id 'com.diffplug.spotless' version '6.25.0'
+}
+
+if (!project.hasProperty("ci")) {
+    apply plugin: 'edu.sc.seis.launch4j'
 }
 
 def versionFile = file('legup-update/src/main/resources/edu.rpi.legupupdate/VERSION')
@@ -62,6 +66,8 @@ dependencies {
     implementation 'org.jetbrains:annotations:20.1.0'
     implementation 'org.jetbrains:annotations:20.1.0'
     implementation 'com.formdev:flatlaf:3.+'
+    implementation 'com.formdev:flatlaf-extras:3.+'
+    //implementation 'com.formdev:flatlaf-svg-installer:3.5'
     implementation 'com.google.firebase:firebase-admin:6.3.0'
     implementation 'org.apache.httpcomponents:httpclient:4.5.1'
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'

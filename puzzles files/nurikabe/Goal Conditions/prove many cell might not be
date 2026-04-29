@@ -1,0 +1,21 @@
+<Legup version="2.0.0">
+    <puzzle name="Nurikabe" tag="118040">
+        <board height="5" width="5">
+            <goal type="PROVE_CELL_MIGHT_NOT_BE">
+                <cell value="0" x="1" y="3"/>
+                <cell value="0" x="2" y="3"/>
+                <cell value="0" x="3" y="3"/>
+                <cell value="-1" x="2" y="4"/>
+                <cell value="-1" x="3" y="4"/>
+            </goal>
+            <cells>
+                <cell value="4" x="4" y="0"/>
+                <cell value="1" x="0" y="2"/>
+                <cell value="1" x="2" y="2"/>
+                <cell value="1" x="4" y="2"/>
+                <cell value="4" x="0" y="4"/>
+            </cells>
+        </board>
+    </puzzle>
+    <solved isSolved="-2010495071" lastSaved="2024-11-08 17:14:34"/>
+</Legup>

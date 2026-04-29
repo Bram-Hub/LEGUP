@@ -38,7 +38,7 @@ public class StarOrEmptyCaseRuleTest {
 
         StarBattleBoard board = (StarBattleBoard) transition.getBoard();
         StarBattleCell cell = board.getCell(0, 0);
-        ArrayList<Board> cases = RULE.getCases(board, cell);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, cell);
 
         StarBattleBoard caseBoard1 = (StarBattleBoard) cases.get(0);
         StarBattleBoard caseBoard2 = (StarBattleBoard) cases.get(1);

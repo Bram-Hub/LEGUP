@@ -2,11 +2,9 @@ package edu.rpi.legup.puzzle.skyscrapers;
 
 import edu.rpi.legup.ui.boardview.ElementView;
 import java.awt.*;
+import javax.swing.UIManager;
 
 public class SkyscrapersClueView extends ElementView {
-
-    private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
-    private static final Color FONT_COLOR = Color.BLACK;
 
     public SkyscrapersClueView(SkyscrapersClue clue) {
         super(clue);
@@ -25,19 +23,20 @@ public class SkyscrapersClueView extends ElementView {
     @Override
     public void draw(Graphics2D graphics2D) {
         drawElement(graphics2D);
-        if (this.isHover()) {
+        if (isHover()) {
             drawHover(graphics2D);
         }
-        if (this.isShowCasePicker() && this.isCaseRulePickable()) {
+        if (isShowCasePicker() && isCaseRulePickable()) {
             drawCase(graphics2D);
         }
     }
 
     @Override
     public void drawElement(Graphics2D graphics2D) {
-        graphics2D.setColor(FONT_COLOR);
-        graphics2D.setFont(FONT);
-        FontMetrics metrics = graphics2D.getFontMetrics(FONT);
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("Skyscrapers.clue"));
+        g.setFont(UIManager.getFont("Skyscrapers.font"));
+        FontMetrics metrics = g.getFontMetrics(g.getFont());
         String value;
 
         SkyscrapersClue clue = getPuzzleElement();
@@ -70,6 +69,7 @@ public class SkyscrapersClueView extends ElementView {
             clue.setData(1);
         }
 
-        graphics2D.drawString(value, xText, yText);
+        g.drawString(value, xText, yText);
+        g.dispose();
     }
 }

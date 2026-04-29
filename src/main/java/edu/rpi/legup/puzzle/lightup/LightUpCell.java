@@ -4,17 +4,24 @@ import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class LightUpCell extends GridCell<Integer> {
     private boolean isLite;
 
-    public LightUpCell(int valueInt, Point location) {
+    public LightUpCell(int valueInt, @NotNull Point location) {
         super(valueInt, location);
         this.isLite = false;
     }
 
+    /**
+     * Sets the type of this LightUpCell
+     *
+     * @param e element to set the type of this binary cell to
+     */
     @Override
-    public void setType(Element e, MouseEvent m) {
+    public void setType(@NotNull Element e, @NotNull MouseEvent m) {
         switch (e.getElementID()) {
             case "LTUP-ELEM-0002":
                 this.data = -4;
@@ -46,7 +53,7 @@ public class LightUpCell extends GridCell<Integer> {
         }
     }
 
-    public LightUpCellType getType() {
+    public @Nullable LightUpCellType getType() {
         switch (data) {
             case -4:
                 return LightUpCellType.BULB;
@@ -64,20 +71,46 @@ public class LightUpCell extends GridCell<Integer> {
         return null;
     }
 
+    /**
+     * Gets whether this LightUpCell is illuminated
+     *
+     * @return true if the cell is lit, false otherwise
+     */
     public boolean isLite() {
         return isLite;
     }
 
+    /**
+     * Sets whether this LightUpCell is illuminated
+     *
+     * @param isLite true if the cell should be lit, false otherwise
+     */
     public void setLite(boolean isLite) {
         this.isLite = isLite;
     }
 
+    /**
+     * Performs a deep copy on the LightUpCell
+     *
+     * @return a new copy of the LightUpCell that is independent of this one
+     */
     @Override
-    public LightUpCell copy() {
+    public @NotNull LightUpCell copy() {
         LightUpCell copy = new LightUpCell(data, (Point) location.clone());
         copy.setIndex(index);
         copy.setModifiable(isModifiable);
         copy.setGiven(isGiven);
+        copy.setGoal(isGoal);
         return copy;
+    }
+
+    @Override
+    public boolean isKnown() {
+        return data != -2;
+    }
+
+    @Override
+    public String describeState(boolean isPlural) {
+        return getType().toString().toLowerCase();
     }
 }

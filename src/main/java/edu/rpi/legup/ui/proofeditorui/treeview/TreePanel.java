@@ -1,5 +1,6 @@
 package edu.rpi.legup.ui.proofeditorui.treeview;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.TreeController;
 import edu.rpi.legup.history.AddTreeElementCommand;
@@ -10,7 +11,6 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.tree.Tree;
 import edu.rpi.legup.ui.DynamicView;
 import edu.rpi.legup.ui.DynamicViewType;
-import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 import java.awt.*;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -96,7 +96,8 @@ public class TreePanel extends JPanel {
         if (updateStatusTimer > 0) {
             return;
         }
-        this.status.setText("");
+        status.putClientProperty(FlatClientProperties.STYLE_CLASS, null);
+        status.setText("");
     }
 
     /**
@@ -105,8 +106,7 @@ public class TreePanel extends JPanel {
      * @param statusString the status string to display
      */
     public void updateStatus(String statusString) {
-        status.setForeground(Color.BLACK);
-        status.setFont(MaterialFonts.REGULAR);
+        status.putClientProperty(FlatClientProperties.STYLE_CLASS, "info");
         status.setText(statusString);
     }
 
@@ -116,8 +116,7 @@ public class TreePanel extends JPanel {
      * @param error the error message to display
      */
     public void updateError(String error) {
-        status.setForeground(Color.RED);
-        status.setFont(MaterialFonts.ITALIC);
+        status.putClientProperty(FlatClientProperties.STYLE_CLASS, "error");
         status.setText(error);
     }
 

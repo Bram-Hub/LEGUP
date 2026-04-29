@@ -1,21 +1,24 @@
 package edu.rpi.legup.ui;
 
-import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.FlatClientProperties;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.Rule;
-import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialBorders;
-import edu.rpi.legup.ui.lookandfeel.materialdesign.MaterialFonts;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import org.intellij.lang.annotations.MagicConstant;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A dialog for managing user preferences in the LEGUP application. This dialog allows users to
@@ -32,6 +35,7 @@ public class PreferencesDialog extends JDialog {
     private JCheckBox fullScreen,
             autoUpdate,
             darkMode,
+            customColorTheme,
             showMistakes,
             showAnnotations,
             allowDefault,
@@ -39,7 +43,8 @@ public class PreferencesDialog extends JDialog {
             immFeedback,
             colorBlind;
 
-    private JTextField workDirectory;
+    private FileChooserComponents workDirectory;
+    private FileChooserComponents colorThemeFile;
 
     private static Image folderIcon;
 
@@ -60,7 +65,8 @@ public class PreferencesDialog extends JDialog {
      * @param rules the RuleFrame associated with the proof editor
      * @return a new instance of PreferencesDialog
      */
-    public static PreferencesDialog CreateDialogForProofEditor(Frame frame, RuleFrame rules) {
+    @NotNull public static PreferencesDialog CreateDialogForProofEditor(
+            @NotNull Frame frame, @NotNull RuleFrame rules) {
         PreferencesDialog p = new PreferencesDialog(frame);
         p.rulesFrame = rules;
         return p;
@@ -71,7 +77,7 @@ public class PreferencesDialog extends JDialog {
      *
      * @param frame the parent frame
      */
-    public PreferencesDialog(Frame frame) {
+    public PreferencesDialog(@NotNull Frame frame) {
         super(frame);
 
         setTitle("Preferences");
@@ -120,22 +126,121 @@ public class PreferencesDialog extends JDialog {
         setVisible(true);
     }
 
-    /**
-     * Toggles between dark mode and light mode based on the given preferences
-     *
-     * @param prefs the LegupPreferences instance holding user preferences
-     */
-    private void toggleDarkMode(LegupPreferences prefs) {
-        try {
-            if (Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE))) {
-                UIManager.setLookAndFeel(new FlatDarkLaf());
-            } else {
-                UIManager.setLookAndFeel(new FlatLightLaf());
-            }
-            com.formdev.flatlaf.FlatLaf.updateUI();
-        } catch (UnsupportedLookAndFeelException e) {
-            System.err.println("Not supported ui look and feel");
+    private void updateColorTheme(@NotNull LegupPreferences prefs) {
+        LegupUI.updateColorTheme();
+    }
+
+    private JCheckBox addDefaultCheckBox(
+            String title, boolean checked, String description, JPanel contentPane) {
+        return addCheckBox(
+                title,
+                checked,
+                description,
+                BorderLayout.WEST,
+                row ->
+                        row.setMaximumSize(
+                                new Dimension(Integer.MAX_VALUE, row.getPreferredSize().height)),
+                contentPane,
+                Box.createRigidArea(new Dimension(0, 10)));
+    }
+
+    private JCheckBox addCheckBox(
+            String label,
+            boolean checked,
+            String hoverText,
+            @MagicConstant(
+                            stringValues = {
+                                BorderLayout.NORTH,
+                                BorderLayout.SOUTH,
+                                BorderLayout.EAST,
+                                BorderLayout.WEST,
+                                BorderLayout.CENTER,
+                                BorderLayout.BEFORE_FIRST_LINE,
+                                BorderLayout.AFTER_LAST_LINE,
+                                BorderLayout.BEFORE_LINE_BEGINS,
+                                BorderLayout.AFTER_LINE_ENDS,
+                                BorderLayout.PAGE_START,
+                                BorderLayout.PAGE_END,
+                                BorderLayout.LINE_START,
+                                BorderLayout.LINE_END
+                            })
+                    String borderLayout,
+            Consumer<JPanel> rowConsumer,
+            JPanel contentPane,
+            Component area) {
+        final JCheckBox box = new JCheckBox(label, checked);
+        box.setToolTipText(hoverText);
+        JPanel row = new JPanel();
+        row.setLayout(new BorderLayout());
+        row.add(box, borderLayout);
+        rowConsumer.accept(row);
+        contentPane.add(row);
+        contentPane.add(area);
+        return box;
+    }
+
+    private void addRowLabel(JPanel contentPane, String title) {
+        contentPane.add(createLeftLabel(title));
+        contentPane.add(createLineSeparator());
+    }
+
+    private record FileChooserComponents(JTextField file, JButton openFile, JLabel label) {
+
+        private void setEnabled(boolean enabled) {
+            file.setVisible(enabled);
+            openFile.setVisible(enabled);
+            label.setVisible(enabled);
         }
+
+        private void disable() {
+            setEnabled(false);
+        }
+
+        private void enable() {
+            setEnabled(true);
+        }
+    }
+
+    private FileChooserComponents addFileChooser(
+            JPanel contentPane,
+            String label,
+            String hoverText,
+            String currentFile,
+            ImageIcon imageIcon,
+            String chooserLabel,
+            @MagicConstant(
+                            intValues = {
+                                JFileChooser.FILES_ONLY,
+                                JFileChooser.DIRECTORIES_ONLY,
+                                JFileChooser.FILES_AND_DIRECTORIES,
+                            })
+                    int fileSelectionMode) {
+        final JPanel row = new JPanel();
+        row.setLayout(new BorderLayout());
+        final JLabel fileLabel = new JLabel(label);
+        fileLabel.setToolTipText(hoverText);
+        row.add(fileLabel, BorderLayout.WEST);
+        final JTextField file = new JTextField(currentFile);
+        row.add(file, BorderLayout.CENTER);
+        final JButton openFile = new JButton(imageIcon);
+        openFile.addActionListener(
+                a -> {
+                    final JFileChooser chooser = new JFileChooser();
+                    chooser.setCurrentDirectory(new File(file.getText()));
+                    chooser.setDialogTitle(chooserLabel);
+                    chooser.setFileSelectionMode(fileSelectionMode);
+                    chooser.setAcceptAllFileFilterUsed(false);
+                    chooser.setVisible(true);
+
+                    if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                        final File newFile = chooser.getSelectedFile();
+                        file.setText(newFile.toString());
+                    }
+                });
+        row.add(openFile, BorderLayout.EAST);
+        row.setMaximumSize(new Dimension(Integer.MAX_VALUE, row.getPreferredSize().height));
+        contentPane.add(row);
+        return new FileChooserComponents(file, openFile, fileLabel);
     }
 
     /**
@@ -143,186 +248,133 @@ public class PreferencesDialog extends JDialog {
      *
      * @return a JScrollPane containing the general preferences panel
      */
-    private JScrollPane createGeneralTab() {
+    @NotNull private JScrollPane createGeneralTab() {
         LegupPreferences prefs = LegupPreferences.getInstance();
         JScrollPane scrollPane = new JScrollPane();
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.PAGE_AXIS));
 
-        contentPane.add(createLeftLabel("General Preferences"));
-        contentPane.add(createLineSeparator());
+        addRowLabel(contentPane, "General Preferences");
 
-        JPanel workRow = new JPanel();
-        workRow.setLayout(new BorderLayout());
-        JLabel workDirLabel = new JLabel("Work Directory");
-        workDirLabel.setToolTipText("This is where the open and save dialogs will open to.");
-        workRow.add(workDirLabel, BorderLayout.WEST);
-        workDirectory = new JTextField(prefs.getUserPref(LegupPreferences.WORK_DIRECTORY));
-        workRow.add(workDirectory, BorderLayout.CENTER);
-        JButton openDir = new JButton(new ImageIcon(folderIcon));
-        openDir.addActionListener(
-                a -> {
-                    JFileChooser chooser = new JFileChooser();
-                    chooser.setCurrentDirectory(new File(workDirectory.getText()));
-                    chooser.setDialogTitle("Choose work directory");
-                    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                    chooser.setAcceptAllFileFilterUsed(false);
-                    chooser.setVisible(true);
-
-                    if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-                        File newFile = chooser.getSelectedFile();
-                        workDirectory.setText(newFile.toString());
-                    }
-                });
-        workRow.add(openDir, BorderLayout.EAST);
-        workRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, workRow.getPreferredSize().height));
-        contentPane.add(workRow);
+        workDirectory =
+                addFileChooser(
+                        contentPane,
+                        "Work Directory",
+                        "This is where the open and save dialogs will open to.",
+                        LegupPreferences.workDirectory(),
+                        new ImageIcon(folderIcon),
+                        "Choose work directory",
+                        JFileChooser.DIRECTORIES_ONLY);
 
         fullScreen =
-                new JCheckBox(
+                addDefaultCheckBox(
                         "Full Screen",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.START_FULL_SCREEN)));
-        fullScreen.setToolTipText("If checked this starts Legup in full screen.");
-        JPanel fullScreenRow = new JPanel();
-        fullScreenRow.setLayout(new BorderLayout());
-        fullScreenRow.add(fullScreen, BorderLayout.WEST);
-        fullScreenRow.setMaximumSize(
-                new Dimension(Integer.MAX_VALUE, fullScreenRow.getPreferredSize().height));
-        contentPane.add(fullScreenRow);
-
+                        LegupPreferences.startFullScreen(),
+                        "If checked this starts LEGUP in full screen.",
+                        contentPane);
         autoUpdate =
-                new JCheckBox(
+                addDefaultCheckBox(
                         "Automatically Check for Updates",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.AUTO_UPDATE)));
-        autoUpdate.setToolTipText(
-                "If checked this automatically checks for updates on startup of Legup");
-        JPanel autoUpdateRow = new JPanel();
-        autoUpdateRow.setLayout(new BorderLayout());
-        autoUpdateRow.add(autoUpdate, BorderLayout.WEST);
-        autoUpdateRow.setMaximumSize(
-                new Dimension(Integer.MAX_VALUE, autoUpdateRow.getPreferredSize().height));
-        contentPane.add(autoUpdateRow);
-        //        contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
+                        LegupPreferences.autoUpdate(),
+                        "If checked this automatically checks for updates on startup of Legup",
+                        contentPane);
+        addRowLabel(contentPane, "Board View Preferences");
 
-        darkMode =
-                new JCheckBox(
-                        "Dark Mode",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.DARK_MODE)));
-        darkMode.setToolTipText("This turns dark mode on and off");
-        JPanel darkModeRow = new JPanel();
-        darkModeRow.setLayout(new BorderLayout());
-        darkModeRow.add(darkMode, BorderLayout.WEST);
-        darkModeRow.setMaximumSize(
-                new Dimension(Integer.MAX_VALUE, darkModeRow.getPreferredSize().height));
-        contentPane.add(darkModeRow);
-        contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        contentPane.add(createLeftLabel("Board View Preferences"));
-        contentPane.add(createLineSeparator());
         showMistakes =
-                new JCheckBox(
+                addDefaultCheckBox(
                         "Show Mistakes",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.SHOW_MISTAKES)));
-        showMistakes.setToolTipText(
-                "If checked this show incorrectly applied rule applications in red on the board");
-        JPanel showMistakesRow = new JPanel();
-        showMistakesRow.setLayout(new BorderLayout());
-        showMistakesRow.add(showMistakes, BorderLayout.WEST);
-        showMistakesRow.setMaximumSize(
-                new Dimension(Integer.MAX_VALUE, showMistakesRow.getPreferredSize().height));
-        contentPane.add(showMistakesRow);
-
+                        LegupPreferences.showMistakes(),
+                        "If checked this show incorrectly applied rule applications in red on the board",
+                        contentPane);
         showAnnotations =
-                new JCheckBox(
+                addDefaultCheckBox(
                         "Show Annotations",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.SHOW_ANNOTATIONS)));
-        showAnnotations.setToolTipText(
-                "If checked this show incorrectly applied rule applications in red on the board");
-        JPanel showAnnotationsRow = new JPanel();
-        showAnnotationsRow.setLayout(new BorderLayout());
-        showAnnotationsRow.add(showAnnotations, BorderLayout.WEST);
-        showAnnotationsRow.setMaximumSize(
-                new Dimension(Integer.MAX_VALUE, showAnnotationsRow.getPreferredSize().height));
-        contentPane.add(showAnnotationsRow);
-        contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
+                        LegupPreferences.showAnnotations(),
+                        "If checked this show incorrectly applied rule applications in red on the board",
+                        contentPane);
 
-        contentPane.add(createLeftLabel("Tree View Preferences"));
-        contentPane.add(createLineSeparator());
+        addRowLabel(contentPane, "Tree View Preferences");
 
         allowDefault =
-                new JCheckBox(
+                addDefaultCheckBox(
                         "Allow Default Rule Applications",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.ALLOW_DEFAULT_RULES)));
-        allowDefault.setEnabled(false);
-        allowDefault.setToolTipText(
-                "If checked this automatically applies a rule where it can on the board");
-
-        JPanel allowDefaultRow = new JPanel();
-        allowDefaultRow.setLayout(new BorderLayout());
-        allowDefaultRow.add(allowDefault, BorderLayout.WEST);
-        allowDefaultRow.setMaximumSize(
-                new Dimension(Integer.MAX_VALUE, allowDefaultRow.getPreferredSize().height));
-        contentPane.add(allowDefaultRow);
-
+                        LegupPreferences.allowDefaultRules(),
+                        "If checked this automatically applies a rule where it can on the board",
+                        contentPane);
         generateCases =
-                new JCheckBox(
+                addDefaultCheckBox(
                         "Automatically Generate Cases",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.AUTO_GENERATE_CASES)));
-        generateCases.setToolTipText(
-                "If checked this automatically generates all cases for a case rule");
-        JPanel generateCasesRow = new JPanel();
-        generateCasesRow.setLayout(new BorderLayout());
-        generateCasesRow.add(generateCases, BorderLayout.WEST);
-        generateCasesRow.setMaximumSize(
-                new Dimension(Integer.MAX_VALUE, generateCasesRow.getPreferredSize().height));
-        contentPane.add(generateCasesRow);
-        contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
-
+                        LegupPreferences.autoGenerateCases(),
+                        "If checked this automatically generates all cases for a case rule",
+                        contentPane);
         immFeedback =
-                new JCheckBox(
+                addDefaultCheckBox(
                         "Provide Immediate Feedback",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.IMMEDIATE_FEEDBACK)));
-        immFeedback.setToolTipText(
-                "If checked this will update the colors of the tree view elements immediately");
-        JPanel immFeedbackRow = new JPanel();
-        immFeedbackRow.setLayout(new BorderLayout());
-        immFeedbackRow.add(immFeedback, BorderLayout.WEST);
-        immFeedbackRow.setMaximumSize(
-                new Dimension(Integer.MAX_VALUE, immFeedbackRow.getPreferredSize().height));
-        contentPane.add(immFeedbackRow);
+                        LegupPreferences.immediateFeedback(),
+                        "If checked this will update the colors of the tree view elements immediately",
+                        contentPane);
 
-        contentPane.add(createLeftLabel("Instructor Preferences"));
-        contentPane.add(createLineSeparator());
+        addRowLabel(contentPane, "Instructor Preferences");
+
         immFeedback =
-                new JCheckBox(
+                addDefaultCheckBox(
                         "Instructor Mode",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.IMMEDIATE_FEEDBACK)));
-        immFeedback.setToolTipText("Currently unimplemented, this does nothing right now");
-        immFeedbackRow.setLayout(new BorderLayout());
-        immFeedbackRow.add(immFeedback, BorderLayout.WEST);
-        immFeedbackRow.setMaximumSize(
-                new Dimension(Integer.MAX_VALUE, immFeedbackRow.getPreferredSize().height));
-        contentPane.add(immFeedbackRow);
+                        LegupPreferences.immediateFeedback(),
+                        "Currently unimplemented, this does nothing right now",
+                        contentPane);
 
-        contentPane.add(createLeftLabel("Color Preferences"));
-        contentPane.add(createLineSeparator());
+        addRowLabel(contentPane, "Color Preferences");
+
         colorBlind =
-                new JCheckBox(
-                        "Deuteranomaly(red/green colorblindness)",
-                        Boolean.valueOf(prefs.getUserPref(LegupPreferences.COLOR_BLIND)));
+                addDefaultCheckBox(
+                        "Deuteranomaly (Red/Green Colorblindness)",
+                        LegupPreferences.colorBlind(),
+                        "This turns colorblind mode on and off",
+                        contentPane);
+        darkMode =
+                addDefaultCheckBox(
+                        "Dark Mode",
+                        LegupPreferences.darkMode(),
+                        "This turns dark mode on and off",
+                        contentPane);
+        customColorTheme =
+                addDefaultCheckBox(
+                        "Custom Color Theme",
+                        LegupPreferences.useCustomColorTheme(),
+                        "This turns custom color theme on and off",
+                        contentPane);
+        colorThemeFile =
+                addFileChooser(
+                        contentPane,
+                        "Color Theme File",
+                        "This is the color theme LEGUP will use.",
+                        LegupPreferences.colorThemeFile(),
+                        new ImageIcon(folderIcon),
+                        "Choose color theme file",
+                        JFileChooser.FILES_ONLY);
 
-        JPanel colorBlindRow = new JPanel();
-        colorBlindRow.setLayout(new BorderLayout());
-        colorBlindRow.add(colorBlind, BorderLayout.WEST);
-        colorBlindRow.setMaximumSize(
-                new Dimension(Integer.MAX_VALUE, showMistakesRow.getPreferredSize().height));
-        contentPane.add(colorBlindRow);
+        // Colorblind / dark mode / file chooser exclusion due to custom color theme
+        customColorTheme.addActionListener(
+                event -> {
+                    colorBlind.setEnabled(!customColorTheme.isSelected());
+                    darkMode.setEnabled(!customColorTheme.isSelected());
+                    colorThemeFile.setEnabled(customColorTheme.isSelected());
+                });
+        colorBlind.setEnabled(!customColorTheme.isSelected());
+        darkMode.setEnabled(!customColorTheme.isSelected());
+        colorThemeFile.setEnabled(customColorTheme.isSelected());
 
         scrollPane.setViewportView(contentPane);
         return scrollPane;
     }
 
-    private JScrollPane createPuzzleTab(Puzzle puzzle) {
+    /**
+     * Creates the puzzle preferences tab for the given puzzle
+     *
+     * @param puzzle the puzzle whose rules will be displayed
+     * @return a JScrollPane containing the puzzle preferences panel
+     */
+    @NotNull private JScrollPane createPuzzleTab(@NotNull Puzzle puzzle) {
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
@@ -371,7 +423,7 @@ public class PreferencesDialog extends JDialog {
      * @param rule the rule object to be displayed
      * @return a JPanel representing the row for the rule
      */
-    private JPanel createRuleRow(Rule rule) {
+    @NotNull private JPanel createRuleRow(@NotNull Rule rule) {
         JPanel ruleRow = new JPanel();
         ruleRow.setLayout(new BorderLayout());
 
@@ -380,12 +432,11 @@ public class PreferencesDialog extends JDialog {
 
         JLabel ruleAcc = new JLabel();
         ruleAcc.setHorizontalAlignment(JLabel.CENTER);
-        ruleAcc.setBorder(MaterialBorders.LIGHT_LINE_BORDER);
         ruleAcc.setPreferredSize(new Dimension(60, 20));
         ruleAcc.addMouseListener(
                 new MouseAdapter() {
                     @Override
-                    public void mouseEntered(MouseEvent e) {
+                    public void mouseEntered(@NotNull MouseEvent e) {
                         ruleAcc.requestFocusInWindow();
                     }
                 });
@@ -393,7 +444,7 @@ public class PreferencesDialog extends JDialog {
         ruleAcc.addKeyListener(
                 new KeyAdapter() {
                     @Override
-                    public void keyPressed(KeyEvent e) {
+                    public void keyPressed(@NotNull KeyEvent e) {
                         int keyCode = e.getKeyCode();
                         String combo = "";
                         if (e.isControlDown()) {
@@ -430,11 +481,11 @@ public class PreferencesDialog extends JDialog {
      * @param text the text to be displayed on the label
      * @return a JPanel containing the left-aligned label
      */
-    private JPanel createLeftLabel(String text) {
+    @NotNull private JPanel createLeftLabel(@NotNull String text) {
         JPanel labelRow = new JPanel();
         labelRow.setLayout(new BorderLayout());
         JLabel label = new JLabel(text);
-        label.setFont(MaterialFonts.BOLD);
+        label.putClientProperty(FlatClientProperties.STYLE_CLASS, "prefsHeading");
         label.setHorizontalAlignment(JLabel.LEFT);
         labelRow.add(label, BorderLayout.WEST);
 
@@ -449,7 +500,7 @@ public class PreferencesDialog extends JDialog {
      *
      * @return a JSeparator with a fixed height
      */
-    private JSeparator createLineSeparator() {
+    @NotNull private JSeparator createLineSeparator() {
         JSeparator separator = new JSeparator();
         separator.setMaximumSize(new Dimension(Integer.MAX_VALUE, 5));
         return separator;
@@ -463,22 +514,28 @@ public class PreferencesDialog extends JDialog {
      */
     public void applyPreferences() {
         LegupPreferences prefs = LegupPreferences.getInstance();
-        prefs.setUserPref(LegupPreferences.WORK_DIRECTORY, workDirectory.getText());
         prefs.setUserPref(
-                LegupPreferences.START_FULL_SCREEN, Boolean.toString(fullScreen.isSelected()));
-        prefs.setUserPref(LegupPreferences.AUTO_UPDATE, Boolean.toString(autoUpdate.isSelected()));
-        prefs.setUserPref(LegupPreferences.DARK_MODE, Boolean.toString(darkMode.isSelected()));
+                LegupPreferences.LegupPreference.WORK_DIRECTORY, workDirectory.file.getText());
         prefs.setUserPref(
-                LegupPreferences.SHOW_MISTAKES, Boolean.toString(showMistakes.isSelected()));
+                LegupPreferences.LegupPreference.START_FULL_SCREEN, fullScreen.isSelected());
+        prefs.setUserPref(LegupPreferences.LegupPreference.AUTO_UPDATE, autoUpdate.isSelected());
+        prefs.setUserPref(LegupPreferences.LegupPreference.DARK_MODE, darkMode.isSelected());
         prefs.setUserPref(
-                LegupPreferences.SHOW_ANNOTATIONS, Boolean.toString(showAnnotations.isSelected()));
+                LegupPreferences.LegupPreference.USE_CUSTOM_COLOR_THEME,
+                customColorTheme.isSelected());
         prefs.setUserPref(
-                LegupPreferences.ALLOW_DEFAULT_RULES, Boolean.toString(allowDefault.isSelected()));
+                LegupPreferences.LegupPreference.SHOW_MISTAKES, showMistakes.isSelected());
         prefs.setUserPref(
-                LegupPreferences.AUTO_GENERATE_CASES, Boolean.toString(generateCases.isSelected()));
+                LegupPreferences.LegupPreference.SHOW_ANNOTATIONS, showAnnotations.isSelected());
         prefs.setUserPref(
-                LegupPreferences.IMMEDIATE_FEEDBACK, Boolean.toString(immFeedback.isSelected()));
-        prefs.setUserPref(LegupPreferences.COLOR_BLIND, Boolean.toString(colorBlind.isSelected()));
+                LegupPreferences.LegupPreference.ALLOW_DEFAULT_RULES, allowDefault.isSelected());
+        prefs.setUserPref(
+                LegupPreferences.LegupPreference.AUTO_GENERATE_CASES, generateCases.isSelected());
+        prefs.setUserPref(
+                LegupPreferences.LegupPreference.IMMEDIATE_FEEDBACK, immFeedback.isSelected());
+        prefs.setUserPref(LegupPreferences.LegupPreference.COLOR_BLIND, colorBlind.isSelected());
+        prefs.setUserPref(
+                LegupPreferences.LegupPreference.COLOR_THEME_FILE, colorThemeFile.file.getText());
 
         if (rulesFrame != null) {
             rulesFrame.getCasePanel().updateRules();
@@ -486,7 +543,6 @@ public class PreferencesDialog extends JDialog {
             rulesFrame.getContradictionPanel().updateRules();
         }
 
-        // toggle dark mode based on updated NIGHT_MODE variable
-        toggleDarkMode(prefs);
+        updateColorTheme(prefs);
     }
 }

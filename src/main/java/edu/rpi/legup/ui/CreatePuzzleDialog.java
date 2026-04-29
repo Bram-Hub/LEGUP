@@ -11,6 +11,7 @@ import java.util.Objects;
 import javax.swing.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Provides the user interface components for creating a new puzzle in the Legup application. This
@@ -34,7 +35,7 @@ public class CreatePuzzleDialog extends JDialog {
                  * row/column fields are shown and the text input area is hidden.
                  */
                 @Override
-                public void actionPerformed(ActionEvent e) {
+                public void actionPerformed(@NotNull ActionEvent e) {
                     JComboBox comboBox = (JComboBox) e.getSource();
                     String puzzleName = (String) comboBox.getSelectedItem();
                     if (puzzleName.equals("ShortTruthTable")) {
@@ -72,7 +73,7 @@ public class CreatePuzzleDialog extends JDialog {
                  * @param ae the event to be processed
                  */
                 @Override
-                public void actionPerformed(ActionEvent ae) {
+                public void actionPerformed(@NotNull ActionEvent ae) {
                     String game = getGame();
 
                     // Check if all 3 TextFields are filled
@@ -113,7 +114,7 @@ public class CreatePuzzleDialog extends JDialog {
                  * @param e the event to be processed
                  */
                 @Override
-                public void actionPerformed(ActionEvent e) {
+                public void actionPerformed(@NotNull ActionEvent e) {
                     dispose();
                 }
             };
@@ -124,7 +125,7 @@ public class CreatePuzzleDialog extends JDialog {
      * @param parent the parent frame of the dialog
      * @param homePanel the home panel where the created puzzle will be added
      */
-    public CreatePuzzleDialog(JFrame parent, HomePanel homePanel) {
+    public CreatePuzzleDialog(@NotNull JFrame parent, @NotNull HomePanel homePanel) {
         super(parent, true);
 
         this.homePanel = homePanel;
@@ -222,7 +223,7 @@ public class CreatePuzzleDialog extends JDialog {
      *
      * @param e The action event to be processed
      */
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(@NotNull ActionEvent e) {
         if (e.getSource() == ok) {
             String game = Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
 
@@ -255,7 +256,7 @@ public class CreatePuzzleDialog extends JDialog {
      *
      * @return the class name of the selected game
      */
-    public String getGame() {
+    @NotNull public String getGame() {
         return Config.convertDisplayNameToClassName((String) gameBox.getSelectedItem());
     }
 
@@ -264,7 +265,7 @@ public class CreatePuzzleDialog extends JDialog {
      *
      * @return the number of rows as a string
      */
-    public String getRows() {
+    @NotNull public String getRows() {
         return rows.getText();
     }
 
@@ -273,16 +274,16 @@ public class CreatePuzzleDialog extends JDialog {
      *
      * @return the number of columns as a string
      */
-    public String getColumns() {
+    @NotNull public String getColumns() {
         return columns.getText();
     }
 
     /**
      * Retrieves the text entered in the text area, split by new lines.
      *
-     * @return an array of strings, each representing as a line of text
+     * @return an array of strings, each representing a line of text
      */
-    public String[] getTextArea() {
+    @NotNull public String[] getTextArea() {
         return textArea.getText().split("\n");
     }
 }

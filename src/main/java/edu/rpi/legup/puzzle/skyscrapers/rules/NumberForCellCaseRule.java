@@ -25,7 +25,7 @@ public class NumberForCellCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         SkyscrapersBoard lightUpBoard = (SkyscrapersBoard) board.copy();
         lightUpBoard.setModifiable(false);
         CaseBoard caseBoard = new CaseBoard(lightUpBoard, this);
@@ -45,7 +45,7 @@ public class NumberForCellCaseRule extends CaseRule {
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
         if (puzzleElement == null) {
             return cases;
@@ -80,58 +80,6 @@ public class NumberForCellCaseRule extends CaseRule {
         }
 
         return cases;
-    }
-
-    /**
-     * Checks whether the transition logically follows from the parent node using this rule
-     *
-     * @param transition transition to check
-     * @return null if the child node logically follow from the parent node, otherwise error message
-     */
-    @Override
-    public String checkRuleRaw(TreeTransition transition) {
-        List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-        if (childTransitions.size() == 0) {
-            return "This case rule must have at least one child.";
-        } else {
-            if (childTransitions.size()
-                    != getCases(
-                                    transition.getBoard(),
-                                    childTransitions
-                                            .get(0)
-                                            .getBoard()
-                                            .getModifiedData()
-                                            .iterator()
-                                            .next())
-                            .size()) {
-                return "Wrong number of children.";
-            }
-        }
-
-        // TreeTransition case1 = childTransitions.get(0);
-        // TreeTransition case2 = childTransitions.get(1);
-        TreeTransition case1 = childTransitions.get(0);
-        SkyscrapersCell mod1 =
-                (SkyscrapersCell) case1.getBoard().getModifiedData().iterator().next();
-        for (int i = 0; i < childTransitions.size(); i++) {
-            TreeTransition case2 = childTransitions.get(i);
-            if (case2.getBoard().getModifiedData().size() != 1) {
-                return super.getInvalidUseOfRuleMessage()
-                        + ": This case rule must have 1 modified cell for each case.";
-            }
-            SkyscrapersCell mod2 =
-                    (SkyscrapersCell) case2.getBoard().getModifiedData().iterator().next();
-            if (!mod1.getLocation().equals(mod2.getLocation())) {
-                return super.getInvalidUseOfRuleMessage()
-                        + ": This case rule must modify the same cell for each case.";
-            }
-            if (!(mod2.getType() == SkyscrapersType.Number)) {
-                return super.getInvalidUseOfRuleMessage()
-                        + ": This case rule must assign a number.";
-            }
-        }
-        // System.out.println("no contradiction");
-        return null;
     }
 
     /**

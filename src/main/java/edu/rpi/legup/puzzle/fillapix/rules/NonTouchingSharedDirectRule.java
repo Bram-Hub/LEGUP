@@ -19,9 +19,9 @@ public class NonTouchingSharedDirectRule extends DirectRule {
         super(
                 "FPIX-BASC-0005",
                 "NonTouching Shared",
-                "Clues with shared cells have the same difference in black cells in their unshared"
-                        + " regions as the difference in their numbers",
-                "edu/rpi/legup/images/fillapix/rules/TouchingSides.png");
+                "Two clues are touching corners, are sharing neighboring cells, have the same difference in black cells in their"
+                        + " unshared regions as the difference in their numbers",
+                "edu/rpi/legup/images/fillapix/rules/NontouchingShared.png");
     }
 
     @Override
@@ -50,8 +50,9 @@ public class NonTouchingSharedDirectRule extends DirectRule {
          * touching, but sharing cells */
         Iterator<FillapixCell> itr = adjCells.iterator();
         while (itr.hasNext()) {
+            FillapixCell adjCell = itr.next();
             ArrayList<FillapixCell> sharingCells =
-                    FillapixUtilities.getCellsAtDistance(parentBoard, parentCell, 1);
+                    FillapixUtilities.getCellsAtDistance(parentBoard, adjCell, 1);
             boolean found = false;
             for (FillapixCell sharingCell : sharingCells) {
                 if (sharingCell.getNumber() >= 0 && sharingCell.getNumber() < 10) {
@@ -74,7 +75,7 @@ public class NonTouchingSharedDirectRule extends DirectRule {
         CaseRule completeClue = new SatisfyClueCaseRule();
         List<Board> caseBoards;
         for (FillapixCell adjCell : adjCells) {
-            caseBoards = completeClue.getCases(parentBoard, adjCell);
+            caseBoards = completeClue.getCasesFrom(parentBoard, adjCell);
             boolean found = true;
             for (Board b : caseBoards) {
                 if (!FillapixUtilities.checkBoardForContradiction((FillapixBoard) b)) {

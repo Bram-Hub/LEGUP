@@ -18,10 +18,6 @@ public abstract class ElementView implements Shape {
     protected Point location;
     protected Dimension size;
     protected PuzzleElement puzzleElement;
-    private Color hoverColor;
-    private Color modifiedColor;
-    private Color caseColor;
-    private Color invalidColor;
     private boolean showCasePicker;
     private boolean isCaseRulePickable;
     private boolean isHover;
@@ -34,10 +30,6 @@ public abstract class ElementView implements Shape {
      */
     public ElementView(PuzzleElement puzzleElement) {
         this.puzzleElement = puzzleElement;
-        this.hoverColor = new Color(0x79, 0x86, 0xCB, 255);
-        this.modifiedColor = new Color(0x64, 0xDD, 0x17, 255);
-        this.caseColor = new Color(0x1A, 0x23, 0x7E, 200);
-        this.invalidColor = new Color(0xf4, 0x43, 0x36, 200);
         this.isHover = false;
         this.isSelected = false;
         this.isCaseRulePickable = false;
@@ -66,6 +58,9 @@ public abstract class ElementView implements Shape {
         if (puzzleElement.isGiven()) {
             drawGiven(graphics2D);
         }
+        if (puzzleElement.isGoal()) {
+            drawGoal(graphics2D);
+        }
         if (puzzleElement.isModified()) {
             drawModified(graphics2D);
         }
@@ -75,35 +70,52 @@ public abstract class ElementView implements Shape {
         if (isHover) {
             drawHover(graphics2D);
         }
+        drawBorder(graphics2D);
     }
 
     /**
-     * Draws the basic element representation (e.g., border, text) on the provided Graphics2D
+     * Draws the basic element representation (e.g., image, text) on the provided Graphics2D
      * context.
      *
      * @param graphics2D the Graphics2D context to use for drawing
      */
     public void drawElement(Graphics2D graphics2D) {
-        graphics2D.setStroke(new BasicStroke(1));
-        graphics2D.draw(
-                new Rectangle2D.Double(
-                        location.x + 0.5f, location.y + 0.5f, size.width - 2, size.height - 2));
-
-        graphics2D.setColor(Color.BLACK);
-        FontMetrics metrics = graphics2D.getFontMetrics(graphics2D.getFont());
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setFont(UIManager.getFont("Puzzle.font"));
+        FontMetrics metrics = g.getFontMetrics(g.getFont());
         String value = String.valueOf(puzzleElement.getData());
         int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
         int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-        graphics2D.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
+        g.drawString(String.valueOf(puzzleElement.getData()), xText, yText);
+        g.dispose();
     }
 
     /**
      * Draws additional elements for given PuzzleElements (default implementation does nothing).
-     * Overriden in some puzzle element views.
+     * Overridden in some puzzle element views.
      *
      * @param graphics2D the Graphics2D context to use for drawing
      */
     public void drawGiven(Graphics2D graphics2D) {}
+
+    /**
+     * Draws a goal effect on the ElementView.
+     *
+     * @param graphics2D the Graphics2D context to use for drawing
+     */
+    public void drawGoal(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        float width = UIManager.getInt("Puzzle.highlightWidth");
+        g.setStroke(new BasicStroke(width));
+        g.setColor(UIManager.getColor("Puzzle.goal"));
+        g.draw(
+                new Rectangle2D.Double(
+                        location.x + width / 2,
+                        location.y + width / 2,
+                        size.width - width,
+                        size.height - width));
+        g.dispose();
+    }
 
     /**
      * Draws a hover effect on the ElementView.
@@ -111,11 +123,17 @@ public abstract class ElementView implements Shape {
      * @param graphics2D the Graphics2D context to use for drawing
      */
     public void drawHover(Graphics2D graphics2D) {
-        graphics2D.setColor(hoverColor);
-        graphics2D.setStroke(new BasicStroke(2));
-        graphics2D.draw(
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        float width = UIManager.getInt("Puzzle.highlightWidth");
+        g.setStroke(new BasicStroke(width));
+        g.setColor(UIManager.getColor("Puzzle.hover"));
+        g.draw(
                 new Rectangle2D.Double(
-                        location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
+                        location.x + width / 2,
+                        location.y + width / 2,
+                        size.width - width,
+                        size.height - width));
+        g.dispose();
     }
 
     /**
@@ -124,11 +142,17 @@ public abstract class ElementView implements Shape {
      * @param graphics2D the Graphics2D context to use for drawing
      */
     public void drawModified(Graphics2D graphics2D) {
-        graphics2D.setColor(puzzleElement.isValid() ? modifiedColor : invalidColor);
-        graphics2D.setStroke(new BasicStroke(2));
-        graphics2D.draw(
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        float width = UIManager.getInt("Puzzle.highlightWidth");
+        g.setStroke(new BasicStroke(width));
+        g.setColor(UIManager.getColor(puzzleElement.isValid() ? "Puzzle.valid" : "Puzzle.invalid"));
+        g.draw(
                 new Rectangle2D.Double(
-                        location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
+                        location.x + width / 2,
+                        location.y + width / 2,
+                        size.width - width,
+                        size.height - width));
+        g.dispose();
     }
 
     /**
@@ -137,10 +161,30 @@ public abstract class ElementView implements Shape {
      * @param graphics2D the Graphics2D context to use for drawing
      */
     public void drawCase(Graphics2D graphics2D) {
-        graphics2D.setColor(caseColor);
-        graphics2D.fill(
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        float width = UIManager.getInt("Puzzle.highlightWidth");
+        g.setStroke(new BasicStroke(width));
+        g.setColor(UIManager.getColor("Puzzle.case"));
+        g.draw(
                 new Rectangle2D.Double(
-                        location.x + 1.5f, location.y + 1.5f, size.width - 3, size.height - 3));
+                        location.x + width / 2,
+                        location.y + width / 2,
+                        size.width - width,
+                        size.height - width));
+        g.dispose();
+    }
+
+    /**
+     * Draws a border around the element.
+     *
+     * @param graphics2D the Graphics2D context to use for drawing
+     */
+    public void drawBorder(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("Puzzle.borderColor"));
+        g.setStroke(new BasicStroke(UIManager.getInt("Puzzle.borderWidth")));
+        g.drawRect(location.x, location.y, size.width, size.height);
+        g.dispose();
     }
 
     /**
@@ -266,24 +310,6 @@ public abstract class ElementView implements Shape {
      */
     public void setCaseRulePickable(boolean isCaseRulePickable) {
         this.isCaseRulePickable = isCaseRulePickable;
-    }
-
-    /**
-     * Gets the high-light color
-     *
-     * @return high-light color
-     */
-    public Color getHoverColor() {
-        return hoverColor;
-    }
-
-    /**
-     * Sets the high-light color
-     *
-     * @param hoverColor high-light color
-     */
-    public void setHoverColor(Color hoverColor) {
-        this.hoverColor = hoverColor;
     }
 
     /**

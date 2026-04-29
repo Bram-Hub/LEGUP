@@ -3,6 +3,8 @@ package edu.rpi.legup.puzzle.thermometer;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
+import edu.rpi.legup.model.Goal;
+import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import org.w3c.dom.Element;
@@ -12,25 +14,52 @@ import org.w3c.dom.NodeList;
 public class ThermometerImporter extends PuzzleImporter {
 
     // basic stuff stolen from dev guide/filled in by default
+    /**
+     * Constructs a ThermometerImporter for the given Thermometer puzzle.
+     *
+     * @param thermometer the Thermometer puzzle instance
+     */
     public ThermometerImporter(Thermometer thermometer) {
         super(thermometer);
     }
 
+    /**
+     * Indicates whether this importer accepts row/column input.
+     *
+     * @return false since row/column input is not supported
+     */
     @Override
     public boolean acceptsRowsAndColumnsInput() {
         return false;
     }
 
+    /**
+     * Indicates whether this importer accepts text input.
+     *
+     * @return false since text input is not supported
+     */
     @Override
     public boolean acceptsTextInput() {
         return false;
     }
 
+    /**
+     * Initializes a board using row and column counts. Not implemented for Thermometer puzzles.
+     *
+     * @param rows number of rows
+     * @param columns number of columns
+     */
     @Override
     public void initializeBoard(int rows, int columns) {}
 
     // method for initializing board from an xml file which has
     // a provided width/height
+    /**
+     * Initializes a ThermometerBoard from an XML node.
+     *
+     * @param node the XML node representing the board
+     * @throws InvalidFileFormatException if the XML structure or data is invalid
+     */
     @Override
     public void initializeBoard(Node node) throws InvalidFileFormatException {
         // sticking everything in a try statement because god has forsaken everyone
@@ -113,16 +142,57 @@ public class ThermometerImporter extends PuzzleImporter {
             }
 
             puzzle.setCurrentBoard(thermometerBoard);
+            if (boardElement.getElementsByTagName("goal").getLength() != 0) {
+                Element goalElement = (Element) boardElement.getElementsByTagName("goal").item(0);
+                Goal goal = puzzle.getFactory().importGoal(goalElement, thermometerBoard);
+
+                NodeList cellList = goalElement.getElementsByTagName("cell");
+                for (int i = 0; i < cellList.getLength(); i++) {
+                    ThermometerCell cell =
+                            (ThermometerCell)
+                                    puzzle.getFactory()
+                                            .importCell(cellList.item(i), thermometerBoard);
+                    // Store the goal value as goalData and mark the board cell as goal
+                    ThermometerCell boardCell =
+                            (ThermometerCell) thermometerBoard.getCell(cell.getLocation());
+                    if (boardCell != null) {
+                        boardCell.setGoalData(cell.getData());
+                        boardCell.setGoal(true);
+                    }
+                    goal.addCell(cell);
+                    thermometerBoard.getCell(cell.getLocation()).setGoal(true);
+                }
+                puzzle.setGoal(goal);
+            } else {
+                Goal goal = new Goal(null, GoalType.DEFAULT);
+
+                puzzle.setGoal(goal);
+            }
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
                     "thermometer Importer: unknown value where integer expected");
         }
     }
 
+    /**
+     * Initializes a board from text input. Not supported for Thermometer puzzles.
+     *
+     * @param statements input statements
+     * @throws UnsupportedOperationException always thrown since not supported
+     * @throws IllegalArgumentException not used
+     */
     @Override
     public void initializeBoard(String[] statements)
             throws UnsupportedOperationException, IllegalArgumentException {}
 
+    /**
+     * Imports row and column clue numbers into the board.
+     *
+     * @param rowNodes XML nodes representing row clues
+     * @param colNodes XML nodes representing column clues
+     * @param board the ThermometerBoard to populate
+     * @throws InvalidFileFormatException if values are invalid or out of bounds
+     */
     private void importRowColNums(NodeList rowNodes, NodeList colNodes, ThermometerBoard board)
             throws InvalidFileFormatException {
 
@@ -148,6 +218,13 @@ public class ThermometerImporter extends PuzzleImporter {
         }
     }
 
+    /**
+     * Imports a single thermometer vial from XML and adds it to the board.
+     *
+     * @param node XML node representing the vial
+     * @param board the ThermometerBoard to update
+     * @throws InvalidFileFormatException if the vial is invalid or overlaps
+     */
     private void importThermometerVial(Node node, ThermometerBoard board)
             throws InvalidFileFormatException {
         // head is the top of the thermometer and tip is the end of the thermometer
@@ -166,6 +243,16 @@ public class ThermometerImporter extends PuzzleImporter {
         }
     }
 
+    /**
+     * Verifies that a vial can be placed on the board without overlapping existing cells.
+     *
+     * @param headX x-coordinate of the head
+     * @param headY y-coordinate of the head
+     * @param tipX x-coordinate of the tail
+     * @param tipY y-coordinate of the tail
+     * @param board the ThermometerBoard
+     * @return true if the vial placement is valid, false otherwise
+     */
     private boolean verifyVial(int headX, int headY, int tipX, int tipY, ThermometerBoard board) {
         // figuring out which axis the thermometer travels along
         if (headX == tipX) {

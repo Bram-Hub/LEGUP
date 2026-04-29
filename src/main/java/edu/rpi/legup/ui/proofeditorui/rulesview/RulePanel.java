@@ -1,5 +1,6 @@
 package edu.rpi.legup.ui.proofeditorui.rulesview;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.ui.WrapLayout;
@@ -14,6 +15,8 @@ import org.apache.logging.log4j.Logger;
 /**
  * Abstract base class for panels displaying rules. Each subclass will represent a specific type of
  * rule panel (e.g., DirectRulePanel, CaseRulePanel).
+ *
+ * <p>Subclasses: CaseRulePanel, DirectRulePanel, ContradictionRulePanel
  */
 public abstract class RulePanel extends JPanel {
     private static final Logger LOGGER = LogManager.getLogger(RulePanel.class.getName());
@@ -66,11 +69,10 @@ public abstract class RulePanel extends JPanel {
             ruleButtons[i].setPreferredSize(
                     new Dimension(150, 150)); // adjust the size of each RuleButton
 
-            if (rule.getRuleName().length() > 18) {
-                ruleButtons[i].setFont(new Font("Segoe UI", Font.PLAIN, 11));
-            }
-            if (rule.getRuleName().length() > 20) {
-                ruleButtons[i].setFont(new Font("Segoe UI", Font.PLAIN, 10));
+            if (rule.getRuleName().length() <= 18) {
+                ruleButtons[i].putClientProperty(FlatClientProperties.STYLE_CLASS, "rule");
+            } else {
+                ruleButtons[i].putClientProperty(FlatClientProperties.STYLE_CLASS, "smallRule");
             }
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug(ruleButtons[i].getFont().getName());

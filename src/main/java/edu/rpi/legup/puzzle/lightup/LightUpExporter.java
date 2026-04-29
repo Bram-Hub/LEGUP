@@ -2,11 +2,12 @@ package edu.rpi.legup.puzzle.lightup;
 
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Document;
 
 public class LightUpExporter extends PuzzleExporter {
 
-    public LightUpExporter(LightUp lightUp) {
+    public LightUpExporter(@NotNull LightUp lightUp) {
         super(lightUp);
     }
 
@@ -22,6 +23,8 @@ public class LightUpExporter extends PuzzleExporter {
         org.w3c.dom.Element boardElement = newDocument.createElement("board");
         boardElement.setAttribute("width", String.valueOf(board.getWidth()));
         boardElement.setAttribute("height", String.valueOf(board.getHeight()));
+
+        appendGoalElement(newDocument, boardElement, board);
 
         org.w3c.dom.Element cellsElement = newDocument.createElement("cells");
         for (PuzzleElement puzzleElement : board.getPuzzleElements()) {

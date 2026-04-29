@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="96" height="96" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <circle id="circle" cx="48" cy="48" r="37"/>
+        <clipPath id="circle-clip">
+            <use href="#circle"/>
+        </clipPath>
+        <linearGradient id="shade-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0000"/>
+            <stop offset="1" stop-color="#0005"/>
+        </linearGradient>
+        <radialGradient id="shadow-grad">
+            <stop offset="0.2" stop-color="#0003"/>
+            <stop offset="1" stop-color="#0000"/>
+        </radialGradient>
+    </defs>
+    <ellipse fill="url(#shadow-grad)" rx="40" ry="10" cx="48" cy="86"/>
+    <use href="#circle" fill="blue"/>
+    <use href="#circle" fill="url(#shade-grad)"/>
+    <use href="#circle" fill="none" stroke="#FFF8" stroke-width="12" clip-path="url(#circle-clip)"/>
+    <use href="#circle" fill="none" stroke="blue" stroke-width="4"/>
+    <use href="#circle" fill="none" stroke="#0006" stroke-width="4"/>
+    <rect fill="white" stroke="lightgrey" stroke-width="2" width="8" height="8" x="44" y="28" rx="3" ry="3"/>
+    <rect fill="white" stroke="lightgrey" stroke-width="2" width="8" height="26" x="44" y="42" rx="3" ry="3"/>
+</svg>

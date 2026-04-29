@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * The Element class serves as an abstract base class for various elements used in the system. It
+ * The Element class serves as an abstract base class for various elements used in the system; It
  * handles basic properties such as ID, name, description, and image associated with the element.
  */
 @RegisterElement
@@ -130,5 +130,10 @@ public abstract class Element {
      */
     public String getInvalidUseOfRuleMessage() {
         return this.INVALID_USE_MESSAGE;
+    }
+
+    @Override
+    public String toString() {
+        return elementName;
     }
 }

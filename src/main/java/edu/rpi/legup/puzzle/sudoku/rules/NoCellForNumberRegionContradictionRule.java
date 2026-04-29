@@ -13,7 +13,7 @@ public class NoCellForNumberRegionContradictionRule extends ContradictionRule {
     public NoCellForNumberRegionContradictionRule() {
         super(
                 "SUDO-CONT-0001",
-                "No Cell for Number (Region)",
+                "No Cell for Number - Region",
                 "Process of elimination yields no valid numbers for an empty cell in a region.",
                 "edu/rpi/legup/images/sudoku/rules/NoCellForNumberRegion.png");
     }

@@ -32,89 +32,6 @@ public class FinishRoomCaseRule extends CaseRule {
     }
 
     /**
-     * Checks whether the {@link TreeTransition} logically follows from the parent node using this
-     * rule. This method is the one that should have overridden in child classes.
-     *
-     * @param transition transition to check
-     * @return null if the child node logically follow from the parent node, otherwise error message
-     */
-    @Override
-    public String checkRuleRaw(TreeTransition transition) {
-        NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
-        List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-        NurikabeBoard prevBoardState = (NurikabeBoard) transition.getParents().get(0).getBoard();
-        /*
-           Cannot have more than 9 cases
-        */
-        if (childTransitions.size() > MAX_CASES) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must have 9 or less children.";
-        }
-        /*
-           Cannot have less than 1 case
-        */
-        if (childTransitions.size() < MIN_CASES) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must have 1 or more children.";
-        }
-
-        ArrayList<NurikabeCell> possibleOrigins = new ArrayList<>();
-        Set<NurikabeCell> numberCells = NurikabeUtilities.getNurikabeNumberedCells(prevBoardState);
-        for (PuzzleElement element : destBoardState.getModifiedData()) {
-            NurikabeCell cell = (NurikabeCell) element;
-            Point cellLoc = cell.getLocation();
-
-            // Check all four adjacent directions
-            int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-            for (int[] dir : directions) {
-                int adjX = cellLoc.x + dir[0];
-                int adjY = cellLoc.y + dir[1];
-
-                // Check bounds
-                if (adjX >= 0
-                        && adjX < prevBoardState.getWidth()
-                        && adjY >= 0
-                        && adjY < prevBoardState.getHeight()) {
-                    NurikabeCell adjacentCell = prevBoardState.getCell(adjX, adjY);
-
-                    // If adjacent cell is a number cell and not already in possibleOrigins
-                    if (numberCells.contains(adjacentCell)
-                            && !possibleOrigins.contains(adjacentCell)) {
-                        possibleOrigins.add(adjacentCell);
-                    }
-                }
-            }
-        }
-        /*
-           There must be at least one possible origin cell
-        */
-        if (possibleOrigins.size() == 0) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": There must be at least one possible origin cell.";
-        }
-        /*
-           There must be only one possible origin cell
-        */
-        if (possibleOrigins.size() > 1) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": There must be only one possible origin cell.";
-        }
-        NurikabeCell selectedElement = possibleOrigins.get(0);
-        // Check if the number of child transitions matches expected cases for the selected element
-        ArrayList<Board> expectedCases = getCases(prevBoardState, selectedElement);
-        if (childTransitions.size() != expectedCases.size()) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": Invalid number of child transitions. Expected "
-                    + expectedCases.size()
-                    + " but found "
-                    + childTransitions.size()
-                    + ".";
-        }
-
-        return null;
-    }
-
-    /**
      * Creates a transition {@link Board} that has this rule applied to it using the {@link Board}'s
      * current state to determine where this rule can be applied.
      *
@@ -122,7 +39,7 @@ public class FinishRoomCaseRule extends CaseRule {
      * @return a case board
      */
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         NurikabeBoard nurikabeBoard = (NurikabeBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(nurikabeBoard, this);
         DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nurikabeBoard);
@@ -165,7 +82,7 @@ public class FinishRoomCaseRule extends CaseRule {
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>(); // makes array list of cases
         if (puzzleElement == null) {
             return cases;
@@ -182,15 +99,7 @@ public class FinishRoomCaseRule extends CaseRule {
         Point origPoint = new Point(numberCell.getLocation().x, numberCell.getLocation().y);
         int filledRoomSize = numberCell.getData(); // size of room we want afterward
 
-        Point left = new Point(-1, 0);
-        Point right = new Point(1, 0);
-        Point bot = new Point(0, -1);
-        Point top = new Point(0, 1);
-        Set<Point> directions = new HashSet<>();
-        directions.add(left);
-        directions.add(right);
-        directions.add(top);
-        directions.add(bot);
+        Point[] directions = {new Point(-1, 0), new Point(1, 0), new Point(0, -1), new Point(0, 1)};
 
         Set<Point> checkedPoints =
                 new HashSet<>(); // add all into checked points and continue at start of loop if
@@ -231,11 +140,15 @@ public class FinishRoomCaseRule extends CaseRule {
             NurikabeBoard nuriBoard,
             NurikabeCell currentCell,
             int filledRoomSize,
-            Set<Point> directions,
+            Point[] directions,
             Set<Point> checkedPoints,
             ArrayList<Board> cases,
             Point origPoint,
             List<Point> modifiedPoints) {
+        // Early cutoff
+        if (cases.size() > this.MAX_CASES) {
+            return;
+        }
 
         for (Point direction : directions) {
             Point newPoint =
@@ -258,7 +171,6 @@ public class FinishRoomCaseRule extends CaseRule {
             if (newCell.getType() == NurikabeType.UNKNOWN) {
                 // Mark current cell as white
                 newCell.setData(NurikabeType.WHITE.toValue());
-                newCell.setModifiable(false);
                 checkedPoints.add(newPoint);
 
                 // Track the modification
@@ -279,7 +191,6 @@ public class FinishRoomCaseRule extends CaseRule {
                         for (Point p : newModList) {
                             NurikabeCell c = caseBoard.getCell(p.x, p.y);
                             c.setData(NurikabeType.WHITE.toValue());
-                            c.setModifiable(false);
                             caseBoard.addModifiedData(c);
                         }
 
@@ -311,7 +222,6 @@ public class FinishRoomCaseRule extends CaseRule {
 
                 // Reset the board
                 newCell.setData(NurikabeType.UNKNOWN.toValue());
-                newCell.setModifiable(true);
                 checkedPoints.remove(newPoint);
             }
         }
@@ -332,7 +242,7 @@ public class FinishRoomCaseRule extends CaseRule {
             NurikabeBoard board,
             NurikabeCell cell,
             int origRoomSize,
-            Set<Point> directions,
+            Point[] directions,
             Point origPoint) {
         for (Point direction : directions) {
             Point adjacentPoint =

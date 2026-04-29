@@ -249,21 +249,22 @@ public class TreeView extends ScrollView implements ITreeListener {
         currentStateBoxes.clear();
         Tree tree = GameBoardFacade.getInstance().getTree();
         if (tree != null) {
+            Graphics2D g = (Graphics2D) graphics2D.create();
             // setSize(bounds.getDimension());
-            graphics2D.setRenderingHint(
-                    RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            graphics2D.setRenderingHint(
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g.setRenderingHint(
                     RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-            drawTree(graphics2D);
+            drawTree(g);
 
             dimension.width += BORDER_SPACING;
             setSize(dimension);
-            //            graphics2D.drawRect(0,0, dimension.width, dimension.height);
+            //            g.drawRect(0,0, dimension.width, dimension.height);
 
             if (selection.getHover() != null) {
-                drawMouseOver(graphics2D);
+                drawMouseOver(g);
             }
+            g.dispose();
         }
     }
 
