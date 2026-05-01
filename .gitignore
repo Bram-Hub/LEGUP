@@ -12,6 +12,7 @@ cmake-build-*/
 out/
 build/
 bin/
+installer/
 
 # Native files generated on build, not needed in git
 native/windows/lib

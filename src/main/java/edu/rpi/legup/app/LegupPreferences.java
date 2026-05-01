@@ -1,5 +1,6 @@
 package edu.rpi.legup.app;
 
+import java.nio.file.Paths;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -23,7 +24,7 @@ public class LegupPreferences {
             new EnumMap<>(LegupPreference.class);
 
     public enum LegupPreference {
-        WORK_DIRECTORY("work-directory", System.getProperty("user.dir"), o -> o),
+        WORK_DIRECTORY("work-directory", defaultUserDirectory(), o -> o),
         START_FULL_SCREEN("start-full-screen", false, Boolean::parseBoolean),
         AUTO_UPDATE("auto-update", true, Boolean::parseBoolean),
         DARK_MODE("night-mode", false, Boolean::parseBoolean),
@@ -33,7 +34,7 @@ public class LegupPreferences {
         ALLOW_DEFAULT_RULES("allow-default-rules", false, Boolean::parseBoolean),
         AUTO_GENERATE_CASES("auto-generate-cases", true, Boolean::parseBoolean),
         IMMEDIATE_FEEDBACK("immediate-feedback", true, Boolean::parseBoolean),
-        COLOR_THEME_FILE("color-theme-file", System.getProperty("user.dir"), o -> o),
+        COLOR_THEME_FILE("color-theme-file", defaultUserDirectory(), o -> o),
         COLOR_BLIND("color-blind", false, Boolean::parseBoolean);
 
         private final String id;
@@ -122,6 +123,10 @@ public class LegupPreferences {
             return preference.defaultValue;
         }
         return current;
+    }
+
+    private static String defaultUserDirectory() {
+        return Paths.get(System.getProperty("user.home")).toString();
     }
 
     private static void addPreferenceFromDefault(LegupPreference preference) {
